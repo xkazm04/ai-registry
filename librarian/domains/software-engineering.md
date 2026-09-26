@@ -750,3 +750,37 @@ Source-class tally (post-hoc, this run):
   claim about a path, not evidence that a page is on it.
 - The training-data lane independently reached the print override. It is the
   cheapest convergence lane in this bundle's UI subjects.
+
+## Run dp-nbdb-0926 - node-boot-and-declarative-bootstrap, a rust second stack and the transaction as marker
+
+This was a Curator dispatch on "single stack (go)". All three applications came from one
+openbao read. The fleet map joins the subject to five contexts, and only tracklight's
+`api-server` has a boot seam. Its `main.rs` is a stateful node's boot in async Rust. Two
+deviations were found and fixed there (tracklight `53ff57f`, unpushed, main diverged):
+- The first-start price seed was detected by emptiness and written row by row. The
+  unmodified binary on a 5-of-18 book priced 5 models on every later start. The seed is now
+  one transaction.
+- The "listening" banner was logged before the bind. With the port held, it announced
+  serving and then died.
+
+Four techniques were conditioned, each by two or more independent lanes, and the golden
+path carries all four. 0 new techniques. Applied: 2 better (code), 2 unapplied with return
+conditions. Impact: 0 verdicts on the subject anywhere, so 0 stale. Maps were rebuilt for
+the 5 joined projects only (`--project`), leaving the other seven trees untouched.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| node-boot-and-declarative-bootstrap | L3 | 2 applications (rust), 4 conditions carried to the golden path, 1 code fix committed (unpushed), 0 techniques | 0 stale; 5 unjudged pairs, 1 with a real seam (tracklight api-server) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Primary source code read raw carried every refinement: a web server's connection and
+  cycle code, a database's reload path and parameter table, a service mesh's leader loop.
+  Their docs agreed, but the code decided the verify-only and parse-failure conditions.
+- An official container image's docs carried the one documented field failure (the
+  half-initialised data directory). That is the class to search first for a bootstrap
+  claim.
+- The blind lane's "config tests bind nothing" was wrong in mechanism and right about the
+  hazard. The code lane was needed to place the condition.
+- A test binary in the shared cargo target, built in a deleted worktree, failed a fixture
+  test on a path baked in at compile time. It read as a regression until the baked path
+  was found in the binary. `cargo clean -p <crate>` cleared it.

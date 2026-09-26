@@ -51,8 +51,9 @@ unit. SQLite runs it in one transaction (`crates/store/src/sqlite/prices.rs:49`)
 Postgres (`crates/store-pg/src/prices.rs:47`). A failure rolls back to an empty book, so the
 same emptiness check seeds again on the next start. No marker key is needed, because no state
 between "empty" and "complete" can survive. The Firestore backend keeps the row-by-row
-default, which keeps the hazard. The trait's doc comment says so, and it is the case where a
-marker would be the honest mechanism.
+default, and with it the hazard. Its REST client writes one document per call. The trait's
+doc comment says so. The override there is a batched write that commits every row at once,
+or failing that a marker.
 
 The test `a_seed_that_fails_part_way_leaves_the_book_empty`
 (`crates/store/src/sqlite/tests.rs:2925`) runs both arms on real SQLite. It makes row 2

@@ -22710,8 +22710,8 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/node-boot-and-declarative-bootstrap.md",
-   "digest": "sha256-b2:134e2d0f64cb5bda",
-   "revision": 2,
+   "digest": "sha256-b2:1c83f54ea0028875",
+   "revision": 3,
    "changedAt": "2026-09-26",
    "techniques": [
     {
