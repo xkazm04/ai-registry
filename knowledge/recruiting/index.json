@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 202,
+  "applications": 203,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3018,9 +3018,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/early-career-potential-assessment.md",
-   "digest": "sha256-b2:91460b1ae1c0b07d",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:fcc8df8d8e72584a",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "domain-distance-grading",
@@ -3114,19 +3114,26 @@
      "stack": "process",
      "technique": "readiness-rubric-replacing-years",
      "file": "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/applications/process--readiness-rubric-replacing-years.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "symmetric-discount-across-populations",
      "file": "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/applications/process--symmetric-discount-across-populations.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "transferable-meta-skill-credit",
      "file": "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/applications/process--transferable-meta-skill-credit.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "react",
+     "technique": "explainable-potential-breakdown",
+     "file": "knowledge/recruiting/candidate-evidence/early-career-potential-assessment/applications/react--explainable-potential-breakdown.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     }
    ]
   },

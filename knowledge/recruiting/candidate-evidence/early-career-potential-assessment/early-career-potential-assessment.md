@@ -70,12 +70,21 @@ extract and verify; for someone with no record there is nothing to extract, and 
 cleverness finds signal in a document that contains none. The early-career process is
 **elicit and observe** — a designed work sample, a case-grounded conversation, a
 walkthrough of their own project *generates* the evidence the file could never supply.
-The structural consequence is the most equalizing move available: directly observed
-capability should sit at the *top* of the evidence hierarchy, at or above
+The structural consequence is the most equalizing move available *across career stage*:
+capability observed under structure — a scored work sample, a structured case interview
+— should be able to reach the *top* of the evidence hierarchy, at or above
 employment-demonstrated evidence, because a thing you watched someone do under your own
 conditions is the best-grounded claim there is. Nobody can acquire history, but anyone
 can be observed — and where the hierarchy offers no path to full trust that avoids
-tenure, this population is capped no matter how good the rubric is. Eliciting signal
+tenure, this population is capped no matter how good the rubric is.
+
+Two limits keep that claim honest. The top rung is about *provenance*, not predictive
+power: the 2022 re-estimate of selection validities put work samples near .33, behind
+structured interviews (~.42) and job knowledge (~.40), and nearly all work-sample
+studies were run on incumbents rather than inexperienced applicants. And it equalizes
+career stage, not subgroups — applicant work samples show ethnic score gaps near
+d = .7, close to those of cognitive tests. Observation still earns the rung; check the
+exercise's subgroup gaps as you would any instrument's. Eliciting signal
 costs more per candidate than reading a document; it is worth it because cheap screening
 of noise is not actually cheap. Designing the instruments belongs to the assessment
 subjects; this subject owns only the claim that here, generated evidence is a primary
@@ -93,13 +102,22 @@ deliberately chosen so that a person with no employer can max out every one:
 - **Velocity** — accumulation relative to time *available*, never time elapsed since
   birth. Two years in with four substantial projects is movement; eight years in with
   the same four is not. This is what makes a career legible as a trajectory rather than
-  a snapshot, and what keeps late starters and career changers competitive.
+  a snapshot, and what keeps late starters and career changers competitive. It is also
+  the least validated of the four — no study measures accumulation per available time,
+  and the adjacent "learning agility" construct is itself criticized as ill defined —
+  so count only the time the candidate states, never infer or ask why the rest was
+  unavailable (care, health and hours are special-category facts, not rubric inputs).
 - **Foundation** — systematic grounding: coursework, certification, a structured
   programme, the fundamentals that make the next thing learnable. Cheapest to verify and
   weakest on its own, which is exactly why it is *one* weighted input and never a gate.
-  Grade the programme's relevance, not the grades: transcript averages are noisy across
-  institutions, weak as predictors, and a documented bias vector. Evidence of doing
-  beats evidence of grading, and leaving grades out is a stated trade-off.
+  Grade the programme's relevance, not the grades — and know what that gives up. Grades
+  are modest predictors overall (about .2 in the 2024 meta-analysis) but not weak for
+  *this* population: validity runs near .45 in the first year after graduation and
+  decays to about .1 after six, and is higher for job-relevant courses. They are also
+  poorly comparable across institutions and carry large subgroup score gaps (d ≈ .6 to
+  .8) — adverse impact, which is not the same finding as predictive bias. Leaving them
+  out is defensible; it is a trade of real validity for comparability and impact, and it
+  should be stated as one, not justified by calling grades useless.
 - **Initiative** — what was done when nobody assigned it: self-started projects,
   contributions, competitions, communities, teaching. The most circumstance-dependent
   dimension, since unpaid time is unequally distributed, so it carries the smallest
@@ -107,8 +125,10 @@ deliberately chosen so that a person with no employer can max out every one:
 
 Initiative carries a guardrail that generalizes to the whole rubric: **credit what the
 evidence shows, never the fact of having had access to it.** Landing an internship is
-not itself a merit — access tracks family, city and network at least as much as
-capability; what the internship *demonstrates* is the merit. A scheme that rewards
+not itself a merit — access is strongly shaped by class, region and family money (in
+one national survey, 55% of middle-class graduates against 36% of working-class ones,
+with two in five unpaid interns funded by family); what the internship *demonstrates* is
+the merit. A scheme that rewards
 presence rather than substance is a privilege multiplier labelled initiative.
 
 The weights are a published, arguable, versioned choice, not an emergent property of
@@ -129,7 +149,10 @@ is their strongest evidence, and weight it accordingly — roughly double any ot
 A funnel that nags for a longer summary and treats the artifact as optional metadata is
 instructing the applicant to invest in the weakest signal available. Ask for the artifact
 first, weight it heaviest, and read it: an artifact you weight but never open is a bluff
-the honest candidates lose.
+the honest candidates lose. The "roughly double" is a design heuristic for the intake
+prompt, not an estimate: no study has validated portfolios against job performance, and
+an artifact is examinable, not controlled — the time, help and tooling behind it are
+unknown until someone asks.
 
 What an artifact is *worth* relative to a claim, a reference or a demonstration is the
 provenance-weighting subject's ladder; this subject owns only the population-specific
@@ -154,8 +177,11 @@ Two disciplines keep it honest. The prior-role to meta-skill mapping is an expli
 reviewable table, never a model's free association about what a job "is like" — free
 association encodes occupational stereotype, and does it differently in each language
 the prompt happens to run in. And the credit is bounded by how far the prior domain
-sits from the target, graded coarsely, because fine-grained semantic distance is a
-number you do not have the data to compute.
+sits from the target, graded coarsely. A distance *can* be computed — labour economics
+measures occupations as task vectors and shows that moves between task-similar
+occupations carry more of their wage return — but no such distance has been validated
+against performance in the new role, so it may inform which band a pair falls in and
+never earns the decimals a reader would take for a measurement.
 
 ## The fairness spine: every discount applies to everybody
 
@@ -183,6 +209,14 @@ cannot apply to one population,
 [uncertainty resolves toward the candidate](../../_laws.md#uncertainty-resolves-toward-the-candidate)
 — drop the penalty for everyone rather than extend it.
 
+Symmetry across career stages is necessary, not sufficient. A rule applied to everyone
+can still fall hardest on a protected group, and career stage is itself a close proxy
+for age: in UK and EU law age is protected at every age, and a "recent graduate" or
+"first five years" condition has been treated as indirect age discrimination needing
+objective justification. Define the population by career stage, never by graduation
+year or age, keep it open to a graduate of any age, write down the aim the separate
+rubric serves, and monitor selection rates by protected group, not only by archetype.
+
 ## Performing well is corroboration, not identity
 
 Early-career funnels often attach an assessment and let its result reclassify the
@@ -192,7 +226,9 @@ a population label as high as the candidate's own statement of where they are in
 career. Keep the increment modest and hard-capped below what a self-declaration reaches:
 the exercise was designed for the population it is being used to confirm, which makes the
 inference circular, and a person's account of their own situation beats a test score as
-evidence about it.
+evidence about it. For the verifiable facts under that account — graduation and
+employment dates — the documentary record outranks both: routing that carries an
+advantage can be claimed, and a date can be read.
 
 The converse matters more. A weak performance is evidence about the exercise and the day,
 never a demotion of identity, and must not reroute anyone into a harsher rubric.
@@ -236,8 +272,9 @@ years figure was ever justified. Four rules keep the lens honest:
   to satisfy it.
 - **Free-associated transfer** — a model guessing what a prior occupation implies,
   producing stereotype-shaped credit that varies by language; and **false precision on
-  domain distance**, a two-decimal similarity standing in for a judgment nobody has data
-  for ([inference dressed as measurement](../../_laws.md#inference-must-look-like-inference)).
+  domain distance**, a two-decimal similarity standing in for a judgment nobody has
+  validated against performance
+  ([inference dressed as measurement](../../_laws.md#inference-must-look-like-inference)).
 - **Result-driven reclassification** — assessment outcomes rewriting the population
   label, making the rubric a function of the score it was meant to produce.
 - **The unopened artifact** — a project weighted as strongest evidence and never read,
