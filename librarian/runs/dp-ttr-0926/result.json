@@ -1,0 +1,90 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ttr-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T15:18:07Z",
+  "ended_at": "2026-09-26T15:40:59Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/time-travel-replay",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/time-travel-replay",
+      "technique": "timeline-derivation",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/time-travel-replay",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/time-travel-replay.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/techniques/renderer-reuse.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/techniques/scrub-performance.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/techniques/timeline-derivation.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/techniques/transport-and-time-mapping.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/rust--timeline-derivation.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--renderer-reuse.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--timeline-derivation.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--transport-and-time-mapping.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/time-travel-replay.md"
+  ],
+  "commits": [
+    {
+      "sha": "506a9c82",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay"
+      ]
+    },
+    {
+      "sha": "f07d193b",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/time-travel-replay",
+      "reason": "label engine-closed tool steps as inferred: the finalized flag regenerates a ts-rs binding outside a replay change's write set, on a personas master diverged from origin; recorded in the rust application"
+    },
+    {
+      "subject": "software-engineering/time-travel-replay",
+      "reason": "page-coverage notice and load-failure-as-empty in personas replay: real, separate changes; recorded in the react application so the stamped-page fix stays measurable alone"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single stack cleared (rust writer/reader). Tempo fix undone at the reader since 09-17: 0/523 logs with recorded tempo as served, 523/523 stamped. personas 281c02dc3 + map aa053b03d local, unpushed (diverged). 10 claims, 0 refuted, 7 conditioned, 0 techniques."
+}

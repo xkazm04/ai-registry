@@ -1045,3 +1045,57 @@ Source-class tally (post-hoc, this run):
 - The trees supplied both code findings, and no lane predicted either one. The
   most dangerous line in one tree was the one its own doc cited as the good
   example.
+
+## Run dp-ttr-0926 - time-travel-replay, a rust second stack and a tempo fix that never reached the tab
+
+This was a Curator dispatch on "single stack (react)". The map joins the subject
+to one context, personas' `execution-replay`, which carries a deviation verdict. No
+fleet tree runs a viewer-owned transport outside React. Two React next-seams were
+authored animation or mocked traces, and the negative controls (replay for
+determinism, catch-up rings, idempotent redelivery) were the same word in another
+sense. The second stack is therefore the Rust half of personas: the engine that
+writes the record and the command that serves it.
+
+Both tree lanes reached the same defect on their own. The tempo fix the 08-18
+applications asked for landed 2026-09-02. A paged log reader merged on
+2026-09-17 then cut every line's stamp off, while the unit tests fed a whole
+stamped log and stayed green. Measured over 523 real logs: 0 of 523 with a
+recorded tempo as served, and 523 of 523 with the stamp kept (3,445 silences).
+Fixed in personas `281c02dc3`, with the reader beside the writer and an opt-in
+`stamped` page.
+
+Ten claims were attacked against primary source. None was refuted. Seven were
+conditioned: reuse at the record's layer, compression as a toggle with a measured
+map, a drag's frame budget, keyframe versions, skew repair keeping the raw stamp,
+unclosed-as-absent, and seek-to-end. Two had no primary source either way. 0 new
+techniques.
+
+Applied: 1 code fix in two `better` rows (the reader condition and the dead-air
+flip) and 1 unapplied (renderer reuse, which needs the product parser run over
+recorded logs). Impact: personas' one verdict (`execution-replay`) is now stale.
+The map was rebuilt for personas only (`--project`) and committed locally
+unpushed, because master has diverged.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| time-travel-replay | L3 | 2 applications (1 rust, 1 react), 2 React applications re-verified and rewritten, 2 flipped golden-path rules, 7 conditions, 1 code fix (unpushed), 0 techniques | 1 stale (personas execution-replay) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Raw source code of the tools themselves decided most conditions: a DOM session
+  replayer's seek machine and player defaults, a terminal-cast player's time
+  limiter, two trace viewers' skew adjusters. Read the tool's source before its
+  docs whenever a claim is about what a player does.
+- Standards settled two claims: the HTML media element's seek algorithm for
+  play/pause intent, and the tracing SDK spec for export-on-end spans. A
+  perception-latency guide supplied the one claim that turned on a number, the
+  drag budget.
+- Issue trackers carried the failure evidence that docs never state: an
+  event-sourcing snapshot inconsistency, a skip-inactivity bug skipping activity,
+  and a compressed-time map drift fixed by measuring. For a "what goes wrong" lane,
+  search issues and PRs, not documentation.
+- The blind lane reached renderer reuse with effects quarantined, never
+  re-calling the model, version skew, and the scrub split without a search. Its
+  "asciinema compresses silently" matched source exactly.
+- The tree beat every lane on the one defect that mattered. No source could say
+  that a fix had been undone at the reader. When a subject's application is
+  more than two weeks old, re-read the tree before researching the world.
