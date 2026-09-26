@@ -523,3 +523,31 @@ Source-class tally (post-hoc, this run):
 - The consumer tree's own experiments carried both flips that have numbers.
 - Search excerpts that were never fetched were landed only as soft wording, and each is
   flagged in the subject note.
+
+## Run dp-cim-0926 - cicd-monitoring, a rust second stack and "terminal" was only per attempt
+
+Curator dispatch on "single stack (react)". The one joined tree (Personas) gave the second
+stack from its Rust backend. It also showed that the react applications had drifted: the
+job-log command landed on 2026-09-17, and the four pipeline commands are still
+unregistered. Six claims were attacked:
+- two refuted as stated: terminal immutability, and every poll spending budget;
+- four conditioned: push, the canonical status set, the trigger's identifier, and retry
+  blast.
+
+No new technique was earned. The three converged findings (per-attempt terminality with
+its dedup consequence, the provider-specific free 304, and the parked class) all landed as
+conditions. Three applied rows are simulation `better` and two are unapplied. Impact:
+Personas, 2 contexts, 0 stale verdicts (both unjudged). Personas' committed map rebuild is
+owed, because another session holds that file.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| cicd-monitoring | L2 | 3 applications, 2 refuted-as-stated, 4 conditions, 0 techniques | 0 stale (2 unjudged pairs, 1 project) | 0 |
+
+Source-class tally (post-hoc, this run):
+- The providers' own REST references and changelog carried every accepted claim.
+- The web lane caught its page summarizer inventing a provider sentence, and a verbatim
+  re-fetch removed it. A summarized provider doc needs a verbatim check before it is
+  quoted.
+- The joined tree outranked both lanes on the application side. The fallback act, the
+  unrecorded undeploy and the hardcoded result appeared in neither lane.

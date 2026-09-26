@@ -7,6 +7,8 @@ stack: rust
 status: forged
 verified_on: 2026-09-26
 verified_against: rust@1
+applied: simulation
+ab_verdict: better
 ---
 
 # Personas' deploy and rollback commands: a fallback that is a different act

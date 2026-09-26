@@ -5235,8 +5235,8 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/cicd-monitoring.md",
-   "digest": "sha256-b2:9e90f40ea1202648",
-   "revision": 2,
+   "digest": "sha256-b2:9acef61dd04439ca",
+   "revision": 3,
    "changedAt": "2026-09-26",
    "techniques": [
     {
