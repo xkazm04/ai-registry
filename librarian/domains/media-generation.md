@@ -177,3 +177,17 @@ evidence notes landed across the golden path and three techniques, both
 the single-*tree* clause stands - `systedo-case` has no script seam. Detail in
 [[short-form-narrative-structure]]. The other three process-only narrative
 subjects likely have the same second stack in the same tree's script step.
+
+## 2026-09-26 - deepen, platform-format-adaptation
+
+Dispatched on the same single-stack clause. The second stack was a second *tree*:
+`systedo-case`'s social composer enforces a platform-limit table with no
+provenance, the technique's ceiling-vs-band conflation transplanted to text
+posts. Two golden-path rules flipped. The muted majority was 2016 Facebook-feed
+data and is now keyed to the surface. The "did you know" ban was an absence at
+n=3 that the source tree itself had labelled a preference. One amendment settles
+the 2026-09-22 intake's untriaged row 1: say how the sample was drawn. The
+platform table was re-dated, with a 2027 YouTube Partner Program correction.
+Points 5 -> 3; "never swept" remains. Detail in [[platform-format-adaptation]].
+Two of the four process-only narrative subjects are now through; the other two
+are `creator-voice-and-tone` and `narrative-engine-selection`.
