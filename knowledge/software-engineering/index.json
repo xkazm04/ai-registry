@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1182,
+  "applications": 1183,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -24941,9 +24941,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/priced-authority.md",
-   "digest": "sha256-b2:6adc6d2c9dc67b99",
-   "revision": 3,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:5f06e495d1f48a79",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "approver-not-requester",
@@ -25049,22 +25049,29 @@
      "stack": "go",
      "technique": "never-persisted-token-class",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--never-persisted-token-class.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
     },
     {
      "stack": "go",
      "technique": "secondary-index-before-primary",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--secondary-index-before-primary.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
     },
     {
      "stack": "go",
      "technique": "single-use-cubbyhole-wrap",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--single-use-cubbyhole-wrap.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "next",
+     "technique": "never-persisted-token-class",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/next--never-persisted-token-class.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
     }
    ]
   },
