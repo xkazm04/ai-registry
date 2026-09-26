@@ -6,7 +6,7 @@ technique: edge-management
 status: forged
 laws: [identity-survives-reuse]
 shared_with: []
-use_when: [edges floating a few pixels off their nodes, deciding which edges deserve ink in the current view, hit-testing a one-pixel-wide edge]
+use_when: [edges floating a few pixels off their nodes, deciding which edges deserve ink in the current view, hit-testing a one-pixel-wide edge, drawing edges for a diagram a layout engine already routed]
 ---
 
 # Edge management
@@ -61,7 +61,20 @@ as nodes move, so edges never enter a node's back.
   moment obstacles must be avoided.
 - **Full obstacle-avoiding routing is a last resort** — expensive, unstable
   under drag (routes flip as nodes move, which reads as flicker), and
-  usually a symptom that the layout, not the routing, needs work.
+  usually a symptom that the layout, not the routing, needs work. **This
+  holds for an editor, not for a generated diagram.** When a layered engine
+  places the nodes, it routes the edges in the same pass, between layers it
+  spaced for them, and there is no drag to make those routes flicker. Its
+  routes are then the edge geometry. Draw the engine's start, bend and end
+  points exactly as returned, and place labels where the engine put the
+  label boxes it was given sizes for. A path recomputed from node geometry
+  (straight, or a sweep between anchors) discards the engine's
+  obstacle-avoidance and cuts through nodes on exactly the dense diagrams
+  that needed it.
+  The engine's coordinates are usually relative to the container that owns
+  the edge, so edge points take the same origin accumulation as the boxes
+  they connect. That is the shared-geometry rule above, applied to the
+  engine's output.
 
 Whatever the shape: arrowheads sit *at the anchor*, outside the node border,
 oriented along the final segment; edge labels sit at a stable parametric

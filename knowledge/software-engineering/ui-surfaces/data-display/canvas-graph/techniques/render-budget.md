@@ -6,7 +6,7 @@ technique: render-budget
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation]
 shared_with: []
-use_when: [a canvas stutters on every pan gesture, deciding whether nodes may see the transform, labels pop in and out while zooming, an idle canvas keeps the machine warm]
+use_when: [a canvas stutters on every pan gesture, deciding whether nodes may see the transform, labels pop in and out while zooming, an idle canvas keeps the machine warm, budgeting a canvas that repaints every frame]
 ---
 
 # Render budget
@@ -20,6 +20,19 @@ sluggish; a canvas that re-renders on pan is unusable, because pan *is* the
 primary interaction. The ladder for list-shaped surfaces is
 [performance](../../table/techniques/performance.md); this technique is the
 canvas-specific variant.
+
+**The ladder is written for a retained-mode surface**: nodes are DOM or SVG
+elements owned by a declarative framework, and a pan can be one composited
+transform on their container. On an immediate-mode surface — a 2D canvas or
+a GPU scene redrawn from a scene list — every pan and zoom frame *repaints
+everything visible*, by design, and "nothing re-renders" is not an
+available answer. The goals carry over; they change form. For rung 1, a pan
+invalidates no per-node *derived* work (formatted labels, measured text,
+computed geometry), and only the view matrix changes. Rung 2 becomes a cull
+before the draw loop rather than an unmount. Rung 3 becomes cached per-node
+rasters or dirty-region redraws rather than memoized components. Some
+engines swap the scene for a cached texture while the view moves and redraw
+properly at rest, which is rung 4's zoom-dependent detail applied to motion.
 
 ## Rung 0 — measure the actual shape
 
@@ -47,8 +60,16 @@ be the culling set, not node re-renders.
 This rung is structural, not incremental: if node components receive the
 transform as an input — because they compute their own screen positions —
 then every pan invalidates every node *by construction*, and no memoization
-can recover it. The transform belongs to the container; nodes must not know
-it exists.
+can recover it. The transform belongs to the container, and **nodes never
+see the pan**.
+
+Zoom is the one exception, and rung 4 needs it: counter-scaled labels and
+detail thresholds are functions of the scale. Nodes may read the zoom only
+in a form that changes less often than the gesture. Use a *band* (a
+detail level that flips at a few thresholds), or a value frozen while the
+camera moves and re-read at rest, or at minimum one committed per frame and
+never per event. A node that reads the raw, continuous zoom re-renders on
+every wheel notch, and that is rung 1's failure reached through rung 4.
 
 ## Rung 2 — cull to the visible world rectangle
 

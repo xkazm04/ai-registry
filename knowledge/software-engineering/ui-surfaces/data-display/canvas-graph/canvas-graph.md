@@ -60,7 +60,9 @@ snapping, and the undo transaction each of those produces.
 
 **Kept, in full:** layout determinism including tie-breaking, because a
 diagram that redraws differently from identical input has lost the one thing
-a generated layout offers; memoization wherever hover or selection re-renders;
+a generated layout offers — and "identical" covers more than the topology
+once an engine lays it out: the measured sizes it was given and the order
+it was given them in are input too; memoization wherever hover or selection re-renders;
 the shared node/edge anchor geometry, since edges float off their nodes for
 the same reason whether or not anyone can drag them; focus-context economy at
 the edge level; and the entire accessibility model, which a generated diagram
@@ -124,7 +126,10 @@ on a populated canvas. The fast path is imperative: mutate the container's
 transform directly as events arrive, and *commit to declarative state at most
 once per animation frame, or once at gesture end*. The declarative world is
 the truth; the imperative path is a bounded, well-marked loan against it that
-is always repaid at the next commit.
+is always repaid at the next commit. What the cadence protects is
+subscription: a tree where no node reads the viewport can commit more often
+without paying for it, and a tree where nodes do read it is not saved by any
+cadence.
 
 The discipline that keeps this honest: the imperative path touches only the
 transform (and the dragged node's provisional position) — never the model.
@@ -137,9 +142,14 @@ A canvas's cost is multiplicative — nodes × (edges per node) × (formatting +
 reactivity) — and it is paid on the hottest possible path: pointer movement.
 The budget rules, in order of leverage:
 
-1. **Pan and zoom must not re-render nodes.** The viewport moving is a change
-   to *one container's transform*, not to any node. A canvas that re-renders
-   every node on pan is already dead; no memoization downstream can save it.
+1. **Pan must not re-render nodes, and zoom only in steps.** The viewport
+   moving is a change to *one container's transform*, not to any node. A
+   canvas that re-renders every node on pan is already dead; no memoization
+   downstream can save it. Zoom-dependent detail (rule 4) needs the scale,
+   so nodes read it as a band or as a value settled at rest, never per
+   event. On a surface that repaints the whole scene every frame (a 2D or GPU
+   canvas) the same rule reads as "a pan invalidates no per-node derived
+   work".
 2. **Cull to the viewport, with margins.** Only elements intersecting the
    visible world-rectangle (plus an overscan margin so entrances are not
    visible) get rendered at all. Culling is a world-space query against the
