@@ -1087,9 +1087,9 @@
       "purity": "recruiting",
       "subjects": 64,
       "techniques": 384,
-      "applications": 205,
-      "files": 657,
-      "contentHash": "sha256-b2:79fd030c04a34f18"
+      "applications": 207,
+      "files": 659,
+      "contentHash": "sha256-b2:f1e77e99c4129c46"
     },
     {
       "name": "software-engineering",

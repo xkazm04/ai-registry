@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 205,
+  "applications": 207,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -6020,9 +6020,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/recruiting-funnel-metrics.md",
-   "digest": "sha256-b2:2e46d01b1d4af8ba",
-   "revision": 2,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:5119e33a3de75283",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "creation-cohort-versus-terminal-transition-basis",
@@ -6116,19 +6116,22 @@
      "stack": "node",
      "technique": "forecast-signal-floor",
      "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--forecast-signal-floor.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "non-overlapping-event-to-series-mapping",
      "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--non-overlapping-event-to-series-mapping.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "offer-acceptance-rate-denominator",
      "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--offer-acceptance-rate-denominator.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -6136,6 +6139,20 @@
      "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--stage-pass-through-and-dwell-time.md",
      "verified_on": "2026-09-10",
      "verified_against": "node@18"
+    },
+    {
+     "stack": "node",
+     "technique": "time-to-hire-basis-and-median-not-mean",
+     "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--time-to-hire-basis-and-median-not-mean.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "stage-pass-through-and-dwell-time",
+     "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/react--stage-pass-through-and-dwell-time.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     }
    ]
   },

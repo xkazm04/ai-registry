@@ -34,9 +34,20 @@ modes — which is what makes their disagreement informative. Rules:
 
 - The near horizon is dominated by B, the far horizon by A; the crossover is
   roughly one median time to hire out.
-- **Their spread is the interval.** Present the range, not the average of the
-  two, and never silently pick the friendlier estimator. Convergence is the
-  only honest basis for a point figure.
+- **Their disagreement is a diagnostic, not an interval.** Each estimator sees
+  only part of the future hires — A misses the pipeline, B misses the arrivals
+  — so both sit low of the total and their spread brackets nothing. Two
+  estimators fitted on the same history can also agree exactly while the
+  uncertainty is large. Never average them, never silently pick the friendlier
+  one, and when they disagree, say which population explains it (usually a large
+  in-flight backlog or a sudden inflow change).
+- **An interval comes from a model of the uncertainty.** Carry the sampling
+  uncertainty of each leg (a rate estimated from a handful of transitions is
+  itself uncertain) and of the inflow (arrivals are counts). Simulate the
+  pipeline forward from those, and check the interval's coverage against past
+  periods before trusting its width. A band built from the inflow's week-to-week
+  spread alone leaves out the conversion uncertainty, which on a thin funnel is
+  the larger term, and it comes out far too narrow.
 - Crediting in-flight candidates from their **own** stage, not from a single
   pipeline-average conversion, is what stops a pipeline stuffed with fresh
   applications from reading like a pipeline of finalists.
@@ -99,9 +110,16 @@ is a specific and expensive false claim.
 ## Decision rules
 
 - When the two estimators differ by more than roughly a factor of two, publish
-  the range and the reason (usually: a large in-flight backlog, or a sudden
-  inflow change) — a point estimate through that much disagreement is a
-  guess wearing a number.
+  both and the reason (usually: a large in-flight backlog, or a sudden inflow
+  change) — a point estimate through that much disagreement is a guess wearing
+  a number. Their agreement does not license a narrow band either; the width
+  comes from the model, not from the estimators' distance.
+- When a range is shown, name what it is built from in the same place. A band
+  labelled only "range" is read as covering the outcome, and one built from
+  inflow variance alone will miss it most of the time.
+- When in-flight candidates are credited "hires over everyone who reached this
+  stage", the reach count includes candidates still in the stage. That credit is
+  biased low until the cohort matures; compute it from matured cohorts.
 - When the horizon exceeds two median cycle times, the forecast is an
   extrapolation of inflow with no pipeline evidence behind it; say so or stop
   the horizon there.

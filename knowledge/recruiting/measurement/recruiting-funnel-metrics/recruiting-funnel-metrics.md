@@ -78,18 +78,23 @@ The word "speed" hides three quantities that differ by weeks:
 
 The routine disaster is comparing a locally computed time-to-hire against an
 external benchmark computed as time-to-fill, and celebrating a gap that is
-purely definitional — sourcing lead time is often the largest single term in
-the difference. State which clock, both ends of it, and what the end anchor
-is: offer accepted and start date are separated by a notice period you do not
-control and should not be scored on.
+purely definitional — approval, posting and sourcing lead time all sit in the
+difference, and the last of them is one no published benchmark measures. State
+which clock, both ends of it, and what the end anchor is: offer accepted and
+start date are separated by a notice period you do not control and should not
+be scored on. Even a named clock is anchored differently by different
+definitions and tools, so the label carries both ends, not just the name.
 
-Durations are reported as medians. The distribution of any hiring duration is
-right-skewed with a long tail of revived candidates, holiday freezes and
-re-opened requisitions; a single 200-day resurrection moves a mean on a small
-cohort by days while the typical experience did not change at all. The median
-answers the question a recruiter actually asked — *how long does this usually
-take* — and it is stable against exactly the observations that are least
-representative.
+Durations describing the typical case are reported as medians. The
+distribution of any hiring duration is right-skewed with a long tail of revived
+candidates, holiday freezes and re-opened requisitions; a single 200-day
+resurrection moves a mean on a small cohort by days while the typical
+experience did not change at all. The median answers the question a recruiter
+actually asked — *how long does this usually take* — and it is stable against
+exactly the observations that are least representative. The exception is a
+duration that will be multiplied by a volume. Recruiter capacity, open-requisition
+load and vacancy cost scale with the mean, and a median there discards
+exactly the tail that costs. The statistic is named in the label either way.
 
 ## Two bases, and the seam between them
 
@@ -112,6 +117,14 @@ maturity horizon. A figure that silently blends them — this period's hires
 over this period's applications — is the most common wrong number in
 recruiting analytics, and it is wrong in a specific direction (too low) that
 corrects itself for weeks afterwards with no change in anyone's behaviour.
+
+A terminal basis for conversion is not wrong in itself. "Of the candidates whose
+consideration ended this month, how far did each get" is a coherent question.
+It over-represents fast outcomes and must say "resolved candidates only". And a
+creation cohort that has not matured need not be withheld: a survival estimate
+counts the in-flight members as censored and reports conversion by age. Treat
+rejection and withdrawal as competing outcomes there, not as censoring. Either
+way, the basis is in the label.
 
 The reason this survives review is that **the two bases are equal over an
 unbounded window**. Counted all-time, "candidates who were hired" and "hires
@@ -141,7 +154,12 @@ is common:
 
 - Where the denominator is **observed** and merely under-recorded, take the
   larger observed count and the rate is bounded by construction — no clamp
-  needed, and the bound is earned rather than imposed.
+  needed, and the bound is earned rather than imposed. This holds only when
+  both counts describe one population. When each event is counted by its own
+  date inside a window, the larger count is often the other population, and
+  "one count exceeds the other" stops being evidence of under-recording at all.
+  The defect is then read at the record: a closing event with no opening event
+  for the same candidate.
 - Where the denominator is an **assumed constant** — a standard baseline, an
   industry figure, a configured expectation — a result above 100% is the only
   signal that the assumption is wrong, and it must be shown uncapped. Capping
@@ -223,8 +241,11 @@ above is multiplied rather than averaged. The discipline that survives contact:
 build the forecast from **two independent estimators** — new-candidate inflow
 times observed end-to-end conversion, and the current in-flight population
 credited forward from each candidate's *own* stage — and treat their
-disagreement as the confidence interval rather than picking the friendlier
-one. Where an observed rate exists for a leg (offer acceptance is almost
+disagreement as a diagnostic rather than picking the friendlier one. It is not
+the confidence interval. Each estimator sees only part of the future hires, so
+both run low and their spread brackets nothing. The interval comes from carrying
+each leg's sampling uncertainty and the inflow's forward by simulation, checked
+against past periods. Where an observed rate exists for a leg (offer acceptance is almost
 always observed), it replaces the funnel-implied rate for that leg; a
 funnel-implied offer leg is a conversion estimate standing in for a fact you
 already have.
@@ -241,7 +262,9 @@ signal, only the shape of the model, and rendering it as a number is
 - **The calendar-week boundary.** Weekly series bucketed by calendar week make
   every partial current week look like a collapse, and every holiday week look
   like a process change. Rolling fixed-length windows anchored on the
-  observation moment say what people think weekly series say.
+  observation moment say what people think weekly series say. Calendar periods
+  with the partial one visibly marked are the other honest fix, and the right
+  one for cadence reporting. What fails is an unmarked partial bar.
 - **The improvement with no baseline.** "38% faster" requires a measured
   before. Where no pre-existing measurement exists, there is no percentage,
   and manufacturing one from an industry average is the single fastest way to

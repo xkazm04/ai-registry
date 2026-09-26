@@ -25,11 +25,20 @@ Three distinct quantities compete for the word "speed":
 | Time to hire | this candidate enters the process | this candidate accepts | how fast the process moves a person |
 | Time in stage | entry into one stage | exit from it | which step is slow |
 
-They differ by the sourcing lead time, which in most functions is the largest
-single term. A locally computed time to hire compared against a published
+They differ by everything that happens before the eventual hire entered the
+pipeline: approval, posting and sourcing lead time. Published benchmarks do not
+measure that last term, so how large it is locally is unknown until you measure
+it. A locally computed time to hire compared against a published
 time-to-fill benchmark produces a gap of weeks that reflects nothing but the
 definitional difference. Whenever a duration is shown next to any external
 number, the clock is stated in the same breath or the comparison is withdrawn.
+
+The anchors vary even under one name. The main benchmarking definition starts
+time to fill when the requisition is *opened* and measures approval as a
+separate segment. Other practitioner definitions start at approval, and
+common tracking-system defaults end at the date a candidate was marked hired or
+an offer was created. The clock's name is not enough. Put both anchors in the
+label.
 
 ## Step 2 — fix both anchors, including the messy one
 
@@ -68,6 +77,20 @@ carried with the number:
   worse. Pair it with the in-flight age distribution, which sees exactly the
   population the duration metric cannot.
 
+**Never compute it over a short creation cohort.** "Hires among candidates who
+entered in the last 30 days" can only contain hires that took under 30 days, so
+the figure is capped by the window and reads fast by construction. Anchor a
+windowed duration on the *hire* date (terminal basis). If a creation cohort is
+the question, use one old enough to have finished.
+
+**Two ways to handle the unfinished, and both are legitimate.** Report completed
+durations and in-flight ages side by side, as above. Or estimate the
+distribution with a survival method that counts in-flight candidates as
+censored, so the slow ones still pull the curve out. In that case treat rejection
+and withdrawal as competing outcomes, not as censoring, or the chance of a hire
+is overstated. A survival median still does not exist until the curve crosses one
+half. Below that it is the same "not yet" state, now with a reason.
+
 ## Step 4 — median, with the tail carried explicitly
 
 Report the median. Hiring durations are right-skewed with a heavy tail:
@@ -81,6 +104,14 @@ roughly eight days while the typical experience moved by nothing.
   candidate-experience question is often *about* the slow quartile.
 - **The mean** is reported only alongside the distribution, never as a lone
   "average time to hire", and never as the input to a difference.
+
+The median is right for *the typical case*, which is most of what gets asked.
+It is the wrong statistic when the duration will be multiplied by a volume.
+Recruiter capacity, open-requisition load and total vacancy cost all scale with
+the mean: occupancy is arrival rate times *mean* time in system, and a median
+there understates the load by exactly the tail it discards. Some reporting
+standards also prescribe the average. When comparing against one of those,
+compare mean with mean and say so. Name the statistic in the label either way.
 
 The difference matters most when someone subtracts. A mean-based "we cut six
 days" on a small cohort is frequently one outlier leaving the window; the same
@@ -110,6 +141,9 @@ the second measurement create the trend.
   the refusal.
 - When a duration is displayed, display the count of completed hires behind
   it, unprompted.
+- When a duration feeds another figure, pass the statistic that figure's
+  question needs. A "typical lag" wants the median. A capacity or cost total
+  wants the mean. Never pass whichever one the payload happens to carry.
 - When any candidate row is simulated, seeded or demo data, it is excluded at
   the query, not caveated at the chart.
 
