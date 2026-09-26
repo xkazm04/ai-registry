@@ -109,26 +109,46 @@ policy document promises:
 - **Local-first where possible.** Insight that can be computed and shown on
   the user's own machine should be; egress is for the questions that
   genuinely require population-level aggregation.
-- **Opt-out is silence, not flagged data.** A user who declines produces no
+- **Declining is silence, not flagged data.** A user who declines produces no
   transmission at all — not events tagged "do not process".
+- **Whether collection may start before anyone is asked is a legal fact, not
+  a design choice.** Where a device-access rule governs (the EU's is the
+  reference case), software that makes the device send information needs
+  consent before its first flush unless a narrow audience-measurement
+  exemption applies. Computing locally does not take a pipeline out of that
+  rule, and neither does summarising. Where the rule holds, the null sink is
+  where every installation starts, not only where a refusal lands.
 
 The allowlist mechanics, identity handling, and consent interplay are the
 [privacy-scrubbing](./techniques/privacy-scrubbing.md) technique.
 
 ## One summary beats a thousand pings
 
-Per-interaction transmission is wrong three ways at once: it is a **cost**
-(every click a network call, a quota unit, a server write), a **privacy leak**
-(timestamps of individual actions are a behavioral trail even when payloads
-are clean), and a **fragility** (the pipeline's failure surface scales with
-interaction count). The standard is per-session accumulation: counters
-increment locally all session, and one summary flushes at session end. This
-buys quota economics that per-click systems cannot approach, and it makes the
-privacy aggregation property structural rather than aspirational. The price is
-honest loss tolerance — a crashed session may lose its summary, and the
-discipline is to know the loss rate rather than pretend it is zero. Flush
-timing, shutdown handling, and quota budgets are the
-[batching-and-quota](./techniques/batching-and-quota.md) technique.
+Per-interaction transmission is wrong three ways at once: it is a **privacy
+leak** (timestamps of individual actions are a behavioral trail even when
+payloads are clean), a **cost** (every event a quota unit and a server write),
+and a **fragility** (the pipeline's failure surface scales with interaction
+count). The privacy argument is the one that carries the decision. Client-side
+batching of events recovers most of the network cost, but each batched event
+still carries its own timestamp. The standard is per-session accumulation:
+counters increment locally all session, and one summary flushes at session end.
+This makes the privacy aggregation property structural rather than aspirational.
+
+It has two prices, and both are paid knowingly:
+- **Loss tolerance.** A crashed session may lose its summary. The discipline is
+  to know the loss rate rather than pretend it is zero.
+- **No questions after the fact.** A summary answers the questions whose
+  counters were declared before the session ran, and it keeps no in-session
+  sequence. That is the right trade when the questions are named in advance,
+  which the vocabulary rule already demands. Funnels do not need sequence:
+  their steps are once-per-installation milestones that travel beside the
+  summary.
+
+"Session end" is a desktop notion. A browser page gets no orderly shutdown,
+and the page becoming hidden is the last moment its code can count on. That
+moment recurs within one session, so on the web the summary is re-sent,
+cumulatively, on each hide. Flush timing, shutdown handling, and quota budgets
+are the [batching-and-quota](./techniques/batching-and-quota.md) technique.
 
 ## The sink is a boundary, and failure there is nobody's problem but ours
 

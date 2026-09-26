@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1187,
+  "applications": 1189,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -36295,9 +36295,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/usage-analytics.md",
-   "digest": "sha256-b2:5233096144eea5b2",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:83367bcb68dbb99a",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "activation-and-funnel-honesty",
@@ -36387,6 +36387,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "event-taxonomy",
+     "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/next--event-taxonomy.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "privacy-scrubbing",
+     "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/next--privacy-scrubbing.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
     {
      "stack": "react",
      "technique": "activation-and-funnel-honesty",

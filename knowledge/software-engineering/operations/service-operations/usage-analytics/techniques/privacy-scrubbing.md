@@ -66,8 +66,8 @@ Product measurement needs to distinguish *sessions* and, at most, count
 
 ## Aggregate before egress
 
-The strongest privacy property available is that the behavioral trail
-*never exists off the device*. Counters accumulate locally; what leaves is a
+The strongest privacy property that architecture alone can deliver is that
+the behavioral trail *never exists off the device*. Counters accumulate locally; what leaves is a
 session summary — "these surfaces, these counts, these durations" — not a
 timestamped event stream (the transmission mechanics are
 [batching-and-quota](./batching-and-quota.md)). A collector that only ever
@@ -78,7 +78,23 @@ insight rendered on the user's own machine from the user's own data — egress
 is not merely minimized but absent, and that option is evaluated first, not
 as an afterthought.
 
-## Consent: opt-out is silence
+Aggregation is a strong default, not a formal guarantee, and it has two
+limits:
+- **The envelope.** A summary still arrives with a network address and an
+  arrival time.
+- **The rare value.** A summary whose counters include a rare surface, or a
+  rare combination of them, is itself a fingerprint. Published aggregates have
+  been reconstructed down to individual records at census scale.
+
+Two consequences follow:
+- **The report suppresses small cells.** Below a minimum count, a number is
+  shown as "fewer than k", never exactly.
+- **A formal bound needs noise.** Where one is required, noise added on the
+  device before sending (local differential privacy) is the stronger tool.
+  It pays mainly at very large populations. At a single product's scale the
+  noise can swamp the signal it protects.
+
+## Consent: declining is silence
 
 Consent state gates the pipeline at the sink, and the shape of "no" matters:
 
@@ -87,6 +103,26 @@ Consent state gates the pipeline at the sink, and the shape of "no" matters:
   is itself a datum. Structurally this is the null sink of
   [sink-abstraction](./sink-abstraction.md): call sites are consent-blind, and
   the destination choice enforces the answer.
+- **Whether collection may start before anyone is asked is not an
+  engineering choice.** The EU's device-access rule (ePrivacy Art. 5(3)) is
+  the reference case. The regulators' joint guidance on it (EDPB Guidelines
+  2/2023) brings a telemetry pipeline into scope point by point:
+  - software that makes the device call an endpoint is in scope;
+  - so is information that is not personal;
+  - so is information produced locally;
+  - so is information cached for intermittent reporting.
+
+  Summarising is therefore not an exemption. The pipeline needs consent
+  before its first flush, unless a narrow exemption applies. The model case
+  is a national regulator's carve-out for first-party audience measurement:
+  anonymous statistics only, never combined with other processing.
+
+  An exemption is a property the pipeline must actually have, checked against
+  that regulator's stated conditions. It is not a label a vendor sells, and
+  "cookieless" is not the test, since the rule covers access to the device,
+  not cookies. Where consent is required, the null sink is where every
+  installation *starts*: the one not yet asked is in the same state as the
+  one that said no.
 - **Consent is asked in product language** — "share anonymous usage summaries
   to help improve the product" is answerable; a wall of categories is not —
   and the honest answer to "what do you collect" is short *because the

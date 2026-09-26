@@ -42,6 +42,15 @@ chosen while staring at the numbers will be the definition that flatters
 them. Weak definitions — dwell time, scroll depth, "clicked anything" — are
 visits wearing activation's name.
 
+"In advance" means before the data that judges the definition is read, not
+before any data exists. Discovery is a legitimate route to a definition:
+compare what installations that stayed did with what those that left did, and
+name the actions that separate them. The discipline is the freeze. The
+discovered definition is written down, dated and versioned before it judges a
+funnel, a release or an experiment. Until then it is read as a correlate,
+because engaged users do many things. It counts as a cause only once an
+intervention that moves the action is seen to move retention.
+
 First-time milestones — the "reached value" events a funnel is built from —
 fire once per installation, which makes their dedupe latch part of the data's
 integrity: **the latch must record delivery, not intent.** Write it after the
@@ -112,6 +121,9 @@ finds: opted-out users are invisible, and their absence is not random —
 consent skews with user type, so the measured population is a biased sample
 of the real one. Summaries lost with crashed sessions skew against exactly
 the sessions that crashed (see [batching-and-quota](./batching-and-quota.md)).
+On the web, content blockers remove a share of visitors before any consent
+question is asked, and that share is skewed too, toward technical users. A
+layer whose failed loads are silent no-ops cannot say how large the share is.
 Small denominators produce loud percentages — a surface offered to nine
 users does not have a "22% activation rate", it has two activations. None of
 these invalidate the instrument; all of them bound what it may claim, and a
