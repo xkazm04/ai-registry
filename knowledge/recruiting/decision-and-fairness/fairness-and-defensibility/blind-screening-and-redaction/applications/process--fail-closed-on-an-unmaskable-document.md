@@ -77,13 +77,26 @@ outrun the mask. The guard is only as good as the detector behind it. Until
 2026-08-22 a section header detected as the name satisfied it. See the
 inventory application.
 
+## The refusal, stated before the run
+
+Since `fde5c76e5` (2026-09-23), the refusal also arrives before anything is
+sent. `app/features/tools/analyze/AnalyzeReadabilityStrip.tsx` renders a
+per-file text check above the Analyze button. A CV with no text layer in blind
+mode is a `block` row, "No text layer: blind screening cannot redact it". The
+run is held with two remedies: "Run without blind screening", or remove that
+file (`:60-120`). The header comment keeps the order right: "The engine's own
+fail-closed refusal is untouched: this is an earlier copy of it, never a
+replacement." The refusal now routes to a decision instead of surfacing as a
+failed run.
+
 ## Where the standard is not met
 
-- **The refusal parks rather than routes.** The typed error halts the analysis,
-  and there is no defined human-review fallback or candidate-facing path. An
-  unmaskable document depends on someone noticing the failed run and disabling
-  blind mode for it. The standard requires the application to keep moving on
-  an identified human path.
+- **The route is improvised per case, not chosen by policy.** The preflight
+  remedies go to whoever is at the keyboard at the moment of the run. There is
+  no named reviewer and no candidate-facing request for another format.
+  "Run without blind screening" produces an ordinary non-blind analysis, and
+  nothing in it records that a blind run was requested and refused. It is
+  correctly labelled unblinded, but invisible as a refusal.
 - **No out-of-vocabulary language refusal.** A document outside English and
   Czech gets its gendered and age markers matched with the wrong vocabulary and
   proceeds as a full "masked" state. The standard escalates instead.

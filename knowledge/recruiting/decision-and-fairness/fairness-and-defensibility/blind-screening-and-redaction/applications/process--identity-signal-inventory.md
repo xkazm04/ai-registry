@@ -61,16 +61,9 @@ and its neighbours pin false detections next to the missed ones.
 ## Identity twins
 
 The same commit fixed two more defects, and each was a mask that depended on
-the candidate. The feminine birth participle `Narozená` escaped the age pattern,
-which the masculine form did not. A candidate named Jan lost every "Jan 2020"
-employment date. On 2026-09-26 this registry ran nine planted identity twins
-against the fixed redactor, and 8 still diverged from the baseline mask.
-Commit `4433df0c5` adds `IdentityTwinInvarianceTest`, which asserts identical
-redacted text and a detected name across twins. It fixes the cases the shared
-taxonomy can decide: a surname that is a skill term ("Grace Swift") was filed as
-a role headline and never detected, and a lone name token that is a skill or a
-glued-hyphen compound was masked. The employer collision and off-taxonomy given
-names stay under `expectedFailure` as a stated gap.
+the candidate: the feminine birth participle, and the given name that is a
+month. The suite that pins that class, and its measured A and B, is in the
+identity-twin application.
 
 ## Where the standard is not met
 

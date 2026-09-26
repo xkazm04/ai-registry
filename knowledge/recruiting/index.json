@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 385,
-  "applications": 215,
+  "applications": 216,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -796,8 +796,8 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/blind-screening-and-redaction.md",
-   "digest": "sha256-b2:919a2604a2b88047",
-   "revision": 2,
+   "digest": "sha256-b2:03568c3ed5988c52",
+   "revision": 3,
    "changedAt": "2026-09-26",
    "techniques": [
     {
@@ -919,6 +919,12 @@
      "stack": "process",
      "technique": "identity-signal-inventory",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/process--identity-signal-inventory.md",
+     "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "process",
+     "technique": "identity-twin-mask-invariance",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/process--identity-twin-mask-invariance.md",
      "verified_on": "2026-09-26"
     }
    ]
