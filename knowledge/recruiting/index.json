@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 385,
-  "applications": 219,
+  "applications": 222,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -1203,9 +1203,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/candidate-archetype-routing.md",
-   "digest": "sha256-b2:802290adf884e2bb",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:a2c5b1bf2e5d6fce",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "confidence-always-returned-with-a-review-threshold",
@@ -1300,19 +1300,40 @@
      "stack": "node",
      "technique": "conservative-default-and-the-unrouted-state",
      "file": "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/node--conservative-default-and-the-unrouted-state.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "one-registry-shared-across-runtimes",
      "file": "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/node--one-registry-shared-across-runtimes.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "self-declaration-trusted-contradictions-flagged",
+     "file": "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/node--self-declaration-trusted-contradictions-flagged.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "confidence-always-returned-with-a-review-threshold",
+     "file": "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/process--confidence-always-returned-with-a-review-threshold.md",
+     "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "process",
+     "technique": "population-specific-weights-and-dimension-renaming",
+     "file": "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/process--population-specific-weights-and-dimension-renaming.md",
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "signal-scored-routing-not-rule-matching",
      "file": "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/process--signal-scored-routing-not-rule-matching.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     }
    ]
   },

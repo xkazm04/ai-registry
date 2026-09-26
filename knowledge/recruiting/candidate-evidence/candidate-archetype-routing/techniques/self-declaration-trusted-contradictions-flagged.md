@@ -92,6 +92,16 @@ contradiction rule with a stated confidence ceiling — not as a silent override
 - **When the contradiction cap and the review threshold have drifted apart, fix the
   numbers together.** A cap set above the review threshold is a rule that fires and does
   nothing — the most common way this technique is implemented and then quietly disabled.
+  Every cap must also sit below any confidence the *inference* path can reach for the
+  same evidence. Otherwise a candidate who declares a class and a machine that infers it
+  from the same fact get opposite treatment, and the machine is the one believed.
+- **When a caller needs to pin a class, for example so a save or a merge does not
+  re-route, it pins a derived class.** It never re-submits the inference as
+  "self-declared". A re-submitted inference gets the declaration tier, loses its review
+  flag, and writes a reason claiming the person said something they did not.
+- **When declaring a class changes the expected score for the same record, the
+  declaration has become an advantaged path.** Check the rubrics, not the person. See
+  below.
 
 ## Why the cap rather than the override
 
@@ -124,9 +134,19 @@ evidence, not a finding about the person
 - **Not where the declaration selects a materially advantaged path.** If declaring an
   archetype unlocks a reserved programme, a quota or a benefit, the declaration needs
   its own verification design, and it is a different problem from routing a rubric.
+  Routing a rubric sits close to that line, so say which side you are on. Applicants
+  shade non-verifiable self-reports toward what they believe is rewarded, and verifiable
+  claims hold up better. The unverified trust here rests on the declaration buying a
+  *fit*, a rubric matched to the evidence the person has, and not a *favour*. That is
+  checkable: score the same records under each population's rubric and see whether one
+  systematically comes out ahead. If it does, correct the rubric, since that is the
+  instrument's bias and not the candidate's claim. And never check a career-stage
+  declaration against a graduation year, because that verifies a self-description with
+  an age signal.
 - **Not as cover for an unanswerable question.** If contradictions fire on a large share
   of declarations, the question is wrong, not the candidates. Rewrite the options; a
   taxonomy people cannot place themselves in is a taxonomy problem.
 - **Not for a "declaration" the candidate never actually made.** A default-selected
-  option, a value copied from a previous application, or a single-option question is not
-  a statement by a person and must not receive the declaration confidence tier.
+  option, a value copied from a previous application, a single-option question, or the
+  system's own earlier routing pinned back in as the "declaration" is not a statement by
+  a person. None of them may receive the declaration confidence tier.

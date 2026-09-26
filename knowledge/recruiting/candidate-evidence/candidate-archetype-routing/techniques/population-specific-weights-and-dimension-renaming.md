@@ -22,9 +22,10 @@ how much conventional experience they have, just with the answer scaled.
 
 The technique is that each archetype gets **its own dimensions, its own names for them,
 and its own weights over them** — three different rubrics, not one rubric with three
-settings. Renaming is not cosmetic. It is the mechanism that makes cross-population
-comparison impossible by construction, and it changes what reviewers actually think
-about.
+settings. Renaming is not cosmetic. It stops a reader from taking two scores as one
+scale, and it changes what reviewers actually think about. What it cannot stop is a sort,
+a floor or a cut that runs over a mixed list, which compares the scores anyway. That is
+step 7.
 
 ## The procedure
 
@@ -43,8 +44,8 @@ about.
    that population's own axes. There is deliberately no formula relating one
    population's score to another's.
 4. **Make each weight vector sum to one, and enforce it at load.** Refuse to start on a
-   vector that does not. See below — this is the highest-value validation in the whole
-   subject.
+   vector that does not, and pin a scored golden set in CI beside it, because the sum
+   cannot see a transposition. See below.
 5. **Publish dimension names and weights together in the shared declaration**, so a
    recruiter can be shown exactly how each population is evaluated. A per-population
    rubric that only engineers can enumerate is not defensible.
@@ -52,9 +53,13 @@ about.
    dimension names change, previously computed scores were produced by a different
    instrument, and they must be marked as such rather than silently re-meant
    ([a verdict is bound to what it judged](../../../_laws.md#a-verdict-is-bound-to-what-it-judged)).
-7. **Forbid cross-population ranking in the surfaces, not just in the docs.** If a list
-   mixes archetypes, it groups or labels; it does not sort by a number whose meaning
-   changes row to row.
+7. **Make every cross-population ordering a stated decision, in the surfaces and not
+   just in the docs.** A list that mixes archetypes either groups them or carries an
+   allocation a person chose for the role (slots, quotas, or a queue per population).
+   If it must sort on one number, it carries a measured comparability: the per-population
+   admission rate at every shared floor, looked at by somebody. The same applies to
+   every single threshold and every bottom-share cut that runs over a mixed cohort. Those
+   are sorts too, and they are the ones nobody sees.
 
 ## Decision rules
 
@@ -64,9 +69,13 @@ about.
   [meaning does not live in a label](../../../_laws.md#meaning-does-not-live-in-a-label)
   describes: rules, reviewers and dashboards all derive meaning from the string.
 - **When someone asks to compare an early-career score with an experienced score, the
-  correct answer is that the comparison is undefined.** Not "roughly equivalent", not
-  "adjust by a factor". Undefined. If a shortlist genuinely needs one ordering, it needs
-  a decision by a person about the role, not an arithmetic bridge between two rubrics.
+  correct answer is that the arithmetic comparison is undefined.** Not "roughly
+  equivalent", not "adjust by a factor". But a shortlist is one ordering, so the
+  comparison happens anyway, and the only question is where. Declaring it undefined and
+  then letting one sort decide hands it to whoever wrote the sort. Leaving it to a
+  reviewer's holistic judgment is the least valid way to combine data that is known.
+  Decide it explicitly: an allocation per population chosen for the role, or a
+  comparability someone measured.
 - **When a weight vector fails the sum check, fail the load — loudly, at startup, naming
   the population and the actual sum.** Do not normalize silently. Silent normalization
   produces a working system with a policy nobody wrote.
@@ -82,23 +91,33 @@ about.
 
 ## Why the sum-to-one check earns its place
 
-It reads like schema pedantry and it is the single most valuable assertion in the
-routing system, because of the failure it prevents. A one-digit typo in a weight — a
-`0.5` that should be `0.05`, a missing decimal — does not crash anything, does not log
-anything, and does not produce an output that looks wrong. It **rescales every score in
-that population**, consistently. The ranking within the population stays internally
-plausible. The tiers shift. The shortlist changes. And every downstream check passes,
-because they are all checking relative ordering against a ruler that bent uniformly.
+It reads like schema pedantry, and it earns its place through the failure it prevents.
+A one-digit typo in a weight — a `0.5` that should be `0.05`, a missing decimal — does
+not crash anything, does not log anything, and does not produce an output that looks
+wrong. It **rescales every score in that population**, consistently. The ranking within
+the population stays internally plausible. The tiers shift. The shortlist changes.
 
-Nothing downstream can catch it. Not a snapshot test, because the new numbers are
-self-consistent. Not a reviewer, because a shortlist of plausible candidates looks like
-a shortlist of plausible candidates. Not a fairness metric, because the effect is
-uniform within the affected population. Only the sum catches it, and only at load, before
-a single candidate has been scored on the bent ruler.
+A reviewer will not catch it, because a shortlist of plausible candidates looks like a
+shortlist of plausible candidates. A within-population fairness metric will not catch it
+either, because the effect is uniform. What *does* catch it, in the repository, is a
+scored golden set: fixed profiles whose per-population scores and tiers are pinned,
+failing when the ruler bends.
 
-The check must therefore be an import-time invariant of the configuration, not a unit
-test — a test protects the values in the repository, while a load-time check protects
-whatever the running system was actually handed.
+The sum and the golden set cover different ground, and neither is enough alone:
+
+- **The sum is the only guard on the running process.** It must be an import-time
+  invariant, not a unit test. A test protects the values in the repository. A load-time
+  check protects whatever the running system was actually handed: a hand-edited file, a
+  per-tenant override, a bad deploy.
+- **The sum only sees an illegal vector.** A transposition — two weights swapped within
+  one population — still sums to one and loads cleanly, and so does any pair of
+  compensating typos. Configuration studies find that the "clearly illegal" class is
+  only a part of real parameter mistakes. A legal-but-wrong vector is caught by the
+  golden set, by per-weight bounds, and by a reviewer reading a weight diff. The sum
+  never sees it.
+
+Keep the sum at load and the golden set in CI. Treat a golden-set failure after a weight
+change as the finding, not as a fixture to refresh.
 
 ## When NOT to use it
 
@@ -118,4 +137,9 @@ whatever the running system was actually handed.
   defensible when the populations are evidence shapes and the differences are about what
   evidence exists. It is not defensible when the population correlates with a protected
   characteristic and the weights advantage one — that is a different analysis, and it
-  belongs to adverse-impact work, not to rubric design.
+  belongs to adverse-impact work, not to rubric design. Career-stage populations *always*
+  correlate with one: age. So this is not an edge case. It is a standing obligation to
+  write down why each rubric fits its evidence, since in at least one major jurisdiction
+  any different treatment by age needs a documented justification. It is also an
+  obligation to let the adverse-impact lane measure outcomes by age band where the data
+  lawfully exists.
