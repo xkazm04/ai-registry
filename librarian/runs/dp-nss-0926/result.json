@@ -1,0 +1,94 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-nss-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T13:40:00Z",
+  "ended_at": "2026-09-26T15:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/narrative-scroll-surface",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 2,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/narrative-scroll-surface",
+      "technique": "reveal-without-loss",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/narrative-scroll-surface",
+      "technique": "scroll-bound-progression",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/narrative-scroll-surface",
+      "technique": "reveal-without-loss",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/narrative-scroll-surface",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/narrative-scroll-surface",
+      "technique": "scroll-bound-progression",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/narrative-scroll-surface.md",
+    "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/techniques/reveal-without-loss.md",
+    "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/techniques/scroll-bound-progression.md",
+    "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/next--reveal-without-loss.md",
+    "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/react--scroll-bound-progression.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/narrative-scroll-surface.md"
+  ],
+  "commits": [
+    {
+      "sha": "d247154a",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/narrative-scroll-surface",
+      "reason": "dropping spring smoothing on the native scroll path (the refutation lane's proposal): the fleet's documented-eligible station ran 0 scroll timelines against a verified view() control, so smoothing stays owed on the script clock; landed as a read-the-clock condition instead"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single stack cleared (next, ascent /about). 4 conditions, 1 golden-path flip, 0 techniques. Applied 4 better, 1 not-better. 1 stale verdict (personas). Maps committed in 12 repos, pushed in none; ascent fix 8d1e5113 unpushed (master 100 ahead of origin)."
+}

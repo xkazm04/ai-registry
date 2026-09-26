@@ -718,3 +718,35 @@ Source-class tally (post-hoc, this run):
 - A per-project search for forecasting code outside the dominant language
   found the second stack the map missed. A same-language join would not have
   cleared "single stack".
+
+## Run dp-nss-0926 - narrative-scroll-surface, a next second stack and print routed
+
+Curator dispatch on "single stack (react)". The whole fleet is React, so the
+genuine second stack is its server-rendered half: `next`, where
+`reveal-without-loss` happens and which had no application. ascent's `/about`
+was the seam. Its shared wrapper was already fixed for the served frame, and
+an evidence heatmap island was not: 41 inline `opacity:0` served, 40 of them
+cells. Print was blank with scripts on (15/15 blocks, 40/40 cells), and a
+toggling wrapper defeated walk-and-return (15/15 hidden after the walk). Six
+claims were attacked. Two were confirmed and four conditioned, one of them a
+golden-path flip (in-view-triggered motion is self-starting per WCAG
+Understanding 2.2.2). The lane's "smoothing is never needed" did not survive
+the tree: kp's station, documented as native-eligible, ran 0 scroll timelines
+(instrument checked against a stylesheet `view()` control). So the rule
+became "read the clock off the page". Applied: 3 better (2 code, 1
+experiment), 1 better (simulation), 1 not-better (experiment). Impact: 1
+stale verdict (personas).
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| narrative-scroll-surface | L3 | 1 application (next), 4 conditions + 1 golden-path flip, 1 code fix committed (unpushed), 0 techniques | 1 stale (personas 1); 36 unjudged pairs across 8 projects | 0 |
+
+Source-class tally (post-hoc, this run):
+- Standards text (W3C Understanding docs) carried the one golden-path flip,
+  quoted verbatim. Library docs (Motion) and MDN carried two conditions, and
+  every quote was re-fetched with curl before it landed.
+- The fleet tree outranked the refutation lane once: the lane's documented
+  native path did not engage in the real tree. Library documentation is a
+  claim about a path, not evidence that a page is on it.
+- The training-data lane independently reached the print override. It is the
+  cheapest convergence lane in this bundle's UI subjects.
