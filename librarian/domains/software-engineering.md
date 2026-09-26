@@ -551,3 +551,36 @@ Source-class tally (post-hoc, this run):
   quoted.
 - The joined tree outranked both lanes on the application side. The fallback act, the
   unrecorded undeploy and the hardcoded result appeared in neither lane.
+
+## Run dp-dnd-0926 - drag-drop, a rust second stack at the host boundary
+
+Curator dispatch on "single stack (react)". The second stack came from where the
+decision lives: personas' desktop host. Its drag-drop switch defaults on. On Windows the
+switch replaces the page's drop target, and on macOS it keeps every drag from the page.
+The tree's file zones and in-page reorders are both written for the other branch. goat
+joined as a second React tree: its dnd-kit items announce a keyboard path that no sensor
+implements. Four absolutes were conditioned or refuted:
+- the deprecated grab attributes;
+- the single-pointer alternative;
+- "no browser" keyboard entry;
+- copy, not link, as the cross-boundary default.
+
+The single-pointer condition's own simulation came back `not-better`. The goal board's
+click path lives in an editor, so the rule now judges the operation, not the surface.
+Impact: 0 stale verdicts (12 unjudged contexts, 4 projects). The personas map rebuild is
+owed, because another session holds that file.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| drag-drop | L2 | 2 applications, 1 flip, 1 refuted, 3 conditions, 0 techniques | 0 stale (12 unjudged pairs, 4 projects) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Pinned third-party source in the local package caches carried every host and library
+  claim. It outranked the vendor's doc comment, which names one platform where the source
+  shows two.
+- The standards bodies' own text (ARIA 1.2, WCAG 2.2 Understanding) settled both
+  accessibility corrections. Commentary was not needed.
+- The open issue and the unmerged pull request dated the upstream state. They were used
+  only for dating, never as the claim itself.
+- The blind lane reached the host rule, the platform split and the test blindness
+  unprompted. That convergence is what placed the condition at technique level.
