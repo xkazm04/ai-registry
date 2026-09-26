@@ -3,7 +3,7 @@ name: deepen
 description: "Review and widen an existing knowledge-bundle topic via deep web research + training data: scan a domain for undercooked subjects, research the chosen ones in mandatory-counter-evidence lanes, and land gate-clean corrections, techniques and dated field applications. Runs interactively (finding-level triage), in batch (worker-per-subject under Director diff-review), or as a long-running loop with a saturation ledger. Use when a bundle's subjects should rise above the repo they were forged from, or stay current as the field moves."
 category: ai-native
 memory: project
-version: 1.3.1
+version: 1.4.0
 tags: knowledge, rkb, research, saturation, loop
 ---
 
@@ -21,6 +21,44 @@ ingest instrument, the source ledger, the source-class reading and the corrobora
 table, and it dispatches `/deepen` for anything subject-sized that survives. Two runs on
 2026-08-23 went through here instead and produced good findings; they also skipped the
 untriaged table and the decline ledger, which is the memory that makes run N+1 cheap.
+
+## Invocation
+
+```
+/deepen <domain>                      # one interactive pass: scan the bundle, shortlist, triage each finding
+/deepen <domain>/<subject>            # one named subject - the caller already ranked it, so start at step 2
+/deepen <domain> --batch [--width N]  # worker-per-subject under Director diff-review (ceiling ~8)
+/deepen <domain> --loop <N>           # up to N cycles against the saturation ledger; idles on a clock or an event
+/deepen <domain> --scan               # step 1 only: the scored shortlist and the gap thesis, land nothing
+/deepen status [<domain>]             # read the saturation ledger and subject notes, touch nothing
+/deepen reflect                       # update LESSONS.md and this method from recent passes
+```
+
+**The subject form is an address, not a slug.** `<domain>/<subject>` is the id
+`index.json` and the librarian's notes already spell
+(`librarian/subjects/<domain>/<subject>.md`); the file it names is resolved
+through `index.json`, never built from the slug, because a bundle is nested and
+step 1's own rule is resolve-never-construct.
+
+**There is no bare form, on purpose.** With no domain this skill would have to
+sweep every bundle, which is `/librarian`'s job - and the librarian dispatches
+*here*, scoped, which is the direction the lane is built to run in.
+
+**A caller that names one subject inherits the saturation law, it does not
+escape it.** `--loop` idles by design; a single directed run is not exempt from
+the anti-pattern below - re-running a saturated subject still needs a clock or
+an event to point at, and "a dispatcher chose it" is only an event when the
+dispatcher can say which clause it measured. A run that finds the subject
+settled reports `idled` and that is a result.
+
+> **Written 2026-09-26, and the omission is the finding.** This file described
+> three modes in its own frontmatter for five weeks and documented no command
+> for any of them. Nothing broke for a human, who types what the prose implies.
+> It broke for a program: a dispatcher reading this lane cannot tell "runs bare"
+> from "documents nothing", so the honest reading of a missing block is
+> *unknown*, and unknown is not permission - 103 ranked subjects sat
+> undispatchable behind an absent heading, not behind a policy. `/forge` is
+> still in that state.
 
 ## The cycle
 

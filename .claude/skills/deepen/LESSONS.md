@@ -297,3 +297,39 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   which is this skill's own oldest anti-pattern. And `pr: null`, honestly: this skill
   commits atomically per subject and opens no pull request, so the field is empty rather
   than guessed.
+
+## 1.3.1 - 2026-09-26 - ai-registry (bumped to 1.4.0 across the same change)
+
+- **This file described three modes and documented no command for any of them, for five
+  weeks.** Nothing broke for a human: a person reads "runs interactively, in batch, or as
+  a long-running loop" and types what the prose implies. It broke for a *program*. A
+  dispatcher reading this lane cannot tell "documents a bare invocation" from "documents
+  nothing", so the only honest reading of an absent `## Invocation` block is **unknown**,
+  and unknown is not permission. The consumer that found this (Personas' Curator
+  companion, which ranks this registry's subjects and dispatches workers at them) refuses
+  to invent a command line by design - correctly, since a guessed invocation is a worker
+  running something nobody specified.
+- **The cost, measured: 103 ranked subjects, undispatchable behind a missing heading.**
+  Her standing plan held 314 items - `apply` 110, `deepen` 103, `conform` 99, `reconcile`
+  2, of which both were blocked - so **312 of 314 could not be turned into a command**.
+  She ran for two hours with every brake unset and dispatched nothing. `deepen` was the
+  largest bucket that was blocked by *this* file rather than by the consumer's own
+  projection, and one block of seven lines freed all 103.
+- **A skill's invocation block is part of its contract, not its packaging.** The three
+  modes were already in the frontmatter `description:`, which is the field a catalogue
+  reads - so the skill *advertised* capabilities that nothing could address. If the modes
+  are worth describing to a reader, they are worth addressing by a caller; if they are not
+  addressable, the description is a promise the file cannot keep. Write the block when the
+  mode is added, in the same change.
+- **What the block deliberately does NOT add.** No bare `/deepen`: with no domain this
+  skill would sweep every bundle, which is `/librarian`'s job, and the librarian dispatches
+  *here*, scoped. Saying that in the file is worth a sentence, because the absence is a
+  decision and an absence with no reason beside it reads like an omission - which is
+  exactly the mistake this entry is about.
+- **The subject form is an address.** `/deepen <domain>/<subject>` takes the id
+  `index.json` and `librarian/subjects/` already use, because a caller that had to build a
+  path from a slug would break the first time a subject moved between subcategories -
+  step 1's own resolve-never-construct rule, applied to the invocation itself.
+- **`/forge` is still in this state**, and is now measured as an impediment by the
+  consumer rather than described in a comment. It is left standing on purpose: a lane whose
+  gaps are found by hand is a lane that only improves when somebody happens to look.
