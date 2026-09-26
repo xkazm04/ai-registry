@@ -61,9 +61,15 @@ at bulk:
   candidates whose evidence was hardest to parse, which is not a neutral group.
 - **The oversight budget per person collapses.** A recruiter reviewing one rejection
   reads the file. The same recruiter reviewing a hundred is, by item twenty, matching on
-  surface features. Studies of high-volume review consistently find per-item attention
-  falling to a few seconds and override rates falling below one percent — an oversight
-  step with a sub-one-percent override rate is not oversight, it is a signature block.
+  surface features. Do not measure that collapse by the override rate alone. Field
+  studies of people reviewing algorithmic recommendations report override rates from
+  single digits to a majority, depending on the domain. In hiring, managers who overrode
+  a sound test's recommendation made worse hires on average. So a near-zero override rate
+  fits a rubber stamp and also fits a model that deserves deference. Treat it as a reason
+  to audit the review, not as the verdict. What decides the question is whether the
+  reviewer could see the evidence, had the time, and had the authority to override. The
+  direct test is a known-bad row seeded into a wave: either the reviewer catches it or
+  they do not.
 - **Reversal gets expensive and therefore does not happen.** One mistaken rejection is
   undone with an apology; eighty are undone with a project, and projects get
   deprioritized. Reversibility has to be a cheap standing mechanism, built before the
@@ -132,12 +138,16 @@ must treat that instant as the boundary of their consent.
 
 ## What makes review meaningful rather than nominal
 
-Regulatory doctrine on human oversight has converged on a test that is useful even where
-no regulator is watching: involvement counts only if the reviewer *could have reached a
-different outcome*, considered the individual circumstances, and acted after the
-automated output rather than merely upstream of it. Sign-off by somebody with no
-practical ability to override is treated as no human involvement at all. Three design
-consequences follow, and none of them is about policy text.
+Data-protection guidance on human oversight largely agrees on a test that is useful even
+where no regulator is watching. Involvement counts only if the reviewer *could have
+reached a different outcome*, considered the individual circumstances, and acted after
+the automated output rather than merely upstream of it. Sign-off by somebody with no
+practical ability to override is treated as no human involvement at all. Two cautions
+keep this from being read as settled law. The guidance is guidance, not binding
+precedent. And courts have also asked a different, harder question: how strongly the
+decision-maker *drew on* the automated output. A reviewer who formally could override,
+but in practice acts on the score, can leave the score as the real decision. Three
+design consequences follow, and none of them is about policy text.
 
 **The interface must make the individual visible inside the aggregate.** A flat list of
 eighty names produces the click-through failure. Grouping the cohort by the *reason* each
@@ -194,11 +204,16 @@ Two opposite failures live at small pool sizes. A percentage window rounds to ze
 recruiter who switched on an automated bottom-slice rejection finds it silently doing
 nothing for every small role — the setting reads as active and is not, which is the worst
 state a governance control can be in. So the window floors at one candidate in any
-non-empty pool. But the converse is just as real: a cohort of six cannot support an
-adverse-impact statistic, so an automated action on six people is unmeasurable by
-definition, and that has to be stated on the preview rather than inferred from a clean
-disparity report that was computed on nothing. A floor makes the control honest; it does
-not make the action measurable.
+non-empty pool. But the converse is just as real. A wave of six is far too small to
+support an adverse-impact statistic on its own, and that has to be stated on the preview
+rather than inferred from a clean disparity report computed on almost nothing. "Too small
+alone" is not "unmeasurable", though. Adverse impact is a property of the selection
+procedure across the applicant flow, not of one batch, and selection guidelines
+explicitly let small numbers be judged over a longer period or across similar roles,
+with an exact test rather than a ratio of tiny proportions. So the small wave's record
+must carry what pooling needs (role family, stage, the rule that applied, the outcome) so
+that many small waves add up to a measurable one. A floor makes the control honest. The
+pooled measurement is what makes it accountable.
 
 Role-family overrides belong in this same discussion. Different role families genuinely
 warrant different floors, and per-family overrides resolving to one effective floor at

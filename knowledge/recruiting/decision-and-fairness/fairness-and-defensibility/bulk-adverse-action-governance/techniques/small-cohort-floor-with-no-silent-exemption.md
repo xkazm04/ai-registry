@@ -38,12 +38,19 @@ an automated action the recruiter enabled — and it is also not quietly subject
 whose basis cannot be examined. The floor makes the control honest; the disclosure makes
 the action reviewable.
 
-The disclosure is not decoration. A cohort of six cannot support a selection-rate
-comparison, an adverse-impact ratio, or any proportion with a stable interpretation, so
-the fairness statistics that would normally back the wave simply do not exist at that
-size. That must be stated as an insufficient-sample condition rather than left to be
-inferred from a clean-looking disparity report computed over nothing
+The disclosure is not decoration. On its own, a cohort of six cannot support a
+selection-rate comparison, an adverse-impact ratio, or any proportion with a stable
+interpretation. The fairness statistics that would normally back the wave do not exist
+*for this wave*. That must be stated as an insufficient-sample condition rather than
+left to be inferred from a clean-looking disparity report computed over almost nothing
 ([a claim carries its sample and its basis](../../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
+
+"Not for this wave" is not "never". Adverse impact is a property of the selection
+procedure across the applicant flow, not of one batch. Selection guidelines explicitly
+allow small numbers to be judged over a longer period, or across similar roles, and a
+small pooled count takes an exact test rather than a ratio of tiny proportions. The
+insufficient-sample mark therefore says *measure this elsewhere*, not *this cannot be
+measured*. It is only honest if the record carries what pooling needs.
 
 ## The procedure
 
@@ -58,7 +65,9 @@ inferred from a clean-looking disparity report computed over nothing
    value**, not the family name. A record that says "the family default applied" cannot
    be interpreted after the default changes; a record that says which number applied can.
 5. **Mark the wave insufficient-sample** below the size where your fairness monitoring is
-   meaningful, and carry that mark onto the preview and into the sealed record.
+   meaningful, and carry that mark onto the preview and into the sealed record. Seal the
+   pooling keys with it: role family, stage, the effective rule, and the outcome. Then
+   the monitoring that cannot read this wave alone can read it pooled with its peers.
 6. **Apply the tie discipline after the floor**, never before. Tie-safety may shrink the
    window back below the floor — and when it does, tie-safety wins: sparing an
    indistinguishable pair outranks guaranteeing that the control did something.
@@ -74,6 +83,10 @@ inferred from a clean-looking disparity report computed over nothing
   there is no aggregate to review; reading six files is a minute's work and it restores
   the individual consideration that
   [makes the oversight real](../../../../_laws.md#no-adverse-outcome-is-solely-automated).
+- **When the fairness report excludes small waves, it must pool them, not drop them.**
+  A monitor that skips every wave below its threshold never sees the roles that only
+  ever run small waves. That is the silent exemption this technique forbids, moved from
+  the cutoff into the measurement.
 - **When a role family override would raise the floor above the pool size, the override
   wins and the wave selects nobody** — an explicit configured exemption is legitimate
   precisely because it is visible. What is forbidden is the *unconfigured*, arithmetic
@@ -107,4 +120,4 @@ adjustment — is fine to author and unacceptable to store; store the resolution
 - **Not for threshold-based waves.** A score floor applies uniformly regardless of pool
   size and needs no window arithmetic — though it needs the insufficient-sample
   disclosure just as much, because a threshold applied to six people is equally
-  unmeasurable.
+  underpowered on its own.

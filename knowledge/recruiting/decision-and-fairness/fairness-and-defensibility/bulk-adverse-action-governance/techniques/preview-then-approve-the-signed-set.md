@@ -92,6 +92,20 @@ layer up is a check the next caller will not perform.
 - **When no approval token is present, refuse** — never fall back to "compute and write".
   The absence of an approval is not permission
   ([no adverse outcome is solely automated](../../../../_laws.md#no-adverse-outcome-is-solely-automated)).
+- **Spend the approval once.** A token that is a pure function of the set, the policy and
+  the issue time re-derives identically on a second post inside its window. Then the
+  only thing that stops a replay is that the first commit emptied its own cohort. That
+  does not hold when part of the reviewed set survived the commit (a row skipped on
+  drift, a record that could not be sealed). Consume the token on commit, and consume
+  it after every other check, so that a refusal for some other reason does not burn a
+  review.
+- **Give every refusal its own reason, because each asks for something different.**
+  *Missing*, *expired* and *changed set* ask for a fresh review. *Already spent* means
+  the action happened, often on a retry after a lost response, and the honest message
+  is "this already landed", not "the set changed". *No named approver* cannot be fixed
+  by any re-preview, so re-previewing on it only loops. One generic "try again"
+  collapses all five: the reviewer re-approves things that already happened, or retries
+  something that can never pass.
 
 ## What the preview must show
 

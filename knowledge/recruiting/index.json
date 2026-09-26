@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 197,
+  "applications": 198,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -856,9 +856,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/bulk-adverse-action-governance.md",
-   "digest": "sha256-b2:378fb3581fe8b89a",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:90d3b44cdaa5d15a",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "cohort-drift-forces-a-fresh-review",
@@ -953,22 +953,29 @@
      "stack": "node",
      "technique": "preview-then-approve-the-signed-set",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--preview-then-approve-the-signed-set.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-26",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "reversal-queue-that-reads-the-sealed-reason",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--reversal-queue-that-reads-the-sealed-reason.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-26",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "tie-safe-cutoff-resolved-toward-the-candidate",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--tie-safe-cutoff-resolved-toward-the-candidate.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-26",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "preview-then-approve-the-signed-set",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/react--preview-then-approve-the-signed-set.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     }
    ]
   },
