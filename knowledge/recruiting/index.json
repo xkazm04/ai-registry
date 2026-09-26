@@ -856,8 +856,8 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/bulk-adverse-action-governance.md",
-   "digest": "sha256-b2:90d3b44cdaa5d15a",
-   "revision": 3,
+   "digest": "sha256-b2:1305b7c9f91bfe4d",
+   "revision": 4,
    "changedAt": "2026-09-26",
    "techniques": [
     {

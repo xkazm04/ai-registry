@@ -62,3 +62,12 @@ Nothing yet.
 ## 2026-09-01 - librarian sweep ([[2026-09-01-1]])
 
 Swept by the scan; no structural defect, no dispatch. Demand still unwitnessed here. Dry is a result.
+
+## 2026-09-26 - deepen: bulk-adverse-action-governance
+
+Dispatched by the Curator lane on "single stack (node)". Landed: a react application (second
+stack, read from the real tree), two refuted golden-path absolutes (override rate as proof of
+rubber-stamping; small cohorts "unmeasurable by definition"), two converged conditions on the
+signed-set technique, and all three node applications re-verified to 2026-09-26. Three
+`applied.md` rows (two better, one unmeasurable). Single-stack debt for this subject: cleared.
+Yield high, dry_streak 0. See [[bulk-adverse-action-governance]].

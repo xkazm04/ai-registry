@@ -1,0 +1,87 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-baag-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T12:02:00Z",
+  "ended_at": "2026-09-26T12:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/bulk-adverse-action-governance",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "bulk-adverse-action-governance",
+      "technique": "small-cohort-floor-with-no-silent-exemption",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "bulk-adverse-action-governance",
+      "technique": "bulk-adverse-action-governance",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "bulk-adverse-action-governance",
+      "technique": "preview-then-approve-the-signed-set",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/bulk-adverse-action-governance.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/techniques/preview-then-approve-the-signed-set.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/techniques/small-cohort-floor-with-no-silent-exemption.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/react--preview-then-approve-the-signed-set.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--preview-then-approve-the-signed-set.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--reversal-queue-that-reads-the-sealed-reason.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--tie-safe-cutoff-resolved-toward-the-candidate.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/bulk-adverse-action-governance.md"
+  ],
+  "commits": [
+    {
+      "sha": "bc1df863",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/bulk-adverse-action-governance",
+      "reason": "naming statutes and effective dates in the golden path: jurisdictional and fast-moving (a US state act repealed and replaced in 2026, EU high-risk dates moved to 2027-12-02); belongs in a dated regulatory application, and no consumer has a jurisdiction-specific surface to read one against"
+    },
+    {
+      "subject": "recruiting/bulk-adverse-action-governance",
+      "reason": "FCRA two-step adverse action as the model for internal preview-then-approve: it is candidate-facing notice before final action, not internal review"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single-stack cleared with a react application from the real tree; two golden-path absolutes refuted (converged lanes); three node applications re-verified. Consumer map regenerated and committed, not pushed (its main is diverged by a sibling)."
+}
