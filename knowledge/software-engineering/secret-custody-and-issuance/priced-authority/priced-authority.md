@@ -50,14 +50,36 @@ break-glass move when a mount or an auth method is found compromised, reads
 the creation path stored on every entry. Remove any one write and the
 corresponding recovery move is gone, silently, until it is needed.
 
+The parent index is the price of a *child* token. A token minted by a
+login has no parent: it is an orphan, and its third write is the
+expiration entry that schedules its death. In the reference issuer that
+entry is written after the primary record, and the read path covers the
+gap. A token that should expire but has no expiration entry is revoked on
+the lookup that finds it. So "index before primary" is one way to close
+the crash window. The other is to write the primary first and have every
+read check that its index exists, failing closed when it does not.
+
 The naive reading is that the ledger is overhead and the fix is a
 self-describing token: sign the claims, verify the signature, store
-nothing. A self-describing token is exactly as revocable as the list the
-server keeps of the ones it has disowned, which is the ledger again under
-a different name, minus the indexes. Statelessness is not a property a
-server gets to choose for authority it must be able to withdraw; it is a
-property it can grant to authority it has decided never to withdraw - and
-that decision, made explicitly, is the first technique.
+nothing. A self-describing token is exactly as revocable as the live state
+the server consults on every use. That state can be the principal the
+token names (disable the account, and the next request fails), a parent
+record, a published status list, a list of disowned tokens, or the key
+itself. Each of these moves the price from a write at issue to a read at
+use, and none of them is free. What no principal-level read can do is kill
+*one* session of a principal who stays active. That needs state per
+session: the ledger, or a disowned list keyed on a stable claim.
+
+A disowned list is not the ledger under another name, because it fails in
+the opposite direction. A ledger that cannot be read admits no token. A
+denylist that cannot be read admits every revoked one, unless the lookup
+error is itself a refusal. Choose that direction deliberately, and never
+leave it to whatever the error path does by default.
+
+Statelessness is not a property a server gets to choose for authority it
+must withdraw one session at a time. It is a property the server can grant
+to authority it will withdraw only by principal, by generation or by
+clock. That decision, made explicitly, is the first technique.
 
 ## One class never persists, and it pays in capability
 
@@ -79,7 +101,11 @@ A lease it creates is capped at the token's own remaining lifetime and
 indexed under the nearest persisted ancestor, because that is the only
 revocation chain such a lease can have. What it keeps is the fact that a
 leaked value of this class buys an attacker exactly what its clock and its
-policies allow and not one renewal more. The technique is
+policies allow and not one renewal more. The class has three levers left:
+the principal it names, its generation or key, and its clock. A lever
+counts only where every gate that admits the token actually pulls it, so a
+source check at one handler out of two leaves the other admitting a
+disabled account until the clock runs out. The technique is
 [never-persisted-token-class](./techniques/never-persisted-token-class.md).
 
 The class also has a degenerate member: authority that is presented on the
@@ -161,7 +187,12 @@ approver acts on the token's accessor, which lets them approve; it does not
 let them unwrap, which is the only way to read. The requester is refused
 as an approver of their own request, one identity counts once no matter
 how many times it approves, and the parked operation runs only when the
-requester collects, under the authority they hold at that moment. That is
+wrap token is collected, under the authority the requester holds at that
+moment. Two conditions keep that honest. "Identity" means the identity
+record, so the rule binds a person only if every token they hold resolves
+to the same record: a person with two unmerged records can approve their
+own request. And the collector is whoever holds the wrap token, which is
+the requester only as long as the token has not been handed on. That is
 [approver-not-requester](./techniques/approver-not-requester.md).
 
 ## Boundaries

@@ -37,7 +37,9 @@ consumer that cannot tell them apart from the value alone will call the
 wrong path on the wrong token. The class is a closed vocabulary with one
 authority - the prefix table the issuer owns
 ([one-authority-per-vocabulary](../../../_laws.md#one-authority-per-vocabulary)) -
-and every other component derives from it.
+and every other component derives from it. An issuer that mints only
+this class has nothing to confuse it with, and the prefix becomes binding
+the day it adds a second class.
 
 ## What the class forfeits, and why it is by construction
 
@@ -78,9 +80,13 @@ lease can never outlive the authority that minted it, so its expiry is the
 token's expiry and needs no row of its own to enforce. The re-parenting
 means the persisted ancestor's revocation reaches the lease, which is the
 only revocation chain the lease can have. An orphan of the class - no
-persisted ancestor - may still lease, and its leases die with its clock
-and with nothing else; a deployment that needs to revoke such a lease
-early has chosen the wrong class for that workload.
+persisted ancestor - may still lease. Its token cannot be revoked early,
+but each lease can: a lease is a row, so it dies with its clock, by its
+own id, or with the prefix it was issued under. Nothing reaches all of an
+orphan's leases at once. Orphans are the common case, not the edge: in the
+reference issuer every login through an auth method other than the token
+store itself mints an orphan. For the short-lived pipeline workload the
+class exists for, the parent lever below is usually absent.
 
 The lease itself is still a row, written in the expiration ledger, because
 the credential it tracks lives in a remote system and must be revoked
@@ -96,10 +102,24 @@ The class cannot be revoked one token at a time, and the design must say so
 rather than pretend. Three levers remain, all coarser than one token.
 Rotating the encryption key invalidates every token of the class at once -
 the correct break-glass response to a suspected key compromise, and
-useless for anything narrower. The entry carries the identity and mount
-that issued it, so that revoking the *source* - disabling the auth method,
-deleting the identity - fails the post-decryption check on every token
-that named it. And the entry carries its persisted parent, if it has one,
+useless for anything narrower - **only if the key is dedicated to the class
+and its old versions are retired.** The reference issuer encrypts the class
+under its storage barrier, whose rotation keeps every older key in the
+keyring so stored values still decrypt. Rotating it kills no token. And a
+key with a second job (one that also seals stored secrets) cannot be pulled
+without destroying data. Either way, give the class its own generation
+counter, a not-before value checked after decryption, so that invalidating
+all of it is a configuration change and not a key ceremony.
+
+The entry carries the identity that issued it, so revoking the *source* -
+disabling or deleting the identity - fails the post-decryption check on
+every token that named it. The reference implements this check for the
+identity record. It was not found for the issuing mount, so disabling the
+auth method is not a lever there. **The source lever counts only at every
+gate that admits on the token.** A service that re-reads the account in its
+capability check but not in its signed-in check has pulled the lever at one
+door. A disabled account keeps the other door open for the rest of the
+token's clock. And the entry carries its persisted parent, if it has one,
 and the post-decryption check looks that parent up: a token of the class
 whose parent has been revoked stops working at the next request, which is
 what "revoked with parent" means for a token that was never written. The
@@ -135,6 +155,10 @@ encryption key promptly - a token minted on one node must validate on
 every other, and a key that lags is a token that works on the node that
 issued it and nowhere else. Do not use it for an operator's own session; an
 operator's session is the one a break-glass procedure most needs to find.
+It is also often identity-less (a shared operator password names no
+account), which removes the source lever as well. That leaves the class's
+most privileged token with only the generation counter, and pulling it
+signs out everyone.
 And do not use it for any token that will be *handed on* - a single-use
 wrap token ([single-use-cubbyhole-wrap](./single-use-cubbyhole-wrap.md))
 must be persisted, because its single use is enforced by deleting it.

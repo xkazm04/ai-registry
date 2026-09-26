@@ -39,8 +39,14 @@ token is revoked, the store destroyed. A second presentation fails.
 
 Because the token is a real row in the ledger, everything the ledger
 offers applies. It has an accessor, so an operator can revoke a wrap that
-was issued by mistake without holding it. It has a parent, so the
-revocation of the session that wrapped it reaches it. Its time to live is
+was issued by mistake without holding it. Whether it has a parent is a
+choice. The reference issuer mints wrap tokens as orphans, so revoking the
+session that wrapped a response does not reach the wrap, and the wrap
+outlives its creator until it is unwrapped, revoked by accessor or
+expired. Parent it to the wrapping session when that session's revocation
+must withdraw its pending handoffs. Leave it orphaned when the handoff must
+survive the wrapper's logout, which is the ordinary case for a provisioner.
+Its time to live is
 its reaper, and a wrap that nobody unwraps destroys itself with its
 contents ([creation-names-reaper](../../../_laws.md#creation-names-reaper)).
 None of this is available to the never-persisted class, which is why a
@@ -79,6 +85,14 @@ server, on presentation, by looking the token up - the gate reads the
 target, not a proxy for it
 ([gate-sees-target](../../../_laws.md#gate-sees-target)) - and the token
 carries no claim the recipient is expected to verify on its own.
+
+Rejecting the signed format as the default does not remove it. The
+reference issuer still carries a signed wrap format for internal setup
+flows, selected by a request header, and on its current main any caller
+can ask for it on an ordinary wrapped request. Only the explicit wrap
+endpoint forces the unsigned form. If an issuer keeps a second format, it
+must gate who may select it, or the documented "unsigned" is a default
+that any caller can override.
 
 ## The lookup before the unwrap
 

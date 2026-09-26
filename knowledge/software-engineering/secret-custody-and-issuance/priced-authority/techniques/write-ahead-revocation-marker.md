@@ -49,6 +49,11 @@ The record still exists and still decrypts, and the marker is the field
 the gate reads; a gate that consulted only "does the record exist" would
 pass exactly the tokens the operator just revoked
 ([gate-sees-target](../../../_laws.md#gate-sees-target)).
+The reference issuer stops one step short of this. Its lookup returns
+nothing for a marked token, which is the same answer an unknown token
+gets. That is safe, because the answer is still no, but the state is lost
+before it reaches the caller or the audit line. Naming the state is this
+technique's stricter stance, not a description of the reference.
 
 **Re-entrant revocation is refused.** A second revocation of a marked
 token returns success without starting a second teardown, or returns
@@ -76,7 +81,15 @@ token in the same process return immediately, without a store read; the
 persisted marker is what makes the same answer hold across a restart and
 across replicas. The two are not alternatives - the set is a fast path,
 the record is the truth - and a failed teardown clears the set entry so
-that the retry is not refused as already running.
+that the retry is not refused as already running. **Clear it under the same
+key it was claimed with, and test that path.** The shadow is claimed on
+whatever identifier the revocation walks by (a salted or hashed id), and an
+error path that reaches for the id on the record it just read will clear a
+different key. The claimed entry then survives, and every later revocation
+of that token returns success without doing anything until the process
+restarts. The reference issuer's storage-error path does exactly this. It
+is also the path least likely to have a test, because it needs the marker
+write itself to fail.
 
 ## What the marker must not become
 
@@ -106,6 +119,17 @@ would have to distinguish a healthy token from one whose revocation was
 half-done by inspecting its leases, and it cannot - a token with three
 live leases looks the same in both cases. With the marker the store
 carries the intent, and intent is what recovery replays.
+
+A startup scan for marked records is one way to find the interrupted
+work, and it is needed only where nothing else durable records it. No such scan
+was found in the reference issuer. The token's own entry in the
+expiration ledger is deleted last, so it survives the crash. The server
+restores it on start and runs it again when it comes due, which may not be
+until the token's original expiry. The marker's job there is to keep the
+token refused until that replay happens. What
+the rule requires is that the intent survives a crash in *some* durable
+queue that recovery reads. The marker has to be in the record, and the
+queue does not.
 
 ## Decision rule
 
