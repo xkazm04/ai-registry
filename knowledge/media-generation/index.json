@@ -1765,8 +1765,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/platform-format-adaptation/platform-format-adaptation.md",
-   "digest": "sha256-b2:b1dc383bf61b504c",
-   "revision": 2,
+   "digest": "sha256-b2:14fcb9b8c64f1b8b",
+   "revision": 3,
    "changedAt": "2026-09-26",
    "techniques": [
     {
@@ -1866,7 +1866,7 @@
      "stack": "process",
      "technique": "format-as-measured-template",
      "file": "knowledge/media-generation/production-ops/platform-format-adaptation/applications/process--format-as-measured-template.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",

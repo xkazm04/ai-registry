@@ -5,7 +5,10 @@ subject: platform-format-adaptation
 technique: format-as-measured-template
 stack: process
 status: forged
-verified_on: 2026-08-19
+applied: simulation
+ab_verdict: better
+proof: structural-only
+verified_on: 2026-09-26
 ---
 
 # A short-clip format template with provenance and a declared gap — a video-studio pipeline
@@ -71,3 +74,41 @@ grade and sample), *declare the gap* when the brief outruns the evidence, and
 *refuse the machine-readable form entirely* when all you have is impressions
 — because the format of the artifact (JSON consumed by tooling) is itself an
 authority claim the evidence must be able to back.
+
+## Applied 2026-09-26: the draw-rule amendment, walked over this template
+
+*Simulation over three real cases, read at `gravitone-gcloud@3ee32c6`. Citations
+above re-checked the same day.* The amendment says a template must record how
+its sample was drawn. The reason is that hand-picked successes show what
+successes share, not what separates them. This template is the best-kept one the
+fleet has, which makes it the fair test: if the amendment finds nothing here, it
+is redundant.
+
+1. **Absence read as underperformance.** PATTERNS §1 grades the announced-fact
+   opening "Not observed, and worth avoiding", and `params.json` turns it into
+   `"forbidden": "a 'did you know' template"`. The pre-amendment technique passes
+   this, because the claim carries its grade and n. The amendment flags it:
+   absence from three chosen successes says nothing about how the shape performs.
+   **The tree had already caught this itself**, in OPEN-QUESTIONS s4: "an
+   absence, not a measurement … a reasoned preference, not a finding". The
+   prediction matches a judgment made independently of this pass.
+2. **A band censored by its era.** The three sources run 59 s, 41 s and 60 s,
+   and two sit exactly on the Shorts ceiling that stood until 2024-10-15. Each
+   source records `captured: 2026-08-11` and `views_at_capture`, but not when the
+   video was *published*. So the template cannot say which ceiling bounded its
+   40–60 s band. The pre-amendment technique asks for ceiling and band to be
+   dated; it does not ask when the witnesses were made. Flagged only by the
+   amendment.
+3. **Shared read as causal.** "MEASURED · all three deliver a complete hook in
+   one sentence, at 0:00" is a true description of the sample. Carried into
+   `params.json` as a default, it reads as the reason they succeeded. The
+   pre-amendment technique accepts MEASURED n=3. The amendment splits it into
+   MEASURED as a description and INFERRED as a cause.
+
+**Falsifier:** a template whose sources carried a publish date and a draw rule
+naming how successes were chosen, or that included the format's non-successes.
+On such a template the amendment would flag nothing. Here it flags three of three
+where the old text flagged none, and one of the three is corroborated by the
+tree's own authors. **Verdict: better** (simulation, structural). No code
+changed; the tree's owner decides whether `sources/*.md` grows a `published:`
+field.
