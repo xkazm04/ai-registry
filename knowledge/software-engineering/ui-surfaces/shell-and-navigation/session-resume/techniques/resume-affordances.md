@@ -38,10 +38,23 @@ layers):
   thing, re-entering the flow) — the boundary case; automatic is
   defensible when the surface is cheap to leave, offered when it is
   modal or engrossing.
-- **In-progress work** — always an offer. Reopening a half-written draft
-  uninvited puts the user *inside* an obligation they may have abandoned
-  on purpose; the offer lets abandonment be a decision they get to make
-  calmly, once.
+- **In-progress work** — an offer whenever surfacing it would *move* the
+  user. Reopening a half-written draft uninvited puts the user *inside*
+  an obligation they may have abandoned on purpose; the offer lets
+  abandonment be a decision they get to make calmly, once. Two cases are
+  not a teleport, and there the work restores itself:
+  - The user navigates to the draft's own home by their own choice (the
+    composer of the thread they opened, the form they came back to).
+  - The session ended without their intent (a crash, an OS kill, an
+    update restart).
+
+  Filling the field they are looking at is the work waiting where it
+  lives, and an empty field there is data loss with extra steps. The
+  restored work carries a visible "restored — start over" control, so
+  discarding it stays one tap and deliberate. A flow whose preconditions
+  may have changed (a price, a permission, the questions themselves) is
+  still offered, or restored with the change stated. It is never
+  silently replayed, and never silently discarded either.
 
 ## Anatomy of the offer
 
@@ -111,9 +124,13 @@ belongs to [layered-place-restoration](./layered-place-restoration.md).
 
 ## Decision rules
 
-- Route, scroll, selection restore automatically; in-progress work is
-  always offered; full-surface re-entry is offered when the surface is
-  modal or engrossing.
+- Route, scroll, selection restore automatically; full-surface re-entry
+  is offered when the surface is modal or engrossing. In-progress work
+  is offered when surfacing it would move the user. It refills its own
+  home automatically, with a visible start-over, when the user
+  navigated there themselves or the session ended without their intent.
+  A changed precondition is stated, never silently replayed or
+  discarded.
 - Offers are named with the entity, rendered inline (never modal), with
   accept and a recorded, work-preserving dismiss.
 - Offers expire by declared, per-kind age (failure ~ a day, edit ~ a

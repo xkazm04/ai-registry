@@ -6,7 +6,7 @@ technique: last-seen-anchors
 status: forged
 laws: [gate-sees-target]
 shared_with: []
-use_when: [briefing says nothing has changed, gating a presence stamp on visibility, deciding whether a watermark may trust the clock]
+use_when: [briefing says nothing has changed, gating a presence stamp on visibility, deciding whether a watermark may trust the clock, stamping seen when a panel loaded earlier is opened]
 ---
 
 # Last-seen anchors
@@ -36,11 +36,24 @@ The anchor advances at two kinds of moment, and both are required:
   superseding the last heartbeat. Departure-only writing — the tempting
   simplification — loses the mark whenever the process dies uncleanly,
   which on a desktop is the common exit; the heartbeat is not optional.
+  In a browser page the exit events are the unreliable ones: close on a
+  mobile device fires none of them, and the unload event is being
+  retired outright. There, the transition to *hidden* is the departure
+  write and the last event a page can count on. Write there and never
+  on unload.
 
 A third write outranks both: **explicit acknowledgment**. When the user
 dismisses the briefing — "I have seen this" in so many words — the anchor
-advances to now immediately. Acknowledgment is the one write that needs
-no presence inference, because it *is* presence.
+advances immediately. Acknowledgment is the one write that needs no
+presence inference, because it *is* presence. But it is presence *at the
+content on screen*, and that content was evaluated earlier: the list was
+loaded at mount, and the popover was opened an hour later. Advance to the
+moment the acknowledged view was evaluated (its load time, or the newest
+item it showed), never to the clock at the click. Otherwise everything
+that arrived between the load and the look is marked seen without ever
+having been shown, and it never comes back. The same holds for any
+advance made after a delay, such as a dwell timer that fires hours later
+in a tab brought forward.
 
 Both writes share one precondition, and it is the law of the technique
 ([gate-sees-target](../../../../_laws.md#gate-sees-target)): the anchor claims
@@ -64,7 +77,11 @@ On return, ordering is everything:
 1. **Read** the anchor as it was.
 2. **Derive** every delta from it — briefing, unread counts, new-badges.
 3. **Only then advance** it (or better: advance it on the *next*
-   heartbeat, once presence is re-established).
+   heartbeat, once presence is re-established) — and only if the
+   derivation *landed*. A load that failed, or a view closed before its
+   data arrived, showed the user nothing; an advance there moves the
+   threshold past deltas nobody saw. Commit the advance where the data
+   is known to have rendered, not where the view opened.
 
 The classic self-erasing bug is advancing the anchor in the startup path
 before derivation runs — often by the same "we're running, stamp
@@ -79,7 +96,19 @@ against the snapshot, never the live value. In a component world the
 natural home for the snapshot is a lazy state initializer that runs
 exactly once at first render, before any effect can beat — but wherever
 it lives, the snapshot looks like a stylistic choice and is load-bearing;
-say so at the site.
+say so at the site. Where the page is rendered on a server, the server
+load is the natural snapshot: one read per request, and nothing on the
+client can advance the value underneath it.
+
+"Once at first render" is once per *mount*, and a return is not always a
+mount. A page restored whole from a back/forward cache comes back with
+nothing re-run, so no initializer reads the anchor again. A window
+refocused after hours is a return with no render at all. A kept-alive
+view that is evicted and remounted runs its initializer *again*, after
+the heartbeat has moved the value. So "return" is a set of events: cold
+start, restore from a page cache, visible again after a long absence,
+and resume from suspend. Each one either takes a fresh snapshot and
+re-derives, or is declared not to be a return.
 
 ## Two species: presence anchors and consumption watermarks
 
@@ -130,11 +159,22 @@ only ever grows is the standard slow leak.
 
 ## Storage rules
 
-- **Durable, local, small.** The anchor must survive process death, so it
+- **Durable, small — and local only for one device.** The anchor must
+  survive process death. It is a scalar per scope — resist the temptation
+  to persist "what they'll be briefed on"; persist the anchor, derive the
+  rest. For a single-device, local-first or anonymous application it
   lives in persisted client state (the persistence mechanics belong to
-  the client-state subject). It is a scalar per scope — resist the
-  temptation to persist "what they'll be briefed on"; persist the anchor,
-  derive the rest.
+  the client-state subject). For an account used from more than one
+  device or browser profile, the presence anchor belongs to the account,
+  on the server. A local copy fails both ways: a new device reads as a
+  first run and stays silent over a real delta, and reading on one device
+  never advances another, which then re-briefs what was already seen.
+  Scroll positions and drafts stay per device; "seen" is per account.
+- **Forward only.** Once the advance is no longer the local clock — an
+  acknowledgment through a load time, a write from another device or
+  tab — an older writer can arrive late. Guard the write so the anchor
+  never moves back: take the maximum, as a condition in the write itself
+  rather than a read-modify-write.
 - **Clock honesty.** A timestamp anchor compares against event times
   produced elsewhere. If those events are stamped by another machine,
   clock skew turns into wrongly-included or wrongly-excluded deltas;
@@ -150,9 +190,18 @@ only ever grows is the standard slow leak.
 ## Decision rules
 
 - Advance on presence-gated heartbeat, on departure/hide, and on
-  explicit acknowledgment; treat unknown presence as absence.
+  explicit acknowledgment; treat unknown presence as absence. In a
+  browser page the departure write is the transition to hidden, never
+  unload.
+- An acknowledgment advances to what the acknowledged view was
+  evaluated through (its load time or newest shown item), never to the
+  clock at the click.
 - Read and snapshot before any advance; derive all deltas from the
-  snapshot.
+  snapshot; advance only after the derivation landed.
+- Return is an event set (cold start, page-cache restore, visible after
+  long absence, resume): each re-snapshots or is declared not a return.
+- Local storage for one device; the account's server for many. Writes
+  never move the anchor backwards.
 - Presence anchors advance from the (presence-gated) clock; consumption
   watermarks advance from the max timestamp of items actually consumed,
   never from a clock read after the processing step.

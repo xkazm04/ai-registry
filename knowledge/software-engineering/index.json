@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1813,
-  "applications": 1185,
+  "applications": 1187,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -30933,9 +30933,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/session-resume.md",
-   "digest": "sha256-b2:decf8de1f4ef5cab",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:50cb543ed324e4fe",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "content-freshness-states",
@@ -30974,7 +30974,8 @@
      "use_when": [
       "deciding whether a briefing with no news should render",
       "a quiet week and a broken derivation look identical",
-      "first run floods everything as new"
+      "first run floods everything as new",
+      "an inbox the user opened renders blank"
      ]
     },
     {
@@ -30987,7 +30988,8 @@
      "use_when": [
       "briefing says nothing has changed",
       "gating a presence stamp on visibility",
-      "deciding whether a watermark may trust the clock"
+      "deciding whether a watermark may trust the clock",
+      "stamping seen when a panel loaded earlier is opened"
      ]
     },
     {
@@ -31016,6 +31018,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "delta-briefings",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/applications/next--delta-briefings.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "last-seen-anchors",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/applications/next--last-seen-anchors.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
     {
      "stack": "react",
      "technique": "first-run-and-quiet-silence",

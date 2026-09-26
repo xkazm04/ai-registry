@@ -28,7 +28,9 @@ may since have been renamed, closed, or deleted. Restored in-progress
 work may collide with edits made elsewhere in the meantime — the only
 layer whose failure mode is a *conflict* rather than a misplacement.
 The consent model tracks the same gradient: shallow layers restore
-automatically, deep layers are offered
+automatically, and deep layers are offered when restoring them would
+move the user. A draft refills its own home, the place the user
+navigated back to, without asking
 ([resume-affordances](./resume-affordances.md)).
 
 ## The declaration rule
@@ -91,7 +93,11 @@ and **invalidation** — what makes the saved place wrong.
   is real user work; it is the one layer where silent loss is
   unforgivable and silent overwrite is worse. Draft mechanics (dirty
   tracking, autosave cadence) belong to the editing subject; this layer
-  owns *that the draft survives the session and is offered back*.
+  owns *that the draft survives the session and comes back*, refilled
+  in its own home or offered from elsewhere. A draft recorded against a
+  flow that has since changed shape (different steps, different
+  questions) is the same conflict. Discarding it without a word is the
+  silent loss this layer forbids. Say it was set aside and why.
 
 ## Restoration order and failure isolation
 

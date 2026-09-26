@@ -6,7 +6,7 @@ technique: first-run-and-quiet-silence
 status: forged
 laws: [failure-not-empty-success]
 shared_with: []
-use_when: [deciding whether a briefing with no news should render, a quiet week and a broken derivation look identical, first run floods everything as new]
+use_when: [deciding whether a briefing with no news should render, a quiet week and a broken derivation look identical, first run floods everything as new, an inbox the user opened renders blank]
 ---
 
 # First run and quiet silence
@@ -52,6 +52,21 @@ The same discipline extends below the briefing to its component parts:
 a zero badge is no badge; a "0 new" count is no count. Zero is the
 default state of the world, and the default state of the world is not
 information.
+
+**The rule is for surfaces that interrupt.** An arrival card, a banner or
+a badge spends attention the user did not offer, and on those, nothing
+is the correct render. A surface the user *opened* — an inbox, a
+notification panel, a "what moved" popover, a feed scrolled to its end —
+is different. The user asked a question, and an empty answer is
+indistinguishable from a broken one, both to them and to anyone reading
+a screenshot. There, a quiet state renders as a short caught-up line,
+ideally with its "as of" time. That makes the silence checkable where it
+matters, rather than only in telemetry. The same split governs first
+use. An arrival card says nothing on first run, but a destination the
+user navigated to may answer its first visit with a bounded, *labelled*
+window ("in the last 24 hours", "since you joined") instead of an empty
+page. What is ruled out on both is the unlabelled flood: epoch-zero
+presented as news.
 
 ## Designed silence versus accidental silence
 
@@ -104,10 +119,15 @@ a different coat.
 
 ## Decision rules
 
-- Missing anchor = first run = render nothing; initialize the anchor to
-  now for next time.
-- No deltas above threshold = render nothing; no empty shells, no
-  "all caught up" cards, no zero badges.
+- Missing anchor = first run = render nothing on an interrupting
+  surface; initialize the anchor to now for next time. A destination
+  the user opened may show a bounded window, labelled as such.
+- No deltas above threshold = render nothing on an interrupting
+  surface: no empty shells, no "all caught up" cards, no zero badges.
+  On a surface the user opened, render a caught-up line with its "as
+  of" time — an empty answer there reads as broken.
+- A missing anchor on an account's new device is not a first run; see
+  where the anchor lives ([last-seen-anchors](./last-seen-anchors.md)).
 - Derivation outcomes are discriminated: quiet ≠ failed; failed silence
   is counted somewhere a human looks.
 - Persist a last-ran mark; never-ran must be observable. One durable
