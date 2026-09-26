@@ -177,3 +177,28 @@ Six `applied.md` rows: three better (all simulation, on the tree's own engine
 and rubric code), three unmeasurable. Impact: kp 2 contexts, 0 stale verdicts.
 Single-stack debt for this subject: cleared (points 5 -> 3). Two leads banked.
 Yield high, dry_streak 0. See [[role-intake-conversation]].
+
+## 2026-09-26 - deepen: ai-assistance-detection-and-fairness
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed (938c2f68):
+- a node application of observed-process-is-supporting-not-load-bearing (third
+  stack), read from the real tree;
+- one flipped golden-path rule: observation waives what it makes unavailable, by
+  derivation not by name, and keeps the witnessed paste on (the text had said
+  "entirely", which the technique names as the trap);
+- the live conversation conditioned on converged web and blind lanes: real-time
+  overlays and proxy candidates, so ask for change, bind the person, no
+  surveillance answer, interview everyone at the stage;
+- the detector section rewritten: bias belongs to each detector, an unsourced
+  "above 20%" removed, honest light editing flagged 38-80% against evasion under
+  4%, and the legal record stated as it is;
+- the tool policy stated per assessment; keystroke dynamics as biometric;
+- all three applications re-verified to 2026-09-26 (moved lines, a misattributed
+  quote, five personas not six).
+
+Three `applied.md` rows: code better (kp `ac43761d4`: a watched session was
+docked 15 for a big-bang pattern read off an empty commit history, 45 -> 75 in the
+A/B test), simulation better (1 of 3 surfaces moves: no identity binding),
+unapplied (no fleet origin detector). Impact: kp 3 contexts, 0 stale verdicts.
+Seven kp deviations recorded as owed. Three single-lane leads banked. Yield high,
+dry_streak 0. See [[ai-assistance-detection-and-fairness]].
