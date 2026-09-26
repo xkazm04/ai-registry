@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 384,
-  "applications": 207,
+  "applications": 208,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -6634,9 +6634,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/role-intake-conversation/role-intake-conversation.md",
-   "digest": "sha256-b2:623c357c1818c4df",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:a6231217111d33e1",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "context-reinstatement-opening",
@@ -6676,7 +6676,8 @@
      "use_when": [
       "a kickoff feels agreeable but thin",
       "drafting intake question scripts",
-      "the requestor gives short answers"
+      "the requestor gives short answers",
+      "configuring end-of-turn detection or choice cards for an intake agent"
      ]
     },
     {
@@ -6726,13 +6727,20 @@
      "stack": "process",
      "technique": "laddering-a-hard-requirement",
      "file": "knowledge/recruiting/role-definition/role-intake-conversation/applications/process--laddering-a-hard-requirement.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "process",
      "technique": "session-shape-triage-and-turn-budget",
      "file": "knowledge/recruiting/role-definition/role-intake-conversation/applications/process--session-shape-triage-and-turn-budget.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "react",
+     "technique": "expansion-reflection-over-confirmation",
+     "file": "knowledge/recruiting/role-definition/role-intake-conversation/applications/react--expansion-reflection-over-confirmation.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     }
    ]
   },

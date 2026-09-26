@@ -6,17 +6,27 @@ technique: expansion-reflection-over-confirmation
 status: forged
 laws: [say-only-what-the-record-holds, inference-must-look-like-inference]
 shared_with: []
-use_when: [a kickoff feels agreeable but thin, drafting intake question scripts, the requestor gives short answers]
+use_when: [a kickoff feels agreeable but thin, drafting intake question scripts, the requestor gives short answers, configuring end-of-turn detection or choice cards for an intake agent]
 ---
 
 # Expansion reflection, not confirmation
 
 A reflection is the interviewer's restatement of what the requestor just
-said. It is the highest-yield move in intake — in a well-run session there
-are roughly **two reflections for every new question**, and the reflections
-produce more novel content than the questions do. It is also the move that
-most reliably destroys a session, because two restatements that look
-identical on a transcript do opposite things.
+said. It is intake's default move, and the reason is not a ratio. The
+often-quoted **two reflections for every question** is motivational
+interviewing's proficiency benchmark, which its own coding manual says rests
+on expert opinion; tested against the outcome it is meant to serve — clients'
+own change language — the ratio showed no association (Magill et al., 2018),
+and sequential studies find open questions and complex reflections both move
+a conversation. The case for reflection here is narrower and better
+supported: a confirmation-shaped probe harvests assent. Respondents asked to
+confirm an interviewer's summary say yes far more often than an independent
+coder agrees with them (Barari et al., 2025, a survey-methods preprint), and
+automated interviewers restate readily while under-probing the answer that
+deserved a follow-up. The reflection that matters is the one that cannot be
+answered with *yes*. It is also the move that most reliably destroys a
+session, because two restatements that look identical on a transcript do
+opposite things.
 
 - **Confirmation-shaped:** "So you want a senior data engineer with pipeline
   experience — is that right?" The available answers are *yes* and *no*. The
@@ -106,6 +116,43 @@ useful answer. A contrast without the disposal clause is a forced choice
 between two things the interviewer invented, and whichever the requestor
 picks will be recorded as their requirement.
 
+A third constraint lives in the record. **A pick is the requestor adopting
+the interviewer's wording, not stating their own.** Record it as chosen from
+an offer, with the offered set kept beside it, so the brief can still say
+whose words they were — per
+[inference-must-look-like-inference](../../../_laws.md#inference-must-look-like-inference),
+and per the golden path's rule that an interviewer-supplied requirement stays
+a proposal until the requestor adopts it *in their own words*. A card
+interface that turns a click into a transcript line indistinguishable from
+typing has erased exactly the distinction the disposal clause protects: the
+offer disappears, and the interviewer's label reads as the requestor's
+requirement.
+
+## In a voice channel, the pause is a parameter
+
+"Let the silence work" is a behaviour in a room and a setting in a voice
+agent. An end-of-turn detector that closes the requestor's turn after a few
+hundred milliseconds of silence takes exactly the pause this technique
+protects. A hedging requestor — "honestly, not sure — we think we need
+someone for the data side" — is cut at the dash, the agent answers half a
+thought, and the second half arrives as the answer to the *next* question
+and is filed there. The same people who pause to think before answering an
+interview question pause while composing a role.
+
+- **End the turn on a finished thought, not on a silence threshold** — a
+  semantic end-of-turn detector at its least eager setting, or a silence
+  window long enough for a thinking pause. Turn-taking in ordinary talk is
+  fast; a requestor composing a role is not in ordinary talk.
+- **Where the transport still answers per segment, treat a segment that
+  arrives after the next question as a possible continuation**, not as that
+  question's answer — merge it, or ask.
+- **The opposite failure is a silence both sides wait through.** The repair
+  is an idle prompt that re-invites the last thought ("take your time — you
+  were saying..."), never the next scripted question.
+- **The closing read-back waits in voice too.** A spoken read-back that ends
+  the call in the same utterance cannot receive the correction it invited,
+  and speech after it is that correction, not noise after a close.
+
 ## When not to use it
 
 - **With a requestor who is already over-specifying.** Reflection amplifies
@@ -115,7 +162,7 @@ picks will be recorded as their requirement.
   turns. When four questions remain and the ninety-day outcome and the
   compensation band are both unasked, spend the turns on the questions and
   accept a shallower brief — with the shallowness recorded.
-- **In writing, mechanically.** An asynchronous intake cannot use silence,
+- **In writing, mechanically.** A written intake cannot use silence,
   and a written reflection with no follow-up question reads as an incomplete
   message rather than an invitation. In text, pair the reflection with one
   explicit open prompt.

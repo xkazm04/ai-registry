@@ -77,7 +77,9 @@ Three rules keep the triage honest.
   language the session runs in.** In an inflecting language a marker list
   built from dictionary forms silently matches nothing; every backfill in
   that language then falls to the long path — safe but wrong, and unnoticed
-  because the failure still produces a working session. Where an automated
+  because the failure still produces a working session. Adding a language to
+  the *script* does not add it to the *triage*: the markers are a separate
+  surface, and a new locale needs its own positive control. Where an automated
   interviewer may override the heuristic, the override is justified and
   recorded, never silent: a triage nobody can inspect cannot be corrected.
 
@@ -154,6 +156,18 @@ be a real stopping condition with an honest close, not a soft target the
 script overruns — an intake that outstays its usefulness converts a
 cooperative hiring manager into one who delegates the next kickoff to a
 coordinator.
+
+Measured automated interviewers fail differently from people, and the budget
+has to be built for their failures. Studies of language-model requirements
+and survey interviewers (2024–2025) found them stacking several questions
+into one turn until told not to, restating readily while under-probing the
+surprising answer, and skipping the closing summary — or ending at once when
+the respondent signalled impatience — unless the summary was mandated. So
+the budget's stopping condition must also reserve the close: the read-back
+is a slot the script owns, not a courtesy the model may drop when time runs
+short. And the unreached-slot rule below has to hold in the interface too: an
+unreached slot that the brief view simply does not render is as silent as an
+empty field.
 
 ## When not to use it
 
