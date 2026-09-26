@@ -120,3 +120,19 @@ Dispatched by the Curator lane on "single stack (process)". Landed:
 Five `applied.md` rows: one better (simulation, 3 real cases), two unmeasurable, two
 unapplied. Single-stack debt for this subject: cleared. Five single-lane leads banked.
 Yield high, dry_streak 0. See [[early-career-potential-assessment]].
+
+## 2026-09-26 - deepen: cv-authenticity-screening
+
+Dispatched by the Curator lane on "single stack (process)". Landed (b891e20f):
+- a react application of a-screen-is-not-a-verdict, read from the real tree
+  (second stack): a server-enforced acknowledgement gate before an advance, and
+  its one-way friction toward rejection as the deviation;
+- a process application for hidden-text-and-smuggling-detection, applied as code
+  in kp: benign fired 7/8 -> 0/8, attacks caught 4/5 -> 5/5;
+- four conditioned claims, none refuted, and one converged check (tenure against
+  a technology's age);
+- all three process applications re-verified to 2026-09-26.
+
+Five `applied.md` rows: three better (code, experiment, simulation), two
+unapplied. Impact: kp 2 contexts, 0 stale verdicts. Single-stack debt for this
+subject: cleared. Yield high, dry_streak 0. See [[cv-authenticity-screening]].

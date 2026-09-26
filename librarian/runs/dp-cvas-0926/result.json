@@ -1,0 +1,77 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cvas-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T12:33:00Z",
+  "ended_at": "2026-09-26T13:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/cv-authenticity-screening",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/cv-authenticity-screening",
+      "technique": "hidden-text-and-smuggling-detection",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/cv-authenticity-screening",
+      "technique": "hidden-text-and-smuggling-detection",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/cv-authenticity-screening",
+      "technique": "document-as-data-never-as-instructions",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/cv-authenticity-screening.md",
+    "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/techniques/document-as-data-never-as-instructions.md",
+    "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/techniques/hidden-text-and-smuggling-detection.md",
+    "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/techniques/implausible-span-and-arithmetic-checks.md",
+    "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/process--a-screen-is-not-a-verdict.md",
+    "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/process--document-as-data-never-as-instructions.md",
+    "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/process--ground-the-model-against-a-deterministic-prepass.md",
+    "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/process--hidden-text-and-smuggling-detection.md",
+    "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/applications/react--a-screen-is-not-a-verdict.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/cv-authenticity-screening.md"
+  ],
+  "commits": [
+    {
+      "sha": "b891e20f",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "7 claims attacked, none refuted, 4 conditioned; one converged check. A react application cleared single-stack. Hidden-character screen applied as code in kp (benign 7/8->0/8, attacks 4/5->5/5). kp map: 2 contexts, 0 stale verdicts. 2 rows unapplied; 3 leads banked."
+}

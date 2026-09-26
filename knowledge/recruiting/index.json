@@ -2542,8 +2542,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/cv-authenticity-screening/cv-authenticity-screening.md",
-   "digest": "sha256-b2:88fc8c91f73855a8",
-   "revision": 2,
+   "digest": "sha256-b2:9a9edd591be4189e",
+   "revision": 3,
    "changedAt": "2026-09-26",
    "techniques": [
     {

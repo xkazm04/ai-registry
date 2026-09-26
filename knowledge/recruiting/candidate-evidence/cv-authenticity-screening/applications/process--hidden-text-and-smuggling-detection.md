@@ -98,7 +98,14 @@ Tests, both directions, every character written as an escape:
   and skill lists aimed at the matcher. The instruction screen catches the rare
   case and passes the common one. The extraction-quality comparison
   (`pipeline.py:582-601`) compares two extractors' text by spacing and length,
-  not the page against its text.
+  not the page against its text. An experiment on 2026-09-26 (five constructed
+  PDFs, n=5) put the gap in numbers. The screen as it stands caught 1 of 3
+  styling-hidden cases, the imperative only, and passed a white keyword list
+  and a 1pt skills block. A render-aware check (text under 4pt or in the
+  background colour, flagged when it holds an imperative or three of the
+  posting's requirements) caught 3 of 3. Neither arm fired on a white template
+  placeholder or a plain CV. The hidden text was present in pypdf's extraction
+  in every case, so it reached the model either way.
 - **The flag carries no fragment.** `_INJECTION_INVISIBLE_FLAG` (`:194-200`)
   names the four shapes but not which one fired or where, and the decoded tag
   payload, the most quotable evidence the screen ever holds, is discarded.
