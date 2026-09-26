@@ -1,0 +1,74 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-qrp-0926",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T15:10:00Z",
+  "ended_at": "2026-09-26T17:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/quorum-and-recovery-procedures",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/quorum-and-recovery-procedures",
+      "technique": "migration-lock-in-source",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/quorum-and-recovery-procedures",
+      "technique": "nonce-progress-verify",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/quorum-and-recovery-procedures.md",
+    "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/techniques/migration-lock-in-source.md",
+    "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/techniques/nonce-progress-verify.md",
+    "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/techniques/pick-highest-applied-index.md",
+    "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/techniques/single-node-recovery-resize.md",
+    "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/techniques/unauthenticated-ritual-is-a-vulnerability.md",
+    "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/node--migration-lock-in-source.md",
+    "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/node--nonce-progress-verify.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/quorum-and-recovery-procedures.md"
+  ],
+  "commits": [
+    {
+      "sha": "30b6b85b",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single stack cleared (node, kp). 2 techniques conditioned, 4 claims corrected, 0 new. Applied 2 better (code), 2 unapplied. 0 joined pairs, 0 stale. kp 2d893178, 525258aa, f1c464ee4 unpushed: kp main 35 ahead / 3 behind origin."
+}

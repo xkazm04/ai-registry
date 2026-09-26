@@ -858,3 +858,43 @@ Source-class tally (post-hoc, this run):
 - The blind lane converged on four of the five refinements, including "carry the maximum",
   and was unsure about exactly what the other lanes had to fetch (WAIT FOR LSN's version,
   cache Set-Cookie defaults).
+
+## Run dp-qrp-0926 - quorum-and-recovery-procedures, a node second stack and four corrections
+
+A Curator dispatch on "single stack (go)". The fleet map joins the subject to nothing (12
+absent). No fleet project runs a consensus store or a threshold ritual, so the seam was found
+by widening to a *single operator's* root secret: kp's `KP_SECRET`, which encrypts every
+stored credential and signs skill profiles. Two deviations were measured and fixed (kp
+`2d893178`, `525258aa`, unpushed):
+- `secrets:rotate` runs beside the live server but read before it wrote. Over 5 passes of
+  20,000 rows it reverted 31,595 committed values beside a live writer. With one IMMEDIATE
+  transaction it reverted 0.
+- The rotation verified only the ciphertexts it rewrote. A default install's skill profiles
+  read "tampered" (3/3) while the script said retiring the old secret was safe. It now
+  counts them and refuses.
+
+Two conditions converged across three lanes, and the golden path carries both. The counter
+lane corrected four standing claims, each read in source or vendor docs: the recovery
+credential is once per process; quorum loss goes to a peers-file path, not recovery mode;
+"restores a promise" is gone; and the unauthenticated-ritual attack now carries its conditions
+and 2025-2026 history. Applied: 2 better (code), 2 unapplied (no consensus seam). Impact: 0
+verdicts, so 0 stale; no map committed.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| quorum-and-recovery-procedures | L3 | 2 applications (node), 2 conditions + 4 corrections carried to the golden path, 2 code fixes committed (unpushed), 0 techniques | 0 stale; 0 joined pairs anywhere, 1 real unjoined seam (kp secrets rotation) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Primary source read raw decided every correction: a secrets server's generate-root guard,
+  its init refusal, a consensus library's forced-recovery warning, and the rekey CLI's flag
+  default. The vendor docs agreed but were silent on the refusals.
+- Security advisories and changelogs carried the whole unauthenticated-endpoint history
+  with versions. For an "is this endpoint safe open" claim, search them first.
+- An orchestrator's own task docs were the only source among six (two web frameworks, one
+  token library, two cloud KMS) that addressed concurrent writers during re-encryption. For
+  a concurrency claim, check the platform's API-concepts page.
+- A page-summary tool invented two sentences about that orchestrator's re-encryption. The
+  counter lane caught it on a verbatim re-read, and no quote relies on them.
+- The blind lane's "(last term, last index)" and "backups need the old shares" both
+  converged with sources. Its "generate-root necessarily stays unauthenticated" was already
+  stale: one implementation authenticates it by default since 2.0.0.
