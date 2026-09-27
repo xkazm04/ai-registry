@@ -1,0 +1,94 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-hfa-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-27T20:10:00Z",
+  "ended_at": "2026-09-27T20:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 4,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/harness-fault-attribution",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 9,
+      "points_after": 5
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-operations/harness-fault-attribution",
+      "technique": "re-gate-then-resample",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-operations/harness-fault-attribution",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-operations/harness-fault-attribution",
+      "technique": "golden-path",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/measurement/harness-fault-attribution/harness-fault-attribution.md",
+    "knowledge/agent-operations/measurement/harness-fault-attribution/techniques/re-gate-then-resample.md",
+    "knowledge/agent-operations/measurement/harness-fault-attribution/techniques/clear-the-environment-first.md",
+    "knowledge/agent-operations/measurement/harness-fault-attribution/techniques/fault-signature-catalogue.md",
+    "knowledge/agent-operations/measurement/harness-fault-attribution/techniques/retract-and-record.md",
+    "knowledge/agent-operations/measurement/harness-fault-attribution/applications/process--re-gate-then-resample.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/agent-operations.md",
+    "librarian/subjects/agent-operations/harness-fault-attribution.md"
+  ],
+  "commits": [
+    {
+      "sha": "8e0630ef",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations",
+        "rules/ai-registry-agent-operations.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/harness-fault-attribution",
+      "reason": "a flaky-test detector's recall and false-alarm figures: search summaries only, not found in the paper's text"
+    },
+    {
+      "subject": "agent-operations/harness-fault-attribution",
+      "reason": "root-cause percentages from the 2014 flaky-test study: the PDF is password-protected, only the abstract was read"
+    },
+    {
+      "subject": "agent-operations/harness-fault-attribution",
+      "reason": "a benchmark framework's default retry-exclusion list: two snippets conflict and neither page loaded"
+    },
+    {
+      "subject": "agent-operations/harness-fault-attribution",
+      "reason": "quantization as the cause of serving-vendor accuracy differences: the verifier page names no cause"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "personas: same-config memory-year pair split 18/194; re-gated 0 moved, 17 moved with served context across a harness commit, 1 model sample; header stamps harness revision (d980f99cc, pushed). Cluster flip unmeasurable. No map pairs the subject."
+}

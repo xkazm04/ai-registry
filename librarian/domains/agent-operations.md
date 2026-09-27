@@ -112,3 +112,32 @@ dry_streak 0. See [[blind-judging-of-agent-runs]].
 Source classes, this run. Kept: arXiv abstracts and full text read verbatim through the
 export API; a benchmark maintainer's issue thread; an evaluation lab's own measurement post.
 Declined as sole support: figures seen only in search summaries.
+
+## 2026-09-27 - deepen: harness-fault-attribution
+
+Dispatched by the Curator lane on "3 techniques (design floor is 4)". Landed (8e0630ef):
+- **New technique, re-gate-then-resample.** Converged on all three lanes: blind,
+  counter-evidence and primary-source practice.
+- **Two flips, golden path and clear-the-environment-first.**
+  - A singleton that disappears on rerun is intermittent, not environmental.
+  - A cluster is read by its axis: in time points at the environment, on an item points
+    at correlated model error or a task defect.
+- **Widened.**
+  - The Provider check covers a degraded backend behind a success-shaped envelope.
+  - Three catalogue entries.
+  - An exclusion is reported both ways.
+
+One `applied.md` row `better` (code), one `better` (experiment), one `unmeasurable`. The
+memory-year harness had a same-config raw-retrieval pair that split 18 of 194 probes;
+re-gated under one judge 0 moved, 17 moved with the served context across a harness
+commit landed 15 s before the second run, 1 was the consumer's sample. The header now
+stamps the harness revision (personas d980f99cc, pushed). Impact: no fleet map pairs the
+subject. Three leads banked. Scan points 9 -> 5; "single stack" and "never swept" remain.
+Yield high, dry_streak 0. See [[harness-fault-attribution]].
+
+Source classes, this run. Kept:
+- the paper that defines a tool's semantics;
+- providers' own postmortems;
+- evaluation orgs' reports on their own exclusion policy.
+
+Declined as sole support: search snippets, and password-protected or unloaded pages.
