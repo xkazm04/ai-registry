@@ -19,8 +19,10 @@ cheap enough that nobody skips it.**
 
 ## The checklist
 
-1. **Did the run happen?** Refused, truncated, killed, or genuinely executed. A run that
-   did not happen has nothing to attribute.
+1. **Did the run happen, and on what?** Refused, truncated, killed, or genuinely executed.
+   A run that did not happen has nothing to attribute. A run that completed was still
+   served by something: record the snapshot the provider reported, not the alias
+   requested, and the stop reason. A degraded backend returns a success-shaped envelope.
 2. **Was it isolated?** Shared build directories, caches, dependency trees, generated
    artefacts, links into a real working tree — anything a sibling run or a human could have
    written while this run read it.
@@ -32,24 +34,40 @@ cheap enough that nobody skips it.**
    computed two ways across the corpus.
 6. **Was anything else writing?** Concurrent runs, an editor, a dev server, a scheduled
    build touching the same paths.
-7. **Does it reproduce clean?** Re-run the cell in a fresh environment. This is the
-   decisive step and the reason the others are cheap: if it reproduces, the earlier answers
-   narrow the cause; if it does not, the finding was environmental.
+7. **Does it reproduce clean?** This is the decisive step and the reason the others are
+   cheap. A fresh rerun changes the environment and the model's sample at once, so split
+   it ([re-gate-then-resample](./re-gate-then-resample.md)).
+   - Re-gate the stored output in a clean environment first. A flip there is a fault in
+     the scoring side.
+   - Then resample. A failure that does not reproduce on one rerun is *intermittent*, not
+     environmental. Agents fail some tasks some of the time on their own.
+   - A failure that does reproduce narrows the cause through the earlier answers, but only
+     if the rerun drew a fresh sample and did not replay a cached one.
 
 ## Making it cheap
 
 - **Disposable, per-run environments** so step 7 is minutes rather than an afternoon.
-- **A recorded environment fingerprint per run** — harness version, isolation settings,
-  ceilings, setup steps — so steps 2, 3 and 5 are lookups rather than reconstructions.
+- **A recorded environment fingerprint per run** — harness revision stamped at the run's
+  start, isolation settings, ceilings, setup steps, the model snapshot served — so steps
+  1, 2, 3 and 5 are lookups rather than reconstructions. Without the harness revision,
+  two runs with identical configuration headers can be two harnesses, and their
+  disagreement reads as rerun noise.
+- **Stored outputs**, so the scoring side of step 7 is a re-gate that samples nothing.
 - **A shared fault-signature list** (see the sibling technique) so a triager recognises a
   known shape instead of re-deriving it.
 
 ## Decision rules
 
-- **A cluster is environmental until proven otherwise.** Several configurations failing the
-  same way in the same window is a coordination signal, and models do not coordinate.
-- **Never publish a model finding whose cell has not been re-run clean.** One run is an
-  anecdote; one run in a possibly-spoiled environment is not even that.
+- **A cluster in time is environmental until proven otherwise; a cluster on an item is
+  not.** Several configurations failing the same way in the same window, across tasks, is
+  a coordination signal, and models do not coordinate. Several configurations failing the
+  same task is what models trained alike do anyway, and what a broken task does. Read
+  that kind against a control whose answer is known, and re-run it in another window
+  before reading it either way.
+- **Never publish a model finding whose cell has not been re-run clean, and state it as a
+  rate.** One run is an anecdote; one run in a possibly-spoiled environment is not even
+  that. One clean rerun shows whether a failure is intermittent, not how often it
+  happens.
 - **Stop at the first plausible cause only if it reproduces.** A convincing hypothesis that
   was never tested is how a fleet ends up with a second, wrong explanation on record beside
   the first — and the wrong one is usually the one that sounded more sophisticated.

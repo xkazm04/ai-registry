@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 32,
-  "applications": 17,
+  "techniques": 33,
+  "applications": 18,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "32/32",
+  "use_when_coverage": "33/33",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -383,9 +383,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/harness-fault-attribution/harness-fault-attribution.md",
-   "digest": "sha256-b2:3d05883c0617a4f3",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:e2d4c798566b4d95",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "clear-the-environment-first",
@@ -416,6 +416,21 @@
      ]
     },
     {
+     "slug": "re-gate-then-resample",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a failure passed on rerun and is about to be called environmental",
+      "a failure survived a rerun and is about to be called the model's",
+      "two runs of one configuration disagree",
+      "deciding what a rerun can prove"
+     ]
+    },
+    {
      "slug": "retract-and-record",
      "status": "draft",
      "laws": [
@@ -436,6 +451,12 @@
      "technique": "clear-the-environment-first",
      "file": "knowledge/agent-operations/measurement/harness-fault-attribution/applications/process--clear-the-environment-first.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "re-gate-then-resample",
+     "file": "knowledge/agent-operations/measurement/harness-fault-attribution/applications/process--re-gate-then-resample.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -693,6 +714,7 @@
     "engine-behaviour-profiles/capability-claims-expire",
     "engine-behaviour-profiles/family-diversity-as-a-control",
     "harness-fault-attribution/clear-the-environment-first",
+    "harness-fault-attribution/re-gate-then-resample",
     "harness-fault-attribution/retract-and-record",
     "model-and-effort-selection/cheapest-sufficient-tier",
     "model-and-effort-selection/instruction-defect-before-tier-escalation",
@@ -710,6 +732,7 @@
     "deterministic-run-verification/baseline-relative-gate-evaluation",
     "harness-fault-attribution/clear-the-environment-first",
     "harness-fault-attribution/fault-signature-catalogue",
+    "harness-fault-attribution/re-gate-then-resample",
     "harness-fault-attribution/retract-and-record",
     "unattended-run-isolation/confine-configured-output-paths",
     "unattended-run-isolation/disposable-run-environments",

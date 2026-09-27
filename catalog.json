@@ -982,10 +982,10 @@
       "profile": "rkb/0.1",
       "purity": "agent-ops",
       "subjects": 9,
-      "techniques": 32,
-      "applications": 17,
-      "files": 62,
-      "contentHash": "sha256-b2:62ca3f4f03a0e7fc"
+      "techniques": 33,
+      "applications": 18,
+      "files": 64,
+      "contentHash": "sha256-b2:d22307eafd0d1398"
     },
     {
       "name": "civic-intelligence",
