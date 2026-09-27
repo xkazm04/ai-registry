@@ -1,0 +1,94 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cbm-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-27T19:45:00Z",
+  "ended_at": "2026-09-27T20:14:49Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 3,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/compensation-banding-and-market-honesty",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/compensation-banding-and-market-honesty",
+      "technique": "price-the-role-not-the-person",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/compensation-banding-and-market-honesty",
+      "technique": "role-family-by-seniority-anchor-bands",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/compensation-banding-and-market-honesty",
+      "technique": "advertised-pay-is-not-earnings",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/compensation-banding-and-market-honesty.md",
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/techniques/advertised-pay-is-not-earnings.md",
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/techniques/benchmark-provenance-source-and-sample.md",
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/techniques/currency-lock-and-no-silent-conversion.md",
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/techniques/role-family-by-seniority-anchor-bands.md",
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/techniques/price-the-role-not-the-person.md",
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/applications/process--advertised-pay-is-not-earnings.md",
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/applications/process--refuse-to-quote-an-uncalibrated-market.md",
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/applications/sql--benchmark-provenance-source-and-sample.md",
+    "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/applications/python--price-the-role-not-the-person.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/compensation-banding-and-market-honesty.md"
+  ],
+  "commits": [
+    {
+      "sha": "be222b6d",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/compensation-banding-and-market-honesty",
+      "reason": "a state range-width cap (60% of the minimum): a web-lane search summary only, the statute not read; not cited"
+    },
+    {
+      "subject": "recruiting/compensation-banding-and-market-honesty",
+      "reason": "a single numeric lead for posted wages as a constant: the 7-month figure is a vendor chart alignment, not a published lag statistic; cited as 'about' with its market condition only"
+    },
+    {
+      "subject": "recruiting/compensation-banding-and-market-honesty",
+      "reason": "rounding grain must stay below the midpoint progression: the web lane's own inference, no source and no second lane; banked"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "First sweep: six rules flipped or conditioned on web+blind convergence, one new technique. kp guard 4c5b45387 and map+rows 2466b18d8 on kp main, not pushed: kp main diverged (73 ahead, 3 behind). Nine kp deviations owed."
+}

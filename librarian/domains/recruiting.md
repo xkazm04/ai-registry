@@ -434,3 +434,45 @@ Source classes, this run. Kept:
   "nothing downstream can catch it" on the tree the claim was written from.
 
 Declined: an omnibus deadline known only from commentary.
+
+## 2026-09-27 - deepen: compensation-banding-and-market-honesty
+
+Dispatched by the Curator lane on "never swept by the librarian". A regulatory clock had
+also moved: the EU pay-transparency transposition deadline passed after the 08-20 claims
+were written. Landed in be222b6d:
+- flipped, golden path: the EU directive does not require pay in the advert; US coverage
+  needs an employer nexus; a wide range shifts who applies rather than how many;
+- flipped, advertised pay: the bias runs both ways by wage level, and the sanity check
+  fires in either direction;
+- flipped, anchor bands: floors count contributors with a dominance cap; interpolation
+  is geometric; experience is a lawful factor;
+- conditioned: aging, staleness, the pay basis, and the currency claim;
+- one new technique, `price-the-role-not-the-person` (web + blind converged on LLM
+  salary audits by persona);
+- three applications re-verified to 2026-09-27, and one new python application.
+
+Five `applied.md` rows:
+- two better:
+  - a mutation A/B on kp's grounded prompt: the shipped suite stays green with a
+    candidate's name in the prompt, and the guard goes red;
+  - a read-only query over kp's reference corpus: 12 of 12 published "cross-company"
+    cells are one employer;
+- one unmeasurable: the advertised bias at region grain;
+- two unapplied: interpolation, and the transparency rules.
+
+Impact: kp 9 contexts, 0 stale verdicts. Nine kp deviations were recorded as owed,
+including a `belowMarket` that reads `False` without a band and a demonstration market
+whose refusal is bypassed. kp's guard, map and rows are committed on kp's local main
+(4c5b45387, 2466b18d8) and not pushed, because kp main has diverged from origin. Yield
+high, dry_streak 0. See [[compensation-banding-and-market-honesty]].
+
+Source classes, this run. Kept:
+- statute text settled the EU wording outright. The blind lane recalled it and the
+  directive confirmed it; commentary had carried the stronger "in the advert" reading;
+- NBER working papers with matched official data refuted a one-directional bias that
+  practitioner prose repeats;
+- a consumer's live data is a first-class counter-evidence instrument. One query turned
+  the application's "meaningful and anonymous" into one employer's ladder.
+
+Declined: a state range-width cap known only from a search summary; a single lead
+constant from a vendor chart alignment; an unsourced rounding-grain rule, banked.
