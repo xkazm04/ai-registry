@@ -597,3 +597,31 @@ Source classes, this run. Kept:
 Declined: a composition-shifts-the-yardstick conjecture measured at 0 of 5,764;
 three single-lane blind leads (driver audit by group, shortlist collider
 correlation, expectations as a pay-gap proxy), all banked with return conditions.
+
+## 2026-09-27 - deepen: combining-signals-into-a-hire-decision
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed (012524c8):
+- five rules flipped on web and blind convergence:
+  - the validity classes are a coarse split, not a ranking;
+  - unknown weights take equal weights, and an invalid member is the hazard;
+  - confidence is min over dependencies, and independent agreement compounds;
+  - average within the instruments' error;
+  - renormalizing is imputation, so a missing heavy dimension holds;
+- three more flipped with the law lane as well: the per-team loop pools openly as a
+  named prior, with action scope never exceeding evidence; overrides are labelled
+  disagreements; the success threshold is a cost ratio;
+- a human act counts only if it is one;
+- three applications re-verified to 2026-09-27 and one new (per-team evidence, a
+  deployment-wide floor).
+
+Ten `applied.md` rows:
+- one experiment, better: renormalizing raised kp's composite from 61 to 71 when the
+  weakest heavy dimension was absent;
+- one simulation, not-better, which supplied the unknown-dependency condition;
+- five unmeasurable;
+- three unapplied.
+
+A live kp defect found by reading: the promote-floor calibration corpus mixes transfer
+and match scores. Impact: kp has 6 contexts, 1 of them with a stale verdict
+(`decisions-review-ui`). Yield high, dry_streak 0. See
+[[combining-signals-into-a-hire-decision]].
