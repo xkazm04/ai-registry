@@ -1,6 +1,6 @@
 ---
 domain: agent-operations
-last_swept: 2026-09-27
+last_swept: 2026-09-28
 layout: nested
 demand_known: false
 ---
@@ -10,14 +10,14 @@ demand_known: false
 Coverage note for the `agent-operations` bundle. Part of [[index]]; graded against
 [[standard]]. First written by `/deepen` on 2026-09-27; no librarian sweep has run here.
 
-## Shape after the 2026-09-27 run
+## Shape after the 2026-09-28 run
 
 | | |
 | --- | --- |
 | Subjects | 9 |
-| Techniques | 38 |
-| Applications | 25 |
-| `use_when` written | 38/38 |
+| Techniques | 39 |
+| Applications | 26 |
+| `use_when` written | 39/39 |
 | Fleet map pairs | none. No project's `registry-map.json` joins a context to this bundle |
 
 These are a record of this run, not an input to the next one. Recompute with
@@ -27,7 +27,8 @@ These are a record of this run, not an input to the next one. Recompute with
 
 - Demand is UNKNOWN, not zero. The fleet runs agents unattended every day, but no
   project declares this bundle's domain in its scope, so the map cannot see a consumer.
-- Two stacks: `process`, and `node` since the blind-judging run. The benchmark harnesses
+- Three stacks: `process`, `node` since the blind-judging run, and `rust` since the
+  model-and-effort-selection run (the personas fleet lane). The benchmark harnesses
   the subjects were distilled from are not in a tracked fleet tree. The personas
   memory-year harness is the one tracked benchmark; the registry's own contest skill is
   the one tracked judging panel. Applies land in those two, and in the loop's integrity
@@ -239,3 +240,37 @@ Source classes, this run. Kept:
 - advisories and postmortems from the affected maintainers.
 
 Declined as sole support: fetch-tool summaries, and figures quoted outside what they measure.
+
+## 2026-09-28 - deepen: model-and-effort-selection
+
+Dispatched by the Curator lane on "single stack (process)". A never-deepened subject with
+three events behind it: a lead banked for it, two sibling flips its text contradicted,
+and an open personas task on its seam. Landed (45af95e0):
+- **New technique, pin-the-resolved-configuration.** Converged on three of four lanes:
+  blind, vendor primary docs and the fleet's own code.
+- **Two flips.**
+  - Golden path: effort is not neutral on obedience; it is not a fix for it.
+  - tier-risk-inversion: a report task has its own inversion, and read-only is a property
+    of the side effects.
+- **Three conditioned techniques.**
+  - instruction-defect: a perturbation before a wording verdict, and engine not family.
+  - cheapest-sufficient-tier: sweep effort per model. This closes the banked 21-of-36 lead
+    with a second source.
+  - task-shape: a tier is a pair mapped per model, shape per role, a length cap is not a
+    stuck verdict.
+
+Three `applied.md` rows `better` (code, two simulations) and one `unapplied`. The personas
+fleet wake dropped a plan's model and effort. On the installed CLI a bare resume keeps
+the model and loses the effort: 11,295 and 6,157 cache-creation tokens, against 55 and 55
+carried. Fixed and pushed (cc97afa6e, fe7ad01cb). The curator dispatch lane passes
+neither value and is banked for the owner. Impact: no fleet map pairs the subject. Scan
+points 5 -> 0, recomputed: both findings are cleared by the second stack and this note. Yield
+high, dry_streak 0. See [[model-and-effort-selection]].
+
+Source classes, this run. Kept:
+- vendor docs for the vendor's own product, read raw;
+- arXiv body text over its abstract;
+- the fleet's code comments and persisted rows;
+- a paired probe on the installed harness.
+
+Declined as sole support: search-snippet numbers, and an abstract that rounds its body up.
