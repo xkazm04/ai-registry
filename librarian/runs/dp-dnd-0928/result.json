@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-dnd-0928",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-28T00:00:00Z",
+  "ended_at": "2026-09-28T00:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/drag-drop",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Stale-clock dispatch (d93fbd78, 197 behind origin). dp-dnd-0926 (3052f94c) added the rust stack, clearing 'single stack (react)'. Origin scan: 0 points, react+rust, 0 expired/at-risk, 0 deviations, swept 2026-09-26; 126 others still flag single stack. Nothing ran."
+}
