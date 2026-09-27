@@ -15,9 +15,9 @@ Coverage note for the `agent-operations` bundle. Part of [[index]]; graded again
 | | |
 | --- | --- |
 | Subjects | 9 |
-| Techniques | 31 |
-| Applications | 16 |
-| `use_when` written | 31/31 |
+| Techniques | 32 |
+| Applications | 17 |
+| `use_when` written | 32/32 |
 | Fleet map pairs | none. No project's `registry-map.json` joins a context to this bundle |
 
 These are a record of this run, not an input to the next one. Recompute with
@@ -57,3 +57,31 @@ Source classes, this run. Kept:
 Declined:
 - secondary summaries of scaffold effects;
 - vendor pages reachable only through a proxy, as sole support.
+
+## 2026-09-27 - deepen: agent-run-budgeting
+
+Dispatched by the Curator lane on "3 techniques (design floor is 4)". Landed (d9382ed7):
+- **New technique, termination-cause-record.** Converged on three of four lanes: blind,
+  counter-evidence and landscape.
+- **Two golden-path flips.**
+  - Structured error fields before the text; text only over an errored envelope.
+  - Pause the scope the limit belongs to, not the whole queue.
+- **One correction.** Quarantine a refused record, never delete it.
+- **Three conditioned techniques.** Parallelism is free under a per-minute token bucket
+  and capped by the machine too; deferred judging on API keys or an unpinned judge; the
+  ceiling's tail is the pooled tail.
+
+Two `applied.md` rows `better` (code) and one `unapplied`. The memory-year wrapper let a
+closed judge seat grade a correct reply wrong-old and keep it across resume; a studio
+build harness counted session limits as turns and discarded real replies about rate
+limiting (2/6 -> 6/6). Both fixed and pushed (personas f3f68dc9c, b281310f7). Impact: no
+fleet map pairs the subject. Three leads banked. Scan points 9 -> 5; the finding that
+ranked it is cleared, "single stack" and "never swept" remain. Yield high, dry_streak 0.
+See [[agent-run-budgeting]].
+
+Source classes, this run. Kept:
+- the runner's own SDK reference and issue tracker, read raw;
+- the provider's API reference;
+- benchmark maintainers' posts on their own timeout policy.
+
+Declined: fetch-tool page summaries as quote sources (one invented an enum).
