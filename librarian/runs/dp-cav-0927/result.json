@@ -1,0 +1,118 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cav-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-27T19:45:00Z",
+  "ended_at": "2026-09-27T20:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 4,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/conversational-assessment-validation",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "technique": "deterministic-reliability-invariants-at-full-pass",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "technique": "prompt-change-regression-baseline",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "technique": "candidate-behaviour-persona-bank",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "technique": "judged-quality-as-a-separate-axis",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/assessment/conversational-assessment-validation/conversational-assessment-validation.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/techniques/candidate-behaviour-persona-bank.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/techniques/deterministic-reliability-invariants-at-full-pass.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/techniques/guardrail-ablation-self-test.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/techniques/judged-quality-as-a-separate-axis.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/techniques/persona-by-behaviour-heatmap.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/techniques/prompt-change-regression-baseline.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/applications/node--guardrail-ablation-self-test.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/applications/node--judged-quality-as-a-separate-axis.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/applications/node--prompt-change-regression-baseline.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/applications/process--candidate-behaviour-persona-bank.md",
+    "knowledge/recruiting/assessment/conversational-assessment-validation/applications/process--deterministic-reliability-invariants-at-full-pass.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/conversational-assessment-validation.md"
+  ],
+  "commits": [
+    {
+      "sha": "83b67650",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "reason": "dialect matched-guise pairs as a new technique: web and blind converged, but adverse-impact-and-proxy-neutrality's perturbation testing and voice-interview-fidelity's accent disparity own it; banked as a proposal for the former"
+    },
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "reason": "the EU high-risk timetable moving to 2 Dec 2027 under an omnibus regulation: read from a mirror of the consolidated text and a search listing, the Official Journal not fetched; not cited"
+    },
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "reason": "the US regulator's 2022 technical assistance on AI and disability, cited by the blind lane: found withdrawn in January 2025; the standing accommodation guidance was cited instead"
+    },
+    {
+      "subject": "recruiting/conversational-assessment-validation",
+      "reason": "randomising judge position and controlling verbosity: web only, and it applies to pairwise comparison, which this subject does not do; general judging scaffolds own it"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Four rules flipped on web+blind convergence. kp fixes 71f94335b (refusal span) and f39924f81 (engine pin), map 1d27d9ad7, rows bc2c5748c: on kp local main, not pushed (diverged from origin). Judge-regression row unmeasurable: no judged run in-tree."
+}

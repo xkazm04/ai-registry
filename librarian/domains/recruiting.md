@@ -476,3 +476,69 @@ Source classes, this run. Kept:
 
 Declined: a state range-width cap known only from a search summary; a single lead
 constant from a vendor chart alignment; an unsourced rounding-grain rule, banked.
+
+## 2026-09-27 - deepen: conversational-assessment-validation
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed (83b67650):
+- four flipped rules, every one reached by both lanes:
+  - containment: a refusal closes the span it covers, not its sentence ("I can't share
+    a score, but you did really well" is one sentence); split at a contrastive turn,
+    with the asyndetic compound as the split's known miss;
+  - the hiring quartet: keep it out of the score, not out of the record. An
+    adjustment-shaped disclosure is an accommodation request and is routed; an
+    allegation is protected activity and preserved; a request for a human is an
+    entitlement only in stated cases, and is routed every time;
+  - baseline: four things pin it, and the engine is the one most often left out;
+  - judged axis: the fixed one-point regression rule is withdrawn in favour of the
+    pinned judge's repeat variance;
+- conditions:
+  - the text plane validates the policy only on the engine the candidate meets;
+  - "judge recall around one fifth" is one case study, and routing more than
+    perception;
+  - full pass is observed-zero, bounded at about 3/n;
+  - clustered errors when pooling turns;
+  - simulators carry an assistant bias;
+  - the meta-turn mechanism is observed, not published;
+  - opening disclosure is legally owed in places, and in one before the interview;
+- internal: praise moved off the full-pass list to the third band, where the golden
+  path and the tree already kept it; the heatmap follows the neighbour's
+  out-of-the-middle rule;
+- three applications re-verified to 2026-09-27, with the Python brief mirror gone.
+  Two new node applications (the brief diff, the binary-fact judge) come from a
+  TypeScript simulator kp grew since 08-20; its headers cite this subject by name.
+
+Six `applied.md` rows:
+- two code rows better, both committed on kp's local main:
+  - a keyless experiment on kp's Python detector: the shipped rule caught 0 of 10
+    one-sentence refusal+verdict compounds, and the ported TS split catches 6 of 10,
+    with 0 new flags over 406 real turns (71f94335b);
+  - the simulator diff read an engine swap as spread: the key now includes the
+    engine, and the test is red then green (f39924f81);
+- three simulations better:
+  - accommodation-shaped disclosures: the tree's rule is right on 1 of 3;
+  - the text plane runs a stand-in while the default voice path is an end-to-end
+    realtime model: 2 of 3 paths are proxies;
+  - clean-run bounds: 2 of 3 gate surfaces cannot exclude one in twenty;
+- one unmeasurable: the judge regression rule, because no judged run is recorded.
+
+Impact: kp 1 context, 0 stale verdicts. The Python harness sits in no joined context,
+which is a context-scan lead. The fleet map's casesim join belongs to
+assessment-instrument-validation. kp map and rows are committed on kp's local main
+(1d27d9ad7, bc2c5748c) and not pushed, because kp main has diverged from origin with
+other sessions' commits. Three leads banked. Yield high, dry_streak 0. See
+[[conversational-assessment-validation]].
+
+Source classes, this run. Kept:
+- benchmark papers' own judge-qualification rules decided the refusal question
+  outright: the jailbreak benchmarks name refuse-then-comply as the case a judge must
+  catch;
+- regulator guidance beat statute summaries on the quartet. The accommodation
+  guidance's "plain English" rule refuted the absorb rule;
+- a consumer tree's second harness is counter-evidence against its first: the TS
+  simulator had already solved what the Python harness still missed.
+
+Declined:
+- dialect matched-guise pairs, owned by the neighbours;
+- the omnibus deadline, known from a mirror only;
+- withdrawn 2022 guidance;
+- judge position randomisation, out of scope.
