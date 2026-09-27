@@ -24,8 +24,11 @@ its facts, records no score, and is re-judged when the panel is available.**
 
 1. **Detect a judge refusal the same way as an agent refusal** — the message text, not the
    status field — and treat it as "no verdict", never as a zero or a missing dimension.
-2. **Record nothing partial.** Not the arrived verdict, not an averaged placeholder. The
-   run stays eligible and unjudged, which is a visible, recoverable state.
+2. **Record nothing partial in the panel's column.** Not the arrived verdict, not an
+   averaged placeholder. The run stays eligible and unjudged, which is a visible,
+   recoverable state. The verdict that did arrive may be kept beside the run, labelled with
+   the seat that produced it; it is never averaged in and never promoted when the panel
+   completes - the full panel judges the same packet afresh, without seeing it.
 3. **Fail the job loudly** so the queue's log shows why, and requeue the scoring.
 4. **Re-judge when the panel is whole**, on the same packet. Same evidence, later clock;
    note the delay rather than hiding it.

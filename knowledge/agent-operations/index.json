@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 33,
-  "applications": 18,
+  "techniques": 34,
+  "applications": 19,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "33/33",
+  "use_when_coverage": "34/34",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -196,9 +196,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/blind-judging-of-agent-runs.md",
-   "digest": "sha256-b2:e97aac2c400be17f",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:7b170a32d631d872",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "facts-beside-the-work",
@@ -228,6 +228,21 @@
      ]
     },
     {
+     "slug": "sealed-judge-workspace",
+     "status": "draft",
+     "laws": [
+      "the-judge-never-grades-its-own-family",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the judge is an agent with a shell or file tools",
+      "staging the material a judge seat reads",
+      "running several judge seats at once",
+      "a judge cites something the packet did not contain"
+     ]
+    },
+    {
      "slug": "withhold-rather-than-half-judge",
      "status": "draft",
      "laws": [
@@ -243,6 +258,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "sealed-judge-workspace",
+     "file": "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/applications/node--sealed-judge-workspace.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
+    },
     {
      "stack": "process",
      "technique": "facts-beside-the-work",
@@ -729,6 +751,7 @@
     "agent-benchmark-design/comparable-cell-construction",
     "agent-benchmark-design/null-and-reference-controls",
     "agent-run-budgeting/termination-cause-record",
+    "blind-judging-of-agent-runs/sealed-judge-workspace",
     "deterministic-run-verification/baseline-relative-gate-evaluation",
     "harness-fault-attribution/clear-the-environment-first",
     "harness-fault-attribution/fault-signature-catalogue",
@@ -777,6 +800,7 @@
    "techniques": [
     "agent-run-budgeting/allowance-budgeting-across-workloads",
     "blind-judging-of-agent-runs/provenance-scrubbing",
+    "blind-judging-of-agent-runs/sealed-judge-workspace",
     "blind-judging-of-agent-runs/withhold-rather-than-half-judge",
     "engine-behaviour-profiles/family-diversity-as-a-control",
     "shared-research-record/independent-reuse-evidence"
