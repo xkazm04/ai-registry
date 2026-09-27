@@ -1,0 +1,92 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-uri-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-27T20:12:00Z",
+  "ended_at": "2026-09-27T21:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 3,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/unattended-run-isolation",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 9,
+      "points_after": 5
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-operations/unattended-run-isolation",
+      "technique": "hermetic-inherited-configuration",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-operations/unattended-run-isolation",
+      "technique": "os-enforced-run-boundary",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "agent-operations/unattended-run-isolation",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/run-safety/unattended-run-isolation/unattended-run-isolation.md",
+    "knowledge/agent-operations/run-safety/unattended-run-isolation/techniques/os-enforced-run-boundary.md",
+    "knowledge/agent-operations/run-safety/unattended-run-isolation/techniques/hermetic-inherited-configuration.md",
+    "knowledge/agent-operations/run-safety/unattended-run-isolation/techniques/disposable-run-environments.md",
+    "knowledge/agent-operations/run-safety/unattended-run-isolation/techniques/no-links-into-live-trees.md",
+    "knowledge/agent-operations/run-safety/unattended-run-isolation/techniques/confine-configured-output-paths.md",
+    "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--hermetic-inherited-configuration.md",
+    "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--os-enforced-run-boundary.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/agent-operations.md",
+    "librarian/subjects/agent-operations/unattended-run-isolation.md"
+  ],
+  "commits": [
+    {
+      "sha": "0ea31221",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations",
+        "rules/ai-registry-agent-operations.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/unattended-run-isolation",
+      "reason": "a vendor's 84% sandbox figure as a security measure: it measures permission prompts, not containment"
+    },
+    {
+      "subject": "agent-operations/unattended-run-isolation",
+      "reason": "a benchmark harness's per-instance containers as an egress precedent: they run on the default network, cited for disposability only"
+    },
+    {
+      "subject": "agent-operations/unattended-run-isolation",
+      "reason": "GIT_CONFIG_NOGLOBAL as an isolation mechanism: it does not exist in git's documentation"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "personas: memory-year no-tools calls loaded 25 tools, 30 skills, 3 hooks (23,296 vs 497 tokens); isolated, profile in cache key (ef9aead69, pushed). No-remote repo still authenticated to the forge. No map pairs the subject."
+}

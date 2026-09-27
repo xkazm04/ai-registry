@@ -15,9 +15,9 @@ Coverage note for the `agent-operations` bundle. Part of [[index]]; graded again
 | | |
 | --- | --- |
 | Subjects | 9 |
-| Techniques | 36 |
-| Applications | 23 |
-| `use_when` written | 36/36 |
+| Techniques | 38 |
+| Applications | 25 |
+| `use_when` written | 38/38 |
 | Fleet map pairs | none. No project's `registry-map.json` joins a context to this bundle |
 
 These are a record of this run, not an input to the next one. Recompute with
@@ -35,6 +35,10 @@ These are a record of this run, not an input to the next one. Recompute with
 - Owed in the contest skill (blind-judging run): opaque per-seat staging roots, per-seat
   label rotation, a panel-completeness check before ranking and refusal of an invalid
   verdict. Deferred because another session held uncommitted work in those scripts.
+- No fleet runner has an operating-system boundary (unattended-run-isolation run): the
+  agent runner's sandbox is not supported natively on the fleet's OS, so every isolation
+  measure here is an arrangement. Owed: a container, VM, Linux subsystem or separate
+  account for dispatched runs, and the known-bad probe before the first queue there.
 
 ## 2026-09-27 - deepen: agent-benchmark-design
 
@@ -202,3 +206,36 @@ Source classes, this run. Kept:
 - fleet trees and registry ledgers, read row by row.
 
 Declined as sole support: practitioner posts read only through a summarizer.
+
+## 2026-09-27 - deepen: unattended-run-isolation
+
+Dispatched by the Curator lane on "3 techniques (design floor is 4)". Landed (0ea31221):
+- **New technique, os-enforced-run-boundary.** Converged on all three lanes: blind,
+  counter-evidence and primary-source practice.
+- **New technique, hermetic-inherited-configuration.** Runner-up on two lanes, then
+  measured in the fleet.
+- **Two golden-path flips.**
+  - Removing the remote stops an accident, not a publish.
+  - Credentials live in files, keyrings, helpers and sockets, not only the environment.
+- **One corrected technique.** disposable-run-environments: a linked worktree shares
+  configuration, refs, stash and hooks, and a borrowing clone decays when the source prunes.
+- **One conditioned technique.** no-links-into-live-trees: the rules for a cache
+  exception, and a recursive delete can follow a junction.
+
+Three `applied.md` rows `better` (code, simulation, experiment). personas' memory-year
+harness called the model with "no tools" from an empty directory, and each call still
+loaded 25 tools, 30 skills and 3 user hooks: 23,296 input tokens against 497 isolated. Now
+isolated, with the profile in the cache key and a positively controlled check
+(ef9aead69, pushed). A repository with no remote still authenticated to a private forge
+repository through the system credential helper. Four fleet incidents walked under an
+enforced boundary: 0 of 4 prevented as run, all stopped or narrowed under the boundary,
+with shared references as the gap. Impact: no fleet map pairs the subject. Scan points
+9 -> 5; "single stack" and "never swept" remain. Yield high, dry_streak 0. See
+[[unattended-run-isolation]].
+
+Source classes, this run. Kept:
+- vendors' own sandbox and CLI documentation, read raw;
+- a tool's own manual for its semantics;
+- advisories and postmortems from the affected maintainers.
+
+Declined as sole support: fetch-tool summaries, and figures quoted outside what they measure.
