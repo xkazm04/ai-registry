@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 36,
-  "applications": 23,
+  "techniques": 38,
+  "applications": 25,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "36/36",
+  "use_when_coverage": "38/38",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -715,9 +715,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/unattended-run-isolation.md",
-   "digest": "sha256-b2:9ae4b29d6ea5725e",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:736f8cc34880a1e5",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "confine-configured-output-paths",
@@ -747,6 +747,22 @@
      ]
     },
     {
+     "slug": "hermetic-inherited-configuration",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "launching an agent or a model call headlessly from a harness",
+      "a run's tools",
+      "context or cost differ from what the harness says it configured",
+      "spawning version control or test commands from inside a hook or another run",
+      "comparing runs across machines or settings changes"
+     ]
+    },
+    {
      "slug": "no-links-into-live-trees",
      "status": "draft",
      "laws": [
@@ -759,6 +775,21 @@
       "auditing what a run environment points at",
       "investigating results that depend on what a human did outside the bench"
      ]
+    },
+    {
+     "slug": "os-enforced-run-boundary",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a run environment is isolated or only arranged",
+      "granting an unattended run a shell and network access",
+      "choosing a runner platform for unattended work",
+      "a run reached something its environment was built to keep out"
+     ]
     }
    ],
    "applications": [
@@ -770,9 +801,21 @@
     },
     {
      "stack": "process",
+     "technique": "hermetic-inherited-configuration",
+     "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--hermetic-inherited-configuration.md",
+     "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "process",
      "technique": "no-links-into-live-trees",
      "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--no-links-into-live-trees.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "os-enforced-run-boundary",
+     "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--os-enforced-run-boundary.md",
+     "verified_on": "2026-09-27"
     }
    ]
   }
@@ -801,7 +844,9 @@
     "model-and-effort-selection/instruction-defect-before-tier-escalation",
     "model-and-effort-selection/tier-risk-inversion",
     "shared-research-record/typed-contribution-vocabulary",
-    "unattended-run-isolation/no-links-into-live-trees"
+    "unattended-run-isolation/hermetic-inherited-configuration",
+    "unattended-run-isolation/no-links-into-live-trees",
+    "unattended-run-isolation/os-enforced-run-boundary"
    ]
   },
   "the-harness-is-a-suspect-in-every-red": {
@@ -819,7 +864,9 @@
     "harness-fault-attribution/retract-and-record",
     "unattended-run-isolation/confine-configured-output-paths",
     "unattended-run-isolation/disposable-run-environments",
-    "unattended-run-isolation/no-links-into-live-trees"
+    "unattended-run-isolation/hermetic-inherited-configuration",
+    "unattended-run-isolation/no-links-into-live-trees",
+    "unattended-run-isolation/os-enforced-run-boundary"
    ]
   },
   "a-refusal-is-not-a-result": {
