@@ -5,7 +5,7 @@ subject: engine-behaviour-profiles
 technique: family-diversity-as-a-control
 stack: process
 status: forged
-verified_on: 2026-09-16
+verified_on: 2026-09-27
 ---
 
 # Process: what the second family revealed in a skill benchmark
@@ -29,8 +29,12 @@ and judged every run blind with one judge from each family.
   green, and said "safe to push" — while the repository's own required secret-scanning job
   was red. `gpt-5.5@high` found the repository's declared gate script, ran all eleven of
   its stages, saw the leak scan fail and said "do not push". Same instruction, same
-  repository, same tier: evidence reach separated the cells, so it belongs in a profile
-  rather than in a bug report.
+  repository, same tier: evidence reach separated the cells, so it is not a bug report.
+  It is not yet a family disposition either (corrected 2026-09-27): it split
+  configurations *within* one family at one tier, which the profile rule reads as a
+  per-release observation. The harness's current model catalog also gives `gpt-5.5`,
+  `gpt-5.6-sol`, `gpt-5.6-luna` and `gpt-6-astra` four different prompt templates, so the
+  cells never shared instructions verbatim.
 - **A model claim withdrawn.** The Rust test gate went red across several runs and the
   first hypothesis was a model defect. The second family was not what disproved it — a
   harness audit was — but the contrast made the audit worth doing: the reds did not follow

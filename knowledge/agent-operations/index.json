@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 34,
-  "applications": 19,
+  "techniques": 35,
+  "applications": 20,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "34/34",
+  "use_when_coverage": "35/35",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -338,9 +338,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/engine-behaviour-profiles.md",
-   "digest": "sha256-b2:7d7b0ffad1dbb5e0",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:40f0d360f0af1a7a",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "authority-conflict-disposition",
@@ -383,6 +383,21 @@
       "separating an instruction defect from a capability gap",
       "planning a fleet's engine mix"
      ]
+    },
+    {
+     "slug": "harness-crossed-attribution",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "attributing a measured behaviour to a model family",
+      "comparing families that each ran through their own vendor's agent",
+      "choosing a fallback that reaches the same family through a different agent",
+      "reading a vendor agent's system prompt before trusting a profile"
+     ]
     }
    ],
    "applications": [
@@ -390,13 +405,19 @@
      "stack": "process",
      "technique": "authority-conflict-disposition",
      "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--authority-conflict-disposition.md",
-     "verified_on": "2026-09-16"
+     "verified_on": "2026-09-27"
     },
     {
      "stack": "process",
      "technique": "family-diversity-as-a-control",
      "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--family-diversity-as-a-control.md",
-     "verified_on": "2026-09-16"
+     "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "process",
+     "technique": "harness-crossed-attribution",
+     "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--harness-crossed-attribution.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -735,6 +756,7 @@
     "engine-behaviour-profiles/authority-conflict-disposition",
     "engine-behaviour-profiles/capability-claims-expire",
     "engine-behaviour-profiles/family-diversity-as-a-control",
+    "engine-behaviour-profiles/harness-crossed-attribution",
     "harness-fault-attribution/clear-the-environment-first",
     "harness-fault-attribution/re-gate-then-resample",
     "harness-fault-attribution/retract-and-record",
@@ -753,6 +775,7 @@
     "agent-run-budgeting/termination-cause-record",
     "blind-judging-of-agent-runs/sealed-judge-workspace",
     "deterministic-run-verification/baseline-relative-gate-evaluation",
+    "engine-behaviour-profiles/harness-crossed-attribution",
     "harness-fault-attribution/clear-the-environment-first",
     "harness-fault-attribution/fault-signature-catalogue",
     "harness-fault-attribution/re-gate-then-resample",

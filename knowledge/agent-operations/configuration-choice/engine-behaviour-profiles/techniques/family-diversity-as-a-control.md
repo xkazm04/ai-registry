@@ -19,15 +19,22 @@ model, and it is the only thing that makes a judge's verdict trustworthy.
 
 ## What the control buys
 
-- **Attribution.** A failure reproduced identically by two unrelated families is a defect
-  in the instruction, the task or the environment. The same failure in one family only is
-  a capability or disposition difference. Without the second family, every failure is
-  ambiguous and the cheapest explanation — "the model is not good enough" — wins by
-  default, because nothing contradicts it.
+- **Attribution.** A failure reproduced identically by two unrelated families points at
+  what the two runs shared: the instruction, the task, the environment - and the harness,
+  if both ran in one. It is a strong prior, not a verdict, because families make
+  correlated errors, and more so as they grow stronger; read the shared factor before
+  calling it a defect. The same failure in one family only is a difference between
+  *engines*, which is a family difference only when the harnesses were crossed. Without
+  the second family, every failure is ambiguous and the cheapest explanation — "the model
+  is not good enough" — wins by default, because nothing contradicts it.
 - **Judging integrity.** A verdict produced by a judge of the same family as the agent
-  carries a constant bias toward its own style. A second family on the judging side is
-  what makes a score defensible; when only one family is available, the verdicts are
-  labelled single-family and provisional rather than mixed into the record.
+  carries a bias toward its own style - not a constant one: it grows with how well the
+  judge recognises its own output, and judges also favour text that is merely familiar to
+  them, whoever wrote it. A second family on the judging side reduces that bias and does
+  not remove it, because a judge of any family inflates agents that are weaker than it
+  through the errors they share. A panel of disjoint families reduces it further. When
+  only one family is available, the verdicts are labelled single-family and provisional
+  rather than mixed into the record.
 - **Blind-spot exposure.** Dispositions that look like "how agents behave" turn out to be
   "how this family behaves" the moment another family does the opposite on the identical
   case. Every such contrast converts folklore into a routing rule.

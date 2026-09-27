@@ -5,7 +5,7 @@ subject: engine-behaviour-profiles
 technique: authority-conflict-disposition
 stack: process
 status: forged
-verified_on: 2026-09-16
+verified_on: 2026-09-27
 ---
 
 # Process: two families, one ignore rule, opposite resolutions
@@ -57,3 +57,19 @@ against those releases. The *disposition* claim (which source a family treats as
 authoritative) reproduced across three tiers within each family, which is why it is
 recorded as a profile rather than as an anecdote — but it is a claim about these releases,
 and it is re-derived when either family ships a new one.
+
+## What the profile does not show (added 2026-09-27)
+
+- **Family and harness are one variable here.** Every GPT cell ran through the Codex CLI and
+  every Claude cell through Claude Code. The Codex CLI's shipped prompt tells the model that
+  "Direct system/developer/user instructions (as part of a prompt) take precedence over
+  AGENTS.md instructions", and serves each model its own prompt template. The table is a
+  profile of two *engines*; which half of the 100% belongs to the family is untested until
+  a family runs through the other harness or a neutral one.
+- **The deferring engine does not always defer.** The same machine's Claude Code
+  transcripts hold four sessions, 2026-08-28 to 2026-09-22, in which claude-opus-5
+  force-added paths that three fleet repositories' own ignore rules exclude, each time
+  inside a commit the run was deliberately building. The 0-of-4 above is a fact about this
+  skill's wording. See the harness-crossed-attribution application for the scan.
+- **Consequence for the routing rule in step 1.** Routing alone did not bound the risk;
+  the mechanical stop in step 2 is owed on the preferred engine too.

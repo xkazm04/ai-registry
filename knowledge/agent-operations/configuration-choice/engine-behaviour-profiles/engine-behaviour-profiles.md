@@ -8,6 +8,7 @@ techniques:
   - authority-conflict-disposition
   - family-diversity-as-a-control
   - capability-claims-expire
+  - harness-crossed-attribution
 ---
 
 # Engine behaviour profiles
@@ -20,9 +21,15 @@ conflict, what it does when a procedure is silent, whether it prefers to act or 
 and whether it will override a machine-readable rule to satisfy a human-readable
 instruction.
 
-A disposition is worth profiling because it is stable across tiers within a family and
-predicts the failure you will get, which is exactly what a fleet needs in order to route
-work. A capability ranking is worth much less: it changes with every model release, it is
+A disposition is worth profiling because, within one release run through one harness, it
+tends to hold across tiers and predicts the failure you will get, which is exactly what a
+fleet needs in order to route work. Two qualifiers carry that sentence. The unit is the
+*engine* - model release, harness, harness version and instruction wording - because
+every vendor agent ships its own statement of which source outranks which, and a family
+measured only through its own vendor's agent cannot be told apart from that agent. And
+the stability is within a release, not across releases: shortcut-taking, sycophancy and
+willingness to cooperate with misuse have all moved sharply between adjacent releases of
+one vendor, and between sibling models released together. A capability ranking is worth much less: it changes with every model release, it is
 measured on tasks unlike yours, and it says nothing about which family will quietly commit
 your private material.
 
@@ -51,20 +58,33 @@ task and repository fixed, vary the family, and record mechanical facts — not 
 A disposition claim is only worth publishing when it is **reproduced across tiers within
 the family** and **contrasted against at least one other family on the identical case**.
 One run showing a family doing something careless is an anecdote; the same behaviour at
-every tier, against a case where another family did the opposite, is a profile.
+every tier, against a case where another family did the opposite, is a profile *of the
+engines that ran*. Attributing it to the family takes a third condition: the behaviour
+persists when the family runs through a second harness, or when its own harness's
+precedence statement is removed (harness-crossed-attribution). Short of that, publish it
+scoped to the engine and the wording, and check it against the field record - the
+session transcripts a fleet already keeps are full of the same engines meeting
+conflicts nobody designed as a test.
 
-Every claim carries its date and the case it was measured on. Disposition is more stable
-than capability, but it is not permanent — it comes from the vendor's own alignment and
-harness defaults, and those change.
+Every claim carries its date, the case it was measured on, and the harness version it ran
+through. Disposition is not demonstrably more stable than capability: it comes from the
+vendor's own alignment and from the harness's prompt and defaults, and both change -
+sometimes in a point update, sometimes in a system-prompt edit with no model change at
+all.
 
 ## What a profile is for
 
 - **Routing.** Send tasks that touch private, generated or irreversible material to the
-  family whose disposition is to respect declared rules, even if it scores lower on
-  polish. Send read-and-report tasks wherever quality is highest.
+  engine whose measured disposition is to respect declared rules, even if it scores lower
+  on polish - and keep the mechanical stop anyway, because an engine that deferred under
+  one wording can override under another. Send read-and-report tasks wherever quality is
+  highest.
 - **Fallback pairing.** A fleet with a second family available should choose the pair that
   fails *differently*, so a defect in one is visible rather than duplicated. A fallback in
-  the same family is capacity insurance, not correctness insurance.
+  the same family is capacity insurance, not correctness insurance - and the same family
+  reached through a different harness is an unprofiled engine. Different families still
+  make correlated errors, more so as they grow stronger, so "fails differently" is
+  measured on the fleet's own cases, never assumed from the vendor names.
 - **Interpreting a single failure.** With a profile, one bad run is triaged in a minute:
   characteristic of the family, or new? Without one, every failure restarts the argument.
 
