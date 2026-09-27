@@ -1,0 +1,111 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cse-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-27T19:46:00Z",
+  "ended_at": "2026-09-27T21:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 4,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/comparative-shortlist-evaluation",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/comparative-shortlist-evaluation",
+      "technique": "robustness-status-taxonomy",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/comparative-shortlist-evaluation",
+      "technique": "confidence-band-lead-separation",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/comparative-shortlist-evaluation",
+      "technique": "cross-scheme-weight-robustness",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/comparative-shortlist-evaluation",
+      "technique": "confidence-band-lead-separation",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/comparative-shortlist-evaluation",
+      "technique": "counterbalanced-candidate-order",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/comparative-shortlist-evaluation.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/techniques/confidence-band-lead-separation.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/techniques/counterbalanced-candidate-order.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/techniques/cross-scheme-weight-robustness.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/techniques/minimum-cohort-before-a-comparative-claim.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/techniques/refuse-a-cross-currency-comparison.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/node--confidence-band-lead-separation.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/node--refuse-a-cross-currency-comparison.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/node--robustness-status-taxonomy.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/process--counterbalanced-candidate-order.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/process--cross-scheme-weight-robustness.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/comparative-shortlist-evaluation.md"
+  ],
+  "commits": [
+    {
+      "sha": "b4751b25",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/comparative-shortlist-evaluation",
+      "reason": "composition shifts the centroid yardstick: the run's own conjecture, measured at 0 pair reversals in 5,764 cases under kp's bounds; not written"
+    },
+    {
+      "subject": "recruiting/comparative-shortlist-evaluation",
+      "reason": "audit the band's thinness drivers by protected group: blind lane only; banked until a project records band drivers against outcomes"
+    },
+    {
+      "subject": "recruiting/comparative-shortlist-evaluation",
+      "reason": "selection-induced negative correlation makes reweighting flips likelier inside a shortlist: blind lane only, and kp's 0 of 1,856 at plus or minus 0.15 is weak evidence against it; banked for wider bounds"
+    },
+    {
+      "subject": "recruiting/comparative-shortlist-evaluation",
+      "reason": "stated pay expectations proxy the gender pay gap: blind lane only, from a popular book; banked until a primary study is found"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "First sweep: one new technique, two rules flipped or conditioned (web + blind). kp fixes d7194ea64 and 29430f170, map and rows committed on kp local main, not pushed (diverged). 3 of 8 applied rows have no measured mode: 2 unmeasurable, 1 unapplied."
+}

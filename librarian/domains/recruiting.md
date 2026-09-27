@@ -542,3 +542,58 @@ Declined:
 - the omnibus deadline, known from a mirror only;
 - withdrawn 2022 guidance;
 - judge position randomisation, out of scope.
+
+## 2026-09-27 - deepen: comparative-shortlist-evaluation
+
+Dispatched by the Curator lane on "never swept by the librarian". Landed in
+b4751b25:
+- one new technique, `counterbalanced-candidate-order`, where web and blind
+  converged on model-judge position bias and the pairwise name preference;
+- flipped, cross-scheme: the row mean is the centroid weighting, not a test.
+  Under tight bounds a pass is near-certain, so the report states the distance.
+  Variance is read from the schemes, never from a rationale channel;
+- conditioned:
+  - "do not re-rank" holds where absence is scored as points, and needs shrinkage
+    over noisy estimates;
+  - separation is band against band, conservative by choice, and never a chain;
+  - the statistical floor needs an interval;
+  - set composition is a lever;
+  - pay history is excluded outright;
+  - an axis marker does not repair a stretched scale;
+- three applications re-verified to 2026-09-27, and two new ones (robustness
+  status, node; narrator order, process). One 08-20 claim was false on the day it
+  was written.
+
+Eight `applied.md` rows:
+- three better:
+  - two kp code fixes: the fairness panel rendered a pass on 2 of 3 real no-op
+    cohorts, and the slate crowned 5-8 point overlaps as separated;
+  - an experiment over 1,856 cohorts: the mean order is the centroid order, no
+    scheme ever crowned another leader, and 96 tied tops showed as one first
+    place;
+- one not-better: kp's leader has the widest band in 16.3% of cohorts, so the
+  estimate-noise condition does not bite there;
+- three unmeasurable: counterbalancing (model spend), the decoy effect, and joint
+  evaluation (human instruments);
+- one unapplied: pay history, which kp does not store.
+
+Impact: kp 10 contexts, 0 stale verdicts. Ten kp deviations recorded as owed. The
+narrator is the largest: it is told to name who leads and gets no separation
+status. kp's fixes, map and rows are committed on kp's local main (d7194ea64,
+29430f170, ba0244f82, bfccdec92) and not pushed, because kp main carries other
+sessions' unpushed commits. Yield high, dry_streak 0. See
+[[comparative-shortlist-evaluation]].
+
+Source classes, this run. Kept:
+- peer-reviewed statistics settled the two flips outright. The league-table papers
+  conditioned the point order, and the flat-maximum papers made the robustness pass
+  cheap. The blind lane reached both;
+- the consumer tree again outranked every paper for finding the defect. Its own
+  test fixtures, driven through its own pipeline, turned a status the code
+  documented into a false pass on screen;
+- court opinions carry the banding facts. Search summaries of the Cascio paper did
+  not, so the standard-error-of-the-difference attribution stays secondary.
+
+Declined: a composition-shifts-the-yardstick conjecture measured at 0 of 5,764;
+three single-lane blind leads (driver audit by group, shortlist collider
+correlation, expectations as a pay-gap proxy), all banked with return conditions.
