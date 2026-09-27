@@ -15,9 +15,9 @@ Coverage note for the `agent-operations` bundle. Part of [[index]]; graded again
 | | |
 | --- | --- |
 | Subjects | 9 |
-| Techniques | 32 |
-| Applications | 17 |
-| `use_when` written | 32/32 |
+| Techniques | 34 |
+| Applications | 19 |
+| `use_when` written | 34/34 |
 | Fleet map pairs | none. No project's `registry-map.json` joins a context to this bundle |
 
 These are a record of this run, not an input to the next one. Recompute with
@@ -27,9 +27,13 @@ These are a record of this run, not an input to the next one. Recompute with
 
 - Demand is UNKNOWN, not zero. The fleet runs agents unattended every day, but no
   project declares this bundle's domain in its scope, so the map cannot see a consumer.
-- One stack only (`process`). The benchmark harnesses the subjects were distilled from
-  are not in a tracked fleet tree. The personas memory-year harness is the one tracked
-  benchmark, and it is where applies land.
+- Two stacks: `process`, and `node` since the blind-judging run. The benchmark harnesses
+  the subjects were distilled from are not in a tracked fleet tree. The personas
+  memory-year harness is the one tracked benchmark; the registry's own contest skill is
+  the one tracked judging panel. Applies land in those two.
+- Owed in the contest skill (blind-judging run): opaque per-seat staging roots, per-seat
+  label rotation, a panel-completeness check before ranking and refusal of an invalid
+  verdict. Deferred because another session held uncommitted work in those scripts.
 
 ## 2026-09-27 - deepen: agent-benchmark-design
 
@@ -85,3 +89,26 @@ Source classes, this run. Kept:
 - benchmark maintainers' posts on their own timeout policy.
 
 Declined: fetch-tool page summaries as quote sources (one invented an enum).
+
+## 2026-09-27 - deepen: blind-judging-of-agent-runs
+
+Dispatched by the Curator lane on "3 techniques (design floor is 4)". Landed (3063b210):
+- **New technique, sealed-judge-workspace.** Converged on the blind lane, the
+  primary-source lane and the contest skill's own 1.6.0 incident log.
+- **Three golden-path flips.**
+  - Order leads the bias list; each judge reads a different order.
+  - Family is a proxy for uncorrelated errors; the agent's family never holds the majority.
+  - Facts in the packet, never scores; the re-judge never sees the old score.
+- **Two conditioned techniques.** provenance-scrubbing (commit metadata, base-commit
+  paths, familiarity) and withhold-rather-than-half-judge (the arrived verdict kept,
+  labelled, outside the panel's column).
+
+Six `applied.md` rows, five on the contest skill: two `better` by experiment (the staging fix
+sealed the key but not the peers; `aggregate()` ranks a partial panel as a full one and
+lets a 1-of-7-dimension verdict flip the order), three `unmeasurable`, one `unapplied`.
+Impact: no fleet map pairs the subject. Points 9 -> 3. Three leads banked. Yield high,
+dry_streak 0. See [[blind-judging-of-agent-runs]].
+
+Source classes, this run. Kept: arXiv abstracts and full text read verbatim through the
+export API; a benchmark maintainer's issue thread; an evaluation lab's own measurement post.
+Declined as sole support: figures seen only in search summaries.
