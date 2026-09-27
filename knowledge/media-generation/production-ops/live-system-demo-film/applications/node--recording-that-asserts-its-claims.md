@@ -5,8 +5,9 @@ subject: live-system-demo-film
 technique: recording-that-asserts-its-claims
 stack: node
 status: forged
-verified_on: 2026-09-16
-verified_against: node@22
+verified_on: 2026-09-27
+verified_against: node@24
+refresh_by: 2026-12-28
 ---
 
 # The take that is also the test suite
@@ -16,7 +17,11 @@ spec, `examples/journey/tests/take.spec.ts`, against the same three example
 applications, the same tool gate and the same ledger that its ordinary
 end-to-end suite exercises. Read at commit
 `c5ec8cae64022f8252f73d65844e4457c3f1adc6`; `package.json:17` declares
-`"node": ">=22.5"`.
+`"node": ">=22.5"`. Re-read 2026-09-27 at
+`c48c9b0c93c96db16073ba333dd3ca91816407d1`, with the demo paths unchanged
+between the two and the example typechecking clean under node 24.14. The
+capture section below is a claim about one pinned Playwright release, which is
+why this application carries a vendor clock of its own.
 
 ## The doctrine is in the file header
 
@@ -150,3 +155,57 @@ whose claim was checked. The standard requires that an unasserted behavioural
 claim be reported as unmeasured and counted; the tree has the per-beat record
 (`examples/journey/tests/take.spec.ts:1501-1507`) to carry such a flag and does
 not yet use it. The standard stands.
+
+## The capture tool's ceiling, as of Playwright 1.63.0
+
+`examples/journey/package.json:17` pins `@playwright/test` at `1.63.0`, and what
+that release's `recordVideo` does was read from the installed package rather
+than from its documentation page.
+
+**The size is set, so the default downscale is avoided.** The option's own
+declaration (`playwright-core/types/types.d.ts:25993-25995`, on
+`BrowserContextOptions`) reads "If not specified the size will be equal to
+`viewport` scaled down to fit into 800x800." The take passes the viewport
+dimensions as the video size (`examples/journey/tests/take.spec.ts:300-301`,
+1440 x 900 from `examples/journey/tests/take.spec.ts:97-98`), so the capture is
+not silently shrunk to 800 x 500.
+
+**The bitrate is not the take's to set.** The encoder arguments are fixed in
+the release (`playwright-core/lib/coreBundle.js:37095`): `-c:v vp8 -qmin 0
+-qmax 50 -crf 8 -deadline realtime -speed 8 -b:v 1M`. The option exposes a
+directory and a size and nothing else, so a 1440 x 900 picture of dense text is
+encoded at one megabit per second before the compose step ever sees it, and
+the compose step's `libx264` re-encode
+(`examples/journey/scripts/compose.mjs:211-215`) cannot restore what the first
+encode discarded. For a film whose picture is text the audience must read, that
+is the quality ceiling of the whole pipeline, and it is set by the tool.
+
+**The start frame is the page's creation, not the first beat.** The recorder
+stamps `this._creationTimeMs = Date.now()` (`coreBundle.js:37087`) and times
+every frame from it (`coreBundle.js:37133`), exposing the instant only as
+`creation_time` metadata in the file (`coreBundle.js:37096`). That is the
+mechanism behind the uncertainty the take writes down as
+`video_offset_uncertainty_ms`: the spec's wall clock and the recorder's clock
+start at different instants, and nothing in the API reports the gap.
+
+**The same release ships a capture that closes both gaps.** `page.screencast`
+(`types.d.ts:18621`, "Interface for capturing screencast frames from a page.")
+accepts a `quality` (`types.d.ts:18658`) and an `onFrame` callback that
+receives each frame with a `timestamp` (`types.d.ts:18652`). Frames the take
+receives itself can be encoded at a bitrate the film chooses, and a timestamp
+per frame turns the declared offset uncertainty into a measured offset. The
+technique does not require either; it requires that the uncertainty be stated,
+and the tree states it. This is the dated upgrade path, and the reason for the
+clock on this document.
+
+## Soft assertions would not replace the carry-on policy
+
+The take is a Playwright test, so the runner's soft assertions - which record a
+failure and let the test continue - are available to it, and it uses none
+(`expect.soft` has no occurrence in `examples/journey/tests/take.spec.ts`).
+That is correct rather than an oversight. The technique separates assertion
+failures from driving failures, and a soft assertion only covers the first: a
+control that cannot be found makes the *action* throw, and it is the per-beat
+`try`/`catch` at `examples/journey/tests/take.spec.ts:1476-1497` that keeps a
+moved control from ending the take. The hand-rolled policy is the one that
+covers both kinds.

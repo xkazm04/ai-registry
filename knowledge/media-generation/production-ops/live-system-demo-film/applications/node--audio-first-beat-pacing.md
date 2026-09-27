@@ -5,8 +5,8 @@ subject: live-system-demo-film
 technique: audio-first-beat-pacing
 stack: node
 status: forged
-verified_on: 2026-09-16
-verified_against: node@22
+verified_on: 2026-09-27
+verified_against: node@24
 ---
 
 # Audio-first beat pacing in a script-and-harness demo build
@@ -14,7 +14,11 @@ verified_against: node@22
 A portable agent runtime produces a four-act demo film of its own three example
 applications, driven end to end from a JSON script by a Playwright spec and
 assembled with ffmpeg. Read at commit `c5ec8cae64022f8252f73d65844e4457c3f1adc6`;
-`package.json:17` declares `"node": ">=22.5"`.
+`package.json:17` declares `"node": ">=22.5"`. Re-read 2026-09-27 at
+`c48c9b0c93c96db16073ba333dd3ca91816407d1`: no commit between the two touches
+`examples/journey/`, `docs/demo.md` or `package.json`, so every anchor below
+stands, and the example's `tsc --noEmit` passes under node 24.14 with its pinned
+`@types/node` 24.13.3, covering both `src/script.ts` and `tests/take.spec.ts`.
 
 ## The doctrine is stated in the production plan, not inferred from the code
 
@@ -146,3 +150,34 @@ into the record the pacer consumes; the repair here is to key the mark by beat
 id in `durations.json` itself (or to have the dry path write only the manifest),
 and to fail a delivery take on any estimated beat. The standard stands; this is
 a gap in the tree.
+
+## Deviation: the measurement cannot tell when it is an estimate
+
+`examples/journey/scripts/narrate.mjs:266-279` is a real measurement of the
+rendered file, but it runs the probe at `-v error`
+(`examples/journey/scripts/narrate.mjs:268-269`). ffmpeg reports "Estimating
+duration from bitrate, this may be inaccurate" at warning level, so this call
+receives an estimated duration and a measured one in exactly the same shape.
+The synthesis request (`examples/journey/scripts/narrate.mjs:229-240`) names no
+`output_format`, so the clips are whatever MP3 the vendor defaults to, and
+whether that stream carries the frame-count header that makes the probe exact
+was not observable here: the take directory is gitignored and held no clips on
+2026-09-27.
+
+What the probe does without the header was measured on fixtures with a known
+duration of 3.000 s, one MP3 per cell (n=4, ffmpeg 2025-02-17 build):
+
+| encoding | frame-count header | probe at `-v error` | decoded | warning |
+|---|---|---|---|---|
+| constant 128k | present | 3.024 s | 3.00 s | none |
+| constant 128k | absent | 3.024 s | 3.02 s | estimating from bitrate |
+| variable | present | 3.024 s | 3.00 s | none |
+| variable | absent | 2.942 s | 3.02 s | estimating from bitrate |
+
+At a constant bitrate the estimate is as good as the header; at a variable one
+it ran 2.7% short on this fixture, and nothing at `-v error` says so. The
+constant ~24 ms the probe adds over the decode is the kind of error the breath
+exists to absorb. The repair is one of two lines: probe at `-v warning` and
+treat the estimating message as an unmeasured beat, or measure by decoding
+(`ffmpeg -i <clip> -f null -`). The standard stands; the tree's risk depends on
+a vendor default that this reading could not inspect.

@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 21,
   "techniques": 146,
-  "applications": 79,
+  "applications": 80,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -1442,9 +1442,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/live-system-demo-film/live-system-demo-film.md",
-   "digest": "sha256-b2:981bc8bbbdfae864",
-   "revision": 1,
-   "changedAt": "2026-09-16",
+   "digest": "sha256-b2:ef4fc3b78116e73b",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "audio-first-beat-pacing",
@@ -1552,18 +1552,26 @@
    ],
    "applications": [
     {
+     "stack": "go",
+     "technique": "recording-that-asserts-its-claims",
+     "file": "knowledge/media-generation/production-ops/live-system-demo-film/applications/go--recording-that-asserts-its-claims.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "go@1.26"
+    },
+    {
      "stack": "node",
      "technique": "audio-first-beat-pacing",
      "file": "knowledge/media-generation/production-ops/live-system-demo-film/applications/node--audio-first-beat-pacing.md",
-     "verified_on": "2026-09-16",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "recording-that-asserts-its-claims",
      "file": "knowledge/media-generation/production-ops/live-system-demo-film/applications/node--recording-that-asserts-its-claims.md",
-     "verified_on": "2026-09-16",
-     "verified_against": "node@22"
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24",
+     "refresh_by": "2026-12-28"
     }
    ]
   },
