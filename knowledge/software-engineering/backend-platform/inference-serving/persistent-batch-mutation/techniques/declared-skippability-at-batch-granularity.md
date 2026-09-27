@@ -43,8 +43,20 @@ genuinely varies at runtime, it does not have this property; it has an
 internal fast path, which is its own business and must not be exposed as a
 scheduler-level skip.
 
-The practical consequence: everything the declaration depends on must be known
-at construction time. In practice this is the mode of the consumer downstream
+One skip looks similar and is not covered by this rule: **"nobody currently
+seated has enabled me."** That answer depends on the population, not on the
+mode or the configuration, so it cannot be fixed at startup — and it does not
+need to be polled either, because it can only change when membership changes.
+Evaluate it on the mutation record: re-check when members leave, set it up
+lazily when a member that needs it arrives, tear the consumer's state down
+when the last one departs. The event is the membership change, never a
+per-step test. That is the population-level form of the "return the input
+unmodified" corollary below, lifted to the scheduler; the startup rule
+belongs to the mode-level declaration, and mixing the two into one property
+is how a skip ends up re-evaluated every step.
+
+The practical consequence: everything the mode-level declaration depends on
+must be known at construction time. In practice this is the mode of the consumer downstream
 and the extension's own configuration — both fixed for the lifetime of the
 process. If a proposed dependency is not fixed, the design is wrong before the
 property is.

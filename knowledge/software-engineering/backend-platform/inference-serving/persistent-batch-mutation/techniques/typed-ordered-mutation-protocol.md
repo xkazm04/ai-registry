@@ -64,10 +64,11 @@ Two of the three positions carry real weight:
 
 **Do not rely on the declaration order of the fields to convey this.** The
 processing order lives in prose; the structure's field order is whatever the
-author typed. When the two disagree — and they do, quietly, because nothing
-checks it — every implementer who reads the type instead of the prose gets a
-subtly different arrangement. Either make the field order match the processing
-order or say in the structure's own comment that it does not.
+author typed, and nothing checks that the two agree. When they disagree,
+every implementer who reads the type instead of the prose gets a subtly
+different arrangement. Make the field order match the processing order **and**
+state the order in the structure's own comment; either alone leaves one kind
+of reader guessing.
 
 ## An add may replace, and that is the common path
 
@@ -114,20 +115,28 @@ processing order has to be specified before the indices mean anything.
 Two distinct instructions, and collapsing them is a real bug:
 
 - **One-way**: the occupant moves from source to destination; the source seat
-  becomes a hole, and anything that was at the destination is displaced and
-  discarded — a third way a member can end, and the reason a one-way move must
-  never be emitted onto a seat whose occupant is still live. This is the
-  compaction primitive.
+  becomes a hole, and anything that was at the destination is overwritten.
+  A one-way move must never be emitted onto a seat whose occupant is still
+  live; in a well-formed record its destination is a seat that a remove in the
+  same record vacated. This is the compaction primitive.
 - **Swap**: the occupants of the two seats exchange. Nothing becomes vacant
   and nothing is discarded.
 
-A consumer that implements both as an exchange leaves the source seat holding
-a member that has departed; a consumer that implements both as "write at the
-destination" silently keeps the displaced entry alive. The flag is one bit and
-it must be in the record — the destination being empty is *not* a reliable
-discriminator, because a consumer applying operations sequentially cannot ask
-the batch about occupancy without reintroducing the diffing it was built to
-avoid.
+The two collapses are not equally dangerous, and it is worth knowing which is
+which. **Implementing both as "write at the destination"** never vacates the
+source, so the moved member's entry survives at a seat that is now a hole —
+and the next member to be seated there inherits it. That is always a bug.
+**Implementing both as an exchange** is, under a producer that only
+one-way-moves into seats already vacated by a remove, indistinguishable from
+correct for a consumer that clears its entry on remove: the exchange carries
+nothing back because there is nothing at the destination. It leaves the
+source holding a departed member only for a consumer that keeps residue at
+removed seats, or under a producer that breaks the destination rule. Keep the
+flag in the record anyway — it is one bit, it states the producer's intent,
+and the destination being empty is *not* something a consumer applying
+operations sequentially can ask the batch about without reintroducing the
+diffing it was built to avoid — but know that its load-bearing job is
+permission to vacate the source, not protection against the exchange.
 
 ## Membership-unchanged is a value, not an absence
 
@@ -164,9 +173,10 @@ the life of the process, and the leak scales with throughput while remaining
 invisible in that consumer's own footprint accounting — it is holding somebody
 else's allocation. **Departure is not bookkeeping; it is the reaper the add
 named** ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)),
-and it is spelled three ways — an explicit remove, a replacing add, and a
-one-way move onto the seat. A consumer that implements add without
-implementing all three is not partially correct; it is a leak with a feature.
+and for a live member it is spelled two ways — an explicit remove and a
+replacing add — while a one-way move overwrites whatever residue its
+destination still holds. A consumer that implements add without implementing
+both endings is not partially correct; it is a leak with a feature.
 
 A consumer that keeps only a sparse subset of members — a map holding entries
 for the few that enabled it — is not exempt. It is exempt from the *cost* of
@@ -189,9 +199,12 @@ step, not to make indices durable.
   unchanged-value meaning in the same document as the operation list. A
   vocabulary without its evaluation rules is not a specification.
 - Ship worked before/after arrangements with the specification, including at
-  least one record that mixes adds and moves. That example is what an
-  implementer actually tests against, and it is the only cheap way to catch a
-  wrong reading of the index rule.
+  least one record that mixes adds and moves, and at least one whose moves do
+  **not** commute — a close-up move and a swap that touch disjoint seats give
+  the same result in either order and cannot catch a reversed move list. The
+  examples teach the rules; testing them takes a randomized producer checked
+  against an identity shadow
+  ([identity-reference-alignment-check](./identity-reference-alignment-check.md)).
 - Validate a member's configuration at admission, not in the state-update
   phase. The record's job is to describe seating; a consumer that discovers a
   malformed configuration while reconciling has no good move — refusing leaves
@@ -216,7 +229,13 @@ aligned and a protocol is pure overhead. Do not use it when consumers key
 their state by member identity rather than by position — a map from identity
 to state needs only "these left, these joined", and moves are meaningless to
 it; adopt the full protocol only when position is load-bearing because
-something below demands a dense, ordered array. And do not use it as a
+something below demands a dense, ordered array. Do not use it for consumers
+that re-derive their per-slot state from the member itself every step: they
+hold nothing across steps, so there is nothing to keep aligned. And when
+every consumer's state is cheap to regather, an order-preserving "keep these
+positions, append that batch" vocabulary is complete and simpler; this
+protocol earns its complexity on a fixed-capacity array where copying the
+survivors every time membership changes is the cost being avoided. And do not use it as a
 general-purpose change feed: it describes seating, not content, and every
 attempt to smuggle content changes into it re-creates the notification traffic
 the reference rule exists to avoid.

@@ -122,7 +122,18 @@ consumes its output.
 ## When not to use it
 
 If the underlying layer does not require density, do not compact at all —
-tolerate the holes and carry an occupancy mask. Compaction is bought for the
+tolerate the holes and carry an occupancy mask.
+
+If every consumer's per-slot state is cheap to regather, compaction does not
+have to be a move sequence at all: an order-preserving **"keep these
+positions"** operation is compaction stated as one first-class instruction,
+and each consumer applies it as a gather. The general rule survives intact —
+there is still no housekeeping callback, because keeping positions *is* an
+operation of that vocabulary — but the move-based construction here is the
+answer for a fixed-capacity array where copying every survivor on every
+membership change is the cost being avoided, not the only complete answer.
+The gather copies all state every time; the moves touch only the members
+above the boundary. Compaction is bought for the
 benefit of the consumer below, and paying for it without that consumer is
 churn that relocates members for no reason, which in turn forces every
 parallel-state holder to do index work it did not need.

@@ -3,11 +3,12 @@ layer: golden-path
 type: golden-path
 subject: persistent-batch-mutation
 status: forged
-use_when: [a long-lived batch changes membership every step, several components hold per-slot state beside a shared array, designing the contract between a scheduler and its stateful extensions, deciding whether a component may be skipped]
+use_when: [a long-lived batch changes membership every step, several components hold per-slot state beside a shared array, designing the contract between a scheduler and its stateful extensions, deciding whether a component may be skipped, testing that consumers of a mutation record stay aligned]
 techniques:
   - typed-ordered-mutation-protocol
   - compaction-in-the-protocols-own-operations
   - declared-skippability-at-batch-granularity
+  - identity-reference-alignment-check
 ---
 
 # Persistent batch mutation
@@ -121,6 +122,20 @@ same record. That is the point: the order is part of the semantics, not
 guidance. An implementer who batches all the index arithmetic into one clever
 pass has redefined the protocol.
 
+The vocabulary is complete for one layout, not for every layout. It is the
+right one when the batch is a **fixed-capacity array mutated in place** —
+seats are reused, and relocating a survivor is cheaper than copying the
+survivors. When every consumer's per-slot state is cheap to regather, a
+second vocabulary is also complete and simpler: **keep these positions, in
+order** and **append this other batch**. There are no moves, no replacing
+adds and no second spelling of "gone" — a departed member is simply not in
+the kept list — and order is preserved rather than disturbed by close-up
+moves. It pays for that with a copy of every consumer's state on every
+membership change, and it still carries an ordering contract of its own
+wherever a consumer reads the batch while it is being rebuilt. Choose by the
+layout and the cost of the copy; do not mix the two vocabularies in one
+protocol.
+
 ## Membership-unchanged is not nothing-to-do
 
 The record has a distinguished value meaning **the seating chart did not
@@ -157,9 +172,29 @@ an implementer reading the operation names alone will not see it. State the
 discard obligation once, covering both: **an entry is dropped when its member
 is removed and when its seat is taken.** Every reference handed out by the
 protocol names the operation that drops it
-([creation-names-reaper](../../../_laws.md#creation-names-reaper)); here that
-operation is the remove, and it is the same remove every implementer already
-has to handle.
+([creation-names-reaper](../../../_laws.md#creation-names-reaper)); here the
+reaper is whichever operation vacates or retakes the seat, and an extension
+that wires discarding to the remove alone has covered the rare ending and
+missed the common one. A one-way move also overwrites whatever its
+destination holds, but a well-formed producer only moves into a seat a remove
+in the same record already vacated — so for an extension that drops on
+remove, that is not a third ending, and for one that leaves residue at
+removed seats, the move is what finally clears it.
+
+## Misalignment is made loud by a reference, not by care
+
+Everything above is a rule a careful implementer can follow and a careless
+one can break without any symptom. The defence is not more care; it is a
+check that knows the truth. A randomized producer using the real
+construction rules, a shadow seating chart of identities updated in the same
+breath, and an exact comparison of every consumer's entries against that
+shadow after every step. The comparison must assert **absence** as well as
+presence, and the population must mix members that enable a consumer with
+members that do not — otherwise every leak is invisible by construction.
+Worked examples teach the rules; they do not test them, because a single
+step cannot see a defect that surfaces steps later and a hand-picked record
+can make the rule it illustrates unobservable. See
+[identity-reference-alignment-check](./techniques/identity-reference-alignment-check.md).
 
 ## Housekeeping belongs inside the operation set
 
@@ -221,9 +256,10 @@ the member's own progress is modelled.
 - **"Order of operations is an implementation detail."** It is the semantics;
   the same record under a different order is a different arrangement.
 - **"The order the lists are declared in is the order they are applied in."**
-  It is not, and nothing enforces it. The processing order lives in the
-  specification's prose, so a record whose fields are declared in some other
-  order is a trap laid for every implementer who reads the type instead.
+  Only if the structure says so. The processing order lives in the
+  specification, and nothing in a type enforces it; declare the fields in
+  processing order *and* state it in the structure's own comment, so the
+  implementer who reads the type instead of the prose still gets it right.
 - **"An add's index is where it ends up."** It is where it lands at the time
   of the add. Reading it as the post-move position corrupts every record that
   contains both adds and moves.
@@ -236,3 +272,6 @@ the member's own progress is modelled.
   configured two ways has two answers; the property belongs to the instance.
 - **"Mark the members that don't need it and save the work."** Not at batch
   granularity, it does not.
+- **"It passes the worked examples."** One step cannot see a multi-step
+  defect, and a validator that checks only the seats expected to hold
+  something passes every consumer that leaks.

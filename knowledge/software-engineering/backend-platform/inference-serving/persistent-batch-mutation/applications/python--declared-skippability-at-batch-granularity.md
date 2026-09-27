@@ -5,7 +5,7 @@ subject: persistent-batch-mutation
 technique: declared-skippability-at-batch-granularity
 stack: python
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-09-27
 verified_against: python@3.12
 ---
 
@@ -15,7 +15,8 @@ vLLM's logits-processor interface carries exactly the declaration this
 technique describes: `is_argmax_invariant()`, defined in
 `vllm/v1/sample/logits_processor/interface.py:86-96` and specified in
 `docs/design/logits_processors.md:158-164` and `:281-283`. Citations are pinned
-to commit `facd9a74a1cd1b9fed324cdc2cceb8d54fdad3d0`; the document's own
+to commit `facd9a74a1cd1b9fed324cdc2cceb8d54fdad3d0` and were re-read there on
+2026-09-27; the document's own
 admonition (`:3-5`) that this API "may change in the near future" applies here
 too — the names may move, the shape is what transfers.
 
@@ -147,6 +148,25 @@ reason the null value means *membership unchanged* and not *nothing to do* — a
 processor that took the early exit here would keep censoring stop tokens for a
 request that had already earned the right to stop. The interface's own comment
 says as much (`docs/design/logits_processors.md:288`).
+
+**A contrasting tree: the population-level skip, re-evaluated on membership
+change.** SGLang (commit `b252aceffecd1e313cb5a03d3cbf56c99fc8c9ce`, read
+2026-09-27) skips a different fact. It does not skip "cannot change the
+result under this mode"; it skips "no running request uses me". A penalizer
+answers `_is_required()` from the current requests, for example
+`any(req.sampling_params.frequency_penalty != 0.0 for req in
+self.orchestrator.reqs())`
+(`python/sglang/srt/sampling/penaltylib/frequency_penalty.py:12-16`). The
+orchestrator asks at construction through `prepare_if_required()`
+(`sampling/penaltylib/orchestrator.py:25-29`), again on every filter, tearing
+down penalizers nobody needs any more (`:121-129`), and again on merge, where
+an unprepared side is prepared on demand (`:230-236`). Nothing polls per step.
+The answer can only change when membership does, so the membership operations
+are where it is re-evaluated. This is not a counter-example to the startup rule
+above, which is about mode-level invariance. It is the "return the input
+unmodified when nobody enabled you" corollary lifted from inside each
+processor to the scheduler, and it is why the technique now distinguishes the
+two.
 
 **The measurement the tree does not take.** Nothing in the engine reports the
 fraction of steps in which the invariant list was actually skipped. The

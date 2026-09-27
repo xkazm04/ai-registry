@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1813,
-  "applications": 1191,
+  "techniques": 1814,
+  "applications": 1193,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1813/1813",
+  "use_when_coverage": "1814/1814",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -24263,9 +24263,9 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/persistent-batch-mutation.md",
-   "digest": "sha256-b2:22fd1ddca6e49d5f",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:f69a4347471944f0",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "compaction-in-the-protocols-own-operations",
@@ -24297,6 +24297,22 @@
      ]
     },
     {
+     "slug": "identity-reference-alignment-check",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "testing a component that holds parallel per-slot state beside a mutated batch",
+      "adding a new consumer of a mutation record",
+      "a hand-written consumer reimplements the index arithmetic",
+      "deciding whether worked examples are enough coverage"
+     ]
+    },
+    {
      "slug": "typed-ordered-mutation-protocol",
      "status": "forged",
      "laws": [
@@ -24315,16 +24331,30 @@
    "applications": [
     {
      "stack": "python",
+     "technique": "compaction-in-the-protocols-own-operations",
+     "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--compaction-in-the-protocols-own-operations.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
      "technique": "declared-skippability-at-batch-granularity",
      "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--declared-skippability-at-batch-granularity.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-27",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "identity-reference-alignment-check",
+     "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--identity-reference-alignment-check.md",
+     "verified_on": "2026-09-27",
      "verified_against": "python@3.12"
     },
     {
      "stack": "python",
      "technique": "typed-ordered-mutation-protocol",
      "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--typed-ordered-mutation-protocol.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-27",
      "verified_against": "python@3.12"
     }
    ]
@@ -38344,6 +38374,7 @@
     "packaging/variant-config-parity",
     "page-load-pipeline/field-measured-load-budget",
     "perf-instrumentation/semantic-flags-over-heuristics",
+    "persistent-batch-mutation/identity-reference-alignment-check",
     "pipeline-authoring/change-scoped-work-selection",
     "pipeline-dag/external-adapter-nodes",
     "pipeline-dag/pause-and-gate-nodes",
@@ -38921,6 +38952,7 @@
     "people-analytics-ethics/producer-enforced-suppression",
     "perf-instrumentation/continuous-monitors",
     "perf-instrumentation/startup-phasing",
+    "persistent-batch-mutation/identity-reference-alignment-check",
     "pipeline-authoring/change-scoped-work-selection",
     "pipeline-authoring/foreign-config-replay",
     "pipeline-authoring/runtime-pipeline-generation",
@@ -40436,6 +40468,7 @@
     "paged-block-cache/append-only-tolerates-duplicates",
     "paged-block-cache/chained-block-identity",
     "paged-block-cache/salt-as-a-cache-partition",
+    "persistent-batch-mutation/identity-reference-alignment-check",
     "persistent-batch-mutation/typed-ordered-mutation-protocol",
     "pipeline-authoring/foreign-config-replay",
     "pipeline-authoring/human-checkpoints-in-a-pipeline",

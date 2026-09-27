@@ -5,7 +5,7 @@ subject: persistent-batch-mutation
 technique: typed-ordered-mutation-protocol
 stack: python
 status: forged
-verified_on: 2026-09-03
+verified_on: 2026-09-27
 verified_against: python@3.12
 ---
 
@@ -15,8 +15,11 @@ vLLM's V1 engine keeps a **persistent batch** of running requests and lets
 pluggable *logits processors* hold per-request state beside it. The mutation
 protocol between the two is `BatchUpdate`, specified in
 `docs/design/logits_processors.md` and implemented in
-`vllm/v1/sample/logits_processor/`. All citations below are pinned to commit
-`facd9a74a1cd1b9fed324cdc2cceb8d54fdad3d0`.
+`vllm/v1/sample/logits_processor/`. Citations below are pinned to commit
+`facd9a74a1cd1b9fed324cdc2cceb8d54fdad3d0` unless marked **(main)**, which
+means commit `73859fec5865700c5b2021b22890cb3b2005f66e`; every pinned
+citation was re-read at the pin on 2026-09-27, and the record type is
+unchanged between the two commits.
 
 **Currency caveat, stated by the source itself.** The document opens with an
 admonition (`docs/design/logits_processors.md:3-5`) that "some logits
@@ -33,21 +36,30 @@ describes.
 @dataclass(frozen=True)
 class BatchUpdate:
     batch_size: int  # Current num reqs in batch
-    removed: Sequence[RemovedRequest]   # int
-    moved: Sequence[MovedRequest]       # (int, int, MoveDirectionality)
-    added: Sequence[AddedRequest]       # (int, SamplingParams, list[int], list[int])
+    # ...
+    # NOTE:
+    # * Added or moved requests may replace existing requests with the same
+    #   index.
+    # * Operations should be processed in the following order:
+    #   - removed, added, moved
+    removed: Sequence[RemovedRequest]
+    added: Sequence[AddedRequest]
+    moved: Sequence[MovedRequest]
 ```
 
 Three lists and a scalar, exactly as the technique describes. Two details are
 worth pointing at directly:
 
-- **The field order is not the processing order.** The dataclass declares
-  `removed, moved, added`; the specification
-  (`docs/design/logits_processors.md:420`) mandates processing as **removes,
-  adds, moves**. This is precisely the trap the technique names — an
-  implementer who reads the type and not the prose gets a different final
-  arrangement, and nothing in the type system objects. Every in-tree processor
-  gets it right because it was written against the document.
+- **The field order is the processing order, and the structure says so.**
+  The dataclass declares `removed, added, moved` and its own comment states
+  the order the specification (`docs/design/logits_processors.md:420`)
+  mandates — **removes, adds, moves** — along with the fact that an add or a
+  move may replace an occupant. This is the technique's recommendation carried
+  out in full: an implementer who reads only the type still gets it right.
+  (An earlier version of this application quoted the fields as
+  `removed, moved, added`; that was a misreading, corrected 2026-09-27 against
+  the pinned file. The builder does pass them by keyword in that order,
+  `state.py:136-141`, which is harmless.)
 - **`MoveDirectionality`** (`interface.py:17-31`) is the one-bit flag
   distinguishing `UNIDIRECTIONAL` from `SWAP`, carried explicitly rather than
   inferred from occupancy.
@@ -93,12 +105,16 @@ and `C`:
 yielding `added=[(0, E's params, E's prompt ref, E's output ref)]`,
 `removed=[2]`, `moved=[(3,2,UNIDIRECTIONAL),(0,1,SWAP)]`.
 
-Read this against the technique's rules and every one of them is load-bearing
-at once. `A` ends without appearing in `removed` — a consumer that drops state
-only on removes has just leaked `A`. The add's index is 0, which is also where
-`E` ends up here, but after step 4 `E` is at index 1 — the record still says 0.
-And the two moves must be applied in order: the condensing move creates the
-arrangement that the swap's indices are stated against.
+Read this against the technique's rules. `A` ends without appearing in
+`removed` — a consumer that drops state only on removes has just leaked `A`.
+The add's index is 0, but after step 4 `E` is at index 1 — the record still
+says 0. The two moves, though, do **not** exercise the move-order rule: the
+condensing move touches seats 2 and 3 and the swap touches 0 and 1, so they
+commute, and a consumer that applies the move list backwards produces the
+same `[B,E,D]`. The example cannot catch a reversed move list; a seeded
+consumer that reversed it passed both published examples under every
+enablement pattern and failed under a randomized producer (see the
+alignment-check application).
 
 **More arrivals than departures.** Batch `[A,B,C,D]`, new `E,F`, finished `C`:
 `E` replaces `C` at index 2, `F` extends at index 4, then a swap. `removed` is
@@ -133,6 +149,14 @@ def process_dict_updates(req_entries, batch_update, new_state):
                 req_entries[a_index] = b_entry
 ```
 
+Note the loop order: **adds are processed before removes**, the reverse of the
+documented order. It is correct only because the producer keeps the two index
+sets disjoint — a replaced seat is popped from the removal list and turned
+into an add (`state.py` `pop_removed`) — which is exactly the condition under
+which the golden path calls the relative order of removes and adds a choice.
+A seeded variant that swapped the two loops passed every check in the
+alignment experiment, as an equivalent change should.
+
 Both discard paths are here and both are easy to miss on a first reading. The
 `elif req_entries.pop(index, None)` branch is the **replacing add**: a new
 request that does not enable this processor still has to evict whatever the
@@ -163,9 +187,20 @@ once, to size the view.
   differ by the number of departures. The technique's rule — a size carried
   with a set of operations must name the moment it is evaluated — is written
   from this.
-- **Thinner than the standard:** the processing order is enforced only by
-  prose. Nothing in `BatchUpdate` prevents a consumer from iterating the fields
-  in declaration order, which is the wrong order. A record type that exposed
-  the operations as one ordered stream, or an applier that consumers were
-  required to drive, would make the order unmissable; the tree relies on
-  documentation plus a shared helper that happens to be correct.
+- **Re-verified on main:** the model runner builds the record with
+  `get_and_reset(self.num_reqs)` (`vllm/v1/worker/gpu_input_batch.py:845`,
+  **(main)**), the live post-condensation count, while the document still says
+  "at the beginning of the engine step". The deviation stands.
+- **Thinner than the standard:** the shared applier is optional, and the
+  arithmetic it exists to centralise has been reimplemented. Main carries a
+  third consumer of the record outside the logits-processor interface — the
+  thinking-budget holder, `ThinkingBudgetStateHolder.sync_batch`
+  (`vllm/v1/sample/thinking_budget_state.py:83-112`, **(main)**), called from
+  `gpu_input_batch.py:846-847` **(main)** — with its own move loop. It shipped
+  the defect the technique predicts: vLLM PR #49613 (merged 2026-08-15),
+  "Fix a production bug in `ThinkingBudgetStateHolder.sync_batch` where
+  swapping a budgeted request with an unbudgeted batch slot leaves stale
+  thinking-budget state at the empty index", root cause "asymmetric dict SWAP
+  used `.get()` instead of `.pop()`, so the empty side was never cleared",
+  fixed by making it "identical to neighboring batch-state movers". A consumer
+  required to drive the shared applier could not have written that loop.
