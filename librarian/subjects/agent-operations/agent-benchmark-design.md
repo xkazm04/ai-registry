@@ -125,3 +125,11 @@ Source classes, this run. Kept:
 - vendor engineering posts that report their own measurement with a p-value.
 
 Needs a second source: vendor pages reachable only through a proxy.
+
+## 2026-09-27 - re-dispatched on a stale clock (run `dp-abd-0927b`)
+
+Declined, no pass. The Curator lane re-sent the same finding, "3 techniques (design floor
+is 4)", from d93fbd78. The primary checkout's main was 170 behind origin, where df6f8f4d had
+already landed the fourth technique earlier the same day. The floor passes, no clock has
+expired, and no event is newer than that landing. dry_streak is unchanged: a declined
+dispatch is not a dry pass.
