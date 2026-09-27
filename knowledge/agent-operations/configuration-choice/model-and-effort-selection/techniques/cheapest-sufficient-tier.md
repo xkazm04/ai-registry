@@ -54,7 +54,19 @@ resource that actually binds and "the bar" is mechanical before it is judged.**
   will otherwise assume a trade-off was made.
 - **Re-derive after any change to the measurement.** A fix to how runs are checked can move
   which configurations were ever eligible; a recommendation carried across that change is
-  a claim about a bar that no longer exists.
+  a claim about a bar that no longer exists. The same holds for a new model or harness
+  version: a vendor tells its own users to sweep effort again rather than carry a
+  setting across models.
+- **Sweep effort, never assume it is monotonic.** Higher effort did not improve accuracy
+  in 21 of 36 model-benchmark combinations on one public agent leaderboard, measured at
+  small thinking budgets. A vendor documents that its newer models at a lower level match
+  or beat its older ones at a higher level. Hard coding tasks still showed real gains from
+  higher effort. The cheapest level is therefore an empirical question per model and task,
+  and "one level up to be safe" is a cost with no evidence behind it.
+- **"Every case" at one run per cell over-certifies.** A single clean pass per case
+  admits a cheap configuration that fails intermittently, and agent reliability falls
+  measurably when the same case is repeated. Rerun the cells the recommendation hinges on:
+  the chosen configuration's weakest case, and any case it won inside the margin.
 
 ## What this technique does not decide
 

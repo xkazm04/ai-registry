@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 38,
-  "applications": 25,
+  "techniques": 39,
+  "applications": 26,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "38/38",
+  "use_when_coverage": "39/39",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -544,9 +544,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/model-and-effort-selection.md",
-   "digest": "sha256-b2:dcc6c4fef8cdb02c",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:d5dd3456b7c8cb93",
+   "revision": 2,
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "cheapest-sufficient-tier",
@@ -572,6 +572,21 @@
       "a task fails and the instinct is to rerun it with more reasoning",
       "triaging repeated failures of one task across a fleet",
       "deciding whether to fix a task's wording or its configuration"
+     ]
+    },
+    {
+     "slug": "pin-the-resolved-configuration",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "dispatching an unattended run whose model or effort a policy chose",
+      "resuming retrying or waking a run that was spawned with a chosen configuration",
+      "auditing why a run cost or behaved differently from its siblings",
+      "recording what a run actually executed on"
      ]
     },
     {
@@ -614,6 +629,13 @@
      "technique": "tier-risk-inversion",
      "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/applications/process--tier-risk-inversion.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "rust",
+     "technique": "pin-the-resolved-configuration",
+     "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/applications/rust--pin-the-resolved-configuration.md",
+     "verified_on": "2026-09-28",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -842,6 +864,7 @@
     "harness-fault-attribution/retract-and-record",
     "model-and-effort-selection/cheapest-sufficient-tier",
     "model-and-effort-selection/instruction-defect-before-tier-escalation",
+    "model-and-effort-selection/pin-the-resolved-configuration",
     "model-and-effort-selection/tier-risk-inversion",
     "shared-research-record/typed-contribution-vocabulary",
     "unattended-run-isolation/hermetic-inherited-configuration",
@@ -862,6 +885,7 @@
     "harness-fault-attribution/fault-signature-catalogue",
     "harness-fault-attribution/re-gate-then-resample",
     "harness-fault-attribution/retract-and-record",
+    "model-and-effort-selection/pin-the-resolved-configuration",
     "unattended-run-isolation/confine-configured-output-paths",
     "unattended-run-isolation/disposable-run-environments",
     "unattended-run-isolation/hermetic-inherited-configuration",
