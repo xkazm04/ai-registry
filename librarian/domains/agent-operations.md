@@ -141,3 +141,32 @@ Source classes, this run. Kept:
 - evaluation orgs' reports on their own exclusion policy.
 
 Declined as sole support: search snippets, and password-protected or unloaded pages.
+
+## 2026-09-27 - deepen: engine-behaviour-profiles
+
+Dispatched by the Curator lane on "3 techniques (design floor is 4)". Landed (55bd8787):
+- **New technique, harness-crossed-attribution.** Converged on all four lanes: blind,
+  counter-evidence, harness-source landscape and a local harness read.
+- **Three flips.**
+  - The resolution of an authority conflict belongs to the engine and the wording, not
+    the family.
+  - Dispositions expire like capabilities; the harness version is a stamp and a trigger.
+  - Golden path: the unit profiled is the engine; routing keeps the mechanical stop.
+- **One conditioned technique.** Family-diversity-as-a-control: a shared failure points
+  at what was shared, harness included; a second-family judge reduces self-preference
+  and does not remove it.
+- **Both older applications corrected.**
+
+Two `applied.md` rows `better` (experiment, simulation) and one `unapplied`. A scan of
+13,920 session transcripts found the engine the benchmark recorded as deferring
+force-adding ignored paths in 4 sessions across 3 repositories. The personas Codex lane
+now runs a model outside the profiled set under an unrecorded harness version. Both are
+banked as leads, not patched. Impact: no fleet map pairs the subject. Scan points 9 -> 2;
+"single stack" remains. Yield high, dry_streak 0. See [[engine-behaviour-profiles]].
+
+Source classes, this run. Kept:
+- harness source code read raw, over the harness's own prose;
+- vendor docs for the vendor's own product;
+- the fleet's session transcripts, read row by row after a regex.
+
+Declined: withdrawn preprints; search-summary-only numbers.
