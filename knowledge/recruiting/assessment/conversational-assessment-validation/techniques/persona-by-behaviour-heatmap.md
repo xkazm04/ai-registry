@@ -118,8 +118,9 @@ each other.
 - **When the headline rate improves but a row goes red, the release regressed.**
   Population failures are never offset by aggregate gains.
 - **When a column is red and a rule already exists for it, the problem is
-  position or form, not content** — the rule is probably too far from the end of
-  the brief, or it asks for an extra conversational move.
+  position or form, not content**. The rule is probably sitting in the middle of
+  the brief, or stated only where the brief begins rather than again where the
+  turn is made, or it asks for an extra conversational move.
 - **When a cell has fewer conversations than the floor, it is not a finding.**
   Say insufficient and mean it.
 - **When the matrix is mostly white because cells were never run, report

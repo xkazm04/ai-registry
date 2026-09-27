@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 385,
-  "applications": 222,
+  "applications": 224,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -2547,9 +2547,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/conversational-assessment-validation/conversational-assessment-validation.md",
-   "digest": "sha256-b2:b5bcf4bc3ede2254",
-   "revision": 2,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:4067c862a07d4a6b",
+   "revision": 3,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "candidate-behaviour-persona-bank",
@@ -2644,19 +2644,34 @@
      "stack": "node",
      "technique": "guardrail-ablation-self-test",
      "file": "knowledge/recruiting/assessment/conversational-assessment-validation/applications/node--guardrail-ablation-self-test.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "judged-quality-as-a-separate-axis",
+     "file": "knowledge/recruiting/assessment/conversational-assessment-validation/applications/node--judged-quality-as-a-separate-axis.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "prompt-change-regression-baseline",
+     "file": "knowledge/recruiting/assessment/conversational-assessment-validation/applications/node--prompt-change-regression-baseline.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "candidate-behaviour-persona-bank",
      "file": "knowledge/recruiting/assessment/conversational-assessment-validation/applications/process--candidate-behaviour-persona-bank.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27"
     },
     {
      "stack": "process",
      "technique": "deterministic-reliability-invariants-at-full-pass",
      "file": "knowledge/recruiting/assessment/conversational-assessment-validation/applications/process--deterministic-reliability-invariants-at-full-pass.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27"
     }
    ]
   },

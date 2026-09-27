@@ -48,10 +48,16 @@ application, because it composes stored data, needs a fixture harness of its own
 rather than an exemption — otherwise the most complex instrument you ship is the
 one you never test.
 
-Three things pin a baseline, and all three must be recorded or the comparison is
+Four things pin a baseline, and all four must be recorded or the comparison is
 invalid:
 
 - **the instrument text**, byte-exact, including rule order;
+- **the engine** — the model and version that played the interviewer, and its
+  sampling settings. The same text on another model is another instrument, and
+  a hosted model can change behaviour under an unchanged name. A diff across an
+  engine change is an instrument change, never a spread measurement. The engine
+  is the pin most often left out, because it lives in configuration rather than
+  in the text under review;
 - **the cast**, byte-exact — a regenerated cast is a different cast and its rates
   are not comparable to the previous run's;
 - **the judge rubric and thresholds**, versioned, since a rubric edit re-opens
@@ -83,8 +89,8 @@ cell whose flip rate exceeds that spread as real.
 ## Procedure
 
 1. **Freeze the baseline before the change**, over the full cast, with the
-   instrument text, cast identity, rubric version and thresholds stored beside
-   it.
+   instrument text, engine, cast identity, rubric version and thresholds stored
+   beside it.
 2. **Establish run-to-run spread** by repeating the unchanged run at least
    enough times to bound it, and record the number of conversations behind it
    ([a-claim-carries-its-sample-and-its-basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).

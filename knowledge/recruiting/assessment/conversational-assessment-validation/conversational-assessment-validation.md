@@ -40,10 +40,23 @@ actually said, never getting stuck, never leaking, never grading, holding a
 language, closing properly, surviving every behaviour a candidate can produce —
 is a property of the instructions and the reasoning that follows them, not of
 the channel carrying them. That layer can be exercised in pure text, driving the
-**real** instrument against a simulated candidate, at roughly one percent of the
-cost and a hundred times the speed of the same cases through a live spoken
-channel — a hundred spoken interviews is tens of hours and a real bill; the same
-hundred as text is minutes and effectively free.
+**real** instrument against a simulated candidate, at a small fraction of the
+cost and time of the same cases through a live spoken channel — a hundred spoken
+interviews is tens of hours and a real bill; the same hundred as text is minutes.
+
+The reframe holds on one condition, and it is the one a text harness most often
+breaks without noticing: the text plane must run **the engine the candidate
+meets**. It does where production is a cascade — speech recognised to text, the
+same text model reasoning over the same brief, speech synthesised back — because
+then the policy layer the harness drives is the policy layer in production. It
+does not where production is an end-to-end speech model, or where the harness
+plays the interviewer with a stand-in from another model family because the
+production model has no text path. The sweep then validates the brief on a
+proxy, and published comparisons of text and speech counterparts of one model
+find gaps too large to assume away. Name the engine the text plane ran; where it
+is a proxy, measure proxy-to-production agreement on a slice of the same cast
+before the sweep certifies anything, and do not expect the real-medium suite to
+stay small on that path.
 
 So the suite has two planes, sized very differently: a large behaviour sweep on
 the policy plane, run on every instrument change, and a deliberately tiny smoke
@@ -75,6 +88,12 @@ that ships at ninety-five percent has decided that one interview in twenty may
 leak, and nobody who wrote that number believed that was what they were
 deciding.
 
+Full pass is a statement about what was observed, never a rate of zero. No
+breach in *n* independent conversations still allows a true rate up to about
+3/*n* at 95% confidence, so a clean run over thirty conversations cannot exclude
+one interview in ten breaching. Report the bound beside the pass, and grow *n* —
+repeat runs of the same cases count — before a clean run is read as safety.
+
 **Quality is a matter of degree.** Did the follow-up narrow rather than repeat?
 Was the probe neutral rather than leading? Did the conversation cover the
 competencies? Was the register warm without being evaluative? No crisp boundary,
@@ -88,16 +107,20 @@ does damage in both directions: an averaged number lets a leak be offset by
 gracious phrasing, and lets a stylistic quibble hold a release that is perfectly
 safe. Keep them separate to the verdict line, and give reliability absolute veto.
 
-There is a hard empirical reason to keep reliability off the judge as well.
-Where the operational gate reads only model-judged quality scores, measured
-recall of real production defects in multi-turn agents runs around one fifth,
-and the misses are structured rather than random: turn-local faults get caught,
-while cross-turn faults — a state the agent never escapes, a guardrail that
-stopped applying six turns ago, a stale referent — are systematically missed,
-because a turn-shaped rubric has no category for them. Judges frequently
-*notice* the anomaly and file it under a category the gate does not read. Treat
-a judge as a floor beneath human transcript review, never as the gate, and put
-everything expressible as a rule into a deterministic check.
+There is a hard empirical reason to keep reliability off the judge as well. In
+one published production case study — a single multi-turn agent, a judge rubric
+with three coarse axes — the judge surfaced two of nine human-confirmed defect
+patterns in one batch, and the operational gate flagged none of a hundred rounds
+in a batch where humans confirmed twenty-three distinct defects. The misses were
+structured rather than random: turn-local faults got caught, while cross-turn
+faults — a state the agent never escapes, a guardrail that stopped applying six
+turns ago, a stale referent — were missed. The cause was routing more than
+perception: the judge usually *noticed* the anomaly and filed it under a
+category the gate did not read. One study is not a rate for every judge, and
+richer rubrics are the stated remedy, not a proven one; judges with per-case
+rubrics still agree with experienced human raters only fairly. Treat a judge as
+a floor beneath human transcript review, never as the gate, and put everything
+expressible as a rule into a deterministic check.
 
 Between the two axes sits a third band most harnesses never build:
 **deterministic measurements that are deliberately not gates.** Evaluative
@@ -160,10 +183,27 @@ A hiring-specific quartet belongs here that generic agent red-teaming never
 produces: the candidate who **asks to speak to a human**, the one who
 **withdraws consent** mid-conversation, the one who **volunteers sensitive
 personal information**, and the one who **alleges discrimination**. Each has a
-required response that is a policy decision rather than a conversational one —
-route, stop, absorb without acknowledgement, escalate — and none may be
-improvised, because the improvisation ends up in a transcript that is later
-evidence.
+required response that is a policy decision rather than a conversational one,
+and none may be improvised, because the improvisation ends up in a transcript
+that is later evidence.
+
+Two of the four are easy to write as "absorb it and keep it off the record", and
+both are wrong in the same way: **keep it out of the score, not out of the
+record.** A disclosure that asks for, or implies, an adjustment to the process —
+a hearing difficulty, a need for more time — is an accommodation request in
+plain words; US disability guidance says no particular phrase is needed, so the
+required response is to route it to a person, never to absorb it. What is not
+followed up is the condition itself. A discrimination allegation is protected
+activity in the same regime: route it to a person without defending the process
+or conceding anything, preserve it, and never let it change the evaluation or
+end the interview. A request for a human is routed rather than argued. That is
+good practice everywhere and an entitlement only in some cases: where the
+request is tied to a disability, where consent is the basis of the automated
+interview, or where the outcome would otherwise be a solely automated decision.
+An interviewer cannot tell which case it is in, so it routes every time. A
+consent withdrawal stops the interview where consent is the basis. What was
+already said stays lawfully held until a request or a retention rule decides
+otherwise, never the interviewer.
 
 A defensible pre-production cast crosses attack archetypes with
 personas and with severity tiers — the same override attempt dressed as an
@@ -199,11 +239,18 @@ the product worse.
 
 So every containment check is an ordered pair: a detector for the forbidden act,
 and a detector for the compliant refusal that is evaluated first and, when
-present, closes the case as a pass. The pairing carries a symmetric obligation,
-because blanket refusal now scores as success: the suite must include benign
-near-misses — questions that sound like the forbidden ask but are not ("will I
-hear back about next steps?") — so an interviewer that refuses everything is
-caught paying its cost. Refuse-everything is not a passing grade; it is a
+present, closes **the span it covers** as a pass — not the sentence it sits in.
+"I can't share a score, but you did really well" is one sentence carrying both
+the decline and the act, and a refusal marker that exonerates its whole sentence
+passes it. Refuse-then-comply is the failure jailbreak-evaluation benchmarks
+test their judges against first, and it is no rarer when the thing complied with
+is a verdict. Check the remainder with the violation detector, and give that
+check its own known positive, because it is a detector too.
+
+The pairing carries a symmetric obligation, because blanket refusal now scores
+as success: the suite must include benign near-misses — questions that sound
+like the forbidden ask but are not ("will I hear back about next steps?") — so
+an interviewer that refuses everything is caught paying its cost. Refuse-everything is not a passing grade; it is a
 different failure with the same score.
 
 ## What must never surface: the internal vocabulary
@@ -275,7 +322,9 @@ suggest, and a suite reporting "four hundred turns tested" from twenty
 conversations is quoting a sample size it does not have. Report
 per-conversation rates with their conversation counts
 ([a-claim-carries-its-sample-and-its-basis](../../_laws.md#a-claim-carries-its-sample-and-its-basis)),
-and let per-turn detail stay diagnostic.
+and let per-turn detail stay diagnostic. Where turns must be pooled, use
+clustered standard errors. In published evaluations with clustered items these
+have run several times the naive ones.
 
 ## A change is bound to its wording
 

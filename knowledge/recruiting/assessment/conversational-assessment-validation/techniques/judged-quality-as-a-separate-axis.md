@@ -30,15 +30,18 @@ perfectly safe. Worse, a single number destroys the diagnostic value of both
 axes: nobody can tell from a drop whether the instrument became unsafe or merely
 became duller.
 
-There is also a hard measurement reason to keep the gate off the judge.
-Where the operational gate reads only model-judged quality scores, measured
-recall of real defects in deployed multi-turn agents runs around one fifth, and
-the misses are structured rather than random. Turn-local faults are caught
-reliably; the cross-turn faults — a state the agent never escapes, a guardrail
-that quietly stopped applying, a referent that went stale six turns ago — are
-missed, because a turn-shaped rubric has no category for them. In the same
-studies the judge frequently *noticed* the anomaly and filed it under a category
-the gate did not read. A judge is a regression floor beneath human transcript
+There is also a hard measurement reason to keep the gate off the judge. In one
+published production case study — one deployed multi-turn agent, a rubric of
+three coarse axes — the judge surfaced two of nine human-confirmed defect
+patterns in one batch, and the gate flagged none of a hundred rounds in a batch
+holding twenty-three confirmed defects. The misses were structured rather than
+random. Turn-local faults were caught; the cross-turn faults — a state the agent
+never escapes, a guardrail that quietly stopped applying, a referent that went
+stale six turns ago — were missed, because the rubric had no category for them.
+The judge had usually *noticed* the anomaly and filed it under a category the
+gate did not read, so the finding is about routing and rubric design more than
+perception. It is one agent and one configuration, not a rate for judges in
+general. A judge is a regression floor beneath human transcript
 review, not a replacement for it, and never the thing that decides a release.
 
 ## Designing the metrics
@@ -85,11 +88,16 @@ gate on and belongs in the report rather than the gate.
 Two implementation choices do most of the work of keeping a judged axis stable.
 **Pin the judge**, model and version, and change it as a deliberate,
 re-baselined event: an unpinned judge silently re-scales every rate underneath
-you and the change looks like an instrument regression. And **define a
-regression as a move of more than one point on a five-point scale**, per
-conversation, rather than any downward movement — a one-point drop on a
-five-point judged scale is inside the noise for most rubrics, and treating it as
-a signal is how a team learns to ignore the axis.
+you and the change looks like an instrument regression. And **derive what counts
+as a regression from the pinned judge's own repeat variance**, rather than
+calling any downward movement one. Judge the same transcripts several times, and
+call a move a regression only when it clears that spread on a paired comparison
+over the same conversations. A fixed rule such as "more than one point on a
+five-point scale" has no published basis. Measured single-shot noise differs by
+judge (for small judges it sits near a point), so a fixed rule is inside the
+noise for one judge and blind to real movement for another. Chasing noise is how
+a team learns to ignore the axis; a threshold with no variance study behind it
+is how the axis stops seeing anything.
 
 Record the reason beside the number — what variance it was derived from, over
 how many conversations, on which version of the rubric. A threshold with no

@@ -18,7 +18,7 @@ For this class, the honest gate is **every case, every turn, no exceptions** —
 and the checks that enforce it must be deterministic, because a probabilistic
 judge cannot carry an absolute gate.
 
-Four invariants recur across every automated interviewer worth deploying:
+Five invariants recur across every automated interviewer worth deploying:
 
 1. **No leakage of internal vocabulary.** Stage directions, phase names,
    scripted-probe and cover-question language, listen-for and reveals-that
@@ -26,22 +26,33 @@ Four invariants recur across every automated interviewer worth deploying:
 2. **No verdict, no score, no outcome.** Including soft outcomes: "you'd be a
    strong fit", "that's exactly what we're looking for", "I think you'll do
    well" ([no-adverse-outcome-is-solely-automated](../../../_laws.md#no-adverse-outcome-is-solely-automated)).
-3. **No evaluative praise.** A running scoreboard in a friendly voice is still a
-   scoreboard, and it teaches the candidate which register earns approval inside
-   two answers.
-4. **Language consistency.** Lock onto the language the candidate replied in and
+3. **Language consistency.** Lock onto the language the candidate replied in and
    hold it, switching only when the candidate switches first — under
    provocation, hostility and silence.
-5. **Completion, and no stall.** The conversation reached a coherent end rather
+4. **Completion, and no stall.** The conversation reached a coherent end rather
    than erroring, drying up after two turns, or looping. Looping has a clean
    deterministic detector that most harnesses lack: **consecutive interviewer
    turns above a high textual-similarity threshold**. A near-repeat is a stuck
    agenda, and to the candidate it reads as being ignored.
-6. **Opened and closed correctly.** The first turn discloses what the
+5. **Opened and closed correctly.** The first turn discloses what the
    interviewer is and that the conversation is recorded for a human reviewer;
    the last thanks the candidate and hands off to that human. Both are
    single-turn, structurally checkable, and both are things a candidate is owed
-   rather than stylistic preferences.
+   rather than stylistic preferences. That the interviewer is automated is owed
+   by law in several regimes — in the EU, under the AI Act's transparency
+   article, at the latest at the first interaction — and one US state's statute
+   for AI-analysed video interviews requires notice, an explanation and consent
+   *before* the interview. Where a rule like that applies, the first-turn check
+   verifies a disclosure; it does not discharge one. And "recorded for a human
+   reviewer" is a disclosure only if it is true.
+
+Evaluative praise is deliberately not on the list, though the brief forbids it.
+A single "great answer" is a style lapse rather than a breach, and the permitted
+acknowledgements are safe by their distribution across answers, not by their
+vocabulary — a property no per-turn pattern decides. Count praise in the
+golden path's ungated third band and watch the count fall; a full-pass gate on a
+detector that cannot see rationing is red for taste and blind to the real
+scoreboard at once.
 
 Each is measured on a full-pass gate. Anything softer is a decision that some
 proportion of real interviews may breach it, and nobody who sets a
@@ -60,11 +71,18 @@ punishes correct behaviour learns to distrust its own failures, then tunes the
 interviewer to avoid the *word* rather than the *act*, and ships an interviewer
 that dodges awkwardly where it used to decline gracefully.
 
-**Evaluate the pair at sentence granularity, not turn granularity.** A single
-turn routinely contains both a compliant decline and, two sentences later, the
-thing it just declined to give. Checking the whole turn for a refusal marker
-exonerates that turn wholesale; checking each sentence catches it. This is a
-small implementation choice with a large effect on what the gate can see.
+**Evaluate the pair at sentence granularity, not turn granularity — and inside a
+refusal sentence, at clause granularity.** A single turn routinely contains both
+a compliant decline and, two sentences later, the thing it just declined to
+give. Checking the whole turn for a refusal marker exonerates that turn
+wholesale; checking each sentence catches it. The same failure recurs one level
+down: "I can't share a score, but you did really well" is one sentence, and a
+refusal marker that closes its whole sentence passes the verdict glued to it.
+Split a refusal sentence at a contrastive turn — "but", "though", "however"
+and their equivalents in every language the instrument runs in — and judge each
+clause that is not itself a refusal on its own. Refuse-then-comply is the output
+jailbreak-evaluation benchmarks require their judges to catch before anything
+else, because refusal-string matching exonerates it.
 
 So every containment invariant is implemented as an ordered pair:
 
@@ -72,8 +90,14 @@ So every containment invariant is implemented as an ordered pair:
   instrument runs in;
 - a **violation detector** — the forbidden act;
 - and the rule that **refusal is evaluated first and, when it matches, closes
-  the case as a pass**, regardless of what the violation detector would have said
-  about the same sentence.
+  its own span as a pass** — its clause, not the sentence it sits in and never
+  the turn. Whatever the refusal does not cover goes to the violation detector.
+
+A split at contrastive words is a lower bound, and the record should say so. An
+asyndetic compound — "I cannot confirm anything; you passed." — has no
+contrastive word and still passes. Keep one as a known miss, or as a known
+positive once the split is widened. Widening it is a trade against false
+breaches on compliant declines, so measure it over the compliant set first.
 
 The pairing creates a second obligation, because blanket refusal now scores as
 success. The suite must carry **benign near-misses** — questions that resemble
@@ -85,7 +109,7 @@ instrument scores perfectly while being unusable.
 ## A check keyed to the instrument's own bookkeeping is not deterministic
 
 Every invariant above is keyed to something the conversation *is*: a turn's
-text, the language it is in, whether a closing turn exists. A fifth class is
+text, the language it is in, whether a closing turn exists. Another class is
 constantly proposed and it is a different animal — it keys to something the
 instrument **announces about itself**. The phase it says it has entered, the
 topic it declares it is on, the step it reports completing. Those markers are
@@ -168,7 +192,9 @@ transcript after that point is contaminated, and no scoring of it means anything
 2. **Implement it deterministically** — pattern, structural check, language
    identification — never as a model judgment, and never as a judgment you would
    have to defend to a person.
-3. **Pair it with its refusal detector** and give refusal precedence.
+3. **Pair it with its refusal detector** and give refusal precedence over the
+   span it covers, never beyond it. Carry a refusal-plus-act compound as a known
+   positive that must fail.
 4. **Add benign near-misses** for every containment invariant.
 5. **Localise every detector** into each language the instrument runs in. A
    containment check that exists in one language and not another produces a gate
