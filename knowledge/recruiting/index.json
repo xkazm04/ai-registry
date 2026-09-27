@@ -6220,9 +6220,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/recruiting-funnel-metrics.md",
-   "digest": "sha256-b2:d08e92cdba8c02b4",
-   "revision": 4,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:07690a121a807ac3",
+   "revision": 5,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "creation-cohort-versus-terminal-transition-basis",
@@ -6337,8 +6337,8 @@
      "stack": "node",
      "technique": "stage-pass-through-and-dwell-time",
      "file": "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--stage-pass-through-and-dwell-time.md",
-     "verified_on": "2026-09-10",
-     "verified_against": "node@18"
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",

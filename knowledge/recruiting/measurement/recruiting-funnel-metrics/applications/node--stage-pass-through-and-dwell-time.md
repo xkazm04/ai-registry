@@ -5,8 +5,8 @@ subject: recruiting-funnel-metrics
 technique: stage-pass-through-and-dwell-time
 stack: node
 status: forged
-verified_on: 2026-09-10
-verified_against: node@18
+verified_on: 2026-09-28
+verified_against: node@24
 proof: structural-only
 ---
 
@@ -50,6 +50,20 @@ history also cannot supply the employer's internal screening timestamps.
 ## Verification
 
 The parser, folding, calculation, and rendering sections were read on 2026-09-10.
-`node funnel-velocity.mjs --self-test` could not start: the clean clone lacked
-`js-yaml`. No test pass or behavioral result is claimed. Re-run the self-test
-with the source dependencies installed before adopting this implementation.
+`node funnel-velocity.mjs --self-test` could not start then: the clean clone lacked
+`js-yaml`.
+
+On 2026-09-28 the source's dependencies were installed and the self-test run on
+Node 24.14 at the pinned commit. It passed, and it passed again at upstream
+`2d0285ab` (2026-09-27), where `funnel-velocity.mjs` is unchanged since the pin
+and `package.json` still declares `>=18`. A mutation control failed as expected:
+with the `p75` interpolation removed, the run exited 1 on its `[3,6,20] -> 13`
+fixture. The passing fixtures cover:
+- same-day exclusion, which is counted;
+- still-waiting censoring, which the rejection hop does not double-count;
+- median suppression below three completed hops;
+- the empty-ledger message.
+
+No fixture covers a row that returns to a stage it has already left, so
+first-entry selection remains a reading of the code. These are the source's own
+tests. No comparison against another dwell method was run.
