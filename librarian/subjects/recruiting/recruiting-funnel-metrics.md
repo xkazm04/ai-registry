@@ -2,7 +2,7 @@
 subject: recruiting-funnel-metrics
 domain: recruiting
 date: 2026-09-10
-last_touched: 2026-09-26
+last_touched: 2026-09-28
 touched_by: deepen
 dry_streak: 0
 depth: L3
@@ -131,3 +131,47 @@ because kp's main is ahead 31 and behind 3 with other runs' commits.
   (blind lane; written into the forecast technique only as a consequence of its
   existing matured-cohort rule);
 - a "time to start" as the separately named start-date clock (blind lane).
+
+## 2026-09-28 - `/deepen`, currency pass (dp-rfm-0928): the one drifted application executed
+
+The Curator lane dispatched this run on "single stack (node)" from local main
+d93fbd78, which was 190 commits behind origin. The 09-26 pass had already cleared
+that finding with its react application. The run worked from origin/main 29be65e1
+in a detached worktree.
+
+On origin, `check-currency` still reported one event for this subject. Stack drift:
+the career-ops application `node--stage-pass-through-and-dwell-time` sat at
+`node@18` (verified 2026-09-10), against a fleet major of 24. The 09-26 pass
+re-verified the kp applications but not this one. This run worked that event only.
+No research lanes ran, so the pass does not count toward saturation, and
+`dry_streak` stays 0.
+
+**Landed:** the application's `verified_on` moved to 2026-09-28 and
+`verified_against` to `node@24`. Its Verification section now records an
+execution, where it had recorded an unrunnable self-test:
+- with dependencies installed, `node funnel-velocity.mjs --self-test` passed on
+  Node 24.14 at the pinned commit 6ddfca5a;
+- it passed again at upstream 2d0285ab (2026-09-27), where `funnel-velocity.mjs`
+  is unchanged since the pin;
+- a mutation control removed the p75 interpolation, and the run exited 1;
+- `package.json` still declares `>=18`.
+
+The fixtures cover same-day exclusion, censoring, the n<3 suppression and the
+empty ledger. No fixture covers a return to a stage, so first-entry selection
+stays a reading of the code. The pinned citations still resolve, and the body's
+claims are unchanged. After the edit `check-currency` shows 0 drift, 0 expired
+and 0 at-risk for this subject.
+
+**Impact.** kp: 4 contexts pair with this subject. The map records 0 of them as
+judged, where 30 judged pairs elsewhere in the same map serve as the positive
+control, so 0 verdicts went stale. `build-registry-map` was not run. It rewrites
+all twelve fleet maps in trees where sibling runs are live, and the only thing it
+would change here is the digest on four unjudged pairs. The next fleet map build
+carries it.
+
+**Applied:** none owed. No technique is new and no rule flipped.
+
+**Return conditions:**
+- career-ops changes `funnel-velocity.mjs` or its declared engine;
+- kp judges one of its 4 contexts against this subject;
+- one of the three banked leads gains a second lane.

@@ -625,3 +625,16 @@ A live kp defect found by reading: the promote-floor calibration corpus mixes tr
 and match scores. Impact: kp has 6 contexts, 1 of them with a stale verdict
 (`decisions-review-ui`). Yield high, dry_streak 0. See
 [[combining-signals-into-a-hire-decision]].
+
+## 2026-09-28 - deepen: recruiting-funnel-metrics (currency pass)
+
+Dispatched by the Curator lane on "single stack (node)" from a checkout 190 commits
+behind origin. The 09-26 pass had already cleared that finding. On origin, one
+computed event remained: the career-ops dwell application's stack had drifted
+(`node@18` against fleet 24). Landed: that application was re-verified by running
+its source's self-test on Node 24. It passed at the pin and at upstream HEAD, and
+a mutation control failed as expected. It moves to `verified_on: 2026-09-28`,
+`node@24`. No research lanes ran and no technique or flip landed, so no
+`applied.md` rows are owed. Impact: kp has 4 contexts, 0 judged, 0 stale verdicts.
+The map was not regenerated, because the digest is on unjudged pairs only. Yield:
+currency only, and dry_streak is unchanged at 0. See [[recruiting-funnel-metrics]].
