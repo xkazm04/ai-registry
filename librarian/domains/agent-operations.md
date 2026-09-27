@@ -15,9 +15,9 @@ Coverage note for the `agent-operations` bundle. Part of [[index]]; graded again
 | | |
 | --- | --- |
 | Subjects | 9 |
-| Techniques | 34 |
-| Applications | 19 |
-| `use_when` written | 34/34 |
+| Techniques | 36 |
+| Applications | 23 |
+| `use_when` written | 36/36 |
 | Fleet map pairs | none. No project's `registry-map.json` joins a context to this bundle |
 
 These are a record of this run, not an input to the next one. Recompute with
@@ -30,7 +30,8 @@ These are a record of this run, not an input to the next one. Recompute with
 - Two stacks: `process`, and `node` since the blind-judging run. The benchmark harnesses
   the subjects were distilled from are not in a tracked fleet tree. The personas
   memory-year harness is the one tracked benchmark; the registry's own contest skill is
-  the one tracked judging panel. Applies land in those two.
+  the one tracked judging panel. Applies land in those two, and in the loop's integrity
+  guard in ascent since the deterministic-run-verification run.
 - Owed in the contest skill (blind-judging run): opaque per-seat staging roots, per-seat
   label rotation, a panel-completeness check before ranking and refusal of an invalid
   verdict. Deferred because another session held uncommitted work in those scripts.
@@ -170,3 +171,34 @@ Source classes, this run. Kept:
 - the fleet's session transcripts, read row by row after a regex.
 
 Declined: withdrawn preprints; search-summary-only numbers.
+
+## 2026-09-27 - deepen: deterministic-run-verification
+
+Dispatched by the Curator lane on "3 techniques (design floor is 4)". Landed (e3612ff2):
+- **New technique, grade-with-checks-the-run-could-not-touch.** Converged on all four
+  lanes: blind, counter-evidence, primary grader source and landscape. It is the
+  verifier's half of quality-gates' in-task freeze.
+- **Three flips.**
+  - The baseline's passing set is half the contract; a vanished test is a failure.
+  - The ignore check answers "not ignored" for every tracked file unless asked with the
+    index disregarded.
+  - Golden path: a citation that resolves only on the machine that made it is
+    unverified.
+- **One conditioned technique.** Recompute-facts-at-report-time: derive, do not
+  re-execute; stamp the grader's code revision and keep the verdict it replaced.
+
+Four `applied.md` rows `better` (code, two experiments, simulation) and one `unapplied`.
+The code row is in ascent's lane integrity guard: 3/19 -> 19/19 of the fleet's real
+gate-config files. It is committed locally and NOT pushed, because the project's master
+is 105 ahead of origin. The citation experiment ran over this registry's own ledgers:
+19 of 241 project commits cited in `applied.md` resolve nowhere. Impact: no fleet map
+pairs the subject. Scan points 9 -> 5; "single stack" remains. Yield high, dry_streak 0.
+See [[deterministic-run-verification]].
+
+Source classes, this run. Kept:
+- graders' source read at a pinned commit;
+- version-control and test-runner reference docs;
+- flaky-test studies with rerun statistics;
+- fleet trees and registry ledgers, read row by row.
+
+Declined as sole support: practitioner posts read only through a summarizer.
