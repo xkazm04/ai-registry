@@ -120,3 +120,12 @@ Source classes, this run. Kept:
 - benchmark maintainers' posts about their own timeout policy.
 
 Declined: page summaries from a fetch tool as quote sources - one invented an enum.
+
+## 2026-09-27 - re-dispatched on a stale clock (run `dp-arb-0927b`)
+
+Declined, no pass. The Curator lane re-sent the same finding, "3 techniques (design floor
+is 4)", from d93fbd78. The primary checkout's main was 171 behind origin, where d9382ed7 had
+already landed the fourth technique (termination-cause-record) earlier the same day. The
+floor passes, no clock has expired, and no event is newer than that landing. dry_streak is
+unchanged: a declined dispatch is not a dry pass. This is the lane's second stale re-send
+of the day (after `dp-abd-0927b`), so the run records it as a failure signature.
