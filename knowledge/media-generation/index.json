@@ -1444,7 +1444,7 @@
    "file": "knowledge/media-generation/production-ops/live-system-demo-film/live-system-demo-film.md",
    "digest": "sha256-b2:ef4fc3b78116e73b",
    "revision": 2,
-   "changedAt": "2026-09-27",
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "audio-first-beat-pacing",

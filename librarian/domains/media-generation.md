@@ -214,3 +214,15 @@ platform table was re-dated, with a 2027 YouTube Partner Program correction.
 Points 5 -> 3; "never swept" remains. Detail in [[platform-format-adaptation]].
 Two of the four process-only narrative subjects are now through; the other two
 are `creator-voice-and-tone` and `narrative-engine-selection`.
+
+## 2026-09-27 - deepen, live-system-demo-film
+
+Dispatched on "single stack (node)"; the event behind it was `check-currency` drift on
+both applications (`node@22` against a fleet on 24). Drift cleared by a re-read at the
+source tree's HEAD plus a node 24 typecheck; the second stack is `go`, a public terminal
+recorder whose rendered-grid `Wait` converges with the subject's strongest rule and whose
+fail-fast policy gave the carry-on rule its economic condition. The bundle now declares
+`go`. "Measured" gained its condition on known-ground-truth MP3 fixtures (n=4), and the
+unsourced 10-15% pause figure was labelled folklore. Map not regenerated: both joined
+projects carried a sibling's uncommitted rebuild; joins are unjudged, so nothing went
+stale. Points 5 -> 3. Detail in [[live-system-demo-film]].

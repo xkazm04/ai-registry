@@ -1,0 +1,70 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-lsdf-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-09-27T21:40:00Z",
+  "ended_at": "2026-09-27T22:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 3,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/live-system-demo-film",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/media-generation/production-ops/live-system-demo-film/applications/go--recording-that-asserts-its-claims.md",
+    "knowledge/media-generation/production-ops/live-system-demo-film/applications/node--audio-first-beat-pacing.md",
+    "knowledge/media-generation/production-ops/live-system-demo-film/applications/node--recording-that-asserts-its-claims.md",
+    "knowledge/media-generation/production-ops/live-system-demo-film/techniques/audio-first-beat-pacing.md",
+    "knowledge/media-generation/production-ops/live-system-demo-film/techniques/recording-that-asserts-its-claims.md",
+    "knowledge/media-generation/index.md",
+    "knowledge/media-generation/index.json",
+    "rules/ai-registry-media-generation.md",
+    "catalog.json",
+    "librarian/domains/media-generation.md",
+    "librarian/subjects/media-generation/live-system-demo-film.md"
+  ],
+  "commits": [
+    {
+      "sha": "023e6a4f",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation",
+        "rules/ai-registry-media-generation.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "media-generation/live-system-demo-film",
+      "reason": "TTS request stitching across per-beat clips: the clip's sound is creator-voice-and-tone's, this subject owns only its length - proposed there"
+    },
+    {
+      "subject": "media-generation/live-system-demo-film",
+      "reason": "Playwright main-branch fps/bitrate scaling: unreleased and lane-reported only, covered by the application's refresh_by clock"
+    },
+    {
+      "subject": "media-generation/live-system-demo-film",
+      "reason": "a late-picture detection technique: one lane plus synthesis, not convergence - banked with a return condition"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Drift cleared: node@24 by re-read at source HEAD plus a node 24.14 typecheck. Map not regenerated: gravitone and systedo-case held a sibling's uncommitted map rebuild; the 9 joins are unjudged and unchanged. No applied.md row owed."
+}
