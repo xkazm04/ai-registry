@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 35,
-  "applications": 20,
+  "techniques": 36,
+  "applications": 23,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "35/35",
+  "use_when_coverage": "36/36",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -278,9 +278,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/deterministic-run-verification/deterministic-run-verification.md",
-   "digest": "sha256-b2:9b16d2357d29240b",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:ac3b017c4d37ee49",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "baseline-relative-gate-evaluation",
@@ -307,7 +307,25 @@
      "use_when": [
       "checking whether a run respected a repository's own rules",
       "detecting evasions like disabled checks",
-      "deciding what counts as leftover work"
+      "deciding what counts as leftover work",
+      "a committed file matches an exclusion rule"
+     ]
+    },
+    {
+     "slug": "grade-with-checks-the-run-could-not-touch",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-repository-outranks-the-instruction"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "grading a run that had write access to its own tests or gates",
+      "a run's diff touches a test",
+      "fixture",
+      "hook or gate configuration",
+      "deciding whether to void a run that edited its checks or to grade it anyway",
+      "a check passes in a run's tree and nobody can say whose version of the check ran"
      ]
     },
     {
@@ -330,6 +348,24 @@
      "technique": "baseline-relative-gate-evaluation",
      "file": "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--baseline-relative-gate-evaluation.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "declared-rule-verification",
+     "file": "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--declared-rule-verification.md",
+     "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "process",
+     "technique": "grade-with-checks-the-run-could-not-touch",
+     "file": "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--grade-with-checks-the-run-could-not-touch.md",
+     "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "process",
+     "technique": "recompute-facts-at-report-time",
+     "file": "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--recompute-facts-at-report-time.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -752,6 +788,7 @@
     "blind-judging-of-agent-runs/facts-beside-the-work",
     "deterministic-run-verification/baseline-relative-gate-evaluation",
     "deterministic-run-verification/declared-rule-verification",
+    "deterministic-run-verification/grade-with-checks-the-run-could-not-touch",
     "deterministic-run-verification/recompute-facts-at-report-time",
     "engine-behaviour-profiles/authority-conflict-disposition",
     "engine-behaviour-profiles/capability-claims-expire",
@@ -813,6 +850,7 @@
     "agent-benchmark-design/eligibility-before-ranking",
     "blind-judging-of-agent-runs/facts-beside-the-work",
     "deterministic-run-verification/declared-rule-verification",
+    "deterministic-run-verification/grade-with-checks-the-run-could-not-touch",
     "engine-behaviour-profiles/authority-conflict-disposition",
     "model-and-effort-selection/tier-risk-inversion",
     "unattended-run-isolation/confine-configured-output-paths"

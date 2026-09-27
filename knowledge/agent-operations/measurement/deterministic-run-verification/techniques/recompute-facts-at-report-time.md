@@ -28,6 +28,21 @@ message, and the identity of the task, configuration and starting revision.
 A record that keeps only conclusions is a record that must be re-run after every fix, which
 in a fleet whose cells cost real minutes means the fixes stop happening.
 
+## Derive, do not re-execute
+
+Recomputing means running today's *definitions* over the stored *evidence*: the logs, exit
+statuses, diffs and file listings a run left. That is a pure function and safe to repeat.
+Running a stored tree's checks again is a different act. Images, registries and toolchains
+drift under a pinned description, so a re-execution in today's environment is a new
+measurement of an old tree, and it is labelled as a re-run, never folded in as a recompute.
+Where a re-run is genuinely needed, it is only comparable if the environment was pinned by
+content, not by name.
+
+Old evidence also limits what a new definition can say. A definition that needs something
+the old record never captured — an exit status beside the parsed log, a collected-test
+count — cannot be applied to that run, and the run stays measured under the definition it
+had.
+
 ## The recompute pass
 
 1. **Re-derive the facts** for every stored run under the current definitions, reusing
@@ -49,6 +64,13 @@ in a fleet whose cells cost real minutes means the fixes stop happening.
 - **Never edit a stored fact by hand.** Change the derivation and re-derive; a hand-edited
   record is invisible to the audit trail and will disagree with the code that produced its
   siblings.
+- **Stamp every derived fact with the version of the code that derived it, and keep the
+  verdict it replaced.** A configuration name — which judge, which model — does not
+  identify a grader; the grader's code changes under an unchanged name, and records made
+  by two versions then read as one population. The stamp is the code's revision, marked
+  when the working copy differed from it. A recompute that overwrites the old verdict in
+  place destroys the audit trail step 2 exists to keep: write the new verdict beside the
+  old one, so a moved number shows as a delta rather than a silent rewrite.
 - **A fix mid-flight is normal; a fix that cannot be applied backwards is a design defect.**
   When a fix can only apply to future runs, say so in the report and treat the corpus as two
   populations.

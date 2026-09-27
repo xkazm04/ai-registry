@@ -3,11 +3,12 @@ layer: golden-path
 type: golden-path
 subject: deterministic-run-verification
 status: draft
-use_when: [deciding what a harness must measure about an agent run, separating verifiable facts from judgement, verifying a run against a repository that is not green to begin with, auditing what an unattended run left behind]
+use_when: [deciding what a harness must measure about an agent run, separating verifiable facts from judgement, verifying a run against a repository that is not green to begin with, auditing what an unattended run left behind, checking what a run claimed against what it produced]
 techniques:
   - baseline-relative-gate-evaluation
   - declared-rule-verification
   - recompute-facts-at-report-time
+  - grade-with-checks-the-run-could-not-touch
 ---
 
 # Deterministic run verification
@@ -27,8 +28,9 @@ facts were measured independently.
 ## What must be measured from the tree
 
 - **Completion** — did the process finish, or was it refused, truncated or killed.
-- **Checks** — the repository's own gates, run by the harness, compared against the same
-  gates at the starting revision.
+- **Checks** — the repository's own gates, run by the harness **with the check definitions
+  of the starting revision**, compared against the same gates at that revision. A run that
+  can edit its tests can edit its verdict; the grader brings its own copy.
 - **The task's contract** — the artefacts the task prescribes, in the shape it prescribes:
   files present, log rows appended, a verdict line that parses, a map that still validates.
 - **What was left behind** — uncommitted changes, scratch directories, half-written
@@ -36,7 +38,11 @@ facts were measured independently.
 - **Rule overrides** — anything committed that the repository's own exclusion rules cover.
 - **Evasions** — checks disabled, tests skipped, assertions weakened, thresholds relaxed.
 - **Citations** — whether the file and line references in the run's own report resolve in
-  the tree at the revision it produced.
+  the tree at the revision it produced, and whether every commit it names exists on a ref
+  the verifier can fetch. A citation that resolves only on the machine that made it — a
+  commit never pushed, a clone since deleted — is **unverified**, not true, however well
+  formed it is. A test result the run quotes counts only if it was produced against the
+  tree it finally committed; a pass followed by one more edit is a stale claim.
 
 Each is cheap, reproducible and independent of taste, which is what makes them the bar a
 run must clear before anyone argues about quality.
@@ -50,6 +56,11 @@ of the starting revision's failures — and they must be *set*-based rather than
 because a run that fixes one failing test and breaks another leaves the count unchanged
 while making the repository worse.
 
+The failing set is only half of it. A test that stopped existing is in no failing set, so
+a run that deletes, renames, skips or breaks the collection of a test passes a
+failures-only comparison. What passed at the start must still be present and passing, and
+a suite that shows no sign of having run is not a pass.
+
 ## Facts are recomputed, not remembered
 
 A harness's definition of "left something behind" or "overrode a rule" will be refined
@@ -58,7 +69,9 @@ therefore live as *derivations from stored artefacts*, not as verdicts frozen at
 the clone, the diffs, the captured files and the gate output are kept, and every fact is
 recomputed under the current definition when a report is produced. Otherwise the corpus
 becomes a mix of old and new definitions with no way to tell which is which, and the only
-honest response to a fix is to re-run everything.
+honest response to a fix is to re-run everything. Recomputing runs new definitions over
+stored evidence; running an old tree again in today's environment is a new measurement and
+is labelled as one.
 
 ## Where verification ends
 
