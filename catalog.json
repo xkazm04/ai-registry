@@ -1086,10 +1086,10 @@
       "profile": "rkb/0.1",
       "purity": "recruiting",
       "subjects": 64,
-      "techniques": 385,
-      "applications": 224,
-      "files": 677,
-      "contentHash": "sha256-b2:9402c164e9b61754"
+      "techniques": 386,
+      "applications": 226,
+      "files": 680,
+      "contentHash": "sha256-b2:6b2ad04c5eb1d7b5"
     },
     {
       "name": "software-engineering",

@@ -84,6 +84,16 @@ For each, the same three-step handling: detect the mismatch, withhold the field
 from any comparative context, and render each value on its own record with its
 own frame.
 
+**Pay history is not in this family, because it is not a comparison field at
+all.** Pay-transparency law is moving to forbid asking applicants what they were
+paid, or relying on it. The EU directive forbids the question, with a
+transposition deadline of 7 June 2026, and several US jurisdictions forbid
+reliance on the answer. The same laws expressly leave a stated *expectation*
+lawful to ask. So pay history stays out of every comparative payload even when
+every figure is in one currency, and it is not even shown per candidate. A
+stated expectation remains a per-candidate fact, comparable only under the rules
+above.
+
 ## Procedure
 
 1. **Detect at assembly time.** Compare the unit, currency, scale or rubric
@@ -118,6 +128,9 @@ own frame.
 - When a candidate's unit is missing rather than different, treat it as unknown,
   not as the cohort default. Assuming the local currency for an unstated figure is
   the same invention with a friendlier face.
+- When a value is withheld, the payload says *withheld*, not empty. A null that a
+  narrator cannot tell from "stated no expectation" is the silent-absence failure
+  in a different field.
 - When an authoritative, recorded and dated conversion exists — an explicit
   budget in the candidate's own currency, a stated internal rate table — the
   comparison is permitted and must cite the basis it used.

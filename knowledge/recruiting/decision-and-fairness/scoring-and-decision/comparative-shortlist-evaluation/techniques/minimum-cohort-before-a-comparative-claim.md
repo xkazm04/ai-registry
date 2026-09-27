@@ -55,6 +55,14 @@ If a single constant is currently serving both, that is a defect regardless of
 whether the two numbers happen to be equal today, because the next person to
 tune one will silently move the other.
 
+The statistical floor is a minimum, not a guarantee. Above it, selection-rate
+tests still lack power at the sizes one employer usually has. The four-fifths
+ratio in particular throws false positives when no population difference exists.
+The federal selection guidelines already say small-number differences may not
+constitute adverse impact, and allow evidence over a longer period instead.
+Report the ratio with an interval and pool across time. A statistic that
+clears its floor with an interval spanning both verdicts has said nothing yet.
+
 ## There is a ceiling as well as a floor
 
 A comparative evaluation also has a maximum field. Past a handful of candidates a
@@ -64,6 +72,16 @@ because someone always matches, and the cost of the robustness matrix grows with
 the square of the field. Cap the compared set, select into it deliberately — the
 strongest by fit, or an explicit recruiter selection — and say which rule was
 applied and how many candidates were left out.
+
+Who is in the set matters as well as how many. Adding a candidate who is
+dominated on every dimension by another member can shift the choice toward the
+member who dominates them. This is the decoy or attraction effect. It
+replicates poorly in consumer research but has held in hiring studies, including
+ones that showed no numbers, and it survives best in all-numeric displays, which
+a score table is. So record the membership rule and who was added by hand. Flag
+a member dominated on every compared dimension by another member: they add no
+comparative information and are the textbook decoy. A cap alone does not
+neutralise composition.
 
 Single-source the cap as one named constant that both the ranking path and the
 selection interface read. A cap enforced in one place and re-typed in the other

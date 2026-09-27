@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 385,
-  "applications": 224,
+  "techniques": 386,
+  "applications": 226,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "385/385",
+  "use_when_coverage": "386/386",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2308,9 +2308,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/comparative-shortlist-evaluation.md",
-   "digest": "sha256-b2:033d47f5cc44bc7a",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:b430bb5e1d99181c",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "confidence-band-lead-separation",
@@ -2326,6 +2326,22 @@
       "rendering a ranked slate",
       "deciding whether a score gap is real",
       "sealing a comparative record"
+     ]
+    },
+    {
+     "slug": "counterbalanced-candidate-order",
+     "status": "forged",
+     "laws": [
+      "inference-must-look-like-inference",
+      "say-only-what-the-record-holds",
+      "a-claim-carries-its-sample-and-its-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "handing more than one candidate to a model in one prompt",
+      "narrating a comparison with a language model",
+      "asking a model for a pairwise or listwise judgment",
+      "auditing a generated comparison for order effects"
      ]
     },
     {
@@ -2406,19 +2422,34 @@
      "stack": "node",
      "technique": "confidence-band-lead-separation",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/node--confidence-band-lead-separation.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "refuse-a-cross-currency-comparison",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/node--refuse-a-cross-currency-comparison.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "robustness-status-taxonomy",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/node--robustness-status-taxonomy.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "counterbalanced-candidate-order",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/process--counterbalanced-candidate-order.md",
+     "verified_on": "2026-09-27"
     },
     {
      "stack": "process",
      "technique": "cross-scheme-weight-robustness",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/comparative-shortlist-evaluation/applications/process--cross-scheme-weight-robustness.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -8106,6 +8137,7 @@
     "combining-signals-into-a-hire-decision/promote-floor-calibrated-against-real-outcomes",
     "combining-signals-into-a-hire-decision/weight-signals-by-validity-not-by-precision",
     "comparative-shortlist-evaluation/confidence-band-lead-separation",
+    "comparative-shortlist-evaluation/counterbalanced-candidate-order",
     "comparative-shortlist-evaluation/cross-scheme-weight-robustness",
     "comparative-shortlist-evaluation/minimum-cohort-before-a-comparative-claim",
     "comparative-shortlist-evaluation/robustness-status-taxonomy",
@@ -8459,6 +8491,7 @@
     "collective-and-statutory-hiring-governance/committee-visible-evidence-packet",
     "collective-and-statutory-hiring-governance/name-the-ceiling-you-cannot-compute",
     "combining-signals-into-a-hire-decision/discrepancy-between-signals-is-itself-a-signal",
+    "comparative-shortlist-evaluation/counterbalanced-candidate-order",
     "comparative-shortlist-evaluation/cross-scheme-weight-robustness",
     "comparative-shortlist-evaluation/refuse-a-cross-currency-comparison",
     "comparative-shortlist-evaluation/role-relevant-exclusive-differentiators",
@@ -8621,6 +8654,7 @@
     "combining-signals-into-a-hire-decision/discrepancy-between-signals-is-itself-a-signal",
     "combining-signals-into-a-hire-decision/weight-signals-by-validity-not-by-precision",
     "comparative-shortlist-evaluation/confidence-band-lead-separation",
+    "comparative-shortlist-evaluation/counterbalanced-candidate-order",
     "comparative-shortlist-evaluation/robustness-status-taxonomy",
     "compensation-banding-and-market-honesty/benchmark-provenance-source-and-sample",
     "compensation-banding-and-market-honesty/grounded-band-is-read-only",

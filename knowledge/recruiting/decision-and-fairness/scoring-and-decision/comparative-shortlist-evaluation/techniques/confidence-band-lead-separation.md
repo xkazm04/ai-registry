@@ -58,6 +58,13 @@ the score scale, so a band on a candidate near the top of the range is not shown
 extending past the maximum. Both are cheap to enforce and both are commonly
 missing.
 
+Adding the increments linearly is the worst-case way to combine them. In
+measurement practice a straight sum of uncertainties is correct only when every
+source is perfectly correlated with every other; independent sources combine in
+quadrature. A linear band is therefore deliberately wide. That is defensible,
+but it is a choice, and it compounds with the conservative separation test
+below.
+
 ## Three separation states, and why the third is not optional
 
 Compare the leader's lower bound against the runner-up's upper bound:
@@ -85,6 +92,34 @@ implementation and it is the whole difference between an instrument that hedges
 when it should and one that flatters at exactly the margin where flattery is
 least defensible.
 
+**The comparison is against the runner-up's band, never its point.** A floor
+that clears the runner-up's *score* but not its *ceiling* is still an overlap.
+Measured against the point, every gap between one band's half-width and the sum
+of both half-widths is crowned "separated", and that is exactly the range where
+the evidence cannot tell the two apart. When the runner-up has no band, the state
+is unknown. It is never a separation measured against a bare number.
+
+**Non-overlap is stricter than a test of the difference, on purpose.** Two
+intervals can overlap while the interval for their difference excludes zero, so
+this rule will call some pairs "overlapping" that a difference-based rule would
+separate. Personnel score banding uses the standard error of the difference for
+exactly that reason. Keep the stricter rule if you want the hedge to fall on the
+crown, but name it for what it is. It is a conservative display rule, not a
+significance test, and copy must not describe it as one. If the linear band and
+the non-overlap rule together make "overlapping" so common that readers stop
+seeing it, loosen the band arithmetic or compare the gap against a combined
+width. Do not drop the state.
+
+**Overlapping is not a chain.** If A overlaps B and B overlaps C, that does not
+make A equivalent to C; the banding literature's sharpest critique is that
+chained equivalence ends in treating everyone as interchangeable. Overlap groups
+are computed against the leader, never by transitivity. An overlap never
+licenses reordering, because the order stays as scored. It never licenses a
+choice within the band on a protected characteristic either: altering a test's
+results on the basis of race, colour, religion, sex or national origin is
+unlawful in the jurisdiction where banding was litigated, and the principle
+travels.
+
 ## Do not re-rank
 
 The temptation, once bands exist, is to demote the wide-band candidate — a
@@ -102,6 +137,19 @@ order carries a second, undocumented band nobody computes.
 Keep the honest score order. Change the sentence. A surface that renders the same
 row order under all three separation states, with different framing and different
 sealed status, has solved this without inventing a new score nobody can defend.
+
+This rule holds for a score that charges missing evidence as missing points. It
+needs a condition where the score is an *estimate from few observations*, such as
+a mean of a handful of ratings. There, the raw order is itself biased, because
+high-variance records land at the extremes, the top included, and the
+statistical fix is a shrunk estimate. Shrinkage is not the refused move. It
+changes the point before anything is ranked, applies to every candidate by the
+same formula, and is sealed as the score. The refused move is ranking an
+unchanged point by its lower bound. Check which kind of score you have: in one
+engine that scores absence conservatively, the leader carried the widest band in
+16% of three-candidate cohorts, under the third a width-blind draw gives. That
+is the opposite of the estimate-noise pattern, and there the rule stands
+unconditioned.
 
 ## Procedure
 
@@ -129,9 +177,13 @@ sealed status, has solved this without inventing a new score nobody can defend.
 - When separation is `unknown`, say the separation could not be assessed. Never
   substitute silence: a lead rendered with no separation qualifier reads as
   separated.
-- When more than two candidates' bands mutually overlap at the top, report the
-  overlapping group rather than the pair. A three-way statistical tie presented as
-  a two-way close call understates it.
+- When more than two candidates' bands overlap the leader's, report the
+  overlapping group rather than the pair, with membership measured against the
+  leader's band. A three-way tie presented as a two-way close call understates
+  it; a group grown by chaining overstates it.
+- When scores are exactly equal at the top, report a tie whatever the bands say.
+  Input order, identifier or name is not a tiebreak, and a surface that styles one
+  of two equal scores as "first" has broken the tie by accident.
 - When a band would extend beyond the score scale, clamp the *display* and keep
   the uncut width for the comparison. Clamping before comparing manufactures
   separation at the ends of the scale.

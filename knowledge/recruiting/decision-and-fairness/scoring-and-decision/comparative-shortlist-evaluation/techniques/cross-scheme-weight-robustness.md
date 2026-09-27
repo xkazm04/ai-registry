@@ -51,6 +51,16 @@ their rivals' yardsticks too. Report the matrix's spread as well as its mean —
 candidate first on the mean and last under two of five schemes is a different
 recommendation than one first under all five.
 
+**The mean is a weighting, not a test.** When the composite is linear, a
+candidate's mean across the columns equals their score under the *average* of the
+schemes, because the average commutes with the weighted sum. So the mean order is
+one more single-yardstick ranking, taken at the centroid. It is a fair one, since
+nobody's own profile set it, but "first on the mean" says nothing about stability.
+The robustness information lives in the per-scheme ranks: how many schemes crown
+the same leader, and which one does not. A surface that labels the mean order
+"the robust order" has renamed a weighting. Ties on the mean are ties; a
+first-place style on one of two equal means breaks the tie by input order.
+
 **Keep the diagonal.** Each candidate's score under their *own* scheme is one
 cell of the matrix, and retaining it next to the mean gives the surface its
 sharpest single number: the difference between the two is exactly how much a
@@ -94,13 +104,28 @@ quietest defect in this technique: every scheme still looks well-formed, the
 totals still look comparable, and the bound that was the entire safety argument is
 no longer holding.
 
+**Tight bounds make a pass cheap.** The same bounds that keep a perturbation
+honest also shrink what it can find. When dimensions correlate positively,
+differently weighted composites rank people almost identically. This is the
+flat-maximum result behind the old finding that equal weights predict nearly as
+well as fitted ones. In one engine with every slot bounded to within 0.15 of a
+shared baseline, 1,856 varied three-candidate cohorts produced no scheme that
+crowned a different sole leader, and no third candidate reversed a pair's mean
+order. The check is not worthless for that. It is worth what the bounds let it
+reach. State the largest weight movement the schemes actually made next to every
+pass, so "held across schemes that moved each weight by at most 0.04" reads as
+the weak evidence it is. Reach for a weight-space measure when the question is
+"how much would have to change": the share of plausible weightings under which
+each candidate leads, or the smallest weight shift that swaps the top two.
+
 ## Procedure
 
 1. **Gate on the cohort floor.** Robustness of an order over one candidate is not
    a weak result; there is no order.
 2. **Assemble the schemes** and check that they genuinely differ. This check is
    the technique's whole integrity — see the trap below.
-3. **Score the full matrix** and rank by the mean, keeping the per-scheme ranks.
+3. **Score the full matrix** and rank by the mean, which is the centroid
+   weighting, keeping the per-scheme ranks: they carry the robustness finding.
 4. **Compare the resulting order** against the primary order. Record whether the
    top position changed, whether any adjacent pair swapped, and how many schemes
    agreed with the primary leader.
@@ -131,8 +156,12 @@ guarantee, because people will cite it.
 ## Decision rules
 
 - When the order is unchanged across schemes that genuinely varied, report
-  robustness and state how many schemes were tested —
+  robustness and state how many schemes were tested and how far they moved —
   [a claim carries its sample and its basis](../../../../_laws.md#a-claim-carries-its-sample-and-its-basis).
+- When deciding whether the schemes varied, read the scheme vectors themselves.
+  A side channel that usually accompanies variation, such as a rationale list or
+  an "adjusted" flag, is not variation: one written for the default case too
+  makes every run look varied and every no-op look like a pass.
 - When the top position changes under any scheme, the lead is not robust. Say
   which scheme flipped it and on which dimension; that sentence is the most useful
   output the whole comparison produces, because it names the disagreement the
