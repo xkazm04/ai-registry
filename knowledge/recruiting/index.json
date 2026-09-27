@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 387,
-  "applications": 227,
+  "applications": 228,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -2187,9 +2187,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/combining-signals-into-a-hire-decision.md",
-   "digest": "sha256-b2:dd6e5e896064ed0f",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:bcc62660e7a59154",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "a-hold-that-blocks-auto-advance",
@@ -2287,19 +2287,28 @@
      "stack": "node",
      "technique": "a-hold-that-blocks-auto-advance",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/node--a-hold-that-blocks-auto-advance.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "outcome-feedback-loop-per-team",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/node--outcome-feedback-loop-per-team.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "promote-floor-calibrated-against-real-outcomes",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/node--promote-floor-calibrated-against-real-outcomes.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "weight-signals-by-validity-not-by-precision",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/process--weight-signals-by-validity-not-by-precision.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27"
     }
    ]
   },

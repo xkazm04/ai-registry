@@ -16,8 +16,14 @@ a version number. The loop that fixes this — resolved outcomes flow back and
 adjust the thresholds and weights — is the right instinct, and the place it goes
 wrong is not the statistics. It is the **scope**.
 
-The rule: **calibration is per team.** A promote floor derived from another
-team's hires is not a helpful prior. It is contamination.
+The rule: **the answer is per team; the evidence may be pooled, openly.** A
+floor or a weight that is *applied* to a team must be that team's, derived for
+it and read from its own partition. But at the sample sizes teams actually have,
+a partition calibrated alone is fitting noise. The settled statistical answer
+is partial pooling: start from a pooled estimate whose population is named, and
+let the team's own resolved outcomes pull the value toward the local one as they
+accrue. Another team's data is contamination only when it arrives unlabelled,
+wearing local authority.
 
 ## Why the scope is a hiring fact, not a tenancy detail
 
@@ -39,16 +45,36 @@ about storage:
 - **The outcome definitions differ.** One team's "worked out" is passing
   probation; another's is a promotion within eighteen months.
 
-Pool these and you get a floor that is optimal for nobody and defensible to no
-one — and, if it drives adverse action, an adverse-action rationale that
-references a population the affected candidate was never part of.
+Pool these *silently* and you get a floor that is optimal for nobody and
+defensible to no one — and, if it drives adverse action, an adverse-action
+rationale that references a population the affected candidate was never part
+of.
 
-The same argument forbids the softer version: seeding a new team's calibration
-with the global average "just until they have data". A seeded floor looks
-calibrated, carries a calibrated floor's authority, and is wrong in exactly the
-way an uncalibrated one is — but invisibly. Use a documented, *labelled*
-uncalibrated default instead
-([law](../../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
+**Weights travel better than floors.** Decades of validity-generalization work
+found that most of the site-to-site variation in how well an instrument
+predicts is sampling error. How well a structured interview predicts on one
+team is good evidence for how well it predicts on the next, when the instrument
+is the same. What genuinely differs between teams is the base rate, the
+selection ratio and the bar, and those are exactly what a floor encodes. So a
+pooled prior is a sound starting point for *weights* over a shared instrument,
+and a weak one for a *floor*. Selection guidelines themselves allow grouping
+jobs with substantially the same work to reach an adequate sample, and forbid
+leaning on other studies where something likely to affect validity differs.
+
+The softer version — seeding a new team's calibration from the pooled estimate
+"just until they have data" — is the right version **when it is labelled**:
+name the pooled population on the value, show the local count beside it, and
+let the local share grow with that count. What is forbidden is the seed that
+looks calibrated: a pooled number carrying a local number's authority, wrong in
+exactly the way an uncalibrated one is, but invisibly. Where no pooled
+population shares the instrument, use a documented, *labelled* uncalibrated
+default ([law](../../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
+
+**The scope of the action must not exceed the scope of the evidence.** A floor
+recommended from one team's outcomes, applied through a control that sets the
+floor for every team, is the pooling failure run backwards: every other team
+now acts on a number derived from someone else's hires, with nothing on the
+value saying so.
 
 ## The loop, scoped
 
@@ -67,15 +93,32 @@ uncalibrated default instead
    reason.
 5. **Version the result** and record which version each decision used, so a past
    decision can be re-derived under the rule that actually produced it.
-6. **Feed overrides in, not just outcomes.** A human reversing the machine is a
-   labelled error and arrives years earlier than an employment outcome does. It
-   is the highest-value, most-neglected input to this loop.
+6. **Feed overrides in as disagreements, and score them.** A human reversing
+   the machine is a labelled *disagreement*, not a labelled error. It arrives
+   early, but which side was right is known only when the outcome resolves.
+   The field evidence runs against the human more often than for: across
+   fifteen firms using a hiring test, managers who overrode its recommendation
+   more often hired workers who stayed for shorter periods. Record what the human
+   knew that the rule did not. Then score each override when its outcome lands:
+   one that wins is evidence the rule is mis-specified, and one that loses is
+   evidence about the reviewer. Only overrides that *advance* someone ever
+   resolve, so the record is one-sided by construction. Never train on overrides
+   as ground truth.
 
 ## What the loop may adjust, and what it may not
 
 **May adjust:** the promote floor; the relative weights among signals whose
 validity the outcomes actually speak to; the confidence caps on light-class
-signals; which discrepancy magnitudes are worth raising.
+signals; which discrepancy magnitudes are worth raising. Three conditions come
+with every adjustment:
+- **Weights move last and least.** Weights fitted on resolved outcomes beat
+  equal weights on new cases only at roughly fifteen to twenty outcomes per
+  signal, and hiring outcomes exist only for the people who were hired. Shrink
+  toward the current weights rather than refit.
+- **Every change gets a fresh adverse-impact check** before it is deployed.
+  Moving mass between signals moves the selection rate by group, because the
+  signals differ in their group differences.
+- **The feedback is performative.** The rule shapes whom you observe next.
 
 **May not adjust:** the blockers. An authenticity concern, a coverage minimum,
 or a legally required credential does not become less blocking because the
@@ -89,36 +132,46 @@ them for a reason. Safety predicates are governed, not learned.
 optimize a proxy for a protected characteristic. A loop that discovers a signal
 predicts outcomes *because* it tracks a demographic has discovered a fact about
 the organization's history, not about candidate quality. Adverse-impact review
-sits outside this loop and constrains it.
+sits outside this loop and constrains it. Proxies cannot all be listed in
+advance, so the constraint is a test, not a list: the protected-attribute data
+that the test uses is held outside the loop, and the loop never sees it. The
+loop may never partition by a protected group. Calibrating or adjusting scores
+separately for a group is itself prohibited in some jurisdictions (US law bars
+it for employment tests), so "per team" never extends to "per group".
 
 ## The small-team reality
 
 Most teams will not reach a respectable sample. Be honest about the regimes:
 
-- **Below the refusal threshold:** no derived floor. A documented default,
-  labelled uncalibrated, plus a human gate. The loop still *collects*; it just
-  does not yet *conclude*.
+- **Below the refusal threshold:** no locally derived floor. A named pooled
+  prior where one shares the instrument, otherwise a documented default labelled
+  uncalibrated, plus a human gate. The loop still *collects*; it just does not
+  yet *conclude*.
 - **Between refusal and comfort:** derive, but carry the caveat with the value
   wherever it travels, and review on a shorter cycle.
 - **Above comfort:** derive, still state the sample, still review — a
   calibration is a claim about a population that keeps changing.
 
-Aggregating across teams to escape this regime is the temptation the whole
-technique exists to refuse. If a genuinely shared prior is needed — for a role
-family hired identically across many teams under one rubric — it must be an
-explicit, documented pooling decision with the pooled population named, not a
-default that happens because the query lacked a filter.
+Aggregating across teams *silently* to escape this regime is the temptation
+the technique exists to refuse. Borrowing strength across teams openly is the
+statistically sound way out of it. A shared prior must be an explicit,
+documented pooling decision, with the pooled population named and its weight
+shrinking as local outcomes accrue, never a default that happens because the
+query lacked a filter.
 
 ## Decision rules
 
 - **When the calibration query does not carry a team scope, it is a bug**, not a
-  broader sample.
-- **When a partition is below minimum, fall back to a labelled default**; never
-  borrow another partition's value.
+  broader sample, unless it is the declared pooled prior.
+- **When a partition is below minimum, shrink toward a named pooled prior** or
+  fall back to a labelled default. Never present a borrowed value as local.
+- **When a value derived from one team would be applied beyond that team,
+  refuse or re-scope**: the action's scope may not exceed the evidence's.
 - **When a team's rubric or outcome definition changes, the prior calibration is
   superseded**, not blended forward.
-- **When an override contradicts the rule, record it as a labelled case** and
-  review the rule, do not re-weight on a single case.
+- **When an override contradicts the rule, record it as a labelled
+  disagreement** and score it when its outcome resolves; review the rule on the
+  scored record, never re-weight on a single case.
 - **When a derived value is displayed or acted on, its sample and its scope
   travel with it.**
 

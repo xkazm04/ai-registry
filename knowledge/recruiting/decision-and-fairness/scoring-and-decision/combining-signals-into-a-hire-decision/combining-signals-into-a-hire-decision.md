@@ -65,23 +65,35 @@ evidence.
 ## Weight by validity, and know which validities you actually have
 
 The stable craft finding, across decades of selection research and every
-re-analysis of it, is not a table of coefficients — the coefficients move, and
-recent corrections moved them a long way. What is stable is an **ordering by
-structure and sample**:
+re-analysis of it, is not a table of coefficients. The coefficients move in
+both directions: one re-analysis revised them upward, the 2022 one sharply
+downward, and the range-restriction corrections that drive the difference are
+still disputed. What survives every re-analysis is a **coarse split by
+structure**, not a ranking:
 
-- Signals that observe the candidate *doing something like the job* under a
-  fixed rubric — work samples, structured interviews with anchored scales, job
-  knowledge assessments — predict best.
+- Signals that are *job-specific and structured* — structured interviews with
+  anchored scales, job-knowledge tests, work samples graded on a fixed rubric,
+  biographical questionnaires keyed empirically against outcomes — form the top
+  group.
 - Signals that observe the candidate *talking about the job* without a fixed
   rubric — unstructured interviews, "culture fit" conversations, informal
-  chemistry reads — predict considerably worse and correlate strongly with
-  interviewer preference.
+  chemistry reads — have low agreement between interviewers (around .4) and,
+  under the current conservative estimates, roughly half the validity of the
+  structured form.
 - Signals that observe *proxies for having done the job* — years of experience,
   education level, employer prestige, résumé keyword density — predict weakest
   of all, and are the ones most often available as a tidy number.
 
-Note the inversion: the ordering by predictive value runs almost exactly
-opposite to the ordering by how cheaply and precisely each signal quantifies.
+**The order inside the top group is not stable.** An older summary put work
+samples first; the 2022 re-analysis put structured interviews ahead of both
+job-knowledge tests and work samples, with an empirically keyed questionnaire —
+something the candidate *reports* — also above work samples. So the family a
+signal belongs to is decided by how it was built, not by the form it arrives
+in, and "a demonstration outranks a conversation" is not a measured fact.
+
+Note the inversion: across the coarse split, the ordering by predictive value
+runs almost exactly opposite to the ordering by how cheaply and precisely each
+signal quantifies.
 This is not a coincidence to be worked around; it is the central design
 pressure of the subject. See
 [weight-signals-by-validity-not-by-precision](./techniques/weight-signals-by-validity-not-by-precision.md).
@@ -99,21 +111,31 @@ weighting and calibration are two techniques, not one.
 Two claims that sound contradictory are both true, and confusing them produces
 most of the bad arguments in a debrief.
 
-**Mechanical combination beats holistic combination of the same data.** Given a
-fixed set of scored inputs, a formula applied consistently outperforms an expert
+**Mechanical combination equals or beats holistic combination of the same
+data, and is almost never beaten by it.** Given a fixed set of scored inputs, a
+formula applied consistently predicts job performance better than an expert
 looking at the same inputs and forming an impression — human integration is where
-recency, vividness, halo and preference enter. Do not let a panel "weigh it all
-up in the room" when the weighing could have been written down in advance.
+recency, vividness, halo and preference enter. The rare cases where the expert
+won are almost all cases where the expert held information the formula did not,
+which is an argument for putting that information into the rule, not for
+weighing it in the room.
 
-**A mechanical composite over signals of unknown validity is worse than
-useless**, because it launders ignorance into a number that carries the authority
-of arithmetic. A weighted average whose weights nobody derived is a guess with a
-decimal point on it.
+**What goes into the sum matters far more than the weights.** Round, equal
+weights over standardized signals whose direction is known predict nearly as
+well as fitted weights — better, at the sample sizes hiring actually has — and
+still beat the expert. An undocumented weight is not what ruins a composite. An
+invalid *member* does: equal-weighting a signal that predicts at .40 with one
+that predicts nothing yields about .28, which is roughly the accuracy of the
+holistic judgment the formula was supposed to replace. A composite with a noise
+signal in it launders ignorance into a number that carries the authority of
+arithmetic.
 
 The reconciliation: **fix the rule in advance, but only over the signals you can
-defend, and route everything else to a hold rather than into the sum.** A
-composite of two validated signals plus an explicit "these three things need a
-human look" beats a composite of five where three are noise wearing a scale.
+defend, and route everything else to a hold rather than into the sum.** Unknown
+*optimal weights* are fine — use equal ones. An unknown *sign* or unknown
+*validity* is not. A composite of two validated signals plus an explicit "these
+three things need a human look" beats a composite of five where three are noise
+wearing a scale.
 
 ## Independence, or why agreement can be an illusion
 
@@ -135,31 +157,46 @@ derived from another signal as an elaboration of it, not as new evidence**. When
 independence cannot be established, lower confidence rather than enjoying the
 agreement.
 
-## Confidence propagates by the weakest link
+## Confidence: verification is a chain, evidence is not
 
-A decision cannot be more trustworthy than the least trustworthy evidence it
-rests on. When four signals carry confidence levels and one of them is *low* —
-the work sample was unverified, the reference was a text message, the interview
-covered two of six dimensions — the combined confidence is **low**, not the
-average of the four. Averaging confidence is how a single strong signal drags a
-thin file into the advance lane: three uncertain signals and one certain one
-average to "moderate", and moderate advances.
+A decision cannot be more *verified* than the least-verified input it depends
+on. When the work sample's authorship is unresolved, or the reference could not
+be confirmed as the person it claims to be, every conclusion built on that input
+inherits the doubt, however strong the scores are. Averaging here is how a
+single strong signal drags a thin file into the advance lane: three unverified
+signals and one verified one average to "moderate", and moderate advances. For
+**dependent** inputs, the min rule is correct: an evaluation assembled entirely
+from two upstream signals is no stronger than the weaker of them, and an
+unverified or suspect input caps everything downstream of it.
 
-The min rule feels harsh and is correct. It makes thin evidence *visible as
-thin* rather than laundering it, and makes the cheapest fix — go and get the
-missing signal — the obvious next action. It pairs with a rule of the same
-family: an unverified or suspect input caps the confidence of everything
-downstream of it, however strong the scores are. And where no input carries a
-confidence at all, the combined confidence is the floor, not the ceiling:
-unknown evidence strength is untrustworthy, never silently high.
+The min rule is wrong for **independent** evidence. Two independent
+observations that agree are stronger than either alone — a composite is more
+reliable than its parts — and a rule that caps a well-corroborated file at its
+weakest member throws that away. A min over *every* input also lets a
+low-confidence signal that carries almost no weight veto the whole file. So:
+
+- **min over the inputs a conclusion actually depends on**, and over
+  verification status everywhere;
+- **compounding for independent agreement**, and none for agreement that shares
+  a source (see the next section);
+- and **where the record cannot say which inputs a conclusion depends on, min
+  over all of them** — an unknown dependency is treated as a dependency.
+
+Where no input carries a confidence at all, the combined confidence is the
+floor, not the ceiling: unknown evidence strength is untrustworthy, never
+silently high.
 
 ## Discrepancy is information, not noise to be averaged out
 
-When the work sample is excellent and the interview is weak, the mean of the two
-is a number that describes neither candidate in the room. The average is the one
-output guaranteed to be wrong.
+Averaging is not the enemy. Two independent scores of the *same* dimension that
+differ by about as much as the instruments' own error predicts should be pooled:
+that is how a panel of structured interviews earns its validity, and the mean of
+two noisy readings errs no more than the two readings do on average. But when the
+work sample is excellent and the interview is weak by *more* than that error can
+explain, the mean describes neither candidate in the room.
 
-A large disagreement between signals of comparable weight is itself a finding:
+A disagreement between signals of comparable weight that exceeds what their
+reliability predicts, or a categorical conflict between them, is a finding:
 either an instrument is broken, or an observation was contaminated, or the
 candidate is genuinely uneven in a way that matters for the role. All three
 demand a *targeted next step* — a probe on the disputed dimension, a re-review of
@@ -182,12 +219,17 @@ derived from what actually happened to the people it advanced before, on *this*
 team, with the sample size stated and a fallback for when the sample is too
 small ([law](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)). See
 [promote-floor-calibrated-against-real-outcomes](./techniques/promote-floor-calibrated-against-real-outcomes.md)
-and, because a floor learned from another team's hires is contamination rather
-than advice, [outcome-feedback-loop-per-team](./techniques/outcome-feedback-loop-per-team.md).
+and, because a floor depends on this team's base rate and bar in a way a weight
+does not, [outcome-feedback-loop-per-team](./techniques/outcome-feedback-loop-per-team.md):
+other teams' outcomes may enter only as a named prior that local outcomes
+overrule as they accrue.
 
 **A person at the end.** The machine may rank, surface, recommend and hold. The
 advance-to-offer step and every decline are human acts, recorded as such
-([law](../../../_laws.md#no-adverse-outcome-is-solely-automated)). See
+([law](../../../_laws.md#no-adverse-outcome-is-solely-automated)). A human act
+counts only if the person can and does weigh the evidence: a sign-off that
+routinely follows the score leaves the score as the decision, legally and in
+fact. See
 [terminal-decisions-stay-with-a-person](./techniques/terminal-decisions-stay-with-a-person.md).
 
 ## Where this subject stops
@@ -224,6 +266,11 @@ its inputs to make its combination look good.
 - **Missing scored as zero.** A dimension the conversation never reached ranks
   the candidate below one who tried and failed — the most common arithmetic
   injustice in hiring software.
+- **Missing renormalized away.** The mirror injustice, and the one that looks
+  principled: averaging over only what was measured gives every gap the
+  candidate's mean on the rest. When the missing dimension is the heavy one —
+  often missing *because* it would have scored low — the file's score rises by
+  its absence. A missing heavy dimension holds; it is not averaged around.
 - **Recency and vividness as weight.** This morning's conversation outweighs last
   week's artifact because it is more available, not more valid. A light, recent,
   vivid signal needs a *higher* bar to be credited, not a lower one.
@@ -231,6 +278,10 @@ its inputs to make its combination look good.
   at intake, resolved by nobody, silently outvoted by a good technical result
   three stages later.
 - **Confidence by averaging.** The mechanism by which thin files advance.
+- **Averaging the disagreement that mattered — or refusing to average the one
+  that did not.** A split larger than the instruments' error is a finding; a
+  split within it is noise that pooling removes. The tolerance comes from the
+  instruments' reliability, not from how uncomfortable the gap feels.
 - **Two quantities, one field name.** A decision card carries a *confidence*
   field; upstream, an evidence-strength rating is also called *confidence*. They
   are different scales, and the moment a display contract fixes one meaning the
@@ -240,5 +291,11 @@ its inputs to make its combination look good.
   the floor itself selected: a screener that rejects everyone below 60 produces a
   beautiful curve above 60 and no evidence at all
   ([law](../../../_laws.md#a-predictor-cannot-grade-its-own-labels)).
-- **Borrowed calibration.** A floor imported from another team, role family or
-  market. Not a prior — somebody else's answer to a different question.
+- **Borrowed calibration, unlabelled.** A floor imported from another team, role
+  family or market and presented as this team's. Pooled evidence is a
+  legitimate prior when its population is named and local outcomes shrink it
+  away; it is contamination when it wears local authority.
+- **Overrides as ground truth.** A human reversing the machine is a labelled
+  *disagreement*, not a labelled error. Which side was right is known only when
+  the outcome resolves, and in the field evidence the managers who overrode a
+  hiring test more often made worse hires on average. Score the override; do not train on it.

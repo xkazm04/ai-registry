@@ -4,114 +4,116 @@ type: application
 subject: combining-signals-into-a-hire-decision
 technique: weight-signals-by-validity-not-by-precision
 stack: process
-verified_on: 2026-08-20
+verified_on: 2026-09-27
+applied: experiment
+ab_verdict: better
 ---
 
-# The evidence scale and the weakest-link rule (Python assessment pipeline)
+# The evidence scale, the weakest-link rule and the missing heavy dimension (Python assessment pipeline)
 
 The dev-case pipeline (`pipeline/jobfit/devcase/`) turns a role brief, a
 candidate's reflection on their own work, a tooling signal and a graded
 submission into a transfer assessment. Its combination rules are the clearest
 realization in this repo of "weight by what the evidence *is*, not by how
-precisely it renders".
+precisely it renders" — and, since 2026-09-23, of the renormalizing rule the
+standard has now conditioned.
 
 ## The confidence scale rates the evidence, not the person
 
-`pipeline/jobfit/devcase/models.py:67-89` defines one 0..1 scale carried by every
-self-rating artifact and states plainly what it measures: it "answers HOW MUCH TO
-TRUST this inference — it rates the strength of the EVIDENCE behind the artifact,
-not the quality of the candidate or the need." The bands are `>= 0.7` high
-("safe to lean on for a decision"), `0.4..0.7` moderate ("usable, but corroborate
-before weighting it heavily"), `< 0.4` low ("thin / ungrounded; treat as a weak
-hint only"), with `LOW_CONFIDENCE = 0.4` (`:89`) as the warn line.
+`pipeline/jobfit/devcase/models.py:69-91` defines one 0..1 scale carried by every
+self-rating artifact and states plainly that it rates "the strength of the
+EVIDENCE behind the artifact, not the quality of the candidate or the need". The
+bands are `>= 0.7` high, `0.4..0.7` moderate, `< 0.4` low, with `LOW_CONFIDENCE
+= 0.4` (`:91`) as the warn line.
 
 The detail that makes it honest: **the deterministic fallbacks rate themselves
 deliberately low** — "analyze 0.5 grounded / 0.3 ungrounded, reflect 0.3, tooling
-0.2 — so a degraded run never looks more certain than an LLM one" (`:78-80`). A
-pattern-matching fallback that scored itself like a reasoned one would be the
-purest form of the precision trap: same field, same scale, no relationship to
-what was actually observed.
+0.2 — so a degraded run never looks more certain than an LLM one" (`:78-80`).
 
-## MIN, not mean, at every join
+## MIN, where the dependency is real
 
-`_propagated_confidence` (`pipeline/jobfit/devcase/evaluate.py:80-94`) is the
-rule in five lines. The final artifacts do not self-rate; they inherit:
+`_propagated_confidence` (`pipeline/jobfit/devcase/evaluate.py:301-315`) takes the
+MIN of the upstream confidences. The comment at `models.py:83-87` gives the
+reason: "An evaluation is built ENTIRELY from the reflection + tooling signals,
+so it can be no more trustworthy than its weakest input". Inputs without a
+numeric confidence are skipped, and **with none present the result is 0.0** —
+"unknown evidence strength is treated as untrustworthy, never silently high."
+Since 2026-09-23 the MIN is multiplied by the share of the rubric actually
+scored (`evaluate.py:530`).
 
-> "An evaluation is built ENTIRELY from the reflection + tooling signals, so it
-> can be no more trustworthy than its weakest input — evaluate.py sets it to the
-> MIN of the upstream confidences (transfer then inherits the evaluation's).
-> MIN, not mean, keeps the invariant above intact end-to-end: a high-confidence
-> reflection can't average away a confidence-0.2 deterministic tooling signal"
-> (`models.py:81-86`)
-
-Two edges are handled explicitly (`evaluate.py:87-94`): inputs without a numeric
-confidence are skipped, and **with none present the result is 0.0** — "unknown
-evidence strength is treated as untrustworthy, never silently high."
-
-That number is what the promote gate later tests against
-`LOW_EVAL_CONFIDENCE = 0.4` (`app/_lib/devcase-run.ts:757`), so the weakest-link
-value is not decorative — it is the thing that blocks an advance.
+This is the case the standard's conditioned rule keeps: the two inputs are not
+independent observations of one dimension but the materials the evaluation is
+assembled from, and nothing records which dimension draws on which input. Where
+the dependency is unknown, MIN over all of them is the rule.
 
 ## A live conversation is lighter evidence, so its bar is higher
 
-`pipeline/jobfit/live_case.py:229-232` states the standard's counterintuitive
-rule as a constant:
+`pipeline/jobfit/live_case.py:229-232`: "A live conversation is lighter evidence
+than a take-home submission, so the bar is HIGHER than the take-home's
+"promising" threshold: every case construct must average "Above bar" (4/5)
+before the interview mints observed credit." `observed_from_interview`
+(`:235-282`) requires a narrow-confidence scorecard, real quoted evidence on
+every case construct ("a backfilled 'Not assessed' kills it" — the
+placeholder-as-absence rule), and a mean at or above the bar. Its own evidence
+confidence is capped at `min(0.9, mean/5)` (`:279`).
 
-> "A live conversation is lighter evidence than a take-home submission, so the
-> bar is HIGHER than the take-home's 'promising' threshold: every case construct
-> must average 'Above bar' (4/5) before the interview mints observed credit."
-> `INTERVIEW_OBSERVED_MIN_RATING = 4.0`
+## Missing is excluded now — which is renormalizing
 
-`observed_from_interview` (`:235-268`) then applies three "honest gates, all
-required":
+The four-way inconsistency this application used to quote is gone. Since
+2026-09-23 (`evaluate.py:35-41`) "A dimension ABSENT from a dimensionScores dict
+… is EXCLUDED from every number: models.rubric_composite leaves it out of the
+case score (renormalising over the weight actually scored, naming it in
+missingDimensions and scaling the propagated confidence by that share)".
+`rubric_composite` (`models.py:193-244`) returns `overall`, `scoredWeight` and
+`missing`, and `MISSING_DIMENSION_SCORE = 50` (`evaluate.py:42`) survives only as
+a display seed. That fixed both deviations this application recorded on
+2026-08-20: the neutral midpoint and the absent coverage figure.
 
-1. a wide-confidence scorecard never mints — "a thin transcript never mints";
-2. every case-fed construct must be rated on **real quoted evidence** — "a
-   backfilled 'Not assessed' kills it". This is the placeholder-as-absence rule:
-   the field is populated, the observation is not;
-3. the mean of those ratings must clear `min_rating`.
+It is also exactly the rule the standard now conditions. The falsy-coalesce fix
+stands unchanged (`_num`, `evaluate.py:291-298`).
 
-The constructs themselves are derived from the shared interview script's
-case-grounded phases (`:222-227`) "so this can never drift from what the agent
-really probed" — the crediting rule cannot outrun the instrument.
+## Experiment (2026-09-27): a missing heavy dimension
 
-## Missing is not zero — and the one-policy lesson
+kp's own `rubric_composite` and `_propagated_confidence` were imported
+read-only and driven with one five-dimension file (framing 70, tooling 80,
+judgment 30, architecture 70, transfer 60; reflection confidence 0.8, tooling
+0.7). The promote gate's rule was then applied: score at least the floor of
+55, and confidence above 0.4. Nothing was written.
 
-`MISSING_DIMENSION_SCORE` (`pipeline/jobfit/devcase/evaluate.py:41`) exists
-because of a four-way inconsistency, described at `:35-40`: previously the same
-absent dimension "silently read as 50 in the average, 0 for the strong-list, 100
-for the gap-list and 0 in the ordered breakdown — so 'not scored' was conflated
-with 'scored zero' and a gap was both not-a-strength and not-a-gap."
+| Case | Composite | Scored weight | Confidence | A (as shipped) | B (hold on a missing heavy dimension) |
+| --- | --- | --- | --- | --- | --- |
+| all five scored | 61 | 1.00 | 0.70 | advance | advance |
+| judgment absent (0.25, the heaviest) | **71** | 0.75 | 0.525 | advance | **hold** |
+| architecture absent (0.15, light) | 59 | 0.85 | 0.595 | advance | advance |
 
-The mirror bug is fixed in `_num` (`:70-78`): `float(x or default)` conflated
-missing with a measured zero, so "a candidate whose measured fluency /
-readBeforeWrite is exactly 0.0 (the worst case — 'never read before generating')
-hit the falsy-`or` and was silently scored as the neutral default, upgrading the
-single strongest negative signal to a middling score."
+Leaving out the weakest dimension raised the score by ten points, and the
+coverage-scaled confidence stayed above the gate. At this evidence strength,
+confidence reaches the 0.4 line only when about 43% of the rubric is missing. B changes one verdict of three, the one where the absence flattered
+the file.
 
-The same distinction is enforced upstream in the policy pass:
-`pipeline/jobfit/automation.py:336` computes `scored = score > 0` and `:379`
-holds rather than rejects — "screened without a match score; awaiting match (not
-auto-rejected)" — with the docstring at `:319-327` naming the failure it
-prevents: without it "an unscored entry would collapse to `int(None or 0) == 0`
-and be rejected for `0 < bau_reject_score`, silently turning a data gap into a
-rejection."
+Falsifier: dimensions that go missing at random with respect to their scores.
+Then renormalizing is roughly unbiased, and B's hold costs time for nothing.
+kp cannot yet tell the difference, because nothing records *why* a dimension is
+missing.
+
+Reach: on a fresh evaluation the path rarely fires. `coerce` fills any dimension
+the model omitted from the deterministic scorer's value (`evaluate.py:505`), so
+`scoredWeight` is 1.0, and exclusion only applies to stored or external
+bundles.
 
 ## Deviations from the standard
 
-- **The chosen absent-value policy is a neutral midpoint.** Applying *one*
-  policy everywhere fixed the incident, and that consistency is the upward
-  lesson. But 50 still makes an unmeasured dimension indistinguishable from a
-  measured mediocre one in the average. The standard's rule — renormalize over
-  what was measured and record the coverage — stands; the code does not
-  implement it.
-- **No coverage figure reaches the decision.** Nothing counts how many rubric
-  dimensions were actually scored, so a composite over two of the rubric's
-  dimensions and one over all of them are indistinguishable downstream except
-  through the propagated confidence.
-- **Weights are per-rubric, not per-validity.** `RUBRIC_DIMENSIONS`
-  (`pipeline/jobfit/devcase/models.py:174`) fixes dimension weights for the
-  work-sample instrument, which is correct at that layer — but there is no
-  cross-instrument weighting scheme at all. The résumé match score, the
-  scorecard and the transfer score meet only as separate gates, never as a
-  declared composite with a recorded scheme version.
+- **A missing heavy dimension renormalizes instead of holding** (the
+  experiment above).
+- **An omitted dimension is imputed from another instrument without a label.**
+  `coerce` substitutes the deterministic scorer's value for a dimension the
+  model left out (`evaluate.py:505`). It does not add the dimension to
+  `missingDimensions`, and it does not lower confidence. The standard calls
+  this an imputation with a provenance.
+- **Case weights, no cross-instrument composite.** `RUBRIC_DIMENSIONS`
+  (`models.py:176`) and a case's own weights (`:216-221`) weight dimensions
+  inside the work-sample instrument, and that is correct at that layer. The
+  résumé match score, the scorecard and the transfer score meet only as
+  separate gates, never as a declared composite with a recorded scheme
+  version. So the equal-weights default the standard now recommends has
+  nothing to apply to.

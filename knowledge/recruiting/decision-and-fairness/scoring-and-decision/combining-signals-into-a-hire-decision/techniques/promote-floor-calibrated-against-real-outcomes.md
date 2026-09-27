@@ -35,14 +35,23 @@ rests on, and refuses to derive one when the evidence is too thin.
    bands. Bands, not per-point rates: a per-point curve over dozens of outcomes
    is noise rendered at high resolution.
 4. **Compute the hire (or success) rate per band**, each band carrying its own
-   count.
+   count — and require a minimum count *per band*, not only in total. A band of
+   twenty people has a standard error of about eleven points around a 50% rate,
+   so adjacent bands are usually indistinguishable; a band of three is an
+   anecdote.
 5. **Check monotonicity within a tolerance.** The rate should rise with the
    score. It will not do so perfectly; small inversions between adjacent bands
    are sampling noise, and a tolerance says how much inversion is acceptable
    before the curve is declared non-monotonic and the calibration refuses.
-6. **Pick the floor as the lowest band whose success rate clears a majority
-   rule** — a band where most of the people who reached it worked out. Below
-   that, the score is not evidence for advancing.
+6. **Pick the floor as the lowest band whose success rate clears a stated
+   threshold, and derive the threshold from what the two errors cost.** A
+   false advance and a missed good hire rarely cost the same; the threshold at
+   which advancing pays is the cost of a false advance divided by the sum of
+   both costs. A majority (50%) is that threshold only when the costs are
+   equal. Say which ratio you assumed. Below the floor, the score is not
+   evidence for advancing. Where the floor has adverse impact, it must also
+   be defensible as a *minimum proficiency* standard, not as an optimum: a floor
+   that rejects a band in which nearly half would have succeeded has to say why.
 7. **Fall back explicitly** when any precondition fails: too few resolved
    outcomes, a non-monotonic curve, no band clearing the rule. The fallback is a
    documented default floor, *labelled as uncalibrated*, never a silently
@@ -50,8 +59,9 @@ rests on, and refuses to derive one when the evidence is too thin.
 
 ## Every threshold in that loop states why-this-number
 
-Four constants appear above — minimum resolved-outcome count, band width,
-monotonicity tolerance, majority rule — and each is itself an invented number
+Five constants appear above — minimum resolved-outcome count, minimum count per
+band, band width, monotonicity tolerance, success threshold — and each is itself
+an invented number
 unless documented. Beside every constant, write a sentence saying what it
 protects against and what changes if it moves. "Fewer than this many resolved
 outcomes and a single hire moves a band's rate by more than the gap between
@@ -114,10 +124,20 @@ Three responses, in order of preference:
   below the floor and were advanced anyway. Deterministic matters: a random
   holdout re-rolled on each run invalidates any approval set built on it, and a
   membership that shifts when the threshold shifts turns the threshold control
-  into a device for sparing one specific person.
+  into a device for sparing one specific person. Deterministic must still mean
+  *independent of the candidate*. Assign membership by a hash of a stable id,
+  never by arrival order, source or anything that correlates with who the
+  candidate is. Count holdout hires in the adverse-impact figures, and keep
+  downstream raters blind to membership, or the arm's outcomes are rated by
+  people who know it is the arm. Credit scoring ran this experiment for
+  decades: lenders that occasionally accepted below-cutoff applicants found
+  that an accepts-only sample mostly damages *where the cut-off sits*, less the
+  ranking, and that statistical reject inference was no substitute for the arm.
 - **Natural experiments.** Periods when the floor moved, requisitions where it
   was waived, hiring-manager overrides. Weaker, but real evidence from outside
-  the selected region.
+  the selected region. Where different reviewers see comparable files and some
+  are more lenient than others, comparing their outcomes recovers part of what
+  a holdout would, with no candidate advanced on purpose.
 - **Say so.** Where no clean arm exists, state on the curve that it measures
   consistency within the advanced population and is not evidence that the floor
   is correctly placed. This is the minimum; it is not sufficient for a floor
@@ -130,8 +150,9 @@ Three responses, in order of preference:
 - **When the band curve is non-monotonic beyond tolerance, refuse.** A curve
   that does not rise with the score is telling you the score does not predict
   the outcome; picking a floor off it anyway propagates a broken instrument.
-- **When no band clears the majority rule, refuse and fall back** rather than
-  lowering the rule until a band qualifies.
+- **When no band clears the success threshold, refuse and fall back** rather
+  than lowering the threshold until a band qualifies. The threshold moves only
+  when the stated cost ratio moves.
 - **When the floor moves, version it** and record which floor each past decision
   was made under. Re-scoring history against a new floor rewrites verdicts
   nobody made.
@@ -147,8 +168,10 @@ Three responses, in order of preference:
   trend, raise, lower, already calibrated) and with what numbers; the words are
   composed at display time. Prose frozen at computation time cannot be read in
   another language, and cannot be re-checked against the numbers it claims.
-- **Never calibrate against outcomes from a different team or role family** —
-  see the per-team technique; the borrowed floor is contamination, not a prior.
+- **Never present outcomes from a different team or role family as this
+  team's** — see the per-team technique. A floor depends on the local base rate
+  and bar, so pooled outcomes enter only as a named prior that local outcomes
+  overrule, and a floor pooled without a label is contamination.
 
 ## When not to use this
 

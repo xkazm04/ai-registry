@@ -110,6 +110,13 @@ Guardrails that keep a hold honest:
 - **A resolved hold records who resolved it and on what basis**, so that clearing
   a flag is itself an attributable decision rather than a state change nobody
   owns.
+- **Hold rates belong in the adverse-impact measurement.** A hold that ages out
+  is a non-selection, and selection-rate arithmetic must count it as one rather
+  than leave it out as "still pending". The predicates that fire holds are not
+  neutral either. "Evidence too thin" falls hardest on candidates with
+  non-traditional records, and an authenticity detector has false positives.
+  Measure the hold rate by group the way the decline rate is measured, and give
+  a held candidate a way to supply what is missing.
 
 ## Decision rules
 

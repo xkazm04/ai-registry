@@ -11,11 +11,18 @@ use_when: [a work sample and an interview disagree sharply, designing a composit
 
 # Discrepancy between signals is itself a signal
 
-Two signals of comparable weight disagree. The composite averages them, produces
-a middling number, and the middling number advances or declines quietly. This is
-the moment a combination system does its most damage, because the disagreement
-was the most informative event in the file and averaging is the one operation
-guaranteed to destroy it.
+Two signals of comparable weight disagree by more than their own error can
+explain. The composite averages them, produces a middling number, and the
+middling number advances or declines quietly. This is the moment a combination
+system does its most damage, because the disagreement was the most informative
+event in the file and averaging is the operation that destroys it.
+
+The qualifier carries the technique. Most differences between two scores are
+*not* this event: two independent readings of the same dimension always
+differ somewhat, and pooling them is the error-minimizing default — averaged
+independent ratings are how structured interviews earn their validity. A
+discrepancy rule that fires on ordinary measurement noise blocks files for no
+reason and teaches reviewers to ignore it.
 
 A discrepancy is not noise around a true value. It is a finding with exactly
 three possible explanations, each requiring a different action:
@@ -63,6 +70,10 @@ Not every difference is a discrepancy. Two thresholds, both stated in advance:
 - **Magnitude.** The gap must exceed what the instruments' own uncertainty can
   explain. Two signals with wide confidence intervals that differ by less than
   the overlap of those intervals do not disagree; they are just imprecise.
+  Derive the tolerance from the instruments' measured reliability (how far two
+  assessors rating the same candidate typically land apart), not from how large
+  the gap feels. Unstructured ratings agree at only about .4, so a tolerance set
+  by eye for them fires on noise. Below the tolerance, average.
 - **Weight comparability.** A light-class signal differing from a heavy-class one
   is not a peer disagreement — the heavy one holds. Raise it as a note, not as a
   blocking discrepancy. A discrepancy between two demonstrations, or between a
@@ -96,18 +107,27 @@ interview disagreed on this dimension and the disagreement was not resolved"
 
 ## Panel splits are the same object
 
-A split panel is a discrepancy between two structured observations, and the
-usual handling — averaging the scorecards, or letting the most senior voice
-settle it in the room — commits both errors at once. Handle it identically:
-require independent written scores *before* the debrief, treat a split beyond
-tolerance as a raised discrepancy on the specific dimension, and resolve it with
-evidence rather than with seniority. The debrief's job is to surface the
-observations behind the scores, not to converge the numbers.
+A split panel is a discrepancy between two structured observations. Handle it
+identically: require independent written scores *before* the debrief; average
+the scores whose split falls within tolerance; treat a split beyond tolerance
+as a raised discrepancy on the specific dimension; and resolve it with evidence
+rather than with seniority.
+
+Converging the numbers is not the hazard it is often taken to be. Consensus
+ratings reached in discussion have measured about as valid as averaged
+independent ones. The hazard is *what* a discussion surfaces. Groups spend their
+time on the observations everyone already shares, and the one assessor who saw
+something different stays quiet or is out-voted. So the debrief has a specific
+job: draw out what each assessor observed that the others did not, before
+anyone argues a number. Letting the most senior voice speak first defeats
+exactly that.
 
 ## Decision rules
 
 - **When two comparable-weight signals disagree beyond tolerance, do not
   average.** Raise, name the dimension, hold.
+- **When they differ within tolerance, average** — and set the tolerance from
+  the instruments' reliability, stated in advance.
 - **When a judged component failed, cap the composite** out of the healthy band
   rather than subtracting from it.
 - **When a light signal disagrees with a heavy one**, the heavy holds; record
