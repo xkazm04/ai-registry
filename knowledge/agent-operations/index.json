@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 31,
-  "applications": 16,
+  "techniques": 32,
+  "applications": 17,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "31/31",
+  "use_when_coverage": "32/32",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -105,9 +105,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/agent-run-budgeting.md",
-   "digest": "sha256-b2:4161b6d0638d47b3",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:3a4d0d6d28c6b615",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "allowance-budgeting-across-workloads",
@@ -149,6 +149,25 @@
       "writing the runner that records agent runs",
       "auditing stored results for runs that never happened"
      ]
+    },
+    {
+     "slug": "termination-cause-record",
+     "status": "draft",
+     "laws": [
+      "a-ceiling-is-a-measurement-boundary",
+      "a-refusal-is-not-a-result",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a run can end on more than one budget (wall-clock",
+      "turns",
+      "spend",
+      "allowance)",
+      "writing the parser that turns a runner's final envelope into a stored outcome",
+      "a runner's success field disagrees with its error flag",
+      "comparing arms whose runners enforce different caps"
+     ]
     }
    ],
    "applications": [
@@ -163,6 +182,12 @@
      "technique": "refusal-detection-and-requeue",
      "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/process--refusal-detection-and-requeue.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "termination-cause-record",
+     "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/process--termination-cause-record.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -681,6 +706,7 @@
    "techniques": [
     "agent-benchmark-design/comparable-cell-construction",
     "agent-benchmark-design/null-and-reference-controls",
+    "agent-run-budgeting/termination-cause-record",
     "deterministic-run-verification/baseline-relative-gate-evaluation",
     "harness-fault-attribution/clear-the-environment-first",
     "harness-fault-attribution/fault-signature-catalogue",
@@ -696,6 +722,7 @@
     "agent-benchmark-design/coverage-and-provisional-labelling",
     "agent-run-budgeting/allowance-budgeting-across-workloads",
     "agent-run-budgeting/refusal-detection-and-requeue",
+    "agent-run-budgeting/termination-cause-record",
     "blind-judging-of-agent-runs/withhold-rather-than-half-judge",
     "shared-research-record/typed-contribution-vocabulary"
    ]
@@ -705,6 +732,7 @@
    "techniques": [
     "agent-benchmark-design/coverage-and-provisional-labelling",
     "agent-run-budgeting/ceiling-as-measurement-boundary",
+    "agent-run-budgeting/termination-cause-record",
     "harness-fault-attribution/fault-signature-catalogue",
     "model-and-effort-selection/task-shape-tier-policy",
     "shared-research-record/community-run-as-unit"

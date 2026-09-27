@@ -3,11 +3,12 @@ layer: golden-path
 type: golden-path
 subject: agent-run-budgeting
 status: draft
-use_when: [setting wall-clock or attempt ceilings for unattended runs, handling a provider refusal mid-queue, sharing a rate-limited seat between agents and judges, pacing a long benchmark or migration queue]
+use_when: [setting wall-clock, turn or spend ceilings for unattended runs, handling a provider refusal mid-queue, sharing a rate-limited seat between agents and judges, pacing a long benchmark or migration queue, parsing how a run ended]
 techniques:
   - ceiling-as-measurement-boundary
   - refusal-detection-and-requeue
   - allowance-budgeting-across-workloads
+  - termination-cause-record
 ---
 
 # Agent run budgeting
@@ -44,13 +45,30 @@ statement about a model.
 A provider refusal — rate limit, session limit, capacity, quota — arrives in whatever shape
 the runner chooses. It may be a non-zero exit, or a success envelope whose text explains
 the refusal, or a normally-shaped result that is simply empty. The fleet's detector reads
-the text, not only the status, because a refusal recorded as a finished run is the most
-expensive single failure mode available: it is cheap to produce in bulk, it is invisible
-in aggregate, and it lands as a zero-output run attributed to a model.
+the runner's structured error fields first and the error text as the fallback, never the
+status alone, because a refusal recorded as a finished run is the most expensive single
+failure mode available: it is cheap to produce in bulk, it is invisible in aggregate, and
+it lands as a zero-output run attributed to a model.
 
-The handling is the same in every case: do not store it, pause the queue for the window
-the provider named, and requeue. A pause that is shorter than the provider's window is a
-retry loop; one much longer wastes the seat's recovery.
+The handling is the same in every case: do not store it as a result, pause the scope the
+limit belongs to — the seat, the model pool, the organisation's spend — for the window the
+provider named, and requeue. A pause that is shorter than the provider's window is a retry
+loop; one much longer wastes the seat's recovery; one wider than the limit's scope idles
+capacity that was never refused.
+
+## Every run ends for one recorded reason
+
+Wall-clock is one ceiling among several. Runners carry their own turn and spend caps, and a
+run can equally end on an allowance refusal, a capacity refusal, a sleeping host or a crash.
+Each exit leaves an artefact that can be mistaken for a finished run, and the caps
+themselves are enforced by software that fails: spend overshoots the line, a cap held by a
+sub-agent can end a run with no terminal record at all, and one runner's outcome field has
+been observed reporting success on a request that was rejected before inference. So every
+run is closed with exactly one cause from a fixed vocabulary, read from structured signals
+before text, and a run whose end was not understood is `unknown` — never `finished` by
+default. The caps are part of the configuration: uniform across compared arms and stated,
+because a runner with no cap unless one is passed and a runner with a generous default are
+not running the same experiment.
 
 ## Ceilings interact with the host, not just the model
 

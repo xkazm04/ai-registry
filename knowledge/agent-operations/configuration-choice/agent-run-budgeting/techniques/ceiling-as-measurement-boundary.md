@@ -24,8 +24,15 @@ every run that hit it, and never let a truncated run be scored as a finished one
   stuck run rather than a thorough one. A ceiling inside the normal range silently selects
   for fast, shallow work and then reports it as the population.
 - **Uniform across configurations.** Every model and tier of a comparison gets the same
-  ceiling, or the comparison measures the ceiling. When a tier routinely approaches it,
-  that is a finding about the tier's cost, not a reason to give that tier more room.
+  ceiling, or the comparison measures the ceiling. The tail it sits above is the *pooled*
+  tail, slowest configuration included. When a tier routinely approaches the ceiling, the
+  ceiling is inside that tier's distribution and breaks the first rule: raise it for every
+  configuration, or keep it and report the comparison as "pass within budget X" - a
+  cost-and-accuracy point, not a ranking. What never happens is one tier getting its own
+  ceiling. How often a tier nears the ceiling is still a finding about its cost.
+- **Not the only ceiling.** Turn and spend caps are ceilings too, with their own exits and
+  their own failure modes; every run records which one ended it
+  ([termination-cause-record](termination-cause-record.md)).
 - **Revisited when the shape changes.** A task that grows a new step outgrows its ceiling,
   and the first symptom is a cluster of truncations that look like model regressions.
 
