@@ -1,0 +1,83 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pbm-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-27T20:53:00Z",
+  "ended_at": "2026-09-27T21:14:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/persistent-batch-mutation",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/persistent-batch-mutation",
+      "technique": "identity-reference-alignment-check",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/persistent-batch-mutation",
+      "technique": "typed-ordered-mutation-protocol",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/persistent-batch-mutation.md",
+    "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/techniques/identity-reference-alignment-check.md",
+    "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/techniques/typed-ordered-mutation-protocol.md",
+    "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/techniques/compaction-in-the-protocols-own-operations.md",
+    "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/techniques/declared-skippability-at-batch-granularity.md",
+    "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--identity-reference-alignment-check.md",
+    "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--compaction-in-the-protocols-own-operations.md",
+    "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--typed-ordered-mutation-protocol.md",
+    "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--declared-skippability-at-batch-granularity.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/persistent-batch-mutation.md"
+  ],
+  "commits": [
+    {
+      "sha": "5289f827",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/persistent-batch-mutation",
+      "reason": "'handing extensions the new batch is always the failure' refuted: a second engine hands over the batch, but its per-row state is regathered by kept positions or re-derived from the request; already the technique's when-not-to-use, one sentence added"
+    },
+    {
+      "subject": "software-engineering/persistent-batch-mutation",
+      "reason": "generation stamps as a fifth technique: the one engine using them does so in its slot pool, a layer below this subject; landed as the runtime half of the new technique"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Floor met, 3 -> 4 techniques. A misquoted field order in the first pass's application (reached a golden-path bullet) corrected against the pinned tree. 0 of 13 fleet maps pair the subject; maps not regenerated. An uncommitted 2026-09-26 draft left untouched, superseded."
+}

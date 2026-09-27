@@ -1099,3 +1099,37 @@ Source-class tally (post-hoc, this run):
 - The tree beat every lane on the one defect that mattered. No source could say
   that a fix had been undone at the reader. When a subject's application is
   more than two weeks old, re-read the tree before researching the world.
+
+## Run dp-pbm-0927 - persistent-batch-mutation, the floor met by the defence
+
+Dispatched by the registry's own attention scan on a structural finding (3 techniques,
+design floor 4). The subject's one application was 24 days old, so the tree was re-read
+before any research, and that settled most of the run. The application had misquoted the
+record type, and the phantom had reached a golden-path failure bullet. Its worked example
+had been cited for a rule it cannot test. And the "three ways to leave" note from the first
+pass does not survive a measurement.
+
+Five lanes: a tree re-read at the pin and on main, counter-evidence against a second
+engine's source, a blind training-data lane, a cross-domain lane, and a detection
+experiment over the engine's real applier (6 seeded defects + 1 control; worked examples
+3/6, identity reference 5/6, presence-only 2/6). One new technique on three-way convergence
+(`identity-reference-alignment-check`). Two applications were added (the new technique, and
+compaction contrasting two engines) and two were re-verified. Five conditions landed, one of
+them measured `not-better`. Applied: 1 experiment `better`, 1 experiment `not-better`, 2
+unapplied (no fleet map pairs the subject and no fleet tree has the seam). Impact: none.
+
+| subject | rung | last-pass yield | clocks | demand | dry |
+| --- | --- | --- | --- | --- | --- |
+| persistent-batch-mutation | L3 | 1 technique, 2 applications new + 2 re-verified, 1 phantom corrected, 5 conditions (1 measured not-better) | upstream API marked "may change": ~3 months | none (0 fleet pairs) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Re-reading our own application against its pinned tree beat every outside lane. The
+  phantom, the commuting example and the flag condition all came from source already
+  cited.
+- A second implementation's source decided the vocabulary claim. Docs describe one design
+  and never mention the alternative.
+- The upstream PR body carried the one field incident, verbatim, with root cause. For a
+  "has this failed in production" lane, the fix PR beats the design doc.
+- The blind lane converged on the technique and added two sharpenings (distinct
+  per-identity values, and mutation-checking the harness) with zero tool calls. It also
+  named generation stamps, which the cross-domain lane then confirmed in three code bases.
