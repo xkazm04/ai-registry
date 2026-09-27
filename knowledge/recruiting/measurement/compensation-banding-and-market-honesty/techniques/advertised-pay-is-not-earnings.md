@@ -20,27 +20,44 @@ check.
 
 ## The four distortions
 
-**Censoring.** A large share of adverts state no figure at all, and the
-omission is not random — it concentrates at the top of the market. The
-better-paid the role, the more likely the employer prefers to negotiate rather
-than post. Dropping the blanks does not give you an unbiased sample of the
-market; it gives you an unbiased sample of *the roles employers were willing to
-price in public*, which is the lower part ([absence of evidence is not
-evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)).
+**Censoring.** Where posting a figure is voluntary, most adverts state none —
+about one in seven carried any wage information in a large pre-mandate US
+corpus — and the omission is not random. Across occupations it is an inverted
+U: the lowest-paid and the highest-paid occupations both disclose in fewer than
+one advert in ten, the middle in about one in five. Within an occupation and
+within a firm the direction is simpler: the better-paid the role, the more
+likely the employer prefers to negotiate rather than post, and the wider the
+range when it does (Batra, Michaud and Mongey, NBER w31984). Dropping the blanks
+does not give you an unbiased sample of the market; it gives you an unbiased
+sample of *the roles employers were willing to price in public* ([absence of
+evidence is not evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)).
+
+**The bias runs in both directions.** Compared cell by cell with official
+earnings, posted pay in that corpus sat 30–40% *above* earnings in low-wage
+occupations — the employers who post there are the ones paying enough to want
+to say so — and 10–20% *below* earnings in high-wage ones. Across
+region-by-occupation cells posted and official pay move together almost one for
+one (Hazell, Patterson, Sarsons and Taska, 2025), so a posting corpus can rank
+cells correctly while getting their levels wrong in opposite directions at the
+two ends. Posted pay is also base pay: bonus, commission and equity are absent,
+which widens the gap at exactly the end where they are largest.
 
 **Self-selection of employers.** The employers who post figures skew toward
 high-volume, standardised, replaceable hiring. Employers doing scarce senior
 hiring post fewer adverts and price fewer of them. Weighting by advert count
 therefore weights the market toward its most commoditised corner.
 
-**Strategic shaping.** A posted range is a negotiating instrument. Its floor is
-set below what will be paid, to preserve room; its ceiling is set to catch
-whoever walks in. Under pay-transparency rules, ranges have measurably widened —
-particularly in higher-paying occupations — precisely because a wide range
-retains flexibility. A wide range is also read as evasive and deters
-applicants, but the relevant point here is statistical: a range built for
-negotiation is not an estimate of what the job pays, and taking its midpoint
-does not fix that.
+**Strategic shaping.** A posted range is a negotiating instrument, and its
+width is chosen for room, not for accuracy. Where pay is reported against
+posted ranges, it falls *below* the posted floor about twice as often as above
+the ceiling (a vendor comparison of self-reported salaries, not matched hires) —
+so the floor is not a conservative bound either. Whether transparency mandates
+widen ranges is contested: descriptive series show widening in pockets — remote
+roles, high-paying roles, the first states to legislate — while typical widths
+stayed flat, and the one causal evaluation of a state mandate found employers
+did *not* post wider ranges (Arnold, Quach and Taska, NBER w34480). The
+relevant point here is statistical: a range built for negotiation is not an
+estimate of what the job pays, and taking its midpoint does not fix that.
 
 **Composition.** Advert corpora are dominated by high-churn roles, because
 churn is what generates adverts. Compute a national median over adverts and you
@@ -63,8 +80,13 @@ The distortions compound in one direction that is worth naming because it is
 the clearest tell that something is wrong.
 
 In a corpus built from adverts, a country's highest-paying region — typically
-its capital, its financial centre, its tech cluster — routinely ranks *lowest*
-by advertised pay. The mechanism is straightforward once seen: in the
+its capital, its financial centre, its tech cluster — can rank *lowest* by
+advertised pay. It is not a general law: large commercial advert corpora
+usually keep the capital on top, and posted pay tracks official pay across
+regions in the best US evidence. It appears where disclosure selection is
+strong — a single channel, a statutory register, a market where most capital
+adverts omit pay — and then it is a reliable tell. The mechanism is
+straightforward once seen: in the
 expensive, competitive region, the well-paid roles are the ones that omit a
 figure, while the roles that do post figures are the customer-facing,
 high-turnover, near-minimum ones the region has many of. The cheaper regions
@@ -83,8 +105,14 @@ The corpus is not worthless; it is mis-labelled. Advertised pay is genuinely
 the best available source for:
 
 - **Movement and timing.** It is real-time, where survey data lags by a year or
-  more. A market turning shows up in adverts months before it shows up in a
-  published earnings statistic. Use it for the *derivative*, not the level.
+  more. In some markets a turn shows up in adverts months before it shows up in
+  a published earnings statistic — about seven months ahead of the US
+  employment cost index — while in continental Europe, where negotiated wages
+  dominate, and in the UK, advertised wage growth moves roughly with other wage
+  measures instead of ahead of them (Adrjan and Lydon). Measure the lead in your
+  own market before relying on it. Use it for the *derivative*, not the level —
+  and even the derivative runs off in level: posted wage growth and earnings
+  growth can sit most of a point apart.
 - **Disclosure behaviour.** What fraction of adverts in a segment state a
   figure, and how wide the stated ranges are, is directly measurable here and
   nowhere else — and is a real input to advertising strategy and to
@@ -112,9 +140,14 @@ judged](../../../_laws.md#a-verdict-is-bound-to-what-it-judged)).
   is not ([a claim carries its sample and its
   basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
 - **Run the sanity check against a known earnings source before shipping any
-  posting-derived aggregate.** Compare the level and the regional ordering. A
-  level materially below the earnings source, or an inverted ordering, means
-  stop.
+  posting-derived aggregate.** Compare the level and the regional ordering, at
+  the finest grain both sources share. A level materially *different* from the
+  earnings source — above it as well as below — or an inverted ordering, means
+  stop. A check that only fires on "too low" passes the low-wage cells, where
+  posted pay overstates earnings.
+- **Never correct the level with one factor.** A single uplift applied to a
+  posting corpus moves the low-wage cells, which were already too high, further
+  from the truth.
 - **When both sources exist, the earnings source sets the level and the posting
   source informs the trend.** Never average them; they measure different
   quantities and the average measures nothing.
@@ -134,7 +167,11 @@ judged](../../../_laws.md#a-verdict-is-bound-to-what-it-judged)).
   posting corpus is the correct and only source, and this technique's warnings
   do not apply, because nothing is being claimed about earnings.
 - **Where a jurisdiction mandates posted ranges and enforcement is mature.**
-  Censoring falls sharply and the corpus improves, but it does not become an
-  earnings survey: strategic widening increases under exactly the same
-  pressure, so the ranges get more complete and less sharp at once. Recheck the
-  distortions rather than assuming they were solved.
+  Censoring falls sharply — a state mandate raised the share of adverts with pay
+  by thirty percentage points — and the corpus improves, but it does not become
+  an earnings survey. Roughly a quarter of adverts in mandated US jurisdictions
+  still did not comply in 2025 (New York Fed, Liberty Street Economics), the
+  ranges remain negotiation instruments, and the jump in advertised pay after a
+  mandate is partly composition — high-paying roles newly disclosing — rather
+  than a pay rise. Recheck the distortions rather than assuming they were
+  solved.

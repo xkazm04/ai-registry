@@ -51,16 +51,27 @@ against an eighteen-month-old figure in a moving market is systematically low.
 The rule: **age every figure to a stated effective date, using a stated factor,
 and store the factor.**
 
-- The factor comes from a published wage-growth index for the market, not from
-  a guess and not from the previous year's pay round.
+- The factor comes from a published, named source for the market — a
+  salary-increase or structure-movement survey, which is what compensation
+  practice uses, or an official wage-growth index — not from a guess, not from
+  consumer prices, and not from the previous year's pay round.
+- Age *to* a stated target date, and state the policy: most organisations age
+  to the middle of the plan year (lead-lag), which is a choice, not a fact.
 - Store the factor, not just the result. A stored result cannot be re-derived
   when the source publishes a revision, and it cannot be audited when someone
   asks why two rows from the same source disagree.
-- **Effective-date staleness has a limit.** A source measuring more than about
-  a year ago is unfit for a normal role and more than about six months ago for
-  a fast-moving one, no matter how large its sample. Past that limit, aging is
-  no longer a correction, it is a forecast, and it should be labelled as one or
-  the row should be retired.
+- **Effective-date staleness has a limit, measured from the data's effective
+  date, never from publication or load.** A source measuring more than about a
+  year ago is unfit for a normal role — the practitioner norm for structures and
+  pay reviews. For a fast-moving role or for recruitment pricing the limit is
+  shorter; six months is a working heuristic, not a published norm, so state
+  the limit you chose. Annual surveys are often six to twelve months old on the
+  day they are published, which is exactly why the clock must run from the
+  effective date. Past the limit, aging is no longer a correction, it is a
+  forecast, and it should be labelled as one or the row should be retired.
+- **The build date is not the vintage.** A snapshot regenerated this morning
+  from a survey of last year carries last year's effective date. A row whose
+  only date is when it was built or inserted has no vintage at all.
 
 Aging makes an inference out of a measurement, and the row must say so
 ([inference must look like inference](../../../_laws.md#inference-must-look-like-inference)).
@@ -108,7 +119,17 @@ Provenance is a constraint on what may be *said*, not only on what is stored:
   **record the conflict** on the row.
 - When you cannot decide between reporting a median and a mean, report the
   median and say which you reported. Pay distributions are right-skewed; a mean
-  quoted as "the market rate" overstates it for most of the population.
+  quoted as "the market rate" overstates it for most of the population. The
+  mean still has a job — costing a pay budget, and the gender pay gap reports
+  that require both — so keep it, labelled, where it is the right statistic.
+- **Name the pay basis beside the statistic**: base, total cash, or total
+  direct compensation. "The market rate" means the median of base pay in most
+  practice; for sales, executive and equity-heavy roles the market is priced on
+  total cash or total direct, and a base-pay median quoted there is a different
+  claim.
+- **Say how the percentile was computed** when the cell is small. Nearest-rank
+  and interpolated percentiles disagree most in exactly the thin cells where the
+  figure is least safe, and a median of three is one contributor's own figure.
 
 ## When not to use this
 

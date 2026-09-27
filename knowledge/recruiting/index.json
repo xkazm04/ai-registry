@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 386,
-  "applications": 226,
+  "techniques": 387,
+  "applications": 227,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "386/386",
+  "use_when_coverage": "387/387",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2458,9 +2458,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/compensation-banding-and-market-honesty.md",
-   "digest": "sha256-b2:238fd58610a3c04d",
-   "revision": 2,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:65e7b4a1c18fb94c",
+   "revision": 3,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "advertised-pay-is-not-earnings",
@@ -2523,6 +2523,21 @@
      ]
     },
     {
+     "slug": "price-the-role-not-the-person",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-what-it-judged",
+      "say-only-what-the-record-holds",
+      "inference-must-look-like-inference"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a language model is asked for a pay figure",
+      "a pricing prompt is assembled from a record that also describes a candidate",
+      "a model-derived band is compared across candidates or offers"
+     ]
+    },
+    {
      "slug": "refuse-to-quote-an-uncalibrated-market",
      "status": "forged",
      "laws": [
@@ -2557,19 +2572,26 @@
      "stack": "process",
      "technique": "advertised-pay-is-not-earnings",
      "file": "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/applications/process--advertised-pay-is-not-earnings.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27"
     },
     {
      "stack": "process",
      "technique": "refuse-to-quote-an-uncalibrated-market",
      "file": "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/applications/process--refuse-to-quote-an-uncalibrated-market.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "python",
+     "technique": "price-the-role-not-the-person",
+     "file": "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/applications/python--price-the-role-not-the-person.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "sql",
      "technique": "benchmark-provenance-source-and-sample",
      "file": "knowledge/recruiting/measurement/compensation-banding-and-market-honesty/applications/sql--benchmark-provenance-source-and-sample.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -8397,6 +8419,7 @@
     "combining-signals-into-a-hire-decision/discrepancy-between-signals-is-itself-a-signal",
     "compensation-banding-and-market-honesty/advertised-pay-is-not-earnings",
     "compensation-banding-and-market-honesty/currency-lock-and-no-silent-conversion",
+    "compensation-banding-and-market-honesty/price-the-role-not-the-person",
     "conversational-assessment-validation/guardrail-ablation-self-test",
     "conversational-assessment-validation/judged-quality-as-a-separate-axis",
     "conversational-assessment-validation/prompt-change-regression-baseline",
@@ -8498,6 +8521,7 @@
     "compensation-banding-and-market-honesty/benchmark-provenance-source-and-sample",
     "compensation-banding-and-market-honesty/currency-lock-and-no-silent-conversion",
     "compensation-banding-and-market-honesty/grounded-band-is-read-only",
+    "compensation-banding-and-market-honesty/price-the-role-not-the-person",
     "compensation-banding-and-market-honesty/refuse-to-quote-an-uncalibrated-market",
     "conversational-assessment-validation/deterministic-reliability-invariants-at-full-pass",
     "cv-authenticity-screening/document-as-data-never-as-instructions",
@@ -8658,6 +8682,7 @@
     "comparative-shortlist-evaluation/robustness-status-taxonomy",
     "compensation-banding-and-market-honesty/benchmark-provenance-source-and-sample",
     "compensation-banding-and-market-honesty/grounded-band-is-read-only",
+    "compensation-banding-and-market-honesty/price-the-role-not-the-person",
     "cv-authenticity-screening/a-screen-is-not-a-verdict",
     "cv-authenticity-screening/claim-density-and-stuffing-heuristics",
     "cv-authenticity-screening/ground-the-model-against-a-deterministic-prepass",

@@ -18,12 +18,20 @@ still looks like a normal number.
 
 ## The default-currency pull
 
-When a language model is asked to price a role in a market that is not the
-dominant one in its training distribution, it drifts toward the dominant
-currency. This is not a bug of one model; it is a property of the
-distribution, it reproduces across model families, and it is strongest exactly
-where it hurts most — smaller markets, where local figures are scarcer in the
-data and the pull is least resisted.
+When a language model is asked for a money figure in a market that is not the
+dominant one in its training distribution, and nothing fixes the currency, it
+tends toward the dominant one. How strongly is measured for fiscal figures,
+not yet for salaries: open models answered in US dollars about 80% of the time
+and in the local currency about 17% (arXiv 2506.02591). Expect it to be
+strongest where local figures are scarce in the data — smaller markets — and
+measure it on your own models rather than assuming a rate.
+
+The mirror failure is recorded in a real pricing pipeline: models told a
+currency obey it, even when it is the wrong one. Every model one team tried
+priced a role in another country in the hard-coded currency of the prompt. The
+pull and the obedience have the same fix — the currency comes from the market
+record for the market actually being priced — and the obedience is the reason a
+hard-coded currency in prompt text is a defect rather than a safeguard.
 
 The failure is nastier than a wrong answer, because the rest of the answer is
 often excellent: correct role reasoning, correct seniority reading, correct

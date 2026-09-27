@@ -58,9 +58,15 @@ generalist, and it does so quietly.
 
 Anchors are *points*, and a role can sit between them.
 
-- **Between two anchors**, interpolate, and label the result as interpolated.
-  Linear interpolation between adjacent anchors is adequate; the error it
-  introduces is far smaller than the error in the anchors themselves.
+- **Between two anchors**, interpolate geometrically, and label the result as
+  interpolated. Pay across levels rises by a roughly constant *percentage* —
+  midpoint progressions of 10–15% per grade are the common practitioner design —
+  so the curve is straight on a log scale, not a linear one. Interpolate on the
+  logarithm (the geometric mean at the halfway point). Linear interpolation
+  always lands at or above the geometric value: for adjacent anchors 10–15%
+  apart the difference is well under one percent and drowns in the anchors'
+  own error, but it grows with the gap, and across merged or widely spaced
+  anchors it becomes a systematic overstatement.
 - **Above the top anchor or below the bottom**, do not extrapolate. Pay curves
   are not linear at the ends — they flatten at the bottom against statutory
   minima and fan out at the top with equity and variable pay. An extrapolated
@@ -87,6 +93,21 @@ must be satisfied:
   individual's. The cohort floor for anonymity is often *higher* than the floor
   for meaning; take the larger of the two.
 
+Both floors count **contributors, not rows**. A cell of thirty rows from one
+employer is one employer's pay: it has the sample of one for meaning, and it
+discloses that employer's pay in full. A row-count floor passes it. So every
+floor carries two parts, the way statistics offices publish enterprise data: a
+**minimum number of distinct contributors** and a **dominance cap** — no single
+contributor supplying more than a stated share of the cell (a threshold of
+three with a (1,75) dominance rule is one published office's rule; the
+long-cited wage-survey safety zone asked for five contributors with none over
+25%). That safety zone was withdrawn by both US competition agencies in 2023,
+and their 2025 guidance on worker-affecting conduct names benchmarks and
+third-party wage recommendations as possible unlawful exchanges with no
+participant count that makes them safe. A tool that pools several employers'
+pay into a band is the exchange intermediary; the floor is necessary, not
+sufficient.
+
 Where a cell falls below the floor, the correct behaviour is to **coarsen, not
 to publish thin**: collapse the geography, or merge two adjacent seniority
 anchors, and say which collapse was applied. A band from a coarser cell,
@@ -106,9 +127,13 @@ basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
   the sample floor.
 - When a cell falls under the floor, **coarsen one dimension and record the
   coarsening**. Never lower the floor for a specific cell to make it publish.
+- When checking a floor, **count distinct contributors and the largest one's
+  share**, never rows.
 - Define seniority by scope, never by years of experience. Years is a weak
-  predictor of scope and a discriminatory proxy in several jurisdictions; the
-  band inherits both problems.
+  predictor of scope (a corrected correlation near .06 for pre-hire experience
+  and performance). It is generally a lawful pay factor, but an anchor keyed to
+  age, or an experience cap that works as an age filter, is where the
+  discrimination risk sits — and a years-based anchor invites both.
 
 ## When not to use this
 
