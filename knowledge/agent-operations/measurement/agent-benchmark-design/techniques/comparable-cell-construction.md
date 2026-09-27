@@ -24,7 +24,11 @@ be compared.**
   repository. A benchmark against a moving branch measures the branch.
 - **The instruction text.** Byte-identical across engines. Naming both of the places
   different runners look for a task file, rather than tailoring per runner, keeps one
-  ecosystem from having home advantage.
+  ecosystem from having home advantage. Byte-identical pins the task's words, not
+  neutrality: each engine's own harness, system prompt and tool set are still part of
+  the cell, and sensitivity to wording differs between families. Record the engine's
+  version as shipped among the pins, and treat the instruction as one sample of wording
+  rather than a control.
 - **Runner isolation.** Every engine runs without the operator's personal configuration —
   no user-level settings, hooks, plugins or tool servers — or every engine runs with it.
   Mixed, the comparison includes the operator's desktop.
@@ -33,6 +37,10 @@ be compared.**
 - **The environment the task sees.** Toolchain caches, dependency state and generated
   artefacts either exist for every cell or for none; a cache populated by one cell and read
   by the next makes the second cell a different experiment.
+- **The resource envelope.** The memory and processor the run is guaranteed, and the
+  separate threshold at which the host kills it, both declared. An agent's score moves
+  with the resources its sandbox had, by amounts comparable to the gaps a grid is
+  trying to read.
 - **The measurement code.** The definition of "passed" is one version, applied to all
   cells — see the recompute discipline below.
 
@@ -62,5 +70,8 @@ survivable:
   Shared state is the likeliest source; clear it before attributing anything to a model.
 - **Never compare across engines with different isolation.** Fix the isolation and re-run
   the cheaper side; the comparison is otherwise unpublishable.
+- **Where a recommendation turns on a narrow margin, rerun a few of its cells under a
+  paraphrase of the instruction.** A ranking that flips under paraphrase is reported as
+  wording-sensitive, not as a finding about the engines.
 - **A benchmark that cannot state its pins cannot state its conclusions.** If the pins were
   not recorded, the honest output is the raw artefacts and no table.

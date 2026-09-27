@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 30,
-  "applications": 15,
+  "techniques": 31,
+  "applications": 16,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "30/30",
+  "use_when_coverage": "31/31",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/agent-benchmark-design/agent-benchmark-design.md",
-   "digest": "sha256-b2:e260565c7751f2bc",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:95c6fad5833c1c40",
+   "revision": 3,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "comparable-cell-construction",
@@ -68,6 +68,21 @@
       "defining what done means for a task shape",
       "stopping a well-written failure from winning"
      ]
+    },
+    {
+     "slug": "null-and-reference-controls",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a task or a check to a benchmark",
+      "trusting the first ranking over a new task set",
+      "a task every configuration passes or every configuration fails",
+      "deciding whether a universal failure is a hard task or a broken one"
+     ]
     }
    ],
    "applications": [
@@ -76,6 +91,12 @@
      "technique": "coverage-and-provisional-labelling",
      "file": "knowledge/agent-operations/measurement/agent-benchmark-design/applications/process--coverage-and-provisional-labelling.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "null-and-reference-controls",
+     "file": "knowledge/agent-operations/measurement/agent-benchmark-design/applications/process--null-and-reference-controls.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -637,6 +658,7 @@
    "techniques": [
     "agent-benchmark-design/comparable-cell-construction",
     "agent-benchmark-design/eligibility-before-ranking",
+    "agent-benchmark-design/null-and-reference-controls",
     "agent-run-budgeting/refusal-detection-and-requeue",
     "blind-judging-of-agent-runs/facts-beside-the-work",
     "deterministic-run-verification/baseline-relative-gate-evaluation",
@@ -658,6 +680,7 @@
    "statement": "Before a failure is attributed to a model, the environment it ran in is cleared: shared build caches, links into real trees, a suspended host clock, a stale artifact from a sibling run. Attribution without that step produces confident findings about models that are actually findings about the bench, and they are the hardest kind to retract because they look like data.",
    "techniques": [
     "agent-benchmark-design/comparable-cell-construction",
+    "agent-benchmark-design/null-and-reference-controls",
     "deterministic-run-verification/baseline-relative-gate-evaluation",
     "harness-fault-attribution/clear-the-environment-first",
     "harness-fault-attribution/fault-signature-catalogue",
