@@ -24,7 +24,7 @@
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/agent-benchmark-design/agent-benchmark-design.md",
    "digest": "sha256-b2:95c6fad5833c1c40",
-   "revision": 3,
+   "revision": 2,
    "changedAt": "2026-09-27",
    "techniques": [
     {
