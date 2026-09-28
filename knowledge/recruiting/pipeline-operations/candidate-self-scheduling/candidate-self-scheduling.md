@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: candidate-self-scheduling
 status: forged
-use_when: [building a candidate-facing booking link, handling reschedules or no-shows, deciding what a scheduling token may authorize, designing timezone behaviour for interviews]
+use_when: [building a candidate-facing booking link, handling reschedules or no-shows, deciding what a scheduling token may authorize, designing timezone behaviour for interviews, asking about interview adjustments]
 techniques:
   - server-authored-slot-labels
   - interviewer-timezone-anchoring
@@ -11,6 +11,7 @@ techniques:
   - reschedule-cap-with-a-recruiter-bypass
   - propose-your-own-times-escalation
   - withdraw-is-not-cancel
+  - adjustments-asked-at-the-booking-step
 ---
 
 # Candidate self-scheduling
@@ -101,6 +102,12 @@ are facts about the interviewer's working life, not about a datacentre's locale
 and not about where the candidate happens to be sitting this week
 (interviewer-timezone-anchoring).
 
+"The interviewer's" is the default answer to a narrower question: whose working
+life do the grid's constraints describe? For an interview at a place, that is
+the place. For a panel spread across zones, it is each panelist in their own
+zone: the grid is the intersection of those, and the round carries one
+declared zone as its label.
+
 Get this wrong and the symptom is bizarre enough to burn a day of debugging: a
 mid-morning slot renders as pre-dawn for a candidate in another region, and when
 that candidate sensibly picks the local time that looks right to them, the server
@@ -112,7 +119,11 @@ are not wrong.
 
 The discipline: generate and validate in the anchor zone; **render** in the
 candidate's zone with the anchor zone shown alongside; store the instant
-unambiguously; and never let a display string round-trip back into a decision.
+unambiguously, together with the anchor's wall-clock time and zone name,
+because zone rules change and the agreement was about the wall clock; skip a
+generated time that does not exist on a daylight-saving day rather than
+shifting it into one nobody offered; and never let a display string
+round-trip back into a decision.
 A candidate should see "14:00 your time (09:00 in the interviewer's)" and should
 never have to compute anything. Doing the arithmetic on the candidate's behalf
 is not a nicety — it is the difference between a process that works for
@@ -150,7 +161,8 @@ candidate stares at five impossible times and either books one they cannot keep
 or emails someone and waits. Both outcomes are recorded against *them* — as a
 no-show, or as a slow candidate.
 
-Two mechanisms prevent the dead end, and they are deliberately different.
+Two mechanisms prevent the dead end once the grid has failed, and they are
+deliberately different.
 
 **A reschedule cap with a recruiter bypass.** A small cap on candidate-initiated
 reschedules is legitimate: an uncapped loop lets a token holder churn the
@@ -161,7 +173,11 @@ a slot that should never have been offered — must bypass the cap and must not
 debit the candidate's budget for the company's error. Re-picking the same time
 is a free no-op, not a spent attempt; charging for that is a bookkeeping bug
 that reads to the candidate as a punishment
-(reschedule-cap-with-a-recruiter-bypass).
+(reschedule-cap-with-a-recruiter-bypass). The size of the cap is a design
+prior, not a measurement. Late moves are what hurt, and a lead-time cutoff
+limits them more directly than a count does. Whichever limit a candidate
+reaches, reaching it opens the proposal route in the page. A "contact the
+coordinator" page is the dead end again, in politer words.
 
 **Propose your own times.** The escape hatch is reached precisely when the grid
 is exhausted, so it is deliberately **wider** than the grid — evenings, other
@@ -172,7 +188,21 @@ not a booking; it is a request that lands in a human's queue and is answered by
 a human. Its promise to the candidate is bounded and honest: *this reaches a
 person, and you will hear back* (propose-your-own-times-escalation).
 
-Both mechanisms rest on the principle that a candidate's own action must not
+A third mechanism works before any grid is seen. **Ask about adjustments
+where the round's shape is fixed.** The booking step is where the length, the
+format, the time and the people of an interview are decided. Most adjustments
+change exactly those things: a longer slot, a break, an interpreter, a
+morning-only need. So the booking step says what the round involves, and asks
+every candidate the same neutral, optional question. The answer goes to someone
+who does not score the candidate, and it has to be able to change the slot, not
+only annotate it. A booking made to honour the answer is the company's move,
+and never spends the candidate's budget. The invitation's clock stops while
+the adjustment is being arranged. Asked earlier, the question arrives before
+the candidate knows what the round involves. Asked later, every answer forces
+a reschedule. Asked nowhere, the process depends on a candidate volunteering
+a disability to a stranger (adjustments-asked-at-the-booking-step).
+
+All three mechanisms rest on the principle that a candidate's own action must not
 fail because of your constraints. Your interviewer's calendar being full, your
 scheduling window being narrow, your integration being down — these are your
 problems, and the candidate's process must have a path forward through all of
@@ -207,7 +237,8 @@ and are opposite in meaning. **Cancel** is the company calling off this
 interview. **Withdraw** is the candidate declining this round. Collapsing them
 into one terminal state destroys the only fact anyone will want later: who ended
 it, and whether the candidate is still interested in the company at all
-(withdraw-is-not-cancel).
+(withdraw-is-not-cancel). The calendar interchange standard makes the same
+cut: only the organizer cancels, and an attendee declines by reply.
 
 The consequences differ all the way down. A cancellation obliges you to
 re-offer; a withdrawal does not. A withdrawal may leave the candidate warm for a
@@ -259,6 +290,12 @@ subjects and must not absorb them:
 - **One terminal state for every ending.** Cancelled, withdrawn, expired and
   no-showed are four different facts about four different actors, and the
   distinction is exactly what someone will need six months later.
+- **A booking page that asks nothing about adjustments.** The need then
+  surfaces at the start of the call, where it costs the round, or not at all,
+  where the interview measures the missing adjustment instead of the person.
+- **An open request that lets the link expire.** A proposal or an adjustment
+  request waiting on a person is the candidate having answered. An expiry that
+  fires while it waits punishes them for your latency.
 - **A picker that never says "none of these work".** Whatever the interface
   omits, the candidate concludes is not allowed — and the ones who conclude it
   hardest are the ones already least confident that they belong in your process.

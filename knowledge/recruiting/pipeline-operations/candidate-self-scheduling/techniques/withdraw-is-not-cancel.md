@@ -26,6 +26,12 @@ one terminal state destroys the only thing anyone will later want to know.
 | Correct pipeline effect | round reopens or the stage is re-planned | stage ends; candidate is not rejected |
 | Correct read later | a company-side event | a candidate-side event |
 
+The calendar interchange standard already draws this line. Only the organizer
+may cancel an event. An attendee who will not come sends a reply that declines
+it, and that reply does not revise the event. A system that files the
+candidate's decline as a cancellation is recording an act the candidate had no
+standing to perform.
+
 Neither is a rejection, and neither is a no-show. Four distinct facts, four
 distinct states — a system with one "closed" state answers none of the questions
 a recruiter, an auditor or the candidate themselves will ask.
@@ -54,7 +60,12 @@ for the company's decision.
 5. **Make it reversible while the round is still live.** "I can't make any of
    these and I have a deadline at work" and "I no longer want this job" are
    different sentences, and a one-way button collects both. Reversibility costs
-   nothing and recovers real candidates.
+   nothing and recovers real candidates. **Undoing a withdrawal re-opens the
+   round, not the old slot.** Step 6 released the time, and someone else may
+   now hold it. The undo returns the invitation to open, with the picker and
+   the escape hatch, and never silently re-books a slot that is no longer free.
+   There is no evidence yet on how often a withdrawal is reversed. The rule
+   rests on the cost asymmetry, not on a measured recovery rate.
 6. **Release the held time immediately**, and route the release to the calendar
    subject, which owns the event lifecycle.
 
@@ -74,7 +85,10 @@ ordering *is* the logic:
 3. **Open** — the picker, plus the escape hatch.
 
 Expiry is **derived** from the deadline at read time, never a stored flag kept
-true by a sweep. A stored flag is a claim that depends on a job that will be
+true by a sweep. The deadline itself is stored, because it is a decision someone
+made. What is derived is whether it has passed. The derivation covers state,
+not side effects: a reminder or an "expires tomorrow" notice still needs a
+scheduler, and that scheduler reads the same derived state before it sends. A stored flag is a claim that depends on a job that will be
 down when it matters — leaving a link live past its deadline, or, worse, marking
 a valid link dead because a sweep ran with a bad clock. What is stored is what
 an actor *did*; what is computed is what is currently *true*.

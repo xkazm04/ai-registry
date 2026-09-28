@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 390,
-  "applications": 233,
+  "techniques": 391,
+  "applications": 237,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "390/390",
+  "use_when_coverage": "391/391",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1916,10 +1916,25 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/candidate-self-scheduling.md",
-   "digest": "sha256-b2:a652b02fce0d46eb",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:5f91a309371dfe89",
+   "revision": 2,
+   "changedAt": "2026-09-28",
    "techniques": [
+    {
+     "slug": "adjustments-asked-at-the-booking-step",
+     "status": "forged",
+     "laws": [
+      "a-candidates-process-never-stalls-on-your-constraints",
+      "uncertainty-resolves-toward-the-candidate",
+      "every-decision-names-its-actor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing an interview invitation or booking page",
+      "a candidate's need changes the slot's length or format",
+      "deciding who reads an adjustment request"
+     ]
+    },
     {
      "slug": "interviewer-timezone-anchoring",
      "status": "forged",
@@ -2010,21 +2025,52 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "adjustments-asked-at-the-booking-step",
+     "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/node--adjustments-asked-at-the-booking-step.md",
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "reschedule-cap-with-a-recruiter-bypass",
      "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/node--reschedule-cap-with-a-recruiter-bypass.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "structural-slot-validation-on-submit",
      "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/node--structural-slot-validation-on-submit.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "withdraw-is-not-cancel",
      "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/react--withdraw-is-not-cancel.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-28",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "spec",
+     "technique": "adjustments-asked-at-the-booking-step",
+     "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/spec--adjustments-asked-at-the-booking-step.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-03-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "interviewer-timezone-anchoring",
+     "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/spec--interviewer-timezone-anchoring.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2026-12-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "reschedule-cap-with-a-recruiter-bypass",
+     "file": "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/spec--reschedule-cap-with-a-recruiter-bypass.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2026-12-28"
     }
    ]
   },
@@ -8015,6 +8061,7 @@
     "candidate-outreach-and-halt-rules/halt-state-scoped-per-role-not-per-person",
     "candidate-outreach-and-halt-rules/halt-the-sequence-on-any-reply",
     "candidate-outreach-and-halt-rules/the-first-touch-carries-the-notice",
+    "candidate-self-scheduling/adjustments-asked-at-the-booking-step",
     "candidate-self-scheduling/propose-your-own-times-escalation",
     "candidate-self-scheduling/structural-slot-validation-on-submit",
     "candidate-status-transparency/stage-role-mapping-not-stage-names",
@@ -8861,6 +8908,7 @@
     "candidate-communication-integrity/dead-letter-escalation-and-orphan-receipts",
     "candidate-identity-and-staleness/requirement-edited-since-scored",
     "candidate-outreach-and-halt-rules/consent-gate-before-the-first-touch",
+    "candidate-self-scheduling/adjustments-asked-at-the-booking-step",
     "candidate-self-scheduling/interviewer-timezone-anchoring",
     "candidate-self-scheduling/propose-your-own-times-escalation",
     "candidate-self-scheduling/reschedule-cap-with-a-recruiter-bypass",
@@ -8929,6 +8977,7 @@
     "candidate-outreach-and-halt-rules/consent-gate-before-the-first-touch",
     "candidate-outreach-and-halt-rules/halt-state-scoped-per-role-not-per-person",
     "candidate-outreach-and-halt-rules/halt-the-sequence-on-any-reply",
+    "candidate-self-scheduling/adjustments-asked-at-the-booking-step",
     "candidate-self-scheduling/reschedule-cap-with-a-recruiter-bypass",
     "candidate-self-scheduling/withdraw-is-not-cancel",
     "collective-and-statutory-hiring-governance/advisory-machine-that-never-seals",

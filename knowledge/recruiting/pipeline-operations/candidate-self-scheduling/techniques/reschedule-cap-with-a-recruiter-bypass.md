@@ -29,6 +29,21 @@ job is to route that candidate to the escape hatch
 (propose-your-own-times-escalation) at the point where the self-service loop has
 demonstrably failed, not to ration a scarce good.
 
+**Two conditions on the number.** First, it is a design prior, not a
+measurement. No published study measures repeat reschedules. Shipped scheduling
+products range from a cap of one to ten, several default to no cap at all, and
+at least one recommends none. Pick the number for the routing argument above,
+and do not cite it as evidence. Second, **the count is not the only control, and
+often not the right one.** The disruption the cap exists to limit comes mostly
+from late moves, and products ship a lead-time cutoff as often as a count: no
+self-service move inside the last N hours before the interview. A
+cutoff limits last-minute churn without limiting a candidate who moves early and
+twice. Where both exist, reaching either one routes to a person. The only
+behaviour data seen on this lane is a vendor's own interview dataset. It shows
+far more no-shows on bookings made less than a day ahead than on bookings made
+one to three days ahead. That points to a minimum-notice rule on booking, and
+it is not evidence about the count.
+
 State the number and the remaining balance in the interface, always. A hidden
 limit that reveals itself only on exhaustion is experienced as a trap, and the
 candidate has no way to spend it wisely.
@@ -53,6 +68,10 @@ offered slot.
   restructured, a slot that should never have been offered. The company's error
   is not the candidate's budget.
 - **A first booking.** The initial choice is not a reschedule.
+- **A move made to honour an adjustment request.** A longer slot or a different
+  time booked because the candidate asked for an adjustment is the company
+  meeting an obligation, not the candidate churning the calendar
+  (adjustments-asked-at-the-booking-step).
 
 ## The bypass is an authority question, not a flag
 
@@ -89,7 +108,15 @@ path only.
 
 - **When the cap is exhausted, offer a route, never a wall.** An exhausted cap
   that renders as a greyed-out control is the dead end this whole subject exists
-  to prevent.
+  to prevent. "Contact the coordinator" is a wall with an address on it. It is
+  the shipped behaviour in every product this lane read that documents what
+happens at its cap, and every refusal path
+  that can hit the cap has to open the proposal route *in the page*. That
+  includes the error answer to a submit that just lost the race to the cap, not
+  only the next render.
+- **At zero, the balance gives way to the route.** "0 changes left" shown
+  beside nothing to do is the hidden limit revealed at the worst moment. When
+  the balance runs out, the proposal route takes the counter's place.
 - **When you are unsure whether an action should spend the budget, do not spend
   it.** The cost of an over-generous budget is one extra calendar move; the cost
   of an over-strict one is a candidate stranded by your accounting.
