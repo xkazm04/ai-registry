@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: narrative-engine-selection
-last_touched: 2026-09-26
+last_touched: 2026-09-28
 touched_by: deepen
 dry_streak: 0
 ---
@@ -87,12 +87,42 @@ already landed in `content-research-grounding/pre-linked-causal-mechanisms`
 (typed transfer, fake THEREFORE). Placing it here would have been a
 duplicate.
 
+### 2026-09-28 - `/deepen`, third stale dispatch; the owed code apply taken
+
+**Why it ran.** The dispatch was on "single stack (process)" again, read
+from a local main 242 commits behind origin. On origin the clause was
+already cleared (2026-09-26), and two runs had idled on it (dp-nes-0928,
+dp-nes-0928b). No commit had touched the bundle since, and check-currency
+reported 0 expired, 0 at-risk and no drift row for the subject. The
+dispatch clause earned nothing, again. The banked code-apply lead did
+have an event. Its return condition was "the tree is quiet": the source
+tree had had no commit since 2026-09-26 16:16, and its uncommitted work
+was old and outside the notebook. So the run took the lead instead of
+idling a third time.
+
+**Applied, code, better.** `hazard` is now required in the runtime schema,
+with `""` meaning assessed, none found. It is drawn under `fit` in the
+notebook and in each render column before adopt. On the 28 engine-fit rows
+of the tree's four real 2026-08-12 notebooks, missing-hazard findings went
+0 -> 5 of 5, with 0 false flags on 23. Drawn hazards went 0 -> 23 of 23,
+including "REFUSE" on a `good` fit. The condition it adds is in
+`next--fit-vs-hazard-axes`: all five missing hazards sat on `poor` fits,
+so the requirement has closed an ambiguity but has not yet caught an
+unasked high-fit row. The tree commits are local. The tree's main is 29
+ahead and 3 behind its origin, mostly with sibling runs' unpushed work, so
+nothing was pushed.
+
 ## Impact
 
 The subject joins no context in any project's registry map (dry run
 2026-09-26: not present in any of the 12 maps; gravitone and systedo-case
 are candidate-absent in the fleet map). Stale verdicts caused by this
 landing: **0**. No `/conform --stale` queue.
+
+2026-09-28: still absent from all 12 maps (grep of each map for the slug;
+positive control `short-form-narrative-structure`, 4 hits in the source
+tree's map). The map was not rebuilt: it would have overwritten that
+tree's uncommitted map. Stale verdicts caused: **0**.
 
 ## Contended
 
@@ -118,8 +148,11 @@ and this pass does not claim it.
 - **The second tree** is still owed. The single-stack clause is cleared by
   the `next` application, but every application reads one studio. That is
   `/reconcile`'s engine, and systedo-case is the named candidate.
-- **A code apply in the source tree, owed and not taken.** Require
-  `engineFit[].hazard` in the notebook schema, where an empty string means
-  "assessed, none found", and render it beside `fit` at selection. It was
-  not taken because a live session was committing in that tree during this
-  pass. Return: the tree is quiet, or its next engine-selection change.
+- ~~A code apply in the source tree, owed.~~ Taken 2026-09-28 (see the touch
+  log). What is still open there: the hazard-first cut as a rule the
+  surface enforces, such as no adopt on a "refuse" hazard without an
+  override. That is the owner's product call. Return: the owner asks, or
+  a live notebook under the new schema carries a refuse-grade hazard.
+- **The requirement's catch rate.** It has not yet caught an unasked
+  high-fit row. Return: the first live notebooks produced under the new
+  schema. Count the high-fit rows the validator flags.

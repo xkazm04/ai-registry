@@ -1680,9 +1680,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/narrative-engine-selection.md",
-   "digest": "sha256-b2:ee7e639af1a17478",
-   "revision": 2,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:1724794382256e6b",
+   "revision": 3,
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "adjudication-honesty-tells",
@@ -1758,7 +1758,7 @@
      "stack": "next",
      "technique": "fit-vs-hazard-axes",
      "file": "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/next--fit-vs-hazard-axes.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-09-28",
      "verified_against": "next@16"
     },
     {
