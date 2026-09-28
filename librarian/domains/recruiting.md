@@ -699,3 +699,37 @@ Landed 497abd97. Four `applied.md` rows:
 
 Impact: kp has 1 context on this subject, 0 stale verdicts. Yield high,
 dry_streak 0, depth L2. See [[candidate-outreach-and-halt-rules]].
+
+## 2026-09-28 - deepen: candidate-self-scheduling
+
+First pass on this subject (dp-css-0928), dispatched by the Curator lane from
+the attention scan. No clock had expired. The event was the tree: more than
+forty kp scheduling commits since 2026-08-20, and every line citation in the
+three applications had moved. Four lanes.
+
+Counter-evidence: nothing refuted outright, three absolutes conditioned:
+- the anchor zone is whoever owns the constraints (the place for onsite, each
+  panelist in their own zone), and the old panel rule was wrong;
+- the reschedule cap's number is a prior, and a lead-time cutoff ships as often
+  as a count;
+- the stored instant alone is not the agreement (RFC 9557 §3.4), so the anchor
+  wall clock and zone name are stored beside it.
+
+One technique earned on convergence of all three research lanes:
+adjustments-asked-at-the-booking-step (the blind lane unprompted; EEOC Q12 and
+29 CFR 1630.2(o)(1)(i); UK EqA Sch 8 paras 5 and 20 with ACAS guidance).
+
+Three spec applications (adjustment texts refresh_by 2027-03-28; time-zone
+standards and products, and the reschedule landscape, refresh_by 2026-12-28).
+All three kp applications were re-verified to 20d0a8db3, and a fourth was added.
+One kp deviation closed (the balance is shown), one half closed (the zone is
+named on one surface), and one new one was found (a pending proposal does not
+hold the invite open).
+
+Landed 16832b20. Three `applied.md` rows:
+- one simulation, better (the adjustment ask, 3 of 3 real paths);
+- two unapplied (no seam for the anchoring conditions; the cap seams exist, and
+  the kp tree was not quiet).
+
+Impact: kp has 5 contexts on this subject, 0 stale verdicts. Yield high,
+dry_streak 0, depth L2. See [[candidate-self-scheduling]].
