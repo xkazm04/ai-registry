@@ -1,0 +1,83 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cohr-0928",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T15:20:00Z",
+  "ended_at": "2026-09-28T15:57:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/candidate-outreach-and-halt-rules",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/candidate-outreach-and-halt-rules",
+      "technique": "the-first-touch-carries-the-notice",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/candidate-outreach-and-halt-rules.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/techniques/an-automatic-reply-is-not-an-answer.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/techniques/the-first-touch-carries-the-notice.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/techniques/halt-the-sequence-on-any-reply.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/techniques/consent-gate-before-the-first-touch.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/techniques/halt-state-scoped-per-role-not-per-person.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/node--consent-gate-before-the-first-touch.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/sql--halt-state-scoped-per-role-not-per-person.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/process--grounded-personalisation-never-fabricated.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/node--the-first-touch-carries-the-notice.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/spec--an-automatic-reply-is-not-an-answer.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/spec--the-first-touch-carries-the-notice.md",
+    "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/spec--halt-the-sequence-on-any-reply.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/candidate-outreach-and-halt-rules.md"
+  ],
+  "commits": [
+    {
+      "sha": "497abd97",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "6129b2a5",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/recruiting/index.json",
+        "rules/ai-registry-recruiting.md",
+        "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/node--the-first-touch-carries-the-notice.md",
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/candidate-outreach-and-halt-rules.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First pass: 0 refuted, 4 conditioned, 2 converged techniques, 3 spec apps (TCPA refresh_by 2026-10-31). Apply: 1 simulation better, 3 unapplied. Maps committed locally in 8 projects, not pushed. Gate --all stops at check-skills on artifacts outside this run; touched lanes green."
+}
