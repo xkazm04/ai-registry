@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-qrp-0928",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-28T12:20:00Z",
+  "ended_at": "2026-09-28T12:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/quorum-and-recovery-procedures",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Stale dispatch (d93fbd78, 229 behind origin) on single stack (go). dp-qrp-0926 (93e38c2d) added node. Currency clean, subject unmoved since 1a581c4a. kp pickaxe since 09-26: that pass plus a test fixture; personas keychain 0 (control 11). No return condition fired."
+}
