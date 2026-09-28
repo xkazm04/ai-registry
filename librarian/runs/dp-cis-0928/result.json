@@ -1,0 +1,99 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cis-0928",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T14:40:38Z",
+  "ended_at": "2026-09-28T15:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/candidate-identity-and-staleness",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/candidate-identity-and-staleness",
+      "technique": "content-addressed-document-identity",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/candidate-identity-and-staleness",
+      "technique": "shared-artifact-across-claimed-identities",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/candidate-identity-and-staleness",
+      "technique": "label-collision-detection",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/candidate-identity-and-staleness",
+      "technique": "rebuild-overwrites-manual-edits-warning",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/candidate-identity-and-staleness.md",
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/techniques/shared-artifact-across-claimed-identities.md",
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/techniques/content-addressed-document-identity.md",
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/techniques/label-collision-detection.md",
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/techniques/rebuild-overwrites-manual-edits-warning.md",
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/techniques/requirement-edited-since-scored.md",
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--content-addressed-document-identity.md",
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--requirement-edited-since-scored.md",
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--shared-artifact-across-claimed-identities.md",
+    "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/react--retired-outranks-stale-status-precedence.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/candidate-identity-and-staleness.md",
+    "librarian/subjects/recruiting/cv-authenticity-screening.md"
+  ],
+  "commits": [
+    {
+      "sha": "c2fa7935",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "7c0f1a5c",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/recruiting/index.json",
+        "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--content-addressed-document-identity.md",
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/candidate-identity-and-staleness.md",
+        "librarian/subjects/recruiting/cv-authenticity-screening.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Lead-driven first pass: 0 refuted, 6 conditioned, 1 flip, 1 converged technique. Erasure fix as code in kp 0c9a742d3 (local, not pushed). kp 9 contexts, 0 stale. Gate --all stops at check-skills on untracked artifacts outside this run; the rest ran green."
+}
