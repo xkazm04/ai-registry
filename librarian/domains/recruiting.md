@@ -772,3 +772,52 @@ Landed a6036fa1. Four `applied.md` rows:
 
 Impact: kp has 4 contexts on this subject, 0 stale verdicts. Yield high,
 dry_streak 0, depth L2. See [[candidate-status-transparency]].
+
+## 2026-09-28 - deepen: collective-and-statutory-hiring-governance
+
+First pass on this subject (dp-csh-0928), dispatched by the Curator lane from
+the attention scan. No clock had expired. The event was the tree: 12 kp
+group-eval commits since the applications were verified on 2026-08-20. Four
+lanes.
+
+Counter-evidence: one absolute refuted, four conditioned, two confirmed:
+- refuted: "the eligibility-list decision object is a rank-ordered list". The
+  federal rule of three is gone (90 FR 43135); registers are score-ordered with
+  preference points or categorised with preference eligibles first, and
+  preference is applied by the examining office before the certificate. The
+  fit signal annotates a certificate and never re-sorts it;
+- conditioned: not sealing does not settle whether the machine decided (the
+  SCHUFA weight test, WP251, the NYC override prong, Florida's screening
+  cases); the per-hire consent right is an overlay, not a fourth mode (BetrVG
+  s.99); the ceiling sentence is position-specific (the pass-over, downstream);
+  disclosure depends on jurisdiction and stage (Minn. Stat. 13.43);
+- confirmed: independent reads before debrief (Pulakos et al. 1996); sticky
+  governance, untouched.
+
+One technique earned on convergence of all three research lanes:
+machine-ordering-after-independent-reads (the weight test and Art. 14(4)(b);
+independent rating and mechanical combination; the blind lane unprompted).
+
+Date correction found in passing: Reg. (EU) 2026/1744 moved the AI Act's Annex
+III obligations to 2 December 2027. The sibling multi-jurisdiction subject
+still pins 2 August 2026 in two applications. That is banked as an event for
+its own pass.
+
+Five spec applications. All three kp applications re-verified to 8f3c89560,
+and one added (the new technique's simulation). One lane claim was refuted on
+re-read. Still open in kp: `topPick` in every mode, the permissive
+normalization fallback, governance stored on the payload, and both monitors.
+New in kp: consent exclusion (good), and an unsealed exclusion count (a
+deviation).
+
+Landed 84b67be8. Five `applied.md` rows:
+- one code, better: the table crown reads the seal's predicate, kp aa43bceb0,
+  local;
+- two simulations, better: the new technique on 2 of 3 paths; the
+  certificate-regime conditions on 2 of 3 paths;
+- two unapplied: sealing the exclusions (exact seam); the consent overlay and
+  stage disclosure (no seam).
+
+Impact: kp has 1 context on this subject, 0 stale verdicts. Maps committed
+locally in twelve projects, none pushed. Yield high, dry_streak 0, depth L2.
+See [[collective-and-statutory-hiring-governance]].
