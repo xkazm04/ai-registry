@@ -1,0 +1,42 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-drv-0928b",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-28T12:25:00Z",
+  "ended_at": "2026-09-28T12:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/deterministic-run-verification",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/agent-operations/deterministic-run-verification.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/deterministic-run-verification",
+      "reason": "Stale dispatch, fourth send. The finding '3 techniques (design floor is 4)' was read at bd295204, 235 commits behind origin/main 18cf9154, which does not contain e3612ff2. At origin the subject has four techniques (e3612ff2, dp-drv-0927). No commit since 44eb11ef touches the subject folder, its note, projects.json or scripts/lib/run-result.mjs. check-currency reports agent-operations at 0 expired and 0 at-risk, with no drift on this subject. Not idled: the subject has not had two dry passes."
+    }
+  ],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Fourth dispatch of this subject on one stale finding, after dp-drv-0927 (landed) and dp-drv-0927b and dp-drv-0928 (both idled). Worked from a detached worktree of origin/main 18cf9154. Only a dated subject-note paragraph was added."
+}

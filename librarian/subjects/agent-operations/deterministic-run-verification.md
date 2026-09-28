@@ -1,7 +1,7 @@
 ---
 domain: agent-operations
 subject: deterministic-run-verification
-last_touched: 2026-09-27
+last_touched: 2026-09-28
 touched_by: deepen
 dry_streak: 0
 ---
@@ -156,3 +156,16 @@ Source classes, this run. Kept:
 
 Needs verbatim re-reading before any number lands: practitioner posts read through a
 page summarizer.
+
+## 2026-09-28 - fourth send, declined (run `dp-drv-0928b`)
+
+Declined, no pass. The same finding came in again, "3 techniques (design floor is 4)",
+this time from dispatch HEAD bd295204. That commit is 235 behind origin/main (18cf9154)
+and does not contain e3612ff2. At origin the subject has four techniques. `dp-drv-0927b`
+and `dp-drv-0928` idled on the same finding and wrote only run results, so this is the
+first note entry about the repeats. No commit since 44eb11ef touches the subject folder,
+this note, `projects.json` or `scripts/lib/run-result.mjs`, which was the return condition
+of the validator lead. `check-currency` reports agent-operations at 0 expired and 0 at-risk
+across 26 applications, with no drift on this subject. dry_streak is unchanged, because a
+declined dispatch is not a dry pass. The fix belongs in the dispatcher. It should read
+origin, and read `librarian/runs/*/result.json` for the subject, before it sends.
