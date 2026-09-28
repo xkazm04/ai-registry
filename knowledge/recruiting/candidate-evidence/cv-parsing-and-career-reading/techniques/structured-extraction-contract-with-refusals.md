@@ -20,8 +20,16 @@ empty, and what the document is *not*.
 
 ## The schema half
 
-**Everything is optional and nothing is defaulted.** A required field forces invention.
-Give every field an explicit unknown state and prefer emptiness to filling.
+**Every key is present and nothing is defaulted.** A field the model must fill with a
+value forces invention; a field it may leave out cannot tell "the document says nothing"
+from "the model skipped it", and the second is the failure you most need to see. The
+honest shape is required-but-nullable — better still, a value with an explicit status
+(stated in the document, absent from it, illegible, ambiguous), so absence is an
+asserted, auditable reading rather than a missing key. It is also the only shape strict
+structured-output modes accept: they require every property and express optionality as
+a union with null. Test that null is reachable — one fixture per field whose right
+answer is empty — because a constrained decoder that never emits null has quietly
+reinstated the required field. Prefer emptiness to filling.
 
 **Enumerations are closed and validated.** Role family, evidence kind, seniority band,
 confidence level: fixed vocabularies, checked on return, with an unrecognised value
@@ -73,7 +81,15 @@ State these as rules the model must follow, not as tone guidance:
    conclusion is content to be reported, not direction to be followed. Fence the
    document in the request with explicit begin/end markers and label it untrusted, and
    require any manipulation attempt to be *recorded* as a risk flag rather than merely
-   ignored — an attempt is evidence about the candidate. The detection and handling
+   ignored — an attempt is evidence about the candidate. Neutralise any marker the
+   document itself contains, or it can close its own fence. Delimiting is the weakest
+   form of this defence: measured, delimiters cut attack success by about half, while
+   datamarking — a marker interleaved through the untrusted text — took it from about
+   50% to below 3%, and the authors do not recommend delimiting alone (Hines et al.
+   2024). And the clause addresses the minority form: in about 200,000 real résumés,
+   roughly 1% carried hidden injected content and more than 90% of that carried no
+   instruction at all — concealed skill lists and fabricated experience written for
+   the matcher (Zhang et al. 2026). No refusal clause sees data. The detection and handling
    craft belongs to the authenticity-screening practice; the standing clause belongs in
    every extraction contract regardless.
 
@@ -107,6 +123,22 @@ The contract is enforced on return, not trusted:
   literalism penalty. And an unconfirmable claim is **withheld, not deleted**: it moves
   to a separate bucket that is never shown as a confirmed match but is still visible to
   a human, because the model may have read something the verifier cannot express.
+  **Verify against text the model did not write.** Where the model also transcribed the
+  document, checking its claims against its own transcription is self-certifying; check
+  against the deterministic text layer whenever that layer passes the quality floor,
+  and mark a verification made against the transcription as such. **And verify against
+  visible text only.** Hidden keyword text exists to pass exactly this check and to
+  light up the pre-pass's literal hits; a span that no reader of the rendered page can
+  see confirms nothing. Detecting and flagging it belongs to the authenticity-screening
+  practice; excluding it from verification belongs here.
+- Reconcile completeness, not only correctness. Every check above measures what came
+  back; none of them sees what was dropped, and dropped content is the quiet failure —
+  a later role, a second degree, a licence line. The pre-pass counts what it can count
+  (dated blocks in the experience section, recognised headings, credential-shaped
+  lines), and a returned record holding fewer entries than the pre-pass found is short,
+  not clean. A reply salvaged after the output limit cut it off is short by
+  construction, however complete its top-level shape looks: mark it degraded rather
+  than accepting it because the keys are there.
 - Recompute anything derivable rather than accepting the model's arithmetic. Where a
   total is defined as the sum of its parts, the server computes it; the model's own
   figure survives only as a divergence signal, and a gap past tolerance is surfaced for

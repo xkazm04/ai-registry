@@ -3123,9 +3123,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/cv-parsing-and-career-reading.md",
-   "digest": "sha256-b2:ff82003f8cf51816",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:ed0423375acf354a",
+   "revision": 2,
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "degraded-intake-as-a-visible-queue",
@@ -3222,19 +3222,20 @@
      "stack": "node",
      "technique": "degraded-intake-as-a-visible-queue",
      "file": "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/applications/node--degraded-intake-as-a-visible-queue.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "structured-extraction-contract-with-refusals",
      "file": "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/applications/process--structured-extraction-contract-with-refusals.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "text-extraction-damage-and-repair",
      "file": "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/applications/process--text-extraction-damage-and-repair.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },

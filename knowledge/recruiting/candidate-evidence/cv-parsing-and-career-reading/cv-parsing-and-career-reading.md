@@ -98,6 +98,17 @@ the model asserts something the pre-pass never found, that assertion is marked a
 inference rather than as extraction, because [inference must look like
 inference](../../_laws.md#inference-must-look-like-inference).
 
+What the ordering protects is *finding before judging*, and checks the model cannot
+author. It does not require the first reader to be a pattern matcher. Reading order is
+where plain extraction fails worst — in one 2025 benchmark every one of eight systems
+measured read complex multi-column pages in worse order than single-column ones, and
+layout-aware pipelines did best — so a layout-aware reader, including one that sees the
+page image, is a legitimate first reader. But a reader given only the image completes
+unfinished sentences and invents text where the image is ambiguous. So anchor any page reader with the text layer, and keep
+deterministic the three things the rest of this subject leans on: the text that claims
+are verified against, the arithmetic, and the literal hits. A verification run against
+a transcription the same model wrote is the model grading itself.
+
 The pre-pass is a **prior, not a constraint**. Handing the model deterministic findings
 as facts it must echo produces a pipeline that can only be as good as its regexes; the
 correct instruction is that the findings are inputs to weigh, that the model may correct
@@ -110,7 +121,10 @@ Three further gains fall out of the ordering.
 The pre-pass is a **grounding gate**. A schema constrains shape, not truthfulness, and
 the most efficient detector of an inflated verdict is the shape "near-perfect judgment
 over a pre-pass that corroborated nothing" — a genuinely strong document lights up at
-least one deterministic signal. Treat it as a screen that demands human verification,
+least one deterministic signal. That is also why hidden keyword text gets written: in a
+2026 measurement over about 200,000 real résumés, roughly 1% carried hidden injected
+content, and more than 90% of it was plain data, not instructions, aimed at exactly
+these literal hits. Run the gate, and every span check, on visible text only. Treat it as a screen that demands human verification,
 never as an auto-reject, and never let it become a second headline number: when a
 cross-check re-derives a score, publish only the disagreement it found and discard the
 synthesised total, or you have shipped two competing figures and taught recruiters to
@@ -131,7 +145,10 @@ layer that failed, note it, and continue.
 Screening passes — personal-data detection, instruction-injection defence — belong
 *between* extraction and the model, not after it. Their input is text; running them on
 the raw upload misses what only appears once encoding is repaired, and running them
-after the model is too late by definition. The craft of the injection screen itself
+after the model is too late by definition. The one exception is the hidden-text screen,
+whose evidence — colour against the background, glyph size, position on the page —
+plain extraction throws away: carry those attributes through extraction, or keep the
+file for a render comparison, or that screen has nothing to read. The craft of the injection screen itself
 belongs to a neighbouring practice; the ordering belongs here.
 
 ## Provenance is minted, not reconstructed
@@ -157,14 +174,20 @@ Total experience is the measure of a *union of intervals*, not a sum of duration
 Concurrent roles — a job and a contract, a promotion recorded as two entries at one
 employer, an advisory seat — are the normal case for exactly the senior candidates whose
 tenure matters most, and naive summation inflates them by years. A candidate who held
-three overlapping roles for a decade does not have thirty years of experience.
+three overlapping roles for a decade does not have thirty years of experience. The union
+is the calendar ceiling, not always the value: where a document states a working load,
+credit follows it — written crediting rules prorate twenty hours a week for a year to six
+months, and cap concurrent work at one year per twelve months — so without a stated load
+the union is an upper bound and says so.
 
 "Present" is a value, not a missing end date, and it must be resolved against the
 document's own age rather than today's clock: a file written two years ago that says
 "present" does not entitle the candidate to two more years, and a stale reprocessing
 run that recomputes it silently rewrites history. Precision must survive too — a range
 given in years is not a range given in months, and a pipeline that pads year-only
-entries to January manufactures a bias that always runs in the same direction.
+entries to January manufactures a bias that always runs in the same direction. A
+year-precision range is a pair of bounds; a threshold is tested on the bound that
+favours the candidate, or goes to a human.
 
 Gaps are data about the record, never about the person. A gap is a fact ("no entry
 covers this interval"), and any reading of *why* is a hypothesis with a suggested probe,
@@ -259,7 +282,10 @@ differs from your training set.
 Two consequences follow. Re-submission is, for most candidates, the only self-service
 way to correct their own record, so a re-application must **merge rather than replace**,
 and a rebuild that fails must touch nothing — a partial overwrite turns a retry into
-data loss for the person least able to detect it. And because extraction quality is a
+data loss for the person least able to detect it. Only proof of identity may rebuild:
+a typed address finds the record, and anyone can type one. (Re-application is also not
+the candidate's only right: data-protection law gives them completion of an incomplete
+record, including by a statement of their own.) And because extraction quality is a
 property of the *parser version*, a materially improved extractor obliges a reprocessing
 pass over the records it previously degraded; the candidates hurt by the old version are
 not a cohort you get to leave behind.

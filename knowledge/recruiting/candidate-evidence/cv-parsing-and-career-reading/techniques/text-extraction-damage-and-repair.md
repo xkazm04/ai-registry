@@ -72,6 +72,22 @@ Repairs are not commutative. Run them in this order and re-measure after each:
    makes things worse loses, and the pass is therefore safe to run on documents it does
    not understand. It also degrades gracefully when the re-decode throws, falling back
    to the substitution reading rather than to nothing.
+
+   Two conditions keep the competition honest, and both were learned in a real tree.
+   **A substitution entry is a repair only while the damaged bytes still determine the
+   answer.** A lossy decode — an undefined byte replaced, a control byte dropped —
+   collapses several source letters onto one damaged sequence, and a table entry for
+   that sequence is a guess. Audit the table mechanically: for every key, enumerate the
+   characters whose damage produces it; a key with more than one is invention, and the
+   sequence should pass through as visible damage. **And a plausibility score keyed on
+   the home language's letters is a home-language prior**: it cannot lose to a foreign
+   reading, so wherever the damage is ambiguous it resolves toward the home language
+   every time. Measured on one tree: a single entry mapped a sequence that five letters
+   collapse onto — two Polish, one Hungarian, two of the home language's own — to one
+   capital letter; in that tree's own home-language copy it was right 50 times in 232,
+   and it turned a city name and a foreign one into confident wrong letters that no
+   reviewer reads as damage. The original-in-the-candidate-set guard does not catch
+   this, because the wrong reading scores higher than the original.
 3. **Reconstruct letter-spaced runs.** Detect runs where single characters alternate
    with separators above a threshold, and rejoin them. Bound the repair: apply it to
    runs long enough to be statistically unambiguous, and never across a token that could
@@ -80,7 +96,12 @@ Repairs are not commutative. Run them in this order and re-measure after each:
 4. **Repair layout only where you can prove it.** Column de-interleaving is a heuristic;
    gate it on a measurable signal, and prefer leaving text in its extracted order over a
    confident wrong reconstruction. A misordered document is recoverable by a human
-   reader; a reordered one may not be.
+   reader; a reordered one may not be. The proof can be geometric — a gutter no glyph
+   crosses, with real text on both sides — or a measured gain on your own corpus. A
+   reader that sees the page image is the stronger tool on complex layouts, but a reader
+   given *only* the image completes unfinished sentences and invents text where the
+   image is ambiguous (Poznanski et al. 2025); anchor it with the text layer and keep
+   the text layer as what spans are checked against.
 5. **Measure the result.** A recovered-text quality score — character-class
    distribution, dictionary hit rate against expected languages, ratio of recognised
    section headings, alphanumeric-to-noise ratio, residual damage counts — is the gate
@@ -136,7 +157,8 @@ The line is: **a repair is reversible reasoning about the encoding; an invention
 reasoning about the content.**
 
 Restoring a mis-decoded character sequence is repair — the original bytes determine the
-answer. Rejoining letter-spaced glyphs is repair. Guessing which column a date belonged
+answer, for as long as they survive; after a lossy decode they may not, and a table that
+still "restores" the sequence has crossed the line. Rejoining letter-spaced glyphs is repair. Guessing which column a date belonged
 to, filling a truncated employer name, or correcting an apparent typo in a certification
 number are inventions — the last a damaging one, because identifiers must never be
 synthesised. When you cannot repair, record the region as unrecoverable and let the

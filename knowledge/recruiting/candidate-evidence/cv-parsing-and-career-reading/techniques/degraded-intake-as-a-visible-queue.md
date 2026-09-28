@@ -11,9 +11,9 @@ use_when: [a document fails to parse or normalise, designing intake error handli
 
 # Degraded intake as a visible queue
 
-Some documents will not parse. The rate is low — a few percent of intake in most
-systems — and that is exactly why it is handled badly: invisible in aggregate, total for
-the individual. The technique converts a class of silent engineering failures into a
+Some documents will not parse. The rate is usually low — there is no trustworthy public
+measurement of it, so measure your own per format, language and channel — and that is exactly why it is handled
+badly: invisible in aggregate, total for the individual. The technique converts a class of silent engineering failures into a
 recruiter-facing work item, and it is the smallest change in this subject with the
 largest fairness effect.
 
@@ -76,7 +76,11 @@ Two properties matter more than the vocabulary itself:
 ## Re-application is the candidate's only edit button
 
 For most candidates there is no self-service way to correct a bad record except to apply
-again. That makes re-submission an *update* path, and it carries two rules:
+again. That makes re-submission an *update* path. It is not the only correction channel
+the candidate is owed: where the GDPR applies, they have the right "to have incomplete
+personal data completed, including by means of providing a supplementary statement"
+(Art. 16), whether or not the product offers a button for it. The re-application path
+carries these rules:
 
 - **Merge fill-only, do not replace.** A second application with a thinner answer set
   must not erase the richer earlier record. Backfill the fields that were empty — a
@@ -89,6 +93,14 @@ again. That makes re-submission an *update* path, and it carries two rules:
   strongest identifier present, fall back explicitly, and where no stable identifier
   exists do not merge at all — collapsing two real applicants onto one record is a worse
   failure than a duplicate row.
+- **The signal that finds the record is not the signal that may change it.** A typed
+  address is not a secret; anyone can enter a stranger's. Let the address *find* the
+  existing record, and let only proof of control of it — a token sent to that address
+  and brought back — *rebuild* it. An unproven repeat changes nothing on the record and
+  is answered with a way back in through the address on file. Without the split,
+  "merge on the strongest identifier" is an unauthenticated overwrite of someone else's
+  profile. The split has a cost to name: a degraded stub that holds no address can no
+  longer be repaired by its owner re-applying, so that stub needs a recruiter path.
 - **A failed rebuild touches nothing.** If the new extraction degrades, the previously
   good record stands unchanged and the failure becomes a queue item. A partial overwrite
   turns a retry into data loss for the person least equipped to notice it.

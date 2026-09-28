@@ -29,7 +29,16 @@ Decision rules:
 - **Preserve precision; never invent it.** A year-only range is stored as year-precision.
   Padding it to a January start is a systematic bias that always runs the same direction
   and is invisible in aggregate. Where a duration must be produced from a year-only
-  range, use the midpoint convention and record that the value is approximate.
+  range, carry the bounds the precision allows — "2018–2020" is anything from a little
+  over a year to three — and test any threshold on the bound that favours the candidate,
+  or route the case to a human. A midpoint is for display, flagged as imputed, never for
+  a cut; imputation practice in other fields flags every imputed date and switches to
+  the conservative end whenever the direction of error matters. The rule earns its keep
+  at thresholds, where a year-precision range lands within a year of the line. Measured
+  on one tree's 18 seed histories with dated ranges, the bound moved no employment
+  decision at all, because month precision dominated; carry it anyway, since it is free,
+  and expect it to matter at the margin, not in bulk. Keep the verbatim date text beside
+  the normalised value, as the older résumé interchange standards do.
 - **An ambiguous numeric date is ambiguous.** Resolve it from other unambiguous dates in
   the same document — the writer is internally consistent far more often than not — and
   where it cannot be resolved, mark it uncertain rather than picking your own locale's
@@ -57,6 +66,21 @@ The procedure: normalise every entry to a half-open interval, drop entries that 
 to parse (and record that they were dropped), merge overlapping intervals, then measure
 the union. Compute *relevant* experience the same way over the filtered subset, never by
 scaling the total.
+
+**The union is the calendar ceiling, and it is the value only for full-time work.**
+Where a document states a working load, credit follows the load. US federal
+qualification policy is the clearest written rule: "Part-time work is prorated in
+crediting experience. For example, an employee working 20 hours per week for a 12-month
+period should be credited with 6 months of experience"; concurrent positions are
+credited for the time worked in each, but "credit can be given for only 1 year of
+experience for any 12-month period". The EU professional-qualifications directive reads
+experience the same way, as "full-time or equivalent part-time pursuit of the
+profession". So the value is the load-weighted time, capped
+at one year per year of calendar, and the union is exactly that cap. Most documents
+state no load; then the union is an upper bound and must be labelled as one — never a
+guessed half, never silently the full figure. The same policy credits unpaid experience
+like paid, which is the right default for volunteer and care work that a career reader
+would otherwise drop.
 
 Two corollaries. Adjacent intervals separated by a month boundary artefact should be
 merged before measuring, or a candidate loses time to rounding at every job change. And
