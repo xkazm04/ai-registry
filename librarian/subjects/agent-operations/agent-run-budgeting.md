@@ -140,3 +140,16 @@ entry or its `applied.md` rows. `check-currency` reports agent-operations at 0 e
 leads' return conditions has an event. dry_streak is unchanged. The failure signature
 repeats: the lane reads the finding from a stale checkout and does not consult the run
 results it already wrote for the subject.
+
+## 2026-09-28 - a fourth stale send, from a new HEAD (run `dp-arb-0928b`)
+
+Declined, no pass. The same finding, "3 techniques (design floor is 4)", arrived from a
+different dispatch HEAD this time: bd295204, not d93fbd78. That local main is 232 behind
+origin/main (49225162). It also carries four commits that origin does not have, so it is
+diverged, not merely behind. At bd295204 the index still lists three techniques. At origin
+it lists four, with termination-cause-record from d9382ed7. Since `dp-arb-0928`, the only
+commits touching agent-operations are sibling ledger commits for other subjects.
+`check-currency` reports the domain at 0 expired and 0 at-risk, with nothing on this
+subject. No banked lead's return condition has an event. dry_streak is unchanged. The
+failure signature is the same one, now reproduced from a second HEAD: the lane scores a
+local checkout without comparing it to origin.
