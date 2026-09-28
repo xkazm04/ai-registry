@@ -106,6 +106,47 @@ must be *written down as the decision*, counted, and surfaced
 entries seeded, M with mismatched digests" is a dashboard line someone
 owns, not a debug log line nobody reads).
 
+Absence has a third cause that the posture split above misses: **timing**.
+The evidence may simply not exist *yet*. The verifier renders before the
+seeding pass has fingerprinted anything, or a re-seed is in flight. Calling
+that "unverified" out loud would wrongly accuse the entry. Calling it
+"verified" folds verdict 3 back into verdict 1, which is the decoration gate
+above, only for a window instead of forever. The honest spelling is a fourth
+display state, **pending**: neither the success mark nor the accusation.
+The window has to be bounded, so pending that never resolves turns into
+unverifiable. A trust display that only has green and red *will* fold
+pending one way or the other, so give it the neutral state before it needs
+one. The same holds for any verdict with a freshness bound: "verified as of
+a check that could not be repeated now" is not "verified".
+
+## The badge names its predicate
+
+Everything above ends up, for the adopter, as a mark on a card: a shield,
+a check, "Verified". Adopters read that mark as the strongest claim it
+could possibly make: this is safe to adopt. What it actually attests is
+usually one of three narrower things, and they are not interchangeable:
+
+- **origin**: where the entry came from (built-in, generated in-app,
+  third-party). A fact about the catalog's bookkeeping, not about the bytes.
+- **integrity**: the payload is the one that was published, checked
+  against a recorded digest.
+- **publisher identity**: the signer or publisher is who they say they
+  are. Even that is only as strong as the proof behind it. Owning a domain
+  is not the same as being the organization it names.
+
+None of the three is a behavior review. Two rules follow. First, **the mark
+is derived from the check it names**. If the check was never run (only
+origin was known), the mark is not the integrity mark, however trustworthy
+the origin. A computed hash that is compared to nothing is exactly the
+decoration gate, one layer up. Second, **the check compares against an
+expected value that the entry itself did not supply**. That means a
+recorded digest, a pinned signer, an expected source. Provenance that
+nobody compares against an expectation does nothing, and a verified flag
+read out of the package being verified can be copied into a package that
+isn't. When a catalog shows several kinds of trust, it shows them as
+separate marks. It never collapses them into one mark that promises all
+three.
+
 ## Where to verify: at the doors, not in the aisles
 
 Verification belongs at trust-boundary crossings, and the two that matter:

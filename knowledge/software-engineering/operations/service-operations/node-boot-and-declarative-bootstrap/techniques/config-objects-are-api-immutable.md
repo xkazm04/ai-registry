@@ -78,6 +78,16 @@ a node that starts and audits to the wrong path costs the audit trail. The decis
 **when the two authorities disagree about one name, stop; when they disagree about existence,
 the file decides for its own population and only its own.**
 
+"Configuration wins" has one admissible form, and it is declared rather than defaulted: a
+kind whose every name the configuration owns, where an API-side edit to an object of that
+kind is documented as a temporary local change that the next start overwrites, and where
+the overwrite is logged with the provenance it replaced. That is a deliberate ownership
+statement about a whole kind. Then the file is the authority for the kind rather than for
+its own population, and the stop rule above does not apply. It fits kinds whose objects are
+views or layouts, where losing an API edit costs a redo. It does not fit a kind that acts on
+the host or holds a trail, such as an audit sink or a plugin, because there the silent
+replacement costs the trail itself. Such a kind keeps the stop rule.
+
 Reconciliation on reload is what makes this class of object reloadable at all: the file is
 re-read, the declared set is recomputed, and the same three resolutions apply. Where an object
 is *held* — a listener bound to a port — its reload class is restart-only and reconciliation

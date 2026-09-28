@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-pa-0925b",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "software-engineering",
+  "started_at": "2026-09-25T14:40:00Z",
+  "ended_at": "2026-09-25T14:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/prompt-assembly",
+      "at": "2026-09-25",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 1,
+      "points_after": 1
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/prompt-assembly",
+      "reason": "Re-dispatch on the premise rc-pa-0925 already declined. The dispatching checkout (689b3da8) is 43 commits behind origin/main (46e9503e). Locally, python--amortized-compaction-cadence reads refresh_by 2026-10-15. At origin it reads 2026-11-05, 41 days out and outside the 30-day window, and it is the only application in the subject that carries refresh_by. There is no single-source debt: 25 applications on 5 stacks."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "No work. The scan measures the local tree (43 behind origin), and a declined outcome never feeds the dry-streak brake, so it re-ranks this subject until the primary checkout fast-forwards. A sibling has WIP there, so this lane does not sync it. Written from an origin worktree."
+}

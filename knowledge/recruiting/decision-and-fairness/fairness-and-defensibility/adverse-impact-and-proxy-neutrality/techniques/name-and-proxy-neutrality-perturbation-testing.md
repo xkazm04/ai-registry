@@ -46,7 +46,19 @@ carries**, which typically means:
   lives: postcode and address region, secondary school, first language, a
   military or national-service line, a gap in employment, a graduation year
   that discloses age, a professional body or a certification that tracks a
-  national origin.
+  national origin — and the prose itself: pronouns, honorifics and
+  gender-inflected job titles, and the dialect or register the résumé is
+  written in, which carries group signal with no name present.
+
+**A name is a bundle of signals, so a group is several names.** Names signal
+class, era, region and frequency as well as the group they were chosen for,
+and names meant for the same group are perceived very differently. A single
+name per group cannot separate that name from its group. Choose several per
+group, from perception-validated sets where they exist, matched on frequency
+and era. In the exact-equality lane each name is simply another case — any
+one that moves the output is the bug. In a distributional lane the group
+effect is the effect averaged over its names, and one name's result is not a
+group's.
 
 Every entry pairs with a base résumé that is held **byte-identical apart from
 the perturbed token**. Perturbing two things at once produces a test that
@@ -111,6 +123,29 @@ person's name in body text, headers and project titles, so the name-in-text
 variant must be byte-identical to the baseline too, not just the name-in-field
 variant.
 
+## The suite covers the inventory, not the entry point
+
+"The scoring function" is rarely one function. A matcher, a ranker, a
+shortlist builder, a screen that gates an automated move and a re-scoring
+path each take a candidate, and a neutrality suite wired to the engine
+somebody remembered proves nothing about its siblings. In one measured case a
+four-point penalty planted on a gender-marked surname in a ranking helper
+left three existing neutrality suites green, 38 tests between them, because
+none of them perturbed that function.
+
+- **Derive the list from the code.** Enumerate every public function whose
+  parameters carry the candidate type — by annotation, not by name — and
+  require each either to run the perturbation set or to carry a written
+  exemption (a letter that addresses the person by name after a decision was
+  made gates nothing). A new function nobody registered fails by name, and a
+  registration for a deleted function fails too.
+- **One perturbation set, read by every suite.** Three hand-kept name lists
+  drift into three subsets; the set is one artifact that the suites import.
+- **Prove the suite can fail.** Plant a name-dependent defect in one scorer
+  and assert the suite turns red on that scorer and that axis, and green on
+  the clean tree. An equality suite that has never been seen failing is a
+  claim about nothing.
+
 ## Determinism is a prerequisite, and it is not free
 
 A generative scorer may vary between two identical calls even at a fixed
@@ -125,7 +160,8 @@ the structured decision fields to equality while routing free text to a
 separate distributional lane, or move the equality assertion to the
 deterministic layers that surround the model (feature extraction, gating,
 thresholding) and treat the model lane as a statistical test over many pairs
-instead. What is not acceptable is quietly loosening the assertion into a
+instead — several names per group, repeated samples per variant, candidate
+order randomised where the model sees more than one. What is not acceptable is quietly loosening the assertion into a
 tolerance so the suite goes green.
 
 ## Decision rules

@@ -49,7 +49,10 @@ for three reasons that all reduce to reviewability.
    evidence shape — what a strong candidate's record looks like, what the rubric can
    actually observe. Two roles in different departments that both hire on demonstrable craft
    with portfolios belong together; two roles in one department where one is licensed and
-   one is not do not.
+   one is not do not. Write the grouping down as a job analysis: the major work behaviours
+   the roles share. Selection guidelines allow evidence to be shared across jobs only when
+   they show substantially the same major work behaviours, and a family is exactly such a
+   sharing.
 2. **Anchor families to a recognised occupational taxonomy where one exists.** Borrowing a
    public classification rather than inventing one makes the grouping explicable to an
    outsider and comparable to external data, and it protects against the family boundary
@@ -59,16 +62,24 @@ for three reasons that all reduce to reviewability.
    within a declared band. It may not change which cohorts are shielded, which verdicts are
    routable, or which gates are required — those are structural and centrally fixed. Keep
    the overridable key set explicit and small.
-4. **Derive each override from that family's own distribution and record the derivation.**
-   The stored artifact is the value, the sample it came from, the period, and the intended
-   effect. A family threshold with no derivation is a preference, and it will be read as one
+4. **Derive each override from that family's proficiency evidence and record the
+   derivation.** The anchor is the score that corresponds to acceptable performance in this
+   work. One example is the band below which candidates who went on anyway rarely
+   succeeded. Where the family's scores happen to fall is not the anchor. Selection
+   guidelines ask for a cutoff consistent with normal expectations of acceptable
+   proficiency. A bar placed at a percentile of the family's own distribution encodes who
+   applies, not what the work needs. The stored artifact is the value, the sample it came
+   from, the period, and the intended effect. A family threshold with no derivation is a preference, and it will be read as one
    the first time someone asks why this occupation is held to a different standard.
 5. **State the resolution rule once and apply it everywhere.** Effective floor for a
    candidate equals: the family override if one exists for the family this requisition
    belongs to, otherwise the baseline value. Where a team override and a family override
-   both apply, declare which wins — and prefer the *stricter* of the two for any value that
-   gates an adverse action, so that neither layer can be used to reach a weaker outcome than
-   the other permits.
+   both apply, declare which wins — and prefer the one that exposes *fewer* candidates to
+   the adverse action, so that neither layer can be used to reach a harsher outcome than the
+   other permits. Name the direction by its effect, never as "stricter". For a reject-below
+   threshold, the protective value is the lower one. For a confidence floor that gates
+   whether automation may act at all, it is the higher one. A higher bar is not a safer
+   bar.
 6. **Fail to the baseline, never to the permissive end.** An unrecognised family, a role
    with no family assigned, a family removed while requisitions still point at it: all
    resolve to the baseline. An unmapped occupation is not a licence to run without a floor,
@@ -93,9 +104,17 @@ for three reasons that all reduce to reviewability.
 - **When the family's sample is too small to derive a threshold, do not invent one — inherit
   the baseline and say why.** A number with no basis is worse than the general number,
   because it looks specific.
-- **When an override moves a floor down, require the stronger review.** Raising a bar is
-  self-limiting; lowering one increases the population exposed to adverse automated
-  handling, which is exactly the change that needs the accountable owner in the room.
+- **When an override enlarges the population exposed to adverse automated handling,
+  require the stronger review.** That change needs the accountable owner in the room.
+  Which numeric direction it is depends on what the value gates. Raising a reject-below
+  threshold enlarges the population. So does lowering a confidence floor that must be met
+  before automation acts. The opposite change is self-limiting. Write the direction into
+  the setting's own reason, because a reviewer reading "lowered 45 → 40" cannot tell a
+  relaxation from a tightening without it.
+- **When a family's bar is changed to move its pass rate for a demographic group, stop.**
+  Bars may differ by occupation. They may not differ by protected group. A family bar
+  tuned to that family's demographic outcome is a group-based score adjustment reached
+  through a proxy, and the adverse-impact subject's remedies are the lawful route.
 - **When two families' bars differ substantially, be able to say why in occupational terms.**
   "This work is licensed and the record is verifiable, so the instrument is more reliable"
   is a reason. "This family scores lower" is not — it is a description of the very thing

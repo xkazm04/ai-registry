@@ -95,6 +95,18 @@ never the answer, and a metric or header that exposes it under the name
 "index" is the bug that produces stale reads with a green consistency
 check.
 
+The rule has two placements, and a design needs one of them, not both. The
+first puts the drained index in the header, and the check compares against
+the node's own drained index. The second puts the applied index in the
+header, and the check itself refuses to pass while any invalidation at or
+below the requested index is still queued. The shipped secrets-server form
+of this subject uses the second placement, because its dispatcher is
+asynchronous so that applying the log never blocks on invalidation. The two
+buy the same session guarantees. They differ in what the number means: in
+the second, the header names a log position, not the freshness of the
+answer it rode on. The failure is using neither: the applied index in the
+header, and a check that compares indexes alone.
+
 ## The refill is a read, and reads are the replica's
 
 After eviction the next read of that key is a miss, and the miss goes to

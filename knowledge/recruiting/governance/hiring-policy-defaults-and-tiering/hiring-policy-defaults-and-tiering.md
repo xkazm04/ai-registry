@@ -35,11 +35,17 @@ The naive reading is that a default is a convenience — a sensible starting val
 product works out of the box, which serious users will tune. Three things are wrong with
 it.
 
-**Serious users do not tune.** Change rates on configuration defaults are brutally low
-everywhere, and hiring configuration is worse than average because the people accountable
-for the policy are rarely the people with access to the settings. The talent lead who owns
-the fairness posture cannot find the screen; the operations person who can find it does not
-believe the numbers are theirs to move. The shipped value survives.
+**Most users do not tune.** Defaults stick. The pooled effect across decision domains is
+large, but it varies widely, and defaults lose power in predictable places: an expert
+decider, a stated duty to review, or a default visibly against the chooser's interest.
+Enterprise hiring suites are usually configured once, during an implementation project.
+That project is the real default for the buyer, and after it the configuration is rarely
+revisited. Hiring configuration also sits on the wrong side of the conditions that weaken
+a default, because the people accountable for the policy are rarely the people with
+access to the settings. The talent lead who owns the fairness posture cannot find the
+screen. The operations person who can find it does not believe the numbers are theirs to
+move. The shipped value survives. The design move follows from the conditions: create the
+expert with a review duty (a named owner, a recorded act) instead of hoping one exists.
 
 **A default that can end an application is not a convenience.** A default that costs
 throughput gets discovered and fixed, because someone complains the queue is slow. A
@@ -70,6 +76,18 @@ positions have unequal consequences, the shipped position is the reversible one.
 Auto-advance ships on if you like — its failure mode is a person reading a résumé that
 did not need reading. Auto-reject ships off, always, because its failure mode is a person
 who never hears back and cannot appeal a decision nobody made.
+
+"Always" covers every rejection that a score, a ranking or an inference produces. A
+knockout on the candidate's own answer to an objective, job-required question is a
+different capability: a stated right to work, a licence held, a minimum age. Regulators
+and practice both treat it differently. Screening-tool rules reach statistical and
+model-derived output, and human-authored eligibility rules generally fall outside them.
+Guidance on solely automated decisions accepts automated sifting against declared criteria
+in some conditions. That knockout still ships *unwritten*: no question arrives pre-set to
+reject. The rule stays the same, and only its reason changes. A knockout is not a decision
+nobody made, because somebody wrote the question. It still needs a notice and a route to a
+person, because a declared answer can be mistaken and the criterion can be wrong for the
+role.
 
 ## The four layers, and what belongs in each
 
@@ -225,15 +243,22 @@ live dimension changes.
 
 Two properties are hard-won and both matter:
 
-- **Adding a new policy dimension must not invalidate existing approvals.** If the version
-  is computed by serialising every field including the ones that are absent, then shipping
-  a new knob changes the version for every organisation on earth, invalidating every
-  in-flight approval and forcing a re-review of work nobody touched. Omit absent values
-  from the canonical form and the new dimension is invisible until someone sets it.
-- **Changing a dimension that is in use must invalidate them.** The mirror property, and
-  the reason the version is not just a monotonically bumped integer someone forgets to
-  bump. If the bar moved between the moment a human reviewed a cohort and the moment they
-  approved it, the approval is about a different cohort and must be re-earned.
+- **Adding a new policy dimension must not invalidate approvals it does not affect.** If
+  the version is computed by serialising every field, including the ones at their inert
+  value, then shipping a new knob changes the version for every organisation on earth. That
+  invalidates every in-flight approval and forces a re-review of work nobody touched. Omit
+  a dimension from the canonical form while its *resolved* value is inert, meaning it
+  reproduces the behaviour from before the dimension existed. The new dimension then stays
+  invisible until it does something.
+- **Changing what is in force must invalidate them.** This is the mirror property, and the
+  reason the version is not just a monotonically bumped integer someone forgets to bump. If
+  the bar moved between the moment a human reviewed a cohort and the moment they approved
+  it, the approval is about a different cohort and must be re-earned. The same holds when
+  the move came from a shipped default rather than a stored value. A new dimension with an
+  active default, or a changed default, alters the rulebook of every organisation that
+  never set it. "Omit absent values" is the tempting shortcut, and it gets this case
+  wrong, because a default resolved at the point of use is absent from storage and present
+  in behaviour.
 
 The version then travels: into the approval token, into every decision record, into the
 audit export. This is what makes a decision replayable and what makes
@@ -258,6 +283,12 @@ enforceable at policy scope rather than only at candidate scope.
   thresholds, because nothing recorded yesterday's.
 - **The knob that invalidated everything** — a new configuration dimension whose mere
   existence changed every policy version and forced a re-review nobody could explain.
+- **The default that moved nothing** — its mirror: a shipped default changed, every
+  organisation's behaviour changed with it, and no version moved, because the digest read
+  storage and the default lived in code.
+- **The editor over the wrong tier** — a settings screen that displays a team's effective
+  value and saves to the organisation row beneath it, so the save succeeds and changes
+  nothing for the person who made it.
 - **The silent zero** — a calibration reserve or a confidence floor cleared to zero by a
   form, disabling a control with no event, no owner and no alert.
 

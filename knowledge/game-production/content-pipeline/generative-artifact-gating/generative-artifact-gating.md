@@ -3,9 +3,10 @@ layer: golden-path
 type: golden-path
 subject: generative-artifact-gating
 status: forged
-use_when: [wiring a gate around a paid generation step, a generative step is always green, deciding whether an artifact may advance to the next paid stage, recording who chose a generated candidate]
+use_when: [wiring a gate around a paid generation step, a generative step is always green, deciding whether an artifact may advance to the next paid stage, recording who chose a generated candidate, a downloaded or library asset fills a generative slot]
 techniques:
   - placeholder-is-not-an-asset
+  - acquired-is-not-generated
   - grade-the-selected-candidate
   - generation-history-as-artifact
   - auto-picked-vs-human-chosen-provenance
@@ -133,6 +134,12 @@ line then pays a paid stage to replace a finished artifact with a worse one. Tha
 failure the neighbouring repair-economics subject calls refusing the fix that cannot help,
 arriving one stage earlier and costing more.
 
+The three values describe work the line did. An asset the line **acquired** - downloaded,
+bought, pulled from a library - is none of them, and because it is a served reference the
+representation rule reads it as generated. It carries a declared acquisition record whose
+licence is its evidence, and the gate reads that record first
+([acquired-is-not-generated](./techniques/acquired-is-not-generated.md)).
+
 Which producers are terminal for a class is a **declaration**, made once per asset class and
 reviewed like any other, never inferred from the artifact in front of the gate. Inference is
 what the origin field exists to prevent, and it does not become safe here.
@@ -228,6 +235,8 @@ become the source of the design.
 - **Grading the pointer.** The selection is validated; the candidate is never opened.
 - **The stand-in that graduated.** A seeded placeholder was good enough for review, review
   passed, and nothing in the pipeline ever again asks whether a generator ran.
+- **The download that graduated.** A producer filled a slot with a ready-made asset; the
+  gate saw a served reference and passed it as generated, licence unread.
 - **Provenance laundering.** Auto-picks quietly become human choices through viewing,
   reordering, or a migration that defaults the field.
 - **The gate after the spend.** Verification sits at the end of the stage it should have

@@ -157,7 +157,9 @@ is the same contract
 any stored derived value, applied to the most consequential derived value in delivery.
 
 Two habits make it real. The generator runs locally in a mode that prints without
-submitting, so its output is reviewable before it is authoritative. And the same code path
+submitting, so its output is reviewable before it is authoritative - provided it says which
+of its units are certain: a preview that cannot decide a run-time condition prints an upper
+bound, and has to say so unit by unit. And the same code path
 produces the plan and verifies it — a generator with a separate verification implementation
 has two authorities for one fact, and they will disagree at the worst time. The capture
 rules, the local mode, and the "one code path, two modes" pattern are
@@ -180,5 +182,6 @@ rules, the local mode, and the "one code path, two modes" pattern are
 - [human-checkpoints-in-a-pipeline](./techniques/human-checkpoints-in-a-pipeline.md) — the
   approval as a graph node, capacity while waiting, and the never-answered rule.
 - [pipeline-plan-auditability](./techniques/pipeline-plan-auditability.md) — the resolved
-  plan as a durable output, the print-without-submitting mode, one code path for generate
-  and verify.
+  plan as a durable output, the print-without-submitting mode and what it may claim (a
+  forecast only where earlier effects are carried forward; otherwise marked per unit, never
+  wholesale), one code path for generate and verify.

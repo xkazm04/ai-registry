@@ -1,0 +1,97 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ric-0926",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T12:50:00Z",
+  "ended_at": "2026-09-26T13:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/role-intake-conversation",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/role-intake-conversation",
+      "technique": "expansion-reflection-over-confirmation",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/role-intake-conversation",
+      "technique": "role-intake-conversation",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/role-intake-conversation",
+      "technique": "session-shape-triage-and-turn-budget",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/role-definition/role-intake-conversation/role-intake-conversation.md",
+    "knowledge/recruiting/role-definition/role-intake-conversation/techniques/context-reinstatement-opening.md",
+    "knowledge/recruiting/role-definition/role-intake-conversation/techniques/expansion-reflection-over-confirmation.md",
+    "knowledge/recruiting/role-definition/role-intake-conversation/techniques/laddering-a-hard-requirement.md",
+    "knowledge/recruiting/role-definition/role-intake-conversation/techniques/premature-solution-quarantine.md",
+    "knowledge/recruiting/role-definition/role-intake-conversation/techniques/session-shape-triage-and-turn-budget.md",
+    "knowledge/recruiting/role-definition/role-intake-conversation/applications/react--expansion-reflection-over-confirmation.md",
+    "knowledge/recruiting/role-definition/role-intake-conversation/applications/process--laddering-a-hard-requirement.md",
+    "knowledge/recruiting/role-definition/role-intake-conversation/applications/process--session-shape-triage-and-turn-budget.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/role-intake-conversation.md"
+  ],
+  "commits": [
+    {
+      "sha": "1000fda4",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    },
+    {
+      "sha": "1c5e95e7",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/role-intake-conversation",
+      "reason": "production-supervisor degree demand falling to about a third by 2020: a single secondary source citing a report not read; only the 'never downward' absolute was removed"
+    },
+    {
+      "subject": "recruiting/role-intake-conversation",
+      "reason": "years-of-experience validity (r about .06) for laddering's years example: blind lane only, not searched; banked as a lead"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single-stack cleared (react). Paper-deletion rule flipped; one-source section added. Live kp defect: intake voice ends turns on a 500 ms silence, misfiling a paused answer 3 of 3 in simulation. Not fixed: kp held by a sibling. A --help probe rewrote 12 fleet maps (uncommitted)."
+}

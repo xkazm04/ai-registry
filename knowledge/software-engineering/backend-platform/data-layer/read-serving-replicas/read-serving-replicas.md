@@ -54,7 +54,10 @@ forwards the *whole original request* to the authority on that sentinel. A
 short, closed list of operations whose effects precede their first write
 forwards before dispatch, and that list is deliberately incomplete — the
 shim catches what it misses, so it need only be right about the
-irreversible.
+irreversible. A verb or statement classifier in front of the shim is the
+same arrangement at larger scale. It is a latency route and never the gate,
+and it is admissible only where a refusal behind it catches its misses. That
+refusal must be real for every account the service connects as.
 
 **Derived state is invalidated from the committed-write stream, never by
 time.** A replica's store is exact by construction — it is the authority's
@@ -69,6 +72,9 @@ cannot invalidate a list (the write is to a child key; the cached key is the
 prefix), cannot represent an addition or a deletion (the negative entry "not
 present" has no key the write would touch), and turns a cached "this
 credential is valid" into a grace period the authority never granted.
+The rejection is of being *correct by time*. An expiry kept only as a
+backstop on a stream-invalidated entry bounds memory and undetected loss,
+provided a gap in the stream is alarmed on its own and never absorbed.
 
 ## What a replica knows, and when
 
@@ -99,7 +105,9 @@ bound has a cache it cannot vouch for, and it **steps down from
 read-serving** — forwards everything, keeps its place in the cluster,
 resumes when the queue drains. The step-down is per replica and it is
 automatic, because the alternative is an operator noticing a stale read
-after a user did. The
+after a user did. The policy for every replica breaching at once, when the
+authority takes the whole read load, is chosen in advance: forward, and size
+the authority for it, or shed load with a refusal that says why. The
 [fairshare-invalidation-queues](./techniques/fairshare-invalidation-queues.md)
 technique owns the queues, the bound, and what happens to a peer that stops
 answering heartbeats.
@@ -108,10 +116,19 @@ answering heartbeats.
 
 A client that writes to the authority and immediately reads from a replica
 can observe its own write missing. Two designs make that impossible on the
-server: wait, after each write, until every replica acknowledges it (the
-write path is now as slow as the slowest replica, and one dead replica halts
-all writes), or route every request from one session to one node (the
+server: wait, after each write, until every serving replica has *applied* it
+(the write path is now as slow as the slowest replica, and one dead replica
+halts all writes), or route every request from one session to one node (the
 scaling this subject exists for is gone). Neither is acceptable. The
+writer-side waits that survive a dead replica do not close the gap:
+- A received-not-applied acknowledgement leaves the replica unapplied.
+- A timeout that falls back to asynchronous replication tells no reader.
+- A k-of-n quorum leaves the other replicas behind.
+
+A fixed time window after a write is a guess about lag, not a guarantee. It
+is admissible only for the writer's own session, only where lag past the
+window removes a replica from serving, and only where the backend has no
+position to carry. The
 session-guarantees formulation names the properties actually wanted —
 read-your-writes and monotonic reads — as properties of a *session*, and a
 session is a client-side thing. So the server returns an **opaque monotone
@@ -120,8 +137,15 @@ a replica behind that index refuses, forwards, or waits, per a policy the
 listener declares. The writer is never blocked on a replica. Strict
 consistency is an appearance one client buys for one request by paying
 latency on a lagging node; the system underneath is eventually consistent
-and says so. The
-[client-carried-index](./techniques/client-carried-index.md) technique owns
+and says so. The echo holds three conditions that are easy to lose:
+- Replacing the held index with the newest response's is monotone only while
+  requests are sequential. A client that overlaps requests keeps the greater
+  index, and its client library does the comparing.
+- The index names the authority whose log it counts, so an index this node's
+  log will never reach is treated as absent, not awaited.
+- A cookie carrier reaches browsers and nothing else.
+
+The [client-carried-index](./techniques/client-carried-index.md) technique owns
 the index, the echo, and the three behaviours.
 
 ## The failure that arrives as a series
@@ -181,7 +205,8 @@ as a leader-in-waiting.*
 - [forward-on-storage-error](./techniques/forward-on-storage-error.md) — a
   read-only shim at the bottom of the storage stack returns a typed
   sentinel; the request middleware forwards the whole request on that
-  sentinel and never on the verb; why the edge cannot classify writes.
+  sentinel, never on the verb alone; why the edge cannot be the gate, and
+  when a classifier in front of the shim is a latency route.
 - [preemptive-forward-for-known-writes](./techniques/preemptive-forward-for-known-writes.md)
   — the short closed list of operations that forward before dispatch:
   effects that precede the first write, single-use consumption, anything

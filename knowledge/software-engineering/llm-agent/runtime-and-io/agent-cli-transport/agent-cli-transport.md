@@ -12,6 +12,7 @@ techniques:
   - fallback-ladder
   - child-observed-posture
   - host-routed-approval-round-trip
+  - thread-custody-across-resume
   - spawn-contract@subprocess-lifecycle
   - termination-and-reaping@subprocess-lifecycle
 ---
@@ -209,6 +210,11 @@ honesty.
   requests answered through the host's own approval service, bound to and
   enforced against the conversation that asked, with anything unknown,
   unanswered or failed resolved to decline.
+- [thread-custody-across-resume](./techniques/thread-custody-across-resume.md)
+  — a stored thread id is a claim about the child's storage: unbind it only
+  on gone or poisoned, and rebuild the retry from the host's own copy of
+  the plan and last turn, because a fresh thread re-derives the work but
+  not the host's plan.
 - Borrowed:
   [spawn-contract](../subprocess-lifecycle/techniques/spawn-contract.md) and
   [termination-and-reaping](../subprocess-lifecycle/techniques/termination-and-reaping.md)

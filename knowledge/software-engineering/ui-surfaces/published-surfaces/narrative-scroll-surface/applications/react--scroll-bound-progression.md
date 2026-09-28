@@ -66,6 +66,43 @@ constants are inlined at three sites rather than named once, which is the
 technique's "state the lag centrally" rule unmet — a page with three
 personalities held in agreement by hand.
 
+### Which clock the stations run on (read 2026-09-26, at `bbaa5d1b1`)
+
+The spring is owed only where progress is sampled in script. So the first
+question is which clock this page runs on. framer-motion 13.4 documents a
+native path for exactly this station's shape. `useScroll` gives a target's
+progress a view-timeline acceleration config when its offset maps to a named
+range, and `["start end", "end start"]` (`AboutCurve.tsx:83`) maps to `cover`
+(`node_modules/framer-motion/dist/es/value/use-scroll.mjs`,
+`render/dom/scroll/utils/offset-to-range.mjs`).
+
+The page's own animation list says otherwise. On the dev server at 1280x800,
+scrolled 35% down `/about`, `document.getAnimations()` returned 4 animations. All
+four were on the document timeline and targeted `SPAN`s, so none was a
+station property. 0 were on a scroll or view timeline. That held even though
+the browser exposes `ViewTimeline`. As a
+control, the same instrument on a stylesheet `animation-timeline: view()`
+reported 2 of 2 on a view timeline. So every station property here is sampled
+in script. The two springs are doing the job the technique gives them. The
+opacity ramp (`:98`) is the one unsmoothed track on that clock, and nothing on
+a native path excuses it.
+
+Not established: why the documented path did not engage. Candidates are the
+springs subscribing to the same progress value, or the dev build. Neither was
+isolated.
+
+Sources, resolved 2026-09-26:
+
+- Mozilla, *Scroll-linked effects*:
+  <https://firefox-source-docs.mozilla.org/performance/scroll-linked_effects.html>.
+  "This means that the effects implemented will lag a little bit behind what
+  the user sees the scroll position to be. This can cause the effect to be
+  laggy, janky, or jittery".
+- Motion, *useScroll*: <https://motion.dev/docs/react-use-scroll>. "By
+  passing scrollXProgress or scrollYProgress either directly to an opacity
+  style, or via useTransform to one of the above styles, it will create a
+  hardware-accelerated animation." A spring is not on that route.
+
 ## The measured collision check
 
 This is the clearest confirmation in the tree, and it is the derivation the

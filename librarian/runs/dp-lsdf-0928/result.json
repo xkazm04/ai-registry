@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-lsdf-0928",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-09-28T08:30:00Z",
+  "ended_at": "2026-09-28T08:37:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/live-system-demo-film",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 3,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Stale dispatch (HEAD d93fbd78, 206 behind origin). origin/main: 023e6a4f added a go application, so two stacks; subject unchanged since bcc6bf7e; check-currency has no expired, at-risk or drift row for it. No clock, no event: nothing ran."
+}

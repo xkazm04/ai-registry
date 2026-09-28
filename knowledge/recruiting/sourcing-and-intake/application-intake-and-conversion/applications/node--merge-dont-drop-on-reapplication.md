@@ -5,102 +5,129 @@ subject: application-intake-and-conversion
 technique: merge-dont-drop-on-reapplication
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-26
+verified_against: node@24
+applied: code
+ab_verdict: better
 ---
 
-# Merge-don't-drop across two intake doors (Node route handlers)
+# Merge behind proof across four intake doors (Node route handlers)
 
-Repeat submissions are handled in two places that deliberately share one
-contract: the conversational apply endpoint
-(`app/api/apply/[id]/route.ts`) and the shared lead core
-(`app/_lib/lead-intake.ts`) behind the quick form and the inbound channel
-webhooks.
+Repeat submissions are filed through one core, `app/_lib/application-filing.ts`,
+which every door calls with a stated **proof**:
 
-## The stated rule
+- the conversational apply (`app/api/apply/[id]/route.ts`);
+- the lead core behind the quick form and the channel webhooks
+  (`app/_lib/lead-intake.ts`);
+- the headless CV intake;
+- the operator's ATS import.
 
-`route.ts:61-76` carries the policy in full:
+The first version of this application (2026-08-20) described a merge that
+wrote on any match. The tree has since split the technique's two questions,
+*which record* and *may this change it*, and this application now records
+that split. It also records the one door that still merged on the old trust
+until this pass fixed it.
 
-> Duplicate-application policy (primary check): if this named applicant has
-> already applied to this role, surface the repeat on the original entry and
-> acknowledge it — don't create a second pipeline row. … **merge, don't drop.
-> Re-applying is the only self-service "update my info" path an applicant
-> has**, so a detected repeat folds its fresh signals onto the original entry
-> before acknowledging.
+## The proof table
 
-`lead-intake.ts:1-16` states the same contract for the minimal-field surfaces,
-plus what each caller is allowed to differ on: "input validation, the KO
-verdict semantics (strict for our own form, provided-only for third-party
-payloads), and the localized human-facing response copy". One core, many
-doors.
+`application-filing.ts:20-37` states it in one place ("what a match may do is
+the door's stated proof, not scattered code"), typed at `:77`
+(`FilingProof = "token" | "channel" | "none"`):
 
-## Identity precedence: token, then address, then name, then nothing
+- **token** — the `?lead=` capability emailed in the acknowledgement. The only
+  proof that rebuilds the stored profile.
+- **channel** — an integration that vouches for its payload. It may fill a
+  missing contact, refresh consent and record the repeat, and never rebuilds.
+- **none** — "the match came from a typed name/email, which is not a secret.
+  Nothing on the matched entry moves".
 
-`route.ts:273-282` resolves an enrichment token first — "a valid token
-resolves DIRECTLY to the lead's own entry, so the merge below targets it even
-when the typed email differs from the one on file — re-typing the EXACT same
-address is no longer what keeps one person on one pipeline row". The token is
-shape-validated (`coerceLeadTokenParam`, "never a cast"), must belong to this
-job, and "anything invalid/stale/mismatched degrades silently to the
-email/name identity fallback below, never an error".
+The route restates it at `route.ts:347-359`: knowing that a person applied, "a
+LinkedIn post is enough — must not make you their contact of record or
+overwrite the profile a recruiter scores".
 
-Below it, `applyDedupeKey` (`app/_lib/apply-intake.ts:106`) prefers the
-normalized email over the normalized name, because "two same-named applicants
-with different addresses are different people and must get DISTINCT keys,
-which a name-only key collapsed onto one entry" — and returns `""` for a
-nameless, contactless applicant, which the caller reads as *don't dedupe*
-("we can't tell two anonymous applicants apart"). `route.ts:218-220` restates
-it: "We never dedup on the fallback — two anonymous applicants must not be
-merged into one entry".
+The incident that produced this is pinned at the top of
+`app/api/apply/[id]/reapply-capability-gate.test.ts` (2026-09-04). The old
+branch matched on a bare name and then merged unconditionally. It backfilled
+the contact, rebuilt the profile "from attacker-supplied CV text over the
+victim's candidate id", wrote into the recruiter's feed and "refreshed the
+data-processing consent (which re-extends the GDPR retention clock)".
 
-## Fill-only fields, wholesale rebuild, and a failure that touches nothing
+## Identity precedence is unchanged; authority is new
 
-The merge at `route.ts:320-347` is field-typed:
+`route.ts:319-328` resolves the enrichment token first, and the token "resolves
+DIRECTLY to the lead's own entry". Anything invalid, stale or mismatched
+"degrades silently to the email/name identity fallback below, never an error".
+Below the token, `applicantKey` (`app/_lib/applicant-key.ts:12`) keys on the
+normalized email, else the name. It is a hashed key that "replaced
+applyDedupeKey, which put the email IN CLEAR into" the entry's primary key
+(`:5`). `route.ts:217` keeps the anonymous rule: "We never dedup on the
+fallback".
 
-- contact address backfills only a contactless entry (`:325-328`) — "the
-  applicant becoming reachable is the point of re-applying for most";
-- a public-profile handle backfills only a handle-less entry (`:329-335`,
-  "fill-only, see `mergeReapplication`") — one already on file is kept;
-- the derived profile *rebuilds wholesale* when the repeat carries a document,
-  or unconditionally when the original was a degraded stub (`:336-346`).
+What a match may *do* is now the proof, not the match.
 
-The rebuild's failure semantics are the load-bearing part, stated at
-`:73-76`: "in place for a healthy original, a fresh save + re-point for the
-stub. **A FAILED rebuild touches nothing**: a junk repeat can never degrade a
-healthy entry, and a stub just stays a stub." The code matches — `updates` is
-populated only inside `if (rebuilt.ok)`, so a failed build leaves the existing
-`candidateId` and archetype in place and the merge simply has less to write.
+## Fill-only fields, a proven rebuild, and a failure that touches nothing
 
-Process state is preserved throughout: the merge writes fields onto the
-original entry rather than creating one, and a `re_applied` automation event
-records what changed (`lead-intake.ts:196-202`, `route.ts:374-381`).
+The repeat branch is `application-filing.ts:218-267`:
 
-## The repeat re-consents and re-verifies
+- a contact backfills only a contactless entry (`:227`);
+- a GitHub handle backfills only a handle-less one (`:231`);
+- the profile rebuilds only under `proof === "token"`, when the repeat carries a
+  CV or the entry is a degraded stub (`:239`);
+- `updates` is populated only inside `if (rebuilt.ok)` (`:241`), so "a failed
+  rebuild moves nothing" (`:237`).
 
-`route.ts:366-372` refreshes data-processing consent and its expiry on every
-repeat, wrapped in a `try/catch` because "a consent-record failure must never
-block the apply ack" — the same best-effort posture `lead-intake.ts:26-33`
-takes ("the consent bookkeeping must never undo a filed lead"). What that
-record contains is the consent-and-retention subject's business; the trigger
-is intake's.
+A proven repeat refreshes consent best-effort (`:257`, the helper at `:159`:
+"the consent bookkeeping must never undo a filed application"). It records
+`re_applied` (`:258-265`) and re-acks a newly reachable entry through the one
+ack seam (`:201`, "so the first ack and the newly-reachable re-ack cannot
+drift"; `:252`). The conversational door defers that dispatch off the response
+path (`route.ts:397`).
 
-`lead-intake.ts:188-191` refreshes the recorded knockout pass-state on the
-original entry alongside the token, since "this repeat just re-verified its
-gates" — and the `passedKoIds` contract (`:59-62`) is why that matters: the
-enrichment chat "skips exactly those gates and no others (an unrecorded gate
-is asked again, never assumed)".
+## The unproven repeat gets link recovery, not a write
 
-## Newly reachable means the acknowledgement gets a second chance
+A `none` repeat returns before any write (`application-filing.ts:221`). The
+real returning candidate is then served by `app/_lib/apply-link-recovery.ts`,
+which "delivers the capability to the one party who can prove ownership: the
+inbox already on the entry" (`:16`):
 
-Both doors handle the same case explicitly. `route.ts:349-364`: "Newly
-reachable: the original acknowledgment dead-lettered (no recipient existed),
-so send it to the address just captured" — dispatched via
-`afterResponse("apply-reack", …)`, off the candidate's response path, matching
-the first-apply acknowledgement at `:469`. `lead-intake.ts:190-195` does the
-same through the single `sendAck` seam, deliberately shared "so BOTH ack sites
-… can never drift apart", and re-sends the enrichment link only while the
-entry is still a degraded stub.
+- it sends to `entry.contact`, never the typed address;
+- it picks its copy without reading whether an address exists, so the answer
+  cannot be used as a probe;
+- it sends at most once per entry per 24 h (`:30`), so "a griefer can cause at
+  most one email a day, to the real candidate".
 
-The candidate is also told which record they touched: the repeat response
-carries `t("enrichedMessage")` when a rebuild happened and `t("alreadyMessage")`
-when it did not (`route.ts:374-380`), rather than rendering a repeat as either
-a fresh application or a silent no-op.
+## Applied: the quick door merged on a name (fixed, `code`, better)
+
+The lead core filed every repeat under `channel`. Behind it, the identity
+lookup falls back to a **contactless entry found by name** when the typed
+address is not on file. The quick form is public, so the conversational
+door's impostor POST, sent to `/quick`, did what the capability gate refuses.
+Measured on the real handler at the pre-fix commit:
+
+- the typed address became the entry's contact;
+- one outbox row went to it, carrying the entry's status link (live stage and
+  decision history).
+
+The fix (kp `327e40e00`) threads the proof into the lead core
+(`lead-intake.ts:204`, default `channel`, so the webhooks are unchanged). The
+quick route passes `proof: addressOnFile ? "channel" : "none"`
+(`quick/route.ts:154`): with the address on file the match *is* that address,
+and without it the only possible match is the name. After the fix, nothing
+moves and nothing is sent (`reapply-capability-gate.test.ts:291`). The test
+that had pinned the old backfill as intended is reversed (`:271`). Apply, lead
+and channel suites: 66/66, and tsc clean.
+
+The cost is the one the technique names. A contactless conversational
+applicant can no longer make themselves reachable by quick-applying with an
+address. The token walk or a recruiter does it.
+
+## Deviations still open
+
+- `route.ts:139-145`'s file header still says a repeat's "fresh signals MERGE
+  onto the original" and names `applyDedupeKey`. The code below it
+  (`:347-359`) and the applicant-key module say otherwise.
+- The newly reachable merge is now reachable only under proof. On the
+  conversational door that path runs through the token. A contactless entry
+  from a webhook becomes reachable only through a later webhook repeat
+  (`channel`), which is an authenticated integration's claim, not the
+  candidate's.

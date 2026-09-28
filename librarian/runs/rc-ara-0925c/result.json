@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-ara-0925c",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "software-engineering",
+  "started_at": "2026-09-25T16:00:00Z",
+  "ended_at": "2026-09-25T16:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-09-25",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 1,
+      "points_after": 1
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "reason": "Third dispatch of this subject on the same stale reason (after rc-ara-0925 and rc-ara-0925b). The dispatch still names 689b3da8, now 45 commits behind origin/main. At origin 4e5f7337 the at-risk row python--rewrite-before-the-gate reads verified_on 2026-09-23, refresh_by 2026-11-05, and check-currency reports 0 expired and 0 at risk across 1873 applications. No single-source debt: 16 applications on 5 stacks."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "No work at origin/main 4e5f7337. The primary checkout was not fast-forwarded: it carries sibling WIP (catalog.json, skills/contest/*) that the incoming commits also touch, and the reconcile lessons forbid syncing a shared checkout to quiet the scan. Until the primary syncs or the scan reads origin, each re-dispatch of this subject costs one commit against the daily cap for a decline. Recorded from a detached worktree of origin/main."
+}

@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 232,
-  "techniques": 1790,
-  "applications": 1146,
+  "subjects": 233,
+  "techniques": 1814,
+  "applications": 1193,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1790/1790",
+  "use_when_coverage": "1814/1814",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -29,7 +29,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/accessibility.md",
-   "digest": "sha256:d02f805a960c2f6c",
+   "digest": "sha256-b2:5e30485ee0c7c123",
    "revision": 7,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -196,7 +196,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/accumulate-then-aggregate-metrics/accumulate-then-aggregate-metrics.md",
-   "digest": "sha256:ecf3a75e02158b70",
+   "digest": "sha256-b2:ea4763c3df4dd4c8",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -290,9 +290,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/adaptive-fidelity-tiers.md",
-   "digest": "sha256:b28d9f28795d6750",
-   "revision": 2,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:d4ac343817726595",
+   "revision": 3,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "asymmetric-tier-transitions",
@@ -336,14 +336,17 @@
      "slug": "per-tier-budget-tables",
      "status": "forged",
      "laws": [
-      "one-authority-per-vocabulary"
+      "one-authority-per-vocabulary",
+      "limits-are-derived"
      ],
      "shared_with": [],
      "use_when": [
       "adding a visual effect that has a count or complexity knob",
       "a global fidelity change would otherwise touch every component",
       "deciding what the lowest tier of an effect looks like",
-      "deciding which effects are obliged to consult the tier at all"
+      "deciding which effects are obliged to consult the tier at all",
+      "several components share one hard allocation and a tier decides how much each may take",
+      "one component's tier setting can make another component's setting unaffordable"
      ]
     },
     {
@@ -394,7 +397,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/admission-queue/admission-queue.md",
-   "digest": "sha256:dd5d5ee4527be1d5",
+   "digest": "sha256-b2:56e509787bc708cd",
    "revision": 15,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -746,7 +749,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/adoption-measurement/adoption-measurement.md",
-   "digest": "sha256:66f6d2712bdac80a",
+   "digest": "sha256-b2:502064804797857b",
    "revision": 3,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -864,7 +867,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/agent-addressable-ui.md",
-   "digest": "sha256:26420ee868fae085",
+   "digest": "sha256-b2:db15363c780a3072",
    "revision": 2,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -973,7 +976,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/agent-browser-control.md",
-   "digest": "sha256:7ef59c7ec2ec9016",
+   "digest": "sha256-b2:0d439bfcafe8cabd",
    "revision": 3,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -1071,7 +1074,7 @@
    "subcategory": "orchestration",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/orchestration/agent-chaining/agent-chaining.md",
-   "digest": "sha256:edd49b1ead1efac5",
+   "digest": "sha256-b2:596d59ae9fc2d310",
    "revision": 12,
    "changedAt": "2026-09-18",
    "techniques": [
@@ -1243,9 +1246,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256:33f714b8c873bd14",
-   "revision": 7,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:5b7a2130a983e39f",
+   "revision": 8,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1371,6 +1374,24 @@
       "a batch workload must run on the operator's flat-rate seat",
       "a spawned child reads untrusted content and inherits the host environment"
      ]
+    },
+    {
+     "slug": "thread-custody-across-resume",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host stores the child's session or thread id and passes it back to continue a conversation",
+      "a resume fails and the host retries on a fresh session",
+      "the host shows a chat history or a plan the child no longer has",
+      "deciding which resume failures may drop the stored thread id",
+      "a conversation idle for weeks is reopened",
+      "the host keeps its own transcript mirror beside the child's thread"
+     ]
     }
    ],
    "applications": [
@@ -1443,9 +1464,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-instruction-files/agent-instruction-files.md",
-   "digest": "sha256:f8501c2742fba8df",
-   "revision": 29,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:25b61236a62604b0",
+   "revision": 31,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "capability-before-steering",
@@ -1604,6 +1625,23 @@
       "deciding whether generated content belongs in the always-loaded file",
       "a hand edit inside a generated block keeps reappearing reverted",
       "two generators claim the same derived content"
+     ]
+    },
+    {
+     "slug": "principal-tier-gating",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an instruction file in a public or forkable repository carries workflow meant only for its maintainers",
+      "the file prescribes rituals that are true only on the owner's own machine",
+      "an agent is asked to act on a shared surface anyone can write to such as opening an issue or a pull request",
+      "a person tells the agent they have a permission the file reserves for maintainers",
+      "sections of one instruction file are marked for different audiences",
+      "deciding whether a tier rule belongs in the file or in the hosting service's own permissions"
      ]
     },
     {
@@ -1860,7 +1898,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256:5cd18f07a2da7243",
+   "digest": "sha256-b2:e8241bad9d3c1732",
    "revision": 45,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -2525,9 +2563,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256:e2f38e9d0dea752a",
-   "revision": 24,
-   "changedAt": "2026-09-22",
+   "digest": "sha256-b2:b508c99562d1b81d",
+   "revision": 26,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -2626,7 +2664,9 @@
       "deciding where a containment policy is stored",
       "an agent can edit the configuration that restricts it",
       "a limit is enforced by code the governed process could rewrite",
-      "choosing between refreshing a policy per decision and holding it out of reach"
+      "choosing between refreshing a policy per decision and holding it out of reach",
+      "an agent's generic tool reaches the store that holds the runtime's records of that agent",
+      "a recorder or session log is replaceable and the party it records could replace it"
      ]
     },
     {
@@ -2873,9 +2913,9 @@
      "stack": "python",
      "technique": "rewrite-before-the-gate",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--rewrite-before-the-gate.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-23",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-10-15"
+     "refresh_by": "2026-11-05"
     },
     {
      "stack": "python",
@@ -2890,6 +2930,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--bounded-projection-of-external-work.md",
      "verified_on": "2026-09-02",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "guard-input-custody",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--guard-input-custody.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -2919,7 +2966,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
-   "digest": "sha256:658e6f2611602977",
+   "digest": "sha256-b2:bad79dd7b84ba6b3",
    "revision": 2,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -3037,7 +3084,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/analytics-time-windows.md",
-   "digest": "sha256:e84b5105b8a35f4d",
+   "digest": "sha256-b2:92b652495184231c",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -3155,9 +3202,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/app-shell.md",
-   "digest": "sha256:ae100598f7bfe8ef",
-   "revision": 4,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:62a9a7fc993ea8b5",
+   "revision": 6,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "badge-and-attention",
@@ -3252,7 +3299,7 @@
      "stack": "next",
      "technique": "lazy-section-loading",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--lazy-section-loading.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-23",
      "verified_against": "next@16"
     },
     {
@@ -3266,7 +3313,7 @@
      "stack": "next",
      "technique": "navigation-model",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/app-shell/applications/next--navigation-model.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-23",
      "verified_against": "next@16"
     },
     {
@@ -3302,7 +3349,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/async-ui-states/async-ui-states.md",
-   "digest": "sha256:9ba2dd1115069897",
+   "digest": "sha256-b2:c71d22c8deba8577",
    "revision": 4,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -3446,7 +3493,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
-   "digest": "sha256:a4f6149a3b0705d5",
+   "digest": "sha256-b2:1fadfb8d9819f243",
    "revision": 9,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -3679,7 +3726,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/authoring-block-vocabulary/authoring-block-vocabulary.md",
-   "digest": "sha256:d980db1bea253f54",
+   "digest": "sha256-b2:56958110621cdb65",
    "revision": 1,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -3776,7 +3823,7 @@
    "subcategory": "identity-and-access",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/authorization/authorization.md",
-   "digest": "sha256:5f64bbab156656d1",
+   "digest": "sha256-b2:57d60a438fa36d05",
    "revision": 6,
    "changedAt": "2026-09-18",
    "techniques": [
@@ -4070,7 +4117,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/background-jobs.md",
-   "digest": "sha256:3f8769df97968b35",
+   "digest": "sha256-b2:4a1ddf4af408b961",
    "revision": 4,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -4187,7 +4234,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/batch-undo-commit-window.md",
-   "digest": "sha256:e9dd78bd49b9005f",
+   "digest": "sha256-b2:140b51387ec6d463",
    "revision": 1,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -4298,9 +4345,9 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/bounded-enumeration.md",
-   "digest": "sha256:467f140e40571ece",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:4ec15f52e99e1903",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "after-plus-limit-not-cursor",
@@ -4413,6 +4460,20 @@
      "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/go--required-limit-breaks-unaware-clients.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "rust",
+     "technique": "after-plus-limit-not-cursor",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/rust--after-plus-limit-not-cursor.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "declare-the-inconsistency",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/rust--declare-the-inconsistency.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
     }
    ]
   },
@@ -4421,7 +4482,7 @@
    "subcategory": "data-and-transport",
    "status": "forged",
    "file": "knowledge/software-engineering/security/data-and-transport/browser-credential-boundary/browser-credential-boundary.md",
-   "digest": "sha256:872dee7802148571",
+   "digest": "sha256-b2:d3eef10e9ed8459f",
    "revision": 3,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -4582,7 +4643,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/build-economics/build-economics.md",
-   "digest": "sha256:83a15c26d468607c",
+   "digest": "sha256-b2:2dc0e92ddb23f674",
    "revision": 7,
    "changedAt": "2026-09-06",
    "techniques": [
@@ -4721,9 +4782,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/canvas-graph.md",
-   "digest": "sha256:858b583483e24ef1",
-   "revision": 4,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:59c31182b8b6b4db",
+   "revision": 5,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "canvas-accessibility",
@@ -4761,7 +4822,8 @@
      "use_when": [
       "edges floating a few pixels off their nodes",
       "deciding which edges deserve ink in the current view",
-      "hit-testing a one-pixel-wide edge"
+      "hit-testing a one-pixel-wide edge",
+      "drawing edges for a diagram a layout engine already routed"
      ]
     },
     {
@@ -4777,7 +4839,9 @@
       "user-placed nodes shift after a reload",
       "choosing between layered and force-directed",
       "one arrival re-seats the whole picture",
-      "a generated layout renders differently on the server and the client"
+      "a generated layout renders differently on the server and the client",
+      "a diagram re-lays itself when only the source order changed",
+      "labels overflow the boxes a layout engine placed"
      ]
     },
     {
@@ -4792,7 +4856,8 @@
       "a canvas stutters on every pan gesture",
       "deciding whether nodes may see the transform",
       "labels pop in and out while zooming",
-      "an idle canvas keeps the machine warm"
+      "an idle canvas keeps the machine warm",
+      "budgeting a canvas that repaints every frame"
      ]
     },
     {
@@ -4821,6 +4886,20 @@
     },
     {
      "stack": "react",
+     "technique": "edge-management",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--edge-management.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.3"
+    },
+    {
+     "stack": "react",
+     "technique": "graph-layout",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--graph-layout--kp.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.3"
+    },
+    {
+     "stack": "react",
      "technique": "graph-layout",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--graph-layout.md",
      "verified_on": "2026-09-20",
@@ -4830,13 +4909,15 @@
      "stack": "react",
      "technique": "render-budget",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--render-budget.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.2"
     },
     {
      "stack": "react",
      "technique": "viewport-transform",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--viewport-transform.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.2"
     }
    ]
   },
@@ -4845,23 +4926,27 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/chat-transcript.md",
-   "digest": "sha256:2fd7a46635c5b4ae",
-   "revision": 4,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:5b4e7d399a4d924e",
+   "revision": 5,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "composer-turn-queue",
      "status": "forged",
      "laws": [
       "identity-survives-reuse",
-      "failure-not-empty-success"
+      "failure-not-empty-success",
+      "creation-names-reaper"
      ],
      "shared_with": [],
      "use_when": [
       "the send control is disabled while a turn runs",
       "a user types a follow-up mid-answer and loses it",
       "deciding whether \"stop\" and \"say something now\" are the same button",
-      "two quick follow-ups produce two separate machine turns"
+      "two quick follow-ups produce two separate machine turns",
+      "a message queued mid-turn is gone after the app restarts",
+      "deciding whether the pending-prompt queue should be durable",
+      "a restart delivers a follow-up written for a turn that no longer exists"
      ]
     },
     {
@@ -4995,6 +5080,13 @@
     },
     {
      "stack": "react",
+     "technique": "composer-turn-queue",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/react--composer-turn-queue.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "react@19.2"
+    },
+    {
+     "stack": "react",
      "technique": "transcript-scroll",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/chat-transcript/applications/react--transcript-scroll.md",
      "verified_on": "2026-08-18"
@@ -5026,7 +5118,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/ci-execution-trust/ci-execution-trust.md",
-   "digest": "sha256:7c48e049c44eb11d",
+   "digest": "sha256-b2:d02dba0bfbaf98f9",
    "revision": 6,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -5143,9 +5235,9 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/cicd-monitoring.md",
-   "digest": "sha256:d8518aaccc214d6b",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:9acef61dd04439ca",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "deployment-history",
@@ -5237,13 +5329,13 @@
      "stack": "react",
      "technique": "failure-drill-down",
      "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/react--failure-drill-down.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "react",
      "technique": "liveness-scoped-polling",
      "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/react--liveness-scoped-polling.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26"
     },
     {
      "stack": "react",
@@ -5256,6 +5348,27 @@
      "technique": "transition-detection-and-notify",
      "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/react--transition-detection-and-notify.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "deployment-history",
+     "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/rust--deployment-history.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "failure-drill-down",
+     "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/rust--failure-drill-down.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
+    },
+    {
+     "stack": "rust",
+     "technique": "remote-action-consent",
+     "file": "knowledge/software-engineering/integration/external-systems/cicd-monitoring/applications/rust--remote-action-consent.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
     }
    ]
   },
@@ -5264,9 +5377,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/software-engineering/client-architecture/client-fetch-cache/client-fetch-cache.md",
-   "digest": "sha256:4d99e2f5de14142b",
-   "revision": 14,
-   "changedAt": "2026-09-08",
+   "digest": "sha256-b2:20824426732ffb6a",
+   "revision": 15,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "admission-hypothesis",
@@ -5365,6 +5478,23 @@
       "deciding whether a fetch should run before its mount",
       "hover-triggered prefetch turning into a load spike",
       "deferred fetches firing after their view unmounted"
+     ]
+    },
+    {
+     "slug": "sibling-entry-warmth",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a detail view opens from a list whose rows already carry part of the detail",
+      "a dependent read waits for a field the list row already holds",
+      "a detail paints a spinner for a title the user just clicked on",
+      "a borrowed list row renders zero for a count it never carried",
+      "a lookup of the list row names the list's own filter or page size",
+      "a route is warm when clicked through and cold on a shared link or a reload"
      ]
     },
     {
@@ -5471,7 +5601,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/client-state/client-state.md",
-   "digest": "sha256:084c2956d1ea0133",
+   "digest": "sha256-b2:b667f5c1f4abdd9d",
    "revision": 15,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -5753,7 +5883,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/codebase-scanning/codebase-scanning.md",
-   "digest": "sha256:c352f402689ca943",
+   "digest": "sha256-b2:06416fce13bc2342",
    "revision": 12,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -6040,7 +6170,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/codegen/codegen.md",
-   "digest": "sha256:e69d756a575b31ce",
+   "digest": "sha256-b2:9a082bd05760516a",
    "revision": 6,
    "changedAt": "2026-09-21",
    "techniques": [
@@ -6196,9 +6326,9 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/companion-identity.md",
-   "digest": "sha256:10f453fb264b1af7",
-   "revision": 4,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:ff529a6dc44bf233",
+   "revision": 7,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "anchored-identity-diffs",
@@ -6213,6 +6343,7 @@
       "an agent proposes a change to its own description",
       "designing the approval surface for self-edits",
       "a self-document is being rewritten wholesale by the model",
+      "an autonomy mode starts resolving approvals without the person",
       "a proposal the apply step will certainly refuse is reaching the review queue"
      ]
     },
@@ -6260,6 +6391,8 @@
       "deciding what an agent may change about itself",
       "writing a companion's identity documents",
       "a rule keeps getting overwritten by the agent's own learning",
+      "upgrading a shipped constitution the person may have edited",
+      "the companion can change the code of the product that ships its law",
       "one document carries operator-owned and agent-owned sections"
      ]
     },
@@ -6322,7 +6455,8 @@
      "stack": "rust",
      "technique": "anchored-identity-diffs",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--anchored-identity-diffs.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -6335,7 +6469,8 @@
      "stack": "rust",
      "technique": "disk-truth-db-index",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-identity/applications/rust--disk-truth-db-index.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -6350,9 +6485,9 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/companion-runtime.md",
-   "digest": "sha256:0d0b7d17a538708c",
-   "revision": 2,
-   "changedAt": "2026-08-24",
+   "digest": "sha256-b2:7a0b336cac31d173",
+   "revision": 4,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "action-catalog-single-source",
@@ -6369,7 +6504,9 @@
       "the model emits an action kind nothing executes",
       "a model-composed surface has no way back to a good state",
       "the component that teaches the model does not share a process or a language with the one that executes",
-      "an accepted proposal must run against a catalog that has changed since it was made"
+      "an accepted proposal must run against a catalog that has changed since it was made",
+      "a label or risk table on a surface keeps its own list of action kinds",
+      "a parity test over the catalog was deleted in a refactor"
      ]
     },
     {
@@ -6413,7 +6550,8 @@
      "use_when": [
       "a second channel needs the same companion brain",
       "the companion cannot be constructed in a test",
-      "deciding what a companion runtime may import from its host"
+      "deciding what a companion runtime may import from its host",
+      "deciding whether the store needs a hand-written double"
      ],
      "stage": "team"
     },
@@ -6477,16 +6615,25 @@
      "verified_on": "2026-08-24"
     },
     {
+     "stack": "react",
+     "technique": "action-catalog-single-source",
+     "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/react--action-catalog-single-source.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
+    },
+    {
      "stack": "rust",
      "technique": "action-catalog-single-source",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/rust--action-catalog-single-source.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "host-seam-contracts",
      "file": "knowledge/software-engineering/llm-agent/companion/companion-runtime/applications/rust--host-seam-contracts.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -6501,7 +6648,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256:0efe8017c915870d",
+   "digest": "sha256-b2:41b09d489d8f7ef9",
    "revision": 14,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -6792,7 +6939,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
-   "digest": "sha256:92ed76aea4dc2d76",
+   "digest": "sha256-b2:c8742871bd3cb036",
    "revision": 5,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -6912,7 +7059,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
-   "digest": "sha256:080aa3c7fa2cde0d",
+   "digest": "sha256-b2:07eff75ad030716d",
    "revision": 2,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -6975,7 +7122,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/conformance-checking/conformance-checking.md",
-   "digest": "sha256:2a18677bc14ee2cd",
+   "digest": "sha256-b2:58a3b7c0b9efb42c",
    "revision": 10,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -7229,9 +7376,9 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/connector-catalog.md",
-   "digest": "sha256:10a0b6823bd7b6d5",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:d78c2c6c19304554",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "adapter-normalization",
@@ -7272,7 +7419,8 @@
      "use_when": [
       "retiring an entry whose dependents still reference it",
       "installed rows outliving their shipped source",
-      "merging two entries that are one service"
+      "merging two entries that are one service",
+      "a planned or deprecated entry still offering a connect action"
      ]
     },
     {
@@ -7301,6 +7449,7 @@
      "use_when": [
       "deciding what each declared form field must carry",
       "a probe goes green without touching the credential",
+      "a connector has fields but no probe recipe",
       "an override starts collecting undeclared fields"
      ]
     },
@@ -7321,6 +7470,13 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "catalog-lifecycle",
+     "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/applications/next--catalog-lifecycle.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "react",
      "technique": "adapter-normalization",
      "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/applications/react--adapter-normalization.md",
@@ -7335,9 +7491,24 @@
     },
     {
      "stack": "react",
+     "technique": "catalog-lifecycle",
+     "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/applications/react--catalog-lifecycle.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "schema-driven-forms",
      "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/applications/react--schema-driven-forms.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "shipped-vs-operator-ownership",
+     "file": "knowledge/software-engineering/integration/external-systems/connector-catalog/applications/rust--shipped-vs-operator-ownership.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -7346,7 +7517,7 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/contested-acquisition/contested-acquisition.md",
-   "digest": "sha256:7281ac20ecf1f2c8",
+   "digest": "sha256-b2:0b6cb286efe2e421",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -7437,7 +7608,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/context-hierarchy/context-hierarchy.md",
-   "digest": "sha256:b38973b88bc60c3b",
+   "digest": "sha256-b2:09d2467f58c2c036",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -7519,7 +7690,7 @@
    "subcategory": "control-plane-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/control-plane-operations/convergence-loop-and-requeue/convergence-loop-and-requeue.md",
-   "digest": "sha256:8276705efd01d895",
+   "digest": "sha256-b2:fc5a1774272e601e",
    "revision": 2,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -7634,7 +7805,7 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/conversation-orchestration.md",
-   "digest": "sha256:7ee09cc0690f3023",
+   "digest": "sha256-b2:b2e230948292db97",
    "revision": 5,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -7794,7 +7965,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/correlated-exchange-over-broadcast.md",
-   "digest": "sha256:5c8f53203d288847",
+   "digest": "sha256-b2:cda56907c8605ae9",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -7907,7 +8078,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256:3bdc8c71fb8fb369",
+   "digest": "sha256-b2:da0ce89d7cfbfe6c",
    "revision": 13,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -8111,9 +8282,9 @@
    "subcategory": "identity-and-access",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/identity-and-access/credential-vault/credential-vault.md",
-   "digest": "sha256:1772d33e2929beec",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:1c57e44b947c96ef",
+   "revision": 4,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "acquisition",
@@ -8166,13 +8337,16 @@
      "laws": [
       "failure-not-empty-success",
       "derivation-names-recomputation",
-      "one-authority-per-vocabulary"
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
      ],
      "shared_with": [],
      "use_when": [
       "deciding whether could-not-reach counts as broken",
       "a revoked credential still shows green",
-      "probing trips provider rate limits"
+      "probing trips provider rate limits",
+      "deciding which provider status codes are verdicts about the credential",
+      "an offline probe overwrote the last real verdict"
      ]
     },
     {
@@ -8318,6 +8492,13 @@
      "technique": "encryption-at-rest",
      "file": "knowledge/software-engineering/security/identity-and-access/credential-vault/applications/rust--encryption-at-rest.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "health-probing",
+     "file": "knowledge/software-engineering/security/identity-and-access/credential-vault/applications/rust--health-probing.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -8326,7 +8507,7 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/cross-instance-cache-lease/cross-instance-cache-lease.md",
-   "digest": "sha256:a26ec35fc335ad6a",
+   "digest": "sha256-b2:5d52f304bfaf51df",
    "revision": 3,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -8423,7 +8604,7 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256:adfb0314c7db7f52",
+   "digest": "sha256-b2:7bc5f1ebaf276655",
    "revision": 17,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -8707,7 +8888,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/data-plane-transport-selection.md",
-   "digest": "sha256:98acf18f6ee6f3b8",
+   "digest": "sha256-b2:0b29d5d6d98509f2",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -8822,7 +9003,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/data-retention/data-retention.md",
-   "digest": "sha256:14f624480d0c165b",
+   "digest": "sha256-b2:c04dbf25f3ca1ea6",
    "revision": 2,
    "changedAt": "2026-08-27",
    "techniques": [
@@ -8939,7 +9120,7 @@
    "subcategory": "data-display",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/data-viz/data-viz.md",
-   "digest": "sha256:658aefc7371b7fdb",
+   "digest": "sha256-b2:0a15845e9dc44963",
    "revision": 6,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -9070,7 +9251,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dead-code/dead-code.md",
-   "digest": "sha256:4b0d6f434c811201",
+   "digest": "sha256-b2:400586c502acd4a1",
    "revision": 11,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -9235,7 +9416,7 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/decentralized-artifact-distribution/decentralized-artifact-distribution.md",
-   "digest": "sha256:34ee7d614823f1b7",
+   "digest": "sha256-b2:12246adf5edf5427",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -9367,7 +9548,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/declarative-object-graph-configs/declarative-object-graph-configs.md",
-   "digest": "sha256:614255c047c3631e",
+   "digest": "sha256-b2:248352af1a4c3488",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -9478,7 +9659,7 @@
    "subcategory": "control-plane-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/control-plane-operations/declarative-resource-lifecycle/declarative-resource-lifecycle.md",
-   "digest": "sha256:65b71f6aefb98080",
+   "digest": "sha256-b2:d17485a3a3a8ddea",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -9566,7 +9747,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/declared-process-graph/declared-process-graph.md",
-   "digest": "sha256:d2926b19c6711b3e",
+   "digest": "sha256-b2:8bc79a0c5315d2ac",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -9679,7 +9860,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/deferred-finalization/deferred-finalization.md",
-   "digest": "sha256:8c144b186b96b3c9",
+   "digest": "sha256-b2:9c05534d4586da00",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -9772,7 +9953,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deferred-operation-fusion/deferred-operation-fusion.md",
-   "digest": "sha256:fc0b36fe0c95d66d",
+   "digest": "sha256-b2:7a570717a3b5603e",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -9878,7 +10059,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/delivery-analytics/delivery-analytics.md",
-   "digest": "sha256:2527c2b1c7b7b888",
+   "digest": "sha256-b2:e43700f2d197398b",
    "revision": 5,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -10050,9 +10231,9 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/delivery-guarantees/delivery-guarantees.md",
-   "digest": "sha256:8b78b1578f4d8deb",
-   "revision": 7,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:1023ff3ecf23d679",
+   "revision": 8,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "atomic-claiming",
@@ -10172,13 +10353,16 @@
      "status": "forged",
      "laws": [
       "count-carries-predicate",
-      "deletion-is-not-repair"
+      "deletion-is-not-repair",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "deciding what happens after the final retry",
       "events crash forever while their counter reads zero",
-      "a counter that resets itself on deploy or restart"
+      "a counter that resets itself on deploy or restart",
+      "a retry list capped at N entries with the oldest dropped",
+      "a permanently failing item retried on every run"
      ]
     },
     {
@@ -10237,7 +10421,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/demo-data-plane/demo-data-plane.md",
-   "digest": "sha256:cbf45005151d951d",
+   "digest": "sha256-b2:952fe6652c22027d",
    "revision": 4,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -10366,7 +10550,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/dependency-declaration/dependency-declaration.md",
-   "digest": "sha256:726d0c480e0b3943",
+   "digest": "sha256-b2:4eb7088d6ed99926",
    "revision": 6,
    "changedAt": "2026-09-11",
    "techniques": [
@@ -10512,7 +10696,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/deployment-contract/deployment-contract.md",
-   "digest": "sha256:5b82707590843e62",
+   "digest": "sha256-b2:0aecb9f382210cdc",
    "revision": 4,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -10656,7 +10840,7 @@
    "subcategory": "feedback-and-style",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/design-tokens/design-tokens.md",
-   "digest": "sha256:db75496bb5bf0168",
+   "digest": "sha256-b2:165125b7a54d0de3",
    "revision": 7,
    "changedAt": "2026-09-24",
    "techniques": [
@@ -10782,7 +10966,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deterministic-prefix-caching/deterministic-prefix-caching.md",
-   "digest": "sha256:6e88046426323f7a",
+   "digest": "sha256-b2:43c1666c71913bd2",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -10893,7 +11077,7 @@
    "subcategory": "identity-and-access",
    "status": "forged",
    "file": "knowledge/software-engineering/security/identity-and-access/device-pairing/device-pairing.md",
-   "digest": "sha256:8d03414eb899fb48",
+   "digest": "sha256-b2:733c58c28ea46775",
    "revision": 3,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -11033,7 +11217,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/diff-comparison/diff-comparison.md",
-   "digest": "sha256:cd39f98cfe768f03",
+   "digest": "sha256-b2:8d6a27cb32976f49",
    "revision": 6,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -11215,7 +11399,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
-   "digest": "sha256:010ec06bc7c6b505",
+   "digest": "sha256-b2:639026a17955f1e4",
    "revision": 1,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -11314,9 +11498,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/docs-sync/docs-sync.md",
-   "digest": "sha256:c16a15d29d96e263",
-   "revision": 13,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:fd96220db75846a1",
+   "revision": 14,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "catch-up-markers",
@@ -11419,6 +11603,22 @@
       "deciding what a freshness stamp on a document is allowed to mean",
       "a rot finding was triaged away and the document still reads as current",
       "one document is current in one paragraph and two quarters stale in another"
+     ]
+    },
+    {
+     "slug": "named-duplication-points",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one fact has to appear in several hand-written documents because each reader needs it where they already are",
+      "a figure is quoted rounded in one place and exact in another",
+      "choosing the drift check for copies that no generator can produce",
+      "a restated fact changed in one document and the others still carry the old value",
+      "an instruction file lists where a fact is repeated and nobody has checked that list"
      ]
     },
     {
@@ -11619,9 +11819,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/document-text-extraction.md",
-   "digest": "sha256:dac597f9cfecba3c",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:ee97c74f3f5e0c28",
+   "revision": 2,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "band-calibration-by-construction",
@@ -11636,6 +11836,23 @@
       "a confidence number nobody has validated",
       "building a fixture corpus for an extractor",
       "a precision curve that is flat across every threshold"
+     ]
+    },
+    {
+     "slug": "context-decided-escaping",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a converter emits Markdown or another lightweight markup from document text",
+      "text vanished or changed shape only after the output was rendered",
+      "a fix for one swallowed character escapes every occurrence of it and prices or identifiers come back with backslashes",
+      "text runs are escaped one at a time and then concatenated with emitted markup",
+      "an extracted field is later embedded in or joined to other output",
+      "a plain-text consumer strips markup from a converter's output"
      ]
     },
     {
@@ -11750,6 +11967,13 @@
     },
     {
      "stack": "rust",
+     "technique": "context-decided-escaping",
+     "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/applications/rust--context-decided-escaping.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
      "technique": "unreadable-region-refusal",
      "file": "knowledge/software-engineering/integration/acquisition-and-ingest/document-text-extraction/applications/rust--unreadable-region-refusal.md",
      "verified_on": "2026-08-31",
@@ -11762,7 +11986,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/draft-editing/draft-editing.md",
-   "digest": "sha256:ed50e6289259ec84",
+   "digest": "sha256-b2:79771a6adb7936e5",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -11877,9 +12101,9 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/drag-drop.md",
-   "digest": "sha256:884c0f919b53ebfc",
-   "revision": 3,
-   "changedAt": "2026-08-24",
+   "digest": "sha256-b2:31c96c1f832f7148",
+   "revision": 5,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "cross-surface-handoff",
@@ -11892,7 +12116,8 @@
      "use_when": [
       "designing a handoff where surfaces share nothing",
       "a drop silently does nothing between two surfaces",
-      "one side stays haunted after the drag ends"
+      "one side stays haunted after the drag ends",
+      "drops work on the dev server but not in the desktop host"
      ]
     },
     {
@@ -11967,9 +12192,23 @@
     },
     {
      "stack": "react",
+     "technique": "keyboard-alternatives",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/react--keyboard-alternatives.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.2"
+    },
+    {
+     "stack": "react",
      "technique": "ownership-boundaries",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/react--ownership-boundaries.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "cross-surface-handoff",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/rust--cross-surface-handoff.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -11978,7 +12217,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
-   "digest": "sha256:357ba2c2d1e3b8ab",
+   "digest": "sha256-b2:be1f2436c2c026ed",
    "revision": 3,
    "changedAt": "2026-09-10",
    "techniques": [
@@ -12081,9 +12320,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/dynamic-secret-lifecycle.md",
-   "digest": "sha256:f68b21d1371f040a",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:9d26f7a6264acd94",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "expiry-buffer-beyond-lease",
@@ -12143,7 +12382,9 @@
       "ordering the lease write against the remote create",
       "issuing from a node whose storage is read-only or degraded",
       "a credential exists remotely that no local record accounts for",
-      "deciding what a caller receives when the ledger write fails"
+      "deciding what a caller receives when the ledger write fails",
+      "delivering a minted token through a file",
+      "claim slot or cache after the row that makes it valid"
      ]
     },
     {
@@ -12182,14 +12423,14 @@
      "stack": "go",
      "technique": "lease-vs-native-tracking",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--lease-vs-native-tracking.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
     },
     {
      "stack": "go",
      "technique": "persist-before-provision",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--persist-before-provision.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
     },
     {
@@ -12198,6 +12439,13 @@
      "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/go--wal-per-external-side-effect.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "rust",
+     "technique": "persist-before-provision",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/dynamic-secret-lifecycle/applications/rust--persist-before-provision.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
     }
    ]
   },
@@ -12206,7 +12454,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/edge-queue-policy.md",
-   "digest": "sha256:05657f1ae54dcfd5",
+   "digest": "sha256-b2:b3e96fa159f5a35a",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -12318,9 +12566,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/embedded-db.md",
-   "digest": "sha256:81a015d32c782317",
-   "revision": 14,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:0722fec97cff5b66",
+   "revision": 15,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "analytical-reads-off-the-serving-store",
@@ -12501,9 +12749,9 @@
      "stack": "python",
      "technique": "corruption-class-response",
      "file": "knowledge/software-engineering/backend-platform/data-layer/embedded-db/applications/python--corruption-class-response.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-23",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-10-15"
+     "refresh_by": "2026-11-05"
     },
     {
      "stack": "rust",
@@ -12531,7 +12779,7 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/embedded-preview/embedded-preview.md",
-   "digest": "sha256:f635c58da94eabba",
+   "digest": "sha256-b2:a6e12ae70d42efcc",
    "revision": 2,
    "changedAt": "2026-09-15",
    "techniques": [
@@ -12674,7 +12922,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/embedded-tracing-collector/embedded-tracing-collector.md",
-   "digest": "sha256:1cb734c62ba4f1df",
+   "digest": "sha256-b2:a1c32239e53083cd",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -12772,9 +13020,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-binding-surface/engine-binding-surface.md",
-   "digest": "sha256:18fd56b71665e315",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:823cd55ac89d000b",
+   "revision": 2,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "address-sensitive-construction",
@@ -12850,6 +13098,24 @@
       "deciding whether a run-time state of a foreign runtime should become a type distinction",
       "a type parameter is being added that carries no data"
      ]
+    },
+    {
+     "slug": "pre-resolve-what-the-engine-cannot-await",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "absent-guard-is-loud",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an engine you cannot change calls back synchronously for a resource the host can only acquire asynchronously",
+      "a host layer scans the engine's input to open handles before handing it over",
+      "handles opened for one call are closed in a finally",
+      "a streamed or pending result is read after the call that started it has returned",
+      "a caller's own registration shares a name with one the host opens automatically",
+      "deciding between blocking the engine's thread and resolving ahead of it"
+     ]
     }
    ],
    "applications": [
@@ -12881,7 +13147,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-host-contract/engine-host-contract.md",
-   "digest": "sha256:65e9de17d5b89a5b",
+   "digest": "sha256-b2:08d3fea13f40733a",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -12995,7 +13261,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-string-representation/engine-string-representation.md",
-   "digest": "sha256:ff336bbfd1d63764",
+   "digest": "sha256-b2:70121ae88b78b37e",
    "revision": 2,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -13087,7 +13353,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/entity-lifecycle/entity-lifecycle.md",
-   "digest": "sha256:5967905d0c5e8892",
+   "digest": "sha256-b2:cef5e3463825ff22",
    "revision": 6,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -13248,7 +13514,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256:bff8a6f2a4c150ac",
+   "digest": "sha256-b2:e561e382d42cb2f2",
    "revision": 15,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -13476,9 +13742,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256:9925a17a21cb260f",
-   "revision": 35,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:28d7e47a320d0024",
+   "revision": 36,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -13592,6 +13858,24 @@
       "a model upgrade landed and the harness still carries the previous model's workarounds",
       "a failing class does not move when the instruction is made stricter",
       "deciding whether a residual model failure is worth a stronger model"
+     ]
+    },
+    {
+     "slug": "failure-signatures-beside-the-pass-rate",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "unknown-is-not-a-value",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two runs or cells report the same pass rate and the next change has to be chosen between them",
+      "a benchmark report prints a pass rate and a per-class table and nothing about how the failures failed",
+      "a scenario class is named after the property it probes and its pass rate is being read as that property's health",
+      "adding cheap automatic failure counters to a harness",
+      "a failure counter reads zero on a suite that mixes languages runners or output formats",
+      "deciding which failing cases to sample for manual attribution"
      ]
     },
     {
@@ -13854,6 +14138,13 @@
     },
     {
      "stack": "node",
+     "technique": "failure-signatures-beside-the-pass-rate",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--failure-signatures-beside-the-pass-rate.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "judge-stability",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/node--judge-stability.md",
      "verified_on": "2026-08-18"
@@ -13974,7 +14265,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/execution-state-checkpointing/execution-state-checkpointing.md",
-   "digest": "sha256:efb8e034d1f9c195",
+   "digest": "sha256-b2:8694be05cf9e9679",
    "revision": 1,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -14063,7 +14354,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/executive-reporting.md",
-   "digest": "sha256:6a34de13acc6b18c",
+   "digest": "sha256-b2:10d6f28338b62a71",
    "revision": 3,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -14179,7 +14470,7 @@
    "subcategory": "extension-trust",
    "status": "forged",
    "file": "knowledge/software-engineering/security/extension-trust/extension-trust-boundary/extension-trust-boundary.md",
-   "digest": "sha256:63df9fb67e21e789",
+   "digest": "sha256-b2:8fa86538a46c8656",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -14274,7 +14565,7 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/fault-signal-propagation.md",
-   "digest": "sha256:28425eec0acdbd8b",
+   "digest": "sha256-b2:0b59042fbc5ac45b",
    "revision": 1,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -14392,7 +14683,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/federated-client-contracts/federated-client-contracts.md",
-   "digest": "sha256:8c52ace21ddcc8ff",
+   "digest": "sha256-b2:153c79fcdc83adae",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -14501,7 +14792,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/feed/feed.md",
-   "digest": "sha256:9484e5434f2c7a32",
+   "digest": "sha256-b2:fdaa24ca3f5177d9",
    "revision": 4,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -14612,7 +14903,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/file-browsing.md",
-   "digest": "sha256:db6a6903ad69c236",
+   "digest": "sha256-b2:709a7dcf28ef6b44",
    "revision": 3,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -14741,7 +15032,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256:a03459c799a53308",
+   "digest": "sha256-b2:e63d5473ea2636c8",
    "revision": 24,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -15139,7 +15430,7 @@
    "subcategory": "input-and-editing",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/form/form.md",
-   "digest": "sha256:44c768f7cfec8f3e",
+   "digest": "sha256-b2:8c778ef90ec95e82",
    "revision": 4,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -15237,7 +15528,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/generated-workflow-candidates/generated-workflow-candidates.md",
-   "digest": "sha256:1acbb7ef2ada5903",
+   "digest": "sha256-b2:acd501ca62d5c9f0",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -15345,7 +15636,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-execution-bounding/guest-execution-bounding.md",
-   "digest": "sha256:493f1cbc43905005",
+   "digest": "sha256-b2:a59e479b7cea486b",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -15557,7 +15848,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/guest-language-introspection.md",
-   "digest": "sha256:a6e450dc9c28bd76",
+   "digest": "sha256-b2:aef36b9f494a27f8",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -15652,7 +15943,7 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/guided-tours/guided-tours.md",
-   "digest": "sha256:6e62aed28e4419e5",
+   "digest": "sha256-b2:6f44ad03ebd5bd19",
    "revision": 4,
    "changedAt": "2026-09-02",
    "techniques": [
@@ -15773,7 +16064,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/hash-pinned-translation-pipeline/hash-pinned-translation-pipeline.md",
-   "digest": "sha256:d7cc1634adbd986f",
+   "digest": "sha256-b2:5fb570c0ab07039a",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -15888,7 +16179,7 @@
    "subcategory": "service-operations",
    "status": "reconciled",
    "file": "knowledge/software-engineering/operations/service-operations/health-checks/health-checks.md",
-   "digest": "sha256:53d576c91adb4d7f",
+   "digest": "sha256-b2:9254e4fb7feef6b1",
    "revision": 11,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -16035,7 +16326,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
-   "digest": "sha256:a21c8cbbcff78595",
+   "digest": "sha256-b2:fc771b717208857b",
    "revision": 20,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -16311,7 +16602,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/i18n/i18n.md",
-   "digest": "sha256:63c2ac2d6aa9baca",
+   "digest": "sha256-b2:13f1a2698a82c874",
    "revision": 7,
    "changedAt": "2026-09-06",
    "techniques": [
@@ -16484,7 +16775,7 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/import-normalization/import-normalization.md",
-   "digest": "sha256:ce0ff0c823cef672",
+   "digest": "sha256-b2:4981ff0ea8a59c1b",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -16646,7 +16937,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/index-free-random-access.md",
-   "digest": "sha256:89644138393711ee",
+   "digest": "sha256-b2:938e37a6912a9762",
    "revision": 1,
    "changedAt": "2026-09-21",
    "techniques": [
@@ -16768,7 +17059,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/invariant-placement/invariant-placement.md",
-   "digest": "sha256:f09d82b2b9bd2d4c",
+   "digest": "sha256-b2:c6563834f502429c",
    "revision": 9,
    "changedAt": "2026-09-21",
    "techniques": [
@@ -17019,7 +17310,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/ipc-contract/ipc-contract.md",
-   "digest": "sha256:4c5a71b4b9492d4c",
+   "digest": "sha256-b2:c9cce81ffdd6456a",
    "revision": 6,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -17159,7 +17450,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/issuance-policy-ladder/issuance-policy-ladder.md",
-   "digest": "sha256:a515f3a0584374f3",
+   "digest": "sha256-b2:fc31943d5d78e4d2",
    "revision": 3,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -17308,7 +17599,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
-   "digest": "sha256:1090a84300016a2d",
+   "digest": "sha256-b2:2bd472ebca7609ca",
    "revision": 16,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -17556,7 +17847,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/judgment-guardbands.md",
-   "digest": "sha256:7226834f4b17d524",
+   "digest": "sha256-b2:6f0d381e3a82e919",
    "revision": 2,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -17676,7 +17967,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/keyed-sample-transforms/keyed-sample-transforms.md",
-   "digest": "sha256:7084a80ffcb15e23",
+   "digest": "sha256-b2:926f399475e0ef4d",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -17776,9 +18067,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
-   "digest": "sha256:d72cba1c69e2d674",
-   "revision": 8,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:4f67f0d981e204d6",
+   "revision": 10,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -17936,7 +18227,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/lazy-section-addressability.md",
-   "digest": "sha256:c40bce422c368962",
+   "digest": "sha256-b2:91bc8c88178741f5",
    "revision": 1,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -18030,7 +18321,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/llm-extracted-entity-graph/llm-extracted-entity-graph.md",
-   "digest": "sha256:bbc027c9e0c6b9fd",
+   "digest": "sha256-b2:bd7032bc2fb05c3b",
    "revision": 2,
    "changedAt": "2026-09-16",
    "techniques": [
@@ -18121,7 +18412,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/long-form-reading-surface/long-form-reading-surface.md",
-   "digest": "sha256:aeaa9fa2ed46d0b1",
+   "digest": "sha256-b2:0073dc38cb06cee0",
    "revision": 2,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -18225,7 +18516,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/machine-authored-documentation/machine-authored-documentation.md",
-   "digest": "sha256:eecab5d87cb41501",
+   "digest": "sha256-b2:e02500921c1ec7c8",
    "revision": 2,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -18358,7 +18649,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/machine-paced-delivery/machine-paced-delivery.md",
-   "digest": "sha256:9076905cbdcf65b2",
+   "digest": "sha256-b2:7c45f5d81cc35bf6",
    "revision": 9,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -18531,7 +18822,7 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/markdown-vault/markdown-vault.md",
-   "digest": "sha256:f6a2ff361c8b10e4",
+   "digest": "sha256-b2:7a10f98b2d9488ac",
    "revision": 2,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -18737,7 +19028,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/maturity-ladders.md",
-   "digest": "sha256:0f2f1d831991ecba",
+   "digest": "sha256-b2:7bf11d22a28619eb",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -18856,9 +19147,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256:b50d25580544c8c0",
-   "revision": 29,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:fac6fd7fb360c72c",
+   "revision": 30,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -18992,6 +19283,24 @@
       "removing a session or tenant boundary that a list endpoint depended on",
       "deciding whether an unguessable identifier is enough",
       "reviewing an API that leaks the existence of other callers' objects"
+     ]
+    },
+    {
+     "slug": "first-party-agent-is-a-principal",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "unknown-is-not-a-value",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the product's own agent calls the tools the protocol door serves",
+      "an in-process companion reuses the tool handlers without going through the route",
+      "deciding whether the vendor's agent may skip the public tool door",
+      "an agent's tool set is computed by excluding writes rather than by granting reads",
+      "a new scoped read tool lands and nobody edits the companion",
+      "two doors onto one store resolve their gates separately"
      ]
     },
     {
@@ -19234,6 +19543,13 @@
      "verified_against": "dotnet@10.0.202"
     },
     {
+     "stack": "next",
+     "technique": "first-party-agent-is-a-principal",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/next--first-party-agent-is-a-principal.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "next@16.3.3"
+    },
+    {
      "stack": "node",
      "technique": "authentication-and-scoping",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/node--authentication-and-scoping.md",
@@ -19331,9 +19647,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
-   "digest": "sha256:78bf0a53f49a149e",
-   "revision": 9,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:d4b324065f09cebd",
+   "revision": 10,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "co-published-numbers-must-reconcile",
@@ -19398,13 +19714,16 @@
      "slug": "lower-bound-disclosure",
      "status": "forged",
      "laws": [
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "publishing a reach or usage tally assembled from partial observation",
       "two rungs of a ladder are both arguable",
-      "a number will be quoted outside its context"
+      "a number will be quoted outside its context",
+      "the same comparison measured in two environments agrees on direction and disagrees on size",
+      "a newer run shows a larger effect than a figure already published"
      ]
     },
     {
@@ -19563,9 +19882,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/media-playback/media-playback.md",
-   "digest": "sha256:eb721ed85a1084b6",
-   "revision": 5,
-   "changedAt": "2026-09-15",
+   "digest": "sha256-b2:122990080db4f70e",
+   "revision": 6,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "committed-buffer-steering",
@@ -19657,6 +19976,22 @@
      ]
     },
     {
+     "slug": "sender-declared-playout-bound",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a live stream is decoded by a receiver engine you do not own and its latency creeps up after a burst of motion",
+      "the receiver's own delay knob is set to zero and the delay does not come down",
+      "choosing the playout delay for interactive remote control or game streaming",
+      "a latency fix is verified by reading back the value that was set",
+      "a stream's delay only resets on reload"
+     ]
+    },
+    {
      "slug": "source-resilience",
      "status": "forged",
      "laws": [
@@ -19740,9 +20075,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/metric-forecasting.md",
-   "digest": "sha256:08ee056c4c84ea49",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:40bc666cc27ebc42",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "fit-confidence-honesty",
@@ -19843,6 +20178,13 @@
      "technique": "trend-fitting-and-anchoring",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/applications/node--trend-fitting-and-anchoring.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "projection-presentability-gates",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/metric-forecasting/applications/rust--projection-presentability-gates.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
@@ -19851,7 +20193,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/metric-gates/metric-gates.md",
-   "digest": "sha256:d3ab6f2dc19bae1e",
+   "digest": "sha256-b2:a673c17a2c4ddcea",
    "revision": 3,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -19979,7 +20321,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/metric-surface-contract/metric-surface-contract.md",
-   "digest": "sha256:c99c042111aeef9f",
+   "digest": "sha256-b2:e8bf5f739fe682e7",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -20100,7 +20442,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/metrics-rollups/metrics-rollups.md",
-   "digest": "sha256:25d42fbe3794b91f",
+   "digest": "sha256-b2:e67c71e414c9a9c0",
    "revision": 2,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -20206,7 +20548,7 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/migrations/migrations.md",
-   "digest": "sha256:3285e1d8524603bd",
+   "digest": "sha256-b2:b7d5afcb859dfff9",
    "revision": 10,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -20373,7 +20715,7 @@
    "subcategory": "shell-and-navigation",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/modal-stack.md",
-   "digest": "sha256:e4aa47b6a226c7fc",
+   "digest": "sha256-b2:c0c7b5eacfef8679",
    "revision": 4,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -20482,7 +20824,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
-   "digest": "sha256:c9eeeaa8fa7c9944",
+   "digest": "sha256-b2:068da95be00c5489",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -20629,7 +20971,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256:178446fb9a484fde",
+   "digest": "sha256-b2:1b780873cd7e5736",
    "revision": 19,
    "changedAt": "2026-09-24",
    "techniques": [
@@ -20906,9 +21248,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/modelled-performance-estimates.md",
-   "digest": "sha256:25c1d6264c3a4e56",
-   "revision": 2,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:6e43ae4c581247e7",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "one-ratio-then-a-capability-cap",
@@ -20974,6 +21316,20 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "refuse-rather-than-emit-a-sentinel",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/applications/next--refuse-rather-than-emit-a-sentinel.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "react",
+     "technique": "provenance-travels-with-the-value",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/applications/react--provenance-travels-with-the-value.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
+    },
+    {
      "stack": "rust",
      "technique": "one-ratio-then-a-capability-cap",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/applications/rust--one-ratio-then-a-capability-cap.md",
@@ -20986,9 +21342,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256:6504a0f64d826c91",
-   "revision": 14,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:96e286af9f57c45e",
+   "revision": 15,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -21029,6 +21385,21 @@
       "choosing a form for code that produces several outputs in one pass",
       "a declarative rewrite came out longer than what it replaced",
       "a call chain interleaves pure steps with steps that touch the outside world"
+     ]
+    },
+    {
+     "slug": "emitted-code-names-from-a-root",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing a macro or code generator whose output is spliced into a caller's scope",
+      "an exported generator works at every call site today and every call site lives beside it",
+      "moving a generator or its callers across a package boundary",
+      "a generated body names a library or a sibling generator or a standard type by its bare name",
+      "deciding which of a generator's names the caller should be able to see"
      ]
     },
     {
@@ -21214,6 +21585,13 @@
     },
     {
      "stack": "rust",
+     "technique": "emitted-code-names-from-a-root",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--emitted-code-names-from-a-root.md",
+     "verified_on": "2026-09-25",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
      "technique": "io-free-core",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--io-free-core.md",
      "verified_on": "2026-08-29",
@@ -21254,9 +21632,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/motion/motion.md",
-   "digest": "sha256:d623a3bcfdcbd1c0",
-   "revision": 9,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:8d9b3eabe2f3b534",
+   "revision": 10,
+   "changedAt": "2026-09-24",
    "techniques": [
     {
      "slug": "content-bearing-degradation",
@@ -21448,7 +21826,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/multi-project/multi-project.md",
-   "digest": "sha256:0488243424dc82a4",
+   "digest": "sha256-b2:07b32de44fd25fc6",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -21571,7 +21949,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/multi-provider-gateway-plane/multi-provider-gateway-plane.md",
-   "digest": "sha256:45bcc427a8ddca15",
+   "digest": "sha256-b2:f268193750c0a517",
    "revision": 9,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -21801,9 +22179,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/narrative-scroll-surface.md",
-   "digest": "sha256:aabd5cfef103cfb6",
-   "revision": 1,
-   "changedAt": "2026-09-08",
+   "digest": "sha256-b2:e93abcf9f70a6c36",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "illustration-carries-the-claim",
@@ -21817,6 +22195,22 @@
       "an illustration decorates a claim without evidencing it",
       "mockup art looks small beside the display copy next to it",
       "deciding whether a graphic element is content or decoration"
+     ]
+    },
+    {
+     "slug": "motion-carries-the-mechanism",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "deletion-is-not-repair"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "animating how a process works rather than revealing a finished picture",
+      "an explainer animation shows steps that overlap wait or block",
+      "deciding what a mechanism animation shows under reduced motion or as a still",
+      "exporting an explainer animation to video or a filmstrip",
+      "having a model author the same explainer in several art styles"
      ]
     },
     {
@@ -21847,7 +22241,8 @@
       "sections of a page appear as the reader scrolls to them",
       "a whole-page capture of an animated page comes out empty",
       "an accessibility sweep of a scroll-driven page finds nothing to report",
-      "deciding whether a reveal may mount its content"
+      "deciding whether a reveal may mount its content",
+      "a printed explanatory page comes out blank below the first screen"
      ]
     },
     {
@@ -21884,6 +22279,20 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "reveal-without-loss",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/next--reveal-without-loss.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "react",
+     "technique": "motion-carries-the-mechanism",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/react--motion-carries-the-mechanism.md",
+     "verified_on": "2026-09-24",
+     "verified_against": "react@19.2.8"
+    },
+    {
      "stack": "react",
      "technique": "no-orientation-tax",
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/narrative-scroll-surface/applications/react--no-orientation-tax.md",
@@ -21911,7 +22320,7 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/native-document-format.md",
-   "digest": "sha256:f7411ccaa5c04a87",
+   "digest": "sha256-b2:b6e8c7cf7888676f",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -22012,7 +22421,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/native-guest-interop/native-guest-interop.md",
-   "digest": "sha256:6c82c2fe8a339449",
+   "digest": "sha256-b2:2f33f632688cd73a",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -22123,7 +22532,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/native-shell-integration/native-shell-integration.md",
-   "digest": "sha256:d0a9900439717735",
+   "digest": "sha256-b2:eb941b25ec740109",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -22301,9 +22710,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/node-boot-and-declarative-bootstrap.md",
-   "digest": "sha256:12d6b91ccdadd5eb",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:1c83f54ea0028875",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "config-objects-are-api-immutable",
@@ -22330,6 +22739,7 @@
      "shared_with": [],
      "use_when": [
       "a fresh node must configure its own policy and auth without a human",
+      "a first-start seed of default rows is detected by an empty table",
       "a provisioner stores a root credential returned by initialisation",
       "deciding what a node does when bootstrap failed halfway last time",
       "a bootstrap that re-runs on every start reverts operator edits"
@@ -22346,6 +22756,8 @@
      "shared_with": [],
      "use_when": [
       "adding a startup step to a stateful node",
+      "a startup log announces listening before the port is bound",
+      "a config test fails because the live node holds the port",
       "a verify-only or dry-run mode leaks a lock or a listener",
       "writing a startup diagnostic tool",
       "a component reads a value that is nil at boot",
@@ -22418,6 +22830,20 @@
      "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/go--ordered-boot-dag.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "rust",
+     "technique": "once-only-bootstrap-with-marker",
+     "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/rust--once-only-bootstrap-with-marker.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "ordered-boot-dag",
+     "file": "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/rust--ordered-boot-dag.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -22426,7 +22852,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/object-shape-representation/object-shape-representation.md",
-   "digest": "sha256:3054d8b37ef683eb",
+   "digest": "sha256-b2:4a45578e05e1fef1",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -22525,7 +22951,7 @@
    "subcategory": "platform-observability",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/observability-telemetry/observability-telemetry.md",
-   "digest": "sha256:a8d8676da144fd28",
+   "digest": "sha256-b2:5f1eca73a0e27036",
    "revision": 6,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -22634,7 +23060,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/optional-dependency-degradation.md",
-   "digest": "sha256:def07f6c5ed2c921",
+   "digest": "sha256-b2:5740098d6095e387",
    "revision": 16,
    "changedAt": "2026-09-16",
    "techniques": [
@@ -22862,7 +23288,7 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/outbound-notifications/outbound-notifications.md",
-   "digest": "sha256:b59fe375ccf4947a",
+   "digest": "sha256-b2:fa75c38baf3e6de1",
    "revision": 3,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -23018,7 +23444,7 @@
    "subcategory": "data-and-transport",
    "status": "reconciled",
    "file": "knowledge/software-engineering/security/data-and-transport/p2p-networking/p2p-networking.md",
-   "digest": "sha256:05e77b69ab06ba59",
+   "digest": "sha256-b2:c6291d8abe49c1d3",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -23133,7 +23559,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/packaging/packaging.md",
-   "digest": "sha256:f47628a96c37323d",
+   "digest": "sha256-b2:e3584aae3c68e668",
    "revision": 7,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -23267,12 +23693,142 @@
     }
    ]
   },
+  "page-load-pipeline": {
+   "category": "client-architecture",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
+   "digest": "sha256-b2:8ce99c4e6acfe0fa",
+   "revision": 2,
+   "changedAt": "2026-09-24",
+   "techniques": [
+    {
+     "slug": "discoverable-critical-resources",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "the largest element's request starts late in the waterfall with the network idle before it",
+      "a first-render resource is referenced from a stylesheet or created by script",
+      "deciding whether to add a preload declaration"
+     ]
+    },
+    {
+     "slug": "field-measured-load-budget",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which load numbers to gate before merge",
+      "a lab score and real-visit experience disagree",
+      "setting up or reviewing a per-route bundle budget"
+     ]
+    },
+    {
+     "slug": "font-loading-discipline",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "adding a web font family or weight",
+      "text flashes invisible or reflows when a font arrives",
+      "loading fonts for several writing systems or locales"
+     ]
+    },
+    {
+     "slug": "layout-stability-by-reservation",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "content jumps while the page loads",
+      "a lazily loaded section or embed arrives into a placeholder",
+      "adding media",
+      "a banner or late-arriving content to a page"
+     ]
+    },
+    {
+     "slug": "navigation-reuse",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "going back to a page reloads it from scratch",
+      "adding an unload handler",
+      "a cache header or a long-lived connection to a document",
+      "deciding whether to prepare the next page before the reader commits"
+     ]
+    },
+    {
+     "slug": "priority-is-declared-not-hoped",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "the largest element is discovered early but still finishes late",
+      "marking an image or script as high priority",
+      "adding connection warm-up hints for other origins"
+     ]
+    },
+    {
+     "slug": "render-blocking-budget",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "adding a stylesheet",
+      "a third-party tag or an inline script to the head of a document",
+      "the first render waits on a resource nobody can justify",
+      "choosing between deferred",
+      "asynchronous and module script loading"
+     ]
+    },
+    {
+     "slug": "script-cost-is-main-thread-time",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a page looks ready but ignores the first taps or keystrokes",
+      "deciding whether a heavy module belongs in a route's first load",
+      "splitting a bundle or deferring a below-the-fold section",
+      "the served markup hides the headline or page until an entrance animation runs"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "next",
+     "technique": "field-measured-load-budget",
+     "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/applications/next--field-measured-load-budget.md",
+     "verified_on": "2026-09-24",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "next",
+     "technique": "layout-stability-by-reservation",
+     "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/applications/next--layout-stability-by-reservation.md",
+     "verified_on": "2026-09-24",
+     "verified_against": "next@16.3.3"
+    }
+   ]
+  },
   "paged-block-cache": {
    "category": "backend-platform",
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/paged-block-cache/paged-block-cache.md",
-   "digest": "sha256:1293c588b3679d52",
+   "digest": "sha256-b2:bdc97e412853bc4f",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -23382,7 +23938,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/peer-benchmarking.md",
-   "digest": "sha256:898740060ce84b5d",
+   "digest": "sha256-b2:3ff7a39dbfa9a12e",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -23483,7 +24039,7 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/people-analytics-ethics/people-analytics-ethics.md",
-   "digest": "sha256:931532b4763ab970",
+   "digest": "sha256-b2:2c35b13c8e7ff20c",
    "revision": 2,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -23595,7 +24151,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/perf-instrumentation/perf-instrumentation.md",
-   "digest": "sha256:5f18efa3b13432a5",
+   "digest": "sha256-b2:b3c34793ca9aec59",
    "revision": 2,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -23707,9 +24263,9 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/persistent-batch-mutation.md",
-   "digest": "sha256:25a6c7f22a7d7d36",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:f69a4347471944f0",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "compaction-in-the-protocols-own-operations",
@@ -23741,6 +24297,22 @@
      ]
     },
     {
+     "slug": "identity-reference-alignment-check",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "testing a component that holds parallel per-slot state beside a mutated batch",
+      "adding a new consumer of a mutation record",
+      "a hand-written consumer reimplements the index arithmetic",
+      "deciding whether worked examples are enough coverage"
+     ]
+    },
+    {
      "slug": "typed-ordered-mutation-protocol",
      "status": "forged",
      "laws": [
@@ -23759,16 +24331,30 @@
    "applications": [
     {
      "stack": "python",
+     "technique": "compaction-in-the-protocols-own-operations",
+     "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--compaction-in-the-protocols-own-operations.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
      "technique": "declared-skippability-at-batch-granularity",
      "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--declared-skippability-at-batch-granularity.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-27",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "identity-reference-alignment-check",
+     "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--identity-reference-alignment-check.md",
+     "verified_on": "2026-09-27",
      "verified_against": "python@3.12"
     },
     {
      "stack": "python",
      "technique": "typed-ordered-mutation-protocol",
      "file": "knowledge/software-engineering/backend-platform/inference-serving/persistent-batch-mutation/applications/python--typed-ordered-mutation-protocol.md",
-     "verified_on": "2026-09-03",
+     "verified_on": "2026-09-27",
      "verified_against": "python@3.12"
     }
    ]
@@ -23778,9 +24364,9 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/pipeline-authoring/pipeline-authoring.md",
-   "digest": "sha256:cf1c520fc79fd382",
-   "revision": 4,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:809d2a648d853f13",
+   "revision": 5,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "change-scoped-work-selection",
@@ -23835,13 +24421,16 @@
      "status": "forged",
      "laws": [
       "derivation-names-recomputation",
-      "count-carries-predicate"
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
       "the plan is generated rather than written",
       "explaining an old run",
-      "reviewing a change to a generator"
+      "reviewing a change to a generator",
+      "a dry run or preview prints units whose inclusion is decided at run time",
+      "a preview's total disagrees with what the run then did"
      ],
      "stage": "multi-service"
     },
@@ -23904,7 +24493,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/pipeline-dag/pipeline-dag.md",
-   "digest": "sha256:4b2a106213b41810",
+   "digest": "sha256-b2:396bc727ea6bcf37",
    "revision": 9,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -24069,7 +24658,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/plan-entitlements/plan-entitlements.md",
-   "digest": "sha256:638c778475311ce1",
+   "digest": "sha256-b2:58f21c0561a86e45",
    "revision": 7,
    "changedAt": "2026-09-18",
    "techniques": [
@@ -24278,7 +24867,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/plan-review.md",
-   "digest": "sha256:bd0c53f634a72ef4",
+   "digest": "sha256-b2:cb405581d6418f66",
    "revision": 3,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -24382,9 +24971,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/priced-authority.md",
-   "digest": "sha256:e0b5d136f412a0a2",
-   "revision": 3,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:5f06e495d1f48a79",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "approver-not-requester",
@@ -24490,22 +25079,29 @@
      "stack": "go",
      "technique": "never-persisted-token-class",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--never-persisted-token-class.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
     },
     {
      "stack": "go",
      "technique": "secondary-index-before-primary",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--secondary-index-before-primary.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
     },
     {
      "stack": "go",
      "technique": "single-use-cubbyhole-wrap",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/go--single-use-cubbyhole-wrap.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "next",
+     "technique": "never-persisted-token-class",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/priced-authority/applications/next--never-persisted-token-class.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
     }
    ]
   },
@@ -24514,7 +25110,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/proactive-nudges.md",
-   "digest": "sha256:d248dd97b6a5c69f",
+   "digest": "sha256-b2:5e13c88d70a4c50a",
    "revision": 5,
    "changedAt": "2026-09-10",
    "techniques": [
@@ -24620,9 +25216,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256:fa26f12e1d02a2ae",
-   "revision": 38,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:ec46f604453ed55b",
+   "revision": 40,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -25145,9 +25741,9 @@
      "stack": "python",
      "technique": "amortized-compaction-cadence",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--amortized-compaction-cadence.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-23",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-10-15"
+     "refresh_by": "2026-11-05"
     },
     {
      "stack": "python",
@@ -25245,7 +25841,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-safety/prompt-safety.md",
-   "digest": "sha256:21c20267ba0c2084",
+   "digest": "sha256-b2:51087132dbd1c9fb",
    "revision": 7,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -25426,7 +26022,7 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/public-claim-provenance/public-claim-provenance.md",
-   "digest": "sha256:fbf0d276b5013545",
+   "digest": "sha256-b2:df9980b5ba402dfc",
    "revision": 2,
    "changedAt": "2026-08-24",
    "techniques": [
@@ -25556,7 +26152,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/public-verdict-badge/public-verdict-badge.md",
-   "digest": "sha256:f1e00fe96416c6ae",
+   "digest": "sha256-b2:200cd4cd4f576869",
    "revision": 3,
    "changedAt": "2026-09-08",
    "techniques": [
@@ -25670,9 +26266,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256:8913271b16f56f9f",
-   "revision": 50,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:75f3f7dd88cf3601",
+   "revision": 52,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -26076,6 +26672,24 @@
      ]
     },
     {
+     "slug": "unparseable-form-is-a-finding",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a source-pattern gate can be evaded by writing the same access a different way",
+      "deciding whether a check without a parser can block rather than merely warn",
+      "a gate reports a plausible complete answer over a language it only pattern-matches",
+      "choosing between improving a matcher and constraining what it must match",
+      "a negative-space rule is described as a ratchet against accident",
+      "a regex-based checker is being promoted from advisory to blocking"
+     ]
+    },
+    {
      "slug": "vacuous-by-evaluation",
      "status": "forged",
      "laws": [
@@ -26306,9 +26920,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/quorum-and-recovery-procedures.md",
-   "digest": "sha256:33e7576bc21d2311",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:adce67260d401a6a",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "cancel-leaves-prior-state-valid",
@@ -26337,7 +26951,8 @@
       "copying a store's contents offline from one backend to another",
       "two operators might run the same migration",
       "deciding which keys a backend copy must skip",
-      "the server must refuse to start during a migration"
+      "the server must refuse to start during a migration",
+      "an operator tool rewrites a live store's entries in place"
      ]
     },
     {
@@ -26352,7 +26967,8 @@
       "designing a multi-share submission endpoint",
       "a share arrives for an attempt that may no longer exist",
       "deciding when newly rotated root material becomes the live material",
-      "an operator asks how far along a rotation is"
+      "an operator asks how far along a rotation is",
+      "deciding when a rotated master secret may be retired"
      ]
     },
     {
@@ -26422,6 +27038,20 @@
      "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/go--pick-highest-applied-index.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "node",
+     "technique": "migration-lock-in-source",
+     "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/node--migration-lock-in-source.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "nonce-progress-verify",
+     "file": "knowledge/software-engineering/operations/service-operations/quorum-and-recovery-procedures/applications/node--nonce-progress-verify.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -26430,7 +27060,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/rate-limiting/rate-limiting.md",
-   "digest": "sha256:a81b069ef7e72fbd",
+   "digest": "sha256-b2:c1ab95c98c885951",
    "revision": 8,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -26623,16 +27253,17 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/read-serving-replicas.md",
-   "digest": "sha256:1f585683a73822ee",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:1c92d27744edd729",
+   "revision": 2,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "client-carried-index",
      "status": "forged",
      "laws": [
       "verdict-survives-boundary",
-      "gate-sees-target"
+      "gate-sees-target",
+      "unknown-is-not-a-value"
      ],
      "shared_with": [],
      "use_when": [
@@ -26723,7 +27354,7 @@
      "stack": "go",
      "technique": "client-carried-index",
      "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/go--client-carried-index.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-26",
      "verified_against": "go@1.27"
     },
     {
@@ -26739,6 +27370,20 @@
      "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/go--forward-on-storage-error.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "node",
+     "technique": "client-carried-index",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/node--client-carried-index.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "forward-on-storage-error",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/read-serving-replicas/applications/node--forward-on-storage-error.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@22"
     }
    ]
   },
@@ -26747,7 +27392,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md",
-   "digest": "sha256:bb184a54179a32d1",
+   "digest": "sha256-b2:588ec936ab3e51d0",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -26851,7 +27496,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/realtime-events/realtime-events.md",
-   "digest": "sha256:11687553ff97b0af",
+   "digest": "sha256-b2:a0685592373df03f",
    "revision": 6,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -26994,7 +27639,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/register-bytecode-execution/register-bytecode-execution.md",
-   "digest": "sha256:2147ae265d47d49f",
+   "digest": "sha256-b2:e9d7b45e69f60087",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -27152,7 +27797,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/release-pipeline/release-pipeline.md",
-   "digest": "sha256:2cfcf9c12c9413e2",
+   "digest": "sha256-b2:faf052699c35ced4",
    "revision": 11,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -27345,7 +27990,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
-   "digest": "sha256:a59d2ce05cfb8d3c",
+   "digest": "sha256-b2:940036e1a6fcd893",
    "revision": 3,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -27470,7 +28115,7 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/remediation-roadmaps.md",
-   "digest": "sha256:4a4d471536ab014d",
+   "digest": "sha256-b2:c1c22f2efa9f9a74",
    "revision": 1,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -27580,7 +28225,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/remote-capability-probing/remote-capability-probing.md",
-   "digest": "sha256:944cd48868c33525",
+   "digest": "sha256-b2:a4c05c585323b3c3",
    "revision": 1,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -27690,7 +28335,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/render-mount-pipeline/render-mount-pipeline.md",
-   "digest": "sha256:021fe86f5ecfb2aa",
+   "digest": "sha256-b2:df020f172eb32893",
    "revision": 1,
    "changedAt": "2026-09-14",
    "techniques": [
@@ -27848,7 +28493,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/repo-manifest-standard/repo-manifest-standard.md",
-   "digest": "sha256:3ca203a6da759672",
+   "digest": "sha256-b2:ae86d5eb87b1c37f",
    "revision": 11,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -28033,7 +28678,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
-   "digest": "sha256:b2963440e0f609f4",
+   "digest": "sha256-b2:275a789501dfda1a",
    "revision": 1,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -28151,7 +28796,7 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256:1280e85fd10ab66e",
+   "digest": "sha256-b2:8cfc2c346bb4e161",
    "revision": 16,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -28417,7 +29062,7 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/retry-backoff/retry-backoff.md",
-   "digest": "sha256:808a4609c4e5c995",
+   "digest": "sha256-b2:4ca1a8af506f44d9",
    "revision": 13,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -28609,7 +29254,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/reversible-transform-pipelines/reversible-transform-pipelines.md",
-   "digest": "sha256:a024109be806d8b1",
+   "digest": "sha256-b2:6b1454a123540e65",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -28717,7 +29362,7 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/runner-fleet/runner-fleet.md",
-   "digest": "sha256:5f9ab9dee3cb91cc",
+   "digest": "sha256-b2:9f9c2122f589ed3d",
    "revision": 2,
    "changedAt": "2026-08-31",
    "techniques": [
@@ -28827,7 +29472,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/scale-investment-timing/scale-investment-timing.md",
-   "digest": "sha256:c577a2c04c7cf434",
+   "digest": "sha256-b2:43b2188e6c19354d",
    "revision": 7,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -28945,7 +29590,7 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/scheduling.md",
-   "digest": "sha256:440155430b17d557",
+   "digest": "sha256-b2:f60a09f888a54a35",
    "revision": 5,
    "changedAt": "2026-09-01",
    "techniques": [
@@ -29051,7 +29696,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/schema-driven-ui/schema-driven-ui.md",
-   "digest": "sha256:f1899f8c7ac0e807",
+   "digest": "sha256-b2:3a801e8a0fefc717",
    "revision": 2,
    "changedAt": "2026-08-21",
    "techniques": [
@@ -29162,7 +29807,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/scoring-rubrics/scoring-rubrics.md",
-   "digest": "sha256:1d2228b7cf8cb6bb",
+   "digest": "sha256-b2:476078a37f34137d",
    "revision": 3,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -29294,9 +29939,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/seal-and-key-hierarchy.md",
-   "digest": "sha256:55d313eb16e99ade",
-   "revision": 2,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:044e6e9d3f3395f0",
+   "revision": 3,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "any-one-seal-unseals",
@@ -29397,8 +30042,9 @@
      "stack": "go",
      "technique": "any-one-seal-unseals",
      "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/go--any-one-seal-unseals.md",
-     "verified_on": "2026-09-02",
-     "verified_against": "go@1.27"
+     "verified_on": "2026-09-26",
+     "verified_against": "go@1.27",
+     "refresh_by": "2026-12-26"
     },
     {
      "stack": "go",
@@ -29413,6 +30059,20 @@
      "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/go--per-tenant-seal-chain.md",
      "verified_on": "2026-09-02",
      "verified_against": "go@1.27"
+    },
+    {
+     "stack": "node",
+     "technique": "append-only-keyring-rotation",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/node--append-only-keyring-rotation.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "rust",
+     "technique": "any-one-seal-unseals",
+     "file": "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/rust--any-one-seal-unseals.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1"
     }
    ]
   },
@@ -29421,7 +30081,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
-   "digest": "sha256:5b90e6550583b71e",
+   "digest": "sha256-b2:b76b1bab72ccfec5",
    "revision": 5,
    "changedAt": "2026-09-24",
    "techniques": [
@@ -29571,7 +30231,7 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/self-describing-data-envelopes/self-describing-data-envelopes.md",
-   "digest": "sha256:1e203a3facadd103",
+   "digest": "sha256-b2:39e97c4f0f91579f",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -29671,7 +30331,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/self-describing-model-packages/self-describing-model-packages.md",
-   "digest": "sha256:a09134049a282b91",
+   "digest": "sha256-b2:d22f4172adbc5004",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -29782,7 +30442,7 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/self-healing/self-healing.md",
-   "digest": "sha256:36f871dc53a083e0",
+   "digest": "sha256-b2:d27f99525a697c4b",
    "revision": 11,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -29986,7 +30646,7 @@
    "subcategory": "inference-serving",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/inference-serving/serving-process-topology/serving-process-topology.md",
-   "digest": "sha256:e213be8c538e7596",
+   "digest": "sha256-b2:d8ed5a9bfd85e73c",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -30106,7 +30766,7 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256:afcbb04332237df6",
+   "digest": "sha256-b2:89e82a9f790ac3fb",
    "revision": 6,
    "changedAt": "2026-09-15",
    "techniques": [
@@ -30303,9 +30963,9 @@
    "subcategory": "shell-and-navigation",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/session-resume.md",
-   "digest": "sha256:f8401219466605e7",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:50cb543ed324e4fe",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "content-freshness-states",
@@ -30344,7 +31004,8 @@
      "use_when": [
       "deciding whether a briefing with no news should render",
       "a quiet week and a broken derivation look identical",
-      "first run floods everything as new"
+      "first run floods everything as new",
+      "an inbox the user opened renders blank"
      ]
     },
     {
@@ -30357,7 +31018,8 @@
      "use_when": [
       "briefing says nothing has changed",
       "gating a presence stamp on visibility",
-      "deciding whether a watermark may trust the clock"
+      "deciding whether a watermark may trust the clock",
+      "stamping seen when a panel loaded earlier is opened"
      ]
     },
     {
@@ -30387,6 +31049,20 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "delta-briefings",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/applications/next--delta-briefings.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "last-seen-anchors",
+     "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/applications/next--last-seen-anchors.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "react",
      "technique": "first-run-and-quiet-silence",
      "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/applications/react--first-run-and-quiet-silence.md",
@@ -30406,7 +31082,7 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/settings/settings.md",
-   "digest": "sha256:e29ad5f70c1e363a",
+   "digest": "sha256-b2:85c48ec5bdb5581f",
    "revision": 13,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -30703,7 +31379,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/sidecar-provisioning/sidecar-provisioning.md",
-   "digest": "sha256:2f632b71b0942ba5",
+   "digest": "sha256-b2:25f000a9ae879947",
    "revision": 8,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -30904,7 +31580,7 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/signed-artifacts/signed-artifacts.md",
-   "digest": "sha256:302cf6b0885fc1ac",
+   "digest": "sha256-b2:387437132971999b",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -31058,7 +31734,7 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/sql-console/sql-console.md",
-   "digest": "sha256:0b492ba3c4dd193b",
+   "digest": "sha256-b2:60a26f15745fd8c1",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -31196,7 +31872,7 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/standards-layered-runtime/standards-layered-runtime.md",
-   "digest": "sha256:262cf3e9c9d6e619",
+   "digest": "sha256-b2:9cfe5aba03ea1a19",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -31306,7 +31982,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/status-vocabulary/status-vocabulary.md",
-   "digest": "sha256:569058d5320dbed2",
+   "digest": "sha256-b2:bea7b30fd48d528d",
    "revision": 5,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -31479,7 +32155,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/stream-proxy-hop.md",
-   "digest": "sha256:458226e8e2adff39",
+   "digest": "sha256-b2:938b7cdbd09bbf28",
    "revision": 6,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -31627,7 +32303,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/streaming-output/streaming-output.md",
-   "digest": "sha256:d7f8b2571b44628e",
+   "digest": "sha256-b2:f390cca5c416535b",
    "revision": 8,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -31801,7 +32477,7 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/structured-output/structured-output.md",
-   "digest": "sha256:1c04ffd949784831",
+   "digest": "sha256-b2:d51aec71411ccb2b",
    "revision": 15,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -32052,7 +32728,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256:d9717b151d3057be",
+   "digest": "sha256-b2:14e6e49e4c386292",
    "revision": 12,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -32213,7 +32889,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/subscription-billing-periods.md",
-   "digest": "sha256:0c81dcb426ffaad5",
+   "digest": "sha256-b2:e5bcae321ac53d1d",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -32307,7 +32983,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/subscription-proration/subscription-proration.md",
-   "digest": "sha256:00650314f8f35ab6",
+   "digest": "sha256-b2:553232471c2820e5",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -32396,9 +33072,9 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/supply-chain/supply-chain.md",
-   "digest": "sha256:9a6c4a13d7a638f6",
-   "revision": 5,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:f5666db1094acd9f",
+   "revision": 6,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "archive-extraction-safety",
@@ -32442,6 +33118,23 @@
       "deciding whether the gate reads the manifest or the lockfile",
       "an advisory lands on an untouched lockfile",
       "ignore entries piling up without expiry"
+     ]
+    },
+    {
+     "slug": "license-reach-follows-integration-form",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a copyleft-licensed component meets a product under a different license",
+      "deciding whether a license belongs on the allowlist",
+      "bundling third-party data such as dictionaries fonts datasets or certificate bundles",
+      "shipping or spawning a third-party executable beside the product",
+      "replacing a spawned tool or a protocol peer with its library binding",
+      "a license exception justified by \"it is only data\" or \"it runs as a separate process\""
      ]
     },
     {
@@ -32720,7 +33413,7 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/sync-replication.md",
-   "digest": "sha256:0b3cda4dce1385a8",
+   "digest": "sha256-b2:97c171272d09fb00",
    "revision": 9,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -32851,7 +33544,7 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256:801583a12b103cd7",
+   "digest": "sha256-b2:b2b329111d190ae7",
    "revision": 12,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -33005,7 +33698,7 @@
    "subcategory": "data-and-transport",
    "status": "forged",
    "file": "knowledge/software-engineering/security/data-and-transport/telemetry-pii-redaction/telemetry-pii-redaction.md",
-   "digest": "sha256:2c39a3159aaf92eb",
+   "digest": "sha256-b2:291ed63388cf9602",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -33128,9 +33821,9 @@
    "subcategory": "external-systems",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/external-systems/templates-scaffolding/templates-scaffolding.md",
-   "digest": "sha256:3c599949a10176d8",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:3dd9549b75f4f998",
+   "revision": 3,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "adoption-lifecycle",
@@ -33160,6 +33853,22 @@
       "setting the admission bar for new catalog entries",
       "near-identical entries keep competing in search",
       "deciding when an entry stops earning shelf space"
+     ]
+    },
+    {
+     "slug": "instance-upgrade",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "derivation-names-recomputation",
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an \"update available\" offer whose accept path is remove-and-re-adopt",
+      "deciding what the provenance stamp must record",
+      "an out-of-date badge that has never fired"
      ]
     },
     {
@@ -33226,15 +33935,31 @@
    "applications": [
     {
      "stack": "react",
+     "technique": "adoption-lifecycle",
+     "file": "knowledge/software-engineering/integration/external-systems/templates-scaffolding/applications/react--adoption-lifecycle.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "instance-upgrade",
+     "file": "knowledge/software-engineering/integration/external-systems/templates-scaffolding/applications/react--instance-upgrade.md",
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "integrity-and-provenance",
      "file": "knowledge/software-engineering/integration/external-systems/templates-scaffolding/applications/react--integrity-and-provenance.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "readiness-prerequisites",
      "file": "knowledge/software-engineering/integration/external-systems/templates-scaffolding/applications/react--readiness-prerequisites.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-23",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
@@ -33250,9 +33975,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
-   "digest": "sha256:8c40dd590387bd63",
-   "revision": 5,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:ae4ba4c01a933a35",
+   "revision": 6,
+   "changedAt": "2026-09-23",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",
@@ -33357,9 +34082,9 @@
      "stack": "python",
      "technique": "task-local-tenant-scope",
      "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/applications/python--task-local-tenant-scope.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-09-23",
      "verified_against": "python@3.12",
-     "refresh_by": "2026-10-15"
+     "refresh_by": "2026-11-05"
     }
    ]
   },
@@ -33368,7 +34093,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/terminal-multiplexing/terminal-multiplexing.md",
-   "digest": "sha256:b2a6f2e8669dd52c",
+   "digest": "sha256-b2:c3ef11aba4a471f5",
    "revision": 7,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -33589,9 +34314,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256:4864ae9900a87511",
+   "digest": "sha256-b2:a9235b11f7a38d4d",
    "revision": 24,
-   "changedAt": "2026-09-24",
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -34089,9 +34814,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
-   "digest": "sha256:d64189d33d00ea42",
-   "revision": 7,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:bed0cf46aa1b4567",
+   "revision": 9,
+   "changedAt": "2026-09-25",
    "techniques": [
     {
      "slug": "exhaustive-when-bounded",
@@ -34170,14 +34895,17 @@
      "status": "forged",
      "laws": [
       "failure-not-empty-success",
-      "one-authority-per-vocabulary"
+      "one-authority-per-vocabulary",
+      "verdict-survives-boundary"
      ],
      "shared_with": [],
      "use_when": [
       "a randomized suite only catches crashes and assertion failures",
       "deciding whether a reference implementation is worth its cost",
       "a well-formed wrong answer reached production",
-      "choosing between a recorded output and a stated property"
+      "choosing between a recorded output and a stated property",
+      "a validator or gate refuses with a reason a caller acts on",
+      "a model of an accept-or-reject system compares only the verdict"
      ]
     },
     {
@@ -34192,6 +34920,23 @@
       "testing a parser validator or decoder",
       "a suite built from the specification's happy path",
       "deciding how to generate inputs the system must reject"
+     ]
+    },
+    {
+     "slug": "proof-cost-follows-the-circuit",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a solver-backed check is being considered for a function whose input space is far too large to enumerate",
+      "deciding which functions a symbolic proof campaign should take on first",
+      "a symbolic proof returned no verdict and the next move is being chosen",
+      "a symbolic equivalence proof between two ports passed in milliseconds",
+      "a timeout from a prover is about to be recorded as a pass or a fail"
      ]
     },
     {
@@ -34302,9 +35047,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/time-travel-replay.md",
-   "digest": "sha256:cb808c473633d0dd",
-   "revision": 4,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:798a88c318279127",
+   "revision": 5,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "accrual-overlays",
@@ -34392,15 +35137,31 @@
    "applications": [
     {
      "stack": "react",
+     "technique": "renderer-reuse",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--renderer-reuse.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
      "technique": "timeline-derivation",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--timeline-derivation.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "transport-and-time-mapping",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/react--transport-and-time-mapping.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "timeline-derivation",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/time-travel-replay/applications/rust--timeline-derivation.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -34409,7 +35170,7 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
-   "digest": "sha256:5f10d994e5c16ef6",
+   "digest": "sha256-b2:00266562e54f6f86",
    "revision": 3,
    "changedAt": "2026-09-20",
    "techniques": [
@@ -34529,7 +35290,7 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/tool-result-economy.md",
-   "digest": "sha256:775d27f5414cc557",
+   "digest": "sha256-b2:127ca6c661c6548e",
    "revision": 2,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -34609,7 +35370,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/tracing/tracing.md",
-   "digest": "sha256:16ced18f12da23d1",
+   "digest": "sha256-b2:2834875c395bfaad",
    "revision": 6,
    "changedAt": "2026-09-17",
    "techniques": [
@@ -34755,7 +35516,7 @@
    "subcategory": "data-layer",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-layer/transactions-over-a-replicated-log/transactions-over-a-replicated-log.md",
-   "digest": "sha256:2b7b74064ebf75ef",
+   "digest": "sha256-b2:230a37319e1dd059",
    "revision": 2,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -34902,7 +35663,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/triage-queues/triage-queues.md",
-   "digest": "sha256:89add251704338ae",
+   "digest": "sha256-b2:70c2c3ebc5f18a8f",
    "revision": 3,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -35018,7 +35779,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/ui-controls/ui-controls.md",
-   "digest": "sha256:1fc467cd863a0bc1",
+   "digest": "sha256-b2:a6af68867a07fdfa",
    "revision": 4,
    "changedAt": "2026-09-24",
    "techniques": [
@@ -35146,7 +35907,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/undo-history/undo-history.md",
-   "digest": "sha256:558c31fd4198667e",
+   "digest": "sha256-b2:6b331b14c940f6a7",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -35270,7 +36031,7 @@
    "subcategory": "extension-trust",
    "status": "forged",
    "file": "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/untrusted-extension-host.md",
-   "digest": "sha256:e588dd6ce1c761f0",
+   "digest": "sha256-b2:e829cbd80e70c8d0",
    "revision": 5,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -35485,7 +36246,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/usage-aggregation-semantics/usage-aggregation-semantics.md",
-   "digest": "sha256:e205564f298ac736",
+   "digest": "sha256-b2:8c2dd21982ce8fe9",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -35580,9 +36341,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/usage-analytics.md",
-   "digest": "sha256:d1faf87976598af1",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:83367bcb68dbb99a",
+   "revision": 4,
+   "changedAt": "2026-09-26",
    "techniques": [
     {
      "slug": "activation-and-funnel-honesty",
@@ -35673,6 +36434,20 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "event-taxonomy",
+     "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/next--event-taxonomy.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "privacy-scrubbing",
+     "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/next--privacy-scrubbing.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "react",
      "technique": "activation-and-funnel-honesty",
      "file": "knowledge/software-engineering/operations/service-operations/usage-analytics/applications/react--activation-and-funnel-honesty.md",
@@ -35705,7 +36480,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/usage-event-ingestion/usage-event-ingestion.md",
-   "digest": "sha256:ef58d3e75e6b1860",
+   "digest": "sha256-b2:74ce470dc4579c08",
    "revision": 3,
    "changedAt": "2026-09-15",
    "techniques": [
@@ -35832,7 +36607,7 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/usage-pricing-models/usage-pricing-models.md",
-   "digest": "sha256:6701676d49877856",
+   "digest": "sha256-b2:19da164d50059c7d",
    "revision": 1,
    "changedAt": "2026-09-07",
    "techniques": [
@@ -35923,7 +36698,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
-   "digest": "sha256:9103690a148b10ab",
+   "digest": "sha256-b2:9e3d241f02d95329",
    "revision": 1,
    "changedAt": "2026-09-09",
    "techniques": [
@@ -36011,7 +36786,7 @@
    "subcategory": "governance-and-records",
    "status": "reconciled",
    "file": "knowledge/software-engineering/operations/governance-and-records/versioning-snapshots/versioning-snapshots.md",
-   "digest": "sha256:3fc435590ed89b79",
+   "digest": "sha256-b2:e895b228981cf506",
    "revision": 7,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -36133,7 +36908,7 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256:02053fb68baba5f7",
+   "digest": "sha256-b2:4337a608b34cbe4a",
    "revision": 18,
    "changedAt": "2026-09-16",
    "techniques": [
@@ -36502,7 +37277,7 @@
    "subcategory": "control-plane-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/control-plane-operations/watch-cache-and-resync/watch-cache-and-resync.md",
-   "digest": "sha256:18ec2a7b7d7ace25",
+   "digest": "sha256-b2:8c44d83601ed45b3",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -36593,7 +37368,7 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/web-scraping/web-scraping.md",
-   "digest": "sha256:e836deab7a69bcd5",
+   "digest": "sha256-b2:19cc38b48911ea64",
    "revision": 1,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -36750,7 +37525,7 @@
    "subcategory": "resilience",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/resilience/webhook-ingestion/webhook-ingestion.md",
-   "digest": "sha256:c45c1d6ac548e84d",
+   "digest": "sha256-b2:42ae9b9486b8352d",
    "revision": 11,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -36869,7 +37644,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/windowed-inference-over-oversized-inputs/windowed-inference-over-oversized-inputs.md",
-   "digest": "sha256:19204822e7d191e7",
+   "digest": "sha256-b2:be767e8151f6602a",
    "revision": 3,
    "changedAt": "2026-09-22",
    "techniques": [
@@ -37015,7 +37790,7 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/wizard-flows/wizard-flows.md",
-   "digest": "sha256:27176b11b1406a6a",
+   "digest": "sha256-b2:e0fac678b7164451",
    "revision": 4,
    "changedAt": "2026-08-22",
    "techniques": [
@@ -37143,7 +37918,7 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/workflow-property-contracts.md",
-   "digest": "sha256:d7648cd83ff1f485",
+   "digest": "sha256-b2:3007baaff69ec912",
    "revision": 1,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -37276,6 +38051,7 @@
     "agent-instruction-files/capability-coverage-contract",
     "agent-instruction-files/enforcement-demotion",
     "agent-instruction-files/host-contract-compilation",
+    "agent-instruction-files/principal-tier-gating",
     "agent-instruction-files/rewrite-behavior-pinning",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-instruction-files/workspace-ancestry-isolation",
@@ -37403,6 +38179,7 @@
     "docs-content-model/catalog-referential-invariants",
     "docs-sync/coupled-surface-inventory",
     "docs-sync/cross-repo-drift-detection",
+    "docs-sync/named-duplication-points",
     "docs-sync/negative-claims-are-pinned",
     "docs-sync/prose-as-an-execution-surface",
     "docs-sync/rendered-surface-coupling",
@@ -37438,6 +38215,7 @@
     "eval-harness/certification-levels",
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
+    "eval-harness/failure-signatures-beside-the-pass-rate",
     "eval-harness/judge-stability",
     "eval-harness/metric-role-contract",
     "eval-harness/monitor-inside-the-loop",
@@ -37529,6 +38307,7 @@
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/enumeration-without-a-scope",
+    "mcp-tools/first-party-agent-is-a-principal",
     "mcp-tools/one-server-many-registrations",
     "mcp-tools/orchestration-to-tool-migration",
     "mcp-tools/sanctioned-session-state",
@@ -37542,6 +38321,7 @@
     "measurement-honesty/tuning-corpus-disjointness",
     "measurement-honesty/unelidable-measurement",
     "media-playback/generated-supply-margin",
+    "media-playback/sender-declared-playout-bound",
     "metric-forecasting/projection-presentability-gates",
     "metric-gates/counted-set-snapshot",
     "metric-gates/deterministic-proxy-gate",
@@ -37561,6 +38341,7 @@
     "model-routing/failover-path-liveness",
     "model-routing/policy-governance",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
+    "module-design/emitted-code-names-from-a-root",
     "module-design/io-free-core",
     "module-design/mirror-type-at-the-edge",
     "module-design/scoreable-designs-are-built-not-argued",
@@ -37591,7 +38372,9 @@
     "packaging/os-arch-matrix",
     "packaging/signing-and-trust",
     "packaging/variant-config-parity",
+    "page-load-pipeline/field-measured-load-budget",
     "perf-instrumentation/semantic-flags-over-heuristics",
+    "persistent-batch-mutation/identity-reference-alignment-check",
     "pipeline-authoring/change-scoped-work-selection",
     "pipeline-dag/external-adapter-nodes",
     "pipeline-dag/pause-and-gate-nodes",
@@ -37638,6 +38421,7 @@
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/severity-by-construction",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/unparseable-form-is-a-finding",
     "quality-gates/vacuous-by-evaluation",
     "quorum-and-recovery-procedures/migration-lock-in-source",
     "quorum-and-recovery-procedures/nonce-progress-verify",
@@ -37712,6 +38496,7 @@
     "supply-chain/archive-extraction-safety",
     "supply-chain/build-time-dependency-tier",
     "supply-chain/dependency-policy-gates",
+    "supply-chain/license-reach-follows-integration-form",
     "supply-chain/lockfile-freshness-oracle",
     "supply-chain/one-version-decays-to-a-floor",
     "supply-chain/patching-mechanism-ladder",
@@ -37731,6 +38516,7 @@
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "telemetry-pii-redaction/hook-coverage-gaps",
     "telemetry-pii-redaction/redaction-invariants-as-tests",
+    "templates-scaffolding/instance-upgrade",
     "templates-scaffolding/integrity-and-provenance",
     "templates-scaffolding/readiness-prerequisites",
     "templates-scaffolding/template-portability",
@@ -37826,6 +38612,7 @@
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/fallback-ladder",
     "agent-cli-transport/output-normalization",
+    "agent-cli-transport/thread-custody-across-resume",
     "agent-instruction-files/capability-before-steering",
     "agent-memory/coverage-instrumentation",
     "agent-memory/durable-store-failure-posture",
@@ -37974,6 +38761,7 @@
     "docs-sync/repair-rides-the-open-page",
     "docs-sync/same-change-enforcement",
     "docs-sync/source-as-data-without-the-app",
+    "document-text-extraction/context-decided-escaping",
     "document-text-extraction/escalation-adjudication",
     "document-text-extraction/structure-saturation-guard",
     "document-text-extraction/unreadable-region-refusal",
@@ -38158,11 +38946,13 @@
     "packaging/installed-tree-acceptance",
     "packaging/native-payload-verification",
     "packaging/signing-and-trust",
+    "page-load-pipeline/field-measured-load-budget",
     "peer-benchmarking/basis-disclosure",
     "peer-benchmarking/cohort-minimum-size",
     "people-analytics-ethics/producer-enforced-suppression",
     "perf-instrumentation/continuous-monitors",
     "perf-instrumentation/startup-phasing",
+    "persistent-batch-mutation/identity-reference-alignment-check",
     "pipeline-authoring/change-scoped-work-selection",
     "pipeline-authoring/foreign-config-replay",
     "pipeline-authoring/runtime-pipeline-generation",
@@ -38209,6 +38999,7 @@
     "quality-gates/oracle-frozen-during-repair",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/unparseable-form-is-a-finding",
     "quality-gates/vacuous-by-evaluation",
     "rate-limiting/refusal-contract",
     "read-serving-replicas/fairshare-invalidation-queues",
@@ -38324,6 +39115,7 @@
     "table/loading-and-empty-states",
     "telemetry-pii-redaction/redact-at-the-cap",
     "telemetry-pii-redaction/redaction-invariants-as-tests",
+    "templates-scaffolding/instance-upgrade",
     "templates-scaffolding/integrity-and-provenance",
     "templates-scaffolding/readiness-prerequisites",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
@@ -38350,6 +39142,7 @@
     "test-input-generation/liveness-needs-a-quiet-period",
     "test-input-generation/model-based-oracle",
     "test-input-generation/negative-space-generation",
+    "test-input-generation/proof-cost-follows-the-circuit",
     "test-input-generation/seed-is-not-a-reproduction",
     "test-input-generation/stage-ordered-fuzz-targets",
     "time-travel-replay/timeline-derivation",
@@ -38473,6 +39266,7 @@
     "modelled-performance-estimates/scoped-calibration-fallback",
     "motion/content-bearing-degradation",
     "motion/reduced-motion-mechanics",
+    "narrative-scroll-surface/motion-carries-the-mechanism",
     "narrative-scroll-surface/reveal-without-loss",
     "narrative-scroll-surface/scroll-bound-progression",
     "peer-benchmarking/comparability-filters",
@@ -38577,6 +39371,7 @@
     "chat-transcript/virtual-filtered-channel",
     "cicd-monitoring/deployment-history",
     "client-fetch-cache/admission-hypothesis",
+    "client-fetch-cache/sibling-entry-warmth",
     "client-fetch-cache/similarity-keyed-admission",
     "codebase-scanning/causes-beside-the-finding-count",
     "codebase-scanning/dead-code-detection",
@@ -38669,6 +39464,7 @@
     "eval-harness/comparison-modes",
     "eval-harness/discriminating-task-selection",
     "eval-harness/failure-attribution",
+    "eval-harness/failure-signatures-beside-the-pass-rate",
     "eval-harness/judge-stability",
     "eval-harness/measurement-revision",
     "eval-harness/metric-role-contract",
@@ -38806,6 +39602,7 @@
     "p2p-networking/manifest-negotiation",
     "p2p-networking/peer-state-honesty",
     "packaging/os-arch-matrix",
+    "page-load-pipeline/field-measured-load-budget",
     "paged-block-cache/one-page-size-bought-with-padding",
     "peer-benchmarking/basis-disclosure",
     "peer-benchmarking/comparability-filters",
@@ -38952,6 +39749,7 @@
     "test-harness/verification-inherits-driver-reach",
     "test-input-generation/exhaustive-when-bounded",
     "test-input-generation/negative-space-generation",
+    "test-input-generation/proof-cost-follows-the-circuit",
     "time-travel-replay/accrual-overlays",
     "time-travel-replay/estimate-labeling",
     "time-travel-replay/transport-and-time-mapping",
@@ -38997,8 +39795,10 @@
     "agent-cli-transport/child-observed-posture",
     "agent-cli-transport/dated-capability-matrix",
     "agent-cli-transport/host-routed-approval-round-trip",
+    "agent-cli-transport/thread-custody-across-resume",
     "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/instruction-freshness",
+    "agent-instruction-files/principal-tier-gating",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/addresses-not-atoms",
     "agent-memory/decay-and-forgetting",
@@ -39023,6 +39823,7 @@
     "authorization/one-accessor-per-fold-direction",
     "authorization/read-write-predicate-symmetry",
     "bounded-enumeration/required-limit-breaks-unaware-clients",
+    "client-fetch-cache/sibling-entry-warmth",
     "client-state/observed-read-subscription",
     "client-state/store-dependency-topology",
     "companion-identity/brain-adoption-consent",
@@ -39057,10 +39858,12 @@
     "delivery-analytics/path-class-confounded-with-size",
     "delivery-analytics/post-landing-repair-density",
     "delivery-guarantees/marker-certifies-what-was-done",
+    "delivery-guarantees/retry-escalation",
     "dependency-declaration/logical-name-or-address",
     "dependency-declaration/progressive-resolution",
     "deterministic-prefix-caching/unknown-callable-is-nondeterministic",
     "docs-sync/earned-verification-state",
+    "document-text-extraction/context-decided-escaping",
     "document-text-extraction/extraction-yield-bands",
     "document-text-extraction/screen-then-confirm-detection",
     "document-text-extraction/unreadable-region-refusal",
@@ -39074,6 +39877,7 @@
     "engine-string-representation/dual-encoding-symbol-interner",
     "error-handling/cancellation-attribution",
     "error-handling/exit-contract-is-a-taxonomy-projection",
+    "eval-harness/failure-signatures-beside-the-pass-rate",
     "eval-harness/measurement-revision",
     "execution-state-checkpointing/runtime-bound-checkpoint",
     "extension-trust-boundary/invert-the-default-for-exposed-surface",
@@ -39111,9 +39915,11 @@
     "mcp-tools/ambient-selection-is-not-an-argument",
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
+    "mcp-tools/first-party-agent-is-a-principal",
     "mcp-tools/one-server-many-registrations",
     "mcp-tools/suspendable-request-classes",
     "measurement-honesty/instrument-exposure-control",
+    "measurement-honesty/lower-bound-disclosure",
     "measurement-honesty/speed-figure-names-its-endpoints",
     "metric-surface-contract/fault-localizing-metric-set",
     "metric-surface-contract/metric-removal-is-a-staged-pipeline",
@@ -39145,6 +39951,7 @@
     "optional-dependency-degradation/fallback-retirement-condition",
     "optional-dependency-degradation/misconfiguration-never-reaches-a-fallback",
     "p2p-networking/peer-state-honesty",
+    "pipeline-authoring/pipeline-plan-auditability",
     "pipeline-dag/composite-condition-verdicts",
     "plan-entitlements/provider-publishes-state-not-decision",
     "plan-entitlements/subtractive-entitlement",
@@ -39161,6 +39968,7 @@
     "quality-gates/enforcement-binding",
     "quality-gates/fabrication-economics",
     "quorum-and-recovery-procedures/cancel-leaves-prior-state-valid",
+    "read-serving-replicas/client-carried-index",
     "read-serving-replicas/evict-not-update-on-commit",
     "register-bytecode-execution/placeholder-patch-jumps",
     "release-pipeline/announcing-versus-silent-breakage",
@@ -39200,6 +40008,7 @@
     "structured-output/schema-validation-and-repair",
     "subscription-billing-periods/boundary-stitch-on-timezone-change",
     "subscription-billing-periods/timezone-anchored-period-dates",
+    "supply-chain/license-reach-follows-integration-form",
     "supply-chain/reading-is-not-running",
     "supply-chain/review-attestation-ledger",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
@@ -39209,6 +40018,7 @@
     "terminal-multiplexing/completion-authority-arbitration",
     "terminal-multiplexing/occupant-state-detection",
     "test-harness/configuration-axes-cross-the-ladder",
+    "test-input-generation/proof-cost-follows-the-circuit",
     "tracing/class-before-inspection",
     "transactions-over-a-replicated-log/capture-index-before-snapshot",
     "transactions-over-a-replicated-log/live-file-is-the-snapshot",
@@ -39359,6 +40169,7 @@
     "mcp-tools/caller-differentiated-capability",
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
+    "mcp-tools/first-party-agent-is-a-principal",
     "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/server-composition",
     "mcp-tools/write-freshness-gate",
@@ -39657,6 +40468,7 @@
     "paged-block-cache/append-only-tolerates-duplicates",
     "paged-block-cache/chained-block-identity",
     "paged-block-cache/salt-as-a-cache-partition",
+    "persistent-batch-mutation/identity-reference-alignment-check",
     "persistent-batch-mutation/typed-ordered-mutation-protocol",
     "pipeline-authoring/foreign-config-replay",
     "pipeline-authoring/human-checkpoints-in-a-pipeline",
@@ -39735,6 +40547,7 @@
     "table/sorting",
     "telemetry-pii-redaction/correlation-preserving-redaction",
     "templates-scaffolding/adoption-lifecycle",
+    "templates-scaffolding/instance-upgrade",
     "templates-scaffolding/template-anatomy",
     "tenant-scoped-agent-runtime/resolve-handles-at-call-time",
     "tenant-scoped-agent-runtime/stamp-ownership-before-the-router",
@@ -39804,6 +40617,7 @@
     "browser-credential-boundary/allowlisted-operator-stream",
     "build-economics/cache-budgeting",
     "build-economics/debug-artifact-economics",
+    "chat-transcript/composer-turn-queue",
     "ci-execution-trust/secret-materialization-discipline",
     "cicd-monitoring/liveness-scoped-polling",
     "client-fetch-cache/in-flight-dedup",
@@ -39880,6 +40694,7 @@
     "embedded-tracing-collector/ephemeron-fixpoint-marking",
     "embedded-tracing-collector/mark-finalize-remark-sweep",
     "engine-binding-surface/capability-deferred-release",
+    "engine-binding-surface/pre-resolve-what-the-engine-cannot-await",
     "engine-host-contract/idle-aware-job-loop",
     "engine-host-contract/untraceable-jobs-as-roots",
     "entity-lifecycle/cascade-design",
@@ -39952,6 +40767,7 @@
     "p2p-networking/manifest-negotiation",
     "p2p-networking/resilience-and-reconnection",
     "packaging/installer-authoring",
+    "page-load-pipeline/navigation-reuse",
     "paged-block-cache/release-order-is-the-eviction-policy",
     "perf-instrumentation/continuous-monitors",
     "perf-instrumentation/perf-data-lifecycle",
@@ -40203,6 +41019,7 @@
     "docs-content-model/draft-visibility-gating",
     "docs-content-model/product-location-mapping",
     "docs-sync/coupled-surface-inventory",
+    "docs-sync/named-duplication-points",
     "docs-sync/source-as-data-without-the-app",
     "docs-sync/source-doc-mapping",
     "draft-editing/field-defaults-and-bounds",
@@ -40332,6 +41149,7 @@
     "p2p-networking/manifest-negotiation",
     "packaging/native-payload-verification",
     "packaging/variant-config-parity",
+    "page-load-pipeline/layout-stability-by-reservation",
     "peer-benchmarking/cohort-minimum-size",
     "peer-benchmarking/comparability-filters",
     "people-analytics-ethics/contribution-eligibility-floors",
@@ -40499,6 +41317,7 @@
     "agent-chaining/chain-identity-and-rollup",
     "agent-chaining/graph-to-wiring-translation",
     "agent-cli-transport/dated-capability-matrix",
+    "agent-cli-transport/thread-custody-across-resume",
     "agent-instruction-files/context-reset-redelivery",
     "agent-instruction-files/machine-owned-regions",
     "agent-memory/baseline-ladder",
@@ -40637,6 +41456,7 @@
     "multi-project/portfolio-drill-hierarchy",
     "multi-project/project-onboarding-lifecycle",
     "narrative-scroll-surface/illustration-carries-the-claim",
+    "narrative-scroll-surface/motion-carries-the-mechanism",
     "native-document-format/one-writer-per-fact",
     "native-shell-integration/unexported-capability-ladder",
     "object-shape-representation/polymorphic-inline-cache-with-weak-shapes",
@@ -40720,6 +41540,7 @@
     "table/pagination",
     "table/performance",
     "templates-scaffolding/adoption-lifecycle",
+    "templates-scaffolding/instance-upgrade",
     "templates-scaffolding/template-anatomy",
     "tenant-scoped-agent-runtime/tenant-keyed-cache-evicts-loaded-code",
     "terminal-multiplexing/injected-hook-reconvergence",
@@ -40756,6 +41577,78 @@
     "wizard-flows/progress-communication"
    ]
   },
+  "limits-are-derived": {
+   "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
+   "techniques": [
+    "adaptive-fidelity-tiers/per-tier-budget-tables",
+    "admission-queue/admit-on-the-expanded-cost",
+    "admission-queue/remediation-derived-bounds",
+    "admission-queue/zero-depth-admission",
+    "agent-memory/addresses-before-compression",
+    "agent-memory/addresses-not-atoms",
+    "agent-memory/cross-context-promotion",
+    "concurrency-guards/cache-value-not-handle",
+    "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
+    "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
+    "decentralized-artifact-distribution/fail-closed-trust-dependency",
+    "deferred-finalization/correction-window-is-the-grace-period",
+    "deployment-contract/cache-immutability-licensing",
+    "deterministic-prefix-caching/running-window-replacement",
+    "embedded-tracing-collector/allocation-threshold-growth-policy",
+    "engine-string-representation/compile-time-static-string-table",
+    "fleet-orchestration/parallel-dispatch",
+    "fleet-orchestration/soft-budget-under-the-hard-cap",
+    "guest-execution-bounding/bounded-shadow-backtrace",
+    "guest-execution-bounding/budget-tier-from-observed-output",
+    "guest-execution-bounding/cost-budget-cooperative-yield",
+    "guest-execution-bounding/nested-liveness-ceilings",
+    "index-free-random-access/reversible-encoding-buys-tail-recovery",
+    "index-free-random-access/segment-then-parallelize",
+    "index-free-random-access/sorted-data-as-a-read-only-index",
+    "index-free-random-access/structure-derived-read-budget",
+    "invariant-placement/build-time-evaluation-of-cross-value-invariants",
+    "mcp-tools/catalog-projection-modes",
+    "media-playback/committed-buffer-steering",
+    "media-playback/generated-supply-margin",
+    "media-playback/self-conditioned-supply",
+    "metric-gates/deterministic-proxy-gate",
+    "model-call-outcome-integrity/one-deadline-across-attempts",
+    "modelled-performance-estimates/one-ratio-then-a-capability-cap",
+    "narrative-scroll-surface/scroll-bound-progression",
+    "native-guest-interop/aligned-native-data-cell",
+    "native-shell-integration/native-owned-stream",
+    "object-shape-representation/dictionary-mode-fallback",
+    "object-shape-representation/weak-forward-transitions-with-counted-prune",
+    "page-load-pipeline/script-cost-is-main-thread-time",
+    "paged-block-cache/one-page-size-bought-with-padding",
+    "paged-block-cache/release-order-is-the-eviction-policy",
+    "prompt-assembly/compaction-horizon-breakeven",
+    "prompt-assembly/context-ownership-regimes",
+    "prompt-assembly/elision-to-a-refetch-pointer",
+    "prompt-assembly/response-reservation-sizing",
+    "register-bytecode-execution/instruction-format-follows-program-lifetime",
+    "remote-capability-probing/buffer-by-access-latency-class",
+    "remote-capability-probing/degraded-rung-refusal-ceiling",
+    "remote-capability-probing/instrument-by-cause-not-by-hit-rate",
+    "render-mount-pipeline/edge-sorted-incremental-mount",
+    "render-mount-pipeline/mount-binders-versus-attach-binders",
+    "render-mount-pipeline/recycle-by-content-type",
+    "scale-investment-timing/execution-model-concurrency-threshold",
+    "self-healing/consume-once-mode-handoff",
+    "serving-process-topology/cache-residency-sets-the-balancing-unit",
+    "serving-process-topology/process-count-as-a-formula",
+    "streaming-output/emit-behind-the-revision-window",
+    "structured-output/constrained-decoding-is-a-shared-budget",
+    "structured-output/enumerable-domain-decoding",
+    "subscription-billing-periods/boundary-stitch-on-timezone-change",
+    "untrusted-extension-host/host-api-import-budget",
+    "usage-event-ingestion/dedupe-key-survives-soft-delete",
+    "usage-pricing-models/exact-money-with-one-rounding-boundary",
+    "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
+    "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
+    "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
+   ]
+  },
   "verdict-survives-boundary": {
    "statement": "A classified outcome reaches every boundary that acts on it as a typed value. A refusal enum erased into a generic error, a server-side failure taxonomy re-derived by matching message text, a policy denial re-thrown as the last underlying failure — in each, the classification exists where it was computed and dies where it mattered. The test is what the outermost consumer can branch on; a verdict that survives only as prose has not survived.",
    "techniques": [
@@ -40777,6 +41670,7 @@
     "correlated-exchange-over-broadcast/binding-parity-floor",
     "correlated-exchange-over-broadcast/orphaned-correlation-on-peer-restart",
     "correlated-exchange-over-broadcast/terminal-status-set",
+    "credential-vault/health-probing",
     "credential-vault/renew-at-two-thirds-with-grace",
     "credential-vault/token-refresh-lifecycle",
     "data-access/capability-declared-in-the-type",
@@ -40794,6 +41688,7 @@
     "edge-queue-policy/eviction-priority-classes",
     "edge-queue-policy/in-band-flush",
     "embedded-db/corruption-class-response",
+    "engine-binding-surface/pre-resolve-what-the-engine-cannot-await",
     "error-handling/cancellation-attribution",
     "error-handling/consumer-decides-error-shape",
     "execution-state-checkpointing/restore-semantics-belong-to-the-format",
@@ -40852,6 +41747,7 @@
     "subscription-billing-periods/hourly-pass-with-derived-idempotency",
     "subscription-proration/proration-follows-recurrence-not-price",
     "supply-chain/signature-preserving-patching",
+    "test-input-generation/model-based-oracle",
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
     "untrusted-extension-host/per-callback-failure-policy",
@@ -40866,76 +41762,6 @@
     "web-scraping/soak-mode-and-verdict-replay",
     "windowed-inference-over-oversized-inputs/failure-driven-memory-degradation",
     "workflow-property-contracts/contract-driven-adapters"
-   ]
-  },
-  "limits-are-derived": {
-   "statement": "A capacity limit is derived from a measured property or from another limit, and the derivation is written beside the number — a maximum entry as a multiple of the transport chunk, a transaction cap as a multiple of the entry, a per-transaction cache as the shared cache over the parallelism permit, a default page as a memory budget over a worst-case key, a rotation ceiling as the cipher's bound minus a margin for counts lost in flight. A limit chosen by feel is raised by feel, and when it is raised its consequences are not: the structure that fit under the old limit outgrows the entry it was stored in, the migration meant to escape the limit is capped by the limit it escapes, and nobody can say which. The derivation must be *computed*, not merely written — a formula in a comment beside a constant that no longer tracks its input is the failure in its most convincing disguise. Cousin of count-carries-predicate: that law binds a number to what it counts; this one binds a bound to what it is derived from.",
-   "techniques": [
-    "admission-queue/admit-on-the-expanded-cost",
-    "admission-queue/remediation-derived-bounds",
-    "admission-queue/zero-depth-admission",
-    "agent-memory/addresses-before-compression",
-    "agent-memory/addresses-not-atoms",
-    "agent-memory/cross-context-promotion",
-    "concurrency-guards/cache-value-not-handle",
-    "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
-    "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
-    "decentralized-artifact-distribution/fail-closed-trust-dependency",
-    "deferred-finalization/correction-window-is-the-grace-period",
-    "deployment-contract/cache-immutability-licensing",
-    "deterministic-prefix-caching/running-window-replacement",
-    "embedded-tracing-collector/allocation-threshold-growth-policy",
-    "engine-string-representation/compile-time-static-string-table",
-    "fleet-orchestration/parallel-dispatch",
-    "fleet-orchestration/soft-budget-under-the-hard-cap",
-    "guest-execution-bounding/bounded-shadow-backtrace",
-    "guest-execution-bounding/budget-tier-from-observed-output",
-    "guest-execution-bounding/cost-budget-cooperative-yield",
-    "guest-execution-bounding/nested-liveness-ceilings",
-    "index-free-random-access/reversible-encoding-buys-tail-recovery",
-    "index-free-random-access/segment-then-parallelize",
-    "index-free-random-access/sorted-data-as-a-read-only-index",
-    "index-free-random-access/structure-derived-read-budget",
-    "invariant-placement/build-time-evaluation-of-cross-value-invariants",
-    "mcp-tools/catalog-projection-modes",
-    "media-playback/committed-buffer-steering",
-    "media-playback/generated-supply-margin",
-    "media-playback/self-conditioned-supply",
-    "metric-gates/deterministic-proxy-gate",
-    "model-call-outcome-integrity/one-deadline-across-attempts",
-    "modelled-performance-estimates/one-ratio-then-a-capability-cap",
-    "narrative-scroll-surface/scroll-bound-progression",
-    "native-guest-interop/aligned-native-data-cell",
-    "native-shell-integration/native-owned-stream",
-    "object-shape-representation/dictionary-mode-fallback",
-    "object-shape-representation/weak-forward-transitions-with-counted-prune",
-    "paged-block-cache/one-page-size-bought-with-padding",
-    "paged-block-cache/release-order-is-the-eviction-policy",
-    "prompt-assembly/compaction-horizon-breakeven",
-    "prompt-assembly/context-ownership-regimes",
-    "prompt-assembly/elision-to-a-refetch-pointer",
-    "prompt-assembly/response-reservation-sizing",
-    "register-bytecode-execution/instruction-format-follows-program-lifetime",
-    "remote-capability-probing/buffer-by-access-latency-class",
-    "remote-capability-probing/degraded-rung-refusal-ceiling",
-    "remote-capability-probing/instrument-by-cause-not-by-hit-rate",
-    "render-mount-pipeline/edge-sorted-incremental-mount",
-    "render-mount-pipeline/mount-binders-versus-attach-binders",
-    "render-mount-pipeline/recycle-by-content-type",
-    "scale-investment-timing/execution-model-concurrency-threshold",
-    "self-healing/consume-once-mode-handoff",
-    "serving-process-topology/cache-residency-sets-the-balancing-unit",
-    "serving-process-topology/process-count-as-a-formula",
-    "streaming-output/emit-behind-the-revision-window",
-    "structured-output/constrained-decoding-is-a-shared-budget",
-    "structured-output/enumerable-domain-decoding",
-    "subscription-billing-periods/boundary-stitch-on-timezone-change",
-    "untrusted-extension-host/host-api-import-budget",
-    "usage-event-ingestion/dedupe-key-survives-soft-delete",
-    "usage-pricing-models/exact-money-with-one-rounding-boundary",
-    "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
-    "windowed-inference-over-oversized-inputs/resolution-decoupled-window-mapping",
-    "windowed-inference-over-oversized-inputs/split-device-inference-and-stitching"
    ]
   },
   "absent-guard-is-loud": {
@@ -41003,6 +41829,7 @@
     "embedded-tracing-collector/root-discovery-by-counting",
     "engine-binding-surface/address-sensitive-construction",
     "engine-binding-surface/phantom-capability-parameter",
+    "engine-binding-surface/pre-resolve-what-the-engine-cannot-await",
     "engine-host-contract/null-and-blocking-executors",
     "entity-lifecycle/archive-restore-semantics",
     "error-handling/crash-capture",
@@ -41046,6 +41873,7 @@
     "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/tool-identity-vs-tool-name",
     "mcp-tools/transport-selection",
+    "media-playback/sender-declared-playout-bound",
     "metric-surface-contract/fault-localizing-metric-set",
     "model-call-outcome-integrity/credential-posture-at-the-call-door",
     "model-routing/failover-path-liveness",
@@ -41081,6 +41909,7 @@
     "quality-gates/refusal-names-a-reachable-remedy",
     "quality-gates/self-reported-gate-inputs",
     "quality-gates/unmeasurable-criteria",
+    "quality-gates/unparseable-form-is-a-finding",
     "quality-gates/waiver-names-its-finding",
     "quorum-and-recovery-procedures/migration-lock-in-source",
     "quorum-and-recovery-procedures/unauthenticated-ritual-is-a-vulnerability",

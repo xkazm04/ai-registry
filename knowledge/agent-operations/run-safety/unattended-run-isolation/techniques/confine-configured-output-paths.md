@@ -37,6 +37,10 @@ from*. It becomes dangerous only when copied into an unattended environment.
 ## Detecting an escape
 
 - **Watch for writes outside the environment** during the run where the platform allows it.
+  Better, make them fail: under an enforced write boundary an unconfined destination is a
+  refused write the run reports, not a silent one (see os-enforced-run-boundary). The
+  rewrite is still owed. A refused write is a failed task, and some runners' own file
+  tools answer to their permission rules rather than to the boundary.
 - **Compare the run's own account with the tree.** A run that says it wrote a vault while
   the environment contains none has written it somewhere else.
 - **Audit destination keys after any configuration change.** New overlays arrive with new

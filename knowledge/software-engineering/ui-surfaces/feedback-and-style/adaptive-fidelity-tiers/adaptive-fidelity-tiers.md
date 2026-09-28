@@ -278,7 +278,9 @@ sampler, is
   and the declared pre-measurement default.
 - [per-tier-budget-tables](./techniques/per-tier-budget-tables.md) — each
   effect declaring its own parameters per tier, read at render, with a
-  floor row that can be a reduction rather than an absence.
+  floor row that can be a reduction rather than an absence; and the boundary
+  where components co-resident in one hard allocation move into one joint
+  table whose sum is computed from each component's measured cost.
 - [preference-short-circuits-measurement](./techniques/preference-short-circuits-measurement.md)
   — an explicit preference skipping the probe entirely, and why the branch
   belongs before the scheduling.

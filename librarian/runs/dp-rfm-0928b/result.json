@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rfm-0928b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T14:00:00Z",
+  "ended_at": "2026-09-28T14:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/recruiting-funnel-metrics",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Third stale dispatch (d93fbd78, 216 behind origin). Origin: react app d998700a, drift fixed 5667b768, folder unchanged since c83aacf0. Unfired: career-ops HEAD 2d0285ab (funnel-velocity.mjs last 09-05); kp 4 rfm contexts unknown (25 judged elsewhere); no lead gained a lane."
+}

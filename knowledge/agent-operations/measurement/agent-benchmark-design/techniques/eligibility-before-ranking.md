@@ -47,6 +47,11 @@ correct behaviour:
 
 ## Decision rules
 
+- **Eligibility is a floor, not a correctness verdict.** A green gate has passed patches
+  that behave differently from the correct fix, and an over-strict one has rejected
+  correct work of another shape. Before the predicate decides anything, show that it can
+  fail and can pass with [null-and-reference-controls](./null-and-reference-controls.md),
+  and audit a sample of what it lets through.
 - **Ranking never rescues eligibility.** A high score on an ineligible run is reported as
   what it is — a good-looking run that did not do the job — and cannot win.
 - **The predicate is recomputed at report time**, not frozen at run time, so a later

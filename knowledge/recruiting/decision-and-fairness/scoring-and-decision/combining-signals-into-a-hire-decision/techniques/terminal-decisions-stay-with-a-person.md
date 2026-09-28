@@ -49,11 +49,25 @@ technique in one sentence.
 A model may recommend a decline. The machine-actionable route admits **advance**
 and **hold** and nothing else; a decline recommendation parks at a human gate
 ([law](../../../../_laws.md#no-adverse-outcome-is-solely-automated)). This is not a
-courtesy. An automated adverse decision is, in a growing number of
-jurisdictions, a regulated act with disclosure, explanation and contest
-obligations attached — and independently of law, it is the decision most likely
-to be wrong in a way nobody ever discovers, because rejected candidates do not
-generate outcome data.
+courtesy. An adverse decision that a system makes *or materially influences*
+is, in a growing number of jurisdictions, a regulated act with disclosure,
+explanation and contest obligations attached. Independently of law, it is the
+decision most likely to be wrong in a way nobody ever discovers, because rejected
+candidates do not generate outcome data.
+
+Two conditions keep this rule honest about what it buys:
+
+- **It is stricter than most law, on purpose.** Some regimes permit solely
+  automated sifting under safeguards. Keeping the act human is this subject's
+  choice, not a legal minimum, and it should be defended as a choice.
+- **A human act only counts if it is one.** Moving the click to a person does
+  not take the recommendation out of scope. The EU's top court held in 2023
+  that a score the decision-maker draws strongly on can itself be the decision.
+  Newer statutes reach any system that materially influences a consequential
+  decision, and regulators treat a reviewer who routinely applies the output as
+  no reviewer at all. In experiments, people followed a biased system's hiring
+  advice most of the time, even when they rated it poorly. The gate below is
+  what turns a click into an act.
 
 The corollary for bulk work: where a human is approving many declines at once,
 they approve the *exact set they reviewed*. Re-derive the set at commit time and
@@ -94,9 +108,18 @@ terminal gate must give the actor what they need to disagree:
 - and a **reconsider path** afterwards, reading the sealed reason back, so an
   adverse outcome stays reversible.
 
-Measure override rates. A gate where humans agree with the machine 99.5% of the
-time is either an excellent model or an unstaffed formality, and the two are
-distinguishable only by looking at the cases.
+Measure override rates, but do not read them alone. A gate where humans agree
+with the machine 99.5% of the time is either an excellent model or an unstaffed
+formality, and the rate cannot tell you which. A high rate is no better sign:
+overrides are wrong more often than right in the field evidence. Three
+instruments can tell the two apart:
+- **seed known-wrong recommendations** into the queue and count how many
+  reviewers catch them;
+- **record review time**, since a decision made in two seconds was not weighed;
+- **score each override against its outcome** when one resolves.
+
+A model trained on past human decisions will agree with the humans by
+construction, so for such a model agreement proves nothing.
 
 ## A guard window around a fresh human decision
 
@@ -130,9 +153,12 @@ vocabulary — entry, screening, interview, offer, terminal — so a board renam
 - **When a verdict recommends decline, route to a gate**, never to an action.
 - **When the actor is unknown, record unknown**, and downgrade rather than
   upgrade authority.
-- **When a human overrides, record the override with its reason** and feed it to
-  the outcome loop — overrides are the cheapest available signal that the
-  combination rule is mis-specified.
+- **When a human overrides, record the override with its reason and what the
+  human knew that the rule did not**, and feed it to the outcome loop as a
+  labelled disagreement. An override that is later borne out by the outcome is
+  evidence that the combination rule is mis-specified. One that is not is
+  evidence about the reviewer. Nothing tells the two apart until the outcome
+  resolves.
 
 ## When not to use this
 

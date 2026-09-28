@@ -16,8 +16,10 @@ the technique is the one function that answers it. The rule: **the effective
 lifetime is chosen by a stated ladder — period, then the requested
 increment, then the backend's default, then the system's default — and capped
 by the smallest of the mount's maximum, the role's maximum and any explicit
-maximum; a capped request says so with a warning; and a renewal that would
-carry the lease past its maximum is refused.**
+maximum; a capped request says so with a warning; and a renewal is bounded
+by the maximum measured from creation. It is trimmed to the remaining window
+with a warning that names that reason, and refused only when no window is
+left.**
 
 ## Why a ladder and not a clamp
 
@@ -87,16 +89,29 @@ needs to renew earlier than it planned, and its absence is the silent clamp
 above. A warning is not an error: the caller asked for more than it may have,
 was given what it may have, and can proceed.
 
-**Renewal past the maximum is refused.** A renewal asks for more time on an
-existing lease, and the ladder answers it as it answered creation — except
-that the cap is now measured from the lease's *creation*, not from now. A
-lease with a one-day maximum, renewed hourly with a one-hour increment, does
-not live forever; it lives one day, and the renewal that would carry it past
-that instant is refused with an error, not trimmed to the remaining minutes
-and returned as success. The refusal is what tells the caller that the
-credential is ending and a new one must be issued; a trimmed renewal that
-succeeds with twelve minutes granted teaches the caller nothing and it learns
-at the thirteenth. The periodic case is the exception by design, with one
+**Renewal is bounded from creation.** A renewal asks for more time on an
+existing lease, and the ladder answers it as it answered creation. The
+difference is that the cap is now measured from the lease's *creation*, not
+from now. A lease with a one-day maximum, renewed hourly with a one-hour
+increment, does not live forever; it lives one day.
+
+The widely deployed answer to the renewal that would cross that instant is to
+trim it. The renewal is granted the minutes that remain, with a warning that
+the maximum capped it. Only a renewal that arrives with no window left is
+refused with an error. That split is correct when callers schedule from the
+granted lifetime in the response rather than from the one they asked for,
+which is the contract every lease client should hold. The warning must carry
+its reason. A cap from the remaining window means "this credential is ending;
+fetch a new one", and a cap from a ceiling means "renew sooner". A caller that
+cannot tell them apart acts on the wrong one.
+
+Refusing the crossing renewal outright is a stricter stance an issuer may take
+when its callers are known to ignore warnings. A trimmed renewal that succeeds
+with twelve minutes granted teaches such a caller nothing, and it learns at
+the thirteenth. An issuer that refuses states the choice, because it departs
+from what lease clients expect of the common implementations.
+
+The periodic case is the exception by design, with one
 qualification: a period's renewals are not measured from creation against
 the mount's or the role's maximum, because never ending is the period's
 purpose and the operator who set it chose that — but an *explicit* maximum
@@ -125,10 +140,12 @@ recognises.
 
 When a request carries an increment above the cap, grant the cap and warn.
 
-When a renewal's granted lifetime would end after creation plus the maximum,
-refuse; when it would end before, grant it, and warn if the increment was
-capped by the remaining window rather than by a ceiling — the warning's
-reason is different and the caller's response to it is different.
+When a renewal arrives after creation plus the maximum, refuse it. When a
+renewal's requested lifetime would end after that instant, grant the
+remaining window and warn that the window capped it. Refuse instead only
+under the stated stricter stance above. When the requested lifetime ends
+before that instant, grant it. The two warnings, window and ceiling, name
+different reasons because the caller's response to each is different.
 
 When a ceiling is changed on a role or a mount, existing leases keep the
 derivation they recorded until their next renewal, which recomputes under the

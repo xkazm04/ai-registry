@@ -108,6 +108,17 @@ carry the whole risk. Say so in the issuer's documentation for that remote,
 because an operator who assumes every backend has a backstop will size the
 revocation lane for the ones that do.
 
+When the remote's expiry binds less than the credential, the backstop is
+narrower than "stops working". A valid-until clause that governs password
+authentication only is one example. Others govern new logins but not sessions
+already open. For these, the backstop blocks the next login by that one
+mechanism. A credential that holds an open session, or authenticates another
+way, survives it, and revocation that terminates sessions stays load-bearing
+for those. When a remote accepts an expiry update and silently does nothing
+with it, count it as a remote that cannot express expiry. "The remote refused
+to extend" never fires there, so the renewal rule above cannot catch it. Read
+the expiry back after setting it wherever the remote allows.
+
 When the remote's expiry cannot be altered after creation, renewal has a hard
 ceiling: the lease may be extended only up to the remote expiry minus the
 buffer, and a renewal past that is refused. The alternative — re-creating the

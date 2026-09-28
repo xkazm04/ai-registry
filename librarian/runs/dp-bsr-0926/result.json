@@ -1,0 +1,91 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-bsr-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T15:56:52Z",
+  "ended_at": "2026-09-26T16:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/blind-screening-and-redaction",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/blind-screening-and-redaction",
+      "technique": "identity-twin-mask-invariance",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/blind-screening-and-redaction",
+      "technique": "name-versus-role-headline-disambiguation",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/blind-screening-and-redaction",
+      "technique": "name-versus-role-headline-disambiguation",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/blind-screening-and-redaction.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/techniques/identity-twin-mask-invariance.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/techniques/name-versus-role-headline-disambiguation.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/techniques/identity-signal-inventory.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/techniques/disclose-the-redaction-to-the-assessor.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/node--reattach-identity-only-after-the-verdict.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/process--fail-closed-on-an-unmaskable-document.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/process--identity-signal-inventory.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction/applications/process--identity-twin-mask-invariance.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/blind-screening-and-redaction.md"
+  ],
+  "commits": [
+    {
+      "sha": "25e28026",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "fbcac201",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/blind-screening-and-redaction",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First sweep. 2 refutations, 2 flips, 7 conditions, 1 converged technique. Applied: 3 code better (kp 4433df0c5: twins 8->6 of 9 diverge, all in the stated gap), 1 unapplied, 1 unmeasurable. kp commits not pushed. No kp context pairs the subject."
+}

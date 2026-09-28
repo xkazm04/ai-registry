@@ -71,6 +71,20 @@ thanks, acknowledgement of receipt, an invitation to continue. The pair is what
 makes "warm but neutral" land as a behaviour rather than as coldness or as
 licence.
 
+**The permitted list is safe by distribution, not by vocabulary.** Survey
+interviewing research found that even "okay" and "right" are heard by respondents
+as a positive comment on the content of the answer, and some survey organisations
+train interviewers out of them for that reason; the same research tradition found
+that feedback rewarding the respondent's *effort* — given for engaging, not for
+what was said — improves reporting. Both halves apply here. A receipt token given
+after every answer is interest. The same token given after the strong answers and
+missing after the thin ones is the scoreboard again, rebuilt out of permitted
+words. So the rule for the permitted list is that it is not rationed: it is used
+at a steady rate regardless of how the answer went, or it is not used. And a
+check for praise that only matches vocabulary will pass a transcript whose
+acknowledgements track quality perfectly; the pattern across a transcript is part
+of what is checked.
+
 This ban is also what keeps the closing honest. A conversation that graded
 nothing along the way can end without a summary of impressions, because there is
 nothing outstanding to resolve. A conversation that praised freely cannot end
@@ -110,4 +124,17 @@ neutrally without the neutrality itself reading as bad news.
 
 Grep the transcript corpus for evaluative adjectives in interviewer turns, not for
 the closing sentence — the closing sentence is nearly always clean because that is
-the rule everyone wrote. The praise defect lives in turn three.
+the rule everyone wrote. The praise defect lives in turn three, and it often lives
+in a one-word opener ("Nice.", "Great —") that a detector built to avoid false
+positives deliberately does not match. Keep the narrow gate narrow if it must be a
+gate, but run the brief's own forbidden list — including the praise of *thinking*
+("a thoughtful reflection", "on the right track") — as at least a counted metric,
+and run it over the fixtures that are supposed to pass. The positive control is
+the brief's own list: a check that misses a token the brief names has not been
+tested against the brief.
+
+Praise is also not a comfort measure for the candidates who seem to need one. In
+a simulated interview, positive feedback left socially anxious interviewees
+*more* anxious and less assertive, and they were rated lower for it. The
+affirmative rules that keep a brief from becoming an interrogation have to be
+made of something other than approval.

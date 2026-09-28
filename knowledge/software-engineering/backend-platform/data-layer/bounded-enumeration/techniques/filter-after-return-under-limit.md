@@ -120,6 +120,16 @@ last examined key — is the one thing the endpoint does not do. The naming matt
 week of the first support ticket, and the proposal is a disclosure of every
 key the filter hid, one page at a time.
 
+All of this is particular to a filter that *hides*. A filter the caller
+chose, such as a query predicate over attributes of entries it may see,
+has the same empty-page shape. The store's limit counts entries examined
+before the predicate, so a page can come back empty with more to come.
+But nothing it drops is secret. There, returning the last key examined as
+the continuation is not a leak. It is the simplest honest design: the
+client resumes from it and stops only when no continuation comes back.
+The refusal above applies only where the filter's reason for dropping an
+entry is that this caller may not know it exists.
+
 That leaves a real gap, and it is stated rather than hidden: a caller whose
 accessible keys are sparse under a prefix cannot reach them through a
 filtered page whose limit is smaller than the gap. The remedies are the

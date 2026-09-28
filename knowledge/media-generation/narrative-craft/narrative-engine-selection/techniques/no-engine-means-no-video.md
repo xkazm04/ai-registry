@@ -66,11 +66,25 @@ judging the subject:
 
 - **AND-THEN count: must be zero.** Any adjacent pair of beats whose only
   honest connector is "and then" is the timeline surfacing inside whatever
-  engine was claimed. This is the one diagnostic with an absolute threshold.
-- **Causal-opener density** — the share of sentences opening with but, so,
-  because, therefore — measures how much the script derives rather than
-  asserts. Observed across a ten-video witness corpus it ranged roughly 15%
-  to 40%; a script far below the band is asserting, whatever engine it claims.
+  engine was claimed. This is the one diagnostic with an absolute threshold,
+  and a zero can be forged. A "therefore" written where the research holds
+  only sequence passes the count and asserts a causation the evidence never
+  contained, which is worse than the honest "and then" it replaced — so the
+  count is only as good as the rule that every causal joint names what it
+  rests on
+  ([pre-linked-causal-mechanisms](../../../research-grounding/content-research-grounding/techniques/pre-linked-causal-mechanisms.md)).
+  Viewers infer causation between adjacent beats by default, so a
+  deliberate non-link ("the schedule did not respond to the scope change")
+  must be spoken, not merely left unconnected.
+- **Causal-opener density** — the share of sentences opening with a causal
+  or additive connector (but, so, and, because, therefore). Observed across a
+  ten-video witness corpus it ranged roughly 15% to 40%. It measures how
+  *explicitly* a script marks its links, and that is largely the writer's
+  voice: two same-engine writers of comparable quality in that corpus ran
+  14.6 and 32.0 connectives per thousand words, and cohesion counts do not
+  predict rated writing quality. Compare a script with its writer's own
+  baseline; a low score is a reason to read the joints, not a verdict that
+  the script asserts.
 - **Turn count** — reversals or transfers per minute. The witnessed band runs
   from about one per thirty seconds in shorts to one per four minutes in long
   essays; a script with no turns at all never engaged any engine.
@@ -90,3 +104,13 @@ legitimate small video, not a blocked one. The gate tests for *absence* of
 shape, not weakness of shape. And do not apply the AND-THEN rule to
 intra-beat narration mechanics (a two-item enumeration inside one beat);
 its jurisdiction is the joints *between* beats, where the engine lives.
+
+Nor is every sequence a forced render. A ranked countdown or a survey held
+under one declared, unanswered question keeps viewers across beats joined by
+nothing but order, because the obligation is curiosity about a stated gap
+rather than derivation. That is a different contract from the engines here,
+not a failure of theirs: judge it by whether the gap is declared up front
+and paid at the end, not by its AND-THEN count. The rule's origin is a
+screenwriters' rule of thumb that "and then" beats are boring; no retention
+study behind it has been found, so treat "viewers leave" as the reason for
+the rule, not a measurement of it.

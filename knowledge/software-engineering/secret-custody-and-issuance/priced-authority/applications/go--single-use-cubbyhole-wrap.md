@@ -5,7 +5,7 @@ subject: priced-authority
 technique: single-use-cubbyhole-wrap
 status: forged
 stack: go
-verified_on: 2026-09-02
+verified_on: 2026-09-26
 verified_against: go@1.27
 ---
 
@@ -118,3 +118,29 @@ Every dispatched anchor held: `wrapping.go:130-133` is the
 audit-before-response comment and `control_group.go:281-290` is the pair
 of identity refusals. The remaining lines above were located in this
 pass.
+
+## Re-checked 2026-09-26 (pinned commit and main `a87e8099`)
+
+`wrapping.go` and `control_group.go` are byte-identical on main.
+`request_handling.go` anchors shift +9 for lines 387-866 and +16 from line
+867 (the deferred unwrap at `:906-946` is `:922-962`).
+
+Three corrections this pass:
+- **Wrap tokens are orphans.** The entry built at `wrapping.go:139-148`
+  sets no parent, and its failure paths revoke it as an orphan. Revoking
+  the session that wrapped a response does not reach the wrap. The
+  technique now treats the parent as a choice.
+- **The signed format is reachable.** `internal/http/handler.go:1103-1107`
+  on main sets `Format = "jwt"` for any request that carries the
+  `X-Vault-Wrap-Format: jwt` header, and `wrapping.go:198-200` then signs
+  the token. The comment that JWT wrapping is "used for replication and
+  plugin setup" describes intent. It is not a check. Only `sys/wrapping/wrap`
+  forces the unsigned form. The technique now says a kept second format has
+  to be gated.
+- **Control groups: identity is the entity id, and self-approval is a
+  switch.** `control_group.go:282` refuses the token owner as approver
+  only `if !cg.SelfAuthorizationAllowed && originalEntity.ID == approver.EntityID`.
+  The requester's entity comes from the token's internal meta
+  (`:153-165`), so a person with two unmerged entities is two identities.
+  The deferred request runs on unwrap after the control-group check
+  (`request_handling.go:926-946`), and nothing checks who is collecting.

@@ -5,7 +5,7 @@ subject: priced-authority
 technique: never-persisted-token-class
 status: forged
 stack: go
-verified_on: 2026-09-02
+verified_on: 2026-09-26
 verified_against: go@1.27
 ---
 
@@ -106,3 +106,34 @@ refusal site; the only levers are the parent check and the barrier key.
 The `ExternalID` / server-side-consistency token wrapper at
 `token_store.go:1350-1353` is the read-replica index carried in the token
 value, a different subject's mechanism.
+
+## Re-checked 2026-09-26 (pinned commit and main `a87e8099`)
+
+The logic cited above is unchanged on OpenBao main at `a87e8099` (2026-09-24,
+`go 1.27.0`). The line numbers moved. In `token_store.go`, anchors at or
+below about `:1495` hold, and later lines shift +2 (the parent check at
+`:1766-1774` is `:1768-1776` on main). In `request_handling.go`, lines
+387-866 shift +9 and lines from 867 shift +16 (the lease guard at
+`:1521-1534` is `:1537-1550`). `GenerateSSCTokenID` now takes a context
+(`:1352`). The anchors above stay at the pinned commit, where they were
+read.
+
+Two corrections to "the only levers are the parent check and the barrier
+key":
+- **The barrier key is not a lever.** `batchTokenEncryptor` is
+  `core.barrier` (`:825`), and the rotation page says "Old values written
+  with previous encryption keys can still be decrypted since older keys are
+  saved in the keyring". A batch token survives a barrier rotation. The
+  technique now conditions key rotation on a dedicated key with its old
+  versions retired.
+- **The identity is a lever.** `request_handling.go:417-427` refuses a
+  request whose token names an identity record that is disabled or no
+  longer exists ("permission denied as the entity on the token is
+  invalid"). No matching check of the issuing mount was found, so
+  disabling the auth method is not a lever in this tree.
+
+The lease cap (`expiration.go:1571-1582`) and the lease parented to the
+batch token's parent (`:1535-1540`) are confirmed. The parent is always a
+service token, so "nearest persisted ancestor" here is the direct parent.
+Logins through any auth method other than the token store mint orphans,
+so the parent lever is absent for most batch tokens.

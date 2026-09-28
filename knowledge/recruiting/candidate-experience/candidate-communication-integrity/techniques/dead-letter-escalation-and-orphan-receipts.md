@@ -29,7 +29,10 @@ Two populations need catching, and they are different.
   window in which one was expected, and receipts that arrived matching no send at
   all. The second belongs in this queue even though it is not a message, because
   it means your identifiers and the transport's have diverged — and while they
-  have, real bounces are being discarded as unmatched noise.
+  have, real bounces are being discarded as unmatched noise. That holds when the
+  receipt names something you issued. A receipt that names nothing you ever
+  issued belongs in no candidate's queue. Count it instead, and treat a rising
+  rate of them as this same incident (see bounce-receipt-supersedes-a-green-send).
 
 A delivery system without an orphan concept will lose messages at a low, steady,
 undetectable rate forever.

@@ -44,6 +44,20 @@ from them:
   entirely, in a background worker or a store the documents share. Establish
   which of the two architectures you are in before inheriting the hosting rules;
   they are conditional on the first property literally being true.
+
+  A frame that does survive has a second fork inside it: *where the location
+  lives*. It can live in the address, rewritten on every move, or in the
+  frame's own state, with the address empty or used only as a point of arrival.
+  Almost every rule here does not care which — one vocabulary, one navigate
+  door, derived highlights, the hosting discipline — and a state-held location
+  is a legitimate architecture, not a shortfall. Three obligations do care,
+  because the machinery that usually discharges them is triggered by address
+  changes and a state-held switch never makes one: what the back gesture does
+  ([navigation-model](./techniques/navigation-model.md)), what a switch tells
+  assistive technology (the accessibility posture below), and whether a
+  section the user left is still there when they return
+  ([lazy-section-loading](./techniques/lazy-section-loading.md)). A shell that
+  keeps its location in state owns all three outright; it cannot inherit them.
 - **The navigation is the product's map.** The nav is where a user learns what
   the product *is* — its top level is an argument about the product's shape,
   read hundreds of times a day. Its structure, depth, ordering, and gating are
@@ -163,7 +177,13 @@ its accessibility failures are multiplied by every screen:
   carries the current-page semantic, not only a highlight color.
 - **Navigation moves focus.** Activating a nav entry moves focus (or an
   announcement) into the new content; a silent viewport swap strands
-  non-visual users in a nav that claims nothing happened.
+  non-visual users in a nav that claims nothing happened. Do not count on the
+  framework for it: built-in route announcers fire on the router's own
+  navigations and speak the document title, so a destination switched in
+  shell state triggers nothing, and a shell whose title never changes gives
+  them nothing to say. Derive the title from the location in either
+  architecture, and where the switch is not a route change, announce it
+  yourself.
 - **Collapsed does not mean inaccessible.** An icon-only nav still exposes
   full names to assistive technology and keyboard users, and badges still
   carry their meaning as text, not only as a colored dot.

@@ -61,16 +61,27 @@ and no amount of downstream cleverness recovers the lost delta.
 The anchor's write discipline carries the correctness. It advances **on
 interval while the user is present** — so a crash loses minutes, not the
 session — and **on departure**, so a clean exit records the true boundary.
-And it is read **before** anything advances it on return: the briefing
-derives from the *old* anchor, then the anchor stamps forward. An anchor
-advanced on arrival, before derivation, erases the very delta it exists to
-expose — the single most common way this feature silently breaks. The
+In a browser page, departure means the page becoming hidden, the last
+event a page can rely on. And it is read **before** anything advances it
+on return: the briefing derives from the *old* anchor, then the anchor
+stamps forward — and only once the derivation has actually landed. An
+anchor advanced on arrival, before derivation or over a load that failed,
+erases the very delta it exists to expose. That is the single most common
+way this feature silently breaks. "Return" is also more than a launch. A
+page restored from a cache, or a window refocused after hours, re-runs
+nothing unless it is told to. The
 law is [gate-sees-target](../../../_laws.md#gate-sees-target) wearing a product
 face: "seen" must mean the user could actually have seen it. An anchor
 that advances while the window is hidden or unfocused claims sight that
 never occurred, and the briefing built on it will omit exactly the events
-the user missed. The full write/read protocol, granularity choices, and
-storage rules are [last-seen-anchors](./techniques/last-seen-anchors.md).
+the user missed. The same law governs acknowledgment. Dismissing a list
+loaded an hour ago acknowledges that list, so the anchor advances to the
+moment the list was evaluated, not to the click. Where the anchor lives
+follows from who the user is. For one device it lives in local persisted
+state; for an account used from several devices, the account holds it
+and every write is forward-only. The full write/read protocol,
+granularity choices, and storage rules are
+[last-seen-anchors](./techniques/last-seen-anchors.md).
 
 ## Briefings are derived, never fetched
 
@@ -87,7 +98,13 @@ discard unsaid. The briefing may *wake* the shared loaders when they are
 cold — kicking a store's own guarded, deduplicated fetch is fine — but
 it owns no requests of its own. If a proposed briefing line needs data
 nothing else loads, that is pressure to question the line, not license
-to add the fetch. Selection, ranking, phrasing, and the cap that keeps a briefing a
+to add the fetch. The rule holds while the loaded data covers the whole
+away interval. When it cannot — the stores hold only the newest few
+hundred, the anchor lives on a server, or the page has no boot that fills
+stores at all — a filter over memory counts a sample and calls it a
+total. Then one bounded delta query to the authority, shared by every
+surface that shows the delta and disclosing its bound, is the design
+rather than a violation. Selection, ranking, phrasing, and the cap that keeps a briefing a
 briefing are [delta-briefings](./techniques/delta-briefings.md).
 
 ## Silence is a designed state
@@ -100,7 +117,13 @@ correct render is nothing at all: no empty shell, no "you're all caught
 up" card demanding its own dismissal. Attention is a budget; every
 briefing that says nothing spends trust the next real briefing needed. An
 empty briefing rendered anyway trains users to ignore briefings — and a
-trained-away user misses the one that mattered. The engineering
+trained-away user misses the one that mattered. That rule governs the
+surfaces that interrupt: an arrival card, a banner, a badge. A surface
+the user *opened* (an inbox, a notification panel, a "what moved"
+popover) is answering a question the user asked, and there an empty
+render reads as broken. It says it is caught up, with an "as of" time.
+It may answer a first visit with a bounded, labelled window rather than
+an empty page. The engineering
 obligation underneath is
 [failure-not-empty-success](../../../_laws.md#failure-not-empty-success):
 "nothing happened" and "could not determine what happened" (no anchor,
@@ -148,13 +171,22 @@ roadmap, anything fetched rather than owned — face their hardest moment
 at resume: the network may be absent, the cache may be from last week,
 and the panel must render *something* honest. The contract is four
 distinct states, each a distinct render: **fresh** (fetched this
-session), **cached** (last session's answer, painting now, refreshing
-behind), **stale** (cached beyond its belief window — still shown, but
-marked), and **unavailable** (no cache, no network — the **bundled
-fallback** ships inside the application precisely so this state has
-content). A blank panel because the network was down at launch is the
-forbidden render; it converts a connectivity blip into an apparent
-product defect. The state machine, belief windows, and fallback layering
+session), **cached** (the cache answered because it was still inside its
+belief window, so the network was skipped on purpose; a healthy path),
+**stale** (the network was tried and failed, and the cache stands in as a
+rescue — still shown, but dated), and **unavailable** (no cache, and no
+fetch has ever succeeded). Cached and stale split by *cause*, not by age.
+Byte-identical content means different things when the live channel
+works and when it is broken. "Stale" here is not HTTP's age-based stale,
+under which serving past freshness while revalidating is a deliberate
+path, and in this model that path is "cached". In the unavailable state,
+a **bundled fallback** shipped inside the application gives the panel
+real content, for material that is public, knowable at build time and
+slow to age (release notes, evergreen guidance). Time-sensitive or
+per-user content has no honest bundle. Its unavailable render is a plain
+"couldn't reach the source" state, which is still not blank. A blank
+panel because the network was down at launch is the forbidden render; it
+converts a connectivity blip into an apparent product defect. The state machine, belief windows, and fallback layering
 are [content-freshness-states](./techniques/content-freshness-states.md).
 
 ## Resumption is offered, not imposed
@@ -168,6 +200,13 @@ half-finished flow — is **offered**: a banner or card that says "you were
 working on X — continue?" and steps aside if declined. Teleporting the
 user into last session's context ambushes the majority who returned for
 something else, and the deeper the teleport, the harder the escape. The
+line is the teleport, not the depth. Two cases take no one anywhere they
+did not choose, and there the draft simply refills its own field with a
+visible "start over":
+- The user navigates back to the draft's own home themselves.
+- The session ended without their intent.
+
+An empty field there would be the loss. The
 depth-to-consent mapping, dismissal semantics, and expiry of the offer
 are [resume-affordances](./techniques/resume-affordances.md).
 

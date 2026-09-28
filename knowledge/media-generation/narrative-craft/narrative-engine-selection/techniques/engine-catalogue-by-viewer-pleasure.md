@@ -60,7 +60,10 @@ A usable entry states four things:
 4. **Length budgets, not length identity.** The engine is the same machine at
    every duration; what the entry records per length is the budget — how many
    turns, rungs, or candidates fit — because that is the only thing that
-   actually varies.
+   varies *inside* the machine. The ends vary by surface: a feed-served
+   short has no clicked promise to open against and is rewarded for a close
+   that loops into its start, so record entry and exit per surface on the
+   entry rather than forking the engine.
 
 ## Maintain it as an open instrument
 

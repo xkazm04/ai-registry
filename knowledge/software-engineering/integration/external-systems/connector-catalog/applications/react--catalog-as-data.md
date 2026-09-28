@@ -7,6 +7,8 @@ stack: react
 status: forged
 verified_on: 2026-08-29
 verified_against: react@19
+applied: experiment
+ab_verdict: not-better
 ---
 
 # The audience bridge: a side table that says out loud it is temporary
@@ -168,3 +170,21 @@ being that both of *those* inputs are the row's own.
   half of that pipeline; whether the seed path preserves the metadata blob
   faithfully for a row that *does* declare audiences is untested here, and the
   zero-percent migration means it has never been exercised.
+
+## Applied 2026-09-23 - minting as a checked act, read-only experiment
+
+The tree's own slug function, run on the tree's text, derives the same key for "My API"
+and "my-api" (and for "Stripe" and "stripe"). The second mint is refused: an exact-name
+existence check inside an immediate write transaction at the store's door, added
+2026-06-17, with no schema uniqueness constraint behind it. Both runtime mint paths pass
+that door, so a lookup by key meets one row. Tree 0 colliding mints admitted; a
+uniqueness constraint 0. **`not-better`** - the gap the research pass predicted from the
+missing constraint does not exist, and the technique now says a transactional door check
+suffices for runtime mints. The residue it names instead: the shipped-row seeder inserts
+keyed on id, not name, and bypasses the check; 1 of 135 shipped names lies inside a user
+mint namespace, and the check refuses a user row with that name only because the shipped
+one landed first. Duplicates minted before 2026-06-17 cannot be counted without opening
+the store (not opened). Not hunted: the design flow's pre-check compares
+case-insensitively over the offer-filtered list and then types the credential with the
+model's unnormalized name. This section's citations were not re-resolved, so
+`verified_on` stays.

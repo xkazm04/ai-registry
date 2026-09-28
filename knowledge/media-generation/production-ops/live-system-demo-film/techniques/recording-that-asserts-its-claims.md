@@ -128,7 +128,12 @@ notice that the product moved out from under the story.
   can only be known within some tolerance — capture start, encoder latency — the
   recorder writes that tolerance down beside the offset rather than leaving the
   assembly step to discover it. A downstream step cannot measure an uncertainty
-  that was settled upstream and not recorded.
+  that was settled upstream and not recorded. The capture's own failures belong
+  to the same ledger: where the picture is assembled from sampled frames at a
+  fixed rate, a frame the sampler dropped or took too long to grab shortens the
+  film at that point, so the picture's timeline quietly stops being the script's.
+  A recorder that logs capture errors and passes has made a measurement it did
+  not keep — count them, and fail a narrated take whose picture clock drifted.
 
 ## Decision rules
 
@@ -137,8 +142,13 @@ notice that the product moved out from under the story.
   to make coverage look complete is maintenance with no evidentiary value.
 - When choosing what to assert against, take the rendered string over the call,
   every time — the frame is the artifact.
-- When a beat fails, record and continue; when the run ends with any recorded
-  failure, fail the run and refuse to publish, with all failures named.
+- When a beat fails in a take that is long or has consumed paid inputs, record
+  and continue; when the run ends with any recorded failure, fail the run and
+  refuse to publish, with all failures named. When the whole take costs seconds
+  and spends nothing before its capture, failing fast is the cheaper loop — the
+  case for carrying on is economic, and it does not survive a take that is
+  cheaper to re-run than to watch. Either way the failure carries what the
+  screen showed when the assertion gave up.
 - When the same assertion breaks on every run against a moving surface, fix the
   script's grip on the system rather than weakening the assertion; a demo that
   asserts nothing it could get wrong has stopped being evidence.

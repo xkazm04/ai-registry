@@ -1,0 +1,68 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-mpe-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T13:44:46Z",
+  "ended_at": "2026-09-26T14:01:14Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/modelled-performance-estimates",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/modelled-performance-estimates",
+      "technique": "refuse-rather-than-emit-a-sentinel",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/modelled-performance-estimates",
+      "technique": "scoped-calibration-fallback",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/modelled-performance-estimates.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/techniques/one-ratio-then-a-capability-cap.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/techniques/refuse-rather-than-emit-a-sentinel.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/techniques/scoped-calibration-fallback.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/applications/next--refuse-rather-than-emit-a-sentinel.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/modelled-performance-estimates/applications/react--provenance-travels-with-the-value.md",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/modelled-performance-estimates.md"
+  ],
+  "commits": [
+    {
+      "sha": "618b9df5",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering",
+        "catalog.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "6 claims conditioned, 0 refuted, 0 techniques. next+react stacks. Rows: 1 sim better, 2 sim unmeasurable, 1 unapplied. 0 stale verdicts, 0 pairs. goat map committed unpushed; ascent+personas map rebuilds owed (held by other sessions). No project code."
+}

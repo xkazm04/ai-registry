@@ -76,6 +76,19 @@ reading, "abort the reload on a parse error", leaves the node writing to a rotat
 file descriptor — the audit sink appears to work and its output goes to a file nothing will
 ever read.
 
+The invariant underneath is narrower than the rule: **the safe functions must not depend on
+a successful parse.** Running them regardless is one way to get that. The other is to give
+them a trigger of their own. A node whose sink reopen answers a separate signal, which
+never reads the file, may abort a configuration reload on a parse error, keep the old
+configuration whole and apply nothing, and the rotation hook is unaffected because it never
+sent the reload signal. What the invariant forbids is the shared trigger with the
+all-or-nothing abort. Between the two shapes, choose by who sends the signal: when the
+rotation tooling can be pointed at a dedicated trigger, split the triggers; when one signal
+is all the platform's supervisor can send, run the safe functions regardless. On either
+shape, a *syntax* failure applies no key at all, because a file that does not parse has no
+trustworthy per-key reading. A file that parses but holds one invalid value is the per-key
+case below.
+
 A reload is bracketed for the supervisor the way a start is: the node announces *reloading*
 to whatever process manager watches it before the first function runs and *ready* after the
 last, so that a reload that hangs on a slow sink reopen is observable as a reload in

@@ -6,7 +6,7 @@ technique: action-catalog-single-source
 status: forged
 laws: [one-authority-per-vocabulary, derivation-names-recomputation, one-validation-door, gate-sees-target]
 shared_with: []
-use_when: [a companion is gaining the ability to act and not only talk, the model emits an action kind nothing executes, a model-composed surface has no way back to a good state, the component that teaches the model does not share a process or a language with the one that executes, an accepted proposal must run against a catalog that has changed since it was made]
+use_when: [a companion is gaining the ability to act and not only talk, the model emits an action kind nothing executes, a model-composed surface has no way back to a good state, the component that teaches the model does not share a process or a language with the one that executes, an accepted proposal must run against a catalog that has changed since it was made, a label or risk table on a surface keeps its own list of action kinds, a parity test over the catalog was deleted in a refactor]
 ---
 
 # One source for the action catalog
@@ -59,7 +59,11 @@ against it:
 - **The executor binding** is exhaustive over the table. A kind with no executor
   must be a compile-time or startup-time failure, not a runtime shrug — this is
   the single highest-value property in the technique, because it converts the
-  most common asymmetry into an error nobody can ship past.
+  most common asymmetry into an error nobody can ship past. In a language with
+  closed sum types the cheapest form is the kind as a closed type, matched with
+  no wildcard arm; a match over the kind's *string* whose last arm returns
+  "unknown action" is the runtime shrug with better manners, because it compiles
+  unchanged when the table grows.
 - **The capability document** is generated. A hand-written one is a copy, and it
   is the copy nobody updates because it has no tests.
 
@@ -122,7 +126,67 @@ kind") stays green while a sixth kind is added to the executor and never taught.
 And give the assertion one more line than feels necessary: **that the set is not
 empty.** Set-equality over two empty derivations passes, and empty-against-empty
 is the exact shape in which this family of guard reads green while reading nothing
-([gate-sees-target](../../../../_laws.md#gate-sees-target)).
+([gate-sees-target](../../../../_laws.md#gate-sees-target)). Where the pin finds
+names by matching text rather than by reading a data structure, the same line
+becomes a pair of controls: a name the matcher must find, and a name it must not.
+
+**The equality holds per producer, not across the whole executor.** The model is
+rarely the only thing that files actions. A bridge from another application, a
+planner, a special-cased arm that files its own approval — each is a producer
+with its own vocabulary, and the executor's domain is their union. Asserting
+"the executor resolves exactly what the model may emit" is then false by design,
+and the test that asserts it is either deleted or weakened into a subset check
+that stops seeing orphans. The table carries the producers as a column, and the
+pin becomes: each producer's projection equals what that producer's validator
+accepts; the executor resolves the whole table; and every row is claimed by at
+least one producer, so an executor nobody can reach is as visible as a kind
+nobody can run.
+
+**A pin written as a list is a copy.** The characteristic way this guard dies is
+not that somebody judges it too costly. It is that the guard was a hand-written
+list of the kinds someone cared about on the day, calling a helper that existed
+only for it — and a later refactor that deletes unreachable code deletes the
+helper, empties the test, and removes the one check nobody remembers is missing.
+A pin that derives both of its sets from the declarations it compares has no list
+to rot and no private helper to lose; one that holds its own list is a sixth copy
+of the vocabulary, with a test's authority.
+
+## The surfaces: exhaustive when they ship together, tolerant when they do not
+
+The last consumer is the one furthest from the table and the one most often
+written by hand: the surface that turns a kind into a label, an icon, a tone, a
+risk hint. Whether it should refuse an unknown kind or render one depends on a
+fact about deployment, not about taste.
+
+**Where the surface and the table ship in one artifact** — one binary, one
+bundle, one release — the two cannot be out of step at runtime, so a fallback for
+an unknown kind protects against a skew that cannot happen and hides the drift
+that can: the kind added to the table and never given a label renders as its raw
+identifier, or as a generic grey dot, and nothing fails. There the cheapest
+correct shape is to generate the kind set into the surface's own type system at
+build time — a binding generator over the declaring type, or a small script that
+reads the declaration — and let the surface's compiler demand an entry per kind.
+Where no generator exists yet, a test on the surface's side that *reads the
+declaring source* and compares is the cheapest pin that works across a language
+boundary; it is brittle to formatting, so it carries the instrument check above.
+
+**Where they deploy independently** the opposite rule is right: the reader is
+tolerant, because a newer producer will send a kind an older surface has never
+heard of, and refusing it breaks every installed copy at once. Tolerance is not
+silence, though. The unknown kind renders as a visible *unknown* state rather than
+as a plausible guess, and it is counted, so the drift the compiler cannot see is
+at least seen by somebody.
+
+**A judgment the surface makes per kind names both of its arms.** Some consumers
+do not render a kind; they classify it — safe to recommend or worth a closer look,
+quiet or loud. The cautious default for an unrecognized kind is right for
+behaviour, and wrong as the only record: if the table names only the kinds judged
+safe, every other kind is cautious by fallthrough, and a kind nobody has weighed
+is indistinguishable from one that was weighed and judged risky. Naming the
+cautious arm explicitly is what lets a drift check say "this kind has never been
+classified" — which is the question the check exists to answer. The durable form
+is the judgment as a column on the table itself, so the surface reads it instead
+of holding it.
 
 ## Reads may proceed; mutations are proposed
 
@@ -177,6 +241,16 @@ Two rules, and they are cheap next to the feature they protect. **A reset to a
 known-good default is one action, always reachable, and never itself
 model-composed.** And **the composition is a proposal like any other mutation**
 until the product has evidence that the model's arrangements are reliably wanted.
+
+Three things are routinely built in place of the first rule, and none of them is
+it. *An undo* that restores the previous arrangement is worth having — it answers
+"the change I just accepted made it worse" — but the previous arrangement was
+usually composed by the model too, so after two bad compositions the undo swaps
+between them. *A default that renders only while nothing has been composed* is a
+first-run state: the known-good arrangement exists, and the first composition
+takes precedence over it for good. And *a restore function with no control
+wired to it* is a mechanism, not a reset. The floor is the default, the action is
+what reaches it, and each without the other leaves the person where they were.
 A generative surface with no floor under it is the one place where an action
 catalog's mistakes are both invisible to validation and permanent to the person
 living with them.

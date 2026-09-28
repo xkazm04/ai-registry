@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 30,
-  "applications": 15,
+  "techniques": 39,
+  "applications": 26,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "30/30",
+  "use_when_coverage": "39/39",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/agent-benchmark-design/agent-benchmark-design.md",
-   "digest": "sha256:2d930799536612b6",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:95c6fad5833c1c40",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "comparable-cell-construction",
@@ -68,6 +68,21 @@
       "defining what done means for a task shape",
       "stopping a well-written failure from winning"
      ]
+    },
+    {
+     "slug": "null-and-reference-controls",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a task or a check to a benchmark",
+      "trusting the first ranking over a new task set",
+      "a task every configuration passes or every configuration fails",
+      "deciding whether a universal failure is a hard task or a broken one"
+     ]
     }
    ],
    "applications": [
@@ -76,6 +91,12 @@
      "technique": "coverage-and-provisional-labelling",
      "file": "knowledge/agent-operations/measurement/agent-benchmark-design/applications/process--coverage-and-provisional-labelling.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "null-and-reference-controls",
+     "file": "knowledge/agent-operations/measurement/agent-benchmark-design/applications/process--null-and-reference-controls.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -84,9 +105,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/agent-run-budgeting.md",
-   "digest": "sha256:86f73d55547bc8b8",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:3a4d0d6d28c6b615",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "allowance-budgeting-across-workloads",
@@ -128,6 +149,25 @@
       "writing the runner that records agent runs",
       "auditing stored results for runs that never happened"
      ]
+    },
+    {
+     "slug": "termination-cause-record",
+     "status": "draft",
+     "laws": [
+      "a-ceiling-is-a-measurement-boundary",
+      "a-refusal-is-not-a-result",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a run can end on more than one budget (wall-clock",
+      "turns",
+      "spend",
+      "allowance)",
+      "writing the parser that turns a runner's final envelope into a stored outcome",
+      "a runner's success field disagrees with its error flag",
+      "comparing arms whose runners enforce different caps"
+     ]
     }
    ],
    "applications": [
@@ -142,6 +182,12 @@
      "technique": "refusal-detection-and-requeue",
      "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/process--refusal-detection-and-requeue.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "termination-cause-record",
+     "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/process--termination-cause-record.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -150,9 +196,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/blind-judging-of-agent-runs.md",
-   "digest": "sha256:0243709cbd476824",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:7b170a32d631d872",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "facts-beside-the-work",
@@ -182,6 +228,21 @@
      ]
     },
     {
+     "slug": "sealed-judge-workspace",
+     "status": "draft",
+     "laws": [
+      "the-judge-never-grades-its-own-family",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the judge is an agent with a shell or file tools",
+      "staging the material a judge seat reads",
+      "running several judge seats at once",
+      "a judge cites something the packet did not contain"
+     ]
+    },
+    {
      "slug": "withhold-rather-than-half-judge",
      "status": "draft",
      "laws": [
@@ -198,6 +259,13 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "sealed-judge-workspace",
+     "file": "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/applications/node--sealed-judge-workspace.md",
+     "verified_on": "2026-09-27",
+     "verified_against": "node@24"
+    },
+    {
      "stack": "process",
      "technique": "facts-beside-the-work",
      "file": "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/applications/process--facts-beside-the-work.md",
@@ -210,9 +278,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/deterministic-run-verification/deterministic-run-verification.md",
-   "digest": "sha256:a0cef7907383682e",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:ac3b017c4d37ee49",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "baseline-relative-gate-evaluation",
@@ -239,7 +307,25 @@
      "use_when": [
       "checking whether a run respected a repository's own rules",
       "detecting evasions like disabled checks",
-      "deciding what counts as leftover work"
+      "deciding what counts as leftover work",
+      "a committed file matches an exclusion rule"
+     ]
+    },
+    {
+     "slug": "grade-with-checks-the-run-could-not-touch",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-repository-outranks-the-instruction"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "grading a run that had write access to its own tests or gates",
+      "a run's diff touches a test",
+      "fixture",
+      "hook or gate configuration",
+      "deciding whether to void a run that edited its checks or to grade it anyway",
+      "a check passes in a run's tree and nobody can say whose version of the check ran"
      ]
     },
     {
@@ -262,6 +348,24 @@
      "technique": "baseline-relative-gate-evaluation",
      "file": "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--baseline-relative-gate-evaluation.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "declared-rule-verification",
+     "file": "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--declared-rule-verification.md",
+     "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "process",
+     "technique": "grade-with-checks-the-run-could-not-touch",
+     "file": "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--grade-with-checks-the-run-could-not-touch.md",
+     "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "process",
+     "technique": "recompute-facts-at-report-time",
+     "file": "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--recompute-facts-at-report-time.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -270,9 +374,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/engine-behaviour-profiles.md",
-   "digest": "sha256:09d8c183d2741a6c",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:40f0d360f0af1a7a",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "authority-conflict-disposition",
@@ -315,6 +419,21 @@
       "separating an instruction defect from a capability gap",
       "planning a fleet's engine mix"
      ]
+    },
+    {
+     "slug": "harness-crossed-attribution",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "attributing a measured behaviour to a model family",
+      "comparing families that each ran through their own vendor's agent",
+      "choosing a fallback that reaches the same family through a different agent",
+      "reading a vendor agent's system prompt before trusting a profile"
+     ]
     }
    ],
    "applications": [
@@ -322,13 +441,19 @@
      "stack": "process",
      "technique": "authority-conflict-disposition",
      "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--authority-conflict-disposition.md",
-     "verified_on": "2026-09-16"
+     "verified_on": "2026-09-27"
     },
     {
      "stack": "process",
      "technique": "family-diversity-as-a-control",
      "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--family-diversity-as-a-control.md",
-     "verified_on": "2026-09-16"
+     "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "process",
+     "technique": "harness-crossed-attribution",
+     "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--harness-crossed-attribution.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -337,9 +462,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/harness-fault-attribution/harness-fault-attribution.md",
-   "digest": "sha256:42b9ec8faa705146",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:e2d4c798566b4d95",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "clear-the-environment-first",
@@ -370,6 +495,21 @@
      ]
     },
     {
+     "slug": "re-gate-then-resample",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a failure passed on rerun and is about to be called environmental",
+      "a failure survived a rerun and is about to be called the model's",
+      "two runs of one configuration disagree",
+      "deciding what a rerun can prove"
+     ]
+    },
+    {
      "slug": "retract-and-record",
      "status": "draft",
      "laws": [
@@ -390,6 +530,12 @@
      "technique": "clear-the-environment-first",
      "file": "knowledge/agent-operations/measurement/harness-fault-attribution/applications/process--clear-the-environment-first.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "re-gate-then-resample",
+     "file": "knowledge/agent-operations/measurement/harness-fault-attribution/applications/process--re-gate-then-resample.md",
+     "verified_on": "2026-09-27"
     }
    ]
   },
@@ -398,9 +544,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/model-and-effort-selection.md",
-   "digest": "sha256:e5f0179466c8db89",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:d5dd3456b7c8cb93",
+   "revision": 2,
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "cheapest-sufficient-tier",
@@ -426,6 +572,21 @@
       "a task fails and the instinct is to rerun it with more reasoning",
       "triaging repeated failures of one task across a fleet",
       "deciding whether to fix a task's wording or its configuration"
+     ]
+    },
+    {
+     "slug": "pin-the-resolved-configuration",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "dispatching an unattended run whose model or effort a policy chose",
+      "resuming retrying or waking a run that was spawned with a chosen configuration",
+      "auditing why a run cost or behaved differently from its siblings",
+      "recording what a run actually executed on"
      ]
     },
     {
@@ -468,6 +629,13 @@
      "technique": "tier-risk-inversion",
      "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/applications/process--tier-risk-inversion.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "rust",
+     "technique": "pin-the-resolved-configuration",
+     "file": "knowledge/agent-operations/configuration-choice/model-and-effort-selection/applications/rust--pin-the-resolved-configuration.md",
+     "verified_on": "2026-09-28",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -476,7 +644,7 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/coordination/shared-research-record/shared-research-record.md",
-   "digest": "sha256:ee5c9a9cdc4c8def",
+   "digest": "sha256-b2:1d21609d185e872b",
    "revision": 1,
    "changedAt": "2026-09-24",
    "techniques": [
@@ -569,9 +737,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/unattended-run-isolation.md",
-   "digest": "sha256:2fef9a8edb8ad35c",
-   "revision": 1,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:736f8cc34880a1e5",
+   "revision": 2,
+   "changedAt": "2026-09-27",
    "techniques": [
     {
      "slug": "confine-configured-output-paths",
@@ -601,6 +769,22 @@
      ]
     },
     {
+     "slug": "hermetic-inherited-configuration",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "launching an agent or a model call headlessly from a harness",
+      "a run's tools",
+      "context or cost differ from what the harness says it configured",
+      "spawning version control or test commands from inside a hook or another run",
+      "comparing runs across machines or settings changes"
+     ]
+    },
+    {
      "slug": "no-links-into-live-trees",
      "status": "draft",
      "laws": [
@@ -613,6 +797,21 @@
       "auditing what a run environment points at",
       "investigating results that depend on what a human did outside the bench"
      ]
+    },
+    {
+     "slug": "os-enforced-run-boundary",
+     "status": "draft",
+     "laws": [
+      "the-harness-is-a-suspect-in-every-red",
+      "measure-the-tree-not-the-summary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a run environment is isolated or only arranged",
+      "granting an unattended run a shell and network access",
+      "choosing a runner platform for unattended work",
+      "a run reached something its environment was built to keep out"
+     ]
     }
    ],
    "applications": [
@@ -624,9 +823,21 @@
     },
     {
      "stack": "process",
+     "technique": "hermetic-inherited-configuration",
+     "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--hermetic-inherited-configuration.md",
+     "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "process",
      "technique": "no-links-into-live-trees",
      "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--no-links-into-live-trees.md",
      "verified_on": "2026-09-16"
+    },
+    {
+     "stack": "process",
+     "technique": "os-enforced-run-boundary",
+     "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--os-enforced-run-boundary.md",
+     "verified_on": "2026-09-27"
     }
    ]
   }
@@ -637,34 +848,49 @@
    "techniques": [
     "agent-benchmark-design/comparable-cell-construction",
     "agent-benchmark-design/eligibility-before-ranking",
+    "agent-benchmark-design/null-and-reference-controls",
     "agent-run-budgeting/refusal-detection-and-requeue",
     "blind-judging-of-agent-runs/facts-beside-the-work",
     "deterministic-run-verification/baseline-relative-gate-evaluation",
     "deterministic-run-verification/declared-rule-verification",
+    "deterministic-run-verification/grade-with-checks-the-run-could-not-touch",
     "deterministic-run-verification/recompute-facts-at-report-time",
     "engine-behaviour-profiles/authority-conflict-disposition",
     "engine-behaviour-profiles/capability-claims-expire",
     "engine-behaviour-profiles/family-diversity-as-a-control",
+    "engine-behaviour-profiles/harness-crossed-attribution",
     "harness-fault-attribution/clear-the-environment-first",
+    "harness-fault-attribution/re-gate-then-resample",
     "harness-fault-attribution/retract-and-record",
     "model-and-effort-selection/cheapest-sufficient-tier",
     "model-and-effort-selection/instruction-defect-before-tier-escalation",
+    "model-and-effort-selection/pin-the-resolved-configuration",
     "model-and-effort-selection/tier-risk-inversion",
     "shared-research-record/typed-contribution-vocabulary",
-    "unattended-run-isolation/no-links-into-live-trees"
+    "unattended-run-isolation/hermetic-inherited-configuration",
+    "unattended-run-isolation/no-links-into-live-trees",
+    "unattended-run-isolation/os-enforced-run-boundary"
    ]
   },
   "the-harness-is-a-suspect-in-every-red": {
    "statement": "Before a failure is attributed to a model, the environment it ran in is cleared: shared build caches, links into real trees, a suspended host clock, a stale artifact from a sibling run. Attribution without that step produces confident findings about models that are actually findings about the bench, and they are the hardest kind to retract because they look like data.",
    "techniques": [
     "agent-benchmark-design/comparable-cell-construction",
+    "agent-benchmark-design/null-and-reference-controls",
+    "agent-run-budgeting/termination-cause-record",
+    "blind-judging-of-agent-runs/sealed-judge-workspace",
     "deterministic-run-verification/baseline-relative-gate-evaluation",
+    "engine-behaviour-profiles/harness-crossed-attribution",
     "harness-fault-attribution/clear-the-environment-first",
     "harness-fault-attribution/fault-signature-catalogue",
+    "harness-fault-attribution/re-gate-then-resample",
     "harness-fault-attribution/retract-and-record",
+    "model-and-effort-selection/pin-the-resolved-configuration",
     "unattended-run-isolation/confine-configured-output-paths",
     "unattended-run-isolation/disposable-run-environments",
-    "unattended-run-isolation/no-links-into-live-trees"
+    "unattended-run-isolation/hermetic-inherited-configuration",
+    "unattended-run-isolation/no-links-into-live-trees",
+    "unattended-run-isolation/os-enforced-run-boundary"
    ]
   },
   "a-refusal-is-not-a-result": {
@@ -673,6 +899,7 @@
     "agent-benchmark-design/coverage-and-provisional-labelling",
     "agent-run-budgeting/allowance-budgeting-across-workloads",
     "agent-run-budgeting/refusal-detection-and-requeue",
+    "agent-run-budgeting/termination-cause-record",
     "blind-judging-of-agent-runs/withhold-rather-than-half-judge",
     "shared-research-record/typed-contribution-vocabulary"
    ]
@@ -682,6 +909,7 @@
    "techniques": [
     "agent-benchmark-design/coverage-and-provisional-labelling",
     "agent-run-budgeting/ceiling-as-measurement-boundary",
+    "agent-run-budgeting/termination-cause-record",
     "harness-fault-attribution/fault-signature-catalogue",
     "model-and-effort-selection/task-shape-tier-policy",
     "shared-research-record/community-run-as-unit"
@@ -693,6 +921,7 @@
     "agent-benchmark-design/eligibility-before-ranking",
     "blind-judging-of-agent-runs/facts-beside-the-work",
     "deterministic-run-verification/declared-rule-verification",
+    "deterministic-run-verification/grade-with-checks-the-run-could-not-touch",
     "engine-behaviour-profiles/authority-conflict-disposition",
     "model-and-effort-selection/tier-risk-inversion",
     "unattended-run-isolation/confine-configured-output-paths"
@@ -703,6 +932,7 @@
    "techniques": [
     "agent-run-budgeting/allowance-budgeting-across-workloads",
     "blind-judging-of-agent-runs/provenance-scrubbing",
+    "blind-judging-of-agent-runs/sealed-judge-workspace",
     "blind-judging-of-agent-runs/withhold-rather-than-half-judge",
     "engine-behaviour-profiles/family-diversity-as-a-control",
     "shared-research-record/independent-reuse-evidence"

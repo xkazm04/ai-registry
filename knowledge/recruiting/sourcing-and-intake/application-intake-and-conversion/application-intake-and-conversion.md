@@ -37,13 +37,20 @@ discipline:
 
 The naive reading treats these as a single dial: fewer questions means better
 conversion and a worse record, more questions the reverse, and the craft is
-picking a point on the line. That reading is wrong, and it is wrong in a way
-that costs you the specific candidates you most wanted. The real trade is not
-length against quality. It is **honesty against theatre** — a short form that
-signposts its own answers produces a longer, richer, entirely fictional
-record, while a longer form that is neutral, resumable, and never dead-ends
-produces both better conversion among serious applicants and a record you can
-defend.
+picking a point on the line. Half of that reading is right. Length is a real
+cost: every question measurably costs completions, and the comfortable belief
+that burden filters for seriousness runs against the field evidence. Lowering
+application costs doubled the number of top-ability applicants in one field
+experiment (Abebe, Caria & Ortiz-Ospina, 2021), because the people a hard form
+turns away are the constrained, not the uncommitted. No study shows a longer
+form converting serious applicants better.
+
+What the dial misses is a second axis: **honesty against theatre**. A short
+form that signposts its own answers still yields a clean, entirely fictional
+record. A form of any length that is neutral, resumable, and never dead-ends
+keeps the cost of each question as low as it can be, and yields a record you
+can defend. So ask only what a decision will use, and make whatever you ask
+honest.
 
 ## Selective abandonment is the failure you cannot see
 
@@ -96,7 +103,15 @@ Three consequences follow, and they are not optional:
 2. **A knockout is an adverse outcome**, and no adverse outcome is solely
    automated. A gate may route, park, and deprioritise. It may not be the
    final word, may not be silent, and may not be irreversible on a single tap
-   of a radio button on a moving train.
+   of a radio button on a moving train. This is the registry's law, and it is
+   stricter than some jurisdictions. EU data-protection law prohibits a solely
+   automated rejection in principle, with narrow exceptions that still owe
+   human intervention and a way to contest, and it names "e-recruiting
+   practices without any human intervention" as its example (GDPR Recital
+   71). The UK now permits one with those safeguards. No general U.S. rule
+   requires a human, though disparate-impact liability reaches automated
+   screens. Holding the strict line everywhere is a design default, not a
+   claim about the law.
 3. **The set of gate questions must be minimal and defensible.** Anything that
    knocks a person out must be a real requirement of the work, stated in the
    advertisement, and true regardless of who is asking. "Nice to have" belongs
@@ -109,8 +124,9 @@ characteristic — a diversity self-declaration, an accommodation need, a
 veteran or disability status. These are collected for monitoring or for
 support, never for selection, and the intake must make that structurally true
 rather than promise it in a paragraph: the answer is optional in fact and not
-merely in copy, "prefer not to say" is always present and is never treated as
-a value, and no downstream scoring path can read the field at all. What the
+merely in copy, "prefer not to say" is always present and is recorded as its
+own response (distinct from never asked, never read as any other answer),
+and no downstream scoring path can read the field at all. What the
 self-declaration then feeds — which review track, which support offer, which
 evidence expectations — is the archetype-routing sibling's subject; intake's
 job is to collect it neutrally, mark it as self-declared, and refuse to guess
@@ -132,6 +148,17 @@ with the consequence stated plainly *before* the question when a "no" really
 does end this application. Telling someone what a question decides is fair;
 telling them which answer wins is not.
 
+Neutrality removes the answer key. It does not make a declaration true, and
+it is not the lever with the most evidence behind it. What measurably reduces
+faked answers is verifiability and saying so. Applicants fake the items that
+cannot be checked far more than the ones that can (Becker & Colquitt, 1992).
+A warning that answers will be verified lowers faking modestly (d ≈ 0.23),
+and more when it names the consequence (Dwight & Donovan, 2003). So word a
+decisive question as a checkable fact, say that it will be checked, and let
+neutral presentation keep the question from becoming an exam in reading the
+room. Option order is part of that presentation: a list read on a screen
+favours its first options (Krosnick & Alwin, 1987).
+
 ## Two problems, two mechanisms, never one control
 
 The other structural confusion is between **ineligible humans** and **bots**.
@@ -148,19 +175,31 @@ nothing to do with them, invisibly, with no path back; and blocked traffic
 never shows up in your funnel as a lost candidate, only as a number that went
 down.
 
+The decoy field is where the second incident usually hides. Browsers and
+password managers decide what to fill from a field's name and label, and fill
+it whatever the page asks, so a trap named like a real field is filled for
+real applicants. A filled trap is therefore a signal to quarantine and
+review, never a rejection on its own. And whatever a trip returns, it is
+never an eligibility decline: that tells a person who did nothing wrong that
+they do not qualify.
+
 ## No dead ends — the whole taxonomy
 
 A dead end is any state a candidate reaches from which their own effort cannot
 recover. Each has a known fix:
 
-- **The disabled submit button** — communicates nothing and is often invisible
-  to assistive technology. Submit is always live; validation runs on
-  activation and names the blocker.
+- **The disabled submit button** — communicates nothing, drops out of the
+  keyboard's tab order, and where a screen reader does reach it is announced
+  as unavailable with no reason. Submit is always live; validation runs on
+  activation and names every blocker, leading with the first.
 - **The terminal decline row** — a mis-tapped knockout answer written as a
   permanent state. Declines are recoverable in place, with the earlier answer
   kept in the audit trail rather than overwritten.
 - **The dropped duplicate** — the candidate's only update channel discarded as
-  noise. Merge instead.
+  noise. Merge instead, behind proof. A typed name or address identifies the
+  record; it does not authorise writing to it, because anyone can know both.
+  The unproven repeat is acknowledged and the record's own links go to the
+  address already on file, which is the one channel you can trust.
 - **The lost draft** — a timeout, a back navigation, a failed upload that
   clears the typed fields. Content is never the price of an error.
 - **The silent degradation** — a failed parse or lookup that either refuses
@@ -231,17 +270,27 @@ randomness.
 The structural fix is that the **contract** lives in one place — file the
 record, dedupe and merge, record consent, audit the gate outcome, acknowledge
 immediately — and each surface supplies only what genuinely differs: its input
-validation, its knockout semantics, its copy, and whether it notifies a
-decline or shows it live. Anything you find yourself implementing twice is
+validation, its knockout semantics, its copy, whether it notifies a decline or
+shows it live, and **what its match proves**. That last one is the difference
+that drifts most dangerously. An authenticated integration can vouch for what
+it sends. A public form cannot: whatever it matches on, somebody else could
+have typed. When one door is tightened and its sibling keeps the old trust,
+the hole moves next door rather than closing. Anything you find yourself implementing twice is
 something that will eventually behave differently in the two places, and the
 one that behaves worse will be the one you look at least.
 
 ## The first minute is a product decision
 
-Response speed after submission is the most reliably measured conversion
-lever in the domain, and its curve is brutally steep: interest decays in
-minutes, not days, and a candidate who applied to several roles in one sitting
-belongs to whoever answers first. Two things follow.
+Response speed after submission is a real conversion lever. The scale it is
+usually quoted at is not. The recruiting evidence is measured in days: delays
+between selection steps drive withdrawal (Arvey et al., 1975), and faster
+offers are accepted more often with no loss in later performance or turnover
+(Becker, Connolly & Slaughter, 2010). The curve that has interest decaying in
+minutes comes from sales-lead response studies. It has not been shown for job
+applicants, and "whoever answers first wins" is a hypothesis to test on your
+own funnel, most plausibly on high-volume hourly hiring. None of that weakens
+the case for speed, because an acknowledgement on landing costs nothing to
+send. Two things follow.
 
 First, the acknowledgement fires when the record lands, not when your pipeline
 finishes with it. Parsing, enrichment, scoring, and routing all happen behind
@@ -282,6 +331,11 @@ submitting.
   discarded as noise, and the newer information lost.
 - **The half-merged record** — a failed rebuild that destroyed the existing
   application while replacing it, leaving neither version intact.
+- **The impostor merge** — a repeat matched on a name or address that anyone
+  could know, allowed to set the contact of record, overwrite the profile a
+  reviewer scores, or receive the record's links.
+- **The trapped human** — a decoy field filled by autofill, answered with an
+  eligibility decline the person has no way to understand or retry past.
 - **The four-hour acknowledgement** — a first message coupled to the slowest
   downstream job, arriving after the candidate accepted elsewhere.
 - **The forgotten degraded flag** — an unreadable submission marked and then
@@ -295,16 +349,17 @@ submitting.
   question.
 - [eligibility-gate-versus-bot-defence](./techniques/eligibility-gate-versus-bot-defence.md)
   — two mechanisms for two problems, their opposite visibility rules, and
-  traps that survive a redesign.
+  traps that survive a redesign and autofill.
 - [always-live-submit-that-names-the-blocker](./techniques/always-live-submit-that-names-the-blocker.md)
-  — validation on activation, one named blocker with focus moved to it, and
-  never losing what was typed.
+  — validation on activation, a linked summary of every blocker with focus
+  moved to it, and never losing what was typed.
 - [recoverable-decline-and-no-dead-ends](./techniques/recoverable-decline-and-no-dead-ends.md)
   — declining in place, auditing rather than discarding, and the alternatives
   a decline must still offer.
 - [merge-dont-drop-on-reapplication](./techniques/merge-dont-drop-on-reapplication.md)
-  — re-application as the candidate's update path, field-level merge rules,
-  and an all-or-nothing rebuild.
+  — re-application as the candidate's update path, a match that identifies
+  but only proof that writes, field-level merge rules, and an all-or-nothing
+  rebuild.
 - [speed-to-lead-acknowledgement](./techniques/speed-to-lead-acknowledgement.md)
   — acknowledging on landing, the enrichment call to action, and the tiny
   intake that is only safe because of it.

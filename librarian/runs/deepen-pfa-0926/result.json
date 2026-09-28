@@ -1,0 +1,75 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "deepen-pfa-0926",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-09-26T11:55:00Z",
+  "ended_at": "2026-09-26T12:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/platform-format-adaptation",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "platform-format-adaptation",
+      "technique": "format-as-measured-template",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "platform-format-adaptation",
+      "technique": "hook-shape-selection",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/production-ops/platform-format-adaptation/platform-format-adaptation.md",
+    "knowledge/media-generation/production-ops/platform-format-adaptation/techniques/format-as-measured-template.md",
+    "knowledge/media-generation/production-ops/platform-format-adaptation/techniques/hook-shape-selection.md",
+    "knowledge/media-generation/production-ops/platform-format-adaptation/techniques/sound-off-first-design.md",
+    "knowledge/media-generation/production-ops/platform-format-adaptation/applications/process--sound-off-first-design.md",
+    "knowledge/media-generation/production-ops/platform-format-adaptation/applications/process--format-as-measured-template.md",
+    "knowledge/media-generation/production-ops/platform-format-adaptation/applications/next--format-as-measured-template.md",
+    "librarian/subjects/media-generation/platform-format-adaptation.md",
+    "librarian/applied.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "cbcf9f11",
+      "branch": "main",
+      "pathspec": "knowledge/media-generation"
+    },
+    {
+      "sha": "84b80eb7",
+      "branch": "main",
+      "pathspec": "librarian"
+    },
+    {
+      "sha": "bf8df5ad",
+      "branch": "main",
+      "pathspec": "librarian"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second tree cleared single-stack. Two rules flipped: muted majority keyed to surface; hook ban was an absence. Draw-rule amendment settles intake row 1. gravitone 169b6cf+2c1f836 (map rebuilt from union tree after a sibling race), unpushed. Detail in the subject note."
+}

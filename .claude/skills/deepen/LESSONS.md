@@ -280,6 +280,50 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   Every blind-only item was again an internal contradiction between techniques
   landed one at a time by different runs - the lane's second job, third batch running.
 
+## 1.2.0 - 2026-09-23 - software-engineering (3-wide batch on map demand; two apply workers)
+
+- **The scan's demand input can be three weeks stale while every other input is fresh.**
+  `librarian-scan` ranked on `signals/` files from 2026-08-29/30; its top two had been
+  worked repeatedly since. The regenerated registry map, aggregated for fresh (non-stale)
+  `deviation` verdicts, surfaced the companion subcategory at the top - scored 3 points by
+  the scan. Check the signals date before trusting a demand rank; the map is the fresher
+  instrument and costs one pass.
+- **A "retired" guard is a claim about motive; read the history before softening the
+  rule.** The deviation said a parity test was retired, which reads as "too costly". Git
+  said a dead-code sweep deleted the helper it alone used. The correction became "a pin
+  written as a list is a copy", not a softer pin.
+- **Two apply workers on sibling subjects converged on one live defect neither was
+  hunting** - test processes writing the operator's real store through a process-global
+  root. Independent convergence at apply time is as strong a signal as it is at research
+  time, and the Director should surface it to the operator directly; the registry keeps
+  only the mechanism.
+- **Apply workers will copy private stores to read them.** Two copies of the operator's
+  app database sat in the scratchpad at return. The apply brief should say: read private
+  stores in place and read-only, and never leave a copy behind.
+- **Workers ran the gate in detached worktrees holding only their subject** because
+  trunk's generated files are stale while siblings are mid-edit. It worked and should be
+  the brief's default; the Director regenerates once over the batch.
+
+## 1.2.0 - 2026-09-23 - software-engineering (second batch: 4 research + 4 apply workers)
+
+- **Stale verdicts were mostly fixed code.** 13 of 22 deviations that picked this batch
+  had been fixed in the project, most on one day. A demand rank built from stale verdicts
+  points at subjects whose projects already moved; it still paid, because the fixes taught
+  (a fix's detail is often the condition the subject lacked). Next time, check each
+  deviation's file history before the brief, and say in the brief which are fixed.
+- **The apply refuted the research pass's own predictions twice** - a minting gap that a
+  transactional door check had closed months earlier, and an application's claim about
+  which lookups lose a row. A research worker's "rows owed" are hypotheses; the falsifying
+  seam is the only reason they are worth running.
+- **Apply workers caught mechanism errors, not only missing conditions.** A lifecycle
+  bullet was right for one keep-alive primitive and backwards for the other. Reading the
+  installed framework source (not docs) at apply time found it; the brief should keep
+  saying "read what is installed".
+- **Holding the map regeneration until after the apply conditions saved a round** of ten
+  project commits. Order: research commits, apply, conditions, one map pass.
+- **Two subjects described one defect from opposite sides the same day** (a compatibility
+  boolean persisted beside a typed state). Concurrent workers on neighbouring subjects are
+  a convergence instrument; the run note should record it even when no technique follows.
 ## 1.2.0 - 2026-09-23 - ai-registry (bumped to 1.3.1 across the same change)
 
 - **"Dry is a result" was true in the ledger and invisible to a caller.** Loop mode's

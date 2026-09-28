@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-drv-0928",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-28T08:20:00Z",
+  "ended_at": "2026-09-28T08:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/deterministic-run-verification",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-clock dispatch: ranked on d93fbd78, which predates the landing that closed its finding",
+  "notes": "Third dispatch on the d93fbd78 finding \"3 techniques\"; local main 201 behind origin. origin/main 134f6fcd: 4 techniques since e3612ff2 (dp-drv-0927); 0927b idled it too. No expired or at-risk clock, no change since 09-27. Points not rescored. Nothing ran."
+}

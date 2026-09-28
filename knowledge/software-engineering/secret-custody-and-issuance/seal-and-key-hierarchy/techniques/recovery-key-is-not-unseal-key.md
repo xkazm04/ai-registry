@@ -67,6 +67,20 @@ exists undeclared. The break-glass seal then falls under the weakest-seal rule
 and the operators know what they have added. A recovery key that unseals is
 the same addition made silently.
 
+There is one sanctioned moment when recovery shares become unseal shares, and
+it is a seal migration, not a fallback. Migrating from an automatic seal to a
+threshold seal needs a threshold custody to migrate *to*. The landed
+realization builds it from the recovery shares the quorum just presented: once
+the threshold is met, those shares are carried over as the new seal's unseal
+shares. That keeps the rule. The automatic seal is removed in the same step,
+so the store still has one declared custody, and the shares have changed
+function rather than gained a second one. It also leaves a debt. The people
+who held an authorization credential now hold custody of the store, which is
+the population the rule exists to keep apart. The decision rule: when a
+migration promotes recovery shares to unseal shares, re-issue the share set
+afterward under the new seal's own ceremony, because the holders consented to
+authorizing and were never asked to hold the root.
+
 ## The operations a recovery quorum gates
 
 Root-credential generation, because that credential can do anything the

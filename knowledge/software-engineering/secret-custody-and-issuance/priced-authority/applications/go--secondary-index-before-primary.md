@@ -5,7 +5,7 @@ subject: priced-authority
 technique: secondary-index-before-primary
 status: forged
 stack: go
-verified_on: 2026-09-02
+verified_on: 2026-09-26
 verified_against: go@1.27
 ---
 
@@ -95,3 +95,36 @@ is the technique's "the set is a fast path, the record is the truth". No
 deviation. The tree has no explicit "already in progress" verdict for a
 caller - a re-entrant revoke returns success (`:2008`) - which is one of
 the two answers the technique permits.
+
+## Re-checked 2026-09-26 (pinned commit and main `a87e8099`): one deviation
+
+The write-order comment at `token_store.go:1561-1565` is word for word the
+same on main at `:1563-1567`. Later anchors shift +2 on main, and the
+anchors at `:1338` and `:1344` hold. The cited logic is unchanged.
+
+**Deviation retracting "No deviation" above.** `revokeInternal` claims the
+in-memory shadow on the salted id, `tokensPendingDeletion.LoadOrStore(saltedID, true)`
+(main `:2006`). When the marker write fails, the error path clears it
+under a different key, `tokensPendingDeletion.Store(entry.ID, false)`
+(main `:2031`), where `entry.ID` is the id on the record just read and not
+the salted one. The `true` entry survives. Every later revocation of that
+token then takes the short-circuit at `:2008-2010` and returns nil
+(success) without re-marking or tearing down, until the process restarts.
+The other two clears in the function (`:2057`, `:2059`) use `saltedID`
+correctly. This is a reading of the code at both commits, not a reproduced
+failure: the path needs the storage write itself to fail. The technique
+now requires the shadow to be cleared under the key it was claimed with,
+with a test for that path. Not reported upstream from this run.
+
+Two other points the technique now carries:
+- A marked token's lookup returns `nil, nil` (`:1855`), the same result as
+  an unknown token. The verdict does not name the revoking state.
+- No startup scan for marked records was found. Interrupted teardown is
+  recovered through the token's own expiration entry, which is deleted
+  last and restored on start.
+
+At login the third write is the expiration entry and not a parent index,
+because login tokens are orphans. It is written after the primary record.
+The read path covers that gap: a token that should expire but has no lease
+is revoked on lookup (`:1937-1958`, "It's any kind of expiring token with
+no lease, immediately delete it").

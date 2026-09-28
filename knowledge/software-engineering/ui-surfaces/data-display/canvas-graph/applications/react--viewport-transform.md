@@ -4,14 +4,23 @@ type: application
 subject: canvas-graph
 technique: viewport-transform
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-09-26
+verified_against: react@19.2
 ---
 
 # The Mastermind camera and the pattern-graph camera — two realizations, one contract
 
-This repo holds two independent pan/zoom cameras, and together they witness
+This repo held two independent pan/zoom cameras, and together they witness
 nearly every clause of the viewport-transform technique — including two
 lessons that were paid for live and then folded back upward.
+
+**Only the Mastermind camera is current.** The pattern-graph camera moved on
+2026-08-19 and was deleted on 2026-08-23 together with the graph lane it
+served. Every `useGraphCanvas.ts` citation below was re-checked on
+2026-09-26 against `8dca190821~1`, the last commit at its original path, and
+holds there. Those citations are history: they record lessons the technique
+absorbed, not a tree anyone can open today. The Mastermind citations were
+re-checked against the current tree on the same day.
 
 ## The transform authority
 
@@ -26,8 +35,9 @@ point under the pivot stays fixed. Every entry point routes through it: wheel
 (`:150`), double-click (`:213-216`), toolbar buttons via viewport center
 (`:218-223`), and `fit` (`:225-237`) which derives the framing transform from
 world bounds. The pattern-graph twin, `useGraphCanvas.ts`
-(`src/features/overview/sub_patterns/graph/useGraphCanvas.ts`), repeats the
-same change of basis with a center-origin convention (`:96-101`) and exposes
+(`src/features/overview/sub_patterns/graph/useGraphCanvas.ts` at
+`8dca190821~1`), repeated the same change of basis with a center-origin
+convention (`:96-101`) and exposed
 `project()` (`:191-197`) so HTML overlays share the authority instead of
 re-deriving it.
 
@@ -44,7 +54,7 @@ re-deriving it.
   committed camera — a `useLayoutEffect` re-asserts the live transform every
   render while a pan is active (`:95-100`), and `useIslandDrag.ts:37-40`
   mirrors the same guard for node drags. The live camera also lives in
-  `camRef`, deliberately not clobbered by state while mid-pan (`:67-71`),
+  `camRef`, deliberately not clobbered by state while mid-pan (`:68-71`),
   because gesture math must read the uncommitted truth.
 - **Interim commits on sustained gestures**: `PAN_COMMIT_WORLD = 350`
   (`:18-22`) — after ~half a cull margin of world travel, one commit lands

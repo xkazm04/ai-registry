@@ -1,0 +1,105 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-sr0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T14:50:00Z",
+  "ended_at": "2026-09-26T15:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/session-resume",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/session-resume",
+      "technique": "last-seen-anchors",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/session-resume",
+      "technique": "last-seen-anchors",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/session-resume",
+      "technique": "first-run-and-quiet-silence",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/session-resume",
+      "technique": "resume-affordances",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/session-resume",
+      "technique": "delta-briefings",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/session-resume",
+      "technique": "last-seen-anchors",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/session-resume",
+      "technique": "content-freshness-states",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/session-resume.md",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/techniques/last-seen-anchors.md",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/techniques/delta-briefings.md",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/techniques/first-run-and-quiet-silence.md",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/techniques/layered-place-restoration.md",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/techniques/content-freshness-states.md",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/techniques/resume-affordances.md",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/applications/next--last-seen-anchors.md",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume/applications/next--delta-briefings.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/session-resume.md"
+  ],
+  "commits": [
+    {
+      "sha": "3928006f",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/shell-and-navigation/session-resume",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single stack cleared (next). 1 flipped rule, 5 conditions, 0 techniques. Applied: 2 code better, 3 sim better, 2 sim not-better, 1 unapplied. Unpushed: politicas 6f6f97a, ascent 9789b04b+296f671b, personas map a8cb3aa62. 1 stale verdict (personas home-welcome)."
+}

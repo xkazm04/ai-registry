@@ -30,6 +30,22 @@ version and invalidated by it, and the derivation rule itself is versioned so
 an improved builder can regenerate old timelines rather than fossilizing the
 first heuristic.
 
+**The derivation starts at the reader, not the writer.** Between the file on
+disk and the timeline there is usually a command that pages, filters or
+reshapes what it serves, and that command is part of the derivation whether
+or not anyone wrote it down. A reader that keeps a line's text and drops its
+timestamp has deleted the tempo before the derivation sees it, and every
+honesty rule downstream then fails in silence. Nothing looks broken: the
+derivation falls back to its unstamped path. Two obligations follow:
+
+- test the derivation on the record **in the shape the reader returns**. A
+  suite that feeds the file as written can stay green while every real
+  replay is wrong, because the fixture agrees with itself;
+- a reader that returns part of the record makes the timeline part of the
+  run, and says so: "first 500 of 2,140 lines, through 06:12 of 07:30", never
+  a bare count that reads as the whole
+  ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
+
 ## Ordering: timestamps sort, identity breaks ties
 
 Records are ordered by their recorded time — but timestamps tie, and clocks
@@ -41,11 +57,15 @@ across process boundaries skew. Rules:
   Position-based tiebreaks reorder on re-derivation, and a timeline that
   shuffles between two openings of the same run destroys the viewer's trust
   in everything else it shows.
-- **Causal order beats stamped order where both exist.** A child span
-  stamped (by a skewed clock) before its parent is a physical impossibility
-  the derivation must resolve in causality's favor — and *record* the
-  adjustment on the item, because a silently repaired timestamp is an
-  estimate wearing a measurement's face.
+- **Causal order beats stamped order where both exist, and the raw stamp
+  survives the repair.** A child span stamped (by a skewed clock) before its
+  parent is a physical impossibility, and the derivation may resolve it in
+  causality's favor. If it does, it *records* the adjustment on the item,
+  because a silently repaired timestamp is an estimate wearing a
+  measurement's face. The repair is a view over the stamps, never a rewrite
+  of them. Keeping stamped order and marking the impossible item is the
+  other honest choice, and it is the conservative default in at least one
+  widely used trace viewer. Only a silent shift is ruled out.
 - **Out-of-range records are disclosed, not clamped.** An event stamped
   after the run's recorded end (late flush, timezone bug) either extends the
   timeline visibly or is excluded with a count — never quietly pinned to the
@@ -82,6 +102,16 @@ terminal. The derivation's contract:
   end**, rendered as interrupted — not assigned an invented duration, and
   not dropped (dropping the unclosed items from a crashed run deletes
   precisely the evidence the viewer came for);
+- this presumes the record keeps the *start*. Many tracing pipelines export
+  a span only when it ends, so an unclosed span is not open in the record.
+  It is absent, and what remains is a child pointing at a parent that isn't
+  there. The honest rendering is then a placeholder where the reference
+  lands ("missing parent"), never a promotion of the orphan to a root;
+- an item closed on the record's behalf is marked where it is closed. A
+  writer that stamps open items with the run's end at persist time, and
+  stores the stamp like any other, has turned an estimate into a
+  measurement one layer below the derivation, where nothing downstream can
+  undo it;
 - the run's end, for timeline purposes, is the **latest recorded moment**,
   not the nominal completion stamp — a run that died writes no completion;
 - a record too damaged to derive from produces a **stated failure** ("could

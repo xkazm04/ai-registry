@@ -694,6 +694,19 @@ verdict and probed by nothing.
 - **The existing `judge-stability` sighting (2026-09-04)** still waits on the year run.
   This run did not touch the judge.
 
+### 2026-09-23 - `/conform --stale` on personas (4 pairs re-judged at revision 34)
+
+3 deviation, 1 not-applicable; none of the old deviations fixed. Proposals from the judge,
+unplaced: (1) `judge-stability` application line - an identifier "stamped in the ledger is
+not stamped on the artifact": the dated judge id reaches the spend ledger but not the score
+row; (2) `certification-levels` needs a rule for ledgers - a summary that aggregates
+per-run certificates (a streak, a latest verdict) must carry the lower-level flag the
+per-run badge shows; (3) `selection-over-noise` has a positive partial realization worth an
+application (N travels with the proposal to a human gate; the winner is still not re-run).
+**Coverage:** an autonomous development loop matched on "harness" is quality-gates' ground,
+and it carries two gate defects (a verifier that passes on exit 0 with audit gates piped
+through a line count; a self-reported feature status).
+
 ## 2026-09-23 - [[2026-09-23-1]]
 
 Lead drain (run lib-0923), L263 AMEND to `eval-economics` (a long run persists each cell as it finishes) + APPLICATION. The lead's other half (run before polishing the output surface) **declined**: one sighting, figures unverifiable.

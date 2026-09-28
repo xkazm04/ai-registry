@@ -5,7 +5,7 @@ subject: compensation-banding-and-market-honesty
 technique: refuse-to-quote-an-uncalibrated-market
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-27
 ---
 
 # A market as a frozen configuration record, with an empty band list as a legal value
@@ -19,7 +19,7 @@ three modules." `MarketConfig` (`:25`) is a frozen dataclass gathering them so
 "a market is defined once, and the consumers read the active config instead of
 re-typing a locale constant."
 
-The fields that matter to this subject, from the field docs at `:29-79`:
+The fields that matter to this subject, from the field docs in the class docstring (`:26-74`; the fields themselves at `:76-95`):
 
 - `plausibility_ceiling` — "the largest plausible SINGLE gross figure in
   `currency` per `period`; a band above it is almost certainly a data error (a
@@ -39,7 +39,7 @@ The fields that matter to this subject, from the field docs at `:29-79`:
 
 ## The empty default and the stranded-literal defect
 
-`seniority_default_bands` (`:64-79, :95`) carries both halves of the lesson in
+`seniority_default_bands` (doc `:64-73`, field `:95`) carries both halves of the lesson in
 one field doc. The defect first:
 
 > "These were CZK/month magnitudes hardcoded in `automation.draft_offer` yet
@@ -55,7 +55,7 @@ the rule:
 > band configured' rationale routed to the human offer_review gate) rather than
 > an invented one."
 
-The field's default is the empty read-only mapping (`:92-95`), and the comment
+The field's default is the empty read-only mapping (`:95`), and the comment
 there states the failure it prevents: "a market that has not been given bands
 fails safe (no invented figure) instead of inheriting another market's
 magnitudes." A market cannot be constructed *into* the unsafe state by
@@ -87,11 +87,55 @@ the single switch point every consumer reads.
 
 ## The corresponding refusal in the lookup
 
-`pipeline/jobfit/taxonomy.py:545` (`role_band`) is the read side and refuses
+`pipeline/jobfit/taxonomy.py:751` (`role_band`) is the read side and refuses
 symmetrically: it "Returns `None` when the family is unknown, the seniority key
 is missing, or the band entry is short / non-numeric (tolerated by skipping
 rather than raising)". No nearest-family fallback, no interpolation onto an
-unknown key — an uncalibrated cell returns nothing, and
-`pipeline/jobfit/winnability.py:116` then renders `marketBand: None` and a
-`belowMarket` that is `None` rather than `False`, so the silence survives to
-the surface instead of being converted into a reassuring negative.
+unknown key. An uncalibrated cell returns nothing.
+
+## Re-read 2026-09-27: where the silence is lost
+
+The 08-20 reading said the silence survives to the surface. It survives in one
+case out of three. `pipeline/jobfit/winnability.py:145-147` computes:
+
+```python
+"belowMarket": (
+    bool(job_band and market_band and job_band[1] < market_band[0]) if comparable else None
+),
+```
+
+`None` comes only from a currency mismatch. When the currency matches and
+`market_band` is `None`, the `and` chain yields a falsy value and `bool()` turns
+it into `False`. That is the reassuring negative the technique names: "not below
+market" for a role with no market band.
+
+The second loss is the imputation marker. When a posting states no pay,
+`normalize_job` stamps the role's benchmark band into `salary_band` and records
+`"salary_band"` in `defaulted` (`pipeline/jobfit/jobs.py:396-401`). Winnability
+does not read that marker. It compares the anchor with itself and reports
+`False`, a verdict against a figure the posting never stated. Other readers in
+the same tree honour the marker. The payload is not displayed as a count today:
+the one surface reading it requires `belowMarket === true`. So this is a latent
+false negative, not a published statistic.
+
+The third loss defeats the demonstration market. `draft_offer`'s fail-safe
+(`pipeline/jobfit/automation.py:2768-2779`: `lo = hi = recommended = None`, "No
+salary band is configured for the '{market_id}' market...") runs only when the
+job carries no band (`:2751-2757`). As above, `normalize_job` always stamps one
+for a recognised family. It stamps it from the active market's benchmark
+block, and the `de-berlin` block in `data/salary_benchmarks.json` is not empty.
+It holds sample bands for every family, "the CZ band / 25 rounded to the
+nearest 100, NOT sourced". With Berlin active, a real family would therefore be
+priced from the sample through the job's defaulted band. The refusal fires only
+for a family the taxonomy does not recognise. The configuration record's bands
+are "DELIBERATELY EMPTY" (`market_config.py:161`), but the corpus block beside
+it is not. The demonstration market is labelled in both places and empty in
+only one.
+
+The refusal-path tests exist (`test_automation.py`
+`test_uncalibrated_market_proposes_no_figure_at_all`, and
+`test_market_config.py` `test_an_uncalibrated_market_configures_none`). They
+reach the fallback by clearing the band by hand ("normalize_job always derives
+one; clear it to reach the fallback") and by using a non-family role, which is
+exactly the path production never takes. Refusals are not counted anywhere.
+The only trace is an `offer_drafted` event with an empty figure.

@@ -52,6 +52,11 @@ whose numbers change silently is indistinguishable from one that is being tuned.
 
 - **Retract at the granularity you published.** A published per-cell table needs per-cell
   corrections; a published aggregate needs the aggregate restated with its coverage.
+- **An exclusion is a correction, and it is reported like one.** When runs attributed to
+  the environment are dropped, publish the score with and without them, and the count.
+  Dropping every infrastructure failure can inflate the agent's score, because a run that
+  crashed its environment may have crashed it by working carelessly. Scoring every one as
+  the model's failure deflates it.
 - **Never let a retraction wait for the next full run.** The incorrect claim is live now,
   and the cost of leaving it is that someone acts on it.
 - **Count the corrections publicly.** A fleet whose harness defect list is long and honest

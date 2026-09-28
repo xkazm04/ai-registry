@@ -1,0 +1,68 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-aadf-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T14:58:00Z",
+  "ended_at": "2026-09-26T15:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/ai-assistance-detection-and-fairness",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/ai-assistance-detection-and-fairness",
+      "technique": "observed-process-is-supporting-not-load-bearing",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/ai-assistance-detection-and-fairness",
+      "technique": "observed-process-is-supporting-not-load-bearing",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/ai-assistance-detection-and-fairness.md",
+    "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/techniques/observed-process-is-supporting-not-load-bearing.md",
+    "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/node--observed-process-is-supporting-not-load-bearing.md",
+    "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/process--behaviour-matched-peer-test-for-over-reliance.md",
+    "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/process--planted-canary-with-real-ground-truth.md",
+    "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/react--never-penalise-tool-use-invariant.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/ai-assistance-detection-and-fairness.md"
+  ],
+  "commits": [
+    {
+      "sha": "938c2f68",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "8 claims attacked, none refuted, 5 conditioned, 1 unsourced figure removed. Node application + one flipped golden-path rule. Watched-session waiver fixed in kp ac43761d4 (A/B 45->75). kp map: 0 stale verdicts. 1 unapplied; 7 kp deviations owed."
+}

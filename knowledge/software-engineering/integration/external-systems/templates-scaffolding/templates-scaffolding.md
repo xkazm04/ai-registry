@@ -10,6 +10,7 @@ techniques:
   - integrity-and-provenance
   - template-portability
   - catalog-curation
+  - instance-upgrade
 ---
 
 # Template & scaffolding systems
@@ -69,7 +70,10 @@ option label strings, every rewritten default silently left its own option
 set. Two hand-maintained copies of one vocabulary, edited once. The invariant
 therefore belongs in an admission gate rather than in an authoring guideline
 — authors, generators, *and well-intentioned batch edits* all write templates,
-and none of them re-checks membership by hand. The full anatomy
+and none of them re-checks membership by hand. Nor will the schema language
+do it for you: the most widely used one treats a default as an annotation it
+never validates, so a default outside its own enumeration is a *valid*
+schema. The check has to be written. The full anatomy
 — dimension schemas, cross-dimension constraints, where the invariant is
 enforced — is the [template-anatomy](./techniques/template-anatomy.md)
 technique.
@@ -99,7 +103,14 @@ like a bug. And after adoption, the instance **divorces** the template: it
 carries a provenance stamp (which template, which version, which answers) but
 no live coupling — editing the instance must never write back to the
 template, and updating the template must never mutate instances born from it.
-The stamp is for forensics and offers, not for synchronization. The full
+The stamp is for forensics and offers, not for synchronization. That holds for
+what the template *copies* into the instance; a template may also hand the
+instance a *reference* — a pinned pointer to a maintained component the
+adopter never edits — and there live coupling at a chosen version is the
+point, not a defect. Decide per part which one it is. Accepting an offer is
+its own mechanism: the stamp's frozen version and answers are the merge base
+that separates the adopter's edits from the catalog's — the
+[instance-upgrade](./techniques/instance-upgrade.md) technique. The full
 lifecycle — including generated drafts that precede cataloging, review trays
 for comparing candidates, and re-adoption semantics — is the
 [adoption-lifecycle](./techniques/adoption-lifecycle.md) technique.
@@ -117,7 +128,11 @@ succeeds, the instance is born broken, and the missing credential surfaces
 days later as an unattended 3 a.m. failure wearing the adopter's name. A
 readiness gate converts a cheap guided fix at adoption time (human present,
 context fresh, remedy one click away) into the *only* fix; skipping it
-converts the same defect into an incident. The matching machinery — how
+converts the same defect into an incident. Its reach is what is *absent* at
+adoption: a credential present then and expired or revoked a month later is
+the same 3 a.m. failure, and only the instance's own run-time health — pause
+and name the reconnect — catches it. The gate is the first check, not the
+last. The matching machinery — how
 declared requirements are matched against a live
 [credential vault](../../../security/identity-and-access/credential-vault/credential-vault.md), the three-state
 readiness verdict, and when degraded adoption is legitimate — is the
@@ -139,7 +154,12 @@ deleted — callers verified first, so the deletion removed decoration rather
 than protection. The law here is
 [gate-sees-target](../../../_laws.md#gate-sees-target): the verifier must read the
 same representation the manifest hashed, and a verification *mismatch* must
-be spelled differently from a manifest that is merely *absent*. Manifest
+be spelled differently from a manifest that is merely *absent* — or not yet
+produced. The same law reaches the badge: a "verified" mark the adopter sees
+must name what was checked (who published it, whether the bytes are the
+shipped bytes, whether anyone reviewed the behavior) and what it was checked
+against; a mark derived from where a template came from, painted as if its
+payload had been checked, is decoration with a shield on it. Manifest
 design, verify-at-seed versus verify-at-adopt, and what a red verdict is
 allowed to do are the
 [integrity-and-provenance](./techniques/integrity-and-provenance.md) technique.
@@ -197,3 +217,7 @@ discipline. This is the
 - [catalog-curation](./techniques/catalog-curation.md) — the admission bar,
   taxonomy and dedupe, retirement paths, counting the catalog with its
   predicate.
+- [instance-upgrade](./techniques/instance-upgrade.md) — accepting an
+  "improved since you adopted" offer without erasing the adopter's edits:
+  the stamp as merge base, regenerate-diff-reapply, the out-of-date check
+  that can fire, copy versus reference.

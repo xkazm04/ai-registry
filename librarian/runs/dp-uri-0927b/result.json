@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-uri-0927b",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-27T21:45:00Z",
+  "ended_at": "2026-09-27T21:52:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/unattended-run-isolation",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 2,
+      "points_after": 2
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Stale-clock dispatch (checkout 176 behind origin). dp-uri-0927 (0ea31221) already lifted it to 5 techniques today; origin/main scan: 2 points, single stack only, 0 expired, 0 at-risk. Finding cleared; single-stack is no clock or event, so nothing ran."
+}

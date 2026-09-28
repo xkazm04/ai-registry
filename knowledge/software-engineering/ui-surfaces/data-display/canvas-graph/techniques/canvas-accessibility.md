@@ -25,7 +25,15 @@ that unlocks everything is to expose the **graph**, not the geometry.
   it contains ("Pipeline editor, 24 steps, 31 connections"). Tabbing reaches
   the canvas once — not once per node; a hundred nodes in the page's tab
   order make the surface a wall that keyboard users must arrow through to
-  reach whatever is after it.
+  reach whatever is after it. The region needs a role that *can* carry a
+  name, such as a group, a region or an application. A name on a role-less
+  container is prohibited, and assistive technology drops it silently. The
+  widely used node-editor defaults run the other way, with a tab stop per
+  node *and* per edge, so the single stop is a setting you turn off, not
+  something you inherit. Roving focus assumes nodes are elements. A surface
+  drawn into a single 2D or GPU canvas has none, and it points at the active
+  node with an active-descendant reference into an off-screen twin, or hands
+  the whole contract to the list twin below.
 - **The name counts the graph, not the drawing.** Wherever the surface draws
   a subset — a cap on how many nodes render, a filter, culling — a name
   built from what was rendered announces a smaller world than the one that

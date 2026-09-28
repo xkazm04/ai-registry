@@ -33,6 +33,22 @@ to stop a fleet attributing its own faults to models.
 - **Refusal-as-result.** Symptom: near-instant runs with no output and a success-shaped
   status. Tell: they cluster in a window and stop at a reset time. Fix: detect on message
   text; requeue.
+- **Cached rerun.** Symptom: a rerun reproduces the failure exactly, down to the text.
+  Tell: the rerun's cache-hit count equals its call count, or its wall time is near zero.
+  Fix: a rerun meant to resample bypasses the response cache, and a re-grade keys its
+  cache on the output it grades.
+- **Silent provider degradation.** Symptom: runs complete normally, but quality drops for
+  some requests in one window, one provider route or one snapshot. Some requests show
+  stray tokens or odd truncations. Tell: the drop follows the date and the serving route,
+  not the configuration. A known-answer probe run alongside drifts in the same window, or
+  the snapshot the provider reported differs from the one the passing runs got. Fix: log
+  the reported snapshot, route and stop reason per request. Re-run the window on another
+  route or later, and keep the degraded runs out of the comparison until then.
+- **Unstamped harness change.** Symptom: two runs of one configuration, headers identical,
+  disagree on a block of items, mostly in one direction. Tell: a harness commit sits
+  between the two start times, and the items that flipped also changed what they were
+  served. Fix: stamp the harness revision at run start, and refuse to read a pair with
+  different stamps as a rerun.
 - **Stale measurement.** Symptom: a fact present for later runs and absent for earlier ones,
   or two runs with identical behaviour scored differently. Tell: the harness changed
   between them. Fix: recompute from stored artefacts.

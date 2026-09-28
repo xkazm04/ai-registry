@@ -6,7 +6,7 @@ technique: nonce-progress-verify
 status: forged
 laws: [identity-survives-reuse, gate-sees-target]
 shared_with: []
-use_when: [designing a multi-share submission endpoint, a share arrives for an attempt that may no longer exist, deciding when newly rotated root material becomes the live material, an operator asks how far along a rotation is]
+use_when: [designing a multi-share submission endpoint, a share arrives for an attempt that may no longer exist, deciding when newly rotated root material becomes the live material, an operator asks how far along a rotation is, deciding when a rotated master secret may be retired]
 ---
 
 # Nonce, progress, verify
@@ -110,7 +110,11 @@ copy of every share is a stored copy of every share.
 
 ## Decision rules
 
-Verification is the default and the operator opts out, not the reverse; where the
+Verification is the default and the operator opts out, not the reverse. That is this
+technique's recommendation, and the reference implementations ship the opposite:
+verification is off unless the init requests it, and without it the new shares take
+effect the moment the old threshold is met. A runbook written against them sets the
+flag explicitly on every rotation. Where the
 holders are automation and the shares are delivered to a custody the system can probe,
 the opt-out is defensible, and where they are people it is not. Where the root
 material is protected by an external custody rather than by shares, rotating it mints
@@ -132,3 +136,17 @@ holders helped mint.
 The technique is not for rituals with one participant. A single operator rotating a
 key they alone hold gets nothing from a nonce; the overlap window of ordinary
 credential rotation applies and this machinery is overhead.
+
+One half transplants intact: **the old material retires only after a verification, and
+that verification covers everything the old material still vouches for, not only what
+the rotation rewrote.** A root secret rarely does one job. The same value that wraps the
+stored secrets may key signatures other people check, sessions, tokens already handed
+out, and backups cut before the rotation. A re-encryption pass can prove every
+ciphertext it rewrote, and still retire a key that thousands of outstanding signatures
+depend on. The failure is that a rotation checks the artifacts it knows how to rewrite
+and reports done. So the rotation enumerates, up front, every artifact kind keyed by the
+retiring material. For each kind it names a rewrite, a pin that keeps the old value
+verify-only for that kind, or a deliberate invalidation that the operator is warned
+about. It refuses to call itself done while any kind has none of the three. Backups are
+the kind no pass can rewrite. The old material, or the old share set, is kept for as
+long as the oldest backup that needs it.

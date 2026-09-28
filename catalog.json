@@ -136,9 +136,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 12,
+      "lessons": 13,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:349bbf430aa61497",
+      "lessonsHash": "sha256-n1:ce2cd1deb639a456",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -174,16 +174,16 @@
     },
     {
       "name": "contest",
-      "version": "1.4.1",
+      "version": "1.7.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:e172ecde2da94387",
+      "contentHash": "sha256-n1:272dd0fea63634e5",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 10,
+      "lessons": 11,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:e58db7929852792b",
+      "lessonsHash": "sha256-n1:d977b13ef7a222b6",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -219,9 +219,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 12,
+      "lessons": 13,
       "lessonsPath": "skills/cx/LESSONS.md",
-      "lessonsHash": "sha256-n1:831d4114aa1d4441",
+      "lessonsHash": "sha256-n1:3db1cd5157b2b422",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -334,6 +334,25 @@
       "usageContributors": [
         "wolf"
       ],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
+    },
+    {
+      "name": "illustrate",
+      "version": "1.2.0",
+      "category": "workflow",
+      "path": "skills/illustrate/SKILL.md",
+      "contentHash": "sha256-n1:d3da744ba5fd829b",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 5,
+      "lessonsPath": "skills/illustrate/LESSONS.md",
+      "lessonsHash": "sha256-n1:eaf181c8146f2367",
+      "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
       "difficulty30d": null,
@@ -968,10 +987,10 @@
     }
   ],
   "counts": {
-    "skills": 37,
+    "skills": 38,
     "practices": 8,
     "memory": 6,
-    "lessons": 284
+    "lessons": 292
   },
   "bundles": [
     {
@@ -982,10 +1001,10 @@
       "profile": "rkb/0.1",
       "purity": "agent-ops",
       "subjects": 9,
-      "techniques": 30,
-      "applications": 15,
-      "files": 58,
-      "contentHash": "sha256:e88e46ca7ec69660"
+      "techniques": 39,
+      "applications": 26,
+      "files": 78,
+      "contentHash": "sha256-b2:dafc4bb8aac906d0"
     },
     {
       "name": "civic-intelligence",
@@ -998,7 +1017,7 @@
       "techniques": 92,
       "applications": 35,
       "files": 147,
-      "contentHash": "sha256:f06c08ebbdf6cb74"
+      "contentHash": "sha256-b2:dd1f5c808cbb22e7"
     },
     {
       "name": "game-production",
@@ -1008,10 +1027,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 52,
-      "techniques": 331,
+      "techniques": 332,
       "applications": 142,
-      "files": 529,
-      "contentHash": "sha256:19fdebaca517ff24"
+      "files": 530,
+      "contentHash": "sha256-b2:6bd99d3c95268bf0"
     },
     {
       "name": "grant-funding",
@@ -1024,7 +1043,7 @@
       "techniques": 105,
       "applications": 38,
       "files": 165,
-      "contentHash": "sha256:bb1ec251fe7f8c41"
+      "contentHash": "sha256-b2:6a0546ec04051531"
     },
     {
       "name": "llm-observability",
@@ -1037,7 +1056,7 @@
       "techniques": 125,
       "applications": 77,
       "files": 225,
-      "contentHash": "sha256:1cf8f1dee8a2e3e2"
+      "contentHash": "sha256-b2:8f22c1692ba5c2df"
     },
     {
       "name": "localization",
@@ -1050,7 +1069,7 @@
       "techniques": 119,
       "applications": 55,
       "files": 195,
-      "contentHash": "sha256:36782a08812f8af4"
+      "contentHash": "sha256-b2:2d5cc79e474fe296"
     },
     {
       "name": "marketing",
@@ -1063,7 +1082,7 @@
       "techniques": 183,
       "applications": 84,
       "files": 301,
-      "contentHash": "sha256:b40dd952d92f5be9"
+      "contentHash": "sha256-b2:eb4c71d1d9833cb7"
     },
     {
       "name": "media-generation",
@@ -1074,9 +1093,9 @@
       "purity": "media",
       "subjects": 21,
       "techniques": 146,
-      "applications": 75,
-      "files": 247,
-      "contentHash": "sha256:d256cd269085ff4c"
+      "applications": 80,
+      "files": 252,
+      "contentHash": "sha256-b2:8ecf5ccfb4cc949e"
     },
     {
       "name": "recruiting",
@@ -1086,10 +1105,10 @@
       "profile": "rkb/0.1",
       "purity": "recruiting",
       "subjects": 64,
-      "techniques": 384,
-      "applications": 197,
-      "files": 650,
-      "contentHash": "sha256:33eed40372bf1b77"
+      "techniques": 387,
+      "applications": 228,
+      "files": 684,
+      "contentHash": "sha256-b2:8f670d4eeeae40d7"
     },
     {
       "name": "software-engineering",
@@ -1098,11 +1117,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 232,
-      "techniques": 1790,
-      "applications": 1146,
-      "files": 3173,
-      "contentHash": "sha256:f69850e0be345a35"
+      "subjects": 233,
+      "techniques": 1814,
+      "applications": 1193,
+      "files": 3245,
+      "contentHash": "sha256-b2:729e6747607389a4"
     }
   ],
   "usageEvidence": {

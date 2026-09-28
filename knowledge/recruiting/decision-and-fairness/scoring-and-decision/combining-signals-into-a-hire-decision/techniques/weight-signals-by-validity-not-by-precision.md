@@ -21,29 +21,41 @@ This technique sets each weight from the **validity** of the signal and the
 **evidentiary class** of the observation, and refuses to weight at all what
 cannot be defended.
 
-## The evidentiary classes, in order
+## The evidentiary classes, and what they do not settle
 
 Before any coefficient, classify the observation. Three classes, and the class
-caps the weight:
+sets the *prior* on the weight — it is not a measured cap:
 
 1. **Demonstration** — the candidate produced work under conditions you
    controlled, graded against a rubric fixed before the grading. A work sample,
-   a live exercise, a job-knowledge assessment. Heaviest class.
+   a live exercise, a job-knowledge assessment.
 2. **Structured observation** — a trained assessor rated fixed dimensions on
    anchored scales, from a conversation. A structured interview, a structured
-   reference call with fixed questions. Middle class; falls to the third class
-   the moment the structure is nominal.
+   reference call with fixed questions. Falls to the third class the moment the
+   structure is nominal.
 3. **Report and proxy** — the candidate, or someone acting for them, told you
    something. A résumé, a self-rating, an open-ended reference, a title, years
    of experience. Lightest class, regardless of how neatly it quantifies.
 
-The families' predictive power runs in that order across every re-analysis of the
-selection literature, even as the specific coefficients have moved substantially
-and downward over time. Rely on the ordering; do not paste in coefficients as if
-they were measured on your instrument. A document yields hypotheses, a
-conversation yields evidence, only a demonstration yields proof
-([law](../../../../_laws.md#inference-must-look-like-inference)) — weights should
-reproduce that sentence.
+What the selection literature supports is a **coarse split**, not a three-rung
+ladder: job-specific, structured signals from the first two classes form one
+top group, well above unstructured judgment and far above proxies such as years
+of experience. Inside the top group the order moves between re-analyses — the
+2022 re-analysis put structured interviews ahead of job-knowledge tests and work
+samples — and the coefficients have moved both up and down with the
+corrections applied to them. And class 3 has a real exception: biographical
+questions *keyed empirically against outcomes* predict about as well as the top
+group, although the candidate reports them. The class describes how a signal was
+built and checked, not the form it arrives in. Rely on the coarse split; do not
+rank the top group from its labels, and do not paste in coefficients as if they
+were measured on your instrument.
+
+The law that a document yields hypotheses, a conversation yields evidence and
+only a demonstration yields proof
+([law](../../../../_laws.md#inference-must-look-like-inference)) governs how an
+inference is *labelled and presented*. It is not a validity table, and a weight
+scheme that reproduces it literally will under-weight a well-structured
+interview.
 
 ## The precision trap, stated mechanically
 
@@ -58,6 +70,11 @@ cheapest signals to quantify are the furthest from the work:
 | Structured work sample | coarse rubric levels | high |
 | Structured interview | anchored levels per dimension | high |
 | Reference conversation | prose | low to moderate, high variance |
+
+The last row is the least settled: the most recent large re-analysis excluded
+reference checks for lack of data, and the older figure comes with a warning
+from its own authors. Treat a reference's validity as unknown until a structured
+form of it has been checked on your roles.
 
 A composite that is not explicitly designed against this table will drift toward
 the top rows, because those are the rows that never produce a missing value, an
@@ -97,10 +114,29 @@ handlings, both common:
   indistinguishable from a measured mediocre one, and quietly lets a composite
   reach full weight on partial evidence.
 
-The correct handling is to renormalize over what *was* measured, record the
-coverage, and let thin coverage suppress confidence rather than the score. A
-composite computed over two of six dimensions is not a low score; it is a score
-that must announce its coverage.
+The third handling — renormalize over what *was* measured — looks like the
+neutral alternative and is not. It **is** imputation: every missing dimension
+silently takes the candidate's mean on the others, and that is biased even when
+the gaps are random. When they are not random it is worse. A dimension an
+assessor skipped, or a model omitted, because the evidence for it was weak is
+most likely a low one, and renormalizing hands the candidate the mean of their
+better dimensions instead. The score *rises* because of the gap. Scaling
+confidence by coverage does not catch it: a quarter of the rubric missing
+lowers confidence by a quarter, which a well-evidenced file absorbs without
+reaching a hold. So:
+
+- **Always record coverage**, as a field of its own, never inferred from a
+  score.
+- **A missing heavy dimension holds.** A dimension at or near the rubric's
+  largest weight, or the one the instrument exists to measure, cannot be
+  averaged around. The file is not ready for a verdict.
+- **A missing light dimension may be renormalized**, labelled as imputed, with
+  coverage lowering confidence. A composite computed over two of six dimensions
+  is not a low score; it is a score that must announce its coverage.
+- **A value filled from another instrument is an imputation with a
+  provenance**, never a measurement. For example, a fallback scorer standing in
+  for a model that omitted one dimension must be recorded as the fallback's,
+  and the dimension still counts as missing for coverage.
 
 Two implementation lessons that cost real incidents:
 
@@ -138,16 +174,24 @@ defended later
 
 ## Decision rules
 
-- **When a signal's validity for this role family is unknown, do not give it a
-  weight.** Route it to the narrative and, if it is concerning, to a hold. An
-  unvalidated signal in the sum is a guess with arithmetic authority.
+- **When a signal's direction or validity for this role family is unknown, do
+  not give it a weight.** Route it to the narrative and, if it is concerning, to
+  a hold. An invalid member dilutes the composite toward the accuracy of a
+  holistic judgment: an equal-weight sum of a .40 signal and a zero one predicts
+  at about .28.
+- **When only the optimal weight is unknown, use equal weights** over
+  standardized signals of known direction. They predict nearly as well as fitted
+  weights, and better at hiring sample sizes. Fitted weights begin to pay off
+  only at roughly fifteen to twenty resolved outcomes per signal.
 - **When two signals observe the same underlying evidence** (an interview
   conducted after reading the screening score; a sample brief generated from the
   parsed résumé), collapse them to one weight. Double-counted evidence reads as
   corroboration and inflates confidence.
 - **When a light-class signal disagrees with a heavy-class one**, the heavy one
   holds and the disagreement is raised — never averaged.
-- **When coverage is partial**, renormalize and record coverage; do not impute.
+- **When coverage is partial**, record it; hold on a missing heavy dimension;
+  renormalize over a missing light one only with the result labelled as
+  imputed.
 - **When the weights change**, version them. Old decisions keep the scheme they
   were made under and are marked as such, rather than being silently re-meant.
 

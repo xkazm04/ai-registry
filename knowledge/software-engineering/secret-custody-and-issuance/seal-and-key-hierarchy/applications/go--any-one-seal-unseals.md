@@ -5,8 +5,9 @@ subject: seal-and-key-hierarchy
 technique: any-one-seal-unseals
 stack: go
 status: forged
-verified_on: 2026-09-02
+verified_on: 2026-09-26
 verified_against: go@1.27
+refresh_by: 2026-12-26
 ---
 
 # Seals in OpenBao: what is landed, what is accepted design (Go, source tree)
@@ -98,6 +99,44 @@ seal manager (`seal_manager.go:61-83`, `sealByNamespace`) holds one seal per
 namespace. A consumer citing this application for the plural seal is citing
 a design, and `verified_against` names the runtime the design targets, not
 code that runs it.
+
+## Re-checked 2026-09-26: still designed, and landed elsewhere
+
+OpenBao's `CHANGELOG.md` through 2.7.0 (September 23, 2026) carries no
+entry for parallel unseal or the emergency seal. Both RFCs merged as
+documents, and neither has landed code. The release that did move the seal
+boundary is 2.7.0 itself: "The `pkcs11`, `alicloudkms`, `awskms`,
+`azurekeyvault`, `gcpckms` and `ocikms` seals are no longer built-in and
+must be installed as external plugins" (GH-3337). The golden path's "a
+custody mechanism that runs as a separate process must be fetched and
+started before the store is opened" is now the default path for every
+key-service seal. The root-only rotation had a shipped defect under a
+Shamir seal, fixed in the March 25, 2026 release: "`/sys/rotate/root` call
+rotating both root key and unseal key when using a Shamir Seal, losing all
+key shares" (GH-2619). The keyring technique's test ("the old shares still
+unseal afterward") is taken from it.
+
+The plural seal has landed in HashiCorp Vault Enterprise as Seal HA,
+documented at developer.hashicorp.com `vault/docs/concepts/seal` and
+`.../configuration/seal/seal-ha`. It is documentation, not a tree we read.
+Its constraints correct the technique's draft: "Shamir seals cannot be used
+in a Seal HA setup", "You cannot mix Shamir and auto seals", and "You can
+configure a maximum of three seals". So the automatic-plus-threshold pair
+the technique had called common is shipped by nobody. Its handling of an
+unhealthy seal is the third rotation design the technique now carries:
+"When seals are unhealthy, Vault keeps track of values that could not be
+fully wrapped and will re-wrap them once seals become healthy again. Note,
+however, that it is not possible to rotate the data encryption key nor the
+recovery keys" while seals are unavailable. The size cost is quoted too:
+"Vault multiplies the size of the entry by the number of seals". The
+weakest-link property is not stated in Vault's pages; the OpenBao RFC above
+remains its source. On the recovery technique, the same concepts page
+confirms "Recovery keys cannot decrypt the root key". For auto-to-Shamir
+migration it also says: "Once you enter the required threshold of recovery
+keys, Vault migrates the recovery keys that it will use as unseal keys".
+That is the sanctioned crossing the technique now names. The two Vault
+pages disagree on which end of `priority` is tried first, so no direction
+is cited.
 
 ## What this realization cannot do
 

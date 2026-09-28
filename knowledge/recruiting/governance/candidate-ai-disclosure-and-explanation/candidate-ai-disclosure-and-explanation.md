@@ -46,14 +46,19 @@ flowchart — and believes it has discharged its explanation duty. It has not. I
 has described a system. The person wants to know why *they* were declined.
 
 The line is not about length or technical depth. Handing someone the scoring
-formula, the feature weights, or a faithful step-by-step trace of the pipeline
-fails the duty just as completely as a marketing page does, and for the opposite
-reason: neither is intelligible as an account of one person's outcome. The
+formula, the feature weights, or a faithful step-by-step trace of the pipeline,
+and nothing else, fails the duty just as completely as a marketing page does,
+and for the opposite reason: neither is intelligible as an account of one
+person's outcome. The formula is not forbidden as an addition. It is
+insufficient as the answer. The
 standard that has converged across regulators, courts and practice is that the
 explanation must be **concise, intelligible, specific to this person's data, and
 sufficient for them to contest the outcome**. That last clause is the operative
 one. If, having read it, the person still cannot identify anything to correct,
-dispute or appeal, the explanation did not happen.
+dispute or appeal, the explanation did not happen. That is also why
+satisfaction is the wrong measure of an explanation. Explanations carrying no
+real information earn trust and satisfaction ratings close to real ones, and
+only the informative ones leave people understanding the system better.
 
 Concretely, an explanation of a decision has to answer four questions and it can
 usually answer them in four sentences:
@@ -156,11 +161,17 @@ excluded, because the reasons differ:
   candidate and belongs in the operator's audit trail with an attribution. It is
   excluded from the candidate projection, not from the record.
 
-Consent gates the whole surface, not merely its fields. Where the retention
-window has expired or the record has already been anonymised, the explanation
-view returns nothing at all — the same read-time rule every other boundary
-applies. An explanation is a disclosure of personal data about a person, and it
-does not get an exemption from the basis on which that data is held.
+Erasure closes the whole surface, not merely its fields. Once the record has
+been anonymised, the explanation view returns nothing at all. An expired
+retention window is not the same event, and treating it as one gets the
+direction wrong. Expiry is the trigger to erase. Until the erasure has
+happened, the data exists and the person's right of access still reaches it.
+The regulator's worked example is a job application kept past its retention
+period: give access first, delete afterwards, and never answer that nothing is
+held while something is. A candidate view that goes blank at expiry, while the
+operator's audit dossier still shows the same decisions, hides the record from
+the one reader entitled to it. The rule is parity. The candidate is never
+shown less of their own record than any reader inside the organisation can see.
 
 ## Attribution has three states and fails away from the machine
 
@@ -176,7 +187,19 @@ this surface may never utter, because it is exactly the claim a person would
 challenge and exactly the claim the organisation would have to substantiate.
 Downgrading is conservative; it admits to more automation than may have
 occurred, which harms nobody and understates the organisation's diligence.
-Upgrading fabricates a human accountability that may not exist. See
+Upgrading fabricates a human accountability that may not exist.
+
+A name on the record does not settle it. Human involvement counts only when the
+person could have changed this outcome, had the relevant data in view, and did
+not simply apply what the system produced. Routine approval of machine output
+"without any actual influence on the result" is still a solely automated
+decision. The commonest real case, where a machine selects and a person
+approves the set, is therefore rendered as two facts: the automated process
+selected, and a person approved. Attribution stays with the machine, and the
+approval is shown beside it only when the record seals a named approver who
+could have removed this person from the set. That is also how a notice promising
+human rejection is *performed* on the explanation surface without upgrading
+anything. See
 [every-decision-names-its-actor](../../_laws.md#every-decision-names-its-actor) and
 [uncertainty-resolves-toward-the-candidate](../../_laws.md#uncertainty-resolves-toward-the-candidate).
 
@@ -214,11 +237,13 @@ anything about the person's merit, because no merit judgment was recorded.
 ## The right to human review must be a mechanism, not a sentence
 
 Promising review and implementing a contact address is the most common hollow
-compliance artifact in this domain. A real review right has four properties: it
-is reachable from the surface where the decision was shown, it is available at
-any point rather than within a window the person will miss, it routes to a human
-with authority to reverse, and its outcome is sealed back into the record
-attributed to the reviewing human — never inheriting the machine's attribution.
+compliance artifact in this domain. A real review right has four properties. It
+is reachable from the surface where the decision was shown. It is available for
+as long as the record is held, rather than within a window the person will miss,
+and the person is told when that ends. It routes to a human with authority to
+reverse who does not default to the system's output. And its outcome is sealed
+back into the record attributed to the reviewing human, never inheriting the
+machine's attribution. An instruction to reply to any message is none of these.
 
 The right is also the pressure valve for everything above. A person who
 disagrees with an explanation they cannot fully verify has somewhere to go, and
@@ -238,8 +263,9 @@ aim for, because it means the promise was true before anyone asked.
   purpose-built view. Redaction leaves the internal shape visible and fails open
   the moment a field is added.
 - **Disclosure that overpromises.** Copy asserting human review of every
-  decision, in a system where a threshold silently auto-declines. The promise is
-  the easy part to write and the expensive part to keep; write only what the
+  decision, in a system where a threshold silently auto-declines, or where a
+  person approves a machine-selected list they cannot edit. The promise is the
+  easy part to write and the expensive part to keep; write only what the
   pipeline enforces.
 - **Explanation that leaks a second person.** Naming the approving operator, or
   explaining a decline by reference to stronger applicants. Both feel candid.
@@ -247,7 +273,9 @@ aim for, because it means the promise was true before anyone asked.
 - **Trade secrecy as a blanket refusal.** Commercial confidentiality narrows
   what may be said about internal mechanics; it does not extinguish the person's
   right to know which of their data was used and what was decisive. Refusing
-  wholesale on secrecy grounds is not a defensible position.
+  wholesale on secrecy grounds is not a defensible position, and the controller
+  is not the judge of its own claim. Contested material goes to the supervisory
+  authority or court to be balanced case by case.
 - **A notice that renders before it knows.** Any legal assertion painted from a
   default while a lookup is pending. Covered above; it belongs in this list
   because it is the failure that looks least like one.
@@ -262,7 +290,8 @@ aim for, because it means the promise was true before anyone asked.
 - [decisive-facts-not-the-rationale](./techniques/decisive-facts-not-the-rationale.md)
   — the contestable pair, never the argument written to defend the decision.
 - [three-state-attribution-that-fails-to-unknown](./techniques/three-state-attribution-that-fails-to-unknown.md)
-  — downgrade toward the machine, never upgrade toward a person.
+  — downgrade toward the machine, never upgrade toward a person; a real
+  approval is shown beside the machine's selection, never in place of it.
 - [held-data-derived-from-what-exists](./techniques/held-data-derived-from-what-exists.md)
   — an inventory that cannot over-claim or under-claim, because it is a
   traversal.

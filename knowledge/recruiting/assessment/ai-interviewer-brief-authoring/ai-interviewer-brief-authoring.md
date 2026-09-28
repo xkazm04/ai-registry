@@ -97,14 +97,19 @@ it is *ask one thing and wait*, including tolerating the silence afterwards. The
 interviewer's instinct to fill a pause is a candidate's lost sentence.
 
 **Narrow instead of repeating.** When an answer is thin, the naive remedy is to
-ask again. Repeating a question verbatim tells the candidate they failed and
-gives them nothing new to work with; it converts a comprehension problem into an
-evidence problem and reads, from the candidate's side, as being caught out. The
-craft move is to ask a *smaller* question inside the same topic — one concrete
-instance, one number, one decision they personally made — which is both a fairer
-test and a better probe, because specificity is what separates a lived claim from
-a rehearsed one. Coverage of the competency, not the count of questions asked, is
-the completion condition.
+ask again. Standardised survey interviewing does exactly that on purpose — it
+re-reads the question as written, because a verbatim repeat is the one probe that
+adds no content of the interviewer's own. A competency interview departs from
+that doctrine deliberately: its questions have no fixed answer set, and a repeat
+gives a candidate who did not know what was wanted nothing new to work with while
+telling them the first attempt missed. The craft move is to ask a *smaller*
+question inside the same topic — one concrete instance, one number, one decision
+they personally made. The departure has a price that the survey doctrine exists
+to avoid: every narrowing question is authored live, and probing in hiring
+interviews has been found to cue applicants toward what the interviewer wants to
+hear. So the narrowing questions are planned in advance, neutral about content,
+and applied to every candidate alike. Coverage of the competency, not the count
+of questions asked, is the completion condition.
 
 **No verdict, and — the harder half — no praise.** Every practitioner writes the
 verdict ban: no score, no feedback, no decision, no "you'd be a strong fit". Far
@@ -115,7 +120,12 @@ teaches the candidate which register earns approval within the first two answers
 after which they are performing to a signal rather than answering, and it makes
 the interview's difficulty depend on which answer happened to come first. The
 usable formulation is that **warmth is interest, not approval**: an interviewer
-may be visibly engaged, may acknowledge, may thank — and may not grade.
+may be visibly engaged, may acknowledge, may thank — and may not grade. The
+permitted words are only safe when they are not rationed: an "okay" or "thanks,
+that helps" given after the good answers and withheld after the thin ones is a
+scoreboard in a smaller vocabulary. Survey methodology reached the same line
+decades ago — feedback that rewards the respondent's effort improves reporting;
+feedback that tracks the content of the answer biases it.
 
 **Verify what a claim is made of.** A quantitative or scope claim ("led a team of
 eight", "cut latency by half", "owned the migration") is where a conversation
@@ -129,10 +139,14 @@ it is the same question asked of a strong claim and a weak one.
 
 - **The interrogation.** Rules written as prohibitions and nothing else produce a
   flat, clipped interviewer that a nervous candidate reads as hostility. Anxiety
-  demonstrably depresses interview performance and does so unevenly — it hits the
-  least confident hardest, which is a fairness problem, not just an experience
-  problem. A brief must therefore carry at least one *affirmative* comfort
-  instruction, not only bans.
+  depresses interview performance — modestly, and less in real interviews than in
+  mock ones — and the part that matters is not its size but what it measures:
+  interview anxiety has near-zero correlation with later job performance, so the
+  points it costs are points the job would not have cost. It is a fairness
+  problem, not just an experience problem. A brief must therefore carry at least
+  one *affirmative* comfort instruction, not only bans — and that instruction
+  must not be praise, because positive feedback in a mock interview left socially
+  anxious candidates *more* anxious and rated lower, not less.
 - **The friendly rater.** The opposite failure: a brief tuned for rapport that
   never bans praise, producing an interviewer that coaches, agrees, and finishes
   by implying an outcome it has no authority to give. Only a person makes an
@@ -162,17 +176,32 @@ is where brief authoring becomes its own craft.
 
 A conversational engine's compliance is not uniform across a document. Rules
 placed adjacent to each other reinforce; rules separated by unrelated material
-compete. Rules stated last are applied to the turn being generated with more
-reliability than rules stated in the middle. Any brief containing hard
-consistency constraints — the ones where a single violated turn ruins the
-artifact — should keep those constraints **together and last**, because the
-violations appear precisely on the unusual turns that the craft rules elsewhere
-in the brief create.
+compete. The middle of a long instruction set is the weakest place in it; which
+*end* is strongest is a property of the engine, not a law — published
+measurements find recency on some model families and primacy on others, and the
+vendors' own placement advice differs. Any brief containing hard consistency
+constraints — the ones where a single violated turn ruins the artifact — should
+keep those constraints **together, at an end, and out of the middle**, and the
+end is chosen by measuring the engine the brief runs on. Where the engine is
+unknown or will change, stating the block at both ends is the placement no
+measurement contradicts.
 
-Density is part of adjacency. The same craft rules written as a list of separate
-one-rule statements are followed less reliably than the same rules condensed into
-a single governing paragraph, because a list invites a plausible subset to count
-as compliance. Condensing a drifting block is a real intervention, not editing.
+A conversation adds a problem no single prompt has: the brief recedes. Every turn
+of transcript sits between the brief and the turn being generated, and measured
+instruction drift sets in within a handful of exchanges. "Last in the brief" is
+therefore not "nearest to the turn" once the conversation is under way. A
+constraint that must hold on turn twenty is re-stated where turn twenty is made —
+in a per-turn reminder, a stage-change note, or the message that answers a tool
+call — rather than trusted to its position in a document read twenty turns ago.
+
+Density is part of adjacency, and it is a runtime observation rather than a
+finding with a direction. On at least one engine, craft rules written as separate
+one-rule statements drifted where the same rules condensed into one paragraph
+held; no controlled study compares the two forms, and prompt-format effects are
+large and do not carry from one model to another. What does generalise is count:
+compliance with *all* of a set of rules falls as the set grows. Condensing a
+drifting block is a real intervention, not editing — and like every other
+intervention it is re-measured, not assumed.
 
 Form matters as much as position. Rules divide into two kinds by the shape of the
 output they demand:
@@ -216,4 +245,5 @@ suppressing praise as well as verdicts; guaranteeing at least one hint so
 coachability is observed rather than assumed; closing with a read-back that
 turns the interviewer's understanding into the candidate's confirmation; and
 ordering the whole document so that the rules which cannot afford a single
-violation are the last ones the interviewer read.
+violation sit together, out of the middle, and are re-stated where the turn is
+made.

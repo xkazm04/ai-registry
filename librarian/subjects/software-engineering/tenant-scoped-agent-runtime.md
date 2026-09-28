@@ -1,7 +1,7 @@
 ---
 subject: tenant-scoped-agent-runtime
 domain: software-engineering
-last_touched: 2026-09-09
+last_touched: 2026-09-23
 dry_streak: 0
 ---
 
@@ -112,3 +112,11 @@ remain, with explicit applicability and counterexamples.
   }
 }
 ```
+
+## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-3]])
+
+`python--task-local-tenant-scope` refreshed before its 2026-10-15 clock; ~35 anchors re-resolved, one gone for good (the upstream ADR file was deleted with its docs tree; the claim it supported still stands from code, and the application says so). **The one substantive upstream move: multiplexing is now on by default and the explicit off is marked retired** - the application's "opt-in" framing was corrected. The non-raising home resolver still never raises. `refresh_by` kept, moved to 2026-11-05.
+
+Banked lead (proposal, not landed): when a multi-tenant mode becomes the default, the warn-only fallbacks in non-raising resolvers move onto the default path, and their fail direction deserves a second look. Return condition: the next pass that opens this technique, or a fleet project adopting a default-on tenant mode.
+
+Impact: no judged verdict moved.

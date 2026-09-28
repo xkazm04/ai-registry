@@ -16,8 +16,8 @@ techniques:
 # The role intake conversation
 
 Intake is the conversation that turns "I need another one of those" into a
-defensible statement of what the work is and what evidence would prove
-someone can do it. It is the most upstream decision in a hire, and it is made
+statement of what the work is and what evidence would prove someone can do
+it — a statement whose basis can be defended. It is the most upstream decision in a hire, and it is made
 in a room where nothing is measured, nobody is scored, and the only
 instrument is the questions asked.
 
@@ -50,7 +50,7 @@ every one of those dimensions.
 | Purpose | measure what exists | construct what does not yet exist |
 | Helping the respondent | contamination | the job |
 | Supplying structure | leading | required, for most requestors |
-| Silence | pressure, kept deliberately | dead air to fill with a reflection |
+| Silence | pressure, kept deliberately | the requestor's room to extend a reflection; never pressure |
 | A vague answer | a finding about the person | a finding about the question |
 | Contradiction | a credibility signal | the richest vein in the session |
 
@@ -85,11 +85,13 @@ publish. Three facts make it indefensible.
 
 - **An old description encodes the last hire, not the next need.** It was
   written for a team of a different size and a gap that has since moved.
-- **Requirements ratchet upward under copying and never downward.** Each
-  editor adds; nobody has standing to delete someone else's line. Degrees are
-  the cleanest published evidence: in an analysis of some 26 million
-  postings, 67% of production-supervisor listings demanded a degree that only
-  16% of the people already doing that job held. A 51-point gap is not a
+- **Requirements ratchet upward under copying.** Each editor adds; nobody
+  has standing to delete someone else's line, so a line falls only when
+  someone with standing deletes it. Degrees are the cleanest published
+  evidence: in an analysis of some 26 million postings (Harvard Business
+  School's *Dismissed by Degrees*, 2017, on 2015 postings), 67% of
+  production-supervisor listings demanded a degree that only 16% of the
+  people already doing that job held. A 51-point gap is not a
   standard failing to be met; it is sediment, and a filter excluding a large
   pool for a reason nobody ever articulated.
 - **A description is an advertisement, not a specification.** It is written to
@@ -150,20 +152,56 @@ People who cannot classify can almost always order.
 
 Sustained requirement inflation is its own subject with its own downstream
 controls — market-fit checks before publishing, adverse-impact review of
-proxy requirements. Intake owns the first line of defence: the requirement
-never spoken cannot inflate anything.
+proxy requirements. Intake owns the first line of defence, and the evidence
+says what that line is worth on its own. When employers dropped degree
+requirements from their postings, about 45% of firms changed nothing about
+whom they actually hired, and the net shift across all hiring was under one
+hire in 700 (Burning Glass Institute and Harvard Business School, *Skills-Based
+Hiring: The Long Road from Pronouncements to Practice*, 2024). A label deleted
+from the text survives as an unstated screening heuristic. Removal binds only
+when the brief puts a gradeable evidence criterion in the label's place *and*
+the screening rubric and the interview are derived from the brief rather than
+from the advertisement — the specification-first ordering above is what makes
+a deletion real.
+
+## One requestor is one source
+
+The brief is a hypothesis about the work, not a job analysis of it. The
+job-analysis literature's best-supported inaccuracy findings land where
+intake is weakest: judgments of required abilities and traits inflate more
+than judgments of tasks, and a single source with a stake in the outcome is
+the configuration most exposed to it (Morgeson & Campion, 1997; Morgeson et
+al., 2004). The ordering rule is the first defence — outcomes and tasks are
+the least inflatable things a requestor can say — and laddering to an
+evidence rung is the second. The requestor also cannot supply what they never
+observed: how the work is actually done by people they do not manage.
+
+Where an intake requirement will act as a filter, and above all where it may
+produce adverse impact, the defensible basis is more than the conversation.
+The U.S. selection guidelines expect an analysis of the important work
+behaviours and their relative importance, a documented method, and any
+experience or training requirement justified by its relationship to the
+content of the job (29 CFR 1607.14(C), 1607.15(C)). They name no number of
+sources; the literature's advice is a second source with a different motive —
+an incumbent, the work product, a work sample. Corroborate a hard filter
+before it screens anyone, and let the brief say which requirements were
+corroborated and which rest on the requestor alone.
 
 ## Turn discipline
 
 The mechanics are not etiquette; they determine how much the requestor
 recalls and how much survives into the record.
 
-- **One question per turn.** Stacked questions get the last one answered and
-  the first two lost — worse in writing, not better.
-- **Reflect before you ask**, roughly two reflections per question. A
-  confirmation-shaped paraphrase ("so, a senior engineer, right?") harvests
-  agreement instead of information and is how a session goes hollow while
-  *feeling* productive.
+- **One question per turn.** In speech a stacked turn gets its last question
+  answered first and the earlier ones are at risk; in writing, readers tend
+  to answer whichever they reach first and stop. Either way the answer can no
+  longer be attributed to one question. Automated interviewers stack by
+  default and must be told not to.
+- **Reflect before you ask.** The often-quoted two reflections per question
+  is a counselling proficiency benchmark set by expert opinion, not a
+  finding; the reason to reflect is that a confirmation-shaped paraphrase
+  ("so, a senior engineer, right?") harvests agreement instead of information
+  and is how a session goes hollow while *feeling* productive.
 - **Reuse the requestor's exact words until they are unpacked.** Their word
   is the handle on a tacit construct; replace it with your synonym and the
   construct is gone.
@@ -173,8 +211,10 @@ recalls and how much survives into the record.
   contrast is a leading question with extra steps.
 - **Name contradictions out loud, in the session.** Silent reconciliation
   afterwards is where the brief stops being the requestor's.
-- **Ladder every hard requirement exactly once.** Zero is transcription;
-  three times trains the requestor to stop offering requirements at all.
+- **Ladder every hard requirement once, when it is stated.** Zero is
+  transcription. Return to a stalled ladder at most once, later in the
+  session, and stop pressing when the answers turn to waffling or "I don't
+  know" — pressing the same rung is how a session becomes an interrogation.
 - **A skipped question is recorded as skipped.** Compensation especially:
   "we'll come back to it", unrecorded, becomes silence indistinguishable from
   "no constraint". Per
@@ -184,8 +224,11 @@ recalls and how much survives into the record.
 
 ## The close is a turn of its own
 
-Failing to summarize at the end is one of the most frequently catalogued
-interviewer mistakes in the elicitation literature and the cheapest to fix.
+Failing to summarize at the end is the cheapest interviewer mistake to fix
+and one of the commonest: in the one study that counts elicitation-interview
+mistakes, 19 of 28 novice analyst teams never summarized, and the authors
+note that a summary often triggers further clarification from the customer
+(Bano et al., 2019) — which is the whole point of the close.
 Every intake ends with a **structured read-back of everything captured plus
 exactly one open correction invitation** — "what did I get wrong, or miss?"
 One open invitation, not a field-by-field confirmation walk: the walk
@@ -196,7 +239,9 @@ closing in the same breath makes the invitation decorative — the requestor is
 handed a door already shut, and whatever they say next arrives after the
 record was sealed. Read back, stop, wait. What comes next is a confirmation
 (close) or a correction, and a correction is recorded in their stated words
-before the close.
+before the close. In a voice channel "wait" is a mechanism, not a manner: a
+spoken read-back must not end the call in the same utterance, and speech
+that arrives after it is the correction, never noise to be discarded.
 
 ## When the requestor doubts the role should exist
 
@@ -282,6 +327,8 @@ to an intake outcome).
   I miss?" and closes the session in the same turn.
 - **The narrative-only capture** — dealbreakers stated plainly and left as
   prose, so the brief the requestor inspects contains none of them.
+- **The paper deletion** — a proxy laddered out of the brief and still
+  applied by screeners who never saw the ladder.
 
 ## The techniques
 

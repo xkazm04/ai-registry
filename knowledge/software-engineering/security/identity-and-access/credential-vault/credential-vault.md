@@ -97,6 +97,27 @@ render a list — every screen and every log line is one refactor away from
 disclosure. Design the split into the data contract on day one; it does not
 retrofit cleanly.
 
+The split also runs inside the value. A credential of several fields — a
+key, a base address, an account name — needs to know which of them are
+secret, and that is **one classification with one authority**. The seal
+consumes it, and so do the input mask, the review screen, the log redactor
+and the error scrubber. Its default for a field nobody declared is
+*secret*. The decay is two classifiers with opposite defaults. The storage
+layer seals anything not explicitly allowed to be plain, and keeps a
+name-based backstop so a mis-authored template cannot downgrade a key. The
+renderer masks only what a template explicitly typed as a password, so a
+key the template called text is sealed on disk and in plain view on the
+screen that confirms it. When the seal is stricter than the screen, the
+backstop protected the disk and nothing else. Ask each surface that renders
+a value which predicate it consults, and whether that predicate fails
+closed. One predicate is only as good as its classification, though. Where
+the seal's strictness comes from a name backstop matching substrings, or
+from sensitive flags set on identifiers, the disagreement is the seal
+over-classifying. Making the screen consume that predicate masks the account
+ids and addresses the confirming screen exists to show. Correct the
+classification first. A name backstop stays a floor for the seal and does
+not decide what a screen hides.
+
 ## Blast radius is a design input
 
 Assume partial compromise and design for containment, not for the fiction of

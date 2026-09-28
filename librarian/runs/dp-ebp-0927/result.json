@@ -1,0 +1,86 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ebp-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-27T20:20:00Z",
+  "ended_at": "2026-09-27T21:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 3,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/engine-behaviour-profiles",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 9,
+      "points_after": 2
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-operations/engine-behaviour-profiles",
+      "technique": "harness-crossed-attribution",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-operations/engine-behaviour-profiles",
+      "technique": "capability-claims-expire",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/engine-behaviour-profiles.md",
+    "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/techniques/harness-crossed-attribution.md",
+    "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/techniques/authority-conflict-disposition.md",
+    "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/techniques/capability-claims-expire.md",
+    "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/techniques/family-diversity-as-a-control.md",
+    "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--harness-crossed-attribution.md",
+    "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--authority-conflict-disposition.md",
+    "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/process--family-diversity-as-a-control.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/agent-operations.md",
+    "librarian/subjects/agent-operations/engine-behaviour-profiles.md"
+  ],
+  "commits": [
+    {
+      "sha": "55bd8787",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations",
+        "rules/ai-registry-agent-operations.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/engine-behaviour-profiles",
+      "reason": "a preprint that agentic scaffolding amplifies sycophancy: withdrawn by its author, who asked that it not be cited"
+    },
+    {
+      "subject": "agent-operations/engine-behaviour-profiles",
+      "reason": "cross-harness score spreads from a harness survey and a second benchmark paper: not read, and the two disagree on one model; the benchmark table read verbatim carries the claim instead"
+    },
+    {
+      "subject": "agent-operations/engine-behaviour-profiles",
+      "reason": "the second lab's side of the cross-lab alignment exercise: its page answered 403 and was reachable only as a summary"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Field scan: the deferring engine force-added ignored paths in 4 sessions, 3 repos; banked, nothing reverted. personas Codex lane: no excluded-path stop, harness version unrecorded; banked. family-diversity unapplied. No map pairs the subject."
+}

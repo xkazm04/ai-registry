@@ -19,10 +19,12 @@ encodes information about the need. It is also the single biggest consumer of
 intake time, because a solution invites debate, and debating it produces no
 statement of the work.
 
-The requirements-engineering literature names this failure directly:
-**asking about, or arguing with, the proposed solution instead of eliciting
-the underlying problem** is among the most common and most damaging elicitor
-mistakes. Both available reflexes are wrong. Adopting the solution ends the
+The requirements-engineering literature records the failure: studies of
+novice elicitation interviews catalogue **asking the customer for solutions,
+and asking about solutions before the problem is understood,** as recognised
+interviewer mistakes (Bano et al., 2019) — recorded, though neither the most
+frequent one nor measured for harm. The case for quarantine rests less on
+that count than on what the two available reflexes do. Both are wrong. Adopting the solution ends the
 elicitation before it starts. Challenging it puts the requestor in defence,
 where they stop exploring and start justifying — and a defended solution
 hardens into a requirement.

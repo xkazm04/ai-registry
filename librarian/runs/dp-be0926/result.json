@@ -1,0 +1,77 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-be0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T13:15:00Z",
+  "ended_at": "2026-09-26T14:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/bounded-enumeration",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/bounded-enumeration",
+      "technique": "declare-the-inconsistency",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/bounded-enumeration",
+      "technique": "after-plus-limit-not-cursor",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/bounded-enumeration",
+      "technique": "required-limit-breaks-unaware-clients",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/bounded-enumeration.md",
+    "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/techniques/after-plus-limit-not-cursor.md",
+    "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/techniques/declare-the-inconsistency.md",
+    "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/techniques/deny-absorbs-and-lowest-limit-wins.md",
+    "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/techniques/filter-after-return-under-limit.md",
+    "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/techniques/page-size-from-memory-budget.md",
+    "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/techniques/required-limit-breaks-unaware-clients.md",
+    "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/rust--after-plus-limit-not-cursor.md",
+    "knowledge/software-engineering/backend-platform/data-layer/bounded-enumeration/applications/rust--declare-the-inconsistency.md",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/bounded-enumeration.md"
+  ],
+  "commits": [
+    {
+      "sha": "50b0b708",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering",
+        "catalog.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "6 claims attacked: 1 refuted as stated, 5 conditioned, 0 techniques. Rust second stack (points 5->0). Mid-walk miss measured in the joined tree, committed there unpushed (branch diverged). 7 maps, 10 pairs, 0 stale. 2 unapplied, 4 leads."
+}

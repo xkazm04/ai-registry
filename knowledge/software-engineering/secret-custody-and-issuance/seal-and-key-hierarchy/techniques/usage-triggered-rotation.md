@@ -17,10 +17,35 @@ one key stops being negligible. For the common mode with a 96-bit random
 nonce the standard's stated bound is 2^32 invocations per key, conservative
 against an expected first collision near 2^48, and a collision is not a
 weakening but a break, because it exposes the keystream and the
-authentication key together. A busy server reaches 2^32 in weeks. The
-technique is to make the server count its own cipher operations and rotate
-the data key before the budget is spent, so that the guard is the server's and
-not the operator's.
+authentication key together. A server writing a few thousand
+objects a second reaches 2^32 in about two weeks. The technique is to make the
+server count its own cipher operations and rotate the data key before the
+budget is spent, so that the guard is the server's and not the operator's.
+
+## When the budget binds, and when it does not
+
+The 2^32 bound is the random-nonce bound. The standard applies it to nonces
+drawn from a random generator (and to deterministic nonces of any length
+other than 96 bits). A deterministic 96-bit counter nonce is not held to it,
+though a per-key limit on total data volume still applies, near 2^64 blocks.
+The standard's own revision call, open since 2025 with no draft yet, names the
+consequence ("applications with sufficiently many invocations may ... require
+frequent rekeying"). It lists the extended-nonce constructions that move the
+random-nonce budget out of practical reach: a 192-bit nonce over a derived
+per-message key. Those, and nonce-misuse-resistant modes for callers that
+cannot promise unique nonces, change the arithmetic. They do not remove
+rotation. The interval trigger, compromise and algorithm migration still
+retire keys.
+
+The count earns its machinery by rate. A store that seals a few hundred
+values over its whole life is six or more orders of magnitude from the
+bound, and a counter on it will never fire. One desktop vault measured
+535 live ciphertexts under its only key. The decision rule: when the key's
+expected lifetime encryptions, at the store's real write rate, come within a
+few orders of magnitude of the cipher's budget, count at the cipher call as
+below. When they are nowhere near it, or the cipher has no random-nonce
+budget, the interval trigger is the rotation, and the status says "operation
+count not tracked" rather than showing a zero.
 
 ## Three triggers, first one wins
 
@@ -102,6 +127,17 @@ arithmetic. Where the server cannot count, because the cipher call is not its
 own, the absence is reported on the status surface as "operation count not
 tracked for this term" rather than as zero, and the interval trigger is not
 optional there.
+
+## When the trigger fires and rotation is not allowed
+
+A trigger can fire at a moment when rotation is refused. Where several seals
+hold the root, the landed design blocks data-key rotation until every seal is
+healthy (see the subject's `any-one-seal-unseals`). A seal outage that
+outlasts the margin between the trigger and the cipher's limit runs the
+active term past its budget with the guard still in place. The trigger's
+failure to act is a first-class state. It is reported as "rotation due,
+blocked by seal N", with the remaining budget beside it, and it is not
+retried silently on the next tick.
 
 ## The rotation itself
 

@@ -7,7 +7,7 @@ status: forged
 laws: [failure-not-empty-success, creation-names-reaper]
 shared_with: []
 stage: team
-use_when: [a fresh node must configure its own policy and auth without a human, a provisioner stores a root credential returned by initialisation, deciding what a node does when bootstrap failed halfway last time, a bootstrap that re-runs on every start reverts operator edits]
+use_when: [a fresh node must configure its own policy and auth without a human, a first-start seed of default rows is detected by an empty table, a provisioner stores a root credential returned by initialisation, deciding what a node does when bootstrap failed halfway last time, a bootstrap that re-runs on every start reverts operator edits]
 ---
 
 # Once-only bootstrap with marker
@@ -77,6 +77,21 @@ connection — and the naive reading, "write the marker when something goes wron
 the reading that produces a clean-looking node after the worst kind of failure. Write it
 before the first effect, remove it after the last; refuse the action if the marker cannot be
 written.
+
+**The marker is for a sequence the store cannot commit as one unit.** When every effect of
+the bootstrap lands in one store that offers a transaction spanning all of them — a seed of
+default rows, a handful of records in one database — the transaction is the marker: a failure
+rolls back to *never ran*, the detection that reads "empty" fires again on the next start,
+and running the whole sequence again is safe because nothing partial survived. A single
+atomic create-if-absent is the degenerate case and may simply be re-run on every start. The
+marker exists for the other shape: effects that each commit on their own — ordinary requests
+through the API, init scripts that each run to completion, a policy and then an
+authentication method — under a detection that reads "not empty" after the first of them.
+The common failure sits between the two shapes and has neither mechanism: a first-start seed
+detected by emptiness and written row by row, so a crash on the sixth row leaves a node that
+serves five rows on every later start and never mentions the rest. The decision rule: **ask
+what the next start's detection reads after a failure between any two effects** — if the
+answer can be "done", the sequence needs a transaction around it or a marker in front of it.
 
 Recovery from a present marker is an operator decision, deliberately. The two honest options
 are to clear the marker and let the node serve in whatever partial state it holds, then finish

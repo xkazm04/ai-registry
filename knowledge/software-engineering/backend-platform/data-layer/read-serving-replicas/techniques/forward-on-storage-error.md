@@ -39,6 +39,23 @@ reason the gate lives somewhere else
 ([gate-sees-target](../../../../_laws.md#gate-sees-target)): the only
 component that sees every write is the one every write passes through.
 
+A classifier may still stand *in front of* the shim, as a latency route. It
+sends what it believes are writes straight to the authority, so the common
+write skips a failed local attempt. It is wrong as the gate, not as a
+shortcut. The test is what happens when it guesses wrong. Behind a shim, a
+misrouted write costs one refusal and one forward. With no shim, it becomes a
+write attempted where nobody will refuse it, or a hand-kept list of
+exceptions. Mainstream routers classify by verb or statement and document
+exactly that list. The two trees read for this subject that put a classifier
+first both keep the refusal behind it. One says in its own comment that the
+heuristic "only affects latency, never correctness".
+
+The shim must also be a real refusal. A store whose read-only mode exempts
+privileged accounts, or a replica fed by logical replication that accepts
+local writes, has no gate for whichever account or path the exemption
+covers. Enforce the refusal for every account the service connects as,
+before relying on it.
+
 ## The mechanism
 
 The store on a replica is wrapped, at the lowest layer through which every
@@ -59,8 +76,9 @@ and one answer; the replica has spent one failed local attempt.
 
 The rule: **when a replica's storage layer refuses a write, forward the
 entire original request and discard the local attempt, because the shim
-is the only gate that saw the write; never forward on the verb, and never
-attempt to fix up the local partial work.** The naive reading that fails is
+is the only gate that saw the write; never let the verb be the only gate
+(a classifier in front is a latency route whose misses the shim still
+catches), and never attempt to fix up the local partial work.** The naive reading that fails is
 the retry — re-running the handler locally with writes "allowed" — which
 turns a follower into a second writer.
 
@@ -71,7 +89,12 @@ only when the attempt left no trace. Three obligations follow, and the
 third is the one that gets missed:
 
 Handlers are **side-effect-free before their first storage write**, or their
-pre-write effects are idempotent. A handler that calls a remote system,
+pre-write effects are idempotent, and **no byte of the response has left**
+(a response already streaming cannot be replaced by the authority's).
+Where the store makes a single statement the unit it refuses, and a session
+carries order across forwarded statements, the forwarded unit can be that
+statement rather than the whole request. Whatever unit is forwarded must be
+one whose refused attempt left no trace. A handler that calls a remote system,
 then hits the sentinel, is re-executed on the authority and calls the
 remote system again. Where reordering is impossible the operation belongs
 on the short pre-dispatch list in

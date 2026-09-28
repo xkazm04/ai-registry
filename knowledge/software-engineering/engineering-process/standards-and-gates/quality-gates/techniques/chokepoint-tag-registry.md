@@ -147,12 +147,23 @@ removed it.
 **A negative-space check implemented as a source pattern match is defeated
 by any indirect form of the same access.** A dynamic import, an alias, a
 re-export, a computed module name — each spells the forbidden access in a
-way the pattern does not see. This is not a fixable weakness of the
-technique; it is the boundary of what a source scan can claim. So the check
-is honestly described as a **ratchet against accident, not a control
-against intent**, and a design that needs the stronger property has to buy
-it somewhere the source is not the authority — a linker boundary, a package
-boundary, a capability-restricted runtime.
+way the pattern does not see. So the check is honestly described as a
+**ratchet against accident, not a control against intent**, and a design that
+needs the stronger property has to buy it somewhere the source is not the
+authority — a linker boundary, a package boundary, a capability-restricted
+runtime.
+
+In a tree you own, one step is available before that purchase, and it is worth
+taking because it is nearly free:
+[unparseable-form-is-a-finding](./unparseable-form-is-a-finding.md) bans the
+indirect forms outright rather than trying to see through them. The matcher
+still cannot enumerate what it hunts, but the *escape* set is fixed by the
+grammar rather than by the codebase, so it can be enumerated and refused. That
+closes the accidental evasion — the refactor that quietly moves a read out of
+the matcher's sight — and leaves the deliberate one exactly where this paragraph
+puts it. Where the code is not yours to constrain, nothing below the linker
+boundary is available and the ratchet is the whole of what a source scan can
+claim.
 
 The same weakness runs in the *positive* direction and is easier to miss,
 because the gate looks like it is passing rather than failing: a rule that

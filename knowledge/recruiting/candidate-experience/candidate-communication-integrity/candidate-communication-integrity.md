@@ -147,7 +147,8 @@ depending on write order, either lose the bounce or lose the send.
 
 The correct model is an **append-only outbox** of receipts, with explicit
 supersession rules that are applied at read time. The later bad news outranks the
-earlier good news; a later success supersedes an earlier failure (a retry that
+earlier good news, where "later" means later in that attempt's story and not
+later to reach your server; a later success supersedes an earlier failure (a retry that
 worked really did work); and there is a fourth state that most systems never
 name — the **orphan**. Orphans come in two shapes and both are invisible by
 default: a message that entered the pipe and about which nothing was ever heard
@@ -156,8 +157,12 @@ because the transport is reporting about an identifier your system never
 dispatched. The second shape is the quieter killer: a relay speaking a slightly
 different reference vocabulary than yours produces receipts that match nothing,
 get dropped as noise, and look exactly like silence — while real bounces go
-uncounted. An unmatched receipt is a live integration fault, and it must surface
-as one rather than being discarded. Silence is not success. That is
+uncounted. An unmatched receipt that names something you issued is a live
+integration fault, and it must surface as one rather than being discarded. One
+that names nothing you ever issued may be about somebody else's mail: forgeries
+under your domain, or another sender on a shared account. Attach it to nobody,
+but count it, because a transport that changes its references wholesale makes
+every real bounce look like that. Silence is not success. That is
 [absence of evidence is not evidence](../../_laws.md#absence-of-evidence-is-not-evidence)
 with a mail server attached: an unheard-from message has a distinct state, not a
 default optimistic one. See bounce-receipt-supersedes-a-green-send.
@@ -284,7 +289,10 @@ does not exempt the decision *not* to act. Three practical consequences:
   untrue about your own future behaviour.
 - **Deletion of embarrassing history.** Someone prunes failed sends to make a
   dashboard look better. The failed record is the one with evidentiary value;
-  the successful one is routine.
+  the successful one is routine. The repair is symmetry, not hoarding. Success
+  and failure age out on one retention clock, set by how long the person can
+  still ask what they were told, and an erasure request reaches both. Only
+  selective deletion is the failure.
 - **The optimistic resend.** A resend control reports success because the request
   returned, not because the new attempt itself avoided failing. The button
   inherits the same claim discipline as the original send.

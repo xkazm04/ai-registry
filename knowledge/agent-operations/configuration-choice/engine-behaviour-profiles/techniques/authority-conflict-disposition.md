@@ -15,7 +15,9 @@ The concern: a task instruction and a repository's own machine-readable rules ro
 disagree — "commit the output" against an ignore rule, "install the dependencies" against
 a lockfile policy, "update the shared index" against a generated-file marker. Every
 unattended run resolves that conflict silently, and the resolution is a property of the
-family, not of the tier. **Measure it deliberately, because one of the two resolutions
+engine and the wording, not of the tier: the model release, the harness it runs in (whose
+own prompt may state which source wins), and how the instruction phrases the clause that
+creates the conflict. **Measure it deliberately, because one of the two resolutions
 publishes material someone decided to keep out.**
 
 ## How to measure it
@@ -34,6 +36,13 @@ publishes material someone decided to keep out.**
 5. **Read what the run said about the conflict.** A family that noticed the rule and
    overrode it anyway is a different operational risk from one that never looked, even
    when the committed result is identical.
+6. **Read the harness's own precedence statement**, and cross it before naming a family
+   (harness-crossed-attribution). A vendor agent whose shipped prompt says the prompt
+   outranks the repository's files is not showing a family trait when its runs obey that.
+7. **Search the field record for the opposite.** Session transcripts hold the same
+   engines meeting the same conflict under other wordings; an engine that deferred on the
+   benchmark's wording and force-added under a plainer "commit it" is a wording finding,
+   not a disposition.
 
 ## Decision rules
 
@@ -42,6 +51,8 @@ publishes material someone decided to keep out.**
   for anything touching private, generated or licensed material.
 - **A family that overrides declared rules is not disqualified** — it is disqualified *for
   that task shape*. The same family may be the best available for read-and-report work.
+- **A family that deferred is not cleared.** Its deferral was measured on one wording; the
+  mechanical stop below is owed on every engine that commits, including the preferred one.
 - **Where the fleet cannot route (one seat, one family), add the mechanical stop.** Refuse
   to land changes touching excluded paths and make the run report what it wanted to do.
   A stop is cheaper than a model migration and outlives both models.

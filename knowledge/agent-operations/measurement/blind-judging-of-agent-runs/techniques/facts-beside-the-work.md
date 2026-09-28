@@ -43,6 +43,11 @@ of the writing.**
 - **Do not narrate a mechanical check into a judged dimension.** The judge weighs the facts;
   it does not re-derive them, and asking it to re-check a gate invites disagreement with a
   measurement that is simply true.
+- **Put facts in the packet, never scores.** An earlier verdict, another judge's number, a
+  harness quality estimate or a keep/drop recommendation anchors the judgment toward itself,
+  even as labelled metadata, and neither asking for reasoning first nor telling the judge to
+  ignore it removes the pull. A re-judge reads the new packet without the old score; the two
+  scores meet only in the record.
 - **Keep the packet stable across re-judges** except where the facts genuinely changed, so a
   score movement can be attributed to evidence rather than to formatting.
 

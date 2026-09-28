@@ -45,6 +45,21 @@ produces a confident, empty, wrong briefing
 ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
 Gate the derivation on the stores' readiness, not on a timer.
 
+**The test is coverage, not request count.** Deriving from what is loaded
+is right only when the loaded data covers the whole away interval. When
+the stores are windowed ("the most recent 500", one page of a list),
+when the anchor lives on a server because the account spans devices, or
+when there is no boot that fills stores at all (a page that loads its
+own data per route), a filter over what happens to be in memory is the
+wrong answer. It counts a sample and calls it a total. There the correct
+design is **one delta query to the authority** that holds the
+population: "since this anchor", bounded, with its bound disclosed. It
+is shared by every surface that shows the same delta (the badge and the
+page ask once, not twice), and it never adds a volley. What stays
+forbidden is the briefing that invents data needs of its own. "Zero
+fetches" was always the proxy; *every count covers what it claims* is
+the rule.
+
 ## Selection: significance, then rank, then cap
 
 Raw deltas are plentiful and mostly boring. The pipeline is three stages:
@@ -118,8 +133,11 @@ advanced opens an empty view under a line that promised two items.
 
 ## Decision rules
 
-- Zero briefing-specific fetches; derive from stores the boot fills, and
-  gate derivation on their readiness.
+- Derive from stores the boot fills when they cover the whole away
+  interval, and gate derivation on their readiness. When they do not
+  (windowed stores, a server-held anchor, no boot store), make one
+  bounded, shared delta query to the authority. Never add fetches for
+  lines nothing else needs.
 - Distinguish "no deltas" from "couldn't derive"; only the former may
   render silence.
 - Per-class significance thresholds, consequence-first ranking, a hard

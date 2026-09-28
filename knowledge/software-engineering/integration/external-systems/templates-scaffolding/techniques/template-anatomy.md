@@ -57,6 +57,20 @@ cannot even represent. The artifact is not wrong about the world — it is
 inconsistent *with itself*, which is worse, because no amount of user care
 avoids it.
 
+Precisely, the default must be a member of the dimension's declared
+*domain*. For a closed dimension that is its option list. A dimension whose
+author declared a free-value escape hatch ("Other…") has a wider domain,
+and a default may use it, but only because the author said so on that
+dimension. The escape hatch is a declaration, off unless written. A
+rendering layer that switches it on when the flag is missing has quietly
+widened every dimension that never mentioned it (see
+[adoption-lifecycle](./adoption-lifecycle.md), upstream edge).
+
+Do not expect the schema language to catch this. The most common one
+treats `default` as an annotation it never validates, so a default outside
+its own enumeration is a schema that validates cleanly. The membership
+check is code someone has to write.
+
 Two design consequences:
 
 - **The invariant is machine-checked at the admission door, not stated in an
@@ -131,6 +145,18 @@ field is not the work; making it *carry distinct values* — bumped by the
 same door that admits the edit — is. A version apparatus over a constant is
 the defaults-outside-options defect's quieter sibling: internally
 consistent-looking, structurally unable to do its one job.
+
+The same trap sits on the instance side of the comparison. A comparator
+that correctly declines to flag an instance with no recorded version (it
+cannot prove the instance is behind, and a false "update" nag is worse than
+silence) is dark forever if the adoption path never *writes* that
+version. The refusal was right. The missing write turned it into a
+feature that can never fire, and it looks exactly like "everything is
+current". Both ends of a version comparison therefore need the same proof
+as any gate (see [integrity-and-provenance](./integrity-and-provenance.md)):
+one test that bumps the template past a freshly adopted instance and
+requires the offer to appear. A comparator nobody has seen fire has not
+been shown to work.
 
 ## What the anatomy deliberately excludes
 

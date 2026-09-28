@@ -1,0 +1,105 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-aiba-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T14:25:00Z",
+  "ended_at": "2026-09-26T15:58:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/ai-interviewer-brief-authoring",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/ai-interviewer-brief-authoring",
+      "technique": "rule-ordering-adjacency-and-form",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/ai-interviewer-brief-authoring",
+      "technique": "praise-and-verdict-suppression",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/ai-interviewer-brief-authoring",
+      "technique": "closing-read-back",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/ai-interviewer-brief-authoring",
+      "technique": "mandatory-coachability-hint",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/ai-interviewer-brief-authoring",
+      "technique": "narrowing-follow-up-not-repetition",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/ai-interviewer-brief-authoring.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/techniques/closing-read-back.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/techniques/mandatory-coachability-hint.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/techniques/narrowing-follow-up-not-repetition.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/techniques/one-question-per-turn-and-wait.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/techniques/praise-and-verdict-suppression.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/techniques/rule-ordering-adjacency-and-form.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/node--mandatory-coachability-hint.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/node--one-question-per-turn-and-wait.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/process--praise-and-verdict-suppression.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/process--rule-ordering-adjacency-and-form.md",
+    "knowledge/recruiting/assessment/ai-interviewer-brief-authoring/applications/python--closing-read-back.md",
+    "knowledge/recruiting/index.json",
+    "knowledge/recruiting/index.md",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/ai-interviewer-brief-authoring.md"
+  ],
+  "commits": [
+    {
+      "sha": "e1e199ba",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/ai-interviewer-brief-authoring",
+      "reason": "the first-token language mechanism as a literature claim: web lane only, and the same source found line-level drift after a correct start; kept as the runtime's observed mechanism, labelled so"
+    },
+    {
+      "subject": "recruiting/ai-interviewer-brief-authoring",
+      "reason": "bullets-vs-prose for small models and demonstration copying: secondary summaries the lane could not verify from the source; not cited"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "First sweep: position, declared rank and verbatim re-ask flipped; one hint is not a rating. kp map 6be523fce and applied rows 2ee8cc971 committed on kp main, not pushed. The subject's seams sit in no kp context: a context-scan lead."
+}

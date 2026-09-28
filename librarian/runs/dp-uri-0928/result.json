@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-uri-0928",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-28T08:15:00Z",
+  "ended_at": "2026-09-28T08:29:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/unattended-run-isolation",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 2,
+      "points_after": 2
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Third dispatch on a stale finding (HEAD d93fbd78, 201 behind origin). origin/main: 5 techniques vs floor 4 since 0ea31221; subject unchanged since dp-uri-0927b idled it; check-currency shows no expired, at-risk or drift row. No clock, no event: nothing ran."
+}

@@ -1,0 +1,90 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-bja-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-27T20:20:00Z",
+  "ended_at": "2026-09-27T20:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 3,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/blind-judging-of-agent-runs",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 9,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-operations/blind-judging-of-agent-runs",
+      "technique": "sealed-judge-workspace",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-operations/blind-judging-of-agent-runs",
+      "technique": "withhold-rather-than-half-judge",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-operations/blind-judging-of-agent-runs",
+      "technique": "facts-beside-the-work",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/blind-judging-of-agent-runs.md",
+    "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/techniques/sealed-judge-workspace.md",
+    "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/techniques/provenance-scrubbing.md",
+    "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/techniques/facts-beside-the-work.md",
+    "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/techniques/withhold-rather-than-half-judge.md",
+    "knowledge/agent-operations/measurement/blind-judging-of-agent-runs/applications/node--sealed-judge-workspace.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/agent-operations.md",
+    "librarian/subjects/agent-operations/blind-judging-of-agent-runs.md"
+  ],
+  "commits": [
+    {
+      "sha": "3063b210",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations",
+        "rules/ai-registry-agent-operations.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/blind-judging-of-agent-runs",
+      "reason": "a rule preferring agent judges to packet judges: one benchmark of 55 tasks with no leakage analysis; banked as a condition candidate"
+    },
+    {
+      "subject": "agent-operations/blind-judging-of-agent-runs",
+      "reason": "'drop the panel, keep the best single judge': the nine-judge result is on inference tasks, not agent runs; landed only as the family-is-a-proxy condition"
+    },
+    {
+      "subject": "agent-operations/blind-judging-of-agent-runs",
+      "reason": "figures seen only in search summaries (a cleaned-container score delta, two ordering papers, a self-preference re-analysis whose snippet inverted its finding): no primary text read"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Contest skill defects measured (partial panel ranked as full; an invalid verdict flips the ranking; peer verdicts one directory up), left unfixed: another session held uncommitted work there. Order and family rows had no reachable mode; see applied.md."
+}

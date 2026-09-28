@@ -1,0 +1,98 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rfm-0926",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T12:54:00Z",
+  "ended_at": "2026-09-26T13:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/recruiting-funnel-metrics",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/recruiting-funnel-metrics",
+      "technique": "offer-acceptance-rate-denominator",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/recruiting-funnel-metrics",
+      "technique": "forecast-signal-floor",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/recruiting-funnel-metrics",
+      "technique": "time-to-hire-basis-and-median-not-mean",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/recruiting-funnel-metrics",
+      "technique": "non-overlapping-event-to-series-mapping",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/recruiting-funnel-metrics.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/techniques/creation-cohort-versus-terminal-transition-basis.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/techniques/forecast-signal-floor.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/techniques/non-overlapping-event-to-series-mapping.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/techniques/offer-acceptance-rate-denominator.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/techniques/stage-pass-through-and-dwell-time.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/techniques/time-to-hire-basis-and-median-not-mean.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/react--stage-pass-through-and-dwell-time.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--time-to-hire-basis-and-median-not-mean.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--forecast-signal-floor.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--non-overlapping-event-to-series-mapping.md",
+    "knowledge/recruiting/measurement/recruiting-funnel-metrics/applications/node--offer-acceptance-rate-denominator.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/recruiting-funnel-metrics.md"
+  ],
+  "commits": [
+    {
+      "sha": "d998700a",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/recruiting-funnel-metrics",
+      "reason": "vendors' implied pass-through convention (skippers counted as passing every earlier stage) into the technique: a single web lane, no blind or tree support, and the technique's skips-are-legal rule argues the other way"
+    },
+    {
+      "subject": "recruiting/recruiting-funnel-metrics",
+      "reason": "a reporting standard's metric text as a citation: paywalled and reached only through a secondary overview, so upper layers name no standard"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "React dwell band cleared single-stack. Flipped: offer resolved>extended no defect, pending a stock (sim, old rule 0/3 on pending); estimator spread not an interval (experiment, 2-49% coverage). kp map 148e6c8b9 unpushed, 0 stale. 7 kp deviations recorded."
+}

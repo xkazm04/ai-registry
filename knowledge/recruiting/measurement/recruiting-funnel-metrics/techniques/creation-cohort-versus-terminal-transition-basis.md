@@ -38,14 +38,19 @@ dishonest is not saying which one is on the screen.
 - **Velocity** (time to hire, time to fill) is necessarily terminal: an
   unfinished candidate has no duration. Label it as terminal and pair it with
   in-flight age, which is the leading indicator the terminal figure lacks.
-- **Conversion** (application to interview, interview to offer) requires a
-  creation cohort plus a maturity horizon. Computed on a terminal basis it
-  measures nothing coherent, because the numerator and denominator are drawn
-  from populations that entered at different times.
+- **Conversion** (application to interview, interview to offer) wants a
+  creation cohort plus a maturity horizon. The terminal alternative is "of the
+  candidates whose consideration *ended* in the window, how far did each get".
+  It is coherent, and some tracking systems use it as their default. It
+  describes the resolved population, which over-represents whatever resolves
+  fast (usually early rejections), so it runs low for recent windows and must
+  say "resolved candidates only" in its label. What measures nothing coherent
+  is the unlabelled mixture: a numerator dated by one event and a denominator by
+  another.
 - **Volume** takes whichever basis its consumer needs, but must say: "offers
   extended in March" (transition-dated) and "offers belonging to the March
-  cohort" (creation-dated) are different counts and routinely differ by 30% or
-  more in a growing funnel.
+  cohort" (creation-dated) are different counts. They differ routinely, and by
+  more the faster the funnel grows or shrinks.
 - **Outcome** rates (acceptance, early attrition) are terminal on the
   numerator's event and must therefore take a terminal denominator too — see
   the acceptance-denominator technique for the specific trap.
@@ -54,9 +59,11 @@ dishonest is not saying which one is on the screen.
 
 A creation-cohort conversion rate is only readable once the cohort has had
 time to convert. The horizon is empirical: take the completed cohorts and find
-the age at which, say, 90% of eventual outcomes had landed — often six to ten
-weeks for a standard professional funnel, far longer for executive search.
-Then:
+the age by which 90% of eventual outcomes had landed (the p90 of the entry-to-outcome
+lag; a stricter reader takes the p99). A professional funnel whose typical hire
+takes four to six weeks lands somewhere around six to ten, and executive search far
+longer. That range is a heuristic to check against your own lag distribution,
+not a default to copy. Then:
 
 - Cohorts **younger than the horizon** are rendered as *maturing*, with their
   in-flight share shown, and are never compared against mature cohorts. They
@@ -69,6 +76,16 @@ Then:
 The failure this prevents is the recurring false alarm: the current quarter
 always looks catastrophic against the last one, every quarter, and everyone
 learns to ignore the chart.
+
+Withholding is not the only honest treatment of a young cohort. A survival
+estimate counts the in-flight members as censored and still produces a rate by
+age: "by day 30, n% of the cohort had reached interview". Cohorts of different
+ages are comparable at the same age. Rejection and withdrawal are competing
+outcomes and are modelled as such, not treated as censoring, or the conversion
+is overstated. The estimate cannot see past the oldest member's age, so beyond
+that the maturing state still applies. It is a better instrument when a process
+owner needs a read on recent cohorts. It is worse when the audience cannot read a
+curve, and then the maturing state is the honest simplification.
 
 ## The mixed-basis ratio — the most common wrong number
 
@@ -110,8 +127,8 @@ than a fresh number that is wrong.
 ## Decision rules
 
 - When a stakeholder reports a different figure for the same metric, ask for
-  their basis before ever checking arithmetic; it is the answer about four
-  times in five.
+  their basis before ever checking arithmetic. It is the cheaper question, and
+  more often than not it is the answer.
 - When a rate would be computed over a window shorter than the maturity
   horizon, render the maturing state instead of the rate.
 - When a cohort is defined by a filter a viewer's permissions applied, the

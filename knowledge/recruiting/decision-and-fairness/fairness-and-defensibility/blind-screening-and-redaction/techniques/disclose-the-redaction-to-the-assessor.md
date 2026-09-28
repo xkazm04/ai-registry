@@ -46,6 +46,15 @@ a field that must come back empty is a contract you can check. Where a blind run
 returns a populated identity field, the run is void — the mask held on the page
 and failed at the output.
 
+The empty field enforces what the model *says*, not what it *used*. Anti-bias
+instructions measurably fail once realistic context surrounds the document,
+and models recover demographic signals from cues such as institutions,
+languages and hobbies. They do so with an influence on the score that stays
+invisible in the stated reasoning. So the instruction is a weak layer, the empty
+field proves the output, and only a perturbation audit, run on identity-varied
+inputs, proves the score. Keep all three, and do not report the second as if
+it were the third.
+
 [Inference must look like
 inference](../../../../_laws.md#inference-must-look-like-inference) is the underlying
 rule, and the blind case is its strictest form: here the correct rendering of an

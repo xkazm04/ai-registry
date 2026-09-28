@@ -11,6 +11,7 @@ techniques:
   - grounded-band-is-read-only
   - currency-lock-and-no-silent-conversion
   - refuse-to-quote-an-uncalibrated-market
+  - price-the-role-not-the-person
 ---
 
 # Compensation banding and market honesty
@@ -86,16 +87,22 @@ bias every time.
 
 **Advertised pay** — figures scraped from job postings — measure *what
 employers write in adverts*. This is a different quantity with a different
-distribution, and the difference is not small or random. Advertised pay is
-censored (many adverts state no figure at all, and the omission is
-concentrated at the top of the market, where employers prefer to negotiate),
+distribution, and the difference is not small or random. Where posting a figure
+is voluntary, advertised pay is censored (most adverts state no figure at all;
+disclosure is lowest at both ends of the occupational pay scale and, within an
+occupation or a firm, the better-paid the role the more opaque the advert),
 self-selected (the employers who post figures are not a random sample of
-employers), strategically shaped (a range posted to preserve negotiating room
-is wider and lower at the bottom than what will actually be paid), and biased
-toward the roles that are advertised most, which are the high-churn, lower-paid
-ones. Advertised pay is a genuinely useful *leading indicator of movement* —
-it is real-time, and it will show you a market turning months before a survey
-does. It is not a measurement of pay. The technique
+employers), shaped for negotiation, and biased toward the roles that are
+advertised most, which are the high-churn ones. The bias does **not** run in
+one direction: in the largest matched comparison, posted pay sat 30–40% *above*
+official earnings in low-wage occupations and 10–20% *below* them in high-wage
+ones (Batra, Michaud and Mongey, NBER w31984). A level correction applied in a
+single direction is therefore wrong for half the market. Advertised pay is a
+useful *indicator of movement* — it is real-time, and in some markets it shows
+a turn before a survey does (about seven months ahead of the US employment cost
+index), though in continental Europe and the UK it moves roughly with other
+wage measures rather than ahead of them (Adrjan and Lydon, Indeed and Central
+Bank of Ireland). It is not a measurement of pay. The technique
 `advertised-pay-is-not-earnings` carries the full account of this, because it
 is the mistake that this subject exists to prevent.
 
@@ -117,12 +124,18 @@ A grid of a few dozen cells, each backed by hundreds of observations, is worth
 more than a grid of thousands of cells each backed by four.
 
 The seniority anchors must be defined by *scope and autonomy*, not by years of
-experience and not by title words. Years-in-role is a weak predictor and a
-discriminatory proxy in several jurisdictions; title words are organisational
-dialect. Anchoring on what the person decides, what they own, and who depends
-on them is both more accurate and more transplantable.
+experience and not by title words. Pre-hire experience barely predicts
+performance (a corrected correlation of about .06 in the most recent
+meta-analysis, Van Iddekinge et al., 2019), and title words are organisational
+dialect. Experience itself is generally a lawful pay factor — the EU court and
+the US Supreme Court have both held that length of service rewards something
+real and is analytically distinct from age — but pay steps keyed to age, and
+experience caps or exclusions that work as age filters, are where the
+discrimination risk actually sits. Anchoring on what the person decides, what
+they own, and who depends on them is both more accurate and more transplantable.
 
-Between the anchors you interpolate, and you say that you are interpolating.
+Between the anchors you interpolate — geometrically, because pay across levels
+rises by a roughly constant percentage — and you say that you are interpolating.
 Outside them — above the top anchor, below the bottom, or in a role family the
 grid does not contain — you do not extrapolate, you refuse. `role-family-by-
 seniority-anchor-bands` sets out the grid construction and the interpolation
@@ -208,12 +221,21 @@ suppress; it is a signal that either the market or the derivation is wrong.
 
 ## Currency and period are locks, not fields
 
-The failure that recurs most reliably when a language model is asked to price a
-role is that it prices it in the wrong national currency. The pull toward the
-dominant currency of the training distribution is strong, and a prompt that
-does not lock the currency will lose to it — reliably, across model families,
-and often while producing an otherwise excellent answer. The magnitude of the
-error is large enough to invert every downstream comparison.
+A language model asked to price a role can price it in the wrong national
+currency, and the error is large enough to invert every downstream comparison
+while the rest of the answer looks excellent. The mechanism has two recorded
+forms. Models default to the dominant currency when asked for money figures
+without one — about 80% of the time in a study of open models on fiscal figures
+(arXiv 2506.02591) — though no study has yet measured this for salaries. And a
+model told a currency obeys it: one consumer's own benchmark found every model
+tried priced a role in another country in the prompt's hard-coded currency. Both forms
+point at the same fix — the currency comes from the market record, never from
+the prompt text and never from the model's default.
+
+The currency is not the only input that moves a model's figure. The same role,
+priced for askers who differ only in name, gender or origin, comes back
+different, so a pricing prompt is built from role fields and nothing else
+(`price-the-role-not-the-person`).
 
 The mirror-image failure is worse and less visible: **magnitudes from one
 market stamped with another market's currency label**. Default figures written
@@ -240,9 +262,9 @@ compensation. Comparability is a precondition, checked before rendering.
 
 - **Scraping adverts and calling it the market.** The single most damaging
   error in this subject, and the one that looks most like diligence. It
-  systematically understates pay and inverts geographic rankings, because the
-  places and roles where employers decline to state a figure are exactly the
-  best-paid ones.
+  understates the well-paid end, overstates the low-paid end, and — in a corpus
+  where the best-paid places disclose least, or that is drawn from one channel —
+  can invert a geographic ranking outright.
 - **Slicing until the cell is empty.** Role family by seniority by city by
   sector by company size feels rigorous and ends with bands resting on single
   observations. Coarsen until each cell has a defensible sample, then say so.
@@ -288,16 +310,26 @@ relative to others under a minimum-cohort rule — belongs to peer benchmarking
 under anonymity thresholds. This subject uses a cohort floor for the narrower
 reason that a small cohort is not a market; that one uses it to protect the
 identity of the organisations in the cohort. Both floors exist and they are not
-the same floor.
+the same floor. What they share is the unit: a cohort is counted in
+*contributors*, not rows. A hundred rows from one employer is one employer's
+pay, and neither floor is met by it.
 
 One boundary is not a neighbour but a hard limit: pay bands intersect
-pay-transparency obligations, which in a growing number of jurisdictions
-require a **good-faith range in the advertisement itself** — a range the
-employer genuinely expects to pay at the time of posting, not one widened to
-preserve negotiating room. A very wide posted range is a compliance risk in
-some places, is read as evasive everywhere, and measurably deters applicants.
-The obligation attaches to where the *work* may be performed, not to where the
-company sits, which makes remote roles the strict case. The engineering
+pay-transparency obligations, and the obligations differ in *where* the figure
+must appear. Several US jurisdictions require a **good-faith range in the
+advertisement itself** — a range the employer genuinely expects to pay at the
+time of posting. The EU directive (2023/970, Art. 5) requires the starting pay
+or its range to reach the applicant before the interview, "such as in a
+published job vacancy notice, prior to the job interview or otherwise", and
+bars asking about pay history; member states may go further when transposing
+it, and the transposition deadline of 7 June 2026 has passed with most states
+not yet done. Coverage in the US turns on two things together: an employer
+nexus (a size threshold or an employee in the jurisdiction) and where the work
+may be performed or the office it reports to, which makes remote roles the
+strict case there. A very wide posted range is read as evasive — measured in
+experiments on employer impressions — and it changes *who* applies more than
+how many: in a field experiment women applied more than men to narrow ranges
+and the gap vanished at wide ones (Lee, Park and Chang, 2026). The engineering
 consequence is that a band must be defensible enough to *publish*, not merely
 good enough to inform an internal conversation — which is precisely why every
 rule in this subject is about provenance rather than about accuracy.

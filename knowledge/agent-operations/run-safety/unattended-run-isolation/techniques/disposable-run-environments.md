@@ -18,11 +18,21 @@ suspicious cell in a clean environment is the default triage step rather than a 
 
 ## Constructing one
 
-- **A private checkout per run**, at the pinned revision, on its own branch. Share the
-  object store with the source repository to keep creation fast, but keep the working tree
-  and its metadata private to the run.
-- **No reachable remote.** Remove it. An agent cannot publish what it cannot address, and
-  this is more reliable than instructing it not to push.
+- **A private checkout per run**, at the pinned revision, on its own branch. Name the
+  mechanism, because the obvious one is not private.
+  - **A linked worktree shares everything except its own head and index.** That covers
+    the configuration, every branch and tag, the stash and the hooks directory. A run in
+    one can change the live repository's remotes, move its branches, or install a hook
+    that runs on the operator's next commit.
+  - **A clone that borrows objects from the source** keeps its own references,
+    configuration and hooks. Its hazard runs the other way: if the source prunes objects
+    the clone still uses, the clone is corrupt. Keep the source from pruning while runs
+    are alive, and make any clone you keep self-contained first.
+- **No remote, and no way to publish.** Remove the remote: that stops the accidental push.
+  It does not stop a deliberate one. A push can name a URL, a stored credential is matched
+  to the host rather than the repository, and a hosting service's command-line client
+  publishes with no version control involved. The guarantee is no write credential inside
+  the run and no egress to the destination; see os-enforced-run-boundary.
 - **A local identity** for the run's commits, so its authorship is unambiguous in review.
 - **Deterministic text handling** — line-ending and encoding settings fixed per run — so
   the same change produces the same diff on every host.
@@ -50,6 +60,8 @@ working area flat instead of growing until the disk decided the matter.
 - **Destroy on a defined trigger** — facts computed, not "later". A cleanup that depends on
   someone remembering is a disk-full incident with a delay.
 - **Keep an environment that produced an incident**, exactly as it stands, until the
-  incident is understood. That is the one case where disposability waits.
+  incident is understood. That is the one case where disposability waits. If it borrows
+  objects from the source repository, make it self-contained first, or the evidence can
+  decay when the source is cleaned.
 - **Never let two runs share a working tree**, however similar their tasks. The cost of a
   second checkout is seconds; the cost of interleaved writes is an unattributable result.

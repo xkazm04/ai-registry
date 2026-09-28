@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-pa-0925d",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "software-engineering",
+  "started_at": "2026-09-25T16:00:00Z",
+  "ended_at": "2026-09-25T16:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/prompt-assembly",
+      "at": "2026-09-25",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 1,
+      "points_after": 1
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/prompt-assembly",
+      "reason": "Fourth dispatch on the premise that rc-pa-0925, rc-pa-0925b and rc-pa-0925c already declined. The dispatching checkout (95724401) is 48 commits behind origin/main (b1c6621a). Locally, python--amortized-compaction-cadence reads refresh_by 2026-10-15. At origin it reads 2026-11-05, outside the 30-day window, and it is the only clocked application of the 25. No single-source debt: 25 applications on 5 stacks."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "No work. One change since rc-pa-0925c: local main is now also 1 ahead of origin (95724401, a sibling's unpushed kit 0.2.0 commit), so the primary checkout has diverged and can no longer be fast-forwarded. Syncing it now takes a rebase or merge by that commit's owner, with sibling WIP in the tree. The loop continues until that happens or the scan reads origin. Written from an origin worktree."
+}

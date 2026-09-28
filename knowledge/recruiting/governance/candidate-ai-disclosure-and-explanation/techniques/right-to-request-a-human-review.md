@@ -25,6 +25,12 @@ properties. A contact address satisfies none of them.
    organisation's convenience and they expire while the person is deciding
    whether to bother. "At any point" is also far cheaper to implement than a
    deadline, which needs a clock, a notice and an appeals-of-the-deadline path.
+   It has one hard edge, which the promise must state. A review cannot outlast
+   the record it reviews. Once retention expires and the data is erased, there
+   is nothing left to reconsider. "At any point" means for as long as the record
+   is held, and the person is told when that ends. None of the review regimes
+   surveyed on 2026-09-26 imposes a request window, so this is a policy choice
+   beyond the law, and a sound one.
 3. **Routed to a human with authority to reverse.** A review that can only
    confirm is not a review. The reviewer must be able to change the outcome and
    must not be the same automated path that produced it.
@@ -58,12 +64,22 @@ properties. A contact address satisfies none of them.
 
 - **Do not require the person to identify a specific error.** They cannot see
   the mechanism; demanding a diagnosis as the price of review is a filter
-  disguised as a form field.
+  disguised as a form field. Do *allow* them to give one. The reviewer is
+  expected to consider what the person puts forward, so the request carries an
+  optional free-text field. Optional is the whole point.
+- **A reply-to-any-message instruction is a contact address.** It meets none of
+  the four properties. The request does not carry the decision's identifier.
+  Nothing routes it to someone with authority, and nothing seals its outcome.
+  It is the commonest shape the hollow version takes.
 - **The route survives the decision being final.** A closed requisition, a
   filled role and an expired pipeline do not extinguish the right to ask; the
   answer may be that the outcome cannot change, but it is given by a person.
 - **Never route the request back through the automated path that decided.** The
-  second look must be independent of the first.
+  second look must be independent of the first. Independence includes not
+  anchoring on the output. Reviewers shown a biased system's hiring
+  recommendations followed them most of the time in a 2025 experiment, and
+  one 2026 statute defines meaningful review as including a reviewer who does
+  not default to the system output.
 - **The best implementation of this right makes it rarely needed**, because no
   adverse outcome was solely automated in the first place
   ([no-adverse-outcome-is-solely-automated](../../../_laws.md#no-adverse-outcome-is-solely-automated)).

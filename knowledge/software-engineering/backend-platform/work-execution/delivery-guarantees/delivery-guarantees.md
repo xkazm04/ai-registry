@@ -81,6 +81,10 @@ The consequences of that stance form the spine of this subject:
    (see retry-escalation). How long to wait *between* attempts is the
    [retry-backoff](../../resilience/retry-backoff/retry-backoff.md) subject's discipline;
    this path owns the count and the escalation.
+   A list of the last N failures is not that counter: it evicts by other
+   items' arrival, so it forgets during an outage and never forgets a
+   permanent failure on a quiet day. Count per item, and let an all-fail run
+   charge nobody.
 5. **The dead letter is a destination, not a void.** Events that exhaust their
    retries land as complete, triageable records on a surface a human actually
    looks at, with per-item and bulk retry/discard verbs. A dead-letter lane

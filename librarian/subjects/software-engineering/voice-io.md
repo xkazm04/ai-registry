@@ -204,3 +204,10 @@ timestamp accuracy as its own measurement, diarization, enhancement.
   decode prompt (25% length ratio, punctuation boundary, no phonetic boost on
   numerics, ASCII only) - a discriminator candidate for that technique's "won for one"
   argument, not a contradiction.
+
+### 2026-09-23 - `/conform --stale` on personas (3 pairs re-judged at revision 18)
+
+All three not-applicable: the matcher routed on "voice" as persona tone, "synthesize" as
+question minting and "transcript" as CLI JSONL. The golden path's precondition (a product
+that listens or speaks) would route them away. One pair in the companion area was left
+stale on purpose while another session holds that code.

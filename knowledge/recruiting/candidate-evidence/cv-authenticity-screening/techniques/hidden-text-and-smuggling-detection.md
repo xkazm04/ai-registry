@@ -33,6 +33,12 @@ anybody trying anything.
   through extraction into the model's context. Bidirectional overrides are worse
   than invisible — they cause displayed order to differ from stored order, so the
   human reads one sentence and the parser reads another.
+- **Tag characters.** The Unicode tag block mirrors ASCII one-for-one and
+  renders as nothing, so a whole sentence can ride invisibly inside a document
+  and decode losslessly. It is the cleanest smuggling channel there is. A
+  screen that knows only the zero-width set misses it completely. The one
+  legitimate use is an emoji subdivision flag (a black flag followed by a short
+  region code in tags), and that is a closed, recognisable shape.
 - **Homoglyph substitution.** Latin, Greek and Cyrillic letters that render
   identically; used to slip a term past an exact-match check or to make two
   visually identical strings compare unequal.
@@ -54,10 +60,15 @@ hyphens at every line break. Word processors emit zero-width joiners around
 ligatures and in scripts that require them. Justified text and multi-column
 layouts leave positioned fragments outside the visible flow. Templates carry
 placeholder text in white so it disappears when unfilled. Recognition software
-writes a full invisible text layer under every scan, by design. Bidirectional
-marks are *mandatory* in correctly typeset mixed-direction documents — a
-candidate writing in a right-to-left script will have them throughout, and
-flagging them punishes writing in that script.
+writes a full invisible text layer under every scan, by design. Text extractors
+pass soft hyphens straight through to their output. Bidirectional marks are
+routine in mixed-direction text: markup direction and isolates are the
+preferred mechanism, but marks are common in exported and pasted text, so a
+candidate writing in a right-to-left script will often carry them, and
+flagging them punishes writing in that script. The zero-width non-joiner is
+part of correct Persian spelling, the joiner forms Indic half-letters and every
+multi-person or profession emoji. None of these is rare, and none of them is
+tooling going wrong.
 
 So the rules are about discrimination, not detection:
 
@@ -69,9 +80,26 @@ So the rules are about discrimination, not detection:
   two cases is *what does the invisible text say*. Hidden text repeating the
   visible text is a recognition layer. Hidden text listing every requirement from
   the posting, or addressing the reviewer directly, is the finding.
+- **Re-read without the invisible characters, and flag only what changes.** A
+  zero-width character wedged inside a word matters when removing it lets the
+  instruction screen read an instruction it could not read before. That
+  differential is the discriminator a per-character rule lacks: the Persian
+  word and the emoji sequence read the same with or without their joiners,
+  while the split imperative does not. Pair it with a run threshold, since a
+  long run of invisible characters is a payload in its own right, and with a
+  decode of tag characters, so the screen reads the smuggled sentence rather
+  than merely noticing the block.
 - **Never flag a character class as such.** "Contains zero-width characters" as a
-  standalone flag will fire on a large fraction of honest documents and teaches
-  reviewers to dismiss the flag that matters.
+  standalone flag fires on whole classes of honest documents: every
+  correctly spelled Persian or Indic-script document, every emoji header, many
+  hyphenated exports. It teaches reviewers to dismiss the flag that matters.
+- **Find styling-hidden text by rendering, not by reading characters.** The
+  commonest hidden content in real application documents is keywords in tiny
+  or background-coloured type, and it is made of ordinary letters. No character
+  screen can see it. Compare what the rendered page shows with what the text
+  layer holds, and treat hidden text that repeats the posting's requirements as
+  the finding. An instruction screen alone will catch the rare hidden
+  imperative and pass every hidden keyword list.
 - **Normalise before comparing, and keep both versions.** Strip and fold for
   analysis; retain the raw text so the flag can quote exactly what was found and
   where.

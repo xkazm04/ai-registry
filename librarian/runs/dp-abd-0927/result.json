@@ -1,0 +1,89 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-abd-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-27T19:30:00Z",
+  "ended_at": "2026-09-27T20:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 3,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/agent-benchmark-design",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 9,
+      "points_after": 2
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "technique": "null-and-reference-controls",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/measurement/agent-benchmark-design/agent-benchmark-design.md",
+    "knowledge/agent-operations/measurement/agent-benchmark-design/techniques/null-and-reference-controls.md",
+    "knowledge/agent-operations/measurement/agent-benchmark-design/techniques/comparable-cell-construction.md",
+    "knowledge/agent-operations/measurement/agent-benchmark-design/techniques/eligibility-before-ranking.md",
+    "knowledge/agent-operations/measurement/agent-benchmark-design/applications/process--null-and-reference-controls.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/agent-operations.md",
+    "librarian/subjects/agent-operations/agent-benchmark-design.md"
+  ],
+  "commits": [
+    {
+      "sha": "df6f8f4d",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations",
+        "rules/ai-registry-agent-operations.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "reason": "a scaffold-only swing of 10-48 points on an issue-resolution benchmark: secondary summaries only, no primary page read"
+    },
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "reason": "'most universally failed tasks are broken' as a default: a verified audit put the broken share under a fifth, so the technique states the spread instead"
+    },
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "reason": "per-vendor prompt tailoring as the fix for non-neutral instruction text: no primary source recommends it for a comparison; landed as a declared confound plus a paraphrase rerun"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "personas memory-year judge: three check defects fixed and pushed (1ba2856b6, 6f963318f, rows ff26b6488), no ranking moved. comparable-cell conditions unapplied: no tracked configuration-benchmark harness. No map pairs the subject."
+}

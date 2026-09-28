@@ -31,6 +31,25 @@ later page, correctly. The two guarantees a seek gives are therefore: no
 entry that existed for the whole iteration is skipped, and no entry is
 returned twice by virtue of others moving around it.
 
+Both guarantees hold only under three conditions:
+- the value the listing is sorted by does not change for an entry;
+- the order is total, with a unique last column;
+- the seek predicate is over the same tuple as the order.
+
+The first condition is the one a design breaks without noticing, because
+a listing sorted by recency of *update* is sorted by a value every write
+moves. In a newest-first walk over such a column, an entry the walk has not
+reached yet that is updated mid-walk jumps above the position, into the
+range already returned, and appears on no page. It existed for the whole
+iteration and was skipped. In an oldest-first walk the same update moves
+the entry ahead of the position, so it is returned twice, and under steady
+writes the walk may never reach its end. Neither is an edge case. Under an
+update-ordered listing every write is a "rename", and the guarantees above
+are simply not on offer. Sort a walk that must be complete by a value that
+is written once (creation time plus a unique key, an append-only sequence).
+Or state in the contract that a mid-walk update can hide the entry, and
+name how the consumer recovers it.
+
 What a seek does not give is a snapshot. An entry created behind the
 position after the iteration passed it is never seen. An entry deleted ahead
 of the position is never seen. An entry that is deleted and re-created under
@@ -81,6 +100,28 @@ unbounded operation hiding inside the bounded one as a flag ("consistent
 = true") that quietly removes the bound, which is the same widening
 deny-absorbs-and-lowest-limit-wins refuses for recursion.
 
+"Unbounded by construction" needs a condition, because two designs give a
+consistent view in bounded pieces.
+
+**A versioned store can pin a read version in the position.** Each page is
+a read at the version the first page observed, so the pages together are a
+snapshot, and nothing is held open between requests. The cost is history,
+not a transaction: the store retains old versions for a horizon it
+controls (minutes to a week, depending on the store). A position older than
+the horizon is refused with a distinct "expired" error, and the client
+restarts or accepts an inconsistent continuation. That is bounded per page
+by the limit, and bounded in duration by the horizon the operator sets,
+never by the client. The refusal above stands for stores that can give
+consistency only by holding a transaction.
+
+**An immutable change feed can backstop an inconsistent walk.** Record the
+highest version or timestamp the walk observed. Then read the feed of
+changes since that mark, and every entry the walk missed or saw half-way
+arrives as a change. Both operations are bounded per page. Together they
+converge on the collection without either one being a snapshot. This is
+the usual shape of a mirror's cold start, and it is only as good as the
+feed's own ordering, which must be the write-once kind described above.
+
 Where the store does offer transactional reads and the consumer is
 prepared to pay for them, the transaction bounds a *single* list request:
 one page, or one whole listing inside one request whose size is capped by
@@ -105,8 +146,15 @@ what a mid-iteration write can cause, because a consumer who is not told
 will build on a snapshot that does not exist.
 
 When a caller asks for a consistent listing, offer a distinct operation
-with its own capability and no page bound, because a snapshot is the
-collection and cannot be bounded by a page size.
+with its own capability, because a snapshot is the collection. On a
+versioned store, the distinct operation can be pages read at a version
+pinned in the position, expiring with a distinct error at the retention
+horizon, which keeps it bounded per page and in time.
+
+When a listing is sorted by a value that writes change (last update, a
+score), state that an entry updated mid-walk can be missed or repeated, and
+name the recovery (a change feed from the walk's high-water mark), because
+the seek's no-skip guarantee holds only for a value written once.
 
 When tempted to hold a transaction across pages, refuse, because the
 interval between pages is controlled by the client and a resource held

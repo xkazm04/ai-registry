@@ -55,6 +55,12 @@ contract cannot express — that is the point of typing the seam.
 
 Opt-out is implemented as a sink, not as a flag checked at call sites: the
 user who declines gets a null sink that satisfies the contract and discards.
+Where consent must come before collection
+([privacy-scrubbing](./privacy-scrubbing.md)), the null sink is also the one
+composition installs at startup, and the consent answer is what swaps in a
+live sink. The not-yet-asked state then needs no code path of its own. A
+composition that starts on the live sink and downgrades once a preference is
+read has already chosen the default, whatever the settings screen says.
 This buys three properties at once:
 
 - **Call sites are consent-blind.** No `if consented` branches scattered

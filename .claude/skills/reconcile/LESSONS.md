@@ -167,3 +167,30 @@ the contract those runs earned; this file carries what the DIRECTOR learned runn
   no application, the result is a dry decline that names the right lane. Do not widen a
   subject-scoped dispatch into a bundle wave, even when the bundle has debt (88
   single-stack subjects here); that wave needs the operator's approval.
+
+## 1.0.1 - 2026-09-25 - dispatched on a clock reason, again (software-engineering/prompt-assembly)
+
+- **The clock that routed the dispatch had already been cleared upstream.** Same shape as
+  the entry above, on `prompt-assembly` (25 applications, five stacks). The at-risk row,
+  `python--amortized-compaction-cadence` refresh_by 2026-10-15, was read on a checkout 38
+  commits behind origin; origin's `deepen(currency)` had re-resolved it two days earlier
+  (refresh_by 2026-11-05, outside the 30-day window), and the sibling's
+  `rewrite-before-the-gate` row was in the same commit. Before judging a dispatched
+  subject, run `git fetch` and read the named file at `origin/main`: a scan reason
+  measured on a stale checkout can be history rather than work.
+
+## 1.0.1 - 2026-09-25 - the same subject re-dispatched on the same stale clock (software-engineering/agent-runtime-assembly)
+
+- **Recording a decline does not stop the next dispatch while the scanned checkout stays
+  behind.** `agent-runtime-assembly` came back hours after `rc-ara-0925` declined it, with
+  the identical reason, because the projection still scans the primary checkout (43
+  behind origin) and both earlier results landed only on origin. The lesson above
+  (fetch, read at `origin/main`) settles each run in minutes, but it cannot end the loop.
+  The loop ends when the primary checkout is synced or the attention scan reads
+  origin. Name that in the run result so the operator sees it. Do not fast-forward a
+  shared checkout that has sibling edits in it just to quiet the scan.
+- **Why the loop does not brake itself (second sighting, `prompt-assembly`, rc-pa-0925b).**
+  The scan does read `librarian/runs/`, but its dry-streak brake counts only `landed` and
+  `idled` rows; a `declined` row is, correctly, not a pass and moves nothing. Before
+  profiling a dispatched subject, look for a `rc-*` decline of the same subject on the same
+  premise; if one exists, record the re-dispatch from a worktree cut from origin and stop.

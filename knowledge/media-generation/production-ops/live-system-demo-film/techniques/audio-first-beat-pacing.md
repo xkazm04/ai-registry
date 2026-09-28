@@ -39,7 +39,15 @@ placed by eye.
 
 **`measured clip`** — the real duration of the rendered narration for this beat,
 read from the audio itself. Not the word count, not the character count, not the
-provider's estimate at request time.
+provider's estimate at request time — and not a container's guess either. A
+media probe asked for a file's duration answers from whatever the container
+carries, and where the container does not carry a frame count it divides size
+by bitrate and returns that, with only a warning to say so. An MP3 without its
+frame-count header is the common case: exact enough at a constant bitrate, off
+by percents at a variable one, and indistinguishable from a measurement to any
+caller that runs the probe quietly. A duration is measured when the stream was
+decoded or the probe's own diagnostics were read and were clean; a probe run
+with its warnings silenced has returned a number, not a measurement.
 
 **`settle`** — the minimum the picture needs to be legible regardless of the
 voice: an animation completing, a spinner clearing, a list re-sorting, a
@@ -110,14 +118,17 @@ rehearsal must be runnable before anyone spends on synthesis. The rule:
 The third rule is not fastidiousness. Word-to-time estimates are wrong in a
 biased, content-dependent direction: compact written figures expand to many
 syllables aloud, abbreviations and proper nouns expand unpredictably, and marked
-pauses add seconds with no words at all — conventional guidance puts pause-heavy
-delivery ten to fifteen percent above its word-count prediction. A fifteen
-percent per-beat error is survivable in a price estimate and fatal in a cut,
-because it accumulates: by the tail of a long film, audio is landing under the
-wrong picture entirely. The planning band is worth knowing for the estimate —
-produced narration without an on-screen presenter conventionally sits around 130
-to 175 words per minute — but a band is a prior, and the render's clock is the
-verdict.
+pauses add seconds with no words at all. The size of that error is folklore
+rather than measurement: calculators commonly add ten to fifteen percent for
+pause-heavy delivery, and no measured study stands behind the figure. That is
+itself the argument — an error nobody has measured is not one a cut can budget
+for. A per-beat error of that order is survivable in a price estimate and fatal
+in a cut, because it accumulates: by the tail of a long film, audio is landing
+under the wrong picture entirely. The planning band is worth knowing for the
+estimate — speech-rate research puts ordinary speech around 125 to 160 words
+per minute and broadcast delivery near the top of that — but the standard method
+behind those rates deducts every silence longer than three seconds, which is
+exactly the time a pause-marked script adds back. A band is a prior, and the render's clock is the verdict.
 
 ## Decision rules
 
@@ -125,6 +136,10 @@ verdict.
   duration; when it does not, pace from the declared rate constant and mark the
   beat unmeasured — never fall through to a hard-coded default hold, which is an
   estimate that cannot be audited.
+- When measuring with a probe, read its diagnostics or decode the stream; when
+  the probe reports that it estimated, treat the beat as unmeasured, because a
+  duration derived from size and bitrate is a word-count estimate with better
+  manners.
 - When the run is a delivery run and any beat is unmeasured, fail the run rather
   than ship the cut, because an unmeasured beat is the one defect the recording
   cannot show you.

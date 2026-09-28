@@ -1,0 +1,95 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-csh-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-27T19:35:00Z",
+  "ended_at": "2026-09-27T20:21:31Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 3,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/combining-signals-into-a-hire-decision",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/combining-signals-into-a-hire-decision",
+      "technique": "weight-signals-by-validity-not-by-precision",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/combining-signals-into-a-hire-decision",
+      "technique": "golden-path",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/combining-signals-into-a-hire-decision",
+      "technique": "outcome-feedback-loop-per-team",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/combining-signals-into-a-hire-decision.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/techniques/a-hold-that-blocks-auto-advance.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/techniques/discrepancy-between-signals-is-itself-a-signal.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/techniques/outcome-feedback-loop-per-team.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/techniques/promote-floor-calibrated-against-real-outcomes.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/techniques/terminal-decisions-stay-with-a-person.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/techniques/weight-signals-by-validity-not-by-precision.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/node--a-hold-that-blocks-auto-advance.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/node--promote-floor-calibrated-against-real-outcomes.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/node--outcome-feedback-loop-per-team.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/applications/process--weight-signals-by-validity-not-by-precision.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/combining-signals-into-a-hire-decision.md"
+  ],
+  "commits": [
+    {
+      "sha": "012524c8",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/combining-signals-into-a-hire-decision",
+      "reason": "the EU high-risk hiring obligations moving to 2027-12-02 under Regulation (EU) 2026/1744: the subject states no AI Act date; recorded as a clock for the compliance subjects, not cited"
+    },
+    {
+      "subject": "recruiting/combining-signals-into-a-hire-decision",
+      "reason": "rewriting 'rejected candidates generate no outcome data' as the undiscovered individual false negative: a single law lane; the sentence's point stands"
+    },
+    {
+      "subject": "recruiting/combining-signals-into-a-hire-decision",
+      "reason": "changing the offer-row and guard-window rules: the law lane found nothing either way; design choices, left as written"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "First sweep: eight rules flipped on web + blind convergence (three also law). kp map 4597c6376 and applied rows on kp main, not pushed: kp main has diverged with other sessions' commits. Owed kp defect: the promote-floor corpus mixes transfer and match scores."
+}

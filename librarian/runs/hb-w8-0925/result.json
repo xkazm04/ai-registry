@@ -1,0 +1,165 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-w8-0925",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-09-25T18:40:00Z",
+  "ended_at": "2026-09-25T20:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 8,
+    "landed": 6,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/test-input-generation",
+      "at": "2026-09-25T20:45:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/docs-sync",
+      "at": "2026-09-25T20:45:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/engine-binding-surface",
+      "at": "2026-09-25T20:45:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/delivery-guarantees",
+      "at": "2026-09-25T20:45:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-cli-transport",
+      "at": "2026-09-25T20:45:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-09-25T20:45:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/concurrency-guards",
+      "at": "2026-09-25T20:45:00Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/repo-manifest-standard",
+      "at": "2026-09-25T20:45:00Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "test-input-generation",
+      "technique": "model-based-oracle",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "docs-sync",
+      "technique": "named-duplication-points",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "engine-binding-surface",
+      "technique": "pre-resolve-what-the-engine-cannot-await",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "delivery-guarantees",
+      "technique": "retry-escalation",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-cli-transport",
+      "technique": "thread-custody-across-resume",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-runtime-assembly",
+      "technique": "guard-input-custody",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "concurrency-guards",
+      "technique": "single-flight-primitives",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "repo-manifest-standard",
+      "technique": "reader-rules-are-not-writer-rules",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    "catalog.json",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md"
+  ],
+  "commits": [
+    {
+      "sha": "10666d9a",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering",
+        "librarian/applied.md",
+        "librarian/harvest/backlog.jsonl"
+      ]
+    },
+    {
+      "sha": "c6f87d93",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering",
+        "librarian/applied.md",
+        "librarian/harvest/backlog.jsonl"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave 8: 8 units, 6 better (2 code: ascent e6908657, personas 46ce99b1f; 4 experiment), 2 not-better blind-ab. Home overridden on 5 of 8 units. Not-better is not a decline. 904 queued after."
+}

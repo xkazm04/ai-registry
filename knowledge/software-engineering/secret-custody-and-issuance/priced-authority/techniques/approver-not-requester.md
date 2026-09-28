@@ -67,6 +67,16 @@ widens the requester's policy for a window, everything else the requester
 does in that window is widened too, and the audit line records a policy
 change rather than an approval.
 
+"The requester collects" is true only while the requester is the one
+holding the wrap token. The reference issuer parks the requester's own
+credential with the request and runs it under that credential for
+whoever presents the wrap token. The collection checks the approvals, not
+the collector. A wrap token handed to a colleague, or logged by a job
+runner, is therefore bearer authority over an approved read. Either make
+the collection authenticate the collector as the requester, or state that
+the wrap token is bearer authority and keep it on the same channel the
+requester's own credential travels on.
+
 Approvals age. Each one is recorded with its time, and an approval older
 than the requirement's window no longer counts toward the total, so a
 request that gathered one approval on Monday and one on Friday against a
@@ -87,6 +97,15 @@ self-approval, the switch is off by default and turning it on is a loud,
 reviewed choice, because a requirement with self-approval enabled is a
 one-party workflow wearing a two-party name
 ([absent-guard-is-loud](../../../_laws.md#absent-guard-is-loud)).
+
+"Identity" means the identity record, and the rule is only as strong as
+the mapping from people to records. In the reference issuer the check
+compares identity-record ids. A requester whose token carries no identity
+record compares as an empty id, and a person holding two records that were
+never merged (one per auth method, say) is two identities to the check,
+and can approve their own request from the second one. Refuse to park a
+request whose requester has no identity record, and treat merging a
+person's records as part of turning the requirement on.
 
 The same identity check bounds the count. An approval is recorded against
 the approver's identity, and a second approval by the same identity does

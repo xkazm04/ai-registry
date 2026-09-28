@@ -47,7 +47,7 @@ path — and the read side tolerant of documents it did not write.
 The index is a stored derived value, and like every stored derived value it must
 name how it is recomputed
 ([derivation-names-recomputation](../../../../_laws.md#derivation-names-recomputation)).
-Concretely, four properties:
+Concretely:
 
 - **A rebuild command exists, is invokable by the person, and is the documented
   answer to every class of index inconsistency.** Not a maintenance script
@@ -65,11 +65,26 @@ Concretely, four properties:
   substrate has, because nothing about it looks broken from any surface. The
   index membership is a contract on the write door, not an optimisation applied
   where somebody remembered.
-- **Index-only state is forbidden.** The moment something exists in the index
-  that is not derivable from the documents — a flag, a counter, a relationship
-  the files do not encode — the index has become a second source of truth, and
-  the rebuild silently destroys data. Anything that must persist goes in a
-  document.
+- **Index-only state that carries meaning is forbidden.** The moment something
+  exists in the index that is not derivable from the documents — a status, a
+  resolution, a relationship the files do not encode — the index has become a
+  second source of truth, and the rebuild silently destroys data. The typical
+  shape is a lifecycle field updated in the index while the document is written
+  once at creation: the item is closed everywhere the product looks, open in the
+  file, and a rebuild reopens it. The test for any field kept only in the index
+  is one question: **if a rebuild reset this to its default, would the companion
+  then say or do something false?** A status, a resolved flag, a promise kept —
+  yes, so they go in the document. Operational scratch — a reminder throttle, a
+  sync cursor, a cache stamp — can live only in the index when its reset value is
+  safe and the rebuild **names what it resets**, so a companion that re-reminds
+  once after a rebuild is a stated behaviour rather than a mystery.
+- **The document is written first.** Writing to two stores is not atomic, so
+  choose which one may be ahead after a crash between the writes: it must be the
+  document. A crash that leaves the document ahead is repaired by the next rebuild
+  or reconciliation; one that leaves the index ahead is *reverted* by it — a change
+  the person watched happen is undone by the maintenance operation. A guard that
+  needs the index (claiming a row so a double write is refused) reads it before
+  the document write and commits to it after, rather than committing first.
 
 ## Every check reads the documents
 
@@ -153,5 +168,14 @@ not identity and does not want to be a folder; keep it in a database, and let th
 identity documents reference it. And **multi-writer, multi-machine deployments**,
 where several hosts write concurrently to the same store: filesystem semantics do
 not survive that, and a companion serving a team needs a real transactional store
-with the documents as an export. The technique is at its strongest exactly where
-companions live — one person, one store, local, long-lived.
+with the documents as an export. A third boundary arrives more slowly: when most of
+the state a product needs is **typed and relational** — lifecycle fields, typed
+properties, views and queries across items — and every new feature adds another
+field the documents must learn to carry, the inversion's cost grows with the
+product. At that point the honest choice is made explicitly, either by extending
+the document format to hold the state (frontmatter is usually enough for a
+lifecycle) or by moving the canonical store into the database and keeping export;
+at least one widely used file-first notes product made the second move for exactly
+these reasons. What is not a choice is the drift between them, where each feature
+quietly keeps one more field only in the index. The technique is at its strongest
+exactly where companions live — one person, one store, local, long-lived.

@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-nbdb-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T13:55:00Z",
+  "ended_at": "2026-09-26T15:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/node-boot-and-declarative-bootstrap",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/node-boot-and-declarative-bootstrap",
+      "technique": "once-only-bootstrap-with-marker",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/node-boot-and-declarative-bootstrap",
+      "technique": "ordered-boot-dag",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/node-boot-and-declarative-bootstrap.md",
+    "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/techniques/ordered-boot-dag.md",
+    "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/techniques/once-only-bootstrap-with-marker.md",
+    "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/techniques/reload-partition.md",
+    "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/techniques/config-objects-are-api-immutable.md",
+    "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/rust--ordered-boot-dag.md",
+    "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap/applications/rust--once-only-bootstrap-with-marker.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/node-boot-and-declarative-bootstrap.md"
+  ],
+  "commits": [
+    {
+      "sha": "f92a969a",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/operations/service-operations/node-boot-and-declarative-bootstrap",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single stack cleared (rust, tracklight). 4 techniques conditioned, 0 new. Applied 2 better (code), 2 unapplied. 0 stale verdicts. Maps committed in 5 joined repos, pushed in none. tracklight fix 53ff57f unpushed: main 11 ahead / 6 behind origin."
+}

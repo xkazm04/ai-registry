@@ -42,16 +42,30 @@ has two states where it needs three.
 ## The two numbers that stop the ratio lying
 
 **Statistical significance.** Ask whether the observed gap could plausibly
-arise from chance at these cohort sizes — an exact test for small cohorts, a
-standard-deviation test for large ones. A small-number difference that is not
-statistically significant does not establish adverse impact, and reporting it
-as one burns the credibility of every real finding you will make later.
+arise from chance at these cohort sizes. At hiring-cohort sizes prefer a mid-P
+or an unconditional exact test: the classical conditional exact test is
+conservative there — it holds its error rate well below nominal and misses
+real gaps — while mid-P stays near nominal with more power. Both converge on
+the standard-deviation test at large N, so one exact method can serve every
+size. Two standard deviations is the usual line; where many gates and groups
+are tested at once, the correction for that is chosen in policy before the
+data, like the reference rule, because choosing it after is the same shopping.
+A small-number difference that is not statistically significant *may not*
+constitute adverse impact, and reporting it as one burns the credibility of
+every real finding you will make later.
 
 **Shortfall.** How many additional selections would bring this group to the
-reference rate. This converts a ratio into a human quantity. A shortfall of 0.6
-people means the ratio failed on rounding; a shortfall of 40 people means
-something is happening whatever the ratio reads. Where the two disagree,
-believe the shortfall and say so in the report.
+reference rate — reference rate × considered − selected. This converts a ratio
+into a human quantity, and it is not the only definition in use (an
+equal-selection shortfall with the totals held fixed gives a smaller number),
+so the report names the one it used. It is a count of people, so it is
+scale-bound exactly as a p-value is: 40 short is decisive across a hundred
+applicants and indistinguishable from chance across a hundred thousand
+(a 0.04-point gap, p ≈ 0.86). Read it as a share of the group, beside the
+ratio and the test, and where they disagree, report the disagreement rather
+than choosing the number you prefer. At small N, a shortfall under one person
+is the flip-flop case: one selection reverses the verdict, and the ratio
+failed on rounding.
 
 ## Decision rules
 
@@ -59,6 +73,12 @@ believe the shortfall and say so in the report.
   flagged and the end-to-end funnel is clean, the flag stands. A later stage
   that compensates for an earlier one does not defend the earlier one, and the
   aggregate is exactly the view that hides the gate you would fix.
+- **The verdict reads the ratio and the test together, in four states.**
+  Below the threshold and significant is the finding. Below and not
+  significant is a pattern to watch, labelled as one. Above the threshold and
+  significant is still a gap, and is not rendered as a pass. Above and not
+  significant is the clean result. A two-colour display cannot carry the
+  middle two.
 - **When the score under test caused the outcomes being measured, say so in
   the report.** A screen that rejects below a floor generates the rejections
   the analysis reads; the number is then a statement about internal
@@ -83,7 +103,10 @@ profile a recruiter or a model sees. If that data does not exist, this
 technique does not run — and the correct output is that it did not run, not a
 number derived from inferred membership. A name-to-group classifier attached to
 hiring outcomes creates the sensitive data the design was built to avoid, at an
-error rate that varies by exactly the groups you are trying to protect.
+error rate that varies by exactly the groups you are trying to protect. Where
+proxy estimation is used at all, it is aggregate-only, reported as bounds,
+labelled as likely to understate the disparity, never joined to a record — and
+not used where the governing audit regime forbids inferred data.
 
 ## When not to use this
 

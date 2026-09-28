@@ -10,6 +10,7 @@ techniques:
   - overshoot-and-restore
   - assertion-vs-judgment
   - failure-attribution
+  - failure-signatures-beside-the-pass-rate
   - judge-stability
   - comparison-modes
   - eval-economics
@@ -422,6 +423,10 @@ are a design input, not an afterthought: [eval-economics](./techniques/eval-econ
   owners of a red case, the tool surface that only agentic systems have and
   that the funnel misroutes to the model, the two that are not the system,
   attributing a sample and acting on classes.
+- [failure-signatures-beside-the-pass-rate](./techniques/failure-signatures-beside-the-pass-rate.md) —
+  automatic case counts per failure family beside the rate, why a class label
+  is not a mechanism, the detector whose zero means not measured, and the
+  separate/agree pair that tests the counter itself.
 - [judge-stability](./techniques/judge-stability.md) — the pinned judge
   packet, anchor-set drift measurement, inter-judge disagreement, the
   own-family preference bias.

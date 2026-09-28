@@ -153,6 +153,34 @@ walkthrough carries the most meaning to someone who will see only one step
 is the one the static render picks. This is a design decision with a right
 answer per surface, not a default worth inheriting.
 
+### When no single frame explains
+
+The rule above assumes that some frame carries the meaning. For one class of
+gesture none does: the gesture whose payload is **the trajectory rather than a
+state**. An explainer where one reader stalls while a second runs ahead, three
+steps overlap and a fourth waits, or messages travel from many sources to one
+hub teaches order, overlap and waiting. Each frame shows only where things
+are at one moment. The last frame shows that everything finished, and every
+earlier frame shows one moment of a process whose shape is the point.
+
+Resolving that gesture to "its end state" follows this technique's rule and
+still deletes the payload. The litmus classifies it correctly as
+content-bearing. The resolution fails because no frame holds the content. Three
+degraded forms keep it, in order of preference:
+
+- **One frame, when the art gives time a spatial axis.** A waterfall against
+  a time scale or a track the actors move along writes the trajectory into
+  space as it plays, so the final frame carries it.
+- **A filmstrip of the steps**, numbered and captioned, when the trajectory
+  lives in positions a later frame overwrites.
+- **The path with its direction drawn**, when the gesture is a continuous
+  flow with no steps.
+
+These forms are still resolved states. They are the process drawn so that it
+needs no playback. How to author such a gesture so that all three come from
+one source is
+[motion-carries-the-mechanism](../../../published-surfaces/narrative-scroll-surface/techniques/motion-carries-the-mechanism.md).
+
 ## The chrome must degrade with the loop
 
 The corollary almost every implementation misses. A live surface is rarely

@@ -73,6 +73,27 @@ try {
   fs.appendFileSync(path.join(lf, 'subject/subject.md'), 'One more sentence.\n');
   if (hashBundle(lf).hash === a.hash) fail('an edited file did not change the digest');
 
+  // ---- the OTHER direction of the same property: the digest must be INJECTIVE
+  //
+  // Everything above tests that the digest ignores what it should ignore. Nothing
+  // tested that it distinguishes what it must distinguish, and that gap shipped: the
+  // stream was `path` then `bytes` with no delimiter, so a byte moved from the end of
+  // a filename to the front of its content produced an identical digest. That is a
+  // false IN-SYNC — two different bundles, one hash — which no amount of newline
+  // discipline can catch, because the failure is in the serialization rather than in
+  // the normalization. Seeded here as a known violation so the guard is exercised
+  // rather than merely present.
+  const nameA = path.join(tmp, 'boundary-a');
+  const nameB = path.join(tmp, 'boundary-b');
+  fs.mkdirSync(nameA, { recursive: true });
+  fs.mkdirSync(nameB, { recursive: true });
+  fs.writeFileSync(path.join(nameA, 'ab.md'), 'X');
+  fs.writeFileSync(path.join(nameB, 'ab.m'), 'dX');
+  if (hashBundle(nameA).hash === hashBundle(nameB).hash) {
+    fail('two different bundles share one digest — the path/content boundary is ambiguous.\n' +
+         '    A consumer comparing digests is told IN SYNC while holding different bytes.');
+  }
+
   // ---- the same property, for the OTHER generated artifact
   //
   // The digest is not the only thing built from bundle bytes: index.json embeds each law's

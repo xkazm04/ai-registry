@@ -70,7 +70,15 @@ a design that gates nothing lets one administrator re-issue the shares.
 The historical shape that conflated the two, one "rekey" verb that rotated
 root and shares in one unauthenticated ceremony, was also the shape an
 unauthenticated network position could cancel silently; putting every
-rotation behind an authenticated door fixed both.
+rotation behind an authenticated door fixed both. The shape is historical in
+one lineage only. The other still offers no root rotation without the quorum
+and the new share set, so "the root needs no ceremony" is a property to design
+in, not one a product can be assumed to have. The split has its own failure,
+too. One tree's root-only endpoint, under a threshold seal, rotated the
+share-derived key along with the root and lost every share. It was fixed
+after release. The rule under the split is therefore testable: a root-only
+rotation must leave the seal's key byte-for-byte untouched, and the test for
+it is that the old shares still unseal afterward.
 
 ## Old terms are retained, not pruned
 
@@ -105,7 +113,22 @@ It does not rotate the seal's own key; that is the seal custody's operation,
 performed by re-encrypting the root under the seal's new key. It does not
 re-encrypt stored objects, and a proposal that it should, "so that the old key
 is really gone", is a proposal to make rotation cost the size of the store,
-after which rotation stops happening. And it does not run on a replica: the
+after which rotation stops happening.
+
+That cost argument has a size. A store of tens or thousands of secrets, sealed
+directly under one key with no layer above, can retire a key by rewriting
+every row in one transaction and lose nothing to the rewrite. For that store
+the rewrite sweep is the retirement this technique already prescribes, run
+over the whole corpus because the corpus is small. What does not scale down is
+the **term**. Without it, the keyring shrinks to what the reader can
+trial-decrypt, usually a current and a previous key. A second rotation before
+the sweep strands every row under the key before last, with a tag failure
+byte-identical to corruption. And "how many rows are still under the old
+key" can be answered only by holding both keys and trying each row. The
+decision rule: when the store is small enough to rewrite, drop the third
+layer if you like, but keep the key identity in the envelope. The layer
+buys cheap rotation. The term buys a rotation you can count and a failure
+you can name, and a small store needs the second as much as a large one. And it does not run on a replica: the
 keyring is written by the leader, and a replica learns a new term through
 the transient path described in the subject's next technique, not by being
 unsealed again.

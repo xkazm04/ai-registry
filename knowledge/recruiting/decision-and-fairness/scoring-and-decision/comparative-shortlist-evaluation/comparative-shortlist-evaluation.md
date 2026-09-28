@@ -11,6 +11,7 @@ techniques:
   - role-relevant-exclusive-differentiators
   - refuse-a-cross-currency-comparison
   - robustness-status-taxonomy
+  - counterbalanced-candidate-order
 ---
 
 # Comparative shortlist evaluation
@@ -101,6 +102,19 @@ can say "first, and the gap clears the uncertainty" and "first, but the gap is
 inside the noise" with the same underlying order has solved this problem; one
 that quietly reshuffles rows has replaced a visible error with an invisible one.
 
+"Honest" has a condition, though: it depends on what kind of number is being
+ranked. When a score is an *estimate from few observations*, the raw order is not
+neutral. Examples are an average over three rated answers, or a model's rating of
+a short transcript. High-variance records crowd both ends of the ranking, the top
+included. The league-table literature says so plainly: rankings of broadly
+similar performers are screening instruments, "not definitive judgments". Its fix
+is a better point estimate (shrinkage), computed before ranking, plus rank
+intervals. That is re-estimation, not an uncertainty penalty; lower-bound ranking
+is still refused. When the engine instead *scores absence conservatively* (a
+missing must-have costs points), thin records sink rather than rise, and the
+hazard runs the other way. Know which kind of number you rank before you call
+its order honest.
+
 ## Two floors, and they are not the same number
 
 Comparative work sits next to fairness work, and their sample floors get
@@ -120,6 +134,14 @@ Keep them as separate named constants with separate justifications written down
 next to them, and never let one be reused for the other because the numbers
 happened to be close in some release. A single shared floor is guaranteed to be
 wrong for one of the two uses.
+
+Clearing the statistical floor is not the same as having a stable statistic.
+Selection-rate tests remain underpowered at the sizes one employer's pipeline
+usually produces, in both directions: false alarms and missed impact. The
+measurement literature and the federal selection guidelines agree on the remedy.
+Report the ratio with its interval, and pool over a longer period when the
+numbers are too small to rely on. A floor decides whether a number may be shown.
+Only its interval says how much it means.
 [A claim carries its sample and its basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)
 applies to both — it just resolves to different numbers.
 
@@ -143,6 +165,16 @@ claim out of nothing. This is why robustness needs a *status* rather than a
 boolean: the honest answer to "did the perturbation change the order?" when there
 was no perturbation is "the test did not run," and no schema with only
 true/false can express it.
+
+The same trap has a milder form one level further down. When dimensions
+correlate positively and the perturbation is bounded tightly, "the order held" is
+very nearly guaranteed too. This is the flat-maximum result: equal weights predict
+almost as well as fitted ones. A pass is evidence in proportion to how far the
+schemes actually moved, so the report states that distance next to the verdict.
+And ranking by the mean score across every scheme is not itself a robustness
+result. For a linear score it is exactly ranking under the *average* weight
+vector: one more weighting, reasonable and fair to the candidates, but not a
+test.
 
 ## What a comparison is allowed to conclude, and who concludes it
 
@@ -189,11 +221,29 @@ reasons are post-hoc: the model has no access to the cohort floor, no notion of
 band width, and no way to know which fields were incommensurable. Comparative
 claims are computed by deterministic machinery and *then* narrated; a model that
 is asked to narrate must be handed the separation status, not asked to infer it.
+The model is also sensitive to *where* each person sits in the prompt. Model
+judges favour a position, and a pairwise frame brings out preferences that rating
+each person alone barely shows. See
+[counterbalanced-candidate-order](./techniques/counterbalanced-candidate-order.md).
+
+**"Side by side is where bias gets in."** For the human reviewers it is the
+reverse. Evaluators judging one candidate at a time fall back on group
+stereotypes; evaluating the same people jointly, they decide on individual
+performance. That is a controlled finding, and it has since replicated for race
+in field promotion data. The compare view is the debiasing mode for people. The
+two cautions that remain are the model's (above) and the set's composition: a
+candidate dominated on every dimension by another member can shift which of the
+others gets chosen. That decoy effect is fragile in consumer research but has
+held in hiring studies and in all-numeric displays, which a score table is. See
+the cap in
+[minimum-cohort-before-a-comparative-claim](./techniques/minimum-cohort-before-a-comparative-claim.md).
 
 **"Normalize the scores so the chart has spread."** Rescaling a cluster of near-
 identical scores to fill an axis converts noise into visible distance. Every
 comparative visual must preserve the real gap on a fixed scale, and a compressed
-cluster should look compressed.
+cluster should look compressed. A "truncated axis" marker does not repair it:
+readers go on overestimating the gap even when the truncation is explicitly
+signalled, so the fix is the scale, not a caption.
 
 **"Compare against the ideal candidate."** A shortlist comparison is between the
 people who actually applied. Introducing a synthetic reference profile makes

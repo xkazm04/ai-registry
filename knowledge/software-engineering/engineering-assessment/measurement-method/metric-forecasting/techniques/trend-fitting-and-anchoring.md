@@ -93,6 +93,19 @@ authoritative while resting on the same thin evidence. Sophistication over
 sparse data manufactures confidence, which is the failure mode the whole
 subject is defending against.
 
+Two things are not in that class, and refusing them with the rest throws away
+honest tools. The **closed-form prediction interval** of the same least-squares
+line needs no resampling. It widens by itself as the points thin out and as
+the horizon moves away from the observed span, which is the behaviour the
+gates want. It rests on independent errors, though, so scan noise that
+persists from one run to the next makes it too narrow; treat it as a floor on
+the uncertainty. And where one misfired run can land in the series, a failed
+scan or a half-written export, the **median of pairwise slopes** (Theil–Sen)
+keeps every property listed above. It is deterministic and reads in points
+per day, and one wild point cannot drag it. Least squares lets one or two
+outliers set the slope. Choose it when the series has a known misfire mode,
+not as a reflex.
+
 ## The ray is anchored at the last real observation
 
 The fitted line has a value at the last observation's date. The last
@@ -116,6 +129,39 @@ The same rule applies at the other end when the series is drawn: the
 projection is a continuation of the observed series, sharing its axis, its
 scale and its final point — not a second series overlaid on it.
 
+## When the observation is the noise
+
+The anchor rule is the random-walk-with-drift forecast: it assumes that a
+change the last observation shows is a change that stays. That holds for a
+persistent metric, and it is why the rule is the default. It fails in
+proportion to the metric's measurement noise. The last observation carries
+its full share of that noise into every projected value, and the estimated
+date moves by that noise divided by the slope. That is the same
+residual-over-slope shift the section above counts against the fitted anchor,
+now pointing the other way.
+
+So the choice is conditional on the residual:
+
+- **The last residual sits inside the metric's re-scan noise** (the figure
+  that sizes the [flat band](./horizon-caps-and-flat-bands.md)). The two
+  anchors differ by noise either way, so continuity wins and the ray starts
+  at the observation.
+- **The last residual sits far outside it.** The origin now rests on one
+  unconfirmed sample. It may be a real level shift, which the next
+  observation will confirm and which may be a definition seam the gate should
+  see. Or it may be a misfire. Draw the gap and start from the fit, or hold
+  the date until the next observation settles it. Do not let one point move
+  the date silently.
+- **The series is dominated by day-to-day noise**, such as a daily spend or a
+  call volume. Start from a smoothed level (a short exponentially weighted
+  mean) rather than the raw last day. The origin is then still "where we are
+  now", but measured instead of sampled.
+
+When same-day readings are collapsed before fitting, the anchor is **the last
+day's collapsed value**, the point the fit and the chart both see. It is not
+the last raw reading. That reading is the one observation the collapse
+existed to stop trusting alone.
+
 ## Clamping, and where it belongs
 
 Bounded metrics (a percentage, a 0–100 score) will be projected past their
@@ -129,8 +175,12 @@ maximum around <date>" is more useful than a flat line pinned at 100.
 
 - **When samples are irregular, fit over elapsed days.** Always; there is no
   case where index-fitting is correct and day-fitting is not.
-- **When the fit and the last observation disagree, believe the observation.**
-  Anchor there.
+- **When the fit and the last observation disagree by less than the metric's
+  noise, believe the observation.** Anchor there. When they disagree by far
+  more, the observation is one unconfirmed sample: show the gap, or wait for
+  the next one.
+- **When a single misfired run can enter the series, fit the median of
+  pairwise slopes.** One outlier should not set the trajectory.
 - **When the series has a definition change in it, fit only forward of the
   change.** Points on two different definitions are not on one axis.
 - **When the slope is needed on two surfaces, compute it in one place.** Two

@@ -104,7 +104,7 @@
       "name": "contest",
       "source": "./skills/contest",
       "description": "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser",
-      "version": "1.4.1",
+      "version": "1.7.0",
       "category": "workflow",
       "tags": [
         "contest",
@@ -135,7 +135,7 @@
       "name": "cx",
       "source": "./skills/cx",
       "description": "Walk a product's user journeys screen by screen with a CX/UX lens. Builds the journey map once, then at each stop gives a short overview of the screen as the user meets it, proposes 3-6 specific improvements graded by impact and effort, takes the user's own read and expectation for that stop, and dispatches executor subagents to make the accepted changes - verified by gates and a screenshot, commi",
-      "version": "1.5.0",
+      "version": "1.5.1",
       "category": "workflow",
       "tags": [
         "cx",
@@ -202,10 +202,26 @@
       "category": "workflow"
     },
     {
+      "name": "illustrate",
+      "source": "./skills/illustrate",
+      "description": "Take an existing web component that explains a concept with conventional web design (a card grid, a bulleted feature list, a static diagram, decorative art) and give it an illustration layer that carries the claim: read what the section is trying to prove, think divergently about how to abstract it graphically, then prototype three directional illustration variants inside the component behind a ta",
+      "version": "1.2.0",
+      "category": "workflow",
+      "tags": [
+        "illustration",
+        "explainer",
+        "landing",
+        "prototype",
+        "variants",
+        "motion",
+        "design"
+      ]
+    },
+    {
       "name": "kit",
       "source": "./skills/kit",
       "description": "Revitalize and unify the design of a web app: measure style divergence per module, gate a foundation (type scale, muting, colour roles) with the owner, stop new slips with ratchets and agent law, run a contest for a COMPOSITION KIT (the shared building blocks one level above buttons), port the finalists onto one real page so the owner chooses on the product, promote the winner at 0 measured deviat",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "category": "workflow",
       "tags": [
         "design-system",

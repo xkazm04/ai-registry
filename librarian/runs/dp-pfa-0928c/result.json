@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pfa-0928c",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-09-28T12:00:00Z",
+  "ended_at": "2026-09-28T12:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/platform-format-adaptation",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-checkout-dispatch: primary main 242 behind origin re-ranks a clause deepen-pfa-0926 cleared",
+  "notes": "Third stale dispatch today (after dp-pfa-0928, 0928b), from bd295204: 4 ahead / 242 behind origin, lacks cbcf9f11. Origin: stacks next+process; currency 0 expired/at-risk/drift. Harvest 5-068 predates the last pass. No clock or event; nothing landed."
+}

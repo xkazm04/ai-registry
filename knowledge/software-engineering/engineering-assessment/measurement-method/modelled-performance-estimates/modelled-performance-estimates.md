@@ -53,10 +53,18 @@ that configuration, and corrected in the meantime by measurements of
 neighbouring configurations on the same machine.
 
 The consequence of confusing the two is a document that reaches for the wrong
-instrument. A modelled estimate has no confidence interval that means
-anything, so a team that expects one either invents a plausible-looking
-number, which is worse than none, or concludes the estimate cannot be
-published at all, which throws away a genuinely useful bound. The
+instrument. The model alone yields no confidence interval that means
+anything, because there is no fit to take one from. A team that expects one
+either invents a plausible-looking number, which is worse than none, or
+concludes the estimate cannot be published at all, which throws away a
+genuinely useful bound. *(Conditioned 2026-09-26.)* An interval does exist
+once the machine has measured residuals: the spread of measured-over-modelled
+ratios on configurations that were actually run. Conformal methods make that
+spread a distribution-free band, but only for configurations exchangeable
+with the ones measured. So the band means something inside the calibrated
+population and nothing for a new accelerator, a new runtime or a new
+workload class. It belongs to the calibrated rung and states its n. A modelled
+rung with no residuals behind it still has no interval to show. The
 [fit-confidence honesty](../metric-forecasting/techniques/fit-confidence-honesty.md)
 rules are the neighbour's and stay there; the analogue here is the provenance
 ladder below, which answers the same reader question — *how much should I lean
@@ -77,15 +85,33 @@ ends with a number on a screen.
 
 ## A model produces a bound, and a bound is not a prediction
 
-Nearly every model of a system computes a **ceiling**: the fastest this could
-go if the bottleneck resource were the only constraint. Divide the working set
-by the memory bandwidth and you have the shortest time the data could possibly
-move, not the time it will take. Real achievement is a fraction of that
-ceiling — scheduling gaps, cache behaviour, contention, the parts of the work
-the model does not represent.
+A **bound-and-bottleneck** model computes a **ceiling**: the fastest this
+could go if the bottleneck resource were the only constraint. This is the
+commonest kind of model at this subject's input, a machine's declared
+properties. Divide the working set by the memory bandwidth and you have the
+shortest time the data could possibly move, not the time it will take. Real
+achievement is a fraction of that ceiling: scheduling gaps, cache behaviour,
+contention, and the parts of the work the model does not represent.
 
-The consequence is that a raw modelled figure is **systematically optimistic,
-not symmetrically uncertain**, and that asymmetry has to be resolved before
+*(Conditioned 2026-09-26: this is not every model.)* Three other kinds need
+different handling:
+- **Predictive models.** Analytical, queueing and statistical models aim at
+  the expected value. Their error runs in both directions and is reported as
+  a spread.
+- **Worst-case analyses** are deliberately pessimistic.
+- **Price-times-count estimates** (tokens times a list rate, units times a
+  unit cost) are not bounds at all. They err low when the count is
+  undercounted and high when a discount or a cache hit goes unmodelled.
+
+Even a true ceiling holds only for the mechanism it models. A technique that
+avoids the modelled bottleneck, such as reading fewer bytes per step or
+skipping work speculatively, beats it without contradicting it. So **name the
+model's class beside the figure**: the direction of its bias is a property of
+the class, not of modelling in general.
+
+For the bound-type model, the consequence is that a raw modelled figure is
+**systematically optimistic, not symmetrically uncertain**, and that
+asymmetry has to be resolved before
 the number is published. A team that treats the ceiling as an expectation has
 not made an imprecise promise; it has made a promise it will break in one
 direction every time, and the reader will discover the bias long before anyone
@@ -183,13 +209,25 @@ stop asking.
 
 Neither of them is a number. **When an estimate's required input is
 unavailable, the field is absent — not zero, not minus one, not a plausible
-default.** The specific trap in this domain is that performance quantities
-have no free sentinel: zero is *inside* the measurable range of every rate,
-every size and every duration, so a sort ranks the un-estimated configuration
-as the slowest one, a threshold excludes it, and a chart draws it at the floor.
-A sentinel is only safe when it lies outside every value the domain can take,
-and here there is no such value, which is precisely why the field must be
-nullable rather than defaulted. That is
+default.** The specific trap in this domain is that zero, the sentinel a type
+hands you for free, is *inside* the measurable range of every rate, every
+size and every duration. A sort ranks the un-estimated configuration as the
+slowest one, a threshold excludes it, and a chart draws it at the floor. A
+sentinel is only safe when it lies outside every value the domain can take.
+*(Conditioned 2026-09-26.)* Some domains do have such a value, and the
+candidates are fragile:
+- **A negative** is outside the range of a size or a duration. It stops being
+  outside the moment the value is differenced into a signed change.
+- **Not-a-number** is outside every range. It does not survive the commonest
+  wire format, where it becomes a null or an invalid document depending on
+  the writer.
+
+So the field is nullable rather than defaulted. That is not because no
+sentinel could exist; it is because none survives every hop. The converse
+also holds: **when zero is the true value** (a run that really costs nothing,
+because the work ran on hardware nobody bills for), zero is the value and not
+a sentinel. The absent state must then keep to its one meaning, a missing
+input, rather than also standing for "free". That is
 [unknown is not a value](../../../_laws.md#unknown-is-not-a-value) meeting a
 domain with nowhere to hide the unknown, and
 [refuse-rather-than-emit-a-sentinel](./techniques/refuse-rather-than-emit-a-sentinel.md)
@@ -215,7 +253,14 @@ signal that an entry is missing. Tuning the fallback until the newest outlier
 looks right is how a table stops being auditable, and it is
 [deletion is not repair](../../../_laws.md#deletion-is-not-repair) wearing a
 statistician's coat: the visible gap has been removed from the place where it
-was visible.
+was visible. *(Conditioned 2026-09-26.)* Auditability is the argument for
+entries. Accuracy is not, because a per-category table fitted from thin data
+overfits. In the standard multilevel comparison, the unpooled estimates
+predicted slightly *worse* than a single pooled one, and partial pooling beat
+both. So an entry with few anchors is **shrunk toward the documented default**
+in proportion to how few it has. The default is a fixed, reviewed constant,
+not a mean recomputed on every fit, which is what keeps "adding an entry
+moves only what it names" true.
 [scoped-calibration-fallback](./techniques/scoped-calibration-fallback.md)
 owns the scoping, the no-self-calibration rule that keeps the table from
 consuming its own modelled output, and the review discipline for adding an
@@ -254,7 +299,14 @@ generalises: **the top band stops short of the theoretical limit.** A pool
 filled to its last percent leaves nothing for allocator slack and
 fragmentation; a threshold set at 100% is a threshold nobody has tested,
 because the configurations that reach it fail for reasons the ratio does not
-model.
+model. *(Conditioned 2026-09-26.)* The one-ratio rule holds only when the
+numerator already contains every **absolute** term: the runtime's fixed
+context, a working buffer sized by the target context length rather than the
+pool, and whatever else shares the device. A fixed gigabyte is an eighth of a
+small pool and an eightieth of a large one. Left out of the numerator, it
+comes back as exactly the second input the rule forbids. For the same reason
+the slack at the top edge is often absolute, and the documented runtime
+defaults are well short of the last few percent.
 [one-ratio-then-a-capability-cap](./techniques/one-ratio-then-a-capability-cap.md)
 owns the ratio, the cap, the band edges and the derivation each edge owes.
 
@@ -264,9 +316,10 @@ owns the ratio, the cap, the band edges and the derivation each edge owes.
   beside it.** The reader cannot tell, and neither can the next program.
 - **A ceiling published as an expectation.** Systematically optimistic is not
   the same as uncertain, and it is not repaired by a disclaimer.
-- **A zero, a minus one, or a default where the input was missing.** Every one
-  of those is inside the domain and will be sorted, thresholded and charted as
-  a real value.
+- **A zero, a minus one, or a default where the input was missing.** Zero and
+  a default are inside the domain. Minus one leaves it only until somebody
+  takes a difference. All three will be sorted, thresholded and charted as
+  real values.
 - **"Unsupported" and "missing input" collapsed into one state.** One of them
   is somebody's task; the other is a closed question.
 - **A correction table fed by its own modelled output.** The table then fits
@@ -275,7 +328,8 @@ owns the ratio, the cap, the band edges and the derivation each edge owes.
 - **A global fudge factor.** A correction that moves cases nobody measured is
   a change no reviewer can evaluate.
 - **A verdict with two continuous inputs.** It will over-promise and
-  under-rate simultaneously, and no threshold move fixes both.
+  under-rate simultaneously, and no threshold move fixes both. A fixed
+  overhead left out of the numerator is the second input in disguise.
 - **A band edge at the theoretical limit.** Nothing has been tested there, and
   the slack the model does not represent lives exactly in the last percent.
 - **An estimate whose inputs were not published.** When it is wrong, the
@@ -288,8 +342,8 @@ owns the ratio, the cap, the band edges and the derivation each edge owes.
   consumer to do, the matching policy that decides whose measurements
   transfer, and the resolved-basis record that makes an estimate re-derivable.
 - [refuse-rather-than-emit-a-sentinel](./techniques/refuse-rather-than-emit-a-sentinel.md)
-  — the domain test for whether a sentinel is safe, why performance quantities
-  have none, the difference between unsupported and missing input, and the
+  — the domain test for whether a sentinel is safe, why zero never passes it
+  and the out-of-domain candidates rarely survive a hop, the difference between unsupported and missing input, and the
   serialization boundaries where absence is coerced back into a number.
 - [scoped-calibration-fallback](./techniques/scoped-calibration-fallback.md) —
   fitting a correction so that adding an entry moves only what it names, the

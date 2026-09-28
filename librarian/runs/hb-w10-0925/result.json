@@ -1,0 +1,147 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hb-w10-0925",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "backlog",
+  "domain": "software-engineering",
+  "started_at": "2026-09-25T21:45:00Z",
+  "ended_at": "2026-09-25T23:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 8,
+    "landed": 7,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/mcp-tools",
+      "at": "2026-09-25T23:30:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/chat-transcript",
+      "at": "2026-09-25T23:30:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/pipeline-authoring",
+      "at": "2026-09-25T23:30:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/measurement-honesty",
+      "at": "2026-09-25T23:30:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/test-input-generation",
+      "at": "2026-09-25T23:30:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/supply-chain",
+      "at": "2026-09-25T23:30:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/module-design",
+      "at": "2026-09-25T23:30:00Z",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/scale-investment-timing",
+      "at": "2026-09-25T23:30:00Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "mcp-tools",
+      "technique": "first-party-agent-is-a-principal",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "chat-transcript",
+      "technique": "composer-turn-queue",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "pipeline-authoring",
+      "technique": "pipeline-plan-auditability",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "module-design",
+      "technique": "emitted-code-names-from-a-root",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "measurement-honesty",
+      "technique": "lower-bound-disclosure",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "test-input-generation",
+      "technique": "proof-cost-follows-the-circuit",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "supply-chain",
+      "technique": "license-reach-follows-integration-form",
+      "verdict": "better",
+      "mode": "blind-ab"
+    },
+    {
+      "subject": "scale-investment-timing",
+      "technique": "operation-prices-the-property",
+      "verdict": "not-better",
+      "mode": "blind-ab"
+    }
+  ],
+  "files": [
+    "librarian/applied.md",
+    "librarian/harvest/backlog.jsonl",
+    "catalog.json",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Backlog wave 10 of a 3-wave loop: 8 units, 7 better (4 code, all shipped: ascent 2876343a; personas 3684836c1, 6220845c, d3f96ea5), 1 not-better. Blind-ab spend $20.40 under declared caps. Loop ended at its cap; no stop rule fired."
+}

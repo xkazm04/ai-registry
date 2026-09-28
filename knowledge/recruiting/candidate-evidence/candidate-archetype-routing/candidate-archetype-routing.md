@@ -33,9 +33,12 @@ concern. The archetype decides three things, and none of them is cosmetic:
 2. **How you score.** Each population gets its own weighting of its own dimensions —
    not a discount applied to a shared rubric, but a different rubric with different
    axes and different names.
-3. **What protects them.** Fairness shields key off the archetype. A misclassification
-   is not a cosmetic error; it can be the difference between a candidate a machine may
-   never reject unattended and one it may.
+3. **What protects them.** A fairness shield reads the routing result: the class, the
+   unknown, and the signs that the instrument could not read this person. A
+   misclassification is not a cosmetic error; it can be the difference between a
+   candidate a machine may never reject unattended and one it may. Who the shield covers
+   is not this subject's decision, and it is not a career-stage label. See the seams
+   below.
 
 That third consequence is what makes routing a compliance surface rather than a
 convenience. It also means the classifier is downstream of nothing and upstream of
@@ -82,15 +85,40 @@ The discipline that keeps this honest is that each archetype is scored on **its 
 dimensions**, and those dimensions are *renamed*, not merely reweighted. An experienced
 candidate is read on demonstrated skill, career trajectory and personal signals. An
 early-career candidate is read on foundation, potential and fit. These are not the same
-three axes with different multipliers; they are different questions. Renaming is the
-mechanism that stops a reviewer comparing across populations, because there is nothing
-to compare — no shared number exists, by construction. What is scored *instead* of years
+three axes with different multipliers; they are different questions. Renaming stops a
+reviewer *reading* two scores as one scale. It does not stop a list from ranking them as
+one. Any single ordering across populations — one ranked list, one fit floor, one
+bottom-share cut — makes the comparison anyway, silently, in the sort key. So a mixed
+surface owes one of two things: a stated allocation (slots, quotas or queues per
+population, chosen by a person for the role), or a measured comparability, meaning the
+shared floor admits each population at rates somebody has looked at. Calling the
+comparison undefined and then sorting on it is the worst of both: it hands the
+cross-population decision to whoever wrote the sort. What is scored *instead* of years
 of experience belongs to the neighbouring subject on early-career potential assessment;
 what belongs here is the decision about which set of axes applies at all.
 
 The corollary is that archetype counts are not a leaderboard and must never be presented
 as one. "Sixty percent of our applicants are early-career" is a fact about a sourcing
 channel, not a fact about a talent pool.
+
+**The archetype is an age correlate by construction, and that is a condition on the
+whole subject.** Career stage is not age in law, but it travels with age, and a system
+that routes by it applies a different procedure — a different form, a different rubric —
+to groups that differ in age. EU equal-treatment law protects every age, the young
+included, and asks for a documented justification for any different treatment by age.
+US age law protects older applicants. Its regulation names "college student" and "recent
+college graduate" as age terms, and the Uniform Guidelines' four-fifths test does not
+reach age at all. Three rules follow.
+
+- **Route on current evidence, never on a birth-cohort proxy.** Enrolment, relevant
+  experience and a stated wish to change field are facts about the evidence. A graduation
+  year, years since graduating, or a degree's date are facts about the person's age.
+- **Write down why each population's rubric fits its evidence.** That justification is
+  owed anyway, and it is the answer when someone asks why two applicants of different
+  ages were read on different axes.
+- **Measure the routing split by age band where the data lawfully exists.** Do this in
+  the aggregate lane, with the neighbouring subjects on adverse impact and on the
+  screening gate.
 
 ## Trust the person, distrust the inference — and never the reverse
 
@@ -125,6 +153,23 @@ every downstream consumer — the intake form, the score, the shield, the audit 
 inherits a claim nobody can trace back to a source. A confidence cap loses nothing.
 [Inference must look like inference](../../_laws.md#inference-must-look-like-inference).
 
+**Trust without verification holds only while the declaration buys a fit, not a
+favour.** Declaring an early-career archetype switches the rubric, so it could be an
+advantaged path. Applicants do shade self-reports towards whatever they believe is being
+rewarded, and they shade less when the claim is checkable. The unverified trust is
+defensible because what the declaration buys is procedural: a rubric matched to the
+evidence the person actually has. The measurable test is whether declaring a class
+raises the expected score for the *same* record. If it does, the declaration has become
+the advantaged path, and the fix belongs in the rubrics, by checking whether one
+population's scores systematically over- or under-predict. Do not fix it by
+interrogating the person. Never verify a career-stage claim through a graduation year:
+that swaps a self-description for an age signal.
+
+**Only the candidate's own act is a declaration.** A system that feeds its own inference
+back in as "self-declared", for example to keep a re-route deterministic when a profile
+is saved or merged, launders a guess into the highest confidence tier. Worse, it erases
+the review flag that the guess carried. Pin a derived class as a derived class.
+
 ## Confidence is not optional and not decorative
 
 Every routing result carries a confidence, and the confidence is *used*. A classifier
@@ -145,12 +190,25 @@ The design has three parts and all three are required:
   may withhold an auto-advance and may attach a review flag. It may never authorize an
   adverse action, at any value, because that path should not exist for a machine at all.
 
-Two numeric relationships in that table are invariants rather than preferences, and both
-are worth asserting in the loader. **The unguided-default confidence must sit strictly
+Three numeric relationships in that table are invariants rather than preferences, and
+all three are worth asserting. **The unguided-default confidence must sit strictly
 below the review threshold**, so a routing that no evidence produced always trips review
 — otherwise the fallback becomes the one path that escapes the mechanism designed to
-catch it. And **the declaration tier must sit above it**, so answering the question
-actually buys the candidate something.
+catch it. **The declaration tier must sit above the threshold**, so answering the
+question actually buys the candidate something. And **no inference may reach the
+declaration tier.** A document reading must never outrank the person's own statement.
+This is the invariant the obvious confidence formulas break. A winner's share of the
+accumulated mass reads 1.0 whenever every signal that fired points the same way,
+including when only one weak signal fired. The result is that a machine inferring an
+archetype from one fact can carry more confidence than a candidate declaring the same
+archetype with that same fact capped by a contradiction. Scale the inferred confidence by
+the evidence mass, and hold it under the declaration tier.
+
+The threshold is a number with a provenance, or it is decoration. Choose it from a
+labelled sample of routings — the error rate among those above it, against the share it
+sends to review — and publish the measured error beside it. A reject threshold only
+needs a score that ranks cases well, not a calibrated probability. But a threshold that
+nobody measured on real careers has no claim to be the line between "act" and "confirm".
 
 There is also a third state that hides inside "low confidence" and deserves its own
 marker: **no signal fired at all.** A routing where the evidence was contested and the
@@ -169,19 +227,22 @@ displayed in the visual grammar reserved for measurement.
 The single most misunderstood point in this subject is that "the safe default" is not
 one thing, because two different consumers ask the classifier two different questions.
 
-- **For scoring**, the safe default is the *unprotected* archetype — the experienced
-  one. Scoring an unclassifiable person on the experience-weighted rubric asks for
-  evidence they may not have, which understates them; scoring them on a potential-based
-  rubric asserts a claim about their career that nothing supports and can read as
-  condescension. The conservative default understates rather than flatters, which is
-  the honest direction.
+- **For scoring**, the fallback rubric is the general, experience-weighted one — the one
+  that asserts least about the person's career. A potential-based rubric would claim a
+  career stage that nothing supports, and it can read as condescension. But the fallback
+  is not *safe* for the person. An experience-weighted rubric asks for evidence they may
+  not have, and understating a group's performance is exactly what the selection
+  standards call bias against that group ("only a finding of underprediction signals bias
+  against the group of interest"). So the fallback score is a placeholder. It may be
+  computed, but until the candidate is routed it must not enter a ranking, clear or miss
+  a floor, or be the first thing a reviewer sees.
 - **For protection**, the safe default is *protected*. An unclassifiable candidate is
   shielded from unattended adverse action, because uncertainty about a person must never
   resolve into an irreversible outcome against them.
 
 These two answers look inconsistent and are not. They are the same asymmetry stated
-twice: a wrongly-conservative score costs a review, a wrongly-removed shield can cost
-someone the job. Write the asymmetry down next to both predicates, because it is exactly
+twice. A conservative score kept out of every ranking costs a review. A wrongly-removed
+shield can cost someone the job. Write the asymmetry down next to both predicates, because it is exactly
 the kind of thing a later cleanup pass will "fix". The enforcement of the shield itself
 belongs to the neighbouring subject on automated screening fairness gates; what belongs
 here is that routing must hand that gate an honest input, including an honest *unknown*.
@@ -224,9 +285,13 @@ Two invariants make the shared artifact safe to own:
 - **Validate the structure at load, not at use.** Every weight vector must sum to one,
   checked when the artifact is read, refusing to start otherwise. This is not fussiness.
   A single mistyped digit rescales every score, every tier and every shortlist for that
-  population, and nothing about the output looks wrong — the ranking is internally
-  consistent, just measured with a bent ruler. There is no downstream check that catches
-  it; only the sum does.
+  population, and nothing about the output looks wrong: the ranking is internally
+  consistent, just measured with a bent ruler. The load check is the one guard on what
+  the *running* process was handed. But it sees only an illegal vector. Two weights
+  transposed within one population still sum to one and load cleanly. So pair the sum
+  with a scored golden set in CI: a handful of fixed profiles whose per-population scores
+  are pinned. It catches the transposition the sum cannot, and it catches the bad sum
+  too, before it ships.
 - **Retire, don't trap.** When a population is withdrawn, it disappears from the pickers
   so nobody new can be routed into it, and it keeps working for everyone already routed
   there — the definition stays readable, the weights stay loadable, the scores stay
@@ -271,12 +336,18 @@ Five rules govern the intake question, and each was learned the hard way:
   express degree and cannot say "unsure".
 - **The overridden candidate** — a self-declaration replaced by an inference, so the
   record no longer holds what the person actually said.
+- **The laundered declaration** — the system's own inference re-submitted as
+  "self-declared", promoted to the top confidence tier with its review flag erased.
 - **The confidence nobody reads** — a number returned by the classifier and consumed by
   no branch, which is the same as not having one.
+- **The one-signal certainty** — a share-of-mass confidence that reads 1.0 on a single
+  weak signal and outranks the candidate's own word.
 - **The collapsed unknown** — unrouted coerced into the fallback class, stripping the
   shield everywhere downstream and asserting a classification nobody made.
 - **The shared scale** — populations scored on the same axes with different multipliers,
   so a reviewer compares numbers that were never comparable.
+- **The hidden comparison** — renamed rubrics feeding one sort, one floor or one
+  bottom-share cut, so the list compares what the documentation calls incomparable.
 - **The second copy of the taxonomy** — two runtimes with two archetype lists, agreeing
   today, silently disagreeing later, mis-routing a protected candidate with zero error.
 - **The bent ruler** — a weight vector that does not sum to one, rescaling every score
@@ -294,9 +365,14 @@ Three seams matter, and all three are close enough to be crossed by accident.
 **The shield's enforcement is not this subject.** Which cohorts may not be auto-rejected,
 what the routable verdict vocabulary is, how the gate is re-checked at the apply
 boundary, and how a blocked rejection is recorded all belong to the neighbouring subject
-on automated screening fairness gates. This subject *produces the input* that gate keys
-off, and owes it two things: an honest class and an honest unknown. It does not own what
-the gate does with them.
+on automated screening fairness gates. That subject names shield membership by the
+instrument's failure to read a candidate, at any age, and not by a career-stage label,
+because a label shield protects by an age proxy. This subject *produces the input* the
+gate reads, and owes it three things: an honest class, an honest unknown, and the
+evidence behind the routing — which signals fired, whether any fired at all, and whether
+a contradiction was capped. The third is what lets the gate see an unread career
+without trusting the archetype's name. This subject does not own what the gate does with
+them.
 
 **What is scored instead of years of experience is not this subject either.** The
 content of a potential-based rubric — what a foundation dimension actually measures, how

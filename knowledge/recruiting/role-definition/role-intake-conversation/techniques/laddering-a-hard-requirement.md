@@ -45,9 +45,13 @@ justifies having failed to record it. The climb:
 1. **Name the label back, verbatim.** "Five years of distributed systems."
 2. **Ask what it buys.** "What would someone with five years be able to do
    on day one that someone with two couldn't?" The question is deliberately
-   about capability, not about the requestor's reasoning — asking "why do you
-   want that?" invites justification and defensiveness; asking what it buys
-   invites description.
+   about capability, not about the requestor's reasoning. Canonical laddering
+   does ask "why is that important to you?", and it works when the ladder is
+   about the respondent's own preferences. A requirement is different: a
+   why-question about something a person has asserted also conveys that it
+   was unwarranted (Bolden & Robinson, 2011), and a requestor defending a
+   requirement is no longer describing it. Asking what it buys invites
+   description.
 3. **Ask for the situation.** "When would that show up? What's the first
    thing that would go wrong without it?" This produces the operating
    context, which is what the interview loop will later have to simulate.
@@ -66,11 +70,15 @@ justifies having failed to record it. The climb:
 
 ## Decision rules
 
-- **Ladder every hard requirement exactly once.** Zero times is
-  transcription. Twice on the same requirement reads as disbelief. Three
-  times is an interrogation, and its reliable effect is that the requestor
-  stops volunteering requirements at all — which looks like a shorter list
-  and is actually a hidden one.
+- **Ladder every hard requirement once, at the moment it is stated, and
+  return to it at most once.** Zero times is transcription. Laddering
+  practice is to move on when a ladder stalls and circle back later, so a
+  single return is the method, not disbelief; what is not the method is
+  pressing the same rung. Continued probing produces waffling, "I don't
+  know", and hostility towards the interviewer (Reynolds & Gutman, 1988). That
+  an over-laddered requestor then stops volunteering requirements — a list
+  that looks shorter and is actually hidden — is a practitioner hazard worth
+  respecting, not a measured effect.
 - **Ladder musts, not preferences.** A nice-to-have does not filter anyone,
   so the ladder buys nothing and costs a turn. If a preference turns out to
   be doing filtering work downstream, that is a must in disguise and should
@@ -93,7 +101,11 @@ justifies having failed to record it. The climb:
   expectation and a years figure all correlate with protected or
   circumstantial characteristics; each is a candidate for adverse impact
   downstream, and the only cheap moment to remove an unjustified one is
-  before it is written down. Whether a laddered-and-kept proxy survives
+  before it is written down. Removal holds only if the construct and its
+  evidence rung *replace* the label in whatever screens candidates: a proxy
+  deleted from the text alone survives as an unstated heuristic, which is
+  what most employers who dropped degree requirements from postings turned
+  out to be running (see the golden path). Whether a laddered-and-kept proxy survives
   market and impact review is a downstream subject's job; getting it stated
   with its construct and its basis is this one's.
 

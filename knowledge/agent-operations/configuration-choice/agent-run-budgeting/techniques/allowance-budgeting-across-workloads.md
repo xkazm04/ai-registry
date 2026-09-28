@@ -41,7 +41,14 @@ anyway if the measurement changes in between.
 
 Choose deferred when one workload's seat is constrained and the other's is not, or when a
 judge's counterpart family is unavailable and verdicts would have to be withheld anyway.
-Choose inline by default otherwise — fresh results are what make a long queue steerable.
+Choose deferred as well where judging runs on API keys with a batch interface: batch
+requests are priced below interactive ones (half, at one major provider) and draw on their
+own limit pool, so deferral stops scoring from competing with producing at all. And where
+the judge's model or rubric may move during a long queue, a deferred batch judges every run
+against one snapshot; inline judging of a multi-day queue must pin both.
+
+Otherwise - one shared subscription seat, a pinned judge - choose inline by default: fresh
+results are what make a long queue steerable.
 
 ## Decision rules
 
@@ -49,8 +56,17 @@ Choose inline by default otherwise — fresh results are what make a long queue 
   cannot be scored produced nothing of record.
 - **A withheld verdict is preferable to a partial one.** When one judge's seat refuses,
   record no verdict rather than a single-judge score dressed as a full one — and requeue.
-- **Cap parallelism by the window, not by the machine.** Cores are rarely the constraint;
-  the seat is. More workers spend the same allowance sooner and raise the refusal rate.
+  Partial votes may be kept as pending inventory with their judge count, never as a
+  verdict. Count withheld verdicts per arm: if they are not spread evenly they bias what
+  remains. And keep two refusals apart: a judge whose *seat* refused is missing data and is
+  requeued; a judge that refused *the content* has said something about the work.
+- **Cap parallelism at the lower of the window's limit and the machine's.** For a
+  fixed-volume window the seat usually binds: more workers spend the same allowance sooner
+  and raise the refusal rate. Parallel coding agents also build and test, so memory, disk
+  and working-tree contention can bind first; and under a per-minute token bucket the rate,
+  not the volume, sets the useful concurrency. Hold concurrency constant across compared
+  configurations regardless - it is a confounder of the measurement, separately from the
+  budget.
 - **Watch the host as well as the seat.** A queue sized for the seat can still exhaust
   memory or disk on the machine, and a runner killed for host pressure loses whatever it
   was producing — budget the local resources with the same explicitness.

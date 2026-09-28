@@ -14,10 +14,15 @@ use_when: [designing the first message after an application lands, building a sh
 The first message after a submission is the highest-attention message in the
 entire hiring process. It is opened in the minute the candidate is still
 sitting with the decision they just made, before they open the next tab and
-apply somewhere else. Interest after an application decays in minutes, and the
-candidate who applied to five roles in one sitting is disproportionately
-likely to engage with whoever answered first. Almost nothing else in intake
-has that leverage for that little effort.
+apply somewhere else. How fast that interest decays is less settled than it is
+usually said to be. The recruiting evidence runs in days: delays between
+selection steps drive withdrawal (Arvey et al., 1975), and faster offers are
+accepted more often (Becker, Connolly & Slaughter, 2010). The minutes-scale
+decay curve, and the claim that whoever answers first wins, come from
+sales-lead response studies and are unmeasured for applicants. They are a
+hypothesis to test on your own funnel, not a law. The technique does not
+depend on them. An acknowledgement on landing costs almost nothing, so it
+earns its place even if interest lasts a week.
 
 The technique is three commitments: **acknowledge on landing, not on
 completion; make the acknowledgement do one job; and design the tiny intake

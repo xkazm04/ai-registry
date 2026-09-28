@@ -14,8 +14,13 @@ use_when: [bounding how much prior-field experience counts toward a new field, r
 How much should four years in hospitality count toward a role in logistics? The
 question is real and unavoidable the moment you credit transferred experience, and the
 tempting answer — a similarity number from an embedding, a taxonomy distance, a model's
-confidence — is a fabricated precision. Nobody has outcome data linking occupation pairs
-to hiring success at the granularity those numbers imply.
+confidence — is a fabricated precision. A distance is not the fabricated part: labour
+economics computes occupation distance from task and skill vectors (the O*NET or ESCO
+kind) and validates it against real moves — wage returns carry further between
+task-similar occupations, and skill similarity from job ads predicts observed
+transitions. What nobody has is outcome data linking occupation pairs to *performance
+in the new role*, at the granularity those numbers imply. That gap is the precision the
+decimal claims and cannot back.
 
 The technique is to answer coarsely and say so: **three or four named bands, each with
 a written definition and a fixed multiplier, assigned by a rule you can read aloud.**
@@ -45,7 +50,9 @@ extra band is a new place for an unexamined judgment to hide.
 1. **Classify at the level of the band, not the pair.** Do not build a matrix of every
    occupation against every other; assign each domain to a small family and grade
    family-to-family. The matrix is unmaintainable and the incremental accuracy is
-   imaginary.
+   imaginary. Where a published task-based distance exists for your occupations, use it
+   to *place* families in bands. That is a better basis than a hand-built family table,
+   because it was measured on real transitions. The band is still what gets rendered.
 2. **Write the definition beside the multiplier.** A band without a prose test is a
    number someone will tune until the results look nicer.
 3. **Render the band, never a decimal.** The candidate-facing and recruiter-facing

@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-ara-0926",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T08:00:00Z",
+  "ended_at": "2026-09-26T08:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-09-26",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 1,
+      "points_after": 1
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "reason": "Sixth dispatch of this subject on the same stale reason (after rc-ara-0925 through 0925e), again naming 95724401. The primary checkout is 1 ahead and 58 behind origin/main. At origin f7136ee2 the at-risk row python--rewrite-before-the-gate reads refresh_by 2026-11-05, and check-currency reports 0 expired and 0 at risk across 1879 applications."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "No work at origin/main f7136ee2. Unchanged from rc-ara-0925e: the primary still holds the unpushed sibling commit 95724401 plus sibling WIP, so this run neither fast-forwarded nor rebased it. The attention projection keeps reading the stale primary; the loop ends when the primary syncs or the projection reads origin/main. No new lesson; 46e9503e already covers it. Recorded from a detached worktree of origin/main."
+}

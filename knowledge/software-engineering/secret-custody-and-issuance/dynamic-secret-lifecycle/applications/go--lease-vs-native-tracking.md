@@ -5,7 +5,7 @@ subject: dynamic-secret-lifecycle
 technique: lease-vs-native-tracking
 stack: go
 status: forged
-verified_on: 2026-09-02
+verified_on: 2026-09-26
 verified_against: go@1.27
 ---
 
@@ -52,7 +52,13 @@ case where issuance has no ledger obligation at all.
 help text says such certificates "cannot be enumerated or revoked", and
 `no_store = true` forces `generate_lease = false` with a warning when both
 were set. That mode and its contradiction rule are the paragraph the
-technique gained from this file.
+technique gained from this file. The help text overstates the price, though.
+`internal/builtin/logical/pki/path_revoke.go:86-89` accepts a PEM
+`certificate` "signed by an issuer in this mount". For a certificate with no
+stored copy, `pathRevokeWriteHandleCertificate` (`:269-377`) walks the mount's
+issuers, verifies the signature (`CheckSignatureFrom`, `:364`), and revokes
+it. An unstored certificate cannot be enumerated, but it can be revoked when
+someone presents it. The technique now says so (corrected 2026-09-26).
 
 `internal/builtin/logical/pki/secret_certs.go:77-79` stops leasing
 certificate-authority certificates even when the role would - "New CAs going

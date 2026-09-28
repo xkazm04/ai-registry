@@ -5,10 +5,14 @@ subject: short-form-narrative-structure
 technique: reversal-anatomy
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-09-26
 ---
 
 # Reversal anatomy, measured and corrected — a video-studio pattern study
+
+*Re-resolved 2026-09-26 at commit `3ee32c6`: the pattern study and the
+craft baseline are unchanged since they were written (`31d1777`), and
+every line range cited below still lands on the passage quoted.*
 
 How one generative video studio (repo: `gravitone-gcloud`) derived,
 falsified, and repaired its own reversal doctrine across transcript studies

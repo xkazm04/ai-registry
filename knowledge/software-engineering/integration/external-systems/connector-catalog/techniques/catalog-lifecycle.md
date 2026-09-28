@@ -6,7 +6,7 @@ technique: catalog-lifecycle
 status: forged
 laws: [creation-names-reaper, deletion-is-not-repair]
 shared_with: []
-use_when: [retiring an entry whose dependents still reference it, installed rows outliving their shipped source, merging two entries that are one service]
+use_when: [retiring an entry whose dependents still reference it, installed rows outliving their shipped source, merging two entries that are one service, a planned or deprecated entry still offering a connect action]
 ---
 
 # Catalog lifecycle
@@ -61,6 +61,14 @@ Retirement is staged, because dependents exist:
 1. **Deprecated** — the entry remains functional but stops being offered:
    hidden from discovery and pickers, banner on existing uses, replacement
    named if one exists. New adoption ends now; existing users get runway.
+   "Hidden" applies only to the lists that offer entries for adoption. Every
+   lookup by identity still returns the row, since the banner on existing
+   uses depends on those lookups finding it
+   ([catalog-as-data](./catalog-as-data.md), the door's two reads). An edit
+   surface keeps showing the deprecated value that is currently bound, but
+   once the user switches to something else, that value is no longer
+   offered. Deprecation is one-way per dependent, which lets adoption drain
+   without breaking anything.
 2. **Retired** — the row becomes a **tombstone**: identity, label, and
    provenance survive; auth schema, probe, and capabilities are inert. The
    tombstone is load-bearing, not sentimental — audit history and old
@@ -74,6 +82,20 @@ Retirement is staged, because dependents exist:
    ([deletion-is-not-repair](../../../../_laws.md#deletion-is-not-repair) — the
    references were the defect's surface; removing the row removes the
    surface, not the defect).
+
+## The lifecycle has a front end too
+
+Entries also exist before they are fully supported: announced but not yet
+connectable, in preview, or in beta. These are stages on the same axis as
+deprecated and retired, and they need the same thing from consumers: the
+surfaces derive from the row's stage. An entry that is announced but not
+connectable can appear in the gallery but must not offer a connect action.
+A preview entry can be offered with a caveat. A surface that decides
+connectability by testing a particular identity ignores the stage field. It
+leaves a row declared available with no way to connect, or lets a planned
+row be acted on. Keep the stage separate from the *support* axis (who
+maintains the entry and what they guarantee). The two change independently,
+though some catalogs merge them into a single label.
 
 ## Dedupe is aliasing, never overwrite
 

@@ -3,13 +3,14 @@ layer: golden-path
 type: golden-path
 subject: narrative-scroll-surface
 status: forged
-use_when: [building a product tour or a how-it-works page, a marketing page has become a stack of unrelated bands, deciding what an illustration on an explanatory page must prove, animating a page against the reader's scroll instead of a timer, an explanatory page must survive being read without scrolling]
+use_when: [building a product tour or a how-it-works page, a marketing page has become a stack of unrelated bands, deciding what an illustration on an explanatory page must prove, animating a page against the reader's scroll instead of a timer, an explanatory page must survive being read without scrolling, animating how a mechanism works rather than revealing a finished picture]
 techniques:
   - sequence-as-spine
   - illustration-carries-the-claim
   - scroll-bound-progression
   - no-orientation-tax
   - reveal-without-loss
+  - motion-carries-the-mechanism
 ---
 
 # Narrative scroll surface
@@ -133,6 +134,18 @@ reader. The envelope, the smoothing, the collision rule and the reduced-motion
 collapse are
 [scroll-bound-progression](./techniques/scroll-bound-progression.md).
 
+Everything above is about *when* motion plays. One kind of motion on these
+pages also raises the question of *what its timing says*. When a station
+animates a mechanism, such as a reader running ahead of a stalled one or three
+steps overlapping while a fourth waits, the order and overlap on screen are
+claims about the mechanism. The last frame usually shows none of them. That
+motion is written as a short list of beats played as a pure function of time,
+so it can be stepped, scrubbed, laid out as a filmstrip and captured frame by
+frame from one source. Its art gives time a spatial axis wherever it can, so a
+still frame explains on its own. The litmus, the beat list, the degraded forms and
+the rule that an art style is only a skin over the beats are
+[motion-carries-the-mechanism](./techniques/motion-carries-the-mechanism.md).
+
 ## Every choice the page offers is an opportunity to leave
 
 The orientation tax is the attention a reader spends working out *how to read
@@ -210,7 +223,10 @@ has a symptom that does not look like a bug:
 - **An orientation tax.** Symptom: the page's first screen contains a
   decision. Or, measurably: the navigation's entries cannot be read at rest.
 - **Reveal that removed.** Symptom: a whole-page capture is mostly empty, or
-  the served markup does not contain the page's own argument.
+  the served markup does not contain the page's own argument, or the page
+  prints blank below its first screen when scripts are on. Print matches no
+  motion preference, so the reduced-motion rendering never reaches it unless
+  something routes it there.
 
 ## Where this subject stops
 
@@ -276,10 +292,18 @@ place, a caption states what to notice — and mechanics do not.
 - **A jump moves focus, not only scroll.** A reader who activates an index
   entry and receives only a scroll is left with their focus in the index,
   reading a list, while the visual reader is looking at the station.
-- **Motion driven by the reader is exempt from the stop-control obligation
-  that self-starting motion carries** — it stops when the reader stops — but
-  it is not exempt from the preference. Scroll-bound and self-starting are
-  different lifecycles, and only one of them owes a visible pause.
+- **Motion bound to the reader's position is exempt from the stop-control
+  obligation that self-starting motion carries** — it stops when the reader
+  stops — but it is not exempt from the preference. Scroll-bound and
+  self-starting are different lifecycles, and only one of them owes a visible
+  pause. The exemption is narrower than "the reader caused it". Motion
+  *triggered* by scrolling something into view is self-starting: the
+  accessibility guidance counts scrolling an element into view as an indirect
+  interaction, and motion started that way starts automatically. An entrance
+  that is over within five seconds owes no pause. A loop that starts on
+  arrival and keeps running does, whatever set it off. A smoothed curve that
+  keeps moving after the wheel stops stays reader-bound only while its tail
+  is short.
 
 ## The techniques
 
@@ -293,8 +317,10 @@ place, a caption states what to notice — and mechanics do not.
   copy, and the once-per-page rationing of flourish.
 - [scroll-bound-progression](./techniques/scroll-bound-progression.md) —
   per-station progress, the in-then-out envelope peaking at the reading
-  moment, spring smoothing over raw offset, per-column curves, the
-  paint-collision check for peaks above rest, and the reduced-motion collapse.
+  moment, spring smoothing wherever progress is sampled in script (and which
+  clock that is, read off the page), per-column curves, the paint-collision
+  check for peaks above rest, and the reduced-motion collapse that a library
+  switch does not deliver.
 - [no-orientation-tax](./techniques/no-orientation-tax.md) — the index as a
   you-are-here readout, legibility at rest as the test of whether entries are
   destinations, one reading direction, deep links that land on a station, and
@@ -302,5 +328,11 @@ place, a caption states what to notice — and mechanics do not.
 - [reveal-without-loss](./techniques/reveal-without-loss.md) — reveal as
   appearance over present content, the readers who never scroll and what each
   is owed, why a capture or an audit taken at the top of the page is an
-  instrument pointed at the wrong thing, and why the remedy that fixes a
-  latching reveal does nothing for a scroll-bound one.
+  instrument pointed at the wrong thing, why the remedy that fixes a
+  latching reveal does nothing for a scroll-bound or toggling one, and why
+  print needs its own route to the resolved state.
+- [motion-carries-the-mechanism](./techniques/motion-carries-the-mechanism.md)
+  — motion whose payload is the trajectory: timing as a claim, a spatial time
+  axis so any frame explains, one beat list feeding playback, stepping, the
+  filmstrip and frame-exact video, art styles as skins over the beats, and the
+  degraded forms in order.

@@ -21,23 +21,46 @@ count.**
 
 1. **Run the repository's declared checks, not a substitute.** Whatever the repository
    itself names as its gates is the list; an abbreviated list invented by the harness
-   measures the harness.
+   measures the harness. It is the list *as declared at the starting revision*: a run that
+   edited its own gates is graded by the originals
+   ([grade-with-checks-the-run-could-not-touch](./grade-with-checks-the-run-could-not-touch.md)).
 2. **Capture a baseline at the starting revision**, once per repository and revision, and
    store it. This is the definition of "no worse".
 3. **Classify each check.** A binary check passes or fails. A counting check (lint
    violations) compares numbers. A *set* check (test failures) compares identities.
-4. **Compare as sets where identities exist.** The run's failing set must be a subset of
-   the baseline's. A count comparison hides the swap — one old failure fixed, one new
-   failure introduced — which is precisely the regression a gate exists to catch.
-5. **Isolate the build.** Each run's checks build into their own output directory. Shared
+4. **Compare as sets where identities exist, and compare both sets.** The run's failing set
+   must be a subset of the baseline's. A count comparison hides the swap — one old failure
+   fixed, one new failure introduced — which is precisely the regression a gate exists to
+   catch. But the failing set alone has a blind spot: a test that no longer exists is in
+   neither failing set. So the baseline's **passing** set is the other half of the
+   contract: every test that passed at the start must still be present and passing, and a
+   test that is absent, no longer collected, or newly skipped counts as a failure.
+   Normalise identities first — parameterised and renamed tests otherwise read as one test
+   vanishing and another appearing.
+5. **Require evidence that the suite ran.** An empty result is not a pass. A collection
+   error that stops a whole suite, a runner configured to pass with no tests, or a log
+   that never reached its summary all shrink the failing set to nothing. Record how many
+   tests were collected against the baseline's count, and read the exit status beside the
+   parsed log.
+6. **Grade the committed tree, in a clean checkout of it.** A run's working directory
+   holds untracked files, warm caches and whatever it installed; a pass there may not
+   survive a checkout of what it actually committed. Where a repository declares a
+   dependency step, run it in its frozen form: a step that rewrites the lockfile grades a
+   dependency graph nobody committed.
+7. **Isolate the build.** Each run's checks build into their own output directory. Shared
    build state lets one run's artefacts be executed while verifying another, which produces
    red checks that belong to no model.
-6. **Retry once, deliberately.** Flaky suites exist; a single retry with the outcome
-   recorded distinguishes a flake from a failure. Never retry a set-comparison check whose
-   baseline was itself captured without retries, and never retry more than once — at that
-   point the suite's flakiness is the finding.
-7. **Store the evidence with the verdict**: the failing identities, an excerpt of the
-   output, and whether a retry was used.
+8. **Retry to classify a failure, not to erase it.** Flaky suites exist. One retry of the
+   failing tests settles most flakes that do not depend on order; a suite whose flakiness
+   does depend on test order needs up to three, in the same order, because rerunning a
+   test alone hides the pollution that failed it. A test that passes on retry is recorded
+   as **flaky**, never as green. When a whole batch fails at once, suspect the environment
+   before retrying anything. Compare retried results only against a baseline captured
+   under the same retry policy — and capture that baseline more than once, keeping a list
+   of tests already flaky at the start, because a single baseline run turns every
+   intermittent test into a charge against whichever run happens to hit it.
+9. **Store the evidence with the verdict**: the failing and missing identities, the
+   collected count, an excerpt of the output, the exit status, and whether a retry was used.
 
 ## Decision rules
 

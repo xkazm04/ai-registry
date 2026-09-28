@@ -72,6 +72,14 @@ most reliably absent pattern in high-retention factual work.
 - **Serialized content whose explicit job is to bridge to a next episode**
   — there the close is deliberately an open loop, and a tidy reframe would
   discharge tension the series needs to carry.
+- **Instructional pieces whose job is retention of several parts** — a
+  procedure, a set of rules the viewer will apply later. The refusal of the
+  recap describes how strong practitioners end single-idea factual work;
+  it is not a finding about learning, and there the evidence runs the other
+  way: pulling the parts back out of memory beats hearing them again. Close
+  with a retrieval prompt — "which of the three would you check first?" —
+  rather than a passive recap, and let the reframe, if there is one, come
+  before it.
 - **Pieces under ~30 seconds**, where hook, payoff, and close collapse into
   one or two sentences; a separate reframe beat is runtime the format does
   not have. The hook's phrasing should simply be built to *become* the

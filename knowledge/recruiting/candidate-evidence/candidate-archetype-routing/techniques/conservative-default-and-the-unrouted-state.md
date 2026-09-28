@@ -36,10 +36,15 @@ the record adopting it.
 2. **Name the conservative scoring default separately**, in the same declaration, as
    what it is: the rubric to run when no archetype was determined. Two fields, two
    meanings.
-3. **Choose the general, unprotected archetype as that default.** It asks for evidence
-   the candidate may not have, which understates them — the honest direction. A
-   potential-based rubric would flatter, and worse, would assert a claim about their
-   career stage that nothing in the record supports.
+3. **Choose the general, unprotected archetype as that default, and treat its score as
+   a placeholder.** It is the rubric that asserts least. A potential-based rubric would
+   claim a career stage that nothing in the record supports. But least-assertive is not
+   harmless. The general rubric asks for evidence the candidate may not have, and
+   understating a group is what the selection standards call bias against it: "only a
+   finding of underprediction signals bias against the group of interest". So the
+   placeholder may be computed, but until the candidate is routed it stays out of every
+   ranking, floor and bottom-share cut. A reviewer sees "not classified" before they see
+   the number.
 4. **Send the unrouted state, unmodified, to the fairness gate**, which treats unknown as
    protected. The scorer's fallback choice must not reach that gate as a class.
 5. **Persist the unrouted state.** This is the step teams skip, usually at a boundary
@@ -66,7 +71,10 @@ the record adopting it.
   until the next tidy-up.
 - **When a downstream consumer's type does not admit the unrouted member, widen the
   type.** Do not narrow the value. Every coercion of unrouted into a concrete class is
-  permanent and silent.
+  permanent and silent. The coercion most often hides in a convenience default at a read
+  site, such as "the archetype, or else the experienced one". It is invisible wherever a
+  second layer re-checks and fails closed, and it becomes live the day that second layer
+  is bypassed.
 - **When the classification step did not run at all, keep that distinct in the record
   from "ran and could not decide".** They converge in the branch — both resolve
   protective — and they diverge in the diagnosis, and a check that did not run may never

@@ -1,0 +1,95 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-skh-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T14:35:00Z",
+  "ended_at": "2026-09-26T15:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/seal-and-key-hierarchy",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/seal-and-key-hierarchy",
+      "technique": "any-one-seal-unseals",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/seal-and-key-hierarchy",
+      "technique": "usage-triggered-rotation",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/seal-and-key-hierarchy",
+      "technique": "append-only-keyring-rotation",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/seal-and-key-hierarchy.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/techniques/any-one-seal-unseals.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/techniques/append-only-keyring-rotation.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/techniques/recovery-key-is-not-unseal-key.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/techniques/usage-triggered-rotation.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/go--any-one-seal-unseals.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/rust--any-one-seal-unseals.md",
+    "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy/applications/node--append-only-keyring-rotation.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/seal-and-key-hierarchy.md"
+  ],
+  "commits": [
+    {
+      "sha": "ce7a4935",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/secret-custody-and-issuance/seal-and-key-hierarchy"
+      ]
+    },
+    {
+      "sha": "de1d31d2",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/seal-and-key-hierarchy",
+      "reason": "code fixes left to the owners: personas (stop writing the fallback key file, or declare it on the vault status) trades availability; kp (a key id in the envelope) is a format change a rollback cannot read"
+    },
+    {
+      "subject": "software-engineering/seal-and-key-hierarchy",
+      "reason": "kp db-profiles-analyses-store join: a same-word match (rotation, key, store), no key custody in those paths; tracklight's former join is gone from the rebuilt map"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single stack cleared (rust, node). One refutation (the automatic-plus-threshold pair is not a shipped deployment), five conditions, no new technique. Project maps committed locally and unpushed on diverged branches: kp 1c6b7d3c4, personas 3a91a78ad, tracklight 8d5d284."
+}

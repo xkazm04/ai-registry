@@ -52,13 +52,17 @@ What a principal practitioner also holds true is everything the rule is not.
   significant in both statistical and practical terms.
 - **It is unstable at small N and blunt at large N.** With twenty applicants
   per group, one person moving flips the ratio across the threshold; the
-  difference is not statistically significant and a difference that is not
-  significant does not establish adverse impact. With a hundred thousand, a
-  ratio comfortably above 0.80 can still hide a disparity that is significant
-  and consequential. The ratio needs a significance companion in both
-  directions, and a shortfall count — *how many additional selections would
-  bring this group to parity* — because a "failing" ratio whose shortfall
-  rounds to less than one person is noise wearing a red badge.
+  difference is not statistically significant, and the rule's own text says
+  such a difference *may not* constitute adverse impact — a softer word than
+  "does not", and the one to quote. With ten thousand, a ratio of 0.92 can
+  hide a gap of hundreds of people that no chance process produces. The ratio
+  needs a significance companion in both directions, and a shortfall count —
+  *how many additional selections would bring this group to the reference
+  rate* — read as a share of the group, because it is a count of people and
+  grows with N the way a p-value shrinks: forty short is decisive across a
+  hundred applicants and noise across a hundred thousand. A "failing" ratio
+  whose shortfall rounds to less than one person is noise wearing a red
+  badge; a large shortfall is not, by its size alone, a finding.
 - **It measures a gate, not a process.** Compute it per stage. A funnel that
   looks balanced end to end can hide a screen that rejects sharply and a later
   stage that partly compensates; the compensating stage is not a defence for
@@ -79,8 +83,13 @@ allowance for excluding negligibly-sized categories from the computation.
 Most jurisdictions instead codify *duties* — non-discrimination, transparency to
 the candidate, human oversight, an impact assessment, a right to explanation —
 and codify **no number at all**. And in the jurisdiction where the four-fifths
-screen originated, the enforcement posture has softened in recent years without
-the underlying prohibition changing, so private claims remain fully live.
+screen originated, the federal enforcement posture has gone, since 2025, from
+softened to withdrawn: agencies stopped pursuing charges that allege impact
+alone and proposed rescinding the interpretive guidance the four-fifths number
+is written in (the state as of 2026-09). The statutory prohibition did not
+move — a specific practice that causes a disparity and is not job-related and
+consistent with business necessity is still unlawful — so private claims
+remain fully live, and the statute never carried a number to withdraw.
 
 Three rules follow, and they are the ones that survive a jurisdictional review.
 
@@ -93,7 +102,10 @@ Three rules follow, and they are the ones that survive a jurisdictional review.
 2. **Build to the standard, not to the enforcement weather.** A relaxed
    enforcement posture is not a change in what is lawful, and it can reverse
    inside a product cycle. The analysis you would want in a deposition is the
-   analysis you run.
+   analysis you run. If the guidance that houses the four-fifths number is
+   withdrawn, the screen survives as practice — it was always a convention for
+   reading a statute that names no number — and what the statute asks (which
+   practice, what disparity, what job-related justification) is unchanged.
 3. **Where a jurisdiction codifies no ratio, the ratio is still worth
    computing — as an internal diagnostic, labelled as one.** Present it as
    "our own screen flagged this", never as "this fails the jurisdiction's
@@ -122,12 +134,18 @@ denominator. Every honest consequence follows from that one sentence:
 - No surface — dashboard, sales page, audit export, model card — may render the
   uncomputed ratio as reassurance. A metric that was never computed has a
   state, and that state is not green.
-- Inferring the missing attributes to fill the gap is the worst available
-  option. A name-to-ethnicity or name-to-sex classifier turns a system that
-  held no protected data into one that holds *guessed* protected data, at
-  meaningful error rates, attached to hiring outcomes. Where an employer needs
-  the analysis, the data comes from the candidate's own voluntary declaration or
-  it does not come.
+- Inferring the missing attributes and attaching them to people is the worst
+  available option. A name-to-ethnicity or name-to-sex classifier turns a
+  system that held no protected data into one that holds *guessed* protected
+  data, at meaningful error rates, attached to hiring outcomes. Where an
+  employer needs the analysis, the data comes from the candidate's own
+  voluntary declaration or it does not come. The narrow exception other
+  domains admit is not an exception to that: aggregate estimation for an
+  audit — probabilistic group shares that never touch a record, a profile or a
+  decision — reported as bounds and labelled as likely to understate the
+  disparity, because proxy-estimated disparities are generally not identified
+  and tend to attenuate. Some hiring-audit regimes forbid even that, and where
+  one applies, the rule is simply no.
 
 ## Proxies: unawareness is not neutrality
 
@@ -135,7 +153,9 @@ Removing the protected attribute from the inputs does not remove it from the
 data. The attribute is redundantly encoded across features that look
 individually legitimate — the name itself, a postcode, a school, a first
 language, a military or national-service marker, a gap in employment, a
-grammatically gender-marking surname form, the phrasing of a hobby. A model
+grammatically gender-marking surname form, the phrasing of a hobby, the
+pronouns and gender-inflected job titles in the prose, and the dialect or
+register the résumé is written in — a proxy that needs no name at all. A model
 free to use those features can reconstruct the attribute it was never given.
 This is why "we don't collect it" answers the direct-discrimination question
 and answers the disparate-impact question not at all.
@@ -143,7 +163,10 @@ and answers the disparate-impact question not at all.
 Proxy work is therefore two disciplines running together. **Perturbation
 testing** establishes that the function is invariant across a set of inputs
 chosen for the discrimination axes that specific labour market actually has —
-not a generic list borrowed from elsewhere. And **feature justification**
+not a generic list borrowed from elsewhere — and across every function that
+takes a candidate, derived from the code rather than remembered, because the
+penalty a suite misses is the one in the ranking function nobody perturbed.
+And **feature justification**
 requires that any feature strongly associated with a protected group earns its
 place by being genuinely job-related and consistent with business necessity,
 argued in writing before deploy, not discovered in a post-hoc audit. A
@@ -219,6 +242,13 @@ in for.
   favourable p-value. Fix the rule before you see the data.
 - **Name-only neutrality.** A clean perturbation suite over names, published as
   proof of fairness, while the postcode feature does the whole job.
+- **The perturbed entry point.** A clean suite over the one engine somebody
+  remembered, while a sibling ranking function nobody perturbed carries the
+  penalty.
+- **A floor on the outcome.** A minimum on *observed* selections, which
+  suppresses exactly the group nobody selected — the most severe case there is.
+- **The shortfall as the verdict.** A count of people that grows with N, read
+  without its share of the group or its significance test.
 - **The shield as the test.** Cohort coverage reported where a protected-class
   analysis was asked for.
 - **The default threshold.** One jurisdiction's number applied to a

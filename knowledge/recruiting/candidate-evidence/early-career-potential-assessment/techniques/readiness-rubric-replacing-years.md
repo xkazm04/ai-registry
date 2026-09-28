@@ -50,10 +50,23 @@ real, on the same scale, competing on comparable terms.
 
 ## Decision rules
 
-- **When a dimension's input is missing, mark it unmeasured and reweight the survivors
-  — never impute zero.** Zero is a measurement claim
+- **When a dimension's input is missing, mark it unmeasured — never impute zero.** Zero
+  is a measurement claim
   ([absence-of-evidence-is-not-evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)),
-  and it is the specific claim "this person has none", which you did not establish.
+  and it is the specific claim "this person has none", which you did not establish. What
+  fills the gap depends on who could have supplied the input:
+  - *The candidate could have stated it* (a degree line, a programme): fill with a
+    conservative default — the lowest measured rung — and widen the band with the
+    driver named. Reweighting the survivors here rewards withholding: in a three-case
+    simulation a career changer scored 0.92 with the degree omitted against 0.84 with a
+    modest one stated, while the imputed zero cost two graduates 39% for a missing line.
+    A default the candidate escapes by supplying the record is the same honest baseline
+    the symmetry technique prescribes for unsourced claims.
+  - *The process could not measure it* (a document unreadable, a source skipped, a
+    question never asked): reweight the survivors, and say so at the dimension.
+  - Either way, whatever the recruiter is told must describe the arithmetic. A note
+    reading "not penalized" beside an imputed zero is a stated reason that differs from
+    the real one.
 - **When fewer than two dimensions have inputs, do not emit a readiness score at all.**
   Emit an insufficient-evidence state and route to human review. A single dimension
   standing in for readiness is a rate with a sample size of one
@@ -64,6 +77,11 @@ real, on the same scale, competing on comparable terms.
 - **When velocity's denominator would be a proxy for age, replace the denominator.**
   Time since first plausible start is legitimate; age, graduation year and birth cohort
   are not, and each will show up as adverse impact against returners and late starters.
+  Build the denominator from time the candidate *states* in the field. Never infer the
+  unavailable time or ask what filled it: care, health and working hours are
+  special-category facts, and a rubric that elicits them has become a disclosure form.
+  Velocity is the least validated sub-score here, so check it for age-correlated impact
+  whenever its weight changes.
 - **When a dimension is easy to verify but weakly predictive (foundation is the usual
   case), reduce its weight — do not promote it to a gate.** A gate on foundation is a
   degree filter wearing a rubric's clothes.

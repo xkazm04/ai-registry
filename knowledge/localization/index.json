@@ -24,7 +24,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/right-to-left/arabic/arabic.md",
-   "digest": "sha256:91c7dc8a5a4234d2",
+   "digest": "sha256-b2:f69799f3ba3d58ce",
    "revision": 6,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -145,7 +145,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/bengali/bengali.md",
-   "digest": "sha256:b22c255f0747b829",
+   "digest": "sha256-b2:4b7b89751b28c58a",
    "revision": 4,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -257,7 +257,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/chinese/chinese.md",
-   "digest": "sha256:252fe7b5f0e1ff6b",
+   "digest": "sha256-b2:efe5bd87a41ef9f9",
    "revision": 5,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -371,7 +371,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
-   "digest": "sha256:7b55aaf6d0f74e78",
+   "digest": "sha256-b2:acdac15e9b7117f3",
    "revision": 5,
    "changedAt": "2026-09-14",
    "techniques": [
@@ -580,7 +580,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/czech/czech.md",
-   "digest": "sha256:fe23f63cce9c5690",
+   "digest": "sha256-b2:9868d58a1ed54bc2",
    "revision": 6,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -698,7 +698,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/english/english.md",
-   "digest": "sha256:2c54aa0ee1256708",
+   "digest": "sha256-b2:3071c9ca3c71710b",
    "revision": 3,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -847,7 +847,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/french/french.md",
-   "digest": "sha256:c2f79498fc5a4af2",
+   "digest": "sha256-b2:ac712869c96b8e09",
    "revision": 7,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -960,7 +960,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/german/german.md",
-   "digest": "sha256:098db0bb3ba0e430",
+   "digest": "sha256-b2:594760045f13e411",
    "revision": 5,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -1069,7 +1069,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/hindi/hindi.md",
-   "digest": "sha256:ab29513c3a07f468",
+   "digest": "sha256-b2:c2174841614a02dd",
    "revision": 5,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -1181,7 +1181,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/indonesian/indonesian.md",
-   "digest": "sha256:2e67410d0dfee334",
+   "digest": "sha256-b2:3ced70e5eea11b4c",
    "revision": 4,
    "changedAt": "2026-08-29",
    "techniques": [
@@ -1280,7 +1280,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/japanese/japanese.md",
-   "digest": "sha256:415a51e693fc9860",
+   "digest": "sha256-b2:1f5841865b2fb68e",
    "revision": 5,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -1391,7 +1391,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/korean/korean.md",
-   "digest": "sha256:cf9e7ee6053c3e12",
+   "digest": "sha256-b2:fd3bfb85f8b489ac",
    "revision": 7,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -1510,7 +1510,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/russian/russian.md",
-   "digest": "sha256:d413ed3e52598d24",
+   "digest": "sha256-b2:4158bac84a819b59",
    "revision": 6,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -1623,7 +1623,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/spanish/spanish.md",
-   "digest": "sha256:59d8be64785526e5",
+   "digest": "sha256-b2:0b8bdb77a638ec84",
    "revision": 5,
    "changedAt": "2026-09-23",
    "techniques": [
@@ -1735,7 +1735,7 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
-   "digest": "sha256:2121723b5db249ed",
+   "digest": "sha256-b2:3fb3a6ad451d2d36",
    "revision": 11,
    "changedAt": "2026-09-14",
    "techniques": [
@@ -1966,7 +1966,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
-   "digest": "sha256:655a52f1a9d9783b",
+   "digest": "sha256-b2:2a515e16ccd50e78",
    "revision": 3,
    "changedAt": "2026-09-14",
    "techniques": [
@@ -2131,7 +2131,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/vietnamese/vietnamese.md",
-   "digest": "sha256:e4e305d29979591e",
+   "digest": "sha256-b2:5740b3c9bd1d735e",
    "revision": 4,
    "changedAt": "2026-09-23",
    "techniques": [

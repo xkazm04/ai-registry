@@ -90,7 +90,10 @@ Collapsing any two states is a lie with a delay fuse
   pauses when it is not visible — background tabs, hidden sections, and
   the panel's own host kept mounted behind another tab by a keep-alive
   shell (the case that bites: the component never unmounted, so its
-  interval never stopped). "Watched" is a predicate over the shell's
+  interval never stopped). A keep-alive that runs effect cleanup when it
+  hides a view stops the timers owned by effects. There the trap moves
+  to timers held anywhere else, and to a view that stays "shown" while
+  its window is hidden. "Watched" is a predicate over the shell's
   navigation state plus window visibility, and a paused panel re-checks
   on becoming watched again. The presence signals are the same ones the
   [last-seen anchor](./last-seen-anchors.md) heartbeat trusts. Polling on

@@ -35,14 +35,26 @@ external system genuinely reports them.
 | **queued** | the message was recorded, and is not out of your process | "recorded, not delivered" — a promise of nothing |
 | **failed** | an external system refused it, or the attempt terminated | "we could not deliver this" |
 
-Two refinements earn their place once the base is solid:
+Four refinements earn their place once the base is solid:
 
 - **bounced** as a distinguishable failure whose cause is the recipient rather
   than the transport — it drives a different human action (fix the address) than
   a transport failure (wait, or escalate).
 - **suppressed** or **refused** for a message deliberately not sent by a gate.
   This is not a failure and must not be counted as one, but it is emphatically
-  not a *sent*.
+  not a *sent*. The gate need not be yours: a relay that accepts a message and
+  then declines to attempt it, because the address is on its own suppression
+  list, has produced a refusal after an acceptance. That supersedes the *sent*,
+  and it is not a bounce.
+- **delivered** is not a synonym for *sent*. It is the stronger claim that the
+  recipient's own mail system took the message into the mailbox. Only a report
+  of exactly that licenses it, and a transport sends that report only when asked
+  and only while every hop supports it. A product that only ever holds relay
+  acceptances has no licence for "delivered" or "received" at all.
+- **delayed** is a non-terminal state that exists only *after* an acceptance.
+  Something outside your process holds the message and has not managed to
+  deliver it yet. It is not *queued*, which is inside your process, and it is not
+  *failed*. Render it as "not yet delivered".
 
 Anything else — *processing*, *pending*, *submitted*, *dispatched*, *complete* —
 is a synonym for queued wearing better clothes, and it exists to let a screen
@@ -116,6 +128,10 @@ that has no record and no capability bit is not entitled to a past tense at all.
 - **When a stakeholder asks for a friendlier word for queued**, the answer is to
   make delivery faster, not to rename the state. The word is the only thing
   standing between the record and a lie.
+- **When a failure is reported, say what was reported, not what the candidate
+  experienced.** "Delivery was reported as failed" is licensed; "they never got
+  it" is not. A failure report is no more proof of non-receipt than an
+  acceptance is proof of receipt, and honesty runs in both directions.
 - **When a status must cross a language boundary**, persist the enum member and
   compose the sentence at render time. Prose frozen at production time is
   unreadable to the next reader
@@ -126,10 +142,13 @@ that has no record and no capability bit is not entitled to a past tense at all.
 - **Internal-only notifications** to staff members inside your own product, where
   the delivery surface is the product itself and there is no external transport,
   need no vocabulary — there is no claim to a third party being made.
-- **Where a transport genuinely reports richer terminal states** (read receipts,
-  per-recipient device acknowledgements), do not flatten them into three; extend
-  the vocabulary deliberately, keeping the rule that each member names an
-  external event.
+- **Where a transport genuinely reports richer terminal states** (a
+  per-recipient delivery report, a device acknowledgement), do not flatten them
+  into three; extend the vocabulary deliberately, keeping the rule that each
+  member names an external event. Read receipts do not qualify. The recipient
+  may decline to send one without saying so, which leaves its absence meaning
+  nothing, and even a returned one does not assert that the message was read.
+  They are engagement, not delivery.
 - **Do not use this vocabulary to model the candidate's engagement.** Opens and
   clicks are a different subject with different consent implications, and folding
   them into a delivery enum tempts a product to treat "not opened" as "not sent",

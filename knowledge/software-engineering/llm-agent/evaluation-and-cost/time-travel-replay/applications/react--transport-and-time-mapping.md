@@ -4,76 +4,70 @@ type: application
 subject: time-travel-replay
 technique: transport-and-time-mapping
 stack: react
-verified_on: 2026-08-18
+verified_on: 2026-09-26
+verified_against: react@19
 ---
 
-# ReplaySandbox + useReplayTimeline — the execution-replay transport (and its orphaned sibling)
+# ReplaySandbox + useReplayTimeline — the execution-replay transport
 
-This repo implements the technique's mapping twice, for two different records:
-`src/hooks/execution/useReplayTimeline.ts` (one execution's tool steps + log,
-driven by `src/features/agents/sub_executions/replay/ReplaySandbox.tsx`) and
-`src/hooks/realtime/useTimelineReplay.ts` (a 1d/7d range of persona events,
-virtual cursor over wall-clock time). Comparing them against the technique is
-instructive in both directions.
+Re-verified 2026-09-26 against `personas` master at `a8cb3aa62` (React
+`^19.2.6`), after this run's fix to the log page. Since the first version of
+this document (2026-08-18), the orphaned second transport,
+`src/hooks/realtime/useTimelineReplay.ts`, was deleted rather than rewired
+(`44b0bc8bd`, 2026-09-02), and disclosed silence-skipping was added. One
+transport remains: `src/hooks/execution/useReplayTimeline.ts`, driven by
+`src/features/agents/sub_executions/replay/ReplaySandbox.tsx`.
 
 ## The mapping, done right
 
-`useReplayTimeline` keeps the playhead as **ms from execution start**
-(`currentMs`), directly expressible as record time. The play loop (`:170-190`)
-accumulates elapsed viewer time × speed per animation frame
-(`pendingDelta += (now - lastTick) * speed`) but flushes state only every
-`PLAYBACK_FLUSH_MS = 80` (`:100`) — time accuracy at frame rate, render cost
-at ~12fps, exactly the technique's "advance by elapsed × rate" shape with an
-engineering-honest cadence split. `scrubTo` clamps into `[0, totalMs]`
-(`:208-210`); crossing detection is positional (`timestamp_ms <= cutoffMs`
-via binary search, `:88-97`), so a jumped window releases everything inside
-it and a paused playhead releases nothing — release-by-position, not
-release-by-tick.
+The playhead is kept as **ms from execution start** (`currentMs`), directly
+expressible as record time. The play loop accumulates elapsed viewer time ×
+speed per animation frame (`pendingDelta += (now - lastTickRef.current) * speed`,
+`:437`) but flushes state only every `PLAYBACK_FLUSH_MS = 80` (`:342`). That
+gives time accuracy at frame rate and render cost at about 12 fps, with the
+technique's "advance by elapsed × rate" shape. The clock is `performance.now()`
+and nothing in the replay reads the wall clock. `scrubTo` clamps into
+`[0, totalMs]` (`:468`). Crossing detection is positional, by a binary search
+over sorted line times (`countVisibleLines`), so a jumped window releases
+everything inside it and a paused playhead releases nothing.
 
-`useTimelineReplay` does the same with refs for the tick loop (`:109-158`):
-`advance = dt * speedRef`, cursor clamped to range end, events emitted while
-`created_at <= cursorTime`. Its `seekTo` (`:249-282`) is the technique's
-seek contract in miniature: stop the loop mid-seek (`isSeekingRef`),
-reposition, binary-search the next-event index (`findFirstAfter`), clear the
-in-flight animation particles (a viewpoint moved, so presentation state from
-the old position is discarded), then resume **only if it was playing** —
-seek preserves intent instead of toggling it.
+## Seek, step and intent
 
-## Transport states and grammar
+- `scrubTo`, `stepForward` / `stepBackward` (`:478`) and `skipSilence`
+  (`:496`) keep the current play state: the gesture moves the viewpoint and
+  does not toggle intent.
+- `jumpToStart` and `jumpToEnd` (`:475-476`) always pause. For the end, that
+  matches the media contract (arriving at the end ends playback). For the
+  start, it is a deviation: Home while playing stops playback.
+- Stepping moves between a sorted set of tool-step boundaries (`:459`).
+  These now include inferred ends of unclosed steps, so "next event" is exact
+  where the step was closed by the record and approximate where the client
+  bounded it, and the control does not say which just happened.
 
-- **ended is not closed**: `useReplayTimeline` stops playback at the end via
-  an effect (`:194-196`) but keeps the position scrubbable; `ReplaySandbox`
-  wires `Home`/`End`/`Space`/arrows (`:62-98`), deferring to the scrubber
-  when it has focus because it "is a real slider now and owns its own arrow
-  keys" (`:65-72`) — the borrowed media grammar, without double-handling.
-  `useTimelineReplay.togglePlay` (`:231-242`) auto-rewinds when at the end,
-  making replay-again one gesture.
-- **Stepping is boundary-aware**: `stepForward`/`stepBackward` (`:218-226`)
-  move between a precomputed sorted set of tool-step start/end points
-  (`boundaries`, `:199-206`) — "next event" stepping, exact because these
-  points are recorded, not reconstructed.
-- **Speed changes take effect from the playhead forward** by construction:
-  the multiplier applies to future `dt` only.
+## Dead air: disclosed, opt-in, and briefly unreachable
 
-## Where it deviates from the technique
+Compression is built the way the technique conditions it. It is a toggle,
+never the only view. Skip-silence moves the playhead to the end of the
+recorded silence it stands in (`findSilenceSkipTarget`, `:129`). Auto-skip is
+off by default (`useState(false)`, `:493`) and acts only during playback
+(`:505`). The control is disabled rather than hidden when there is nothing to
+skip (`ReplayTransportControls.tsx:117`). Silences are hatched on the scrubber
+only from recorded tempo.
 
-- **No dead-air compression, anywhere.** Neither transport compresses idle
-  stretches: an execution that spent 18 minutes waiting plays 18 minutes at
-  1× (the speed presets — 1/2/4/8× in the sandbox, 2–64× for events — are
-  the only remedy, and they compress the action exactly as much as the
-  silence). No gap markers exist on either scrubber. For the event replay
-  over a 7-day range this is why the default speed is 8× and the max is 64×:
-  brute-force uniform compression standing in for disclosed selective
-  compression.
-- **`useTimelineReplay` is orphaned.** Zero importers in the tree (verified
-  by search over `src/`: only the defining file matches). The
-  better-engineered of the two seek implementations is dead code — its
-  consumer surface was removed and the hook stayed. Worth either rewiring or
-  reaping; as-is it is a second transport implementation available to drift.
-- **Event emission has a flood valve with a side effect on the mapping**:
-  the tick loop emits at most `batchLimit = 12` events per 50ms tick
-  (`:125-127`), so a dense burst plays *slower than the mapping says* —
-  position advances but presentation lags it, undisclosed. The bounded
-  replay-events window (`next.length > 60 ? slice` `:143-146`) is honest for
-  a particle surface, but the batch cap quietly decouples playhead from
-  content during bursts.
+From 2026-09-17 until this run's fix all of it was unreachable, because the
+log page arrived without stamps (see
+[react--timeline-derivation](./react--timeline-derivation.md)). The only
+remedy left was uniform speed (`SPEED_OPTIONS = [1, 2, 4, 8]`,
+`libs/useReplayState.ts:17`), which compresses the action exactly as much as
+the silence.
+
+## Where it deviates
+
+- **Ended is not closed, but replaying is no longer one gesture.** The end
+  effect stops playback at `totalMs` and the run stays scrubbable. The
+  deleted transport auto-rewound on play at the end. The surviving
+  `togglePlay` (`:474`) does not: play at the end clamps, the end effect
+  stops it on the next render, and the button appears to do nothing.
+- **Keyboard grammar** is borrowed and not double-handled. `ReplaySandbox`
+  wires Home/End/Space/arrows and defers to the scrubber when it has focus,
+  because the scrubber "is a real slider now and owns its own arrow keys".

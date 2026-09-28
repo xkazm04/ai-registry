@@ -306,3 +306,67 @@ did not have. Section 9 and `references/promotion.md` add it.
 - **A promotion measures what no product gate can, and this run proved it three more times.** The instrument caught that the host's `--brand-cyan` token resolves to `#1ba9be` in one shipped theme (routing three companions' identity colours through it would have collapsed them to one hue), that an SVG ring was painting an inherited `color` the winner leaves alone, and that Tailwind preflight's `max-width: 100%` reaches an `<img>` the prototype never had. None is visible to typecheck, lint, 22 tests or a production build.
 - **The owner may decline the panel, and that is a valid contest.** This round ran 3 seats x 3 variants with NO judges: the owner read all nine himself and named the winner. `verdict --winner` writes the vault and the pattern ledger without a scoreboard, exactly as the skill says it may - worth stating in the report so the absence of scores does not read as a missing step.
 - **A seat that completes in one turn is not automatically a poor seat.** codex:gpt-5.6-sol@high delivered 3/3 variants in 596 s and one turn against claude seats' 48 and 54 turns; its variants were thinner in prose but structurally complete, and its "state readable without colour" idea was the field's most transferable. Turn count is not effort.
+
+## 1.3.0 - 2026-09-22 - personas (goal-desk-scale, then a /prototype round on the winner's map layer)
+
+Run shape: `claude:claude-opus-5-5@xhigh` vs `codex:gpt-6-sol@high`, three variants each, 90
+goals across 16 real projects staged as `goals.js` + the app's real tokens and English copy.
+Grok was 402 Payment Required, so with both remaining families competing **no panel could be
+blinded** - host visual pass only, disclosed in the verdict. 6/6 delivered, 0 page errors.
+
+- **The codex sandbox flag was still wrong, for the third recorded time.** The consuming repo's
+  overlay asserted "the runner now passes `--dangerously-bypass-approvals-and-sandbox`" and the
+  1.1.0 lesson filed it as a PROPOSAL, but `participants.mjs` still sent `--sandbox
+  workspace-write`. Probed both ways in a scratch dir before the run: workspace-write answers
+  `patch rejected: writing is blocked by read-only sandbox; rejected by user approval settings`
+  and writes nothing; the bypass writes. **Now applied.** A participant seat that cannot write
+  produces a silent zero, which is indistinguishable from a bad entry. Probe a seat's write
+  path before a contest, not after.
+- **`visual-pass.mjs` now ships beside the `.py`** (the 1.2.0 lesson asked for it). It finds
+  Playwright in the consuming repo first, takes `--from entries|judging`, `--keys` for a
+  keyboard probe, and `--titles <file.json>`.
+- **The measurement that decided this contest did not exist before it.** `--titles` reports how
+  many expected strings render IN FULL at load. It read 80/90, 80/90, 80/90 for one seat and
+  7/90, 18/90, 7/90 for the other - the whole gap between the entries in one number, on the
+  brief's own first constraint. Every rubric dimension is a judgement; this is not. When a brief
+  names a hard content constraint, build the instrument for it before the seats run.
+- **A clipped-leaf-element test is not a truncation test, and its zero is a false negative.**
+  The pass reported `clipped 0` for a variant whose load frame visibly cuts three sentences: the
+  overflow was on a *container with children* behind a fade, which a leaf test never visits. The
+  fix that works is to sum `scrollHeight - clientHeight` over every box whose `overflow-y` clips,
+  and report the px hidden and in how many places. "Hidden in 1 named scroll" and "hidden in 16
+  silent fades" are different designs and the leaf test scores them identically.
+- **`verdict --pattern` credited an ANTI-pattern as a win.** 1.2.0 recorded that a `--pattern`
+  taken from a losing variant is credited to the winner. Sharper instance here: one curated
+  pattern *described the winner's own defect* (`weighting-by-verbosity-encodes-the-wrong-quantity`,
+  which is the thing the owner asked to have fixed) and landed as `wins: 1`. Three of four
+  patterns had to be demoted to sightings by hand. `--pattern` needs a source variant and a
+  polarity, or the ledger teaches the next contest to do the wrong thing.
+- **Validate a staged asset before `init`, not after.** The host built `tokens.css` by piping a
+  CSS block through `head -80`, which cut it mid-rule; the unclosed brace swallowed the entire
+  `.typo-*` scale for every seat. Three of six variants detected it and re-declared the scale;
+  three did not. Both seats got the identical file so the comparison held, but a brace-balance or
+  parse check on every staged asset costs one line and removes the doubt.
+- **A one-turn seat is a finding about the seat, not about the brief.** `gpt-6-sol` finished in
+  11.8 minutes and **one turn**, 34k output tokens, and brought one idea at three densities -
+  project cells plus glyph strips, three times. `claude-opus-5-5` took 19.6 min, 35 turns, 122k
+  output tokens and brought three different hypotheses. Both read the identical brief, which
+  demands "a different metaphor, a different information architecture". Turn count is worth
+  reporting in step 8 beside wall and cost.
+- **Codex reports no price.** `parseCodex` returns `cost_usd: null`, so a two-seat report with a
+  codex seat can state one price and must say the other is unavailable rather than imply parity.
+- **Cost and wall, as the CLIs reported them**: `claude-opus-5-5@xhigh` 19.6 min / 35 turns /
+  $5.26 / 122k output. `codex:gpt-6-sol@high` 11.8 min / 1 turn / 34k output / no price reported.
+  The follow-on map round (one seat, same model) 24.7 min / 40 turns / $6.04 / 135k output.
+- **Three contests, and the host's mean has never predicted the owner's pick.** Twice he took the
+  `utility` leader; here he took the `concept` leader that the host ranked third and had flagged
+  for breaking the brief's first constraint. The stable signal is not a dimension: he picks the
+  **structural bet** and treats the rendering as a later round. A host recommendation should name
+  the structural bet each variant makes, not only rank the means.
+- **A won contest can hand straight to a `/prototype` round on ONE layer of the winner.** The
+  owner kept the winner's three-level architecture and sent only its level 1 back out: four maps
+  behind a throwaway switcher, levels 2 and 3 shared and untouched, plus an app-chrome frame
+  toggle built to measured geometry so the port cost was visible while the design was still
+  cheap. Extracting the control behind the same interface as the new approaches, and proving the
+  extracted control renders identical rects to the original, is what makes the round a
+  measurement rather than a re-pitch.

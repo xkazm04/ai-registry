@@ -14,7 +14,10 @@ use_when: [adding a new rule to an automated interviewer, a well-motivated guard
 The instinct after an incident is to add a rule. It is almost always the wrong
 first move, because a conversational instrument's compliance is a finite budget:
 every rule added competes with every rule already there, and the new one may
-cost more elsewhere than it buys where it was aimed. Ablation is the experiment
+cost more elsewhere than it buys where it was aimed. The published measurements
+of that competition are at instruction counts far above a typical brief, so take
+them as the reason to measure, not as a known size for a rule you are adding.
+Ablation is the experiment
 that measures that trade before it ships — the instrument **with** the rule and
 **without** it, across several candidate wordings, on the reliability axis.
 
@@ -47,8 +50,8 @@ collateral, and a run restricted to the targeted behaviour cannot see it.
 The most common outcome for a rule that asks the interviewer to perform an extra
 conversational move — acknowledge, reframe, de-escalate, summarise before
 continuing — is that **every wording degrades language consistency**, and the
-baseline without the rule already passes. The mechanism is understood: such a
-rule forces a turn to *begin* with something other than interview content,
+baseline without the rule already passes. The mechanism is observed in practice
+rather than isolated in a published study. Such a rule forces a turn to *begin* with something other than interview content,
 creating a meta turn, and meta turns are where register, person and most
 brittly language come apart. The interviewer that was asked to acknowledge
 hostility gracefully starts acknowledging it in the wrong language.

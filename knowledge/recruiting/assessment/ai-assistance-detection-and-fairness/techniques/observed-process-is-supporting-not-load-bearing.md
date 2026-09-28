@@ -38,8 +38,9 @@ the instruments permanently.
 3. **The live authorship conversation.** A human asks why: why this structure,
    what did you consider and reject, what would you change, what did you make
    of the contradiction in section three. This is the strongest instrument in
-   the subject and the only one that cannot be prepared against in general,
-   because the follow-up questions are generated from *this* submission.
+   the subject and the hardest to prepare against, because the follow-up
+   questions are generated from *this* submission — provided nobody is helping
+   in real time and the person answering is the person who submitted (below).
 
 **Supporting** — may add colour, may prompt a question, may never carry a
 decision alone:
@@ -60,8 +61,12 @@ combination of weak fakeable signals is a weak fakeable signal.
 If you take one thing from this technique, take this: fifteen minutes of a
 competent human asking a candidate about their own submission outperforms every
 automated authenticity instrument combined, and it is the only one that is
-fair by construction — it asks about the work, so it cannot discriminate on how
-the work was produced.
+fair on the tool axis by construction — it asks about the work, so it cannot
+discriminate on how the work was produced. It is not fair on every axis by
+construction. Live speech under time pressure carries its own error for
+second-language speakers, anxious candidates and neurodivergent ones, so it runs
+from questions prepared against the submission, scored on a written rubric, with
+time to think.
 
 Run it as follows. The interviewer reads the submission first and prepares
 questions from *it*, not from a script. Questions target contestable decisions
@@ -77,6 +82,32 @@ The conversation is a decision by a named person
 ([every decision names its actor](../../../_laws.md#every-decision-names-its-actor)).
 Record who ran it and what they concluded, in their words, bound to the
 submission they read.
+
+### When the conversation itself can be assisted
+
+A remote conversation is no longer unassisted by default. Real-time assistants
+that listen to the interviewer and show answers in an overlay the screen share
+does not capture are sold for exactly this purpose. Proxy candidates and
+real-time face swaps are documented in remote hiring, and several large
+employers moved some rounds back in person in 2025 for these reasons. The
+instrument survives, with conditions:
+
+- **Ask for change, not recall.** "Extend your solution so that it also handles
+  X", or "what did you reject here, and why", asks for reasoning about a decision
+  only the author made. A general question about the topic is the one an overlay
+  answers best.
+- **Bind the person.** Check the identity in the conversation against the
+  identity that submitted, at the start, by the means the process already uses.
+  A strong conversation with somebody else is not authorship evidence.
+- **Do not answer the weakness with surveillance.** Gaze tracking, emotion
+  reading and screen lockdown are the capture this technique refuses. They fail
+  candidates who look away, move, or use assistive technology, and emotion
+  recognition at work is prohibited outright in some jurisdictions. Where the
+  stakes justify it, the proportionate fix is to hold the round in person.
+- **Hold it for everyone who reaches the stage, not only the flagged.** A
+  conversation run only when a process signal fired has made that signal the
+  trigger of an extra hurdle, which is the boundary crossing this technique
+  forbids.
 
 ## Client-emitted events prove *when*, not *sincerity*
 
@@ -107,6 +138,15 @@ So: **waive the signals that observation makes structurally unavailable**, and
 record them as waived, with the reason. Not zeroed, not passed — waived, a
 distinct state a reader can interpret
 ([say only what the record holds](../../../_laws.md#say-only-what-the-record-holds)).
+
+The waiver follows a signal's derivation, not its name. An iteration pattern, a
+read-before-write ratio or a cadence inferred from a commit history is as
+unavailable as the commits when the work was watched. An inference handed an
+empty history still returns a confident answer, and often the worst one,
+because an empty history looks like one enormous change. Waive every field
+computed from the missing source, and test the watched path with what the
+inference really returns for an empty history, not with a tidy placeholder: a
+fixture that feeds the watched path a plausible pattern hides exactly this.
 
 The trap is waiving *everything*. Observation proves the work happened in front
 of you; it does not prove the work was authored there. A candidate can paste an
@@ -161,7 +201,10 @@ two quarters.
   recording and camera-based attention monitoring are not stronger evidence;
   they are the same weak class of evidence with a much larger harm and a legal
   exposure, and several of them discriminate against candidates who move,
-  look away, or use assistive technology.
+  look away, or use assistive technology. Simple speed and regularity checks
+  are evaded by randomising the timing. The finer keystroke-dynamics models
+  that do catch injected typing are biometric capture, with the consent and
+  special-category obligations that carries.
 - **Do not skip the conversation because the automated signals looked clean.**
   Clean signals are the case in which the conversation is cheapest and most
   informative.

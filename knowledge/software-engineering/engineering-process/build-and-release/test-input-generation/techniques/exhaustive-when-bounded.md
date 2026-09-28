@@ -92,7 +92,9 @@ generator's constraints.
 ## When not to use it
 
 - **When the bound comes back large**, which the calculation will tell you
-  honestly. Sampling is then the correct concession, made knowingly.
+  honestly. Sampling is then the correct concession, made knowingly - unless a
+  symbolic check is available, where the size of the space is not the cost at
+  all ([proof-cost-follows-the-circuit](./proof-cost-follows-the-circuit.md)).
 - **When the dimensions are continuous** — timings, sizes over a wide range,
   arbitrary payloads. Enumerate the structural dimensions and sample the
   continuous ones, rather than abandoning the technique for the whole input.

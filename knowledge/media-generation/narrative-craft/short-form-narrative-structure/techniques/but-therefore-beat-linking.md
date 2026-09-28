@@ -25,7 +25,11 @@ blockchain, and then miners validate, and then supply is capped" carries the
 identical information as "digital money had one unsolvable problem — you
 could copy it; **therefore** every attempt needed a bank; **but** a bank is
 what you were trying to avoid; **therefore** the real invention is a ledger
-with no one in charge." Only the second gives a reason to keep watching. A
+with no one in charge." Only the second gives a reason to keep watching.
+The test is a screenwriters' rule of thumb with older evidence under it:
+in story comprehension, whether an event sits on the causal chain, and how
+many causal links it carries, predicts whether it is recalled and judged
+important (Trabasso & van den Broek, 1985). A
 failed pair is never evidence the facts are wrong; it is evidence the causal
 relationship between them has not been found yet.
 
@@ -65,6 +69,12 @@ relationship between them has not been found yet.
   carries its declared link to the previous beat, and AND-THEN is rendered
   as a defect, not a style choice. What the writer must assert, the tool
   can then check.
+- **An undeclared connector is unmeasured, never defaulted.** The
+  convenient fallback — a missing link filled in as "therefore" — is a
+  causal claim nobody made, and it is the one place a pipeline can
+  manufacture the fake causality this test exists to catch. Refuse a beat
+  (or an inserted beat in a revision) that names no relation; a check that
+  finds no declared links has examined nothing and must not report a pass.
 
 ## When not to use it
 

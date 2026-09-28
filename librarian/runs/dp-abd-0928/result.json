@@ -1,0 +1,42 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-abd-0928",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-28T01:00:00Z",
+  "ended_at": "2026-09-28T01:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/agent-benchmark-design",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/agent-operations/agent-benchmark-design.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "reason": "Stale dispatch, the third for this finding. '3 techniques (design floor is 4)' was read at d93fbd78, a checkout 199 commits behind origin/main 52eaac38. The origin index lists four techniques; null-and-reference-controls landed in df6f8f4d (dp-abd-0927). Nothing under the subject folder has changed since that landing. check-currency reports no expired, at-risk or drift rows for it, and no fleet registry map joins the subject (positive control deployment-contract hit 5 maps). There is no clock or event to point at. It is not idled because the subject has had no dry pass."
+    }
+  ],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Second decline of the same stale finding (dp-abd-0927b was the first). The Curator lane is ranking from the primary checkout's main, 3 ahead / 199 behind origin; the finding clears only when that lane reads origin/main. Subject note gained a dated paragraph; nothing else touched."
+}

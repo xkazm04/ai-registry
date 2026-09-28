@@ -47,7 +47,19 @@ consumer reads it.
   ([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)).
   Credential instances, adapters, matchers, and audit lines all reference it;
   it is the one field that can never be edited, only aliased
-  ([catalog-lifecycle](./catalog-lifecycle.md)).
+  ([catalog-lifecycle](./catalog-lifecycle.md)). Minting is an act with a
+  check, not a formula: a key slugged from the label is acceptable if the
+  mint refuses a key already in use and nothing derives it again. The
+  check belongs at the store's door, not in the form, because the form is
+  not the only path that mints. Where every runtime mint passes one door
+  that checks the key inside the same write transaction, a schema
+  uniqueness constraint changes no outcome for those mints. The exposure
+  that remains is any writer keyed on another column, such as a seed or a
+  migration inserting by id. Close it by keeping shipped names out of every
+  namespace users mint in, or by checking the name there too. When the key embeds a name the catalog does not own, such
+  as a publisher's account handle, the name can later change owners. The key
+  must stay bound to its original holder, and the freed name must not
+  re-mint it.
 - **Presentation** — label, icon, brand color, short description. Explicitly
   *not* load-bearing: anything a rename can break was keyed wrong.
 - **Auth schema** — the declared credential shape: field keys, types,
@@ -63,7 +75,11 @@ consumer reads it.
   so declarations need a verification story, not just an author.
 - **Probe recipe** — how to cheaply verify a credential of this type:
   endpoint template, substitution of declared fields, expected response
-  class. Declared here, executed by the health machinery.
+  class. Declared here, executed by the health machinery. A row that has no
+  probe says so explicitly, with the reason (for example, testing would have
+  a side effect, or the transport is not reachable). A row that simply leaves
+  the field empty cannot be told apart from one whose author forgot it
+  ([schema-driven-forms](./schema-driven-forms.md)).
 - **Taxonomy** — the discovery axes: a category for browsing, functional
   roles for "what can fill this slot in a composition", audience tags for
   who should see it, licensing tier for who may use it. Each axis is a
@@ -82,7 +98,12 @@ Two evolution patterns recur, and both have a disciplined form:
   function that unions the legacy scalar with the new list, so every consumer
   keeps calling one accessor and none forks on "old row or new row". The
   scalar is retired only when a migration has rewritten all rows — until
-  then the union *is* the authority.
+  then the union *is* the authority. The union works only if both inputs
+  reach every consumer. If the store the rows pass through keeps the scalar
+  and drops the new list, the accessor has to read the list from somewhere
+  else, such as the shipped source files. Consumers that hold stored rows then
+  quietly fall back to the scalar, and the axis ends up with two answers
+  depending on which copy a surface happens to hold.
 - **Taxonomy born beside the rows migrates onto them.** Mappings often start
   as a hand-maintained table next to the catalog (role → member identities,
   identity → audience tags) because editing N rows is slower than adding one
@@ -124,6 +145,26 @@ listing surface obtains rows, so a gated connector cannot leak into one
 forgotten picker. Scattered per-surface filtering is the taxonomy version of
 scattered validation: correct everywhere except the surface added next
 quarter.
+
+The door serves two kinds of reader, and a single filtered list cannot serve
+both. **Offer** readers (galleries, pickers, suggestion lists) ask what may
+be adopted now, and every audience, licensing, dependency and lifecycle
+predicate applies to them. **Resolve** readers (a credential card naming its
+type, an automation step, an audit line, an edit form for an existing
+instance) ask what this identity is. They need the row whatever its gates
+say, including a row that is deprecated, gated off, or tombstoned, so they
+can show the reason instead of a missing reference. A door that applies its
+predicates to one list and hands that list to both kinds of reader makes
+every predicate a way to lose rows. When a dependency goes unmet or a row is
+deprecated, the existing instances stop finding the row. Build two reads at
+the door, one filtered for offering and one unfiltered lookup by identity,
+and decide which one each consumer uses. Which resolve readers are at risk
+depends on what can name a gated row. Where gated rows carry credentials,
+existing instances lose their type. Where they carry none, the loss travels
+through declared references instead: a persona, a template or a step that
+names the connector. It is sharpest when the catalog offers every row to a
+generator (a model composing a configuration) through a path the door's
+filter does not cover.
 
 ## Declarations rot without a consumer that checks them
 

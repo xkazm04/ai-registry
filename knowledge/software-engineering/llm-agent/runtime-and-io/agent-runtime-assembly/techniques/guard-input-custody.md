@@ -6,7 +6,7 @@ technique: guard-input-custody
 status: forged
 laws: [gate-sees-target, absent-guard-is-loud, one-validation-door]
 shared_with: []
-use_when: [a guard reads its allowlist or denylist from a file in the agent's own working tree, deciding where a containment policy is stored, an agent can edit the configuration that restricts it, a limit is enforced by code the governed process could rewrite, choosing between refreshing a policy per decision and holding it out of reach]
+use_when: [a guard reads its allowlist or denylist from a file in the agent's own working tree, deciding where a containment policy is stored, an agent can edit the configuration that restricts it, a limit is enforced by code the governed process could rewrite, choosing between refreshing a policy per decision and holding it out of reach, an agent's generic tool reaches the store that holds the runtime's records of that agent, a recorder or session log is replaceable and the party it records could replace it]
 ---
 
 # Guard input custody
@@ -96,6 +96,79 @@ was load-bearing.
 This is why a limit belongs at the issuing boundary and not in the consuming
 process, and why "the agent is instructed to stop at N" is a different and
 much weaker claim than "the agent cannot obtain more than N".
+
+## The recorder is in custody too
+
+The rule above is written about guards, and its test applies unchanged to the
+component that **records what the governed party did**: its activity ledger,
+the approval row each of its proposals leaves, its cost and error accounting,
+its job table. A record decides nothing, so it is easy to file under
+observation and leave outside this technique. But a record's whole value is
+the part the recorded party could not negotiate. The moment a health surface,
+a spend rollup, an audit digest or a later reviewer reads it to decide whether
+to trust that party, it is a guard's input with a delay — and a record the
+party can rewrite reports on that party's preferences, in exactly the sense
+above.
+
+**Replaceability and trustworthiness pull in opposite directions here, and the
+question being asked decides which one wins.** For *what can this runtime do*,
+a recorder that can be swapped, extended or reconfigured is strictly good:
+every limit becomes negotiable. For *is this record trustworthy*, the same
+property is the whole problem. A runtime built with no privileged core, where
+the session log is one more replaceable part, has answered the first question
+for every record it keeps and has not answered the second; it should say so
+rather than let "everything is logged" imply it. The discriminator is **who
+can replace the recorder, and when**. An operator swapping it between runs is
+extensibility. The recorded party swapping it during the run it would record
+is the record answering to its subject.
+
+Three things the custody test misses when it is run only against the
+recorder's own interface:
+
+- **Reach arrives through generic capabilities, not through the recorder.**
+  The recording module can be append-only by construction and still sit in a
+  store the agent reaches with a general tool: a raw query capability, a file
+  write, a shell. Records are routinely co-located with the agent's working
+  data *so that the agent can read its own history*, and the read access that
+  co-location was for arrived with write access nobody chose. Enumerate the
+  stores the agent's generic tools reach, then check which records live in
+  them. Keep the read — it is usually the reason for the co-location, and it
+  is almost always safe. Withdraw the write.
+- **Replacing a record is wider than replacing its structure.** Refusing
+  structural changes — drop, rename, a trigger attached to it — is the literal
+  reading of "the agent may not replace the recorder", and on a measured seam
+  it closed four of ten hostile statements. The other six were row writes:
+  erase the failures, launder an error flag into a success, forge a row, clear
+  the approval trail, reset the budget counter the ledger feeds. And one
+  replacement never touches the record at all: an object created under the
+  record's name in a scope the store resolves first (a session-temporary table
+  or view) shadows it, so the recorder's own writes on that connection land in
+  something that vanishes when the connection closes — silently, and on a
+  pooled connection, again and again.
+- **Classify at the store, per object, never by reading the statement.** A
+  check that scans the agent's statement text for protected names loses to
+  quoting, case, schema qualification and a trigger body that writes
+  elsewhere. Where the store offers a per-statement authorization callback,
+  that callback sees every object the statement will touch, already resolved,
+  and it is the classifier. Derive the protected set from the schema that
+  declares the records, so a ledger added later is covered the day it is
+  added ([absent-guard-is-loud](../../../../_laws.md#absent-guard-is-loud)).
+  And take the callback off before the connection returns to a shared pool:
+  left installed, it refuses the recorder's own writes for as long as that
+  connection lives, which converts the record's protection into its loss.
+
+The rule, stated once: **for every record a trust decision reads, the recorded
+party holds read and nothing else, through every capability it has.** Where it
+must be able to change its own history — to correct a wrong entry — the change
+is a new record through the recorder's one door
+([one-validation-door](../../../../_laws.md#one-validation-door)), never an
+edit through a side one. The delegation case, where a parent verifies a
+worker's claims against receipts the worker can cite but not write, is
+[completion-claim-verification](../../../orchestration/fleet-orchestration/techniques/completion-claim-verification.md);
+the single-door shape of a trail whose readers are people is
+[append-only-design](../../../../operations/governance-and-records/audit-logging/techniques/append-only-design.md).
+This section is the agent's own records, kept by the runtime that hosts it,
+where no parent is watching.
 
 ## Where this sits against its neighbours
 

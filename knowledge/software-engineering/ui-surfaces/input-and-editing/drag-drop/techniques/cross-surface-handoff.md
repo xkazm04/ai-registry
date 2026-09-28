@@ -6,7 +6,7 @@ technique: cross-surface-handoff
 status: forged
 laws: [one-authority-per-vocabulary, creation-names-reaper]
 shared_with: []
-use_when: [designing a handoff where surfaces share nothing, a drop silently does nothing between two surfaces, one side stays haunted after the drag ends]
+use_when: [designing a handoff where surfaces share nothing, a drop silently does nothing between two surfaces, one side stays haunted after the drag ends, drops work on the dev server but not in the desktop host]
 ---
 
 # Cross-surface handoff
@@ -57,6 +57,32 @@ receiver can refuse a shape it does not understand rather than half-parse
 it. Refusing loudly beats accepting wrongly; a half-understood drop corrupts
 quietly.
 
+## The host is a surface too
+
+When the web layer runs embedded in a desktop host, the operating system hands
+every drag to the host before the page sees it. The host's configuration then
+decides whether the page receives it at all. That holds for files dragged in
+from the system. In some hosts it also holds for drags between two elements of
+the same page, because the switch that routes files to the native side
+replaces the page's own drop target rather than sitting in front of it. So
+delivery is a **branch the host chooses**, and the page cannot detect which one
+is active. A drop zone written for the inactive branch does nothing and raises
+no error. Each branch also delivers a different payload: native handling tends
+to yield host paths, page handling yields bytes.
+
+- **Record the branch where the host is configured**, explicitly, even when it
+  equals the default, and serve only that branch. Nobody else will know which
+  assumption the drop zones were written against.
+- **Where the host may own the drop target, prefer pointer-event drags for
+  in-page moves.** They do not travel through the platform's drag machinery at
+  all, so they survive either branch.
+- **Know what your tests cannot see.** A test that dispatches synthetic drag
+  events into the page never crosses the host's drop target, so it passes under
+  both branches. Only a real OS drag on the shipped host witnesses the
+  behavior, or, more cheaply, an assertion that the host configuration and the
+  drop zones agree. A drop zone verified on a development server has been
+  verified on the other branch.
+
 ## The drop translates meaning
 
 A cross-surface drop is not "insert here"; it is a *translation* from the
@@ -67,10 +93,12 @@ cannot know what its entity means over there — and it has parts that each
 need a decision:
 
 - **Copy, move, or link.** Does the entity leave the source, duplicate, or
-  does the target hold a reference to the original? The convention that
-  crossing an ownership boundary defaults to *copy or link* (the source
-  keeps its thing) and staying within one defaults to *move* matches most
-  users' mental model, but whichever is chosen must be shown during the
+  does the target hold a reference to the original? The platform convention
+  is that crossing an ownership boundary (another container, another
+  application, another volume) defaults to *copy*, so the source keeps its
+  thing, and staying within one defaults to *move*. *Link* is a modifier
+  choice, never a default. This matches most users' mental model, but
+  platforms carve out exceptions, so whichever is chosen must be shown during the
   drag, not discovered after it — and where a modifier toggles it, the
   in-flight cursor or badge reflects the current meaning continuously.
 - **Where, in target terms.** The pointer position must map into the

@@ -4,117 +4,141 @@ type: application
 subject: ai-interviewer-brief-authoring
 technique: rule-ordering-adjacency-and-form
 stack: process
-verified_on: 2026-08-20
+verified_on: 2026-09-26
+applied: simulation
+ab_verdict: better
 ---
 
 # The persona block: ordering, condensation, and the rule that was measured and not shipped
 
 The interviewer brief is assembled from shared constants in
-`app/_lib/student-interview.ts` and ported byte-for-byte into
-`pipeline/jobfit/eval/interview_eval.py`. Every brief builder — the generic
-student brief, the case-grounded brief, the debrief brief, and the
-candidate-safe voice brief — composes the same `personaLines` block, so a
-wording change lands once.
+`app/_lib/student-interview.ts`. Every brief builder — the generic student brief,
+the case-grounded brief, the debrief brief, and the directed brief the server
+drives turn by turn — composes the same `personaLines` block, so a wording change
+lands once. The offline eval no longer carries a copy: since 2026-09-23 it reads
+rendered briefs from a committed snapshot (`pipeline/jobfit/eval/interview_briefs.json`),
+held to the TypeScript builders by `app/_lib/voice/interview-brief-snapshot.test.ts`.
 
 ## The order is the artifact
 
-`personaLines` (`student-interview.ts:192`) emits, in this order:
+`personaLines` (`student-interview.ts:196-205`) emits, in this order:
 
 1. the role/warmth line,
-2. `PERSONA_ONE_QUESTION` (`:157`),
-3. `...PERSONA_CRAFT_RULES` (`:186`),
-4. `PERSONA_GENDER_GRAMMAR` (`:151`),
-5. `PERSONA_LANGUAGE_DETECT` (`:153`),
+2. `PERSONA_ONE_QUESTION` (`:161`),
+3. `...PERSONA_CRAFT_RULES` (`:190`),
+4. `PERSONA_GENDER_GRAMMAR` (`:155`),
+5. `PERSONA_LANGUAGE_DETECT` (`:157-158`),
 6. the self-introduction instruction.
 
-The doctrine is stated as a comment above the function (`:188`): gender-grammar
+The doctrine is stated as a comment above the function (`:192-195`): gender-grammar
 and the language lock "stay **ADJACENT and LAST** in the shared persona block of
 every builder — the harness showed language drift precisely on the turns the
 craft rules create when prose separated the lock from the end of the block."
 
-That is adjacency and lastness exactly as the standard states them, with the
-causal chain measured rather than assumed: the craft rules create the unusual
-turns, the unusual turns are where the consistency constraint breaks, so the
-constraint goes nearest the point of generation. Note the parenthetical in the
-comment — gender-grammar "carries Czech example tokens" — which is the
-example-as-attractor hazard the standard warns about, here accepted deliberately
-and placed *inside* the guarded block rather than loose in the brief.
+That is adjacency, with the end chosen by measurement on this engine — the
+standard's position rule as it should be applied: the tree did not assume the end
+was strong, it saw drift when the lock was separated from it and fixed that. Note
+the parenthetical in the comment — gender-grammar "carries Czech example tokens"
+— which is the example-as-attractor hazard the standard warns about, here
+accepted deliberately and placed *inside* the guarded block rather than loose in
+the brief.
 
-The language lock also does the two things the standard asks a hard constraint to
-do beyond being positioned: it declares its own rank ("this rule outranks every
-other instruction in this brief") and its own cadence ("Before EVERY turn you
-produce, check which language the candidate's last message was in").
+The directed brief added on 2026-09-18 (`app/_lib/voice/director-brief.ts`) keeps
+the persona block untouched and cites this subject in its header (`:17-24`): every
+rule it adds is written as a constraint on content, and "a new rule should displace
+an old one" is quoted at `:229-233`. Its most important contribution to position is
+not in the brief at all: when the interviewer tries to mark a topic covered without
+a quote the record holds, the refusal comes back as the tool result
+(`voice/director.ts:717`) — text that arrives immediately before the next turn,
+every time. That is the carrier the standard now names as the one that does not
+recede.
 
 ## Condensation was half the fix
 
-`PERSONA_CRAFT_RULES` (`:186`) is an array holding exactly one element,
-`PERSONA_CRAFT_CONDENSED` (`:171`) — one paragraph carrying narrowing, claim
+`PERSONA_CRAFT_RULES` (`:190`) is an array holding exactly one element,
+`PERSONA_CRAFT_CONDENSED` (`:175-176`) — one paragraph carrying narrowing, claim
 verification, coverage-not-count, the rambling-candidate handling, and the
-closing read-back. The comment above it records why the array has one element:
-the "initial one-constant-per-rule form made hostile English candidates drift the
-agent into Czech on the acknowledge-and-redirect turns the rules themselves
-create", and the form that held was "(a) condensing to one paragraph and (b)
-requiring the follow-up to be asked PLAINLY, with no acknowledgement or preamble".
-
-(b) is the landing-token mechanism, named in the repo in one line: "the
-Czech-politeness attractor („Rozumím, …“) has no landing token when the turn must
-start with the question." The clause that implements it is inside the condensed
-paragraph — "ask that follow-up plainly and directly, with no acknowledgement or
-preamble before it."
+closing read-back. The comment above it (`:164-174`) records why the array has one
+element: the "initial one-constant-per-rule form made hostile English candidates
+drift the agent into Czech on the acknowledge-and-redirect turns the rules
+themselves create", and the form that held was "(a) condensing to one paragraph
+and (b) requiring the P4 follow-up to be asked PLAINLY, with no acknowledgement or
+preamble".
 
 The measured numbers behind it are in
-`docs/_archive/interview-improvement-inputs.md:140-160`: the one-constant-per-rule
+`docs/_archive/interview-improvement-inputs.md:137-161`: the one-constant-per-rule
 form scored quality 4.16 but reliability 84% — 4 of 25 language-consistency
 failures, all on acknowledge-and-redirect turns, against a pre-rules baseline
-passing 4/4. After the two changes, `adversarial_hostile` passed 4/4.
+passing 4/4. After the two changes, `adversarial_hostile` passed 4/4. Those are
+n = 4 and n = 25 on one engine; they are the evidence for this tree's form, and
+the reason the standard now reports condensation as a runtime observation rather
+than a law.
 
-**The watch-item discipline is in the same paragraph and should be copied
-verbatim into any brief practice:** "one later `adversarial_silent` re-run drifted
-once, so treat hostile/minimal language-consistency as a watch item for the next
-full sweep rather than proven-stable."
+**The watch-item discipline is in the same document (`:154-156`) and should be
+copied into any brief practice:** one later `adversarial_silent` re-run drifted
+once, so hostile/minimal language-consistency is a watch item for the next full
+sweep rather than proven-stable.
 
-## The rule that is defined, unshipped, and synchronised
+## The rule that is defined and unshipped — and no longer synchronised to anything
 
-`PERSONA_HOSTILITY` (`student-interview.ts:179`) is the standard's canonical
+`PERSONA_HOSTILITY` (`student-interview.ts:183-184`) is the standard's canonical
 example made real. The behaviour is unarguably correct — one brief neutral
 acknowledgement, redirect to the question, do not over-apologise, do not
 negotiate the premise. It is not in `PERSONA_CRAFT_RULES`, and the comment above
-it (`:174`) says why:
+it (`:177-182`) says why: a harness ablation on 2026-07-13 showed any
+hostility-specific rule — five wording variants, including this one with explicit
+bilingual examples — made the agent drift to Czech on a hostile English candidate
+most runs.
 
-> ⚠ NOT SHIPPED … harness ablation (2026-07-13) showed any hostility-specific
-> rule — five wording variants, including this one with explicit bilingual
-> examples — makes the agent drift to Czech on a hostile ENGLISH candidate most
-> runs, breaking the language-consistency reliability gate (baseline without the
-> rule passes consistently). Kept defined + Python-synced so a future wording can
-> be re-tested without re-deriving the history.
+Defined, not deleted; off by construction (excluded by not being in the shipped
+array); history inline. Those three still hold.
 
-Every element of the standard's "right move" is present:
+## Deviations
 
-- **Defined, not deleted.** The constant exists with its full last-tested wording,
-  so a retry starts from the measured baseline rather than from a fresh guess.
-- **Off by construction, not by convention.** It is excluded by not being in the
-  shipped array — there is no flag to forget to set, and the exclusion is
-  visible at the one place the array is defined.
-- **Synchronised across runtimes.** `interview_eval.py:120` carries the identical
-  string, and `pipeline/jobfit/tests/test_interview_eval.py:584` asserts
-  byte-equality of all seven persona constants against the source file —
-  *including the unshipped one*, with the test's own comment explaining that "P7
-  is not shipped … but the constant stays synced so a future retry starts from
-  the last-tested wording." That test is what stops the two runtimes becoming two
-  different interviews.
-- **The history travels with the rule.** Five variants tried, which forms, what
-  broke, and against what baseline — all inline, so the next author cannot
-  re-derive it innocently.
+- **The sync claim is stale.** The comment still says the rule is "Kept defined +
+  Python-synced". Commit b49819944 (2026-09-23) removed the Python port, and
+  `pipeline/jobfit/tests/test_interview_eval.py:511-516` now asserts that no
+  `PERSONA_` constant remains in the eval source. The snapshot that replaced it
+  holds rendered briefs only, so the unshipped rule now lives in one place and is
+  referenced by no test. The sync obligation itself is met by construction — one
+  composer, many consumers — so the defect is the comment, not the architecture.
+- **The optimiser appends after the guarded block.**
+  `pipeline/jobfit/eval/interview_optimize.py:139-152` builds a candidate brief as
+  the rendered brief plus the accepted rules appended at the end — after
+  `CLOSING` and after the language lock. Every rule the optimiser proposes is
+  therefore measured in the one position this tree's own harness showed breaks the
+  lock, and a rule accepted that way would be accepted in a position the shipped
+  brief does not use.
+- **A measured block was changed without re-running its gate.** Commit 82bf6fc4b
+  (2026-09-17) replaces `PERSONA_LANGUAGE_DETECT` in place for candidates who chose
+  a language at apply (`app/_lib/interview-run.ts:131-147`); the position is
+  preserved, and the replacement drops "this rule outranks every other
+  instruction". The commit's own evidence is compositional ("2 of 2 … briefs …
+  do not contain … outranks every other instruction"). The standard no longer
+  treats a rank sentence as a lever — but the lock's measured 4/4 was measured
+  *with* it, so the German and French locks are an unmeasured wording until the
+  language gate runs on them.
 
-The generalised lesson is recorded at
-`docs/_archive/interview-improvement-inputs.md:160`: "rules that create new 'meta'
-turns (acknowledge, redirect, read back) are language-drift hazards on this
-engine; prefer rule forms whose output must start with content."
+## Applied
 
-Two notes on transplanting it. First, the repo scopes the lesson to "this engine",
-which is the right scope — position and form effects are runtime properties, and
-labelling them as such is what lets the rule be retried later rather than
-becoming permanent folklore. Second, the read-back is named in that list of
-hazards and is nonetheless shipped: it is a meta turn that was judged worth its
-cost, placed at the close where the remaining turn budget is small. A hazard
-class is a reason to measure, not a prohibition.
+Simulation, 2026-09-26, three real cases from the tree at a7340185d, under the old
+rule (A: the hard block goes last, the text nearest generation wins, and it should
+state its own rank) and the corrected one (B: out of the middle with the end found
+by measurement; re-state at the turn; rank text is not a lever, but removing it
+from a measured block is a change).
+
+1. The optimiser's append. A: defect — the lock is no longer last. B: defect —
+   the tree measured that separating the lock from the end drifts, and the
+   optimiser's candidates are scored in that position. Agree.
+2. The preferred-locale lock without its rank clause. A: a weakened constraint;
+   restore the clause. B: not a weakening the literature recognises, and restoring
+   it on doctrine repeats the untested move in the other direction; run the
+   language gate on the de/fr locks. A's action is right only if the clause was a
+   lever on this engine; B's is right either way.
+3. The coverage refusal returned as a tool result. A has nothing to say about it —
+   it is not in the brief. B identifies it as the strongest position the tree
+   controls and the right carrier for the narrowing instruction it holds.
+
+B agrees with A once and is better twice. Falsifier: a language-gate run on the
+preferred-locale briefs that drifts where the rank-clause brief holds, which would
+make the rank sentence a measured lever on this engine and case 2 a tie.

@@ -64,10 +64,13 @@ the vocabulary changes.
 4. **Use the workspace's existing decision-audit surface**, not a private table. A
    refusal is a hiring decision record; splitting it into a separate store guarantees it
    is absent from the export a regulator, a candidate, or a lawyer asks for.
-5. **Retain it on the long horizon.** Records of automated employment decisions are now
-   commonly required to be kept for several years in at least one major jurisdiction, and
-   the refusal record is among the most useful of them. Design for years, not for log
-   rotation.
+5. **Retain it on the horizon each jurisdiction sets, and write the reason down.** California
+   keeps employment records, expressly including automated-decision-system data, for four
+   years (rules effective 2025-10-01), and the refusal record is among the most useful of
+   them. The EU AI Act sets a six-month floor for a deployer's logs, while GDPR's storage
+   limitation caps what you may keep without a justification, which is typically the
+   local claims period. Design for years where the law asks for years, not for log
+   rotation, and set the period per jurisdiction rather than once for the world.
 6. **Surface the count and the trend to the people who own the pipeline**, broken down by
    refusing rule and by proposing caller. This is the operational payoff.
 7. **Say only what the record holds when the event is shown to anyone.** The refusal
@@ -89,7 +92,8 @@ the vocabulary changes.
   Authority may be downgraded from human to automated when the record is unclear, never
   upgraded, and never defaulted to a convenient person.
 - **When someone proposes deleting old refusal events to save space, check the retention
-  obligation first, then keep them anyway if the decision they shadow is still live.** A
+  obligation first, then keep them if the decision they shadow is still live and the
+  jurisdiction lets you justify it.** A
   refusal whose candidate record still exists is part of that candidate's decision
   history.
 - **When the event is included in an export or a benchmark that leaves the building,
@@ -114,7 +118,9 @@ field in it was recorded at the moment it was true.
 
 - **Not for every gate evaluation.** Log the *refusals*, not the passes. An event per
   permitted action drowns the signal and turns retention into a cost argument you will
-  lose.
+  lose. This is the refusal stream, not the measurement record: adverse-impact analysis
+  needs every proposal and every outcome as its denominator, and that belongs in the
+  decision record the measurement lane reads.
 - **Not as a substitute for the human queue's own record.** The refusal says the machine
   stopped; what the person then decided is a separate decision with its own actor, and a
   human reversing a machine's outcome seals to the reverser and never inherits the

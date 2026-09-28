@@ -7,8 +7,11 @@ status: forged
 laws:
   - count-carries-predicate
   - deletion-is-not-repair
+  - unknown-is-not-a-value
 shared_with: []
-use_when: [deciding what happens after the final retry, events crash forever while their counter reads zero, a counter that resets itself on deploy or restart]
+use_when: [deciding what happens after the final retry, events crash forever while their counter reads zero, a counter that resets itself on deploy or restart, a retry list capped at N entries with the oldest dropped, a permanently failing item retried on every run]
+applied: experiment
+ab_verdict: better
 ---
 
 # Retry escalation
@@ -77,6 +80,53 @@ Three refinements on the threshold:
   the counter says. Escalation by staleness records a different reason token
   than escalation by exhaustion — the triage differs (see
   non-delivery-ledgers).
+
+## A capped list of recent failures is not a budget
+
+The cheapest retry memory a pipeline grows is a list of the keys that failed,
+capped at a small number, newest kept, re-offered at the start of each run. It
+reads as a bound and it is not one: nothing in it counts *this* item's
+attempts, so an entry leaves only when enough *other* entries fail after it.
+The same structure then fails in two opposite directions:
+
+- **It forgets fastest when failures are correlated.** An outage fails
+  everything a run touches, the list turns over at the outage's arrival rate,
+  and entries fall off before the dependency is back. The evicted key does not
+  become a dead letter; it becomes *untried*, because the only fact separating
+  "failed four times" from "never attempted" lived in the entry that was
+  dropped ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+  Whether it ever runs again then depends on the main scan's ordering: behind
+  a backlog that arrives faster than it drains, it does not.
+- **It never forgets when failures are rare.** On a quiet pipeline nothing
+  displaces a permanently failing key, so it is retried on every run
+  indefinitely, and if the main scan also still sees it as unprocessed it
+  holds one of that scan's slots too.
+
+Lifting the cap cures the first and leaves the second untouched. The repair is
+the counter this technique already requires, kept where the list was: an
+attempt count per key, persisted with the key; exit by success or by that
+key's own budget, into a terminal record the main scan also respects (a key
+that exhausted its budget is a verdict, not untried work). Keep a cap on the
+*work* re-queued per run, never on the *memory* of what failed; that memory is
+then bounded by the set of things that can fail, the same bound the success
+side's memory already has. And **a run in which every attempt failed charges
+no item's budget**: that is the shared dependency being down, not N items
+failing, and charging it lets one outage longer than the budget retire every
+item that happened to be in flight - the per-item form of the rule in
+[circuit-breakers](../../../resilience/retry-backoff/techniques/circuit-breakers.md):
+decide whether an outage consumes budget, or it exhausts all of them.
+
+Measured on a replay of one such pipeline's own ingest loop (an eight-entry
+list, five new items admitted per run, forty runs, an outage of up to four
+runs, two permanently failing items): with arrivals faster than admission, 12
+of 20 outage failures ended un-ingested and recorded nowhere; the permanent
+failures were retried on all 80 opportunities and, where admission order was
+stable, held two of five admission slots throughout, cutting throughput by up
+to 40%. Uncapping the list removed the silent loss and changed nothing else.
+Per-key budgets removed both, but a budget charged during the outage retired
+the outage's first items and lost up to five ingests against the as-is loop;
+not charging all-fail runs removed that loss, with throughput at or above the
+as-is loop in all 36 conditions and identical state on a failure-free trace.
 
 ## Escalation preserves; it never destroys
 

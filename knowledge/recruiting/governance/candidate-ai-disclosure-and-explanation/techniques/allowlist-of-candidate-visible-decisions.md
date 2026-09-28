@@ -78,9 +78,17 @@ duty exists for.
   that the emitted object has *exactly* the declared fields. A leak test that
   asserts the closed field set catches the schema addition an allowlist on kinds
   alone would let through.
-- **Gate the whole projection on consent, not just its fields.** Where the
-  retention basis has expired or the record has been anonymised, the history is
-  empty — the surface returns nothing rather than an allowlisted subset.
+- **Gate the whole projection, not just its fields, and gate it on the data
+  being gone, not on the basis lapsing.** Where the record has been anonymised,
+  the history is empty. The surface returns nothing rather than an allowlisted
+  subset. An expired retention basis is different. It is the trigger to erase,
+  and until the erasure has happened the data still exists and the person's
+  right of access still reaches it. The regulator's own worked example is a job
+  application kept past its retention period: the controller may not delete
+  first and then answer that nothing is held; it gives access first and deletes
+  afterwards. An empty history while any reader in the organisation can still
+  see the decision is the concealment this technique exists to prevent. The
+  candidate is never shown less of their own record than staff can read.
 - **No humanised-identifier fallback in the renderer.** A kind that reaches the
   view without candidate copy must not degrade to its underscored identifier
   with the underscores replaced by spaces; that fallback quietly re-creates the

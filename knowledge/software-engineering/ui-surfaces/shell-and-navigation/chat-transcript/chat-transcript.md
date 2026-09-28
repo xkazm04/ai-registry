@@ -224,4 +224,5 @@ passes through.
 - [composer-turn-queue](./techniques/composer-turn-queue.md) — submit while
   busy is always accepted: queue, interject and cancel as three distinct
   intents, visible identified queue rows, follow-ups that combine into one
-  turn, drafts that survive everything.
+  turn, drafts that survive everything, a restart included — a queued prompt
+  comes back as draft text, never as a queued send.

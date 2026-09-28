@@ -1,0 +1,42 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-arb-0928",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-28T00:40:00Z",
+  "ended_at": "2026-09-28T00:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/agent-run-budgeting",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/agent-operations/agent-run-budgeting.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/agent-run-budgeting",
+      "reason": "Stale dispatch, third send. The finding '3 techniques (design floor is 4)' was read at d93fbd78, 199 commits behind origin/main 52eaac38. There the index lists four techniques, because termination-cause-record landed in d9382ed7 (dp-arb-0927). No commit since dp-arb-0927b touches the subject. check-currency reports agent-operations at 0 expired and 0 at-risk, with no drift on this subject, and no banked lead's return condition has an event. Not idled: the subject has not had two dry passes."
+    }
+  ],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Third dispatch of this subject from d93fbd78, after dp-arb-0927 (landed) and dp-arb-0927b (declined). Worked from a detached worktree of origin/main 52eaac38. Only a dated subject-note paragraph was added."
+}

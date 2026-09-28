@@ -27,10 +27,18 @@ actually executed). They differ during normal operation and diverge badly during
 failure that brought the operator here: a peer that received entries it never
 applied, a leader that committed entries a follower never received.
 
-The rule: **when choosing a repair source, compare peers by their applied index,
-because the applied index is the only one that names state the peer's storage
-actually holds; a peer with the highest last-log index may hold entries it will
-never apply, and restoring from it restores a promise, not a state.** The number that
+The rule: **when choosing the one peer a storage repair will run from, compare peers
+by their applied index, because the applied index is the only one that names state
+the peer's storage actually holds.** The rule has a cost that the record must carry.
+A peer's log can run past its applied index with entries a quorum had already
+committed. Setting that peer aside discards those entries. They are not merely
+promised: a forced single-voter recovery commits every entry in the chosen log. So
+the record names every peer's last log index next to its applied index, and any
+entries the choice discards. The rule is also for the single-source repair only.
+Where the recovery keeps every surviving peer and rewrites their membership, no node
+is chosen: the consensus layer's own election rule (last log term, then last log
+index) decides whose log survives, and overriding it by applied index would discard
+committed entries for no gain. The number that
 travels into the runbook - "node two, index 41,873" - carries its predicate with it
 ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)); an index
 recorded without saying which index is the specific number that gets reused for a
@@ -104,8 +112,8 @@ restore committed.
 ## The record
 
 The decision is recorded where the next operator finds it: which peer or which
-snapshot was chosen, the applied index it was chosen at, the indices the other peers
-reported, and whether the sealing check passed or was overridden. A repair that
+snapshot was chosen, the applied index it was chosen at, the applied and last log
+indices the other peers reported (and so the entries the choice discarded), and whether the sealing check passed or was overridden. A repair that
 leaves no record of why node two was chosen leaves the next incident's operator
 re-deriving the choice from memory - and the choice is one that, made wrong, discards
 the entries the cluster had that no other copy holds.

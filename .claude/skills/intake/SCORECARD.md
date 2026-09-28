@@ -4713,6 +4713,72 @@ measurement and which is an artifact of asking the wrong question.
    signal.** One of the memory lane's four open questions is already landed in
    `recall-injection` with a measurement. Reference material ages like a
    citation and carries no `verified_on`; the other three were not checked.
+| 2.13.0 | 2026-09-23 | `github:affaan-m/ECC@bf70150e` - an agent-harness distribution system shipping skills, rules, commands, hooks and memory into ~15 coding harnesses and ~10 locales | 1 repository. **Ingest returned 12,231 words; the tree holds 434,029** - a 34x ratio, and the landing page is the one file written to be quoted. Swept operating docs, then the 13 schemas and CI checkers, then the measurement, README last. **0 of 3 fetches** | 14 | 8 verified in full (2 accepted + 6 catches, every one opened by the director rather than inferred from a report) | **1 technique + 1 amendment + 1 correction** (no application: the `(node, catalog-as-sync-key)` slot is held by a different tree and an invented stack was refused by the gate - measurement lives in the applied ledger and the amendment) | 1 row (`1c/0e/0s/0t/0r`), verdict `better` | 1 (ai-registry, in-tree, pathspec, not pushed) | **Expected yield said out loud first (low content / high catches) and it held: 6 of 14 are catches and the corpus is sharper than the source in most - including the source's flagship design, which `host-contract-compilation` already models down to the rejected alternative and the instruction-only tier.** The headline landing **refutes a standing corpus sentence** rather than filling a hole | S0/T1/A1/Asrc0/app0/code~40L · routing count **at most 1 NONE per system across 5 systems, written before the decision** → stay in intake, **no forge handoff** · auto=2/3/0 fp=0 · directions=n/a |
+
+## 2026-09-23 - ECC (the corpus said the hole was not closable)
+
+**Weakest stage across the last ten rows: still `extract`, for the seventh run
+running - but this run says something the previous six did not, and it is worth
+separating from the "aim the hunt" reading they converged on.** Those runs found
+that the fleet seam out-originated the source. This one found the corpus's own
+*prose* out-originating both: the landing came from a sentence in a mature
+technique that declared a question closed. `chokepoint-tag-registry` said a
+negative-space source match "is not a fixable weakness of the technique; it is
+the boundary of what a source scan can claim," and that sentence is what turned a
+CI test into a technique. Without it the gate reads as competent plumbing; with
+it, the gate is a counterexample.
+
+That generalises into an instrument the enumeration hunt does not currently
+carry. The hunt looks for a document **declaring its own completeness** - "the
+three cases", "both flows". This run's target was different in kind: a document
+declaring **impossibility**. An enumeration invites the question *what is the
+fourth?*; an impossibility claim invites *has anyone done it anyway?*, and the
+second question is cheaper, because a single working counterexample settles it
+while a missing enumeration member has to be argued. A mature corpus accumulates
+these - they are how a careful author closes a section honestly - and every one
+is a standing bet against the field.
+
+**The apply count is 1 and that is the right number, not a shortfall.** The one
+row is `code` with a shipped fix and a floor that rejected the first repair; the
+scorecard's depth column exists precisely so that one measured landing does not
+score below three simulations. What the floor did is the transferable part: the
+naive fix moved the target and silently destroyed 120 records' worth of signal,
+and only a *predeclared* floor caught it, because the destruction looked like
+success from the target's side.
+
+**Next run's declared focus.**
+1. **Hunt impossibility claims, not only enumerations.** Grep the target subject
+   for "cannot", "is not possible", "no way to", "the boundary of what X can
+   claim", "unfixable", "inherent". Each is a closed question a source may have
+   reopened, and unlike a missing enumeration member it is settled by one
+   counterexample. Run it before scoring the table.
+2. **Ask what a gate does NOT assert, not what it asserts.** This run's second
+   landing came from noticing that the digest guard tested four insensitivity
+   properties and zero injectivity properties - a guard built entirely of
+   "ignores what it should ignore" passes a function mapping everything to a
+   constant. The general move: read a checker's assertion list as an enumeration
+   and ask which direction of its property is missing.
+3. **Declare the floor before the fix, and expect the first fix to fail it.** The
+   floor was not a formality here; it rejected a repair that had already moved the
+   target, and the failure mode was invisible from the target's side. A run that
+   names the floor only when writing the row has already lost the chance to be
+   corrected by it.
+4. **When a source and the corpus disagree about a design, check whether the
+   source is the control rather than the subject.** ECC's strongest contribution
+   was not its good gate but the *pair*: the same class of check written with and
+   without one discipline, in one tree, with a 32-file leak measuring the
+   difference. A repository that does something twice, unevenly, is a natural
+   experiment, and that is worth more than one that does it well.
+
+| 2.13.0 | 2026-09-24 | `web:addyo.substack.com/p/how-modern-browsers-work` - a browser-internals explainer, plus an operator dispatch: the golden path for model-authored explainer animations in five art styles | 1 article (12,570 words, prose; the "animations" were 11 static images) + 1 research worker (11 web calls, operator budget). **0 of 3 source fetches** | 12 | 4 verified in full (2 accepted, both neighbours opened; 2 catches opened) + 5 skins rendered at 7 beats each | **1 technique + 1 amendment + 1 application** | 2 rows (`2c/0e/0s/0t/0r`), both `better`, ab-paired | 2 (personas-web `f0b9816`, `11601e0`, pathspec, not pushed) | **Expected yield said out loud first (low content / high catches) and it held for the prose.** Both landings came from the source's static filmstrip and the operator's question. Declared focus (floor before fix) applied: both fixes declared the no-preference floor first, and both floors held | S0/T1/A1/Asrc0/code~70L · no design record (article), routing count n/a · auto=2/2/1 fp=0 · directions=n/a · XL page-load subject escalated, not dispatched |
+
+**Next run's declared focus.** The seam hunt was again the strongest stage: the
+second defect (every route blank for reduced-motion visitors) came from a
+screenshot taken to check the first fix, not from the source. **When a fix is
+verified by eye, take the capture under the same condition the fix targets and
+distrust a blank.** The blank frame found a site-wide defect that two earlier
+reduced-motion passes over this tree had missed, because those passes read the
+code and never looked at the page.
 
 | 2.13.0 | 2026-09-22 | `youtube:-4B8_TjUlcQ` ai-shorts-full-guide | 1 video, 2,311 words; **1 of 3 fetches** (the platform's own synthetic-content disclosure policy); 9 corpus files opened; 2 fleet trees read (gravitone, systedo-case) | 15 | 8 verified by opening their homes (1 accepted + 6 catches + 1 contradicted-and-banked) | **1 technique + 1 application** (golden path: 1 carrier added, 2 sentences corrected so they stay true) | 1 row (`0c/1e/0s/0t/0r`), `not-better` | 1 (gravitone `e40e9f1`, an applied row, no code) | Expected yield said before the table and it held: the finding sat in the demo's proudest segment. It landed on **cross-run convergence**: a banked 2026-09-08 lead's return condition fired. Ship has no code because the seam's precondition was absent by construction (0 of 82 literals). Admission `auto=1/7/0`, `fp=0`. Declared focus mostly n/a: a video has no design record and no routing count. Point 3's spirit applied, since a banked lead was re-checked against its condition before use | S0/T1/A0/Asrc0/task0 · routing n/a (video) · directions=n/a |
 | 2.13.0 | 2026-09-22 | `https://mimo.xiaomi.com/mimo-v2-6` mimo-v2-6 - open-weight release + operator question "can local models compete in our media/coding stack" | 1 web page, **client-rendered: ingest 3 words, WebFetch empty**; read via HF org page + 2 model cards + GGUF listing + 2 searches (5 fetches, budget waived as the extraction); 3 local models loaded and placement read back | 8 | 4 verified (1 accepted by opening the golden path + 2 techniques; 3 catches opened) | **1 technique** + 1 handoff plan | 1 row (`0c/1e/0s/0t/0r`), `unmeasurable` with the instrument named | 0 - the plan needs an ~11 GB download, which is the operator's call (a speculative pull was removed before) | **The dispatch's half beat the source's half.** A release page yields currency; the landing came from screening the release against this machine and then measuring the incumbents, where the "what drifts" enumeration in the benchmark golden path turned out to have no member for self-hosted placement. Last run's focus item 1 (the formula hunt) applied directly: "resident memory" sat in a bake-off step as a unit with no model. `auto=1/0/0 fp=0` | S0/T1/A0/Asrc0/task-lines 0 · routing count n/a (no repository, no design record) · directions=n/a |

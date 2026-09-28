@@ -1,0 +1,59 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-hpdt-0928c",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T11:05:00Z",
+  "ended_at": "2026-09-28T11:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/hiring-policy-defaults-and-tiering",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "hiring-policy-defaults-and-tiering",
+      "technique": "organisation-baseline-with-a-team-override",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--organisation-baseline-with-a-team-override.md",
+    "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/react--organisation-baseline-with-a-team-override.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/hiring-policy-defaults-and-tiering.md"
+  ],
+  "commits": [
+    {
+      "sha": "9f45f34e",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Third stale dispatch (250 behind origin). A banked return condition fired (board released kp): 09-26 auto-reject defect fixed in kp e60c63be7, map c39dc91a6, kp local main, NOT pushed (101 ahead/3 behind, sibling commits). No research lanes."
+}

@@ -49,7 +49,13 @@ custody the operator wants to be the ordinary one, and the rest is what
 happens when the ordinary one is gone.
 
 The two-seal form, one automatic seal with a threshold seal behind it, is the
-common deployment and it is a strict subset of the N-seal form. When a design
+form most often proposed, and it is a strict subset of the N-seal form. It is
+not yet a shipped one. The one plural seal that has landed in a product
+(checked 2026-09-26) accepts automatic seals only, refuses to mix a threshold
+seal into the set, and caps the set at three. The automatic-plus-threshold pair
+exists as an accepted design. So a design that needs a human-held break-glass
+beside a key service is designing ahead of the products, and it should expect
+to own that walk itself. When a design
 special-cases two seals, a primary and a fallback with their own two code
 paths, the third seal (a second region, a second provider, a hardware module)
 arrives with a rewrite. Build the list and the walk from the start; two is a
@@ -74,6 +80,17 @@ The naive reading is that more seals means more resilience. It means more
 resilience against loss and less against theft, and the operator who adds a
 static key from the environment as a convenience seal beside a hardware
 module has reduced the module's custody to the environment's.
+
+The seal that sets confidentiality is the weakest one whose entry **exists**,
+not the weakest one the process is willing to use. A runtime policy that
+refuses to unseal through a weaker custody, "fail closed unless the fallback is
+opted into", changes availability and nothing else while that custody's entry
+is still being written: an attacker reads the entry, not the policy. The
+decision rule: when a custody is too weak to be trusted, do not write its
+entry. When it must exist for recovery, declare it as a seal and report it,
+because a custody governed only by a refusal branch is a custody nobody counts.
+A desktop tree that keeps its root in the OS keychain and also, on every first
+run, in a file wrapped under a secret stored beside it is the measured case.
 
 ## What the technique does not do
 
@@ -107,7 +124,19 @@ which leaves an entry that will silently fail at the next outage, the
 moment it exists for. The decision rule: when the seals can all be assumed
 online at rotation time, refuse on absence; when they cannot, because one is
 a region that may be partitioned for hours, keep the per-seal catch-up
-copies; never skip. Either way the guard that every seal is current is
+copies; never skip.
+
+The landed plural seal takes a third path, and it is both of the honest ones
+at once. Every value it wraps under the seals goes to every healthy seal.
+Values an unhealthy seal missed are recorded and re-wrapped when it returns.
+And no rotation of the data key or of the recovery key is allowed until every
+seal is healthy. That last clause couples this technique to the operation
+budget. A seal down for long enough blocks the rotation the count trigger is
+waiting to perform. So a seal outage is also a deadline, and the status that
+reports the unhealthy seal should report how much budget the active term has
+left. Wrapping under every seal also multiplies each wrapped entry's size by
+the number of seals, which can push a large value past the storage entry
+limit. That cost belongs in the choice of N. Either way the guard that every seal is current is
 visible rather than assumed ([absent-guard-is-loud](../../../_laws.md#absent-guard-is-loud)):
 the status surface reports, per seal, whether its entries name the current
 root, so a seal that would fail at the next unseal is seen before it is

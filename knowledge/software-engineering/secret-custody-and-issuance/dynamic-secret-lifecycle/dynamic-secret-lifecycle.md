@@ -50,8 +50,14 @@ is the one this subject exists to prevent: the remote user is created, the
 lease write fails because storage is read-only or full or partitioned, the
 caller receives a credential nobody will ever revoke, and the issuer has no
 record that it happened. A credential with no lease is an unreaped resource
-whose reaper was never named, and unlike a temp file it authenticates. The
-rule and its exceptions are [persist-before-provision](./techniques/persist-before-provision.md);
+whose reaper was never named, and unlike a temp file it authenticates. Many
+mature issuers create first and revoke on a failed lease write. That covers
+every failure except a crash between the two steps, and only a written-first
+record or the remote's own expiry covers the crash. So the written-first
+record is mandatory where the artifact never expires on its own. An issuer
+that also verifies its own tokens makes no remote call. The effect that can
+fail there is the handout of the plaintext, and a failed handout revokes the
+row. The rule and its exceptions are [persist-before-provision](./techniques/persist-before-provision.md);
 its generalisation to every remote mutation, not only creation, is
 [wal-per-external-side-effect](./techniques/wal-per-external-side-effect.md).
 
@@ -96,8 +102,11 @@ explicit maximum — of which the smallest wins. The naive reading takes the
 caller's number and clamps it to one ceiling; the result is a lifetime that
 depends on which endpoint the caller happened to use. The ladder is stated
 once, applied at creation and again at every renewal, capped visibly with a
-warning rather than silently, and a renewal that would carry the lease past
-its maximum is refused rather than trimmed to fit. That derivation is
+warning rather than silently. The maximum is measured from creation. A
+renewal that would cross it is trimmed to what remains, with a warning that
+says the credential is ending, and it is refused only when nothing remains.
+An issuer whose callers ignore warnings may refuse the crossing renewal
+instead, and says so. That derivation is
 [ttl-ladder-derivation](./techniques/ttl-ladder-derivation.md).
 
 ## A lease is a priced artifact; not every artifact earns one
@@ -158,7 +167,10 @@ dead letter — and this subject does not restate it.
 
 An issuer meets the bar when no code path can create a remote credential
 without first having durably written the lease or write-ahead record that
-will destroy it; when every remote expiry the issuer sets is strictly later
+will destroy it. The one exception is an artifact that expires on its own,
+where a revoke-on-failure armed before the first failing step is enough. It
+also requires that no minted token outlives a handout that failed to deliver
+it; when every remote expiry the issuer sets is strictly later
 than the lease that governs it, at creation and after every renewal; when
 revoke on an absent target is success, local revocation is recorded before
 publication is attempted, and cleanup keys on expiry-plus-buffer rather than

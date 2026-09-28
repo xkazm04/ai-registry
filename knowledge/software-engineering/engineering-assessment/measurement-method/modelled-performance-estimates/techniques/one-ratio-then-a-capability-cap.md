@@ -63,6 +63,30 @@ whichever single quantity actually expresses the question. Everything else
 that felt like it belonged in the verdict is either a cap (below) or a
 separate field.
 
+## Absolute terms go in the numerator first
+
+*(Added 2026-09-26. Two independent lanes reached it: a blind one, and one
+that read published memory arithmetic.)* The ratio is only a pure measure of
+fit if the requirement already contains every term that does **not** scale
+with the configuration:
+- the runtime's fixed context;
+- working buffers sized by the target context length or batch rather than by
+  the model;
+- the display and other tenants of a shared device.
+
+Those are absolute. A gigabyte of them is an eighth of a small pool and an
+eightieth of a large one. Leave them out and a ratio-only verdict is wrong in
+exactly the bidirectional way this technique diagnoses: tight on the small
+pool, generous on the large one. The tempting repair is an absolute-headroom
+rule beside the ratio, which is the second input the technique forbids.
+
+The repair that keeps one input is to **add the absolute terms to the
+requirement, then divide**. Required = the part that scales with the
+configuration, plus the fixed terms, at the context the user will actually
+run. A verdict that sizes the scaled part correctly and omits the fixed part
+has not got a ratio problem. It has an incomplete numerator, and the
+symptom is the one the two-input design has.
+
 ## The cap, and why it stops one tier down
 
 Capability distinctions are real: an execution path may be available but
@@ -142,6 +166,19 @@ runs one to two percent" is a constant somebody can re-derive when the
 overhead changes. "Ninety-eight percent" alone is a number that will be nudged
 in a later change by someone who does not know what it protects.
 
+*(Conditioned 2026-09-26.)* A few percent is on the aggressive side of what
+is documented for accelerator memory. Serving runtimes' published defaults
+claim about nine-tenths of the pool and leave the rest. Fitters that reserve
+absolute slack keep about a gibibyte per device back. Published sizing
+guidance allows up to a fifth for overhead beyond weights and working state.
+Two consequences:
+- An edge in the high nineties is defensible only when the numerator already
+  carries the fixed terms (above), and only with the measurement behind it
+  written beside the constant.
+- Where the slack is absolute, the edge is the **stricter** of the
+  proportional edge and "pool minus the absolute margin". The proportional
+  edge alone is too generous on a small pool.
+
 Two smaller rules ride along. **Edges are shared, not re-declared** — a tier
 computed at one threshold on one surface and a slightly different one in a
 report is one verdict disagreeing with itself. And **the ratio is published
@@ -153,6 +190,9 @@ borderline case is exactly where somebody needs to see the number.
 - **When a second continuous input is proposed, reject it and ask which
   question it answers.** If it is a different question, it is a different
   field; if it is the same question, the ratio already covers it.
+- **When the proposed input is an absolute headroom, move it into the
+  numerator.** A fixed overhead is part of what the configuration requires.
+  It is not a property of the pool to weigh beside the ratio.
 - **When a capability is missing, cap — do not demote.** One tier below the
   top, and no further.
 - **When the ratio is not computable, take the conservative tier and say

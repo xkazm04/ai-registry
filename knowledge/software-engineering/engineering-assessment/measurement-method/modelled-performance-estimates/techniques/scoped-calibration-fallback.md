@@ -54,6 +54,36 @@ The gain is not arithmetic. It is that **the diff is legible**: an entry added
 for one category moves exactly that category's estimates, and the author can
 state which readings change and be checked.
 
+## Shrink a thin entry toward the default
+
+*(Conditioned 2026-09-26. Two independent lanes reached it: a blind one, and
+one that read the multilevel-modelling literature.)* The case above for a
+keyed table is an **auditability** argument, and it holds. It is not an
+accuracy argument. A table with an unshrunk entry per category, each fitted
+from a handful of anchors, overfits. In the standard multilevel comparison,
+the cross-validated prediction error was 0.84 for one pooled estimate, 0.86
+for separate unpooled estimates and 0.79 for partial pooling. So a naive
+per-category table can do slightly *worse* than the global factor it
+replaced.
+
+The repair keeps both properties. **Shrink each entry toward the documented
+default in proportion to how few anchors it has.** In log space, the entry
+is a weighted mean of the category's own median and the default, with the
+category's weight growing with its n. A category with one anchor barely
+moves off the default; one with twenty is almost its own.
+
+The scoping rule decides which default to shrink toward. It must be the
+**fixed, reviewed default constant**, not a global mean recomputed on every
+fit. Shrink toward a live pooled mean and adding an anchor to one category
+moves the mean, and with it every other thin category. The change then
+touches readings nobody named, which is the unreviewable diff this technique
+exists to prevent. The default is re-fitted on its own, as its own reviewed
+change.
+
+Publish each entry's n beside it, and set a minimum n below which an estimate
+may not claim the calibrated rung at all. An entry fitted from one anchor is
+a default with an anecdote attached.
+
 ## The fallback's error is a signal, not a bug
 
 A table has a fallback — a heuristic keyed on something coarse, or a default
@@ -179,6 +209,8 @@ diagnosed, at the moment they fitted the entry — is lost with them.
   the wrong rows.
 - **When a fallback fits a case badly, add the entry.** Do not tune the
   fallback; its error is the missing entry's only alarm.
+- **When an entry has few anchors, shrink it toward the fixed default.**
+  Publish its n. Never shrink toward a mean that the next fit recomputes.
 - **When collecting fitting inputs, filter on the provenance rung and on the
   regime.** Measured rungs only, from the class of configuration the
   correction applies to, both enforced in the collector.

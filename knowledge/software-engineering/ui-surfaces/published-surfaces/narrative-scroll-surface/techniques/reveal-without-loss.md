@@ -6,7 +6,7 @@ technique: reveal-without-loss
 status: forged
 laws: [gate-sees-target, deletion-is-not-repair, failure-not-empty-success]
 shared_with: []
-use_when: [sections of a page appear as the reader scrolls to them, a whole-page capture of an animated page comes out empty, an accessibility sweep of a scroll-driven page finds nothing to report, deciding whether a reveal may mount its content]
+use_when: [sections of a page appear as the reader scrolls to them, a whole-page capture of an animated page comes out empty, an accessibility sweep of a scroll-driven page finds nothing to report, deciding whether a reveal may mount its content, a printed explanatory page comes out blank below the first screen]
 ---
 
 # Reveal without loss
@@ -152,18 +152,29 @@ current position, so returning to the top returns every distant station to its
 entry state, and the walk bought nothing. The same remedy, applied to the same
 page, is now a no-op with a comment explaining why it works.
 
-Most real pages have both. So the rule is per mechanism, not per page: for a
-latching reveal, walk and return; for a scroll-bound one, observe at the
-positions where the stations peak, or observe the page's own reduced-motion
-rendering, in which nothing depends on position at all. A harness that applies
+A third mechanism looks like a latch in the code and behaves like a curve in
+the harness. A **toggling** reveal has a discrete trigger and a duration, like
+a latch, but it hides its content again when that content leaves the viewport.
+Walking the page buys nothing for it. Every block the walk revealed is hidden
+again by the time the harness is back at the top. So the question that picks
+the remedy is not continuous versus discrete. It is **whether the resolved
+state survives the content leaving the viewport**. One measured page carried
+both kinds. After a full walk and return, the latching illustration had 0 of
+its 40 cells hidden and the toggling wrapper had 15 of its 15 blocks hidden.
+
+Most real pages have more than one of these. So the rule is per mechanism, not
+per page. For a reveal that latches, walk and return. For a scroll-bound or
+toggling one, observe at the positions where the stations peak, or observe the
+page's own reduced-motion rendering, in which nothing depends on position at
+all. A harness that applies
 one remedy to a page containing both has an instrument whose stated
 justification does not cover half its target.
 
 The rules that follow:
 
 - **A capture scrolls first, and the way it scrolls matches the mechanism.**
-  Drive the page through its full scroll range for latching reveals; capture
-  per station at each station's peak for scroll-bound ones. A single
+  Drive the page through its full scroll range for reveals that latch; capture
+  per station at each station's peak for scroll-bound and toggling ones. A single
   top-of-page shot is not a capture of this surface.
 - **An audit is run at stated scroll positions**, one of which is a position
   where the scroll-dependent chrome exists. Where the harness cannot scroll,
@@ -181,8 +192,20 @@ The reduced-motion path is not a degraded mode to be tested last. It is the
 page rendered as a static composition — every station at its peak, nothing
 depending on position — and that is precisely what print, export, capture and
 the no-script reader all need. Building it well means four of the five
-never-scrolling readers are served by one code path that a reader can actually
-switch on and look at.
+never-scrolling readers can be served by one code path that a reader can
+actually switch on and look at.
+
+*Can be*, because each reader has to be routed to that path, and the
+preference routes only the reader who set it. **Print matches no motion
+preference.** It is a medium. A reader with scripts on who prints gets the
+live reveal state. Every block they have not reached is at its entry state,
+and for a toggling reveal so is every block they have left. The no-script
+reader is routed by the served frame, not by the preference. So print gets its
+own route: a print-medium rule that resolves every reveal and outranks any
+inline value the motion layer wrote. Measured on one page printed from the top
+with scripts on: before the rule, 15 of 15 revealed blocks and 40 of 40
+illustration cells printed at opacity zero. Scrolling the whole page first
+still left 15 of 15. With the rule, 0 and 0.
 
 Which is also the cheapest way to keep it honest: a path only machines
 exercise decays. A path a human can enable with one preference and see with
@@ -203,6 +226,10 @@ motion and script failure are not properties of being public.
 - A resting state that is invisible without script.
 - A served frame that is the gesture's entry state rather than its resolved
   one.
+- A print rendering left to whatever the live reveal state happens to be.
+- A served-frame fix proven on the shared wrapper and assumed for the page.
+  The check is taken on the served document, because the next island is
+  outside the wrapper.
 - Markup branched on the motion preference, the viewport or the scroll
   position.
 - A page whose served document does not contain its own argument.

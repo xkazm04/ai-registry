@@ -88,6 +88,29 @@ in six days, and no installation has ever reported consulting it. Whether that i
 
 ## Dispatched
 
+### 2026-09-26 - `/deepen` on one subject, landed
+
+- [[narrative-engine-selection]] - dispatched on "single stack (process)",
+  the clause this note declined for `/deepen` on 2026-08-28. The clause did
+  not earn the run. The subject's first counter-evidence pass did. The stack
+  flag cleared anyway, because the seam was in the studio's `next` app code
+  (the sibling's same-day finding, confirmed here). The single-tree clause
+  stands and is still `/reconcile`'s. Five golden-path
+  rules gained conditions and none was refuted outright.
+  - Density is now voice, within-writer only. The registry had dropped "and"
+    from the definition the band was counted with.
+  - The steel-man is weak evidence on its own.
+  - A settled premise staged as a candidate is false balance.
+  - The AND-THEN zero is gameable, so a non-link is spoken.
+  - Hazard now names defamation by implication and verdict levels.
+
+  Two new applications, both for fit-vs-hazard. One is process, a
+  simulation with verdict better. The other is `next`: the hazard field is
+  stored but not required and never rendered. Both old applications were
+  re-verified. Zero stale
+  verdicts, since no map joins the subject. One cross-subject proposal
+  banked for [[creator-voice-and-tone]]: the same density claim.
+
 ### 2026-08-28 - one worker, landed
 
 - [[generated-output-grading]] - the banked proposal adjudicated as an
@@ -166,3 +189,40 @@ diagonal placement value and the wide-shot light-layer rule with a dojo applicat
 character-identity-continuity, frame-direction (jump quota), generative-provider-routing
 (pending the local-tier experiment), visual-style-locking (three), image-prompt-composition.
 The bundle does not declare `next` as a stack, so a tree on that framework binds as `node`.
+
+## 2026-09-26 - deepen, short-form-narrative-structure
+
+Dispatched on the single-stack clause the 2026-08-27 sweep declined. The second
+stack was in the one joined tree all along: its code (`next`), not its doctrine.
+One application landed with a code apply in the tree, five conditions and two
+evidence notes landed across the golden path and three techniques, both
+`process` applications re-resolved. Points 5 -> 3; "never swept" remains, and
+the single-*tree* clause stands - `systedo-case` has no script seam. Detail in
+[[short-form-narrative-structure]]. The other three process-only narrative
+subjects likely have the same second stack in the same tree's script step.
+
+## 2026-09-26 - deepen, platform-format-adaptation
+
+Dispatched on the same single-stack clause. The second stack was a second *tree*:
+`systedo-case`'s social composer enforces a platform-limit table with no
+provenance, the technique's ceiling-vs-band conflation transplanted to text
+posts. Two golden-path rules flipped. The muted majority was 2016 Facebook-feed
+data and is now keyed to the surface. The "did you know" ban was an absence at
+n=3 that the source tree itself had labelled a preference. One amendment settles
+the 2026-09-22 intake's untriaged row 1: say how the sample was drawn. The
+platform table was re-dated, with a 2027 YouTube Partner Program correction.
+Points 5 -> 3; "never swept" remains. Detail in [[platform-format-adaptation]].
+Two of the four process-only narrative subjects are now through; the other two
+are `creator-voice-and-tone` and `narrative-engine-selection`.
+
+## 2026-09-27 - deepen, live-system-demo-film
+
+Dispatched on "single stack (node)"; the event behind it was `check-currency` drift on
+both applications (`node@22` against a fleet on 24). Drift cleared by a re-read at the
+source tree's HEAD plus a node 24 typecheck; the second stack is `go`, a public terminal
+recorder whose rendered-grid `Wait` converges with the subject's strongest rule and whose
+fail-fast policy gave the carry-on rule its economic condition. The bundle now declares
+`go`. "Measured" gained its condition on known-ground-truth MP3 fixtures (n=4), and the
+unsourced 10-15% pause figure was labelled folklore. Map not regenerated: both joined
+projects carried a sibling's uncommitted rebuild; joins are unjudged, so nothing went
+stale. Points 5 -> 3. Detail in [[live-system-demo-film]].

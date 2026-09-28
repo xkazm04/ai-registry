@@ -25,7 +25,9 @@ those words, and shows the candidate what it is worth. A checklist that lists "p
 or thesis" beside "phone number" with equal visual standing is telling the applicant
 those items are comparable. Weight the artifact item at roughly twice any other single
 completeness item, label it plainly as the strongest thing they can add, and put it
-first. This costs nothing and changes what arrives.
+first. This costs nothing and changes what arrives. The factor is a design heuristic
+about what the prompt should signal, not a validity estimate; no study has measured
+portfolios against job performance.
 
 **In weighting.** An artifact with a real description enters at the tier its provenance
 earns — evidence of doing, not of claiming — and it outranks every self-description of
@@ -56,6 +58,10 @@ verify and say so, rather than pricing a signal you do not inspect.
 An artifact is the best evidence the *file* can hold, but it is not the ceiling. The
 strongest evidence available to a person with no history is capability observed
 directly — a work sample submitted and examined, a skill demonstrated live and quoted.
+"Strongest" is a statement about provenance, not about predictive validity: work
+samples sit mid-table among selection methods (near .33 after the 2022 re-estimate)
+and show ethnic score gaps near d = .7. So a structured, scored exercise earns the
+top rung, and its subgroup gaps are checked like any instrument's.
 Where your evidence hierarchy allows observation to reach the top rung, an early-career
 candidate has a route to full credit that does not run through employment; where it does
 not, the population is capped no matter how the rubric is tuned.

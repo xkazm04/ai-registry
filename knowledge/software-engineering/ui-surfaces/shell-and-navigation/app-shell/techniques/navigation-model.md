@@ -115,6 +115,45 @@ transition class — what is *history-worthy*:
 - Intra-page state changes (a filter, a sort) are the page's business unless
   the product promises addressable filters.
 
+What counts as a move is decided by what the user *perceives*, not by what the
+code calls a navigation. A switch that replaces most of the viewport reads as a
+new page whether or not the address changed, and the user reaches for Back
+accordingly.
+
+**The back gesture belongs to whoever draws it, and that decides the rule.**
+The first bullet above is a browser-and-desktop convention, not a universal:
+
+- **Inside a browser tab**, the browser owns Back. The model's history *is* the
+  browser's history, so each history-worthy move has to become a browser entry.
+  A shell that keeps its location in its own state can still do that: write an
+  entry that carries the location in the entry's state and leaves the address
+  alone, then restore the location from that state when the user traverses.
+  Otherwise Back does not step between sections. It leaves the application.
+  A location held in an entry's state lasts only as long as every writer that
+  replaces that entry carries it forward. A cleanup that rewrites the address
+  with empty state, or a framework replace that keeps only its own keys,
+  silently erases it, so the navigate door passes the entry's existing state
+  on and nothing else replaces entries directly.
+  A private stack kept beside the browser's is a second history, and the
+  browser's Back button never consults it.
+- **With no browser chrome** (a desktop webview, an embedded host), nothing
+  owns Back until the shell does. It keeps its own engine over location values
+  and binds the platform's back inputs to it (mouse side buttons, the system
+  chord).
+- **On mobile platforms whose convention says otherwise**, follow the
+  platform. Some platforms' guidance says outright that Back does not move
+  between top-level destinations. Back unwinds the current destination's own
+  stack, then leaves, and each top-level destination keeps its own stack for
+  when the user returns. Pushing a history entry for every section switch there
+  breaks the platform's contract.
+
+Two promises that are often bundled can be separated. *Back steps through
+destinations* and *the address names the current location* can be bought
+independently. A state-held location can have the first without the second, and
+a shell can also have an address that only receives arrivals and has neither.
+Whichever of the two a shell declines, it says so where the navigate door is
+written. The failure is declining one silently.
+
 ## Restoring the user's session
 
 A returning user resumes, not restarts. Two scopes, both explicit:
@@ -139,6 +178,7 @@ link path — they should in fact *be* the same path.
 3. Positions and labels are never used as identities.
 4. A deep link or restored location is never trusted without validation
    against the current vocabulary and policy.
-5. A redirect never pushes history.
+5. A redirect never pushes history, and no shell keeps a history the host's
+   back gesture does not consult.
 6. Removing a section from the vocabulary always includes a fallback for
    addresses and persisted locations that still name it.

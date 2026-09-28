@@ -24,6 +24,14 @@ professional practice in most of the roles that run work samples. A hiring
 process that penalises it is not screening for integrity, it is screening for
 candidates who work the way the panel worked three years ago.
 
+That holds where the assessment permits model use, and employers now differ:
+some expect candidates to use assistants in technical interviews, others forbid
+them in take-homes. State the policy for each assessment, in the brief, before
+anything is read against it; the wording belongs to the work-sample design
+subject. Where use is forbidden, the question becomes one of compliance, and it
+hits the same wall: no instrument answers it, and the canary and the
+conversation still measure what the role needs.
+
 The question a principal practitioner asks instead splits in two, and the split
 is the whole subject:
 
@@ -48,17 +56,37 @@ Detectors built on fluency and predictability statistics flag writing that is
 regular, conventional and low-perplexity. That is exactly the profile of a
 competent writer working in a second or third language, of somebody writing in
 a house style they were trained into, of a technical writer taught to be plain,
-and of anybody who has been coached to write simply. Published evaluations have
-repeatedly found false-positive rates near 60% on essays by non-native writers
-of the assessment language while the same detectors were near-perfect on native
-schoolchildren's essays; broader later replications put the gap lower but still
-above 20%, and multi-detector audits across sixteen tools have found none that
-was uniformly fair across language background and ethnicity. Litigation and
-regulator attention have followed, which is the predictable end state.
+and of anybody who has been coached to write simply. A 2023 evaluation of seven
+such detectors flagged 61% of short essays by non-native writers of the
+assessment language as machine-written, while the same detectors were
+near-perfect on native schoolchildren's essays.
+
+That figure did not generalise, and how it failed to generalise is the point:
+the bias belongs to each detector, not to detection. A 2026 replication in
+another language found no systematic bias across three detector families. A
+2026 study of thirteen detectors on human-written academic prose found
+false-positive rates anywhere from 0% to 100%. An audit of sixteen systems found
+the biases inconsistent across systems, with essays by non-white language
+learners flagged disproportionately. So the honest statement is not that every
+detector discriminates. It is that no detector can be assumed fair on your
+candidates and your kind of text until it has been tested there, and take-home
+code and technical write-ups are not what detectors are evaluated on.
+
+Two defects survive a detector that tests fair. It measures the wrong construct:
+where the process permits model use, "was a model involved" is not a question
+the decision may rest on. And it punishes honest use. A 2026 evaluation found
+light, permitted model editing flagged 38-80% of the time, while text passed
+through a paraphrasing evasion tool was flagged under 4%. In a permitted-use
+process, a detector sanctions the honest candidate and clears the evasive one.
+Legal attention so far has landed on a detector vendor's advertised accuracy
+(consumer-protection enforcement) and on student discipline, where courts have
+ruled on the process followed rather than on whether a detector is valid. No
+employment case had surfaced by 2026-09.
 
 Read that as a hiring instrument rather than a research result. A detector with
-an error rate that varies by language background is a proxy for national
-origin. Wiring it to an adverse outcome is not "using a tool with known
+an error rate that varies by language background — and you cannot know that
+yours does not until you have measured it on your own candidates — is a proxy
+for national origin. Wiring it to an adverse outcome is not "using a tool with known
 limitations"; it is building a selection procedure whose failure mode falls on
 a protected group. The size of the false-positive rate is a second-order
 detail. **The unevenness is the defect.** A detector that was wrong 30% of the
@@ -140,7 +168,13 @@ deterministic scorer reading those signals will rank that candidate alongside
 honest ones. The instruments that resist fabrication are the ones anchored to
 the artifact and to the specific case: the canary verdict, distance from the
 frozen baseline, and a live conversation in which a human asks the candidate
-why (observed-process-is-supporting-not-load-bearing).
+why (observed-process-is-supporting-not-load-bearing). The conversation now
+carries a condition of its own. A remote one can be assisted in real time by an
+overlay the interviewer never sees, or held by somebody other than the person
+who submitted. It keeps its strength when its questions ask the candidate to
+change their own artifact under a new constraint, when the person in it is bound
+to the person who submitted, and when every candidate who reaches the stage has
+one, not only those a process signal flagged.
 
 This ordering has a design consequence. Never let a process signal alone move a
 candidate across a decision boundary, and never let its *absence* be read as
@@ -216,9 +250,16 @@ matters for the role — not a black-box risk score. Two rules keep such a
 schedule from becoming a detector by another name. First, no line may be
 triggered by model use, model style, or fluency; every line must name an
 artifact-anchored behaviour. Second, a submission produced under live
-observation waives the process-derived lines entirely: you watched, so the
-inference those lines substitute for is unnecessary, and running them anyway
-double-counts.
+observation waives the lines that observation makes unavailable: you watched,
+so the inference those lines substitute for is unnecessary, and watched work
+cannot produce a commit history to be scored against. The waiver follows
+derivation, not names. An iteration pattern or a read-before-write ratio
+inferred from the absent history is waived with it, because an inference handed
+an empty history still answers, and usually answers "one enormous change". What
+the waiver must not cover is the signal observation makes sharper. A large
+insertion into the watched surface is witnessed, not inferred, so it stays on.
+Waiving everything scores a pasted solution as the cleanest record in the
+cohort.
 
 ## What is out of scope, and who owns it
 

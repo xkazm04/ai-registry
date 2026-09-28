@@ -37,12 +37,22 @@ confidence is not implementable.
    first, then assign numbers consistent with that ordering.
 3. **Set a single low-confidence review threshold, published in the same declaration as
    the weights.** One number, one place, legible to the people accountable for it. A
-   threshold that lives in code is a behaviour, not a policy.
-4. **Assert the two ordering invariants at load.** The unguided-default confidence sits
+   threshold that lives in code is a behaviour, not a policy. **Derive it, do not pick
+   it.** Walk a labelled sample of real routings. For each candidate threshold, read the
+   error rate among the routings above it against the share it sends to review, and
+   publish the chosen number with its measured error. The score does not need to be a
+   calibrated probability, since a reject threshold only needs a score that ranks right
+   answers above wrong ones. But a bare number nobody measured is the decoration this
+   technique exists to replace.
+4. **Assert the three ordering invariants.** The unguided-default confidence sits
    strictly below the review threshold, so a routing that no evidence produced always
-   trips review; the declaration tier sits above it, so answering the question buys the
-   candidate something. Both are checkable properties of the configuration, and both are
-   the kind of thing a well-meaning retune breaks without noticing.
+   trips review. The declaration tier sits above the threshold, so answering the
+   question buys the candidate something. And no inference path can reach the
+   declaration tier. The first two are properties of the configuration and belong in the
+   loader. The third is a property of the formula: a winner's share of mass reads 1.0 on
+   a single uncontradicted signal. Pin it with a test that routes one-signal profiles and
+   asserts they land below the declaration tier. All three are the kind of thing a
+   well-meaning retune breaks without noticing.
 5. **Place the threshold between the inference tiers and the declaration tier**, so a
    document-derived classification for a marginal career lands under review while a
    candidate's own statement does not. Getting this wrong in either direction is
@@ -61,8 +71,12 @@ confidence is not implementable.
    ([absence of evidence is not evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)).
 9. **Monitor the distribution, not just the individual values.** The share of routings
    below the threshold is a health metric for the classifier. A rising share means the
-   population has shifted or the signal table has gone stale, and it is the earliest
-   warning you get.
+   population has shifted or the signal table has gone stale. It is an output-side
+   warning and not the earliest one. When an upstream extractor changes what a signal
+   *means*, the confidence distribution can stay flat while routings go wrong, because
+   classifiers stay confident under shift. Pair it with a check on the input signals'
+   own distribution, and with a periodic labelled audit of routings that were
+   *confidently* auto-routed. Nothing else looks at those.
 
 ## Decision rules
 
@@ -81,10 +95,21 @@ confidence is not implementable.
   a self-reported certainty is evidence about the model, not about the person, and it
   must not be rendered in the visual grammar reserved for measurement — no score band,
   no percentage badge that reads like an assessment of the candidate.
-- **When you are asked to raise the threshold because the queue is too big, do not.**
-  The queue size is a statement about the classifier or about intake volume; moving the
-  threshold changes only who stops being looked at. Fix the signal table, add the intake
-  question, or staff the queue.
+- **When you are asked to lower the threshold because the queue is too big, do not do
+  it quietly.** Lowering is the direction that shrinks a below-threshold queue. The
+  queue size is a statement about the classifier or about intake volume, and moving
+  the threshold changes only who stops being looked at. But "never" is the wrong answer
+  too. A queue larger than the reviewers can read is not oversight. Workload is a
+  measured driver of automation bias, and an overloaded reviewer rubber-stamps. Treat
+  reviewer capacity as an input. Fix the signal table, add the intake question, or staff
+  the queue first. If none of that closes the gap, re-derive the threshold from the
+  labelled sample at the coverage the team can actually read, and publish the error rate
+  that buys.
+- **When a routing goes to review, show the reviewer the signals, not the verdict.**
+  A reviewer who sees the machine's class first tends to confirm it, and more strongly
+  when the class fits a stereotype. Present what fired, what contradicted, and what is
+  missing. Record the reviewer's own reading before the machine's class is revealed. A
+  near-zero override rate is evidence about the review, not about the classifier.
 - **When two archetypes tie exactly, a deterministic tiebreak is fine for the class and
   fatal for the confidence.** Break the tie by a stable declaration order rather than by
   whatever the runtime's ordering happens to be — reproducibility matters — but the

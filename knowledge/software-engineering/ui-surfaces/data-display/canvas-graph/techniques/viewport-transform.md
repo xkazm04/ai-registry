@@ -111,7 +111,13 @@ populated canvas. The contract:
   (coalescing intermediate events), or once at gesture end for the cheapest
   correct variant. The committed state is the truth: culling, minimaps,
   persistence, and anything else reading the viewport read *state*, not the
-  element.
+  element. **The cadence is a means, and the invariant is who subscribes.**
+  A store that takes every gesture event can still hold the budget if the
+  only readers of the viewport are the container and whatever is throttled
+  on its own (culling, a minimap), and no node reads it. Mature editors do
+  exactly this. The per-frame commit protects a tree where that isolation is
+  not guaranteed. It is not a substitute for the isolation, and a codebase
+  that has the isolation may skip it.
 - **The gesture path is a loan, always repaid.** At commit, element and state
   agree exactly. Nothing outside the gesture handler ever reads the element's
   transform back — if the element is the only place a value lives, the

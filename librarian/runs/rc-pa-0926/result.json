@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-pa-0926",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T08:00:00Z",
+  "ended_at": "2026-09-26T08:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/prompt-assembly",
+      "at": "2026-09-26",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 1,
+      "points_after": 1
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/prompt-assembly",
+      "reason": "Sixth dispatch on the premise that rc-pa-0925 through rc-pa-0925e already declined. The dispatching checkout (95724401) is 58 commits behind origin/main (f7136ee2) and 1 ahead. Re-read at origin: python--amortized-compaction-cadence is the only one of 25 applications with a refresh_by, and it reads 2026-11-05, 40 days out and outside the 30-day window. Locally it still reads 2026-10-15. No single-source debt: 25 applications on 5 stacks."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "No work. Nothing has changed since rc-pa-0925e except that the primary checkout fell eight more commits behind origin. It is still diverged by the unpushed kit 0.2.0 commit (95724401) and carries sibling uncommitted edits to skills/contest, which origin has also moved, so this run did not merge or push that commit on its owner's behalf. The loop ends when that commit's owner syncs the checkout, or when the attention scan reads origin/main. Written from an origin worktree."
+}

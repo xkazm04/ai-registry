@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: quorum-and-recovery-procedures
 status: forged
-use_when: [rotating a cluster's own root material by threshold shares, a cluster cannot form a quorum and must be operated anyway, moving a store's contents offline between backends, restoring a snapshot into a peer set]
+use_when: [rotating a cluster's own root material by threshold shares, a cluster cannot form a quorum and must be operated anyway, moving a store's contents offline between backends, restoring a snapshot into a peer set, rotating an application's own at-rest master secret]
 techniques:
   - nonce-progress-verify
   - cancel-leaves-prior-state-valid
@@ -52,7 +52,13 @@ an attempt that was cancelled last week is refused by construction, not by a hum
 noticing. The [nonce-progress-verify](./techniques/nonce-progress-verify.md) technique
 carries the state machine, including its most important edge - the new material is not
 valid until a verification round has been completed *with the new shares*, and the old
-material stays valid until then.
+material stays valid until then. That is a design to ask for: the reference
+implementations verify only when the init requests it. With one participant the nonce
+is overhead, but the retirement edge still holds, and it gains a scope. The verification that retires the
+old material covers everything that material still vouches for: signatures it keyed,
+tokens it issued, backups cut under it. Covering only the ciphertexts the rotation
+rewrote is not enough. A rotation that proves only what it rewrote reports done while
+every outstanding signature turns into a forgery verdict.
 
 **Abandoning is free at every step.** Cancel discards all partial progress. Sealing the
 system mid-ritual discards it. Restarting the process discards it. A stale in-progress
@@ -68,13 +74,23 @@ a corrupted destination. The lock lives in the *source* because the source is th
 store both migrators are guaranteed to open; reserved keys that describe the source's
 own state are never copied; and the serving process, seeing the lock at boot, refuses
 to start rather than serve a store that is being drained
-([migration-lock-in-source](./techniques/migration-lock-in-source.md)).
+([migration-lock-in-source](./techniques/migration-lock-in-source.md)). The condition is
+a copy *between* stores. A tool that rewrites one live store in place, such as
+re-encrypting its secrets under a rotated key, needs neither the reserved lock nor the
+stopped server. It still needs a single writer, and the store's own write transaction is
+that writer: the read and the write-back sit inside it, or the write-back
+compares-and-sets the value read. A pass that reads now and writes later silently
+reverts whatever the server committed in between.
 
-**Recovery shrinks the cluster to one node, and growing it back is part of the
-procedure.** When no quorum can form, the operator runs one node in a mode that reads
-raw storage and serves nothing but repair endpoints. The credential for that mode is
-minted like a root credential - by the same threshold ritual - but never persisted:
-restarting the recovery process means regenerating it. Exit is not "restart normally";
+**Storage recovery shrinks the cluster to one node, and growing it back is part of the
+procedure.** Plain quorum loss among healthy survivors is not this case. There the
+documented last resort rewrites the survivors' membership and lets them elect as usual,
+committing their whole logs. When storage itself must be repaired and no quorum can
+form, the operator runs one node in a mode that reads raw storage and serves nothing
+but repair endpoints. The credential for that mode is
+minted like a root credential - by the same threshold ritual - but never persisted,
+and minted once per process: a lost one is replaced only by restarting the recovery
+process and running the ritual again. Exit is not "restart normally";
 exit is reforming the peer set from the repaired node
 ([single-node-recovery-resize](./techniques/single-node-recovery-resize.md)).
 
@@ -83,7 +99,10 @@ source of truth for a repair is the node with the highest *applied* log index - 
 number that carries the predicate "durably applied to the state machine", not
 "accepted into the log" or "the highest anyone has heard of" - and it is read while
 every node is sealed so that no election can advance it between the reading and the
-decision. A snapshot cut under a different sealing configuration is refused without an
+decision. That choice can discard entries a quorum had committed but the chosen peer had
+not applied yet, so the record carries every peer's last log index beside its applied
+index. The rule is for the repair that runs from one peer; a membership rewrite that
+keeps every survivor leaves the choice to the election rule. A snapshot cut under a different sealing configuration is refused without an
 explicit override, because installing it produces a store nobody present can open
 ([pick-highest-applied-index](./techniques/pick-highest-applied-index.md)).
 
@@ -157,7 +176,9 @@ lost; every contribution names the attempt it belongs to and is refused against 
 other; the new material is never valid before the old material is still valid, and
 never valid without a verification round performed with the new shares; every
 mutating ritual endpoint is authenticated and privilege-gated; offline migration
-cannot run twice and cannot run beside the server; recovery mode issues a credential
+cannot run twice and cannot run beside the server, and an in-place rewrite of a live
+store reads and writes inside that store's own write transaction; old material retires
+only after checking everything it still vouches for; recovery mode issues a credential
 that dies with the process and ends with the peer set reformed; and a restore names
 the source it chose, the index it chose it by, and the sealing configuration it was
 checked against. An operator who has never seen the system should be able to read the

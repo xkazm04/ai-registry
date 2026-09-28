@@ -1,0 +1,101 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-dnd-0926",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-26T13:30:00Z",
+  "ended_at": "2026-09-26T13:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/drag-drop",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 5,
+      "points_after": 3
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/drag-drop",
+      "technique": "cross-surface-handoff",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/drag-drop",
+      "technique": "drag-drop",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/drag-drop",
+      "technique": "keyboard-alternatives",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/drag-drop.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/techniques/cross-surface-handoff.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/techniques/keyboard-alternatives.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/rust--cross-surface-handoff.md",
+    "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop/applications/react--keyboard-alternatives.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/drag-drop.md"
+  ],
+  "commits": [
+    {
+      "sha": "3052f94c",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop"
+      ]
+    },
+    {
+      "sha": "bc65ad7b",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    },
+    {
+      "sha": "8f32ef10",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/ui-surfaces/input-and-editing/drag-drop",
+        "knowledge/software-engineering/index.json",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/drag-drop",
+      "reason": "dragstart and dragend still firing under the Windows host handler: follows from the mechanism, no source observed it; the application says not observed"
+    },
+    {
+      "subject": "software-engineering/drag-drop",
+      "reason": "Electron path bridge returning empty paths on a recent macOS: one issue report, no fleet tree ships Electron"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Single stack cleared (rust, desktop host). personas host drag switch swallows in-page HTML5 drags on Windows/macOS, source-read only. goat dnd-kit items announce an unwired keyboard path. Maps committed in goat, kp, athena-everywhere; personas map owed."
+}

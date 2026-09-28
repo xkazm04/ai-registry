@@ -9,6 +9,7 @@ techniques:
   - swarm-feature-sampling
   - negative-space-generation
   - exhaustive-when-bounded
+  - proof-cost-follows-the-circuit
   - model-based-oracle
   - inside-out-invariants
   - liveness-needs-a-quiet-period
@@ -142,6 +143,12 @@ supports. [exhaustive-when-bounded](./techniques/exhaustive-when-bounded.md)
 carries the bound calculation and the escape hatch for when it comes back too
 large.
 
+When the check is symbolic, meaning a solver covers every input at once, the written bound stops being
+the cost variable: 2^512 inputs can prove in milliseconds while a 2^22 date round trip walls. Triage
+those targets by the arithmetic the property relates, calibrated on the engine that will run them, and
+send a symbolic wall with a small real domain back to enumeration
+([proof-cost-follows-the-circuit](./techniques/proof-cost-follows-the-circuit.md)).
+
 ## A generator is worth exactly as much as what checks it
 
 The last stage is the one that decides whether any of the above pays. Inputs
@@ -161,6 +168,12 @@ the only rung that catches the well-formed wrong answer, and it is the one that
 found the defect in the opening section after twenty generators had missed it.
 When that cost is justified, and how to keep the model from inheriting the
 system's bugs, is [model-based-oracle](./techniques/model-based-oracle.md).
+
+For a system that answers accept-or-reject, the model's comparison unit is the
+*reason*, not the verdict: it predicts the set of rules an input violates, the
+reported rule must be among them, and only the precedence the contract declares
+is pinned - a verdict-only comparison passes every refusal made for the wrong
+reason.
 
 The oracle question has a shape of its own when the system is a pipeline of
 stages. One end-to-end target finds the least, because a crash in an early

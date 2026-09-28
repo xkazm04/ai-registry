@@ -39,10 +39,15 @@ the recommendation rides along as content for the human who picks it up.
    sentence: the model may recommend reject; rejection is never routable; a reject
    recommendation routes to hold and parks at a human gate. The rule belongs with the
    type because that is where the next engineer will look.
-4. **Keep the recommendation intact.** Do not discard the reject recommendation when you
-   narrow the route — that is the content that makes the human's review meaningful rather
-   than a rubber stamp, and it is what the candidate's eventual reason must be checked
-   against.
+4. **Keep the recommendation intact in the record, and choose when the reviewer sees it.**
+   Do not discard the reject recommendation when you narrow the route: it is what the
+   candidate's eventual reason must be checked against, and it holds analysis the reviewer
+   may need. But showing it first anchors the review. People follow a screening tool's
+   recommendations even when they rate them as poor, and in decision-support studies an
+   explanation beside the suggestion did not reduce over-reliance. Asking the person to
+   decide first and then showing the suggestion did. So let the reviewer record their own
+   reading of the evidence, then reveal the recommendation, or show it on request. Keep
+   the step where they changed their mind as a record of what the machine moved.
 5. **Label the recommendation as inference wherever it is shown.** A model's
    recommendation, and its self-reported confidence, are evidence about the model, not
    measurements of the person
@@ -68,6 +73,13 @@ the recommendation rides along as content for the human who picks it up.
   record showing "recommended: reject, routed: hold, reason: rejection is not routable"
   is the artifact you want in the audit trail. Do not "fix" the inconsistency by
   suppressing one side.
+- **When a setting lets a workspace trust the machine's advance verdicts, it relaxes the
+  confidence narrowing and nothing else.** The route records *hold*, not why it held, and
+  the recommendation beside it is the model's own. A relaxation that acts on the
+  recommendation when the route held re-widens the vocabulary through a side door: the
+  shielded candidate the route held is advanced by the verdict the gate overrode.
+  Re-derive the shield where the relaxation acts, or carry the hold's reason on the
+  route, and let the relaxation act only on a confidence hold.
 - **When confidence is low, it may narrow the route further** — from advance to hold —
   but it may never widen it. Confidence gates the optimistic action and attaches a
   human-review marker; it has no authority over the adverse one, which does not exist.
@@ -98,10 +110,10 @@ remembering.
 
 - **Not where the model is not driving an action at all.** A summarization or extraction
   step that produces no route field needs no narrowing — it needs provenance labelling.
-- **Not as a reason to hide the recommendation from the recruiter.** Narrowing the route
-  is about authority, not about secrecy. Suppressing the model's reject recommendation
-  leaves the reviewer with less to review and pushes them toward the rubber stamp the
-  whole design exists to prevent.
+- **Not as a reason to delete the recommendation.** Narrowing the route is about
+  authority, not about secrecy. A recommendation that is recorded, and revealed after the
+  reviewer's own reading, keeps the analysis without steering the review. Deleting it
+  leaves nothing to audit the reviewer's decision against.
 - **Not as a substitute for the human queue actually being worked.** A narrow route
   guarantees that
   [no adverse outcome is solely automated](../../../../_laws.md#no-adverse-outcome-is-solely-automated)

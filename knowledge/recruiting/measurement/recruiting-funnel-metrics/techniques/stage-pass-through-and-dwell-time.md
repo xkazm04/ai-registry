@@ -57,6 +57,12 @@ The three ways it goes wrong:
   Forward-exit, rejected, withdrawn and still-here are four states, and
   pass-through is forward-exit over entries with the other three named.
 
+A cohort that has not matured has a second honest denominator: the entries that
+have *resolved* (left forward, rejected or withdrawn), with the still-here count
+beside it. That removes the freshness depression. The cost is the resolved-basis
+bias the cohort technique describes: fast exits are over-represented until the
+cohort ages.
+
 Publish pass-through as a chain only when the stages are contiguous in the
 role ordering. A "chain" containing a stage most candidates skip multiplies
 rates that never applied to the same people, and the product understates the
@@ -76,7 +82,21 @@ as a pair:
 
 A stage whose median dwell is 4 days and whose oldest occupant is at 31 days
 has a queue-discipline problem, not a speed problem, and only the pair shows
-it. This is also the metric that touches
+it.
+
+The two halves are biased in opposite directions, which is why neither stands
+alone. Completed dwell is biased *short*: the long waits have not finished yet.
+A snapshot of current occupants is biased *long*: long stays are more likely to
+be caught in any snapshot, and abandoned cards that nobody closed age forever.
+Show them as a pair, each labelled with its own population. The single
+consistent estimate is a survival curve over entries, with current occupants
+counted as censored. Exits other than forward are competing outcomes, because a
+wait that ends in a rejection is not the same wait as one that ends in an
+advance.
+
+A pair built only from the occupants (their median age and their oldest) is a
+legitimate as-of-now view of who is waiting. It is not the step's speed, and
+its label must say "waiting now", not "time in stage". This is also the metric that touches
 [a candidate's process never stalls on your constraints](../../../_laws.md#a-candidates-process-never-stalls-on-your-constraints):
 aging is not merely an efficiency signal, it is the measurable form of a
 person waiting on you.

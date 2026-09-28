@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-09-04
-touched_by: intake
+last_touched: 2026-09-23
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -499,6 +499,14 @@ Source [[../../sources/2026-09-21-claude-code-from-source]]: an 18-chapter archi
 - **The boundary against `structured-output/output-budget-signal` is in prose, not a link-and-shrug.** Both read the same measurement - response length against the ceiling - and ask opposite questions: that one asks whether the *call* is too big, this one whether the *reservation* is. A system can hold the first and still leave the second to a default, which is exactly what the applied tree does.
 - **Application (`rust--response-reservation-sizing`, applied task, not-better).** The target tree already sets a deliberate ceiling and its input is bounded far below the window, so the technique's recurring cost there is zero. The seam returned something better: two crates size the same response and neither reads the other, a 3.91x overcommit between a 16,000-token planning budget and a 4,096 wire ceiling, and a request type with no output-ceiling field through which the derived number could ever travel.
 
+## 2026-09-23 - `/deepen` currency lane ([[2026-09-23-3]])
+
+`python--amortized-compaction-cadence` refreshed before its 2026-10-15 clock; ~20 anchors re-resolved (the pass logic moved into a mixin, the doc into the site). One correction to our own text, wrong at both commits: the pass counter counts every emitted event, including failures and skipped exchanges, not successes. `refresh_by` kept, moved to 2026-11-05.
+
+Banked lead (proposal): `amortized-compaction-cadence` should say pass counters split by outcome - one total over skips and absorptions makes a quietly skipping session look healthy. Return condition: the next pass over the technique, or a fleet project owning a transcript compaction.
+
+Impact: personas carries 2 stale `deviation` verdicts on this subject (pre-existing, not moved by this landing).
+
 ## 2026-09-23 - /intake self-compact-pi-agent (run `intake-3b0U4`, intake 2.13.0)
 
 Source [[../../sources/2026-09-23-self-compact-pi-agent]]: a builder's devlog for a self-compacting coding agent whose thresholds are set just under one vendor's price step. Mostly catches (the note-to-self is `compaction-checkpoint`'s model notepad; the done criterion is `task-envelope`), plus one amendment.
@@ -511,3 +519,11 @@ Source [[../../sources/2026-09-23-self-compact-pi-agent]]: a builder's devlog fo
 ## 2026-09-25 - /reconcile, dispatched on a clock (run `rc-pa-0925`, reconcile 1.0.1)
 
 Declined, no wave. The subject has no single-source debt: 25 applications on 5 stacks, read from at least six independent counterparts. The scan ranked it only for `python--amortized-compaction-cadence` near its 2026-10-15 clock, and that premise was stale: the dispatching checkout sat 38 commits behind origin, where `deepen(currency)` had already re-resolved the application on 2026-09-23 and moved refresh_by to 2026-11-05. A clock on this subject is re-verification work for `/deepen` or `/librarian`, never a reason to send it to this lane.
+
+## 2026-09-25 - /reconcile, re-dispatched on the same clock (run `rc-pa-0925b`, reconcile 1.0.1)
+
+Declined again on the premise `rc-pa-0925` already declined. The dispatching checkout was 43 behind origin and still read refresh_by 2026-10-15 for `python--amortized-compaction-cadence`. Origin reads 2026-11-05. No work for this lane until the primary checkout fast-forwards.
+
+## 2026-09-25 - /reconcile, third dispatch on the same clock (run `rc-pa-0925c`, reconcile 1.0.1)
+
+Declined a third time on the same premise. The dispatching checkout is now 45 commits behind origin, and origin still reads refresh_by 2026-11-05. Nothing has changed since `rc-pa-0925b`.

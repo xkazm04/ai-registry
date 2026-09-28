@@ -72,6 +72,21 @@ between adjacent buckets is a comparison of like with like. The cost is that
 buckets are not shareable across observers looking at different moments, which
 is why the anchor date is part of the chart's label.
 
+Rolling windows are one of two honest fixes, not the only one. The other keeps
+calendar periods and marks the partial one: an "as of" label on the last bar,
+a distinct fill, and optionally a projected completion drawn as a projection.
+That keeps buckets identical for every reader and aligned with the reporting
+cadence, targets and period-over-period comparison. The choice follows the
+chart's job:
+
+- **Rolling** for operational activity that someone acts on this week.
+- **Calendar, partial period marked** for cadence reporting that several
+  people must reconcile.
+
+Never mix the two on one surface. The same applies to windows of different
+lengths: a 30-day headline above a 35-day chart invites the reader to add up two
+populations.
+
 Two mechanics decide whether a rolling series is trusted after its first bad
 week:
 

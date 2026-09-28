@@ -27,11 +27,15 @@ main operation. The server performs the login first, against the same
 auth method and the same policy evaluation as a standalone login, and
 obtains an entry it holds only in memory for the remainder of the request.
 The main operation is then dispatched with that entry as its caller. When
-the response is built, the entry is dropped. If the login produced a
-persisted token - because the auth method or role does not issue the
-never-persisted class - the server revokes it before responding, and the
-caller is not told its value, because a value the caller cannot use is not
-worth the write it took to return.
+the response is built, the entry is dropped. The entry is never written,
+whatever class the auth method or role would normally issue. The reference
+issuer passes a do-not-persist flag into the same registration a
+standalone login uses, so it does not persist the token and then revoke it
+before responding. Persist-then-revoke is the weaker variant. It pays the
+writes the class exists to avoid, and a crash between the write and the
+revoke leaves a live token that no caller was ever told about. The caller
+is never told the value either way, because a value the caller cannot use
+is not worth returning.
 
 A leaked inline credential is worthless outside the request it was
 presented with in exactly the way a never-persisted token is: there is no
@@ -70,6 +74,15 @@ role are not the predicate; the presence of an artifact with a lifetime is
 ([gate-sees-target](../../../_laws.md#gate-sees-target)). A design that
 enumerates "endpoints that lease" and blocks inline authority on those is
 a list that is wrong the day a new engine ships.
+
+The reference issuer implements the gate narrower than this rule. It
+fires on lease registration only. A child token fails there by accident,
+because storing it looks up a parent that was never written. A wrapped
+response goes through, because wrap tokens are minted as orphans and name
+no parent. That is safe for the wrap, which has its own clock and accessor,
+but it shows that the gate the reference ships is "no lease", not "no
+artifact". An implementation that relies on the broader rule has to add
+the other artifacts itself.
 
 The alternative to refusal is routing: a deployment may choose to let the
 request proceed on the persisted path - issue a real token, parent the

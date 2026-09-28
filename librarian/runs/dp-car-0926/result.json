@@ -1,0 +1,114 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-car-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T16:14:14Z",
+  "ended_at": "2026-09-26T16:58:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 3,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/candidate-archetype-routing",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/candidate-archetype-routing",
+      "technique": "confidence-always-returned-with-a-review-threshold",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/candidate-archetype-routing",
+      "technique": "self-declaration-trusted-contradictions-flagged",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/candidate-archetype-routing",
+      "technique": "conservative-default-and-the-unrouted-state",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/candidate-archetype-routing",
+      "technique": "population-specific-weights-and-dimension-renaming",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/candidate-archetype-routing",
+      "technique": "population-specific-weights-and-dimension-renaming",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/candidate-archetype-routing",
+      "technique": "golden-path",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/candidate-archetype-routing.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/techniques/confidence-always-returned-with-a-review-threshold.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/techniques/conservative-default-and-the-unrouted-state.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/techniques/population-specific-weights-and-dimension-renaming.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/techniques/self-declaration-trusted-contradictions-flagged.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/techniques/signal-scored-routing-not-rule-matching.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/node--conservative-default-and-the-unrouted-state.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/node--one-registry-shared-across-runtimes.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/node--self-declaration-trusted-contradictions-flagged.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/process--confidence-always-returned-with-a-review-threshold.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/process--population-specific-weights-and-dimension-renaming.md",
+    "knowledge/recruiting/candidate-evidence/candidate-archetype-routing/applications/process--signal-scored-routing-not-rule-matching.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/candidate-archetype-routing.md"
+  ],
+  "commits": [
+    {
+      "sha": "40995a7a",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/candidate-archetype-routing",
+      "reason": "Title VII's score-adjustment clause as the hook for career-stage rubrics: both lanes found its list closed at five classes, age is not one; the age exposure is stated through age law instead"
+    },
+    {
+      "subject": "recruiting/candidate-archetype-routing",
+      "reason": "the EU Annex III deadline moving to 2027 under an omnibus regulation: commentary only, not verified in the Official Journal; not cited"
+    },
+    {
+      "subject": "recruiting/candidate-archetype-routing",
+      "reason": "grant the shield only to unclassifiable profiles: over-reaches this subject; shield membership belongs to the screening-gate subject, which already moved it to instrument failure"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "First sweep: five rules flipped on web + blind convergence. kp map 3f675ccd7 and rows 4ca00a8d2 committed on kp main, not pushed: kp main has diverged from origin with 63 other sessions' commits. Queue-sizing row unapplied: no fleet routing review queue."
+}

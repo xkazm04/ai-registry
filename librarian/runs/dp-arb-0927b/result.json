@@ -1,0 +1,42 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-arb-0927b",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-27T21:25:00Z",
+  "ended_at": "2026-09-27T21:35:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/agent-run-budgeting",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/agent-operations/agent-run-budgeting.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/agent-run-budgeting",
+      "reason": "Stale dispatch. The ranking finding '3 techniques (design floor is 4)' was read at d93fbd78, a checkout 171 commits behind origin/main. Origin already carries d9382ed7 (2026-09-27, run dp-arb-0927, the same dispatch): termination-cause-record landed as the fourth technique, three techniques and the golden path conditioned, two code rows better and one unapplied in applied.md. The index at origin lists four techniques, so the floor passes, and the only later commit on the subject is that run's own ledger commit 7f3bf09d. No clock or event has moved, so a second pass the same day has nothing to point at. Not recorded as idled: the subject has not been through two dry passes."
+    }
+  ],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "No work at origin/main f30594e3. Re-dispatch of dp-arb-0927 from a stale checkout (d93fbd78, 3 ahead / 171 behind); second stale re-send today after dp-abd-0927b. Subject note gained a dated paragraph; nothing else touched."
+}

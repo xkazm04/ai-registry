@@ -41,8 +41,10 @@ places nobody reviews:
 - **Iconography and microcopy.** A checkmark, a thumbs-up, a "great!" or a
   "perfect —" after a selection. Affirmation on one branch is instruction.
 - **Order and layout.** The passing option first, larger, pre-focused, or
-  visually separated from a cluster of failing ones. A candidate scanning on a
-  phone reads position before text.
+  visually separated from a cluster of failing ones. A list read on a screen
+  favours its first options (Krosnick & Alwin, 1987), and eye-tracking shows
+  some respondents choose early options without ever looking at the later
+  ones. A candidate scanning on a phone reads position before text.
 - **Asymmetric consequence copy.** "Select yes to continue" attached to one
   branch, silence on the other. If a consequence is stated for one answer it
   is stated for all of them, in the same register.
@@ -69,6 +71,24 @@ Where the requirement itself is contestable — a licence that can be obtained,
 authorisation that a sponsor could provide, a shift that might flex — say
 *that* too, and route rather than decline. A question with a genuinely binary
 consequence is rarer than most forms assume.
+
+## Neutrality removes the key; verification makes the answer true
+
+Neutral presentation stops the form from coaching an answer. It does not stop
+a candidate from choosing one, and it is not the lever with the most evidence
+behind it. What measurably reduces faked answers is making the item
+verifiable, and saying that it will be verified. Applicants fake the items
+that cannot be checked far more than the ones that can (Becker & Colquitt,
+1992). A warning that answers will be checked lowers faking modestly (d ≈
+0.23), and more when it names the consequence (Dwight & Donovan, 2003). No
+study isolates tonal signposting, so neutrality rests on the order evidence
+above and on reasoning, not on a measured faking effect.
+
+So a decisive question is worded as a checkable fact ("do you hold a current
+licence issued in this jurisdiction", not "are you qualified to practise"),
+its stakes line says the answer will be checked, and neutral styling keeps the
+check honest. Say it once, in the same register as the stakes, and never as a
+threat attached to one option. Otherwise the warning becomes the answer key.
 
 ## Never render a one-option question
 
@@ -101,7 +121,9 @@ and any similar self-declaration follow the same neutrality rules and add
 three of their own:
 
 1. **"Prefer not to say" is always present, always styled identically to every
-   other option, and is never a value.** It is an
+   other option, and is never a value of the characteristic.** It is recorded
+   as its own response, distinct from never asked, as statistical
+   standards for these questions record it. It is an
    [absence](../../../_laws.md#absence-of-evidence-is-not-evidence), and absence
    is a distinct state — never a zero, never a neutral default, never
    silently mapped to the largest group. A downstream aggregate reports it as

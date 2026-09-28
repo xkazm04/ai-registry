@@ -1,0 +1,98 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-drv-0927",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-27T20:26:40Z",
+  "ended_at": "2026-09-27T20:51:53Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 3,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/deterministic-run-verification",
+      "at": "2026-09-27",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 9,
+      "points_after": 5
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-operations/deterministic-run-verification",
+      "technique": "grade-with-checks-the-run-could-not-touch",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-operations/deterministic-run-verification",
+      "technique": "declared-rule-verification",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-operations/deterministic-run-verification",
+      "technique": "recompute-facts-at-report-time",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "agent-operations/deterministic-run-verification",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/measurement/deterministic-run-verification/deterministic-run-verification.md",
+    "knowledge/agent-operations/measurement/deterministic-run-verification/techniques/grade-with-checks-the-run-could-not-touch.md",
+    "knowledge/agent-operations/measurement/deterministic-run-verification/techniques/baseline-relative-gate-evaluation.md",
+    "knowledge/agent-operations/measurement/deterministic-run-verification/techniques/declared-rule-verification.md",
+    "knowledge/agent-operations/measurement/deterministic-run-verification/techniques/recompute-facts-at-report-time.md",
+    "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--grade-with-checks-the-run-could-not-touch.md",
+    "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--declared-rule-verification.md",
+    "knowledge/agent-operations/measurement/deterministic-run-verification/applications/process--recompute-facts-at-report-time.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/agent-operations.md",
+    "librarian/subjects/agent-operations/deterministic-run-verification.md"
+  ],
+  "commits": [
+    {
+      "sha": "e3612ff2",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations",
+        "rules/ai-registry-agent-operations.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/deterministic-run-verification",
+      "reason": "'34 of 35 false tests-pass claims were stale runs': seen only through a page summarizer; the page read verbatim confirmed only 35 of 101 claims untrue when made"
+    },
+    {
+      "subject": "agent-operations/deterministic-run-verification",
+      "reason": "a separate rule to ask the base revision's ignore rules: folded into asking about the paths the run added, against the starting revision's rules"
+    },
+    {
+      "subject": "agent-operations/deterministic-run-verification",
+      "reason": "doctest-aware evasion scanning (exclude by execution role, not directory): one lane only, no source read"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "ascent guard 3/19 -> 19/19 gate configs, local only (2da14351, 087c4828): its master is 105 ahead of origin. Baseline flip unapplied. 19 of 241 project commits cited in applied.md resolve nowhere. No map pairs the subject."
+}

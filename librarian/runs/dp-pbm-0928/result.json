@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pbm-0928",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-28T09:00:00Z",
+  "ended_at": "2026-09-28T09:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/persistent-batch-mutation",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-clock dispatch: ranked on d93fbd78, which predates the landing that closed its finding",
+  "notes": "Second dispatch on the d93fbd78 finding \"3 techniques\"; local main 206 behind origin. origin/main 7820db8b: 4 techniques since 5289f827 (dp-pbm-0927); 0927b idled it too. No change to the subject since; applications verified 09-27, no clock at risk. Nothing ran."
+}

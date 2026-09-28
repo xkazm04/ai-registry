@@ -25,6 +25,9 @@ banners and identifiers that nobody thinks of as attribution.
   model or the reasoning tier.
 - **The run's own summary**, which may name its model, its tier or its vendor's tooling
   while explaining what it did.
+- **Commit metadata**: author and committer, co-author trailers, branch names, and a
+  copied repository's reflog. Harnesses that attribute their commits write the producer's
+  name into every one of them, by design.
 - **Characteristic formatting** — a distinctive heading style or summary layout. This one
   cannot be scrubbed, which is why cross-family judging matters even with perfect scrubbing.
 
@@ -36,8 +39,10 @@ dependency names — and a task about agent guidance is *entirely* about such fi
 them produces unreadable material and destroys the judge's ability to evaluate the work.
 
 So the scrub is path-aware: a token that forms part of a filename or directory the
-repository itself carries stays; the same token standing alone, or inside an artefact path
-the harness created, goes. Getting this wrong in the safe direction (scrub everything) looks
+repository carried at the base commit stays; the same token standing alone, inside an
+artefact path the harness created, or naming a guidance file or tool directory the run
+itself added, goes - a vendor-named file that appears during the run is the producer's
+signature, and the judge can read the diff's own claim that it is new. Getting this wrong in the safe direction (scrub everything) looks
 conservative and quietly makes a whole task category unjudgeable.
 
 ## Verification
@@ -52,8 +57,13 @@ conservative and quietly makes a whole task category unjudgeable.
 
 ## Decision rules
 
-- **Blinding does not replace cross-family judging.** Style is unscrubbable; a judge of the
-  same family recognises its own output without being told.
+- **Blinding does not replace cross-family judging.** Style is unscrubbable. A judge favours
+  text that reads familiar to it whether or not it could name the author; light rewording of
+  the candidates lowers that preference, and fuller stylistic neutralisation has been
+  measured to bring it back. Do not rewrite entries to defeat it - the rewrite is a second
+  producer in the packet.
+- **Scrubbing the packet does not scrub the judge's reach.** An agent judge with a shell
+  reads whatever it can list; see [sealed-judge-workspace](sealed-judge-workspace.md).
 - **Never blind the harness's measured facts.** The facts are what the judge most needs and
   they carry no provenance; they are stated plainly as measured.
 - **A packet that cannot be blinded is judged by a human or not at all.** Some material —

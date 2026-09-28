@@ -39,9 +39,11 @@ hanging. Neither is safe on its own.
 Take the numerator as accepted offers, and the denominator as
 **max(offers extended, offers resolved)**. The reasoning:
 
-- If extension is fully recorded, extended ≥ resolved and the denominator is
-  extended — the correct, cohort-honest figure that includes outstanding
-  offers.
+- If extension is fully recorded and both counts are drawn on the offer
+  cohort, extended ≥ resolved and the denominator is extended — the correct,
+  cohort-honest figure that includes outstanding offers. On a
+  transition-dated window that inequality does not hold, and the next section
+  says what changes.
 - If extension is under-recorded, resolved exceeds extended, and the maximum
   falls back to the count that *cannot* be under-recorded, because every term
   in it is a terminal event somebody had to write.
@@ -60,9 +62,45 @@ because it is the only signal that the assumption is wrong. Bounding is earned
 when the denominator is observed and chosen honestly; imposed bounding on an
 assumed denominator hides the defect it should expose.
 
-State which term won when it matters diagnostically — a period where resolved
-exceeds extended is telling you the offer-stage transition is not being
-recorded, and that is worth surfacing to whoever owns the pipeline hygiene.
+## The basis decides what the maximum means
+
+The maximum was argued above as if both counts described one population. They
+do only on an **offer cohort**: offers extended in the window, each followed to
+its own resolution. Most ledgers are counted the other way — every event kind
+by its *own* timestamp inside the window — and on that **transition-dated**
+basis the two counts describe different offers. An offer extended last month
+and accepted this week is in this window's resolved count and not in its
+extended count, with every event recorded perfectly. Pick the basis first and
+name it in the rate's label:
+
+- **Offer cohort.** Accepted over offers extended in the window; settled
+  (accepted, declined, expired) and outstanding shown apart. Resolved can never
+  exceed extended here, so the maximum is a guard for legacy rows and nothing
+  more. The cost is the censoring every cohort carries: a recent window is
+  mostly outstanding.
+- **Period.** Accepted over offers *resolved* in the window. Complete by
+  construction, bounded by construction, and no maximum is needed. It says
+  nothing about the offers still out, which is why they are shown beside it.
+
+On a transition-dated ledger the maximum still bounds the rate, but the
+quantity it produces is neither of these, and two of its by-products stop
+meaning what they say:
+
+- **"Resolved exceeds extended" is not evidence of a recording defect.** It is
+  the expected reading whenever more earlier offers close in the window than new
+  ones are sent: after a hiring burst, as hiring slows, and routinely at low
+  volume. The defect is read at the record, not the total. A resolution with no
+  prior extension for the same application *is* the defect, and a count of
+  those is the hygiene report.
+- **"Extended minus resolved" is not the outstanding offers.** On a
+  transition-dated window it is a net flow: this window's new offers minus the
+  closes of offers from any window. Closes of old offers cancel still-open new
+  ones, and the difference can be negative. Outstanding offers are a stock,
+  counted at the observation moment: extended, with no terminal event yet. A
+  pending figure that links to "the candidates holding an offer" must be that
+  stock, or the link opens a different number of people from the one it shows.
+
+State which term won when it matters diagnostically, and on which basis.
 
 ## What counts as an offer, and what counts as a decline
 
@@ -102,14 +140,16 @@ chart.
   [the law](../../../_laws.md#a-claim-carries-its-sample-and-its-basis); a
   percentage on a handful of offers implies a precision the cohort cannot
   support.
-- When resolved exceeds extended in a period, treat it as a recording defect
-  report, not just a denominator choice.
+- When resolved exceeds extended in a transition-dated period, read nothing
+  into it. Count the resolutions that have no prior extension for the same
+  application; a non-zero count is the recording defect report.
 - When acceptance is used inside a forecast, use the **observed** rate, not
   the funnel-implied offer-to-hire conversion. The observed rate is a fact you
   already hold; the implied one is an estimate standing in for it.
 - When an offer is outstanding at the window boundary, it stays in the
-  extended denominator and out of both numerator and resolved count. It is
-  censored, not a decline.
+  extended denominator of an offer cohort and out of both numerator and
+  resolved count. It is censored, not a decline. On a period basis it is in
+  neither count and is shown beside the rate as outstanding.
 
 ## When not to use this
 

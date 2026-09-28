@@ -3,7 +3,7 @@ name: contest
 description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" --participants <specs> for a full round, or /contest init|run|collect|judge|reveal|router|verdict|refine|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.4.1
+version: 1.7.0
 tags: contest, prototyping, ui, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" --participants engine:model@effort,... | init|run|collect|judge|reveal|router|verdict|refine|status <id>"
 ---
@@ -126,6 +126,20 @@ is parity with a benchmark run: Claude with `--setting-sources project,local --s
 with memory and the dashboard off. A seat's record lands in `runs/<id>/record.json` with outcome,
 wall, turns and the CLI's reported cost.
 
+**A host that queues its own agents** (Personas runs seats as fleet sessions, so they share the
+machine's parallel cap and show up in its monitor) calls `plan` instead of `run`:
+
+```
+node <skill>/scripts/contest.mjs plan --id <slug> [--kind participants|judges] [--judges <specs>] [--only <id>]
+```
+
+It prints the seats as JSON (`id, spec, engine, model, effort, cwd, log_dir, prompt`) and spawns
+nothing; `--kind judges` also writes each `JUDGE-<id>.md` and records the panel, which is the half of
+`judge` that is not spawning. The host runs each seat headless in `cwd` with `prompt`, using the
+isolation flags `engineCommand` lists, and leaves behind what `run` would: `log_dir/record.json`
+(the same fields) and `log_dir/final.md`. `collect`, `aggregate` (which recovers a judge's verdict from
+its `final.md`), `verdict` and `refine` then work unchanged.
+
 Three outcomes are not scores: `seat-limit` (the subscription is exhausted - rerun that seat
 after the reset with `--only`), `timed-out` (collect scores what exists; say so), `errored`
 (read `runs/<id>/stderr.log` before rerunning - a refusal is a finding about the brief, not a
@@ -166,6 +180,13 @@ disclose in the report that self-preference is possible. Judges write `verdict-<
 in `references/judge-brief.md`); the instrument validates each verdict, recovers one a judge left
 in its final message, and aggregates into `judging/scoreboard.md`: mean and spread per variant,
 the six dimension means, per-judge totals, and the patterns and anti-patterns the panel named.
+
+Judges work in a staged copy outside the arena (`<tmp>/contest-judging/<id>-<judge>-<rand>/`,
+recorded in `contest.json` as `judge_workspaces`), holding only the redacted `entries/` and the
+judge's own brief - no `runs/`, no `manifest.json`, no blind map - so the panel cannot unblind
+itself even with its permissions bypassed. `plan --kind judges` returns that copy as each seat's
+`cwd`; `aggregate` harvests every `verdict-<id>.json` back into `judging/` and deletes the copy
+(`--keep-workspaces` keeps it).
 
 A spread of 3 or more on one variant is not noise to average away: read both verdicts and say
 what they disagreed about. A variant marked `broken` by any judge sinks below every intact one.

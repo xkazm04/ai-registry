@@ -107,6 +107,16 @@ makes scores go up, check whether you repaired the asymmetry or just relocated i
 - **Symmetry is not sameness.** Two populations may be scored on different dimensions
   and still be treated symmetrically, provided each dimension can reach full range and
   no population carries an adverse adjustment the other escapes.
+- **Symmetric across archetypes is not yet fair across protected groups.** A penalty
+  that fires for everyone can still land hardest on one group, and career stage stands
+  close to age. Returners also skew female, and unmapped foreign occupations track
+  national origin. In UK and EU law, a separate rubric for early-career candidates is an
+  age-correlated practice. It needs a written legitimate aim and a population defined
+  by career stage, open to a graduate of any age. Run the selection-rate comparison by
+  protected group as well as by archetype. In the US, per-group score adjustment by
+  race, colour, religion, sex or national origin is prohibited outright. Career stage is
+  not on that list, so the fence holds only while career stage is not standing in for
+  a listed group.
 
 ## When not to use it
 

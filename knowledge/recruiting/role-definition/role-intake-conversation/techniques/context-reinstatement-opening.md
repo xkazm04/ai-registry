@@ -18,11 +18,24 @@ the same abstraction: a title, a level, a shape of person. Open by putting
 them back inside a concrete remembered situation, and they answer from
 episodic memory, where the specifics actually live.
 
-This is the interviewing craft's oldest reliable finding, borrowed from
-investigative interviewing: **mentally reinstating the context of an event
-before asking about it yields on the order of a third more correct recall
-without a matching rise in errors** — more detail, not more invention — and
-it does so without the leading effect that a menu of options introduces. Recruiting has a direct application, because the requestor's real
+The move is borrowed from investigative interviewing, and the borrowing
+carries a condition. The **cognitive interview**, of which context
+reinstatement is one component, reliably elicits substantially more correct
+detail than a standard interview (meta-analytic d ≈ 0.9–1.2), with a small
+rise in errors (d ≈ 0.25) and an essentially unchanged accuracy rate — about
+85% against 82% — so more detail, not proportionally more invention
+(Köhnken et al., 1999; Memon, Meissner & Fraser, 2010). **The effect belongs
+to the package.** Reinstatement on its own has not reliably beaten a plain
+"try again", and its best-supported pairing is with an explicit invitation to
+report everything, however small (Milne & Bull, 2002). The cognitive
+interview has improved recall of experienced episodes outside eyewitness work
+— meals eaten, exercise done — but it has not been tested in requirements or
+job-analysis interviews, so its use here is an analogy. That is why step 0
+below pairs the anchor with the non-judgment: "vague is fine" is this
+setting's report-everything instruction, and the anchor alone is the weaker
+half.
+
+Recruiting has a direct application, because the requestor's real
 knowledge of the role is not stored as a specification. It is stored as
 memories of work going undone, of a launch that slipped, of the thing they
 personally picked up last quarter because nobody else could.
@@ -34,7 +47,8 @@ personally picked up last quarter because nobody else could.
    Now think back to last month..." The two moves are complementary: the
    non-judgment lowers the guard that keeps answers short and safe, and the
    anchor gives the lowered guard somewhere concrete to go. Delivered
-   separately, the reassurance reads as filler.
+   separately, the reassurance reads as filler — and an anchor delivered
+   without the permission is the component the evidence supports least.
 1. **Choose a reinstatement anchor**, in this order of preference:
    - the most recent moment the gap actually hurt ("think about the last time
      you wished this person was already here — what was happening that

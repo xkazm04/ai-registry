@@ -1,0 +1,98 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cad-0926",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-26T16:14:13Z",
+  "ended_at": "2026-09-26T16:36:04Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/candidate-ai-disclosure-and-explanation",
+      "at": "2026-09-26",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/candidate-ai-disclosure-and-explanation",
+      "technique": "three-state-attribution-that-fails-to-unknown",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/candidate-ai-disclosure-and-explanation",
+      "technique": "decisive-facts-not-the-rationale",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/candidate-ai-disclosure-and-explanation",
+      "technique": "allowlist-of-candidate-visible-decisions",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/candidate-ai-disclosure-and-explanation",
+      "technique": "right-to-request-a-human-review",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/candidate-ai-disclosure-and-explanation.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/techniques/allowlist-of-candidate-visible-decisions.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/techniques/decisive-facts-not-the-rationale.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/techniques/disclosure-at-the-point-of-submission.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/techniques/right-to-request-a-human-review.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/techniques/three-state-attribution-that-fails-to-unknown.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--allowlist-of-candidate-visible-decisions.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--held-data-derived-from-what-exists.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/react--disclosure-at-the-point-of-submission.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--three-state-attribution-that-fails-to-unknown.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--decisive-facts-not-the-rationale.md",
+    "knowledge/recruiting/governance/candidate-ai-disclosure-and-explanation/applications/node--right-to-request-a-human-review.md",
+    "knowledge/recruiting/index.json",
+    "rules/ai-registry-recruiting.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/candidate-ai-disclosure-and-explanation.md"
+  ],
+  "commits": [
+    {
+      "sha": "f05c806d",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting",
+        "rules/ai-registry-recruiting.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "recruiting/candidate-ai-disclosure-and-explanation",
+      "reason": "the 2026 regime matrix (EU employment date moved to 2027-12-02, Colorado repealed and re-enacted, Illinois notice rules withdrawn, UK Art 22A-D in force): this subject is regime-agnostic by design and multi-jurisdiction-hiring-compliance owns the matrix; banked there"
+    },
+    {
+      "subject": "recruiting/candidate-ai-disclosure-and-explanation",
+      "reason": "placebic explanations as a rule: web lane only, small studies; landed as one supporting sentence in the golden path, not as a rule"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "First sweep: attribution and consent gating flipped. kp cf6cb58a (approval beside the machine selection; stale caveat), map 421948b5 and rows cf9a4b81 on kp main, not pushed: kp main diverged from origin with other sessions work."
+}

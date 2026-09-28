@@ -51,7 +51,11 @@ auditor can be shown, and a tuning cycle can change without a deploy.
    confident; a near-tie is not. The simplest defensible derivations are the margin
    between first and second place, or the winner's share of the total mass. Whichever
    you pick, state it — a confidence whose derivation is undocumented is a number, not
-   evidence.
+   evidence. **Neither formula sees how much evidence there was.** A share reads 1.0
+   when one weak signal fires and nothing contradicts it, which is how a single
+   extracted field becomes the most confident routing in the system. Scale the result
+   by the total mass that fired (or require a minimum mass before the share can read as
+   full), and cap every inferred confidence below the self-declaration tier.
 6. **Return the contributing signals alongside the class.** The list of what fired is
    the explanation, and it costs nothing to carry. Without it you have a classification
    nobody can question, which in a hiring context is a classification nobody can defend.
@@ -79,7 +83,13 @@ auditor can be shown, and a tuning cycle can change without a deploy.
 - **When you review the table, review the population it produces.** The right cadence is
   periodic: sample recent routings, especially the low-confidence and the reviewer-
   corrected ones, and check whether a weight is systematically misreading a career shape
-  — a non-linear path, an unusual education system, an interrupted history.
+  — a non-linear path, an unusual education system, an interrupted history. Sample some
+  confident ones as well. A signal whose meaning drifted upstream can leave the
+  confidence distribution flat while the routings go wrong.
+- **When a signal would encode when something happened, check that it is not a birth
+  cohort.** "Currently enrolled" is evidence about the career. "Graduated before a given
+  year" is evidence about age. The table is a list of facts about current evidence, and
+  a date-shaped signal must earn its row by saying something the career shape does.
 
 ## Why data rather than code
 
@@ -117,7 +127,12 @@ and it does not live in an engineer's memory of why a branch was added either.
   candidate answers, and its existence is not a reason to leave the question off the
   form. The cheapest large improvement in routing accuracy is always the question.
 - **Not with a learned model in place of the table, unless you can still show the
-  table.** A fitted classifier over the same signals will usually outperform hand-set
-  weights on accuracy and lose on every other property that matters here — explicability,
-  reviewability, the ability to state the policy in one page. In a decision that gates a
-  fairness shield, that trade is a bad one.
+  table.** The trade is cheaper than it looks. With the labelled samples a hiring
+  system has, a fitted model rarely beats simple weights out of sample. The unit-weight
+  literature finds regression "rarely useful for prediction in most social science
+  contexts", and a fitted model wins only with large samples *and* high predictability.
+  Fitting to past routing outcomes also imports whatever those past decisions got wrong.
+  So the table gives up little accuracy, and it keeps what matters here: explicability,
+  reviewability, and the ability to state the policy in one page. Keep a fitted model as
+  a *check* on the table: where it disagrees on a labelled sample, the table needs a
+  look. Do not let it replace the table.

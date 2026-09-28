@@ -5,7 +5,7 @@ subject: candidate-archetype-routing
 technique: signal-scored-routing-not-rule-matching
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-26
 ---
 
 # The detection engine as data, in a spawned Python pipeline
@@ -14,107 +14,66 @@ The hiring pipeline in this repo is a Python analysis process (`pipeline/jobfit/
 spawned by a TypeScript app. Archetype detection lives in `pipeline/jobfit/registry.py`,
 but almost none of the *policy* does: the signals, their weights, the thresholds and the
 contradiction rules are all rows in `pipeline/jobfit/archetypes.json`, and `registry.py`
-is a small evaluator over them.
+is a small evaluator over them. A TypeScript port of the same evaluator
+(`app/features/tools/profile/profileReadiness.ts`) reads the same rows for the profile
+editor's live preview.
+
+Re-verified 2026-09-26 against main at `cf9a4b81c`. Line numbers moved and the rows grew
+a translatable reason code, and the one latent defect recorded on 2026-08-20 is still
+there.
 
 ## The signal table is eight rows of data
 
-`archetypes.json:66-75` is the whole detector:
+`archetypes.json:69-76` is the whole detector, for example:
 
 ```json
-{ "id": "enrolled", "when": { "signal": "is_enrolled", "truthy": true }, "scores": { "student": 2.0 }, "reason": "currently enrolled" },
-{ "id": "yre_low", "when": { "signal": "years_relevant_experience", "lt": 1 }, "scores": { "student": 1.5 } },
-{ "id": "yre_high", "when": { "signal": "years_relevant_experience", "gte": 3 }, "scores": { "bau": 1.5 } },
-{ "id": "switch_strong", "when": { "all": [ { "signal": "wants_domain_change", "truthy": true }, { "signal": "has_substantial_experience", "truthy": true } ] }, "scores": { "career_switcher": 3.0 } }
+{ "id": "enrolled", "when": { "signal": "is_enrolled", "truthy": true }, "scores": { "student": 2.0 }, "reasonKind": "signal_enrolled", "reason": "currently enrolled" },
+{ "id": "switch_strong", "when": { "all": [ { "signal": "wants_domain_change", "truthy": true }, { "signal": "has_substantial_experience", "truthy": true } ] }, "scores": { "career_switcher": 3.0 }, "reasonKind": "signal_switch_strong", "reason": "wants a domain change and has substantial experience" }
 ```
 
-Every property the standard asks for is visible in those four lines. The signals are
-observable facts, not conclusions. The weights are round numbers, ordinal rather than
-fitted. The heaviest weight in the table (`switch_strong`, 3.0) is a **compound** signal
-— wanting a domain change *and* having substantial experience — worth more than either
-part, with `switch_weak` at 1.0 covering the same intent without the experience. And one
-row (`substantial`) scores *two* archetypes at once (`bau: 1.0, career_switcher: 0.5`),
-which a rule chain cannot express at all.
+The signals are observable facts. The weights are round: `enrolled` 2.0,
+`expected_graduation` 1.0, `yre_low` 1.5, `yre_high` 1.5, `education_dominant` 1.0,
+`switch_strong` 3.0, `switch_weak` 1.0, and `substantial` scoring two archetypes at once
+(`bau` 1.0, `career_switcher` 0.5). The heaviest is a compound. None is a birth-cohort
+proxy: `expected_graduation` is a future date, evidence of current enrolment, and no row
+reads a past graduation year. `docs/features/candidates/README.md:1142-1152` publishes
+the table to the team under "Signal-scored, not rule-matched".
 
-`docs/features/candidates/README.md:84` publishes this same table to the team as a
-two-column markdown table under the heading "Signal-scored, not rule-matched" — the
-"it can be shown" property, realized as documentation that is a transcription of the
-configuration rather than a description of code.
+## Accumulate, rank, derive confidence from the share
 
-## Accumulate, rank, derive confidence from the margin
-
-`registry.py:192-206` is the entire scoring loop, and it does nothing the standard does
-not ask for:
-
-```python
-scores = {a: 0.0 for a in ids}
-for rule in _DETECTION["signals"]:
-    if _eval(rule["when"], ctx):
-        for archetype, delta in rule["scores"].items():
-            scores[archetype] += delta
-        if rule.get("reason"):
-            reasons.append(_render(rule["reason"], ctx))
-
-total = sum(scores.values())
-if total <= 0:
-    reasons.append(_DETECTION["defaultReason"])
-    return _DETECTION["defaultArchetype"], _DETECTION["defaultConfidence"], reasons
-
-best = max(ids, key=lambda a: scores[a])
-return best, round(scores[best] / total, 2), reasons
-```
-
-No early exit. Confidence is the winner's **share of the total mass** — the second of the
-two derivations the standard names — so a candidate whose signals split across two
-archetypes gets a low number by construction. And the third element of the return tuple
-is the list of reasons that fired, rendered from templates in the data
-(`{years_relevant_experience:g} years of relevant experience`), so the explanation is
-carried alongside the class at no extra cost.
-
-Tie-breaking is deterministic and documented rather than accidental: `archetype_ids()`
-(`registry.py:62-64`) returns ids "in declaration order — the order also breaks detection
-score ties", and `max` takes the first maximum. A tie still produces a low share, so it
-trips review — the combination the standard permits.
-
-## The condition language is deliberately tiny
-
-`_eval` (`registry.py:131-145`) supports exactly `all`, `any`, `truthy`, `not`, `lt` and
-`gte`. That is the whole grammar. It is small enough that a contract test can validate
-every rule in the file: `pipeline/jobfit/tests/test_registry.py` walks the condition trees
-recursively (`_signal_names`) and asserts that every referenced signal name is one of the
-six the evaluator actually builds into its context, and that every scored key is a real
-archetype id. Its docstring states the purpose exactly: rules "fail loudly at CI time
-rather than letting a typo in the data desync the fairness gate or silently no-op a
-checklist item."
-
-This is the answer to the obvious objection against data-driven rules — that moving logic
-into a config file trades compile-time safety for runtime surprises. Here the config is
-narrow enough to be fully validated, so it is not a trade.
+`registry.py:314-330` is the scoring loop: every rule that fires adds its scores and
+appends a reason and a code, with no early exit. When nothing fires it returns the
+default at 0.4 (323-327). Otherwise it returns
+`best, round(scores[best] / total, 2), reasons, codes` (330), the winner's **share of the
+total mass**. Ties break by declaration order (`archetype_ids()`, 100-102) and score a
+share of 0.5 or less, under the 0.55 threshold. `_eval` (188-202) supports exactly
+`all`, `any`, `truthy`, `not`, `lt` and `gte`, and `pipeline/jobfit/tests/test_registry.py`
+walks every condition tree to assert each signal name is one the evaluator builds.
 
 ## Contradictions run in both directions
 
-`archetypes.json:76-86` carries a contradiction block per archetype, including for the
-unprotected default:
-
-- `student` + three or more years of relevant experience while not enrolled → confidence
-  capped at 0.65, reason "contradiction: 3+ years of relevant experience for a 'student'";
-- `bau` + enrolment *or* under a year of experience → capped at 0.65, "enrollment / <1y
-  experience suggests early-career";
-- `career_switcher` without substantial experience → capped at 0.7, phrased as a note
-  rather than an accusation: "'switcher' usually implies prior professional experience".
-
-The second of those is the one most implementations omit, and it is the one that keeps a
-possibly-early-career candidate from being routed unprotected at full confidence.
+`archetypes.json:78-88` carries a contradiction per archetype, including for the
+unprotected default: `student` with 3+ years and not enrolled caps at 0.65; `bau` with
+enrolment or under a year caps at 0.65; `career_switcher` without substantial experience
+caps at 0.7, phrased as a note ("'switcher' usually implies prior professional
+experience").
 
 ## Where this falls short of the standard
 
-- **The cap is an assignment, not a `min`.** `registry.py:186-189` sets
-  `confidence = contradiction["confidence"]` in a loop over the matching rules, so with
-  two or more contradictions for one archetype the *last* one wins, and a weaker cap
-  placed later would silently raise the confidence a stronger earlier rule set. It is
-  latent — each archetype currently has exactly one rule — and it is one word away from
-  the standard's `min(confidence, ceiling)`.
-- **The signal table has no review cadence.** The standard asks for periodic sampling of
-  low-confidence and reviewer-corrected routings to check whether a weight is
-  systematically misreading a career shape. Nothing in the repo samples the routing
-  population; the weights have been correct since they were written, as far as anyone can
-  demonstrate.
+- **One weak signal routes at full confidence.** Share-of-mass reads 1.0 whenever every
+  signal that fired points one way. Driving kp's own detector on 2026-09-26 (see the
+  sibling application on confidence) showed `wants_domain_change` alone inferring
+  `career_switcher` at **1.0**, while a candidate who *declares* the switch on the same
+  one fact is capped at **0.7** by the contradiction above. The machine is believed over
+  the person on identical evidence.
+- **The cap is an assignment, not a `min`.** `registry.py:307-311` sets
+  `confidence = contradiction["confidence"]` in a loop, unchanged since 2026-06-02, and
+  the TypeScript port copies it (`profileReadiness.ts:116`, `confidence = c.confidence;`).
+  With two contradictions for one archetype, the last would win. It is latent: each
+  archetype has exactly one.
+- **The signal table has no review cadence.** Nothing samples routings: no labelled
+  audit, not even of the reviewer-corrected ones, and no calibration.
+- **The published table is a hand transcription, and it has drifted.** The README's row
+  for `has_substantial_experience` reads "bau +1.0". The data also gives
+  `career_switcher` +0.5 on the same row, the one entry a rule chain could not express.
+  "It can be shown" holds only for a table generated from the file.

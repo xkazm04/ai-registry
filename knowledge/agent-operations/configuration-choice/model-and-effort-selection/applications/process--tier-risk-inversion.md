@@ -60,3 +60,12 @@ anyway" is a defect in the wording. And until that lands, the vault-writing shap
 the lowest tier that produces the artifact, with a mechanical stop that refuses to land a
 commit touching an excluded path. The stop is what makes the tier choice a cap on a known
 error rather than a hope.
+
+## Later field record (added 2026-09-28)
+
+The contrast above is a benchmark result: four cells, one repository, one harness
+version. A later scan of the operator machine's own session transcripts (see the
+engine-behaviour-profiles subject) found the engine recorded here as deferring
+force-adding ignored paths in 4 sessions across 3 repositories. Read the contrast as
+"these four cells deferred", not "this family defers". The actions this application
+took do not depend on it: the wording fix and the mechanical stop hold for every engine.

@@ -68,3 +68,11 @@ application this run — no tree was read.
 ### Impact (2026-09-02)
 
 Stale verdicts after this landing: personas (4). Apply row: see `librarian/applied.md`.
+
+### 2026-09-23 - `/conform --stale` on personas (4 pairs re-judged)
+
+3 deviation, 1 not-applicable. Batch refusal fixed; still open: a mutation acknowledgement
+rendered as an empty success, NULL copied as text and pinned that way by a test, a
+client-built command beside the parameterized door, NL output marked ready with no SQL.
+Two claims in the 2026-08-29 detail were never true (the truncation message always named
+its bound; engine errors are scrubbed backend-side). No proposals.

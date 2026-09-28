@@ -51,6 +51,26 @@ wrong render would cost. Prompts that surface it:
   [output-never-outruns-evidence](../../../_laws.md#output-never-outruns-evidence),
   that assertion must rest on evidence of matching grade — a filed action, a
   published admission — not on the weighing performed inside the video.
+  Law already reads shape this way. United States courts recognize
+  defamation by implication: true statements are actionable when their
+  arrangement implies a defamatory fact and the manner of presentation
+  affirmatively suggests the author endorses the inference (*White v.
+  Fraternal Order of Police*, D.C. Cir. 1990, where a juxtaposition was the
+  signal; *Chapin v. Knight-Ridder*, 4th Cir. 1993, which demands an
+  especially rigorous showing when every fact is true). Some states drop the
+  endorsement element and ask only whether the juxtaposition must be
+  defended (*Toney v. WCCO*, 8th Cir. 1996, applying Minnesota law). English
+  law reads the whole publication, holds the publisher's intent irrelevant,
+  and grades an imputation as guilt, reasonable grounds to suspect, or
+  grounds to investigate (*Chase v News Group*, 2002). Two consequences for
+  selection. A verdict beat *is* the endorsement signal the narrowest test
+  looks for, so this engine forfeits the defence that the viewer drew the
+  inference alone. And the imputation has a level, so a verdict can be
+  pitched where the evidence stands — "there are grounds to ask" is a
+  different claim from "they did it" — with the counter-case left standing
+  at full strength, because a reader of the whole piece weighs the antidote
+  with the bane. The doctrine varies by jurisdiction; it names the hazard
+  and prices it, it does not clear a render.
 - **What does the demonstration transfer?** An engine whose pleasure is
   operating a mechanism step by step becomes capability transfer when the
   mechanism is an exploit, a fraud, or an intrusion. Fit stays strong — it is
