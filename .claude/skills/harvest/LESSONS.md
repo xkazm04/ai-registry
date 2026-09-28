@@ -123,3 +123,32 @@ report now has a lane to land in.
   wave file is the roster; the ledger only records what has already returned.
 - **Paid headless arms need a declared cap in the declaration.** The blind-ab units spent
   $5-8 each against caps of $15-20, and each return reported its spend.
+
+## 0.5.2 - 2026-09-28 - ai-registry (`auto` pass on the migrations cluster, run hv-mig-0928)
+
+- **Stagger the code lanes, each one against every draft returned so far.** Three of six
+  rows were repositories. The prose lanes went first; each repository lane was topped up on
+  a completion and briefed with the drafts then in hand, asking corroborate / contradict /
+  refine / silent with file:line anchors. The repositories turned the drafts into verdicts:
+  two of five voices retry a lock timeout without any bound (a rule the prose lanes would
+  have banked as unanimous), no source asserts the post-build index check a sibling
+  proposed, and pgroll's `complete` observes nothing the Fowler draft said it observes.
+  Each of the three was worth more last than it would have been first.
+- **A 0-point subject can be missing a whole half.** `migrations` scores 0 because no
+  consumer deviates from it, and it was admitted on its coverage-gaps line alone. Its
+  server case turned out to be one technique long, with no text on lock waits, and five
+  publishers converged there. Attention points measure disagreement with what a subject
+  says, never what it does not say. A gap line confirmed at body level ("lock" occurs only
+  as "file locked") is a sufficient needle.
+- **The recount read HEAD, and HEAD was origin/main.** Following the 2026-09-24 lesson, the
+  dispatch count was checked against a tree with no queue edits in the working tree, so
+  257/296 and 51/57 were HEAD facts, not a sibling's work in progress.
+- **Three consecutive software-engineering auto passes have now landed 0 and banked 27
+  specs (sections 4, 5, 6).** The queue is not the bottleneck; the spec bank is. Another
+  auto pass in this domain adds to a stack only an attended hour can drain, so the next
+  software-engineering dispatch should be an attended `run` over specs.md sections 4-6, or
+  auto should move to a domain whose rows yield catches and currency.
+- **Miners still reach for `grep -i -e ... -e ...`.** Two lanes hit the known exit-134 crash
+  and one had to delete a stackdump it left in a knowledge folder. The brief line "do not
+  combine `-i` with several `-e`; delete any stackdump you create" worked in the lane that
+  carried it. Put it in every miner brief.

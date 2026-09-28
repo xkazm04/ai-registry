@@ -1,7 +1,7 @@
 ---
 kind: harvest-specs
 created: 2026-08-28
-updated: 2026-09-24
+updated: 2026-09-28
 ---
 
 # Spec bank - approved content awaiting an attended landing
@@ -414,3 +414,181 @@ in an application or evidence file.
 
   Auto mode never lands a new subject. An attended pass either runs `/forge` on the repo or
   folds the pieces into 5b, 5c and 5f and drops 5k.
+
+## 6. Migrations on a live server: the lock wait, the deploy boundary, readers we do not deploy (software-engineering) - from SEC-040/041/042/043/053/054, 2026-09-28
+
+**AUTO-BANKED, not operator-approved.** `/harvest auto` (run `hv-mig-0928`) banks content
+here per the skill's Modes table; the next attended pass triages, then lands. Source note:
+[[2026-09-28-se-migrations-harvest-batch-1]]. Every entry targets
+`knowledge/software-engineering/backend-platform/data-layer/migrations/`; re-verify prior art
+at body level before landing, since a sibling may have touched the subject since. Dedupe by
+author: five publishers (GoCardless, GitLab, Braintree, Andrew Kane, Xata) plus Fowler and
+Sadalage; GitLab and strong_migrations share a stack (Rails), so they are two voices on
+engine-level claims and one voice on ORM-level ones. Engine verbs (`lock_timeout`,
+`CONCURRENTLY`, `NOT VALID`, `ALGORITHM=INPLACE`) are stack-application material; every
+rule below is written stack-neutral.
+
+- **6a. NEW TECHNIQUE `migrations/<lock-bounded-ddl>`** (slug is the lander's). Five
+  publishers converge; strong_migrations shows it holds on Postgres, MySQL and MariaDB.
+  - *The step is priced by its wait, not its run time.* A request for a lock that
+    conflicts with ordinary traffic joins a queue, and every later conflicting request
+    queues behind it. A step that executes in milliseconds can stall a hot table for as
+    long as it waits. Anchors: "The ALTER TABLE statement itself was fast to execute, but
+    the effect of it waiting for an AccessExclusive lock on the referenced table caused
+    the downtime" (SEC-054); "The lock request is waiting in a queue and it may also block
+    other queries on the users table once it has been enqueued" (SEC-040); "if a migration
+    can't acquire a lock in a timely manner, other statements won't be stuck behind it"
+    (strong_migrations README:959).
+  - *Bound every lock-taking step's wait,* scoped to the migrator and never to the server or
+    the app: per session and restored afterwards (pg_ha_migrations
+    `safe_statements.rb:772-814`, `LOCK_TIMEOUT_SECONDS = 5`; pgroll `roll.go:109-113`,
+    500 ms default), or on the migrator's own database role behind a transaction-mode
+    pooler, where a session setting does not stick (strong_migrations README:968-975). Two
+    timeouts, not one: a short lock wait and a long statement timeout
+    (strong_migrations README:959-1016). When the bound fires, the deploy fails and the
+    application keeps serving: "It's better to abort a deploy than take your application
+    down" (SEC-054).
+  - *The footprint is every table the step's constraints reference,* and child partitions
+    (SEC-054; strong_migrations README:308 "Adding a foreign key blocks writes on both
+    tables", Postgres and MySQL messages alike; pg_ha_migrations `unsafe_statements.rb:146`,
+    `safe_statements.rb:715-717`). A change to a cold, empty table can stall a hot one.
+  - *One lock set per acquisition, up front, one deadline over it.* Take every lock the
+    step needs at once, in the application's own order (referenced before referencing),
+    under a single deadline, because per-object timeouts add up (pg_ha_migrations README:102
+    "total lock time is additive", `safe_statements.rb:736-740`); refuse nested or
+    escalating acquisition (`:688-699`); once held, do everything that needs the lock and
+    nothing long (SEC-040).
+  - *Retry, releasing first, and let the queue drain.* A timed-out attempt releases what it
+    holds (pgroll rolls back the whole transaction before sleeping, `db.go:79-107`), then
+    pauses "to allow potentially queued up queries to finish before continuing"
+    (pg_ha_migrations `safe_statements.rb:750`). The retry unit equals the atomic unit, and
+    a whole-step retry is refused once anything has committed (strong_migrations
+    `checker.rb:92-96, 137`).
+  - *The bound on retries is a total deadline, and it ends in a failed deploy.* **Stated
+    disagreement, not resolved:** GitLab (a total budget ending in a final failure) and
+    strong_migrations (count times delay, then re-raise, `checker.rb:132-146`) bound it;
+    pg_ha_migrations (`until successfully_acquired_lock`, fixed 25 s) and pgroll (no count,
+    no deadline, `db.go:38-106`) do not, so contention stalls the deploy with nobody told.
+    The unbounded pair is the evidence for what the bound prevents.
+  - *Pre-check before joining the queue.* Look for a long-running transaction holding a
+    conflicting mode on the target tables and wait for it rather than queue behind it
+    (pg_ha_migrations `blocking_database_transactions.rb:32-80`, by conflict mode, never
+    cancelling the holder; GitLab halts on an anti-wraparound maintenance lock).
+  - *When not:* a single-copy unattended store (the subject's default case: no concurrent
+    load, nothing to bound); a table no live reader or writer reaches yet, which
+    strong_migrations defines as "created in this migration, even after inserting data"
+    (`checks.rb:151-153`); a stopped-process maintenance window. The lock level per verb
+    varies by engine and version (PG 18 `ADD FOREIGN KEY` takes SHARE ROW EXCLUSIVE, which
+    reads pass): look it up in the application layer, never in the technique.
+- **6b. GOLDEN-PATH AMENDMENT `migrations.md`** ("The server case has one problem the
+  harder case does not"). Replace "exactly one respect" with two: concurrent code versions
+  AND concurrent load during the step. Qualify "a staging copy rehearsed it": a rehearsal
+  without live load certifies the statement, not the wait. Anchors: "we re-ran the
+  migrations against a backup of the database from earlier that day. They went through in
+  a few hundred milliseconds" (SEC-054); pg_ha_migrations opens with the same two classes,
+  "Database safety (e.g., long-held locks)" and "Application safety (e.g., dropping columns
+  the app uses)" (README:34-38); GitLab measures slot budgets on a production-size copy and
+  sets the gate below the budget because the copy runs fast. Link 6a from the section.
+- **6c. DISCRIMINATOR on `techniques/error-propagation.md`.** Its rule "Retry *loops*
+  within one boot are noise" is right for deterministic step failure and wrong for a
+  lock-wait timeout on a server, which is transient contention. Scope the rule to the
+  single-copy boot and point the server case at 6a's bounded retry. Anchored by four
+  retrying implementations (GitLab, pg_ha_migrations, strong_migrations, pgroll). When not:
+  unattended single-copy boots, where the existing rule stands.
+- **6d. AMENDMENT `techniques/transactional-ddl.md`** (the unit shrinks on a live server).
+  - *Online builds leave the transaction.* On a live table, request the engine's online
+    build mode even though it cannot share the step's transaction ("Unlike CREATE INDEX,
+    CREATE INDEX CONCURRENTLY must be performed outside a transaction", SEC-040;
+    strong_migrations README:489-497). On MySQL/MariaDB the online algorithm is the default
+    and DDL auto-commits, so the rule is "do not force a copy or a lock", not "leave the
+    transaction" (README:749-799). The build then needs its own ledger boundary.
+  - *Tension to resolve at landing:* pg_ha_migrations runs each statement in its own
+    transaction because held locks add up (README:94-103), which moves the ledger bump
+    outside the statement's transaction; the technique puts the bump inside the step's
+    transaction. The lander decides whether "per step" becomes "per lock-taking statement,
+    with residue covered by `idempotent-steps`" on a live server.
+  - *Post-condition, not authorized by a source:* asserting the index exists and is valid
+    after an online build is the corpus's own post-condition discipline. strong_migrations
+    only drops a leftover invalid index on re-run, opt-in (`remove_invalid_indexes = false`,
+    `checker.rb:282-296`). Land it as ours, if at all.
+  - *When not:* a table no traffic reaches yet (6a's criterion); there the blocking build
+    inside the transaction is simpler and correct.
+- **6e. NEW TECHNIQUE, ONE VOICE `migrations/<deploy-relative-migration-slots>`.** Every
+  server migration takes one of three slots: before deploy (fast, only the schema the new
+  code needs), after deploy (cleanups, slow or non-critical builds, tightening
+  constraints), background (data rewrites over budget, never schema: "Batched background
+  migrations should not change the schema"). Each slot has a duration budget measured on a
+  production-size copy, gated below the budget. A critical but slow change ships its code
+  behind a switch that flips when completion is *observed* (`gate-sees-target`). When not:
+  single-copy stores, where everything runs at boot behind the snapshot gate. **GitLab only
+  (n=1):** the attended pass needs a second primary, or folds the slots into 6f.
+- **6f. AMENDMENT `techniques/expand-deploy-contract.md`** (four clauses).
+  - *Phases are deploy boundaries, not releases.* A release with pre- and post-deploy slots
+    holds two boundaries, so under a roll-forward-only policy expand, deploy and contract
+    can ship in one release, and a rename can too. Where rollback targets are kept, or where
+    installs upgrade across versions and can merge steps, each phase needs its own release
+    and the destructive step goes to a release no upgrade can merge with the earlier ones.
+    **This conditions two corpus lines on the technique's own condition 2:** "There is no
+    rename in this model - a rename is all three" (`migrations.md`) and "There is no rename
+    in this discipline. A rename is three releases" (`expand-deploy-contract.md`). Anchor: "Following this procedure helps us to make sure
+    there are no deployments to GitLab.com and upgrade processes for GitLab Self-Managed
+    instances that lump together any of these steps" (SEC-040).
+  - *Direction rule.* Relax a constraint before the code that relies on it ships; add one
+    only after all code honours it: "Adding a NOT NULL constraint requires that any
+    application changes are deployed first, so it should happen in a post-deployment
+    migration. In contrary removing a NOT NULL constraint should be done in a regular
+    migration" (SEC-040). strong_migrations shows the same ordering without stating it.
+  - *Two-step constraint add, engine-conditional.* Generalize the uniqueness decomposition:
+    where the engine can add a constraint unenforced for existing rows and validate it later
+    under a weaker lock, do that, in a separate step from the one holding a write-blocking
+    lock (strong_migrations `checks.rb:486-496`; pg_ha_migrations README:307-338; SEC-054).
+    Where it cannot (MySQL/MariaDB check constraints: "Let us know if you have a safe way",
+    README:411-413), the add is a blocking step that needs a window.
+  - *"A new index" is expand-safe only when built online;* a drop that cascades to indexes
+    is not online (pg_ha_migrations README:52; pgroll `op_create_index.go:36`). And some
+    shape changes rewrite the table under lock while others are metadata-only, per engine
+    and version (strong_migrations): the expand list should say which question to ask, and
+    the application layer answers it.
+- **6g. AMENDMENT `techniques/expand-deploy-contract.md`: readers outside the deployment
+  inventory.**
+  - *Rule:* when a reader of the shape does not ship from your inventory (another
+    application, reports, extracts, hand-written SQL), compatibility lives in the store: a
+    view under the old name, or triggers keeping the old column in sync. Code-side
+    dual-write never reaches that reader. Anchor: "A transition phase is a period of time
+    when the database supports both the old access pattern and the new ones simultaneously.
+    This allows older systems time to migrate over to the new structures at their own pace"
+    (SEC-043). pgroll is the working mechanism: version schemas of views, `up` and `down`
+    triggers (`docs/concepts.md:19-25`).
+  - *Contract safety can be observed, and the tool does not observe it.* Store-side
+    compatibility makes every client declare its version (pgroll: the session
+    `search_path`), so access to the old version is observable, from that declaration or
+    from statement logs over a stated window. But pgroll's `Complete` drops the old version
+    with no client check (`execute.go:173-193`), gated only by a docs Warning. The
+    observation is the operator's job; say so.
+  - *The window holds two versions.* One active migration per schema (`execute.go:62-68`)
+    blocks the next schema change until old readers drain, which collides with the
+    durable-queue case already in the technique ("for a durable queue that can be days").
+    The shim carries a named removal date, set by the slowest consumer ("it may take years",
+    SEC-043).
+  - *Failure mode:* a client that never declares a version is served as the old version,
+    silently (pgroll `clientapps.mdx`, "What happens if the search_path is not set?").
+  - *It refines the cost line* "Three releases per shape change, and the middle one carries
+    dual-write code": with a store-side shim, the app release carries no dual-write code.
+  - *Discriminator:* does every reader of this table ship from a release you control and can
+    list? Yes: code-side dual-write as written. No: a store-side shim plus an observed-usage
+    gate. Corroboration owed: one database-refactoring primary on the view-based transition
+    besides the tool.
+- **6h. NEW TECHNIQUE `migrations/<migration-safety-gate>`** (or a section of 6a). The
+  runner refuses DDL it cannot classify: every verb is labelled safe, unsafe or raw by its
+  lock and application effect (pg_ha_migrations README:40-48, `unsafe_statements.rb:2-18`);
+  an unsafe verb needs an explicit acknowledgement in the migration, raw SQL is refused
+  unless acknowledged, and old steps are grandfathered (strong_migrations). The gate
+  evaluates the production engine's version and effective timeout, not the development
+  box's (strong_migrations README:1061-1071, `postgresql_adapter.rb:35-43`; an instance of
+  `gate-sees-target`). GitLab enforces its rules through lint and a database reviewer, the
+  review-time form of the same gate. When not: single-copy stores, where the
+  snapshot-before-migrate contract is the guard.
+
+  Auto mode never lands content. An attended pass lands 6a-6d and 6f-6g after re-verifying
+  the anchors, and decides whether 6e and 6h stand alone or fold into 6a and 6f. Each landing
+  owes an A/B evaluation per `.claude/skills/harvest/references/evaluation.md`.
