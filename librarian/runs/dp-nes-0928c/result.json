@@ -1,0 +1,60 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-nes-0928c",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-09-28T11:00:00Z",
+  "ended_at": "2026-09-28T12:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/narrative-engine-selection",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "technique": "fit-vs-hazard-axes",
+      "subject": "media-generation/narrative-engine-selection",
+      "mode": "code",
+      "verdict": "better"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/next--fit-vs-hazard-axes.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/narrative-engine-selection.md",
+    "knowledge/media-generation/index.json",
+    "catalog.json"
+  ],
+  "commits": [
+    {
+      "sha": "13c7bff1",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/narrative-craft/narrative-engine-selection/applications/next--fit-vs-hazard-axes.md",
+        "librarian/applied.md",
+        "librarian/subjects/media-generation/narrative-engine-selection.md",
+        "knowledge/media-generation/index.json",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Third stale dispatch (bd295204, 242 behind). The clause was already cleared, so the banked code apply was taken instead: gravitone 29c6b9d requires hazard and draws it at selection. Missing-hazard flags 0->5/5, drawn hazards 0->23/23. gravitone commits local, main diverged."
+}
