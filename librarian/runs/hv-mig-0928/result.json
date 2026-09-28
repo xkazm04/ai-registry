@@ -1,0 +1,55 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hv-mig-0928",
+  "skill": "harvest",
+  "skill_version": "0.5.2",
+  "mode": "auto",
+  "domain": "software-engineering",
+  "started_at": "2026-09-28T13:53:45Z",
+  "ended_at": "2026-09-28T14:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/migrations",
+      "at": "2026-09-28T14:10:00Z",
+      "engine": "harvest",
+      "outcome": "dispatched",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-09-28-se-migrations-harvest-batch-1.md",
+    "librarian/sources/index.md",
+    "librarian/harvest/queue.md",
+    "librarian/harvest/specs.md",
+    "librarian/harvest/coverage-gaps.md",
+    ".claude/skills/harvest/LESSONS.md"
+  ],
+  "commits": [
+    {
+      "sha": "ff830229",
+      "branch": "main",
+      "pathspec": [
+        "librarian/sources/2026-09-28-se-migrations-harvest-batch-1.md",
+        "librarian/sources/index.md",
+        "librarian/harvest/queue.md",
+        "librarian/harvest/specs.md",
+        "librarian/harvest/coverage-gaps.md",
+        ".claude/skills/harvest/LESSONS.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Auto SEC-040..043/053/054. Recount matched HEAD (257/296; core 51/57). 87 extracted, 27 caught, 8 leads, 0 currency; 8 specs banked (s6). Third SE auto at landed 0: 27 specs (s4-s6) await an attended pass. Pre-existing catalog red at 3b580172 (recruiting 684 vs 683)."
+}
