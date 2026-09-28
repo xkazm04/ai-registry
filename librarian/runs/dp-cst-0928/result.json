@@ -1,0 +1,93 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cst-0928",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T20:22:00Z",
+  "ended_at": "2026-09-28T21:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/candidate-status-transparency",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/candidate-status-transparency",
+      "technique": "committed-dates-not-forecasts",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/candidate-status-transparency",
+      "technique": "candidate-legible-timeline",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/candidate-status-transparency",
+      "technique": "candidate-safe-status-projection",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/candidate-status-transparency.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/techniques/committed-dates-not-forecasts.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/techniques/candidate-legible-timeline.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/techniques/candidate-safe-status-projection.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/techniques/honest-failure-classification.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/techniques/terminal-moment-experience-measurement.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--candidate-safe-status-projection.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--terminal-moment-experience-measurement.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/react--honest-failure-classification.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/react--candidate-legible-timeline.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--committed-dates-not-forecasts.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/spec--committed-dates-not-forecasts.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/spec--terminal-moment-experience-measurement.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/spec--terminal-state-copy-without-implying-merit.md",
+    "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/spec--candidate-safe-status-projection.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/candidate-status-transparency.md"
+  ],
+  "commits": [
+    {
+      "sha": "a6036fa1",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/candidate-experience/candidate-status-transparency",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "09520310",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/candidate-status-transparency.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First pass: 1 absolute refuted, 5 conditioned, 1 converged technique, 4 spec + 2 new kp apps, 3 re-verified. Apply: 3 simulations better, 1 unapplied. Maps and kp rows committed locally, not pushed. Gate --all stops at check-skills on untracked artifacts outside this run."
+}
