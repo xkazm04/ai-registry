@@ -821,3 +821,46 @@ Landed 84b67be8. Five `applied.md` rows:
 Impact: kp has 1 context on this subject, 0 stale verdicts. Maps committed
 locally in twelve projects, none pushed. Yield high, dry_streak 0, depth L2.
 See [[collective-and-statutory-hiring-governance]].
+
+## 2026-09-29 - deepen: cv-parsing-and-career-reading
+
+First pass on this subject (dp-cv-0929), dispatched by the Curator lane from
+the attention scan. No clock had expired. The event was the tree: 132 kp
+commits on the cited extraction and intake files since the applications were
+verified on 2026-08-20. Four lanes.
+
+Counter-evidence: one number removed, six conditioned, two confirmed:
+- removed: the degraded rate "a few percent of intake in most systems"; no
+  trustworthy measurement exists;
+- conditioned: deterministic first (the checks stay deterministic, the first
+  reader need not; OmniDocBench Table 5, olmOCR); tenure as the union (the
+  calendar ceiling; OPM prorates part-time work and caps concurrent credit);
+  midpoint for year-only ranges (bounds, the favourable bound at a threshold);
+  "everything optional" (every key present, nullable or with a status); span
+  checks and the grounding gate (visible text only; about 1% of about 200K
+  real resumes carried hidden content, over 90% of it data); the fence
+  (delimiting about halves attack success, datamarking takes it below 3%);
+- confirmed: gap length never feeds a score (EEOC 2022); "present" resolves
+  against the document's date.
+
+The tree gave two conditions upward: the proof split in the re-apply merge,
+and a harness showing the technique's own home-language election invents
+letters (one table key with five preimages, right 50 of 232 times in kp's own
+Czech copy).
+
+No technique earned: evidence-by-pointer reached two lanes that may share one
+paper, and is banked. All three kp applications re-verified to bc82cb703 /
+0235e7a33; two stale differs-bullets retired, five new deviations recorded.
+
+Landed e9e89361. Six `applied.md` rows:
+- one code, better: the ambiguous table entry removed, kp 0235e7a33, local;
+- one experiment, not-better: bounds moved 0 of 18 employment decisions on
+  seed histories (the at-the-threshold condition gained);
+- two simulations, better: the contract conditions on 3 of 3 paths; the proof
+  split on 1 of 3;
+- two unapplied: load-weighting (no record states a load); visible-text checks
+  (the authenticity subject's seam).
+
+Impact: kp has 2 contexts on this subject, 0 stale verdicts. Maps committed
+locally in twelve projects, none pushed. Yield high, dry_streak 0, depth L3.
+See [[cv-parsing-and-career-reading]].

@@ -3125,7 +3125,7 @@
    "file": "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/cv-parsing-and-career-reading.md",
    "digest": "sha256-b2:ed0423375acf354a",
    "revision": 2,
-   "changedAt": "2026-09-28",
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "degraded-intake-as-a-visible-queue",
