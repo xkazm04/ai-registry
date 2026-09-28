@@ -148,3 +148,12 @@ dp-hfa-0927 ledger touches the subject. check-currency reports 0 expired and 0 a
 fleet-wide, with no drift row for this subject; its drift list returned 78 rows elsewhere,
 so the instrument ran. None of the banked leads' return conditions has occurred. Nothing
 was researched. dry_streak stays 0, because a declined dispatch is not a dry pass.
+
+## 2026-09-28 - fourth dispatch from bd295204, declined
+
+Same finding, a newer stale head. bd295204 is 4 ahead of and 237 behind origin/main
+(2d4a24be). The index there still lists four techniques, and no commit since the
+dp-hfa-0928 ledger touches the subject. check-currency: 0 expired, 0 at-risk, no drift row
+for this subject out of 78. The git log search for the banked leads' events found only
+this subject's own landing and a recruiting pass. Nothing was researched. The dispatcher
+ranks from its local main, which is the thing to fix, not this subject.
