@@ -24,8 +24,15 @@ system **does not hold and must not infer**. Guessing veteran status from a
 résumé's employment history is a proxy inference over a protected characteristic;
 collecting it to "complete" the ranking creates an exposure where a gap used to
 be. The honest position — and the useful one — is that the ordering is a fit
-ranking and the statutory adjustment happens elsewhere, by a person, before
-certification.
+ranking and the statutory adjustment happens elsewhere, before certification.
+
+"Elsewhere" is specific. Preference status is adjudicated by people, from
+documents, at the examining office, and the examining system then applies it
+by rule, as points on a score, as a place at the head of a category, or as a
+float to the top of the certificate. The ceiling is therefore not "a human does
+the arithmetic". It is that *this* tool holds no adjudicated status, so it
+cannot produce the statutory order and must not produce anything that competes
+with it.
 
 ## Why the sentence is the most valuable output on the page
 
@@ -57,9 +64,16 @@ and an unapplied adjustment must not render as an applied one
 3. **Place it in the artifact, adjacent to the ordering.** Not in a tooltip, not
    in documentation, not in an onboarding modal. It travels with the export and
    appears in the printed packet.
-4. **Make it mode-specific.** Guidance that is identical across modes is read as
-   boilerplate within a week. The list-mode sentence and the committee-mode
-   sentence say different things because different steps are missing.
+4. **Make it mode-specific, and position-specific.** Guidance that is identical
+   across modes is read as boilerplate within a week. The list-mode sentence and
+   the committee-mode sentence say different things because different steps are
+   missing. Within list mode, the missing step depends on where the tool sits.
+   Before certification, the examining office must still adjudicate and apply
+   the preference. After certification, the preference is already in the
+   certificate's order, and the step outstanding for the person choosing is the
+   pass-over procedure. Telling a selecting official to "apply preferences
+   before certifying" names a step that happened before the list reached them,
+   and hides the one they actually owe.
 5. **Say only what the record supports.** Do not name a specific statute, a
    points formula or a jurisdiction the system was not configured with; do not
    assert which preferences apply. Name the *category* of step and hand it to the

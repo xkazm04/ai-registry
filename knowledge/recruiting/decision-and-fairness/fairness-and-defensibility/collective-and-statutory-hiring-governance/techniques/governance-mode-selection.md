@@ -30,9 +30,12 @@ Three values, and resist a fourth:
   A human still actions it; nothing adverse is ever automated.
 - **collective** — a committee, panel or board deliberates and records a
   recommendation that travels onward. The machine is advisory only.
-- **eligibility-list** — the outcome is determined by rank order on a register
-  plus statutory adjustments, certified by an appointing authority. The machine
-  produces an ordinal list with the statutory step named and left undone.
+- **eligibility-list** — the outcome is bounded by a register's statutory order
+  (a score order, quality categories, or a top-N window, each with preference
+  applied by the examining office) and chosen within it by an appointing
+  authority. The machine never produces a competing order. Before certification
+  it produces a fit ranking with the statutory step named and left undone;
+  after certification it annotates the certificate's own order.
 
 Each value carries an epistemology, not a preference, and the definition belongs
 next to the value in code rather than in a design document — the comment
@@ -98,7 +101,24 @@ no pick was ever legitimate.
 **A fourth mode per customer.** Every additional value multiplies the branches
 that must be audited and dilutes the meaning of the three that matter. Real
 variation — how many committee members, what the vote threshold is, when the list
-expires — is *configuration inside a mode*, not a new mode.
+expires, which certification regime a register runs under (a score-ordered
+certificate, quality categories, a top-N window) — is *configuration inside a
+mode*, not a new mode.
+
+**A consent gate mistaken for a mode, or for nothing.** Some regimes give a body
+that does *not* decide a veto over each individual hire. An employee
+representative body may be entitled to the application papers before every hire,
+may refuse consent only on enumerated grounds and in writing within a fixed
+period, is deemed to consent if it stays silent, and can be overridden only by a
+court. That is not a fourth answer to "who decides": the decider is unchanged,
+and the mode is whatever it was. It is an **overlay** on any mode, with states
+of its own: requested, refused with reasons, consented, consented by lapse of
+time, and substituted by a court. Two things follow for the machine. What the
+body receives is evidence in the sense of the committee packet, the same
+material the decider saw. And a hire that departs from a consented selection
+guideline is a refusal ground, so if the tool's logic *is* such a guideline, a
+departure from its ordering must be visible to the decider before it is
+submitted, not discovered by the body.
 
 ## When not to use it
 

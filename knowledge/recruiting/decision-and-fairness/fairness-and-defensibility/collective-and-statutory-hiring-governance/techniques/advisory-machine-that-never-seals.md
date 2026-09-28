@@ -35,6 +35,33 @@ check each one against the mode. A single unaudited exit — a nightly digest
 email, a downstream stage that reads "top candidate" — is enough to make the
 whole mode a fiction.
 
+## What not sealing does not settle
+
+Refusing the seal is necessary and it is not sufficient. Whether a machine's
+output is advice or the decision is judged by its effect, not its label, and
+three tests recur across jurisdictions:
+
+- **Weight.** A score or ranking that the people who decide draw on heavily is
+  treated as the decision itself. Formal human sign-off does not change that,
+  and neither does "fabricated" human involvement, meaning a person who routinely
+  applies the output with no real influence on the result.
+- **Override.** An output used to overrule conclusions the humans reached from
+  other evidence has replaced their judgment, whatever the record calls it.
+- **Screening.** A body, or a tool, that removes candidates from the final
+  authority's view, or ranks them for it, is performing the decision function.
+  Public-meeting rules have been applied to committees for exactly that reason.
+
+So the advisory mode owes two things beyond the seal. It must not *screen*:
+a comparison over part of the field says which part it covers and how that part
+was chosen, the rest of the field stays in the body's view, and anyone the
+machine could not assess is visibly unassessed, not absent. And it must make the
+body's reliance *visible*: the order in which members see their own reads and
+the machine's ordering, and what moved between them, is recorded. See
+[machine-ordering-after-independent-reads](./machine-ordering-after-independent-reads.md).
+A committee that follows the machine every time, and whose members move toward
+it after seeing it, is a committee whose advisory label is untrue, and the
+record is what shows it.
+
 ## Procedure
 
 1. **Split the decision kind, not the copy.** Advisory output and a decisive lead
@@ -73,6 +100,12 @@ whole mode a fiction.
    produced it or what it actually said. Clip rather than store everything — a
    decision record is an audit artifact, not a transcript store.
 
+   The shopping list also includes **who was not compared, and why**: candidates
+   withheld from the cohort (consent withdrawn, identity erased, unassessable)
+   are counted in the record. Otherwise the recorded field size is the compared
+   field, and an auditor reads advice over part of the field as advice over all
+   of it.
+
    Write that record in one canonical language, permanently, whatever language the
    surface renders in. It is read by auditors, exported, and compared across
    organisations and across years; wording that depends on whichever locale
@@ -97,6 +130,11 @@ whole mode a fiction.
 - When a committee overrides the machine's ordering entirely, that is a normal
   outcome and generates no exception, no flag and no "override" stigma in the
   record. The ordering was advice; declining advice is what deliberation is.
+- When a surface outside the seal path renders a lead — a crowned column, a
+  "recommended" heading, a top-pick field on an API — it reads the same sealing
+  predicate as the seal. A crown drawn beneath an "advisory" banner is the
+  seal's failure mode reached by a different exit, and the banner does not
+  cancel it.
 - When the run degrades — a model unavailable, an analysis incomplete — the
   advisory artifact says so and the process continues on its human track. A
   candidate's process never stalls on the tool's constraints, and a degraded

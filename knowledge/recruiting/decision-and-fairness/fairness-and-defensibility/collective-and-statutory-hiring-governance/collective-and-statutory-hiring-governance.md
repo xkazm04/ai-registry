@@ -11,6 +11,7 @@ techniques:
   - sticky-governance-against-silent-downgrade
   - name-the-ceiling-you-cannot-compute
   - committee-visible-evidence-packet
+  - machine-ordering-after-independent-reads
 ---
 
 # Collective and statutory hiring governance
@@ -20,11 +21,13 @@ is one person who decides, and the software's job is to help them decide well.
 For a large and growing share of real hiring, that assumption is simply false.
 A faculty search is decided by a committee that votes, whose recommendation
 travels to a dean and then a provost. A civil-service appointment is made from
-a certified list of eligibles in rank order, with statutory point or absolute
-preferences applied by an appointing authority that is not the hiring manager.
+a certificate of eligibles whose order the statute sets — a score order with
+preference points added, or quality categories with preference-eligible
+candidates listed first — adjudicated and applied by an examining office before
+the hiring manager sees a name, and departing from it takes a formal procedure.
 A unionised workplace fills a posting from an internal bid governed by seniority
-before it ever looks outward. A works-council agreement may specify what a
-selection tool is allowed to produce at all.
+before it ever looks outward. A works council may have to consent to the
+selection guidelines a tool embodies, and to each individual hire.
 
 In every one of those processes, **a single machine-picked winner is illegitimate
 by construction** — not inaccurate, not risky, *illegitimate*. The correct name,
@@ -68,17 +71,30 @@ for turning those answers into a small, closed set of modes, and
 [advisory-machine-that-never-seals](./techniques/advisory-machine-that-never-seals.md)
 for what changes in the system when the answer to (1) is not "one person".
 
+There is a fourth question, and the law now asks it too: **how heavily does the
+entitled actor lean on what the machine emitted?** Not sealing a winner settles
+who signs. It does not settle whether the machine decided. A ranking the deciders
+draw on heavily, one used to overrule their own conclusions, or one that screens
+people out of their view is treated as the decision itself, whatever the record
+calls it. So an advisory mode has to make reliance *visible*. The members read
+first, the machine's ordering comes after, and the record keeps both — see
+[machine-ordering-after-independent-reads](./techniques/machine-ordering-after-independent-reads.md).
+
 ## The three modes that cover the field
 
 Nearly every hiring process a general tool will meet falls into one of three
 governance shapes, and three is the right number — fewer collapses real
-distinctions, more invents policy nobody asked for.
+distinctions, more invents policy nobody asked for. What varies inside a shape
+is configuration: the vote threshold, the list's expiry, the certification
+regime a register runs under. What sits *on top of* a shape is an overlay: a
+representative body's per-hire consent right changes nothing about who decides,
+and everything about what must be shown to whom before the hire stands.
 
 | Mode | Who decides | The decision artifact | What the machine may produce |
 | --- | --- | --- | --- |
 | **Single-decider** | one accountable hiring authority | that person's recorded choice | a recommended lead, sealed as *the recommendation*, still human-actioned |
 | **Collective** | a committee or panel, by deliberation and vote | the body's minuted recommendation, travelling up a chain | advisory material only — never a sealed winner |
-| **Eligibility-list** | a rule: rank order plus statutory adjustments, certified by an appointing authority | a certified list of eligibles | an ordinal fit-ranked list with the statutory step named and left undone |
+| **Eligibility-list** | a rule: a statutory order (score, category or top-N window, with preference applied by the examining office), chosen within by an appointing authority | a certificate of eligibles | before certification, a fit ranking with the statutory step named and left undone; after it, an annotation of the certificate's own order, never a competing one |
 
 The load-bearing distinction between the last two is often missed. A committee
 process is *human-decided*: the machine steps back so that people may deliberate.
@@ -135,8 +151,12 @@ regulated, and guessing it from a résumé is exactly the proxy inference the wh
 field exists to prevent.
 
 So the tool says so, in the artifact, at the point of use: this ordering is a fit
-ranking; the statutory preference must be applied by a human before certification;
-the system holds no such status and cannot compute it. That is not a disclaimer.
+ranking; the statutory preference is applied by the examining office before
+certification; the system holds no such status and cannot compute it. Which step
+the sentence names depends on where the tool sits. Downstream of a certificate,
+the preference is already in the order. The step the person choosing still owes
+is the pass-over procedure, and the fit signal may annotate the certificate but
+never re-sort it. That is not a disclaimer.
 It is the most useful output on the page, because it converts an invisible gap
 into a named step with an owner.
 [name-the-ceiling-you-cannot-compute](./techniques/name-the-ceiling-you-cannot-compute.md)
@@ -160,7 +180,11 @@ same altitude.
 Two craft rules the packet must respect, both well-established in structured
 hiring and both routinely violated by machine-generated summaries. Independent
 scoring precedes debrief: members record their own reads before they see each
-other's, or the panel produces one person's opinion with five signatures. And the
+other's, or the panel produces one person's opinion with five signatures. The
+same holds for the machine: its evidence belongs in the pre-read, its ordering
+after the reads are locked, because an ordering in the pre-read is the first
+document in the room. The mechanical combination of the independent reads is
+the scored output of record; a consensus discussion adds little to it. And the
 packet is bound to what it judged — the version of the brief, the rubric and the
 evidence set that produced it — because a committee reconvening in six weeks over
 a stale packet is deliberating about a job that no longer exists. See
@@ -192,7 +216,12 @@ comparison the cohort could not support — should not have been in it.
 - **Treating consultation as a checkbox.** Where a works council, union agreement
   or civil-service commission governs *whether and how* such a tool may be used
   at all, no mode setting substitutes for that consent. The mode governs the
-  output; the agreement governs the deployment.
+  output; the agreement governs the deployment. Keep two duties apart that are
+  often merged. A duty to *inform* representatives before a high-risk tool is
+  put into service is not a duty to obtain their consent. A *consent* right
+  over selection guidelines reaches the tool's logic when that logic is such a
+  guideline, including where AI helped draw it up. A per-hire consent right
+  then reaches every individual hire made with it.
 - **Helpfully filling the statutory hole.** Someone adds a field for veteran
   status "so the ranking can be complete." Now the tool holds a protected
   attribute it has no lawful basis to use in scoring, and the hole it was meant

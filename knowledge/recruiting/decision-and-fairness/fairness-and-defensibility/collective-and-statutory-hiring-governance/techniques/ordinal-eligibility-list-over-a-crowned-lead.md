@@ -32,21 +32,64 @@ Three consequences follow immediately:
   reaches a group, not an individual — the top several, a scored band, whoever
   remains after the preferred candidates are placed. A surface that emphasises
   position one has already misdescribed the process.
+
 - **Order is the payload; the score is context.** Consumers of a register act on
   position. A fit score may be shown as the basis for the ordering, but it must
   render in the grammar of an estimate, not of an entitlement
   ([inference must look like inference](../../../../_laws.md#inference-must-look-like-inference)).
-- **The ordering is incomplete by design.** Statutory adjustments have not been
-  applied and cannot be applied here — see
+- **A fit ordering is incomplete by design.** Statutory adjustments are not in
+  it and cannot be put there by a tool that holds no adjudicated status — see
   [name-the-ceiling-you-cannot-compute](./name-the-ceiling-you-cannot-compute.md).
-  A list that looks final is worse than no list.
+  A fit list that looks final is worse than no list. Once a certificate exists,
+  the adjustments are in *its* order, which is why the fit signal may annotate
+  that order but never replace it.
 
+## Which list: the certification regime decides
+
+"A rank-ordered list" is itself one regime among several, and a tool that
+assumes it will be wrong in the others. Registers in current use take at least
+three shapes:
+
+- **A score-ordered certificate.** Candidates are scored on an examination,
+  statutory preference is added to the score (or places some preference-eligible
+  candidates at the top outright), and the certificate is cut at a
+  pre-determined score or count. The order is the statute's.
+- **Quality categories.** Candidates are placed in two or more categories
+  instead of receiving individual scores. The appointing official may choose
+  anyone in the highest category. Within a category, preference-eligible
+  candidates are listed ahead of the rest, and there is no merit order among
+  them.
+- **A top-N window.** The official must choose among the N highest-standing
+  names, and the statute fixes N.
+
+In every one of them, the statutory order is set by the examining office
+*before* the list reaches the person choosing, and it limits their discretion
+in the one direction that matters: passing over a preference-eligible candidate
+to choose a lower-standing one requires a formal procedure. So the rule for a
+tool that works *downstream of certification* is not "produce an ordinal fit
+ranking". It is:
+
+- **The certificate's order is the list. The fit signal annotates it and never
+  re-sorts it.** A fit ranking shown as a competing sequence is a map of whom
+  to pass over, drawn without the procedure that passing over requires.
+- **Where the statute leaves order open**, meaning within a category or among
+  names of equal standing, a fit ordering is a legitimate aid to the
+  discretion the official has, labelled as exactly that.
+- **When the official's choice would pass over a higher-standing
+  preference-eligible candidate**, the surface says that a pass-over procedure
+  applies before the selection. It never lets the choice read as routine.
+
+The regime is configuration inside the eligibility-list mode, fixed per
+posting before applications are solicited, not a new mode. Without it the tool
+cannot know which of these shapes it is looking at.
 ## Procedure
 
 1. **Present every eligible candidate in one ordinal sequence**, numbered, with
    no candidate singled out by typography, emphasis, or a "recommended" marker.
    Removing the crown is the visible half of the technique; it is also the half
-   teams try to keep "just for usability."
+   teams try to keep "just for usability." Where a certificate exists, that
+   sequence *is the certificate's*, in its statutory order, and the steps below
+   apply to the fit annotation beside each name, not to the order.
 2. **Label the ordering by what it is:** a fit ranking derived from the evidence
    available to the system. Not an eligibility ranking, not a certification, not
    a merit order. The name of the artifact is load-bearing, because the reader's
@@ -70,8 +113,10 @@ Three consequences follow immediately:
    thing. Three states, not one axis: eligible and ranked, eligible but unranked,
    not eligible.
 6. **Carry the statutory step onto the artifact itself**, adjacent to the list,
-   not in a help page: the preference must be applied by a human before
-   certification.
+   not in a help page. Which step it is depends on where the tool sits. Before
+   certification, the preference is still to be adjudicated and applied by the
+   examining office. After certification, it is already in the order, and the
+   outstanding step is the pass-over procedure.
 7. **Seal nothing as an appointment.** The list is advisory input to a
    certification made by an appointing authority
    ([no adverse outcome is solely automated](../../../../_laws.md#no-adverse-outcome-is-solely-automated)).

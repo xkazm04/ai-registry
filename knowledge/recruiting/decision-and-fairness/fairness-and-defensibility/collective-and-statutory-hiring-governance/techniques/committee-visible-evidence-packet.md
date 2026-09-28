@@ -35,7 +35,10 @@ teaching-evidence section is absent looks different from one whose section says
 **Before deliberation.** The packet is a pre-read. Distributed in the meeting, it
 becomes the anchor rather than the input. Where the process supports it, members
 record their independent reads **before** seeing each other's, or the panel
-produces one person's opinion with five signatures. Many tools have no
+produces one person's opinion with five signatures. The mechanical combination
+of those independent reads is the body's scored output of record; a consensus
+discussion adds little or nothing to validity over it, so the meeting's job is
+to surface evidence, not to re-score. Many tools have no
 interviewer-level identity at all and therefore cannot support this; that is a
 real gap to close, not a step to skip.
 
@@ -70,7 +73,14 @@ the committee will read.
 6. **Write for a hostile reader.** In public-sector and academic hiring, assume
    open-records requests, candidate access requests and discovery reach this
    document. That is a *writing* constraint before it is a storage one: anything
-   the packet cannot defend on its face should not be in it.
+   the packet cannot defend on its face should not be in it. *When* it becomes
+   public depends on the jurisdiction and on the candidate's stage. Some regimes
+   hold applicants' names private until they are interviewed or certified, and
+   publish test scores and list rank for every applicant from the start. Some
+   treat the committee itself as a public body because it screens or ranks for
+   the final authority. So a machine score written into the packet may be public
+   before the name it belongs to is. Configure disclosure by stage, and write
+   every line as if it were already public.
 
 ## Decision rules
 
@@ -78,9 +88,13 @@ the committee will read.
   field, say so as a property of the *packet*, not of the person. "Less evidence
   was available" and "weaker candidate" are different sentences and the packet
   must not merge them.
-- When the packet includes a machine ordering, it appears with its separation and
-  robustness stated, and without a crown — the packet informs a vote, it does not
-  pre-empt one.
+- The machine's *evidence* belongs in the pre-read; its *ordering* does not.
+  The ordering is released after members have locked their independent reads,
+  with its separation and robustness stated and without a crown — see
+  [machine-ordering-after-independent-reads](./machine-ordering-after-independent-reads.md).
+  An ordering in the pre-read is the first document in the room, which is the
+  anchor this packet exists to defuse, and it makes the body's reliance on the
+  machine impossible to see afterwards.
 - When a member requests additional material on one candidate mid-process, it is
   distributed to all members with the same stamp. Evidence that reaches part of a
   body is a procedural defect.

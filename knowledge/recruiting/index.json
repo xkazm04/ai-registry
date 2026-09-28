@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 392,
-  "applications": 243,
+  "techniques": 393,
+  "applications": 249,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "392/392",
+  "use_when_coverage": "393/393",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2255,9 +2255,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/collective-and-statutory-hiring-governance.md",
-   "digest": "sha256-b2:9bc73bfffbf52097",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:e1455cfce10b4def",
+   "revision": 2,
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "advisory-machine-that-never-seals",
@@ -2300,6 +2300,22 @@
       "adding committee or public-sector hiring to a tool built for one decider",
       "deciding what a comparison surface may emit",
       "modelling who is entitled to decide a hire"
+     ]
+    },
+    {
+     "slug": "machine-ordering-after-independent-reads",
+     "status": "forged",
+     "laws": [
+      "no-adverse-outcome-is-solely-automated",
+      "every-decision-names-its-actor",
+      "a-verdict-is-bound-to-what-it-judged"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a committee or panel is shown a machine ranking",
+      "deciding when members see the machine's ordering",
+      "making a body's reliance on a machine ranking visible in the record",
+      "combining members' ratings into the body's recommendation"
      ]
     },
     {
@@ -2353,19 +2369,63 @@
      "stack": "node",
      "technique": "advisory-machine-that-never-seals",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/node--advisory-machine-that-never-seals.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "machine-ordering-after-independent-reads",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/node--machine-ordering-after-independent-reads.md",
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "sticky-governance-against-silent-downgrade",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/node--sticky-governance-against-silent-downgrade.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "name-the-ceiling-you-cannot-compute",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/process--name-the-ceiling-you-cannot-compute.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "advisory-machine-that-never-seals",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--advisory-machine-that-never-seals.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-03-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "committee-visible-evidence-packet",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--committee-visible-evidence-packet.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-09-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "governance-mode-selection",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--governance-mode-selection.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-03-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "machine-ordering-after-independent-reads",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--machine-ordering-after-independent-reads.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-09-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "ordinal-eligibility-list-over-a-crowned-lead",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--ordinal-eligibility-list-over-a-crowned-lead.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-03-28"
     }
    ]
   },
@@ -8204,6 +8264,7 @@
     "candidate-self-scheduling/propose-your-own-times-escalation",
     "candidate-status-transparency/terminal-state-copy-without-implying-merit",
     "collective-and-statutory-hiring-governance/advisory-machine-that-never-seals",
+    "collective-and-statutory-hiring-governance/machine-ordering-after-independent-reads",
     "collective-and-statutory-hiring-governance/ordinal-eligibility-list-over-a-crowned-lead",
     "combining-signals-into-a-hire-decision/a-hold-that-blocks-auto-advance",
     "combining-signals-into-a-hire-decision/terminal-decisions-stay-with-a-person",
@@ -8618,6 +8679,7 @@
     "candidate-identity-and-staleness/content-addressed-document-identity",
     "candidate-identity-and-staleness/requirement-edited-since-scored",
     "collective-and-statutory-hiring-governance/committee-visible-evidence-packet",
+    "collective-and-statutory-hiring-governance/machine-ordering-after-independent-reads",
     "collective-and-statutory-hiring-governance/sticky-governance-against-silent-downgrade",
     "combining-signals-into-a-hire-decision/discrepancy-between-signals-is-itself-a-signal",
     "compensation-banding-and-market-honesty/advertised-pay-is-not-earnings",
@@ -9043,6 +9105,7 @@
     "candidate-self-scheduling/withdraw-is-not-cancel",
     "collective-and-statutory-hiring-governance/advisory-machine-that-never-seals",
     "collective-and-statutory-hiring-governance/governance-mode-selection",
+    "collective-and-statutory-hiring-governance/machine-ordering-after-independent-reads",
     "collective-and-statutory-hiring-governance/sticky-governance-against-silent-downgrade",
     "combining-signals-into-a-hire-decision/terminal-decisions-stay-with-a-person",
     "compensation-banding-and-market-honesty/grounded-band-is-read-only",
