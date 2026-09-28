@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 388,
-  "applications": 229,
+  "techniques": 390,
+  "applications": 232,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "388/388",
+  "use_when_coverage": "390/390",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1738,10 +1738,26 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/candidate-outreach-and-halt-rules.md",
-   "digest": "sha256-b2:0ca67f10ca018e7a",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:120616b41dbda8d4",
+   "revision": 2,
+   "changedAt": "2026-09-28",
    "techniques": [
+    {
+     "slug": "an-automatic-reply-is-not-an-answer",
+     "status": "forged",
+     "laws": [
+      "uncertainty-resolves-toward-the-candidate",
+      "absence-of-evidence-is-not-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an out-of-office came back on a live sequence",
+      "deciding whether an auto-reply halts",
+      "pauses or is ignored",
+      "a reply-rate metric counts machine replies",
+      "a mailbox answers that the person has left"
+     ]
+    },
     {
      "slug": "audit-the-non-send",
      "status": "forged",
@@ -1827,6 +1843,21 @@
       "designing the state that stops a sequence",
       "deciding whether a negative reply still halts"
      ]
+    },
+    {
+     "slug": "the-first-touch-carries-the-notice",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "uncertainty-resolves-toward-the-candidate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the first message to someone who never applied",
+      "a sourced profile is about to be contacted",
+      "deciding what the footer of a cold message must say",
+      "someone asks where we got their details"
+     ]
     }
    ],
    "applications": [
@@ -1834,19 +1865,42 @@
      "stack": "node",
      "technique": "consent-gate-before-the-first-touch",
      "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/node--consent-gate-before-the-first-touch.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "grounded-personalisation-never-fabricated",
      "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/process--grounded-personalisation-never-fabricated.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "an-automatic-reply-is-not-an-answer",
+     "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/spec--an-automatic-reply-is-not-an-answer.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2026-12-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "halt-the-sequence-on-any-reply",
+     "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/spec--halt-the-sequence-on-any-reply.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2026-10-31"
+    },
+    {
+     "stack": "spec",
+     "technique": "the-first-touch-carries-the-notice",
+     "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/spec--the-first-touch-carries-the-notice.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-09-28"
     },
     {
      "stack": "sql",
      "technique": "halt-state-scoped-per-role-not-per-person",
      "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/sql--halt-state-scoped-per-role-not-per-person.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-28",
+     "verified_against": "sql@3"
     }
    ]
   },
@@ -7949,9 +8003,11 @@
     "candidate-identity-and-staleness/rebuild-overwrites-manual-edits-warning",
     "candidate-identity-and-staleness/retired-outranks-stale-status-precedence",
     "candidate-identity-and-staleness/shared-artifact-across-claimed-identities",
+    "candidate-outreach-and-halt-rules/an-automatic-reply-is-not-an-answer",
     "candidate-outreach-and-halt-rules/consent-gate-before-the-first-touch",
     "candidate-outreach-and-halt-rules/halt-state-scoped-per-role-not-per-person",
     "candidate-outreach-and-halt-rules/halt-the-sequence-on-any-reply",
+    "candidate-outreach-and-halt-rules/the-first-touch-carries-the-notice",
     "candidate-self-scheduling/propose-your-own-times-escalation",
     "candidate-self-scheduling/structural-slot-validation-on-submit",
     "candidate-status-transparency/stage-role-mapping-not-stage-names",
@@ -8313,6 +8369,7 @@
     "candidate-communication-integrity/terminal-delivery-status-vocabulary",
     "candidate-consent-and-retention/anonymise-but-retain-the-aggregate-signal",
     "candidate-consent-and-retention/read-time-gate-not-just-the-sweep",
+    "candidate-outreach-and-halt-rules/an-automatic-reply-is-not-an-answer",
     "candidate-outreach-and-halt-rules/audit-the-non-send",
     "candidate-outreach-and-halt-rules/distinguish-a-reply-from-a-re-application",
     "candidate-status-transparency/honest-failure-classification",
@@ -8540,6 +8597,7 @@
     "candidate-identity-and-staleness/shared-artifact-across-claimed-identities",
     "candidate-outreach-and-halt-rules/audit-the-non-send",
     "candidate-outreach-and-halt-rules/grounded-personalisation-never-fabricated",
+    "candidate-outreach-and-halt-rules/the-first-touch-carries-the-notice",
     "candidate-self-scheduling/server-authored-slot-labels",
     "candidate-self-scheduling/withdraw-is-not-cancel",
     "candidate-status-transparency/candidate-legible-timeline",

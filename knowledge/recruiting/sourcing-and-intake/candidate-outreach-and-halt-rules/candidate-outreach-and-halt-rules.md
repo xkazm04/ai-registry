@@ -11,6 +11,8 @@ techniques:
   - halt-state-scoped-per-role-not-per-person
   - audit-the-non-send
   - grounded-personalisation-never-fabricated
+  - an-automatic-reply-is-not-an-answer
+  - the-first-touch-carries-the-notice
 ---
 
 # Candidate outreach and halt rules
@@ -118,6 +120,13 @@ is [uncertainty resolves toward the candidate](../../_laws.md#uncertainty-resolv
 in its outreach form: where the system is unsure whether it still has permission
 to speak, it stops. See halt-the-sequence-on-any-reply.
 
+The out-of-office is the one reply that was not written by the person, and it
+still halts. What a machine reply may change is only what happens *after* the
+halt. The failure is sending straight through it. A single resumption is
+defensible only against a return date the responder actually stated, through
+every gate again, and anything the system cannot classify with confidence is a
+human reply. See an-automatic-reply-is-not-an-answer.
+
 Three corollaries that carry most of the real difficulty:
 
 **Something has to make an inbound message count as a reply.** An inbound
@@ -167,13 +176,27 @@ you have made; treat it as a prior you should replace with your own measured
 reply-by-touch curve as soon as you have one, and note that any curve you compute
 from your own sequences is confounded by whom you chose to sequence.
 
+Know which side of the trade the number protects. The published reply-by-touch
+data — several million recruiting messages, all of it from vendors who sell
+sequencing — puts the flattening after the fourth or fifth touch, not the third,
+and in that data the fourth touch still adds a small number of replies. None of
+it measured the cost side: unsubscribes, complaints or negative replies by touch
+number. "Three" is therefore a prior that weighs the recipient's cost, which
+nobody has measured, against a reply gain that has been measured and is small. If you
+raise it, measure the cost side alongside the replies, or you will optimise the
+only half anyone counts.
+
 **Space touches so that each one is plausibly the first thing they have time
 for.** Same-day and next-day follow-ups do not test whether the message was
 missed; they test whether the person is annoyed yet. A first follow-up at roughly
 a working week, a second at two to three weeks, and any re-approach at a
 quarter or more, is a defensible default. Widening intervals encode the honest
 belief: each successive silence is stronger evidence of disinterest, so each
-successive touch must clear a higher bar.
+successive touch must clear a higher bar. The widening is a belief, not a
+measurement. The one published spacing comparison found that roughly a week
+between each of the first three touches gave the best interested rate, and a
+professional network's own follow-up defaults to a week. Nobody has shown that
+the second gap should be longer than the first.
 
 **A sourced candidate and an applicant are not on the same clock, and confusing
 them is the most common cadence error.** They differ on both sides of the
@@ -204,7 +227,18 @@ address is not being given one.
 **Say how to stop, in the first message.** Every cold outreach carries a plain,
 one-line way out that does not require a reply, and that path must actually
 write a durable halt at the person identity rather than a per-campaign
-suppression that the next campaign will not read.
+suppression that the next campaign will not read. The link is one way out, never
+the only one: a reply that says stop writes the same halt.
+
+For a person who never applied, the first message is also a legal deadline in
+the EU and in regimes modelled on it. The notice owed to someone whose data was
+not collected from them is due no later than the first communication, and so is
+an explicit, separately presented statement of the right to object. The line
+most cold messages omit is the source: **say how you come to have their
+details.** Anti-spam law is the wrong test here. A direct employer's job message
+is generally not a commercial message under the main North American anti-spam
+regimes, and teams that stop at "not spam, so no footer" answer the wrong
+question. See the-first-touch-carries-the-notice.
 
 This repo-independent shape of a cadence — the schedule, the touch budget, the
 channel ladder — is the part most systems have not built. Implementing halts
@@ -295,7 +329,14 @@ shows up as nothing at all if refusals are silent. See audit-the-non-send.
   come from.
 - **Quiet volume growth.** Nobody owns the total number of messages a single
   person can receive across all recruiters and all sequences in a quarter, so
-  each sequence is individually reasonable and the aggregate is harassment.
+  each sequence is individually reasonable and the aggregate is harassment. The
+  quieter variant is a ceiling that exists and counts only sequenced mail, so the
+  hand-sent one-off message walks past it.
+- **Sending through the out-of-office.** The auto-reply is filtered as noise, the
+  schedule keeps running, and the person comes back to the whole sequence at once.
+- **The cold message that never says where it found you.** It is warm, grounded
+  and specific, and it is the first time the person learns you hold their
+  details. In the EU that sentence was due in this message.
 
 ## The bar
 

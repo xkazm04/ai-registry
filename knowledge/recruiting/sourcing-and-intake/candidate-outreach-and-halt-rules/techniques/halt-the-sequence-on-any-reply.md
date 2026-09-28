@@ -68,13 +68,26 @@ conditional on the reply being classified as positive.
 
 - **When any inbound message arrives on a thread with a prior send, halt.**
   Negative, positive, one word, an angry paragraph, a forwarded auto-reply — all
-  halt. The uncertainty about whether you still have permission to speak resolves
+  halt. This is also what the mainstream recruiting sequencers document: stop on
+  any reply, with no special case for auto-replies. The uncertainty about whether you still have permission to speak resolves
   toward the person
   ([uncertainty resolves toward the candidate](../../../_laws.md#uncertainty-resolves-toward-the-candidate)).
-- **When the reply is an out-of-office, halt anyway** and let a human decide the
-  re-approach date. Auto-detecting absence replies to keep the machine running is
-  a small optimisation that reliably produces the worst-looking incidents,
-  because the person returns to a stack of messages sent while they were away.
+- **When the reply is an out-of-office, halt anyway.** The halt is the first
+  effect of every inbound message; what an auto-reply may change is only what
+  happens after it. Detecting absence replies in order to *keep sending* is the
+  failure: the person returns to a stack of messages sent while they were away,
+  and the sequence may have ended before they were back. The one defensible
+  alternative to a human deciding is a single resumption against a return date
+  the responder actually stated, through every gate again. A resume on a fixed
+  delay, with no stated date, is the variant with a measured error. See
+  an-automatic-reply-is-not-an-answer.
+- **On a text channel, a stop word is a revocation, and so is plain wording that
+  means stop.** At least one major jurisdiction makes a fixed list of stop words a
+  revocation in itself, requires any wording a reasonable person would read as a
+  revocation to be honoured, and sets a deadline for doing so. Its scope rules
+  are in active revision, so read the current text rather than a summary. Halting
+  on any reply already covers the sequence. What the rule adds is that such a
+  reply also writes a withdrawal at the person, not only a halt on the sequence.
 - **When the inbound message is from a different address but the same human,
   halt.** Match on person identity, not on the address the mail arrived from.
 - **When the halt state is missing or unreadable, do not send.** Fail closed. A

@@ -64,7 +64,15 @@ else, and a hard stop on the answer.
 6. **Make the opt-out path write here.** The one-line way out in every cold
    message writes a durable withdrawal at the person identity, immediately, and
    without requiring a reply or a login. A suppression stored against a campaign
-   is not an opt-out.
+   is not an opt-out. **The link is one way to stop, never the only one.** A reply
+   that says stop, in any wording a reasonable reader would take as stop, writes
+   the same withdrawal. Some regulators already require that for text messages,
+   but the rule does not depend on them. A person who wrote "please stop" and was
+   told to find the link has been asked to do your paperwork. Letting the person choose the scope ("this role" or "all future
+   roles") is fine; the system never narrows the scope they chose, and an
+   ambiguous request takes the wider one. For a sourced person, the line also has
+   a legal position and a required neighbour, the source of their details: see
+   the-first-touch-carries-the-notice.
 7. **Audit every refusal** with reason, actor and intended recipient
    ([every consequential decision names its actor](../../../_laws.md#every-decision-names-its-actor)).
 

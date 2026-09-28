@@ -66,7 +66,14 @@ visible reason the person is suppressed.
    restriction. Fine state cannot override coarse suppression.
 4. **Enforce a person-level volume ceiling** across all roles, all sequences and
    all recruiters, over a rolling window. This is the control that makes the
-   per-role scope survivable and the one most systems never build.
+   per-role scope survivable and the one many systems never build. Where it is
+   built, check what it counts. At least one mainstream applicant-tracking product
+   ships a contact-frequency policy that blocks sequenced mail and states that
+   one-off emails can still be sent. A ceiling that counts only sequences is a
+   sequence ceiling. The person-level one counts every outbound path through the
+   single chokepoint, including the recruiter's hand-sent message, and a one-off
+   send that would breach it needs the same recorded reason as a cross-role
+   re-approach.
 5. **Show the recruiter the person's full outreach history** at the moment they
    start a sequence, not just this role's. The interface is where a per-role
    scope is redeemed: a human who can see three prior approaches will not send a
