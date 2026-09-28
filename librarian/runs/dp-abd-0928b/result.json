@@ -1,0 +1,42 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-abd-0928b",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-28T10:05:00Z",
+  "ended_at": "2026-09-28T10:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/agent-benchmark-design",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/agent-operations/agent-benchmark-design.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "reason": "Stale dispatch, the fourth for this finding. '3 techniques (design floor is 4)' was read at bd295204, the primary checkout's main, 4 ahead and 231 behind origin/main 5a3080d6. The origin index lists four techniques; null-and-reference-controls landed in df6f8f4d (dp-abd-0927), and only ledger commits have touched the subject since then. check-currency reports 0 expired and 0 at-risk fleet-wide and none for agent-operations. There is no clock or event to point at. The outcome is declined, not idled, because the subject has had no dry pass."
+    }
+  ],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Third decline of the same stale finding (after dp-abd-0927b and dp-abd-0928). The dispatch HEAD moved from d93fbd78 to bd295204: the lane re-reads local main but never fetches origin. Recorded from a detached origin worktree; only the subject note changed."
+}

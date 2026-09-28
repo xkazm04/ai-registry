@@ -142,3 +142,13 @@ and nothing under the subject folder has moved since df6f8f4d. check-currency ha
 it, and no fleet map joins it; a positive control (deployment-contract) hit five maps. The
 run result carries `failure_signature` because this is the second decline for the same
 reason. The finding will keep coming back until the Curator lane ranks from origin/main.
+
+## 2026-09-28 - a fourth stale dispatch (run `dp-abd-0928b`)
+
+Declined, no pass. The finding was the same one, now read at bd295204. That is the primary
+checkout's main, 4 commits ahead of origin and 231 behind it. Since df6f8f4d, only three
+ledger commits have touched the subject folder or this note on origin. check-currency shows
+zero expired and zero at-risk rows fleet-wide, and none for agent-operations. The primary
+checkout moved forward between dispatches, so the lane does reread it. It reads local
+main, though, and never fetches origin. Moving the dispatch HEAD therefore does not clear
+the finding.
