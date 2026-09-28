@@ -1,0 +1,94 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-da-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T22:17:00Z",
+  "ended_at": "2026-09-28T22:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/decision-audit-and-traceability",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/decision-audit-and-traceability",
+      "technique": "hash-chained-append-only-records",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/decision-audit-and-traceability",
+      "technique": "integrity-evident-is-not-tamper-resistant",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/decision-audit-and-traceability",
+      "technique": "seal-actor-policy-version-and-decisive-inputs",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/governance/decision-audit-and-traceability/decision-audit-and-traceability.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/techniques/capture-the-machine-verdict-before-a-human-overwrites-it.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/techniques/hash-chained-append-only-records.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/techniques/integrity-evident-is-not-tamper-resistant.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/techniques/reason-codes-over-prose.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/techniques/seal-actor-policy-version-and-decisive-inputs.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/techniques/structured-facts-plus-a-locale-invariant-audit-string.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/applications/node--capture-the-machine-verdict-before-a-human-overwrites-it.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/applications/node--integrity-evident-is-not-tamper-resistant.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/applications/node--hash-chained-append-only-records.md",
+    "knowledge/recruiting/governance/decision-audit-and-traceability/applications/process--structured-facts-plus-a-locale-invariant-audit-string.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/decision-audit-and-traceability.md"
+  ],
+  "commits": [
+    {
+      "sha": "06536343",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/governance/decision-audit-and-traceability",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "8936cb8d",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/decision-audit-and-traceability.md",
+        "knowledge/recruiting/index.json",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No technique earned; 5 claims conditioned, 2 labelled judgment. kp head witness in code (104a4b1b5), keyed rung sim better, 1 unmeasurable, 3 unapplied. Maps/kp rows local, unpushed. --all 23/23 in a clean worktree; shared tree stops at check-skills (untracked, not ours)."
+}
