@@ -1,0 +1,42 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-bjd-0928",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-28T12:00:00Z",
+  "ended_at": "2026-09-28T12:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/blind-judging-of-agent-runs",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/agent-operations/blind-judging-of-agent-runs.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/blind-judging-of-agent-runs",
+      "reason": "Stale dispatch, fourth send. The finding '3 techniques (design floor is 4)' was read at bd295204, 234 commits behind origin/main 60f166bf. There the subject has four techniques (3063b210, dp-bja-0927). No commit since dp-bjc-0928 touches the subject, and none since dp-bja-0927 touches the contest skill. check-currency reports agent-operations at 0 expired and 0 at-risk, with no drift on this subject. Not idled: the subject has not had two dry passes."
+    }
+  ],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Fourth dispatch of this subject on one stale finding, after dp-bja-0927 (landed), dp-bji-0927 (idled) and dp-bjc-0928 (declined). Worked from a detached worktree of origin/main 60f166bf. Only a dated subject-note paragraph was added."
+}

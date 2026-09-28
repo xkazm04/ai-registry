@@ -1,7 +1,7 @@
 ---
 domain: agent-operations
 subject: blind-judging-of-agent-runs
-last_touched: 2026-09-27
+last_touched: 2026-09-28
 touched_by: deepen
 dry_streak: 0
 ---
@@ -130,3 +130,13 @@ this subject's applications. None of the banked leads' return conditions has an 
 dry_streak is unchanged: a declined dispatch is not a dry pass. The failure signature is the
 lane's: it reads the finding from a stale checkout and does not consult the run results it has
 already written for the subject (`dp-bja-0927`, `dp-bji-0927`).
+
+## 2026-09-28 - fourth send, declined (run `dp-bjd-0928`)
+
+Declined, no pass. Same finding again, now from dispatch HEAD bd295204, which is 234
+commits behind origin/main (60f166bf). At origin the subject still has four techniques. No
+commit since `dp-bjc-0928` touches the subject folder or this note, and no commit since
+`dp-bja-0927` touches the contest skill. `check-currency` still reports agent-operations at
+0 expired and 0 at-risk, with no drift on this subject. dry_streak is unchanged. The lane
+has now sent this subject four times on one finding. The fix belongs in the dispatcher: read
+origin, and read `librarian/runs/*/result.json` for the subject before sending.
