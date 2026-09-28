@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 390,
-  "applications": 232,
+  "applications": 233,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -1738,8 +1738,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/candidate-outreach-and-halt-rules.md",
-   "digest": "sha256-b2:120616b41dbda8d4",
-   "revision": 2,
+   "digest": "sha256-b2:546cc18121327592",
+   "revision": 3,
    "changedAt": "2026-09-28",
    "techniques": [
     {
@@ -1865,6 +1865,13 @@
      "stack": "node",
      "technique": "consent-gate-before-the-first-touch",
      "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/node--consent-gate-before-the-first-touch.md",
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "the-first-touch-carries-the-notice",
+     "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/node--the-first-touch-carries-the-notice.md",
      "verified_on": "2026-09-28",
      "verified_against": "node@24"
     },

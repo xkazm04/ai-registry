@@ -672,3 +672,30 @@ Landed c2fa7935. Seven `applied.md` rows:
 
 Impact: kp has 9 contexts on this subject, 0 stale verdicts. Yield high,
 dry_streak 0, depth L2. See [[candidate-identity-and-staleness]].
+
+## 2026-09-28 - deepen: candidate-outreach-and-halt-rules
+
+First pass on this subject (dp-cohr-0928), dispatched by the Curator lane from
+the attention scan. No clock had expired. The event was the tree: every line
+citation in the three kp applications had moved, and two deviations had closed.
+Four lanes.
+
+Counter-evidence: nothing refuted outright, four absolutes conditioned (the
+out-of-office halt, the three-touch ceiling and widening spacing, the
+person-level ceiling, the opt-out's single path). Two techniques earned on
+convergence with the blind lane:
+- an-automatic-reply-is-not-an-answer (RFC 3834, vendor documentation, one
+  vendor's resume measurement);
+- the-first-touch-carries-the-notice (GDPR Art. 14(3)(b), 14(2)(f), 21(4)).
+
+Three spec applications. The TCPA one has refresh_by 2026-10-31, because the
+FCC votes on a narrowing draft on 2026-09-30. All three kp applications were
+re-verified to 0c9a742d3, and a fourth was added.
+
+Landed 497abd97. Four `applied.md` rows:
+- one simulation, better (the first-touch notice);
+- three unapplied (kp has no inbound mail, sends once per entry, and has no
+  ceiling).
+
+Impact: kp has 1 context on this subject, 0 stale verdicts. Yield high,
+dry_streak 0, depth L2. See [[candidate-outreach-and-halt-rules]].
