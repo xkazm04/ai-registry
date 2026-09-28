@@ -138,3 +138,21 @@ Source classes, this run. Kept:
 
 Declined as sole support: search-snippet numbers, and an abstract that rounds its body
 up.
+
+## 2026-09-28 - two stale dispatches, idled then declined
+
+The same finding ("single stack (process)") was sent twice more from local mains behind
+origin: d93fbd78 (dp-mae-0928, idled) and bd295204 (dp-mae-0928b), which is 4 ahead of
+and 239 behind origin/main 2090da35. There, the subject already has two stacks,
+process and rust. The rust application is pin-the-resolved-configuration, from 45af95e0.
+No commit since the dp-mae-0927 ledger touches the subject.
+check-currency ran over 1958 applications, 26 of them in this bundle, and reported 0
+expired, 0 at-risk and no drift row for this subject. Nothing was researched.
+dry_streak stays 0, because a declined dispatch is not a dry pass.
+
+Banked-lead check against personas since 2026-09-27. cc97afa6e6 is this subject's own
+apply. be47a567c (the terminal `/curator` loop) is not the curator-lane-tier event. It
+is a second spawn path with the same gap: `claude --print` with neither `--model` nor
+`--effort`, and `CLAUDE_EFFORT` stripped along with the nesting markers. The owner has
+still not picked a tier, so the lead stays banked, and when it returns it covers both
+paths: the app's dispatch and `.claude/skills/curator/loop.py`.

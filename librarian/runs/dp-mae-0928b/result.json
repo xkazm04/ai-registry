@@ -1,0 +1,42 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-mae-0928b",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-28T13:00:00Z",
+  "ended_at": "2026-09-28T13:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/model-and-effort-selection",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "declined",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/agent-operations/model-and-effort-selection.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "agent-operations/model-and-effort-selection",
+      "reason": "Stale dispatch, third send. The finding 'single stack (process)' was read at bd295204, 239 commits behind origin/main 2090da35. There the subject has process and rust stacks since 45af95e0 (dp-mae-0927). No commit since the dp-mae-0927 ledger touches the subject. check-currency: 0 expired, 0 at-risk, no drift row for it (1958 applications, 26 in the bundle). No banked lead's return condition has occurred. personas be47a567c is a second tier-less spawn path, recorded in the note, and the owner has not picked a tier. Not idled: the subject has not had two dry passes."
+    }
+  ],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Third dispatch of this subject after dp-mae-0927 (landed) and dp-mae-0928 (idled, stale). Worked from a detached worktree of origin/main 2090da35. Only a dated subject-note paragraph was added."
+}
