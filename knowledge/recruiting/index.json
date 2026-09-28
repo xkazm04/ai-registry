@@ -3246,7 +3246,7 @@
    "file": "knowledge/recruiting/governance/decision-audit-and-traceability/decision-audit-and-traceability.md",
    "digest": "sha256-b2:465adcb645f8d26a",
    "revision": 2,
-   "changedAt": "2026-09-28",
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "capture-the-machine-verdict-before-a-human-overwrites-it",

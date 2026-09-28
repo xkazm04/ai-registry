@@ -864,3 +864,43 @@ Landed e9e89361. Six `applied.md` rows:
 Impact: kp has 2 contexts on this subject, 0 stale verdicts. Maps committed
 locally in twelve projects, none pushed. Yield high, dry_streak 0, depth L3.
 See [[cv-parsing-and-career-reading]].
+
+## 2026-09-29 - deepen: decision-audit-and-traceability
+
+First pass on this subject (dp-da-0929), dispatched by the Curator lane from
+the attention scan. No clock had expired. The event was the tree: 135 kp
+commits on the cited decision-store, pipeline-action and group-eval files since
+the applications were verified on 2026-08-20. Four lanes.
+
+Counter-evidence: nothing refuted outright; five conditioned, two labelled
+judgment, one confirmed with its attribution corrected:
+- conditioned: "detectable by anyone holding the sequence" (a chain commits to
+  no head; truncation and rewrite need an earlier head held elsewhere); the
+  keyed rung (the sealing process holds the key; HMAC verifiers can forge);
+  retention (1 to 4 years by jurisdiction, the EU six months from 2027-12-02,
+  bounded by storage limitation); override rate (a reason to audit, not a
+  verdict); same transaction (durable and atomic; an outbox qualifies);
+- judgment: the 12-30 code range and the "other" threshold;
+- confirmed: Reg B, with "insufficient" in the rule and "four" in the
+  commentary.
+
+Primary texts changed two facts: Colorado's principal-reasons duty was
+repealed and re-enacted before it took effect (SB 26-189, from 2027-01-01),
+and the omnibus moved Annex III to 2 December 2027.
+
+The tree gave the code row: the product's own demo reset deletes sealed rows
+from the real chain, and the verification checkpoint hid even an interior
+delete. No technique earned: the head commitment is a step of the chain
+technique, and the oversight instruments belong to a neighbour.
+
+Landed 06536343. Six `applied.md` rows:
+- one code, better: the head witness, kp 104a4b1b5, local;
+- one simulation, better: the keyed rung (3 of 3 against 1 of 3);
+- one simulation, unmeasurable: durable and atomic (kp has no outbox);
+- three unapplied: the override reading (the sealed pair has no reader),
+  retention floors (nothing expires), reason-code conditions (no closed
+  sealed vocabulary).
+
+Impact: kp has 5 contexts on this subject, 0 stale verdicts. Maps committed
+locally in twelve projects, none pushed. Yield high, dry_streak 0, depth L3.
+See [[decision-audit-and-traceability]].
