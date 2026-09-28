@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: candidate-status-transparency
 status: forged
-use_when: [building a candidate-facing status page or portal, deciding what a candidate may see about their own application, writing status or terminal-outcome copy, instrumenting whether a "we do not ghost people" claim is true]
+use_when: [building a candidate-facing status page or portal, deciding what a candidate may see about their own application, writing status or terminal-outcome copy, instrumenting whether a "we do not ghost people" claim is true, deciding whether to tell a candidate when something will happen]
 techniques:
   - candidate-safe-status-projection
   - stage-role-mapping-not-stage-names
@@ -11,14 +11,18 @@ techniques:
   - honest-failure-classification
   - terminal-state-copy-without-implying-merit
   - terminal-moment-experience-measurement
+  - committed-dates-not-forecasts
 ---
 
 # Candidate status transparency
 
-Ask candidates what they hate about applying for jobs and the answer has been
-the same for as long as anyone has surveyed it: not the rejection, not the
-assessments, not even the unpaid work — the *silence*. Applications go into a
-form and nothing comes back. Most people never learn whether a human read
+Ask candidates what they hate about applying for jobs and *the silence* is at
+or near the top of every list: first in some surveys, second only to pay in
+others, and ahead of the assessments and the unpaid work. Where it has been
+compared directly with the thing it is usually said to be worse than, it is:
+applicants who were rejected without being told report worse intentions toward
+the organisation than applicants who received a rejection. Applications go
+into a form and nothing comes back. Most people never learn whether a human read
 anything, whether the role is still open, or whether they were declined at all.
 The industry's own term for the majority outcome is a verb about ghosts.
 
@@ -51,11 +55,18 @@ claim; you delegate the claim to the candidate's worst hypothesis, and they
 tell that version to everyone who asks how the process went.
 
 This also inverts the usual cost argument. A status surface is not a cost
-centre offset by goodwill. It is a *deflection* mechanism: the "any update?"
-email, the follow-up chase, the recruiter interrupted to look someone up in a
-board — those are real operating costs, and a self-service truthful view
-removes most of them. The teams that resist building one are usually paying
-for it already, in a line item labelled something else.
+centre offset by goodwill. It is meant as a *deflection* mechanism: the "any
+update?" email, the follow-up chase, the recruiter interrupted to look someone
+up in a board — those are real operating costs, and the teams that resist
+building a view are usually paying for them already, in a line item labelled
+something else. But how much a view deflects is a hypothesis to measure, not
+a saving to book. No hiring measurement of it was found. The nearest evidence,
+from a public service that built exactly this kind of progress tool, is that
+people kept chasing when they had not noticed the acknowledgement, could not
+remember it, or could not tell from it *when*. A view that answers "where" and
+not "when" deflects the least. Count the chasing contacts before and after, and
+see [committed-dates-not-forecasts](techniques/committed-dates-not-forecasts.md)
+for the "when".
 
 ## What a status view may and may not contain
 
@@ -76,14 +87,23 @@ person sits among them. Any machine judgment that has not been ratified by a
 human. Anything about the requisition's internal state — a hiring freeze, a
 budget problem, an internal candidate — beyond its consequence for this person.
 
-**Deliberately absent.** Predicted dates. A status page that says "decision
-expected by the 14th" has made a promise on behalf of people who did not agree
-to it, and every missed prediction converts a transparency feature into
-evidence of unreliability. Say what the *process* commits to ("we respond to
-every applicant"), or say what has already happened. Never forecast a human
-decision you do not control. This is the same instinct as
+**Deliberately absent.** Forecasts of a human decision. A status page that
+says "decision expected by the 14th" has made a promise on behalf of people
+who did not agree to it, and every missed prediction converts a transparency
+feature into evidence of unreliability. Never forecast a human decision you do
+not control. This is the same instinct as
 [inference-must-look-like-inference](../../_laws.md#inference-must-look-like-inference):
 a guess rendered in the grammar of a commitment is read as a commitment.
+
+**Owed, which is not the same thing.** Dates the organisation itself owns and
+keeps. When the posting closes and review begins, a published campaign
+schedule, a "you will hear from us by" date the team has committed to and
+measures itself against. Being told when things will happen is part of what
+applicants mean by fair feedback, and few are told it. A relative timescale
+("within three weeks") is chased by people who cannot tell when the clock
+started, so a committed date is anchored to the calendar. The line between the
+two is who controls the date, not whether a date appears: see
+[committed-dates-not-forecasts](techniques/committed-dates-not-forecasts.md).
 
 ## Access without an account
 
@@ -104,6 +124,17 @@ general practice and belongs to a software-engineering standard; what belongs
 *here* is the hiring judgment that identity bound to a hiring outcome is
 sensitive, and that the blast radius of a leaked link must be one application's
 worth of non-damaging facts.
+
+Two consequences of that judgment are hiring decisions, not plumbing. The first
+is that the page whose address *is* the key loads nothing from a third party
+and sends no referrer, because the standing web guidance on secret-bearing
+addresses names exactly those routes (and logs, and browser history) as where
+the address escapes to. The second is that the page never carries a
+capability stronger than reading. When the candidate is expected to act —
+answer an offer, book a round, take an assessment — the view names the action
+and its deadline and routes them to it through the channel the action was sent
+on. It does not put the action's own key where a forwarded status link can
+use it.
 
 ## Stage roles, not stage names
 
@@ -140,6 +171,10 @@ imply merit in either direction. Neither "we found a stronger match" nor "your
 profile was excellent" — the first is an unrecorded adverse claim, the second
 is an unrecorded flattering one, and both violate
 [say-only-what-the-record-holds](../../_laws.md#say-only-what-the-record-holds).
+The one national hiring system this lane read that runs a status vocabulary at
+scale makes the same cut. Its public view keeps a cancelled posting ("did not
+hire anyone") apart from a completed hire, and its notice rules list
+cancellation as a notice of its own, beside selection.
 
 Note the seam: what a *decline message* says, when it is a real considered
 decline with a recorded reason, belongs to the rejection sibling. This subject
@@ -194,12 +229,33 @@ rather than assuming.
 "We respond to every applicant" is a marketing sentence until someone
 measures it, and organisations are structurally unable to notice their own
 silence: the ghosted candidate never files a complaint, they simply leave.
-The measurement therefore has to be pulled from the people the process is
-ending on, at the moment it ends.
 
-That means an experience question asked **only at a terminal outcome** — not
-mid-process where it becomes a nag and where the respondent does not yet know
-how the story turns out. It means one response per application, because an
+The complete instrument comes first, and it is not a survey. Every terminal
+outcome either has a recorded notice or it does not, and that count covers
+every candidate where a survey covers only the ones who answer. The sibling
+that owns decline dispatch owns the count and the age of the oldest unpaid
+notice. A large public employer now requires its hiring units to check from
+system data that each status notice actually went out. The survey is the
+second instrument, and it answers a different question: not *did the ending
+arrive* but *how did it land*.
+
+That second measure has to be pulled from the people the process is ending on,
+at the moment it ends. That means an experience question asked **at a terminal
+outcome** — not repeated mid-process where it becomes a nag and where the
+respondent does not yet know how the story turns out.
+
+It also means reading the answer for what it is. Reactions track the outcome:
+applicants' perceptions are largely a function of how well they did, and in
+one large benchmark the hired candidates' score sits around 45 points above
+the overall figure. A terminal reading is therefore never reported unsplit. It
+is always read by outcome (hired, declined, withdrew, requisition ended),
+because unsplit it measures the hire rate. If the question is whether the
+*procedure* was fair, as opposed to whether the ending arrived well, that
+needs one short pulse after a hurdle and before the outcome is known. It is
+anonymous to the people deciding, which removes the incentive to flatter, and
+it is asked once, not at every stage.
+
+The terminal measure means one response per application, because an
 unguessable link in a candidate's hands is a ballot box someone can stuff, and
 a satisfaction number that can be inflated by whoever is angriest or most
 motivated is not a number. It means the surface stops asking once answered, so
@@ -208,7 +264,11 @@ means a minimum sample below which the figure is withheld entirely, per
 [a-claim-carries-its-sample-and-its-basis](../../_laws.md#a-claim-carries-its-sample-and-its-basis)
 — four responses cannot support a claim about how a company treats people, and
 in a small hiring team a displayed average over three declines is also close to
-identifying who wrote it.
+identifying who wrote it. The floor only decides whether a figure is shown. It
+does not make the figure precise: a net-promoter figure over ten answers
+carries a 95% interval roughly forty points wide on each side, and still about
+fifteen at a hundred. The number travels with its interval, and a comparison
+between two cohorts waits until each has around a hundred answers.
 
 The counter-intuitive part is worth stating plainly: a terminal-moment
 experience score is the only instrument that samples the population your
@@ -226,8 +286,10 @@ looking at the first true reading it has ever had.
 - **The status page that reassures.** Copy tuned for comfort — "you're doing
   great", "we're excited about your profile" — attributes evaluations nobody
   recorded, and reads as cruelty in hindsight after a decline.
-- **The forecast.** Any promised date. See above; it converts one grievance
-  into two.
+- **The forecast.** A promised date for a decision the team does not control.
+  See above; it converts one grievance into two. Its mirror is **the
+  shrug** — no date at all where the organisation owns one, so the candidate
+  chases a clock they were never shown.
 - **The pipeline mirror.** Showing every internal micro-stage because it is
   more "transparent". Candidates cannot act on your workflow, and it exposes
   the machinery this subject exists to keep private.

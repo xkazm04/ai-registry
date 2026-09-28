@@ -67,6 +67,20 @@ boundary. Not a view of the record: a different object, constructed from it.
 - **When the record contains something about the requisition rather than the
   person** — a freeze, an internal appointment, a budget pull — project only
   its consequence for this application, never its cause.
+- **When the page's address is the key, treat the page as part of the
+  boundary.** The standing web guidance on secret-bearing addresses names
+  where they escape: server logs, browser history, the referrer sent to any
+  other site the page loads from or links to, and third-party scripts that
+  read the address. A projection that is safe to read by a stranger is still
+  only as private as its address. So the status page loads no third-party
+  script and sends no referrer. It is kept out of search indexes, and its
+  link can be revoked and reissued without touching the application.
+- **When the candidate must act, project the action, never its key.** An
+  offer answer or a booking has its own capability. The projection may carry
+  *that* an action is waiting, *which kind* and *until when*. It never carries
+  the token that performs it, because the status link is the one most likely
+  to be forwarded. The timeline sibling says how the page routes the
+  candidate to the action instead.
 - **When a number would be shown, ask what the candidate can do with it.**
   Position in a queue, applicant counts and match percentages change nothing
   the candidate can act on, and each one is a comparative claim about a person
@@ -89,6 +103,9 @@ owns the shape of the self-service payload only.
   different obligation with a different scope, answered by the record itself
   under the consent-and-retention rules, not by this deliberately lossy view.
   Never let the projection become the answer to "give me everything you hold".
+  Data-protection guidance allows remote access to answer an access request
+  only if the person can download a copy of what was requested. A lossy status
+  view cannot do that by design.
 - **Where no candidate-facing surface exists.** Do not build the projection
   as a speculative data model. Its value comes from being enforced at a real
   boundary; unenforced, it is a naming convention that drifts.

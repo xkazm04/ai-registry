@@ -18,19 +18,31 @@ not complain, they simply stop replying and tell people privately. Any honest
 instrument therefore has to sample the population the process ends on, at the
 moment it ends them.
 
-The technique is a single-question experience measure fired **only at a
-terminal outcome**, bound to one application, answerable once, and withheld
-below a minimum sample. Each of those four constraints exists because of a
-specific way the number otherwise becomes a lie.
+The technique is a single-question experience measure fired **at a terminal
+outcome**, bound to one application, answerable once, withheld below a
+minimum sample, and always read by outcome. Each of those constraints exists
+because of a specific way the number otherwise becomes a lie.
+
+It is the *second* instrument, not the first. Whether every ending produced a
+notice at all is a count over the records, and it covers everyone where this
+covers respondents. That count belongs to the decline-dispatch sibling. This
+technique answers how the ending landed for the people who reached it.
 
 ## Why each constraint exists
 
-- **Only at a terminal outcome.** Mid-process, the respondent does not yet
-  know how the story ends, and their answer measures hope. Worse, an in-flight
-  candidate has an obvious incentive to answer favourably to the party still
-  deciding on them — which makes mid-process satisfaction systematically
-  inflated, not merely noisy. The terminal moment is also the only one where
-  the question is not a demand on someone who is trying to get a job.
+- **At a terminal outcome, for this measure.** Mid-process, the respondent
+  does not yet know how the story ends, and their answer measures hope. Worse,
+  an in-flight candidate has an obvious incentive to answer favourably to the
+  party still deciding on them — which makes an attributable mid-process
+  rating systematically inflated, not merely noisy. The terminal moment is
+  also the only one where the question is not a demand on someone who is
+  trying to get a job.
+- **Always split by outcome.** The terminal moment trades one bias for
+  another. Applicants' reactions are largely a function of how well they did,
+  and in one large benchmark the hired candidates' score sits about 45 points
+  above the overall figure. An unsplit terminal average therefore moves with
+  the hire rate as much as with the treatment. Hired, declined, withdrew and
+  requisition-ended are four populations, and they are reported as four.
 - **One response per application.** The access key is a forwardable link in a
   candidate's hands. Without a per-application constraint enforced in the
   store, whoever is angriest — or whoever is most motivated to make the number
@@ -77,12 +89,16 @@ specific way the number otherwise becomes a lie.
    not an account; an unbounded text column reachable by a link-holder is a
    write channel into your store. A cap generous enough for a real sentence is
    the whole defence needed.
-7. **Record which terminal outcome it followed.** A satisfaction figure that
-   cannot be split by declined-versus-hired is the average of two different
-   populations and is dominated by whichever is larger — which flatters
-   whoever hires a lot.
-8. **Report the number with its denominator and its window, always.** The
-   figure never travels without them.
+7. **Record which terminal outcome it followed, in the response row.** A
+   satisfaction figure that cannot be split by declined-versus-hired is the
+   average of two different populations and is dominated by whichever is
+   larger — which flatters whoever hires a lot. Deriving the outcome later
+   from the application is fragile, because applications are reinstated,
+   re-matched and anonymised. Store it when the answer arrives.
+8. **Report the number with its denominator, its window and its interval,
+   always.** The figure never travels without them. A net-promoter figure is a
+   difference of two proportions, and its 95% interval is about forty points
+   wide on each side at ten answers and still about fifteen at a hundred.
 9. **Track response rate as its own signal.** A collapsing response rate at
    the terminal moment usually means the terminal moment is arriving badly, or
    not arriving at all.
@@ -91,7 +107,20 @@ specific way the number otherwise becomes a lie.
 
 - **When the sample is below the floor, withhold the figure entirely** — do
   not show it greyed, or "provisional", or with a caveat. A displayed number
-  is a quoted number.
+  is a quoted number. Above the floor the figure is shown, not settled. The
+  floor is a display rule. A trend line or a comparison between two cohorts
+  waits until each cell has around a hundred answers, because below that the
+  intervals overlap whatever the averages say.
+- **When the question is whether the procedure was fair, rather than how the
+  ending landed, ask it separately and before the outcome.** One short pulse
+  after a hurdle — the point where the applicant-reactions research
+  administers its own fairness scales — anonymous to the people deciding, so
+  the incentive to flatter has no one to flatter. It is asked once, not at
+  every stage. It is a different instrument with a different population. It
+  is never merged into the terminal figure.
+- **When the metric is net-promoter, keep it one indicator among several.**
+  Its claimed superiority as a predictor has failed independent replication,
+  and in hiring the "promoter" is mostly the person who got the job.
 - **When a downstream consumer carries its own publish policy, expose the
   unfloored figure separately and label it as such.** A metric pack that
   *labels* a thin measure rather than hiding it needs the raw number; the
@@ -112,7 +141,9 @@ specific way the number otherwise becomes a lie.
 
 ## When NOT to use it
 
-- **Not mid-process, ever.** Covered above; it measures hope and incentive.
+- **Not attributable and mid-process.** Covered above; it measures hope and
+  incentive. The one pre-outcome exception is the separate, anonymous
+  procedure pulse in the decision rules, and it is never this figure.
 - **Not as a gate on anything the candidate needs.** The status view, the
   outcome and any data request must be fully available whether or not they
   answer. A survey wall in front of an outcome is coercion.

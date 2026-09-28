@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 391,
-  "applications": 237,
+  "techniques": 392,
+  "applications": 243,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "391/391",
+  "use_when_coverage": "392/392",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2079,9 +2079,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/candidate-status-transparency.md",
-   "digest": "sha256-b2:13ea157c1ded4385",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:8b56bba66e157ca3",
+   "revision": 3,
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "candidate-legible-timeline",
@@ -2109,6 +2109,22 @@
       "designing what a candidate may see about their own application",
       "reviewing a candidate-facing payload for leakage",
       "adding a field to an internal application record"
+     ]
+    },
+    {
+     "slug": "committed-dates-not-forecasts",
+     "status": "forged",
+     "laws": [
+      "inference-must-look-like-inference",
+      "say-only-what-the-record-holds",
+      "a-claim-carries-its-sample-and-its-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a status page may show a date",
+      "writing \"you will hear from us\" copy",
+      "publishing a review timeline for a role or a campaign",
+      "turning an internal service level into something a candidate reads"
      ]
     },
     {
@@ -2173,22 +2189,64 @@
      "stack": "node",
      "technique": "candidate-safe-status-projection",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--candidate-safe-status-projection.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "committed-dates-not-forecasts",
+     "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--committed-dates-not-forecasts.md",
+     "verified_on": "2026-09-28",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "terminal-moment-experience-measurement",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/node--terminal-moment-experience-measurement.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-28",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "candidate-legible-timeline",
+     "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/react--candidate-legible-timeline.md",
+     "verified_on": "2026-09-28",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "honest-failure-classification",
      "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/react--honest-failure-classification.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-28",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "spec",
+     "technique": "candidate-safe-status-projection",
+     "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/spec--candidate-safe-status-projection.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-03-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "committed-dates-not-forecasts",
+     "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/spec--committed-dates-not-forecasts.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-03-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "terminal-moment-experience-measurement",
+     "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/spec--terminal-moment-experience-measurement.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-03-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "terminal-state-copy-without-implying-merit",
+     "file": "knowledge/recruiting/candidate-experience/candidate-status-transparency/applications/spec--terminal-state-copy-without-implying-merit.md",
+     "verified_on": "2026-09-28",
+     "refresh_by": "2027-03-28"
     }
    ]
   },
@@ -8296,6 +8354,7 @@
     "bulk-adverse-action-governance/small-cohort-floor-with-no-silent-exemption",
     "candidate-ai-disclosure-and-explanation/decisive-facts-not-the-rationale",
     "candidate-consent-and-retention/anonymise-but-retain-the-aggregate-signal",
+    "candidate-status-transparency/committed-dates-not-forecasts",
     "candidate-status-transparency/terminal-moment-experience-measurement",
     "collective-and-statutory-hiring-governance/committee-visible-evidence-packet",
     "combining-signals-into-a-hire-decision/outcome-feedback-loop-per-team",
@@ -8656,6 +8715,7 @@
     "candidate-self-scheduling/withdraw-is-not-cancel",
     "candidate-status-transparency/candidate-legible-timeline",
     "candidate-status-transparency/candidate-safe-status-projection",
+    "candidate-status-transparency/committed-dates-not-forecasts",
     "candidate-status-transparency/terminal-state-copy-without-implying-merit",
     "collective-and-statutory-hiring-governance/committee-visible-evidence-packet",
     "collective-and-statutory-hiring-governance/name-the-ceiling-you-cannot-compute",
@@ -8818,6 +8878,7 @@
     "candidate-archetype-routing/signal-scored-routing-not-rule-matching",
     "candidate-outreach-and-halt-rules/grounded-personalisation-never-fabricated",
     "candidate-status-transparency/candidate-legible-timeline",
+    "candidate-status-transparency/committed-dates-not-forecasts",
     "collective-and-statutory-hiring-governance/name-the-ceiling-you-cannot-compute",
     "collective-and-statutory-hiring-governance/ordinal-eligibility-list-over-a-crowned-lead",
     "combining-signals-into-a-hire-decision/a-hold-that-blocks-auto-advance",

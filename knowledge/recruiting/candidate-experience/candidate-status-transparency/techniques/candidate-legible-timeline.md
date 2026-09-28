@@ -28,11 +28,21 @@ projected. It is not a rendering of your stages.
    review → interviewing → decision → outcome. Fixed means the same steps
    appear for every candidate and every role, so the page is comprehensible
    at a glance and so the count is not itself a leak about how a particular
-   requisition is being run.
+   requisition is being run. The spine is not the explanation. What a
+   particular round actually involves (a written exercise, a panel, a
+   practical) is role-specific, and explaining the steps is what applicant
+   reactions research finds improves perceived fairness. That explanation
+   sits *beside* the spine, attached to the step it describes. It is not
+   extra steps in it.
 2. **Write each step as an event in the candidate's life**, not a stage in
    your workflow. "We are reviewing your application" — not "In triage". The
    test: a candidate who has never worked in hiring should be able to say what
-   happens next, and what they are expected to do.
+   happens next, and what they are expected to do. Write it with "we", not a
+   named actor. "A recruiter is reviewing your profile" is a claim that a
+   person holds it, and a phase that also covers automated scoring or an
+   untouched queue makes that claim false for part of the time it is shown,
+   per [say-only-what-the-record-holds](../../../_laws.md#say-only-what-the-record-holds).
+   Name a person only when the record says one holds the application.
 3. **Render exactly three step states**: completed, current, not-yet-reached.
    Three is enough. Adding sub-progress inside a step ("60% through review")
    invents a measurement nobody made.
@@ -67,12 +77,15 @@ projected. It is not a rendering of your stages.
 - **When the internal process has more stages than the spine, collapse.** The
   spine is fixed; your board is not. Multiple roles mapping to "under review"
   is correct behaviour, not lost fidelity.
-- **When a step has no date, show no date.** An empty step is honest. A
-  projected or estimated date is a promise about a human decision you do not
-  control, and per
+- **When a step has no date, show no date — unless the organisation owns
+  one.** An empty step is honest. A projected or estimated date is a promise
+  about a human decision you do not control, and per
   [inference-must-look-like-inference](../../../_laws.md#inference-must-look-like-inference)
   a forecast rendered in the same grammar as a recorded event will be read as
-  a commitment.
+  a commitment. A date the organisation sets and keeps (the posting closing,
+  a batch review starting, a reply-by date it measures itself against) is not
+  a forecast. It belongs on the step, labelled as a commitment, per
+  [committed-dates-not-forecasts](committed-dates-not-forecasts.md).
 - **When copy would reassure rather than inform, cut it.** "Great news, you're
   moving along!" attributes an evaluation to a stage transition. Per
   [say-only-what-the-record-holds](../../../_laws.md#say-only-what-the-record-holds),
@@ -81,9 +94,17 @@ projected. It is not a rendering of your stages.
   spine.** Every terminal path ends at the outcome step. The visual grammar
   should never leave a finished story looking unfinished.
 - **When a step expects something from the candidate**, say so at that step,
-  in the imperative, with the action available there. This is the one place
-  the timeline may be more than descriptive, and it is where it earns most of
-  its deflection value.
+  in the imperative, with the deadline and a route to the action. This is the
+  one place the timeline may be more than descriptive, and it is where it
+  earns most of its deflection value. "A route" means the way to reach the
+  action, not the action's own key. The status link is forwardable (the
+  projection sibling's premise). An offer answer, a booking or an assessment
+  carries its own capability, and putting that capability on the status page
+  lets whoever holds a forwarded link use it. Name the action, show when it
+  closes, say where it was sent, and offer to send it there again. An
+  expected action that is deliberately left off the page, because it went out
+  on its own channel, still owes the step a line saying something is waiting
+  and where.
 
 ## When NOT to use it
 

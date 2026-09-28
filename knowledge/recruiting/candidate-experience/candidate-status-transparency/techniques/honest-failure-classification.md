@@ -82,6 +82,15 @@ manufacturing chances to fail in front of someone whose story is over.
   has expired" is more actionable than "not found", and expiry is not
   sensitive. Do not, however, distinguish *wrong key* from *no such
   application* — that difference is only useful to someone probing keys.
+  The copy may only describe mechanics the store actually has. "Expired" needs
+  an expiry. "Check your email for your most recent link" needs links that are
+  reissued. A store with one permanent key per application produces neither
+  state, and copy that names them sends the candidate looking for a message
+  that does not exist.
+- **Word the transient state so it cannot be read as the candidate's fault.**
+  "Please check your connection" is correct only for the one case where the
+  request never left their device. Offered for a server fault or a throttle,
+  it tells a candidate with a healthy connection that they are the problem.
 - **Never leak the internal cause.** A stack trace, a store name, an
   identifier or a status code on a candidate path is machinery crossing a
   boundary the projection exists to hold.
