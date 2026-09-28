@@ -75,6 +75,14 @@ sibling session):**
 pairs are `unknown`). The map was stale on 19 verdicts for other subjects; it was
 regenerated and committed in kp (not pushed: kp's main is diverged by a sibling session).
 
+**Corrected 2026-09-28 (dp-baag-0928c):** the line above is wrong. kp's committed map
+holds one judged pair on this subject: a `deviation` evaluated 2026-08-23 (kp 1811ac60e).
+It records that the screen-wave modal offers only approve-all or cancel, and that the
+wave decides on a different score than the reconsider route shows. The pair is
+`stale: true` against revision 4 (2026-09-26). This is kp's single `/conform --stale`
+item for the subject. The seam files have not changed since 2026-09-23, so it is not a
+consumer event for this subject.
+
 ## Clocks and return conditions
 
 - Colorado's replacement act takes effect 2027-01-01, and its enforcement is stayed in

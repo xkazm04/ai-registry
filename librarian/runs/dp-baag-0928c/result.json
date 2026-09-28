@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-baag-0928c",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T14:20:00Z",
+  "ended_at": "2026-09-28T14:35:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/bulk-adverse-action-governance",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Third stale dispatch (bd295204, 246 behind origin). Folder unchanged since 8c9f497f; no currency rows (control hits); no new project; kp seam unchanged. Nothing ran. Ledger fix: 0926 Impact missed kp's stale 2026-08-23 deviation."
+}
