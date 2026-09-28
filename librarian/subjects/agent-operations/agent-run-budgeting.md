@@ -129,3 +129,14 @@ already landed the fourth technique (termination-cause-record) earlier the same 
 floor passes, no clock has expired, and no event is newer than that landing. dry_streak is
 unchanged: a declined dispatch is not a dry pass. This is the lane's second stale re-send
 of the day (after `dp-abd-0927b`), so the run records it as a failure signature.
+
+## 2026-09-28 - re-dispatched on a stale clock again (run `dp-arb-0928`)
+
+Declined, no pass. This is the third send of the same finding from the same dispatch HEAD,
+d93fbd78. The primary checkout is now 199 behind origin/main (52eaac38). At origin the index
+still lists four techniques. No commit since `dp-arb-0927b` touches this subject, its bundle
+entry or its `applied.md` rows. `check-currency` reports agent-operations at 0 expired and
+0 at-risk, with no stack drift on any of this subject's applications. None of the banked
+leads' return conditions has an event. dry_streak is unchanged. The failure signature
+repeats: the lane reads the finding from a stale checkout and does not consult the run
+results it already wrote for the subject.
