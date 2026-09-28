@@ -1,7 +1,7 @@
 ---
 subject: hiring-policy-defaults-and-tiering
 domain: recruiting
-last_touched: 2026-09-26
+last_touched: 2026-09-28
 dry_streak: 0
 ---
 
@@ -88,6 +88,49 @@ sibling run (dp-cvas-0926) holds kp on the board:
 - The one regulator claim reachable only through commentary was declined.
 - The blind lane matched the web lane on all five questions, so class priors are not
   drifting.
+
+
+## 2026-09-28 - the auto-reject defect fixed in kp (dp-hpdt-0928c)
+
+Dispatched a third time today on "single stack (node)" from a local main 250 commits
+behind origin. On origin that finding has been clear since 96043f39: stacks are node and
+react, the scan scores 0 points, and nothing is expired or at risk. dp-hpdt-0928 and
+dp-hpdt-0928b idled the same dispatch. This run found one banked return condition that
+had fired, "return to the consumer defects when the board releases kp". The board listed
+no live runs, and kp had no commit to the rules screen, the config route or the store
+since 2026-09-26. No research lanes ran and no technique or flip landed.
+
+**Landed in kp** as e60c63be7, committed on kp's local main and not pushed. That main
+is about 100 commits ahead of origin with sibling runs' unpushed work.
+- A config write with no scope now lands on the tier the GET showed. The store resolves
+  `"shown"` under the write lock: the team override if one exists, else the org
+  baseline. This closes the switch that stayed on after it was turned off, and the same
+  shape in the jurisdiction picker.
+- The rules screen echoes the concurrency token it read. On `DECISION_CONFIG_STALE` it
+  shows the refusal and re-reads.
+
+**Verified:** the new store test fails on the old default. On a clean kp HEAD, the unit
+suite shows the same 22 pre-existing failures with and without the change, and no new
+ones. tsc is clean, and a deliberate probe error confirmed it reports.
+
+**Registry:** both applications of the baseline technique moved to
+`verified_on: 2026-09-28`. The react one is `applied: code`, and the node one gains
+`applied: code` / `ab_verdict: better`. The node application's line citations were
+re-checked against the tree. One `applied.md` row, code, better.
+
+**Still open in kp:**
+- The delta half: the calibration apply still copies the whole effective config into
+  the team row.
+- Screen provenance. It is more pressing now, because after an apply a save from the
+  screen no longer reaches the baseline and nothing says so.
+- The apply route's one-click review for both directions.
+- The knockout decline copy.
+The last two keep their 2026-09-26 return conditions.
+
+**Dispatcher defect, the third time today:** the Curator lane ranks from a local main
+that is behind origin. A single-stack finding that origin already cleared cost three
+dispatches. This one was not wasted only because a banked return condition had fired
+in between.
 
 ## Impact
 

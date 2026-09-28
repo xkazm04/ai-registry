@@ -638,3 +638,14 @@ a mutation control failed as expected. It moves to `verified_on: 2026-09-28`,
 `applied.md` rows are owed. Impact: kp has 4 contexts, 0 judged, 0 stale verdicts.
 The map was not regenerated, because the digest is on unjudged pairs only. Yield:
 currency only, and dry_streak is unchanged at 0. See [[recruiting-funnel-metrics]].
+
+## 2026-09-28 - deepen: hiring-policy-defaults-and-tiering (return-condition apply)
+
+A third stale dispatch on "single stack (node)", which origin cleared on 09-26. One
+banked return condition had fired: the board released kp. The 09-26 defect, where the
+auto-reject switch stayed on after an operator turned it off following a calibration
+apply, is now fixed in kp e60c63be7 (local main, not pushed). A no-scope write lands on
+the tier the reader was shown, and the rules screen echoes its concurrency token. There
+are no new kp unit failures against a clean baseline. One `applied.md` row, code, better.
+Both baseline applications moved to 2026-09-28. No research lanes ran, and no technique
+or flip landed. dry_streak is unchanged. See [[hiring-policy-defaults-and-tiering]].
