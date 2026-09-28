@@ -1,0 +1,95 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cv-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T21:38:00Z",
+  "ended_at": "2026-09-28T22:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/cv-parsing-and-career-reading",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/cv-parsing-and-career-reading",
+      "technique": "text-extraction-damage-and-repair",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/cv-parsing-and-career-reading",
+      "technique": "tenure-and-date-range-reading",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/cv-parsing-and-career-reading",
+      "technique": "structured-extraction-contract-with-refusals",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/cv-parsing-and-career-reading",
+      "technique": "degraded-intake-as-a-visible-queue",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/cv-parsing-and-career-reading.md",
+    "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/techniques/text-extraction-damage-and-repair.md",
+    "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/techniques/structured-extraction-contract-with-refusals.md",
+    "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/techniques/tenure-and-date-range-reading.md",
+    "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/techniques/degraded-intake-as-a-visible-queue.md",
+    "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/applications/node--degraded-intake-as-a-visible-queue.md",
+    "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/applications/process--structured-extraction-contract-with-refusals.md",
+    "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/applications/process--text-extraction-damage-and-repair.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/cv-parsing-and-career-reading.md"
+  ],
+  "commits": [
+    {
+      "sha": "e9e89361",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading",
+        "knowledge/recruiting/index.json",
+        "catalog.json"
+      ]
+    },
+    {
+      "sha": "8e891bb0",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/cv-parsing-and-career-reading.md",
+        "knowledge/recruiting/index.json",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No technique earned (pointer evidence banked); 1 number removed, 6 conditioned. kp mojibake key fixed in code (0235e7a33), 1 not-better, 2 better sims, 2 unapplied. Maps/kp rows local, unpushed. --all stops at check-skills on untracked files outside this run."
+}
