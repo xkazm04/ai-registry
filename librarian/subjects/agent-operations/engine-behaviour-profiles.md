@@ -1,7 +1,7 @@
 ---
 domain: agent-operations
 subject: engine-behaviour-profiles
-last_touched: 2026-09-27
+last_touched: 2026-09-28
 touched_by: deepen
 dry_streak: 0
 ---
@@ -108,3 +108,15 @@ Source classes, this run. Kept:
 - the fleet's session transcripts, read row by row after a regex.
 
 Declined: withdrawn preprints; search-summary-only numbers.
+
+## 2026-09-28 - fourth send, declined (run `dp-ebp-0928b`)
+
+Declined, no pass. The Curator lane sent the finding "3 techniques (design floor is 4)" again,
+this time from dispatch HEAD bd295204, which is 235 commits behind origin/main (18cf9154).
+At origin the subject has had four techniques since `dp-ebp-0927` (55bd8787). The two sends
+between, `dp-ebp-0927b` and `dp-ebp-0928`, recorded `idled` and added no note. No commit since
+the first touch's ledger commit (740666db) changes the subject folder or this note.
+`check-currency` reports agent-operations at 0 expired, 0 at-risk and 0 drift. The run records
+`declined`, not `idled`: the subject has had one pass, not two dry ones. dry_streak is
+unchanged; the banked leads were not re-checked. The fix belongs in the
+dispatcher: read origin, and read `librarian/runs/*/result.json` for the subject before sending.
