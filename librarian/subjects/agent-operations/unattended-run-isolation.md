@@ -1,7 +1,7 @@
 ---
 domain: agent-operations
 subject: unattended-run-isolation
-last_touched: 2026-09-27
+last_touched: 2026-09-28
 touched_by: deepen
 dry_streak: 0
 ---
@@ -170,3 +170,15 @@ Source classes, this run. Kept:
 - security advisories and postmortems from the affected maintainers.
 
 Declined as sole support: fetch-tool summaries, and figures quoted outside what they measure.
+
+## 2026-09-28 - fourth send, declined (run `dp-uri-0928b`)
+
+Declined, no pass. The Curator lane sent the finding "3 techniques (design floor is 4)" again,
+from dispatch HEAD bd295204, which is 237 commits behind origin/main (2d4a24be). At origin the
+subject has had five techniques since `dp-uri-0927` (0ea31221). The two sends between,
+`dp-uri-0927b` and `dp-uri-0928`, recorded `idled` and added no note. No commit since the first
+touch's ledger commit (86b4c0e2) changes the subject folder or this note. `check-currency`
+reports 0 expired and 0 at-risk, with no row for this subject. The run records `declined`, not
+`idled`: the subject has had one pass, not two dry ones. dry_streak is unchanged; the banked
+leads were not re-checked. The fix belongs in the dispatcher: read origin, and read
+`librarian/runs/*/result.json` for the subject before sending.
