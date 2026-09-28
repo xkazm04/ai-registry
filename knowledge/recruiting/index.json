@@ -3591,9 +3591,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/hiring-policy-defaults-and-tiering.md",
-   "digest": "sha256-b2:d655121ee410899c",
-   "revision": 3,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:ad70b9a8defe881d",
+   "revision": 4,
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "a-default-is-a-policy-position",
@@ -3696,7 +3696,7 @@
      "stack": "node",
      "technique": "organisation-baseline-with-a-team-override",
      "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/node--organisation-baseline-with-a-team-override.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-09-28",
      "verified_against": "node@24"
     },
     {
@@ -3717,7 +3717,7 @@
      "stack": "react",
      "technique": "organisation-baseline-with-a-team-override",
      "file": "knowledge/recruiting/governance/hiring-policy-defaults-and-tiering/applications/react--organisation-baseline-with-a-team-override.md",
-     "verified_on": "2026-09-26",
+     "verified_on": "2026-09-28",
      "verified_against": "react@19"
     }
    ]

@@ -5,8 +5,10 @@ subject: hiring-policy-defaults-and-tiering
 technique: organisation-baseline-with-a-team-override
 stack: node
 status: forged
-verified_on: 2026-09-26
+verified_on: 2026-09-28
 verified_against: node@24
+applied: code
+ab_verdict: better
 ---
 
 # Two policy tiers in one SQLite table
@@ -107,11 +109,15 @@ knob — so the per-family view could only inform, never act."
   write is the *effective* config. The first apply therefore materialises the whole
   organisation baseline into a team row, plus one family floor. Nobody chose to fork the
   policy; accepting one recommendation did it.
-- **Two writers of one phase write two different tiers.** The config route maps an absent
-  `scope` to `"org"`, and the rules screen sends none. The calibration apply writes
-  `"team"`. After the first apply, the screen's saves land under a row that shadows them.
-  The react application walks the three cases, including the auto-reject switch that stays
-  on after it is turned off.
+- **Two writers of one phase wrote two different tiers (fixed 2026-09-28).** The config
+  route mapped an absent `scope` to `"org"`, and the rules screen sends none. The
+  calibration apply writes `"team"`. After the first apply, the screen's saves landed under
+  a row that shadowed them. The react application walks the three cases, including the
+  auto-reject switch that stayed on after it was turned off. An absent scope now maps to
+  `"shown"`, and `setDecisionConfig` resolves that inside its IMMEDIATE transaction
+  (`shownTier`): the team row if one exists, else the org row. That is the same cascade the
+  read and the concurrency token use, so what a reader saw, the version it holds and the
+  tier it writes cannot disagree. The full-row copy in the first bullet is unchanged.
 - **Provenance exists for some writes only.** The config row still carries `updated_at`
   and no actor or previous value, and no surface distinguishes an inherited value from an
   overridden one. A floor applied from calibration is the exception: it seals a
@@ -119,8 +125,8 @@ knob — so the per-family view could only inform, never act."
   threshold, and the evidence. The deviation set is still not queryable from the store.
 - **The `updated_at` stamp is now a concurrency token.** It is strictly increasing, resolved
   through the same cascade as the read, and re-asserted under an IMMEDIATE transaction
-  when a writer echoes it. That closes lost updates for writers that send it. The rules
-  screen does not.
+  when a writer echoes it. That closes lost updates for writers that send it. Since
+  2026-09-28 the rules screen sends it.
 - **Nothing is baseline-only, and there is no ratchet.** Any phase, including the automation
   posture, is overridable at team scope, and a family floor may be set on either side of
   the global one. The validator bounds each value 0–100 independently and does not compare
