@@ -133,3 +133,12 @@ is 4)", from d93fbd78. The primary checkout's main was 170 behind origin, where 
 already landed the fourth technique earlier the same day. The floor passes, no clock has
 expired, and no event is newer than that landing. dry_streak is unchanged: a declined
 dispatch is not a dry pass.
+
+## 2026-09-28 - re-dispatched on a stale clock again (run `dp-abd-0928`)
+
+Declined, no pass. This is the third dispatch of the same finding from d93fbd78. The
+primary checkout's main is now 199 behind origin. The origin index lists four techniques,
+and nothing under the subject folder has moved since df6f8f4d. check-currency has no row for
+it, and no fleet map joins it; a positive control (deployment-contract) hit five maps. The
+run result carries `failure_signature` because this is the second decline for the same
+reason. The finding will keep coming back until the Curator lane ranks from origin/main.
