@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ebp-0928",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "agent-operations",
+  "started_at": "2026-09-28T08:15:00Z",
+  "ended_at": "2026-09-28T08:29:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/engine-behaviour-profiles",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 2,
+      "points_after": 2
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Third stale-clock dispatch (checkout 201 behind origin). origin/main has 4 techniques since dp-ebp-0927 (55bd8787), so the finding is cleared. Citations verified 2026-09-27; no clock expired, no event named, nothing ran."
+}
