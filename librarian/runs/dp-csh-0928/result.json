@@ -1,0 +1,94 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-csh-0928",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T21:05:00Z",
+  "ended_at": "2026-09-28T21:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/collective-and-statutory-hiring-governance",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/collective-and-statutory-hiring-governance",
+      "technique": "advisory-machine-that-never-seals",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/collective-and-statutory-hiring-governance",
+      "technique": "machine-ordering-after-independent-reads",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/collective-and-statutory-hiring-governance",
+      "technique": "ordinal-eligibility-list-over-a-crowned-lead",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/collective-and-statutory-hiring-governance.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/techniques/machine-ordering-after-independent-reads.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/techniques/advisory-machine-that-never-seals.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/techniques/committee-visible-evidence-packet.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/techniques/governance-mode-selection.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/techniques/name-the-ceiling-you-cannot-compute.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/techniques/ordinal-eligibility-list-over-a-crowned-lead.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/node--advisory-machine-that-never-seals.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/node--sticky-governance-against-silent-downgrade.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/process--name-the-ceiling-you-cannot-compute.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/node--machine-ordering-after-independent-reads.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--advisory-machine-that-never-seals.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--committee-visible-evidence-packet.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--governance-mode-selection.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--machine-ordering-after-independent-reads.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance/applications/spec--ordinal-eligibility-list-over-a-crowned-lead.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/collective-and-statutory-hiring-governance.md"
+  ],
+  "commits": [
+    {
+      "sha": "84b67be8",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/collective-and-statutory-hiring-governance",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "5d102591",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/collective-and-statutory-hiring-governance.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 absolute refuted, 4 conditioned, 1 converged technique; kp crown fixed at code (aa43bceb0), 2 simulations better, 2 unapplied. Maps/kp rows local, not pushed. --all stops at check-skills on untracked artifacts outside this run."
+}
