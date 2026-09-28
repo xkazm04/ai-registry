@@ -117,3 +117,16 @@ Source classes, this run. Kept:
 - an evaluation lab's own measurement post.
 
 Needs a second source: 2026 preprints standing alone behind a landing claim.
+
+## 2026-09-28 - re-dispatched on a stale clock again (run `dp-bjc-0928`)
+
+Declined, no pass. This is the third send of this subject, and the second of the same finding
+("3 techniques (design floor is 4)") from the same dispatch HEAD, d93fbd78. The primary
+checkout is now 201 behind origin/main (134f6fcd). At origin the subject has four techniques
+(sealed-judge-workspace landed in 3063b210). No commit since `dp-bja-0927` touches the subject
+folder or this note, and none touches the contest skill that owes the four fixes above.
+`check-currency` reports agent-operations at 0 expired and 0 at-risk, with no drift on any of
+this subject's applications. None of the banked leads' return conditions has an event.
+dry_streak is unchanged: a declined dispatch is not a dry pass. The failure signature is the
+lane's: it reads the finding from a stale checkout and does not consult the run results it has
+already written for the subject (`dp-bja-0927`, `dp-bji-0927`).
