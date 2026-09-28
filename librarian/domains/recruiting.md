@@ -733,3 +733,42 @@ Landed 16832b20. Three `applied.md` rows:
 
 Impact: kp has 5 contexts on this subject, 0 stale verdicts. Yield high,
 dry_streak 0, depth L2. See [[candidate-self-scheduling]].
+
+## 2026-09-28 - deepen: candidate-status-transparency
+
+First pass on this subject (dp-cst-0928), dispatched by the Curator lane from
+the attention scan. No clock had expired. The event was the tree: 23 kp
+status-surface commits since 2026-08-30, and two queued harvest leads (REC-028,
+REC-029) aimed at this subject. Four lanes.
+
+Counter-evidence: one absolute refuted, five conditioned, two confirmed:
+- refuted: "measure only at the terminal moment, never mid-process". The
+  terminal reading is outcome-confounded (a benchmark's NA overall NPS is 28,
+  hired 73; SIOP 2012), so it is always split by outcome, and a separate,
+  anonymous pre-outcome pulse measures the procedure;
+- conditioned: silence is at or near the top of complaints and worse than a
+  rejection (Waung and Brice 2007); deflection is a hypothesis to measure;
+  forecasts stay out and owned dates are owed; the capability link carries the
+  W3C TAG conditions; the NPS floor is a display floor with an interval;
+- confirmed: cancelled is not "not selected" (M-24-16 p.4; the federal job
+  site's "Job canceled"); a generic four-to-six step spine.
+
+One technique earned on convergence of all three research lanes:
+committed-dates-not-forecasts (Talent Board 2023 and HMRC/Ipsos MORI 352; SIOP's
+SPJS item and the OPM FAQ; the blind lane unprompted).
+
+Four spec applications (refresh_by 2027-03-28). All three kp applications
+re-verified to 6f3fca44d, and two added (the timeline, the new technique's
+simulation). Still open in kp: the shared not-selected copy, which kp's own
+letter policy now concedes; the NPS row without an outcome; no response rate;
+the unbounded loading state. New in kp: the pending-action card that keeps the
+token off the page (exemplary), and six copy and revocation deviations.
+
+Landed a6036fa1. Four `applied.md` rows:
+- three simulations, better (the new technique 2 of 3; the timeline conditions;
+  the address-is-the-key condition);
+- one unapplied (the terminal-measurement conditions; the schema file was not
+  quiet).
+
+Impact: kp has 4 contexts on this subject, 0 stale verdicts. Yield high,
+dry_streak 0, depth L2. See [[candidate-status-transparency]].
