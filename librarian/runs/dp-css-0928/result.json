@@ -1,0 +1,78 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-css-0928",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T19:55:00Z",
+  "ended_at": "2026-09-28T20:35:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/candidate-self-scheduling",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/candidate-self-scheduling",
+      "technique": "adjustments-asked-at-the-booking-step",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/candidate-self-scheduling.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/techniques/adjustments-asked-at-the-booking-step.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/techniques/interviewer-timezone-anchoring.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/techniques/reschedule-cap-with-a-recruiter-bypass.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/techniques/withdraw-is-not-cancel.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/node--reschedule-cap-with-a-recruiter-bypass.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/node--structural-slot-validation-on-submit.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/react--withdraw-is-not-cancel.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/node--adjustments-asked-at-the-booking-step.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/spec--adjustments-asked-at-the-booking-step.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/spec--interviewer-timezone-anchoring.md",
+    "knowledge/recruiting/pipeline-operations/candidate-self-scheduling/applications/spec--reschedule-cap-with-a-recruiter-bypass.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/candidate-self-scheduling.md"
+  ],
+  "commits": [
+    {
+      "sha": "16832b20",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/pipeline-operations/candidate-self-scheduling",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "c5ef7613",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/candidate-self-scheduling.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First pass: 0 refuted, 3 conditioned, 1 converged technique, 3 spec apps, 3 kp apps re-verified. Apply: 1 simulation better, 2 unapplied. Maps committed locally in 12 projects, not pushed. Gate --all stops at check-skills on untracked artifacts outside this run."
+}
