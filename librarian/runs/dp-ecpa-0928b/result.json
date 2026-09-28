@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ecpa-0928b",
+  "skill": "deepen",
+  "skill_version": "1.3.1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-28T13:00:00Z",
+  "ended_at": "2026-09-28T13:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/early-career-potential-assessment",
+      "at": "2026-09-28",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-checkout-dispatch: subject re-sent from a local main behind origin, already deepened there",
+  "notes": "Repeat stale-clock dispatch (d93fbd78, 212 behind origin) after dp-ecpa-0928. Stacks process+react since 7b98e773, 4 apps verified 2026-09-26. kp still at 5c3d1f0cd; its 6 commits since touch no cited file. No return condition fired; nothing ran."
+}
