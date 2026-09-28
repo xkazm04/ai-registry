@@ -73,7 +73,10 @@ verdicts**. No other project joins it.
   details under different applicant names) is named by a 2025 law-enforcement
   advisory as a document-level fraud indicator. It is an identity question: a
   proposal for candidate-identity-and-staleness, not this subject. Single lane
-  (web). Return: when that subject is next deepened.
+  (web). Return: when that subject is next deepened. **Taken 2026-09-28**
+  (dp-cis-0928). It converged and landed there as
+  shared-artifact-across-claimed-identities; see
+  [[candidate-identity-and-staleness]].
 - **Neutralise-then-screen in the joined tree.** The CV path flags invisible
   content but passes it unchanged to the model. Return: when the CV extraction
   step is next touched (with the render-aware hidden-text check).

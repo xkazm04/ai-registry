@@ -649,3 +649,26 @@ the tier the reader was shown, and the rules screen echoes its concurrency token
 are no new kp unit failures against a clean baseline. One `applied.md` row, code, better.
 Both baseline applications moved to 2026-09-28. No research lanes ran, and no technique
 or flip landed. dry_streak is unchanged. See [[hiring-policy-defaults-and-tiering]].
+
+## 2026-09-28 - deepen: candidate-identity-and-staleness
+
+First pass on this subject (dp-cis-0928), after the dp-cis-0926 dispatch died
+in research. The event was the cross-application-duplication lead banked by
+cv-authenticity-screening. Four lanes.
+
+Counter-evidence: nothing refuted, six claims conditioned. The flip is that
+"staleness never blocks" yields to law (contested accuracy, an expired bias
+audit, report age limits). One technique earned on convergence:
+shared-artifact-across-claimed-identities (an advisory, an independent
+investigation, and the blind lane).
+
+All three applications re-verified to kp c39dc91a6, where two old deviations
+had closed and four new ones were found. A fourth application was added.
+
+Landed c2fa7935. Seven `applied.md` rows:
+- one code, better: erasure drops the CV hash (kp 0c9a742d3, local);
+- three simulations, better;
+- three unapplied.
+
+Impact: kp has 9 contexts on this subject, 0 stale verdicts. Yield high,
+dry_streak 0, depth L2. See [[candidate-identity-and-staleness]].

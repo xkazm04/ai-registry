@@ -1593,8 +1593,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/candidate-identity-and-staleness.md",
-   "digest": "sha256-b2:7b9d85bdee2b2d1e",
-   "revision": 3,
+   "digest": "sha256-b2:de93d60f8b519fac",
+   "revision": 4,
    "changedAt": "2026-09-28",
    "techniques": [
     {

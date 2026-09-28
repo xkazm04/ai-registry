@@ -7,6 +7,8 @@ stack: node
 status: forged
 verified_on: 2026-09-28
 verified_against: node@24
+applied: code
+ab_verdict: better
 ---
 
 # Content-addressed CV identity in a Next.js/SQLite hiring app
@@ -136,13 +138,31 @@ proven-versus-unproven address rule, implemented before it was written down.
   applicant has no route in. The standard files the second submission as its
   own record and flags the pair for a person
   ([shared-artifact-across-claimed-identities](../techniques/shared-artifact-across-claimed-identities.md)).
-- **Erasure keeps the digest.** `anonymizeEntry` (`pipeline.ts:2561`) scrubs the
-  linked analyses' label and payload (`:2638`) but leaves `cv_hash`, and
-  `anonymizeProfile` (`app/_lib/db/profiles.ts:369`) leaves `source_cv_hash`. The
-  scrubbed rows still join to any later upload of the same file, which is the
-  link the technique says anonymisation must destroy. The analyses to scrub are
-  also chosen by `LOWER(TRIM(candidate_label))` (`:2633`), a label join the
-  comment itself calls a stopgap until a per-candidate foreign key exists.
+- **Erasure kept the digest. Fixed 2026-09-28 in `0c9a742d3`, local, not
+  pushed.** At `c39dc91a6`, `anonymizeEntry` (`pipeline.ts:2561`) scrubbed the
+  linked analyses' label and payload (`:2638`) but left `cv_hash`, and
+  `anonymizeProfile` (`app/_lib/db/profiles.ts:369`) left `source_cv_hash`. The
+  same file uploaded after an erasure then joined back to the erased record in
+  three places. The report's footprint listed the scrubbed analysis. A profile
+  build was refused as "already exists" and pointed at the erased profile
+  (`findProfileIdBySourceCvHash`, `:97`). `profileStaleness` offered to rebuild
+  the erased profile from the new person's analysis. The scrub now NULLs
+  `cv_hash`, and `anonymizeProfile` clears `source_cv_hash` in one scoped
+  statement. `app/_lib/db/anonymize-cv-identity.test.ts` fails 3/3 on the
+  parent and passes 3/3 with the fix. The full unit suite shows no new failing
+  file against a baseline run, and `tsc --noEmit` is clean. Still open: the
+  analyses to scrub are chosen by `LOWER(TRIM(candidate_label))` (`:2633`), a
+  label join the comment itself calls a stopgap until a per-candidate foreign
+  key exists.
+- **The footprint does not know a run was blind.** Blind mode is a cache-key
+  axis and a run parameter (`analyze-run.ts:269`, `:347`), but the `analyses`
+  table has no blind column, and the report page never mentions it. So a saved
+  report from a blind run shows the same "also analyzed" links as any other,
+  and those links lead to non-blind analyses of the same CV. That is the
+  re-identification channel
+  [cross-role-footprint-linking](../techniques/cross-role-footprint-linking.md)
+  says a blind surface must not carry. Persist the mode on the saved analysis
+  and suppress or reduce the footprint for blind rows.
 - **The response cache outlives erasure.** The prompt cache is keyed on the
   CV bytes, shared across tenants by design (`app/_lib/tenancy.ts:387`), and not
   touched by erasure. Its analysis TTL defaults to 24 hours
