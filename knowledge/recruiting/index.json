@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 393,
-  "applications": 249,
+  "applications": 250,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3244,9 +3244,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/decision-audit-and-traceability/decision-audit-and-traceability.md",
-   "digest": "sha256-b2:8db794780bf36de2",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:465adcb645f8d26a",
+   "revision": 2,
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "capture-the-machine-verdict-before-a-human-overwrites-it",
@@ -3342,19 +3342,28 @@
      "stack": "node",
      "technique": "capture-the-machine-verdict-before-a-human-overwrites-it",
      "file": "knowledge/recruiting/governance/decision-audit-and-traceability/applications/node--capture-the-machine-verdict-before-a-human-overwrites-it.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "hash-chained-append-only-records",
+     "file": "knowledge/recruiting/governance/decision-audit-and-traceability/applications/node--hash-chained-append-only-records.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "integrity-evident-is-not-tamper-resistant",
      "file": "knowledge/recruiting/governance/decision-audit-and-traceability/applications/node--integrity-evident-is-not-tamper-resistant.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "structured-facts-plus-a-locale-invariant-audit-string",
      "file": "knowledge/recruiting/governance/decision-audit-and-traceability/applications/process--structured-facts-plus-a-locale-invariant-audit-string.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },

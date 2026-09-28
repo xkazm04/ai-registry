@@ -32,10 +32,28 @@ that overstates its own guarantees has undermined the parts that were true.
 | Rung | Mechanism | Stops | Does not stop |
 | --- | --- | --- | --- |
 | **Append-only by convention** | code writes no updates | ordinary application bugs | anything with database access |
-| **Integrity-evident (keyless chain)** | digest over content + predecessor | accidental corruption, partial restore, out-of-band edits, an attacker without full write access | anyone who can write records and recompute the chain |
-| **Integrity-attested (keyed)** | digest keyed with a secret the writer does not hold | an attacker who has the data but not the key | an attacker who has the key |
-| **Externally anchored** | tail digest published where you do not control it | the operator rewriting history *before* an anchor point | rewriting after the most recent anchor |
+| **Integrity-evident (keyless chain)** | digest over content + predecessor | accidental corruption, partial restore, out-of-band edits in the middle of the chain | anyone who can write records and recompute the chain; deleting the newest records |
+| **Integrity-attested (keyed)** | digest keyed with a secret the sealing process holds and the store does not | anyone with the data but not the key — a database administrator, a restored backup, a support tool | whoever holds the key, which is the sealing process and, with a symmetric key, every verifier; deleting the newest records |
+| **Forward-secure or signed** | the key evolves one-way and the old key is erased, or records are signed and verifiers hold only the public key | forging entries sealed *before* a key compromise; a verifier forging what it verifies | entries after the compromise; deleting the newest records |
+| **Externally anchored** | tail digest published where you do not control it | the operator rewriting or truncating history *before* an anchor point | rewriting or truncating after the most recent anchor |
 | **Independently held** | a copy with a party who has no stake | operator rewriting entirely | collusion; and it costs the most to run |
+
+Read the last column top to bottom. **Every rung below external anchoring leaves the tail
+open**, because deleting records needs no key: what remains is still a valid chain under
+every key it was sealed with. Keying protects what was written. Only a head held outside
+the writer's reach protects how much was written (the storage technique, step 5).
+
+The keyed row is worded with care because the naive wording is incoherent. A keyed digest
+is computed by whoever seals, so "a secret the writer does not hold" cannot mean the
+process that writes decisions. It means the *store*: the people and tools that can reach
+the rows but not the process's key. If that key sits in the application's own
+environment, then application compromise is key compromise, and the claim is about the
+database boundary only. The literature's answer to key compromise is key evolution:
+"The log's authentication key is hashed, using a one-way hash function, immediately after
+a log entry is written. The new value of the authentication key overwrites and
+irretrieveably [sic] deletes the previous value" (Schneier and Kelsey), so an intruder holding
+today's key cannot forge yesterday's entries. The answer to "the verifier can forge" is
+signatures.
 
 Climb only as far as your threat model needs, and *say which rung you are on*. Most hiring
 systems land on integrity-evident plus periodic external anchoring, and that is a
@@ -97,7 +115,12 @@ invalidates history. Removing a retired key retires the ability to verify the re
 covered — which converts a verifiable period into an unverifiable one and looks, from
 outside, exactly like destroying evidence. That standing obligation to keep old key
 material readable is the true price of keying, and it should be written down where the
-keys are managed, not discovered during a rotation.
+keys are managed, not discovered during a rotation. With a symmetric key the price has a
+second half: a retired key kept for verification can still *forge* the period it covers,
+so rotation does not end a leaked key's reach into the past. Signatures separate the two
+(keep the retired public keys and nothing that can sign). Forward-secure evolution
+separates them the other way, by erasing the old signing state and trusting the verifier
+with the initial key.
 
 **6. Give the audit chain its own key, not a shared secret.**
 The audit key must not be the credential that also signs sessions, encrypts tokens, or

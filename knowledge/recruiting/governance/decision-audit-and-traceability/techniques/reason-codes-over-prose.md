@@ -34,21 +34,41 @@ The rule: **the reason is a code; prose may accompany it and may never substitut
 
 ## What makes a good code set
 
-- **Small.** Twelve to thirty codes for a hiring pipeline. Beyond that, users pick by
-  position in the list rather than by meaning, and the data quality drops below prose.
+- **Small.** Twelve to thirty codes for a hiring pipeline. That range is judgment, not a
+  measurement; no study sets it. What it guards against is real but depends on the
+  widget. In a flat list that scrolls, users drift toward the options they can see, and
+  a pick by position is worse data than prose because it looks like data. Large coding
+  systems stay usable through hierarchy and search, not by staying small. So size the
+  set to the control that presents it, and watch the choices rather than the count.
 - **Closed and versioned.** Codes are added, never repurposed. A retired code stays
   readable so old records keep meaning what they meant — a verdict stays bound to the
   vocabulary it was scored under. New codes carry a version so you can tell when the
   vocabulary changed rather than when behaviour did.
-- **Specific enough to be actionable, and honest about it.** The regulatory standard used
-  for consequential adverse decisions in adjacent regimes is instructive and worth
-  borrowing wholesale: the stated reason must be the *principal, specific* reason actually
-  relied on; a code that says "did not meet our internal standards" or "did not achieve a
-  qualifying score" is explicitly insufficient, because it describes the mechanism rather
-  than the factor. Codes must name the factor: *required certification absent*, *below
-  experience floor for the level*, *work-authorization requirement unmet*, *stronger
-  candidates advanced at this stage*. Aim for one to four principal reasons, ordered by
-  contribution; more than four is not helpful to anyone and reads as padding.
+- **Specific enough to be actionable, and honest about it.** The US credit rule for
+  adverse action is instructive and worth borrowing wholesale. Regulation B requires that
+  the reasons "must be specific and indicate the principal reason(s) for the adverse
+  action", and the rule itself (12 CFR 1002.9(b)(2)) calls a statement that the decision
+  rested on "internal standards or policies", or that the applicant "failed to achieve a
+  qualifying score", insufficient. Such a statement describes the mechanism rather than
+  the factor. The official commentary adds that the reasons "must relate to and
+  accurately describe the factors actually considered or scored". Codes must name the
+  factor: *required certification absent*, *below experience floor for the level*,
+  *work-authorization requirement unmet*, *stronger candidates advanced at this stage*.
+  Aim for one to four principal reasons, ordered by contribution. The four comes from the
+  same commentary ("disclosure of more than four reasons is not likely to be helpful");
+  the rule itself sets no number.
+
+  The standard is still borrowed, as of 2026-09-29. The one employment statute that would
+  have required principal reasons, Colorado's 2024 AI act, was repealed and re-enacted
+  before it took effect. The replacement (SB 26-189, from 2027-01-01) asks instead for "a
+  plain language description of the consequential decision and the role the covered ADMT
+  played". The duties that do reach hiring — GDPR Art. 15(1)(h) as read in
+  Dun & Bradstreet Austria (C-203/22: "the procedure and principles actually applied"),
+  and AI Act Art. 86 ("the role of the AI system ... and the main elements of the decision
+  taken"; how it reaches hiring before the Annex III date of 2 December 2027 is
+  unsettled) — ask for the logic and the automation's role. A code list is necessary for
+  those answers and never sufficient. Seal the codes; the explanation is the disclosure
+  seam's to compose.
 - **Free of protected-attribute proxies.** Vet the vocabulary itself as a discrimination
   surface. A code set is a policy document, and it deserves the same review as one.
 - **Structured to distinguish a reason from an absence.** Per
@@ -89,8 +109,9 @@ The rule: **the reason is a code; prose may accompany it and may never substitut
 
 - **When no code fits, that is a finding, not a use for "other".** Route it: log the
   attempted decision, let the user proceed with detail text, and put the gap in a queue
-  that reviews the vocabulary monthly. An "other" rate above a few percent means the set is
-  wrong; a set with no escape hatch at all means users will pick the nearest wrong code,
+  that reviews the vocabulary monthly. A rising "other" rate is the signal that the set is
+  wrong (there is no measured threshold; watch the trend and read the detail text behind
+  it). A set with no escape hatch at all means users will pick the nearest wrong code,
   which is worse than an honest gap.
 - **When the reason is comparative — "stronger candidates advanced" — say so plainly and
   seal the comparison basis.** It is a legitimate and extremely common reason; what makes

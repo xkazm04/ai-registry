@@ -94,6 +94,22 @@ If the record cannot be sealed, the decision does not commit. An audit write tha
 silently while the decision lands produces unrecorded adverse outcomes under precisely the
 conditions — load, incidents, retries, backfills — where you most need the record.
 
+The requirement is *durable and atomic*, not *synchronous*. An outbox row written in the
+same transaction as the decision satisfies it, and the sealing and chaining can follow
+asynchronously, on three conditions:
+- a row that never seals raises an alert rather than aging quietly;
+- nothing candidate-facing (the rejection message, the offer) goes out before the record
+  is durable;
+- the lag is monitored.
+
+What does not satisfy it:
+- a seal on a separate connection after the state write has committed;
+- a best-effort wrapper that catches every seal failure. That includes a lock timeout,
+  which is a load condition, not a configuration error.
+
+Both reproduce the silent failure this step exists to prevent, while reading as though
+it were handled.
+
 **5. Ask what a value *means*, not just what it is.**
 Per [say only what the record holds](../../../_laws.md#say-only-what-the-record-holds), seal
 what was actually observed. A missing input is sealed as missing, with its own state — not

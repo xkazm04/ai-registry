@@ -124,7 +124,10 @@ transaction as the state change: if the record cannot be sealed, the decision do
 happen. This is deliberately the opposite posture from the candidate-facing rule that a
 person's own action must never stall on your constraints; the asymmetry is correct,
 because an unrecorded adverse action is a harm to the candidate while a refused adverse
-action is only an inconvenience to you.
+action is only an inconvenience to you. "Precondition" means durable and atomic, not
+synchronous. An outbox row in the decision's own transaction qualifies if an unsealed
+row raises an alert and nothing reaches the candidate first. A seal written afterwards,
+by a wrapper that swallows its failures, does not qualify.
 
 **"Audit rows are rows like any other."** They are not. They are append-only. A
 corrections mechanism is a *new* record that supersedes, never an edit and never a delete,
@@ -142,17 +145,25 @@ employee.
 State the limits in the system, not just in the documentation, because a reader who
 discovers an unstated limit assumes you were hiding it.
 
-A well-built hiring audit record proves: that a record with this content existed in this
-sequence at this position; that the sequence has not been altered since, to the extent the
-chain verifies; that a specific policy version was in force; that a specific actor
-identity was resolved by the server at write time.
+A well-built hiring audit record proves:
+- that a record with this content existed in this sequence at this position;
+- that the sequence has not been altered since, up to the last head held somewhere the
+  writer does not control;
+- that a specific policy version was in force;
+- that a specific actor identity was resolved by the server at write time.
 
-It does not prove: that the facts recorded are *true* — the record is only as honest as
-the process that fed it; that the named person actually exercised judgment rather than
-clicking through; that no event was omitted *before* sealing, since a chain constrains
-what happened to records after they were written, not which records were written; that
-the operator could not have rewritten the entire chain, if the chain is keyless. That last
-one is the whole of the integrity-evident-is-not-tamper-resistant technique, and stating
+It does not prove:
+- that the facts recorded are *true*. The record is only as honest as the process that
+  fed it.
+- that the named person actually exercised judgment rather than clicking through.
+- that no event was omitted *before* sealing. A chain constrains what happened to records
+  after they were written, not which records were written.
+- that the newest records are all still there. A chain commits to each predecessor, never
+  to its own head or length. Delete the tail and what is left verifies clean, at every key
+  setting, unless a head was held elsewhere.
+- that the operator could not have rewritten the entire chain, if the chain is keyless.
+
+That last one is the whole of the integrity-evident-is-not-tamper-resistant technique, and stating
 it plainly is a credibility asset: a team that publishes its own threat model is read as
 candid, and a team that says "tamper-proof" about a keyless hash chain is read as either
 naive or dishonest, both fatal.
@@ -190,15 +201,31 @@ Three coverage disciplines separate a real vocabulary from an aspirational one:
 
 ## Retention and the seams
 
-Hold decision records to the longest of: the statutory floor for employment records in
-each jurisdiction you hire in (commonly a year or more from the decision or the position
-being filled), the floor emerging in automated-decision regimes (commonly six months of
-system logs, often longer in practice because the decision record is not the same artifact
-as the system log), and the limitation period for the claims those records defend. When a
-claim is filed or reasonably anticipated, deletion stops entirely for the affected
-records, including automated expiry — a scheduled sweep that quietly destroys evidence
-during a live dispute is the worst possible fact pattern, and the sweep's own suppression
-must itself be recorded.
+Hold decision records to the longest of three floors: the statutory floor for employment
+records in each jurisdiction you hire in, the floor in automated-decision regimes, and the
+limitation period for the claims those records defend. The floors differ by a factor of
+eight, so "a year or so" is not a safe summary. As of 2026-09-29:
+- **US federal:** one year "from the date of the making of the record or the personnel
+  action involved, whichever occurs later" (29 CFR 1602.14).
+- **US federal contractors:** two years (41 CFR 60-1.12, with one year for small ones).
+- **Colorado:** three years for deployers of automated decision tools, from 2027-01-01
+  (SB 26-189). The records named include "covered ADMT version identifiers".
+- **California:** four years (2 CCR 11013(c), in force since 2025-10-01), and the list
+  names "automated-decision system data" beside applications and selection criteria.
+  The automated-decision records are the long pole there, not an afterthought.
+- **EU AI Act:** logs "of at least six months" for providers and deployers (Arts. 19(1)
+  and 26(6)). For hiring systems that applies from 2 December 2027, after the 2026 digital
+  omnibus moved the Annex III date. The same sentence carries its own ceiling: "unless
+  provided otherwise ... in particular in Union law on the protection of personal data".
+  So the longest-of rule is bounded by storage limitation, and a record kept past every
+  floor and every limitation period needs its own reason.
+
+When a claim is filed or reasonably anticipated, deletion stops entirely for the affected
+records, including automated expiry. The US federal rule reaches past the claimant: once
+a charge is filed, the employer keeps "all personnel records relevant to the charge"
+until final disposition, including the other candidates' papers for the same position.
+A scheduled sweep that quietly destroys evidence during a live dispute is the worst
+possible fact pattern, and the sweep's own suppression must itself be recorded.
 
 Three seams bound this subject, and naming them is part of the craft:
 
@@ -246,6 +273,15 @@ resolves to a named person or an explicit automated process rather than *not ide
 A rising unidentified share is a code path that learned to write without attributing.
 Second, **override visibility**: the share of machine recommendations that were changed by
 a human. This number is only computable if the machine's verdict was sealed before the
-human's action — and it is the number every regulator asks for, because an oversight step
-with an override rate indistinguishable from zero is a signature block, not oversight.
-A system that cannot compute it has, in effect, no evidence of human oversight at all.
+human's action. Supervisors ask for it early: the UK ICO calls the analysis of "why, and
+how many times, a human reviewer accepted or rejected the AI system's output" a key part
+of risk monitoring. But it is not a verdict on its own. A rate near zero fits a
+signature block and fits a model that deserves deference. What separates them is evidence
+of assessment, and the record has to hold that evidence too:
+- the reason for agreeing as well as for overriding;
+- what the reviewer was shown and opened;
+- when the verdict reached them and when they acted;
+- which cases were seeded to test them.
+
+A system that cannot compute the rate has no evidence of human oversight. A system that
+can compute only the rate has half of it.

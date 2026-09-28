@@ -34,7 +34,10 @@ also be a compliance error.
 
 **1. Seal the machine's verdict at the moment it is produced, as its own record.**
 Actor: the automated process. Content: the verdict from the closed vocabulary, the score
-or confidence, the rule and prompt versions, the decisive inputs. This record is written
+or confidence, the rule and prompt versions, the decisive inputs, and **which engine
+produced it**: a model, a deterministic rule, or a cached or template fallback. A fallback
+that seals like a model verdict puts a model's authority on an answer no model gave, and
+it pollutes the override rate with verdicts nobody computed. This record is written
 before any surface shows the recommendation to a human — not after they act on it, and
 not lazily on first render.
 
@@ -95,10 +98,31 @@ of machine recommendations a human changed.
 Override rate is the headline number: of machine recommendations shown, how many did a
 human change? Two readings of it, both necessary:
 
-- **Near-zero override is not agreement, it is a finding.** Sustained rates under a
-  percent, with per-item review times in seconds, describe rubber-stamping. The correct
-  response is to fix the oversight step — fewer items, better context, sharper diffs — not
-  to celebrate the model.
+- **Near-zero override is a reason to audit the review, not a verdict on it.** It fits a
+  rubber stamp and it fits a model that deserves deference. In hiring, "managers who
+  appear to hire against test recommendations end up with worse average hires" (Hoffman,
+  Kahn and Li, NBER w21709). What tells the two apart is evidence of assessment. The UK
+  ICO's test has both halves: reviewers "routinely agreeing with the AI system's outputs,
+  and cannot demonstrate they have genuinely assessed them". Colorado's re-enacted
+  statute (SB 26-189, in force from 2027-01-01) defines meaningful human review as review
+  by someone with authority to override who "does not default to the system output" and
+  can see "the principal factors used to generate the output".
+
+  The instruments that settle it — seeded known-wrong recommendations, review time,
+  overrides scored against outcomes — belong to
+  [terminal decisions stay with a person](../../../decision-and-fairness/scoring-and-decision/combining-signals-into-a-hire-decision/techniques/terminal-decisions-stay-with-a-person.md).
+  What they need from the *record* belongs here, and every item is sealed or it is lost:
+  - the reviewer's reason when they **agree** as well as when they override (a reason
+    demanded only of dissent is friction on one side);
+  - what they were shown, and what they opened;
+  - when the verdict reached them and when they acted, so review time is computable
+    rather than estimated;
+  - a marker on any **seeded** case, so the catch rate is countable and a seeded case
+    can never become a real adverse outcome.
+
+  No regulator publishes an override-rate threshold, so a number in this bullet would be
+  invented. If the evidence of assessment is missing, fix the oversight step — fewer
+  items, better context, sharper diffs. Do not celebrate the model.
 - **The override population is not a validation set.** The candidates a human rescued are
   exactly the candidates the model's errors are concentrated in, and grading the model on
   outcomes it caused is circular, per

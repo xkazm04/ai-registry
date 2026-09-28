@@ -92,8 +92,12 @@ than disappearing.
   [say only what the record holds](../../../_laws.md#say-only-what-the-record-holds), a
   structured summary of someone's free text is a claim they did not make.
 - **When a model produced reasoning that a human read**, seal a short verbatim clip in the
-  inputs, in its original language, marked as model output. It is traceability evidence,
-  not a rationale, and the two must not be rendered alike.
+  inputs, in its original language, marked as model output, and **tagged with that
+  language**. It is traceability evidence, not a rationale, and the two must not be
+  rendered alike. The tag matters most when the model was prompted in a workspace's
+  configured locale. Then the language is a setting that can later change, and a record
+  that does not say which language it holds leaves an exporter, a translator and an
+  auditor all guessing.
 - **When in doubt between a code and a sentence, seal both** — the code as the record, the
   sentence as a convenience — but make the code authoritative and make the schema say so.
 
