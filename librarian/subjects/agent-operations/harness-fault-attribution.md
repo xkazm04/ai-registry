@@ -139,3 +139,12 @@ Source classes, this run. Kept:
 - evaluation orgs' reports on their own exclusion policy.
 
 Declined as sole support: search snippets, and pages that failed to load.
+
+## 2026-09-28 - third dispatch from d93fbd78, declined
+
+This is the same stale dispatch as dp-hfa-0927b. The checkout was 201 commits behind
+origin/main (134f6fcd). The index there lists four techniques, and no commit since the
+dp-hfa-0927 ledger touches the subject. check-currency reports 0 expired and 0 at-risk
+fleet-wide, with no drift row for this subject; its drift list returned 78 rows elsewhere,
+so the instrument ran. None of the banked leads' return conditions has occurred. Nothing
+was researched. dry_streak stays 0, because a declined dispatch is not a dry pass.
