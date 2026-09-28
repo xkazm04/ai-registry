@@ -11,6 +11,7 @@ techniques:
   - requirement-edited-since-scored
   - rebuild-overwrites-manual-edits-warning
   - retired-outranks-stale-status-precedence
+  - shared-artifact-across-claimed-identities
 ---
 
 # Candidate identity and staleness
@@ -44,7 +45,10 @@ different difficulties and different correct answers.
 solvable. Hash the bytes of what was submitted and you have an identifier that
 is stable, collision-free for practical purposes, and independent of what
 anyone chose to call the file. Two submissions with the same content hash are
-the same artifact, everywhere, forever, with no heuristics involved. See
+the same artifact, everywhere, forever, with no heuristics involved. That holds
+only for a hash of SHA-256 strength or better. The older digests still common in
+document-deduplication tooling have public collisions, and the first public
+SHA-1 collision was two different PDFs. See
 [content-addressed-document-identity](./techniques/content-addressed-document-identity.md).
 
 **Application identity** — is this the same submission to the same opening?
@@ -88,6 +92,24 @@ be *compared*. And a system that has already been keyed on labels needs a
 detector, not just a fix, because the composites it created are already in the
 data and will not announce themselves. See
 [label-collision-detection](./techniques/label-collision-detection.md).
+
+**A contact address is a label until it is proven.** An email typed into a form
+is chosen by a person in the same way a file name is. Agencies put their own
+address on every candidate they submit, households share an inbox, and a
+placeholder address is shared by everyone who used it. Attaching a submission to
+an existing record automatically on an exact identifier is standard practice,
+and it is sound only when the identifier has been *proven* to belong to the
+candidate. Proof means a token the candidate returned from their own inbox, or
+an account they signed in to. An unproven address may propose a link for a
+person to confirm. It may not merge, and it may not answer "you already
+applied" on behalf of a different human. Automatic attachment also stops at a
+blind or confidential opening, where the link is itself a disclosure.
+
+The inverse case needs its own rule. One document, or one contact channel,
+appearing on records that claim *different* people is benign (an agency, a
+shared template) or it is impersonation, and the system cannot tell which. It
+surfaces the fact to a person and never merges or rejects on it. See
+[shared-artifact-across-claimed-identities](./techniques/shared-artifact-across-claimed-identities.md).
 
 ## Identity linking earns its keep in the footprint
 
@@ -136,7 +158,16 @@ processing date. This is the only one of the three entirely under your control,
 which means it is the only one you are fully accountable for — and the only one
 where you know the exact moment the boundary was crossed, because you caused
 it. Version the instrument, stamp the version onto every output, and refuse to
-compare across a boundary. [A verdict is bound to what it
+compare across a boundary.
+
+"Because you caused it" assumes that a release is the only thing that changes
+the instrument, and that assumption fails in a common case. When the rubric,
+the routing table or the weights are configuration an operator can edit at run
+time, the boundary is crossed by a save button, and no version string moves.
+Treat that configuration as part of the instrument. Stamp a digest of the live
+configuration onto every output and fold it into every cache key. Otherwise
+scores computed under the old configuration keep being served, and ranked
+beside new ones, with nothing to tell them apart. [A verdict is bound to what it
 judged](../../_laws.md#a-verdict-is-bound-to-what-it-judged) covers the rubric half
 of this; the weighting half belongs to the neighbouring practice of evidence
 provenance weighting, which owns re-baselining, and this subject does not
@@ -171,6 +202,25 @@ person. "Scored before the requirements were last edited" is a fact about your
 record. "May no longer be a fit" is a claim about a human that nothing in the
 record supports — [say only what the record
 holds](../../_laws.md#say-only-what-the-record-holds).
+
+**The organisation never blocks on staleness it chose. The law can.** Three
+binding rules make age or accuracy a condition of use, and where they apply the
+badge becomes a limit:
+
+- **Contested accuracy.** Under EU data-protection law, while a candidate
+  contests the accuracy of their data, processing is restricted to storage,
+  except with their consent or on narrow listed grounds. A contested record is
+  not advanced or rejected on that data until the dispute is settled.
+- **An expired audit.** At least one jurisdiction bars an automated screening
+  tool whose bias audit is more than a year old. That is instrument staleness
+  enforced by law, and it stops the tool, not the candidate. Route the
+  candidates to human review.
+- **Aged adverse information.** Consumer-reporting law caps how old most
+  adverse items in a background report may be.
+
+Each is shown as a limit on the data or on the instrument, never as a verdict
+on the person. Each still leaves the candidate's process moving by another
+route.
 
 ## A stale thing and a dead thing are not the same thing
 
@@ -285,7 +335,12 @@ Creating a second unlinked record fragments the footprint and splits consent
 state across records. The correct behaviour is to merge onto the existing
 identity while keeping both submissions: the person remains one person, the new
 document is added rather than substituted, the new application has its own
-state, and nothing the candidate previously provided is destroyed.
+state, and nothing the candidate previously provided is destroyed. Keeping both
+is also a record-keeping duty, not only good manners. US employment record-keeping
+rules require retaining the application forms and resumes received, each with
+the date it arrived. Counting a person once per position and keeping every
+submission they sent are separate obligations, and a system that discards a
+"duplicate" satisfies the first by breaking the second.
 
 The mechanics of reconciling two documents into one career reading — which
 employment entries are the same job, how to combine overlapping histories —
@@ -328,6 +383,11 @@ here on whether the old assessment still describes them.
   with a re-run affordance, offering a remedy that must not exist.
 - **The reconstructing footprint** — an identity join that reassembles a person
   the organisation was required to forget.
+- **The shared-channel merge** — an agency's address or a shared inbox treated
+  as a person, so the second real applicant is folded into the first, or told
+  they already applied.
+- **The indicator verdict** — one document under several names read as fraud and
+  rejected, when the evidence only ever supported asking a person to check.
 
 ## The techniques
 
@@ -343,3 +403,6 @@ here on whether the old assessment still describes them.
   — protecting human corrections from machine regeneration.
 - [retired-outranks-stale-status-precedence](./techniques/retired-outranks-stale-status-precedence.md)
   — one precedence order for terminal and advisory states.
+- [shared-artifact-across-claimed-identities](./techniques/shared-artifact-across-claimed-identities.md)
+  — one document or one contact channel under several claimed people: surface
+  it, never merge or reject on it.

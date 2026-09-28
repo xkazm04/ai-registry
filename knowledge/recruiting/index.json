@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 387,
-  "applications": 228,
+  "techniques": 388,
+  "applications": 229,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "387/387",
+  "use_when_coverage": "388/388",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1593,9 +1593,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/candidate-identity-and-staleness.md",
-   "digest": "sha256-b2:af63b1938908f5a8",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:7b9d85bdee2b2d1e",
+   "revision": 3,
+   "changedAt": "2026-09-28",
    "techniques": [
     {
      "slug": "content-addressed-document-identity",
@@ -1685,6 +1685,21 @@
       "a record carries several status-like facts at once",
       "deciding which state a list or filter keys on"
      ]
+    },
+    {
+     "slug": "shared-artifact-across-claimed-identities",
+     "status": "forged",
+     "laws": [
+      "uncertainty-resolves-toward-the-candidate",
+      "say-only-what-the-record-holds",
+      "meaning-does-not-live-in-a-label"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one submitted document or one contact channel appears on records that claim different people",
+      "designing duplicate or merge handling on an application intake",
+      "deciding what a fraud or impersonation indicator may do to an application"
+     ]
     }
    ],
    "applications": [
@@ -1692,21 +1707,28 @@
      "stack": "node",
      "technique": "content-addressed-document-identity",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--content-addressed-document-identity.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-28",
      "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "requirement-edited-since-scored",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--requirement-edited-since-scored.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-28",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "shared-artifact-across-claimed-identities",
+     "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/node--shared-artifact-across-claimed-identities.md",
+     "verified_on": "2026-09-28",
      "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "retired-outranks-stale-status-precedence",
      "file": "knowledge/recruiting/candidate-evidence/candidate-identity-and-staleness/applications/react--retired-outranks-stale-status-precedence.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-09-28",
      "verified_against": "react@19"
     }
    ]
@@ -7926,6 +7948,7 @@
     "candidate-identity-and-staleness/label-collision-detection",
     "candidate-identity-and-staleness/rebuild-overwrites-manual-edits-warning",
     "candidate-identity-and-staleness/retired-outranks-stale-status-precedence",
+    "candidate-identity-and-staleness/shared-artifact-across-claimed-identities",
     "candidate-outreach-and-halt-rules/consent-gate-before-the-first-touch",
     "candidate-outreach-and-halt-rules/halt-state-scoped-per-role-not-per-person",
     "candidate-outreach-and-halt-rules/halt-the-sequence-on-any-reply",
@@ -8071,6 +8094,7 @@
     "candidate-identity-and-staleness/content-addressed-document-identity",
     "candidate-identity-and-staleness/label-collision-detection",
     "candidate-identity-and-staleness/retired-outranks-stale-status-precedence",
+    "candidate-identity-and-staleness/shared-artifact-across-claimed-identities",
     "candidate-outreach-and-halt-rules/distinguish-a-reply-from-a-re-application",
     "candidate-self-scheduling/interviewer-timezone-anchoring",
     "candidate-self-scheduling/server-authored-slot-labels",
@@ -8513,6 +8537,7 @@
     "candidate-identity-and-staleness/rebuild-overwrites-manual-edits-warning",
     "candidate-identity-and-staleness/requirement-edited-since-scored",
     "candidate-identity-and-staleness/retired-outranks-stale-status-precedence",
+    "candidate-identity-and-staleness/shared-artifact-across-claimed-identities",
     "candidate-outreach-and-halt-rules/audit-the-non-send",
     "candidate-outreach-and-halt-rules/grounded-personalisation-never-fabricated",
     "candidate-self-scheduling/server-authored-slot-labels",

@@ -97,7 +97,12 @@ seconds whether a re-run is worth it.
 - Compare the score's computation time against the requirement's last
   *material* edit time. Earlier means stale.
 - Stale is advisory. Never hide, never disable, never auto-reject, never
-  auto-advance on the basis of staleness.
+  auto-advance on the basis of staleness. The exceptions come from law, not
+  from preference. A record whose accuracy the candidate contests is restricted
+  under EU data-protection law until the dispute is settled. A screening tool
+  whose bias audit has lapsed may not screen where an audit-age law applies.
+  Render each as a limit on the data or the tool, and move the candidate on by
+  a human route.
 - Never silently re-score in the background and replace a number a recruiter
   has already seen and acted on — the changed number with no event behind it is
   a worse failure than the stale one. A re-score is an event with a timestamp

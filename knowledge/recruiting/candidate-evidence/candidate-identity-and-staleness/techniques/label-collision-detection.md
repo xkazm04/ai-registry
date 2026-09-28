@@ -53,7 +53,9 @@ solved.
    either one person who revised their document, or two people. Distinguish
    them on the strongest independent signals available — verified contact
    address, account, invitation token, submission provenance — never on the
-   name inside the document, which is itself a label.
+   name inside the document, which is itself a label. An *unverified* contact
+   address is a label too. Agencies and households share them, so they may
+   support a match but not decide one.
 5. **Quarantine, do not auto-split.** A record you believe is a composite is
    flagged for a human, with both underlying artifacts shown side by side. An
    automated un-merge guesses which facts belonged to whom, and a wrong guess

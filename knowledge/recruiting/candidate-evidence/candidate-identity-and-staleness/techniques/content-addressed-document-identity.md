@@ -43,6 +43,9 @@ answer. Take it, and stop pretending the other two do.
 
 - **Deduplication that is correct rather than probable.** Equal digest means
   equal content; there is no threshold and no false-positive rate to tune.
+  This depends on the algorithm. Use SHA-256 or stronger. MD5 and SHA-1, still
+  the defaults in much document-deduplication tooling, have demonstrated
+  collisions, and the first public SHA-1 collision was two different PDFs.
 - **Free reuse of expensive work.** An extraction or an analysis performed once
   for a document is valid for every record referencing it, which is where the
   cost saving lives and, more importantly, where *consistency* lives: the same
@@ -68,7 +71,12 @@ is and teams over-extend it.
   produced a completely unrelated digest. Content addressing gives you exact
   equality and no similarity at all — there is no notion of "nearly the same
   document" in a hash. If you need document lineage, model it explicitly as a
-  supersede link on the record.
+  supersede link on the record. If you need to notice that two files are
+  *probably* the same document (a re-export, a re-save, one name edited),
+  add a second fingerprint over the extracted text as a **similarity signal**,
+  never as identity. Document review practice uses this layering: an exact
+  native-file hash for duplicates, and a separate text-similarity layer for
+  near-duplicates that a person then judges.
 - **It is not stability across your own processing.** If you re-encode,
   normalise line endings, or strip metadata before hashing, the digest changes
   with your pipeline version and every stored key silently orphans. Hash the
@@ -76,7 +84,13 @@ is and teams over-extend it.
 - **It does not survive anonymisation, and must not.** A digest is a strong
   re-identifier: it links an erased record back to a live one holding the same
   file. Anonymisation therefore destroys the digest along with everything else,
-  and no lookup may resurrect the link.
+  and no lookup may resurrect the link. European data-protection guidance treats
+  a hash of personal data as pseudonymisation, not anonymisation, because
+  records sharing the value stay trivially linkable. Erasure has to reach
+  **every copy keyed on the digest**, not only the record's own column: a stored
+  analysis that keeps the digest after its personal fields are scrubbed, and a
+  response cache keyed on the document's bytes. If a cache cannot be reached per
+  person, its expiry is the erasure window. Keep it short, and state it.
 
 ## Decision rules
 
@@ -100,7 +114,12 @@ is and teams over-extend it.
   collision as routine: identical templates, boilerplate cover letters and
   agency-reformatted files legitimately produce identical bytes, and the
   system's answer should be "one artifact, several submissions", not "one
-  person".
+  person". When those submissions claim *different* people, the answer is not
+  "one person" and not "fraud" either. It is a fact for a human, handled by
+  [shared-artifact-across-claimed-identities](./shared-artifact-across-claimed-identities.md).
+- A fold that groups records by digest for display must keep every claimed
+  name the group holds. Showing only the newest name silently erases the other
+  claimed person from the screen.
 
 ## When not to use it
 

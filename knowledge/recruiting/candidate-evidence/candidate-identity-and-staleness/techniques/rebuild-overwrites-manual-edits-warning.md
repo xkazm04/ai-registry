@@ -88,7 +88,11 @@ records overnight and nobody is standing at a dialogue.
 ## Decision rules
 
 - Human-authored beats machine-generated on every automatic path. A machine
-  overwrites a human only when a human chooses it, per record.
+  overwrites a human only when a human chooses it, per record. Put the guard at
+  the **write**, not in the dialog. Record enrichment tools that default to
+  fill-if-empty document the side paths that ignore that setting: workflow
+  actions, bulk jobs and integrations. A guard that only the main button passes
+  through is bypassed by everything else.
 - Warnings name the loss concretely, or they are noise.
 - No warning where nothing edited will be lost — precision is what keeps the
   warning credible.
