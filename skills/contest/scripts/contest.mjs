@@ -12,7 +12,10 @@
  *   node contest.mjs verdict --id <slug> --winner <A/2> [--runner-up <B/1>] [--note <file|text>]
  *                            [--pattern "slug|statement|evidence"]... [--force]
  *   node contest.mjs verdict --id <slug> --shortlist <A/2,C/1> [--note ...] [--pattern ...]   (the owner wants another round)
+ *   node contest.mjs verdict --id <slug> --combine <A/2,B/3> --design <doc> [--note ...]   (one design fuses several; no panel needed)
  *   node contest.mjs refine  --id <slug> --shortlist <A/2,C/1> --feedback <file> [--round 2] [--timeout-min 60]
+ *   node contest.mjs reveal  --id <slug> [--timeout-min 60] [--force]   (each seat keeps and masters one of its variants)
+ *   node contest.mjs router  --id <slug>                                  (rebuild the contest and vault routers)
  *   node contest.mjs status  --id <slug>
  *
  * A participant spec is engine:model@effort[#label] - claude:opus@xhigh, grok:grok-4.6@high,
@@ -25,7 +28,8 @@ import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseParticipants, engineCommand, parseEnvelope, classifyOutcome } from './lib/participants.mjs';
-import { blindMap, unblind, scrubIdentity, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown, feedbackSection } from './lib/judging.mjs';
+import { blindMap, unblind, scrubIdentity, materialPhrases, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown, feedbackSection } from './lib/judging.mjs';
+import { renderRouter, fileHref } from './lib/router.mjs';
 import { renderContestNote, upsertIndex, upsertPatterns, readPatterns, slugify } from './lib/vault.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -226,8 +230,17 @@ function collect() {
   const { c, dir } = load();
   const ids = c.participants.map((p) => p.id);
   const extraWords = c.participants.flatMap((p) => [p.id, p.model, p.spec]);
-  const manifest = { contest: c.id, collected: new Date().toISOString(), entries: {}, leaks: {} };
-  const blind = blindMap(ids, c.id);
+  const manifest = { contest: c.id, collected: new Date().toISOString(), entries: {}, leaks: {}, kept: {} };
+  // Identifiers the staged material itself uses are evidence, not signatures (see materialPhrases).
+  const materialTexts = [];
+  if (fs.existsSync(path.join(dir, 'data'))) {
+    for (const f of fs.readdirSync(path.join(dir, 'data'), { withFileTypes: true, recursive: true })) {
+      if (f.isFile() && /\.(md|json|js|txt|sql|rs|py|ts|toml|ya?ml|csv)$/i.test(f.name)) materialTexts.push(read(path.join(f.parentPath ?? f.path, f.name)));
+    }
+  }
+  const protect = materialPhrases(materialTexts, extraWords);
+  // A reveal round keeps the parent's letters, so B/2 in the router is B/2 in both rounds.
+  const blind = c.kind === 'reveal' ? revealBlind(c, dir) : blindMap(ids, c.id);
   const judging = path.join(dir, 'judging');
   fs.rmSync(path.join(judging, 'entries'), { recursive: true, force: true });
   for (const [letter, id] of Object.entries(blind)) {
@@ -235,12 +248,17 @@ function collect() {
     const record = readIf(path.join(dir, 'runs', id, 'record.json'));
     const entry = { letter, variants: [], record: record ? JSON.parse(record) : null, stray: [] };
     for (const name of fs.existsSync(ws) ? fs.readdirSync(ws) : []) {
-      if (['PARTICIPANT.md', 'data', 'reference'].includes(name) || /^variant-\d+$/.test(name)) continue;
+      if (['PARTICIPANT.md', 'data', 'reference', 'own', 'others'].includes(name) || /^variant-\d+$/.test(name)) continue;
       entry.stray.push(name);
     }
     let leaks = 0;
+    let kept = 0;
     // A refinement round expects specific variant numbers per seat, not 1..N.
-    const wanted = c.expected?.[id] ?? Array.from({ length: c.variants }, (_, i) => i + 1);
+    // A reveal seat delivers whichever of its own variants it kept, so collect what is on disk.
+    const onDisk = () => (fs.existsSync(ws) ? fs.readdirSync(ws).map((x) => Number(x.match(/^variant-(\d+)$/)?.[1])).filter(Boolean) : []);
+    const wanted = c.kind === 'reveal'
+      ? (onDisk().length ? onDisk() : [1])
+      : c.expected?.[id] ?? Array.from({ length: c.variants }, (_, i) => i + 1);
     for (const n of wanted) {
       const vdir = path.join(ws, `variant-${n}`);
       const index = path.join(vdir, 'index.html');
@@ -257,8 +275,8 @@ function collect() {
           const target = path.join(dest, rel);
           fs.mkdirSync(path.dirname(target), { recursive: true });
           if (/\.(html?|css|js|mjs|md|json|svg|txt)$/i.test(rel) && st.size < 8_000_000) {
-            const { text, count } = scrubIdentity(read(src), extraWords);
-            leaks += count;
+            const { text, count, kept: k } = scrubIdentity(read(src), extraWords, protect);
+            leaks += count; kept += k;
             fs.writeFileSync(target, text);
           } else fs.copyFileSync(src, target);
         }
@@ -271,16 +289,112 @@ function collect() {
     if (fs.existsSync(path.join(ws, 'data'))) copyDir(path.join(ws, 'data'), path.join(judging, 'entries', letter, 'data'));
     manifest.entries[id] = entry;
     manifest.leaks[id] = leaks;
+    manifest.kept[id] = kept;
   }
   writeJson(path.join(dir, 'runs', 'blind-map.json'), blind);
   writeJson(path.join(dir, 'manifest.json'), manifest);
   fs.writeFileSync(path.join(dir, 'gallery.html'), gallery(c, manifest, blind));
   for (const [id, e] of Object.entries(manifest.entries)) {
     const present = e.variants.filter((v) => v.present).length;
-    console.log(`${e.letter} <- ${id}: ${present}/${e.variants.length} variants${e.stray.length ? `, stray: ${e.stray.join(', ')}` : ''}${manifest.leaks[id] ? `, ${manifest.leaks[id]} identity leak(s) redacted` : ''}`);
+    console.log(`${e.letter} <- ${id}: ${present}/${e.variants.length} variants${e.stray.length ? `, stray: ${e.stray.join(', ')}` : ''}${manifest.leaks[id] ? `, ${manifest.leaks[id]} identity leak(s) redacted` : ''}${manifest.kept[id] ? `, ${manifest.kept[id]} material identifier(s) kept` : ''}`);
     for (const v of e.variants) if (v.present) console.log(`    ${v.n}. ${v.concept || '(untitled)'} - ${Math.round(v.bytes / 1024)} KB${v.notes ? '' : ' - NO NOTES'}`);
   }
   console.log(`gallery: ${path.join(dir, 'gallery.html')} (unblinded, for the host)\nblinded copies: ${path.join(judging, 'entries')}`);
+  writeRouters(c, dir);
+}
+
+// ---------------------------------------------------------------- router
+/** The parent's letter for every reveal seat, through the lineage `reveal` recorded. */
+function revealBlind(c, dir) {
+  const parentBlind = readJson(path.join(path.dirname(dir), c.parent, 'runs', 'blind-map.json'));
+  const out = {};
+  for (const [childId, l] of Object.entries(c.lineage ?? {})) {
+    const letter = Object.entries(parentBlind).find(([, pid]) => pid === l.parent)?.[0];
+    if (letter) out[letter] = childId;
+  }
+  return out;
+}
+
+/** One router row for a first-round contest, with its reveal overlaid when one exists. */
+function routerContest(dir) {
+  const c = readJson(path.join(dir, 'contest.json'));
+  const mfFile = path.join(dir, 'manifest.json');
+  const row = { id: c.id, title: c.title, project: c.project, collected: fs.existsSync(mfFile), closed: !!c.winner || !!c.combined?.length,
+    reveal: 'none', briefHref: fileHref(path.join(dir, 'BRIEF.md')),
+    materialHref: fs.existsSync(path.join(dir, 'data', 'SCHEMA.md')) ? fileHref(path.join(dir, 'data', 'SCHEMA.md')) : null, entries: [] };
+  if (!row.collected) return row;
+  const mf = readJson(mfFile);
+  if (c.design) row.designHref = fileHref(c.design);
+  if (!c.winner && !c.combined?.length && c.shortlist?.length) {
+    row.shortlisted = true;
+    const note = path.join(c.vault, c.vault_subdir, 'contests', `${c.id}.md`);
+    if (fs.existsSync(note)) row.noteHref = fileHref(note);  // the owner's reason, and what the decision waits on
+  }
+  // Panel scores are shown as mean, spread and rank only: a per-judge column would name the judges' families.
+  const board = (d) => {
+    const f = path.join(d, 'judging', 'scoreboard.json');
+    if (!fs.existsSync(f)) return {};
+    const out = {};
+    const rows = readJson(f).rows.map((r) => { const v = Object.values(r.per_judge ?? {}); return { key: r.key, mean: v.reduce((a, b) => a + b, 0) / (v.length || 1), spread: v.length ? Math.max(...v) - Math.min(...v) : 0, judges: v.length }; });
+    rows.sort((a, b) => b.mean - a.mean).forEach((r, i) => { out[r.key] = { ...r, rank: i + 1, of: rows.length }; });
+    return out;
+  };
+  const scores = board(dir);
+  const revealDir = path.join(path.dirname(dir), `${c.id}-reveal`);
+  const kept = {};
+  if (fs.existsSync(path.join(revealDir, 'contest.json'))) {
+    row.reveal = 'pending';
+    const rmf = readIf(path.join(revealDir, 'manifest.json'));
+    if (rmf) {
+      row.reveal = 'collected';
+      for (const e of Object.values(JSON.parse(rmf).entries)) {
+        const v = e.variants.find((x) => x.present);
+        if (!v) continue;
+        const vdir = path.join(revealDir, 'judging', 'entries', e.letter, `variant-${v.n}`);
+        kept[e.letter] = { n: v.n, concept: v.concept, bytes: v.bytes, href: fileHref(path.join(vdir, 'index.html')), notesHref: fileHref(path.join(vdir, 'NOTES.md')) };
+      }
+    }
+  }
+  const label = (x) => (typeof x === 'string' ? x : x?.label);
+  for (const e of Object.values(mf.entries).sort((a, b) => a.letter.localeCompare(b.letter))) {
+    row.entries.push({ letter: e.letter, variants: e.variants.map((v) => {
+      const key = `${e.letter}/${v.n}`;
+      const vdir = path.join(dir, 'judging', 'entries', e.letter, `variant-${v.n}`);
+      let state = 'open';
+      // A seat whose reveal delivered nothing keeps all its variants open rather than losing them.
+      if (row.reveal === 'collected' && v.present && kept[e.letter]) state = kept[e.letter].n === v.n ? 'kept' : 'eliminated';
+      if (label(c.winner) === key) state = 'winner'; else if (label(c.runner_up) === key) state = 'runner-up';
+      else if (c.combined?.some((x) => label(x) === key)) state = 'combined';
+      else if (!c.winner && c.shortlist?.some((x) => label(x) === key)) state = 'shortlisted';
+      return { n: v.n, present: v.present, concept: v.concept || v.title, bytes: v.bytes, state, score: scores[key] ?? null,
+        href: fileHref(path.join(vdir, 'index.html')), notesHref: fileHref(path.join(vdir, 'NOTES.md')),
+        mastered: kept[e.letter]?.n === v.n ? kept[e.letter] : null };
+    }) });
+  }
+  return row;
+}
+
+/** Write <arena>/<id>/router.html and the vault router over every first-round contest registered in that vault. */
+function writeRouters(c, dir) {
+  const rootDir = c.kind === 'reveal' ? path.join(path.dirname(dir), c.parent) : dir;
+  const root = readJson(path.join(rootDir, 'contest.json'));
+  if (root.parent) return; // a refinement round has its own gallery; the router follows first rounds and their reveal
+  const own = routerContest(rootDir);
+  fs.writeFileSync(path.join(rootDir, 'router.html'), renderRouter({ title: `${root.title} - variants`, contests: [own] }));
+  const vaultDir = path.join(root.vault, root.vault_subdir);
+  fs.mkdirSync(vaultDir, { recursive: true });
+  const regFile = path.join(vaultDir, 'router.json');
+  const reg = fs.existsSync(regFile) ? readJson(regFile) : { contests: {} };
+  reg.contests[root.id] = rootDir;
+  writeJson(regFile, reg);
+  const rows = Object.values(reg.contests).filter((d) => fs.existsSync(path.join(d, 'contest.json'))).map(routerContest);
+  fs.writeFileSync(path.join(vaultDir, 'router.html'), renderRouter({ title: `${root.vault_subdir} contests - blinded variants`, contests: rows }));
+  console.log(`router: ${path.join(rootDir, 'router.html')}\n        ${path.join(vaultDir, 'router.html')} (${rows.length} contest(s))`);
+}
+
+function router() {
+  const { c, dir } = load();
+  writeRouters(c, dir);
 }
 
 function gallery(c, manifest, blind) {
@@ -370,8 +484,8 @@ function verdict() {
   const { c, dir } = load();
   const blind = readJson(path.join(dir, 'runs', 'blind-map.json'));
   const manifest = readJson(path.join(dir, 'manifest.json'));
-  const agg = aggregateVerdicts();
-  if (!agg) die('no verdicts to decide on - run judge (and the host visual pass) first');
+  // The owner may decide on the reveal alone, with no panel: then there is no scoreboard to quote.
+  const agg = aggregateVerdicts() ?? { rows: [], patterns: [], anti: [], verdicts: [] };
   const resolve = (key) => {
     if (!key) return null;
     const m = String(key).match(/^([A-Z])\/(\d+)$/);
@@ -384,9 +498,12 @@ function verdict() {
     return { label: key, id, spec: p.spec, n: Number(m[2]), concept: v.concept || v.title || 'untitled', path: path.join(dir, 'entries', id, `variant-${m[2]}`) };
   };
   // The owner may decline to name a winner and send a shortlist into another round instead.
-  const shortlist = opts.shortlist && opts.shortlist !== true ? String(opts.shortlist).split(',').map((k) => resolve(k.trim())) : [];
-  if (!shortlist.length) need('winner');
-  const winner = shortlist.length ? null : resolve(opts.winner);
+  const list = (k) => (opts[k] && opts[k] !== true ? String(opts[k]).split(',').map((x) => resolve(x.trim())) : []);
+  const shortlist = list('shortlist');
+  // Or decide that no single variant wins and one design fuses several: a decision, not another round.
+  const combined = list('combine');
+  if (!shortlist.length && !combined.length) need('winner');
+  const winner = shortlist.length || combined.length ? null : resolve(opts.winner);
   const runnerUp = resolve(opts['runner-up']);
   const noteArg = opts.note ?? '';
   const decision = noteArg && fs.existsSync(path.resolve(cwd, noteArg)) ? read(path.resolve(cwd, noteArg)) : String(noteArg);
@@ -395,7 +512,7 @@ function verdict() {
   const curated = opts._pattern.map((s) => {
     const [slug, statement, evidence] = String(s).split('|').map((x) => x.trim());
     if (!slug || !statement) die(`--pattern needs "slug|statement|evidence", got "${s}"`);
-    return { slug: slugify(slug), statement, evidence: evidence || statement, winner: !shortlist.length, from: 'host' };
+    return { slug: slugify(slug), statement, evidence: evidence || statement, winner: !shortlist.length || combined.length > 0, from: 'host' };
   });
   const fromJudges = agg.patterns.map((p) => ({
     slug: slugify(p.key), statement: p.statement, evidence: `${p.statement} (${[...new Set(p.judges)].join(', ')})`,
@@ -421,7 +538,10 @@ function verdict() {
     id: c.id, title: c.title, date: c.date, project: c.project, brief: read(path.join(dir, 'BRIEF.md')),
     participants: c.participants, judges: agg.verdicts.map((v) => v.judge),
     scoreboard: scoreboardMarkdown(agg.rows, blind, Object.fromEntries(c.participants.map((p) => [p.id, p]))),
-    winner, runnerUp, shortlist, patterns, antiPatterns, decision,
+    winner, runnerUp, shortlist: combined.length ? combined : shortlist, patterns, antiPatterns,
+    decision: combined.length ? `**Combined design** of ${combined.map((x) => `${x.label} "${x.concept}"`).join(', ')} - no single winner.
+
+${decision}` : decision,
     panelPatterns: noteEvidence.map((p) => `${p.statement} _(${p.from})_`),
     costs: ['| Seat | Entry | Outcome | Wall | Reported cost | Turns |', '|---|---|---|--:|--:|--:|', ...costs].join('\n')
       + `\n\n${winner ? `Winner artefact: \`${winner.path}\`` : `Shortlisted artefacts: ${shortlist.map((x) => `\`${x.path}\``).join(', ')}`}\nReported cost is the CLI's own figure, not an invoice; subscription seats report an API-equivalent price.`,
@@ -429,14 +549,18 @@ function verdict() {
   fs.writeFileSync(noteFile, note);
   const indexFile = path.join(vaultDir, 'Contests.md');
   fs.writeFileSync(indexFile, upsertIndex(readIf(indexFile), {
-    id: c.id, title: c.title, date: c.date, project: c.project, winner: winner ? `${winner.label} ${winner.concept}` : `shortlist: ${shortlist.map((x) => `${x.label} ${x.concept}`).join('; ')}`,
-    winnerSeat: winner ? winner.spec : 'next round pending', participants: c.participants.length,
+    id: c.id, title: c.title, date: c.date, project: c.project,
+    winner: winner ? `${winner.label} ${winner.concept}` : combined.length ? `combined: ${combined.map((x) => `${x.label} ${x.concept}`).join('; ')}` : `shortlist: ${shortlist.map((x) => `${x.label} ${x.concept}`).join('; ')}`,
+    winnerSeat: winner ? winner.spec : combined.length ? combined.map((x) => x.spec).join('; ') : 'next round pending', participants: c.participants.length,
   }));
   const patternsFile = path.join(vaultDir, 'Patterns.md');
   fs.writeFileSync(patternsFile, upsertPatterns(readIf(patternsFile), c.id, patterns));
-  c.winner = winner; c.runner_up = runnerUp; c.shortlist = shortlist; c.decided = new Date().toISOString();
+  c.winner = winner; c.runner_up = runnerUp; c.shortlist = shortlist; c.combined = combined; c.decided = new Date().toISOString();
+  // The design doc the decision produced - the artefact the next session builds from - is linked from the router.
+  if (opts.design && opts.design !== true) c.design = path.resolve(cwd, opts.design);
   save(dir, c);
-  console.log(`${winner ? `winner: ${winner.label} = ${winner.spec} - "${winner.concept}"` : `shortlist: ${shortlist.map((x) => `${x.label} (${x.spec})`).join(', ')} - run refine for the next round`}\nvault: ${noteFile}\n       ${indexFile}\n       ${patternsFile} (${patterns.length} pattern(s), ${patterns.filter((p) => p.winner).length} credited to a winner)`);
+  writeRouters(c, dir);
+  console.log(`${winner ? `winner: ${winner.label} = ${winner.spec} - "${winner.concept}"` : combined.length ? `combined design of ${combined.map((x) => `${x.label} "${x.concept}" (${x.spec})`).join(', ')}` : `shortlist: ${shortlist.map((x) => `${x.label} (${x.spec})`).join(', ')} - run refine for the next round`}\nvault: ${noteFile}\n       ${indexFile}\n       ${patternsFile} (${patterns.length} pattern(s), ${patterns.filter((p) => p.winner).length} credited to a winner)`);
 }
 
 // ---------------------------------------------------------------- refine
@@ -512,6 +636,67 @@ function refine() {
   console.log(`round ${round} as contest "${childId}" at ${childDir}\n  ${participants.map((p) => `${p.spec} refines ${lineage[p.id].from}`).join('\n  ')}\n  next: run --id ${childId}`);
 }
 
+// ---------------------------------------------------------------- reveal
+// Every seat sees the whole field - its own variants unredacted, everyone else's blinded - keeps
+// one of its own, masters it, and argues in a comparison matrix why it is the better choice. The
+// router marks what each author cut as eliminated and keeps it clickable until the verdict.
+function reveal() {
+  const { c, dir } = load();
+  if (c.kind === 'reveal' || c.parent) die('reveal runs on a first-round contest, not on a round derived from one');
+  const mfFile = path.join(dir, 'manifest.json');
+  if (!fs.existsSync(mfFile)) die('collect the first round before the reveal');
+  const mf = readJson(mfFile);
+  const blind = readJson(path.join(dir, 'runs', 'blind-map.json'));
+  const letterOf = Object.fromEntries(Object.entries(blind).map(([l, id]) => [id, l]));
+  const childId = `${c.id}-reveal`;
+  const childDir = path.join(path.dirname(dir), childId);
+  if (fs.existsSync(path.join(childDir, 'contest.json')) && !opts.force) die(`reveal exists at ${childDir} (use --force to rewrite the briefs; entries are kept)`);
+  fs.mkdirSync(path.join(childDir, 'entries'), { recursive: true });
+  fs.copyFileSync(path.join(dir, 'BRIEF.md'), path.join(childDir, 'BRIEF.md'));
+  const hasData = fs.existsSync(path.join(dir, 'data'));
+  if (hasData) copyDir(path.join(dir, 'data'), path.join(childDir, 'data'));
+  const template = read(path.join(REFERENCES, 'reveal-brief.md'));
+  const brief = read(path.join(dir, 'BRIEF.md')).trim();
+  const timeout = Number(opts['timeout-min'] ?? c.timeout_min);
+  const concept = (v) => v.concept || v.title || 'untitled';
+  const participants = [];
+  const lineage = {};
+  for (const parent of c.participants) {
+    const entry = mf.entries[parent.id];
+    const own = entry?.variants.filter((v) => v.present) ?? [];
+    if (!own.length) { console.log(`${parent.spec}: delivered nothing in round one - no reveal seat`); continue; }
+    const [p] = parseParticipants(`${parent.engine}:${parent.model}@${parent.effort}#reveal`);
+    const letter = letterOf[parent.id];
+    participants.push(p); lineage[p.id] = { parent: parent.id, letter };
+    const ws = path.join(childDir, 'entries', p.id);
+    fs.mkdirSync(ws, { recursive: true });
+    for (const v of own) copyDir(path.join(dir, 'entries', parent.id, `variant-${v.n}`), path.join(ws, 'own', `variant-${v.n}`));
+    const others = [];
+    for (const [ol, oid] of Object.entries(blind).sort()) {
+      if (oid === parent.id) continue;
+      for (const v of mf.entries[oid]?.variants.filter((x) => x.present) ?? []) {
+        copyDir(path.join(dir, 'judging', 'entries', ol, `variant-${v.n}`), path.join(ws, 'others', ol, `variant-${v.n}`));
+        others.push(`  ${ol}/variant-${v.n}/   ${ol}/${v.n} "${concept(v)}"`);
+      }
+    }
+    if (hasData) copyDir(path.join(childDir, 'data'), path.join(ws, 'data'));
+    fs.writeFileSync(path.join(ws, 'PARTICIPANT.md'), template
+      .replaceAll('{{title}}', c.title).replaceAll('{{brief}}', brief).replaceAll('{{timeout}}', String(timeout))
+      .replaceAll('{{own_count}}', String(own.length))
+      .replaceAll('{{own_list}}', own.map((v) => `  variant-${v.n}/   "${concept(v)}"`).join('\n'))
+      .replaceAll('{{others_list}}', others.join('\n') || '  (no other seat delivered)'));
+  }
+  if (!participants.length) die('no seat delivered anything in round one');
+  const child = {
+    id: childId, kind: 'reveal', title: `${c.title} - reveal`, date: today(), project: c.project, arena: c.arena,
+    brief_file: 'BRIEF.md', variants: 1, timeout_min: timeout, participants, lineage,
+    parent: c.id, judges: [], vault: c.vault, vault_subdir: c.vault_subdir, created: new Date().toISOString(),
+  };
+  save(childDir, child);
+  console.log(`reveal as contest "${childId}" at ${childDir}\n  ${participants.map((p) => `${p.spec} keeps one of ${lineage[p.id].letter}'s variants`).join('\n  ')}\n  next: run --id ${childId}, then collect --id ${childId}`);
+  writeRouters(child, childDir);
+}
+
 // ---------------------------------------------------------------- status
 function status() {
   const { c, dir } = load();
@@ -528,6 +713,6 @@ function status() {
 }
 
 // ---------------------------------------------------------------- dispatch
-const commands = { init, run, collect, judge, aggregate: aggregateVerdicts, verdict, refine, status };
+const commands = { init, run, collect, judge, aggregate: aggregateVerdicts, verdict, refine, reveal, router, status };
 if (!commands[cmd]) die(`usage: contest.mjs <${Object.keys(commands).join('|')}> --id <slug> ...`);
 Promise.resolve(commands[cmd]()).catch((e) => die(e.stack ?? String(e), 1));

@@ -1,12 +1,12 @@
 ---
 name: cx
-description: "Walk a product's user journeys screen by screen with a CX/UX lens. Builds the journey map once, then at each stop gives a short overview of the screen as the user meets it, proposes 3-6 specific improvements graded by impact and effort, takes the user's own read and expectation for that stop, and dispatches executor subagents to make the accepted changes - verified by gates and a screenshot, committed per stop. In `complete` mode the map is the path to the product's final output, the SEAMS between screens are stops too, and a stop that is absent is designed and built rather than deferred - so an unfinished product is walked to completion instead of polished around its holes. Resumes across sessions from an Obsidian vault. Use when a prototype or app already exists and the job is to make its experience good, or to finish it; pairs with /explorer (code quality) and /architect (structure)."
-argument-hint: "[map|complete|next|screen <id>|status|replan] [--no-dispatch] [--stops N]"
+description: "Walk a product's user journeys screen by screen with a CX/UX lens. Builds the journey map once, then at each stop gives a short overview of the screen as the user meets it, proposes 3-6 specific improvements graded by impact and effort, takes the user's own read and expectation for that stop, and dispatches executor subagents to make the accepted changes - verified by gates and a screenshot, committed per stop. In `complete` mode the map is the path to the product's final output, the SEAMS between screens are stops too, and a stop that is absent is designed and built rather than deferred - so an unfinished product is walked to completion instead of polished around its holes. With `--auto` it walks the whole map unattended: reads every stop, executes every xs-m item under gates and an independent verifier, and queues only L/XL items for human triage (`/cx triage`). Resumes across sessions from an Obsidian vault. Use when a prototype or app already exists and the job is to make its experience good, or to finish it; pairs with /explorer (code quality) and /architect (structure)."
+argument-hint: "[map|complete|next|screen <id>|status|replan|triage] [--auto] [--no-dispatch] [--stops N]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.4.0
-tags: cx, ux, journey, screens, review, dispatch, continuity, completion, obsidian
+version: 1.5.1
+tags: cx, ux, journey, screens, review, dispatch, continuity, completion, autonomous, obsidian
 ---
 # CX
 
@@ -58,6 +58,8 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 - **One stop, one exchange.** The run never asks two things about the same screen in a row: it
   shows the read, takes the user's turn once, then acts.
 - Long free text is welcome everywhere — the user's expectation at a stop is *meant* to be prose.
+- **Under `--auto` there are no prompts at all** until the run ends: every menu takes its default,
+  Phase 5 is replaced by auto-triage, and the only thing waiting for a human is the triage queue.
 
 ## Modes
 
@@ -69,6 +71,8 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 | `screen <id>` | jump to one stop out of order |
 | `status` | print the journey with each stop's state and the last three decisions; change nothing |
 | `replan` | keep decisions, re-derive the stop order from the current screens |
+| `triage` | walk the human triage queue (`Cx/triage.md`) that `--auto` filled: one menu per item, accepted items dispatched and committed against their stop |
+| `--auto` | walk unattended: every stop in the map, in order, each read, auto-triaged, built, verified and committed before the next. Only L/XL items and the gated classes wait for a human. See **Auto mode**. Combines with `next`, `complete`, `map`/`replan` (map written without confirmation) and `--stops N` |
 | `--no-dispatch` | do everything except Phase 6: write the briefs, dispatch nothing |
 | `--stops N` | override `stops_per_session` for this run |
 
@@ -96,8 +100,10 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 - **3-6 proposals per stop.** Fewer is a screen that is already right; say so. More is a list, and
   lists are not reviewed.
 - **Grade every proposal** by *impact* (`H` the user would notice on first use / `M` on repeat use /
-  `L` polish) and *effort* (`xs` minutes / `s` an hour / `m` a session / `l` more), and name the
-  heuristic it serves. A proposal without a heuristic is an opinion; keep it out.
+  `L` polish) and *effort* (`xs` minutes / `s` an hour / `m` a session / `l` several sessions or a
+  cross-cutting change / `xl` a new module, a new data model or a redesign), and name the
+  heuristic it serves. Grade effort by what the change touches, not by how fast an executor types:
+  `l` and `xl` are where a human decides, so the grade is a routing decision and is never shaded down. A proposal without a heuristic is an opinion; keep it out.
 - **The user's expectation outranks the read.** When the user's expectation for a stop contradicts
   a proposal, the proposal is withdrawn and the disagreement is recorded, not argued.
 - **Done for a stop** = every accepted item landed and verified, or explicitly deferred with a reason;
@@ -291,6 +297,8 @@ path to the final output and stops there.
 
 ## Phase 5: The user's turn
 
+Under `--auto` this phase is replaced by **A5 · Auto-triage** (see **Auto mode**).
+
 One prompt, then act. The user's answer is expected to be prose: their reaction to the screen and
 their **expectation** for it — what it should make the user feel, know, or do.
 
@@ -404,12 +412,42 @@ walk gets shorter as it goes.
 
 **8c. Status.** End with the journey line-map: done / open / remaining, and the next stop by name.
 
+## Auto mode (`--auto`)
+
+**Read `${CLAUDE_SKILL_DIR}/references/auto-mode.md` before the first stop of an `--auto` or `triage`
+run.** It holds the loop, the routing table, the verifier, the triage queue format, the stop
+conditions and the report. The contract in brief:
+
+- **Same method, minus two roles.** Map, stops, heuristics, gates, and one commit per stop are
+  unchanged. Auto-triage (A5) replaces the user's turn, and an independent verifier (A6) replaces
+  the user looking at the after-shot.
+- **The loop.** Every open stop runs in map order, strictly one at a time. Each stop is closed and
+  committed before the next opens, so the walk can resume after any interruption. `map --auto`
+  writes the map without the confirmation menu.
+- **Nothing is invented.** The stop note records `expectation: none - auto`. The standing law is the
+  promoted patterns, earlier expectations and declines, the overlay's law, the design doc and the
+  host's memory. It withdraws what it contradicts.
+- **Routing.** Effort `xs`/`s`/`m` is built. Effort `l`/`xl` goes to `Cx/triage.md` with its full
+  brief, and so does a **gated class** at any effort: a design-doc or law change, a deletion of
+  something reachable, a capability off the map, an irreversible or outward act, a reversal of a
+  recorded decision, or an owner's open question. An `l` is never split to dodge the queue.
+- **Verification.** A verifier that did not build the change checks the before and after
+  captures against each acceptance line. `fail` gets one repair round and is then deferred with
+  its files restored. `unsure` lands and queues a `review`. A new screen gets one automatic
+  second read.
+- **Stop conditions.** The run stops when the map is done, the baseline is red, gates are broken
+  and cannot be restored, the product cannot run, or three stops in a row were all queued. It never
+  pushes.
+- **`/cx triage`** walks the queue one prompt per item, highest impact first. An accepted item is
+  built and committed against its stop, and a decline becomes standing law.
+
 ## Vault layout
 
 ```
 $VAULT/
   Cx/journey.md              the ordered stops and their state
   Cx/state.md                where the walk is - rewritten per stop
+  Cx/triage.md               the human triage queue --auto fills (L/XL and gated items)
   Cx/stops/S<n>.md           one note per stop: overview, read, decisions, landed, before/after
   Cx/stops/S<n>-before.png   and -after.png
   Patterns/cx-preferences.md promoted rules (shared Patterns/ folder)

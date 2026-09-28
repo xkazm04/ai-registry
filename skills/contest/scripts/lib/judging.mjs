@@ -42,11 +42,51 @@ export function identityPattern(extra = []) {
   return new RegExp(`\\b(?:${words.join('|')})\\b`, 'gi');
 }
 
-/** Returns the scrubbed text and how many replacements were made. */
-export function scrubIdentity(text, extra = []) {
+// An identifier that the staged material itself contains - `anthropic/opus@xhigh` as a judge id in
+// the data a tracklight brief is ABOUT - is evidence, not a signature: redacting it mangled the core
+// quote of the second design contest and hit the most thorough entry hardest (125 redactions against 3).
+// Only compound identifiers are protected (a `/ @ . - _ :` or a digit beside the word); a bare vendor
+// word stays redacted even when the material uses it, because that is how a seat signs its work.
+const IDENT_CHARS = '[A-Za-z0-9_./@:-]';
+const EDGE = /^[.:_/@-]+|[.:_/@-]+$/g;
+
+/** Compound identifiers in `texts` (the staged material) that contain an identity word, longest first. */
+export function materialPhrases(texts, extra = []) {
+  const word = identityPattern(extra);
+  const inner = word.source.replace(/^\b\(\?:/, '').replace(/\)\b$/, '');
+  const token = new RegExp(`${IDENT_CHARS}*(?:${inner})${IDENT_CHARS}*`, 'gi');
+  const found = new Set();
+  for (const t of texts) {
+    for (const m of String(t).matchAll(token)) {
+      const phrase = m[0].replace(EDGE, '');
+      const rest = phrase.replace(new RegExp(inner, 'gi'), '');
+      if (!(phrase.length > 3 && /[/@._:\d-]/.test(rest))) continue;
+      // `google/gemini-2.5-flash` in the data protects a report's bare `gemini-2.5-flash` too.
+      const segs = phrase.split('/');
+      for (let i = 0; i < segs.length; i += 1) {
+        const tail = segs.slice(i).join('/');
+        const tailRest = tail.replace(new RegExp(inner, 'gi'), '');
+        if (tail.length > 3 && new RegExp(inner, 'i').test(tail) && /[/@._:\d-]/.test(tailRest)) found.add(tail);
+      }
+    }
+  }
+  return [...found].sort((a, b) => b.length - a.length);
+}
+
+/** Returns the scrubbed text, how many replacements were made, and how many material phrases were kept. */
+export function scrubIdentity(text, extra = [], protect = []) {
   let count = 0;
-  const out = text.replace(identityPattern(extra), () => { count += 1; return '[redacted]'; });
-  return { text: out, count };
+  let kept = 0;
+  let masked = text;
+  protect.forEach((phrase, i) => {
+    const parts = masked.split(phrase);
+    kept += parts.length - 1;
+    masked = parts.join(`\u0000${i}\u0000`);
+  });
+  const out = masked
+    .replace(identityPattern(extra), () => { count += 1; return '[redacted]'; })
+    .replace(/\u0000(\d+)\u0000/g, (_, i) => protect[Number(i)]);
+  return { text: out, count, kept };
 }
 
 // ---------------------------------------------------------------- verdicts

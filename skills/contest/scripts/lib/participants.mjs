@@ -56,7 +56,7 @@ export function engineCommand(p, bin, prompt, { workspace = '.' } = {}) {
   if (p.engine === 'codex') {
     return {
       argv: [...head, 'exec', '--json', '--skip-git-repo-check', '--ephemeral', '--ignore-user-config',
-        '--ignore-rules', '-C', workspace, '--sandbox', 'workspace-write', '-m', p.model,
+        '--ignore-rules', '-C', workspace, '--dangerously-bypass-approvals-and-sandbox', '-m', p.model,
         '-c', `model_reasoning_effort="${p.effort}"`, '-'],
       stdin: prompt,
       env: {},
@@ -67,7 +67,9 @@ export function engineCommand(p, bin, prompt, { workspace = '.' } = {}) {
       '--permission-mode', 'bypassPermissions', '--setting-sources', 'project,local',
       '--strict-mcp-config', '--no-session-persistence'],
     stdin: prompt,
-    env: {},
+    // A seat that fans its variants out to background subagents and ends its turn is otherwise
+    // killed 600 s later with nothing written: `-p` terminates still-running background tasks.
+    env: { CLAUDE_CODE_PRINT_BG_WAIT_CEILING_MS: '0' },
   };
 }
 

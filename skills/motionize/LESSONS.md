@@ -13,3 +13,8 @@ Append-only reflection lane. One entry per run that taught something. Format:
 ## 1.2.1 - 2026-09-09 - ai-registry
 
 - Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
+
+## 1.3.1 - 2026-09-22 - personas (council unpaired glyph)
+
+- **An accent that touches same-tone line-work fuses into it.** A small filled teal star sitting on a navy ring came out of the tracer as one navy path at `--color-precision 3` (the setting that kept a dashed orbit to one hex per dash), and at precision 4 the dashes fanned out into twenty near-identical violets instead. Neither setting gives both. Prompt the accent away from line-work (a gap between the star and the ring), or accept the trace and hand-author the accent path afterwards, which is what this run did: a ten-point star appended last with `delay: 1`, so it is also the last thing to draw.
+- **Normalise fills to the ART_STYLE accents in the emitted module.** VTracer averages anti-aliased edges into a distinct hex per region; a dashed line yields one hex per dash. Mapping near-violets to one violet and near-navies to one navy before commit is what makes the renderer's light-theme override a short table instead of a list of twenty-five.

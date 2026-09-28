@@ -10,7 +10,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { parseParticipant, parseParticipants, engineCommand, parseClaude, parseGrok, parseCodex, classifyOutcome } from '../scripts/lib/participants.mjs';
-import { blindMap, scrubIdentity, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown } from '../scripts/lib/judging.mjs';
+import { blindMap, scrubIdentity, materialPhrases, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown } from '../scripts/lib/judging.mjs';
 import { upsertPatterns, readPatterns, upsertIndex, renderContestNote } from '../scripts/lib/vault.mjs';
 
 test('participant spec parses to a stable filesystem-safe id', () => {
@@ -112,4 +112,63 @@ test('the contest index upserts its row and the note renders its frontmatter', (
   assert.match(note, /^---\ncontest: "skill-tree"/);
   assert.match(note, /winner_seat: "a:b@high"/);
   assert.match(note, /\[\[Patterns#p\|p\]\]/);
+});
+
+test('identifiers the staged material uses survive blinding; a signature does not', () => {
+  const data = ['| anthropic/opus@xhigh | 660 |', 'google/gemini-2.5-flash vs openrouter/google/gemini-2.5-flash; the claude engine'];
+  const extra = ['claude-opus_xhigh', 'opus'];
+  const protect = materialPhrases(data, extra);
+  assert.ok(protect.includes('anthropic/opus@xhigh'));
+  assert.ok(protect.includes('gemini-2.5-flash'), 'a path tail is protected too');
+  assert.ok(!protect.includes('claude'), 'a bare vendor word is never protected');
+  const r = scrubIdentity('660 verdicts carry anthropic/opus@xhigh and gemini-2.5-flash. Built by Claude Opus.', extra, protect);
+  assert.equal(r.text, '660 verdicts carry anthropic/opus@xhigh and gemini-2.5-flash. Built by [redacted] [redacted].');
+  assert.equal(r.count, 2);
+  assert.equal(r.kept, 2);
+  assert.deepEqual(scrubIdentity('Built by Claude.', extra), { text: 'Built by [redacted].', count: 1, kept: 0 }, 'no material means the old behaviour');
+});
+
+test('the router links blinded copies, marks eliminated variants and keeps them clickable', async () => {
+  const { renderRouter, fileHref } = await import('../scripts/lib/router.mjs');
+  assert.equal(fileHref(['C:', 'a b', 'x.html'].join(String.fromCharCode(92))), 'file:///C:/a%20b/x.html');
+  const html = renderRouter({ title: 'T', contests: [{ id: 'c1', title: 'One', project: 'p', collected: true, reveal: 'collected', entries: [
+    { letter: 'B', variants: [
+      { n: 1, present: true, concept: 'Kept one', bytes: 2048, state: 'kept', href: 'file:///k.html', notesHref: 'file:///k.md', mastered: { concept: 'Kept one, mastered', href: 'file:///m.html', notesHref: 'file:///m.md' } },
+      { n: 2, present: true, concept: 'Cut one', bytes: 1024, state: 'eliminated', href: 'file:///c.html', notesHref: 'file:///c.md' },
+      { n: 3, present: false },
+    ] },
+  ] }, { id: 'c2', title: 'Two', collected: false }] });
+  assert.match(html, /href="file:\/\/\/c\.html"/, 'an eliminated variant stays linked');
+  assert.match(html, /class="card cut"/);
+  assert.match(html, /mastered in reveal/);
+  assert.match(html, /not delivered/);
+  assert.match(html, /Not collected yet/);
+  assert.match(html, /2 variant\(s\) across 2 contest\(s\), 1 eliminated in reveal/);
+});
+
+test('once the contest is decided, an eliminated variant keeps its name and loses its link', async () => {
+  const { renderRouter } = await import('../scripts/lib/router.mjs');
+  const html = renderRouter({ title: 'T', contests: [{ id: 'c', title: 'C', collected: true, closed: true, designHref: 'file:///d.md', reveal: 'collected', entries: [
+    { letter: 'B', variants: [
+      { n: 1, present: true, concept: 'Won', state: 'winner', href: 'file:///w.html', notesHref: 'file:///w.md', score: { mean: 7.5, spread: 1.2, rank: 1, of: 3 } },
+      { n: 2, present: true, concept: 'Cut', state: 'eliminated', href: 'file:///c.html', notesHref: 'file:///c.md' },
+    ] },
+  ] }] });
+  assert.doesNotMatch(html, /file:\/\/\/c\.html/, 'a decided contest no longer links its eliminated variants');
+  assert.match(html, /contest decided/);
+  assert.match(html, /final design/);
+  assert.match(html, /panel 7\.50 &middot; #1 of 3/);
+});
+
+
+test('a combined decision closes the contest and marks every fused variant; a shortlist keeps it open', async () => {
+  const { renderRouter } = await import('../scripts/lib/router.mjs');
+  const v = (n, state) => ({ n, present: true, concept: `V${n}`, state, href: `file:///v${n}.html`, notesHref: `file:///v${n}.md` });
+  const html = renderRouter({ title: 'T', contests: [
+    { id: 'fused', title: 'F', collected: true, closed: true, reveal: 'collected', entries: [{ letter: 'A', variants: [v(1, 'combined'), v(2, 'eliminated')] }] },
+    { id: 'open', title: 'O', collected: true, closed: false, reveal: 'collected', entries: [{ letter: 'B', variants: [v(1, 'shortlisted'), v(2, 'eliminated')] }] },
+  ] });
+  assert.match(html, /in the combined design/);
+  assert.match(html, /shortlisted/);
+  assert.match(html, /href="file:\/\/\/v2\.html"/, 'the open contest still links its eliminated variant');
 });
