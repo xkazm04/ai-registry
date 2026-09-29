@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rwd-0930",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-30T00:00:00Z",
+  "ended_at": "2026-09-30T00:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/rejection-with-dignity",
+      "at": "2026-09-30",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-primary-checkout",
+  "notes": "Dispatched on never-swept from a primary checkout 71 ahead, 135 behind origin. Origin already holds dp-rwd-0929b (landed) and three idled passes; the subject note's law clock is 2026-12-29 and no event points at it. Nothing researched, nothing edited."
+}
