@@ -85,6 +85,20 @@ closing the gap.
    in a compliance sentence is true on the day it is written and false the first
    time an operator changes the configuration, and nobody will notice, because
    the sentence still renders.
+10. **When a fact the register reasons from moves, re-baseline the reasoning, not
+    only the date.** A deadline that shifts by sixteen months changes which rows
+    are "premature", how urgent the sequencing sounds, and what an effort band
+    is being traded against. Correcting the date cell while three paragraphs
+    still argue from imminence leaves a register that is right in one place and
+    wrong in the prose a reader acts on. Name the amending instrument, and say
+    which duties did not move.
+11. **Mark what you have not read in primary form, where it appears.** A claim
+    carried from a backlog or a summary gets an inline flag and an entry in a
+    short verification-debt list, not a confident sentence. Likewise, an
+    absence is stated with the search that established it (date, method, hit
+    count): "nothing in the product discharges this" is evidence; a feeling that
+    nothing does is not. And naming an obligation in two documents is not
+    discharging it, so the row stays open until something does.
 
 ## What belongs on a hiring product's register beyond the obvious
 

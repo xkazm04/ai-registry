@@ -41,6 +41,20 @@ So the honest field is **nullable**, and in a catalog of eight jurisdictions
 you should expect seven nulls. If your catalog has a number in most rows,
 someone has been filling cells.
 
+Two facts keep the one non-null cell honest. First, its instrument calls the
+ratio a benchmark that enforcement agencies will "generally" regard as evidence
+of adverse impact; courts and tribunals elsewhere lean on statistical and
+practical significance instead. It opens a question, it does not answer one.
+Second, an instrument can stop being current while its text is still in the
+book: in 2026 the enforcing government's legal office called its reading of the
+underlying statute unconstitutional, a personnel-rule amendment dropped the
+references to it, and rescission of its interpretive parts sat on the
+enforcing agency's rulemaking agenda, with the regulation still published. The
+cell therefore carries a status beside the figure, and a regulator that
+declines to codify a number is a data point about the null, not a gap to fill:
+one state civil-rights regulator wrote that a number "could be misconstrued to
+suggest a categorical threshold below which discrimination is permitted."
+
 ## Procedure
 
 1. **Model the field as a value-or-absent type**, not a number with a
@@ -87,6 +101,16 @@ someone has been filling cells.
 - When a codified figure exists, apply it only within its own jurisdiction's
   scope, and only to the population that jurisdiction covers. A national
   convention does not travel with a candidate who applies from abroad.
+- When a codified figure exists, word the result as a position against a
+  benchmark ("below the guideline's four-fifths benchmark"), not as a verdict
+  ("fails"). Falling under it is not liability and clearing it is not a safe
+  harbour, so a badge that says "passes" borrows a protection the instrument
+  never gave.
+- When the instrument behind a figure is contested or being rescinded, keep the
+  figure, add the status and its as-of date to the cell, and keep computing the
+  ratio. The measurement was never the instrument's to withdraw, and the
+  statute that creates the liability is a separate variable from the guideline
+  that once quantified it.
 - When a threshold is later codified somewhere, the change is a catalog edit
   with a new as-of date — not a code change, and not a retroactive re-judgment
   of cohorts already assessed under no standard.

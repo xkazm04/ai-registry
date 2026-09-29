@@ -50,19 +50,19 @@ empty is the catalog's most useful output.
 
 ## A worked catalog
 
-As of mid-2026 — and **this date is part of the data**, not a footnote. Read
+As of 29 September 2026 — and **this date is part of the data**, not a footnote. Read
 the shape, not the cells; the cells expire.
 
 | Jurisdiction | Data-protection law | Human-oversight hook | Equal-opportunity framework | Codified adverse-impact test |
 | --- | --- | --- | --- | --- |
-| European Union | GDPR | GDPR Art. 22 + AI Act deployer oversight and Art. 86 explanation | Equal Treatment / Employment Equality Directives as transposed | *none* |
-| United Kingdom | UK GDPR + Data Protection Act | UK GDPR Art. 22 as amended by the 2025 data act | Equality Act 2010 | *none* |
-| United States (federal) | sectoral; no general federal law | Title VII / ADA duty on the employer, not a machine right | Title VII, ADA, ADEA | four-fifths ratio, Uniform Guidelines on Employee Selection Procedures (1978) |
-| New York City | state and sectoral law | pre-use notice; independent annual bias audit | Title VII plus city human-rights law | *none codified* — the audit publishes impact ratios; the pass line is borrowed |
-| California | state privacy statute + civil-rights regulations | automated-decision-system rules; anti-bias testing as evidence | state fair-employment act | *none* |
-| Illinois | state biometric and privacy statutes | AI-video notice and consent; a 2026 prohibition on discriminatory AI effect plus notice | state human-rights act | *none* |
-| Colorado | state privacy act | disclosure plus a human-review pathway for adverse decisions | state anti-discrimination act | *none* |
-| Ontario | federal/provincial privacy law | job-posting disclosure of AI screening for larger employers | provincial human-rights code | *none* |
+| European Union | GDPR | GDPR Art. 22 + AI Act deployer oversight (Art. 26) and Art. 86 explanation; the Chapter III duties for employment systems apply from 2 December 2027, the Art. 50 duty to tell a person they are dealing with an AI system from 2 August 2026 | Equal Treatment / Employment Equality Directives as transposed | *none* |
+| United Kingdom | UK GDPR + Data Protection Act | UK GDPR Arts. 22A-22D, in force 5 February 2026: a significant solely automated decision is permitted with safeguards (information, representations, human intervention, contest), and barred outright where special-category data is involved unless a listed condition is met | Equality Act 2010 | *none* |
+| United States (federal) | sectoral; no general federal law | Title VII / ADA duty on the employer, not a machine right | Title VII, ADA, ADEA | four-fifths ratio, Uniform Guidelines on Employee Selection Procedures (1978): a rule of thumb, still in the regulations, with rescission of its interpretive parts on the enforcing agency's agenda |
+| New York City | state and sectoral law | pre-use notice; independent annual bias audit (a 2025 state audit found enforcement ineffective; the duty is unchanged) | Title VII plus city human-rights law | *none codified* — the audit publishes impact ratios; the pass line is borrowed |
+| California | state privacy statute + civil-rights regulations | civil-rights council automated-decision rules in force since 1 October 2025 (bias testing not mandated, but evidence of it or its absence bears on a defense; four-year records); privacy-agency ADMT rules from 1 January 2027 | state fair-employment act | *none* |
+| Illinois | state biometric and privacy statutes | AI-video notice and consent; a prohibition on discriminatory AI effect plus notice, in force 1 January 2026 (notice-content rules proposed in May 2026, then postponed in June) | state human-rights act | *none* |
+| Colorado | state privacy act | replacement statute effective 1 January 2027: advance notice, adverse-outcome disclosure, human review "to the extent commercially reasonable", three-year records; the care and impact-assessment duties were dropped and rules are still being drafted | state anti-discrimination act | *none* |
+| Ontario | federal/provincial privacy law | job-posting disclosure of AI screening, for employers with 25 or more employees, in force 1 January 2026 | provincial human-rights code | *none* |
 | *(neutral)* | applicable local data-protection law | a human decides; no solely-automated adverse decision | applicable equal-opportunity law | *none* |
 
 The neutral row is not padding. It is the destination for a workspace that
@@ -119,8 +119,13 @@ disclosure cite something a reader can look up.
    a review no longer than two quarters. Effective dates in this space move:
    employment provisions of comprehensive AI regimes have been deferred by more
    than a year, and at least one statute was repealed and replaced — converting
-   an audit mandate into a disclosure-plus-human-review mandate — months before
-   it was due to apply.
+   a duty of care with impact assessments into a disclosure-plus-human-review
+   mandate — months before it was due to apply. When a date moves, the edit
+   records three things: the amending instrument, what it moved, and what it did
+   **not** move. A deferral that leaves the prohibitions, the duty to tell a
+   person they are dealing with an AI system, and the data-protection law where
+   they were is a runway for the rest, not a reprieve, and a row that says only
+   "deferred" teaches its readers that nothing binds yet.
 8. **Separate the framework axis from any guidance you track.** Withdrawn
    agency guidance changes what you can rely on for *interpretation*; it does
    not change the framework column, because the statute is untouched. Conflating
