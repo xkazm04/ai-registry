@@ -132,7 +132,7 @@ manner-signal handling (node). The last two techniques with no application befor
   pair's state is `unknown`. The rebuild lists 21 stale verdicts on nine other subjects (none of
   them this one), which are `/conform --stale` work for other passes.
 - **Not pushed:** kp main was 47 ahead of origin with sibling commits and 12 files of working-tree
-  changes. The map is a local pathspec commit of `.ai/registry-map.json` alone. No other project's
+  changes. The map is a local pathspec commit of `.ai/registry-map.json` alone (`9e1ee8c45`), rebuilt from the origin tree that carries this landing (`e967d277`). No other project's
   map was rebuilt.
 
 ## Saturation ledger

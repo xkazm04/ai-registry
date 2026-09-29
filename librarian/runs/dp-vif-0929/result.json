@@ -1,0 +1,70 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-vif-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T19:20:00Z",
+  "ended_at": "2026-09-29T19:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/voice-interview-fidelity",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/voice-interview-fidelity",
+      "technique": "phantom-terms-and-silence-insertions",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/assessment/voice-interview-fidelity/voice-interview-fidelity.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/techniques/phantom-terms-and-silence-insertions.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/techniques/accent-and-first-language-error-disparity.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/techniques/closing-read-back-as-the-authoritative-record.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/techniques/entity-fidelity-not-aggregate-error-rate.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/techniques/language-choice-and-per-turn-drift-detection.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/techniques/never-infer-from-how-a-person-sounds.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/techniques/transcript-sampling-that-keeps-the-conclusion.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/applications/process--phantom-terms-and-silence-insertions.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/applications/process--entity-fidelity-not-aggregate-error-rate.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--entity-fidelity-not-aggregate-error-rate.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--closing-read-back-as-the-authoritative-record.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--transcript-sampling-that-keeps-the-conclusion.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--language-choice-and-per-turn-drift-detection.md",
+    "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--never-infer-from-how-a-person-sounds.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/voice-interview-fidelity.md"
+  ],
+  "commits": [
+    {
+      "sha": "e967d277",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/assessment/voice-interview-fidelity knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md librarian/applied.md librarian/domains/recruiting.md librarian/subjects/recruiting/voice-interview-fidelity.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One new technique (phantom terms), eight claims conditioned, a legal anchor verified verbatim. Simulation on kp: 0 of 4 planted insertions caught before, 4 of 4 after, none in real pairs. kp map is a local commit (9e1ee8c45); kp main is 48 ahead and was not pushed."
+}
