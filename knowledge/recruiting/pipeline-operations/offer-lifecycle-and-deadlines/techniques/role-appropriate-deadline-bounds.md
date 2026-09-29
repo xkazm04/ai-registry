@@ -28,11 +28,20 @@ a person who must discuss a move with a partner, count notice-period weeks and
 weigh a counter from their current employer reads a three-day window as evidence
 you have not thought about their life.
 
-A tight, *role-appropriate* window is a genuine acceptance-rate accelerant: it
-concentrates the decision while enthusiasm is at its peak and while the candidate's
-memory of the team is fresh. A tight window applied indiscriminately is the same
-instrument used as a bludgeon, and it converts into declines precisely among the
-senior candidates who cost the most to source.
+A tight, *role-appropriate* window is usually defended as an acceptance-rate
+accelerant: it concentrates the decision while enthusiasm is at its peak and while
+the candidate's memory of the team is fresh. Treat that as the practitioner's case,
+not a measured one. The one controlled experiment found (a deadline game played by
+business-school students, seen through a press summary) found an exploding offer no
+more likely to close than an extended one, and punished far more often (55% against
+10% in one study, 39% against 6% in a second) — retaliation, not fewer acceptances,
+and not a senior-candidate result. The observational funnel data found shows faster
+offer stages accepting more, which is confounded: the candidates who decline are
+the ones who take longest, weighing alternatives. Nothing found ties acceptance
+rate to window length. What is on firmer ground is the campus standards body's
+position that too short a window is undue pressure. A tight window applied
+indiscriminately is the same instrument used as a bludgeon, and the risk to weigh is
+the resentment it buys among candidates who cost the most to source.
 
 ## The bounds
 
@@ -42,11 +51,18 @@ Define a hard floor, a hard ceiling and a default:
   seasonal, shift and same-day hiring genuinely operate at this speed, and a system
   that forbids it forces those teams to work outside the record. What the floor
   prevents is the zero- or negative-length window: an offer that is expired the
-  moment it is dispatched.
-- **Default — about a week.** This is the common recruiting default because it is
+  moment it is dispatched. It is the technical floor, not a recommendation: outside
+  volume and shift hiring, a window of a day or two is what the campus standards body
+  would call undue pressure, and a blind lane asked for its own standard put the
+  minimum at 48 hours. Make going below the default a recorded, reasoned choice.
+- **Default — about a week.** This is the common practitioner default because it is
   the shortest window that still contains a weekend and one conversation at home.
   Short enough to keep momentum, long enough not to rush a considered decision.
-  Everything that does not deliberately set a window gets this one.
+  Everything that does not deliberately set a window gets this one. It is a
+  convention: the only measured figure found is for campus hiring, where the
+  average response window has sat near two weeks since 2019 and the professional
+  body calls one to two weeks common. A team hiring students should default there,
+  not to a week.
 - **Ceiling — months.** Executive and board-level searches, academic cycles, and
   hires gated on visa or notice timing legitimately need windows measured in weeks
   or months. The ceiling exists so a mistyped year does not create an offer that
@@ -117,7 +133,11 @@ Fourth, **an expired offer is not extended, it is re-issued.** Reviving a lapsed
 offer by moving its date backfills a fiction into the record: the offer *was* over,
 and a later reader deserves to see that it was over and that a person chose to
 make a new one. The re-issue carries a fresh deadline and a fresh acceptance event,
-which is also what any downstream headcount or start-date process needs.
+which is also what any downstream headcount or start-date process needs. The rule
+has a legal footing worth knowing: a stated period bounds the acceptance, and in at
+least one codified contract law a late acceptance is itself a new offer the
+organisation may take up, which is exactly a re-issue that a person chose to make.
+A candidate who tries to accept after the lapse is the most useful trigger for one.
 
 ## Say the date, not the duration
 

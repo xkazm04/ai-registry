@@ -165,6 +165,15 @@ candidate double-clicks or the link is opened twice."
   grace encoded once beside the check; this deployment has neither. (This application
   previously described the boundary as inclusive of the deadline instant; the code
   never did.)
+- **A late accept is refused and forgotten.** Both refusal paths (`offer-finalize.ts:35`
+  and the `reportLoser` fall-through at `:70`) return `OFFER_EXPIRED` and record nothing
+  about the attempt. The one event a recruiter sees is `offer_expired`, written when
+  the lapse is first evaluated (`offers-store.ts:235`), which says the offer lapsed and
+  not that a candidate then tried to take it. Re-read at `ca3d48934` on 2026-09-29. The
+  technique now asks for the attempt to be recorded and routed to a person. The
+  404/410 split itself is safe here: the token is `randomBytes(24)` base64url
+  (`random-id.ts:32`, 192 bits), so telling expired from unknown confirms nothing a
+  guesser could reach.
 - **The response vocabulary is binary.** `route.ts` (`OFFER_RESPONSE_INVALID`, 400) accepts only `"accept"` or
   `"decline"`; there is no counter, no negotiating state and no "ask for more time"
   path anywhere in the offer surface, so every negotiation this app sees must be

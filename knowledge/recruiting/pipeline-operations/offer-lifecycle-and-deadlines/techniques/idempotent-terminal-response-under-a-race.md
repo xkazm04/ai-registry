@@ -75,6 +75,9 @@ recorded, and answer from that:
   from "no such offer". Losing the write does not by itself mean someone answered:
   the offer can lapse between the lapse check and the claim, so classify the loser by
   the state actually recorded, and never let "not accepted" fall through to "declined".
+  The refusal still carries a fact: a candidate tried to accept after the lapse.
+  Record it and route it to a person; see
+  `expired-is-a-different-answer-from-invalid`.
 
 The general shape is: identical repeats of a terminal action are idempotent and
 succeed; conflicting terminal actions fail loudly with the actual state named. Where

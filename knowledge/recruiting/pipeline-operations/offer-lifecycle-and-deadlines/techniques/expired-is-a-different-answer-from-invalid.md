@@ -60,6 +60,16 @@ what the expired page may say to someone who might not be the candidate.
   enumerates valid offers. Use identifiers long and random enough that guessing is
   not a practical attack, and do not let the two paths differ observably in any
   channel except the intended one.
+- **The distinction is only safe while the identifier is unguessable.** Answering
+  "expired" for one token and "not found" for another confirms that the expired one
+  once named an offer, and hands over its role and date. With a long random token
+  (the common floor is 128 bits) that costs nothing, because nobody can guess their
+  way to a hit. With a short, sequential or otherwise guessable identifier it is an
+  enumeration oracle, and the right answer is one uniform "this link cannot be
+  used, here is how to reach a person" for every failure. Two independent lanes
+  reached that condition; no standards text found addresses it for capability links
+  specifically (the guidance found covers account and reset-flow enumeration), so
+  treat it as reasoning from that guidance.
 - **Never enumerate.** No listing endpoint, no sequential identifiers, no "did you
   mean this other offer".
 
@@ -82,6 +92,17 @@ decline the candidate does not remember making is a fact worth surfacing fast.
 
 Four distinct states, four distinct answers. The temptation to fold them into two
 is always a UI convenience, never a candidate benefit.
+
+## A submit against a lapsed offer is an event, not only a refusal
+
+The candidate who presses accept on an offer that lapsed an hour ago has told you
+something: they wanted it. Refusing them with the expired answer is right; refusing
+them *silently* wastes the single best recovery signal in the offer funnel. Record
+that a response was attempted after the deadline, with its instant and which action
+it was, and route it to a recruiter as a task with the offer's history attached. The
+organisation may then honour it by re-issuing, which is a person's decision and a
+new offer; it may not treat the attempt as an on-time acceptance. The lapse itself is
+already one event; the late attempt is a second, different fact.
 
 ## Order of evaluation
 
