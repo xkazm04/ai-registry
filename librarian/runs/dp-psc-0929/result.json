@@ -1,0 +1,104 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-psc-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T14:00:00Z",
+  "ended_at": "2026-09-29T15:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/presenting-a-score-to-a-recruiter",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/presenting-a-score-to-a-recruiter",
+      "technique": "score-bands-locked-across-surfaces",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/presenting-a-score-to-a-recruiter",
+      "technique": "knockout-reason-categorised-at-birth",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/presenting-a-score-to-a-recruiter",
+      "technique": "one-canonical-score-with-provenance",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/presenting-a-score-to-a-recruiter",
+      "technique": "knockout-reason-categorised-at-birth",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/presenting-a-score-to-a-recruiter.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/techniques/one-canonical-score-with-provenance.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/techniques/score-bands-locked-across-surfaces.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/techniques/knockout-reason-categorised-at-birth.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/techniques/surface-the-assumptions-behind-the-number.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/node--one-canonical-score-with-provenance.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/node--one-canonical-score-with-provenance--transfer-score-own-field.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/process--surface-the-assumptions-behind-the-number.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/process--knockout-reason-categorised-at-birth--blocked-match-as-if-score.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/react--component-sum-is-authoritative.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/react--score-bands-locked-across-surfaces--two-band-families.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/presenting-a-score-to-a-recruiter.md"
+  ],
+  "commits": [
+    {
+      "sha": "6b93e24b",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter"
+      ]
+    },
+    {
+      "sha": "b4ce4ec8",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "8faa1377",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/presenting-a-score-to-a-recruiter.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No technique. 1 conditioned, 1 held consequence. kp 70dd2319d: a different question needs three decisions; two band families disagree on 10 of 101. Shas are origin/main; local main diverged 19/33, same content there. kp map 8e275e0ff local only. 1 unapplied."
+}
