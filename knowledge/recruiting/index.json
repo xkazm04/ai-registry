@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 394,
-  "applications": 264,
+  "applications": 266,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -5977,8 +5977,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/pre-publish-fillability-forecast.md",
-   "digest": "sha256-b2:e9384c0804d9ba2c",
-   "revision": 2,
+   "digest": "sha256-b2:e3bdce8ed0b51c4c",
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -6035,7 +6035,8 @@
      "use_when": [
       "telling a recruiter their range is below market before the role publishes",
       "a role and its market band are denominated differently",
-      "deciding the default state of a below-market flag"
+      "deciding the default state of a below-market flag",
+      "an ad that states no pay or no level reaches the verdict"
      ]
     },
     {
@@ -6072,20 +6073,33 @@
     {
      "stack": "process",
      "technique": "counterfactual-gate-loosening",
+     "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/process--counterfactual-gate-loosening--joint-pass.md",
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "counterfactual-gate-loosening",
      "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/process--counterfactual-gate-loosening.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "pay-versus-market-verdict-with-a-currency-guard",
+     "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/process--pay-versus-market-verdict-with-a-currency-guard.md",
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "reuse-the-production-scorer-not-a-model-of-it",
      "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/process--reuse-the-production-scorer-not-a-model-of-it.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "react",
      "technique": "staged-suggestion-never-auto-applied",
      "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/react--staged-suggestion-never-auto-applied.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },
