@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 393,
-  "applications": 257,
+  "techniques": 394,
+  "applications": 262,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "393/393",
+  "use_when_coverage": "394/394",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5811,8 +5811,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/pre-boarding-and-first-day-handoff.md",
-   "digest": "sha256-b2:7a8ec4b40c83d885",
-   "revision": 2,
+   "digest": "sha256-b2:bd888784ac4b5e90",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5856,6 +5856,23 @@
       "designing what a new hire is asked before day one",
       "storing pre-boarding answers on a hire record",
       "deciding what a blank or partial submission means"
+     ]
+    },
+    {
+     "slug": "rescinding-an-accepted-offer-is-a-decision-with-a-process",
+     "status": "forged",
+     "laws": [
+      "every-decision-names-its-actor",
+      "absence-of-evidence-is-not-evidence",
+      "uncertainty-resolves-toward-the-candidate",
+      "say-only-what-the-record-holds"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a cancel",
+      "revoke or withdraw action on a hire or a pre-boarding run",
+      "deciding what a failed background check or medical or reference may do to a person who has accepted",
+      "choosing the outcome vocabulary for a hire that does not start"
      ]
     },
     {
@@ -5907,6 +5924,13 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "rescinding-an-accepted-offer-is-a-decision-with-a-process",
+     "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--rescinding-an-accepted-offer-is-a-decision-with-a-process.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "the-live-stage-gates-the-handoff",
      "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--the-live-stage-gates-the-handoff.md",
      "verified_on": "2026-09-29",
@@ -5917,6 +5941,34 @@
      "technique": "language-neutral-template-keys",
      "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--language-neutral-template-keys.md",
      "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "pre-boarding-questionnaire-as-a-hire-record",
+     "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--pre-boarding-questionnaire-as-a-hire-record.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2027-03-29"
+    },
+    {
+     "stack": "process",
+     "technique": "rescinding-an-accepted-offer-is-a-decision-with-a-process",
+     "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--rescinding-an-accepted-offer-is-a-decision-with-a-process.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2027-03-29"
+    },
+    {
+     "stack": "process",
+     "technique": "signature-seam-declared-not-implied",
+     "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--signature-seam-declared-not-implied.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2027-03-29"
+    },
+    {
+     "stack": "process",
+     "technique": "the-acceptance-to-start-date-silence-gap",
+     "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--the-acceptance-to-start-date-silence-gap.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2027-03-29"
     }
    ]
   },
@@ -8295,6 +8347,7 @@
     "portable-candidate-credentials/unverifiable-before-tampered-never-accuse",
     "portable-hiring-records/unmapped-stage-stays-null-never-guessed",
     "pre-boarding-and-first-day-handoff/pre-boarding-questionnaire-as-a-hire-record",
+    "pre-boarding-and-first-day-handoff/rescinding-an-accepted-offer-is-a-decision-with-a-process",
     "pre-boarding-and-first-day-handoff/the-live-stage-gates-the-handoff",
     "pre-publish-fillability-forecast/counterfactual-gate-loosening",
     "pre-publish-fillability-forecast/eligible-versus-qualified-distinction",
@@ -8704,6 +8757,7 @@
     "portable-hiring-records/personal-data-egress-audit",
     "portable-hiring-records/unmapped-stage-stays-null-never-guessed",
     "pre-boarding-and-first-day-handoff/pre-boarding-questionnaire-as-a-hire-record",
+    "pre-boarding-and-first-day-handoff/rescinding-an-accepted-offer-is-a-decision-with-a-process",
     "pre-boarding-and-first-day-handoff/the-acceptance-to-start-date-silence-gap",
     "pre-publish-fillability-forecast/pay-versus-market-verdict-with-a-currency-guard",
     "presenting-a-score-to-a-recruiter/absent-score-is-its-own-tier",
@@ -8936,6 +8990,7 @@
     "pre-boarding-and-first-day-handoff/industry-preset-checklists",
     "pre-boarding-and-first-day-handoff/language-neutral-template-keys",
     "pre-boarding-and-first-day-handoff/pre-boarding-questionnaire-as-a-hire-record",
+    "pre-boarding-and-first-day-handoff/rescinding-an-accepted-offer-is-a-decision-with-a-process",
     "pre-boarding-and-first-day-handoff/signature-seam-declared-not-implied",
     "pre-publish-fillability-forecast/pay-versus-market-verdict-with-a-currency-guard",
     "pre-publish-fillability-forecast/staged-suggestion-never-auto-applied",
@@ -9218,6 +9273,7 @@
     "pipeline-stage-modelling/retired-stage-tombstones-and-migration",
     "portable-hiring-records/human-versus-automated-decision-attribution-on-export",
     "portable-hiring-records/personal-data-egress-audit",
+    "pre-boarding-and-first-day-handoff/rescinding-an-accepted-offer-is-a-decision-with-a-process",
     "pre-boarding-and-first-day-handoff/signature-seam-declared-not-implied",
     "pre-boarding-and-first-day-handoff/the-acceptance-to-start-date-silence-gap",
     "pre-boarding-and-first-day-handoff/the-live-stage-gates-the-handoff",
