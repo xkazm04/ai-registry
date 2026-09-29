@@ -75,6 +75,36 @@ the new stint and suppress that stint's own first alert. The fairness backstop's
 fresh event. The standard's two-tier technique did not say this; it is now
 carried there as its own rule.
 
+## Executed 2026-09-29: where a stint starts and ends
+
+Run against the real store (`recordDecisionAlerts`, `automation-pass.ts:388-410`;
+`hasEventSinceStageChange`, `db/pipeline.ts:3205-3221`), with `stage_changed_at` and
+event times overwritten to simulate elapsed days except where noted:
+
+- **Aging, edited but not moved, then stalled:** day 4 writes one `stale_alert`; a
+  second pass the same day writes nothing; after an edit that leaves the stage
+  timestamp alone, day 7 writes one `aging_alert`. The two kinds dedupe
+  independently, so the harder tier still fires once.
+- **Un-reject:** `reinstatePipelineEntry` (`db/pipeline.ts:1402-1406`) sets
+  `stage_changed_at` to now, so the old alerts sit before the new anchor and a new
+  stint starts. That is the right shape for an outcome that ended the last stint.
+- **Reopening a closed role:** `reopenEntriesByJobId` (`:974`) sets status only.
+  Unedited close and reopen left `stageChangedAt` at its old value, so the stint
+  continues, the alert already written stays suppressed, and only the next tier
+  fires; months of closure count as dwell. Whether that is the right answer turns
+  on whether closing told the candidate, which this code cannot see.
+- **Moving away and back:** every move rewrites `stage_changed_at`, so re-entry is
+  a new stint.
+- **A missing timestamp:** the store keys it as an empty string, so any earlier
+  event of that kind would suppress forever; unreachable in practice because the
+  tier is `none` for an unknown date, and worth a test.
+
+The existing `automation-pass.test.ts:125-155` pins once-per-stint and the new
+stint after a move. Nothing pins the reopen case, and nothing in the pass reads
+whether an offer is sent or its window is open (see the React note): an offer
+inside its window collects the same `stale_alert` and `aging_alert` as any other
+stage.
+
 ## Still true: the tiers only nudge
 
 `alerts` rides alongside `action` and never sets it. Every `return out(...)`

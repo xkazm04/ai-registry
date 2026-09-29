@@ -80,15 +80,31 @@ row. The shape that survives contact with real funnels:
 | Screening | medium | a person has begun work; a week of nothing means it was dropped |
 | Interview | shorter | scheduling is in flight and coordination decays fast |
 | Work the candidate owes | at least as long as the step before it | the wait is their unpaid evening work, not your silence — see below |
-| Offer | shortest | every day of silence measurably costs acceptance, and the candidate is almost certainly holding another process open |
+| Offer, not yet sent | shortest | the wait is yours: approval, drafting, sign-off; the candidate is holding a finished process open |
+| Offer, sent | the offer's own deadline, not a dwell count | the next move is theirs, inside a window you granted - see below |
 | Terminal | none | see terminal-stages-never-age |
 
 Absolute numbers depend on the funnel's volume and the market, and should be
 stated with the reasoning that produced them rather than presented as
-universal. What does not vary is the **ordering**: thresholds shorten
-monotonically as the candidate invests more. The reason is not that late stages
-are more valuable to you. It is that the candidate's cost of your silence rises
-with every step they take toward you.
+universal. They are priors a team starts from, not findings: no published
+study fixes seven days for screening or three for an unsent offer. What does
+not vary is the **ordering**: thresholds shorten monotonically as the
+candidate invests more. The reason is not that late stages are more valuable
+to you. It is that the candidate's cost of your silence rises with every step
+they take toward you.
+
+That last sentence is an argument about the candidate, and it is stronger than
+the evidence usually offered for it. The measured case for speed is about the
+wait *before* an offer exists: in one firm's applicant data (n = 3,012,
+observational) candidates were more likely to accept offers that came sooner.
+Vendor data showing a higher acceptance rate where less time was spent in the
+offer stage cannot separate cause from selection, because most of that time is
+the candidate deciding, and a candidate leaning towards no decides slowly. The
+share holding a competing offer is large and moving (roughly 59% in a 2019
+survey of over 1,000 job seekers, 44% in an analyst's 2025 quarter, down from
+72% two years earlier), so "almost certainly holding another process open" is
+not something to build on. Build on the ordering and the promise, not on a
+per-day cost of acceptance nobody has measured.
 
 That reasoning also names the ordering's one principled exception: the stage
 where **the next move is theirs**. A take-home, a case study, a portfolio they
@@ -103,6 +119,42 @@ The test is not the stage's name but its direction: **who owes the next action?*
 Where it is you, the ordering holds and the badge is a stall alarm. Where it is
 the candidate, the count is a courtesy timer, and what it should prompt is a
 check that they have everything they need — not an alert that they are late.
+
+## The offer stage has three owners, so it cannot have one clock
+
+The test above applies to the offer stage itself, and the stage changes hands
+twice:
+
+- **Before the offer is sent** the next action is yours (approval, drafting,
+  sign-off). Dwell is your delay. This is where the short threshold belongs
+  and where the stall alarm means what it says.
+- **After it is sent and while its window is open** the next action is the
+  candidate's, inside a deadline you chose. A dwell tier ticking here fires on a
+  person doing exactly what the window invites, and asks the recruiter to chase
+  someone who has done nothing late. Raise no aging or stalled tier by dwell.
+  What the recruiter owes in this state is the offer discipline's: one
+  pre-expiry nudge and a route for questions.
+- **After the window lapses with no answer** the next action is yours again:
+  extend, chase, or let a human close it. The tier is measured from the
+  deadline, so a lapsed offer is stalled from the day it lapses rather than
+  after a multiple of a threshold the deadline already replaced.
+
+The deadline, its window and whether the offer went out belong to the offer
+discipline; this subject consumes them the way it consumes stage roles. Where
+the resolver cannot read whether an offer was sent, say the owner is unknown
+and fall back to the role's dwell tier rather than going silent - at the
+costliest stage a missed nudge is the worse error. That fallback is a judgment,
+not a measurement; whichever you choose, declare it.
+
+Executed against one production implementation (2026-09-29), with the offer
+sent on the day the entry reached the stage: four days into a seven-day window
+it read aging, seven days into a fourteen-day window it read stalled (that tier
+starts at day six), and an offer nobody had sent aged identically to one that
+had. The resolver read the stage and the timestamp of
+the move into it and nothing else, so neither the window nor the sent state
+changed the answer. The golden path's "ten days in an offer stage is a stall"
+holds for an unsent offer and for a default window that has lapsed; it is
+wrong inside a longer window.
 
 ## Deriving a threshold honestly
 
@@ -141,6 +193,9 @@ how an entry disappears for a quarter.
 - Resolve a threshold against the axis the entry's own board renders. A
   resolver that cannot name the board cannot name the role, and will silently
   fall back to matching the name.
+- At the offer role, ask who owes the next action: dwell tiers while the offer
+  is unsent, the deadline once it is sent, and no dwell tier inside a live
+  window.
 - When a team asks for a longer threshold on a specific board, give them a
   documented per-board override rather than moving the default (see
   overridable-defaults-with-a-server-side-approximation).

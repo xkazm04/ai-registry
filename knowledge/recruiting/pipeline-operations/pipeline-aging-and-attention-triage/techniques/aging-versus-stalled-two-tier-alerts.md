@@ -28,13 +28,25 @@ which is a different question, often about the process rather than the entry.
 ## Setting the second number
 
 The stalled boundary is a multiple of the aging threshold, not an independent
-constant, so the two move together when a stage's policy is retuned. Something
-in the region of two to three times the aging threshold is the range that
-behaves: below double, the two tiers fire so close together that the
-distinction is noise; above triple, the stalled tier arrives long after anyone
-could have salvaged the situation. Whatever the multiple, state it once, per
-policy, and derive both numbers from the same table that the
-per-stage-thresholds technique publishes.
+constant, so the two move together when a stage's policy is retuned. Two to
+three times is a defensible starting range and nothing more: below double the
+tiers fire close enough together that the distinction is thin, and the case
+against much above triple is a judgment about how long a salvage takes, not a
+measurement. No published standard fixes it. Service-desk products escalate at
+fractions of the time to breach, error-budget alerting derives its tiers from
+how fast a budget burns, and alarm-management standards constrain how many
+priority levels exist and how rarely the top one fires, not a time ratio. Take
+the multiple as a prior and replace it with evidence when you have some: set
+aging near the top of a stage's healthy completed dwell and stalled where the
+stage's own withdrawals or lost candidates begin to rise, which a team can
+read off its history once the sample discipline of the funnel-metrics
+discipline is met. Whatever the multiple, state it once, per policy, and
+derive both numbers from the same table that the per-stage-thresholds
+technique publishes.
+
+A multiple presumes both tiers run off the same dwell. At the offer role they
+do not once the offer is sent: the second tier is the lapsed deadline, and the
+multiple applies only while the offer is unsent (see the per-stage technique).
 
 Do not set the stalled number from alert volume. If a stage produces many
 stalled entries, that stage is broken; the tier is doing its job by saying so.
@@ -72,6 +84,19 @@ that stint's own first alert. And the preview of a pass must use the same rule a
 commit through one shared function, or the forecast count and the feed disagree.
 A per-day key is right only for an event that is genuinely new each day, such as a
 repeated refusal, and wrong for a duration.
+
+Once is a rule about the feed, not about visibility, and the other half has
+to be built. Alerting tools default to re-notifying an unresolved alert (a
+four-hour repeat interval is one common default), and a controlled trial of
+appointment reminders found two beat one and one beat none, with diminishing
+returns; those are reminders to a person, not evidence about a recruiter's
+feed, but they say a single message to someone who was away or busy is lost.
+A single write is safe only because the row stays in the state view every day
+until it moves, so the badge, the queue and the count carry what the feed no
+longer repeats. The stalled tier is the escalation: it is the second write,
+addressed to whoever owns the process. Where a row stays stalled for a
+further interval nobody chose, surface it to that owner again by a rule you
+state; do not raise the cadence on the recruiter's feed.
 
 ## Both tiers nudge; neither acts
 

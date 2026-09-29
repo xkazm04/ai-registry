@@ -6,11 +6,12 @@ technique: per-stage-aging-thresholds-not-one-global-cut
 stack: react
 status: forged
 verified_on: 2026-09-29
+verified_against: react@19
 ---
 
 # The per-role SLA table and its per-board overrides (React)
 
-`app/_lib/aging-policy.ts:33-90` holds the technique's whole policy surface (it moved
+`app/_lib/aging-policy.ts:31-90` holds the technique's whole policy surface (it moved
 there from `pipelineTypes.ts` on 2026-09-23 so the server-side store can read it
 without the client module; `pipelineTypes.ts:111` re-exports it): one flat legacy
 constant kept as a last resort, one table keyed by stage **role**, a derived
@@ -34,13 +35,13 @@ intake down to 3 in Offer.
 
 `StageRole` (`app/_lib/pipeline-stages.ts:57`) is the closed vocabulary — `entry`,
 `screening`, `homework`, `interview`, `scoring`, `offer`, `terminal`, `custom` —
-and `STAGE_ROLE` (`:90`) maps the shipped five onto it. The table's own comment
+and `STAGE_ROLE` (`:95`) maps the shipped five onto it. The table's own comment
 states the standard's reason rather than a preference: the axis is
 workspace-editable, and "a threshold keyed to the name 'Interview' stops firing
 the moment a team renames the column to 'First round' and adds a 'Tech round'
 beside it — the badge goes quiet with nothing on screen admitting it."
 
-`STAGE_SLA_DEFAULTS` (`:145-147`) survives only as a *derived* projection —
+`STAGE_SLA_DEFAULTS` (`aging-policy.ts:62-64`) survives only as a *derived* projection —
 `PIPELINE_STAGES.map((id) => [id, ROLE_SLA_DEFAULTS[STAGE_ROLE[id]]])` — so the
 name-keyed and role-keyed answers cannot disagree. That is the say-it-twice
 pattern used correctly: one table is computed from the other rather than
@@ -56,7 +57,7 @@ export function slaForStage(
 ): number
 ```
 
-`aging-policy.ts:77-90`. The resolution order is an explicit override for this column
+`aging-policy.ts:76-89`. The resolution order is an explicit override for this column
 id (the board's optimistic value between a save and the next load) → the team's own
 cadence on the axis, `slaDays` (terminal never carries one) → `roleOf(stage, axis)` → the shipped default for a canonical id that has been
 retired from the axis but still has candidates standing on it → the flat cut.
@@ -137,14 +138,44 @@ What that satisfies of the override contract:
   applies: where the shared surface can see the true policy, use it and skip the
   apparatus. The standard still stands for any policy that stays local.
 
-What the standard asks for and this still lacks: an override's **actor and date**.
-The route writes the axis with scope `"team"` and I found no `updatedBy` or actor
-on the write in the route or in `stage-sla.ts`; I did not read the store's own audit
-trail, so whether it records who set ninety days on a column is not evaluated here.
-The SLA editor that used to render the override was deleted with the old board view
-(2026-09-25); the kit view's `PipelineKitSla.tsx` now carries the edit, showing the
-team cadence with the role default as placeholder. Whether it marks a column as
-running a custom policy was not read.
+What the standard asks for and this still lacks: an override's **actor and date**,
+and a mark on the board that it runs a custom policy. Read on 2026-09-29 at
+`dd0669e3a`: the route (`stage-sla/route.ts:34-80`) calls
+`updateDecisionConfig("pipelineStages", ..., ws, "team")` with no identity, and
+`writeConfigRow` (`decision-config-store.ts:227-304`) deletes and inserts
+`(phase, config_json, updated_at, workspace_id)`. There is a timestamp, which
+doubles as the concurrency token, and no `updated_by`; no audit event is
+written by the store or the route. Recorded is "when, at team scope"; "who" is
+not. The kit view's `PipelineKitSla.tsx:27-64` shows the value with the role
+default as placeholder and carries no custom-policy marker, actor or date, so a
+recruiter still has to know a column was retuned to learn why its badges differ.
+The SLA editor that used to render the override was deleted with the old board
+view (2026-09-25).
+
+## The offer role is one number for three owners
+
+`ROLE_SLA_DEFAULTS.offer` is 3 days, so an offer ages at day 3 and stalls at day
+6 (`STALLED_MULTIPLE = 2`), and `agingTierAt` reads the stage and the timestamp of
+the move into it and nothing else. Executed on 2026-09-29 through the real
+functions (an entry that reached the stage N days ago; "sent" where the offer
+went out the same day, except the second row):
+
+| Case | Dwell | Tier |
+| --- | --- | --- |
+| Sent, 7-day window, 4 days in | 4 | aging |
+| Sent 1 day ago, 7-day window, 2 days in | 2 | none |
+| Sent, 14-day window, 7 days in | 7 | stalled |
+| Not sent, awaiting approval, 3 days in | 3 | aging |
+| Not sent, 6 days in | 6 | stalled |
+
+The window length and whether the offer went out have no effect. The offer
+lifecycle has an `expires_at` column (`offers-store.ts:44`), a 7-day default
+window (`offer-policy.ts:23-26`, per-offer 1 to 90 days) and a lapse job
+(`lapseExpiredOffers`, `:243`), none of which the aging path consults, and its
+one pre-expiry nudge goes to the candidate. Against the standard's who-owes-the-next-action test, the
+column reads as a stall alarm for a candidate deliberating inside the window the
+team set. The homework row is the same test done right; the offer row is where
+it stops.
 
 ## One reasoned divergence from the override rule
 
