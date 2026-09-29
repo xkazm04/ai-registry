@@ -1,0 +1,97 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-dn-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T08:25:00Z",
+  "ended_at": "2026-09-29T09:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/degrade-never-block-a-candidate",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/degrade-never-block-a-candidate",
+      "technique": "an-outage-must-not-change-who-advances",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/degrade-never-block-a-candidate",
+      "technique": "declare-degraded-grounding-rather-than-lowering-confidence-silently",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/degrade-never-block-a-candidate",
+      "technique": "a-candidate-action-is-debited-never-gated",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/degrade-never-block-a-candidate",
+      "technique": "degrade-never-block-a-candidate",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/degrade-never-block-a-candidate.md",
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/techniques/a-candidate-action-is-debited-never-gated.md",
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/techniques/an-outage-must-not-change-who-advances.md",
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/techniques/declare-degraded-grounding-rather-than-lowering-confidence-silently.md",
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/techniques/degrade-to-the-deterministic-path-with-honest-provenance.md",
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/techniques/never-cache-a-degraded-verdict.md",
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/node--a-candidate-action-is-debited-never-gated.md",
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/node--never-cache-a-degraded-verdict.md",
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/process--an-outage-must-not-change-who-advances.md",
+    "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/process--declare-degraded-grounding-rather-than-lowering-confidence-silently.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/degrade-never-block-a-candidate.md"
+  ],
+  "commits": [
+    {
+      "sha": "9b534ce4",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "859ece8b",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/degrade-never-block-a-candidate.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No technique; 2 refuted, 5 conditioned. Template advance past the allowance fixed in kp b0ca8df00 (local). Grounding sim better 3/3 vs 2/3. 2 unmeasurable, 2 unapplied. One false application claim retired. Maps committed locally, none pushed."
+}
