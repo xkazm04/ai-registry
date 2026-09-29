@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 393,
-  "applications": 253,
+  "applications": 254,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -5557,9 +5557,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
-   "digest": "sha256-b2:9e282e16d3690e9e",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:615a79cbff0481b3",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "freshness-is-separate-from-integrity",
@@ -5656,19 +5656,28 @@
      "stack": "node",
      "technique": "freshness-is-separate-from-integrity",
      "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/node--freshness-is-separate-from-integrity.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "unverifiable-before-tampered-never-accuse",
      "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/node--unverifiable-before-tampered-never-accuse.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "numbers-only-for-genuine-states",
      "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/react--numbers-only-for-genuine-states.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "spec",
+     "technique": "trust-state-resolution",
+     "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--revocation-without-a-beacon.md",
+     "verified_on": "2026-09-29"
     }
    ]
   },
