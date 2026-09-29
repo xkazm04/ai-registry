@@ -983,3 +983,53 @@ crediting every must-have.
 Impact: kp has 2 contexts on this subject and 0 stale verdicts, and the matcher is
 unjoined. Maps were committed locally in twelve projects, none pushed. Yield high,
 dry_streak 0, depth L3. See [[evidence-provenance-weighting]].
+
+## 2026-09-29 - deepen: hiring-need-as-structured-brief
+
+The Curator lane dispatched this on "never swept by the librarian". The event was
+measured: about fifty kp commits had touched the cited files since 2026-08-20,
+including a derived rubric frozen at promotion. Four lanes ran: counter, primary,
+blind and tree. Nothing was refuted outright. Six claims were conditioned, each by
+two or three lanes:
+- a rendering may drop anything except a gate (41 CFR 60-1.3; 45% of firms "in
+  name only");
+- stated is necessary to gate, not sufficient: objective, noncomparative,
+  relevant; "an inference may not disqualify" is this standard's choice, not law;
+- acquirability is the regulators' line and a horizon (1607.14(C)(1), 1607.5(F),
+  the OPM need-at-entry scale);
+- a lifted or fallback grade never gates, except a list published as
+  must-possess;
+- model confidence orders a review queue, never a threshold (Xiong 2024);
+- opening and publishing are two gates, a pay band where the location requires
+  one (2023/970 Art. 5(1), NY 194-b, C.R.S. 8-5-201), and the floor is a
+  heuristic.
+
+A post-exposure statement opens a version (Uhlmann & Cohen 2005, matched on
+PubMed). Confirmed: years as a weak proxy, with its early-tenure exception.
+
+The tree found three live defects, fixed together in kp 8a44493f7 (local):
+- **a fallback hardness of "prerequisite"** made every ungraded row a blocking
+  rubric axis: 3 of 3 blocking before, 1 of 3 after;
+- **the coercer force-mapped "Band 5"** to a stated "medior";
+- **a human save cut facets to 20** against the merge's 32.
+
+No technique earned.
+
+Eleven `applied.md` rows:
+- three code, better;
+- one simulation, better: stated-only blocking, not changed in code because it
+  would re-version rubrics;
+- one unmeasurable;
+- six unapplied.
+
+Three applications were re-verified (node@24), with every citation moved. The
+deviations recorded are:
+- the gate and the rubric read no provenance;
+- the PATCH door is open with no actor recorded;
+- reversals overwrite in place;
+- deletes go unrecorded;
+- pointers drift across compactions.
+
+Impact: kp has 5 contexts on this subject and 0 stale verdicts, and every seam this
+pass fixed is unjoined. Maps were committed locally in twelve projects, none
+pushed. Yield high, dry_streak 0, depth L3. See [[hiring-need-as-structured-brief]].
