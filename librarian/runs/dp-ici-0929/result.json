@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ici-0929",
+  "skill": "deepen",
+  "skill_version": "1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T10:00:00Z",
+  "ended_at": "2026-09-29T11:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/interview-calendar-integrity",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Landed fcbd045f: fourth free/busy status (needs_reconnect) from kp field evidence, three applications re-verified with symbol-anchored citations. No new technique, no applied row owed. No external counter-evidence lane ran."
+}
