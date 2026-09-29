@@ -175,6 +175,14 @@ time above) on one basis. Where the two sit in different currencies the rule bel
 applies: show the saving and the tool cost side by side and let the reader net
 them, rather than ship one "ROI" that quietly dropped a side.
 
+Whether the omission matters is computable per action kind, so compute it rather
+than assume it. A kind credited at *m* minutes and a loaded hourly rate *r* is
+worth `m × r / 60` of currency; the recorded price of the inference behind one
+such action either sits far below that or does not. Where it is a small share,
+gross and net headlines differ by a rounding error and the cost printed beside the
+figure is enough; where a single action's price approaches its credited value the
+gross headline is overstating and the surface must say so.
+
 The craft is not to avoid counterfactuals — a product that cannot say what it
 is worth will be cancelled by someone who does not share that scruple. The
 craft is to **make the assumption visible, owned and adjustable rather than

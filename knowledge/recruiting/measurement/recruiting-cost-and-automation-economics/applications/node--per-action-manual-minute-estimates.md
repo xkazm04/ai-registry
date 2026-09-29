@@ -7,6 +7,8 @@ stack: node
 status: forged
 verified_on: 2026-09-29
 verified_against: node@24
+applied: simulation
+ab_verdict: not-better
 ---
 
 # A minutes-per-kind table, and the kinds it refuses to pay for
@@ -154,3 +156,46 @@ all three, and whether a person would have done three separate tasks, was not
 resolved from the tree (`scored` is emitted at `automation-pass.ts:349`; the
 others come from other paths). The technique's overlap rule makes it a question
 to answer from the recorded trail before the sum is quoted.
+
+**The default baseline is unmarked and its pedigree is missing.** The panel exposes both
+the rate and the baseline as editable inputs (`AnalyticsAutomationPanel.tsx:172-184`, one
+`TargetInput` each), so the override is genuine end to end. But it prints the effective
+number with no mark of whether it is the shipped default or the team's own: the sentence
+reads "about {pct}% of the ~{baseline} h a hire takes by hand" either way
+(`messages/en.json`, `insights.roi.perHire`), and `AnalyticsTargetInput.tsx` carries no
+default marker or editing actor. The 42 hours behind it is called a "research anchor" in
+`automation-roi.ts:36-46` with no source.
+
+**The headline converts hours to currency.** The panel opens with "about {hours}
+recruiter-hours, about {czk} CZK" (`insights.roi.headline`) and states the rate in the
+basis line. The golden path's position is hours as hours, because conversion asserts a
+reallocation that needs an owner. The rate has an owner (the editable input); the
+reallocation does not.
+
+## Simulation: gross against net, walked on the tree's own function
+
+The golden path says a saving printed as ROI is gross until the cost of the automation
+stands beside it. Three real cases from kp at f63450548 (2026-09-29), walked with the
+tree's own `automationRoi`, the exchange rate bounded at 15-30 CZK per USD as a stated
+assumption only (the product converts nothing):
+
+1. The KAT-ANA-4 reproduction in `db/analytics.ts`: 6 closed hires, 31% of the baseline,
+   so 13.0 h and 7,812 CZK per hire, against $10.40 compute per hire. Cost is 2-4% of the
+   gross saving.
+2. The `automation-roi.test.ts` fixture (100 `scored` and 50 `matched` over 5 hires):
+   3.5 h and 2,100 CZK per hire. At the ledger fixture's $0.01-0.02 per call the cost is
+   0.4-0.9% of gross.
+3. The `compute-cost.test.ts` ledger fixture: one of three rows is NULL-cost, so a net
+   computed from it subtracts an understated cost. Netting is not computable there, and
+   the tree already counts `unpricedCalls`.
+
+A boundary probe, not a case: the same fixture holds one $5 row (an analyze call). Priced
+that way the 150 calls cost 107-214% of gross. Per action the break-even is
+`minutes × 600 / 60` CZK: 80 CZK (about $2.7-5.3) for `scored`, 50 CZK for `matched`.
+
+Verdict `not-better`: at the prices the tree records, netting moves the headline by under
+five per cent, so it is not what makes this panel honest, and the rule gains its
+materiality condition instead (added to the golden path). The falsifier is one
+per-action price at or above the break-even; the panel has no check for it today. The
+ROI panel and the cost panel are separate sections in different currencies, which is the
+shape the golden path recommends.

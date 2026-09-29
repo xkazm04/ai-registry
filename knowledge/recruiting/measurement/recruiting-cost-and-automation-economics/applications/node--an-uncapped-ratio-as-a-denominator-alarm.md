@@ -114,3 +114,17 @@ instead of inflating a tiny denominator"), and `pctOfManualBaseline` inherits
 the null. A ratio that refuses at zero and breaches loudly above the bound is
 the pair the technique asks for: the uncapping is only safe because the
 divide-by-nothing case was already refusing.
+
+## Re-read 2026-09-29: the breach has no display state
+
+The computation is unchanged at kp f63450548 and the fixture still pins 317% as
+reported, not tidied (`automation-roi.test.ts:89-93`). What the technique's third rule
+asks for is absent: `AnalyticsAutomationPanel.tsx` prints `roi.pctOfManualBaseline`
+straight into "about {pct}% of the ~{baseline} h a hire takes by hand" and into the
+leadership tile, with no threshold and no alternative state. A workspace at 317% would
+read as good news. The value is uncapped and the display is not defended, the reverse
+of the technique's statement that the value is uncapped while the display has a defined
+state for the breach. A blind lane proposed the opposite trade (clamp the display, flag
+it, keep the raw value in an audit view); the technique already permits suppressing the
+display and forbids suppressing the value, so that is a permitted rendering, not a
+refutation.

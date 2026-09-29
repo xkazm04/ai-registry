@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 394,
-  "applications": 268,
+  "applications": 269,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -6528,8 +6528,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/recruiting-cost-and-automation-economics.md",
-   "digest": "sha256-b2:1e10871fd8cb17d2",
-   "revision": 2,
+   "digest": "sha256-b2:c589626d3c1a8369",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -6636,6 +6636,13 @@
      "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/node--per-action-manual-minute-estimates.md",
      "verified_on": "2026-09-29",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "date-every-derived-money-figure",
+     "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/react--date-every-derived-money-figure.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "sql",
