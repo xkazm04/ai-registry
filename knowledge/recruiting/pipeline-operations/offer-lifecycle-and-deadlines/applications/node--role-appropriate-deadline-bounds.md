@@ -5,7 +5,8 @@ subject: offer-lifecycle-and-deadlines
 technique: role-appropriate-deadline-bounds
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # A pure, injectable deadline policy beside a heartbeat sweep
@@ -24,14 +25,14 @@ stayed actionable indefinitely."
 
 ## The bounds, and the reasoning attached to them
 
-`OFFER_TTL_DAYS_MIN = 1` / `OFFER_TTL_DAYS_MAX = 90` (`app/_lib/offer-policy.ts:13`)
+`OFFER_TTL_DAYS_MIN = 1` / `OFFER_TTL_DAYS_MAX = 90` (`app/_lib/offer-policy.ts:15`)
 carry their justification in the comment above them: "An 'exploding' offer can be
 as tight as a day; an exec search may legitimately need months." The default sits
 at 7 days, deployment-tunable through `KP_OFFER_TTL_DAYS` and validated back into
-the bounds (`defaultOfferTtlDays`, `:21`) — "the common recruiting default, short
+the bounds (`defaultOfferTtlDays`, `:23`) — "the common recruiting default, short
 enough to keep momentum, long enough not to rush a considered candidate."
 
-`resolveOfferTtlMs(ttlDays)` (`:32`) is the per-offer override, and its comment is
+`resolveOfferTtlDays` / `resolveOfferTtlMs` (`:36`, `:43`) are the per-offer override, and its comment is
 the technique's own argument in the repo's words: "a tight, role-specific window is
 a known accept-rate accelerant for in-demand roles, while senior offers need weeks
 — one fixed 7-day window served neither."
@@ -42,13 +43,22 @@ deployment default. A recruiter who typed 400 gets a live offer with a seven-day
 window, not a failed extend.
 
 The window is a duration and the deadline is derived **once**, at dispatch:
-`offerExpiresAtMs(createdAtMs, ttlDays)` (`:51`) is called at row creation and the
+`offerExpiresAtMs(createdAtMs, ttlDays)` (`:74`) is called at row creation and the
 absolute instant is stored in `offers.expires_at`. Nothing re-derives it on read,
 so the deadline cannot move under the candidate.
 
+The duration is *elapsed* time, and the module says so: `ttlDays` is multiplied out
+to whole 24-hour days, so a 7-day offer minted at 14:00 local across a spring-forward
+transition lapses at 15:00 local. The stated reason is that "you have seven days" is
+a promise about duration, the offer row carries no timezone, and every consumer
+compares UTC instants; the candidate is not left to infer the shift because the
+letter states an absolute deadline with its zone (see the countdown application).
+The persisted `ttl_days` is what later lets a re-extend tell a changed window from a
+double-clicked, verbatim re-send.
+
 ## Absence fails open, deliberately
 
-`isOfferExpired(expiresAtIso, nowMs)` (`:58`) returns `false` for a null or
+`isOfferExpired(expiresAtIso, nowMs)` (`:81`) returns `false` for a null or
 unparseable deadline, and the comment states why in one line: "offers minted before
 the column existed must stay actionable rather than being silently killed by a null
 deadline."
@@ -60,6 +70,18 @@ they never expire" — and `dueOfferReminders` excludes them too, because "nothi
 nudge toward". A null deadline is one state, and three separate code paths agree
 about what it means.
 
+## Terms are validated before a link is minted
+
+`validateOfferTerms` (`:194`) draws a line the golden path's "no band, no figure" rule
+needs: *unpriced is legal, invalid is not*. A missing or unparseable figure stays
+`null` (the drafter refuses to invent one and the auto-extend gate parks the draft
+for a human), but a figure that is present and negative or above
+`OFFER_SALARY_MAX`, a currency outside a closed list (`OFFER_CURRENCIES`), or a
+note over 2,000 characters is refused with a coded reason. The recorded cause was a
+negative figure rendering verbatim on the accept page as the amount someone was asked
+to accept. The currency list is the app's own vocabulary, not a standard: a market
+added elsewhere without a matching code here is a refused offer, not a mislabelled one.
+
 ## Correction refreshes the live offer in place
 
 `getOrCreateOpenOffer` (`app/_lib/offers-store.ts`) is where "at most one live offer
@@ -70,15 +92,19 @@ saw no open offer and both minted one, sending the candidate TWO live offer link
 with different tokens." The fix is an `IMMEDIATE` transaction plus a partial unique
 index as a backstop for any writer that bypasses the helper.
 
-Inside that transaction sits the distinction between a re-send and a correction,
-computed as `termsChanged` (salary or currency differs from the stored row):
+Inside that transaction sits the distinction between a re-send and a correction.
+Three conditions now count as material: `termsChanged` (salary or currency differs
+from the stored row), `deadlineChanged` (the applied `ttlDays` differs from the
+persisted one — widening 7 to 14 days on an unchanged figure used to be silently
+discarded), and `deadlineLapsed` (the deadline has passed but the sweep has not yet
+flipped the row, so a verbatim re-send would mail a link that 410s on arrival).
 
-- **Nothing material changed** — verbatim re-send. Same row, same token, deadline
-  and reminder claim untouched. The comment calls it "the idempotent re-send
-  contract; never a second live link."
-- **Terms changed** — the offer is "effectively re-extended": the same row is
-  updated to the new figure, `expires_at` is recomputed from the draft's `ttlDays`,
-  and `reminded_at` is reset to `NULL` so the single nudge re-arms against the new
+- **None of the three** — verbatim re-send. Same row, same token, deadline and
+  reminder claim untouched. The comment calls it "the idempotent re-send contract;
+  never a second live link."
+- **Any of them** — the offer is "effectively re-extended": the same row is updated
+  to the new figure, `expires_at` is recomputed from the draft's `ttlDays`, and
+  `reminded_at` is reset to `NULL` so the single nudge re-arms against the new
   deadline.
 
 The reason for refreshing rather than minting is stated as the failure it prevents:
@@ -93,13 +119,13 @@ different amount"; the current authoritative row is returned instead.
 
 ## The reminder lead is derived from the same module
 
-`defaultOfferReminderLeadHours()` (`app/_lib/offer-policy.ts:43`) defaults to 48
+`defaultOfferReminderLeadHours()` (`app/_lib/offer-policy.ts:52`) defaults to 48
 hours, bounded 1–168 and tunable via `KP_OFFER_REMINDER_LEAD_HOURS`. Its comment
 names it as "the proactive half of the expiry policy: the deadline lapses an offer
 silently; this is the one heads-up sent before that, so a candidate who simply
 forgot doesn't lose a live offer to silence."
 
-`isOfferReminderDue` (`:69`) implements the two-sided predicate — the deadline must
+`isOfferReminderDue` (`:92`) implements the two-sided predicate — the deadline must
 be `> now` **and** `<= now + leadMs` — so an already-lapsable offer never generates
 a nudge. `dueOfferReminders` re-expresses the same bounds in SQL against
 `reminded_at IS NULL`, and `markOfferReminded` CAS-claims the stamp before dispatch
@@ -107,14 +133,19 @@ a nudge. `dueOfferReminders` re-expresses the same bounds in SQL against
 status = 'extended'`), making the nudge at-most-once: "a missed nudge is benign; a
 duplicate is not."
 
-`app/_lib/offer-reminders.ts:28` carries the incident that proves the ordering rule
-"resolve everything first, claim last." The by-id entry read was originally
-tenant-blind, fell back to the default workspace and returned `null` for every other
-team — so the `continue` on line 36 "dropped them AFTER the claim above had already
+`sendDueOfferReminders` in `app/_lib/offer-reminders.ts` carries the incident that
+proves the ordering rule "resolve everything first, claim last." The by-id entry read
+was originally tenant-blind, fell back to the default workspace and returned `null`
+for every other team — so the `continue` after the claim "dropped them AFTER the claim above had already
 burned their one-shot reminder: a non-default team's candidate got no heads-up at
 all and watched a live offer lapse in silence, with `reminded_at` stamped as if we'd
 nudged them." The fix passes `offer.workspaceId` — the offer row is the only tenant
 authority a heartbeat with no session can consult.
+
+A claimed-but-undelivered nudge is no longer only a log line: the dispatch failure is
+recorded as an `offer_comms_failed` pipeline event ("The T-48h offer reminder was
+claimed but the message did not go out"), so the miss shows on the recruiter's
+timeline while the at-most-once claim stays unrewound.
 
 ## Where this deployment falls short of the standard
 
@@ -127,14 +158,21 @@ authority a heartbeat with no session can consult.
   never get one (the offer is already inside the lead window at dispatch, so the
   due predicate's `expires_at > now` half is the only thing keeping it sane), and
   the second gets a heads-up two days out on a three-month decision.
-- **Extension is not a first-class recorded act.** A window is restarted only as a
-  side effect of a terms change in `getOrCreateOpenOffer`; there is no "extend this
-  offer to a new date, by this recruiter, for this reason" path, and no re-dispatch
-  telling the candidate the date moved.
+- **Extension is still not a first-class recorded act.** A window is now restarted by
+  a terms change, a changed `ttlDays` or a lapsed-but-unswept row in
+  `getOrCreateOpenOffer` — an improvement — but it is still a side effect of
+  re-approval: no "extend this offer to a new date, by this recruiter, for this
+  reason" record, and the re-dispatched letter is the only signal that the date moved.
 - **Expired offers are re-issued only by minting a new one**, which is the correct
   posture — but nothing prevents it being confused with an extension, because there
   is no extension to confuse it with.
-- **The deadline is rendered without a named timezone.** `formatOfferDeadline`
-  (`app/_lib/comms-dispatch.ts:562`) and the candidate page both format with
-  `dateStyle: "medium", timeStyle: "short"` and no `timeZoneName`, so a candidate
-  in another country reads an unqualified wall-clock time.
+- **The company zone is a deployment setting, not an offer field.** The timezone
+  shortfall this section listed on 2026-08-20 is closed: the letter's
+  `formatOfferDeadline` (`app/_lib/comms-dispatch.ts:1052`) and the page's
+  (`app/offer/[token]/offer-deadline.ts`) both name the zone (`timeZoneName: "short"`).
+  What remains is that the two surfaces name different clocks: the page states
+  `INTERVIEW_TZ` (the offer row has no zone column, and the page module says so),
+  while the letter states "the short zone name of whatever clock the server is on".
+  Same instant, two labels whenever the server's zone is not the interview zone, and
+  a hiring team outside the deployment's zone reads the wrong company clock,
+  correctly labelled.

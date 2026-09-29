@@ -5087,9 +5087,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/offer-lifecycle-and-deadlines.md",
-   "digest": "sha256-b2:32cfbfc337e377cc",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:69f2d9f93c1901bd",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "expired-is-a-different-answer-from-invalid",
@@ -5181,19 +5181,22 @@
      "stack": "node",
      "technique": "idempotent-terminal-response-under-a-race",
      "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/node--idempotent-terminal-response-under-a-race.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "role-appropriate-deadline-bounds",
      "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/node--role-appropriate-deadline-bounds.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "server-authoritative-countdown",
      "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/react--server-authoritative-countdown.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },
