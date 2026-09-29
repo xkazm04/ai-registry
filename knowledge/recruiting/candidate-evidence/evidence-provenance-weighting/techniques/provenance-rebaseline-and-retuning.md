@@ -94,6 +94,14 @@ The honest options, in order of strength:
 - A **held-back arm**: a deterministic, pre-declared slice of candidates the score did
   not act on, advanced by human review alone. Deterministic matters — a re-rolled
   membership makes the holdout a control for sparing individuals.
+- **Contraction across reviewers**: where the people who decide differ in how lenient
+  they are, the model can be compared with them on the cases the lenient ones
+  advanced, without counterfactual labels (Lakkaraju et al., KDD 2017). The selective
+  labels are "a consequence of the existing choices of the human decision-makers";
+  contraction uses the variation between those choices.
+- **An exploration slice**: a small, declared share of candidates the old weights
+  would have rejected is advanced anyway. That buys outcome labels the old weights
+  did not choose, at a cost someone has to accept in advance.
 - **Recruiter-anchored comparison**: a blind set independently ranked by experienced
   humans before the weights are shown. Measures agreement, not truth, and should say
   so.

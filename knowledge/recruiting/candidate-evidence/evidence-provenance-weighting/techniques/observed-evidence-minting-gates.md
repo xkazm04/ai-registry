@@ -18,9 +18,9 @@ other tier in consolidation, a false positive here does not merely add noise; it
 outranks and hides every honest weaker claim the candidate actually made. This
 technique is the set of gates a mint must pass.
 
-## Two preconditions before any gate
+## Three preconditions before any gate
 
-Nothing is minted unless both hold, and they are independent:
+Nothing is minted unless all three hold, and they are independent:
 
 - **The assessment itself is trustworthy.** Where the evaluation carries its own
   confidence, a degraded or fallback run is a weak hint and nothing more — it never
@@ -31,6 +31,15 @@ Nothing is minted unless both hold, and they are independent:
   published band — the level at which the rest of the system already calls a result
   promising — keeps it defensible and stops it drifting to whatever makes the demo
   look good.
+- **The exercise can say who performed it, and with what help.** "Falsifying it
+  requires doing the work" is only true of the person who did the work. The FBI's
+  2025 remote-work fraud alert (I-072325-4-PSA): "Sometimes an individual is employed
+  to pass the initial interview, but the on-the-job work is completed by a different
+  individual." A mint records its conditions: identity-bound or not, proctored or
+  not, and the tools the exercise permitted, the last as part of the rubric in Gate 4.
+  An exercise that cannot attest its performer mints below the top rung or not at
+  all. This does not penalise tool use: permitted assistance is part of what was
+  observed.
 
 ## Gate 1 — the match is token-bounded, and this is where systems fail
 
@@ -51,13 +60,20 @@ The gates that close it:
 - **Maintain an alias table** for the short and ambiguous names rather than hoping the
   matcher guesses; the table is small, and it is the only honest way to catch a
   one-letter language name without catching every word containing that letter.
+- **Treat a name that is also an ordinary word as ambiguous, whatever its length.**
+  "Willing to go deeper", "swift decomposition" and "could spark a review" each
+  contain the whole token, so token boundaries pass them and a length floor passes
+  the five-letter ones. These names match only through the alias table ("golang",
+  "apache spark"). The table costs some real mentions, such as a bare "idiomatic Go
+  error handling". Be generous with aliases and accept the rest: in an additive-only
+  mint, withholding is the cheap error.
 - **Require the mention to be about the work.** A skill named in a question the
   interviewer asked, or in the candidate's statement of what they *would like* to
   learn, is not demonstrated evidence. Presence in a transcript is not performance.
 
 Test this gate with a fixture that contains no technical content at all — only
-ordinary complimentary prose — and assert that it mints nothing. That test catches the
-whole class.
+ordinary complimentary prose — and assert that it mints nothing. Add one whose prose
+uses the ambiguous names as ordinary words. Together they catch the whole class.
 
 ## Gate 2 — an unmapped result credits nothing
 

@@ -79,6 +79,13 @@ incident.
   default expressed only as an argument value at each call site is not a default; it
   is a convention, and one forgotten call site quietly reinstates the original bug for
   one intake path.
+- **The default reaches the sites that mint claims, not only the ones that score
+  them.** An extraction step that stamps its own origin on every claim it could not
+  place, "professional" unless the file reads as early-career, stores the segmented
+  default as if the document had stated it. The scoring default is fixed and never
+  fires, because no claim arrives unknown. The fix at the definition has to be
+  imported by every minting site too. Search for literal rung names assigned in a
+  conditional, not only for omitted arguments.
 - **There is exactly one lookup.** A second hand-written mapping of origin to weight
   is a second ladder with its own default, and the two will diverge on the first
   tuning pass.
@@ -91,9 +98,38 @@ incident.
   different facts, and the audit answer to "why is this discounted?" differs. Store
   the distinction even when the weight collapses it.
 
+## Unknown origin is not an unmapped category
+
+The floor is the answer for a claim whose origin was never established. An item that
+names what was done, but that the extractor filed as "other" because its vocabulary
+had no category for it, is a different case: a freelance contract, a technical role in
+military service, a stretch of gig work. Its origin is known, and the taxonomy is what
+is missing.
+
+Neither weight handles both cases. A mid-ladder "unknown" rung above the match
+threshold credits the described contract correctly. It also credits a bare,
+unlabelled skills line as matched, ahead of coursework the system *could* place.
+The floor treats the skills line correctly and scores the described contract like a
+skills-bar entry. The rule that survives:
+- score both at the floor, which is still the cheap error for ranking;
+- queue the described item for re-classification or a human read, so that the floor
+  is where it waits and not where it ends;
+- keep a real origin that is merely unmapped distinguishable from "nothing was
+  stated", for the same audit reason that keeps "unknown" distinct from
+  "self-asserted".
+
+## The floored share is a fairness metric
+
+Provenance loss follows the extractor's coverage, and coverage falls off outside the
+languages and layouts a system was built on. Count the share of claims on the floor by
+document language and by layout. A group whose files floor at twice the rate of
+another is being ranked partly on the parser. The remedy is extraction or a queue,
+never a more generous default for that group, which would re-create the segmented
+default under a different name.
+
 ## Verifying it
 
-A default this consequential is asserted by a test, not by reading. The three that
+A default this consequential is asserted by a test, not by reading. The four that
 earn their place:
 
 1. Score a claim with the origin argument omitted entirely; assert it receives the
@@ -105,6 +141,11 @@ earn their place:
    professional origins and the other's carry none; assert the first ranks higher.
    This is the regression test for the whole subject and it should be named after the
    incident.
+4. Run two candidates from different segments with an identical file through the
+   *whole* intake, from extraction onward, and assert that their claims carry the
+   same origin. A test that starts at the scoring call cannot see a default that the
+   extractor baked in, and it needs a positive control proving the two fixtures
+   really route to different segments.
 
 ## When not to use this
 

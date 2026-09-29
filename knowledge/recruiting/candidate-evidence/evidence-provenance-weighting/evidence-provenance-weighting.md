@@ -66,12 +66,50 @@ must not inflate a match past what the skill itself is worth. Its advantage over
 next rung is realized where it belongs — in a narrower confidence band, and in winning
 consolidation — not in a number that lets one demonstrated skill outweigh the role.
 
+**It ranks how hard a claim is to fake, not how well a basis predicts.** Verifiability
+is the axis the selection literature supports. Verifiable biodata items keep their
+validity when applicants answer them, and non-verifiable items lose it (Harold,
+McFarland & Weekley 2006). Applicants inflate harder-to-verify skills most (Schmidt,
+Bourdage, Lukacik & Dunlop 2022, 1,893 applicants), and self-evaluations of ability
+correlate .29 with performance (Mabe & West 1982). The ladder is still not a validity
+table. In the revised estimates of Sackett, Zhang, Berry & Lievens (2022), work samples
+sit at .33, below structured interviews at .42, and years of job experience at .07. So
+the professional rung is earned by what the role shows was *done*, as in 29 CFR
+1607.14(C)(6): "the resemblance between the specific behaviors, products, knowledges,
+skills, or abilities in the experience ... and ... required on the job". Time served
+does not earn it. A title with a date range and no described work is a claim the
+document makes, closer to assertion than to use. Duration belongs to the multiplicity
+signal, and it is a weak one there too.
+
+The two rungs that most need a condition are the certificate and the observed one.
+- **A certificate is two different things.** An attendance or completion certificate
+  is a receipt and sits low. A proctored, identity-verified performance exam is
+  observed work, observed by a third party, and it belongs near the top: a national
+  licensing exam's communication and decision-making scores predicted later
+  regulatory complaints (Tamblyn et al., JAMA 2007). A licence the role legally
+  requires is neither. It is a fact to verify, and it belongs to the sibling practice
+  of regulated-credential gating.
+- **Observed work sits at the top only when the system can say who did it.** The
+  section on minting below states the condition.
+
 **It never encodes anything but evidential strength.** A rung is not a proxy for
 prestige, employer size, institution, or how the candidate spent their twenties.
 Unpaid contributed work and short structured placements sit high for one reason — the
 artifacts are inspectable — and a team that quietly demotes them because they "aren't
 real jobs" has swapped an evidence model for a class filter and will not be able to
 explain the resulting selection rates.
+
+Two conditions hold that rung up. First, the inspectability has to reach the
+person. A commit's author field is an unauthenticated string, and an activity graph
+counts private work nobody can inspect (Checkmarx, 2022). So contributed work earns
+its rung when it can be attributed to the candidate, for example a signed commit or a
+merge a maintainer reviewed. Second, a rung that is sound as evidence can still be
+out of reach for some groups. Women were about 9.8% of open-source contributors in
+Trinkenreich et al. (2021), and the gap tracks unpaid free time. The ladder already
+handles half of this: a candidate with no open-source work has no claim on that rung,
+not a discounted one. The other half is measurement. The share of each rung by group
+is a selection-rate question, and it is answered with the adverse-impact practice's
+tests, never by quietly re-weighting the rung.
 
 The top rung is what makes the ladder more than a penalty box: demonstrated evidence
 is **the one path by which a candidate with no track record can outrank tenure on a
@@ -117,7 +155,25 @@ professional skill costs a probe in an interview. Overstating an unsupported one
 a hire. The default must fail toward the cheap error, and — this is the part teams get
 wrong even after fixing the number — the fix belongs at the *definition* of the
 default, not in the call sites. One forgotten call site that omits the origin argument
-reinstates the original bug for one intake path, silently.
+reinstates the original bug for one intake path, silently. That includes the sites that
+*mint* claims. An extraction step that stamps its own segment-dependent origin on
+every claim it could not place stores that origin as though the document had stated
+it. The scoring default never sees the claim as unknown, and afterwards nobody can
+tell the defaulted value from a stated one.
+
+The floor answers one question: what to *score* a claim whose origin is unknown. It
+does not answer what to *do* about it. Two things follow.
+- **Unknown origin is not an unmapped category.** An item that names what was done,
+  such as a freelance contract or a technical role in military service, but that
+  landed in the extractor's "other" bucket has a real origin the vocabulary lacks.
+  Scoring it at the floor is still the cheap error. Leaving it at the floor unread
+  pushes the taxonomy's blind spots onto unusual career shapes. So it is scored at
+  the floor *and* queued for re-classification or a human read.
+- **The floored share is a fairness metric.** Extraction quality falls off outside
+  the languages and layouts a system was built on. A 2026 résumé question-answering
+  benchmark (JobResQA) found "substantial degradation for other languages". Count the
+  share of claims on the floor by document language and layout. A group whose files
+  floor twice as often is being ranked on the parser's coverage.
 
 ## Unproven is a third state, and it is not "missing"
 
@@ -178,14 +234,31 @@ The top rung — evidence the system watched being produced — is the only tier
 cannot come from a document. It is minted by a live process, and because it dominates
 consolidation, its false positives are the most expensive in the system.
 
+"Falsifying it requires doing the work" holds only when the exercise can say who did
+the work, and with what help. The FBI's 2025 alert on remote-work fraud (I-072325-4-PSA)
+describes the gap: "Sometimes an individual is employed to pass the initial interview,
+but the on-the-job work is completed by a different individual." A live coding session
+fed by a real-time assistant is the same gap from the other side. So a mint records the
+conditions it ran under: identity-bound or not, proctored or not, and which tools were
+permitted, the last as part of the rubric it is bound to. An exercise that cannot
+attest who performed it mints below the top rung, or not at all. This is not a penalty
+for using tools. Permitted assistance is part of what was observed. How to detect
+undeclared assistance belongs to the sibling practice of AI-assistance detection.
+
 The gate that fails most often is **matching**. When a transcript or work product is
 scanned for named skills by substring containment, short skill names detonate:
 one- and two-character names are substrings of ordinary English, so a sentence of
 neutral praise mints top-tier demonstrated evidence for technologies nobody used. The
 candidate then carries the system's strongest evidence for skills they never touched,
 and consolidation protects the fabrication by hiding every honest weaker claim behind
-it. Token-boundary matching, minimum-length floors and an explicit alias table are the
-difference between an evidence tier and a random number generator with good manners.
+it. Token boundaries do not close the rest of the class, because some skill names
+*are* ordinary words: "go deeper", "swift decomposition" and "spark a review" each hold
+the whole token. A length floor misses the five-letter ones. The gate is the explicit
+alias table for every name that is also a word, whatever its length. It costs some
+real mentions, so it should be generous with aliases, and withholding is the cheap
+error in an additive-only mint. Token-boundary matching, minimum-length floors and
+that table are the difference between an evidence tier and a random number generator
+with good manners.
 
 The other gates are structural: a mint clears a trustworthiness check on the
 assessment and a competence bar before it credits anything; it credits nothing when
@@ -232,7 +305,11 @@ evidence that it is safe. The re-tuning also cannot be validated against outcome
 old weights caused — [a predictor cannot grade its own
 labels](../../_laws.md#a-predictor-cannot-grade-its-own-labels) — so the honest check is
 a held-back set the score did not act on, or an explicit statement that what was
-measured is internal consistency.
+measured is internal consistency. "Cannot" is about the naive check, not every check.
+Where reviewers differ in how lenient they are, contraction compares a model with the
+decision-makers without counterfactual labels (Lakkaraju et al., KDD 2017). A
+deliberate exploration slice, which advances some candidates the old weights would
+have rejected, produces labels the old weights did not choose.
 
 ## Seams with neighbouring practices
 
@@ -263,6 +340,12 @@ assertion about a person and inherits every rule governing such assertions.
   one cohort, with nothing in the record marking the boundary.
 - **Ladder drift** — rungs quietly reordered to encode prestige or employment shape
   rather than evidential strength.
+- **The tenure rung** — time served read as professional evidence, although years of
+  experience barely predict performance and the ladder ranks what was done.
+- **The unattested demonstration** — an exercise nobody can tie to the candidate
+  minted at the top rung, then protected by consolidation like any other.
+- **The unread floor** — unmapped categories floored and never queued, so the
+  vocabulary's gaps become a score gap for unusual careers.
 
 ## The techniques
 
