@@ -904,3 +904,40 @@ Landed 06536343. Six `applied.md` rows:
 Impact: kp has 5 contexts on this subject, 0 stale verdicts. Maps committed
 locally in twelve projects, none pushed. Yield high, dry_streak 0, depth L3.
 See [[decision-audit-and-traceability]].
+
+## 2026-09-29 - deepen: degrade-never-block-a-candidate
+
+Dispatched by the Curator lane on "never swept by the librarian". The event was
+measured: 96 kp commits had touched the cited files since 2026-08-20. Four lanes
+(counter, primary, blind, tree). Refuted:
+- "never gated, including fraud holds" (FBI IC3 PSA250723): billing never gates;
+  an identity control holds through a person, after acceptance;
+- the three-day grace figure: the retry schedule, dated (Stripe, Recurly).
+
+Conditioned:
+- the incident rate comparison is an alarm, never a clearance (1607.4D; the Indiana
+  2013 interruption studies; the incomplete examinees);
+- a missing input is never scored as absent;
+- the central argument stands on standardized administration (1607.5E; Standards
+  6.1 and 6.3), and the timing-by-group premise is a per-incident hypothesis;
+- holds are bounded and resolved by someone with authority;
+- stale-if-error for caches.
+
+The tree found the favourable direction. A template "advance" at a typed 82 over
+an 80 bar moved kp candidates unattended once the allowance ran out. The subject
+now forbids any degraded outcome that changes who advances, and the primary lane's
+5%-each-way supplied the evidence. No technique earned.
+
+Six `applied.md` rows:
+- one code, better: kp b0ca8df00, local;
+- one simulation, better: grounding, 3 of 3 against 2 of 3; kp's language coverage
+  scores an empty extraction as zero, not fixed;
+- two simulation, unmeasurable: the fraud hold and the grace window;
+- two unapplied: the per-candidate incident test and stale-if-error.
+
+Three applications re-verified (node@24), one false claim retired (a kp doc
+sentence its code contradicts), one new process application.
+
+Impact: kp has 1 context on this subject, 0 stale verdicts. The join missed both
+seams this pass found defects in. Maps committed locally in twelve projects, none
+pushed. Yield high, dry_streak 0, depth L3. See [[degrade-never-block-a-candidate]].
