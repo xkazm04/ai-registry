@@ -1033,3 +1033,41 @@ deviations recorded are:
 Impact: kp has 5 contexts on this subject and 0 stale verdicts, and every seam this
 pass fixed is unjoined. Maps were committed locally in twelve projects, none
 pushed. Yield high, dry_streak 0, depth L3. See [[hiring-need-as-structured-brief]].
+
+## 2026-09-29 - deepen: honest-measurement-presentation
+
+The Curator lane dispatched this on "never swept by the librarian". Three of four
+applications had not been re-verified since 2026-08-20, and kp had since rewritten the
+delta module the first one describes. Four lanes ran: counter, blind, and tree, with
+primary texts read by the counter lane.
+
+One claim was refuted by two lanes: "an em dash is conventional" for not measured. Czech
+and German official tables read a dash as the event not occurring, exactly zero. The
+subject's one consumer renders in cs and de. Screen readers pass over a bare dash, so the
+mark now carries its meaning in words: a legend, a reason and an accessible name.
+
+Three were conditioned:
+- a zero denominator is not applicable, its own state and mark;
+- the hiding ladder is for whole elements, and inside a chart the gap is marked (Song &
+  Szafir 2018);
+- the no-data sort position is stated in the query, never inherited from the engine.
+
+Four were confirmed: the base in the headline (Ecker 2014; van der Bles 2020),
+percentage points (ONS), the remainder row last (ONS), and direction is not valence.
+
+The tree found two live seams:
+- **kp's market map painted a missing median mid-scale;**
+- **kp's all-time cohort read relied on SQLite's null order** on a codebase with a
+  documented Postgres port.
+
+No technique earned. Five `applied.md` rows:
+- one code, better: kp 609876d1a, local;
+- two simulation, better: the stated NULLS LAST in kp 24006b85e, and the dash rule, 3 of
+  3 sites flagged against 1 of 3;
+- two unapplied.
+
+Three applications were re-verified at kp 24006b85e, and one node application was added.
+
+Impact: kp has 1 context on this subject and 0 stale verdicts. The join missed every seam
+touched. Maps were committed locally in twelve projects, none pushed. Yield high,
+dry_streak 0, depth L3. See [[honest-measurement-presentation]].
