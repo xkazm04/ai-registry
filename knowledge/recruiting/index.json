@@ -6510,9 +6510,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/recruiting-cost-and-automation-economics.md",
-   "digest": "sha256-b2:57516f359a02d166",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:1e10871fd8cb17d2",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "a-human-click-is-not-saved-labour",
@@ -6609,19 +6609,22 @@
      "stack": "node",
      "technique": "an-uncapped-ratio-as-a-denominator-alarm",
      "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/node--an-uncapped-ratio-as-a-denominator-alarm.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "per-action-manual-minute-estimates",
      "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/node--per-action-manual-minute-estimates.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "sql",
      "technique": "date-every-derived-money-figure",
      "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/sql--date-every-derived-money-figure.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "sql@3"
     }
    ]
   },
