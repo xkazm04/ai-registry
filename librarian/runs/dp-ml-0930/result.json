@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ml-0930",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-30T09:00:00Z",
+  "ended_at": "2026-09-30T09:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/maturity-ladders",
+      "at": "2026-09-30",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Design-claim subject; the finding was drift in the ladder-versioning application against its consumer tree (r7 to r22, a second golden-corpus pin, cross-rubric pair refusal). No web or training-blind lane was run. No stale verdicts in any fleet map."
+}
