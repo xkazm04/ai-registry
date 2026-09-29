@@ -80,8 +80,17 @@ the first, because that is the direction that makes the dashboard look calm.
   changed later must not silently re-interpret historical refusals as passes.
 - When a check is not run for a reason other than size — not configured, data
   unavailable, upstream failure — that is a fourth state, not this one. Do not
-  reuse the small-sample refusal to swallow an outage; a degraded run has its
-  own honest label.
+  reuse the small-sample refusal to swallow an outage; a degraded run has its own honest label.
+- When a check ran on a small cohort and found nothing, the verdict is bound to
+  what it could have seen: state the smallest gap it would reliably have shown
+  ([state what the sample could have seen](state-what-the-sample-could-have-seen.md)). A clean line at thirty per group is a computation that fired, not a
+  group that was cleared.
+- When a rule permits leaving a small category out of a calculation, the exclusion
+  is disclosed: the justification, the count and the rate travel with the result.
+  New York City's bias-audit rules for automated employment tools, which allow
+  setting aside a category under two per cent of the data, still require all
+  three. Show the rate in the raw-count grammar ("3 of 41") so the disclosure does
+  not become a percentage on a handful.
 
 ## Beyond fairness: the same shape everywhere
 

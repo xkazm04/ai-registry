@@ -88,6 +88,17 @@ sample minimum:
 - When a composite blends inputs of different maturities, its horizon is the
   longest of them, and its date is the oldest contributing input, not the moment
   of computation.
+- When there is no honest date, name the reason instead of computing one. Three
+  cases recur. **No pace**: nothing has accrued recently, so any date would be
+  invented. **Window too narrow**: the figure is a rolling window, its count is
+  capped at pace times window, and at this pace it never reaches the floor, so the
+  only honest advice is to widen the window. **Not accruing**: the figure
+  describes the present (a point-in-time ratio), and waiting is not its remedy. A
+  date projected from a pace that does not exist is the excuse dressed as a plan.
+  Round the date up by whole periods and give the shortfall beside it. And count
+  the pace in the same unit and subset as the sample: a horizon that divides the
+  shortfall in *usable* observations by the arrival rate of *all* of them is too
+  near by exactly the ratio between the two.
 
 ## When not to use this
 
