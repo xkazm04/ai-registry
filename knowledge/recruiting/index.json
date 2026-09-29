@@ -5557,8 +5557,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
-   "digest": "sha256-b2:615a79cbff0481b3",
-   "revision": 2,
+   "digest": "sha256-b2:41c04d2b7e9c5670",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5676,7 +5676,7 @@
     {
      "stack": "spec",
      "technique": "trust-state-resolution",
-     "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--revocation-without-a-beacon.md",
+     "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--trust-state-resolution.md",
      "verified_on": "2026-09-29"
     }
    ]
