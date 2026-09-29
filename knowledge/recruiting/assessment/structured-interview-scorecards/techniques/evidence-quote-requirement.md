@@ -117,9 +117,47 @@ transcript excerpt. It is the most convincing wrong evidence available.
 - **A drafted rating is a hypothesis until a person adopts it.** The provenance
   travels with the scorecard; a degraded or partial run downgrades that
   provenance rather than presenting a thin verdict as authoritative.
-- **Spot-check against the source.** Sample drafted scorecards and check quotes
-  against transcripts on a standing cadence. The failure mode here is not loud;
-  it is a slowly rising rate of quotes that are almost right.
+- **Check the quote against the source in the pipeline, not only by sampling.** A
+  containment test is cheap enough to run on every draft: fold case, punctuation and
+  whitespace (what a near-verbatim quote legitimately drifts on) and require the
+  quote to occur in the text the model was shown. It is a containment test and not
+  a fuzzy match, so a paraphrase correctly fails. Run it against what the model
+  *read*, not the full record: a line from an elided stretch is one the model could
+  not have seen. Then still sample on a standing cadence, because the failure that
+  survives a containment test is not loud; it is a slowly rising rate of quotes that
+  are almost right.
+- **Three ways a containment check is still fooled, and what to do.**
+  1. *The wrong speaker.* Containment over the whole transcript grounds a quote
+     lifted from the interviewer's own turn ("Tell me whether you led a team of
+     forty") and credited to the candidate. The same weakness appears in the one
+     published measurement found for LLM quote extraction (a preprint on a single
+     focus-group transcript): strict invention was rare, near 1%, and the larger
+     error class was facilitator speech coded as participant. Match against the
+     candidate's turns only, or verify the speaker label.
+  2. *The rating outliving its evidence.* When a quote fails, the check has to
+     decide what happens to the number. Replacing only the evidence text leaves a 5
+     standing with a placeholder beside it, which reads downstream as an
+     observation with a missing note. The rule above applies to the failure path
+     too: a rating with no admissible evidence is unassessed, so the check demotes
+     the rating and the coverage state together, and it names *which* absence this
+     is ("quote not found") so a recruiter is not told the interview skipped the
+     competency.
+  3. *Count it.* A run that invented quotes is a provider-quality signal and a
+     confidence signal; carry the dropped count on the record and let it widen the
+     stated confidence, with the reason in words, so an operator can tell a
+     hallucinating run from a short interview.
+
+## The human path needs the same rule
+
+The requirement is easiest to enforce on a machine, which is why teams enforce it
+there and quietly exempt people. A human scorecard form that accepts a rating with
+the note left blank has made evidence optional for exactly the ratings a person
+wrote, which are the ones an adverse decision most often rests on. Requiring a quote
+to submit is friction, and it is the friction that makes a rater discover they are
+rating an impression. Where a form must allow a blank (a format that yields no
+quotable moment), let it take an artifact reference or a named modality instead,
+and record the rating as unevidenced, so a blank is a stated state and not a
+silent one.
 
 ## When not to use this
 

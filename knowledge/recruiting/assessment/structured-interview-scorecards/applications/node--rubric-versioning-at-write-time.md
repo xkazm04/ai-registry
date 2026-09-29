@@ -4,7 +4,8 @@ type: application
 subject: structured-interview-scorecards
 technique: rubric-versioning-at-write-time
 stack: node
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Stamping the scale in a two-runtime rubric module
@@ -12,14 +13,14 @@ verified_on: 2026-08-20
 `app/_lib/interview-rubric.ts` is the shared rubric module: one JSON source
 (`pipeline/jobfit/interview-rubrics.json`) read by the TypeScript app and by the
 Python scorer in `pipeline/jobfit/automation.py`. Versioning is built on top of
-that single source, and the reason it can be is stated at `interview-rubric.ts:1`
+that single source, and the reason it can be is stated at `interview-rubric.ts:11`
 — "'Both read the JSON' is enforced, not just asserted: `interview-rubric.test.ts`
 pins these exports to the JSON, and `test_interview_rubrics.py` pins the Python
 scorer to the same file — so TS == JSON == Python fails CI on drift."
 
 ## The version identity
 
-`rubricVersionHash` (`interview-rubric.ts:198`) hashes a **resolved** rubric slice
+`rubricVersionHash` (`interview-rubric.ts:211`) hashes a **resolved** rubric slice
 — the output of `rubricForArchetype`, base competencies plus any appended
 industry axes — so the stamp describes the exact scale that candidate was scored
 on, not the whole catalogue.
@@ -33,13 +34,13 @@ delimiter-joined canonical string using `␟` between fields and `␞` between
 competencies, hashed with 64-bit FNV-1a, "chosen so the TS and Python stamps are
 byte-identical WITHOUT depending on cross-language JSON canonicalization or a
 crypto lib" (this module is client-bundled through `HumanScorecardPanel`, so it
-must stay free of `node:crypto`). `automation.rubric_version_hash` mirrors it, and
+must stay free of `node:crypto`). `automation.rubric_version_hash` (`automation.py:2225`) mirrors it, and
 both are pinned to the same literal in their own language's tests.
 
 ## The two-part stamp
 
 The hash is the compact identity; the competency **key list** stored beside it is
-the re-evaluation shape. `flagOffRubricRatingsWithKeys` uses the second:
+the re-evaluation shape. `flagOffRubricRatingsWithKeys` (`interview-rubric.ts:186`) uses the second:
 
 ```ts
 const known = storedKeys && storedKeys.length
@@ -56,34 +57,34 @@ not silently changed either.
 
 ## Off-rubric is stated, never blanked
 
-`flagOffRubricRatings` keeps unknown competencies and marks them: "Unknown
+`flagOffRubricRatings` (`:171`) keeps unknown competencies and marks them: "Unknown
 competencies are KEPT, never rejected: a scorecard outlives rubric revisions by
 design." The recruiter grid does the same at the row level —
-`mergeRubricRows` (`app/features/library/jobs/jobsCompareCohorts.ts`) renders the
+`mergeRubricRows` (`app/features/library/jobs/jobsCompareCohorts.ts:64`) renders the
 current rubric's axes first, then appends every competency a candidate was
 actually scored on that the rubric no longer contains, flagged `offRubric`, "instead
 of letting the exact-name join silently blank them to '—'"
 (`interview-simulation-comparison #2`).
 
 The neighbouring fix in the same file is the whole-scale version of the same bug:
-`isUnrecognizedCohort` detects a `scoringModel` that maps to no rubric "so the grid
+`isUnrecognizedCohort` (`:88`) detects a `scoringModel` that maps to no rubric "so the grid
 can SAY so instead of rendering a name+verdict header above an empty, ratingless
 body — indistinguishable from a genuinely un-scored candidate at the hire-decision
 surface" (`#1`).
 
 ## Comparability and honest backfill
 
-`jobsCompareCohorts.ts:20` states the comparability rule directly: "Candidates are
+`jobsCompareCohorts.ts:19` states the comparability rule directly: "Candidates are
 comparable WITHIN a cohort, not across — an experienced hire's track-record axes
 and a student's potential constructs are different rubrics." `buildCohorts` groups
 by `scoringModel` and pairs each group with its own rubric; nothing pools across
 them.
 
-`app/_lib/db/interviews.ts:9` handles the pre-versioning rows the way the standard
+`app/_lib/db/interviews.ts:30` handles the pre-versioning rows the way the standard
 requires — by what could have existed, not by re-derivation from the profile:
 "Older (pre-v3) scorecards predate the early-career rubric, so a missing value is
 correctly 'experienced'." The same boundary coerces a malformed verdict:
-`coerceInterviewRecommendation` sends anything unrecognised to `hold`, "so the
+`coerceInterviewRecommendation` (`interviews.ts:113`, `:395`) sends anything unrecognised to `hold`, "so the
 compare grid only ever receives a legal verdict or a clean null" — a value the
 instrument cannot account for is not a result the instrument produced.
 

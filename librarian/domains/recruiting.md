@@ -1290,3 +1290,18 @@ Conditions on the golden path and five techniques:
 Landed in kp (`092f2e1e3`, local): the boundary now checks the model's words. Planted defects passed 8 of 8 before and 2 of 8 after, 0 of 6 clean shapes dropped, ten tests red-first, the deterministic pack passes its own check in four languages. The two it cannot see are named in the technique. The euphemism ban had covered two languages of four. Six `applied.md` rows: two code (better), four unapplied with return conditions. Three applications re-verified to 2026-09-29, every citation moved; the React one is kept as the last state of a withdrawn surface.
 
 Impact: kp only, 0 stale verdicts on this subject; the map was rebuilt and committed locally (`60aab8088`). kp main is 47 ahead and was not pushed. Yield high, dry_streak 0, depth L3. See [[sourcing-campaign-honesty]].
+
+## 2026-09-29 - deepen: structured-interview-scorecards
+
+Dispatched from the attention scan ("never swept by the librarian"); no prior note, no applied row. The golden path leaned on figures nobody had sourced, and kp had moved under all three applications since 2026-08-20.
+
+No new technique. Conditions on the golden path and three techniques:
+- **structured beats unstructured on average, and the spread is the finding**: about .42 against .19, 80% range .18 to .66, the 1998 .51/.38 pair superseded;
+- **anchors are half a mechanism**: the one controlled interview comparison found anchors and frame-of-reference training comparable and additive, so calibration is not a nicety;
+- **retranslation is a clarity screen**, its thresholds convention; **five levels is a convention**, with four to six the defensible range;
+- **independent scoring rests on principle, not a hiring experiment**, and independent ratings are not independent observations (panel .74 against .44 separate);
+- **a neutral placeholder is the bar when the bar is the midpoint**, so omit the rating and take coverage from an independent record.
+
+Applications re-verified against kp at `60aab8088` (all lines re-resolved; a fourth application added for the unassessed technique). Executed against the real module: a failed quote leaves a live rating beside placeholder evidence, and the grounding check is speaker-blind. Also found: the whole experienced rubric is description-only, and the human form takes a rating with no note. Nothing landed in kp; three `unapplied` rows in `applied.md` with return conditions.
+
+Impact: kp only, no stale verdicts on this subject; the map was dry-run and not written. Yield high, dry_streak 0, depth L2 for the applications and L1 for the golden path. See [[structured-interview-scorecards]].

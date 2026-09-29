@@ -22,14 +22,25 @@ else the artifact does — feeding a decision meeting, feeding a hiring metric,
 feeding a defensibility file — is downstream of that one property, and collapses
 without it.
 
-That the structured form beats the unstructured conversation is settled and has
-been for decades; it is not the interesting part and it is not what a team gets
-wrong. Teams get *structure theatre*: fixed questions, a 1–5 box per competency,
+That the structured form beats the unstructured conversation on average is settled
+and has been for decades; it is not the interesting part and it is not what a team
+gets wrong. Read the size honestly, though: the 2022 overcorrection-adjusted
+meta-analysis puts structured interviews at about .42 against about .19 for
+unstructured, down from .51 and .38 in the 1998 summary that most citations still
+repeat, and the structured figure carries an 80% credibility range of roughly .18 to
+.66. The ordering held; the spread is the finding. A structured format is a
+precondition for a valid instrument, not evidence that yours is one, which is the
+whole reason the rest of this subject exists. Teams get *structure theatre*: fixed questions, a 1–5 box per competency,
 a comment field, no anchors, no evidence discipline, no versioning. The form is
 structured; the judgment inside it is exactly as unstructured as before, and now
 it wears a number. Numbers are worse than adjectives when they are not grounded,
 because a number invites arithmetic — averaging, thresholding, ranking — that
-the underlying judgment cannot support.
+the underlying judgment cannot support. The fault is the missing grounding and the
+threshold laid over a small gap, not the arithmetic: combining well-grounded
+ratings by a fixed rule beats a holistic overall impression (a 2013 meta-analysis
+put the mechanical method's edge for predicting job performance at more than 50%,
+and found the holistic loss held even for experts who knew the job), which is the
+decision subjects' ground and not this one's.
 
 The principal reading is that a scorecard has four load-bearing commitments, and
 each one is a place a team quietly opts out:
@@ -62,6 +73,16 @@ describes what we watched?" — and if neither does, the finding is that the
 anchors are wrong, which is a fixable defect. Anchors that cannot adjudicate a
 disagreement are decoration.
 
+Hold the claim at the strength the evidence gives it. Anchored scales are the
+standard practice and the mechanism above is sound, but the mechanism is an
+argument; the head-to-head evidence against plain scales is thin. The best
+interview-specific comparison is a 2011 experiment that crossed descriptively
+anchored scales with frame-of-reference training: each improved rating accuracy and
+interrater reliability by a comparable amount over neither, and using both improved
+accuracy further. So anchors and calibration (below) are two halves of one
+reproducibility mechanism, not a main effect and a nicety. A team that writes
+careful anchors and never calibrates has bought part of it, and so has the reverse.
+
 The highest-value anchors are the **low ones**. Teams write a lyrical top level
 and a vague bottom ("does not meet expectations"), which is exactly backwards:
 the top of the scale is rarely contested, and the bottom is where an adverse
@@ -75,8 +96,11 @@ labels and level numbers, to people who did not write them, and ask them to sort
 them back into competency and order. Anchors landing in the wrong competency are
 measuring something other than what the header claims; anchors landing out of
 order are not distinguishable in practice, so the scale has fewer real levels
-than boxes. It is the only reliable test of whether the scale a team wrote is the
-scale a team uses, and it is why
+than boxes. It is a cheap, pre-launch test of whether the scale a team wrote is the
+scale a reader will take it to be (agreement thresholds in the literature are
+convention, commonly 60% to 80%, and no test was found showing that passing predicts
+later reliability or validity, so it screens for clarity and does not certify), and it
+is why
 [meaning does not live in a label](../../_laws.md#meaning-does-not-live-in-a-label)
 governs here: the header of a competency, the name of a level and the display
 string of a scale are all inert. The paragraph underneath is the instrument.
@@ -117,15 +141,21 @@ Both naive resolutions are wrong in the same way. Scoring an untouched competenc
 zero ranks a person worst on a dimension nobody observed. Scoring it at the
 midpoint makes an unmeasured competency indistinguishable from a measured
 adequate one, which is worse, because it is invisible. The workable arrangement
-separates two things a single integer cannot carry: the *rating*, neutral so it
-neither helps nor harms, and the *coverage flag*, which is what actually gets
-surfaced — to the interviewer while the loop is still reschedulable, and to the
-decision meeting as a stated limit on what was observed.
+separates two things a single integer cannot carry: the *rating*, which for an
+unobserved axis is best simply absent, and the *coverage flag*, which is what
+actually gets surfaced — to the interviewer while the loop is still reschedulable,
+and to the decision meeting as a stated limit on what was observed.
 
-A neutral placeholder is a compromise, and it is tolerable only while the
-coverage state travels with it everywhere the rating goes. The moment the number
-is exported, averaged or ranked without its flag, an unmeasured competency has
-been laundered into a measured one. See unassessed-competency-handling.
+A neutral placeholder integer is a compromise for a schema that insists on a
+number, and it is tolerable only while the coverage state travels with it
+everywhere the rating goes. The moment the number is exported, averaged or ranked
+without its flag, an unmeasured competency has been laundered into a measured one.
+It has a second hazard the word "neutral" hides: a scale that names its bar (as
+this subject says it should) usually names the middle level, so the neutral
+placeholder is the level that meets the bar, and any threshold reads it as a pass.
+Where a person is filling the scorecard, omit the rating; a machine that must emit
+an integer needs a coverage record from somewhere other than its own say-so. See
+unassessed-competency-handling.
 
 ## Rubrics get revised; ratings do not get re-meant
 
@@ -181,13 +211,28 @@ and must be the silent one. See role-family-axis-extension.
 
 The debrief is where a well-built instrument is most often destroyed. If
 interviewers discuss the candidate before their scorecards are written, the
-panel has not produced independent observations — it has produced one
-observation and several ratifications of it. Anchoring to the first speaker is
-strong, it is stronger when the first speaker is senior, and it is entirely
-invisible in the artifact afterwards: the record shows four aligned scorecards,
-which is what a well-run loop and a captured one both look like.
+panel has not produced independent ratings — it has produced one
+rating and several ratifications of it. Anchoring to the first speaker is a
+standard finding of the group-judgment literature, plausibly stronger when the first
+speaker is senior, and it is entirely invisible in the artifact afterwards: the
+record shows four aligned scorecards, which is what a well-run loop and a captured
+one both look like. Be plain about the basis. The case rests on that literature and
+on the independent-then-aggregate protocol in *Noise*, not on a debrief experiment
+in hiring, which is thin. What independence demonstrably buys is preserved variance;
+it does not by itself improve the decision, because discussion also fails to pool
+what only one person saw. So the rules below are cheap protections against a known
+contamination, held as design rules and not as measured effects.
 
-The standard is unambiguous, and it is cheap:
+Independent *ratings* are also not independent *observations*. Interviewers who sit
+on one conversation share its content, and their agreement flatters the instrument:
+the 2013 update of interview reliability puts mean interrater agreement at .74 for
+panels against .44 for separate interviewers, and an earlier review of 120 studies
+found that panel format did not add validity. A panel is the right tool for
+protecting one conversation from one person's blind spot, and the wrong evidence
+that the instrument is reproducible. Agreement across separate interviews is the
+figure that means something.
+
+The rules:
 
 - **Every scorecard is submitted before any discussion of the candidate.**
   Not "mostly", not "the hiring manager writes theirs after" — submitted, then
@@ -197,7 +242,8 @@ The standard is unambiguous, and it is cheap:
   panel is the variance; a meeting that converges to the mean has spent its
   panel and bought nothing.
 - **Speaking order runs from least to most senior**, and the decision-maker
-  speaks last.
+  speaks last. This is a heuristic against deference; no study of it was found,
+  and it is the weakest rule here.
 - **Disagreement is adjudicated against the anchors and the quoted evidence**,
   not by preference or persuasion. "Which anchor paragraph describes what you
   heard, and what did they say?" is the only question the meeting needs.
@@ -215,12 +261,14 @@ independent scoring, which costs nothing and needs no identity model.
 
 An instrument drifts. Frame-of-reference training — walking raters through
 concrete recorded responses and reaching agreement on which anchor each one
-matches — is the intervention with the best evidence behind it, and it works
-because it operates on the same objects the scorecard does: behaviour and
-anchors, not scores. Published estimates put inter-rater agreement gains from
-calibration practice in the range that turns a barely-usable instrument into a
-usable one; treat the direction as robust and any specific figure as
-context-bound.
+matches — has the strongest meta-analytic support among rater trainings
+(for rating accuracy, with the effect concentrated in telling performances apart
+and in behavioural accuracy), and it works because it operates on the same objects
+the scorecard does: behaviour and anchors, not scores. For interviewers specifically
+the one controlled comparison found it about as effective as descriptively anchored
+scales, and better together with them (see the anchors section). Treat the direction
+as robust and any specific effect size as context-bound; the reliability gain in an
+interview setting has one experiment behind it, on videotaped interviews.
 
 Run it on real, anonymised transcript fragments from your own loops. Run it when
 the rubric changes, when a new interviewer joins, and on a slow cadence
