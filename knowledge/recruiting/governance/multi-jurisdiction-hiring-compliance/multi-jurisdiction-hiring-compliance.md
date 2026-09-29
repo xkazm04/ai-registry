@@ -64,11 +64,13 @@ The catalog carries an **as-of date and a review cadence**, prominently, in the
 artifact itself. A regime map without a date is worse than none, because it is
 confidently wrong in a domain where being out of date is the failure mode with
 teeth. In the last three years effective dates have moved in both directions:
-one comprehensive regime's employment provisions were rewritten and pushed back
-more than a year while employers were already building against the original
-date; another jurisdiction repealed and replaced its statute months before it
-was due to bite, converting an audit mandate into a disclosure-and-human-review
-mandate. Anything you wrote against the superseded version is now a liability
+one comprehensive regime's employment provisions were pushed back sixteen
+months, from a date employers were already building against to a fixed later
+one, by an amending regulation adopted in mid-2026 (the transparency duties
+beside them kept their original date); another jurisdiction repealed and
+replaced its statute months before it was due to bite, converting a duty of
+reasonable care with impact assessments into notice, adverse-outcome disclosure
+and human review, and moving the start to the following year. Anything you wrote against the superseded version is now a liability
 wearing a compliance badge.
 
 ## The null column is the most important column

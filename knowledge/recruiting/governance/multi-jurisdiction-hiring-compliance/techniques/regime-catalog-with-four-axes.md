@@ -50,18 +50,18 @@ empty is the catalog's most useful output.
 
 ## A worked catalog
 
-As of mid-2026 — and **this date is part of the data**, not a footnote. Read
+As of late September 2026 — and **this date is part of the data**, not a footnote. Read
 the shape, not the cells; the cells expire.
 
 | Jurisdiction | Data-protection law | Human-oversight hook | Equal-opportunity framework | Codified adverse-impact test |
 | --- | --- | --- | --- | --- |
-| European Union | GDPR | GDPR Art. 22 + AI Act deployer oversight and Art. 86 explanation | Equal Treatment / Employment Equality Directives as transposed | *none* |
+| European Union | GDPR | GDPR Art. 22 + AI Act deployer oversight and Art. 86 explanation (Annex III duties apply from 2 December 2027; Art. 50 transparency from 2 August 2026) | Equal Treatment / Employment Equality Directives as transposed | *none* |
 | United Kingdom | UK GDPR + Data Protection Act | UK GDPR Art. 22 as amended by the 2025 data act | Equality Act 2010 | *none* |
 | United States (federal) | sectoral; no general federal law | Title VII / ADA duty on the employer, not a machine right | Title VII, ADA, ADEA | four-fifths ratio, Uniform Guidelines on Employee Selection Procedures (1978) |
-| New York City | state and sectoral law | pre-use notice; independent annual bias audit | Title VII plus city human-rights law | *none codified* — the audit publishes impact ratios; the pass line is borrowed |
-| California | state privacy statute + civil-rights regulations | automated-decision-system rules; anti-bias testing as evidence | state fair-employment act | *none* |
-| Illinois | state biometric and privacy statutes | AI-video notice and consent; a 2026 prohibition on discriminatory AI effect plus notice | state human-rights act | *none* |
-| Colorado | state privacy act | disclosure plus a human-review pathway for adverse decisions | state anti-discrimination act | *none* |
+| New York City | state and sectoral law | pre-use notice; independent annual bias audit (a 2025 state audit found enforcement ineffective; the duty is unchanged) | Title VII plus city human-rights law | *none codified* — the audit publishes impact ratios; the pass line is borrowed |
+| California | state privacy statute + civil-rights regulations | civil-rights council automated-decision rules in force since 1 October 2025 (testing not mandated, its absence is evidence; four-year records); privacy-agency ADMT rules from 1 January 2027 | state fair-employment act | *none* |
+| Illinois | state biometric and privacy statutes | AI-video notice and consent; a prohibition on discriminatory AI effect plus notice, in force 1 January 2026 (notice-content rules proposed then withdrawn) | state human-rights act | *none* |
+| Colorado | state privacy act | replacement statute effective 1 January 2027: advance notice, adverse-outcome disclosure, human review, three-year records; the care and impact-assessment duties were dropped and rules are still being drafted | state anti-discrimination act | *none* |
 | Ontario | federal/provincial privacy law | job-posting disclosure of AI screening for larger employers | provincial human-rights code | *none* |
 | *(neutral)* | applicable local data-protection law | a human decides; no solely-automated adverse decision | applicable equal-opportunity law | *none* |
 
