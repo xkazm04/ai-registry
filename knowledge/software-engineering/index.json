@@ -3132,9 +3132,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/analytics-time-windows.md",
-   "digest": "sha256-b2:92b652495184231c",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:8137e4905509e509",
+   "revision": 4,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "baseline-as-window-start",
@@ -7853,9 +7853,9 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/conversation-orchestration.md",
-   "digest": "sha256-b2:b2e230948292db97",
-   "revision": 5,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:f3ecee1630629b34",
+   "revision": 6,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "layered-avatar-state-machine",
@@ -7978,19 +7978,21 @@
      "stack": "node",
      "technique": "structured-visual-replies",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/node--structured-visual-replies.md",
-     "verified_on": "2026-08-24"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "narration-promote-on-finish",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--narration-promote-on-finish.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "structured-visual-replies",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/react--structured-visual-replies.md",
-     "verified_on": "2026-08-24",
+     "verified_on": "2026-09-29",
      "verified_against": "react@19"
     },
     {
@@ -8004,7 +8006,8 @@
      "stack": "rust",
      "technique": "progress-beat-grammar",
      "file": "knowledge/software-engineering/llm-agent/companion/conversation-orchestration/applications/rust--progress-beat-grammar.md",
-     "verified_on": "2026-08-23"
+     "verified_on": "2026-09-29",
+     "verified_against": "rust@1.96"
     }
    ]
   },

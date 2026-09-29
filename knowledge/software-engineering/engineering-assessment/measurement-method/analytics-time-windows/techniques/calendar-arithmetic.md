@@ -37,9 +37,14 @@ nobody attributes the resulting drift to the arithmetic.
    week land one bin apart, and summing their series adds values that are out
    of phase. Weeks must be floored to a *named* weekday boundary first and
    indexed after: floor the instant to its week-start weekday, then divide.
-   Consecutive week-starts are exactly seven days apart, so the index stays a
-   clean incrementing integer that entities on different observation cadences
-   can be summed by.
+   In universal time consecutive week-starts are exactly seven days apart, so
+   the index stays a clean incrementing integer that entities on different
+   observation cadences can be summed by. That holds only where the week
+   arithmetic runs in a zone with no seasonal shift: in a shifting zone two
+   local week-starts are 167 or 169 hours apart across the change, and dividing
+   the instant by seven days misfiles the boundary hour. There, index on the
+   civil date - days since a fixed anchor date, divided by seven - and never on
+   the instant.
 3. **Days are not all 86,400 seconds.** In any zone that observes a seasonal
    shift, one day is 23 hours and another is 25. Loops that step a cursor
    forward by a fixed day drift by an hour across the shift and mis-assign

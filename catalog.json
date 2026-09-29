@@ -45,7 +45,7 @@
       "version": "1.9.0",
       "category": "workflow",
       "path": "skills/architect/SKILL.md",
-      "contentHash": "sha256-n1:cb2b65c454aaea99",
+      "contentHash": "sha256-n1:0cc1c2114d5b024a",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
@@ -215,7 +215,7 @@
       "version": "1.5.1",
       "category": "workflow",
       "path": "skills/cx/SKILL.md",
-      "contentHash": "sha256-n1:f1236d11f2d14701",
+      "contentHash": "sha256-n1:4382f7b432740e41",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -296,7 +296,7 @@
       "version": "1.5.0",
       "category": "workflow",
       "path": "skills/friend/SKILL.md",
-      "contentHash": "sha256-n1:b15f10b507312557",
+      "contentHash": "sha256-n1:059a0a44386c78a6",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
@@ -569,7 +569,7 @@
       "version": "2.7.1",
       "category": "workflow",
       "path": "skills/perfect/SKILL.md",
-      "contentHash": "sha256-n1:138c40e1b5d9f513",
+      "contentHash": "sha256-n1:36ae05e746037e4b",
       "adopters": [
         "ascent@plugin:2.3.0",
         "kp@plugin:2.3.0",
@@ -644,7 +644,7 @@
       "version": "1.12.0",
       "category": "ai-native",
       "path": "skills/research/SKILL.md",
-      "contentHash": "sha256-n1:3e2d609d16f0631b",
+      "contentHash": "sha256-n1:d8fdc04669b783ec",
       "adopters": [
         "personas@plugin:1.5.0",
         "pof@1.7"
@@ -668,7 +668,7 @@
       "version": "4.3.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:9f1919e9a6c4da08",
+      "contentHash": "sha256-n1:757c49031ae874ad",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -718,7 +718,7 @@
       "version": "1.7.1",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:09eb5958cd379432",
+      "contentHash": "sha256-n1:0ccfbf2b997c4112",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
@@ -1121,7 +1121,7 @@
       "techniques": 1818,
       "applications": 1210,
       "files": 3266,
-      "contentHash": "sha256-b2:e9a25d2986a1551d"
+      "contentHash": "sha256-b2:8903ef0b2ed09f39"
     }
   ],
   "usageEvidence": {
