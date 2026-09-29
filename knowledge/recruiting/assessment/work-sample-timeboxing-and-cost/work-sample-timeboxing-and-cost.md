@@ -26,9 +26,11 @@ entitled to ask for, from whom, and what you owe them while they do it.
 
 The naive framing is that a longer exercise is a better measurement — more
 surface, more to grade, more confidence. It is not, and the failure is not
-subtle. Length does two things simultaneously: it improves the measurement
-slightly, and it changes *who is in the sample*. Past a small number of hours,
-the second effect dominates, and you are no longer measuring capability at all.
+subtle. Length does two things simultaneously: it may improve the measurement
+(no study found relates a work sample's length to its validity, so "slightly" is
+an assumption), and it changes *who is in the sample*. Past a small number of
+hours the second effect is the one you can be sure of, and you are no longer
+measuring capability alone.
 
 ## The cost is not distributed evenly, and that is the ethical core
 
@@ -41,17 +43,48 @@ whose current employer's hours leave no contiguous block. These are not edge
 cases. In most labour markets they are a large minority of the qualified pool,
 and they are correlated with exactly the characteristics that anti-discrimination
 law protects — so a length policy is a selection policy whether or not you meant
-it to be.
+it to be. Be exact about how much of that is measured. The correlation is
+inference from time-use patterns; no study found measures time burden's effect on
+take-home completion by group. The measured disparity sits at grading: a
+vendor's analysis of about 384,000 take-home submissions (2021 to 2022) found
+that with non-anonymous grading, Black candidates were 7.4-12.4% and Hispanic
+candidates 2-7.5% less likely to pass an interview, effects largely offset when
+grading was anonymous. It is a vendor's own data, not peer reviewed, and it too
+could not test the time argument; its authors only note that an hours requirement
+"may disadvantage candidates with less free time" and that candidates with more
+free time may ignore the limit, putting the others at a disadvantage. The second
+point is the one to design against, and it is why overrun is recorded below.
 
 The consequence is blunt: **every hour you add to a work sample filters your pool
 toward people with more discretionary time, and discretionary time is not a job
-requirement.** The candidates you lose are not the weak ones. Strong,
-in-demand practitioners are the *most* likely to decline a long exercise, because
-they have other processes running, less need to prove themselves, and a
-well-calibrated sense of what their unpaid time is worth. A half-day take-home
-reliably produces drop-off in the region of half the invited senior pool — the
-pool the exercise exists to discriminate within. You end up with a beautifully
-instrumented measurement of the people who had a free Saturday.
+requirement.** That is an argument from who has the hours, and it stands without a
+drop-off figure. Do not borrow one. The figure this subject used to carry — a
+half-day take-home costing about half the invited senior pool — has no source, and
+no public measurement of take-home non-completion against exercise length turned up
+in a 2026 search. What exists is thinner and points both ways:
+
+- **One survey of almost 700 engineers on a practice platform (2024)** reported 6%
+  outright refusing and 66% completing take-homes all or most of the time, with the
+  pattern unchanged among senior respondents. Its authors found a negligible
+  relationship between how someone interviews, or how their CV looks, and how likely
+  they are to do one, and concluded a take-home does not necessarily weed out the
+  best candidates. It is self-report from people who use an interview-practice
+  service, and it is not conditioned on length, so it cannot say a long exercise is
+  harmless either.
+- **One large company's recollection** is that about a fifth of candidates would not
+  complete its take-home, with the less competitive more likely to finish because
+  they held no competing offers. Anecdote, no level and no length attached. The
+  mechanism it names is leverage, not seniority: the person with another process
+  running has the least reason to spend an evening on yours.
+
+So the honest claim is narrower than the old one. Length changes who is in the
+sample by a route nobody has measured here, the route it plausibly takes runs through
+time and competing offers, and the strongest people are not established as the
+ones who leave. What candidates say they will accept is measured, and it is the best
+sizing anchor available: over 80% of that survey said a take-home should take four
+hours or less, and a plurality said two. You risk a beautifully instrumented
+measurement of the people who had a free Saturday; the way to know is the
+tracking below, on your own funnel.
 
 Watch this directly rather than assuming it. Track invitation-to-submission
 conversion **by level and by demographic segment where you lawfully hold it**, and
@@ -66,12 +99,20 @@ stage is a cost you imposed, not a property of the market.
 The order matters more than the number. Decide the maximum candidate effort
 **before** designing the tasks, publish it, and then scope the exercise to fit.
 The reverse order — write the exercise you want, then estimate how long it takes —
-produces overrun every time, because the author knows the answer and the
-candidate does not. A designer's estimate of their own exercise is routinely half
-the real time; a candidate meeting the material cold pays a comprehension tax the
-author never pays.
+produces overrun far more often than not, because the author knows the answer and
+the candidate does not. The direction is well established and the size is not a
+constant. People forecasting their own work run long (final-year students
+predicted 34 days for a thesis and took 55, about 1.6 times, and only about 30%
+finished by their own estimate), and experts predict a novice's time worse the more
+expert they are. "Half the real time" is a fair central case for an author sizing
+an exercise for a stranger, and no study measured that ratio. A candidate meeting
+the material cold pays a comprehension tax the author never pays, which is why the
+number that counts comes from a cold run.
 
-A defensible policy in most markets, for most roles, looks like this:
+A defensible policy in most markets, for most roles, looks like this. The hour
+figures are convention, not a threshold anyone has validated: the one survey
+found (candidates, not employers) points to four hours or less and a plurality
+at two, and no study found relates a work sample's length to its validity.
 
 - **A hard upper bound in the low single-digit hours.** Two hours is a good
   default, three is defensible, four is the point where you should be arguing
@@ -87,6 +128,20 @@ A defensible policy in most markets, for most roles, looks like this:
   improve the assessment, and mean it: if the top submissions are the longest
   ones, you have built a stamina test and you are systematically rewarding the
   candidates with the most free time.
+
+A stated cap that nothing measures is a hope, and candidates who ignore it are the
+ones the cap was meant to protect the others from. So measure how long each sitting
+actually took, on the server and at submission, and keep three states apart: not
+measured, measured and inside the cap, measured and over it by some minutes. Three
+cautions decide whether the measurement is fair. Elapsed time since a session
+opened is calendar time, not effort: it runs through a coffee, a night, and an
+outage the candidate did not cause. An adjusted sitting has a longer allowance and
+will read as late against the published number. And a per-person "over" mark shown
+to whoever scores the work turns an instrument reading into a fact about the
+person. Aggregate it to judge the exercise; show it per person only as elapsed
+time with what it measures written beside it, never into the score, and never for
+a sitting that carried an adjustment
+([the timebox technique](techniques/hard-timebox-cap.md)).
 
 Anyone can propose a longer exercise — a hiring manager, a role brief, an
 automated case generator. Proposals are inputs, not decisions. The cap is
@@ -116,22 +171,47 @@ anyway, so the hours you buy with it purchase almost no signal.
 ## When you should be paying
 
 Payment is not a nice gesture, it is what converts a request into a fair
-exchange, and there is a workable line for when it becomes obligatory:
+exchange. Candidates already think so: 58% of that survey's respondents said they
+deserve payment for a take-home, and 4% had ever received it. There is a workable
+line for when it becomes obligatory, and it is a policy line, not a legal one. No
+statute or agency guidance found in the US, UK or EU fixes an hours threshold.
+Where a law bites it asks what the exercise is: UK government guidance on the
+minimum wage says the question is whether the trial is genuinely for recruitment,
+whether it runs longer than the employer needs to test the person, how closely the
+tasks resemble the real job, and whether the person is observed doing them. It
+adds that "in the government's view an individual conducting work in a trial
+lasting longer than one day is likely to be entitled to the minimum wage in all but
+very exceptional circumstances", and that an unpaid trial "lasting a few hours may
+be reasonable" where the purpose is to test and the output has little other value.
+The US turns on who benefits from the work, not on its length. What applies to a
+given exercise is for the jurisdiction's own counsel; this is the shape of the
+question, not a rule.
 
-- **Pay when the exercise exceeds roughly half a day**, at any level. Beyond that
-  point you are asking for a meaningful slice of someone's labour, and the
-  ability to donate it is a function of wealth.
+- **Pay when the exercise exceeds roughly half a day**, at any level. A cautious
+  policy line inside the grey zone those tests leave, and the seniority of the
+  candidate does not enter either test. Beyond that point you are asking for a
+  meaningful slice of someone's labour, and the ability to donate it is a function
+  of wealth.
 - **Pay when the work has any value to you.** If the output is usable — a real
   bug fixed, a real analysis you will read, a design you might ship — it is work,
   not an assessment, and the boundary was crossed at the moment you chose real
-  material over synthetic. The safe default is the reverse: build exercises on
-  material you will never use, so the question does not arise.
+  material over synthetic. The UK guidance names the same test: tasks that have
+  value beyond testing point towards work. The safe default is the reverse: build
+  exercises on material you will never use, so the question does not arise.
+- **Put the exercise after a screen.** The UK guidance's own worked example of a
+  trial that is likely to be paid is an eight-hour shift of real tasks, left
+  unobserved, asked for before the person is considered for interview. A long
+  exercise placed ahead of any conversation shares two of those features, and a
+  cheaper screen first shrinks how many people you ask at all.
 - **Pay when the exercise happens on site or in a fixed window**, because you are
   consuming a whole block of the candidate's day, travel and all.
 - **State the intellectual-property position in plain words, before they start.**
   The candidate retains their submission; you use it solely to assess them; you
   will not incorporate it into a product; you delete it on the retention schedule
-  you published. Silence here is read — correctly — as a claim.
+  you published. Silence here is read — correctly — as a claim. This is sound
+  practice rather than settled law: no dispute over take-home ownership was found,
+  and that an unpaid applicant's work stays theirs is an inference from
+  employment-ownership defaults not reaching someone who is not an employee.
 - **Where you cannot pay, shorten.** Budget constraints are a real reason to keep
   an exercise to ninety minutes; they are never a reason to ask for four unpaid
   hours instead.
@@ -155,9 +235,23 @@ keep, what events you record, and — stated positively — what you never captu
 paragraphs of process description, because that is the fear people actually have.
 The contract must be true of the implementation, and the burden runs the honest
 direction: if the tooling can capture something, saying it does not is a lie you
-will one day have to defend. Undisclosed observation also poisons the
-measurement — a candidate who suspects a hidden camera performs rather than
-works. The related question of whether you may infer assistance from those
+will one day have to defend. **List every signal you record and what it can set
+in motion, not only what you collect.** A recorded size of a paste is a
+collection; a rule that holds a submission for a conversation when that size
+crosses a line is a use, and a candidate told "you may use any tools, including
+AI" is owed the sentence that says which of those tools' outputs trips it.
+The reason to tell them is that they are entitled to know, not that logging has
+been shown to spoil the sample. The evidence on being watched is narrow: one small
+randomised study (48 students, a live whiteboard problem) found that being watched
+by an interviewer roughly halved scored performance and raised stress, and its own
+authors called the sample too small for firm conclusions. That is a person in the
+room, thinking aloud. A follow-up on recorded, unattended sessions found the
+supervisor's absence helped, and reviews of passive electronic monitoring find a
+small stress effect and no average performance effect, larger on difficult tasks.
+A silent recorder is not the experiment that halved anything, and a
+hidden camera would be a legal problem before it is a measurement one: a
+candidate's recorded data must be disclosed when collected under GDPR Art. 13,
+and several automated-tool rules add notice duties. The related question of whether you may infer assistance from those
 process artifacts, and how fairly, belongs to the assistance-detection
 neighbour; what belongs here is that the candidate was told, in advance, what
 exists.
@@ -174,6 +268,14 @@ invitation and not on request, that adjustments are available and how to ask —
 extra time, an alternative format, a live session instead of a written one, a
 split across two sittings. Extra time is the workhorse adjustment for a timed
 exercise and it should be granted without requiring a diagnosis or a document.
+That is a policy choice above the legal floor, not the floor: US guidance lets an
+employer ask for reasonable documentation when the disability and the need are not
+obvious, and the UK duty arises once the employer knows or reasonably should know,
+so waiving proof is yours to decide and worth deciding, because the request
+costs thirty minutes and proof costs a person. (The one experiment found, on
+educational tests, saw extended time lift everyone's scores and students with
+disabilities somewhat more, so on a speeded instrument a blanket extension is a
+validity question. A cap that is a maximum and not a target is not speeded.)
 Two disciplines make this real rather than performative: the request must go to
 someone who is not scoring the candidate, and the granted adjustment must not be
 visible to the assessor as a mark against the work. An accommodation that

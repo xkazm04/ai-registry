@@ -30,7 +30,11 @@ never costs a candidate their work or their clock.**
 - **Keep the timer state with the draft.** A restored draft with a reset clock,
   or a clock that kept running through a twenty-minute outage the candidate did
   not cause, are both failures. Where you cannot tell an outage from a break,
-  resolve toward the candidate.
+  resolve toward the candidate. A start time held on the server survives the
+  reload, the second device and the restored draft, which cures the first failure
+  and only the first: a clock that is simply now minus that start keeps running
+  through the outage, and anything that later compares it with the cap has to say
+  so.
 - **Retry submission, and report the outcome truthfully.** A submission is the
   one moment where the candidate has no visibility and everything to lose. Retry,
   and if it still fails, say so with a route that works — never a spinner that
@@ -43,6 +47,11 @@ never costs a candidate their work or their clock.**
   training-centre lab — is a normal place to sit an exercise, and an unscoped
   local draft bleeds one candidate's work into the next candidate's session.
   That is simultaneously a confidentiality breach and a corrupted submission.
+  Check what the scope actually is: where the invitation link is shared across a
+  whole posting, "per token" is per role, and everyone who opens it on one browser
+  profile reads the same key. An abandoned draft then restores, with its name,
+  contact and session identity, into the next person's page. Scope to something
+  minted for the sitting, or offer the restore and let a person decline it.
 - **Treat the restored copy as untrusted input.** Local storage is writable by
   whoever holds the device. Parse it defensively against the same bounds the
   server enforces, and discard a malformed blob rather than letting it crash the
@@ -76,7 +85,12 @@ any of the carrier-scale address-translation layers through which whole regions
 of mobile users appear as a handful of addresses. Key a limit to the address and
 the second candidate is throttled out of an exercise because of what the first
 one did, with the damage concentrated on exactly the candidates least likely to
-have a private connection.
+have a private connection. The scale is documented: a large network operator
+reports that one IPv4 address may represent hundreds or even thousands of users
+behind carrier-grade address translation, and that such addresses were rate
+limited about three times as often as others despite traffic that looked human. A
+measurement study of carrier NAT deployment found it common on mobile networks; no
+user-weighted share was found, so cite the mechanism and not a percentage.
 
 Key candidate-facing limits to the **session or invitation token** instead — the
 thing that identifies the person's sitting, and which an abuser cannot rotate —

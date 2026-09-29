@@ -1325,3 +1325,19 @@ Conditions and refutations on the golden path and five techniques:
 Four `applied.md` rows: one simulation (unmeasurable: the shipped metric misses 4 of 4 planted insertion-only cases, catches them once the precision side is added, and no real pair holds one), three unapplied with return conditions. All three applications re-verified to 2026-09-29 with every citation re-pointed at kp `60aab8088`; four written, so the last two techniques with no application before have one. kp is not edited: main is 47 ahead with sibling work.
 
 Impact: kp only, through 20 contexts, 0 stale verdicts on this subject; the map was rebuilt with `--project kp` and committed locally. Yield high, dry_streak 0, depth L3. See [[voice-interview-fidelity]].
+
+## 2026-09-29 - deepen: work-sample-timeboxing-and-cost
+
+Dispatched from the attention scan ("never swept by the librarian"); no prior note, no applied row. The subject's headline number, half the invited senior pool lost to a half-day take-home, is a code comment in kp with no source, and kp had moved under all three applications since 2026-08-20.
+
+No new technique. Conditions on the golden path and five techniques:
+- **the drop-off figure has no source**: no public measurement of take-home non-completion against length was found; a survey of almost 700 engineers found 6% refuse and no senior difference, and no link between how well someone interviews and whether they do one; the argument now stands on time inequality, which needs no figure;
+- **the equity evidence sits at grading, not time**: a vendor analysis of about 384,000 submissions found the pass gaps under non-anonymous grading and largely erased them anonymised; it could not test the time argument;
+- **a payment line is a policy line, not a legal one**: no statute or guidance in the US, UK or EU sets an hours threshold; UK guidance turns on purpose, length against need, resemblance to the job and observation, and calls a trial over a day likely to attract the wage;
+- **no-documentation extra time is a choice above the legal floor**; **disclosure is owed as entitlement and law, not because logging spoils the sample** (the one study is a person watching live);
+- **an unusable proposal resolves to the default, a readable out-of-band one to the nearest bound**, and every reader of the number applies the same fallback;
+- **measured overrun is an instrument reading first**; shown per person it must say it is session age, respect an allowance, stay out of the score and say "not comparable".
+
+Applications re-verified against kp at `60aab8088` (every line re-resolved; a fourth added for the observation technique). kp closed the 80-hour approve bound and the 4.0 default and records the clamp. Executed against the committed modules: one paste of 640 characters after 400 edits takes a 100 "authentic" session to 35 "suspect" and holds it, though the intro names neither paste nor its use and says any tool including AI is fine; the local draft key is per posting, so a second candidate on one browser profile is handed the first's name, contact, session and files; the TypeScript and Python fallbacks disagree on five of fourteen inputs. Nothing landed in kp; five rows in `applied.md`, none better or not-better.
+
+Impact: kp only, no stale verdicts on this subject; the map was dry-run and not written. Yield high, dry_streak 0, depth L2 for the applications and L1 for the golden path. Cross-subject lead for a sweep of `ai-assistance-detection-and-fairness`: kp's fixed 600-character paste rule against that subject's own "unreviewed bulk" and no-threshold guidance. See [[work-sample-timeboxing-and-cost]].

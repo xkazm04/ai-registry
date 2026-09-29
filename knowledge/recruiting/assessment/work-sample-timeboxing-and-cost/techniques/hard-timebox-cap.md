@@ -17,9 +17,12 @@ role, or any team. It is the constraint the exercise is designed inside, not an
 estimate produced after the design is finished.
 
 The distinction is the whole technique. An *estimate* is descriptive: someone
-looks at a finished task list and guesses. It is always low — the author knows
+looks at a finished task list and guesses. It runs low — the author knows
 the material, the intended path and the answer, and pays none of the
-comprehension tax a candidate meeting the brief cold pays. A *cap* is
+comprehension tax a candidate meeting the brief cold pays. How low is not a
+constant: people forecasting their own work overrun by about 1.6 times in the
+classic thesis study, and experts predict a novice's time worse than novices do.
+No study measured an exercise author against a cold candidate, so measure it. A *cap* is
 prescriptive: it exists before the tasks, so tasks that do not fit are cut
 rather than absorbed.
 
@@ -65,7 +68,12 @@ unpaid hours like any other.
    is fiction and you have built a completion test.
 7. **Instrument the cap after shipping.** Track actual elapsed time and
    invitation-to-submission conversion by level. Systematic overrun means the
-   exercise is mis-scoped, not that candidates are slow.
+   exercise is mis-scoped, not that candidates are slow. Measure elapsed time on
+   the server when the submission is sealed, from a start the candidate cannot
+   reset, and keep three states apart: not measured (a submission that arrived
+   with no observed sitting), measured and inside the cap, and measured and over
+   by some minutes. Collapsing the first into the second reports a cap nobody
+   checked as a cap that was kept.
 
 ## Decision rules
 
@@ -89,9 +97,25 @@ unpaid hours like any other.
   Version the exercise and compare within a version.
 - **When the material is real and useful to you, the cap question is moot** —
   you are commissioning work and should be paying regardless of length.
-- **When a candidate reports it took far longer than stated, log it as an
-  instrument observation, not a candidate observation.** Three such reports are
-  a defect. They must never surface in the assessment record for those people.
+- **When a candidate reports it took far longer than stated, or the measured
+  time is over the cap, log it as an instrument observation, not a candidate
+  observation.** Three such reports are a defect. Aggregate the measured overrun
+  per exercise and per level and read it as a verdict on the exercise.
+- **When elapsed time is shown per submission, show it as the comparability fact
+  it is, and nothing more.** There is a real reason to show it: a candidate who
+  stopped at the cap and one who kept going did not sit the same exercise, and the
+  second may simply have had the free time, which is the stamina test this whole
+  subject exists to avoid. Four conditions keep it from becoming a mark against
+  the person. It says what it measures — time since the session opened, which
+  includes breaks, nights and any outage the candidate did not cause, so it is an
+  upper bound on effort and not a measure of it. A sitting carrying an adjustment
+  is judged against its own allowance, or left out, so an extension never reads
+  as lateness (see the accommodation technique). It never enters a score, a rank
+  or a hold. And its wording is "not comparable", not "late". A badge that
+  reads "N minutes over" beside the candidate's name, computed from session age
+  with no field for an allowance, fails the first two and leans on the reader to
+  supply the other two. (One deployment's evidence, read from its code: it shows
+  the mark to the recruiter, keeps it out of scoring, and has no allowance.)
 
 ## When not to use it
 

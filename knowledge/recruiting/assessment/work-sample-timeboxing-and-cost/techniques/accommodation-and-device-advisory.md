@@ -43,7 +43,16 @@ harder; let them decide. They know their circumstances and you do not.
 - **Extra time is the default adjustment for a timed exercise**, and it is
   granted without a diagnosis, a letter, or an explanation of the underlying
   condition. Requiring medical evidence to add thirty minutes to an unpaid
-  exercise is a barrier far more expensive than the thirty minutes.
+  exercise is a barrier far more expensive than the thirty minutes. This is a
+  policy choice above the legal floor, and say so when you write it down: US
+  guidance lets an employer ask for reasonable documentation when the disability
+  and the need are not obvious, the UK duty arises once the employer knows or
+  reasonably should know, and the EU directive requires appropriate measures
+  without addressing proof. On the psychometric side the one review found, on
+  educational tests, saw extended time lift the scores of all students and
+  students with disabilities somewhat more, so on a speeded instrument the same
+  extension for everyone is the honest alternative. A cap that is a maximum and
+  not a target is not speeded, which is why the default is cheap here.
 - **Format alternatives count.** A live session instead of a written one, a
   split across two sittings, a written brief instead of a video one, a task
   delivered in a screen-reader-friendly form. Some candidates need a different
@@ -55,7 +64,10 @@ harder; let them decide. They know their circumstances and you do not.
   accommodation that surfaces to an assessor as "took ninety minutes longer" has
   been converted into a penalty. Store the effective allowance separately from
   any comparative timing statistic, and exclude adjusted sittings from timing
-  comparisons rather than letting them drag a distribution.
+  comparisons rather than letting them drag a distribution. This is checkable
+  from the schema: if the elapsed-time measure compares against one published
+  number and there is no field for an allowance, the first adjusted sitting will
+  read as late to whoever sees the measure.
 
 ## Procedure
 
@@ -72,7 +84,9 @@ harder; let them decide. They know their circumstances and you do not.
 5. **Make the deadline flexible before you make the timebox flexible.** Most
    caring, shift-work and health constraints are about *when* the contiguous
    block exists, not how long it needs to be. Widening the window from three days
-   to ten costs you nothing and recovers a large share of the pool.
+   to ten costs almost nothing, and the reasoning is sound, but no study found
+   measures how much of the pool it recovers: treat the gain as a hypothesis and
+   read it off your own conversion by window length.
 6. **Record adjustments as process facts** — what was granted, when, by whom —
    separately from anything an assessor reads.
 
