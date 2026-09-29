@@ -1,0 +1,42 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pbk-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T13:00:00Z",
+  "ended_at": "2026-09-29T13:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/peer-benchmarking-under-k-anonymity",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "peer-benchmarking-under-k-anonymity",
+      "technique": "withhold-the-rate-report-the-contributor-count",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Never-swept subject; kp tree lane found the window-bias anchor misnamed in the golden path and technique, a withheld pool size leaking a lone peer (fixed in kp), and a row cap acting as a window. No new technique. Maps committed locally."
+}
