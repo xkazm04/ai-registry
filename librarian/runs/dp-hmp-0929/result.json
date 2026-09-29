@@ -1,0 +1,90 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-hmp-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T09:50:00Z",
+  "ended_at": "2026-09-29T10:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/honest-measurement-presentation",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/honest-measurement-presentation",
+      "technique": "a-dash-means-not-measured-never-zero",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/honest-measurement-presentation",
+      "technique": "a-dash-means-not-measured-never-zero",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/honest-measurement-presentation",
+      "technique": "every-band-declares-its-no-data-answer",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/measurement/honest-measurement-presentation/honest-measurement-presentation.md",
+    "knowledge/recruiting/measurement/honest-measurement-presentation/techniques/a-capped-table-says-what-it-dropped.md",
+    "knowledge/recruiting/measurement/honest-measurement-presentation/techniques/a-dash-means-not-measured-never-zero.md",
+    "knowledge/recruiting/measurement/honest-measurement-presentation/techniques/every-band-declares-its-no-data-answer.md",
+    "knowledge/recruiting/measurement/honest-measurement-presentation/techniques/headline-may-not-outrun-its-qualifier.md",
+    "knowledge/recruiting/measurement/honest-measurement-presentation/applications/node--absent-delta-when-there-is-no-comparison.md",
+    "knowledge/recruiting/measurement/honest-measurement-presentation/applications/node--every-band-declares-its-no-data-answer.md",
+    "knowledge/recruiting/measurement/honest-measurement-presentation/applications/react--a-dash-means-not-measured-never-zero.md",
+    "knowledge/recruiting/measurement/honest-measurement-presentation/applications/react--no-verdict-colour-without-a-goal-someone-set.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/honest-measurement-presentation.md"
+  ],
+  "commits": [
+    {
+      "sha": "732ee20d",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/measurement/honest-measurement-presentation",
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    },
+    {
+      "sha": "af4f98f9",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/honest-measurement-presentation.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No technique; 1 refuted (a dash reads as zero in cs/de official tables), 3 conditioned, 4 confirmed. kp 609876d1a (missing median painted mid-scale) and 24006b85e (stated NULLS LAST), both local. 2 unapplied. Maps committed locally in 12 projects, none pushed."
+}
