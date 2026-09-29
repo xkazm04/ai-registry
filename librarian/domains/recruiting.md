@@ -1257,3 +1257,24 @@ The tree found one live defect no lane asked about: kp's keyless design_role fal
 Four `applied.md` rows: one code (better), three unapplied with return conditions. All three applications re-verified at kp 4dd303bdd and every line citation moved; a fourth application holds the cap A/B.
 
 Impact: the subject joins no kp context (0 occurrences in the committed map, positive control 8 for a sibling subject), so 0 stale verdicts. No map was rebuilt: a clean-worktree build dropped 151 pairs and two carried verdicts against the sibling's 17:10Z map, so it was discarded and kp's file restored. Yield medium, dry_streak 0, depth L3. See [[requirement-inflation-control]].
+
+## 2026-09-29 - deepen: requisition-lifecycle-governance
+
+The Curator lane dispatched this on "never swept by the librarian". The subject was at revision 1 from the bundle's founding (2026-08-21) with no note and no applied row; its applications were last verified 2026-08-20, and the fleet and the law had both moved under it. A blind training-data lane ran first, then three counter lanes (vendor documentation, law, ghost-posting data), primary reads of 29 CFR 1602.14, 41 CFR 60-1.12 and the Ontario Employment Standards Act text, and a kp re-read.
+
+One technique earned, `fill-is-a-count-and-close-is-the-act-it-triggers`: a requisition is N seats, filled is a count derived from hires against a stated target, closed is an act, and the close is a compare-and-swap so two simultaneous hires retire the role once. Convergence: kp's fill hook, three products' own pages, the blind lane on one of them.
+
+Ten corrections or conditions, none refuting a technique:
+- **"never delete a requisition" becomes a retention clock**: the role's row is non-personal and stays, the candidates go on their own clock; no law read requires permanence or names a requisition as a record;
+- **hold can be a state**, by the same permission test, on two conditions (the posting comes down; an owner and a review date);
+- **disclosure duties attach to the step the law names**, which is sometimes the internal notice (Colorado) or the interview (EU) and sometimes not internal at all (Ontario);
+- **reopen was two acts and the subject contradicted itself**; split on whether anyone was shown the ending;
+- **the immortal requisition is the accidental slice** of ghost-posting figures that cannot separate accidental, deliberate and standing;
+- **approval expiry is a design position**; no documentation or measurement behind it;
+- **closed on the last seat, not the first**; resuming a hold needs no new approval and reopening a close does; a queued close message is a legal duty in one place only (Ontario s. 8.6); a hold has a return date or it is a close.
+
+The tree found what no lane asked: the fill hook had no behavioural test. Four added (kp `bddc2020`, local, not pushed); deleting the target check made a three-seat role close on its first hire and withdraw two people for open seats, deleting the swap made two concurrent hires both report filled.
+
+Six `applied.md` rows: one code (better), five unapplied with return conditions. All three applications re-verified at kp `006bf7a0a` and every line citation moved; two of their three recorded shortfalls were closed (one by a mechanism the standard does not describe), and one surface (the honest-null sort) left the tree. Two new kp applications (fill, publish) and four `process` applications.
+
+Impact: three kp contexts join the subject (`jd-management-api`, `jobs-api`, `jobs-posting-campaign`), all state unknown, so 0 stale verdicts. No map was rebuilt. Yield high, dry_streak 0, depth L3. See [[requisition-lifecycle-governance]].
