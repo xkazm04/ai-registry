@@ -6,7 +6,6 @@ technique: phase-to-competency-mapping
 stack: process
 status: forged
 verified_on: 2026-09-29
-verified_against: node@24
 ---
 
 # Phase-to-competency mapping as a checked-in interview script

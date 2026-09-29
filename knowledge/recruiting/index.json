@@ -4618,8 +4618,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-round-design/interview-round-design.md",
-   "digest": "sha256-b2:f98bfd4d1a10a7a1",
-   "revision": 3,
+   "digest": "sha256-b2:6c115a739c45b00b",
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -4732,8 +4732,7 @@
      "stack": "process",
      "technique": "phase-to-competency-mapping",
      "file": "knowledge/recruiting/assessment/interview-round-design/applications/process--phase-to-competency-mapping.md",
-     "verified_on": "2026-09-29",
-     "verified_against": "node@24"
+     "verified_on": "2026-09-29"
     }
    ]
   },
