@@ -191,10 +191,22 @@ them against an unpublished requisition is processing for a purpose they were
 never shown, so the forecast inherits the pool's own limits: a person whose
 retention window has lapsed, who withdrew, or who asked for erasure is not in the
 pool, and a forecast that quietly counts them is measuring records it had no
-business holding. Where the applicable regime binds purpose and storage
-(the EU's does, in Article 5(1)(b) and (e) of the GDPR), an operator has to
-decide whether "how fillable is this role" sits inside the purpose the applicants
-were told, and the decision belongs in the record, not in a default.
+business holding. Where the applicable regime is the GDPR, Article 5(1)(b) does
+not forbid a new purpose, it forbids processing *incompatible* with the original
+one, and the gate is the Article 6(4) test (the link between the purposes, the
+context of collection, the nature of the data, the consequences for the person,
+the safeguards) together with notice of the new purpose before it starts
+(Article 13(3)); Article 5(1)(e) limits how long the profiles may be kept at all.
+Supervisory-authority practice on candidate pools leans on a stated purpose and
+duration: a German authority's 2024 recruiting guidance treats a talent pool as
+consent-based with the purpose and the storage period named, and the UK
+regulator's guidance lists what candidates must have been told before their
+records are kept for a new use. An operator has to decide whether "how fillable
+is this role" sits inside the purpose the applicants were told, and the decision
+belongs in the record, not in a default. Recital 162 (the result of statistical
+processing is aggregate data, not used for decisions about a person) is an
+argument for the forecast's aggregate output; it is not settled, because the
+scoring step still processes individual profiles.
 
 The output carries counts and lever attributions, never a named list of who
 would appear. The forecast answers a question about the requisition; the moment
