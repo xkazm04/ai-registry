@@ -3739,9 +3739,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/hiring-need-as-structured-brief.md",
-   "digest": "sha256-b2:64e421ebb1b27c71",
-   "revision": 2,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:97f14df41d8eb363",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "graded-requirements-two-axes",
@@ -3836,19 +3836,20 @@
      "stack": "node",
      "technique": "promote-readiness-gate",
      "file": "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/applications/node--promote-readiness-gate.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "merge-that-never-regresses-a-stated-value",
      "file": "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/applications/process--merge-that-never-regresses-a-stated-value.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "per-field-provenance-stated-inferred-default",
      "file": "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/applications/process--per-field-provenance-stated-inferred-default.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
