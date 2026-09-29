@@ -118,6 +118,16 @@ criteria edit and looks correct in isolation. Make the omission fail loudly:
   instruction — "these also require a bump, and this test cannot see them" —
   because the alternative is a team that trusts a green pin as proof no bump was
   needed, which is strictly worse than having no pin at all.
+- **Close the blind spot with a golden corpus, where it is large.** When the
+  excluded surface is most of what moves rungs, a declaration hash lists the
+  hole rather than fixing it. Drive a fixed corpus of fixtures through the real
+  assessment path, hash the full explanation object, and pin that hash to the
+  version. Keep the version in the pin as a literal so the pin and the declaration
+  can disagree and the failure names which one moved; re-pin the hash alone only
+  when the corpus changed, never when the pipeline did. The corpus needs a
+  fixture per rule class, or a new rule the fixtures do not exercise is still
+  invisible; and it still cannot reach a live model or a network fetch, so the
+  remaining exclusions stay written down at the pin.
 - **Diff the cohort.** A ladder change's review evidence is the label diff over
   the current population: who moves up, who moves down, how many. Attach it to
   the change. If the author cannot produce it, the change has not been

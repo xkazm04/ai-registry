@@ -5,24 +5,28 @@ subject: maturity-ladders
 technique: ladder-versioning
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-30
+verified_against: node@24
 ---
 
 # A version constant that carries its own doctrine, changelog, and backstop
 
-`src/lib/maturity/model.ts:16-74` is the most complete implementation of this
+`src/lib/maturity/model.ts` (the doc comment at `:14-35`, the changelog above
+`SCORING_RUBRIC_VERSION` at `:291`) is the most complete implementation of this
 technique in the repo: one exported token, a written definition of what obliges a
-bump, a mechanical test that forces the decision into the diff, and an append-only
-changelog of every bump with its reasoning — including one entry that argues with
-its own author.
+bump, two mechanical tests that force the decision into the diff, and an
+append-only changelog of every bump with its reasoning — including one entry that
+argues with its own author. Re-read 2026-09-30, when the token had moved from `r7`
+to `r22`; the excerpts below are the `r7`-era text that survives unchanged unless
+said otherwise.
 
 ## The declaration and the bump list
 
 ```ts
-export const SCORING_RUBRIC_VERSION = "r7";
+export const SCORING_RUBRIC_VERSION = "r22";
 ```
 
-The doc comment above it (`:16-33`) enumerates the rung-moving surface:
+The doc comment above it (`:14-35`) enumerates the rung-moving surface:
 dimension weights (base or any per-archetype lens), the dimension set, the
 **level bands**, the blend factor, the guardband, the posture threshold, and the
 assessment prompt/criteria. It states the consequence of getting it wrong in one
@@ -45,7 +49,7 @@ key rather than invalidation of entries, with the properties the technique
 predicts: no sweep to forget, no cache added later that the sweep misses, and
 old entries remaining addressable under their old key so a rollback is free.
 
-## The pin, and the blind spot it declares
+## The pin, the blind spot it declared, and the second pin that closed it
 
 ```
 // MECHANICAL BACKSTOP: model.test.ts pins a sha256 of the rubric surface (weights+criteria, bands,
@@ -53,7 +57,7 @@ old entries remaining addressable under their old key so a rollback is free.
 // fails the suite until the hash is re-pinned, putting the bump decision in the same diff.
 ```
 
-(`:26-28`.) The hash covers the criteria the engine actually executes, and the
+(Originally `:26-28`.) The hash covers the criteria the engine actually executes, and the
 re-pin is the moment the author must decide. The next three lines are the part
 most teams omit:
 
@@ -63,12 +67,30 @@ most teams omit:
 
 The pin's reach is stated at the pin, so a green suite is never read as proof
 that no bump was needed. That is the technique's "enumerate the blind spot"
-rule, and `r4` (`:39-45`, two detector corrections in the security check battery)
-is a bump that only this written exclusion would have produced.
+rule, and `r4` (two detector corrections in the security check battery) is a bump
+that only this written exclusion would have produced.
+
+By `r22` the tree stopped merely listing that exclusion and closed most of it. The
+comment now says "MECHANICAL BACKSTOPS, two of them": `model.test.ts` still pins the
+declaration hash, and `rubric-fingerprint.test.ts` pins a **golden-fixture corpus
+(`rubric-corpus.ts`, ten fixtures) driven through the real scoring pipeline** — the
+detector point tables, the PR / governance / platform folds, the check battery, the
+user prompt, the claim verifier and the engine — hashed on its full explanation
+object. The pin is `{ version: "r22", sha256 }` with `version` a *literal*, not a
+reference to the constant, so the two can disagree and the test can say which one
+moved. Its header repeats the discipline at the new, smaller blind spot (a live
+model's answer and the network half of ingestion still need the bump judged by
+hand) and states the re-pin rule: re-pin `sha256` alone only when the *corpus*
+changed, never when the pipeline did. The changelog uses it as evidence: `r22`
+records the corpus hashing to one value under `r21`'s rule and another under
+`r22`'s while "`EXPECTED_RUBRIC_HASH` in `model.test.ts` is unchanged" — the case
+the declaration hash alone could not have caught. A rule change no fixture
+exercises is still invisible, so `r22` also added the fixture that exercises it
+(`pr-only-apps`).
 
 ## The changelog is what makes an old stored rung interpretable
 
-Entries `r2` through `r7` (`:34-74`) each name what moved and why: an archetype
+Entries `r2` onward (from `:37`) each name what moved and why: an archetype
 classification change that shifted the weight lens for small repos with high star
 counts (`r2`); a prompt gaining a discrepancy budget the engine now enforces
 (`r3`); detector corrections (`r4`); a prompt style rule (`r5`); a task-block
@@ -96,7 +118,7 @@ diff and "did the answer change?" is not.
 
 ## Where the ladder's rungs themselves live
 
-The five rungs the version protects are `LEVELS` (`:86-131`) — `L1 Manual`
+The five rungs the version protects are `LEVELS` (from `:329`) — `L1 Manual`
 through `L5 Autonomous`, each with an explicit `band` (`[0,24] … [85,100]`), a
 tagline and a description written in terms of what the rung means for autonomy
 ("Agents in the loop, not just at the keyboard"). The bands are listed in the
@@ -105,11 +127,18 @@ by argument.
 
 ## The gap against the standard
 
-Two obligations of a bump are unmet. There is no mapping table from `r6` rungs to
-`r7` rungs — the design assumes the cache-key bust plus a re-scan covers it,
-which holds for cached scores but not for scores persisted in scan history, where
-a version boundary is crossed with no declared translation. And the ladder-side
-sibling ladders (`src/lib/analyze/passport-grades.ts`) sit outside this
-constant's protection entirely, versioned only by the separate
-`PASSPORT_VERSION` in `src/lib/analyze/passport-migrate.ts:26`, which no pin test
-guards.
+One obligation moved and one is unchanged. **Moved:** scan history no longer crosses
+a version boundary silently. Persisted scans carry `rubricVersion`, the pair reader
+selects it as "the RULER" (`src/lib/db/scans-read.ts:590`), and the attribution rule
+refuses a pair scored under two rubrics as `reason: "rubric"`, printing "not
+comparable: the two scans were scored under different rubrics"
+(`src/lib/maturity/attribution.ts:321`); the follow-up ledger marks it
+`rubric-changed`. That is the technique's *marked break* rather than a
+`migrate-on-read` mapping table — there is still no `r6` → `r7` rung mapping, but the
+refusal is declared, not a splice. **Unchanged:** the sibling passport ladders
+(`src/lib/analyze/passport-grades.ts`) sit outside this constant's protection,
+versioned by the separate `PASSPORT_VERSION` (now `0.4.0`,
+`src/lib/analyze/passport-migrate.ts:41`); no test pins their criteria, though the
+migrate module does implement read-time lifts whose notes say "unknown, never
+fabricated" (`MIGRATION_NOTE_020` through `_040`) — the honest-unmappable half of the
+technique.

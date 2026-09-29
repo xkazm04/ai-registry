@@ -3015,7 +3015,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
    "digest": "sha256-b2:90e16e9a2b80434b",
-   "revision": 3,
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -3165,8 +3165,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/analytics-time-windows.md",
    "digest": "sha256-b2:9b81f64365c4edae",
-   "revision": 5,
-   "changedAt": "2026-09-29",
+   "revision": 6,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "baseline-as-window-start",
@@ -19202,9 +19202,9 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/maturity-ladders.md",
-   "digest": "sha256-b2:7bf11d22a28619eb",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:d0a5005593862139",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "band-design",
@@ -19300,7 +19300,8 @@
      "stack": "node",
      "technique": "ladder-versioning",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/applications/node--ladder-versioning.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
