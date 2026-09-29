@@ -120,6 +120,12 @@ Whatever the art does, these hold:
   informing — and the fallback is a real fallback: mount no moving media at all
   rather than mounting it and hiding it, so the preference also buys back the
   decode.
+- **Reduced motion is not the whole motion requirement.** An ambient loop that
+  starts on its own, runs longer than five seconds and sits beside other content
+  needs a way to pause, stop or hide it that does not depend on an operating-system
+  preference the user may never have set (WCAG 2.2.2, Pause, Stop, Hide), and the
+  same criterion reaches an auto-updating status line. One small control on the
+  presence, remembered, meets it; honouring the media query alone does not.
 - **A named state with no art is a bug, not a feature.** Where the state set
   outgrows the loops, the honest choices are to render the nearest loop *and
   keep the state's own text label accurate*, or to drop the state. What must

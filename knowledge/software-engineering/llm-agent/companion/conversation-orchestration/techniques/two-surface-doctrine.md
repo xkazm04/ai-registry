@@ -101,6 +101,15 @@ whose hands are on the keyboard and whose attention is on other work:
   and register it with the application's keyboard authority rather than on the
   global event target: the digits are almost certainly claimed by some other
   surface too, and with both listening directly one press fires both.
+  Two accessibility conditions attach to the leader, and neither is met by
+  arming being visible. A shortcut made of a single printable character is a
+  hazard for speech-input and switch users unless it can be turned off, remapped,
+  or is active only while the surface has focus (WCAG 2.1.4, Character Key
+  Shortcuts) — a modifier chord for the leader satisfies it without a setting.
+  And the timeout that disarms the leader, like the expiry of a pending decision,
+  is a time limit the user did not choose (WCAG 2.2.1, Timing Adjustable): it needs
+  to be adjustable or extendable, or long enough that the question does not
+  become "did I answer in time".
 
   Registering is not sufficient on its own: the claim must be **exclusive for as
   long as the surface is armed**, not merely higher-priority. A priority order

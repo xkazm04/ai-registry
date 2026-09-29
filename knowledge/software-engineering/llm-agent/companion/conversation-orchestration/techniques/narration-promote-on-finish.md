@@ -57,6 +57,16 @@ same turn's beats twice yields the same record. Do not reach for a "already
 promoted" flag held beside the record — that is a second authority for the same
 fact, and it is the copy that will be lost on reload.
 
+A third shape is common and weaker: **consume the source on write** — the attach
+reads the live channel and clears it in the same step, so a second observation
+finds nothing to write. It is idempotent only while nothing refills the channel
+between the two observations. A late duplicate settlement that lands after the
+next turn has begun finds a live channel again and writes the new turn's beats
+under the old turn's identity, which is the "trail attached to the wrong exchange"
+failure above reached by a different road. If the store consumes on write, key the
+channel by the turn's identity too, and make the attach refuse a turn id the live
+channel does not belong to.
+
 ## Every terminal path promotes, and they promote differently
 
 - **Success.** The trail is written and presented collapsed. The answer is what
@@ -107,6 +117,34 @@ old trail as though its beats were arriving now re-runs theater over history,
 and it destroys the one signal the live channel exists to give: motion means
 *now*. The same rule covers the presence and the ambient surface — nothing about
 loading old history may make the companion look busy.
+
+## The terminal path with no reply is the one that loses the trail
+
+"Every terminal path promotes" is easy to satisfy on the paths that already
+produce a durable turn: a settled answer, and an interrupted turn whose partial
+text was saved as one. Promotion is then attached to *the durable turn's arrival*.
+The path that gets missed is the failure that produces **no turn at all** — the
+dispatch that errored, the timeout, the empty reply — because there is no turn
+identity to key the write to, and the error branch releases the live channel as
+its only narration action. That is where the account of what the turn got through
+is most wanted. So the failure path needs a durable record to attach to (an
+explicit failed-turn record carrying the trail, expanded), not merely a call to
+the same attach that the success path makes; check the error branch by reading it,
+not by trusting that "settlement" is one function.
+
+Likewise the interrupted state is a field, not a mood: if the stored form has no
+outcome, an interrupted trail and a successful one are the same artifact and the
+third state exists only in the prose of the design.
+
+## A promotion is finished when a reader exists
+
+Everything above governs a write. Whether the write is worth its obligations
+depends on there being a surface that renders the settled form. A trail that is
+promoted, capped, persisted and read back on every turn, into a view that was
+removed in a refactor, is a correct implementation of a feature the product no
+longer has; nothing fails, and the cost is paid on every tool-using turn. When the
+rendering surface is removed, remove the write, or record the named consumer that
+justifies keeping it (a developer log is a consumer; "we might want it" is not).
 
 ## When not to use this
 

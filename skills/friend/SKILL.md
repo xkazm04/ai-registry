@@ -6,7 +6,7 @@ category: workflow
 memory: vault
 contexts: tracked
 version: 1.5.0
-model: fable
+model: sonnet
 ---
 # Friend
 
@@ -417,7 +417,7 @@ If a check fails: fix inline in the worktree, re-validate, then commit. Do **not
 
 <2-4 sentences: what changed, why user-visible. No bullet lists.>
 
-Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
 ```
 
 `<type>` from the overlay's `commit_types` (default `feat`, `polish`); a repo whose commit-message hook enforces a closed set declares it there. `/friend` rarely produces `fix` / `refactor` / `chore` — if you find yourself reaching for those types, the direction was probably stabilization and should have been rejected at Phase 2.

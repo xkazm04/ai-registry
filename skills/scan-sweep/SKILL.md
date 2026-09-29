@@ -582,7 +582,7 @@ An item is Lane B when it is neither C nor A and its Result is `better` or
 | in-tree `contract` without a verifier | letters (a)–(d) are the worker's checklist |
 | `carry` lacking its instrument for the second time | approved twice and unbuilt twice is a wave item, not a third carry |
 
-Lane B is dispatched after the round's Lane A commits have landed, one Opus worker
+Lane B is dispatched after the round's Lane A commits have landed, one Sonnet worker
 per write-set group, in isolated worktrees, in parallel, capped by `--workers`. The
 worker re-measures A, builds the instrument if the card names one, builds B within
 the stated size, takes the same figure on B, runs every gate with its status
@@ -862,7 +862,7 @@ backlog as open work:
 A Lane B item that MERGED is the same progress node with the wave's figures:
 
 ```json
-{"type":"node","kind":"progress","skill":"scan-<lens-key>","context":"<context>","title":"Fixed (A/B): <title>","body":"<merge sha>; before <..> -> after <..>; seeded red; worker opus"}
+{"type":"node","kind":"progress","skill":"scan-<lens-key>","context":"<context>","title":"Fixed (A/B): <title>","body":"<merge sha>; before <..> -> after <..>; seeded red; worker sonnet"}
 ```
 
 A Lane B `not-better` is never emitted - it was rejected with figures in the report

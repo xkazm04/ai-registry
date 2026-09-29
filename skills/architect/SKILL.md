@@ -6,7 +6,7 @@ category: workflow
 memory: vault
 contexts: tracked
 version: 1.9.0
-model: opus
+model: sonnet
 ---
 # Architect
 

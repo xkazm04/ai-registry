@@ -41,7 +41,7 @@ conflict to the director). The director groups by the seam lines in each card's
 Evidence before dispatching, and a group is executed in order on one branch with one
 commit per item.
 
-The worker is an **Opus-class subagent** (operator rule, 2026-09-06) with the full
+The worker is an **Sonnet-class subagent** (operator rule, 2026-09-06) with the full
 finding card as its spec, in an isolated worktree:
 
 ```
@@ -137,7 +137,7 @@ One line per B item, appended by the director to `.claude/scan-history/ab.jsonl`
 ```json
 {"at":"<ISO>","scope":"<context>","slug":"<slug>","title":"...","lane":"B","mode":"code|experiment",
  "verdict":"better|not-better|unmeasurable|fp|demoted","before":"...","after":"...","seeded_red":true,
- "sha":"<merge sha or null>","branch_kept":false,"worker":"opus","note":"<=80 chars"}
+ "sha":"<merge sha or null>","branch_kept":false,"worker":"sonnet","note":"<=80 chars"}
 ```
 
 This is what the next round's picker reads to avoid re-dispatching a `not-better`, and

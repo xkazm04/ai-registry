@@ -73,6 +73,19 @@ with a rule for picking between them:
 and an exception there costs the entire reply — including the prose, which was
 probably fine. A reply that reaches the user beats a reply that was right.
 
+Two scoping notes on that rule, both from checking it against current practice.
+"Half-drawn is a lie" is a claim about the **committed** block — the one that is
+stored, replayed and read as the answer. It does not forbid drawing progressively
+while the completion streams; a skeleton or partial rows that are replaced by the
+validated block at close is compatible with it, provided nothing partial is
+persisted. And the cap has to be enforced by the code that draws or stores, not
+delegated to a schema the model is constrained by: constrained decoding gives
+well-typed values but generally not an upper bound on array length, and a
+completion cut at its token ceiling can still stop inside a block, which is the
+drop-whole case. Where a truncated block will be read as the complete answer, say
+how many were cut ("first 8 of 10"); the cap kept the answer useful, and the
+label keeps it from being mistaken for the whole.
+
 ## Every discard is counted, because zero blocks has two causes
 
 A turn that emitted no blocks and a turn whose blocks were all thrown away look
@@ -86,6 +99,18 @@ only symptom is that the companion stopped drawing things.
 Count each fence family separately. If the same completion can also carry
 proposals or actions, one merged count answers neither "how many drawings were
 lost" nor "how many proposals were lost".
+
+Count on **every side of a boundary that validates**. When the block is checked
+once where the completion is parsed and again where it is drawn — because the
+record is stored and redrawn later, by code that may be newer than the code that
+parsed it — a block valid to the first and invalid to the second is a third kind
+of loss, and uncounted it is the silent one: the parse reports zero drops and the
+drawing is missing anyway. The drawing side adds its own discards to the reported
+number rather than replacing it, and the two validators are then tested against
+the *same* fixtures, since two implementations of "is this block well-formed"
+disagree first on the cases nobody wrote down (a hole in a series is the usual
+one: one side drops the series, the other filters the hole and shifts the rest
+against the wrong labels).
 
 ## Internal consistency is the validator's job, not the renderer's
 
@@ -122,6 +147,16 @@ companion applies to the catalog of actions it may propose, at a smaller scale
 and with a quieter failure: a drifted action id is a capability that silently
 does nothing, while a drifted cap is a drawing that intermittently fails to
 appear.
+
+Where the renderer sits across a language or process boundary it cannot import
+the constants, and the honest floor is two mirrored definitions with the
+obligation written beside both — and one test that spans them, because two suites
+that each derive from their own copy pass together while the copies drift. Also
+keep the *prompt's* stated consequence and the *boundary's* actual one apart in
+your head: telling the model that an over-cap block "is dropped" is a reasonable
+way to keep it inside the cap even where the boundary only truncates, but it
+makes the prompt useless as documentation of the boundary, and the test that pins
+the behaviour has to pin the code.
 
 ## Two ordering rules that look like details and are not
 
@@ -176,6 +211,19 @@ a paragraph was the wrong shape for three comparable things — the moment it ga
 interaction it has become an application surface embedded in a transcript, and it
 belongs to the feature it is a view of, reached from the conversation by a link.
 The bound is what keeps the block cheap enough to draw on any turn.
+
+## A drawing needs a text alternative
+
+A chart is the answer in a better shape for a reader who can see it, and no
+answer at all for one who cannot. The block therefore ships its own text
+alternative: the same series as a real data table that is exposed to assistive
+technology and hidden from sight, referenced from the drawing, built from the
+block's own values rather than from a second model call. It is the same
+`unknown-is-not-a-value` rule as everywhere else in the block — a missing value
+reads as the placeholder, never as zero — and it doubles as the fallback when the
+drawing fails to render at all. A table block already has it by construction,
+which is one more reason to prefer a table when the comparison does not need a
+shape.
 
 ## What the record keeps
 

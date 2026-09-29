@@ -1063,7 +1063,7 @@ Catalog: {command} {names}
 {if Phase 12 ran:}
 Release log: {N} item(s) added to {version}
 
-Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
 EOF
 )"
 ```

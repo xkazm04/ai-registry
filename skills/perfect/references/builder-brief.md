@@ -6,7 +6,7 @@ is reproduced here for completeness — keep it byte-identical to
 `${CLAUDE_SKILL_DIR}/references/shared-resource-protocol.md` when you update either.
 
 ```
-You are an Opus-class builder for the `<context>` context of <overlay: product name> -
+You are an Sonnet-class builder for the `<context>` context of <overlay: product name> -
 <overlay: one-line stack description, e.g. "a Next.js + React + TypeScript app with SQLite">.
 
 YOU ARE NOT ALONE IN THIS TREE. <n> builders are working in this same checkout

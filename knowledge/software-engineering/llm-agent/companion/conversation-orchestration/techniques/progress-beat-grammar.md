@@ -18,6 +18,21 @@ no calls, several minutes, and a runtime with nothing whatsoever to say. This
 technique is for the second kind, and its premise is that **the only participant
 who knows what is happening is the model, so the model is asked**.
 
+That premise is narrower than it was. Some providers now ship a native
+channel for it: a short note the model writes for the person watching, between
+one tool call and the next, delivered as its own typed block rather than as a
+line in the prose. It is still model-authored, so "the model is asked" still
+holds; but it is bounded to the gaps between tool calls, the model may skip any
+of them, it appears less often at higher effort and in long tool chains, and the
+text that reaches the client is a summary written by a different model. It does
+not cover the case this technique starts from — one long composition with no
+tool call in it — and it is not on by default everywhere: a runtime that redacts
+reasoning text unless asked delivers nothing to a client that did not ask. So the
+choice is by turn shape and by what the runtime actually delivers, and the
+in-band grammar remains the answer for the tool-less stretch and for any
+runtime where the native channel is off or absent. The dated provider facts, and
+how one project's runtime came out, are in the application.
+
 The mechanism is an in-band line convention: a standing instruction teaches the
 model to emit a short, distinctly-marked line whenever it moves from one part of
 the work to the next; the runtime lifts those lines out of the stream before
@@ -147,9 +162,21 @@ nothing more.
 Some models, prompts and turns produce no beats at all. That is not an error
 condition and must not be rendered as one: the surface falls back to what it does
 know — elapsed time, a phase derived from whatever the transport reports, an
-honest "working". The absence is still worth counting, because a compliance rate
+honest "working". What a transport reports is more than it used to be: a running
+estimate of reasoning volume while a thinking block is produced, and a periodic
+heartbeat during a long tool call, each of which distinguishes a slow turn from a
+stalled one without asserting anything about what the work is. Use them as
+liveness, never as narration; a token estimate is not a step. The absence is still worth counting, because a compliance rate
 that falls after a model or prompt change is the earliest signal the addendum
 stopped working, and nothing else in the product will notice.
+
+The compliance rate counts **presence, not truth**. A beat that says the model is
+comparing two files while it is drafting the answer scores the same as a faithful
+one, and self-reports of progress are exactly the kind of statement that current
+agent-evaluation work finds a model makes confidently and wrongly. Bound the harm
+by construction (a beat is one sentence about the present transition and asserts
+no finding) and check the residue by sampling: read a handful of beats per
+release against what the next captured event actually was.
 
 ## When not to use this
 
@@ -158,7 +185,12 @@ stopped working, and nothing else in the product will notice.
   machinery is overhead on every token.
 - **When the work is genuinely observable.** If the runtime sees capability
   invocations, narrate those — they are ground truth, and asking the model to
-  restate them adds a second, less reliable account of the same events.
+  restate them adds a second, less reliable account of the same events. A
+  provider-native between-tool-call note is the middle case: model-authored, so
+  not ground truth, but typed and separate from the answer, so it needs no sieve
+  and cannot leak into the prose. Prefer it for a tool-heavy turn where the
+  runtime delivers it, and keep the in-band grammar for the stretch it cannot
+  reach.
 - **When the output is consumed by a machine.** A pipeline turn whose product is
   a structured artifact has no audience for narration, and the addendum is pure
   cost plus one more thing that can end up in the payload.

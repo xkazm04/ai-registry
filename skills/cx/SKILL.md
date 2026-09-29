@@ -33,7 +33,7 @@ vault: ["<abs obsidian root>", ...]    # first existing wins  [<repo>/.cx]
 vault_subdir: Cx                       # namespace inside the vault  [Cx]
 design_doc: docs/DESIGN.md             # the design philosophy every proposal is judged against  [none]
 screens_source: docs/SCREENS.md        # where the screen inventory lives  [derived by reading the UI code]
-executor: opus                         # subagent model for dispatch  [opus]
+executor: sonnet                       # subagent model for dispatch  [sonnet]
 stops_per_session: 3                   # how many stops one run walks before it closes  [3]
 commit_format: "cx(S<n>): <screen> - <what changed>"   # the subject shape Phase 6 commits under  [this]
 ---
@@ -319,7 +319,7 @@ an expectation that names something no proposal covers becomes a new item, grade
 ## Phase 6: Dispatch
 
 For every accepted item, write an **execution brief** into the stop note, then dispatch executor
-subagents (the `Agent` tool, model from the overlay's `executor`, default `opus`) — one per
+subagents (the `Agent` tool, model from the overlay's `executor`, default `sonnet`) — one per
 independent item, in parallel; bundled when items touch the same files. Each brief carries:
 
 - the stop's overview and the user's expectation, verbatim

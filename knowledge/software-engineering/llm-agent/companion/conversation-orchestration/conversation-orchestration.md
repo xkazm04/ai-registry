@@ -271,8 +271,17 @@ UX-level contract for concurrency is small and unforgiving:
 
 The ambient surface is a live region announced at the level of *a decision is
 waiting*, never per beat — beat-granular announcement is the firehose the
-transcript already refuses. Every numbered option is reachable by tab as well as
-by digit, and the leader key never captures a key the product needs. The
+transcript already refuses. The region is a polite status region that **exists
+before its content changes** (a region inserted together with its message is
+frequently not announced; WCAG 4.1.3, Status Messages); an assertive alert is for
+a failure, not for a decision. Every numbered option is reachable by tab as well
+as by digit, and the leader key never captures a key the product needs: a
+printable-character leader needs a way to turn it off or remap it (WCAG 2.1.4),
+and the disarm timeout and the expiry of a pending decision are time limits the
+user can adjust (WCAG 2.2.1). The looping presence and the beat line can each be
+paused or hidden by a control, not only by the reduced-motion preference (WCAG
+2.2.2). Chips and options meet the minimum target size (2.5.8), and the ambient
+overlay never fully covers the element that has keyboard focus (2.4.11). The
 walkthrough's ring carries a caption naming the element, because a ring
 communicates nothing to a reader who cannot see it. And the presence's state is
 exposed as text somewhere, so "working" survives the loss of the animation.
