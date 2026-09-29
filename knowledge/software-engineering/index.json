@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1815,
-  "applications": 1196,
+  "applications": 1197,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -14393,9 +14393,9 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/executive-reporting.md",
-   "digest": "sha256-b2:10d6f28338b62a71",
-   "revision": 3,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:a43eabdaa650ed07",
+   "revision": 4,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "bad-news-labelling",
@@ -14486,21 +14486,30 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "denominator-naming",
+     "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/node--denominator-naming.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "expiring-share-links",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/node--expiring-share-links.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "grounded-narrative-generation",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/node--grounded-narrative-generation.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "bad-news-labelling",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/executive-reporting/applications/process--bad-news-labelling.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },

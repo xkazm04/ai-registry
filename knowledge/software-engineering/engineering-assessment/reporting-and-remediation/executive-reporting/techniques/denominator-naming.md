@@ -97,6 +97,23 @@ without a reason line.
   just the new value.** A metric that improved because low scorers left the
   population has not improved; the delta is a composition artifact and the
   document must be able to say so.
+- **When an average's population is empty, the number is a division guard, not
+  a value.** A mean over zero units usually returns 0 to stay total, and 0 is a
+  legal score, so it passes review and prints as a grade — a fleet nobody has
+  measured reads as the worst possible one. Give the empty case its own render
+  path, one definition of it shared by every surface (tile, table, export,
+  generated prose), and print the reason in place of the figure. A comparison
+  whose prior side is a guard is not a small comparison but a fabricated
+  movement: emit none.
+- **When one page mixes figures drawn from different populations, each clause
+  names the set *its* figure was drawn from — do not normalize them to one
+  denominator.** An average taken over the measured units and a count taken
+  over every scanned unit are both right; re-basing the count onto the
+  measured set produces "6 of the 4" copy. The fix for an overstated basis is
+  per-figure provenance, not a uniform one.
+- **When a page claims figures are unchanged since an earlier edition, the
+  denominator is one of the figures compared.** The same headline over a
+  re-based average is a changed report.
 - **When a percentage rests on fewer than a handful of units, prefer the raw
   counts.** "4 of 6" is honest at a glance in a way "67%" is not.
 
