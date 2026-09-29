@@ -1167,3 +1167,36 @@ Source-class tally (post-hoc, this run):
   was re-read before anything was quoted.
 - Our own applications, re-read against the current trees, stayed true and gained two
   corrections; the fleet-code lane found a third implementation's contrast in the same pass.
+
+## Run dp-atw-0929 - analytics-time-windows, the k-th edge and a slot that forgot the 31st
+
+A Curator dispatch on "never swept by the librarian". The subject carries six techniques
+and four August applications, all from ascent. The map joins it to kp, systedo-case,
+personas and ascent, and every pair is unjudged.
+
+Three findings landed. The calendar-arithmetic step that generated edges said "start
+advanced k times", which reads as stepping and contradicts the clamp step under it;
+measured, four single steps from 31 January give the 28th three times running while anchor
+plus k months returns to the 31st. The half-open rule "the later window, never
+re-litigate" holds for stamps meaning when it happened, and a stamp meaning the interval
+that just ended takes the mirror form; a query engine's 3.0 release moved to it for
+consistent sample counts. The runtime's own month setter overflows (Node 24: Jan 31 to
+Mar 3), the exact defect the technique names.
+
+One tree finding, simulated on the verbatim functions: ascent's settle path writes the
+clamped monthly slot back as the anchor, so 11 of 12 slots land off the intended day, and
+the test titled for the chain checks one step. The repair is a schema change and was left.
+Applied: 1 simulation better, 1 unapplied. The four August applications' line references
+have drifted and were not re-resolved.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| analytics-time-windows | L2/L3 | 1 application (node), 1 correction, 1 condition, 1 addition, 0 techniques | 0 stale (all 11 pairs unjudged); ascent slot repair owed, citations re-resolution owed | 0 |
+
+Source-class tally (post-hoc, this run):
+- A tool's migration guide stated a boundary change and its reason in two lines; design
+  pages did not.
+- Running the technique's own example on real runtimes beat reading: the runtime most code
+  reaches for first was the one that disagreed with the text.
+- A docs fetch for another engine's window bounds returned nothing usable, so that claim
+  was not landed.
