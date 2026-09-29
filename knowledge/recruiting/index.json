@@ -6377,8 +6377,8 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
-   "digest": "sha256-b2:983a403a52f86ade",
-   "revision": 3,
+   "digest": "sha256-b2:13ad9e158b079e32",
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
