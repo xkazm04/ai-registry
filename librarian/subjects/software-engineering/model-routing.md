@@ -1,7 +1,7 @@
 ---
 subject: model-routing
 domain: software-engineering
-last_touched: 2026-09-23
+last_touched: 2026-09-29
 touched_by: intake
 dry_streak: 0
 ---
@@ -342,3 +342,12 @@ resumes, the flip read only the tool layer and rewrote everything below it on
 both newest families (1.7-1.9x a near-empty turn; the whole history in a long
 one). The first shape holds. One fork out of five read everything, and that is
 recorded, unexplained.
+
+## 2026-09-29 - intake PilotDeck ([[2026-09-29-pilotdeck-agent-os]], run `in-pd-0929`)
+
+`cache-continuity` gains a pointer to `whole-prompt-denominator`: the observed cache fraction is an
+input to its arithmetic and is easy to get wrong. New application `node--turn-classification`: an
+inferred class whose failure default is chosen (a named tier) and whose parse falls toward the cheapest
+tier on a negation, a quotation of the prompt or a hedge (executed on hostile judge output).
+Contradictions recorded for the record, not the corpus: the orchestrator's tool whitelist is described
+as enforced and never applied; the sub-agent default model is overridden by the router when it is enabled.

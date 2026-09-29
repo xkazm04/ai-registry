@@ -1,0 +1,145 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-pd-0929",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "repository",
+  "domain": "software-engineering",
+  "started_at": "2026-09-29T14:57:39Z",
+  "ended_at": "2026-09-29T15:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 6,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/cost-metering",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": 56,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/prompt-assembly",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/model-routing",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/scheduling",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "agent-operations/unattended-run-isolation",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/cost-metering",
+      "technique": "whole-prompt-denominator",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/cost-metering",
+      "technique": "whole-prompt-denominator",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-operations/unattended-run-isolation",
+      "technique": "diff-from-the-recorded-base",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/agent-memory",
+      "technique": "durable-store-failure-posture",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "software-engineering/agent-memory",
+      "technique": "filter-at-the-id-door",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/prompt-assembly",
+      "technique": "pinned-prompt-clock",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/techniques/whole-prompt-denominator.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/filter-at-the-id-door.md",
+    "knowledge/agent-operations/run-safety/unattended-run-isolation/techniques/diff-from-the-recorded-base.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/techniques/pinned-prompt-clock.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/durable-store-failure-posture.md",
+    "knowledge/software-engineering/llm-agent/orchestration/model-routing/techniques/cache-continuity.md",
+    "librarian/sources/2026-09-29-pilotdeck-agent-os.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [
+    {
+      "sha": "88849496",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations/run-safety/unattended-run-isolation",
+        "knowledge/software-engineering/llm-agent",
+        "knowledge/software-engineering/backend-platform/work-execution/scheduling"
+      ]
+    },
+    {
+      "sha": "970f779b",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/agent-operations/index.json",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-agent-operations.md",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Repository design-deep read; 4 techniques, 1 amendment, 16 applications. Fleet: 4 code commits shipped, none pushed. bundle gate red on one recruiting filename this run did not touch."
+}

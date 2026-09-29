@@ -1,8 +1,8 @@
 ---
 domain: agent-operations
 subject: unattended-run-isolation
-last_touched: 2026-09-28
-touched_by: deepen
+last_touched: 2026-09-29
+touched_by: deepen, intake
 dry_streak: 0
 ---
 
@@ -182,3 +182,13 @@ reports 0 expired and 0 at-risk, with no row for this subject. The run records `
 `idled`: the subject has had one pass, not two dry ones. dry_streak is unchanged; the banked
 leads were not re-checked. The fix belongs in the dispatcher: read origin, and read
 `librarian/runs/*/result.json` for the subject before sending.
+
+## 2026-09-29 - intake PilotDeck ([[2026-09-29-pilotdeck-agent-os]], run `in-pd-0929`)
+
+Landed `diff-from-the-recorded-base`: the read-back that stages the worktree and diffs against its own
+head loses everything the agent committed; a copy-of-a-directory has no base at all; a dirty-tree
+checkpoint commits untracked local files onto the operator's branch; and the landing is a model turn
+whose success is the absence of an error event. Source tree executed (`node--diff-from-the-recorded-base`);
+a fleet dispatcher fixed and paired (`node--diff-from-the-recorded-base--pof`, code, better). Contrast
+application `node--os-enforced-run-boundary`: a deny list over command patterns against seventeen
+commands, eleven of which walk past it (some are other commands that publish or reconfigure), including any command with a line break in it.

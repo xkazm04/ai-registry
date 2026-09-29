@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-09-23
+last_touched: 2026-09-29
 touched_by: deepen, intake
 dry_streak: 0
 ---
@@ -844,3 +844,20 @@ Two landings that turn out to be about the same thing from opposite ends, and bo
 Lead drain (run lib-0923). L127 APPLICATION (coverage instrumentation; the lead's "distinguish at every tile" did not hold - the distinction lives in the type). L270 AMEND to `decay-and-forgetting`: a last-use decay input needs a writer on the read path, guarded by a paired test that fails on the broken form (a private repository's sighting; nothing from it is named). Unverifiable figures omitted.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): ascent 2.
+
+## 2026-09-29 - intake PilotDeck ([[2026-09-29-pilotdeck-agent-os]], run `in-pd-0929`)
+
+Landed `filter-at-the-id-door` (a selector's ids loaded by an id door with no retirement,
+tier or membership rule; an empty selection handled like a crash), and a long-window section
+in `durable-store-failure-posture` (a staged pass that swaps loses a mid-pass write while its
+undo-ready flag stays true; a leftover staging copy has no owner). Applications: the source
+tree, executed (`node--filter-at-the-id-door`, `node--durable-store-failure-posture`); a fleet
+tree that already re-imposes the predicate at the shared join (`rust--filter-at-the-id-door--personas`,
+simulation, unmeasurable, doctrine lane unchecked); a fleet read-modify-write fixed and paired
+(`node--durable-store-failure-posture--pof`, code, better).
+
+Banked: reversible consolidation with an undo gated on identical state (lead: the memory lane says
+build the arm on the memory-year harness first). Measured in the source and worth remembering: a
+one-slot before-image is an undo/redo toggle, and any write after the pass, even one later deleted,
+makes undo refuse. A concurrent-loss window across scopes was reproduced with two projects sharing a
+storage root.

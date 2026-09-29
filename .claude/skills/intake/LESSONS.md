@@ -12172,3 +12172,10 @@ finish on the version it loaded.)
 - **`main` moves while a worktree run is live.** A sibling landed four commits between the worktree cut
   and the first commit. Compare the worktree's base with `main` before every ref move and rebase when
   they differ; the shared ledgers are the files that always collide.
+
+## 2.14.1 - 2026-09-29 - pilotdeck-agent-os
+
+- **`Write` says "updated" when the file already exists, and applications collide by name.** An application is named `<stack>--<technique>`, so a second tree's evidence for a technique that already has an application in that stack lands on a tracked file. Two of this run's sixteen did, both were overwritten, and both were caught only because the tool said "updated" instead of "created". Before writing an application, `git ls-files <subject>/applications` for the stack--technique pair and use the `--<project>` suffix when it exists; restore an overwritten tracked file from `HEAD` before any commit.
+- **A seam hunter dispatched right after the map decides whether a technique is corroborated.** Given the finding's hunt strings, the known-positive rule and the falsifying-seam instruction, one worker found the technique live in two fleet trees and one already applied in a third, which turned would-be simulations into four code rows. Dispatch it before writing the technique, not after.
+- **A fixture generated from the code it checks certifies the code.** Two independent fleet trees each carried a test whose expected value was the buggy extractor's output; both were found by hand-computing the total from the provider's stated formula. Ask of any expected value which layer it was derived from.
+- **Say the direction of a fix's error before shipping it.** The tree's cache switch was biased one way (always toward the expensive model) at every true fraction; the executed sweep found the band it decides wrongly (about 0.47 to 0.89). One number per side is a claim; the sweep made it a measurement.

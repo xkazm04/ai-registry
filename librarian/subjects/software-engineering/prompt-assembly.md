@@ -1,8 +1,8 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-09-23
-touched_by: deepen
+last_touched: 2026-09-29
+touched_by: deepen, intake
 dry_streak: 0
 ---
 
@@ -527,3 +527,16 @@ Declined again on the premise `rc-pa-0925` already declined. The dispatching che
 ## 2026-09-25 - /reconcile, third dispatch on the same clock (run `rc-pa-0925c`, reconcile 1.0.1)
 
 Declined a third time on the same premise. The dispatching checkout is now 45 commits behind origin, and origin still reads refresh_by 2026-11-05. Nothing has changed since `rc-pa-0925b`.
+
+## 2026-09-29 - intake PilotDeck ([[2026-09-29-pilotdeck-agent-os]], run `in-pd-0929`)
+
+Landed `pinned-prompt-clock`: the corpus said the date enters as a declared variable and asked of
+every block whether its value can change before the block expires; a date read per request fails that
+question at midnight, and a time with seconds fails it on every call. Source-tree realization is the
+reference (`node--pinned-prompt-clock`); a fleet tree has the trap unarmed and a tail-section control
+(`rust--pinned-prompt-clock--personas`, simulation, unmeasurable). Contrast applications, filed as
+second-tree documents because the stack--technique names were taken:
+`node--history-compaction--pilotdeck` (an interrupted turn dropped whole instead of closed; the
+emergency truncation never persisted, so resume is larger than live; the only diagnostic dropped) and
+`node--summary-evidence-gate--pilotdeck` (a summary admitted on its finish reason, from input capped
+with no re-fetch pointer). Banked untriaged: emergency truncation not persisted as its own amendment.

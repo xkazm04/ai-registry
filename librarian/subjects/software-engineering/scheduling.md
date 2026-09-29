@@ -1,7 +1,8 @@
 ---
 subject: scheduling
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-09-29
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -32,3 +33,10 @@ stack; single-stack debt cleared. Hint confirmed.
   application for overlap-and-reentrancy in a future wave.
 - EventLog + FutureActionTimes + MissedCatchupWindow + BufferDropped → a
   near-complete schedule-observability realization, banked for that technique.
+
+## 2026-09-29 - intake PilotDeck ([[2026-09-29-pilotdeck-agent-os]], run `in-pd-0929`)
+
+New application `node--next-run-computation`: a cron parser whose tests cover leap days and a timezone
+and neither daylight-saving rule. Executed: on the fall-back night a daily task fires twice, an hour
+apart; on the spring-forward night it is skipped, both exactly the outcomes the technique names as wrong.
+The revision-guarded claim and the crash recovery beside it are sound and are catches.

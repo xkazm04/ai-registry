@@ -1,7 +1,7 @@
 ---
 subject: cost-metering
 domain: software-engineering
-last_touched: 2026-09-23
+last_touched: 2026-09-29
 touched_by: intake
 dry_streak: 0
 ---
@@ -127,3 +127,14 @@ proof `ab-paired`: 2,000 tokens reported against 157,000 in the payload).
 Lead drain (run lib-0923), L144 AMEND + APPLICATION. **Correction** to `budget-enforcement`: "one chokepoint, the client wrapper" holds for a model-call unit; a product-action unit reserves before the first streamed byte, so the door is a gate module every route imports, and a streaming twin of a route is a third path class where enumeration fails.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas-web 1, ascent 3.
+
+## 2026-09-29 - intake PilotDeck ([[2026-09-29-pilotdeck-agent-os]], run `in-pd-0929`)
+
+Landed `whole-prompt-denominator`, found live twice in the fleet before it was written: an LLM-cost
+service whose three client extractors ignored the convention stated on its own receiving type (the
+fixture pinned the bug), and a product's mirror of the same events. Both fixed and paired
+(`rust--whole-prompt-denominator`, `node--whole-prompt-denominator--ascent`, code, better); the source
+tree's router divides by the uncached remainder and clamps to one (`node--whole-prompt-denominator`,
+executed across eight fractions). Residuals kept: cache-write tokens bill at the input rate until a
+price book carries a write rate; the OTLP ingest path was not audited. Banked lead: a counterfactual
+saving assumes the baseline used the same tokens.
