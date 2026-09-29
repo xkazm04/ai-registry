@@ -4132,9 +4132,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/hypothesis-not-verdict-soft-signals.md",
-   "digest": "sha256-b2:5f39514df4f7ff2c",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:8652a467dc7229b0",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "a-confirmation-probe-per-signal",
@@ -4230,19 +4230,20 @@
      "stack": "process",
      "technique": "a-confirmation-probe-per-signal",
      "file": "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/applications/process--a-confirmation-probe-per-signal.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "benign-alternative-stated-alongside-the-risk",
      "file": "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/applications/process--benign-alternative-stated-alongside-the-risk.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "react",
      "technique": "what-to-confirm-checklist-not-a-dossier",
      "file": "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/applications/react--what-to-confirm-checklist-not-a-dossier.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -4251,9 +4252,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/inclusive-job-advertising/inclusive-job-advertising.md",
-   "digest": "sha256-b2:34a31d51876b788d",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:abfb1c8b83b3beac",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "advisory-lint-gated-on-substance",
@@ -4346,19 +4347,21 @@
      "stack": "node",
      "technique": "advisory-lint-gated-on-substance",
      "file": "knowledge/recruiting/role-definition/inclusive-job-advertising/applications/node--advisory-lint-gated-on-substance.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "multilingual-inflection-tolerant-linting",
      "file": "knowledge/recruiting/role-definition/inclusive-job-advertising/applications/node--multilingual-inflection-tolerant-linting.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "stated-pay-and-place-test",
      "file": "knowledge/recruiting/role-definition/inclusive-job-advertising/applications/process--stated-pay-and-place-test.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
