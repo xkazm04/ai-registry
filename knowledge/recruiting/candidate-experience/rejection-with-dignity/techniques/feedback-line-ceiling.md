@@ -11,17 +11,23 @@ use_when: [deciding how much feedback a decline should carry, designing a reject
 
 # The feedback-line ceiling
 
-A decline carries **at most three** feedback lines. The number is not a style
-preference and it is not about reading time; it marks the point where the genre
-of the document changes.
+A decline carries **at most three** feedback lines. The number is a design
+judgement, and its second justification below (an invention brake) is the one
+that carries it. It is not a measured threshold: a literature search on
+2026-09-29 found no study that varies the number of feedback lines, and the
+"three" is the implementer's choice.
 
-At one or two points, a decline reads as a courtesy: here is the thing that
-decided it. At three it is at the edge. Past three it reads as an enumeration
-of a person's shortcomings, compiled by the organisation that just rejected
-them — a case being built. The recipient experiences it that way, and so does
-anyone who later reads it in a complaint file, where a long list of criticisms
-looks like post-hoc justification regardless of how carefully each line was
-sourced.
+At one or two points, a decline plausibly reads as a courtesy: here is the thing
+that decided it. Past a few it risks reading as an enumeration of a person's
+shortcomings, compiled by the organisation that just rejected them, and in a
+complaint file a long list of criticisms can look like post-hoc justification
+however carefully each line was sourced. Both are reasoned expectations, not
+findings. The nearest evidence points the same way without fixing a number: in
+the second of two student selection experiments (81 Dutch and 244 US
+participants, per a secondary summary; Schinkel, van Dierendonck, van Vianen and
+Ryan, 2011, *Journal of Personnel Psychology* 10(4)) performance feedback
+lowered rejected people's well-being. That tested performance feedback, not a
+recorded structural reason, so it does not say a stated reason should be cut.
 
 ## The ceiling is also an invention brake
 
@@ -97,6 +103,10 @@ rather than kind.
 
 ## When not to use this
 
+- **A solicited feedback letter a person owns.** When the candidate asked and a
+  recruiter reviews, edits and approves the text, it is the recruiter's own
+  letter and the cap is not the control; the controls are who may ask (a person
+  decided about this candidate) and that the text is the approver's verbatim.
 - **A solicited debrief on substantial work.** A candidate who completed a paid
   or multi-hour assessment and asked for detail is owed detail; the ceiling is
   for the unsolicited automated letter.

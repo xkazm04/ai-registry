@@ -5,91 +5,126 @@ subject: rejection-with-dignity
 technique: name-the-decisive-reason-from-the-record
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+applied: code
+ab_verdict: better
 ---
 
-# The rejection-letter prompt (`rejection-v3`)
+# The rejection-letter prompt (`rejection-v5`)
 
-`draft_rejection` in `pipeline/jobfit/automation.py:538-596` is the technique
+`draft_rejection` in `pipeline/jobfit/automation.py:1276-1414` is the technique
 written as a prompt contract. Its version stamp `REJECTION_PROMPT_VERSION =
-"rejection-v3"` (`:45`) is documented at `:38-43` as the change that made "the
-rejection name the actual decisive gap + evidence-checked feedback".
+"rejection-v5"` (`:113`) is documented at `:105-111`: v4 and v5 changed the
+prompt bytes because the letters that follow an interview now receive the
+interview's own record.
 
-## The reason clause
+**This application first described `rejection-v3` (2026-08-20), and v3 was the
+prompt that shipped the defects the standard warns about.** The reading quoted
+v3's strong-profile clause approvingly ("the honest reason is that another
+candidate matched this role's specific needs even more closely"). On 2026-09-05
+a live run showed what that clause did (`39a6371fa`): an interview-stage
+candidate was told the decisive reason was a gap that "had been on her CV the day
+she was invited in", a second variant invented "the decision was close" (which
+the old prompt had in fact instructed), and interview-stage and screening-stage
+letters "named the same reason; only the greeting differed". The standard's own
+strong-profile sentence shared the defect, and has been corrected upstream.
 
-The prompt (`:541-563`) opens by constraining the fact base — "Use ONLY these
-facts" followed by `_letter_context(candidate, job, m)` as JSON — then states
-the resolution rule:
+## The reason clause: branched on the evidence that exists
 
-> The body must name the ACTUAL decisive reason, kindly and concretely — drawn
-> from missingMustHaves or the match tier, never a generic 'we proceeded with
-> other candidates' alone.
+The single unbranched "name the ACTUAL decisive reason" is gone. The reason rule
+(`:1294-1316`) is chosen by what the record holds, with a comment stating the
+principle: "A prompt may only demand a reason the facts can support."
 
-That is steps 2 and 3 of the resolution order, with the explicit refusal of the
-generic line as a *substitute*. The strong-profile case is spelled out in the
-next sentence, including why:
+- **An interview was recorded** (`weak` non-empty): the decisive reason "MUST
+  come from `interview.weakestCompetencies`", "Naming a CV gap instead is a lie
+  the candidate can check: it was on their CV the day you invited them in."
+  Never quote them back, never mention ratings, scores, a scorecard or the rubric.
+- **No interview, a recorded skill gap** (`missing`): the reason is
+  `match.missingMustHaves`, "and nothing beyond it".
+- **Neither**: "THERE IS NO DECISIVE REASON IN THESE FACTS … so DO NOT ASSERT
+  ONE. … do not say the decision was close, and do not say another candidate
+  matched more closely: nothing here records that either. State simply and warmly
+  that you are not taking their application forward for this role, and stop."
 
-> When missingMustHaves is empty and the tier is strong, do NOT invent a skill
-> gap (a claimed gap the candidate's own highlights disprove is the worst
-> possible letter): the honest reason is that another candidate matched this
-> role's specific needs even more closely — say that gracefully.
+That last branch is the corrected strong-profile rule: the comparative sentence is
+withheld unless the record holds a comparison, and this pipeline records none at
+the screening stage.
 
-Then one real strength, "so the message reads as considered, not templated".
+## The evidence check is now enforced for the interview case
 
-## The evidence check and the empty output
+The feedback rules (`:1326-1331`) still carry the contradiction technique as
+instruction: the feedback "must survive a check against the candidate's own
+evidence", "never advise adding something their profile already shows",
+"Leave feedback an empty string rather than write generic advice". What changed
+is that the interview reason has a code path behind it. The schema asks for
+`decisiveCompetency` ("EXACTLY one of interview.weakestCompetencies, verbatim"),
+and `coerce` (`:1379-1411`) runs `_match_competency` over it; when `weak` is
+non-empty and the field names none, "the whole draft is discarded rather than
+patched" and the deterministic template ships, reported as `deterministic`. The
+commit message gives the reason the check sits on a field and not on the body:
+"the body itself is not scanned, because rubric labels are English and letters
+are drafted in four locales, so a containment check would discard every
+non-English draft."
 
-The feedback rules (`:554-557`) carry the sibling contradiction technique
-literally: the feedback "must survive a check against the candidate's own
-evidence"; "never advise adding something their profile already shows (check
-experienceHighlights and skills first)"; "never presuppose work they do not
-have"; and — the fill-the-slot cure — "Leave feedback an empty string rather
-than write generic advice."
+The other half of the check is `_letter_is_safe` (`:437-`, called at `:1386`):
+a draft that names a protected characteristic is discarded whole, for the reason
+in its docstring: "a letter whose stated reason has been cut is no longer the
+letter the model wrote".
 
-`_LETTER_GROUNDING` (`:270-277`), shared with the outreach and offer letters,
+## The starved fact base and the empty output
+
+`_LETTER_GROUNDING` (`:914-`), shared with the outreach and offer letters,
 supplies the anti-invention floor and the starvation test: "never assert
-meetings, team reactions, benefits, interest, or abilities that are not in
-them", and "if the body could be sent to a different candidate unchanged, it is
-wrong." `_letter_context` (`:232-247`) exists because of a measured incident —
-a 2026-08-11 bench "found the letters starved: outreach saw a name + three skill
-strings, rejection not even the match — so no model COULD personalize, and every
-judge verdict read 'pasteable onto any candidate'."
+meetings, team reactions, benefits, interest, or abilities that are not in them",
+and "if the body could be sent to a different candidate unchanged, it is wrong."
+`_letter_context` (`:852-`) exists because of a measured incident, a 2026-08-11
+bench "found the letters starved: outreach saw a name + three skill strings,
+rejection not even the match". It now also carries the `interview` key, "present
+ONLY when one actually happened. Its absence is load-bearing: the prompts below
+stop asking for a decisive reason when this key is missing".
+
+`interview_evidence` (`:765-`) is the candidate-safe projection of the scorecard:
+competency names and bands only, no summary, no verbatim quotes, no rubric
+metadata, and a "not assessed" 3 excluded because it cannot be a decisive reason
+(`WEAK_RATING_MAX = 2`, `:761`).
 
 ## Stage honesty and neutral register
 
-The same prompt forbids the phantom interaction (`:558-560`): "Never imply an
-interview, call, or meeting took place unless the stage they reached says so —
-a screening-stage rejection thanks them for their application, nothing more."
-
-`_NEUTRAL_STYLE` (`:216-229`) is the register rule, and its comment records the
-incident that produced it: an offer letter addressing a woman as *"přesně
-takového kolegu jsme hledali"*. The directive requires neutrality "by RECASTING,
-never by breaking grammar: no plural agreement for one person …, no slash forms
-('věnoval/a')", plus consistent first-person-plural sender, consistent formal
-register "to the last sentence — one slip into tykání ruins an otherwise formal
-letter", and no mixed-script output. `_letter_lang` (`:199-214`) closes the
-one-letter-two-language-authorities defect (`OO-L1-03`) by taking the entry's
-**resolved comms locale** from the calling layer so the model body provably
-matches the deterministic chrome around it, falling back to the CV-language
-guess only for direct command-line use.
+The same prompt forbids the phantom interaction: "Never imply an interview, call,
+or meeting took place unless the stage they reached says so — a screening-stage
+rejection thanks them for their application, nothing more." `_NEUTRAL_STYLE`
+(`:741-`) is the register rule, and its comment records the incident that produced
+it: an offer letter addressing a woman as *"přesně takového kolegu jsme hledali"*.
+The directive requires neutrality "by RECASTING, never by breaking grammar: no
+plural agreement for one person …, no slash forms ('věnoval/a')". `_letter_lang`
+(`:724-`) takes the entry's resolved comms locale from the calling layer so the
+model body provably matches the deterministic chrome around it.
 
 ## Deviations
 
-- **The deterministic fallback invents.** `deterministic()` (`:564-582`) sets
-  `fb = f"Strengthening {', '.join(missing[:2])}" if missing else "Adding more
-  hands-on project depth"`. The else-branch is exactly the fill-the-slot defect
-  the prompt above it forbids: with nothing recorded as missing, the fallback
-  letter still ships a generic development suggestion — the one output the
-  standard says must be empty. The strong-profile case is the case where this
-  fires, so the letter most likely to carry an invented gap is the one sent to
-  the strongest rejected candidate. The rule the prompt states is the standard;
-  the fallback falls short of it.
-- **No post-generation contradiction check.** The evidence check is an
-  instruction to the model, not a step in the pipeline; there is no code path
-  that re-tests the produced feedback string against `skills` and
-  `experienceHighlights` before dispatch. The standard wants the check enforced,
-  not requested.
-- **No recorded-vs-derived provenance label.** The deterministic template path
-  labels its reason source (`feedback:recorded_gaps` vs
-  `feedback:unmet_requirements` in the dispatch audit detail); this drafted
-  letter records only `promptVersion`, so a later reader cannot tell whether the
-  reason came from a recruiter's own criteria or from the matcher.
+Re-checked 2026-09-29. Two of the three recorded on 2026-08-20 are closed, one is
+narrowed.
+
+- **Closed: the deterministic fallback no longer invents.** `deterministic()`
+  (`:1349-`) now sets `fb = f"Strengthening {', '.join(missing[:2])}" if missing
+  else ""`; the "Adding more hands-on project depth" branch is gone, with a
+  comment that names the reason ("Inventing development advice here would land on
+  the STRONG candidate — the one closest to the bar"). An empty `feedback` drops
+  the suggestion sentence from the body entirely.
+- **Narrowed: a post-generation check exists, for the interview reason only.**
+  The contradiction check on feedback text ("does the advice restate something the
+  profile shows") is still an instruction to the model with no code behind it.
+  The reason check is a structured field, and `decisiveCompetency` is `None` on
+  the template and the no-interview path, so the recorded-gap reason
+  (`match.missingMustHaves`) is still asked for, not verified.
+- **Still open: no recorded-vs-derived provenance label.** The deterministic
+  template path labels its reason source in the audit detail
+  (`feedback:recorded_gaps` vs `feedback:unmet_requirements`); this drafted letter
+  records `promptVersion` and, now, `decisiveCompetency`, but not whether the reason
+  came from a recruiter's checklist or the matcher.
+- **New: the drafted path and the deterministic path are two letters.** The
+  unsolicited rejection dispatched by `dispatchRejection` is the deterministic
+  template with recorded lines and never calls this function; `draft_rejection`
+  serves the recruiter-review path: the result is stored and surfaced as a
+  `rejection_drafted` event (`automation-run.ts:151`), not sent by the dispatcher. A reader of the standard should not assume the prompt above is what
+  a candidate receives on the automated route.

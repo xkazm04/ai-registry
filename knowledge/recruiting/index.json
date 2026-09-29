@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 394,
-  "applications": 269,
+  "applications": 270,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -6923,9 +6923,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/rejection-with-dignity.md",
-   "digest": "sha256-b2:814f4a7318b51875",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:2775c4b674b85615",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "deterministic-dispatch-so-nobody-is-ghosted",
@@ -7018,19 +7018,28 @@
      "stack": "node",
      "technique": "deterministic-dispatch-so-nobody-is-ghosted",
      "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/node--deterministic-dispatch-so-nobody-is-ghosted.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "name-the-decisive-reason-from-the-record",
+     "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/node--name-the-decisive-reason-from-the-record--feedback-on-request.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "protected-attribute-line-suppression",
      "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/node--protected-attribute-line-suppression.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "name-the-decisive-reason-from-the-record",
      "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/process--name-the-decisive-reason-from-the-record.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },

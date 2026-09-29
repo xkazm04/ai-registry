@@ -69,6 +69,15 @@ first is ever true of a document.
    false statement is still false and now also evasive.
 4. **Do not backfill.** A deleted line does not license generating a
    replacement; the output simply gets shorter, possibly to zero.
+   **Enforce the check, do not request it, and check a claim you can compare.**
+   An instruction to the model to test its feedback against the profile is a
+   request. Where letters are drafted in several languages the prose cannot be
+   matched against the record (the record's labels are in one language), so ask
+   the model for the deciding item in a structured field beside the prose, name
+   it verbatim from the record's own list, and discard the draft whole when the
+   field is absent or names something the record does not hold. A letter drafted
+   with the reason resting on the wrong evidence is then caught even though its
+   body is never scanned.
 5. **Prefer the strength you can prove.** One acknowledged real strength, drawn
    from the same recorded evidence, is worth more than three generic
    improvement suggestions and cannot be contradicted by definition.
@@ -76,8 +85,11 @@ first is ever true of a document.
 ## Decision rules
 
 - When the profile shows a strong match and nothing mandatory is missing, do
-  **not** name a gap. State the comparative truth — another candidate matched
-  more closely — and stop.
+  **not** name a gap. State the comparative truth only if the record holds one
+  (a ranked shortlist, a candidate chosen instead); otherwise say the
+  application is not being taken forward, and stop. "Another candidate matched
+  more closely" and "the decision was close" are claims too, and a prompt that
+  demands the first has been seen to produce the second.
 - When a gap is real but the candidate's evidence is ambiguous about it, say
   nothing rather than assert it. The asymmetry is decisive: a suppressed true
   gap costs the candidate one piece of advice they could have got elsewhere; an
