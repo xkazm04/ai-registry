@@ -30,19 +30,32 @@ The empirical record is unambiguous for anyone who goes looking. Voice- and
 video-based trait prediction has the weakest validity evidence of any major
 automated hiring application. External stability audits perturb the input in ways
 the underlying trait cannot have changed and watch the predicted traits move. The
-most prominent vendors in the space withdrew their expression-analysis components
-under sustained methodological criticism rather than defend them. Prosodic
+one prominent vendor whose withdrawal is documented removed its visual-analysis
+component and gave as its reason that non-verbal data added little predictive
+power beyond the language of the answers; that is a statement about predictive
+value, not an admission of invalidity, and it said nothing about audio. Prosodic
 features are confounded by accent, language proficiency and anxiety by
 construction, so a construct-validity argument for them has to clear a bar nobody
 has cleared. Treat the family as unvalidated. Treat a validation claim as
 requiring evidence of stability across accent, first language and disability
 before it is worth reading at all.
 
-There is also a plainer argument that needs no literature. Interview anxiety
-depresses performance, it depresses it unevenly, and it hits hardest the
-candidates with least practice at interviews — which is a fairness problem before
-it is a measurement problem. A system that reads nervousness as a trait is
-measuring interview experience and calling it character.
+There is also a plainer argument that needs little literature. Interview anxiety
+depresses performance: a meta-analysis of 30 samples found a correlation of about
+-.19 with interview performance, -.13 in real interviews (Powell and colleagues,
+2018). Whether it hits hardest the candidates with least practice was not
+established, because interview experience could not be tested as a moderator, so
+that step is reasoning and not a finding. Even so, a system that reads nervousness
+as a trait is measuring the state of the candidate on the day and calling it
+character.
+
+The rule also has a legal edge in one place. The EU AI Act bans systems that infer
+emotions in the workplace, and the Commission's guidelines apply that to candidates
+in recruitment (paragraph 254); they exempt the mere detection of a readily
+apparent voice characteristic unless it is used to infer emotion (paragraph 249).
+The ban covers emotions and intentions inferred from the voice, so it is narrower
+than this rule, which also excludes inferring competence and "presence" from
+delivery.
 
 ## The rule, and how to write it
 
@@ -60,11 +73,11 @@ affirmative form, near the constraints that cannot afford a violation:
   first, language performance is explicitly out of scope.
 
 And the affirmative half, which changes more ratings than all the bans combined:
-**"I don't know" is a good answer.** A candidate who declines to bluff has
-demonstrated calibrated self-assessment — a real, rare and job-relevant
-competency. A rubric that rewards a confident wrong answer over an honest gap has
-inverted its own construct, and it will do so systematically in favour of
-candidates trained to project certainty.
+**"I don't know" is a good answer.** A candidate who declines to bluff has at least
+marked the edge of what they know. No study was found linking that to hiring
+outcomes, so this is a fairness position, not a validated signal. A rubric that
+rewards a confident wrong answer over an honest gap rewards projection, and it
+will do so systematically in favour of candidates trained to project certainty.
 
 ## The line that is actually hard
 

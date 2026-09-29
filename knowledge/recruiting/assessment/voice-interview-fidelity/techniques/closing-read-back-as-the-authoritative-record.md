@@ -84,6 +84,18 @@ in those terms: *if no read-back occurred, the field is null; never invent it.*
   unassessed rather than low.** A verdict is bound to what it judged
   ([a verdict is bound to what it judged](../../../_laws.md#a-verdict-is-bound-to-what-it-judged));
   a verdict on a term that may not have been said is bound to nothing.
+- **A confirmed term is confirmed, not proven.** Reviewing recognition errors by
+  ear alone caught 44% of them in the one study found, and no rate was found for
+  an interviewer's read-back, so an affirmation is the candidate's word on what
+  they heard. Read particulars one at a time with a pause, offer a written list
+  where the channel allows, and keep the unconfirmed state for anything the
+  read-back skipped.
+- **Check evidence quotes against the heard form, not only against the
+  transcript.** A grounding check that keeps a quote because it occurs in the
+  transcript proves the transcript contains it, not that the candidate said it. A
+  quote holding a corrected `heard` form passes that check and is exactly the
+  mishearing. Resolve entity terms inside a quote against the corrected bucket
+  before the quote is shown as the candidate's words.
 - **When the candidate corrects a term the interviewer never actually misheard,
   accept the correction anyway.** The candidate is the authority on their own
   claims, and arguing the point in the record is not a fight worth having.

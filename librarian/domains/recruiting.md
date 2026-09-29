@@ -1305,3 +1305,23 @@ No new technique. Conditions on the golden path and three techniques:
 Applications re-verified against kp at `60aab8088` (all lines re-resolved; a fourth application added for the unassessed technique). Executed against the real module: a failed quote leaves a live rating beside placeholder evidence, and the grounding check is speaker-blind. Also found: the whole experienced rubric is description-only, and the human form takes a rating with no note. Nothing landed in kp; three `unapplied` rows in `applied.md` with return conditions.
 
 Impact: kp only, no stale verdicts on this subject; the map was dry-run and not written. Yield high, dry_streak 0, depth L2 for the applications and L1 for the golden path. See [[structured-interview-scorecards]].
+
+## 2026-09-29 - deepen: voice-interview-fidelity
+
+Dispatched from the attention scan ("never swept by the librarian"). Origin had not touched the subject since the bundle joined, so it was a first pass and not a repeat. The consumer had moved more than the literature: kp gained per-job keyword bias for one of its two voice providers, grounding of evidence quotes, a language pin fixed for every shipped locale, and an opt-in recording a recruiter re-listens to, which cites this subject in four files. Lanes: a consumer-tree re-read of every citation and recorded deviation, a counter-evidence lane on seven flat claims, a blind training-data lane, and my own verbatim read of the Commission's guidelines on prohibited practices.
+
+**One new technique**, `phantom-terms-and-silence-insertions`: a recall-only entity gate cannot see a lexicon term that was heard and never said. The blind and counter-evidence lanes reached it independently and kp's shipped metric shows the gap.
+
+Conditions and refutations on the golden path and five techniques:
+- **"the tail narrowed least" is unsupported**, the 2020 disparity holds for the systems it tested, and a 2024 evaluation puts the gap at 1.2 to 2.8 times depending on training data;
+- **accented speech is not uniformly many times worse**: concentrated in particular first languages on read speech, non-significant across first languages on 22 spontaneous recordings;
+- **"priming helps the worst-served most" is a hypothesis** with a documented cost: a boosted term can be transcribed unspoken;
+- **the read-back is the best repair, not a guaranteed one**: ear-only error detection was 44% in the one measurement found, which was not an interviewer's read-back;
+- **a wrong language code yields fluent wrong-language text for one model family**; nothing found for the others;
+- **the vendor withdrawal claim** narrows to one vendor, one component and a stated reason about predictive power;
+- **the manner prohibition gains a legal anchor**, the EU AI Act's workplace emotion-inference ban read to cover candidates (paragraph 254, verified verbatim), narrower than the page's own rule;
+- **the sampling premise was a budget choice**, and grounding a quote in the transcript proves the transcript holds it, not that the candidate said it.
+
+Four `applied.md` rows: one simulation (unmeasurable: the shipped metric misses 4 of 4 planted insertion-only cases, catches them once the precision side is added, and no real pair holds one), three unapplied with return conditions. All three applications re-verified to 2026-09-29 with every citation re-pointed at kp `60aab8088`; four written, so the last two techniques with no application before have one. kp is not edited: main is 47 ahead with sibling work.
+
+Impact: kp only, through 20 contexts, 0 stale verdicts on this subject; the map was rebuilt with `--project kp` and committed locally. Yield high, dry_streak 0, depth L3. See [[voice-interview-fidelity]].

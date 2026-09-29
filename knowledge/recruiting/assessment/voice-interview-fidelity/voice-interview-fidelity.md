@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: voice-interview-fidelity
 status: forged
-use_when: [an interview is conducted over a spoken channel, deciding what quality gate a transcript must pass before it is scored, a scorecard cites a technology the candidate does not recognise, judging whether fluency accent or pace may enter an assessment, a transcript is too long to pass to a synthesis step whole]
+use_when: [an interview is conducted over a spoken channel, deciding what quality gate a transcript must pass before it is scored, a scorecard cites a technology the candidate does not recognise, judging whether fluency accent or pace may enter an assessment, a transcript is too long to pass to a synthesis step whole, a transcript lists a skill nobody mentioned, enlarging a recognition vocabulary list]
 techniques:
   - entity-fidelity-not-aggregate-error-rate
   - closing-read-back-as-the-authoritative-record
@@ -11,6 +11,7 @@ techniques:
   - never-infer-from-how-a-person-sounds
   - transcript-sampling-that-keeps-the-conclusion
   - language-choice-and-per-turn-drift-detection
+  - phantom-terms-and-silence-insertions
 ---
 
 # Voice interview fidelity
@@ -76,7 +77,15 @@ form appears a second and third time in the interviewer's own turns, and any
 downstream heuristic that trusts repetition now has three occurrences agreeing.
 The error does not merely survive review. It accumulates support.
 
-## The only reliable repair happens while the candidate is still there
+The gate has a second blind spot. Recall asks whether what was spoken survived,
+and it cannot see a term that was written and never spoken. A substitution is both
+at once, but a recogniser can also add a skill on its own: a vocabulary list
+raises the prior of every term on it, including where it was not said, and some
+recognisers write text over a stretch of silence. A transcript with perfect recall
+and one added skill passes every gate described so far. See
+phantom-terms-and-silence-insertions.
+
+## The best repair happens while the candidate is still there
 
 Once the call ends, there is no one left who knows what was actually said. The
 audio may be retained, but nothing in a normal pipeline re-listens to it, and no
@@ -84,6 +93,17 @@ reviewer can distinguish a plausible substitution from a true statement. So the
 repair must happen inside the conversation: near the end, the interviewer states
 back the concrete particulars it believes it heard and asks the candidate to
 correct them.
+
+Inside the conversation is the best place for the repair and not a guaranteed one.
+The one measurement found, a dictation-review task rather than an
+interviewer's read-back, had 24 speakers (half non-native) check recognition
+errors by ear alone and catch 44% of them; hearing the audio a second time did not
+help, and pauses between the items did (Hong and Findlater, CHI 2018). No
+measurement was found for an interviewer reading back a candidate's stack, so the
+design consequence is to make the read-back easy to get right and never to treat a
+confirmed term as proven: read particulars one at a time with a pause, offer a
+written list to check where the channel allows, and keep the unconfirmed state
+alive even when a read-back happened.
 
 The conversational form of that turn — where it sits, how it invites correction
 rather than agreement, why it lists particulars and never judgments — belongs to
@@ -110,17 +130,24 @@ forbids it outright. See closing-read-back-as-the-authoritative-record.
 Here is the fairness core of the subject, and the reason an unmeasured voice
 channel is not a neutral piece of infrastructure.
 
-Recognition error is not evenly distributed across speakers. Published
-evaluations of production speech systems have repeatedly found error rates
-roughly twice as high for speakers of some vernacular dialects as for speakers of
-the majority prestige dialect — and, more revealing than the averages, an order
-of magnitude more *catastrophic* transcripts, where half the words or more are
-wrong. Non-native speakers fare comparably or worse: studies across first-language
-backgrounds routinely report native-speaker error in the low single digits and
-accented speech many times that. Proper nouns and names outside the training
-distribution are butchered at rates far above the running text around them —
-which lands the disparity directly on the entity lexicon this subject just
-identified as the only part that matters for scoring.
+Recognition error is not evenly distributed across speakers. The 2020
+evaluation of five commercial systems found error roughly twice as high for Black
+speakers as for white speakers (0.35 against 0.19) and, more revealing than the
+averages, about ten times the share of *catastrophic* snippets, where half the
+words or more are wrong (more than a fifth against under two percent). A 2024
+controlled-prompt evaluation of an open model family found the ratio still 2.4 to
+2.8 times across two model sizes, and 1.2 times for a model trained on a different
+speech mix, which is the finding to hold onto: the gap follows the training data,
+not the calendar. Whether the catastrophic tail has narrowed since is not shown;
+no recent measurement of it was found. Non-native speech is more uneven than
+"many times worse". A 2025 comparison of five systems on read speech from 24
+speakers found the spread concentrated in particular first languages, the widest
+about twenty times a US-English control, while on 22 spontaneous recordings the
+differences between first languages were not significant. Proper nouns and names
+outside the training distribution are commonly reported as the weakest region,
+and no figure that isolates them was checked. If it holds, it lands the disparity
+directly on the entity lexicon this subject just identified as the only part that
+matters for scoring.
 
 Compose those two facts and the consequence is not subtle: **the candidates whose
 speech the recogniser handles worst are the candidates whose skill evidence is
@@ -146,11 +173,17 @@ The doctrine that follows is unpopular because it costs work:
   disclosure burden borne only by the affected group, and it stalls a candidate's
   process on the team's own constraints
   ([a candidate's process never stalls on your constraints](../../_laws.md#a-candidates-process-never-stalls-on-your-constraints)).
-- **Recognition vocabulary biasing toward the role's domain lexicon is a fairness
-  control, not a nicety.** Priming the recogniser with the technologies, tools and
-  qualifications a role actually involves lifts fidelity most for the speakers it
-  was worst for, because it supplies exactly the low-frequency terms the model was
-  guessing at.
+- **Recognition vocabulary biasing toward the role's domain lexicon is worth
+  measuring, and it is not free.** The intuition is that priming the recogniser
+  with the technologies a role involves supplies the low-frequency terms it was
+  guessing at, and so helps the speakers it served worst. No study reporting
+  biasing gains by accent group was found, and the nearest evidence points the
+  other way: gains track how well the base model already decodes the audio. It
+  also has a documented cost. A boosted term can be transcribed where it was not
+  said, so the control that repairs a substituted skill can add another. Run the
+  null-audio control in phantom-terms-and-silence-insertions before a list ships,
+  and treat "helps the worst-served most" as a hypothesis to test on your own
+  strata.
 
 See accent-and-first-language-error-disparity.
 
@@ -169,11 +202,28 @@ The evidence base for inferring competence, personality or "fit" from vocal
 manner is the weakest of any signal in modern hiring. Attempts to predict traits
 from voice and video have repeatedly failed external validity checks — the
 inferences move when the input is perturbed in ways the underlying trait cannot
-have moved — and the most visible vendors in that space withdrew their
-expression-analysis components under sustained methodological criticism rather
-than defend them. Treat the whole family as unvalidated, and treat any claim of
+have moved — and the one prominent vendor whose withdrawal is documented removed
+its visual-analysis component and gave as its reason that non-verbal data added
+little predictive power. That is a reason about predictive value, not an
+admission of invalidity, and it said nothing about audio. Treat the whole family as unvalidated, and treat any claim of
 validation as requiring evidence that the inference is stable across accent,
 first language and disability before it is even worth reading.
+
+The prohibition is policy first, and for emotion inference in one jurisdiction it
+is also law. The EU AI Act bans systems that infer emotions in the workplace. The
+Commission's guidelines on prohibited practices read "workplace" to include
+candidates in selection and hiring, and give "using emotion recognition AI
+systems during the recruitment process" as a prohibited example (paragraph 254).
+They also say that detecting a readily apparent voice characteristic, a raised
+voice or whispering, is not emotion recognition unless it is used to infer
+emotion (paragraph 249). The ban is therefore narrower than the rule on this
+page. It covers emotions and intentions inferred from the voice. It does not
+reach competence or "presence" inferred from delivery, which falls under the
+high-risk employment obligations rather than the ban, and the guidelines' own
+example of text-only sentiment analysis is an article's tone, so an ASR
+transcript of an interview is not clearly outside it. The rule against manner
+below stands on validity and fairness, and the law adds a floor under one part of
+it.
 
 The operational rule is a flat prohibition, and it must be written into every
 prompt that touches an interview and every rubric that consumes one:
@@ -181,13 +231,23 @@ prompt that touches an interview and every rubric that consumes one:
 > Nothing about *how* a person spoke may enter an assessment. Only *what* they
 > said may.
 
+That is a rule about the assessment, not about the stored record. The record
+keeps what was said as recognised, disfluencies included, because they are the
+transcript's own evidence of how much the recogniser can be trusted; a cleaned
+transcript is a derived view for reading, and scoring ignores delivery by
+instruction rather than by editing it out. An automatic clean-up pass that
+rewrites the transcript can rewrite the entities with it, so it needs the same
+fidelity check as recognition itself.
+
 No penalty for grammatical error, non-standard usage or a heavy accent; no credit
 for polish; no inference of confidence, nervousness, honesty or "presence" from
 pace, pauses or filler; no reading of silence as ignorance. And the affirmative
 counterpart, which matters more than the bans because it changes ratings: **"I don't know" is a good answer.** A
-candidate who declines to bluff has demonstrated calibrated self-assessment,
-which is a real and rare competency; a rubric that rewards the confident wrong
-answer over the honest gap has inverted its own construct.
+candidate who declines to bluff has at least marked the edge of what they know.
+No study links that to hiring outcomes, so this is a fairness position and not a
+validated signal: a rubric that rewards the confident wrong answer over the
+honest gap rewards projection, and it penalises the candidates least trained to
+bluff.
 
 Two edges are genuinely hard and deserve stating rather than hiding. First, if
 communication is a bona fide requirement of the role, it is assessed as a scored
@@ -200,10 +260,18 @@ practice: content versus delivery. See never-infer-from-how-a-person-sounds.
 
 ## The transcript is long, the budget is finite, and the conclusion is at the end
 
-A full spoken interview overruns almost every synthesis budget, so something must
-truncate it. The naive truncation — take the first N thousand characters — is the
-single most destructive line of code in a voice pipeline, and it is almost always
-written by someone who never read a transcript to the end.
+A full spoken interview overruns a small synthesis budget, and whether it overruns
+yours is a choice. Forty minutes of speech is a few thousand words, well inside
+any current model's context, so the first question is whether a sampler should
+exist on this path at all. Where the budget is small for cost or latency, the
+sampler is the normal case and not a rare guard, and the split and the coverage
+record decide what the scorer sees; measure the share of interviews that fit whole
+before assuming otherwise. Position effects in long contexts are model- and
+task-dependent and, at this length, unlikely to be the reason to keep the closing.
+The reason is that the closing holds the read-back and the corrections. When a
+budget does force truncation, the naive form — take the first N thousand
+characters — is the single most destructive line of code in a voice pipeline, and
+it is almost always written by someone who never read a transcript to the end.
 
 Interviews are back-loaded. The closing turns hold the read-back, the
 corrections, the strongest self-assessment, the candidate's own questions, and
@@ -226,10 +294,14 @@ applies to a statistic. See transcript-sampling-that-keeps-the-conclusion.
 ## Language is the candidate's choice, and drift is a defect
 
 Where a role or a market is multilingual, the interview's language is a fidelity
-concern before it is a courtesy. A recogniser configured for one language and fed
-another produces not errors but *hallucinated fluent text* — plausible sentences
-that were never spoken — which is the worst failure mode available, because it
-passes every readability check.
+concern before it is a courtesy. In at least one widely used open model family, a
+recogniser forced to one language and fed another produces not errors but *fluent
+text in the wrong language* — a translation of what was said, not phonetic noise,
+and the maintainers call the behaviour undocumented — which is a bad failure mode,
+because it passes every readability check. Other engines' behaviour on a wrong
+language code was not found documented, so this is engine-specific, and the check
+is to feed your own stack known-language audio with the wrong code and read what
+comes back.
 
 Three rules hold. The candidate's language choice is established early and then
 respected for the rest of the conversation; the interviewer does not switch
@@ -308,7 +380,8 @@ evidence, and what no model may conclude from the sound of their voice.
 ## The test
 
 Take any completed voice interview and ask three questions. Which terms in this
-scorecard did the candidate actually say, and how do you know? If this candidate
+scorecard did the candidate actually say, and how do you know, and did any appear
+without being said? If this candidate
 had spoken with a different accent, would this record look different? And if the
 answer to the second is yes, what did the process do about it?
 

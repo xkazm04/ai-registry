@@ -65,7 +65,10 @@ with the thing it is supposed to protect.
    the exact confusion
    [absence of evidence is not evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)
    exists to prevent. Deletions and substitutions have different remedies and must
-   not be averaged together.
+   not be averaged together. Deletion is only half of the count: a term that
+   appears in the transcript and was never spoken is a phantom, the error a recall
+   figure cannot see, and it is measured separately (see
+   phantom-terms-and-silence-insertions).
 4. **Set two budgets, and make the entity one much tighter.** The aggregate figure
    stays as a coarse channel-health signal — it catches a broken microphone, a
    wrong language, a collapsed connection. The entity budget is the gate on

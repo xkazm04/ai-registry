@@ -5,73 +5,81 @@ subject: voice-interview-fidelity
 technique: transcript-sampling-that-keeps-the-conclusion
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
+applied: unapplied
+ab_verdict: unapplied
 ---
 
 # Head+tail sampling on the scoring path
 
-`app/_lib/interview-transcript.ts:3` is a module whose entire header is an
-argument for this technique, written after the failure it describes.
+`app/_lib/interview-transcript.ts:5` is a module whose entire header is an argument
+for this technique, written after the failure it describes. Read at kp `60aab8088`
+on 2026-09-29, from the commit and not the working tree.
 
 ## The failure it replaced
 
 The header records what was there before: two bare magic numbers (4000 / 6000)
 "applied as silent front-slices, which meant the conclusion of the longest,
 richest interviews could be dropped before the scorer ever saw it, with no marker
-and no log."
+and no log." A front slice at a fixed character budget deletes the closing
+read-back, and the corrupted earlier occurrences of every technology name become the
+only version the scorer sees. Two correct mechanisms, silently cancelled by a
+`.slice(...)`.
 
-That is the technique's central claim realized as a bug. The same repo's
-synthesis prompt calls the closing read-back authoritative; a front slice at a
-fixed character budget deletes exactly that exchange, and the corrupted earlier
-occurrences of every technology name become the only version the scorer sees. Two
-correct mechanisms, silently cancelled by a `.slice(...)`.
+## The policy, now in two languages
 
-## The policy
+`buildScorecardNotes` (`:180`) passes the transcript **whole** when it fits
+`MAX_SCORECARD_NOTES_CHARS` and above it keeps the opening and the closing, dropping
+the middle for an in-band marker (`omittedMarker`, `:167`) and cutting on turn
+boundaries. `capTranscriptTurns` (`:97`) applies the same shape at the persistence
+cap (`MAX_TRANSCRIPT_TURNS = 500`, `:48`). Every TypeScript consumer goes through the
+one function.
 
-`buildScorecardNotes` passes the transcript **whole** when it fits
-`MAX_SCORECARD_NOTES_CHARS`, and above it keeps the opening and the closing,
-dropping the middle and replacing it with an explicit in-band marker — so the
-scorer "always sees that it is reading a sampled transcript". Cuts land on turn
-boundaries; there is no mid-utterance splice for a model to complete.
+New since the first verification: the Python scorecard has its own sampler,
+`sample_scorecard_notes` (`pipeline/jobfit/automation.py:2398`), because the
+scorecard is synthesized on the Python side and its quote-grounding check runs
+against the *sampled* text. The budget is no longer a TypeScript literal. It is
+defined once in Python (`MAX_SCORECARD_NOTES_CHARS = 6000`, `:2395`) and generated
+into `app/_lib/contract-constants.generated.ts:11`, which the TypeScript imports
+(`interview-transcript.ts:2`), and a test refuses a literal at the old home.
 
-The same shape is applied one layer earlier at the persistence boundary:
-`capTranscriptTurns` caps at `MAX_TRANSCRIPT_TURNS` with head + one in-band system
-turn + tail, "so both the recruiter's transcript modal and the scorer see that
-turns were omitted instead of silently reading a front-sliced conversation". The
-technique's rule that the persistence cap is the same decision one layer earlier
-is implemented, not merely stated.
+`ScorecardCoverage` still travels with the scorecard and is produced only when
+sampling dropped turns, so its absence is the honest "the scorer read everything"
+signal (`coverageFromNotes`, `:155`).
 
-The header also records the alternatives and why they lost: raising the cap "only
-moves the cliff", and summarize-then-score "adds a second, lossy LLM hop on the
-gate path". Every consumer routes through the one function, which is what makes
-the policy enforceable at all.
+## The budget is the number to look at
 
-## Coverage that means something by its absence
-
-`ScorecardCoverage` is persisted with the scorecard so "a recruiter can tell a
-full-transcript score from a head+tail-sampled one", carrying kept turns, total
-turns and dropped turns — the sample and its basis travelling with the claim. The
-design detail worth copying is the one the comment states outright: *"Only
-produced when sampling dropped turns; a complete score carries NO coverage
-object, so its absence is the honest 'the scorer read everything' signal."* A
-coverage record present on every scorecard, usually saying nothing was dropped,
-would be ignored within a week.
+6000 characters is roughly 1,500 tokens. The tree's own comment puts a 30-minute
+screen at "the low hundreds of turns" (`interview-transcript.ts:45`). By arithmetic, and not by measurement,
+an ordinary interview is several times the budget, so on this path sampling is the
+normal case and the scorer reads a fraction of what was said. The coverage stamp
+records the real ratio per scorecard, and the registry could not read those
+figures, so how much of an interview the scorer actually sees is unmeasured here.
+The budget is not a context limit; it is a choice, and nothing in the module argues
+for the value.
 
 ## Confirmed and deviating
 
 - **Confirmed** — whole below budget, head+tail above, in-band marker, turn-boundary
   cuts, structured warning on truncation, coverage propagated to the recruiter
-  surface, single chokepoint, and the same policy at the persistence cap.
-- **Deviation** — the split is symmetric: `headBudget = Math.ceil(budget / 2)` in
-  `buildScorecardNotes`, and an even head/tail split in `capTranscriptTurns`. The
-  standard asks for a tail-heavier allocation, because the closing material is
-  denser in decision-relevant content and a long closing exchange — candidate
-  questions, logistics, thanks — can push the read-back back out of a half-budget
-  tail window. Symmetric is far better than a front slice and is a defensible
-  starting point; it is not the target.
-- **Deviation** — nothing anchors the window on the read-back itself. The tail is
-  a fixed budget, not a search for the exchange the scoring prompt calls
-  authoritative.
-- **Deviation** — coverage records what was dropped, but no consumer lowers a
-  competency to unassessed on the grounds that its only evidence was in the
-  dropped middle. The data needed to do it is present; the rule is not wired.
+  surface, one chokepoint per language, and the same policy at the persistence cap.
+- **Confirmed, and a condition on the technique** — the director runs the read-back
+  as the last block, after the candidate's questions (`director-brief.ts:93`), so a
+  tail window catches it by construction. An anchor on the read-back would be
+  insurance here, and is required only where the read-back can precede a long close.
+- **Deviation, still open, and now a false comment** — the TypeScript split is
+  symmetric (`headBudget = Math.ceil(budget / 2)`, `:207`; `headCount` at `:99`). The
+  Python sampler is symmetric too (`head = budget // 2`, `automation.py:2420`), under
+  a comment that reads "Bias to the tail" (`:2418`). The standard asks for a
+  tail-heavier split; symmetric is defensible, and the comment claiming otherwise is
+  wrong and will mislead whoever tunes it.
+- **Deviation, still open** — nothing anchors the window on the read-back exchange.
+  Both samplers cut on position only.
+- **Deviation, moved and still open** — a competency whose only evidence sat in the
+  dropped middle is not lowered to unassessed. What exists is the grounding step:
+  a quote not found in the *sampled* text becomes `UNGROUNDED_EVIDENCE`
+  (`automation.py:2262`) and the confidence band widens, but the commit message says
+  "the rating is kept: this drops the citation, not the score". The read-side
+  not-assessed filter (`interview-scorecard.ts:80`) recognises only a rating of 3
+  carrying placeholder text, so a kept 5 or 2 with the placeholder counts as rated.

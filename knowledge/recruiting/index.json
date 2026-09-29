@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 396,
-  "applications": 280,
+  "techniques": 397,
+  "applications": 284,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "396/396",
+  "use_when_coverage": "397/397",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -8219,9 +8219,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/voice-interview-fidelity/voice-interview-fidelity.md",
-   "digest": "sha256-b2:e4838dda955eb6c6",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:45d3a27151ad5179",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "accent-and-first-language-error-disparity",
@@ -8298,6 +8298,22 @@
      ]
     },
     {
+     "slug": "phantom-terms-and-silence-insertions",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "inference-must-look-like-inference",
+      "a-claim-carries-its-sample-and-its-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a transcript passed the entity gate and still lists a skill the candidate never mentioned",
+      "enabling or enlarging a recognition vocabulary list",
+      "a transcript contains text from a stretch where nobody was speaking",
+      "choosing what the entity metric must count"
+     ]
+    },
+    {
      "slug": "transcript-sampling-that-keeps-the-conclusion",
      "status": "forged",
      "laws": [
@@ -8317,19 +8333,48 @@
      "stack": "node",
      "technique": "closing-read-back-as-the-authoritative-record",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--closing-read-back-as-the-authoritative-record.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "entity-fidelity-not-aggregate-error-rate",
+     "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--entity-fidelity-not-aggregate-error-rate.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "language-choice-and-per-turn-drift-detection",
+     "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--language-choice-and-per-turn-drift-detection.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "never-infer-from-how-a-person-sounds",
+     "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--never-infer-from-how-a-person-sounds.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "transcript-sampling-that-keeps-the-conclusion",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--transcript-sampling-that-keeps-the-conclusion.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "entity-fidelity-not-aggregate-error-rate",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/process--entity-fidelity-not-aggregate-error-rate.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "phantom-terms-and-silence-insertions",
+     "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/process--phantom-terms-and-silence-insertions.md",
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -8818,6 +8863,7 @@
     "structured-interview-scorecards/unassessed-competency-handling",
     "voice-interview-fidelity/accent-and-first-language-error-disparity",
     "voice-interview-fidelity/entity-fidelity-not-aggregate-error-rate",
+    "voice-interview-fidelity/phantom-terms-and-silence-insertions",
     "voice-interview-fidelity/transcript-sampling-that-keeps-the-conclusion"
    ]
   },
@@ -9216,6 +9262,7 @@
     "structured-interview-scorecards/evidence-quote-requirement",
     "voice-interview-fidelity/closing-read-back-as-the-authoritative-record",
     "voice-interview-fidelity/entity-fidelity-not-aggregate-error-rate",
+    "voice-interview-fidelity/phantom-terms-and-silence-insertions",
     "voice-interview-fidelity/transcript-sampling-that-keeps-the-conclusion",
     "work-sample-timeboxing-and-cost/state-what-is-and-is-not-observed"
    ]
@@ -9329,7 +9376,8 @@
     "structured-interview-scorecards/behaviourally-anchored-level-writing",
     "structured-interview-scorecards/evidence-quote-requirement",
     "voice-interview-fidelity/closing-read-back-as-the-authoritative-record",
-    "voice-interview-fidelity/never-infer-from-how-a-person-sounds"
+    "voice-interview-fidelity/never-infer-from-how-a-person-sounds",
+    "voice-interview-fidelity/phantom-terms-and-silence-insertions"
    ]
   },
   "a-candidates-process-never-stalls-on-your-constraints": {

@@ -18,17 +18,26 @@ remedy that costs the candidate nothing to take.
 
 ## The concern
 
-The published evidence is consistent and has been for years. Evaluations of
-production recognition systems have found error rates roughly **twice as high**
-for speakers of some vernacular dialects as for speakers of the majority prestige
-dialect, and — more revealing than any average — around an order of magnitude more
-*catastrophic* transcripts, where half the words or more are wrong. Studies across
-first-language backgrounds report native-speaker error in the low single digits
-against accented speech many times higher. Proper nouns and names outside the
-training distribution fail at rates far above the running text surrounding them,
-and regional dialects within a single country show their own gaps. Newer
-foundation models narrowed the averages; they did not close the gap, and the
-tail — the catastrophic transcripts — narrowed least.
+The published evidence is consistent on direction and looser on size than it is
+usually quoted. The 2020 evaluation of five commercial systems found error
+**twice as high** for Black speakers as for white speakers (0.35 against 0.19)
+and about ten times the share of *catastrophic* transcripts, where half the words
+or more are wrong (more than a fifth of snippets against under two percent). A
+2024 controlled-prompt evaluation of an open model family found the ratio still 2.4
+to 2.8 times across two model sizes, and 1.2 times for a model trained on a
+different speech mix. The gap therefore tracks the training data, and scale alone
+narrows it slowly. Whether the *tail* has narrowed is not shown: no recent
+measurement of catastrophic-transcript rates was found, so treat any claim about
+the tail, in either direction, as unmeasured. Non-native speech is uneven, not
+uniformly many times worse: a 2025 five-system comparison on read speech from 24
+speakers found error concentrated in particular first languages, the widest
+about twenty times a US-English control, while on 22 spontaneous recordings the
+first-language differences were not significant. Proper nouns and names outside
+the training distribution are commonly reported as the weakest region, and
+regional dialects within a single country show their own gaps; no figure isolating
+either was checked here. No independent Czech measurement on spontaneous or
+accented speech was found, only vendor-page figures on read benchmarks, so a
+pipeline serving Czech candidates measures its own.
 
 Now compose that with the fact that scoring damage lives almost entirely in the
 entity lexicon, which is exactly where out-of-distribution proper nouns sit. The
@@ -54,12 +63,17 @@ every case.
    ([a claim carries its sample and its basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
    Small cells are reported as small, never suppressed and never rounded into the
    aggregate.
-3. **Bias the recogniser toward the role's domain lexicon.** Priming recognition
-   with the technologies, tools, systems and qualifications a role actually
-   involves raises fidelity most for the speakers it was worst for, because those
-   are precisely the low-frequency terms the model was guessing at. Treat this as
-   a fairness control with a deploy-time artifact and a review cadence, not as a
-   tuning nicety.
+3. **Bias the recogniser toward the role's domain lexicon, and measure both
+   sides.** Priming recognition with the technologies, tools, systems and
+   qualifications a role actually involves supplies the low-frequency terms the
+   model was guessing at. That it helps the speakers served worst *most* is a
+   hypothesis: no study reporting biasing gains by accent group was found, and
+   gains plausibly track how well the base model already decodes the audio, which
+   would put the largest gains where the least is needed. Biasing also has a
+   documented cost, a boosted term transcribed where it was not said. Give the
+   list a deploy-time artifact, a review cadence, a null-audio control before it
+   grows (phantom-terms-and-silence-insertions), and the stratified before-and-after
+   that shows whether it moved the gap.
 4. **Set a per-population floor, not just a global one.** A channel that passes in
    aggregate and fails for one population is failing, and the remedy is owed to
    that population now, not after the next model upgrade.
