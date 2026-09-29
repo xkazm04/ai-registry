@@ -45,7 +45,8 @@
       "subjects": [
         "music-prompt-composition",
         "generated-music-acceptance",
-        "sound-effect-generation"
+        "sound-effect-generation",
+        "generated-speech-acceptance"
       ]
     },
     {
