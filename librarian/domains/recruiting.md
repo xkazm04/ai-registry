@@ -1196,3 +1196,27 @@ at kp ec99bc40.
 Impact: no project pairs this subject, so no verdict is stale and no `/conform
 --stale` queue gains an entry. Yield medium, dry_streak 0, depth L2. See
 [[inference-labelling-and-refusal]].
+
+## 2026-09-29 - deepen: presenting-a-score-to-a-recruiter
+
+First touch, dispatched by the Curator lane on "never swept by the librarian". Three lanes:
+a web counter-evidence lane, a blind lane (not blind on the band finding: its third question
+described it), and a run-and-read pass over kp at `70dd2319d`.
+
+- **Conditioned:** "assumptions beside the number make the recruiter decide". Bansal 2021 and
+  Buçinca 2021, abstracts read verbatim: explanations raised acceptance regardless of
+  correctness, and cognitive forcing reduced overreliance at the cost of liking. Not hiring
+  studies. The re-weighting slider's motivated-tuning risk is held as a design consequence
+  (the study behind it was a search summary only).
+- **Found in the tree:** a different question needs three decisions (storage, ranking read,
+  labelled display), not a caption; two locked band families disagree on 10 of 101 scores
+  side by side on one card; the knockout detectors were asymmetric (list order, feminine
+  inflection) and no score histogram could show it.
+- **Three applications added, three re-verified** (kp, node@24 and react@19, every moved
+  line citation corrected); the rubric-version deviation is half closed and nothing renders
+  it. Four techniques and the golden path widened; no new technique.
+
+Five `applied.md` rows: two experiments (10 of 101; 3 of 16 versus 0 of 16), two code
+(the tree already ships the fix: 28 and 35 tests pass), one unapplied. The band deviation is
+recorded, not fixed: it moves a recruiter-visible threshold. Impact: no stale verdict against
+this subject. Yield high, dry_streak 0, depth L3. See [[presenting-a-score-to-a-recruiter]].
