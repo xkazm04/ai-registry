@@ -1112,3 +1112,48 @@ All three applications were re-verified at kp 9f2ff09d6.
 Impact: kp has 6 contexts on this subject and 0 stale verdicts. A sibling's 13:21
 rebuild, from a tree containing this landing, had already regenerated the maps, so no
 rebuild ran here. Yield high, dry_streak 0, depth L3. See [[inclusive-job-advertising]].
+
+## 2026-09-29 - deepen: hypothesis-not-verdict-soft-signals
+
+The Curator lane dispatched this on "never swept by the librarian". The reason held
+at dispatch HEAD: no subject note and no earlier pass. The applications were
+verified on 2026-08-20, and a day later kp fixed both deviations they recorded and
+a Czech regex that read a candidate's grammatical gender. Four lanes ran: counter,
+primary, blind, and tree.
+
+Two claims were refuted as stated, and no claim survived unchanged:
+- **"Flight risk" read from tenure is not empty.** Prior tenure predicts turnover
+  modestly (Barrick & Zimmerman 2005), so the ban is a policy. The technique's own
+  model sentence named it, a production panel shipped it verbatim, and it is
+  rewritten on the record.
+- **Deterministic detectors are not free of judgment.** Self-presentation is
+  gendered (Exley & Kessler 2022; Murciano-Goroff 2022), and the tree had the
+  incident.
+
+Four were conditioned:
+- a CV-derived probe is ancillary information: a closed bank, equal across
+  applicants, the hypothesis withheld from the rater (Levashina et al. 2014; EEOC
+  2007);
+- a work sample is direct evidence at .33, not proof (Sackett et al. 2022);
+- gaps are unvalidated rather than uninformative, and recency of practice carries
+  three conditions;
+- the hold is released by asking.
+
+The tree found two live seams:
+- **kp's copied checklist was one-sided:** 32 of 66 seeded candidates got a
+  risks-only export;
+- **kp's model fold pinned "Two-year employment gap is unexplained." as a flag that
+  must survive.**
+
+No technique earned. Eight `applied.md` rows:
+- three code, better: kp d9c8b17f, local;
+- one simulation, better: the neutrality registry's prose pairs detect the gender
+  bug 0 of 2 times, and a vocabulary pair detects it;
+- four unapplied.
+
+Three applications were re-verified at kp d9c8b17f, and two RED FLAG deviations
+were retired.
+
+Impact: kp has 3 contexts on this subject and 0 stale verdicts. The engine file sits
+in no context. Maps were committed locally in twelve projects, none pushed. Yield
+high, dry_streak 0, depth L3. See [[hypothesis-not-verdict-soft-signals]].
