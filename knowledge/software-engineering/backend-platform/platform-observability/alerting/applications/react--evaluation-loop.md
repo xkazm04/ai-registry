@@ -4,13 +4,15 @@ type: application
 subject: alerting
 technique: evaluation-loop
 stack: react
-verified_on: 2026-08-18
+status: forged
+verified_on: 2026-09-29
+verified_against: react@19
 ---
 
 # Evaluation loop — the always-mounted global alert evaluator
 
 `src/features/overview/sub_observability/libs/useGlobalAlertEvaluator.ts`
-(67 lines) is a near-checklist implementation of the technique — and its own
+(73 lines at personas `df3c51ef71`; the growth since 2026-08-18 is one comment) is a near-checklist implementation of the technique — and its own
 doc comment records the bug that motivated each rule.
 
 ## Loop lifetime = app lifetime, learned the hard way
@@ -86,10 +88,19 @@ path and broken on a neighboring one:
 - **Empty windows coerce to zero.** Both `alertSlice.evaluateRule` and the
   Rust `evaluate_rule` return `0.0` for rates over a window with no decided
   executions, instead of skipping; on an idle install, every `<`/`<=` rule
-  fires forever. The Rust test `empty_window_never_fires_rate_rules`
+  fires once per cooldown, forever (`FIRED_COOLDOWN_SECS = 3600`,
+  `alert_evaluator.rs:57`, gate at `:215-219`). The Rust test `empty_window_never_fires_rate_rules`
   asserts only the `>` direction — the direction manufactured zeros never
   set off.
 - **No persisted last-evaluated stamp** — `AlertEvalHealth` is in-memory,
   so "no alerts overnight" and "app closed overnight" are indistinguishable
   afterward on the client side (the Rust loop closes most of this gap by
-  running with the UI closed).
+  running with the UI closed — but it keeps no health record at all: `tick()`
+  logs a warning and returns when the rule list fails to load, and
+  returns silently when no rule is enabled, `alert_evaluator.rs:193-203`, so the server-side loop's death is
+  unobservable too. The technique's absence section names the fix: a heartbeat
+  to a receiver outside the loop).
+
+Re-read 2026-09-29 against `df3c51ef71`: all three deviations above still hold;
+no commit since 2026-08-18 touched them (`useObservabilityData.ts:70` is still
+the line cited).

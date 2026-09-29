@@ -4,7 +4,9 @@ type: application
 subject: alerting
 technique: rule-authoring-validation
 stack: rust
-verified_on: 2026-08-18
+status: forged
+verified_on: 2026-09-29
+verified_against: rust@1.80
 ---
 
 # Rule-authoring validation — always-true rejection at the storage door
@@ -65,7 +67,10 @@ if let Some(op) = input.operator {
 }
 ```
 
-A threshold-only edit to `0` on an existing `>=` rule slips through — the
+A threshold-only edit to `0` on an existing `>=` rule slips through (and so
+does an operator-only edit to `>=` on a stored threshold of `0`: the check
+sits inside `if let Some(t) = input.threshold` and also demands
+`input.operator`, `alerts.rs:59-72`) — the
 technique's "edits pass the same door as creations" rule is honored in
 routing but not in completeness, because the door validates the *delta*
 rather than loading the row and validating the *resulting rule*. The
@@ -91,3 +96,11 @@ Measured against the technique's full field list:
   path), so the same row means different questions to different
   evaluators — the technique's "whole predicate lives in the rule" section
   is the standing gap here.
+
+Re-read 2026-09-29 against personas `df3c51ef71`: every gap above still holds,
+and `AlertRuleForm.tsx` (added since) validates only that the name and threshold
+are non-empty (`:41`), so the editor adds no check the storage door lacks. The
+repo layer builds its SET clauses per field (`alert_rules.rs:139-179`) with no
+fetch-merge, which is why the delta-only validation cannot be completed there.
+The stack witness is the `rust-version = "1.80.0"` floor in
+`src-tauri/Cargo.toml`.
