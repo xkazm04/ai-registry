@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-psm-0929g",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T19:00:00Z",
+  "ended_at": "2026-09-29T19:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/pipeline-stage-modelling",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-primary-checkout",
+  "notes": "Seventh dispatch today on a stale finding; origin holds three landings and three idles. Read origin (local main 99 behind). No return condition met: screenStageOutcome already axis-threaded, no kp stage change since, no currency row, next clock 2026-12-29. No lanes ran."
+}
