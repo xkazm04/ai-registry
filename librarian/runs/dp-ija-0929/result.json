@@ -1,0 +1,79 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ija-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T10:58:00Z",
+  "ended_at": "2026-09-29T11:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/inclusive-job-advertising",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/inclusive-job-advertising",
+      "technique": "multilingual-inflection-tolerant-linting",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/inclusive-job-advertising",
+      "technique": "multilingual-inflection-tolerant-linting",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/inclusive-job-advertising.md",
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/techniques/advisory-lint-gated-on-substance.md",
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/techniques/age-proxy-detection.md",
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/techniques/boilerplate-that-reads-as-a-red-flag.md",
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/techniques/gendered-and-coded-language-detection.md",
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/techniques/multilingual-inflection-tolerant-linting.md",
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/techniques/stated-pay-and-place-test.md",
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/applications/node--advisory-lint-gated-on-substance.md",
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/applications/node--multilingual-inflection-tolerant-linting.md",
+    "knowledge/recruiting/role-definition/inclusive-job-advertising/applications/process--stated-pay-and-place-test.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/inclusive-job-advertising.md"
+  ],
+  "commits": [
+    {
+      "sha": "4e972bc2",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/role-definition/inclusive-job-advertising"
+      ]
+    },
+    {
+      "sha": "727b4d93",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/inclusive-job-advertising.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No technique; 6 refuted, 4 conditioned. kp ec835e39a (copy remedies, trailing euro) and 9f2ff09d6 (NFC), local. 5 unapplied, 2 copy fact-checks. Index/maps already current via sibling ff06a7e4; gate --all 23/23. Registry unpushed: main interleaves sibling commits."
+}
