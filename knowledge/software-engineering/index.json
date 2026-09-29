@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1814,
-  "applications": 1193,
+  "techniques": 1815,
+  "applications": 1195,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1814/1814",
+  "use_when_coverage": "1815/1815",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2966,10 +2966,24 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
-   "digest": "sha256-b2:bad79dd7b84ba6b3",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:6a3a437ff0e42713",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
+    {
+     "slug": "absence-as-a-condition",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rule's metric stopped being emitted",
+      "deciding what a no-data tick does to a sustain streak",
+      "a job that must run on a schedule needs a rule",
+      "the evaluator itself could be dead"
+     ]
+    },
     {
      "slug": "alert-lifecycle",
      "status": "forged",
@@ -2994,6 +3008,7 @@
      "shared_with": [],
      "use_when": [
       "choosing where last-fired state lives",
+      "a failed send leaves a rule silent for its whole window",
       "opposite-direction alerts alternate past cooldown",
       "two evaluators each believe they own firing"
      ]
@@ -3032,6 +3047,7 @@
      "shared_with": [],
      "use_when": [
       "alerts flip between firing and recovering",
+      "picking a rule shape for an availability objective",
       "identical inputs leave subjects holding different labels",
       "tuning how long a breach must hold before it counts"
      ]
@@ -3066,16 +3082,32 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "absence-as-a-condition",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/next--absence-as-a-condition.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "react",
      "technique": "evaluation-loop",
      "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/react--evaluation-loop.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "dedup-and-cooldown",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/rust--dedup-and-cooldown.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "rule-authoring-validation",
      "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/rust--rule-authoring-validation.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-29",
+     "verified_against": "rust@1.80"
     }
    ]
   },
@@ -38627,6 +38659,7 @@
     "agent-runtime-assembly/indeterminate-closure-on-interruption",
     "agent-runtime-assembly/operator-tier-code-loading",
     "agent-runtime-assembly/rewrite-before-the-gate",
+    "alerting/absence-as-a-condition",
     "alerting/evaluation-loop",
     "alerting/periodic-digest",
     "app-shell/lazy-section-loading",
