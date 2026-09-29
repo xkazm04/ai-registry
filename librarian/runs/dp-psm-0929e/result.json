@@ -1,0 +1,71 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-psm-0929e",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T17:40:00Z",
+  "ended_at": "2026-09-29T20:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/pipeline-stage-modelling",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/pipeline-stage-modelling",
+      "technique": "screening-gate-index",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/techniques/screening-gate-index.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/techniques/retired-stage-tombstones-and-migration.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/techniques/entry-and-terminal-role-requirements.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/techniques/one-sentence-meaning-per-stage.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/node--screening-gate-index.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/node--retired-stage-tombstones-and-migration.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/react--off-axis-candidate-recovery.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/spec--screening-gate-index.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/spec--stage-role-vocabulary-not-stage-names.md",
+    "librarian/applied.md",
+    "librarian/subjects/recruiting/pipeline-stage-modelling.md"
+  ],
+  "commits": [
+    {
+      "sha": "4175df53",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling"
+    },
+    {
+      "sha": "e60179ec",
+      "branch": "main",
+      "pathspec": "catalog.json knowledge/recruiting/index.json rules/ai-registry-recruiting.md"
+    },
+    {
+      "sha": "c56d1eb3",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/subjects/recruiting/pipeline-stage-modelling.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Third pass, first with blind and web lanes and executed kp witnesses. Built on origin/main after a stale-checkout start. kp fix 5f990d590 and map c35a63321 are local and unpublished. Three applied rows unapplied."
+}
