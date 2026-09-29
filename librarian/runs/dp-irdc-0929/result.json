@@ -1,0 +1,34 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-irdc-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T12:40:00Z",
+  "ended_at": "2026-09-29T13:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/interview-round-design",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "notes": "Dispatched on never-swept after 770c906a had landed the golden-path corrections; the live clock was the applications (verified 2026-08-20) and the tree lane. kp at ec99bc406 showed a topN tie split by arrival order (executed) and a two-instrument ranking fixed by currency tiering. No new technique; two conditions added to cohort-reducer-between-rounds. Applied rows: unapplied, one project."
+}
