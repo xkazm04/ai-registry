@@ -1,0 +1,102 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-uea-0929",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "run",
+  "domain": "media-generation",
+  "started_at": "2026-09-29T13:55:07Z",
+  "ended_at": "2026-09-29T14:33:32Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/generated-speech-acceptance",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "llm-observability/judge-calibration-and-drift",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/eval-harness",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "judge-calibration-and-drift",
+      "technique": "judge-replacement-bridge",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "judge-calibration-and-drift",
+      "technique": "judge-replacement-bridge",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "eval-harness",
+      "technique": "eval-economics",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "catalog.json",
+    "knowledge/llm-observability/index.json",
+    "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/applications/python--judge-replacement-bridge.md",
+    "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/judge-calibration-and-drift.md",
+    "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/techniques/judge-replacement-bridge.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/applications/python--normalize-before-you-compare.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/applications/python--published-number-comparability.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/applications/python--round-trip-intelligibility.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/generated-speech-acceptance.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/techniques/hard-slice-stratification.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/techniques/instruction-following-judged-on-audio.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/techniques/normalize-before-you-compare.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/techniques/published-number-comparability.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/techniques/round-trip-intelligibility.md",
+    "knowledge/media-generation/audio-generation/generated-speech-acceptance/techniques/three-axes-beside-intelligibility.md",
+    "knowledge/media-generation/index.json",
+    "knowledge/media-generation/taxonomy.json",
+    "knowledge/software-engineering/index.json",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--eval-economics--ultraeval-audio.md",
+    "librarian/handoffs/2026-09-29-generated-speech-acceptance.md",
+    "librarian/subjects/llm-observability/judge-calibration-and-drift.md",
+    "librarian/subjects/media-generation/generated-speech-acceptance.md",
+    "librarian/subjects/software-engineering/eval-harness.md",
+    "rules/ai-registry-llm-observability.md",
+    "rules/ai-registry-media-generation.md",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/sources/2026-09-29-ultraeval-audio.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One forged subject, one technique and two executed applications from an audio evaluation harness. The judge-swap seam shipped one fleet commit (not pushed). Six speech techniques are unapplied: no fleet speech seam."
+}

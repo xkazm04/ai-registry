@@ -4955,3 +4955,19 @@ routing distinction, not the discovery.** One lesson, not yet a trend: an absenc
 vocabulary returned zero for a rule a technique states in different words (`byte for byte`),
 so a design entry that reads as a gap is opened against its nearest technique before it is
 scored, not after.
+| 2.14.1 | 2026-09-29 | `github:OpenBMB/UltraEval-Audio@bead7269` - a model lab's audio evaluation harness (research-model release in evaluation-harness form; the README is the advertisement, the replication notes and scorers are the source) | 1 repository (1,630 files: 1,263 vendored, about 10,000 first-party code lines, 9,732 words of first-party prose beside a 2,219-word landing page); **1 of 3 director fetches** (the benchmark paper, to verify a worker's claim) plus five worker primaries; about 25 corpus files opened; 1 fleet tree read and 29 recorded cycles replayed; 4 executed probes over the tree's real code | 13 (7-entry design record) | 8 verified: 1 accept by score, 1 XL escalated and forged, 1 source-tree application promoted by execution, 3 catches opened, 2 folded into the XL; a worker's factual claim re-fetched and corrected upward (2.8 to 3.8 points) | **1 technique** + golden-path section + failure mode + **1 subject** (6 techniques, 3 applications, via one forge worker) + **2 applications** against the source tree, both executed | 3 rows (`0c/3e/0s/0t/0r`): judge bridge `better` (accounting half; the ladder hypothesis refuted on history), the bridge itself `unmeasurable` (instrument named), resume keying `better`; 6 speech techniques `unapplied` (no fleet speech seam) | 1 code commit (fleet studio, +12/-2 over 3 files, not pushed) | The declared focus (ship the smallest code half of an experiment row) **moved**: it shipped, from a falsifying seam that refuted its own hypothesis and still had a measurable, attribution 0 to 46 of 46 with the floor held on 27 of 27 cycles. The six `unapplied` rows are a routing cost: an XL forge in a domain with no live consumer ends unapplied by construction. | S1/T7/A0/Asrc5/task0 - routing count 5 unmodelled decisions, 4 sharing one home (XL trigger fired); forged in session, no repository handoff; directions=not-run (the fleet-map generator writes a shared-tree file); gate=1 escalation (E4), answered forge-now |
+
+**2026-09-29 (ultraeval-audio) - weakest stage and next focus.** Ship recovered: of the last ten
+rows, seven carry a code commit (three zeros), and this row is one of the
+seven, so the declared focus was met. What is weakest now is **apply on a forged subject**. An XL
+forge in a domain with no live fleet consumer lands as content and ends with six `unapplied`
+rows, and the gate did name that cost before the operator chose to forge. The neighbouring
+domain did have a seam (a judge in the studio), which is where this run's one applied technique
+came from, so an unconsumed forge can still be applied through the technique that generalizes.
+Next run's declared focus: **on a repository that ships a harness (a resume, a scorer, an
+aggregator), execute its real code with the irrelevant dependencies stubbed before triaging.** Two
+of this run's four findings (an unbound-variable crash that replaced the upstream error, and a
+0.0 percent rate on zero valid scores) were invisible to a read that had already reached the same
+functions. One lesson, not yet a trend: a source's word "official" names a publication, not a
+source, so a table that says official gets one question (which publication?) before it is used as
+an anchor.

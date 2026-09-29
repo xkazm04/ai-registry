@@ -12143,3 +12143,32 @@ finish on the version it loaded.)
 - **The seam that could falsify chose itself.** The hiring workspace's report door could have
   shown the missing-decider finding harmless in a single-owner deployment; it did not, and
   the probe counted the paths (8 of 56) rather than asserting them.
+
+## 2.14.1 - 2026-09-29 - ultraeval-audio
+
+- **Stub the irrelevant, execute the rest.** A third-party evaluation harness imports scoring packages
+  that neither question needed. Replacing them with stubs let the tree's own resume loader, task runner,
+  evaluator and aggregator run unmodified, and two of the run's four findings appeared only when they
+  ran: the recorded error for a judge outage was an unbound-variable crash rather than the upstream
+  failure, and an axis with no valid scores reported a 0.0 percent rate that entered the average. The
+  read had opened the same functions and missed both. Give the probe a positive control (an unsampled
+  run that must show zero misbinding) so a clean count cannot come from a rig that did nothing.
+- **A worker's claim about a primary gets re-fetched when it edits a landed technique.** The forge
+  worker said the paper's reference row and the repository's differed by "nearly three points"; the
+  paper's full text said 3.8, on a Chinese cell the worker's summary did not mention. One verbatim fetch changed the
+  measured case, the tolerance rule and the application. Fetch the text, not a summary, and search it
+  for the numbers you were told, not the ones you expect.
+- **"Official" in a source's table names a publication.** The tree compared against the repository's
+  numbers and called them official; the paper's own were different and absent from the repository.
+  Ask which publication before treating a figure as an anchor, and run the comparison against both
+  when there are two.
+- **A falsifying seam can refute its hypothesis and still ship.** The retry ladder never fired in 29
+  recorded cycles, so the mixing claim is false on history; the change shipped because the measurable
+  was attribution, which moved from 0 to 46 of 46 with the floor held. Say both in the row.
+- **Patch a fleet file by its own line endings, and expect a worker's files to arrive CRLF.** The
+  studio's working copy was CRLF against an LF index, so a replay that normalized newlines matched text
+  the file did not contain; two of the forge worker's files came back CRLF into an LF-only repo.
+  `git ls-files --eol` first.
+- **`main` moves while a worktree run is live.** A sibling landed four commits between the worktree cut
+  and the first commit. Compare the worktree's base with `main` before every ref move and rebase when
+  they differ; the shared ledgers are the files that always collide.
