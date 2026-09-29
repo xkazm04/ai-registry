@@ -4611,8 +4611,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-round-design/interview-round-design.md",
-   "digest": "sha256-b2:5a021b090aade6a7",
-   "revision": 2,
+   "digest": "sha256-b2:f98bfd4d1a10a7a1",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -4711,19 +4711,22 @@
      "stack": "node",
      "technique": "cohort-reducer-between-rounds",
      "file": "knowledge/recruiting/assessment/interview-round-design/applications/node--cohort-reducer-between-rounds.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "shared-material-for-comparability",
      "file": "knowledge/recruiting/assessment/interview-round-design/applications/node--shared-material-for-comparability.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "phase-to-competency-mapping",
      "file": "knowledge/recruiting/assessment/interview-round-design/applications/process--phase-to-competency-mapping.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     }
    ]
   },
