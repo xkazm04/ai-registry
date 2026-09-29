@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ija-0929b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T14:05:00Z",
+  "ended_at": "2026-09-29T14:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/inclusive-job-advertising",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-finding-dispatch: subject re-sent on a scan reason the dispatch HEAD had already cleared",
+  "notes": "8b3230f3 already holds dp-ija-0929; librarian-scan: lastSwept 2026-09-29, points 0, no reasons. check-currency silent. kp: 3 commits since 9f2ff09d6, none on jd-lint seam files (9f2ff09d6 is the positive control). Second such dispatch today. No clock or event."
+}
