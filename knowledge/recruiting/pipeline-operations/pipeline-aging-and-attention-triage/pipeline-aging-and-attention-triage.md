@@ -86,8 +86,12 @@ The single most common defect in this subject is one global staleness cut —
 fourteen days, say — applied to every entry in the workspace. It is wrong in
 both directions simultaneously, and the worked contrast makes it obvious:
 **ten days in an offer stage is a stall; ten days at intake is normal.** An
-offer with no answer for a week and a half means something has gone wrong that
-somebody must chase today. An application sitting in a fresh-arrivals column
+offer nobody has sent, or one whose response window lapsed a week and a half
+ago with no answer, means something has gone wrong that somebody must chase
+today. An offer the candidate is still inside the window for is not a stall:
+the next move is theirs, and the offer stage changes hands when the offer is
+sent and again when its window lapses (see the per-stage technique). An
+application sitting in a fresh-arrivals column
 for ten days in a high-volume funnel is unremarkable, and flagging it trains
 recruiters to ignore the badge — which then fails to fire when it matters.
 
@@ -125,7 +129,10 @@ law that governs the rest of hiring automation:
 An aging surface may surface, rank, colour and nag. It may not advance,
 reject, close, or auto-archive anything, however confident the duration is. The
 number of days a person has waited is a fact about your operation; it is not
-evidence about them, and it may never become a reason to reject them.
+evidence about them, and it may never become a reason to reject them. Ranking
+is inside that line only while a human can and does look past the top of the
+list: rows beneath a cap stay reachable and counted, or the ordering has become
+the decision.
 
 ## An attention queue is a set of queues, each carrying its reason
 
@@ -231,6 +238,15 @@ pipeline discipline wants to borrow:
   rather than once per stint, so every unmoved row re-announces itself each day
   until the feed is skipped, and a hire in a terminal stage announces itself
   forever.
+- **The offer that ages inside its own window.** One dwell clock across an
+  offer stage that changes hands twice, so a candidate deliberating inside the
+  window you granted raises a stall alert, and an unsent draft ages exactly like
+  a sent offer.
+- **The copied clock.** One policy function exists, and the next view written
+  against the board reimplements it as "dwell at or past the threshold". It
+  reads a missing date as fresh, has no stalled tier, and its own comment still
+  calls it the product's one clock, so the surfaces disagree in a way the shared
+  function was written to prevent.
 - **The half-tunable policy.** Thresholds adjustable in the interface layer but
   frozen in the engine that runs the daily pass — two policies, one of them
   unarguable by the people who own the process.

@@ -6,6 +6,7 @@ technique: attention-queue-ordering-and-rationale
 stack: node
 status: forged
 verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Five named queues behind the sidebar badges (Node)
@@ -25,9 +26,9 @@ its rows; the `pipeline` row's predicate changed.
 ## Named queues, each with its rationale in the type
 
 The queue set is not a config table — it is the `AttentionCounts` type
-(`:26-44`), where every field carries the written reason it earns attention:
+(`:27-53`), where every field carries the written reason it earns attention:
 
-| Field | Predicate (`:63-73`) | Rationale in the source |
+| Field | Predicate (`attentionCounts`, `:65-82`; `attentionStale`, `:95-102`) | Rationale in the source |
 | --- | --- | --- |
 | `decisions` | `status === "active" && needsHumanDecision(e.approvalKind)` | "Entries waiting on a recognized human approval gate" |
 | `pipeline` | `attentionStale`: active and `agingTierAt(stage, stageChangedAt, now, axis) !== "none"` | "Active entries past their stage's aging SLA: the team's own cadence (`slaDays` on the stage axis) where set, else the stage role's default" |
@@ -42,7 +43,7 @@ an ordering convention.
 
 ## The rename incident
 
-`:56-61` records the failure the standard warns about, in both directions from
+`:68-72` records the failure the standard warns about, in both directions from
 one cause:
 
 > The two stage questions below are about MEANING — "have they finished?" and
@@ -92,9 +93,14 @@ masquerade as a real gate.
 The mirror-image cost the standard names — an unrecognised kind silently
 *omitting* an entry from the queue that outranks everything else — is still not
 counted or surfaced in this module, and a search of the app tree on 2026-09-29
-found no consumer that counts unrecognised approval kinds. The standard's pairing
-requirement (write-site validation plus an observed count of unrecognised
-values) stands unmet here.
+found no runtime consumer that counts unrecognised approval kinds. The write
+side has one guard, and it is a test rather than a runtime check:
+`approval-kinds.test.ts:69-93` scans `app/` for `setApproval(x, "<kind>")` and
+`approval_kind='<kind>'` literals and the calendar seeder, and fails on any kind
+outside `APPROVAL_KINDS`. It is one-directional: a kind passed as a variable is
+invisible to it. The standard's pairing requirement (write-site validation plus
+an observed count of unrecognised values) is therefore met at build time for
+literals and unmet at run time.
 
 ## A sixth key that is deliberately not a queue
 
@@ -123,8 +129,26 @@ passed" until a four-hour `RECENT_WINDOW_MS` grace bucket was added.
 - **The ranked board strip is gone.** `PipelineAttentionStrip.tsx`, which used to
   merge two queues into one ranked list above the board, was deleted on
   2026-09-25 with the old board view (`b7fde0c32`). The replacement kit view
-  orders its groups by an `attention` number (`orbitModel.ts`: waiting first, then
-  aging, then the rest, as a weighted sum), which is a blended ordering rather
-  than named queues each carrying a sentence. I did not read that view's row-level
-  rationale, so whether each row states why it is listed is not evaluated here.
-- **Unrecognised approval kinds are unobserved**, as above.
+  orders its groups by an `attention` number (`orbitModel.ts`: `attentionRank`
+  `:136` gives waiting 0, aging 1, other 2, and the group number is
+  `wait*1e6 + aging*1000 + act` at `:211`, sorted at `:228`), which is a blended
+  ordering rather than named queues each carrying a sentence. Read at HEAD on
+  2026-09-29: the model carries no reason string. A row waiting on a human states
+  its kind (`ladderParts.tsx:140`, `OrbitMatches.tsx:55-66`); an aging row shows
+  only an amber "12d / 7d" (`AgeText`, `ladderParts.tsx:72`), so the rationale
+  rule holds for the top queue and not for the second. Groups are by lens
+  (family, city, seniority), not by queue.
+- **A copied clock.** The orbit view's `isStale` (`PipelineOrbitView.tsx:93`)
+  and the tab's (`usePipelineTabState.ts:139`) are each
+  `daysSince(...) ?? 0 >= slaForStage(...)`. Neither calls `agingTierAt`, so
+  neither has a stalled tier, and both read an unknown date as zero days rather
+  than as unmeasured, while the orbit view's comment calls the tab's copy "the
+  product's one aging clock". The single-clock claim in this note holds for the
+  badge, the automation pass and the board's amber dot, not for these two.
+- **The offer stage has one dwell clock.** `agingTierAt` reads the stage and
+  `stageChangedAt` and nothing else, so an offer with a live seven-day
+  response window (`offers-store.ts` `expires_at`, default window in
+  `offer-policy.ts:23-26`) counts as aging at three days and stalled at six, and
+  an offer nobody has sent ages identically. The offer discipline's single
+  pre-expiry nudge goes to the candidate, never to the recruiter.
+- **Unrecognised approval kinds are unobserved at run time**, as above.

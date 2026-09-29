@@ -122,6 +122,14 @@ soonest starting — and cap each queue's contribution so one noisy queue cannot
 own the whole strip. A strip that is thirty aging rows has told the recruiter
 nothing they did not know.
 
+Two limits on that cap. It is a design judgment: no measurement gives the number
+of concurrent flags a person can act on, and the fatigue literature is about
+alarm rates and the rarity of the top priority (alarm-management practice aims
+to keep the highest tier a small minority of what fires), not about a share of a
+strip. And a cap hides rows, so it must never hide the count: show the queue's
+true total beside the capped rows, and treat a queue that is always full as a
+threshold or capacity fault to fix rather than something the cap absorbs.
+
 ## The strip outranks the setup checklist
 
 On a workspace home surface the attention strip sits **above** onboarding and
@@ -145,6 +153,19 @@ attributed:
 A snooze in particular must record who snoozed, why, and until when — an
 unattributed, unexpiring snooze is the mechanism by which the strip becomes a
 place things go to disappear.
+
+Ordering people by dwell for a recruiter who then decides is not, on its own, an
+automated decision: the European regulators' guidance asks whether the human
+review is meaningful, by someone with the authority and competence to change the
+outcome, and says routinely applying an automatically generated ranking with no
+actual influence on the result is still solely automated. Two consequences.
+Everything below a cap, or below the fold, is a person nobody may ever open, so a
+strip is only an aid while rows beneath it stay reachable and counted. And a
+sorted queue that recruiters follow without looking is the version that edges
+toward the court's reading that a score which a decision-maker draws strongly on
+is itself the decision. Whether a dwell-only ordering counts as profiling under
+the AI Act's carve-out for narrow procedural and preparatory tasks is open; no
+guidance found addresses it. This is a reading of the texts, not legal advice.
 
 ## Decision rules
 

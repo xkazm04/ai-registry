@@ -70,11 +70,16 @@ An override is a change to a promise, so treat it like one:
 
 - **Attributed and dated.** Who set it and when — an unexplained threshold of
   ninety days on one board is indistinguishable from an accident.
-- **Keyed by role, not by stage name.** The override table has the same shape as
-  the default table, per
+- **Keyed by something a rename survives, not by the display string.** Role is
+  the default key and has the same shape as the default table, per
   [meaning does not live in a label](../../../_laws.md#meaning-does-not-live-in-a-label);
   an override keyed to a display string breaks on the next rename exactly as the
-  default would.
+  default would. Where the axis is editable and two columns can play one role, a
+  role key cannot say "this second interview column is tuned differently", so key
+  by the column's stable identity, whose label is the editable part; the override
+  then travels with a rename and still resolves to the role's default when
+  cleared. One production implementation took that route and kept the role
+  default as the fallback.
 - **Bounded.** Allow a reasonable multiple of the default, not an arbitrary
   number. An unbounded override is a suppression with extra steps, and a
   suppression is the mechanism by which a board goes quiet for a quarter.

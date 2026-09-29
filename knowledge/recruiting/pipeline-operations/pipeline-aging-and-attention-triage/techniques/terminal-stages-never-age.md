@@ -58,7 +58,17 @@ Three states get conflated and want separate handling:
 - **Inactive or archived entry** — the record was set aside administratively
   while the stage is still, say, screening. No clock while inactive, but the
   clock should resume, not restart, if it is reactivated: the candidate's wait
-  did not pause because your record-keeping did.
+  did not pause because your record-keeping did. That holds while nobody was
+  told anything. Once an outcome was recorded and sent (a rejection, a closed
+  role), the stint it ended is over, and reinstating the entry begins a new one:
+  the candidate's wait for a fresh answer starts at the reinstatement, and
+  carrying the old anchor would return them as stalled on the day they were
+  brought back. Two clocks read in one implementation (2026-09-29) split exactly
+  there: reinstating a rejected entry restarted the clock, and reopening a
+  closed role kept the old anchor, so months of closure counted as dwell. The
+  first is right; whether the second is depends on whether closing told
+  the candidate, which the aging code cannot see, so record the outcome's
+  communication before deciding which side a reactivation falls on.
 - **Withdrawn by the candidate** — terminal, and worth distinguishing from
   rejected in the record even though both stop the clock, because the two
   belong to different stories about the pipeline.
@@ -110,8 +120,9 @@ never a licence to close a record on their behalf.
 
 - Compute aging only for entries whose stage role is in the active set.
 - When a role cannot be resolved, do not age the entry.
-- When an entry is reactivated out of an inactive state, resume its wait from
-  the candidate's perspective rather than resetting it to zero.
+- When an entry is reactivated out of an administrative inactive state, resume
+  its wait from the candidate's perspective rather than resetting it to zero;
+  when it is reinstated after an outcome that was sent, start a new stint.
 - Model "outcome decided but not communicated" as a separate attention queue,
   never as an aging threshold on a terminal stage.
 
