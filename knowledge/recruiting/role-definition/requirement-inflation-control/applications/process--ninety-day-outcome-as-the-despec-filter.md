@@ -5,7 +5,7 @@ subject: requirement-inflation-control
 technique: ninety-day-outcome-as-the-despec-filter
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # The de-spec filter inside a prompted intake persona
@@ -23,12 +23,12 @@ lives in prose that a human edits, and the code holds only the enforcement.
   the intake persona in `pipeline/jobfit/intake.py` — change the rules here
   first, then the code." That ordering is what keeps a conversational
   discipline from decaying into whatever the last prompt edit happened to say.
-- `pipeline/jobfit/intake.py:60` — `_PERSONA_TECHNIQUE`, the eleven numbered
-  rules, injected into both prompt assemblies at `:147` and `:182`.
+- `pipeline/jobfit/intake.py:67` — `_PERSONA_TECHNIQUE`, the eleven numbered
+  rules, injected into both prompt assemblies at `:223` and `:259`.
 
 ## The filter as written
 
-`intake.py:77` carries the rule almost exactly as the standard states it:
+`intake.py:84` carries the rule almost exactly as the standard states it:
 
 > "(8) Anchor requirements in outcomes: ask what this person should have
 > gotten DONE in the first 90 days, and use it as the filter — a must-have
@@ -50,7 +50,7 @@ that repairs it are paired in the same table.
 the question and then accepts whatever the requestor says next, which is
 transcription with extra turns.
 
-**It sits after laddering, not instead of it.** Rule 4 (`intake.py:68`)
+**It sits after laddering, not instead of it.** Rule 4 (`intake.py:75`)
 climbs the label; rule 8 decides whether the construct belongs on the must
 line. The two are adjacent in the same prompt and are genuinely different
 operations — the seam this subject holds with the intake-conversation
@@ -69,7 +69,7 @@ agent, not as tone.
 The provenance model completes it. Persona rule 11 requires the read-back to
 map to the brief with "provenance `stated` only for what the requestor
 actually said/confirmed; agent proposals stay `inferred` until confirmed", and
-`intake.py:346` (`_stated_facet`) plus `_apply_answer` at `:360` record
+`intake.py:883` (`_stated_facet`) plus `_apply_answer` at `:897` record
 `source_turn` for every stated value — the docstring's stated reason being
 "defensibility — every stated value traces to the exact turn that produced
 it". So a demotion that happened in the session is attributable to the turn it
@@ -80,13 +80,15 @@ requestor decision.
 
 `role-intake-research.md:29` grounds the whole subject in the published
 figure: 26 million postings, 67% of production-supervisor listings demanding a
-degree that only 16% of incumbents held. The same bullet lists the causes —
+degree that only 16% of incumbents held (a 2017 analysis; the postings side has
+since loosened, so the research file's line would read better with its year, as
+the degree-audit technique now dates it). The same bullet lists the causes —
 "many stakeholders adding without removing, specs modeled on the leaver,
 aspirational future-role specs" — and the counter-moves: "push back AT intake
 (not after shortlists), reframe have→do, bring market data, cap the scorecard
 to force rank-ordering". Four causes, four counters, one line each. The
 research file grades its own evidence (`[strong]` / `[moderate]` / `[lore]`)
-per claim, which is why a directional vendor survey at `:34` sits next to a
+per claim, which is why a directional vendor survey at `:35` sits next to a
 26-million-posting analysis without either borrowing the other's authority.
 
 ## Deviations from the standard
@@ -98,10 +100,10 @@ per claim, which is why a directional vendor survey at `:34` sits next to a
   flagged at read-back time rather than depending on the model having applied
   rule 8 in the moment.
 - **The pairing has a field and the fast path leaves it empty.**
-  `rolebrief.py:75` defines `BriefRequirement.rationale` exactly as the
+  `rolebrief.py:89` defines `BriefRequirement.rationale` exactly as the
   standard wants it — "why THIS role needs it, in the requestor's terms" —
   alongside `provenance`, `confidence` and `source_turn`. But the
-  deterministic slot-fill path at `intake.py:377-392` constructs both the
+  deterministic slot-fill path at `intake.py:919-934` constructs both the
   must-have and the nice-to-have requirements without it, so every requirement
   captured outside the model's own extraction answers "who said this, and in
   which turn" and not "what it was kept for". The schema is right; the cheap

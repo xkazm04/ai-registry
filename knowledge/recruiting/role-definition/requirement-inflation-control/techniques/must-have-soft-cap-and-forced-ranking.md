@@ -22,12 +22,13 @@ never gets triggered.
 It looks crude to govern a qualitative list by counting it. It is not, for two
 independent reasons.
 
-**Classification degrades with length.** Asked to sort twenty items into must
-and nice, people sort the first handful carefully and the remainder by mood.
-Past roughly six the list stops discriminating: everything mentioned ends up
-essential, which is the same information as nothing being essential. The cap
-is a control on the *quality of the judgment*, not on the ambition of the
-role.
+**Classification is expected to degrade with length.** Asked to sort twenty
+items into must and nice, people plausibly sort the first handful carefully
+and the remainder by mood, until everything mentioned ends up essential, which
+is the same information as nothing being essential. Treat this as a mechanism
+from practice, not a measurement: no study located puts a number on the count
+where it happens, and the six below is a convention. The cap is a control on
+the *quality of the judgment*, not on the ambition of the role.
 
 **Conjunctive filters multiply.** Each must-have is an AND. Requestors reason
 additively about a list that behaves multiplicatively, so the list feels
@@ -38,20 +39,30 @@ strictly better evidence, and it belongs to the fillability-forecast practice.
 The cap is what you have before that number exists, and it is available in the
 room.
 
-A third reason concerns who applies. A long requirement list is read by a
-meaningful share of applicants as a rules document to be met in full, and by
-others as a wish list to be cleared at half the bar — so a long list narrows
-the pool *non-randomly*, along lines that correlate with confidence and
-background rather than capability. The direction of that effect is well
-attested in applicant self-selection surveys; the percentages usually quoted
-alongside it trace back to an internal anecdote rather than a study, and a
-practitioner should repeat the direction and not the number. The wording that
-deters is the advertising lint's subject; the count is this one's.
+A third reason concerns who applies, and it is the weakest of the three. The
+popular account, that a long list is read by some applicants as a rules
+document to be met in full and by others as a wish list cleared at half the
+bar, so the pool narrows non-randomly, traces to an unsourced anecdote. What
+tests find is smaller and more specific: a gap in willingness to apply only
+among marginally qualified readers (about 52 percent of the listed
+qualifications for men against about 56 for women, over ten thousand job
+seekers), and a large effect of **not knowing how literally the bar is meant**
+(in a field experiment, 6 percent of qualified women applied under a vague
+description against 22 percent of qualified men, and 29 percent applied once the
+description stated the qualifying score and invited people at or above it; men
+did not move). Neither result varies the *count*. So do not argue for the cap
+from a pool effect the evidence does not measure, and do not repeat the
+percentages from the anecdote. What the count and the grade can do is make
+optionality legible: a list that marks which lines are prerequisites removes
+the ambiguity that the field result points at. The wording that deters, and the
+fuller account of this evidence, belong to
+[inclusive-job-advertising](../../inclusive-job-advertising/inclusive-job-advertising.md);
+the count is this one's.
 
 ## The numbers, and which is which
 
-- **Roughly six** is the working target for a human-facing must-have list —
-  the point past which classification quality visibly falls off.
+- **Roughly six** is the working target for a human-facing must-have list — a
+  convention, chosen so the requestor can rank what is left.
 - **Eight** is a reasonable hard threshold for tooling to object at: a
   linter, an intake agent or a review gate that flags a longer list. Set the
   automated threshold above the conversational target on purpose. A machine

@@ -140,6 +140,17 @@ The discipline is two rules, and both are needed:
   anything" — the convenience is being paid for by people who will never know
   it happened.
 
+**Judge the fallback on the cell, not on the axis.** With two independent
+fields, an unrecognised value in one of them is safe or unsafe depending on
+which consumers *gate* on which field. A system can keep a must-have fallback on
+the kind field and still be safe if the hardness field falls to learnable,
+because a must-have that is learnable ranks as a must without excluding anyone.
+The same kind fallback is unsafe if any consumer gates on kind alone, such as a
+sourcing query built from the must list. So the test is per consumer: list who
+gates, on which field, and confirm that the cell an ungraded row lands in is
+non-excluding for every one of them. The grid and its four cells are in
+[graded-requirements-two-axes](../../hiring-need-as-structured-brief/techniques/graded-requirements-two-axes.md).
+
 ## When not to use it
 
 - **Before the outcome filter has run.** Grading an unfiltered list grades

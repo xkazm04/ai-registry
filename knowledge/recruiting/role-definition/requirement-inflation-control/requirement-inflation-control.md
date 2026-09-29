@@ -81,7 +81,10 @@ drafted by a language model from an intake transcript or a short brief, the
 model fills gaps with the most typical content for the role — which is
 precisely the inherited sediment of the whole corpus, arriving instantly and
 in confident prose. A drafting system without a grounding rule is an
-inflation engine with better grammar.
+inflation engine with better grammar. That is the expected mechanism, not a
+measured rate: no published measurement of how often drafting models inflate a
+requirement list turned up, so the grounding rule is justified by its cost, one
+clause in a prompt and one trace check in review, and not by a prevalence figure.
 
 ## The despec filter: outcomes decide, and they decide by exclusion
 
@@ -124,32 +127,49 @@ cannot state a first-quarter outcome does not have an under-specified
 requisition; they have a workload complaint, and the correct output of the
 session is that finding rather than a shorter list.
 
-## The must line needs a cap, because past a count people stop discriminating
+## The must line needs a cap, because past a count nobody is deciding
 
-Requirement grading degrades with list length. Asked to classify twenty items
-as must or nice, people classify the first five carefully and the rest by
-mood — the list stops being a decision and becomes a transcript of everything
-mentioned. A cap restores the decision by making the classification scarce.
+Requirement grading is expected to degrade with list length: asked to classify
+twenty items as must or nice, people plausibly attend to the first few and sort
+the rest by mood, and the list becomes a transcript of everything mentioned.
+That is a mechanism from practice, not a measured threshold; no study located
+puts a number on where must-have classification degrades. The multiplication
+argument (each must-have is an AND) needs no such study and is the firmer
+reason for a cap. A cap restores the decision by making the classification
+scarce.
 
 Roughly six is the working number for a must-have list, and eight is where
-tooling should start objecting. The cap is not sacred; the *existence* of a
-cap is. And the response to breaching it is never a silent trim by the
-recruiter: ask the requestor to **rank the top three**. People who cannot
-classify can almost always order, and a ranking is self-executing — the
-demotions fall out of it without anyone having to argue that a line was wrong.
+tooling should start objecting. Both are conventions: practitioner guidance
+clusters at six to eight and none of it cites a measurement, so a team that
+picks its own numbers and applies them consistently is doing this correctly.
+The cap is not sacred; the *existence* of a cap is. And the response to
+breaching it is never a silent trim by the recruiter: ask the requestor to
+**rank the top three**. People who cannot classify can almost always order,
+and a ranking is self-executing — the demotions fall out of it without anyone
+having to argue that a line was wrong.
 
 The cap has a second justification that is about the pool rather than the
-decision. Long must-have lists suppress applications from exactly the people
-the pool most needs, because a meaningful share of applicants read a
-requirement list as a rules document and decline to apply unless they meet
-every item, while others read it as a wish list and apply at half the bar.
-That asymmetry — well attested in self-selection surveys, though the widely
-quoted percentages behind it are folklore rather than measurement, and should
-be repeated as direction rather than as a number — means a long list does not
-merely narrow the pool, it narrows it *non-randomly*. Whether the resulting
-pool is still fillable, and how it is measured, belongs to the fillability
-forecast practice; the language that deters belongs to the advertising lint.
-This subject owns the count.
+decision, and it is weaker than it is usually told. The popular version, that
+applicants split into those who apply only at full qualification and those who
+apply at half the bar, rests on an unsourced anecdote. Direct tests find a
+small gap and only among marginally qualified readers: an online experiment
+over ten thousand job seekers put willingness to apply at about 52 percent of
+the listed qualifications for men and about 56 for women, with no gap among the
+well qualified. The better-supported lever is not the count but **ambiguity
+about how literally the bar is meant**. In a field experiment that invited
+freelancers to a better-paid job, 6 percent of qualified women applied under a
+vague description against 22 percent of qualified men, and 29 percent applied
+when the description stated the qualifying test score and invited people at or
+above it to apply; qualified men did not respond to the change. Cutting
+optional items from real postings has been reported to raise applications from
+men and women alike. So a long list costs the pool mainly through padding and
+unmarked optionality: the reader cannot tell which lines are literal, which is
+one more reason the graded list should say which lines are prerequisites. Whether
+the resulting pool is still fillable, and how it is measured, belongs to the
+fillability forecast practice; the language that deters belongs to
+[inclusive-job-advertising](../inclusive-job-advertising/inclusive-job-advertising.md),
+which holds the fuller account of this evidence. This subject owns the count
+and the grade.
 
 ## Two axes, and only one of them is a filter
 
@@ -209,16 +229,29 @@ the field: postings demanding a degree at rates far above the rate at which
 people *currently doing that job* hold one, with the gap running to tens of
 points in some occupations. A standard that the majority of successful
 incumbents do not meet is not a standard; it is sediment with a filter
-attached.
+attached. The gap is a measurement of an era, not a constant: the postings
+side has since moved (a 2022 follow-up over 51 million postings found degree
+requirements loosened in 46 percent of middle-skill occupations between 2017
+and 2019), so quote a gap with its year and check the occupation's current
+rate before using it.
 
 Two disciplines follow. First, proxies get audited **first**, before the
 general list, because they are the cheapest to remove before they are written
 down and the most expensive to remove afterwards. Second, removing the line
-from the posting is not the same as removing it from the decision: follow-up
-work on employers who publicly dropped degree requirements found the change in
-who actually got hired to be a small fraction of the change in what the
-postings said. The control has to reach the screening rubric and the
-interviewer's private bar, or it has changed nothing but the advertisement.
+from the posting is not the same as removing it from the decision. The one
+analysis that followed hiring rather than postings (roughly 11,000 roles at
+employers that dropped a degree line, 2014 onward, non-degree share of hires
+before and after) found an average rise of about 3.5 points in the affected
+roles, and found it unevenly: just over a third of the employers accounted for
+nearly all of it, close to half changed nothing measurable, and under a fifth
+gained and then slid back. What that analysis observed is the outcome; *where*
+the filter went is its inference, that a degree stays a comparative heuristic in
+the manager's hands after it stops being a stated requirement, and the manager
+faces a standing incentive to revert to it. Treat that as the working
+hypothesis for where to look, not as a measured location. The control has to
+reach the screening rubric, the search query and the interviewer's private
+bar, and it has to be followed by the hiring outcome, or it has changed
+nothing but the advertisement.
 
 ## The control is advisory, and the demotion is the requestor's
 

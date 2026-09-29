@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 395,
-  "applications": 268,
+  "applications": 269,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -7046,9 +7046,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/requirement-inflation-control/requirement-inflation-control.md",
-   "digest": "sha256-b2:95878fb5a2b5de3e",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:2ce8d9d7f5af2f75",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "degree-and-tenure-requirement-audit",
@@ -7141,19 +7141,26 @@
      "stack": "node",
      "technique": "learnable-versus-prerequisite-grading",
      "file": "knowledge/recruiting/role-definition/requirement-inflation-control/applications/node--learnable-versus-prerequisite-grading.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "must-have-soft-cap-and-forced-ranking",
+     "file": "knowledge/recruiting/role-definition/requirement-inflation-control/applications/process--must-have-soft-cap-and-forced-ranking.md",
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "never-promote-an-unstated-tool",
      "file": "knowledge/recruiting/role-definition/requirement-inflation-control/applications/process--never-promote-an-unstated-tool.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "ninety-day-outcome-as-the-despec-filter",
      "file": "knowledge/recruiting/role-definition/requirement-inflation-control/applications/process--ninety-day-outcome-as-the-despec-filter.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },

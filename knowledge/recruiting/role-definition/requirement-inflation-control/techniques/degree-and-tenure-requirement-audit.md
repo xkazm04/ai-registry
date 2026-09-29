@@ -39,9 +39,17 @@ theoretical. Large-corpus analyses of job postings find degrees demanded at
 rates far above the rate at which people *currently doing that work* hold one,
 with gaps running to tens of percentage points in some occupations — in the
 most-cited example, a supervisory occupation where the posting rate exceeded
-the incumbent rate by roughly fifty points. A requirement that the clear
+the incumbent rate by roughly fifty points (67 percent of postings against 16
+percent of incumbents, in a 2017 report). A requirement that the clear
 majority of people successfully doing the job do not meet is not a standard
 that applicants are failing. It is sediment with a filter attached.
+
+Quote the gap with its year. It is a measurement of one era's postings, and the
+postings side has moved since: a 2022 follow-up over 51 million postings found
+degree requirements loosened in 46 percent of middle-skill occupations between
+2017 and 2019, most of it a structural reset rather than a pandemic response.
+The incumbent test below is the part that does not age, because it is run on
+your own incumbents.
 
 ## The audit
 
@@ -122,12 +130,29 @@ all and act as filters anyway:
 ## Removing the line is half the job
 
 The most important finding in the recent literature on this technique is that
-the visible change and the real change diverge. Follow-up work on employers who
-publicly dropped degree requirements found the change in who actually got
-hired to be a small fraction of the change in what the postings said — the
-requirement moved from the document into the screening rubric, the search
-query and the interviewer's private bar, where it kept filtering and stopped
-being auditable.
+the visible change and the real change diverge. The one analysis that followed
+hiring rather than postings covered about 11,000 roles (an occupation at an
+employer) that dropped a degree line from 2014 onward, and compared the share
+of new hires without a degree in the years before and after. Its results, at
+that sample and basis:
+
+- **The average effect was small.** About 3.5 points more non-degree hires in
+  an affected role. Because only about 3.6 percent of roles dropped the line,
+  the net effect across all hiring was about 0.14 points, roughly one hire in
+  seven hundred.
+- **It was concentrated.** Just over a third of the employers produced nearly
+  all of it (on average about 18 percent more non-degree hires in the affected
+  roles); close to half changed nothing measurable; and under a fifth gained
+  and then slid back to their earlier mix.
+- **The mechanism is inferred, not observed.** The authors' account is that a
+  degree remains a comparative heuristic in the manager's hands once it is no
+  longer a stated requirement, that hiring is relative (a manager compares
+  candidates with each other, not with the abstract job), and that the manager
+  faces an incentive to revert to proxies as the vacancy ages. The analysis
+  never saw a rubric, a query or an interviewer's private bar. Read those three
+  as the places to look, not as a finding about where the filter went.
+
+The outcome is the measured part, and it changes what "done" means.
 
 So the audit is not complete when the line is deleted. It is complete when:
 
@@ -138,7 +163,11 @@ So the audit is not complete when the line is deleted. It is complete when:
   interviewer who privately believes the degree matters has something legible
   to be persuaded by;
 - the change is **recorded as a change**, with its reason, so the line does
-  not silently reappear in the next copy of the description.
+  not silently reappear in the next copy of the description;
+- the **hiring outcome is measured and re-measured**: the share of new hires
+  without the label in the affected role, before and after, checked again a
+  year on, because the same analysis found that under a fifth of employers
+  gained and then slid back once attention moved elsewhere.
 
 An audit that stops at the posting has improved the advertisement and changed
 nothing about who gets hired — and it has made the exclusion harder to find,

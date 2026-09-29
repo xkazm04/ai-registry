@@ -5,12 +5,12 @@ subject: requirement-inflation-control
 technique: never-promote-an-unstated-tool
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # Grounding rules in a role-spec generation prompt
 
-`pipeline/jobfit/devcase/design.py:144` builds the prompt for `design_role`,
+`pipeline/jobfit/devcase/design.py:133` builds the prompt for `design_role`,
 which turns a hiring need plus a code-base analysis into a structured role
 spec (`title`, `seniority`, `roleFamily`, `mustHaves`, `niceToHaves`,
 `responsibilities`, `languages`). It is the clearest live example of the
@@ -19,7 +19,7 @@ than as a review checklist applied afterwards.
 
 ## The rule, as shipped
 
-`design.py:158` opens a block whose parenthetical carries the whole
+`design.py:175` opens a block whose parenthetical carries the whole
 justification in five words — "a spec that inflates the need mis-hires":
 
 > "Grounding rules (a spec that inflates the need mis-hires): every mustHave
@@ -60,7 +60,7 @@ Every clause of the technique is present, and each earns its place:
 
 ## Confirmed grades outrank generated ones
 
-`design.py:148` handles the case where the requestor's own graded requirements
+`design.py:164` handles the case where the requestor's own graded requirements
 are available, and it is the strongest expression of the authority ordering in
 the repo:
 
@@ -70,7 +70,7 @@ the repo:
 > the analysis concretely contradicts it, and kind=nice_to_have entries belong
 > in niceToHaves, never promoted."
 
-The comment at `:130` says why in three lines: this is "the highest-authority
+The comment at `:149` says why in three lines: this is "the highest-authority
 requirement signal when present (it was read back and confirmed in dialog)".
 Two directions are governed separately — musts pass through unless
 *concretely* contradicted, nice-to-haves are "never promoted" with no escape
@@ -82,7 +82,7 @@ diff.
 ## The surrounding prompt does the other half
 
 Two nearby instructions matter because they prevent inflation from a direction
-the grounding rule alone does not cover. `design.py:145` anchors the role's
+the grounding rule alone does not cover. `design.py:169` anchors the role's
 identity to what is being hired for and forbids renaming the role to the
 code-base's domain — "the codebase is where this person will WORK, not what
 defines the role". And the real-stack instruction requires the model to "note
@@ -106,8 +106,15 @@ inflation source alongside the brief.
   the requestor's; everything else the model adds enters the spec at the same
   visual grade, so the distinction the intake pipeline is careful to record
   upstream (`stated` versus `inferred`) is flattened at this stage.
-- **The ceiling is instructed, not enforced.** "≤8" lives in prose. The
-  `coerce` step at `:195` normalizes the payload shape; a nine-item must-have
+- **The keyless fallback trimmed confirmed dealbreakers (fixed 2026-09-29).**
+  The deterministic path sliced the merged must-have list at six, present since
+  2026-08-07 and missed by the first verification: eight stated `must_have` rows
+  came back as six, silently, while the model path's prompt at `:164` says every
+  stated must "must appear in mustHaves". The A/B and the fix are in
+  [process--must-have-soft-cap-and-forced-ranking](./process--must-have-soft-cap-and-forced-ranking.md);
+  the bound is now `max(6, len(stated))` at `design.py:210`.
+- **The model path's ceiling is instructed, not enforced.** "≤8" lives in prose. The
+  `coerce` step at `:216` normalizes the payload shape; a nine-item must-have
   list would pass. The count control exists in the codebase as a lint over
   published text, which is a different measurement of a different artifact —
   useful, and not a substitute for a check here.
