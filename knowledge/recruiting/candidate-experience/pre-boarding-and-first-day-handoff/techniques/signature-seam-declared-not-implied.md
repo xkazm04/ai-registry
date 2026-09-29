@@ -49,7 +49,9 @@ in the grammar reserved for an executed instrument.
   or *accepted*, never bare "signed" unless local law supports it.
 - **Qualified electronic signature.** A provider under the relevant jurisdiction's
   regime performs identity assurance and issues an instrument with its own evidentiary
-  standing. Correct label: whatever the regime calls it.
+  standing. Correct label: whatever the regime calls it. It is the level the
+  regimes checked accept in place of a handwritten signature where a statute demands
+  written form, and it is needed less often than the fear of it suggests.
 
 The rule: **the interface says which level it is at.** Not the documentation, not a
 comment, not an onboarding call — the label on the state, on the screen where someone
@@ -115,10 +117,20 @@ workflow.
   exceptions, no matter how routine the document.
 - **When the document changes, the stamp does not carry over.** Re-issue and re-stamp
   against the new version.
-- **When the jurisdiction or the document class requires a qualified signature —
-  employment contracts in some jurisdictions, anything with statutory form
-  requirements — do not ship the internal mark for it at all.** Route it out of the
-  product to whatever process is actually valid.
+- **When a statute attaches a form requirement to the specific document or clause — do
+  not ship the internal mark for it at all.** Route it out of the product to whatever
+  process is actually valid. The trigger is the statute's own naming, not "it is an
+  employment contract": in the regimes checked, form attaches to particular clauses and
+  acts (a fixed-term clause; a termination), to sectors a statute lists, or to a delivery
+  duty, while an ordinary contract or statement of terms can usually be concluded or
+  delivered with a simple electronic signature or text form. A non-qualified signature
+  keeps its legal effect and admissibility in the EU and the US; what it loses is
+  weight, and it fails outright only where a form rule bites. Make the requirement a
+  declared per-document, per-jurisdiction property the flow reads, not a single
+  contract-wide flag. The application sets out what each regime says.
+- **When a form or delivery duty names how the person must receive the document, the
+  portal is not the delivery.** A copy that can be read only inside the employer's own
+  surface may not satisfy a duty to hand it over; check where the duty says it must go.
 - **When surfacing the state to a recruiter, put the caveat next to the control.**
   A tooltip on the button that says what this does and does not constitute is the
   entire mitigation, and it costs nothing.

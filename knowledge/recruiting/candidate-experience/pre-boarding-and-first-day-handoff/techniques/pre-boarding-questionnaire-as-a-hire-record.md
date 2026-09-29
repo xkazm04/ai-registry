@@ -29,19 +29,29 @@ An hour after, several of those become legitimate — because the purpose change
 
 Three consequences:
 
-- **The purpose changed, so the basis changed.** Whatever covered the application does
-  not cover this. The sibling `candidate-consent-and-retention` owns the basis, the
+- **The purpose changed, so check the basis.** Whatever covered the application may not
+  cover this. The sibling `candidate-consent-and-retention` owns the basis, the
   retention clock and the deletion path; what this technique owns is not smuggling
   employment-era collection into a selection-era record because the row already
-  existed.
+  existed. One refinement it must not leave out: in an employment relationship, and
+  before one starts, consent is a weak basis, because refusing is rarely free of
+  consequence. A *mandatory* field rests on steps taken before the contract or on a
+  legal obligation; only an *optional* field can rest on consent, and only if declining
+  costs the person nothing. Health data additionally needs an employment-law condition
+  backed by national law.
 - **These answers must never flow backwards into selection.** A health record, an
   emergency contact, an equipment preference or a work-authorisation field must not
   become visible to anyone still evaluating anybody, must not enter a matching or
   scoring surface, and must not appear in an analytics cohort. The strongest
   structural version of this rule is that the pre-boarding store is not the
   candidate-evaluation store.
-- **If the person does not start, this data has the shortest life of anything you
-  hold.** Collect on the assumption that you will be deleting it.
+- **If the person does not start, this data should be among the first you delete.**
+  That is a design stance, not a regulator's rule: no authority found sets a period for
+  hired-but-never-started people, only that data is not kept longer than needed and not
+  beyond the period in which a claim could be brought. Collect on the assumption that you
+  will be deleting it, and remember that removing a feature does not remove what it
+  collected: a retired questionnaire module leaves its answers in every database that
+  predates the removal until a migration drops them.
 
 ## Ask at the latest responsible moment
 
@@ -52,7 +62,8 @@ is the earliest it is genuinely needed?*
   wants used and on their badge, confirmation of the start date, equipment or
   accessibility needs, sizing where the role issues clothing or protective equipment,
   an emergency contact, and the sector-specific evidence that gates the work — a
-  licence number and expiry, held certifications, immunisation status, work
+  licence number and expiry, held certifications, and, under the conditions in the
+  decision rule on work authorisation and health, immunisation status and work
   authorisation.
 - **Defer to the employment system** everything only payroll, benefits or tax needs.
   Every field collected early is a field to delete on a renege and a field to migrate
@@ -130,9 +141,19 @@ derived convenience that must not be allowed to lie.
 ## Decision rules
 
 - **When a field is not needed before day one, do not ask for it before day one.**
-- **When a field is sector-gating (a licence, a certification, work authorisation),
-  ask for the evidence, not for a self-assessment of compliance.** A number and an
-  expiry date can be verified; "yes, I'm licensed" cannot.
+- **When a field is sector-gating (a licence, a certification), ask for the evidence,
+  not for a self-assessment of compliance.** A number and an expiry date can be
+  verified; "yes, I'm licensed" cannot.
+- **When the item is work authorisation or health, first ask what the regime lets you
+  collect, when and how.** The rule above does not carry over unchanged. In at least one
+  major regime the employer may not specify which documents a person presents, and a
+  copy does not complete the check: only original inspection does, so the pre-boarding
+  item is an appointment or a route, not an upload. In another, the check must be made
+  before the start date by a prescribed method, with the date recorded, and no earlier
+  cut-off could be found. Post-offer medical inquiry is lawful only where every entering
+  hire in the job category is asked and the answers are held apart and confidentially. A
+  copy of an identity document may itself need the holder's consent: prefer to record
+  that it was seen, by whom and when. The application carries the dated anchors.
 - **When an answer conflicts with what the record holds, the person's own answer wins
   for identity facts and triggers a review for verifiable ones.**
 - **When the person does not start, delete on the retention clock the consent sibling

@@ -165,3 +165,14 @@ sentence: the candidate page localizes it."*
 - **No story for the accepted-but-not-hired window.** The tree emits `offer.accepted`
   to the webhook but records no owner, task or message for a person parked on a
   post-offer column, which is exactly where a background check and the renege risk live.
+- **The removed module still leaves a debt the tree pays on purpose** (read 2026-09-29).
+  The erasure path in `app/_lib/db/pipeline.ts` keeps a scrub of the retired onboarding
+  tables — the run label, the pre-boarding questionnaire answers and the e-signature
+  signer identity — behind a table-exists guard. Its comment: the removal "shipped WITHOUT
+  a drop migration, so every database created before it still holds the rows", so an
+  erasure request must still reach them, and the block goes only "together with a
+  migration that actually drops the tables". Removing a feature does not remove what it
+  collected; see the questionnaire technique.
+- **No name for a hire the company rescinds.** The status vocabulary separates
+  `rejected`, `declined`, `rematched` and `role_closed`, and a company-side withdrawal of
+  a hired person has none: see the rescission technique's application.
