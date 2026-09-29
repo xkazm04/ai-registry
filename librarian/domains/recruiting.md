@@ -1278,24 +1278,3 @@ The tree found what no lane asked: the fill hook had no behavioural test. Four a
 Six `applied.md` rows: one code (better), five unapplied with return conditions. All three applications re-verified at kp `006bf7a0a` and every line citation moved; two of their three recorded shortfalls were closed (one by a mechanism the standard does not describe), and one surface (the honest-null sort) left the tree. Two new kp applications (fill, publish) and four `process` applications.
 
 Impact: three kp contexts join the subject (`jd-management-api`, `jobs-api`, `jobs-posting-campaign`), all state unknown, so 0 stale verdicts. No map was rebuilt. Yield high, dry_streak 0, depth L3. See [[requisition-lifecycle-governance]].
-
-## 2026-09-29 - deepen: pipeline-stage-modelling
-
-The Curator lane dispatched this on "never swept by the librarian". The subject was at revision 1 from the bundle's founding (2026-08-21) with no note and no applied row. A finished pass over it was already in the working tree, uncommitted and unclaimed, with its code fix and a map rebuild already committed in kp; this run verified it (re-read the federal Q&A on the agency's own page, checked kp's commits and tip, ran the knowledge gate) and landed it rather than re-running the research. The subject note says which lanes are the earlier pass's.
-
-No technique earned. Nine corrections or conditions, none refuting a technique:
-- **a stage is one decision point, not one activity**: the old wording was wider than the vendor evidence; the harm of a stacked column is argued, not measured;
-- **exactly one terminal stage**, not at least one: the old line contradicted the technique's own set and the shipped validator;
-- **the screening set is the entry and screening roles before the gate**, replacing "everything before it minus homework"; executed against other axes the subtraction kept custom, scoring and early offer columns in;
-- **a retired stage resolves through its tombstone's role in a fairness rate**; the least corroborated claim, derived from the promise and one execution;
-- **closure is not one bucket**: a rejection stays in the denominator, a voluntary withdrawal leaves it under the federal guidelines;
-- **the migration is the only door**, or its guarantee is a convention;
-- **the past-the-end gate is unreachable on a validated board**;
-- **a shared spine is the norm across vendors**; what is refused is matching by position or name;
-- **a sentence of meaning per stage is an argument, not a finding**.
-
-The tree found what no lane asked: on any board whose ids differ from the shipped names the automated screen did nothing at all, and on the shipped enterprise preset a screening column behind a human interview moved a candidate on a clean verdict. Fixed in kp (`5f990d590`, local, unpublished); two new tests fail on the old module.
-
-Six `applied.md` rows: one code (better), five unapplied with return conditions. Two spec applications carry the vendor documents and the selection guidelines with what was not reached stated (the New York City final rule, Ashby's full type list, Lever's pipeline pages); their clocks are 2026-12-29 and 2027-03-28.
-
-Impact: kp is the only project whose map joins the subject, and no verdict was judged against it, so 0 stale verdicts. kp's map rebuilt and committed locally. Yield high, dry_streak 0, depth L3. See [[pipeline-stage-modelling]].

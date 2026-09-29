@@ -91,13 +91,7 @@ What the tombstone is for:
   existed last quarter is a real question about a real quarter. The
   tombstone's preserved role and position let the old cohort be resolved on
   the axis it actually traversed, which is the same discipline as scoring a
-  verdict under the rubric that produced it rather than under today's. The
-  promise is easy to keep for display and to break for measurement: in the
-  shipped implementation read, closed candidates are excluded from the migration
-  by design, so they keep the removed id, and every rate resolves rows against the
-  live axis alone, treating them as unresolvable. A tombstone that no measure reads
-  is a label table. How a rate resolves a row on a retired stage is set out in
-  [the gate technique](./screening-gate-index.md).
+  verdict under the rubric that produced it rather than under today's.
 - **Stale references resolve rather than error.** A link, a saved filter or
   an integration naming a retired stage gets a real answer — "this stage was
   retired" — instead of a not-found, which is the input the recovery
@@ -151,14 +145,6 @@ evidence about which side they would have been on.
 - When a retired stage's role would change the gate or an invariant, it does
   not: retired stages are outside the live axis for every forward-looking
   computation, and inside it for every historical one.
-- When the axis can be written through more than one door, put the occupancy
-  refusal in the one place every door passes through. A migration endpoint that
-  refuses a removal with occupants is a guarantee only while it is the sole
-  writer of the axis; a general configuration endpoint that validates the shape
-  and the version and not the occupants makes the endpoint's own header
-  ("this is the guarantee") a convention. The same holds for the requirement
-  that a removed column lands in the retired list: the writer must check it, not
-  trust the client's copy.
 - When someone asks to purge a retired stage for tidiness, refuse unless the
   underlying records are themselves being purged under a retention policy.
   The tombstone's cost is one row; its absence costs an audit answer.

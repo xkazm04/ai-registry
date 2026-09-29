@@ -69,15 +69,7 @@ axes ([meaning does not live in a label](../../../_laws.md#meaning-does-not-live
 2. Walk the preference list — interview, then offer, then terminal — and take
    the position of the first stage carrying the first role that appears at
    all. That position is the gate.
-3. If none of the three appears, the gate is past the end of the board. On a
-   board that satisfies the well-formedness set this cannot happen, because a
-   terminal stage is required
-   ([entry-and-terminal-role-requirements](./entry-and-terminal-role-requirements.md));
-   the branch guards data that was never validated, and a test that reaches it
-   with an axis the product would refuse proves nothing about a real board. The
-   case that does occur is a board with an entry, a screening step and a terminal
-   and nothing between: the gate is the terminal, so only a hired candidate has
-   "advanced past screening", and the metric should say so.
+3. If none of the three appears, the gate is past the end of the board.
 4. A candidate has cleared the gate if their stage resolves on this axis and
    its position is greater than or equal to the gate.
 
@@ -88,39 +80,23 @@ Three properties follow that are easy to get wrong:
   measured. The corresponding strictness lives on the other side: sitting in
   a screening stage is not clearing anything, which the inclusive comparison
   against a *later* index already gives you.
-- **Derive both sides from the one boundary, and intersect it with the roles
-  that triage.** "Which stages are screening stages" — the set where an
-  automated screen may still act — is the **entry and screening roles that sit
-  before the gate**: the ordinal half comes from the same gate number the metric
-  uses, the role half says which of those columns triage evidence. Neither half
-  alone is right. Everything-before-the-gate is too wide: a work-sample, a
-  scoring pass, a custom column or an early offer step can sit before the first
-  interview, and a screen run there advances a candidate past a step the column
-  exists for. Roles-alone is too wide in the other direction: a screening-role
-  column *behind* a human interview is post-gate, where a screen is advisory. An
-  earlier version of this rule subtracted the one role it had met (homework) from
-  the boundary set; executed against other axes it kept custom, scoring and offer
-  columns in, so the subtraction was replaced by the intersection, which does not
-  grow a new exception per role. Keep the past-the-gate predicate purely ordinal.
-  Two independently-computed predicates for one boundary will drift, and the drift
-  is silent: a stage that counts as screening for the automation and as
-  post-screening for the metric produces candidates the system both filters and
-  reports as having cleared the filter.
-- **An unrecognised stage has not cleared the gate; a retired one is not
-  unrecognised.** A candidate standing on an id the board never declared resolves
-  to no position, and the honest answer is false, counted and reported: guessing a
-  position lets the metric count somebody nobody has classified. A *retired*
-  stage is a different case, because its tombstone keeps the role
-  ([the removal technique](./retired-stage-tombstones-and-migration.md)). For a
-  fairness rate over a window that spans a board edit, resolve the row through the
-  tombstone's role: a retired `interview` or `offer` stage is at or past the gate
-  by the definition of the gate, a retired `entry`, `screening`, `homework` or
-  `custom` stage is not, and a retired `scoring` stage cannot be placed without
-  its old position, so it is reported unresolved rather than guessed. Answering
-  false for all of them makes a candidate who was interviewed, then rejected, on
-  an Interview column since removed count as never having advanced. That
-  resolution is derived here from the tombstone's promise and from the executed
-  failure in one shipped implementation, not from a second independent source.
+- **Derive both sides from the one boundary.** "Which stages are screening
+  stages" — the set where an automated screen may still act — starts from
+  *everything before the gate*, computed from the same number rather than from
+  an independent role filter. The start is not always the answer: a
+  pre-gate stage whose work is not triage (a work-sample the product sets and
+  evaluates) must be subtracted by role, or an automated screen there advances
+  a candidate past an assignment the column exists to give them. Subtract
+  from the boundary set; do not rebuild the set from roles, and keep the
+  past-the-gate predicate purely ordinal. Two independently-computed predicates for one
+  boundary will drift, and the drift is silent: a stage that counts as
+  screening for the automation and as post-screening for the metric produces
+  candidates the system both filters and reports as having cleared the
+  filter.
+- **An off-axis stage has not cleared the gate.** A candidate standing on a
+  retired or unrecognised column resolves to no position, and the honest
+  answer is false — not "past", not "before". Guessing a position for an
+  unresolvable stage lets the metric count somebody nobody has classified.
 
 Terminal stages need a policy, stated once, and it depends on where closure
 lives ([the golden path](../pipeline-stage-modelling.md) names the two
@@ -129,10 +105,6 @@ the stage they were rejected from, position is already the honest answer, and
 the trap below does not exist; the obligation moves to the population, which
 must include closed candidates by their kept stage, because a rate computed
 over the still-active rows has dropped exactly the people the filter removed.
-Rejected candidates stay in; a voluntary withdrawal is, under the US selection
-guidelines, the end of the person's standing as an applicant at every later step,
-so it leaves those denominators. Keep the outcomes apart in the data and name the
-population in the claim.
 Where a rejection *moves the candidate onto the terminal stage*, this is the
 case. A candidate rejected at screening sits in a terminal stage whose
 position is at the end of the board —
@@ -180,13 +152,10 @@ Three consumers, each with an obligation:
 - When a candidate is in a terminal stage, resolve gate-clearance by outcome
   before position.
 - When you need the *other* side — where an already-assessed candidate
-  belongs, for an import or a re-route — derive it too: the last entry or
-  screening stage before the gate, falling back to the first column, so the
-  answer always names a real place to put somebody. The last stage *of any role*
-  before the gate is wrong for the same reason the screening set is: executed, it
-  named a work-sample column and a custom column as where an already-assessed
-  person lands. Hardcoding the name of today's screened column is the same bug in
-  the other direction.
+  belongs, for an import or a re-route — derive it too: the last stage before
+  the gate, falling back to the entry stage and then to the first column, so
+  the answer always names a real place to put somebody. Hardcoding the name
+  of today's screened column is the same bug in the other direction.
 - When a custom-role stage sits among screening stages, it does not move the
   gate. The escape hatch never defines a boundary; if a team's custom step
   really is their filter, the fix is to give it the screening role.
