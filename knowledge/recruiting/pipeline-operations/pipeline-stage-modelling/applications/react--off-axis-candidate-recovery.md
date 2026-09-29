@@ -9,7 +9,6 @@ verified_on: 2026-09-29
 verified_against: react@19
 ---
 
-
 # The off-board section and the stale deep link
 
 Two surfaces implement the technique's two shapes: candidates standing
@@ -23,7 +22,7 @@ was not, and that is the finding below.
 ## The occupant: a caution section, not a fold into column zero
 
 `app/features/hiring/pipeline/kit/PipelineKitOffBoard.tsx` (52 lines, mounted
-once at `orbit/PipelineOrbitView.tsx:376`) is the strip's successor and keeps
+once in `orbit/PipelineOrbitView.tsx`) is the strip's successor and keeps
 its rule: candidates on a column the workspace removed are their own named
 layer, never folded into the head of the funnel. The reason the standard gives
 for the old fold, "visible and slightly wrong beats invisible" while the axis
@@ -44,12 +43,12 @@ What it does, against the four things the standard asks for:
 - **Offers one resolving control** per group, "Move all to…", whose targets are
   `moveOptions("", axis, …)`, the same `moveTargetStages` list the per-entry
   menu uses, so it cannot offer a destination a move would refuse.
-- **Renders nothing while nobody is stranded** (`:22`).
+- **Renders nothing while nobody is stranded** (`:23`).
 
 Two things it does differently from the strip it replaced. The control is
 always offered: the old strip's read-only case ("names the problem without
 offering a control that would do nothing") has no counterpart here. And "Move
-all to…" is a loop of independent `s.moveEntry(e, to)` calls (`:41-43`), not one
+all to…" is a loop of independent `s.moveEntry(e, to)` calls (`:44`), not one
 request; a failure partway leaves the group half-moved, which the section then
 shows as a smaller group rather than as an error. The removal door
 (`stage-migration/route.ts`, see the sibling application) is atomic per
@@ -65,7 +64,7 @@ config, because "a blank board loses candidates from view entirely".
 
 ## The reference: the notice lost its only caller
 
-`docs/features/pipeline/README.md:857-878` still documents the deep-link half:
+the pipeline README's stale-`?stage=` section still documents the deep-link half:
 validating an incoming `?stage=` against the hardcoded five "dropped every
 custom or renamed stage on the floor and rendered the board **unfiltered**,
 which is indistinguishable from *nothing was filtered out*". The parts that
@@ -98,7 +97,7 @@ section and the enum catalog never disagree about what a column was called.
 
 ## The rule that keeps the section empty, and where it does not
 
-`docs/features/pipeline/README.md:175-203` ("Off the board"): in
+the README's "Off the board" section (`:175-203`): in
 normal operation the section should stay empty, because Settings → Hiring refuses to
 remove an occupied column without a destination and applies the moves in the
 same request as the removal. The section is the backstop for what that gate

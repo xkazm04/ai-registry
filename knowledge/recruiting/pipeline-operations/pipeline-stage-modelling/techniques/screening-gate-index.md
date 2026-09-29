@@ -98,8 +98,16 @@ Three properties follow that are easy to get wrong:
   answer is false — not "past", not "before". Guessing a position for an
   unresolvable stage lets the metric count somebody nobody has classified.
 
-Terminal stages need a policy, stated once. A candidate rejected at screening
-sits in a terminal stage whose position is at the end of the board —
+Terminal stages need a policy, stated once, and it depends on where closure
+lives ([the golden path](../pipeline-stage-modelling.md) names the two
+shapes). Where a rejection is a *status beside the stage*, the candidate keeps
+the stage they were rejected from, position is already the honest answer, and
+the trap below does not exist; the obligation moves to the population, which
+must include closed candidates by their kept stage, because a rate computed
+over the still-active rows has dropped exactly the people the filter removed.
+Where a rejection *moves the candidate onto the terminal stage*, this is the
+case. A candidate rejected at screening sits in a terminal stage whose
+position is at the end of the board —
 numerically past the gate, semantically not past it. Resolve by outcome
 before position: a terminal-rejected candidate has not cleared the gate; a
 terminal-hired one obviously has. Comparing raw positions here is the single

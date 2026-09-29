@@ -126,8 +126,8 @@ refused.
   arrivals should land in — the answer is a decision, not a tiebreak.
 - When a manual move targets the terminal stage, refuse it too. Terminal is
   the *outcome*, and on a well-built board it is reached by the event that
-  produces the outcome — an acceptance, a rejection, a withdrawal — never by
-  dragging a card. Hand-setting it bypasses the record that outcome was
+  produces the outcome — an acceptance, and where closure is a stage rather
+  than a status, a rejection or a withdrawal — never by dragging a card. Hand-setting it bypasses the record that outcome was
   supposed to create. The refusal must name the route: "the final stage is
   set when the candidate accepts; move them to the offer stage and extend an
   offer" is a redirection, where "invalid move" is a wall.

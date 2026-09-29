@@ -96,7 +96,7 @@ Seven roles carry the semantic load of a hiring funnel:
 | **scoring** | A produced assessment to be ratified | A distinct thing the system *does* and a human *approves* |
 | **interview** | A conversation with a person | Human evaluation in progress |
 | **offer** | A decision about terms | Approval here *extends* an offer; it does not conclude the hire |
-| **terminal** | Nothing — their process is over | Hired, rejected, withdrawn: absorbing, and refuses onward moves |
+| **terminal** | Nothing — their process is over | Hired, and where closure is a stage rather than a status (below) rejected and withdrawn: absorbing, and refuses onward moves |
 
 Plus one escape hatch, **custom**, for the stage a team genuinely needs and
 the vocabulary does not model — a client-approval step, a security clearance
@@ -138,6 +138,28 @@ three roles. The behaviour the vocabulary governs is identical for all three:
 no onward move, no aging, no automated action, excluded from every in-flight
 count. Split them into roles and every consumer must enumerate all three —
 so the day a fourth outcome appears, every such rule is silently wrong.
+
+**Where a closure lives is a modelling choice, and it moves every rule that
+reads a position.** The table above puts a concluded process on the terminal
+stage. The other shape in shipped use keeps closure as a *status beside the
+stage*: a rejected or withdrawn candidate keeps the stage they were rejected
+from, and only the success end (or nothing at all) is a stage. Neither is
+wrong; they lose and oblige different things.
+
+- *Closure as a terminal stage* loses *where* the process ended unless the
+  outcome records a rejected-from stage, and it makes "past the gate" need the
+  outcome resolved before the position
+  ([screening-gate-index](./techniques/screening-gate-index.md)).
+- *Closure as a status* keeps the last stage for free, so position alone is the
+  honest answer for a rejected candidate. It obliges the opposite: every
+  in-flight count, aging clock and automated action must filter on status, or
+  a candidate who was rejected is counted as still waiting in a screening
+  column; and every rate over *who entered* must include closed candidates by
+  their kept stage, or the people the filter removed drop out of the
+  denominator and the rate flatters the process.
+
+Pick one per board and write it down. The failure is a system that has both a
+status and a terminal move and consumers that each assume the other one.
 
 ## The three consumers, and why they need different things
 

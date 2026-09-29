@@ -44,7 +44,7 @@ reachable partial state is the harmless one, and write down why.
 
 ## The destination must exist on the NEW axis
 
-`:80-105`. `removed` is derived by diffing the current axis against the
+`:80-107`. `removed` is derived by diffing the current axis against the
 submitted one rather than trusted from the client, and every entry of the
 `migrate` mapping is checked against `nextIds` — the ids of the axis being
 written — with the comment stating the trap: "Mapping onto another column
@@ -57,7 +57,7 @@ does not contain.`), not a generic invalid-body error.
 `app/_lib/pipeline-axis.ts:15-21` types the axis as `{ stages, retired }`,
 with retired documented as "NOT rendered, but still resolvable, so history and
 a stranded candidate can be named rather than shown a raw id."
-`docs/features/pipeline/README.md:168-173` states the consequence the standard
+the pipeline README's `retired` paragraph (`:168-173`) states the consequence the standard
 demands: a dropped column is moved there rather than deleted, so historical
 events and a stranded candidate's stage still resolve to a label; and the
 board write path "accepts retired stages too: a candidate standing on one is
@@ -72,7 +72,7 @@ error.
 
 ## A board-shape move is its own event kind
 
-`docs/features/pipeline/README.md:205-218`: `migratePipelineStages` writes a
+the README's `stage_migrated` section (`:205-218`): `migratePipelineStages` writes a
 `stage_migrated` event per moved candidate carrying from/to — "its own event
 kind rather than `moved`: nobody chose to advance *this* candidate — the board
 changed shape — and a recruiter reading the trail weeks later needs that
@@ -89,7 +89,7 @@ by `app/_lib/db/pipeline-stage-migration.test.ts`.
 it is deliberately short: at least two stages (`:525`, "needs at least an
 entry and a terminal stage"), exactly one each of `entry` and `terminal`
 (`:527-530`), at most one `offer` (`:534`), the axis must open with entry
-(`:541`) and end with terminal (`:542`). `docs/features/pipeline/README.md:162-166`
+(`:541`) and end with terminal (`:542`). the README (`:162-166`)
 states the governing principle in the standard's own terms: "the validator
 enforces only what the rest of the product resolves through … Everything else
 is open — any number of screening stages, interview rounds or `custom`
@@ -128,7 +128,11 @@ argument alone does not.
   board someone else has since reshaped may name ids that no longer exist. The
   token is re-asserted inside `setDecisionConfig` under the store's write lock
   (`:126-130`), so a concurrent save between the check and the write is caught
-  by the second half of the pair rather than clobbered. The check is opt-in: the
+  by the second half of the pair rather than clobbered. That second refusal
+  arrives after the moves, so it is the benign partial state the ordering
+  argument describes and not a clean no; only the first check refuses before
+  anybody moves. Between `:77` and `:130` every call is synchronous, so in one
+  process nothing can interleave there and the pair matters across processes. The check is opt-in: the
   first-run wizard composes an axis from nothing and sends no token.
 - **The refusal is data, not prose.** Every refusal is a code with fields
   (`PIPELINE_MIGRATION_REQUIRED` carries `unmapped: [{ stage, count }]`); the

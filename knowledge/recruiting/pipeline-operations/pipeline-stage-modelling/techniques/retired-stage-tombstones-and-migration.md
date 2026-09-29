@@ -39,7 +39,10 @@ The removal flow, in order, with the refusal points:
    mapping composed against a board someone else has since reshaped may name
    stages that no longer exist, so the request carries the axis version the
    human read, and a mismatch refuses before anyone moves. Check it once up
-   front and again at the write, under the store's lock.
+   front and again at the write, under the store's lock. Where the moves run
+   before the axis write, only the first check protects anybody; the second
+   turns a silent overwrite into a loud partial state, which the failure
+   message must then describe honestly.
 5. **Only then rewrite the axis**, and only as a retirement, never an
    erasure.
 
