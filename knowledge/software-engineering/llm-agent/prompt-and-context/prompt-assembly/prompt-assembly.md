@@ -32,6 +32,7 @@ techniques:
   - foreign-harness-history-folding
   - fold-only-acknowledged-evidence
   - summary-evidence-gate
+  - pinned-prompt-clock
 ---
 
 # Prompt assembly & context budgeting

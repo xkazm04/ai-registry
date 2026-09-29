@@ -159,6 +159,16 @@ change the model or the engine. Measure every candidate on the real prompt, in
 its real cache state, with first-token time recorded per turn. A trivial-prompt
 benchmark measures spawn cost and says nothing about prefill.
 
+## The observed fraction is an input, and it is easy to get wrong
+
+Every comparison above takes *C*, the tokens actually served from the cache, as a
+given. When a router estimates *C* from the last response's usage block, the
+denominator of that fraction is the whole prompt, and several providers report their
+input field as only the uncached remainder. Dividing by the remainder pushes the
+fraction past one at a true half and a clamp hides it, which biases every decision
+toward staying. The fix is a convention, not a tuning knob:
+[whole-prompt-denominator](../../../evaluation-and-cost/cost-metering/techniques/whole-prompt-denominator.md).
+
 ## What this does not say
 
 Nothing here argues against routing by class — that stance stands. It

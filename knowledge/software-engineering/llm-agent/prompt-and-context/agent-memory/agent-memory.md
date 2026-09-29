@@ -32,6 +32,7 @@ techniques:
   - addresses-not-atoms
   - observation-clock
   - stale-served-versus-stale-answered
+  - filter-at-the-id-door
 ---
 
 # Agent memory

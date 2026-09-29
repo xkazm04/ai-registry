@@ -10,6 +10,7 @@ techniques:
   - confine-configured-output-paths
   - os-enforced-run-boundary
   - hermetic-inherited-configuration
+  - diff-from-the-recorded-base
 ---
 
 # Unattended run isolation

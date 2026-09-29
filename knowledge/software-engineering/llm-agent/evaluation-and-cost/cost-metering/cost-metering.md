@@ -13,6 +13,7 @@ techniques:
   - spend-attribution
   - spend-observability
   - unit-classes-are-open
+  - whole-prompt-denominator
 ---
 
 # Cost metering & budgets

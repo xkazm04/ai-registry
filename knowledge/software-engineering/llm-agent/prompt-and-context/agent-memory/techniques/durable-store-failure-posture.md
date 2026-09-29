@@ -4,9 +4,9 @@ type: technique
 subject: agent-memory
 technique: durable-store-failure-posture
 status: forged
-laws: [failure-not-empty-success, unknown-is-not-a-value, deletion-is-not-repair]
+laws: [failure-not-empty-success, unknown-is-not-a-value, deletion-is-not-repair, creation-names-reaper]
 shared_with: []
-use_when: [a durable memory store fails to parse and more than one code path must react, deciding whether a corrupt store reads as empty, the read path runs on every turn and cannot be allowed to throw, choosing what the model is told when its own memory is unreadable, a store the agent both reads and writes is shared across concurrent sessions]
+use_when: [a durable memory store fails to parse and more than one code path must react, deciding whether a corrupt store reads as empty, the read path runs on every turn and cannot be allowed to throw, choosing what the model is told when its own memory is unreadable, a store the agent both reads and writes is shared across concurrent sessions, a consolidation pass copies the store, lets a model work on the copy and swaps it back over the live store]
 ---
 
 # Durable store failure posture
@@ -113,3 +113,31 @@ the whole store — and it belongs to whichever layer owns the artifact's
 versioning. Name it explicitly when adopting this rule, because a store hardened
 against corruption *feels* durable, and the concurrent path is the one that will
 still be losing data afterwards.
+
+### The long-window instance: a staged pass that swaps
+
+The lost update above is usually described as two quick writers. It has a slower
+form that the optimistic-write fix has to be applied to *deliberately*, because the
+window is minutes instead of milliseconds: a consolidation or rewrite pass that
+copies the store, lets a model work on the copy, and swaps the copy back over the
+live store when it finishes. Nothing in that design fails; every write to the copy
+succeeds, the swap succeeds, and any fact written to the live store while the model
+was thinking is gone.
+
+Executed against one such pass, with a model stub held open while a project memory
+was written into the live store, the post-swap listing held only the merged result and
+the mid-pass fact was absent. The same run had a second, less visible symptom: the
+store's "an undo is available" flag stayed true, so the operator was told the state
+was recoverable while the lost write could not be recovered by the undo either, because
+the undo's before-image predated it. A second scope written by another session
+mid-pass was lost the same way.
+
+The rule that closes it is the one already named, applied at the swap: **record the
+live store's version when the copy is taken, compare it when the copy is swapped
+back, and on a mismatch either reject the swap or replay the writes made since.** A
+pass that can run for minutes also owns a *readiness* claim, and that claim is derived
+from the same comparison, not from the fact that a before-image exists: an undo is
+ready only if the live state is exactly the state the pass produced. A leftover copy
+of a failed or rejected pass is a reaper's problem
+([creation-names-reaper](../../../../_laws.md#creation-names-reaper)) — the executed
+failed-pass run left its staging directory beside the live one.
