@@ -80,7 +80,7 @@ alarms on thin cohorts.
   narrower set of hires with complete timestamps (the fix recorded under the
   named-minimum application), but its accrual pace is hires per week from the
   momentum series, which counts every hire. On the shipped corpus that is nine
-  hires against five usable, so the date is about one and a half times too near.
+  hires against five usable, so the date is about 1.8 times too near.
   The technique's rule is that a horizon is computed from the count needed and the
   rate of accrual *of that count*; the module states it for the unit and the
   caller does not yet hold it for the subset. Not yet measured on a live workspace.

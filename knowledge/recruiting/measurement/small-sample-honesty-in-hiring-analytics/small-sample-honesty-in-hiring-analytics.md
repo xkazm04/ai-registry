@@ -306,7 +306,11 @@ cohort, so waiting does not grow it.
 - **The zero that means unknown.** An unmeasured quantity coerced to a number,
   usually the one that ranks a person worst or clears a gate silently.
 - **The shared threshold.** One constant gating six different claims, chosen
-  for the first claim written and never revisited for the other five.
+  for the first claim written and never revisited for the other five. The measured case: a floor sized for drawing one
+  reliability curve was reused to gate a comparison of two windows, and on windows
+  drawn from the same population under a perfectly calibrated score it alarmed on
+  99.8% of pairs at twenty outcomes (the score-calibration discipline has the
+  arithmetic).
 - **The gated headline with an open drill-down.** Honest at the top, unguarded
   everywhere the reader actually looks.
 - **The skipped check counted as clean.** The compliance failure, and the only
