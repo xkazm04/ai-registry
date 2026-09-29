@@ -5434,9 +5434,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
-   "digest": "sha256-b2:e915d448eb862521",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:f9f5f2ea5aea442f",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "entry-and-terminal-role-requirements",
@@ -5533,19 +5533,22 @@
      "stack": "node",
      "technique": "retired-stage-tombstones-and-migration",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/node--retired-stage-tombstones-and-migration.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "screening-gate-index",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/node--screening-gate-index.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "off-axis-candidate-recovery",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/react--off-axis-candidate-recovery.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },
