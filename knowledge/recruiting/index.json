@@ -5915,9 +5915,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/pre-publish-fillability-forecast.md",
-   "digest": "sha256-b2:50824597abf2865b",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:e9384c0804d9ba2c",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "counterfactual-gate-loosening",
