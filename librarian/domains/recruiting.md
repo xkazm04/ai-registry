@@ -1229,3 +1229,12 @@ First librarian note, dispatched on "never swept by the librarian". The content 
 - **Added here:** a kp application for the questionnaire technique. Two arms over one probe: an erasure of a Hired entry left a phone number, an immunisation answer and the signer name readable before the scrub for the retired onboarding module was added, and blanked them after. The scrub is keyed to table existence, which is the condition the technique gains.
 
 Four `applied.md` rows: one experiment (unmeasurable, the fixed arm is a design), one code (better), two unapplied with return conditions (kp holds no signing seam and no accepted-to-started window). Impact: kp only, six unjudged pairs, no stale verdict. Yield medium, dry_streak 0, depth L2. See [[pre-boarding-and-first-day-handoff]].
+
+## 2026-09-29 - deepen: portable-candidate-credentials
+
+First librarian note. The content pass had landed that afternoon (a20cc006) after a first dispatch reported `contended` on uncommitted sibling edits; with no clock or event to point at, this run reviewed the diff and did the propagation instead of researching again.
+
+- **Corrected here:** a compromise cutoff is only safe when the sealing instant is attested outside the row; kp's test backdates a forged row, so the store refuses the whole generation. The technique and the kp application now say so, with the two-arm result (`verified` before, `unverifiable` after; n = 1).
+- **Verified, left alone:** the landed key-outlives-the-issuer condition, revoked-first scoped to the issuer's own record, the 120-bit share-link floor, the superseded-status gap.
+
+Three `applied.md` rows: one code (better), two simulations (better, each with a falsifier: the legacy-row count and the superseded-link traffic are unmeasured). Impact: kp only, one unjudged pair, no stale verdict. Yield low-medium, dry_streak 0, depth L2. See [[portable-candidate-credentials]].
