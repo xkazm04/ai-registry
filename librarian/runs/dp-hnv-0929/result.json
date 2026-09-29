@@ -1,0 +1,101 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-hnv-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T10:58:00Z",
+  "ended_at": "2026-09-29T11:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/hypothesis-not-verdict-soft-signals",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/hypothesis-not-verdict-soft-signals",
+      "technique": "antipattern-and-hidden-strength-pairing",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/hypothesis-not-verdict-soft-signals",
+      "technique": "benign-alternative-stated-alongside-the-risk",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/hypothesis-not-verdict-soft-signals",
+      "technique": "signal-source-trust-ordering",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/hypothesis-not-verdict-soft-signals",
+      "technique": "signal-source-trust-ordering",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/hypothesis-not-verdict-soft-signals.md",
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/techniques/a-confirmation-probe-per-signal.md",
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/techniques/antipattern-and-hidden-strength-pairing.md",
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/techniques/benign-alternative-stated-alongside-the-risk.md",
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/techniques/claim-versus-evidence-overclaim-detection.md",
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/techniques/signal-source-trust-ordering.md",
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/techniques/what-to-confirm-checklist-not-a-dossier.md",
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/applications/process--a-confirmation-probe-per-signal.md",
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/applications/process--benign-alternative-stated-alongside-the-risk.md",
+    "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals/applications/react--what-to-confirm-checklist-not-a-dossier.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/hypothesis-not-verdict-soft-signals.md"
+  ],
+  "commits": [
+    {
+      "sha": "fd1399fd",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/candidate-evidence/hypothesis-not-verdict-soft-signals"
+      ]
+    },
+    {
+      "sha": "ff06a7e4",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/recruiting/index.json"
+      ]
+    },
+    {
+      "sha": "cad919c0",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/hypothesis-not-verdict-soft-signals.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No technique; 2 refuted, 4 conditioned. kp d9c8b17f (local; unpushed sibling commits): strength export 32/66 risks-only to 0, flight-risk sentence, forbidden-category fold 0/10 to 10/10. Neutrality blind spot simulated. 4 unapplied. Maps local in 12 projects."
+}
