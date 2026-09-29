@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 394,
-  "applications": 262,
+  "applications": 264,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -6359,9 +6359,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
-   "digest": "sha256-b2:00dbf484bc166d27",
-   "revision": 2,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:983a403a52f86ade",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "decision-anchored-score-bands",
@@ -6456,26 +6456,38 @@
      "stack": "node",
      "technique": "evidence-grounded-correctness",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/node--evidence-grounded-correctness.md",
-     "verified_on": "2026-09-10",
+     "verified_on": "2026-09-29",
      "verified_against": "node@18"
     },
     {
      "stack": "process",
      "technique": "decision-anchored-score-bands",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--decision-anchored-score-bands.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "never-judge-a-fallback-as-the-models-work",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--never-judge-a-fallback-as-the-models-work.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "separate-quality-from-reliability",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--separate-quality-from-reliability.md",
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "task-definition-matches-the-real-deliverable",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--task-definition-matches-the-real-deliverable.md",
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "unverifiable-is-not-fabricated",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--unverifiable-is-not-fabricated.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
