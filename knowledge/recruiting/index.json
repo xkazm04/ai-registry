@@ -5434,8 +5434,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
-   "digest": "sha256-b2:f9f5f2ea5aea442f",
-   "revision": 2,
+   "digest": "sha256-b2:fd3338d7d1babc84",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
