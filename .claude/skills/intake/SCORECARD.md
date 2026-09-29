@@ -4938,3 +4938,20 @@ half of a two-part technique. One lesson from this run, not yet a trend: a repla
 recorded runs can carry an arm fixed by construction, as this row's arm A and the
 2026-09-10 review of its sibling application both show, so the verdict belongs on a
 quantity the construction does not fix.
+
+| 2.14.1 | 2026-09-29 | `github:OpenBMB/StaffDeck@7adc7c84` - design-deep agent-platform repository, asked as an HR-domain and hiring-workspace adoption question | 1 repository (817 files, 9,358 words of design and prompt text), three parallel read-only readers over three slices; **1 of 3 fetches** (the automated-decision guidance, read as extracted PDF text); ~20 corpus files opened; 1 fleet tree read (kp) plus one throwaway probe | 22 (design record) | 2 accepted after promotion reads; 10 catches (one confirmed by opening a technique after a probe returned zero and was wrong); 3 leads; 7 untriaged | **2 techniques** + 2 golden-path edits + **3 applications** (one against the source tree, two against kp) | 2 rows (`0c/1e/0s/1t/0r`): handoff door `unmeasurable` (arm A measured, arm B needs the sibling app), contest door `unmeasurable` (plan only) | 0 code; 1 plan committed in kp (not pushed) | The declared focus (ship the smallest code half of an experiment row) did **not** move: the one code half available was a decider field with no producer, dead code with an arm fixed by construction, and the other was a schema change inside an owner's compliance row. Admission `auto=2/0/0`, `fp=0` | S0/T2/A0/Asrc1/task1 - routing count 1 clear + 2 partial (under 3), no handoff; directions=0/0 (no new capability; team-bidding material classified out by scope); gate=skipped (nothing proposed) |
+
+**2026-09-29 (staffdeck-agent-platform) - weakest stage and next focus.** Ship is still the
+losing stage: the last ten rows carry a code commit in five, and this row is a sixth zero
+whose reasons are both structural rather than lazy (a cross-repo dependency, an owner's
+sequencing decision). What did change is the yield shape. A design-deep repository run at
+this corpus's density produced 10 catches to 2 landings, both landings inside existing
+subjects, and the most useful finding was a *contrast*: the source's rule was right for its
+own forces and wrong for the adopter's. Next run's declared focus: **on a repository that
+answers an adoption question, run the fleet-side check first (does the adopting project
+already carry the finding as an open row), because two of this run's three applications
+were confirmations of a defect the owner had logged, and the technique's value was the
+routing distinction, not the discovery.** One lesson, not yet a trend: an absence probe over
+vocabulary returned zero for a rule a technique states in different words (`byte for byte`),
+so a design entry that reads as a gap is opened against its nearest technique before it is
+scored, not after.

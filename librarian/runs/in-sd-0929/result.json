@@ -1,0 +1,71 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-sd-0929",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "run",
+  "domain": "software-engineering",
+  "started_at": "2026-09-29T11:00:00Z",
+  "ended_at": "2026-09-29T14:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/hitl-approval",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "recruiting/bulk-adverse-action-governance",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "hitl-approval",
+      "technique": "handoff-is-a-declared-door",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "bulk-adverse-action-governance",
+      "technique": "contest-door-at-the-point-of-decision",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/techniques/handoff-is-a-declared-door.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/python--handoff-is-a-declared-door.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/next--handoff-is-a-declared-door.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/techniques/contest-door-at-the-point-of-decision.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/bulk-adverse-action-governance.md",
+    "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--contest-door-at-the-point-of-decision.md",
+    "librarian/sources/2026-09-29-staffdeck-agent-platform.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/hitl-approval.md",
+    "librarian/subjects/recruiting/bulk-adverse-action-governance.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Repository run on an HR adoption question: the employee vocabulary is UI labels; two techniques landed from a contrast (declared handoff door vs a statutory request door). Both applied to kp as unmeasurable; the second is a task plan, recorded as simulation."
+}

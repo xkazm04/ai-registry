@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: hitl-approval
-last_touched: 2026-09-23
+last_touched: 2026-09-29
 touched_by: intake
 dry_streak: 0
 ---
@@ -255,3 +255,11 @@ two-sighting return condition.
 Lead drain (run lib-0923), L284 AMEND + APPLICATION. **Correction** to `decision-records`: "the write is part of the gate" presumed the system owns the transition; when another surface's own send control is the human gate, the system records its own act labelled as a placement, and a failed write of it is an observability fault that never rolls the placement back.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 3, personas-web 3.
+
+## 2026-09-29 - [[2026-09-29-staffdeck-agent-platform]] (run in-sd-0929)
+
+Gained `handoff-is-a-declared-door` (technique 14, two applications: the source tree and the hiring workspace) and a pointer from the first corollary of the substrate section. The principle was already stated in that corollary (the identity that produces the work cannot approve it); the mechanism was not: how a human is pulled in at all (the model requests and only a declared node grants), how the answerer is resolved before the ask, and how a chat reply is bound to the delivered notice. The boundary it carries is the discriminator with the recruiting bundle: declared doors are for a resource the workflow owns, and a statutory request is a universal door there. The opposite technique lives in `bulk-adverse-action-governance` (recruiting); no link, by rule.
+
+A probe for "approval binds to the previewed artifact" returned zero and was wrong: `resume-after-decision` says it in one sentence ("byte for byte"). Opened before scoring, so it went in as a catch.
+
+Open: the machine-channel rule (a token that authorises telemetry does not authorise a decision) has one application, unmeasurable until the sibling application sends a decider.

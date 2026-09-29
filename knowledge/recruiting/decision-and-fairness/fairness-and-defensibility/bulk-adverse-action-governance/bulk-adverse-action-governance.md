@@ -11,6 +11,7 @@ techniques:
   - unscored-excluded-never-coerced
   - small-cohort-floor-with-no-silent-exemption
   - reversal-queue-that-reads-the-sealed-reason
+  - contest-door-at-the-point-of-decision
 ---
 
 # Bulk adverse action governance
@@ -242,6 +243,13 @@ Attribution may be downgraded toward the automated process when the record is un
 may never be upgraded, and a human's reversal is a new decision with a new actor, not an
 amendment of the old one. The original adverse record stays, marked reversed. Deleting it
 makes the pattern disappear from exactly the analysis that exists to find patterns.
+
+**The candidate has a way in, beside the system's own.** The queue fills from the automated
+side by construction; a rejected person who asks for a human to look again needs a door of
+their own, delivered with the decision, recognised from any channel, stored against the
+sealed decision and clocked from receipt. A request against a decision a named person made
+does not join this queue; it goes to a different reviewer with the authority to change it
+([contest-door-at-the-point-of-decision](./techniques/contest-door-at-the-point-of-decision.md)).
 
 Where the reversal must un-send something already delivered — a rejection letter, a
 withdrawn portal status — the delivery mechanics belong to the platform-engineering seam;

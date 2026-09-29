@@ -1,7 +1,7 @@
 ---
 subject: bulk-adverse-action-governance
 domain: recruiting
-last_touched: 2026-09-26
+last_touched: 2026-09-29
 dry_streak: 0
 ---
 
@@ -96,3 +96,9 @@ consumer event for this subject.
   says a 99.5% agreement gate "is either an excellent model or an unstaffed formality,
   and the two are distinguishable only by looking at the cases". That is the corrected
   reading. This subject's golden path was the outlier.
+
+## 2026-09-29 - [[2026-09-29-staffdeck-agent-platform]] (run in-sd-0929)
+
+Gained `contest-door-at-the-point-of-decision` (technique 7, one application) and one golden-path paragraph in the reversibility section. The subject had the queue and no request-side entrance; the queue takes automated rejections by construction and excludes human ones by design, so a candidate request recorded naively would be dropped for exactly the decisions a person made. Routing by the sealed actor is the technique's fourth rule. Authorised by the automated-decision guidance (a link at the point of decision, agreed timescales, a named contact, a reviewer with authority to change the outcome), read as extracted PDF text. Originated by a contrast: the source escalates only at declared workflow nodes, which is the wrong rule for an entitlement. Home was contested between this subject and `automated-screening-fairness-gates`; it went where the queue is.
+
+The consumer already carried the defect as an open compliance row; the application adds the routing distinction. Mode `task`, plan committed in the consumer, no code step.

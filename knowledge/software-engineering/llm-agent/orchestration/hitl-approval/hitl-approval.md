@@ -17,6 +17,7 @@ techniques:
   - fixed-policy-amendable-plan
   - oracle-before-gate
   - truncated-verdict-space
+  - handoff-is-a-declared-door
 ---
 
 # Human-in-the-loop approval
@@ -166,7 +167,9 @@ Two corollaries:
    that produces the work cannot be the identity that approves it. In code
    terms: the decision write comes from the decision surface, authenticated as
    the human, and the executor verifies the recorded state — never a claim of
-   approval carried in the requester's own message.
+   approval carried in the requester's own message. Who counts as "the human" is
+   resolved before the ask, not when a reply arrives
+   ([handoff-is-a-declared-door](./techniques/handoff-is-a-declared-door.md)).
 2. **The human decides on the real thing.** The decision surface shows the
    actual content, diff, or disclosed impact — not a summary produced by the
    same untrusted process being gated. A summary written by the gated party is
@@ -355,3 +358,7 @@ the machine with nobody ever having seen it.
   assessor with no positive arm: when to delete the machine's yes rather than
   defend it, the throughput cost that never goes away, and the obligation to
   mark the unreachable branch.
+- [handoff-is-a-declared-door](./techniques/handoff-is-a-declared-door.md) —
+  how a human gets pulled in at all: the model requests and only a declared node
+  grants, the answerer is resolved before the ask, reply authority is bound to the
+  delivered notice, and a statutory request is a universal door instead.

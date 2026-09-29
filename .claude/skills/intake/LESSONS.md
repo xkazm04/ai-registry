@@ -12123,3 +12123,23 @@ finish on the version it loaded.)
 - **A positive control can fail on spelling.** `gray box` missed a file that writes
   `no-gray-box`, and the grep looked like an instrument fault. Build the control from a
   string copied out of the file, not from memory.
+
+## 2.14.1 - 2026-09-29 - staffdeck-agent-platform
+
+- **Read the source's domain vocabulary against its code when the operator asks a domain
+  question.** The HR question ("does this platform's employee model help a hiring
+  workspace") was answered by the readers' claims-versus-code table: positions, employee
+  IDs, capability profiles and work records are UI labels. That is a fact-check notice, not a
+  finding, and it settled the question in one paragraph. Ask the readers for that table by
+  name in the brief.
+- **Three slice readers with a fixed record shape converge usefully.** Two readers reached
+  the same two decisions independently (the submission gate and the learning proposal), which
+  is the cheapest convergence signal a repository run has. Give every reader the same six
+  fields and the same anchor grammar, and run `check-anchors` over the director's
+  applications, not the readers' text.
+- **A markdown path with brackets is invisible to `check-anchors`.** A route folder named
+  `[token]` made an anchor read as a missing file; cite a sibling document that names the
+  route instead. Noted for the anchor grammar, not yet a method change.
+- **The seam that could falsify chose itself.** The hiring workspace's report door could have
+  shown the missing-decider finding harmless in a single-owner deployment; it did not, and
+  the probe counted the paths (8 of 56) rather than asserting them.
