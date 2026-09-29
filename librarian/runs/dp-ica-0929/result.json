@@ -1,0 +1,58 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ica-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T12:40:00Z",
+  "ended_at": "2026-09-29T13:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/interview-calendar-integrity",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/interview-calendar-integrity",
+      "technique": "real-duration-conflict-window",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/interview-calendar-integrity.md",
+    "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/techniques/real-duration-conflict-window.md",
+    "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/techniques/idempotent-event-lifecycle-with-orphan-surfacing.md",
+    "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/techniques/lifecycle-bucketing-with-a-post-start-grace.md",
+    "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/techniques/three-valued-free-busy-unknown-is-not-free.md",
+    "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/applications/node--real-duration-conflict-window.md",
+    "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/applications/react--lifecycle-bucketing-with-a-post-start-grace.md",
+    "librarian/applied.md",
+    "librarian/subjects/recruiting/interview-calendar-integrity.md"
+  ],
+  "commits": [
+    {
+      "sha": "774895d0",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second pass beside twin dp-ici-0929. Own-bookings collision conditioned to interval OR bucket; sendUpdates default named; dead-grant rules; one agenda owner. kp map 887c5c793 local, unpushed. check-bundles red at origin/main on a sibling file."
+}
