@@ -63,4 +63,4 @@ application of their own (the first two are covered inside the other three).
 **Applied:** no new technique and no flipped golden-path rule, so no `applied.md` row is
 owed; both technique conditions were taken from kp's own fixes.
 
-**Impact:** filled after the map regeneration; see the result file.
+**Impact:** kp, 4 contexts, all `unknown` - no stale verdict was carrying this subject, so no `/conform --stale` queue entry.
