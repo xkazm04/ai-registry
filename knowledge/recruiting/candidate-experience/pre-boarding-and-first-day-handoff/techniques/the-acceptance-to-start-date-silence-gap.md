@@ -46,9 +46,11 @@ neither:
    job as a relationship.
 
 From those, one derived number is worth putting on a screen: hires whose gap is above
-the median *and* whose last human contact is more than a fortnight old. That is the
-renege-risk cohort, and it is usually the first time anyone in the organisation has
-seen it as a list.
+the median *and* whose last human contact is more than a fortnight old. Call that the
+quiet-hire cohort, and hold the name loosely: it is a heuristic with chosen thresholds,
+not a validated renege predictor (see the evidence section below). It is still usually
+the first time anyone in the organisation has seen these people as a list, which is
+its value.
 
 A caution the law demands: a hire with no recorded contact is not evidence of no
 contact — recruiters call people from their phones. Render it as *no contact
@@ -80,6 +82,36 @@ additional midpoint touch and no more.
 The pre-boarding questionnaire is *not* one of these contacts. It is a request from
 the organisation for the person's labour; a request is not a relationship, and a
 window whose only two messages are both forms is still silent.
+
+## What the evidence does and does not say
+
+Read this before quoting the technique to someone who will ask for the study.
+
+- **Not found: a study that separates the gap's length from the silence inside it**, or
+  that measures reneges against employer contact during the notice period. No peer-reviewed
+  work and no field experiment on that question turned up. "Renege risk rises with the gap
+  and with the silence" is a practitioner's inference, and the design argument for the
+  technique does not depend on it: contact in this window is cheap, reversible and owed
+  to a person who has committed to you.
+- **What exists is adjacent.** A cross-sectional survey of new hires links satisfaction
+  with pre-boarding communication to job satisfaction, and among those who wanted a
+  different amount of contact most wanted more, not less. It measures satisfaction, not
+  reneges, and it is correlational. A meta-analysis of newcomer adjustment and a field
+  experiment on a first-day intervention concern what happens after entry. None of them
+  tests contact before the start date as a lever on reneging.
+- **Evidence that more contact backfires: none found. Evidence that contact does nothing:
+  none found.** The technique's thinness is therefore a judgement about what a person who
+  has accepted a job wants from their employer, not a measured optimum; the cap on
+  midpoint touches in particular is unsourced.
+- **The cohort thresholds and the cadence points are operating parameters.** The median
+  split, the fortnight, the one-working-day confirmation and the days-before-start
+  message have no source behind their numbers. Record them as configuration, log the
+  outcome for every hire, and tune them against your own reneges. The technique already
+  calls those the only direct evidence the window produces.
+- **Do not quote a ghosting or no-show rate as a base rate.** The published figures are
+  employer or vendor surveys with different definitions (backed out and started
+  elsewhere; failed to start; left within days) and are not comparable. The application
+  lists what was found and how it was read.
 
 ## The owner rule
 

@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: pre-boarding-and-first-day-handoff
 status: forged
-use_when: [designing what happens after a candidate accepts an offer, building a pre-boarding questionnaire or new-hire checklist, handing a hire from recruiting to a manager or people team, investigating a renege or a first-day no-show]
+use_when: [designing what happens after a candidate accepts an offer, building a pre-boarding questionnaire or new-hire checklist, handing a hire from recruiting to a manager or people team, investigating a renege or a first-day no-show, building a cancel or withdraw action on a hire]
 techniques:
   - the-acceptance-to-start-date-silence-gap
   - industry-preset-checklists
@@ -11,6 +11,7 @@ techniques:
   - the-live-stage-gates-the-handoff
   - pre-boarding-questionnaire-as-a-hire-record
   - signature-seam-declared-not-implied
+  - rescinding-an-accepted-offer-is-a-decision-with-a-process
 ---
 
 # Pre-boarding and first-day handoff
@@ -28,7 +29,9 @@ recruiter's scorecard is complete and their next search is already late. The man
 believes recruiting still owns the person; recruiting believes the manager does now.
 The person, meanwhile, is going to spend anywhere from two weeks to three months
 between "I accepted" and "I started," during which absolutely nothing is measured and
-frequently nothing at all happens.
+frequently nothing at all happens. That range is a practitioner's, not a statistic:
+statutory notice floors run to a month or two in some jurisdictions, so the wait can
+be longer than three months where the person's own contract says so.
 
 So the silence is not an oversight anyone made. It is what the incentive structure
 produces by default, and closing it is a design decision nobody in the process is
@@ -44,10 +47,14 @@ Three distinct losses live in this window, and they have different causes.
 **The renege.** The person accepts and then does not start, usually because a
 competing process they had not yet closed produced an offer, or because their current
 employer counter-offered, or because the doubt that every acceptance carries had two
-uninterrupted months to grow. Renege rates rise with the length of the gap and with
-the silence inside it — those are separable variables, and only one of them is under
-your control. You cannot usually shorten a notice period. You can absolutely decide
-whether the person hears from the organisation during it.
+uninterrupted months to grow. Plausibly, renege risk grows with the length of the gap
+and with the silence inside it, and only the second is under your control. Say
+"plausibly": no study was found that separates the two, or that measures reneges against
+contact during a notice period; the adjacent evidence is a survey linking satisfaction
+with pre-boarding communication to job satisfaction, and it points toward more contact,
+not less. You cannot usually shorten a notice period. You can decide whether the person
+hears from the organisation during it, and that decision does not need the study to be
+worth making.
 
 **The lost hire cost.** A renege at week eight of a ten-week gap is more expensive
 than a rejection at screen by roughly the entire cost of the search, plus the delay of
@@ -98,6 +105,20 @@ new hire touches and the one the people team touches — must consult the *same*
 because two gates that can disagree eventually will, and the disagreement always
 resolves in favour of whichever side had less context.
 
+The same sentence has a second half that is easy to skip: *how* a person is un-hired.
+"Rescinded by either side" reads as a state change, and it is easily built as one —
+where the only door that closes a person is the selection-stage reject (as it was in the
+one carefully built system examined), a hire the company withdraws is closed as a
+rejection, sent the rejection letter and counted in the
+reject rate. It is a decision with its own process. The acceptance carries a ledger of
+what is still conditional (a check, a reference, a right-to-work step), the rescission
+is a named human's act citing which contingency failed or what changed, and the ground
+selects what is owed: a report-based ground owes the person the report and a chance to
+answer before it is final, a medical ground must be job-related and applied to every
+entering hire, a withdrawal for a reason that is not about the person can be a breach
+where the accepted offer is a contract. An unreturned check holds; it is not a failed
+check. See the technique below.
+
 ## Pre-boarding collects a different class of data than selection ever could
 
 Up to acceptance, everything the organisation holds about the person is *selection*
@@ -110,8 +131,13 @@ contact, a health or immunisation record, a right-to-work document, a clothing s
 
 Three rules follow and none of them is optional.
 
-First, **the purpose changed, so the basis changed.** The consent or legal basis that
-covered the application does not cover this. The sibling
+First, **the purpose changed, so check the basis.** What covered the application may not
+cover this, and consent is a weak choice in an employment relationship (refusing is rarely
+free), so a mandatory field needs another basis and health data needs an
+employment-law condition. Two of the items on that list also carry conditions on *how*
+they may be collected: the check that proves the right to work is prescribed and is
+not satisfied by a copy in some regimes, and a medical inquiry is lawful only if asked of
+every entering hire in the role. The sibling
 `candidate-consent-and-retention` owns the basis, the retention clocks and the
 deletion path; this subject owns the discipline of not smuggling employment-data
 collection into a selection-era record and hoping nobody notices.
@@ -172,6 +198,11 @@ dangerous thing to *label* as a signature, because the documents passing through
 are employment contracts, non-disclosure agreements and intellectual-property
 assignments — precisely the documents someone will one day try to rely on in a
 dispute.
+
+A separate question decides how much the seam has to carry: where a statute attaches
+a form requirement to a particular clause or act (a fixed-term clause, a termination,
+a delivery duty), the internal mark is not enough, but that is narrower than "employment
+contracts need a qualified signature", which is not what the regimes checked say.
 
 The rule is that the seam is declared in the vocabulary the user sees, not in a
 comment only a maintainer reads. If the person who was marked as having signed did not
@@ -241,6 +272,9 @@ triggers.
   guarantee, so nobody checks it against the jurisdiction it will run in.
 - **Copy frozen at authoring time.** A questionnaire composed in the recruiter's
   language and read by a new hire in another, months later, on a page of their own.
+- **Un-hiring through the reject door.** A hire the company withdraws is closed with the
+  selection-stage outcome and letter, on no ground, with no notice or response window,
+  while the hire it reverses can stay metered and exported.
 - **A stamp that reads as a signature.** An internal completion mark presented in the
   grammar of an executed document, on exactly the documents where that matters.
 - **The link shown once.** A pre-boarding surface with no delivery, no resend and no
