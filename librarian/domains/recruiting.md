@@ -941,3 +941,45 @@ sentence its code contradicts), one new process application.
 Impact: kp has 1 context on this subject, 0 stale verdicts. The join missed both
 seams this pass found defects in. Maps committed locally in twelve projects, none
 pushed. Yield high, dry_streak 0, depth L3. See [[degrade-never-block-a-candidate]].
+
+## 2026-09-29 - deepen: evidence-provenance-weighting
+
+The Curator lane dispatched this on "never swept by the librarian". The event was
+measured: seventy kp commits had touched the cited files since 2026-08-20, one of them
+rewriting the display mapping an application describes. Four lanes ran: counter,
+primary, blind and tree. Nothing was refuted outright. Seven claims were conditioned,
+each by two or three lanes:
+- the ladder ranks how hard a claim is to fake, not how well a basis predicts (Sackett
+  2022: work samples .33, structured interviews .42, experience .07; 1607.14(C)(6)),
+  so the professional rung is earned by described work, not tenure;
+- observed work needs its performer attested (FBI I-072325-4-PSA);
+- open source counts when attributable, and rung access is measured (9.8% women);
+- a proctored exam is not an attendance certificate (Tamblyn, JAMA 2007);
+- unknown origin is not an unmapped category, and the floored share is a metric;
+- ordinary-word skill names need the alias table at any length;
+- contraction and exploration are partial re-tuning validations.
+
+Confirmed: self-assertion at the floor (Mabe & West; Schmidt et al. 2022; Harold et
+al. 2006).
+
+The tree found two live defects:
+- **kp's CV path minted the segmented default** the subject names, "professional"
+  unless early-career, into stored profiles. It had outlived the scoring fix;
+- **a fallthrough fix sent five real rungs to an "unknown" badge.**
+
+No technique earned. The monitoring duties cross-refer to adverse-impact and
+cv-parsing.
+
+Ten `applied.md` rows:
+- two code, better: kp 1ad9aa2df and 8ea9ae1a4, both local;
+- one simulation, not-better: the floor against an unmapped category, 1 of 3 against
+  2 of 3; the first run was a cache-made tie, caught;
+- one simulation, better: the alias gate, 4 of 4 false credits blocked;
+- six unapplied.
+
+Three applications were re-verified (react@19). The interview mint was recorded as
+crediting every must-have.
+
+Impact: kp has 2 contexts on this subject and 0 stale verdicts, and the matcher is
+unjoined. Maps were committed locally in twelve projects, none pushed. Yield high,
+dry_streak 0, depth L3. See [[evidence-provenance-weighting]].
