@@ -1,0 +1,69 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pbf-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T15:59:00Z",
+  "ended_at": "2026-09-29T16:12:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/pre-boarding-and-first-day-handoff",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/pre-boarding-and-first-day-handoff",
+      "technique": "rescinding-an-accepted-offer-is-a-decision-with-a-process",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "recruiting/pre-boarding-and-first-day-handoff",
+      "technique": "pre-boarding-questionnaire-as-a-hire-record",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--pre-boarding-questionnaire-as-a-hire-record.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/pre-boarding-and-first-day-handoff.md"
+  ],
+  "commits": [
+    {
+      "sha": "c5640e78",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--pre-boarding-questionnaire-as-a-hire-record.md"
+    },
+    {
+      "sha": "282ee58e",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md"
+    },
+    {
+      "sha": "0282142d",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/domains/recruiting.md librarian/subjects/recruiting/pre-boarding-and-first-day-handoff.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Content landed an hour earlier (1ec9cfd6) with no ledger; this run reviewed that diff, added a two-arm kp application and the ledgers. map --dry-run wrote all 12 fleet maps; committed locally, unpushed."
+}
