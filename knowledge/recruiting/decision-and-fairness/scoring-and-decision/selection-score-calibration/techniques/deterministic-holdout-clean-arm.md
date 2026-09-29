@@ -85,7 +85,17 @@ component without shared state, and no amount of slider-dragging changes it.
    elsewhere in the rules does not re-roll anybody.
 8. **Mark the outcome with its arm** so the taxonomy can classify it later. A
    holdout whose outcomes are indistinguishable from ordinary ones in storage is
-   a holdout that will be silently blended back in.
+   a holdout that will be silently blended back in. The hash says who *would* be
+   spared; the record says who *was*. Read the arm from what was recorded at the
+   moment of sparing, and treat a sparing whose record could not be written as
+   spared but outside the arm, counted as a failure the operator can see: that
+   under-claims the arm, which is the direction to fail, and it costs a data
+   point and never a person.
+   **Other ways of being spared are not this arm.** A recruiter who rescues a
+   would-be reject, a candidate reinstated after a reversal, an exclusion the
+   approving reviewer adds: each was spared by a human who had seen the score,
+   and none is a draw. Remove them before the draw and keep them out of the arm,
+   or the clean arm fills with the candidates people already liked.
 9. **Recompute membership as sparing-minus-subsequent-rejection.** Being in the
    arm is not a permanent badge earned once. A candidate spared by one wave can
    be automatically rejected by a later one — the rate was lowered, the cutoff
@@ -105,7 +115,15 @@ of below-floor volume is the usual landing zone; a handful of resolved outcomes
 per month is not an arm, it is an anecdote. Work backwards: decide the smallest
 effect the surface must detect, compute the outcomes needed, divide by monthly
 below-floor volume, and set the rate from that — then state the rate and the
-resulting monthly yield on the surface itself.
+resulting monthly yield on the surface itself. The arithmetic is short and is
+usually the surprise: the yield is rate × would-be rejections × the share that
+resolve to a merit outcome, so 30 usable outcomes at a 5% rate take 600 rejection
+decisions, and eight per bin across the five bins below a floor of 45 take 800,
+before pending and non-merit terminals are dropped. A per-role arm is smaller
+still: at 5%, a role with 20 would-be rejections has no spared candidate 36% of
+the time. Hash mixing is not the constraint: a 32-bit FNV-1a over a
+`job:entry` key spared 5.02%, 4.95% and 4.98% of 200,000 UUID, sequential and
+prefixed ids at a 5% rate (binomial sd 0.05 points).
 
 Three configuration rules that are not optional:
 

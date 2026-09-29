@@ -42,6 +42,14 @@ was hired, not that the hire was good. Unless someone in the organisation record
 post-hire performance and that record feeds this instrument, any language
 implying quality is a claim the record does not hold.
 
+The two axes do not share a negative. On the advancement axis a negative is
+rejected while still at entry or screening. On the hire axis it is rejected at
+*any* stage without reaching the terminal, so an interview rejection is a
+positive on one axis and a negative on the other, and a candidate still in
+flight is excluded on both because they may yet be hired. The hire positive is
+the current position: a hire that was undone is not a hire, whereas the
+advancement positive is the furthest stage ever reached.
+
 Report both when both are available and expect them to disagree. Strong on
 advancement and weak on hire is a coherent, useful finding: the screen is
 selecting for what the screen selects for, and the loop downstream is deciding on

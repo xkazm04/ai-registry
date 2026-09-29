@@ -50,12 +50,31 @@ mishandles, and always worth chasing before anything else. **Cliff at the
 production threshold** — the giveaway that you are looking at the threshold's
 effect, not the score's signal.
 
+**A binned curve is a display, not the reference.** Fixed bins are right for
+reading the rate either side of a cutoff, because the recommendation below reads
+absolute rates in named bands. They are not a stable estimate of the calibration
+curve: the standard reference on the subject finds the binned diagram "highly
+sensitive to the specification of the bins", with "small or sparsely populated
+bins … subject to overfitting and large estimation uncertainty" (Dimitriadis,
+Gneiting and Jordan 2021, arXiv text; the journal version was not read). Its
+alternative needs no bins: recalibrate the scores by isotonic regression (pool
+adjacent violators) and plot the fitted step curve with consistency bands from
+resampling, which also yields the miscalibration, discrimination and uncertainty
+terms of the decomposition below. So a claim about *shape* — flat, inverted in a
+band, an S — should be checked against that curve and its bands before anyone
+acts on it, and the per-bin minimum of eight above is a convention (the paper
+states none), not a derived limit: one outcome moves an eight-person bin by 12.5
+points. Fix the edges and publish the counts either way, because ten bins over
+twenty outcomes average two per bin and the curve is then mostly gaps.
+
 ## The scalar
 
 Use a **strictly proper** scoring rule — one whose expected value is optimised
 only by reporting your true belief. Mean squared error between the predicted
-probability and the binary outcome is the workhorse: bounded, decomposable, and
-comprehensible to non-specialists. Log loss is equally proper and punishes
+probability and the binary outcome (the Brier score) is the workhorse: bounded
+between zero and one, decomposable, and comprehensible to non-specialists. Its
+ceiling is one, for a forecast that is confidently wrong every time; 0.25 is the
+score of always saying 0.5, a reference point and not the top of the range. Log loss is equally proper and punishes
 confident errors harder, which is a virtue in some settings and a source of
 infinite penalties on single mislabelled rows in others.
 
@@ -70,7 +89,9 @@ which are completely different remediations.
 
 Expected-calibration-style aggregate gaps are a reasonable third figure but never
 the headline: they depend on the binning, they are not proper, and a model can
-lower them while getting worse.
+lower them while getting worse. The plainest demonstration: a constant forecast
+of the base rate is calibrated in the large, so it has an aggregate gap near
+zero and carries no information at all.
 
 ## Recommending a threshold band from the curve
 

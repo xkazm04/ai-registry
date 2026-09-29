@@ -89,11 +89,17 @@ percentile is exactly this, and it is why a threshold chosen from the number's
 face value lands somewhere nobody intended.
 
 **Fairness** is whether either property holds *within* groups, and whether the
-gate's outcomes differ across them. Calibration is a precondition, not a
-substitute: a score can be perfectly calibrated overall and still gate one group
-at half the rate of another. Adverse-impact analysis is a separate discipline
-with its own techniques; calibration tells you whether the number deserves to be
-in the decision at all, not whether the decision is fair.
+gate's outcomes differ across them. Calibration is not a substitute: a score can
+be perfectly calibrated overall and still gate one group at half the rate of
+another. Nor is it a precondition that the fairness measures then build on.
+Calibration *within* each group is itself one fairness criterion, and it cannot be
+held together with equal error rates across groups unless the groups' base rates
+are equal or the score predicts perfectly (Kleinberg, Mullainathan and Raghavan
+2016; Chouldechova 2017). A team that has made a score calibrated in every group
+has chosen a side of that trade, and the choice is a policy act with an owner.
+Adverse-impact analysis is a separate discipline with its own techniques;
+calibration tells you whether the number deserves to be in the decision at all,
+not whether the decision is fair.
 
 State which of the three you measured. A surface labelled "accuracy" that is
 really discrimination will be read as calibration by every non-specialist who
@@ -171,13 +177,26 @@ Concretely:
 - **A whole-surface floor.** Below a few dozen resolved outcomes, no reliability
   curve, no skill score, no threshold recommendation. The surface renders the
   count and the words *insufficient sample* — a distinct verdict, never a pass
-  and never a blank.
+  and never a blank. The floor licenses the scalar, not the shape. Simulated with
+  a score that is truly skilful (true skill 0.33, 4,000 samples per size), the
+  measured skill at 20 outcomes has a standard deviation of 0.20, reads negative
+  7.7% of the time and reads under a 0.2 "good" bar 30% of the time; by 100 those
+  are 0.08, 0% and 6%. Ten fixed bins over 20 outcomes average two per bin, a
+  quarter of the per-bin floor below, so at the whole-surface floor a curve is
+  mostly gaps.
 - **A per-bin floor.** A bin with three candidates in it draws a point that
   swings 30 points on one person's outcome. Bins under the floor render as gaps,
   and merging bins to escape the floor is only honest if the merge is stated.
-- **A drift-window floor.** A monitor that alarms on a thin week will be muted
-  within a month, after which it protects nobody. A refusal to evaluate is a
-  first-class monitor result.
+- **A drift-window floor, and it is larger than the curve's.** A monitor that
+  alarms on a thin week will be muted within a month, after which it protects
+  nobody. A refusal to evaluate is a first-class monitor result. Comparing two
+  windows is a harder statistical act than drawing one curve, and reusing the
+  curve's floor is the mistake that produces the muted monitor: in a measured
+  run over two windows drawn from the *same* population under a perfectly
+  calibrated score, a three-axis alarm at that floor fired on 99.8% of pairs at
+  20 outcomes, 91% at 50, 43% at 100, 6% at 200 and 0.4% at 400
+  ([post-deployment-drift-monitoring](./techniques/post-deployment-drift-monitoring.md)
+  has the axes and the arithmetic).
 - **A degenerate cohort has no answer.** When every outcome went the same way
   there is nothing to discriminate, and the honest output is *cannot tell you* —
   not a weak verdict, not a zero. A verdict vocabulary needs a state for "the
@@ -199,7 +218,20 @@ same title, the model gets swapped, the recruiters learn to work around the
 score. Any of these dissolves the relationship without touching the code. A
 selection system used for consequential decisions about people carries an
 ongoing monitoring duty in most modern regulatory regimes, and the practice
-predates the regulation because the failure predates it too.
+predates the regulation because the failure predates it too. The duties are
+narrower and more differently placed than "monitoring" suggests (read 2026-09-29;
+re-read by 2026-12-29, the law here is moving). Under the EU AI Act a recruitment
+or candidate-screening system is high-risk (Annex III 4(a)); the documented
+post-market monitoring plan is the *provider's* (Article 72), the deployer's duty
+is to monitor operation on the instructions for use and pass problems to the
+provider (Article 26(5)) and keep the logs at least six months (26(6)); a team
+that builds and runs its own screen is both. The high-risk obligations do not
+apply from 2 August 2026, as first enacted: Regulation (EU) 2026/1744 (Official
+Journal, 24 July 2026) moved them to 2 December 2027 for Annex III systems. New
+York City's Local Law 144 asks for a bias audit no more than a year old, which is
+a recurring audit, not a monitor. The US Uniform Guidelines already say that no
+absolute settles when a validity study is outdated and that changes in the labour
+market and the job count (29 CFR 1607.5K).
 
 **"Accuracy is 87%."** Against what base rate? If 85% of screened candidates
 advance, 87% accuracy is worse than a rubber stamp. Report skill against the
@@ -211,7 +243,17 @@ recruiters is actively worse than the prior they already hold.
 score. A reviewer shown a number before deciding is anchored to it; their
 agreement measures anchoring, not independence. That is a real improvement over a
 purely automatic gate and it is still not independence, and the surface must
-distinguish the two rather than collapsing both into "human-reviewed".
+distinguish the two rather than collapsing both into "human-reviewed". The
+mechanism is supported, the size for professional reviewers is not: in the one
+hiring experiment found (Wilson and colleagues, AIES 2025; 528 lay participants,
+1,526 trials, simulated recommendations) the share of choices going to one group
+moved from about 0.49 with no or a neutral recommendation to 0.90 or 0.09 under a
+severely biased one, but there was no arm where the score was hidden, the
+participants were not recruiters, and a crowdsourced risk-assessment study
+reports that participants did not anchor on the tool's predictions (Fogliato and
+colleagues 2021, abstract read). So "reviewer saw the
+score" is a conservative ceiling, not a measured effect, and the way to earn a
+lower one is to randomise whether a sampled reviewer sees the number.
 
 **"We'll just re-randomize the holdout each cycle."** Then the set a human
 approved yesterday is not the set that exists today, every sealed approval over

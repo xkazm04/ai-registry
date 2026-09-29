@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 394,
-  "applications": 270,
+  "applications": 271,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -7396,9 +7396,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/selection-score-calibration.md",
-   "digest": "sha256-b2:dff11163b9a17253",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:3532a6c1ef935e0a",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "base-rate-skill-score",
@@ -7492,21 +7492,30 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "base-rate-skill-score",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--base-rate-skill-score.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "deterministic-holdout-clean-arm",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--deterministic-holdout-clean-arm.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "label-leakage-taxonomy",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--label-leakage-taxonomy.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "post-deployment-drift-monitoring",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/process--post-deployment-drift-monitoring.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
