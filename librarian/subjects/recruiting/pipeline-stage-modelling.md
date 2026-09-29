@@ -36,3 +36,29 @@ First touch by `/deepen`, dispatched by the Curator lane on the scan finding "ne
 ## Applied
 
 No technique is new and no golden-path rule flipped in a way a project could try: `homework` and the subtraction rule already ship in kp, and the two shortfalls found (`screenStageOutcome`, the orphaned deep-link notice) are kp deviations reported here, not registry-driven changes. No `applied.md` row is owed. Return condition for an `unapplied` row: when kp threads the axis through `screenStageOutcome`, apply the axis-threading rule there as a simulation with a renamed-entry axis.
+
+## 2026-09-29 (second pass, dp-psm-0929b) - a twin of the run above, the landing carried a splice, and a rejection is a status in the systems read
+
+**Depth rung:** L2 for the applications re-checked (kp at `ca3d48934`, every claim the first pass made about the deleted filter bar, the kit off-board section, `stage-migration/route.ts`, `pipeline-stages.ts` and `decision-config-schema.ts` re-resolved by hand). L2 for one new claim, from two independent readings: kp's tree and the Greenhouse Harvest API page fetched raw (`status` is one of `active`, `rejected`, `hired`, `converted`; the documented rejected application still carries `current_stage`; a hired one has none). One search-result reading of Lever's archive behaviour agrees (an unarchived opportunity returns to the stage it was archived from) and is not counted. No blind training-data lane.
+
+**How the run started:** dispatched on the same finding as the pass above, with no live claim on the board, so it found that pass's edits uncommitted in the shared checkout. They had already landed on origin as `6f6eb365`; the shared tree was 23 commits behind. The work was rebuilt from origin in a detached worktree, and the shared tree's copies were not touched.
+
+**Found in the landing itself:** `techniques/off-axis-candidate-recovery.md` had two decision rules spliced into its own front matter (`lay- When the surface...er: technique`), a byte-offset insertion. It reached origin; why the gate let it through was not investigated. Repaired: `layer: technique` restored and both rules placed under Decision rules. The two rules were re-checked against kp before being kept (`resolveStageFilter` has no caller outside tests; "Move all to..." is a loop of `moveEntry` calls at `PipelineKitOffBoard.tsx:44`).
+
+**New at golden-path level, from two readings:** where a closure lives is a modelling choice. kp stores `active | rejected | declined | rematched | role_closed` as a status and has one terminal stage, `Hired`; Greenhouse's API keeps rejection as a status with the stage retained. The golden path and the gate technique had assumed a rejection moves the candidate onto the terminal stage, so the "resolve by outcome before position" trap was stated as universal. It is conditional: where closure is a status, position is already right for a rejected candidate and the obligation moves to the population, which must keep closed candidates in the denominator by their kept stage. kp meets it in the two computations read (`db/analytics.ts:355-368` filters no status; `analytics-cohort.ts:148-150` separates `reached` from `current`); every other consumer of `status` was not read.
+
+**Also landed:** the tombstone technique's axis-version re-check now says only the first check protects anybody when the moves run before the write; the gate application gained a closure section; line citations moved (test `:66`, benchmarks `:67`), and README and mount citations became section anchors because a sibling's uncommitted README edit moves them.
+
+**Verified, left alone:** the citations in the three applications that this pass re-resolved by hand, apart from those corrected above. The `screenStageOutcome` shortfall and the orphaned deep-link notice both still hold at `ca3d48934`.
+
+**Not evaluated:** a web lane on the golden path's other claims, a blind lane, Greenhouse's behaviour for `converted` prospects, the Settings composer, whether kp's README still describes the deleted filter bar (it does; not fixed, kp carries sibling edits to that file).
+
+Return condition: a kp change to `screenStageOutcome` or the kit filter surface, or the applications clock on 2026-12-29.
+
+### Impact (second pass)
+
+The subject digest moved again (revision 2 to 3). kp joins it through eleven context pairs, all `state: unknown` per the pass above; no stale verdict, no `/conform --stale` queue from this landing.
+
+### Applied (second pass)
+
+The closure condition is a golden-path rule that gained a condition. No project can be A/B'd on it: kp is the implementation it was read from, and no other joined project stores closure as a terminal move. Row recorded `unapplied`, return condition: when a project models a rejection as a move onto the terminal stage.
