@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 395,
-  "applications": 277,
+  "techniques": 396,
+  "applications": 279,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "395/395",
+  "use_when_coverage": "396/396",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -7828,9 +7828,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/small-sample-honesty-in-hiring-analytics.md",
-   "digest": "sha256-b2:c3b68501227b54dc",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:38590fb0d9e55856",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "a-named-minimum-per-claim",
@@ -7905,6 +7905,22 @@
      ]
     },
     {
+     "slug": "state-what-the-sample-could-have-seen",
+     "status": "forged",
+     "laws": [
+      "a-claim-carries-its-sample-and-its-basis",
+      "absence-of-evidence-is-not-evidence",
+      "a-verdict-is-bound-to-what-it-judged"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a figure has just cleared its floor",
+      "a fairness or quality check came back clean on a small cohort",
+      "a dashboard ranks sources or stages",
+      "showing a zero from a small count"
+     ]
+    },
+    {
      "slug": "thin-but-real-as-a-labelled-state",
      "status": "forged",
      "laws": [
@@ -7924,19 +7940,35 @@
      "stack": "node",
      "technique": "a-named-minimum-per-claim",
      "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--a-named-minimum-per-claim.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "insufficient-sample-is-not-a-pass",
      "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--insufficient-sample-is-not-a-pass.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "state-the-accrual-horizon",
+     "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--state-the-accrual-horizon.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "state-what-the-sample-could-have-seen",
+     "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--state-what-the-sample-could-have-seen.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "thin-but-real-as-a-labelled-state",
      "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/process--thin-but-real-as-a-labelled-state.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -8770,6 +8802,7 @@
     "small-sample-honesty-in-hiring-analytics/a-named-minimum-per-claim",
     "small-sample-honesty-in-hiring-analytics/gate-each-cohort-not-only-the-headline",
     "small-sample-honesty-in-hiring-analytics/state-the-accrual-horizon",
+    "small-sample-honesty-in-hiring-analytics/state-what-the-sample-could-have-seen",
     "small-sample-honesty-in-hiring-analytics/thin-but-real-as-a-labelled-state",
     "sourcing-campaign-honesty/hook-taxonomy-bounded-by-what-is-provable",
     "structured-interview-scorecards/separate-rubric-per-population",
@@ -8920,6 +8953,7 @@
     "small-sample-honesty-in-hiring-analytics/gate-each-cohort-not-only-the-headline",
     "small-sample-honesty-in-hiring-analytics/insufficient-sample-is-not-a-pass",
     "small-sample-honesty-in-hiring-analytics/not-measurable-versus-zero",
+    "small-sample-honesty-in-hiring-analytics/state-what-the-sample-could-have-seen",
     "sourcing-campaign-honesty/defaulted-value-is-absent-not-advertised",
     "sourcing-campaign-honesty/missing-fact-as-a-warning-code",
     "sourcing-campaign-honesty/stated-facts-only-gate",
@@ -9001,6 +9035,7 @@
     "silver-medalist-rediscovery/fit-floor-for-readmission",
     "silver-medalist-rediscovery/prior-outcome-taxonomy",
     "small-sample-honesty-in-hiring-analytics/insufficient-sample-is-not-a-pass",
+    "small-sample-honesty-in-hiring-analytics/state-what-the-sample-could-have-seen",
     "structured-interview-scorecards/rubric-versioning-at-write-time",
     "voice-interview-fidelity/closing-read-back-as-the-authoritative-record",
     "work-sample-timeboxing-and-cost/hard-timebox-cap"
