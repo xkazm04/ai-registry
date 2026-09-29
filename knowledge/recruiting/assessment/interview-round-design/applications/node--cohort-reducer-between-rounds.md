@@ -5,20 +5,30 @@ subject: interview-round-design
 technique: cohort-reducer-between-rounds
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # The reducer as a typed field on a per-workspace interview plan
 
 The loop's shape lives in one config object, `InterviewPlanRule`
-(`app/_lib/decision-config-schema.ts:141`), stored in the tiered decision-config store
+(`app/_lib/decision-config-schema.ts:149`), stored in the tiered decision-config store
 alongside the rest of hiring policy. The reducer is a first-class field on a round, not
 an implicit behaviour of the code that advances candidates.
+
+Since the first verification the plan became **stage-keyed**: `InterviewPlanRule` is now
+`{ steps: InterviewPlanStep[] }`, each step names the board column it governs
+(`stageId`), carries that column's own `gate`, and holds the `rounds` that run there. The
+old flat `rounds` array bound rounds to columns left to right and stacked any surplus on
+the last one, in a derivation that nothing could state or edit. `planRounds(plan)`
+(line 173) still flattens the steps for the sequencing rules, as a derivation rather than
+storage. A column the plan says nothing about has no step, and `planStep` returns null
+rather than inventing a gate. The round type below did not change.
 
 ## The round type
 
 ```ts
-// app/_lib/decision-config-schema.ts:118
+// app/_lib/decision-config-schema.ts:126
 export type InterviewPlanRound = {
   kind: InterviewPlanRoundKind;          // "ai" | "human"
   gate: InterviewPlanGate;               // "auto" | "human" — who ratifies the verdict
@@ -36,17 +46,17 @@ Three of the technique's four properties are typed here:
   spells out the composition: *top N of the previous round's advancers*.
 - **Actor / human gate** — `gate`, normalized by the validator so a stored plan cannot
   lie about it: `gate: rec.kind === "human" ? "human" : rec.gate`
-  (`app/_lib/decision-config-schema.ts:518`), with the comment "A human round's verdict
+  (`app/_lib/decision-config-schema.ts:581`), with the comment "A human round's verdict
   IS the human decision — never persist it as unattended, whatever the client sent". The
-  shipped default (`app/_lib/decision-config-schema.ts:281`) is
+  shipped default (`app/_lib/decision-config-schema.ts:297`) is
   `{ kind: "ai", gate: "human", topN: null }` behind a human screening gate and a
   human-approved offer: the machine round exists, and a person ratifies it.
 - **Ratio** — `topN`, clamped rather than rejected on out-of-range input
-  (`Math.max(1, Math.min(50, Math.round(rec.topN)))`, line 509).
+  (`Math.max(1, Math.min(50, Math.round(rec.topN)))`, line 573).
 
 ## The first-round rule
 
-`topN: seq === 0 ? null : topN` (`app/_lib/decision-config-schema.ts:519`), commented
+`topN: seq === 0 ? null : topN` (`app/_lib/decision-config-schema.ts:583`), commented
 "The plan's first round has no previous cohort to reduce." This is the technique's
 narrowing model enforced structurally: a reducer is a relation *between* two rounds, so
 the first round cannot carry one. A stored plan that tries is corrected at read time
@@ -54,7 +64,7 @@ rather than trusted.
 
 ## "A second conversation is a second column"
 
-The doctrine at `app/_lib/decision-config-schema.ts:263` is the loop-shape argument the
+The doctrine at `app/_lib/decision-config-schema.ts:281` is the loop-shape argument the
 golden path makes, written as a changelog entry:
 
 > It used to be two rounds (AI, then human for the top 3) STACKED behind that one
@@ -63,10 +73,10 @@ golden path makes, written as a changelog entry:
 > on and a board can actually draw.
 
 The stacked shape is still *representable* — `InterviewPlanStep.rounds` is an array, and
-the comment at line 137 notes that more than one round per column is "legal and lossless
+the comment on `InterviewPlanStep.rounds` notes that more than one round per column is "legal and lossless
 — that is what the old flat array's implicit stacking actually meant, now said out loud".
 The change was to stop it being the default. The same block names the consequence
-honestly: `planRoutesAiScorecardToHumanRound` (line 182) no longer fires by default, so a
+honestly: `planRoutesAiScorecardToHumanRound` (line 193) no longer fires by default, so a
 workspace that wants the handoff "adds an Interview step and sets its executor to a
 person, which is now a visible decision instead of an invisible one."
 
@@ -75,9 +85,9 @@ round it reduces into must both be things somebody chose.
 
 ## The scoring column is its own step
 
-`PLANNABLE_ROLES` (`app/_lib/decision-config-schema.ts:148`) admits `scoring` as a
+`PLANNABLE_ROLES` (`app/_lib/decision-config-schema.ts:161`) admits `scoring` as a
 column a plan may govern, and the argument for why it is a column at all is at
-`app/_lib/pipeline-stages.ts:20`:
+`app/_lib/pipeline-stages.ts:34`:
 
 > `scoring` is the automated pass that turns a conversation into a comparable number —
 > the step between an AI interview and a human one in the shape most teams actually run.
@@ -111,6 +121,32 @@ excluded from `PLANNABLE_ROLES` because they are "arrival and outcome, not decis
   are compared. The repo's own additive fix (`interviewer_user_id` on invites, a
   per-user calendar column with an interviewer-then-workspace resolution order) is the
   right shape and is not yet built.
-- **Ties.** Nothing in `validatePlanRound` or the routing addresses a tie at the `topN`
-  boundary. The standard — spare the whole tied group at an irreversible cutoff — is not
-  implemented; the cut is whatever the ranking query returns.
+- **Ties: met on one cutoff, still open on the other.** The screening reducer — reject the
+  bottom N percent — now spares a tied group. `tieSafeBottomCount`
+  (`app/_lib/decision-config-schema.ts:892`) walks the cutoff down to the lower edge of a
+  tied run so the whole group lands on the keep side, and its comment gives the standard's
+  own reason: a stable sort would otherwise split the tie by pipeline arrival order, "one
+  candidate auto-rejected, an indistinguishable peer kept, with no merit-based or
+  documented reason". The between-round `topN` reducer has no such guard.
+  `autoPromoteSlate` (`app/_lib/devcase-cohort-rank.ts:114`) is the floor filter plus
+  `.slice(0, topN)` over an array ordered by `compareByTransferScore`, whose own comment
+  says "Array.prototype.sort is stable, so equal scores keep their input order". A tie
+  straddling `topN` is split by arrival order, and it advances a person: a board write and
+  an advance letter. The standard's tie rule is applied where the cut rejects and not where
+  the cut advances, which is the direction where sparing costs one extra interview and
+  splitting costs a reason nobody can state.
+- **The reducer ranked two instruments as one number, and now refuses to.** This is the
+  finding the first verification could not have made, because the guard did not exist. The
+  header of `app/_lib/devcase-cohort-rank.ts` records the incident: a cohort can hold
+  transfer scores from two different instruments — a graded evaluation, and a keyless
+  template whose transfer is `0.5 * fluency + 0.5 * verif` over a tooling read that pins
+  fluency at 0.5 with confidence 0.2 — and "the server then advanced people ... by the raw
+  number, and the shortlist crowned a template 85 '#1' over a graded 72". The fix tiers scored
+  rows by `evaluationCurrency`. A uniform cohort ranks exactly as before. In a mixed cohort
+  only the graded tier is numbered, the template rows are listed after it unnumbered, and
+  `autoPromoteSlate` never draws from them. `withheldFromPromotion` counts the template rows
+  that cleared the floor and were withheld, which is what makes the shortfall visible instead of
+  silent. One reading is not yet met: the comparison is refused per cohort at read time, and
+  nothing stamps the currency of the score onto the recorded advance decision, so a replay
+  of the reduction against stored scores would not know which tier a person was in.
+

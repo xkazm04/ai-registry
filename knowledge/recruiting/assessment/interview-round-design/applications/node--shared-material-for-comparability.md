@@ -5,7 +5,8 @@ subject: interview-round-design
 technique: shared-material-for-comparability
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Personalised questions ride only the personal phases
@@ -15,7 +16,7 @@ reading because the enforcement is three lines and the argument is one comment.
 
 ## The filter
 
-`app/_lib/student-interview.ts:91` — `studentPrepRunOfShow` maps the prep automation's
+`app/_lib/student-interview.ts:95` — `studentPrepRunOfShow` maps the prep automation's
 CV-derived question hypotheses onto the six-phase script:
 
 ```ts
@@ -39,7 +40,7 @@ ever iterates `personalPhases`.
 
 ## The capacity bound is the second half
 
-`PREP_QUESTIONS_PER_PERSONAL_PHASE = 2` (`app/_lib/student-interview.ts:52`) times three
+`PREP_QUESTIONS_PER_PERSONAL_PHASE = 2` (`app/_lib/student-interview.ts:55`) times three
 personal phases gives a capacity of six, and the surplus from an over-productive
 generator is **dropped** (`slice(0, capacity)`) rather than redistributed. This is the
 half teams miss: a generator with no capacity bound will find somewhere to put its
@@ -52,24 +53,24 @@ and turns a three-minute block into an interrogation.
 
 ## The brief-selection ladder
 
-`buildGroundedInterview` (`app/_lib/interview-run.ts:235`) resolves, per entry, which
+`buildGroundedInterview` (`app/_lib/interview-run.ts:383`) resolves, per entry, which
 material grounds the round, ordered by specificity with comparability as the tiebreaker:
 
-1. **Submission debrief** (line 258) — an entry promoted from an evaluated take-home gets
+1. **Submission debrief** (line 422) — an entry promoted from an evaluated take-home gets
    authorship questions minted from its own observed decisions: "Most specific grounding
    available, so it wins over both the student script and prep." The debrief brief itself
-   (line 215) instructs that using AI tools to build the submission "is expected and NEVER
+   (line 315) instructs that using AI tools to build the submission "is expected and NEVER
    penalised — what matters is whether they own the decisions in it".
-2. **The role's shared case scenario** (line 288) — when the job's dev case has a
+2. **The role's shared case scenario** (line 450) — when the job's dev case has a
    generated interview scenario, the brief is case-grounded, with the reason stated
    inline: "every candidate hears the same material, so ratings stay comparable".
-3. **The generic six-phase script** (line 303) — same for everyone everywhere; the
+3. **The generic six-phase script** (line 466) — same for everyone everywhere; the
    fallback when no role-specific case exists.
-4. **The CV-derived prep chronology** (line 313 onward) — the experienced-hire path,
+4. **The CV-derived prep chronology** (after the early-career branch) — the experienced-hire path,
    where a record exists that can carry probing.
 
-The reason early-career entries skip step 4 is stated at `app/_lib/student-interview.ts:227`
-and repeated at `app/_lib/interview-run.ts:276`:
+The reason early-career entries skip step 4 is stated at `app/_lib/student-interview.ts:219` (`STUDENT_LEAD`)
+and repeated in the branch comment at `app/_lib/interview-run.ts:437`:
 
 > Their CV cannot carry the evaluation, so YOU lead the conversation to generate the
 > signal.
@@ -80,9 +81,12 @@ asked of it — as a routing decision rather than a warning.
 ## Deviations
 
 - **No comparability group is recorded.** The scenario a candidate was interviewed on is
-  resolved at run time from the job's dev case (`devCaseIdFromJobId`,
-  `app/_lib/interview-run.ts:287`); nothing stamps *which version* of that scenario the
-  session used. Rotate the case and the ratings from before and after pool silently. The
+  resolved at run time from the job's dev case (`devCaseIdForEntry` then `getDevCase(caseId)?.scenario`,
+  `app/_lib/interview-run.ts:448`); nothing stamps *which version* of that scenario the
+  session used. The job **kit** is different: `buildGroundedInterview` takes a `pinnedKit`,
+  and the invite pins the kit version its link will use, so the kit's agenda and FAQ have a
+  version to compare on. The scenario the phases come from has none, so the pin covers the
+  layer above the shared material and not the shared material itself. Rotate the case and the ratings from before and after pool silently. The
   technique's rule — a revision starts a new comparability group — is unmet.
 - **The generic-script fallback crosses roles.** When no dev case exists, every
   early-career candidate on every opening hears the same script. That is maximally

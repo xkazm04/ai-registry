@@ -5,7 +5,8 @@ subject: interview-round-design
 technique: phase-to-competency-mapping
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Phase-to-competency mapping as a checked-in interview script
@@ -38,7 +39,7 @@ collaboration*, *Motivation & direction*, *Conceptual depth*, *Problem decomposi
 discipline the technique asks for, held.
 
 `caseGrounded` is the grounding flag, and it is not decorative metadata: it is the
-predicate the personalisation split keys off (`app/_lib/student-interview.ts:102`).
+predicate the personalisation split keys off (`app/_lib/student-interview.ts:106`).
 
 ## The worked example: the uptake phase
 
@@ -65,7 +66,7 @@ scripted intervention, which is exactly the density the coverage check is lookin
 The header declares `"durationMin": 22` (`pipeline/jobfit/interview-script.json:2`), but
 the six phases are written as ranges whose lower bounds sum to 20. The prep builder does
 not paper over the discrepancy — it reconciles it explicitly at
-`app/_lib/student-interview.ts:127`:
+`app/_lib/student-interview.ts:131`:
 
 ```ts
 // Phase lower bounds usually undershoot the script's honest total — extend the
@@ -81,14 +82,14 @@ arithmetic closes.
 
 ## Where the mapping is consumed
 
-- **The machine round.** `app/_lib/student-interview.ts:227` composes the agent's brief
+- **The machine round.** `studentInterviewerInstructions` (`app/_lib/student-interview.ts:228`) composes the agent's brief
   from `phaseLines(STUDENT_SCRIPT)` with the instruction to keep "each phase roughly
   time-boxed … but cover every phase" — the coverage rule delivered as an instruction to
   the conductor.
-- **The human round's prep.** `studentPrepRunOfShow` (`app/_lib/student-interview.ts:91`)
+- **The human round's prep.** `studentPrepRunOfShow` (`app/_lib/student-interview.ts:95`)
   emits a chronology whose per-block `goal` is the phase goal joined to its `listenFor`
   line, so the human interviewer reads the same mapping the machine does.
-- **The candidate-facing scenario.** `app/_lib/student-interview.ts:306` re-projects the
+- **The candidate-facing scenario.** `caseGroundedInterviewerInstructions` (`app/_lib/student-interview.ts:301`) and the run-of-show projection re-project the
   same phases, which is how the two-round journey stays describable to the person in it.
 
 One artifact, three consumers, one competency map. The deviation worth naming is that

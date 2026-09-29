@@ -72,6 +72,35 @@ anything about the population, it is selecting on that too.
 Where advancing the whole tied group is genuinely impossible, the tie is broken by a
 human on a stated basis that is recorded, not by the sort order of a query.
 
+The rule has to be written at the slice, not assumed from the ranking. A stable sort keeps
+equal scores in input order, which is arrival order, so `sort` then `slice(0, n)` splits
+a tie at the boundary without anyone deciding to. A deployment that applied the rule where
+its cut *rejects* and left the cut that *advances* to the sort was measured doing exactly
+that; guard every cutoff, and test each one with a tie that straddles it.
+
+## A reducer compares only scores from one instrument
+
+A cohort can hold scores that look alike and were produced by different instruments: a
+graded evaluation, and a deterministic fallback that fills in when the graded one could not
+run and whose components are fixed by construction. The fallback's number sits on the same
+scale and means something else. Ranking the two together crowned a fallback 85 over a
+graded 72 and advanced people by it.
+
+The rule is to **withhold the incomparable from the comparer, not caveat it.** Tier scored
+rows by the instrument that produced the score. When every scored row shares one
+instrument, rank exactly as before, so the common case is untouched. When the cohort is
+mixed, number only the graded tier, list the rest after it unnumbered, and never draw
+the advancing slate from them. Count the withheld rows that cleared the floor and report the
+count with the shortlist, because a slate that is short for this reason must say so instead
+of looking like a strict bar. This is the same comparability group
+[shared-material-for-comparability](./shared-material-for-comparability.md) defines for
+ratings, applied one step later: what may not be compared in a round may not be ranked
+between rounds.
+
+*Evidence: one deployment's measured incident and its fix, no external lane. It is
+banked at that level, so treat it as a condition on the technique and not as a
+cross-project finding.*
+
 ## Reporting a reducer honestly
 
 Selection rates through a reducer are the raw material of both funnel metrics and
