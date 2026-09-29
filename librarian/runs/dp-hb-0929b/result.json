@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-hb-0929b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T13:20:00Z",
+  "ended_at": "2026-09-29T13:35:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/hiring-need-as-structured-brief",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-finding-dispatch: subject re-sent on a scan reason the dispatch HEAD had already cleared",
+  "notes": "3005edda already holds dp-hb-0929; librarian-scan there: lastSwept 2026-09-29, no reasons. main 0/0 with origin. check-currency silent. kp: 3 commits since 8a44493f7, none on the seam files (fix commit is the positive control). No clock or event, so nothing ran."
+}
