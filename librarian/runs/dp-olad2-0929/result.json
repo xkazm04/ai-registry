@@ -1,0 +1,54 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-olad2-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T14:10:00Z",
+  "ended_at": "2026-09-29T14:35:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/offer-lifecycle-and-deadlines",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/offer-lifecycle-and-deadlines.md",
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/techniques/role-appropriate-deadline-bounds.md",
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/techniques/single-pre-expiry-nudge.md",
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/techniques/expired-is-a-different-answer-from-invalid.md",
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/techniques/idempotent-terminal-response-under-a-race.md",
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/node--idempotent-terminal-response-under-a-race.md",
+    "librarian/subjects/recruiting/offer-lifecycle-and-deadlines.md"
+  ],
+  "commits": [
+    {
+      "sha": "e9d04cf5",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines"
+    },
+    {
+      "sha": "ed8fabee",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second pass on a stale finding (first pass already on origin); ran the counter-evidence and blind lanes it skipped. Corrections only, no new technique. Deadline ranges and one reminder labelled convention; late accept now a recorded signal. kp map committed locally, unpushed."
+}
