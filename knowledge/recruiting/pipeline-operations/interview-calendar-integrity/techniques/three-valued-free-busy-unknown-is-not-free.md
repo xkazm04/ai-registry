@@ -78,6 +78,26 @@ The absent third value is not a nicety. It is the whole discipline
 - **When a busy interval is returned but its bounds are malformed or its span is
   implausible, treat the whole lookup as unavailable** rather than partially
   applying it. A half-trusted filter silently removes real availability.
+- **When the provider answers success but reports a failure per calendar, that is
+  unknown too.** Google's free/busy query returns its errors inside the body, per
+  calendar (`notFound`, `internalError`, `tooManyCalendarsRequested`), so a
+  transport-level success can carry no answer for the one calendar you asked about.
+  Read the errors before the busy list; an absent entry and an error entry both
+  mean *unknown*, never an empty list.
+- **When the grant is dead, stop asking.** A refresh answered `invalid_grant` will
+  not recover by itself, and retrying it on every candidate page load spends a
+  timeout per visit on a call that cannot succeed. Record the health once, skip the
+  network while it stands, and clear it only on a fresh consent. Do not record it on
+  a timeout or a 5xx: those are the transient kind and a wrongly recorded death is
+  as misleading as a missed one. A credential that no longer decrypts is dead in the
+  same operational sense, but it heals when the key returns, so re-test it locally on
+  each call rather than latching it.
+- **When counting the causes of a dead grant, do not stop at "revoked".** Google
+  lists, among others, a refresh token unused for six months, a consent screen in
+  testing status (seven days for anything beyond basic profile scopes), an admin who
+  restricts a service, and a per-user cap on live tokens. Most of these happen to an
+  interviewer without any decision by anyone, which is why they arrive as a surprise
+  after a quiet quarter (checked 2026-09-29 against Google's OAuth 2.0 documentation).
 - **When the integration is slow, time out into *unavailable*.** A lookup that
   blocks a candidate-facing page indefinitely has already failed; a short timeout
   with a correct third value is strictly better than a long wait for a possibly

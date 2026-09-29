@@ -139,10 +139,15 @@ bookings at ten past and half past the same hour collide under it even though
 their real intervals may not overlap. That bluntness is correct for its job,
 because back-to-back interviews in one hour are a scheduling smell regardless of
 the arithmetic, and a coarse key is cheap, index-friendly and never produces a
-double-book through a rounding difference. Use the coarse key against your own
-bookings; use the real interval against the external calendar. Never substitute
-one for the other, and never let the coarse key leak into a claim about the
-interviewer's actual availability.
+double-book through a rounding difference. But the coarse key is a floor, not the
+whole check: used alone it waves a fifteen-hundred slot in beside a ninety-minute
+fourteen-hundred panel, because the two sit in different hours. Against your own
+bookings refuse on the real interval **or** the coarse key; against the external
+calendar you can only use the real interval. Never let the coarse key leak into a
+claim about the interviewer's actual availability. The refusal belongs inside the
+write transaction, not in a pre-read ahead of it, and a store that guards only exact
+equality is unguarded on every path that can write an off-grid minute or a
+non-default length.
 
 Because collisions are computed in a wall-clock zone, all of the timezone
 discipline that neighbouring self-scheduling work establishes applies unchanged
@@ -193,9 +198,11 @@ add-to-calendar link, and the written event must be that same composed object.
 Composed twice, the real entry and the fallback link will eventually disagree
 about the time, the round or the meeting URL — and the candidate will be holding
 whichever one is wrong. **Do not let the calendar provider send its own
-invitation.** Most will happily email every attendee on your behalf, which
-produces a second, unbranded, differently-worded message for one interview, sent
-outside your delivery record entirely. One interview, one event, one
+invitation.** A provider asked to notify attendees sends a second, unbranded,
+differently-worded message for one interview, outside your delivery record
+entirely. Some will do it unasked and Google's documented default is to stay quiet,
+so name the notification setting explicitly and pin it in a test rather than rely on
+a default. One interview, one event, one
 invitation — and the invitation is yours, because you are the one accountable
 for what it says.
 
@@ -252,6 +259,13 @@ a set of independently-authored predicates that happen to have covered most of
 it.
 
 Two corollaries of the same principle:
+
+**Two surfaces over one agenda need one owner.** A grid and a lifecycle panel that
+each hold their own copy of the agenda stop hearing about each other's writes: the
+booked hour is drawn free, or a stale pending card reschedules an accepted time onto
+a guessed cell. Every action adopts the row the server returned, and both surfaces
+read that single copy. A partition of time is only total over the copy it is computed
+from.
 
 **Eligibility rules that must agree must be one rule.** Whether an interview can
 be re-invited and whether it can still be reminded about are the same underlying

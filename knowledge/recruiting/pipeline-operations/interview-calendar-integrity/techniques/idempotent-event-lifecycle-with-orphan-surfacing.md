@@ -78,10 +78,14 @@ that produces the empty room.
    the time or the round, and the candidate will be holding whichever one is
    wrong.
 
-7. **Do not let the calendar provider send its own invitation.** Most will email
-   every attendee for you by default, producing a second, unbranded message for
-   one interview, outside your delivery record entirely. Suppress it explicitly;
-   the invitation is yours because you are accountable for what it says.
+7. **Do not let the calendar provider send its own invitation.** A provider that
+   is asked to notify attendees produces a second, unbranded message for one
+   interview, outside your delivery record entirely. Whether it does so unasked
+   depends on the provider and its notification parameter: Google's documents give
+   the omitted default as none, so a write that says nothing is quiet today. Say it
+   anyway, in the request, and pin it in a test. A silence that depends on an
+   unstated default is one library or API revision away from a second mail. The
+   invitation is yours because you are accountable for what it says.
 
 8. **Repair a live interview, surface a closed one.** When an update reports the
    event is gone: if the interview is still going to happen, re-creating it is
@@ -117,6 +121,11 @@ that produces the empty room.
 - **When an interviewer's grant is revoked, mark existing events orphaned rather
   than deleting the local links.** Revocation removes your access, not the
   history of what you did.
+- **When a grant dies, count what it leaves unsynced and show that number where the
+  repair is offered.** The reconnect notice that says only "reconnect" gets
+  postponed; the one that says how many upcoming interviews have no calendar entry
+  gets done. Count future, confirmed interviews whose write-back failed, and scope
+  the count to the workspace that owns the grant.
 - **When rendering the five states, weight them by actionability.** Only the two
   a human can do something about — *failed* and *orphaned* — earn a prominent
   badge; the rest are quiet single-line facts, and *written* is worth linking

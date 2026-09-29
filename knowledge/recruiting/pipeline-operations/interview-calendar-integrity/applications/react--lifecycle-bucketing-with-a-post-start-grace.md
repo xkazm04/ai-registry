@@ -71,6 +71,23 @@ the reminder eligibility can't drift."* Null (no linked entry, or a join the
 agenda read did not make) resolves to eligible, mirroring the reminder rule
 rather than inventing a second default.
 
+## One owner for the agenda
+
+The partition above was correct and still not enough while two components held the
+agenda. `app/features/hiring/schedule/scheduleAgenda.ts` (commit `074dd8b92`,
+2026-09-23) records the incident: the tab kept the agenda twice, once for the grid
+and once for the lifecycle panel rendered as its child, and *"neither copy heard about
+the other's writes."* A grid Confirm booked server-side and dropped the card without
+adopting the returned invite, so the booked hour was drawn free. Accepting a
+proposal in the panel advanced the entry while the grid kept the pending card, whose
+Confirm would then reschedule the accepted time onto the card's guessed cell.
+
+The repair is one pure module with two rungs: every recruiter verb adopts the row its
+route answers (write-through, `applyMutation`), and a live-refresh bus covers changes
+made elsewhere. A typed table of effects means a new verb cannot be added without
+saying whether it needs a refetch. This run read the module's header and diff; it did
+not run the tab.
+
 ## The display-window union
 
 The same class of bug appears in the week grid, and

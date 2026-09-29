@@ -87,6 +87,15 @@ of the timeline, rather than as a partition that covers all of it.
 - **When choosing the grace margin, size it to the process, not to a round
   number.** It must exceed the longest realistic overrun; a grace shorter than
   the interview itself is the original bug with extra steps.
+- **When two surfaces show the same agenda, give the agenda one owner.** A grid and
+  a lifecycle panel that each hold their own copy stop hearing about each other's
+  writes: a confirm on the grid books server-side and drops its card without
+  adopting the row the server answered, so the booked hour is drawn free; an
+  accept in the panel advances the entry while the grid keeps a pending card whose
+  next Confirm reschedules the accepted time onto a guessed cell. Every recruiter
+  action adopts the row its route returns (write-through), both surfaces read that
+  one copy, and a live refresh covers changes made elsewhere. A partition of time
+  is only total over the copy it is computed from.
 - **When a bucket must be recomputed by another surface, export the assignment
   instead.** A second, private notion of "is this interview still live" living in
   a queue or a report is how one interview comes to be described two ways.

@@ -25,6 +25,12 @@ two interviews for the same interviewer at ten past and half past the same hour
 because their intervals technically do not overlap. That is arithmetically
 correct and operationally wrong.
 
+And there is a third, which is the first one wearing the second one's clothes: a
+coarse hour key used *alone* against your own bookings. It stops the ten-past and
+half-past pair, and it waves through a fifteen-hundred slot beside a ninety-minute
+fourteen-hundred panel, because they sit in different hours. The key is a floor
+under the real interval, not a replacement for it.
+
 The technique is to keep two windows with two different jobs, and never let one
 impersonate the other.
 
@@ -47,13 +53,22 @@ impersonate the other.
    the other ends and ends after the other starts. State it once, in one shared
    predicate, and call it from suggestion time, confirm time and any batch
    consistency sweep. Written three times it will be written three ways.
+   The decision that *refuses* runs inside the write transaction, reading the
+   neighbouring bookings there. A pre-read before the transaction is a courtesy
+   that two concurrent confirms both pass; and a store that guards only exact
+   equality while other paths now write off-grid minutes and per-interview
+   lengths is refusing a smaller set than the product offers.
 
-4. **Use a coarse bucketed key against your own bookings.** Key on the
-   interviewer plus the hour, in the interviewer's zone. Two bookings in that
-   same interviewer-hour collide even when their minutes differ. This key is
-   cheap, index-friendly, immune to rounding differences, and enforceable as a
-   uniqueness constraint — which makes it a real guarantee rather than a
-   best-effort read-then-write.
+4. **Against your own bookings, refuse on the real interval OR the coarse key.**
+   The coarse key is the interviewer plus the hour, in the interviewer's zone: two
+   bookings in that same interviewer-hour collide even when their minutes differ.
+   It is cheap, immune to rounding differences and needs no duration. But it is
+   only a floor. A booking that runs past the hour boundary also collides with the
+   next hour's slot, and only the stored duration says so. So one predicate takes
+   both: half-open real intervals overlap (back-to-back is not a clash), or the
+   two start in the same hour. A legacy row with no stored length reads as the
+   default length, never as zero, since a zero-length row would let anything book
+   on top of it, and a corrupt length is clamped to a working day.
 
 5. **Use the real interval against the external calendar.** You do not control
    the lengths of other people's commitments and cannot bucket them without
@@ -87,7 +102,12 @@ impersonate the other.
 - **When two of your own bookings fall in the same interviewer-hour, reject —
   even if the intervals do not overlap.** Back-to-back interviews inside one hour
   are a scheduling smell independent of the arithmetic, and the blunt key is the
-  cheap way to stop it before a human has to notice.
+  cheap way to stop it before a human has to notice. Reject the overlap as well:
+  the bucket never replaces it.
+- **When the store's own booking guard is exact equality, treat every path that
+  can write an off-grid minute or a non-default length as unguarded.** The fixed
+  grid was what made equality sufficient, and the grid is the first thing a new
+  booking path stops honouring.
 - **When an all-day or unbounded entry appears on the external calendar, do not
   treat it as blocking the whole day by default.** All-day markers are frequently
   informational, and treating them as busy empties the grid for anyone who
@@ -100,12 +120,13 @@ impersonate the other.
 
 ## When not to use it
 
-- **For a check against your own bookings, the real interval is the wrong tool.**
-  It is more precise than the policy requires and buys you double-books at
-  minute granularity. Use the bucket.
+- **For a check against your own bookings, the real interval alone is the wrong
+  tool.** It buys you two interviews for one interviewer at ten past and half past
+  the same hour. Take the interval *and* the bucket, and refuse on either.
 - **When the process genuinely wants dense back-to-back interviews** — an
   assessment day, a rotation with a fixed cadence — the hour bucket must be
-  replaced by an explicit schedule model rather than loosened. A bucket relaxed
+  replaced by an explicit schedule model rather than loosened (the real-interval
+  half of the predicate stays). A bucket relaxed
   by exception becomes no bucket at all.
 - **When the external calendar exposes only an opaque boolean per slot** rather
   than intervals, do not synthesize intervals from it. Take the answer at the
@@ -115,4 +136,6 @@ impersonate the other.
 
 You have this right when changing a round's duration from forty-five minutes to
 ninety immediately changes which suggestions are filtered out, with no other
-edit anywhere in the system.
+edit anywhere in the system. And when a ninety-minute booking at fourteen-hundred
+makes the store refuse a fifteen-hundred confirm on a path that never touched the
+grid.
