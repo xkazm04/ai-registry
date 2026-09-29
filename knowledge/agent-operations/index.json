@@ -4,8 +4,8 @@
   "bundle": "agent-operations",
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
-  "techniques": 39,
-  "applications": 26,
+  "techniques": 40,
+  "applications": 29,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -14,7 +14,7 @@
    "coordination"
   ],
   "layout": "nested",
-  "use_when_coverage": "39/39",
+  "use_when_coverage": "40/40",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -737,9 +737,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/unattended-run-isolation.md",
-   "digest": "sha256-b2:736f8cc34880a1e5",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:3a58da20288a8c2a",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "confine-configured-output-paths",
@@ -753,6 +753,22 @@
       "a task or overlay names where its output goes",
       "installing task configuration into a run environment",
       "auditing writes outside a run's directory"
+     ]
+    },
+    {
+     "slug": "diff-from-the-recorded-base",
+     "status": "draft",
+     "laws": [
+      "measure-the-tree-not-the-summary",
+      "the-harness-is-a-suspect-in-every-red"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a harness reads an unattended run back as a diff and lands or reviews it",
+      "the run may commit inside its own checkout",
+      "the checkout is a copy of a directory rather than a repository",
+      "a dirty working tree must be captured before a run starts",
+      "the step that lands a run's work into a live tree is a model turn"
      ]
     },
     {
@@ -816,6 +832,27 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "diff-from-the-recorded-base",
+     "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/node--diff-from-the-recorded-base--pof.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "diff-from-the-recorded-base",
+     "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/node--diff-from-the-recorded-base.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "os-enforced-run-boundary",
+     "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/node--os-enforced-run-boundary.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
+    },
+    {
      "stack": "process",
      "technique": "confine-configured-output-paths",
      "file": "knowledge/agent-operations/run-safety/unattended-run-isolation/applications/process--confine-configured-output-paths.md",
@@ -867,6 +904,7 @@
     "model-and-effort-selection/pin-the-resolved-configuration",
     "model-and-effort-selection/tier-risk-inversion",
     "shared-research-record/typed-contribution-vocabulary",
+    "unattended-run-isolation/diff-from-the-recorded-base",
     "unattended-run-isolation/hermetic-inherited-configuration",
     "unattended-run-isolation/no-links-into-live-trees",
     "unattended-run-isolation/os-enforced-run-boundary"
@@ -887,6 +925,7 @@
     "harness-fault-attribution/retract-and-record",
     "model-and-effort-selection/pin-the-resolved-configuration",
     "unattended-run-isolation/confine-configured-output-paths",
+    "unattended-run-isolation/diff-from-the-recorded-base",
     "unattended-run-isolation/disposable-run-environments",
     "unattended-run-isolation/hermetic-inherited-configuration",
     "unattended-run-isolation/no-links-into-live-trees",

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1815,
-  "applications": 1196,
+  "techniques": 1818,
+  "applications": 1209,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1815/1815",
+  "use_when_coverage": "1818/1818",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1898,9 +1898,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:e8241bad9d3c1732",
-   "revision": 45,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:0942d53ebe93cb4e",
+   "revision": 46,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2037,7 +2037,8 @@
      "laws": [
       "failure-not-empty-success",
       "unknown-is-not-a-value",
-      "deletion-is-not-repair"
+      "deletion-is-not-repair",
+      "creation-names-reaper"
      ],
      "shared_with": [],
      "use_when": [
@@ -2045,7 +2046,9 @@
       "deciding whether a corrupt store reads as empty",
       "the read path runs on every turn and cannot be allowed to throw",
       "choosing what the model is told when its own memory is unreadable",
-      "a store the agent both reads and writes is shared across concurrent sessions"
+      "a store the agent both reads and writes is shared across concurrent sessions",
+      "a consolidation pass copies the store",
+      "lets a model work on the copy and swaps it back over the live store"
      ]
     },
     {
@@ -2062,6 +2065,23 @@
       "two writers claiming the same sequential id",
       "a model swap silently thins what capture writes down",
       "one oversized item crowds a distillation batch"
+     ]
+    },
+    {
+     "slug": "filter-at-the-id-door",
+     "status": "forged",
+     "laws": [
+      "one-validation-door",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model chooses memory items from a shortlist and code then loads them by id",
+      "retired or superseded items are filtered only when the shortlist is built",
+      "a selector that returns nothing is handled like a selector that crashed",
+      "a project-scoped read can be handed the id of an identity-tier item",
+      "each hop of a retrieval pipeline has a different failure default"
      ]
     },
     {
@@ -2399,6 +2419,27 @@
     },
     {
      "stack": "node",
+     "technique": "durable-store-failure-posture",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--durable-store-failure-posture--pof.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "durable-store-failure-posture",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--durable-store-failure-posture.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "filter-at-the-id-door",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--filter-at-the-id-door.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
      "technique": "lane-reconciliation",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--lane-reconciliation.md",
      "verified_on": "2026-09-04",
@@ -2507,6 +2548,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--episodic-capture.md",
      "verified_on": "2026-08-26",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "filter-at-the-id-door",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--filter-at-the-id-door--personas.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -8078,9 +8126,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256-b2:da0ce89d7cfbfe6c",
-   "revision": 13,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:b3129728f9d9c336",
+   "revision": 14,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -8212,6 +8260,22 @@
       "two current-month spend figures disagreeing",
       "deleting run history visibly lowers enforced spend"
      ]
+    },
+    {
+     "slug": "whole-prompt-denominator",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a bill or a hit ratio is computed from provider usage fields",
+      "a provider reports cached tokens and you subtract them from an input field",
+      "a cache-hit fraction above one is clamped to one",
+      "one service mixes providers whose input field means different things",
+      "a contract fixture was generated from the extractor it is meant to check"
+     ]
     }
    ],
    "applications": [
@@ -8257,6 +8321,20 @@
      "verified_against": "node@24"
     },
     {
+     "stack": "node",
+     "technique": "whole-prompt-denominator",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--whole-prompt-denominator--ascent.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "whole-prompt-denominator",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/node--whole-prompt-denominator.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
+    },
+    {
      "stack": "rust",
      "technique": "budget-enforcement",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/rust--budget-enforcement.md",
@@ -8274,6 +8352,13 @@
      "technique": "usage-ledgers",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/rust--usage-ledgers.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "whole-prompt-denominator",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/rust--whole-prompt-denominator.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "rust@1.96"
     }
    ]
   },
@@ -21009,9 +21094,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256-b2:1b780873cd7e5736",
-   "revision": 19,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:fa20ac07949ea503",
+   "revision": 20,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "admission-is-not-a-tier",
@@ -21231,6 +21316,13 @@
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/node--effort-calibration.md",
      "verified_on": "2026-09-02",
      "verified_against": "node@20"
+    },
+    {
+     "stack": "node",
+     "technique": "turn-classification",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/node--turn-classification.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
     },
     {
      "stack": "process",
@@ -25254,9 +25346,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256-b2:ec46f604453ed55b",
-   "revision": 40,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:821309b17c3f0f28",
+   "revision": 41,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -25586,6 +25678,22 @@
      ]
     },
     {
+     "slug": "pinned-prompt-clock",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a system prompt carries today's date or the time",
+      "a long-running session crosses midnight",
+      "a prompt cache hits at noon and misses after midnight",
+      "a budget probe assembles the prompt without sending it",
+      "a volatile value is declared as a variable but read fresh on every request"
+     ]
+    },
+    {
      "slug": "recovery-path-as-loss-signal",
      "status": "forged",
      "laws": [
@@ -25757,9 +25865,30 @@
     {
      "stack": "node",
      "technique": "history-compaction",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--history-compaction--pilotdeck.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "history-compaction",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--history-compaction.md",
      "verified_on": "2026-09-05",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "pinned-prompt-clock",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--pinned-prompt-clock.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "summary-evidence-gate",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--summary-evidence-gate--pilotdeck.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
@@ -25850,6 +25979,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--live-attachment-delta-resharing.md",
      "verified_on": "2026-09-05",
      "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "pinned-prompt-clock",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--pinned-prompt-clock--personas.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -29628,9 +29764,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/scheduling.md",
-   "digest": "sha256-b2:f60a09f888a54a35",
-   "revision": 5,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:cd982b42588a2de5",
+   "revision": 6,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "cooldown-and-debounce",
@@ -29720,6 +29856,13 @@
      "technique": "next-run-computation",
      "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/applications/go--next-run-computation.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "node",
+     "technique": "next-run-computation",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/scheduling/applications/node--next-run-computation.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@22"
     },
     {
      "stack": "rust",
@@ -38655,6 +38798,7 @@
     "agent-instruction-files/capability-before-steering",
     "agent-memory/coverage-instrumentation",
     "agent-memory/durable-store-failure-posture",
+    "agent-memory/filter-at-the-id-door",
     "agent-memory/gap-directed-elicitation",
     "agent-memory/loss-site-inventory",
     "agent-memory/recall-injection",
@@ -39443,6 +39587,7 @@
     "cost-metering/spend-observability",
     "cost-metering/unit-classes-are-open",
     "cost-metering/usage-ledgers",
+    "cost-metering/whole-prompt-denominator",
     "credential-vault/encryption-at-rest",
     "cross-instance-cache-lease/a-deadline-is-not-portable-between-clocks",
     "data-access/batching-and-n-plus-one",
@@ -39670,6 +39815,7 @@
     "prompt-assembly/context-budgeting",
     "prompt-assembly/context-reachability",
     "prompt-assembly/history-compaction",
+    "prompt-assembly/pinned-prompt-clock",
     "prompt-assembly/recovery-path-as-loss-signal",
     "prompt-assembly/response-reservation-sizing",
     "prompt-safety/input-caps-and-clamps",
@@ -39842,6 +39988,7 @@
     "agent-memory/addresses-not-atoms",
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
+    "agent-memory/filter-at-the-id-door",
     "agent-memory/gap-directed-elicitation",
     "agent-memory/lane-reconciliation",
     "agent-memory/loss-site-inventory",
@@ -40092,6 +40239,7 @@
     "agent-cli-transport/permission-stance-enforcement",
     "agent-cli-transport/subscription-auth-selection",
     "agent-memory/consolidation",
+    "agent-memory/filter-at-the-id-door",
     "agent-memory/memory-governance",
     "agent-memory/pending-beliefs-live-apart",
     "agent-memory/procedure-promotion",
@@ -40145,6 +40293,7 @@
     "correlated-exchange-over-broadcast/correlation-key-vocabulary",
     "correlated-exchange-over-broadcast/reply-fan-out-filtering",
     "cost-metering/budget-enforcement",
+    "cost-metering/whole-prompt-denominator",
     "credential-vault/acquisition",
     "credential-vault/brokered-egress",
     "credential-vault/encryption-at-rest",
@@ -40640,6 +40789,7 @@
     "agent-chaining/graph-to-wiring-translation",
     "agent-instruction-files/sibling-floor-ownership",
     "agent-memory/decay-and-forgetting",
+    "agent-memory/durable-store-failure-posture",
     "agent-memory/episodic-capture",
     "agent-memory/procedure-promotion",
     "agent-memory/self-trained-capture-filter",
@@ -41522,6 +41672,7 @@
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/fingerprinting-and-cache-keys",
     "prompt-assembly/live-attachment-delta-resharing",
+    "prompt-assembly/pinned-prompt-clock",
     "prompt-assembly/speculative-compaction-splice",
     "prompt-assembly/summary-evidence-gate",
     "prompt-assembly/tiered-history-projection",
