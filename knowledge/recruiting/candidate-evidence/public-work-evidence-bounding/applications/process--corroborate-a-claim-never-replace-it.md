@@ -5,7 +5,7 @@ subject: public-work-evidence-bounding
 technique: corroborate-a-claim-never-replace-it
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # The three-bucket evidence block, from prompt to downstream task (prompt pipeline)
@@ -17,7 +17,7 @@ they are the same three.
 
 ## The output contract forces the split
 
-`app/_lib/github/code-review.ts:167-176` fixes the shape before the model
+`app/_lib/github/code-review.ts:237-242` fixes the shape before the model
 writes anything:
 
 ```
@@ -51,7 +51,7 @@ claim, because that is the sentence that would undo the split.
 
 ## The block keeps its labels all the way downstream
 
-`pipeline/jobfit/automation.py:278-311` renders that structure as the "Public
+`pipeline/jobfit/automation.py:913-945` (`github_evidence_block`) renders that structure as the "Public
 repo evidence" block prepended to the screen, prep and scorecard prompts. The
 bucket labels are re-stated in full at every use:
 
@@ -78,30 +78,58 @@ Three properties of this rendering match the technique:
   and `analyzedAt`, so a later reader knows which profile, read when.
 
 The surrounding grounding rule for candidate-facing letters
-(`automation.py:270-277`) is the same discipline in the other direction:
+(`automation.py:904`) is the same discipline in the other direction:
 "Ground every claim in the supplied facts: never assert meetings, team
 reactions, benefits, interest, or abilities that are not in them."
 
 ## Role dependence is modelled, but only in the candidate profile
 
-`pipeline/jobfit/models.py:27-33` gives publications and patents a first-class
+`pipeline/jobfit/models.py:27-33` still gives publications and patents a first-class
 type — "the primary signal for scientific/research hires that otherwise has
 nowhere to live" — alongside `Credential` for licence-gated roles, and
-`CandidateProfile.links` (`:47-53`) for "portfolio/repo/profile links". The
+`CandidateProfile.links` (`:52-53`) for "portfolio/repo/profile links". The
 comment states the standard's weighting rule directly: what counts as primary
 evidence is a property of the role's own dependence, not of the pipeline.
 
+## The panel now holds the buckets as a ledger, not as three lists
+
+Since the last read, the deep-dive panel no longer hands the recruiter five
+independent skill lists from two engines. `app/_lib/github/skill-ledger.ts`
+(`fa2c4296b`, 2026-09-23) joins the label comparison and the review on the
+canonical skill and emits one row per skill with one of four verdicts —
+`corroborated`, `notReached`, `couldNotDetermine`, `unclaimed` (`:136`) — the
+technique's three buckets plus the coverage-loss state. Its header names the
+neutrality rule: `notReached` is "NEUTRAL: never 'unverified', never 'missing'".
+A corroborated row names the repositories that carried it, and where the review
+calls a label-matched skill unverified the row stays corroborated and carries
+`reviewDisagrees` (`:23-27`): the two engines' statements differ, "which is for a
+human to look at, not a verdict". That is a partial answer to the missing
+contradiction bucket recorded here before, on the panel only.
+
 ## Deviations
 
+- **The freeze loses the coverage flag, so the prompt block can misname a
+  skill.** `buildGithubEvidenceSummary` (`app/_lib/github-summary.ts:58-85`) copies
+  the review's three lists and drops `codeReview.partial`, the limitations and the
+  ledger's verdicts. `github_evidence_block` then prints the review's
+  `unverifiedClaims` under "CV claims NOT verified by public repos"
+  (`automation.py:940`). On a complete read that label is accurate; on a partial
+  one the panel calls the same skill *could not determine* and the screening,
+  prep and scorecard prompts call it not verified. A degraded run can still be
+  added to the pipeline, because only its cache write is refused. The fix is one
+  field on the summary type and one line in the block; it is not made here.
 - **The weighting is declared, not applied.** Publications, credentials and
   links are extracted and carried, but the public-repo evidence block is
   weighted identically regardless of role: nothing makes a portfolio primary
-  for a design role or publications primary for a research one at scoring
-  time.
-- **There is no contradiction bucket.** A public signal that conflicts with a
-  CV claim lands in `unverified_claims` alongside ordinary invisibility, so the
-  rare case that genuinely deserves a human probe is not distinguishable from
-  the common case that deserves nothing.
+  for a design role or publications primary for a research one at scoring time.
 - **The buckets are prompt input, not a preserved artifact structure.** Once
   the block is folded into a screening prompt, downstream text can blend the
-  three; nothing re-checks that the screening output kept them apart.
+  three; nothing re-checks that the screening output kept them apart. The
+  ledger's four verdicts stop at the panel and do not reach the frozen summary.
+- **The seeker side does what the recruiter side does not.**
+  `pipeline/jobfit/github_evidence_cli.py` derives seeker evidence with
+  provenance fixed to `personal_project` (weight 0.7, never `professional`),
+  "Evidence, never verdicts", and a `corroborates` flag that only says a claim the
+  seeker already made is backed. Nothing there says a skill is missing. It is the
+  standard's substitution rule realised in a data contract, and the recruiter
+  block has no equivalent of the provenance field.

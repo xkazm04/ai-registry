@@ -5,7 +5,8 @@ subject: public-work-evidence-bounding
 technique: verify-identity-before-crediting-work
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Person-versus-organisation as a precondition (TypeScript server, GitHub deep-dive)
@@ -17,7 +18,7 @@ points into the pipeline must agree on.
 
 ## The entity check runs before the first repository fetch
 
-`app/_lib/github/analysis.ts:31-42` fetches the account and immediately
+`app/_lib/github/analysis.ts:52-63` fetches the account and immediately
 branches on its type, with the comment naming the failure it prevents:
 
 ```ts
@@ -42,13 +43,13 @@ Three things match the standard exactly:
   is ever produced — which is the standard's point that a blank result gets
   investigated and a persuasive wrong one gets acted on.
 - **`NOT_A_PERSON` is its own state**, sitting in the closed
-  `GithubErrorCode` union at `app/_lib/github/client.ts:44-52` beside
+  `GithubErrorCode` union at `app/_lib/github/client.ts:45-56` beside
   `PROFILE_NOT_FOUND`, `RATE_LIMITED` and `REQUEST_THROTTLED`. It is not
   folded into a generic failure, so the surface can say *this link identifies
   an organisation* rather than *analysis failed* — a correctable input
   problem, phrased as one.
 - **The check is possible only because the type field is modelled
-  deliberately.** `client.ts:11-21` carries `type: string` on `GithubUser`
+  deliberately.** `client.ts:10-22` carries `type: string` on `GithubUser`
   with the note that it "is the ONLY field that says whose account this is —
   the identity check finding #1 turns from an assumption into a
   precondition."
@@ -70,8 +71,8 @@ prevent:
 `parseGithubUsername` now accepts a bare handle, a leading `@`, and a profile
 URL with optional protocol, optional `www.` and ignored trailing path or query,
 returning the normalised bare username — and both callers go through it:
-`app/api/github-analysis/route.ts:23` at screening, and `coerceGithubHandle`
-(`app/_lib/apply-intake.ts:232-235`) at application intake, whose own doc
+`app/api/github-analysis/route.ts:43` at screening, and `coerceGithubHandle`
+(`app/_lib/apply-intake.ts:250-253`) at application intake, whose own doc
 comment states the invariant as *"a handle that passes here is one the
 deep-dive can run"*.
 
@@ -84,17 +85,33 @@ The intake side also gets the optionality rule right: junk in the profile step
 "degrades to 'no handle' rather than blocking the application", so a
 malformed link never costs a candidate their submission.
 
+## The seeker-side read applies the same gate, and goes one further
+
+`app/_lib/jobseeker/github.ts` (2026-09-28) reads a job seeker's own account and
+takes the same branch (`if (user.type !== "User") return { ok: false, state:
+"not_a_person" }`, `:145`), again before any repository is listed. Where the
+recruiter-side list trusts each row, this read re-checks it: a row is dropped
+when `fork` is not exactly `false` or `private` is true (`:338`), and when the
+row's `owner.login` differs from the account's (`:339-340`). A fork's substance is
+upstream's, and the endpoint's promise to list only public work is not taken on
+trust before a repository name is written into a CV. The recruiter-side list has
+the fork filter (`analysis.ts:72`) but no owner re-check.
+
+Erasure is a live path too: clearing a candidate now nulls `github_handle` and
+`github_json` together (`app/_lib/db/pipeline.ts:2589`), so an erased applicant's
+public-work read does not outlive the record it was attached to.
+
 ## Where the repo stops short of the standard
 
 - **Kind is verified; ownership is not.** Nothing corroborates that the person
   behind a verified *personal* account is this applicant. In practice the
   candidate supplies the handle themselves in the apply flow
-  (`app/api/apply/[id]/route.ts:245`), which the standard treats as the
+  (`app/api/apply/[id]/route.ts:283`), which the standard treats as the
   strongest ordinary ownership signal — but a recruiter can also type a handle
   into the deep-dive panel by hand, and that path has no ownership signal at
   all and no marker distinguishing the two provenances on the stored artifact.
 - **The normalised form replaces the raw input.** Only the coerced handle is
-  persisted (`app/_lib/db/pipeline.ts:1012-1014`), so a later widening of the
+  persisted (`app/_lib/db/pipeline.ts:1674`, and fill-only on a repeat at `:1572`), so a later widening of the
   grammar cannot be re-applied to what the candidate originally typed. The
   standard asks for both.
 - **No collision check.** Two entries resolving to the same handle are not
