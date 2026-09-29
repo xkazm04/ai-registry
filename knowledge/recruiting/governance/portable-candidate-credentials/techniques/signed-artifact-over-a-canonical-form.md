@@ -60,7 +60,11 @@ today's result *under the existing credential's issuance timestamp* — so only 
 content can differ, never the clock — and compare canonical strings. Identical means
 nothing changed and the existing credential stands. Different means the credential in the
 candidate's hands no longer attests the current record, and the honest response is to
-revoke and reissue rather than let the two silently disagree.
+revoke and reissue rather than let the two silently disagree. Do the reissue in the order
+that cannot strand the bearer: build and sign the replacement, run every refusal (not
+evaluated, no substance, no usable key), and only then withdraw the old credential and store
+the new one in one transaction. Revoking first and signing second turns a signing outage
+into a permanently revoked credential the person has already handed to others.
 
 **4. Verify by re-deriving, never by comparing stored strings.** The verifier reads the
 fields, re-serializes under the version the credential names, recomputes, compares.

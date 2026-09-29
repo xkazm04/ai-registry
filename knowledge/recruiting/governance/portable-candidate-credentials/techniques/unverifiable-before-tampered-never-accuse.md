@@ -46,7 +46,10 @@ then the copy reports a fact rather than imputing an act.
 not in its copy.** Before any digest comparison, establish that the check is *possible*:
 the key generation named by the credential is loaded; the form version is implemented;
 the signature material is present and well-formed; the envelope parses; the backing
-register is reachable. Any of these missing resolves to unverifiable and the digest is
+register is reachable. "Loaded" is a test on the *set* of secrets that may key the
+generation, not on one: when an id can resolve to two values (a pinned retired key and the
+active key under a default id, mid-rotation), the check is possible but ambiguous, and a
+disagreement with one candidate is not a disagreement with the generation. Any of these missing resolves to unverifiable and the digest is
 never compared. A verifier that compares first and interprets afterwards will always be
 one refactor away from mislabelling.
 
@@ -110,6 +113,12 @@ an unfinished check is not a negative finding.
   something about the bearer that they chose to have removed. The consent-and-retention
   discipline owns what is erased; this rule owns only that the credential's failure mode
   must not become a disclosure.
+- **When one key id resolves to more than one secret, `tampered` requires that none of them
+  reproduces the signature.** A key id that defaults to a constant lets a half-finished
+  rotation put two generations under one name; a verifier that tries only the newest brands
+  every outstanding credential a forgery while the right key sits in its own configuration.
+  Trying every operator-supplied candidate for the id costs nothing, because a forgery matches
+  none of them. Measured in an application below (2026-08-21).
 - **When a form version is unrecognised, do not attempt a best-effort re-serialization to
   see whether it happens to match.** A best-effort match is a coincidence, and a
   best-effort mismatch is an accusation you have no basis for.

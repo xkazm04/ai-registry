@@ -5,7 +5,8 @@ subject: portable-candidate-credentials
 technique: freshness-is-separate-from-integrity
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Adding a freshness dimension without breaking the back catalogue
@@ -35,9 +36,9 @@ carried.
 
 The returned `SkillProfileFreshness` (line 84) carries a `reason: "age" | "methodology" |
 null` alongside the boolean, so the surface can say *why* rather than just *stale* —
-`page.tsx:81–83` branches on it to render `staleMethodology` or `staleAge`. And the
+`skillStaleKey` (`app/skill/[token]/kit/skillKitModel.ts:65`) branches on it to render `staleMethodology` or `staleAge`, the page handing it over as `staleReason` (`page.tsx:86`). And the
 standard's decision rule that supersession outranks a clock is honoured with the inverse
-guard: when `issuedAt` is unparseable (line 101), age is unknown and *only* a methodology
+guard: when `issuedAt` is unparseable (lines 102–105), age is unknown and *only* a methodology
 bump can mark the credential stale, rather than defaulting an undatable credential into
 expiry.
 

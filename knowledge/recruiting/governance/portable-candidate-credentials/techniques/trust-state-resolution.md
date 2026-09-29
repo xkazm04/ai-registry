@@ -59,6 +59,8 @@ record reachable (→ unverifiable); does the digest agree (→ tampered); is th
 
 The three placements that matter. **Revoked first**, because a deliberate issuer statement
 outranks every derived check and a withdrawn credential's other properties are irrelevant.
+The flag that sets it is written only alongside its replacement — see the reissue ordering
+in the canonical-form technique.
 **Unverifiable before tampered**, which has its own technique and its own reasons.
 **Substance after integrity**, because an empty payload that also fails its signature is a
 broken artifact, not an empty one.
