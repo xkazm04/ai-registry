@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 396,
-  "applications": 279,
+  "applications": 280,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -8092,9 +8092,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/structured-interview-scorecards/structured-interview-scorecards.md",
-   "digest": "sha256-b2:53833986454b354c",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:0fb73cd4c34a33e5",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "behaviourally-anchored-level-writing",
@@ -8189,19 +8189,28 @@
      "stack": "node",
      "technique": "role-family-axis-extension",
      "file": "knowledge/recruiting/assessment/structured-interview-scorecards/applications/node--role-family-axis-extension.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "rubric-versioning-at-write-time",
      "file": "knowledge/recruiting/assessment/structured-interview-scorecards/applications/node--rubric-versioning-at-write-time.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "unassessed-competency-handling",
+     "file": "knowledge/recruiting/assessment/structured-interview-scorecards/applications/node--unassessed-competency-handling.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "evidence-quote-requirement",
      "file": "knowledge/recruiting/assessment/structured-interview-scorecards/applications/process--evidence-quote-requirement.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
