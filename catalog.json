@@ -1105,10 +1105,10 @@
       "profile": "rkb/0.1",
       "purity": "recruiting",
       "subjects": 64,
-      "techniques": 393,
-      "applications": 253,
-      "files": 714,
-      "contentHash": "sha256-b2:b9aaec7ffa596cc3"
+      "techniques": 394,
+      "applications": 254,
+      "files": 716,
+      "contentHash": "sha256-b2:88f11d1fe4122a55"
     },
     {
       "name": "software-engineering",
@@ -1118,10 +1118,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 233,
-      "techniques": 1814,
-      "applications": 1193,
-      "files": 3245,
-      "contentHash": "sha256-b2:729e6747607389a4"
+      "techniques": 1815,
+      "applications": 1195,
+      "files": 3248,
+      "contentHash": "sha256-b2:ca61c7784c61453a"
     }
   ],
   "usageEvidence": {

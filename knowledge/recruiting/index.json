@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 393,
-  "applications": 253,
+  "techniques": 394,
+  "applications": 254,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "393/393",
+  "use_when_coverage": "394/394",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -934,9 +934,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/bulk-adverse-action-governance.md",
-   "digest": "sha256-b2:1305b7c9f91bfe4d",
-   "revision": 4,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:525cb59fe170b344",
+   "revision": 5,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "cohort-drift-forces-a-fresh-review",
@@ -950,6 +950,24 @@
       "a bulk approval may be committed later than it was granted",
       "deciding how long an approval stays valid",
       "handling a pool that changes between preview and commit"
+     ]
+    },
+    {
+     "slug": "contest-door-at-the-point-of-decision",
+     "status": "forged",
+     "laws": [
+      "every-decision-names-its-actor",
+      "no-adverse-outcome-is-solely-automated",
+      "say-only-what-the-record-holds",
+      "absence-of-evidence-is-not-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rejection notice tells the candidate they may ask for a human to look again",
+      "a candidate's reply to a decision message has nowhere structured to land",
+      "deciding how a request for human review reaches the reversal queue",
+      "designing what a contest request is stored as",
+      "choosing between a declared escalation point and a universal one for a candidate-facing request"
      ]
     },
     {
@@ -1027,6 +1045,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "contest-door-at-the-point-of-decision",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--contest-door-at-the-point-of-decision.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "preview-then-approve-the-signed-set",
@@ -8301,6 +8326,7 @@
     "automated-screening-fairness-gates/route-vocabulary-narrower-than-verdict-vocabulary",
     "blind-screening-and-redaction/reattach-identity-only-after-the-verdict",
     "bulk-adverse-action-governance/cohort-drift-forces-a-fresh-review",
+    "bulk-adverse-action-governance/contest-door-at-the-point-of-decision",
     "bulk-adverse-action-governance/preview-then-approve-the-signed-set",
     "bulk-adverse-action-governance/reversal-queue-that-reads-the-sealed-reason",
     "bulk-adverse-action-governance/small-cohort-floor-with-no-silent-exemption",
@@ -8578,6 +8604,7 @@
     "blind-screening-and-redaction/identity-twin-mask-invariance",
     "blind-screening-and-redaction/name-versus-role-headline-disambiguation",
     "blind-screening-and-redaction/preserve-substance-while-masking-identity",
+    "bulk-adverse-action-governance/contest-door-at-the-point-of-decision",
     "bulk-adverse-action-governance/unscored-excluded-never-coerced",
     "candidate-ai-disclosure-and-explanation/held-data-derived-from-what-exists",
     "candidate-ai-disclosure-and-explanation/three-state-attribution-that-fails-to-unknown",
@@ -8798,6 +8825,7 @@
     "automated-screening-fairness-gates/blocked-rejection-as-an-audited-event",
     "blind-screening-and-redaction/disclose-the-redaction-to-the-assessor",
     "blind-screening-and-redaction/preserve-substance-while-masking-identity",
+    "bulk-adverse-action-governance/contest-door-at-the-point-of-decision",
     "bulk-adverse-action-governance/reversal-queue-that-reads-the-sealed-reason",
     "bulk-adverse-action-governance/unscored-excluded-never-coerced",
     "candidate-ai-disclosure-and-explanation/allowlist-of-candidate-visible-decisions",
@@ -9133,6 +9161,7 @@
     "automated-screening-fairness-gates/blocked-rejection-as-an-audited-event",
     "automated-screening-fairness-gates/defense-in-depth-recheck-at-the-apply-boundary",
     "blind-screening-and-redaction/reattach-identity-only-after-the-verdict",
+    "bulk-adverse-action-governance/contest-door-at-the-point-of-decision",
     "bulk-adverse-action-governance/preview-then-approve-the-signed-set",
     "bulk-adverse-action-governance/reversal-queue-that-reads-the-sealed-reason",
     "candidate-ai-disclosure-and-explanation/right-to-request-a-human-review",

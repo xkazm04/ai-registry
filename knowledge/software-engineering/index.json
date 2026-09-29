@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1814,
-  "applications": 1193,
+  "techniques": 1815,
+  "applications": 1195,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1814/1814",
+  "use_when_coverage": "1815/1815",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -16326,9 +16326,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
-   "digest": "sha256-b2:fc771b717208857b",
-   "revision": 20,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:bc33acb280c8df96",
+   "revision": 21,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "consent-gates",
@@ -16424,6 +16424,23 @@
       "deciding whether a prompt flag is a real gate",
       "machine can flip its own gate open",
       "approved content swapped before execution"
+     ]
+    },
+    {
+     "slug": "handoff-is-a-declared-door",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a model can ask for a human and something has to decide whether the ask is honoured",
+      "deciding who is allowed to answer an escalation the machine raised",
+      "an approver's answer arrives over a chat channel or a forwarded notice",
+      "a machine-facing token can post a decision",
+      "choosing between a declared escalation point and a universal one"
      ]
     },
     {
@@ -16543,6 +16560,13 @@
    "applications": [
     {
      "stack": "next",
+     "technique": "handoff-is-a-declared-door",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/next--handoff-is-a-declared-door.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "next@16.3.5"
+    },
+    {
+     "stack": "next",
      "technique": "truncated-verdict-space",
      "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/next--truncated-verdict-space.md",
      "verified_on": "2026-09-03",
@@ -16554,6 +16578,13 @@
      "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/node--oracle-before-gate.md",
      "verified_on": "2026-08-31",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "python",
+     "technique": "handoff-is-a-declared-door",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/python--handoff-is-a-declared-door.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "python@3.11"
     },
     {
      "stack": "react",
@@ -38257,6 +38288,7 @@
     "hitl-approval/cosmetic-vs-enforced-threshold-invariant",
     "hitl-approval/fixed-policy-amendable-plan",
     "hitl-approval/gate-state-machines",
+    "hitl-approval/handoff-is-a-declared-door",
     "hitl-approval/oracle-before-gate",
     "hitl-approval/unattended-mode",
     "i18n/completeness-gates",
@@ -39893,6 +39925,7 @@
     "generated-workflow-candidates/score-keyed-candidate-selection",
     "generated-workflow-candidates/two-tier-data-statistics",
     "hitl-approval/decision-records",
+    "hitl-approval/handoff-is-a-declared-door",
     "hitl-approval/oracle-before-gate",
     "import-normalization/overlay-merge-absence-semantics",
     "index-free-random-access/framing-recovery-by-hypothesis-rejection",
@@ -40422,6 +40455,7 @@
     "hitl-approval/consent-gates",
     "hitl-approval/decision-records",
     "hitl-approval/gate-state-machines",
+    "hitl-approval/handoff-is-a-declared-door",
     "hitl-approval/resume-after-decision",
     "import-normalization/intermediate-representation",
     "ipc-contract/call-wrapping",
