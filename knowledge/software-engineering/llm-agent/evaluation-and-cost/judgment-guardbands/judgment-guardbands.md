@@ -97,8 +97,9 @@ bands and legitimate widening:
 
 Inside the band, how much of the model's opinion lands is governed by a blend
 weight, and the common design error is letting that weight follow the model's
-own stated confidence. Confidence is a fluent register, not a calibrated
-probability, and — being model output — a channel an attacker can write to.
+own stated confidence. Confidence is a fluent register that current judges
+calibrate better than they used to on benign inputs, and — being model output —
+a channel an attacker can write to whatever its calibration.
 Scaling the model's authority by its self-reported confidence is a dial
 labelled "how much you may be trusted", handed to whoever wrote the input.
 

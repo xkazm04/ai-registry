@@ -17886,9 +17886,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/judgment-guardbands.md",
-   "digest": "sha256-b2:6f0d381e3a82e919",
-   "revision": 2,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:3f1ecbef594aab1b",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "confidence-weighted-blend",
