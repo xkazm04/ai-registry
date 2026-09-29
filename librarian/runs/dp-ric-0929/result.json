@@ -1,0 +1,68 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ric-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T17:15:00Z",
+  "ended_at": "2026-09-29T17:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/requirement-inflation-control",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/requirement-inflation-control",
+      "technique": "must-have-soft-cap-and-forced-ranking",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/role-definition/requirement-inflation-control/requirement-inflation-control.md",
+    "knowledge/recruiting/role-definition/requirement-inflation-control/techniques/must-have-soft-cap-and-forced-ranking.md",
+    "knowledge/recruiting/role-definition/requirement-inflation-control/techniques/degree-and-tenure-requirement-audit.md",
+    "knowledge/recruiting/role-definition/requirement-inflation-control/techniques/learnable-versus-prerequisite-grading.md",
+    "knowledge/recruiting/role-definition/requirement-inflation-control/applications/node--learnable-versus-prerequisite-grading.md",
+    "knowledge/recruiting/role-definition/requirement-inflation-control/applications/process--never-promote-an-unstated-tool.md",
+    "knowledge/recruiting/role-definition/requirement-inflation-control/applications/process--ninety-day-outcome-as-the-despec-filter.md",
+    "knowledge/recruiting/role-definition/requirement-inflation-control/applications/process--must-have-soft-cap-and-forced-ranking.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/requirement-inflation-control.md"
+  ],
+  "commits": [
+    {
+      "sha": "87e18d81",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/role-definition/requirement-inflation-control knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md"
+    },
+    {
+      "sha": "dbe508a7",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/domains/recruiting.md librarian/subjects/recruiting/requirement-inflation-control.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Five corrections, one condition, no technique earned; no blind lane run (banked). kp design_role fallback dropped confirmed must-haves past six: fixed in kp 006bf7a0a (local). Not pushed: both mains carry sibling commits. Lane gates green; full chain not run."
+}
