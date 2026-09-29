@@ -1,0 +1,37 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ird-0929",
+  "skill": "deepen",
+  "skill_version": "1",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T00:00:00Z",
+  "ended_at": "2026-09-29T01:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/interview-round-design",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/recruiting/assessment/interview-round-design/interview-round-design.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Golden-path correction only: a decision-agreement figure had stood in for validity and round count was credited as the top withdrawal reason. No technique earned; no project map joins the subject, so no impact and no applied row. L1 depth; applications not re-verified."
+}

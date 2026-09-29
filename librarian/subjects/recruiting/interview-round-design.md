@@ -22,4 +22,4 @@ First touch by `/deepen`, dispatched by the Curator lane on the scan finding "ne
 **Not evaluated:** the three applications' consumer trees (verified_on 2026-08-20); a training-data-only lane; primaries for the funnel figures (iCIMS 2025, Cronofy 2024). Return condition: a primary for the funnel numbers, or consumer deviation.
 
 ## Impact
-Recorded from the regenerated map below.
+Map dry-run at 770c906a: no project or context carries a judged verdict on this subject, so no stale queue and no map commit. Nothing new was earned (no technique, no flipped rule), so no applied.md row is owed.
