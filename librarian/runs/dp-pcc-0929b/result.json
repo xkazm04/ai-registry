@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pcc-0929b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T16:20:00Z",
+  "ended_at": "2026-09-29T17:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/portable-candidate-credentials",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/portable-candidate-credentials",
+      "technique": "unverifiable-before-tampered-never-accuse",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/portable-candidate-credentials",
+      "technique": "weak-share-link",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/portable-candidate-credentials",
+      "technique": "reissue-reason-is-its-own-field",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/governance/portable-candidate-credentials/techniques/unverifiable-before-tampered-never-accuse.md",
+    "knowledge/recruiting/governance/portable-candidate-credentials/applications/node--unverifiable-before-tampered-never-accuse.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/portable-candidate-credentials.md"
+  ],
+  "commits": [
+    {
+      "sha": "9f102a91",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/governance/portable-candidate-credentials knowledge/recruiting/index.json catalog.json"
+    },
+    {
+      "sha": "d285fd1a",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/domains/recruiting.md librarian/subjects/recruiting/portable-candidate-credentials.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Reviewed the earlier landing (a20cc006), corrected the compromise cutoff, ran kp before/after, wrote the propagation. Nothing pushed: main is 46 ahead, 65 behind origin. Skills-lane gate fails on untracked local files, not this run."
+}
