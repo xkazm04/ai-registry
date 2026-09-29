@@ -13,6 +13,7 @@ techniques:
   - unreachable-success-preflight
   - verifier-coverage-review-agenda
   - confirmation-inherits-the-gates-limits
+  - review-at-the-fan-out-point
 ---
 
 # The unattended build loop
@@ -191,6 +192,15 @@ named at run end — the static preflight below excludes runtime-determined
 gates on purpose, so the run end is the only place that absence can surface.
 The rule is stated in verifier-coverage-review-agenda. Making the missing gate
 `required` is not the fix: that is how success becomes unreachable.
+
+Run end is the right time for an item whose defect stays put, and the wrong
+time for an item other items are built on. A fan-out point decided on the shape
+rung releases every dependent on a verdict nobody trusts, and by run end its
+perceptual defect has been copied into each of them. Raise that review request
+when the point decides, hold its dependents only for a bounded window priced by
+whether anybody reads the run mid-flight, and put the root at the top of the
+agenda. An unbounded hold is the required gate again, by a longer road. The rule
+is stated in review-at-the-fan-out-point.
 
 ## Spend is a shaping instruction, not a fence
 

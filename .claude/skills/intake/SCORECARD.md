@@ -4923,3 +4923,18 @@ The focus carries forward unchanged. One addition from this run: before offering
 untriaged row from an earlier note, grep `librarian/harvest/backlog.jsonl` for it. The
 note's table and the backlog's `status` disagree whenever a harvest wave lands a row,
 and `backlog-phantom-screen.mjs` only catches forge-landed rows that are still queued.
+
+| 2.14.1 | 2026-09-29 | `youtube:doR2RhsneRA` fan-out-point-36h-game-build - sponsored practitioner build-walkthrough (36-hour unattended game build, then a first playthrough on camera) | 1 video, 3,456 words; **0 of 3 fetches** (corroborated by a fleet tree plus first-article convergence); 14 corpus files opened; 1 fleet tree read (pof harness) and 4 recorded runs replayed | 13 | 8 verified (1 accept after the promotion read found the seam in pof, 6 catches opened, 1 contradiction checked and found to be the rule's own boundary) | **1 technique** + 1 golden-path paragraph + **1 application** | 1 row (`1c/0e/0s/0t/0r`): review-at-the-fan-out-point `better` (request half; strict hold refuted 9/85, bounded hold unbuilt) | **1 code**: pof `72a8a95b` (not pushed); registry commit below | The declared focus (pins before an instruction rewrite) did not apply: the landing appends and the project change is code with its own tests. The seam chosen to falsify changed the landing, from "stop the line" to a request plus a bounded hold. Admission `auto=1/3/0`, `fp=0` | S0/T1/A0/Asrc0/task0 - video, no design record, no routing count; directions=n/a; gate=n/a |
+
+**2026-09-29 (fan-out-point-36h-game-build) - weakest stage and next focus.** Of the
+last ten rows, apply was at least 1 every time, and ship carried no code commit in five
+(two applied rows only; three zeros: an operator-sized download, no owning seam,
+structural-only). **Ship is still the losing stage**, and its zeros are mostly
+`experiment` rows whose seam had no code change behind it. This run shipped because the
+seam hunt found a change small enough to pair. Next run's declared focus: **when an
+experiment row reads `better` or `unmeasurable`, name the smallest code change the
+experiment implies and ship that half in the session**, as this run did with the request
+half of a two-part technique. One lesson from this run, not yet a trend: a replay over
+recorded runs can carry an arm fixed by construction, as this row's arm A and the
+2026-09-10 review of its sibling application both show, so the verdict belongs on a
+quantity the construction does not fix.

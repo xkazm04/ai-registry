@@ -1,0 +1,54 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-dor2-0929",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "run",
+  "domain": "game-production",
+  "started_at": "2026-09-29T10:40:00Z",
+  "ended_at": "2026-09-29T11:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/unattended-build-loop",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "unattended-build-loop",
+      "technique": "review-at-the-fan-out-point",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/craft-judgment/unattended-build-loop/techniques/review-at-the-fan-out-point.md",
+    "knowledge/game-production/craft-judgment/unattended-build-loop/unattended-build-loop.md",
+    "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--review-at-the-fan-out-point.md",
+    "knowledge/game-production/index.json",
+    "catalog.json",
+    "rules/ai-registry-game-production.md",
+    "librarian/sources/2026-09-29-fan-out-point-36h-game-build.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/unattended-build-loop.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One technique from a first-instance defect copied into every race. A strict first-article hold completed 9 of 85 recorded areas in the fleet harness, so it landed as a request plus a bounded hold; the request half shipped (not pushed), precision 3 of 4."
+}

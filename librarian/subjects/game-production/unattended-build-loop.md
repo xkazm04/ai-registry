@@ -295,3 +295,38 @@ checkout was made, no harness run, no recorded run re-read, no gate executed.
   }
 }
 ```
+
+## Intake - 2026-09-29 (in-dor2-0929)
+
+Source: a creator's 36-hour unattended game build
+([[../../sources/2026-09-29-fan-out-point-36h-game-build]]). 8 -> 9 techniques,
+4 -> 5 applications.
+
+Landed:
+
+- `review-at-the-fan-out-point` (new technique): an item other items are built on
+  that decides below its required rung gets its review request when it decides,
+  not at run end. Its dependents are held only for a bounded window priced by
+  whether anybody reads the run mid-flight, and the run-end agenda puts the root
+  first (grouping, not deduplication). The strict first-article hold was refuted
+  on the connected tree's recorded runs (9 of 85 areas complete), so the bound is
+  the technique's reason, not a hedge.
+- Golden path: one paragraph at the end of "Coverage decides where the human's
+  time goes".
+- `node--review-at-the-fan-out-point` (application, `code`, `better`): the request
+  half shipped in the connected tree. Precision 3 of 4: the one false positive
+  is a data-schema root, because the tree carries no per-item rung.
+
+Boundaries observed:
+
+- The planning side, `vertical-slice-as-the-first-milestone` step 6 in
+  production-work-prioritization, freezes a closed slice as the reference
+  standard. This technique is the loop-side condition that makes the freeze
+  safe. The boundary is stated in prose in the new technique, and the planning
+  file is unchanged.
+- The rollback technique's "concurrency of one" is not contradicted by a source
+  running about ten agents: its own decision rule already names isolated trees
+  as the second option.
+
+Return conditions: read a per-item rung once the tree's plan carries one;
+measure the bounded hold on a live run with operator response latency logged.

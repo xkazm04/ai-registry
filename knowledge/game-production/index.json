@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 52,
-  "techniques": 332,
-  "applications": 142,
+  "techniques": 333,
+  "applications": 143,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "332/332",
+  "use_when_coverage": "333/333",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6061,9 +6061,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/unattended-build-loop/unattended-build-loop.md",
-   "digest": "sha256-b2:b727ab2b73160e1d",
-   "revision": 4,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:9206627385bc870d",
+   "revision": 5,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "budget-reservation-and-drain-not-kill",
@@ -6122,6 +6122,22 @@
       "wiring a verification check into an automated loop",
       "deciding what a check with no command may report",
       "letting a producer report on its own output"
+     ]
+    },
+    {
+     "slug": "review-at-the-fan-out-point",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an unattended plan has an item several later items build on",
+      "the first instance of a repeated kind is about to be copied across the rest",
+      "a run is watched intermittently rather than continuously",
+      "deciding when an unjudged item's review is due rather than whether"
      ]
     },
     {
@@ -6190,6 +6206,13 @@
      "technique": "budget-reservation-and-drain-not-kill",
      "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--budget-reservation-and-drain-not-kill.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "review-at-the-fan-out-point",
+     "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/node--review-at-the-fan-out-point.md",
+     "verified_on": "2026-09-29",
      "verified_against": "node@24"
     },
     {
@@ -6632,6 +6655,7 @@
     "unattended-build-loop/budget-reservation-and-drain-not-kill",
     "unattended-build-loop/completed-with-gaps-excluded-from-the-numerator",
     "unattended-build-loop/no-gate-self-certifies",
+    "unattended-build-loop/review-at-the-fan-out-point",
     "unattended-build-loop/unreachable-success-preflight",
     "unattended-build-loop/verified-vs-self-reported-pass-rate",
     "unattended-build-loop/verifier-coverage-review-agenda",
@@ -6948,6 +6972,7 @@
     "tiling-texture-acceptance/derive-only-what-the-source-encodes",
     "unattended-build-loop/confirmation-inherits-the-gates-limits",
     "unattended-build-loop/no-gate-self-certifies",
+    "unattended-build-loop/review-at-the-fan-out-point",
     "unattended-build-loop/verified-vs-self-reported-pass-rate",
     "unattended-build-loop/verifier-coverage-review-agenda",
     "wiring-contract-doctrine/no-gray-box-rule"
@@ -7244,6 +7269,7 @@
     "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
     "terrain-synthesis-acceptance/playable-area-versus-backdrop-ratio",
     "unattended-build-loop/budget-reservation-and-drain-not-kill",
+    "unattended-build-loop/review-at-the-fan-out-point",
     "unattended-build-loop/unreachable-success-preflight",
     "wiring-contract-doctrine/contract-injection-into-prompts"
    ]
