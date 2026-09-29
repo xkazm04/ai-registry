@@ -1,0 +1,39 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ilr-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T13:00:00Z",
+  "ended_at": "2026-09-29T13:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/inference-labelling-and-refusal",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/inference-labelling-and-refusal.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/inference-labelling-and-refusal.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No technique; 3 conditioned, 1 unsupported claim softened. kp a17b5cca2 fixed the grounding-swap deviation; the self-report card was deleted 2026-09-16; 26 buckets was 28. No applied.md row owed; no project map pairs the subject."
+}

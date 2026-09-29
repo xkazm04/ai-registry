@@ -4370,9 +4370,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/inference-labelling-and-refusal.md",
-   "digest": "sha256-b2:92428c37cb40a005",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:0430b539465ecdb5",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "could-not-determine-is-not-no-concern",
@@ -4470,19 +4470,19 @@
      "stack": "node",
      "technique": "enumerate-the-evidence-budget",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/applications/node--enumerate-the-evidence-budget.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "declare-degraded-provenance-never-launder-it",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/applications/process--declare-degraded-provenance-never-launder-it.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "react",
      "technique": "self-reported-confidence-is-not-a-measurement",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/applications/react--self-reported-confidence-is-not-a-measurement.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },

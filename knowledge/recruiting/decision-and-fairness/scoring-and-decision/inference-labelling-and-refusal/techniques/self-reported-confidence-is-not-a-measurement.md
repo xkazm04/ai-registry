@@ -19,8 +19,12 @@ Every one of those uses is unearned.
 A self-reported confidence is **evidence about the model, not about the candidate
 and not about the world.** No outcome stands behind it, no holdout validates it, no
 base rate anchors it. It is a token predicted from the shape of the text the model
-just produced — which correlates with fluency, with input length, and with how
-typical the case looks, far more than with whether the conclusion is true.
+just produced. Whether it tracks the truth is an empirical question with a mixed
+record: verbalized confidence has been reported better calibrated than token
+probabilities on question-answering benchmarks, and overconfident, clustering high,
+in other studies. It is unvalidated for this model, this prompt and this population
+until a clean arm says otherwise, and the rule below does not depend on the answer:
+the grammar of measurement is earned by a validation, not by a plausible number.
 
 ## Why the grammar matters more than the number
 

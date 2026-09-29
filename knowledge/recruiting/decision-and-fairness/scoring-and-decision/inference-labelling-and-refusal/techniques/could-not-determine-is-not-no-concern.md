@@ -106,6 +106,12 @@ Two failures compound it, and both are worth naming because both are easy to shi
 - **When a bucket list is used, its completeness claim is bounded by construction**
   — so the surface must state the bound wherever a count or a clean verdict from
   that list is shown, not once in a help page.
+- **Count who receives the unknown.** The third state is not neutral in effect: an
+  "insufficient information" reading lands more often on unusual records (a career
+  changer, a non-native writer, a non-standard document format), and a route-to-human
+  step that is slower than the clear path is a penalty. Report the rate of *could not
+  determine* per group the way an adverse-impact check reports a selection rate.
+  (Blind lane only, 2026-09-29; no source read for it.)
 - **When aliases are needed for matching, keep them in the matcher and out of the
   output.** Matching may be generous; reporting may not.
 

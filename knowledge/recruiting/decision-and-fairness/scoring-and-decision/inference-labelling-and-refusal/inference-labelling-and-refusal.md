@@ -30,7 +30,7 @@ reads a document, watches a work profile, scores a fit, or writes a rejection li
 inherits its rules from here.
 
 The naive reading is that this is a copywriting problem: prefix the output with
-"AI-generated" and you are done. That disclaimer is worth almost nothing. It tells
+"AI-generated" and you are done. That disclaimer adds little on its own. It tells
 the reader the *producer* was a machine; it says nothing about the *epistemic
 status of the specific claim*, which is the only thing that changes what they
 should do next. A labelled guess still reads as a finding if it is rendered in the
@@ -74,10 +74,15 @@ see [inference-must-look-like-inference](../../../_laws.md#inference-must-look-l
 and [a-claim-carries-its-sample-and-its-basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis).
 
 The sharpest corollary, and the one teams resist hardest: **a model's own
-confidence number is not a measurement.** It is a token the model emitted about
-itself. No outcome, no holdout, no base rate stands behind it. Rendering it in the
-same band grammar as a validated score does not communicate calibration — it
-manufactures the appearance of calibration out of nothing. That is
+confidence number is not a measurement until someone measures it.** It is a token
+the model emitted about itself. Out of the box, no outcome, no holdout, no base rate
+stands behind it. The literature does not say such numbers are worthless: verbalized
+confidence from tuned models has been found better calibrated than their token
+probabilities on question-answering benchmarks, and it has also been found
+overconfident. Neither result transfers to this model, this prompt and this
+population of candidates. Rendering an unvalidated number in the same band grammar
+as a validated score does not communicate calibration — it manufactures the
+appearance of calibration out of nothing. That is
 [self-reported-confidence-is-not-a-measurement](./techniques/self-reported-confidence-is-not-a-measurement.md),
 and it is the technique most likely to be argued with and most costly to lose.
 
@@ -98,8 +103,11 @@ The categories that recur:
   Where a screen is deliberately blind it extends to *reconstructing* what was
   redacted from surrounding context.
 - **Inferences from the shape of the artefact** — polish, formatting, fluency,
-  photo quality. Each predicts access to professional help far better than it
-  predicts job performance.
+  photo quality. Each is confounded with access to professional help, and the
+  registry holds no outcome evidence that any of them predicts job performance. The
+  refusal stands on fairness and construct grounds. It does not need a validity claim
+  and should not borrow one: writing help was itself shown, in a randomized trial of
+  about 480,000 jobseekers, to raise hiring without lowering employer satisfaction.
 - **Coverage claims** — "no concerns found" is a claim about the world; the model
   is entitled only to a claim about its inputs.
 - **Instruction-following from the evidence itself** — a candidate's document is
@@ -184,6 +192,21 @@ are not optional:
 The same rule governs partial degradation. When a grounding check removes an
 unsupported claim, the surviving answer is not the model's answer any more — it is
 a coerced one, and it must say so rather than pose as model output.
+
+## The law is moving under the labels
+
+The duty to tell a person that a machine was involved, and what it did, is in
+force in some places and pending in others, and the dates have moved twice in a year.
+Two facts were read on 2026-09-29. EU AI Act Article 86(1) (text) gives an
+affected person the right to "clear and meaningful explanations of the role of the AI
+system in the decision-making procedure and the main elements of the decision taken".
+Colorado's SB26-189 (from the legislature's bill page, not the enacted text) repeals and re-enacts the state's high-risk AI law with an
+effective date of 2027-01-01; it requires clear and conspicuous notice at the point of
+interaction with a covered automated decision tool and a plain-language description
+of the tool's role within 30 days of an adverse decision. An earlier date (2026-06-30)
+is now stale. Neither contradicts rendering raw tokens on an internal surface; both
+make the source tag and the evidence budget the material an explanation is built
+from. Do not cite a date from this file: re-read the text.
 
 ## Where this subject stops
 

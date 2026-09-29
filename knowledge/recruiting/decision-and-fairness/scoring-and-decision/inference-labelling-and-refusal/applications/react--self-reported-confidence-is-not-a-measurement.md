@@ -5,13 +5,13 @@ subject: inference-labelling-and-refusal
 technique: self-reported-confidence-is-not-a-measurement
 stack: react
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # Stripping the measurement grammar off a model's self-report (React decisions queue)
 
 The screening and queued-reject payloads in the Decisions queue carry a 0–100
-scalar the model emitted about its own verdict. `decisionsAiReviewCardLogic.ts:55-80`
+scalar the model emitted about its own verdict. `decisionsAiReviewCardLogic.ts:68-87`
 is where the app decided what that number is and what it is therefore allowed to
 look like, and the comment is the sharpest statement of the doctrine anywhere in
 the tree:
@@ -27,21 +27,24 @@ The value "used to be returned with a `confidenceTone` (moss / amber / coral,
 banded at `SCREENING_CONFIDENCE_BAND`) that the card painted into a meter. Tone +
 meter is the grammar this app reserves for MEASURED quantities, so a number with
 nothing behind it rendered exactly like the calibration curve that has a cohort
-behind it" (`:65-70`). The number was never wrong; the *chrome* was the claim.
+behind it" (`:68-87`). The number was never wrong; the *chrome* was the claim.
 
-`DecisionsAiReviewCard.tsx:155-174` carries the render-side consequence. A meter
-"says a part of a known whole", a tone band "says graded against a threshold", and
-the old ARIA wording "asserted the figure as a property of the recommendation".
-So: no meter, no tone, no assertive ARIA role. What remains is a quoted number
-under a label naming its author, with the label leading — "the disclosure is the
-headline, never a footnote under the number" — as plain text, because "the
-sentence IS the accessible name". The value is clamped and rounded
-(`Math.max(0, Math.min(100, Math.round(...)))`, `logic:80`) so a malformed payload
-cannot render an out-of-range figure.
+At the first verification `DecisionsAiReviewCard.tsx:155-174` carried the render-side
+consequence: a meter "says a part of a known whole", a tone band "says graded against
+a threshold", so no meter, no tone, no assertive ARIA role, and a quoted number under
+a label naming its author, with the label leading. **That card was deleted in
+`7198f0c31` (2026-09-16).** Its successor, `CandidateDecisionBar.tsx`, does not
+destructure `modelSelfReport`, so the number is no longer rendered anywhere. The
+function still computes and returns it (clamped, `logic:91`), and the `selfReportLabel`,
+`selfReportNote` and `selfReportTitle` strings still sit in `messages/*.json`, but both
+are dead. The technique now holds **by omission**, which is the strongest form of the
+rule and the least durable: nothing in the tree stops the next edit from re-wiring the
+number in a default grammar. If it returns, the label-leads, no-meter, no-tone rules
+above are what the render must re-honour.
 
 ## The refusal to substitute a cohort statistic
 
-The most instructive part is what the card declined to do (`logic:72-76`):
+The most instructive part is what the card declined to do (`logic:68-87`):
 
 > "It is NOT replaced by a measured statistic here: the honest measured sibling is
 > the per-band advance rate, a COHORT property computed on the calibration
@@ -57,21 +60,20 @@ property of that individual.
 ## Absent is absent
 
 Scorecards carry a `{level, reason}` band and offers carry no scalar at all, so
-both are excluded and "an absent value renders nothing at all" (`logic:78-80`;
-the card guards on `modelSelfReport != null`). No zero, no placeholder, no
+both are excluded and "an absent value renders nothing at all" (`logic:89-90`). No zero, no placeholder, no
 neutral default — the unmeasured state is a distinct type, not a magic number.
 The same file holds the sibling case: unpriced offer drafts used to render nulls
 through `Number(x ?? 0).toLocaleString()`, producing "a literal '0' headline and a
 0–0 band meter — i.e. it fabricated the one number nobody was willing to invent,
-on exactly the drafts that exist because the number is unknown" (`:36-45`).
+on exactly the drafts that exist because the number is unknown" (`:48-56`, with `unpriced`/`hasBand` at `:57-58`).
 
 ## Seam
 
 The card also names the *actor* behind each verdict rather than leaving the
 reviewer to guess — `isHumanScorecard` keys off `parsed?.source === "human"` "so
-the reviewer knows whose judgment they're ratifying" (`:53-54`), and
+the reviewer knows whose judgment they're ratifying" (`:64-66`), and
 `isQueuedReject` tags the card whose Reject button *is* the adverse action
-(`:49-52`). Verdict-source tagging as a general obligation belongs to the
+(`:60-63`). Verdict-source tagging as a general obligation belongs to the
 degradation technique; the score-band grammar this card refuses to lend belongs to
 the score-presentation subject.
 
@@ -80,7 +82,7 @@ the score-presentation subject.
 The self-report is still emitted by the prompt and still collapsed into
 `result.route` on the Python side, where `screen_candidate` combines
 (recommendation, confidence, early-career gate) into an advance/hold gate
-(`app/_lib/interview-recommendation.ts:65-68`). The standard's "never gate on it"
+(`automation.py:1195` gates advance on `result["confidence"] >= POLICY["screen_advance_conf"]`, 80, at `:145`; `interview-recommendation.ts:65-68` only comments on the route). The standard's "never gate on it"
 rule is therefore honoured at the display layer and not at the routing layer. The
 mitigation is real — the gate's only two outcomes are advance and hold, so the
 self-report can never route a rejection — but the standard stands: a decision

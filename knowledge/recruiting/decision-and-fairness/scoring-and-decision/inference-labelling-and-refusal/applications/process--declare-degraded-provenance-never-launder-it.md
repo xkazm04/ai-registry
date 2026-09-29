@@ -5,7 +5,7 @@ subject: inference-labelling-and-refusal
 technique: declare-degraded-provenance-never-launder-it
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # Source-tagged reasoning across a Python pipeline and a TypeScript cache
@@ -17,21 +17,21 @@ produced, and only the authoritative grade may be frozen.
 
 ## Rule one — the tag is part of the return value
 
-`generate()` (`match_reasoning.py:344-370`) returns a tuple, not a payload:
+`generate()` (`match_reasoning.py:531-571`) returns a tuple, not a payload:
 `(reasoning, source)` where source is `"llm"` or `"deterministic"`. There is no
 path that produces reasoning without also stating how. All three degradation
 routes are explicit:
 
 - **No provider configured** → `deterministic_reasoning(context), "deterministic"`
-  (`:359-360`).
-- **Provider raised** → the same, from the `except` (`:369-370`).
+  (`:554`).
+- **Provider raised** → the same, from the `except` (`:564`).
 - **Model under-delivered** → `_coerce` reports it, and `generate` re-labels:
-  `return out, ("deterministic" if degraded else "llm")` (`:369`), with the comment
+  `return out, ("deterministic" if degraded else "llm")` (`:571`), with the comment
   naming the accounting honestly — "A core-backfilled result IS the deterministic
   template — say so instead of billing the fallback's words to the model (the
   tokens were spent, but the answer on the wire is not the model's)."
 
-`_coerce` (`:300-342`) defines *degraded* exactly as the technique's rule seven
+`_coerce` (`:474-528`) defines *degraded* exactly as the technique's rule seven
 requires — on the **core** of the result, not on volume: "``degraded`` is True when
 the CORE of the result (verdict + strengths) came from the deterministic template
 rather than the model — the caller reports that as source="deterministic" so a
@@ -39,21 +39,25 @@ coerced-away answer can never pose as LLM output."
 
 ## The grounding post-check, and what it does and does not degrade
 
-`:340-341` runs the grounding check the technique calls a repair: the prompt
+`_coerce` runs the grounding check the technique calls a repair: the prompt
 instructs the model to cite a concrete candidate detail, "but nothing verified it —
 a generic-boilerplate strengths list ('Strong communicator', 'Team player') would
 still pass." If *none* of the strengths reference a real skill or matched-skill
-token (`_any_strength_grounded`, `:293-298`), the strengths are replaced with the
+token (`_any_strength_grounded`, `:411-416`), the strengths are replaced with the
 deterministic template's, which cite the actual matched skills. The check is
 deliberately lenient — one grounded strength is enough, and with no tokens to check
 against it never punishes.
 
-This is the one place the repo falls short of the standard: a strengths list
-replaced by the grounding post-check is a **repair**, but it does not set
-`degraded`, so the payload can still be labelled `"llm"` with template-authored
-strengths inside it. The standard's rule four stands — a coerced answer must not
-pose as model output — and the repo's own rationale for the core case
-(`:303-306`) is the argument for extending the tag to this one.
+This was the one place the repo fell short of the standard, and it has been closed.
+At the first verification a strengths list replaced by the grounding post-check was a
+**repair** that did not set `degraded`, so the payload could be labelled `"llm"`
+with template-authored strengths inside it. Commit `a17b5cca2` (2026-09-29) makes a
+grounding swap set `degraded = True` (`:514-519`), the standard's rule four. A
+second swap of the same kind was added earlier: a verdict-number check
+(`_verdict_numbers_grounded`, `:419-471`, `f1d29dc4c`) replaces an invented
+"88/100" verdict with the template's and also degrades the source (`:527`). The
+lesson for the technique: the leak was found by reading the repair paths one by one,
+and each repair path added later had to be tagged separately.
 
 ## Rule two — cacheability is decided by the tag, at the write
 
@@ -79,7 +83,7 @@ stall (the deterministic verdict is returned), and the outage cannot outlive its
 
 ## Predictable degradation is declared before the run
 
-`docs/architecture/llm-provider-layer.md:60-67` shows the up-front half. The
+`docs/architecture/llm-provider-layer.md:122-125` shows the up-front half. The
 capability matrix records which providers support search grounding, file input and
 schema modes, and "the registry rejects (or visibly degrades) a config that routes
 a use case to a provider missing a required capability — e.g. `cv_analysis` on
@@ -88,13 +92,30 @@ OpenAI runs without salary grounding and the envelope flags
 knowable from the routing config is flagged at configuration time rather than
 discovered at read time.
 
+## The tag reached the decision, not only the cache
+
+Since the first verification the source travels further than the payload. Approvals
+now record `verdictSource: "llm" | "template"` and `verdictProvider`
+(`automation-run.ts:230`, `:535`, `40cf8339b`); the decision bar renders an amber
+"engine: template" disclosure (`CandidateDecisionBar.tsx:63-72`); and an approval
+made before provenance existed returns null rather than an invented value
+(`decisionsAiReviewCardLogic.ts:99-101`: "an invented provenance is worse than an
+absent one"). The preparation surface has a "Template fallback" badge
+(`Badge.tsx:170-185`). The cache policy also learned a locale rule:
+`narrativeLangFor` (`reasoning-cache-policy.ts:26-56`) states English for any
+non-llm payload, and the engine now states the language it wrote in
+(`narrative_lang_for`, `match_reasoning.py:82`), so a fallback is never labelled in
+a language it was not written in. The screening fallback's `coerce`
+(`automation.py:1150-1160`) reports a nothing-reply as `deterministic`, with the
+floor for `redFlags` winning.
+
 ## Seam
 
 Off-taxonomy handling is the neighbouring discipline and is single-sourced in
 `app/_lib/interview-recommendation.ts`: `coerceInterviewRecommendation` (`:60-63`)
 falls back to `hold` at logic boundaries — "Never `advance` (which could
 auto-progress a candidate) and never `reject` (the fairness gate forbids a silent
-auto-reject)" — while `Badge.tsx:197-214` deliberately does *not* coerce, rendering
+auto-reject)" — while `Badge.tsx:199-216` deliberately does *not* coerce, rendering
 an unrecognised verdict raw in a neutral badge "so a human notices drift rather
 than masking it". The module header records why the contract exists: before it, the
 legal set "lived only as a literal inside a Python prompt string and bare `string`s

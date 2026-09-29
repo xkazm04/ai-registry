@@ -95,6 +95,12 @@ incident — and mark it so that any read knows what it is holding.
 - **When a degraded verdict already exists and a full run becomes possible, prefer
   recomputation over reuse**, and let the record show that the earlier verdict was
   degraded rather than overwriting the history.
+- **When a human confirms a degraded verdict, record a human decision that cites the
+  degraded input; do not upgrade the verdict.** A confirmation is often a click on a
+  default, so the record must not later be read as an authoritative model grade or
+  used as calibration ground truth without flagging that selection. The application
+  shows the source reaching the approval itself, not only the cache. (Blind lane only,
+  2026-09-29.)
 - **When a candidate asks how a decision about them was reached, the provenance tag
   is part of the answer.** "This was produced by a fallback path during a service
   outage" is an honest and defensible sentence; discovering it later from a log is

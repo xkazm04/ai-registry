@@ -1157,3 +1157,42 @@ were retired.
 Impact: kp has 3 contexts on this subject and 0 stale verdicts. The engine file sits
 in no context. Maps were committed locally in twelve projects, none pushed. Yield
 high, dry_streak 0, depth L3. See [[hypothesis-not-verdict-soft-signals]].
+
+## 2026-09-29 - deepen: inference-labelling-and-refusal
+
+The Curator lane dispatched this on "never swept by the librarian". The reason held
+at dispatch HEAD: no subject note and no earlier pass. The applications were
+verified on 2026-08-20, and nine kp commits have touched their files since. Three
+lanes ran: counter, blind, and tree.
+
+No claim was refuted outright; three were conditioned and one was unsupported:
+- **The confidence number "carries no calibration" is conditioned.** Verbalized
+  confidence has been found better calibrated than token probabilities on QA
+  benchmarks (Tian et al. 2023) and overconfident elsewhere (Xiong 2024). The claim
+  is now "unvalidated for this model, task and population"; the grammar rule stands.
+- **Polish predicting access to help "far better than performance" was
+  unsupported.** A randomized trial of writing help raised hiring with no loss of
+  employer satisfaction (Horton). The refusal stays on fairness and construct
+  grounds.
+- **The disclaimer being "worth almost nothing"** was softened; the label studies
+  were seen at snippet level only.
+
+The tree moved more than the literature:
+- **A deviation was fixed:** a grounding swap now sets `degraded` in kp (a17b5cca2,
+  2026-09-29).
+- **An application's subject was deleted:** the card that rendered the self-report
+  was removed on 2026-09-16 and the successor renders nothing. The technique holds
+  by omission, with the number still computed.
+- **"26 buckets" was 28,** and the taxonomy now returns a four-verdict ledger with
+  `couldNotDetermine` as a type.
+
+Blind lane only, landed as one-line rules: count who receives the unknown, and a
+human confirmation of a degraded verdict is not an upgrade. Law read: EU AI Act
+Art. 86(1) verbatim; Colorado SB26-189 (2027-01-01) from the bill page only.
+
+No technique earned, and no `applied.md` row owed. Three applications re-verified
+at kp ec99bc40.
+
+Impact: no project pairs this subject, so no verdict is stale and no `/conform
+--stale` queue gains an entry. Yield medium, dry_streak 0, depth L2. See
+[[inference-labelling-and-refusal]].

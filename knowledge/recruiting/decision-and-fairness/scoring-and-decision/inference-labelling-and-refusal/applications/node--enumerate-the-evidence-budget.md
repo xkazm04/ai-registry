@@ -5,7 +5,7 @@ subject: inference-labelling-and-refusal
 technique: enumerate-the-evidence-budget
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # The evidence budget as code (public-profile review, TypeScript server)
@@ -20,7 +20,7 @@ same object.
 
 The caps are exported values — `README_TRUNCATE = 3500` (`:13`),
 `COMMITS_PER_REPO = 10` (`:15`), `FILES_PER_REPO = 30` (`:17`) — and
-`describeEvidenceBasis()` (`:61-73`) returns the reader-facing basis built *from
+`describeEvidenceBasis()` (`:66-73`) returns the reader-facing basis built *from
 those same constants*:
 
 ```ts
@@ -52,7 +52,7 @@ Two details are exactly the standard's procedure:
 
 ## The prompt is the other half of the same budget
 
-`app/_lib/github/code-review.ts:166-176` places the same scope in front of the
+`app/_lib/github/code-review.ts:237-240` places the same scope in front of the
 model, in the second person, immediately before the output contract:
 
 > "You are NOT reading the source code. You only receive lightweight public
@@ -63,7 +63,7 @@ model, in the second person, immediately before the output contract:
 > NOT evidenced by the signals explicitly — never imply full coverage."
 
 The serialized evidence is re-labelled at the point of insertion too —
-"Repository signals (metadata and text only — no file bodies)" (`:180`) — so the
+"Repository signals (metadata and text only — no file bodies)" (`:251`) — so the
 budget statement sits adjacent to the data it describes, not only in a preamble.
 This is the standard's "put the scope statement in both places", realized: the
 same bound constrains what the model may conclude and what the reader is told.
@@ -82,24 +82,50 @@ reassurance".
 
 ## The adjacent scoping incident
 
-`app/_lib/github/skills.ts:3-10` records what happens when a budget is bounded but
-the bound is not published. A ten-bucket skill taxonomy meant a role requiring
-anything outside those ten "could never appear as a match OR a gap — a recruiter
-saw 'Potential Gaps: none' and read it as 'no gaps' when it meant 'no gaps among
-10 hard-coded skills'". The fix is the standard's: the list was widened to 26
-buckets, and `trackedSkillCount` (`:123`) is now exported "so the UI can say
-'compared against N tracked skills', honestly" — the bound stated by the same
-source that enforces it. `FINDING #4` (`:12-18`) adds the counting half: overlapping
-aliases fanned one gap into three, so the alias sets were made mutually exclusive
-and "one underlying skill can produce at most one verdict".
+The skill taxonomy's header records what happens when a budget is bounded but the
+bound is not published. A ten-bucket skill taxonomy meant a role requiring anything
+outside those ten "could never appear as a match OR a gap — a recruiter saw
+'Potential Gaps: none' and read it as 'no gaps' when it meant 'no gaps among 10
+hard-coded skills'". The fix is the standard's: the list was widened, and
+`trackedSkillCount` (`skills.ts:88`) is exported "so the UI can say 'compared against
+N tracked skills', honestly" — the bound stated by the same source that enforces it.
+The panel prints it (`GithubAnalysisPanel.tsx:406-407`) and `skill-ledger.test.ts:22`
+pins it. At the 2026-09-29 re-read the list stood at 28 buckets (Vue and Svelte were
+added after the first verification, and `node.js` became an explicit alias of
+`javascript`), and the taxonomy had moved to `app/_lib/github/skill-ledger.ts:34-90`.
+`FINDING #4` (`skill-ledger.ts:45-51`) adds the counting half: overlapping aliases
+fanned one gap into three, so the alias sets were made mutually exclusive and "one
+underlying skill can produce at most one verdict". The count is a number the tests
+pin, which is the right home for it; a prose count in a registry file is what goes
+stale first.
+
+## The ledger gave the third state a name
+
+The same ledger (`skill-ledger.ts`) now returns one of four verdicts per
+job-description skill: `corroborated`, `notReached` (neutral: never unverified,
+never missing), `couldNotDetermine` ("an unreadable source is never a negative")
+and `unclaimed`, plus a `reviewDisagrees` flag where the model's label and the
+ledger conflict. On a partial run `skills.ts:69-84` moves gaps into
+`undeterminedSkills` instead of reporting them as missing, and `code-review.ts:175-191`
+returns a `throttled` error, not a review, when there is no signal and coverage was
+lost. Its comment names the failure: a confident assessment would be fabricated.
+This is the absence technique's three states realized as a type.
+
+## Truncation at two levels
+
+The prompt-level cut is declared. `EVIDENCE_MAX_CHARS = 60_000` and
+`JD_PROMPT_MAX_CHARS = 20_000` (`code-review.ts:24-25`) bound the request, and
+`fence.ts` `capBlock` tells the model `[truncated at N chars]` when a block was cut;
+candidate-authored text is fenced as untrusted. The per-README cut is not.
 
 ## Deviation
 
-The empty-signal path (`code-review.ts:140-151`) returns a summary — "Reviewed
+The empty-signal path (`code-review.ts:195-205`) returns a summary — "Reviewed
 repositories expose no public README, commit, or file signals to assess" — that
 correctly says *nothing was assessable* rather than *nothing was found*. But the
 budget's per-item truncation is not itself reported: a README cut at 3500
-characters is indistinguishable in the output from one that fit. The standard's
+characters (`client.ts:241`, a bare `slice`) is indistinguishable in the output from
+one that fit, although the block-level cut above is announced. The standard's
 "make truncation visible" rule stands; the repo enumerates the cap without
 reporting when the cap bit.
 </content>
