@@ -55,9 +55,14 @@ For it to work it has to be three things at once:
 3. **Name the consequence in the code's rendered text**, in the recruiter's
    language: *no stated pay — the compensation line was omitted from all three
    assets*.
-4. **Rank the codes by what they cost.** Not all absences are equal; the pay
-   fact and the work-mode fact carry most of the conversion weight, and a
-   recruiter who is shown seven equal-weight warnings will act on none.
+4. **Rank the codes by what they cost.** Not all absences are equal, and a
+   recruiter who is shown seven equal-weight warnings will act on none. Rank by
+   what the absence risks and what the reader loses, with the legal duty first
+   (step 6). Do not rank by a conversion promise you cannot source: the
+   evidence that stating pay lifts applications is mixed, with a preregistered
+   trial finding volume unchanged and another study finding more applications
+   but a worse fit (as read in the pay-transparency pass recorded under the
+   inclusive-advertising subject).
 5. **Route each code to whoever can supply the fact.** Some are the
    recruiter's, some are the hiring manager's, and a warning aimed at the
    wrong person is noise. Where the fact is defaulted rather than absent, the
@@ -65,7 +70,18 @@ For it to work it has to be three things at once:
 6. **Never let a code become a block by default.** A campaign with three
    absences is worse than one with none and better than a hand-written one
    with three inventions. Blocking belongs only where a disclosure is legally
-   required.
+   required, and that is now a per-market setting, not a footnote. Where the
+   asset is itself an advertisement in a regime that reads the term widely (New
+   York's Labor Law §194-b defines to "advertise" as making a written
+   description of an opportunity available to applicants, and requires the
+   compensation range), a missing pay code should stop *that asset* from
+   shipping, or send it out linked to a compliant posting where the regime
+   accepts a link. Where the duty sits on a later step (the EU directive names
+   the posting as one channel among several, and the Czech bill in progress
+   leaves the channel open), the code stays a warning and the gate belongs on
+   the step the law names. The code is the same in both; only its severity is
+   keyed to the market. [The pay test](../../role-definition/inclusive-job-advertising/techniques/stated-pay-and-place-test.md)
+   holds the regime detail.
 
 ## Decision rules
 
@@ -90,9 +106,15 @@ For it to work it has to be three things at once:
   the generator emits; the sentence the recruiter reads is a localized string
   the surface resolves. A generator that emits a human sentence has hard-coded
   one audience's language into a contract, and the sentence then cannot be
-  reworded without a change to the producer. It also lets the consuming surface
-  ignore a code it does not recognise instead of rendering a raw token at
-  someone.
+  reworded without a change to the producer.
+- **A code the surface does not recognise is shown, not dropped.** The tempting
+  rule is to filter out any code the catalog has no sentence for, so that a raw
+  token never reaches a recruiter. It is the wrong rule: the producer can add a
+  fact the pack had to do without, and a surface that ignores the new code
+  hides an absence from the one person who could supply it, which is exactly
+  what the diagnostic exists to prevent. Render a generic warning that names
+  the code. It is visible, and it traces back to the generator; the price is
+  one ugly line until the catalog catches up.
 - **Some facts collapse into one code.** Where two facts can each satisfy the
   same beat — a named place or a stated work mode both ground the location line
   — one code covers the pair and fires only when both are missing. Two codes

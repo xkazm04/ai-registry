@@ -81,7 +81,16 @@ design decision that looks like an omission:
   designated *floor hook* grounded in the role itself — the title is always
   present — kept so that a record with no other facts still yields one honest
   asset instead of an empty result, which teams treat as a defect and route
-  around.
+  around. Define the floor hook by the fact it stands on, not by a purpose: an
+  instruction such as "a pain this role solves for the candidate" asks the
+  generator to originate a claim about the role, and the hook that needs no
+  fact becomes the one with the loosest instruction. Frame it as the title, and
+  the stated responsibilities where they exist, put as a question or an offer.
+- **A number hook quotes what was stated, whole.** A range is one fact; the
+  hook that leads with only the top of it says more about the role's pay than
+  the record does. Quote the range with its period and currency, or a single
+  figure that was itself stated. The same holds for any figure whose meaning
+  lives in its qualifier.
 - **Enforce membership at the boundary, not in the instruction.** When a
   generator returns an angle outside the taxonomy, map it onto a designated
   fallback member rather than passing the new category through. An unrecognised
