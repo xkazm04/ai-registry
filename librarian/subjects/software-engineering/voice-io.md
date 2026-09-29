@@ -1,8 +1,8 @@
 ---
 subject: voice-io
 domain: software-engineering
-last_touched: 2026-09-04
-touched_by: intake
+last_touched: 2026-09-30
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -11,6 +11,42 @@ dry_streak: 0
 First touch: [[2026-08-27-s1-mini-transcript-cleanup]] — run 28, an
 operator-dispatched intake. Class: MATURE (the subject was forged 2026-08-18
 and widened since; this run added its tenth technique).
+
+## 2026-09-30 - /deepen (source-driven): a synthesis-engine bake-off
+
+Source class: a project's own measured bake-off (L3 empirical: four engines,
+three lines, GPU and CPU on one desktop, three warm runs per line), an owner's
+by-ear verdict and decision, and eight design reports that measured nothing.
+Rule for the pass: only measured numbers and owner decisions were admitted;
+report figures were carried as claims and several were refuted.
+
+- **`real-time-synthesis-budget` (NEW).** The subject had quality selection for
+  recognition and placement for both directions, and nothing asked whether a
+  synthesis engine can serve a conversation on the machine that runs it. The
+  measurement that made it a technique rather than a note: on the CPU tier only
+  the incumbent preset engine kept up (RTF 0.16-0.31); every cloner crossed
+  real time, the closest at 1.72 against a vendor claim of three times faster
+  than real time; on the GPU tier the fastest faithful cloner reached real time
+  only through a community compiler port, and fell back silently to RTF 1.62
+  without it.
+- **`tts-pipeline` corrected.** The "CPU engine renders at roughly half real
+  time" universal is refuted (0.16 to 14.7 on one processor); the segment
+  maximum is a per-device capability from a measured factor.
+- **`authored-voice-identity` widened.** Converting a described voice to a
+  sample once lets faster engines speak it (0.73 / 0.79 by proxy, n = one
+  voice). Stated as a cast decision with its own record, not a fallback.
+- **Verified and left untouched:** `portable-provider-package`'s resident-mode
+  rule (now costed: ~1.7 s per spawned sentence on the greeting) and its
+  compare-by-ear rules; `on-device-vs-cloud`'s per-installation placement.
+- **Banked leads, with return conditions:** pick-between-two calibration with
+  free text as complement (when a calibration loop ships and can be measured);
+  preset style-vector blending (when a blend is listened to against its
+  parents); tone-card compilation (when adherence is measured on real turns).
+- **Apply: unapplied, and why.** Every rule was read out of the same project's
+  own bake-off, so an A/B there would test the source against itself. Return
+  when a second project chooses a synthesis engine or ships a live voice loop.
+- **Impact (dry run):** personas 4 judged voice-io verdicts, kp 3, stale once
+  the map is regenerated.
 
 ## 2026-09-04 - /intake run (microsoft/VibeVoice @ 1541f59)
 

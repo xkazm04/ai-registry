@@ -488,3 +488,49 @@ candidates (≈30, in the worker reports and the run note) feed the
 
 Gate green end-to-end; index, rules and catalog rebuilt in a quiet tree
 (closing the catalog debt deliberately left on 2026-08-28).
+
+## 2026-09-30 — voice-io: a synthesis-engine bake-off, and the speed axis nothing owned
+
+Source: a two-day voice investigation for a local-first desktop companion —
+a measured bake-off of four open-weights synthesis engines (three lines, GPU
+and CPU on one desktop, three warm runs per line, 2026-09-29), the owner's
+by-ear verdict and product decision (2026-09-30), and eight unmeasured design
+reports. Only the measured material and the owner's decisions were admitted;
+the design reports' figures were treated as claims, and several of them were
+refuted by the bake-off.
+
+Landed in voice-io (17 → 18 techniques, 14 → 15 applications):
+- `real-time-synthesis-budget` (new technique). `engine-choice-on-decisive-terms`
+  reads quality for recognition and `on-device-vs-cloud` decides placement;
+  nothing owned whether a synthesis engine can serve a conversation at all.
+  Making a voice versus speaking in it; real-time factor and first audio with
+  its kind (streamed or whole-sentence); measuring on the tier that will run
+  it; vendor figures as claims about a serving stack the product does not
+  ship; an acceleration path that falls back silently; the process boundary
+  as part of the rate; one tier that needs nothing; letting the user time a
+  device choice when the device changes speed and not voice; deferring what
+  the common tier cannot carry. Application `process--real-time-synthesis-budget`
+  carries the numbers with n, date and hardware.
+- `tts-pipeline` corrected: "a CPU engine renders at roughly half real time"
+  was a universal the measurements refute — on one processor the engines
+  spanned 0.16 to 14.7 real-time factor. The segment maximum is now a per-device
+  capability derived from a measured factor.
+- `authored-voice-identity` widened: a third route across the fallback chain
+  — convert a described voice to a sample once, as a listened cast decision,
+  and let faster sample-accepting engines speak it (measured once, by proxy:
+  0.73 / 0.79 similarity to the rendered clip). The voice is then pinned to
+  that sample, and its record says it was derived from a description.
+
+Declined, with reasons: calibration by pick-between-two with free text as a
+complement (owner-endorsed design direction, not built or measured — bank
+until a calibration loop ships); blending preset style vectors (read from
+source code, never listened to, and the owner rejected blending as the route
+to a custom voice); compiling a tone card into prompt rules (cited, not
+measured); watermark and disclosure rules for saved audio (vendor and
+regulatory claims, unread at primary). The warm-worker rule was already in
+`portable-provider-package`; it gained a measured cost in the new
+application instead of a second copy.
+
+Impact: once the map is regenerated, 4 judged voice-io verdicts in personas
+and 3 in kp go stale (dry run; consumer maps not written by this pass).
+

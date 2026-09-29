@@ -80,8 +80,13 @@ constraints:
   boundary rules (abbreviations, decimals, ordinal dots, open quotes), the
   minimum and maximum segment sizes, and the first-segment clause exception
   are owned by [speech-ready-text](./speech-ready-text.md), and the maximum is
-  a capability the engine declares — a CPU engine renders at roughly half
-  real time, so a paragraph-sized segment on it is tens of seconds of silence;
+  a capability the engine declares **per device**, derived from its measured
+  real-time factor there — on one processor, engines differ by two orders of
+  magnitude, from several times faster than real time to more than ten times
+  slower, so a paragraph-sized segment is a fraction of a second on one and
+  tens of seconds of silence on another, and no single "processor engines run
+  at about X" figure survives measurement (the numbers and where to take them
+  are owned by [real-time-synthesis-budget](./real-time-synthesis-budget.md));
 - segments inherit the utterance's identity plus a sequence number, and play
   strictly in order; a failed middle segment stops the utterance with an
   honest failure rather than skipping a sentence silently (a narration with

@@ -21,6 +21,7 @@ techniques:
   - caller-scoped-voice-binding
   - render-acceptance
   - engine-choice-on-decisive-terms
+  - real-time-synthesis-budget
 ---
 
 # Voice input and output
@@ -105,6 +106,23 @@ without contradiction. The decision framework, the degradation ladder, and
 the boundary with model provisioning (the download/install mechanics belong
 to the sidecar-provisioning subject) live in
 [on-device-vs-cloud](./techniques/on-device-vs-cloud.md).
+
+## A live voice must keep up, on the machine that runs it
+
+Placement says where an engine runs; it does not say whether the engine can
+serve a conversation there. Synthesis does two jobs with opposite time
+physics — **making** a voice or a clip, once and off the turn, and
+**speaking**, every turn — and the engines split along that line. An engine
+is admitted to live replies on a real-time factor and a time to first audio
+(with its kind: streamed or whole-sentence) measured on the tier that will run
+it, never on a vendor's figure from a serving stack the product does not ship.
+One that clears the quality bar and not the speed bar belongs in the content
+pipeline, and a capability that no candidate can carry live on the common
+machine is deferred behind the engine contract rather than shipped into the
+turn loop.
+[real-time-synthesis-budget](./techniques/real-time-synthesis-budget.md) owns
+the numbers, the tiers, the silent acceleration fallback, the per-utterance
+process cost, the user-timed device choice and the deferral.
 
 ## Degradation is a designed state, never a blocked one
 
@@ -434,3 +452,10 @@ failure is the one outcome the terminal state set cannot express.
   honest failure, the bounded-internal-silence signature and why leading and
   trailing silence do not count, tuning the threshold against the legitimate
   signal, and bounded seed-derived retry that keeps a request reproducible.
+- [real-time-synthesis-budget](./techniques/real-time-synthesis-budget.md) —
+  whether a synthesis engine can serve a conversation: making a voice versus
+  speaking in it, real-time factor and first audio with its kind, measuring on
+  the tier that will run it, vendor figures as claims about another stack, the
+  acceleration path that falls back silently, the process boundary as part of
+  the rate, one tier that needs nothing, letting the user time a device choice,
+  and deferring what the common tier cannot carry.

@@ -6,7 +6,7 @@ technique: authored-voice-identity
 status: forged
 laws: [identity-survives-reuse, derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
-use_when: [an engine offers to build a voice from a description or a sample instead of a catalog, storing a user's custom voice so it survives an engine upgrade, deciding whether a voice control needs a consent record, a custom voice sounds different every time it is regenerated, a voice ships as an opaque precomputed artifact rather than as audio or prose, a product must not be able to clone a voice at all]
+use_when: [an engine offers to build a voice from a description or a sample instead of a catalog, the engine that authors a voice is too slow to speak it live, storing a user's custom voice so it survives an engine upgrade, deciding whether a voice control needs a consent record, a custom voice sounds different every time it is regenerated, a voice ships as an opaque precomputed artifact rather than as audio or prose, a product must not be able to clone a voice at all]
 ---
 
 # Authored voice identity
@@ -229,6 +229,32 @@ carry the voice across — the stored specification has no meaning on the
 receiving adapter. Either the chain is restricted to engines sharing the kind,
 or the degradation is a **cast** decision surfaced to the user, never a
 silent substitution.
+
+There is a third route, and it matters because the engines that author voices
+well are often too slow to speak live
+([real-time-synthesis-budget](./real-time-synthesis-budget.md)): **convert the
+kind once, deliberately.** Render the described voice to a reference sample on
+the engine that authored it, and enrol that sample on a faster engine that
+accepts samples. The voice then crosses the chain as a sample, and every
+engine that clones can speak it. Measured once, by proxy only: a voice
+designed from a one-sentence description, rendered to a clip and cloned by a
+faster engine, kept a speaker similarity of 0.73 (on a graphics card) and 0.79
+(on the processor) to that clip — a voice made once from words survived the
+handover. Three rules come with the conversion:
+
+- **It is a cast decision made once, not a fallback made per request.** The
+  rendered sample is chosen by a listener, like any take, and from then on the
+  voice is **pinned to that sample**: the sample joins the description as the
+  system of record, and re-rendering the description later is a re-cast.
+- **Record which kind it came from.** The sample depicts nobody, so it needs no
+  likeness consent — but a catalog that shows it as a plain cloned voice
+  invites a reviewer to ask whose voice it is and finds no receipt. The record
+  says *sample derived from a description*, with the description and the
+  authoring engine beside it.
+- **Hear the handover before trusting it.** A similarity score says the clone
+  resembles the sample; it does not say the faster engine kept what made the
+  described voice worth choosing. One listening pass over the same line from
+  both engines is the acceptance evidence.
 
 ## What this technique does not claim
 
