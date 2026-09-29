@@ -50,12 +50,27 @@ expire, and cannot say who is on the hook. The record needs four things:
    the advertisement can state a range honestly rather than inventing one. The
    substance of pay ranges and market honesty belongs to a sibling; what
    belongs here is only that the number is attached to the *approval*, so that
-   nobody has to guess it later.
+   nobody has to guess it later. It matters that it is attached *early*, because
+   the step a disclosure law names is not always the external advertisement:
+   Colorado's rules for its pay-equity act require compensation in the notice to
+   current employees of a promotion opportunity, and let that duty arise before
+   any external posting; the EU pay-transparency directive (Art. 5) requires the
+   initial pay or range before the interview; other regimes name the posting. A
+   band that lives on the approval can be read at whichever step it is owed
+   (the sibling that owns the rules,
+   [stated-pay-and-place-test](../../inclusive-job-advertising/techniques/stated-pay-and-place-test.md),
+   has the regimes; the Colorado rule numbers, 2.7 and 4.1 of 7 CCR 1103-13 as adopted in
+   2023, were read by a research lane, not re-read here).
 4. **An expiry.** An approval granted for a quarter is not an approval granted
    for ever. Plans change, budgets are re-cut, the person who approved it
    leaves. An expiring approval turns a stale role into a decision someone must
    consciously renew, which is a second, quieter force pushing dead
-   requisitions towards closure.
+   requisitions towards closure. This one is a **design position, not a
+   documented practice**: the approval documentation read for this pass, from the
+   largest products, describes chains, statuses and triggers and says nothing on
+   expiry or timeout, and no measurement of whether expiry shortens the life of
+   dead requisitions was found. The argument is the mechanism above, and it is
+   cheap enough to adopt on that basis alone.
 
 ## The procedure
 
@@ -88,7 +103,12 @@ expire, and cannot say who is on the hook. The record needs four things:
   convenience that produces unfunded expansion.
 - **When a role is re-opened after closing, re-run the approval.** The seat may
   have been reabsorbed; the reopened role is a new span and needs a new
-  commitment.
+  commitment. Products split on this (one forbids reopening a closed requisition
+  and makes a new one, one reopens through draft and a fresh approval, one resumes
+  a suspension without a second round), which is coherent with the snapshot rule
+  above: **resuming a hold whose level, location and band have not changed needs
+  no new approval, and reopening a close that has stood does.** The distinction is
+  whether the commitment ever lapsed.
 - **When approval is pending, say so on the role rather than rendering it as
   live-but-broken.** Pending is a legible state to its owner and an invisible
   one to everyone else.

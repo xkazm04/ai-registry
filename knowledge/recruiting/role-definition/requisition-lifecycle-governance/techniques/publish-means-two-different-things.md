@@ -30,6 +30,16 @@ to the person pressing the button:
 | Commits you publicly | no | yes — the stated range, the location, the requirements |
 | Right approver | the role's owner | whoever owns spend and external voice |
 
+The split is not an invention of this standard: the products read for this pass
+(three of them from their own documentation) keep the requisition and its
+postings as separate objects, with a posting shown on an internal board, an
+external one, or both. Two consequences the two-column table hides. First, there
+is a **third value, unlisted**: a posting reachable by anyone holding its link
+and shown on no board, which is neither internal nor market and is the one most
+often reached by accident. Second, **a posting's state is independent of the
+requisition's**, so a role frozen, filled or closed keeps whatever posting it had
+until something takes it down.
+
 A single control that performs both will perform the wrong one for roughly half
 of the people who press it, and both halves of the error are costly. Someone
 who wanted the team to review a draft has bought external advertising for an
@@ -56,6 +66,14 @@ specification can do —
    only matter once strangers read it: the advertisement's language and its
    minimum substance (a sibling owns the lint), the honesty of the stated
    range, jurisdictional disclosure obligations (another sibling owns those).
+   **Do not assume the disclosure duties all sit on the second step.** A
+   disclosure law attaches to the act it names: an internal promotion notice in
+   Colorado must carry compensation, Washington requires the range for an
+   employee offered a transfer or promotion on request, and Ontario's
+   job-posting rules exempt a posting restricted to existing employees. A gate
+   that assumes internal is free of obligations is wrong in the first two, and
+   one that assumes it is bound is wrong in the third. Keep the duty on the
+   record (the band, the vacancy status) so each step can ask for what it owes.
 4. **Make each destination its own recorded act.** Distribution is rarely one
    thing; it is a set of channels with different costs and different removal
    latencies. Record which channels a role went to and when, because taking it
@@ -77,7 +95,14 @@ specification can do —
 - **When a role closes, withdrawal is part of closing**, and it is best-effort
   by nature: your own surfaces come down immediately, third-party mirrors come
   down eventually or never. Say which is which rather than implying the
-  advertisement is gone.
+  advertisement is gone. The same holds on entering a hold, and there the
+  omission is worse, because the requisition stays alive: a frozen role whose
+  posting stays up keeps taking applications for a seat nobody can offer.
+- **When one status value gates an audience wider than the label admits, the
+  label is wrong.** A go-live control named for its internal effect (sourcing
+  candidates into a pipeline) that also opens a public apply link has performed
+  the second verb under the first one's name. Name the control for its widest
+  effect, or split the status.
 - **When internal and external audiences need different text**, that is a
   rendering question, not a second requisition. One record, two renderings; a
   second requisition splits the pipeline and the metrics.
