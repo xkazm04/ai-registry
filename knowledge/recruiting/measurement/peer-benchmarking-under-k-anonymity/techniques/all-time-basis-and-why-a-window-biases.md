@@ -18,12 +18,21 @@ direction, by an amount nobody can see.
 
 ## The bias argument
 
-Filter completed hires to those that completed in the last ninety days. A hire
-that took a hundred and twenty days cannot appear in that set unless it started
-before the window and finished inside it — and as the window tightens, that
-possibility shrinks toward zero. The window is structurally incapable of
-containing its own slow cases. What remains is the fast ones, and the published
-average is their average.
+Filter to processes that *started* in the last ninety days and keep the ones
+that have completed. A hire that took a hundred and twenty days cannot appear in
+that set: it would have to start after the window opened and finish before
+today. The window is structurally incapable of containing its own slow cases,
+and the cap on the longest visible duration tightens with the window. What
+remains is the fast ones, and the published average is their average.
+
+The anchor matters. A window on the **completion** date ("hires closed in the
+last ninety days") does not have this hole, because a closing hire may have
+started a year ago. It answers a different question - how long did the processes
+that ended recently take - and is biased the other way when a backlog of
+long-open roles closes together, and it reports the past regime late. The
+survivorship defect belongs to the start-anchored window over completed rows,
+which is also the shape an ad hoc "created in the last N days" filter takes, so
+name the anchor in the basis.
 
 This is survivorship, not noise. It does not average out with more data; more
 data inside a tight window means more *fast* data. Three consequences follow,
@@ -52,11 +61,13 @@ weakness you can name in one sentence.
 2. **Include only completed processes**, and say so. A process still running has
    no duration yet; including it as its elapsed-so-far understates, and excluding
    it silently is the same survivorship problem in miniature.
-3. **When recency is genuinely required, window by process start, not by
-   completion.** Select processes that *started* in the window, and admit only
-   cohorts old enough that the slow ones have had time to finish — the accrual
-   horizon the small-sample discipline names. A cohort younger than the horizon
-   is preliminary, and is labelled as such rather than published.
+3. **When recency is genuinely required, name the anchor and mature the
+   cohort.** A start-anchored window admits only cohorts old enough that the
+   slow ones have had time to finish — the accrual horizon the small-sample
+   discipline names; a cohort younger than the horizon is preliminary, and is
+   labelled as such rather than published. Where no horizon can be set, a
+   completion-anchored window ("completed in the last N days") has no
+   truncation hole and is honest if its basis says so.
 4. **Re-check the floors on the windowed cohort.** Windowing shrinks both the
    observation count and often the contributor count, and a window is a filter
    like any other.
@@ -120,6 +131,13 @@ size fixes it.
   basis allows, weight by recency explicitly and state the weighting, rather
   than truncating. A weighted mean over all completions has no survivorship
   hole; a window does.
+- When a cross-organisation read carries a **row cap**, newest-first, it is a
+  start-anchored window the reader did not choose: past the cap the "all time"
+  figure covers only the most recent rows and the slow ones drop out. The cap
+  is a safe worst-case bound, but the basis must say when it bit (a `truncated`
+  flag travelling with the figure), the floors must be counted on what was
+  actually read, and a benchmark that is truncated must not keep printing "all
+  time".
 - When the underlying processes have no completion event at all — an
   ever-open pipeline, a role withdrawn rather than filled — those rows are not
   slow, they are censored, and folding them in either direction is

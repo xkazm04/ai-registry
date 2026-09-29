@@ -59,8 +59,10 @@ enforced separately rather than reconciled into one number.
 - **The stability floor** scales with the resolution you intend to display and
   with the metric's own variance. A duration with a long right tail needs more
   observations than a bounded proportion for the same displayed precision.
-  Showing a decimal place raises the floor by roughly an order of magnitude,
-  which is usually the cheapest argument against showing one.
+  Sampling error on a proportion falls with the square root of n, so a tenfold
+  finer displayed step needs roughly a hundredfold the observations to keep the
+  last digit meaningful - which is usually the cheapest argument against
+  showing a decimal place.
 - **The anonymity floor** does not scale with the metric at all — it scales with
   how much a participant already knows. Raise it when the pool is small enough
   that participants can enumerate each other, when the metric is publicly

@@ -34,8 +34,14 @@ futures — a contributor shortfall resolves with adoption, an observation
 shortfall resolves with hiring, and a team that knows which one it faces stops
 waiting for the wrong thing.
 
-And the count is the only figure whose disclosure risk is nil, because it is a
-fact about the pool rather than about anybody's data. Every other candidate for
+And the count is the one figure whose disclosure risk is close to nil, because it
+is a fact about the pool rather than about anybody's data. Its neighbours are not:
+a pool **size** (total observations, rows, volume) is a contributor's figure the
+moment one contributor stands behind it. After self-exclusion a two-organisation
+pool leaves the reader facing a single peer, and "1 of 2 contributing, 137
+entries" tells them exactly how many entries that peer holds. Withhold the size
+on the same condition as the rates - and release it only when the contributor
+floor is met. Every other candidate for
 "something to show instead" — a wider cohort, a partial figure, a range, a
 directional hint — is the withheld statistic wearing a disguise.
 

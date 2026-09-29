@@ -179,10 +179,15 @@ The time basis deserves its own paragraph because the intuitive choice is wrong
 in a specific, one-directional way.
 
 The instinct is to benchmark "the last ninety days" — recent, relevant, comparable.
-But a duration metric computed over a window includes only the processes that
-*finished inside the window*, and slow processes are exactly the ones that do
-not finish. A ninety-day window on time-to-hire is structurally incapable of
-containing a hundred-and-twenty-day hire. The published benchmark is therefore
+But a duration metric over processes that *started inside the window* and are
+counted once *finished* includes only the ones that both began and ended inside
+it, and slow processes are exactly the ones that do not finish. A ninety-day
+start window on time-to-hire is structurally incapable of containing a
+hundred-and-twenty-day hire. (A window on the *completion* date does not have
+this hole: a hire that closes inside the window may have started long before
+it. It has a different, smaller defect - it samples the recent regime, and a
+backlog of long-open roles closing together inflates it - so name which anchor
+a window uses before arguing about its bias.) The published benchmark is therefore
 biased **low**, every time, by an amount that grows with how tight the window is
 — and every team measured against it is comparing their honest all-time figure
 against a number from which the hard roles have been silently removed. Teams
@@ -194,7 +199,9 @@ so a market shift takes a long time to appear — but that weakness is *disclose
 by stating the basis*, and it is symmetric rather than directional. A survivorship
 bias is neither. When a window is genuinely required, window by **process start**
 and admit only cohorts old enough to have completed (the accrual horizon the
-small-sample discipline names), rather than windowing by completion date.
+small-sample discipline names). A start window without that horizon is the
+biased form; a completion window is the honest fallback where no horizon can
+be set, provided its basis says "completed in the window".
 
 ## Benchmarks change behaviour, so pick metrics that cannot be moved without hiring
 
