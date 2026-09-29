@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 397,
-  "applications": 284,
+  "applications": 285,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -8383,9 +8383,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/work-sample-timeboxing-and-cost.md",
-   "digest": "sha256-b2:8a073bc563b1b65b",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:043a27a092f107f0",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "accommodation-and-device-advisory",
@@ -8477,19 +8477,28 @@
      "stack": "node",
      "technique": "clamp-a-proposed-timebox",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/node--clamp-a-proposed-timebox.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "hard-timebox-cap",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/process--hard-timebox-cap.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "react",
      "technique": "draft-durability-and-no-silent-loss",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/react--draft-durability-and-no-silent-loss.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "state-what-is-and-is-not-observed",
+     "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/react--state-what-is-and-is-not-observed.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   }
