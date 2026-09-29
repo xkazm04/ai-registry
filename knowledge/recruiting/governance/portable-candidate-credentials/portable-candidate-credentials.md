@@ -119,7 +119,10 @@ the order matters more than the set.
 and it is not a failure: the ordinary cause is *reissue*. When an assessment is re-scored —
 a rubric correction, a re-run, an appeal upheld — the old credential no longer attests the
 current result, and leaving it live lets the artifact in the candidate's hands silently
-disagree with the record. Revoke and mint afresh. The guard that matters: never revoke
+disagree with the record. Revoke and mint afresh. Know that this is a mapping you chose: in the standard status
+vocabulary revocation is not reversible, a separate *refresh* purpose says a newer credential
+exists without invalidating this one, and no standard defines a superseded status (see the
+specification application), so carry the reason for a reissue as its own field. The guard that matters: never revoke
 into nothing. If the re-evaluation produced no substance, the old credential stays intact —
 withdrawing a genuine artifact with nothing to replace it takes something real from the
 person for the sake of internal tidiness. The same guard binds the *order* of operations, not
@@ -192,8 +195,12 @@ build, but it makes the credential portable the way a reference-check phone numb
 portable: the person carries it anywhere, and the answer still comes from you. Only an
 asymmetric signature over a published key lets a third party check offline, without your
 servers and without your cooperation — including after you cease to exist, which is
-exactly when a candidate most needs the artifact to still mean something. Know which one
-you shipped and say so.
+exactly when a candidate most needs the artifact to still mean something. That holds only if
+the key can be had without you. The common credential formats resolve the public key by
+fetching a URL, so a key served from your domain dies with your domain and the offline claim
+quietly becomes an online one; to survive you, the key must be embedded, pinned by the
+verifier or archived somewhere you do not control (see the specification application). Know
+which one you shipped and say so.
 
 **It cannot** make a claim comparable. A credential issued by the organisation that ran
 the assessment is only as trustworthy as that organisation's rubric, and the receiving
@@ -210,7 +217,13 @@ consent-and-retention discipline owns what is destroyed and what may be kept, an
 subject owns only the consequence: a credential whose backing record is gone must resolve
 to an honest, non-accusatory state rather than continuing to verify against a record that
 no longer exists or failing in a way that implies forgery. Decide that behaviour when you
-design the credential, not when the first erasure request arrives.
+design the credential, not when the first erasure request arrives. The design lever is what
+the artifact itself carries: keep identifying detail in the issuer-side record the credential
+points to, so that erasing the record leaves a shell that identifies no one. The European
+data-protection board's guidance on immutable ledgers reasons the same way (it advises against
+putting personal data on them in clear, encrypted or hashed form) but it is written for
+ledgers, so it supports the direction, not the rule. Whether a holder's own copy falls outside
+the issuer's erasure duty is unsettled in every source read; do not promise it either way.
 
 ## The honest case for issuing one anyway
 
@@ -245,8 +258,10 @@ than verification logic.
   names, rejection reasoning — none of it belongs on an artifact the bearer may hand to a
   rival employer.
 - **A weak share link.** The credential's public address is its only access control, so it
-  must be an unguessable value from a strong random source, distinct from any internal
-  identifier. Reusing a short, ordered, internal record id makes the whole population of
+  must be an unguessable value from a strong random source (at least 120 bits, which a
+  random version-4 UUID meets), distinct from any internal identifier, revocable by the
+  holder, and kept out of referrer headers and logs, which is how a bearer-style address
+  usually leaks. Reusing a short, ordered, internal record id makes the whole population of
   candidates' credentials enumerable by anyone who increments a number.
 - **A verification page that reports back who checked it.** The credential is the
   candidate's; turning it into a beacon that tells you which companies they are talking to

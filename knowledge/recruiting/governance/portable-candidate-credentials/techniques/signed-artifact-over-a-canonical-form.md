@@ -43,7 +43,10 @@ a fractional part; whitespace; how absent differs from empty differs from zero; 
 normalisation and encoding; how nested structures and lists order. The specification
 exists so a second implementation — a verifier you did not write — can reproduce the
 bytes. If only your own serializer can produce them, you have not built a portable
-credential; you have built a checksum.
+credential; you have built a checksum. Name the digest algorithm and any borrowed
+canonicalisation scheme inside the version too: a borrowed scheme is a dependency you do not
+control, and the published ones have already moved under their users (see the specification
+application).
 
 **3. Sign the canonical bytes and store the digest with the form version and the key
 generation beside it.** A signature without its form version is unverifiable the moment a
@@ -81,7 +84,8 @@ resolution released cannot.
 issued under stays implemented, tested and reachable. Retiring one retires the
 verifiability of every credential sealed under it, which converts an honest historical
 record into an unverifiable one — from the outside, indistinguishable from destroying
-evidence.
+evidence. The discipline the published schemes themselves follow when their output changes is
+the same one: a new name, not a silent edit under the old one.
 
 ## Decision rules
 

@@ -59,6 +59,15 @@ adds a key; it never removes one. Removing a retired key converts every credenti
 under it into an unverifiable artifact — and if your failure branch is loud, into a
 crowd of accused people, all at once, on the day of a routine change.
 
+The rule is about *retired* keys, and a retired key is not a *compromised* one. When a key
+has leaked, credentials signed under it can be forged by anyone holding it, so "loadable
+forever" would let a forgery verify as genuine. Record a compromise as its own fact on the
+generation, with the date it is trusted up to, and resolve everything sealed under that
+generation after the cutoff (or, when the cutoff is unknown, everything under it) to
+**unverifiable**, with the same system-side copy and a re-issue path. Still not tampered: what
+the system can no longer stand behind is the key, and the bearer did nothing. The rest of the
+retired generations stay loadable, so one leaked key does not turn the whole catalogue red.
+
 **2b. Give credentials their own dedicated signing key — never the platform's session or
 authentication secret.** This is the single highest-yield structural fix in the technique,
 and it is the mistake almost every implementation makes once. An authentication secret is

@@ -56,9 +56,32 @@ protection goes, and both bear on a hiring product:
   the revoked state can be shown; the privacy work is in how it is fetched, not in whether
   a withdrawn credential is admitted to be withdrawn.
 
+## What the status vocabulary does and does not give a reissue
+
+Re-fetched as raw text and read on 2026-09-29 (a page summary had renamed a property, so the
+quotes below are from the text, not a summary). The list's status purposes include
+**revocation** ("This status is not reversible"), **suspension** (temporary), and **refresh**,
+"Used to signal that an updated verifiable credential is available via the credential's refresh
+service feature. This status does not invalidate" the credential. There is no *superseded*
+purpose. Three consequences for this subject's states:
+
+- **Reissue-as-revoked is a mapping, not a given.** The standard has a status that means "a
+  newer one exists" and leaves the old one valid; a product that revokes on every re-score
+  spends the irreversible one on an ordinary correction. Either use the refresh-shaped signal
+  for a reissue and reserve revocation for a real withdrawal, or keep revocation and carry the
+  reason (reissued, withdrawn) as its own field so the reader is not left to infer it.
+- **Superseded-by-methodology has no standard home.** It is an issuer-side event with no clock
+  and no status purpose of its own; it stays a state this subject resolves itself.
+- **The list-length figure is a default.** §3.2 reads "Let minimumNumberOfEntries be 131,072
+  unless a different lower bound is established by a specific ecosystem specification", so an
+  ecosystem may lower it. A single employer's registry is the small population §6.1 warns
+  about whichever bound applies.
+
 ## What was not evaluated
 
 This is a reading of one specification, not a measurement of any deployment. Nothing here was
 run against a real status list, and the small-population point is the standard's own
 non-normative warning, not a finding of ours. It is not yet corroborated by a second
-independent source, which is why it lives here and not in the golden path as a rule.
+independent source, which is why it lives here and not in the golden path as a rule. The
+IETF token status list draft, a competing design with its own privacy section, was read by a
+research lane and not re-read here; it is banked as a lead.

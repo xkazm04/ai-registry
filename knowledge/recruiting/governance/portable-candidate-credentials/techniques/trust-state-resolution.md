@@ -60,7 +60,11 @@ record reachable (→ unverifiable); does the digest agree (→ tampered); is th
 The three placements that matter. **Revoked first**, because a deliberate issuer statement
 outranks every derived check and a withdrawn credential's other properties are irrelevant.
 The flag that sets it is written only alongside its replacement — see the reissue ordering
-in the canonical-form technique.
+in the canonical-form technique. Revoked-first assumes the withdrawal is read from the
+issuer's own record. Where it is read from a published status list, the list has to be
+authentic and reachable before its answer counts: an unreachable or unauthenticated list is
+**unverifiable**, never "not revoked", so a missing status can never fall through to
+verified.
 **Unverifiable before tampered**, which has its own technique and its own reasons.
 **Substance after integrity**, because an empty payload that also fails its signature is a
 broken artifact, not an empty one.
