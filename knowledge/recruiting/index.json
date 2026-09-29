@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 393,
-  "applications": 254,
+  "applications": 257,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -6042,9 +6042,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/presenting-a-score-to-a-recruiter.md",
-   "digest": "sha256-b2:77791969502d0cfc",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:2f2c709e36632f30",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "absent-score-is-its-own-tier",
@@ -6139,20 +6139,42 @@
     {
      "stack": "node",
      "technique": "one-canonical-score-with-provenance",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/node--one-canonical-score-with-provenance--transfer-score-own-field.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "one-canonical-score-with-provenance",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/node--one-canonical-score-with-provenance.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "knockout-reason-categorised-at-birth",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/process--knockout-reason-categorised-at-birth--blocked-match-as-if-score.md",
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "surface-the-assumptions-behind-the-number",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/process--surface-the-assumptions-behind-the-number.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "react",
      "technique": "component-sum-is-authoritative",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/react--component-sum-is-authoritative.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "score-bands-locked-across-surfaces",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/presenting-a-score-to-a-recruiter/applications/react--score-bands-locked-across-surfaces--two-band-families.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },
