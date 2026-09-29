@@ -38,7 +38,7 @@ logic.
 
 ## What a stage actually is
 
-A stage on a well-modelled board carries five properties, and only the first
+A stage on a well-modelled board carries six properties, and only the first
 belongs to the team alone:
 
 1. **A label** — free text, in the team's language, sized for a column
@@ -86,12 +86,13 @@ configuration is how it becomes invisible.
 
 ## The closed role vocabulary
 
-Five roles carry the entire semantic load of a hiring funnel:
+Seven roles carry the semantic load of a hiring funnel:
 
 | Role | What a candidate here is waiting for | Product meaning |
 | --- | --- | --- |
 | **entry** | Nothing yet — they have arrived | The one place a new applicant lands; the head of the axis |
 | **screening** | A first-pass judgment on their evidence | A filtering step, before anyone has given the candidate a real look |
+| **homework** | A work-sample the system set and will evaluate | Product-run generation and evaluation, before the gate but not a screening step |
 | **scoring** | A produced assessment to be ratified | A distinct thing the system *does* and a human *approves* |
 | **interview** | A conversation with a person | Human evaluation in progress |
 | **offer** | A decision about terms | Approval here *extends* an offer; it does not conclude the hire |
@@ -104,6 +105,18 @@ participates in **ordering and nothing else**. It is never a gate boundary,
 never terminal, never counted as screening, never a place an automated action
 fires. It exists so that a team's real process fits on their board without
 their improvisation leaking into anyone's semantics.
+
+The vocabulary is closed, not frozen, and the test for adding a member is the
+one that made `scoring` a role: the product does distinct work there, someone
+ratifies it, and a candidate genuinely waits. A work-sample step passes all
+three, which is how **homework** earned its place rather than living as a
+`custom` column: the system generates the assignment on entry, sends it and
+evaluates what comes back. It also shows what a new role costs. It sits before
+the screening gate, yet nothing triages evidence there, so "before the gate" and
+"a screening stage" stop being the same set (see
+[screening-gate-index](./techniques/screening-gate-index.md)). Every consumer
+that enumerated roles owes a decision for the new one, which the closed
+vocabulary makes visible at authoring time and an open one would not.
 
 Two design decisions inside that table are worth defending explicitly,
 because both are frequently argued the other way.
@@ -204,7 +217,12 @@ neighbouring discipline's, and it keys its thresholds off the roles defined
 here. The seam is clean: this subject says *what a stage means and which
 role it plays*; the aging-and-attention discipline says *when time spent in
 that role becomes a problem worth surfacing*. If you find yourself putting a
-day count in the role vocabulary, you have crossed the seam.
+day count in the role vocabulary, you have crossed the seam. Two placements
+are on the right side of it: the default cadence per role lives in the aging
+discipline's own table, keyed by role, and a team's own cadence may ride on its
+stage as an optional field that the aging clock reads before the role default.
+The stage says how long the team tolerates; only the aging discipline says what
+that means.
 
 **Conversion bases and denominators.** What counts as an entry into a stage,
 which cohort a rate is computed over, how skips and backward moves are

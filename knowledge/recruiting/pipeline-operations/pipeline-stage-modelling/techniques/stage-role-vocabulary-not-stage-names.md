@@ -24,10 +24,12 @@ team is most confident in their board, having just tidied it
 
 ## The vocabulary
 
-Six values, and the count matters more than the exact names:
+Seven roles and an escape hatch, and the closure matters more than the count:
 
 - **entry** — the arrival point.
 - **screening** — first-pass judgment on submitted evidence.
+- **homework** — a work-sample the product sets, sends and evaluates; it
+  precedes the first real look but triages nothing.
 - **scoring** — a produced assessment awaiting ratification.
 - **interview** — human evaluation in progress.
 - **offer** — terms under decision.
@@ -58,7 +60,12 @@ distinguish a role from a label:
 A step passing all three is a role. A step passing none is a label — give the
 team the label and map it to the nearest role, or to custom. This is the
 reasoning that makes an assessment-production step its own role rather than a
-flag on an interview: work, ratification and a real wait, all three.
+flag on an interview: work, ratification and a real wait, all three. A
+work-sample step passes them too, and one shipped implementation made it a
+role for that reason, with a consequence worth pricing before you copy it:
+the new role sits before the screening gate without being a screening step,
+so every consumer that read "before the gate" as "screening" needed a
+decision, and the ones that enumerated roles got it from the compiler.
 
 ## Applying it: resolve, never match
 

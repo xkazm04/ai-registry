@@ -81,9 +81,14 @@ Three properties follow that are easy to get wrong:
   a screening stage is not clearing anything, which the inclusive comparison
   against a *later* index already gives you.
 - **Derive both sides from the one boundary.** "Which stages are screening
-  stages" — the set where an automated screen may still act — is *everything
-  before the gate*, computed from the same number rather than from an
-  independent role filter. Two independently-computed predicates for one
+  stages" — the set where an automated screen may still act — starts from
+  *everything before the gate*, computed from the same number rather than from
+  an independent role filter. The start is not always the answer: a
+  pre-gate stage whose work is not triage (a work-sample the product sets and
+  evaluates) must be subtracted by role, or an automated screen there advances
+  a candidate past an assignment the column exists to give them. Subtract
+  from the boundary set; do not rebuild the set from roles, and keep the
+  past-the-gate predicate purely ordinal. Two independently-computed predicates for one
   boundary will drift, and the drift is silent: a stage that counts as
   screening for the automation and as post-screening for the metric produces
   candidates the system both filters and reports as having cleared the
@@ -146,6 +151,12 @@ Three consumers, each with an obligation:
 - When a custom-role stage sits among screening stages, it does not move the
   gate. The escape hatch never defines a boundary; if a team's custom step
   really is their filter, the fix is to give it the screening role.
+- When the permission table takes a stage, it takes the axis too. A table
+  keyed by role but called with a bare stage id resolves against the shipped
+  axis, and on a board with a step the shipped axis lacks, the screen quietly
+  becomes advisory: nothing moves and nothing errors. One shipped
+  implementation had every helper axis-aware except this one, and the entry
+  branch still compared a literal name.
 - When a metric derived from the gate is presented, name the gate it used —
   "past this board's screening stage" is legible; a bare percentage invites
   the reader to supply their own definition.

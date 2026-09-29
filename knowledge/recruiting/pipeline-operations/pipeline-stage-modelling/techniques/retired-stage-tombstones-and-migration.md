@@ -35,7 +35,11 @@ The removal flow, in order, with the refusal points:
    nobody made, attributed to nobody.
 4. **Re-check at commit.** The board and its occupants may have moved while
    the human was choosing. A removal that validated against a stale count
-   deletes a stage someone just used.
+   deletes a stage someone just used. The same goes for the axis itself: a
+   mapping composed against a board someone else has since reshaped may name
+   stages that no longer exist, so the request carries the axis version the
+   human read, and a mismatch refuses before anyone moves. Check it once up
+   front and again at the write, under the store's lock.
 5. **Only then rewrite the axis**, and only as a retirement, never an
    erasure.
 
