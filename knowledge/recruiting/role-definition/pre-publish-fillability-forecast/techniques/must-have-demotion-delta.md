@@ -49,13 +49,24 @@ skill requirements are free.
   worth chasing before any number is shown, because it means the requisition's
   own vocabulary does not describe what the engine does
   ([meaning does not live in a label](../../../_laws.md#meaning-does-not-live-in-a-label)).
-- **Deltas are independent, not cumulative.** As with gates: two demotions may
-  surface the same people. Never present a running total.
-- **A zero delta usually means the threshold, not the skill.** If demoting
-  anything changes nothing, the pool is failing on distance, not on one
-  requirement — the honest report is "no single demotion reaches the threshold;
-  the pool is not close", which sends the recruiter to sourcing rather than to
-  the requisition. That verdict is more valuable than six zero rows.
+- **Deltas are independent, not cumulative.** Unlike gates, skills can go
+  either way: two demotions may surface the same people (the sum overstates),
+  or each may move a candidate a few points and only both together cross the
+  bar (the sum understates). Never present a running total.
+- **A zero delta usually means the threshold, not the skill, but try the pairs
+  before saying so.** If demoting anything changes nothing, the pool is
+  failing on distance, not on one requirement — but distance is measured in
+  points, and a candidate several must-haves short can sit under the bar by
+  more than any one demotion buys while a pair clears it. So when *every*
+  single delta is zero, run the pairs of must-haves that some eligible
+  candidate lacks (bound the skill count; the pairs are quadratic), and report
+  the ones that move anyone, best first, as pairs. Only when no pair moves
+  anyone is the honest report "no single demotion, and no pair, reaches the
+  threshold; the pool is not close", which sends the recruiter to sourcing
+  rather than to the requisition. That verdict is more valuable than six zero
+  rows, and it is only earned after the pairs. Do not use "demote everything" as
+  a shortcut bound: demoting a must-have a candidate *holds* lowers their score,
+  so the all-demoted pool is not an upper bound on any subset.
 - **Pair the delta with the raw prevalence of the gap.** Alongside "+N would
   now be recommended", report how many *eligible* candidates are missing that
   skill at all. The two numbers answer different questions — the delta says

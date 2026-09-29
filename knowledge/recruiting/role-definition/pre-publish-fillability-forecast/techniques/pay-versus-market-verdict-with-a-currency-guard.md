@@ -6,7 +6,7 @@ technique: pay-versus-market-verdict-with-a-currency-guard
 status: forged
 laws: [absence-of-evidence-is-not-evidence, a-claim-carries-its-sample-and-its-basis, say-only-what-the-record-holds]
 shared_with: []
-use_when: [telling a recruiter their range is below market before the role publishes, a role and its market band are denominated differently, deciding the default state of a below-market flag]
+use_when: [telling a recruiter their range is below market before the role publishes, a role and its market band are denominated differently, deciding the default state of a below-market flag, an ad that states no pay or no level reaches the verdict]
 ---
 
 # Pay versus market, with a currency guard
@@ -85,6 +85,23 @@ Rules that follow:
    annual, a gross-versus-net difference, a different geography or seniority —
    triggers the same silence. Currency is merely the case that shows up first
    and is easiest to detect.
+7. **The role's own side can be the phantom.** A band the ad never stated,
+   stamped on the record by a normaliser so downstream code has a value to read,
+   is not the role's pay. Compared with the market band it is the market band:
+   top-versus-floor against itself can never read "below", and the verdict
+   comes out as a clean "not below market" for an ad that named no figure —
+   the reassuring boolean of rule 1 arriving through the data instead of the
+   type. The same holds for a *level* the ad never stated: a stated range is
+   then judged against the band of an assumed level, and a mid-level default
+   turns an honest junior range into a "below market" flag, or a senior one
+   into a pass. Whichever input of the comparison was defaulted, the verdict is
+   silent, the reason is named (the ad states no pay; the level is assumed),
+   and a stamped band is never shown as the role's range. The record must
+   therefore say which fields were defaulted, as it must for the gates
+   (`counterfactual-gate-loosening`), and a second consumer of the same record
+   that already honours the flag — a candidate-side comparison of an
+   expectation with the posted range, say — is the tell that the verdict path
+   forgot it.
 
 ## Presentation and the missing apply button
 

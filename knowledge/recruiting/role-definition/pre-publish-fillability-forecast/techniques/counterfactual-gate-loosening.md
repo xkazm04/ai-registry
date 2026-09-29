@@ -37,6 +37,10 @@ keep that attribution honest.
 4. **Re-run the same filter** on the same pool snapshot and record the new
    eligible count.
 5. **Emit the delta** with its lever, its population and its base.
+6. **Run the joint pass** when two or more gates were levered: the same
+   requisition with *every* levered gate removed, one more pass over the same
+   pool. Report it only if it restores more people than the single deltas add
+   up to (see *Masked gates* below).
 
 ## Decision rules
 
@@ -44,13 +48,21 @@ keep that attribution honest.
   nobody asked and destroy attribution. If a recruiter wants to know the effect
   of two relaxations together, that is a second forecast run on a revised
   draft, not a row in this table.
-- **Deltas never sum.** Two gates can exclude overlapping people, so the
-  arithmetic sum of independent deltas exceeds the effect of removing both. The
-  presentation must make each row read as an independent scenario against the
-  same baseline — never a cumulative column, never a total.
-- **A zero delta is a finding, not a blank.** A gate with no effect on the pool
-  is a gate that costs nothing *here*, which is useful: it is either genuinely
-  cheap or the pool has no one near that boundary. Render it; do not filter it
+- **Deltas never sum, and the sum is the smaller number.** A delta counts the
+  people its gate blocks *alone*; anyone who fails two gates is in neither
+  delta, so removing both restores the two deltas plus the people they share.
+  For hard gates the sum of single deltas is at most the joint effect, never
+  more — the reverse of the intuition that overlap inflates a sum. (Overlap
+  does inflate the *marginal* count of who each gate fails, which is a different
+  number and not what this lever reports.) The presentation must make each row
+  read as an independent scenario against the same baseline — never a
+  cumulative column, never a total.
+- **A zero delta is a finding, not a blank, and not proof the gate is free.** A
+  zero means one of four things: nobody in the pool fails the gate; everyone who
+  fails it also fails another gate (it is *masked*); the gate is vacuous (a
+  value the normaliser stamped, see the last rule below); or the pool is empty
+  for other reasons. Only the first is "costs nothing here". The joint pass
+  separates the second from the rest. Render the row; do not filter it
   out. Filtering zeros hides the case where every gate scores zero because the
   pool is empty for unrelated reasons.
 - **Unknown inputs do not fail the gate.** Whatever mercy the production filter
@@ -72,6 +84,37 @@ keep that attribution honest.
   to loosen one recommends editing a line nobody wrote. This requires the
   requisition to carry a record of which of its fields were defaulted — without
   that record the distinction is unavailable and the bug is undetectable.
+
+## Masked gates
+
+Take a pool in which every excluded candidate fails both the language gate and
+the education floor. Each single-gate delta is zero, the lever table is empty,
+and the requisition admits nobody: the instrument is silent on exactly the pool
+the two gates jointly empty. It is the general case of the deltas-do-not-sum
+rule, and the same reason the sum understates the joint effect makes an
+all-zero table possible.
+
+The remedy stays inside the single-lever discipline. One extra pass with every
+levered gate removed gives the joint restoration; when it exceeds the sum of
+the single deltas the forecast adds a row that says so — "these gates together
+block N people no single gate accounts for" — and names the gates, not a
+culprit. It is not folded into the per-gate rows and it is not a suggestion: the
+recruiter learns the answer is a pair, and the argument with the hiring manager
+is which one. Searching for the smallest pair or subset is the optimisation this
+subject refuses; a small gate count makes the pair search cheap if a later run
+wants it, and the one-pass alternative below avoids re-running anything.
+
+Where the filter reports *every* gate a candidate fails (a list of structured
+reasons, not the first failure), the pool can also be read in a single pass:
+each candidate's failed-gate set gives the sole-blocker count for a gate (sets
+equal to that gate) and the restoration for any subset of gates (sets contained
+in it), with no re-run. That is only valid for a filter whose gates are
+evaluated independently and none short-circuits; a filter that stops at the
+first failure cannot be read this way, and the re-run remains the method that
+does not depend on the filter's internals. One-at-a-time removal missing joint
+effects is the known limit of the method, not a defect of one implementation
+(Saltelli & Annoni, "How to avoid a perfunctory sensitivity analysis", 2010, on
+one-at-a-time designs not detecting interactions between factors).
 
 ## Non-negotiable gates are diagnosed, never suggested away
 
