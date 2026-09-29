@@ -108,6 +108,14 @@ react@19), and every line citation was moved. One stale claim was corrected: the
 gate now covers every rate, not only source and channel rows. One application was added:
 node, every-band, the stated null order. The career-ops application was not re-opened.
 
+### 2026-09-29 - `/deepen`, idled (dp-hmp-0929b)
+
+The Curator lane dispatched this again at `3005edda`, on the same finding as the first
+pass. That finding is stale: this note answers it. No clock has expired, there is no
+consumer event, and neither banked lead's return condition is met. The one
+`check-currency` row is the career-ops application's `node@18`. That is the package's
+engines floor, and the replay already ran on Node 24.14.0. Nothing was researched or landed.
+
 ## Impact
 
 - **kp:** 1 context joined (`analytics-computation`), probable, state unknown; 0 stale

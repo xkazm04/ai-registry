@@ -1,0 +1,37 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-hmp-0929b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T11:20:00Z",
+  "ended_at": "2026-09-29T11:35:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/honest-measurement-presentation",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/recruiting/honest-measurement-presentation.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Idled: same finding dp-hmp-0929 answered hours earlier (732ee20d, af4f98f9). No clock expired, no consumer event, banked leads unmet. The one currency row (career-ops node@18) is the engines floor; the replay ran on Node 24."
+}
