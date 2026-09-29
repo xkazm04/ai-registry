@@ -1,0 +1,70 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ram-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T14:50:00Z",
+  "ended_at": "2026-09-29T15:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/recruiter-anchored-model-evaluation",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiter-anchored-model-evaluation",
+      "technique": "separate-quality-from-reliability",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/techniques/decision-anchored-score-bands.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/techniques/never-judge-a-fallback-as-the-models-work.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/techniques/separate-quality-from-reliability.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/node--evidence-grounded-correctness.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--decision-anchored-score-bands.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--never-judge-a-fallback-as-the-models-work.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--separate-quality-from-reliability.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--task-definition-matches-the-real-deliverable.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--unverifiable-is-not-fabricated.md",
+    "librarian/subjects/recruiting/recruiter-anchored-model-evaluation.md",
+    "librarian/applied.md"
+  ],
+  "commits": [
+    {
+      "sha": "ebd5d325",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation"
+    },
+    {
+      "sha": "25a051f7",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/index.json",
+        "catalog.json",
+        "rules/ai-registry-recruiting.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Applications re-read against kp b2c19295b. The judge-independence claim no longer holds: 2 of 4 graded columns share the judge engine, 8 of 11 picks. Floor 0.9 vs 0.75 flips 1 pick. Two techniques got first applications; conditions added, none refuted. No re-judge (spend)."
+}

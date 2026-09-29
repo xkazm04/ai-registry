@@ -43,4 +43,6 @@ First touch by `/deepen`, dispatched by the Curator lane on the finding "never s
 **Not evaluated:** the 88-check self-test at upstream `main`; whether the same-family judge lifts the two Claude columns (no cross-family judge run exists); the judge's repeat variance; practitioner agreement (no labelled set). Return condition for the last three: a bench re-bake, or kp adding a second judge.
 
 ## Impact
-Filled from the regenerated map below.
+Map built from origin/main after the knowledge commit (ebd5d325): one project joins this subject, kp (6 contexts, `pair state: unknown`, never judged), so 0 stale verdicts and nothing for `/conform --stale`; no other project joins it. kp's map committed locally as a99531095, not pushed (kp main carries unpushed sibling commits). The run rewrote the other eleven projects' maps as well; they were already modified by earlier uncommitted regenerations and were left as they are, not committed and not reverted.
+
+Four `applied.md` rows owed and written: one experiment (`unmeasurable`) and three `unapplied` with return conditions. The independence finding is the one to act on first: a cross-family re-judge of the committed grid is a spend decision, so it is left to the operator.
