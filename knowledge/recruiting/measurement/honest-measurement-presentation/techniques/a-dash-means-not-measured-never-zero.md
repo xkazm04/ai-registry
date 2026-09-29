@@ -33,11 +33,28 @@ differently and read differently. The discipline that decides which state a
 figure is in is the metric layer's; **showing** the state beside the value is
 this surface's job, and it is the whole job.
 
-**2. One glyph, one meaning, everywhere.** Pick the not-measured glyph once —
-an em dash is conventional — and use it in tiles, tables, charts, tooltips,
-exports and digests. Two glyphs for the same state, or one glyph doing double
+**2. One mark, one meaning, everywhere, and the meaning written down.** Pick
+the not-measured mark once and use it in tiles, tables, charts, tooltips,
+exports and digests. Two marks for the same state, or one mark doing double
 duty for *unmeasured* and *not applicable*, defeats the technique: the reader
 learns the vocabulary from the surface and must be able to trust it.
+
+The dash is not a convention readers bring with them, and official tables use
+it for the opposite fact. In Czech Statistical Office tables a dash in place of
+a number means the event did not occur, and a dot means the figure is not
+available. German official tables gloss the dash as "nothing there, exactly
+zero". Eurostat prints it for *not applicable*, and Statistics Canada used an
+em dash for nil until it replaced it with 0. A reader trained on those tables
+reads a bare dash as a zero, which is the error this technique exists to
+prevent. So the surface cannot lean on the glyph. It states the mark's meaning
+in words: a legend or a note on the surface, a reason where there is room
+(step 5), and an accessible name on the cell. The accessible name is not
+optional. Common screen readers read straight through an em dash or only
+pause on it, so a bare dash tells a screen-reader user nothing. The UK Government Analysis
+Function stopped recommending symbols in tables for that reason; it uses
+bracketed codes ([x] unavailable, [z] not applicable, [c] confidential) and
+keeps 0 for a true zero. Where a cell has room for a word ("not measured",
+"neměřeno"), the word beats any mark.
 
 **3. Zero renders as zero.** The mirror failure is equally dishonest.
 Rendering a measured zero as a dash hides a real finding: a stage that truly
@@ -45,10 +62,15 @@ converted nobody this month is information, and a source that truly produced
 no hires after being properly attributed is a decision-grade fact. Preserving
 the distinction in both directions is the point.
 
-**4. A zero denominator produces a dash, not a zero and not an error.** No
-candidates entered the stage, so there is no rate. Not 0%, which asserts total
-failure. Not infinity or `NaN`, which leak the arithmetic. Guard the ratio at
-the point of computation and emit the not-measured state.
+**4. A zero denominator produces *not applicable*, not a zero and not an
+error.** No candidates entered the stage, so there is no rate. Not 0%, which
+asserts total failure. Not infinity or `NaN`, which leak the arithmetic. And
+not the not-measured mark either: nothing went unmeasured, the rate does not
+exist. Statistics offices keep the two apart (a dot and a cross in Czech
+tables, a colon and a dash at Eurostat, [x] and [z] in the UK), because "we do
+not track this" and "there was nothing to divide" send the reader to different
+fixes. Guard the ratio at the point of computation and emit the
+not-applicable state.
 
 **5. Give the dash a reason wherever there is room.** A tooltip, a caption, a
 row note: "no transitions recorded in this window", "attribution not
@@ -109,6 +131,16 @@ its layout space so the grid does not reflow; **drop the group entirely** where
 nothing in it is measured. What is never acceptable is a shape rendered with a
 missing value inside it — an empty legend, a scale with no range, a chip with
 nothing to compare.
+
+**The ladder is for whole elements, never for points inside a chart.**
+Removing a missing point from a series, or imputing one, is the hide rule
+applied at the wrong grain. In a controlled study, removing missing values
+lowered perceived data quality and confidence, and produced wrong answers where
+the gap broke the chart's visual continuity; highlighting the missing values
+was rated higher than downplaying or removing them (Song & Szafir 2018).
+Inside a chart, mark the gap: a break in the line, a hollow point, a neutral
+fill for a region with no figure. A missing value never takes a position on a
+colour scale, because a mid-scale default reads as an ordinary value.
 
 **A withheld figure is not an absent one.** Where a figure exists but a sample
 policy says it must not be published as a headline, do not null it on its way

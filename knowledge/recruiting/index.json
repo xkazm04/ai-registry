@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 393,
-  "applications": 251,
+  "applications": 252,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3994,9 +3994,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/honest-measurement-presentation/honest-measurement-presentation.md",
-   "digest": "sha256-b2:454f406cb14f16df",
-   "revision": 2,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:0882b3d1e1490739",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "a-capped-table-says-what-it-dropped",
@@ -4094,7 +4094,15 @@
      "stack": "node",
      "technique": "absent-delta-when-there-is-no-comparison",
      "file": "knowledge/recruiting/measurement/honest-measurement-presentation/applications/node--absent-delta-when-there-is-no-comparison.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "every-band-declares-its-no-data-answer",
+     "file": "knowledge/recruiting/measurement/honest-measurement-presentation/applications/node--every-band-declares-its-no-data-answer.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -4107,13 +4115,15 @@
      "stack": "react",
      "technique": "a-dash-means-not-measured-never-zero",
      "file": "knowledge/recruiting/measurement/honest-measurement-presentation/applications/react--a-dash-means-not-measured-never-zero.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
      "technique": "no-verdict-colour-without-a-goal-someone-set",
      "file": "knowledge/recruiting/measurement/honest-measurement-presentation/applications/react--no-verdict-colour-without-a-goal-someone-set.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },

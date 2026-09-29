@@ -52,6 +52,14 @@ candidates" is one sentence carrying its own basis
 Splitting it into a bold "31%" and a small "n=96" puts the load-bearing half
 in the half that does not get read.
 
+The evidence runs both ways, and it fixes where the qualifier goes rather than
+whether it works. A misleading headline shapes memory, inference and intended
+behaviour even when the text beneath it is accurate (Ecker et al. 2014). But
+uncertainty stated as a range inside the figure's own statement was noticed,
+and cost only a small drop in trust in the number and little in the source
+(van der Bles et al. 2020). A qualifier in the sentence is read. The same
+qualifier in a footnote is the one this technique cannot count on.
+
 **4. When the answer is a refusal, the refusal *is* the headline.** This is the
 strongest form of the technique and the one teams resist hardest, because a
 panel whose lead story is "not enough outcomes yet to draw this" looks like a

@@ -145,13 +145,17 @@ Somebody reallocates budget, or files a compliance answer, on a number that
 was never taken — the local reading of
 [absence of evidence is not evidence](../../_laws.md#absence-of-evidence-is-not-evidence).
 
-So the dash is reserved, exclusively, for *not measured*, and every surface in
-the product uses the same glyph for it. Zero renders as zero. A ratio whose
-denominator is zero renders as a dash, not as 0% and never as an infinity or
-a NaN leaking through a formatter. And the dash carries a reason wherever
-there is room for one, because "—" alone generates a support conversation that
-"no transitions recorded in this window" would have prevented. See
-a-dash-means-not-measured-never-zero.
+So one mark is reserved, exclusively, for *not measured*, and every surface in
+the product uses the same one. Zero renders as zero. A ratio whose
+denominator is zero is *not applicable*, a different state with its own mark:
+not 0%, never an infinity or a NaN leaking through a formatter, and not the
+not-measured mark either, because nothing went unmeasured. And the mark
+carries its meaning in words wherever there is room, because the glyph does
+not carry it. In Czech and German official tables a dash means the event did
+not occur, exactly zero, so a bare dash reads to those readers as the zero it
+was meant to rule out. A screen reader reads straight through it. The legend,
+the reason ("no transitions recorded in this window") and the accessible name
+are what make the mark honest. See a-dash-means-not-measured-never-zero.
 
 The same instinct governs a figure the product simply does not have. Where a
 panel expects an external or benchmark figure and none is available, **hide
@@ -189,7 +193,10 @@ claim with a footnote. The reader's attention is not evenly distributed across
 those, and it never has been: the headline is read, the qualifier is read
 sometimes.
 
-That asymmetry means a qualifier cannot rescue a headline. "Offer acceptance
+That asymmetry means a qualifier cannot rescue a headline from below it. A
+qualifier inside the sentence is another matter: a range stated in the
+figure's own statement is noticed and costs little trust, so the base belongs
+in the headline, not under it. "Offer acceptance
 is down sharply" over a footnote reading "based on 3 offers" is a false
 statement with a true note attached, and it is read as a false statement.
 The rule is that **the headline is written at the confidence the weakest input
@@ -343,9 +350,10 @@ argues with it.
 Pulled together: every figure carries its state, and the state is visible
 beside the value rather than encoded in it. Colour appears only where somebody
 set a goal, and where nobody has, the surface says so plainly and offers the
-editor. Dashes mean unmeasured, zeroes mean zero, and one glyph does each job
-everywhere in the product. Bands name their no-data tier and the legend shows
-it. Headlines are written at the strength of their weakest input, and
+editor. One mark means unmeasured, another means not applicable, zeroes mean
+zero, each does its job everywhere in the product, and the legend and the
+accessible name say which is which. Bands name their no-data tier and the
+legend shows it. Headlines are written at the strength of their weakest input, and
 qualifiers explain instead of retracting. Capped tables state their cap and
 account for the remainder. Delta chips appear only where a comparable prior
 period exists, and they take colour only where direction has a declared

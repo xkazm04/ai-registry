@@ -53,7 +53,9 @@ does not tell the reader whether they are missing two rows or two hundred.
 sources)" — carrying the summed value, so the rows sum to the total by eye.
 Where the remainder cannot be aggregated meaningfully (a median cannot be
 summed), say so in the caption instead of faking a row: "26 further sources
-not shown".
+not shown". The remainder row sits last whatever its size, even when it is the
+largest; the ONS orders an "other" category last in its charts. Sorted into the
+ranking, it reads as one more source.
 
 **3. State the ordering the cap was applied on.** "Top by hires" and "top by
 applications" produce different tables from the same data, and a reader who

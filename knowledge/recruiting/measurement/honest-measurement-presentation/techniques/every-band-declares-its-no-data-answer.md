@@ -64,6 +64,14 @@ including after a measured worst — and are visibly a separate group, so
 position is not read as performance. They never interleave by a substituted
 number.
 
+State that position; never inherit it from the database. Engines disagree:
+some rank a missing value above every real one by default and some below, so
+the same descending query puts unmeasured rows at the top on one engine and at
+the bottom on another, and a port between them silently re-ranks the table.
+Write `NULLS LAST`, or its equivalent, wherever a nullable key is sorted. It
+matters most where the sort feeds a cap, because there the engine decides which
+rows are read at all.
+
 ## Interaction with the goal rule
 
 Bands and verdicts are different axes and both must be answered before
