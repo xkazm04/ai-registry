@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 21,
-  "techniques": 146,
-  "applications": 80,
+  "subjects": 22,
+  "techniques": 152,
+  "applications": 83,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "146/146",
+  "use_when_coverage": "152/152",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1062,6 +1062,130 @@
      "technique": "vision-model-grading-schema",
      "file": "knowledge/media-generation/visual-generation/generated-output-grading/applications/process--vision-model-grading-schema.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "generated-speech-acceptance": {
+   "category": "audio-generation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/audio-generation/generated-speech-acceptance/generated-speech-acceptance.md",
+   "digest": "sha256-b2:746b2293187565dc",
+   "revision": 1,
+   "changedAt": "2026-09-29",
+   "techniques": [
+    {
+     "slug": "hard-slice-stratification",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a benchmark no longer separates the systems being compared",
+      "a system must render long text or web addresses and numbers",
+      "a release is about to ship on a pooled score",
+      "choosing what to test beyond the standard sentences"
+     ]
+    },
+    {
+     "slug": "instruction-following-judged-on-audio",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring whether speech follows a style",
+      "emotion or role instruction",
+      "the judge model a benchmark used has been retired",
+      "comparing style scores across two judge versions",
+      "deciding what a listening judge may and may not decide"
+     ]
+    },
+    {
+     "slug": "normalize-before-you-compare",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two scoring paths report the same error metric and disagree",
+      "comparing systems whose transcripts differ in punctuation",
+      "numerals or script variant",
+      "a hard slice full of numbers and symbols",
+      "deciding whether a second acceptable reference may be used"
+     ]
+    },
+    {
+     "slug": "published-number-comparability",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a reproduced score is being put beside a published one",
+      "a reproduction misses the published figure and someone wants a cause",
+      "writing up a replication",
+      "quoting a vendor's number in a comparison table"
+     ]
+    },
+    {
+     "slug": "round-trip-intelligibility",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring whether a synthesized clip says the text it was given",
+      "a synthetic error rate looks very low and nobody knows the recognizer's own floor",
+      "choosing the error unit for a language",
+      "scoring clips longer than the recognizer's window"
+     ]
+    },
+    {
+     "slug": "three-axes-beside-intelligibility",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring a cloned or requested voice",
+      "a clip reads every word and sounds like nobody in particular",
+      "someone proposes one combined speech score",
+      "a predicted-quality number is being read as a pass",
+      "comparing similarity numbers from two runs"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "python",
+     "technique": "normalize-before-you-compare",
+     "file": "knowledge/media-generation/audio-generation/generated-speech-acceptance/applications/python--normalize-before-you-compare.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "published-number-comparability",
+     "file": "knowledge/media-generation/audio-generation/generated-speech-acceptance/applications/python--published-number-comparability.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "round-trip-intelligibility",
+     "file": "knowledge/media-generation/audio-generation/generated-speech-acceptance/applications/python--round-trip-intelligibility.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "python@3.10"
     }
    ]
   },
@@ -2923,6 +3047,9 @@
     "generated-output-grading/two-grader-disagreement-rule",
     "generated-output-grading/unconditional-fail-criteria",
     "generated-output-grading/vision-model-grading-schema",
+    "generated-speech-acceptance/hard-slice-stratification",
+    "generated-speech-acceptance/round-trip-intelligibility",
+    "generated-speech-acceptance/three-axes-beside-intelligibility",
     "generative-provider-routing/cost-per-usable-economics",
     "generative-provider-routing/extraction-model-bake-off",
     "generative-provider-routing/non-silent-elimination",
@@ -2967,6 +3094,7 @@
    "techniques": [
     "character-identity-continuity/identity-ruler-calibration",
     "frame-direction/per-beat-rejection",
+    "generated-speech-acceptance/published-number-comparability",
     "generative-provider-routing/capability-to-vendor-plan",
     "generative-provider-routing/non-silent-elimination",
     "generative-provider-routing/refusal-reroute-hop",
@@ -3079,6 +3207,10 @@
     "frame-direction/visual-function-vocabulary",
     "generated-music-acceptance/rights-and-provenance-record",
     "generated-output-grading/replication-as-comprehension-test",
+    "generated-speech-acceptance/instruction-following-judged-on-audio",
+    "generated-speech-acceptance/normalize-before-you-compare",
+    "generated-speech-acceptance/published-number-comparability",
+    "generated-speech-acceptance/three-axes-beside-intelligibility",
     "generative-provider-routing/extraction-model-bake-off",
     "live-system-demo-film/recorder-owned-overlay",
     "live-system-demo-film/recording-that-asserts-its-claims",
@@ -3132,6 +3264,7 @@
     "generated-music-acceptance/structure-verification-against-plan",
     "generated-output-grading/unconditional-fail-criteria",
     "generated-output-grading/vision-model-grading-schema",
+    "generated-speech-acceptance/instruction-following-judged-on-audio",
     "image-prompt-composition/negative-prompting",
     "image-prompt-composition/shape-language-over-nouns",
     "image-prompt-composition/verbatim-text-locking",

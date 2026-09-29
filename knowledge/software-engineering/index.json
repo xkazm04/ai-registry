@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1815,
-  "applications": 1195,
+  "applications": 1196,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -13742,9 +13742,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/eval-harness.md",
-   "digest": "sha256-b2:28d7e47a320d0024",
-   "revision": 36,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:7ccead00b7f92aba",
+   "revision": 37,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "assertion-vs-judgment",
@@ -14188,6 +14188,13 @@
      "technique": "selection-over-noise",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/process--selection-over-noise.md",
      "verified_on": "2026-09-03"
+    },
+    {
+     "stack": "python",
+     "technique": "eval-economics",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/eval-harness/applications/python--eval-economics--ultraeval-audio.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "python@3.10"
     },
     {
      "stack": "python",

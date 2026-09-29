@@ -1053,10 +1053,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 18,
-      "techniques": 125,
-      "applications": 77,
-      "files": 225,
-      "contentHash": "sha256-b2:8f22c1692ba5c2df"
+      "techniques": 126,
+      "applications": 78,
+      "files": 227,
+      "contentHash": "sha256-b2:233a4dd733f7d283"
     },
     {
       "name": "localization",
@@ -1091,11 +1091,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 21,
-      "techniques": 146,
-      "applications": 80,
-      "files": 252,
-      "contentHash": "sha256-b2:8ecf5ccfb4cc949e"
+      "subjects": 22,
+      "techniques": 152,
+      "applications": 83,
+      "files": 262,
+      "contentHash": "sha256-b2:02ed2b38739d53e1"
     },
     {
       "name": "recruiting",
@@ -1108,7 +1108,7 @@
       "techniques": 394,
       "applications": 254,
       "files": 716,
-      "contentHash": "sha256-b2:88f11d1fe4122a55"
+      "contentHash": "sha256-b2:0bcb150e058178b3"
     },
     {
       "name": "software-engineering",
@@ -1119,9 +1119,9 @@
       "purity": "software",
       "subjects": 233,
       "techniques": 1815,
-      "applications": 1195,
-      "files": 3248,
-      "contentHash": "sha256-b2:ca61c7784c61453a"
+      "applications": 1196,
+      "files": 3249,
+      "contentHash": "sha256-b2:489f1b6205cae307"
     }
   ],
   "usageEvidence": {

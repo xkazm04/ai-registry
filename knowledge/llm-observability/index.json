@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
-  "techniques": 125,
-  "applications": 77,
+  "techniques": 126,
+  "applications": 78,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "125/125",
+  "use_when_coverage": "126/126",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1070,9 +1070,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/judge-calibration-and-drift.md",
-   "digest": "sha256-b2:9a1456dda8827240",
-   "revision": 4,
-   "changedAt": "2026-09-15",
+   "digest": "sha256-b2:d0f0d4aa66f81402",
+   "revision": 5,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "fit-and-report-on-disjoint-labels",
@@ -1102,6 +1102,22 @@
       "building or refreshing a human-labeled calibration set",
       "interpreting kappa vs correlation vs bias",
       "a judge draws several samples per item and reports agreement across them"
+     ]
+    },
+    {
+     "slug": "judge-replacement-bridge",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "estimation-announces-itself",
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a public benchmark's original judge model is retired and you must score new systems with a replacement",
+      "putting a number you produced under one judge beside a published number produced under another",
+      "a benchmark ships reference outputs with published scores but no human labels",
+      "a stored verdict does not say which judge produced it"
      ]
     },
     {
@@ -1222,6 +1238,13 @@
      "technique": "golden-set-agreement-measurement",
      "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/applications/python--golden-set-agreement-measurement.md",
      "verified_on": "2026-09-15"
+    },
+    {
+     "stack": "python",
+     "technique": "judge-replacement-bridge",
+     "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/applications/python--judge-replacement-bridge.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "python@3.10"
     },
     {
      "stack": "rust",
@@ -2604,6 +2627,7 @@
     "grounded-answer-scoring/bidirectional-claim-matching",
     "grounded-answer-scoring/per-source-attribution",
     "grounded-answer-scoring/the-decomposer-is-inside-the-instrument",
+    "judge-calibration-and-drift/judge-replacement-bridge",
     "judge-calibration-and-drift/reserved-rubric-persistence",
     "judge-contract-design/mixed-rubric-honesty",
     "judge-contract-design/nonce-fenced-candidate-isolation",
@@ -2703,6 +2727,7 @@
     "generator-uncertainty-scoring/stated-distribution-over-closed-labels",
     "judge-calibration-and-drift/fit-and-report-on-disjoint-labels",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
+    "judge-calibration-and-drift/judge-replacement-bridge",
     "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
     "quality-regression-gating/baseline-carries-its-conditions",
@@ -2739,6 +2764,7 @@
     "grounded-answer-scoring/the-decomposer-is-inside-the-instrument",
     "judge-calibration-and-drift/fit-and-report-on-disjoint-labels",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
+    "judge-calibration-and-drift/judge-replacement-bridge",
     "judge-calibration-and-drift/judge-selection-by-spread",
     "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/scheduled-recalibration",
