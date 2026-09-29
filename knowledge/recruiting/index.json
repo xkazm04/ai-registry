@@ -4611,9 +4611,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-round-design/interview-round-design.md",
-   "digest": "sha256-b2:bafb318cca61afdc",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:5a021b090aade6a7",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "cohort-reducer-between-rounds",

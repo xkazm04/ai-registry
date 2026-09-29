@@ -24,18 +24,26 @@ shape was decided by whoever had calendar availability.
 
 The naive reading is that more conversation is more signal, so a serious process has
 many rounds and a casual one has few. This is wrong in both directions at once. It is
-wrong about signal, because interview validity plateaus early: past roughly two
-well-designed structured conversations, additional rounds move the hire/no-hire
-verdict very little, and the published analyses that put numbers on it land in the
-same place — a panel of about four independent assessments reaches the same decision
-as a larger one the overwhelming majority of the time, with each further assessor
-adding change on the order of a percentage point. And it is wrong about cost, because
-the cost of an extra round is not an hour of interviewer time. It is paid by the
-candidate, in waiting, and the interview stage is where candidates leave: it is
-consistently the single largest withdrawal point in the funnel, and "too many rounds"
-sits at the top of the stated reasons alongside scheduling latency. A fifth round does
-not buy you a better decision; it buys you a worse-composed final pool, because the
-people with other offers are the ones who leave first.
+wrong about signal, because extra rounds return little once a loop is structured: the
+best-known figure is one employer's own analysis, reported second-hand, that a panel of
+four assessors reached the same decision as a larger one roughly nineteen times in
+twenty, with each further assessor adding on the order of a percentage point. Read it
+for what it is - a **decision-agreement (reliability) figure from a structured process
+with a hiring committee behind it**, not a criterion-validity estimate, and not evidence
+for any particular number of *rounds*. The validity literature says something adjacent
+and different: a well-built structured interview is among the strongest single
+predictors (about .42 in the 2022 overcorrection-adjusted meta-analysis, with a credible
+range from .18 to .66, so the design of the interview matters more than the count), and
+it says nothing that licenses adding rounds to a loop that is already structured. And it
+is wrong about cost, because the cost of an extra round is not an hour of interviewer
+time. It is paid by the candidate, in waiting, and the interview stage is where a large
+share of candidates leave - the vendor surveys put it at roughly a quarter of the
+funnel's loss, but those figures are repeated across aggregators and trace to few
+primaries. The best-supported causes are scheduling latency and silence (about four in
+ten withdraw when scheduling drags) and preference for one or two rounds; that round
+count itself is the top reason is **not** established. The consequence for composition
+is an inference, not a measurement: the people with other offers tend to be the ones who
+leave first, so a longer loop plausibly yields a worse-composed final pool.
 
 So the governing constraint is stated as a rule, not a preference: **a round is
 justified only by naming a judgment that no earlier round was able to make.** If you
