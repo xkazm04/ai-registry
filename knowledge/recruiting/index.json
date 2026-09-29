@@ -4972,8 +4972,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/multi-jurisdiction-hiring-compliance/multi-jurisdiction-hiring-compliance.md",
-   "digest": "sha256-b2:f257214179e279cd",
-   "revision": 2,
+   "digest": "sha256-b2:b46920aab9e492a6",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5066,19 +5066,21 @@
      "stack": "node",
      "technique": "regime-catalog-with-four-axes",
      "file": "knowledge/recruiting/governance/multi-jurisdiction-hiring-compliance/applications/node--regime-catalog-with-four-axes.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "tenant-scoped-legal-framing",
      "file": "knowledge/recruiting/governance/multi-jurisdiction-hiring-compliance/applications/node--tenant-scoped-legal-framing.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "gap-register-with-owner-and-effort",
      "file": "knowledge/recruiting/governance/multi-jurisdiction-hiring-compliance/applications/process--gap-register-with-owner-and-effort.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
