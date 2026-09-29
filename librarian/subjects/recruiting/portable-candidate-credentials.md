@@ -8,7 +8,7 @@ dry_streak: 0
 
 # portable-candidate-credentials
 
-First touch by `/deepen`, dispatched by the Curator lane on the scan finding "never swept by the librarian". Registry HEAD at dispatch 2cfe873e; landed on origin/main f7bb4e05 (commits 53e36e3b sources, 4e5965a7 index, rules and catalog).
+First touch by `/deepen`, dispatched by the Curator lane on the scan finding "never swept by the librarian". Registry HEAD at dispatch 2cfe873e; landed on origin/main 871eb735 (commits 9cf00675 sources, 7089e298 and 4f27b9b5 index, rules and catalog).
 
 ## 2026-09-29 - two field failures the golden path predicted but did not order
 
