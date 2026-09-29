@@ -114,6 +114,18 @@ requirements the decision never saw —
   statement is `stated` and supersedes the old `stated` value — monotonicity
   is about basis, not about immutability of content. Keep the superseded entry
   with its source turn; a reversal is a fact about the role's definition.
+  An overwrite in place loses it. A grading changed at turn nine replaces the
+  row from turn three, and the record then shows the role as if it had
+  always been graded that way.
+- **When the reversal comes after candidates have been seen, it is not a
+  merge.** People who have met the pool re-weight criteria toward the
+  candidate they already prefer. "Commitment to hiring criteria prior to
+  disclosure of the applicant's gender eliminated discrimination" (Uhlmann &
+  Cohen, 2005). So a statement made after exposure opens a new version with a
+  written reason, and it never merges into the version candidates were
+  measured against. Stamp each entry with whether it was stated before or
+  after the first candidate was considered. That is the fact a challenge
+  asks about.
 - **When merging two briefs from different sessions with different requestors**
   — a manager and a team lead, say — do not silently union conflicting stated
   values into one list. Two people stated different things; that is a finding

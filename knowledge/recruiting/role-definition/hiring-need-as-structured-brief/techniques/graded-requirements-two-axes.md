@@ -44,6 +44,29 @@ A brief that can only express the diagonal — hard musts and soft nices — has
 one axis wearing two names, and it will systematically mis-handle exactly the
 candidates worth arguing about.
 
+## Acquirability is the regulators' line, and it is a time
+
+This axis is not a design novelty. The US selection guidelines already draw it:
+content validity "is also not an appropriate strategy when the selection
+procedure involves knowledges, skills, or abilities which an employee will be
+expected to learn on the job" (29 CFR 1607.14(C)(1)), and users "should avoid
+making employment decisions on the basis of measures of knowledges, skills, or
+abilities which are normally learned in a brief orientation period, and which
+have an adverse impact" (1607.5(F)). That second clause is a caution, and it
+applies where adverse impact exists; it is not a flat ban. The US federal
+job-analysis template states the rule directly: "Only those competencies that
+applicants are expected to possess the first day on the job are appropriate to
+use for selection purposes".
+
+The same template also shows that the axis is graded, not binary. It rates
+need-at-entry on four points: needed the first day, within three months,
+within four to six months, and after six months. A competency counts as
+critical at an average of 2.0 or below, so "within three months" still counts
+as at entry. Keep the brief's two-valued vocabulary for the decision, but
+store the horizon the requestor gave. "Learnable" means learnable inside this
+role's actual ramp, and the sibling subject **requirement inflation control**
+treats the grade as a statement about time for exactly this reason.
+
 ## Weight ranks within a kind; it is not a third axis
 
 Alongside the two axes each requirement carries a **weight**: a continuous
@@ -92,6 +115,23 @@ leaves the requirements list ungraded — which downstream consumers read as
 *uniformly critical*, the harshest possible reading, and the one that produces
 the most false rejections.
 
+**A lifted or fallback grade may be displayed, but it may not gate.** The
+diagonal lift puts every must-have in the prerequisite cell, the one cell
+that excludes people, and marking it `default` protects nobody if a
+downstream rubric reads the cell and ignores the basis. The same trap sits in
+every coercion that fills a missing or unrecognised grade: the fallback
+chooses a cell. Make it the non-excluding cell. Where the necessity is known
+but the acquirability is not, a must-learnable still ranks as a must, excludes
+no one, and shows the requestor exactly which row they have not yet graded.
+
+There is one exception, and it is about who authored the list, not about the
+lift. When the source list was published to candidates as what they "must
+possess in order to be considered", the organisation stated the prerequisite
+itself: the US federal-contractor rule treats such advertised qualifications
+as basic qualifications (41 CFR 60-1.3). Only a flat list of unknown meaning,
+such as a template, a generated specification or an internal wish list, lifts
+to a default.
+
 ## Decision rules
 
 - **When a condition is named as a hard bar, it becomes a must-have
@@ -106,7 +146,12 @@ the most false rejections.
   wrongly graded silently removes people from the pool before anyone looks.
 - **When a requirement is expressed as a duration** ("five years of X"), store
   the underlying capability as the requirement and the duration as a separate,
-  softer attribute. Years are a proxy for a capability and a poor one; a brief
+  softer attribute. Years are a proxy for a capability and a poor one (pre-hire
+  experience correlates .06 with job performance, Van Iddekinge et al., 2019;
+  Sackett et al., 2022, put experience at .07). Van Iddekinge et al. name the
+  exception worth keeping: prehire experience "is somewhat more predictive of job
+  performance when workers first start a new job", so the softer attribute
+  still carries a little signal and should be kept, not deleted. A brief
   that stores only the proxy has lost the thing it was proxying for, and
   [meaning does not live in a label](../../../_laws.md#meaning-does-not-live-in-a-label).
 - **When two requirements are always asserted together**, keep them as two

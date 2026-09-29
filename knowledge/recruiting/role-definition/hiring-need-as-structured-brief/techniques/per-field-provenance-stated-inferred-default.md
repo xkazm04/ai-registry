@@ -75,6 +75,26 @@ Downstream, the three bases license different things:
   cannot distinguish it from a value must be given the distinction, not a
   cleaner-looking record.
 
+The basis bounds what a value may do. It does not certify that the value
+deserves to do it. `Stated` is the necessary condition for a gate, not a
+sufficient one. A requirement becomes a legitimate gate only when it is also
+objective, meaning a third party could check it without asking for the
+employer's judgment; noncomparative; and relevant to the work. That is the
+US federal-contractor test for a basic qualification (41 CFR 60-1.3), and a
+requestor can state something that fails it in so many words. Two
+consequences follow for the record:
+- a gating row carries its checkability and its link to the work, not just
+  its basis;
+- the rule that an inference may not disqualify is this standard's own choice,
+  stricter than a regulation that asks only that a gate be recorded before
+  anyone is considered. Keep it, and do not cite it as the law.
+
+A **published document is a source.** A qualification list the organisation
+advertised as what candidates "must possess in order to be considered" was
+stated by its publisher. It is not an inference someone read between the
+lines, even though no transcript turn holds it. Point to the document and
+its version, the way a conversational entry points to its turn.
+
 ## The basis map is what tells the session what to ask next
 
 The most useful consumer of provenance is not the audit — it is the intake
@@ -115,6 +135,16 @@ Honest also means *low is allowed*. An extractor that never emits a low
 confidence is not calibrated, it is agreeable; and the low-confidence entries
 are the highest-value ones on a review surface, because they are where a human
 minute is best spent.
+
+Rely on the number only as far as it has been measured to hold. Language
+models that state their confidence "tend to be overconfident". In the same
+study, reading the model's internals did better than asking it, but "the gap
+is narrow, e.g., 0.522 to 0.605 in AUROC", and chance is 0.5 (Xiong et al.,
+ICLR 2024). That is
+enough to **order** a review queue, so the human sees the shakiest readings
+first. It is not enough to be a threshold: a confidence cut-off that promotes
+an inference, opens a gate or skips review uses a number that barely beats
+chance for the job.
 
 ## Decision rules
 

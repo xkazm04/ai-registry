@@ -72,6 +72,22 @@ The correct relationship is one-way: the brief is the record, the
 advertisement is one rendering of it, and so is the search query, and so is
 the scorecard. Renderings may drop things. The record may not.
 
+Two conditions keep that one-way relationship honest, and both come from
+outside the brief. First, a rendering may drop anything except a gate. A
+requirement that will exclude a person has to reach what candidates see, or
+be on the record before anyone is considered. The US federal-contractor rule
+defines a basic qualification as one the employer "advertises ... to potential
+applicants that they must possess in order to be considered", or records "in
+advance ... prior to considering any expression of interest" (41 CFR
+60-1.3). A gate that lives only in the brief was never disclosed. A gate that
+lives only in the advertisement was never graded. Second, the brief is the
+record only while decisions are derived from it. When firms deleted degree
+requirements from their postings, about 45% changed nothing about whom they
+hired: the criterion survived the edit to the document (the sibling subject
+**role intake conversation** carries the figures). So a brief makes
+decisions defensible only when the rubric and the panel are built from it,
+and when someone checks realized decisions against it.
+
 ## Each value states what it is, how much it matters, and who says so
 
 A field in a hiring brief is not a scalar. Treat every entry as carrying three
@@ -106,6 +122,21 @@ requirement the requestor never uttered; a default filed as inferred claims a
 reading of evidence that never happened. An unfilled field must render as
 unfilled, which is the general form of
 [absence of evidence is not evidence](../../_laws.md#absence-of-evidence-is-not-evidence).
+
+The basis records who says so. It does not record whether they are right.
+`Stated` is necessary before a value may gate, and it is not sufficient. The
+same federal rule requires a gating qualification to be noncomparative,
+objective ("a third-party, with the contractor's technical knowledge, would
+be able to evaluate whether the job seeker possesses the qualification"), and
+"relevant to performance of the particular position" (41 CFR 60-1.3). A
+requestor can state "native speaker" or "recent graduate" in so many words,
+and the turn pointer then documents the statement rather than defending it.
+Job-relatedness and adverse-impact review belong to the sibling subject
+**requirement inflation control**. The brief's part is to carry a gate's
+objectivity and its link to the work, as well as its basis. Note also where
+this standard is stricter than the rule: the regulation asks only that a gate
+be recorded in advance. "An inference may not disqualify" is this standard's
+own design choice, not a legal floor.
 
 ## A minimal spine, because needs vary too much for a fixed form
 
@@ -195,6 +226,19 @@ mutating after candidates have been screened against it destroys the only
 defence the organisation has — that this is what the job required *at the time
 the decision was made*.
 
+The freeze has a second reason besides auditability: it stops the goalposts
+moving. Evaluators who have already met a candidate re-weight the criteria
+toward the one they prefer, and committing to criteria before seeing the pool
+is the documented remedy (Uhlmann & Cohen, 2005). The federal rule makes the
+same cut: a gate counts only if it was recorded "prior to considering any
+expression of interest". So whether a requirement was first stated before or
+after candidates were seen is a fact about it. A condition that first appears
+after exposure opens a new version with a written reason. Candidates are
+re-judged against that version, and it never merges into the one they were
+measured against. How long the frozen record is kept, and the retention
+clocks that bind it, belong to the sibling subject **decision audit and
+traceability**.
+
 ## The gate: defined enough to act on
 
 The last thing a brief owes is an honest answer to "is this ready?". Readiness
@@ -203,6 +247,19 @@ is a floor below which the artifact cannot support any downstream decision. A
 practical floor: an identified role, plus at least one hard condition or one
 concrete outcome for the first months. A title alone is a wish. See
 [promote-readiness-gate](./techniques/promote-readiness-gate.md).
+
+That floor is a heuristic, and it is presented as one. No study we found
+compares hires made against outcome-first briefs with hires made against
+requirement lists. An evidence review prepared for the firm that sells
+performance-based hiring concedes that no predictive validation study has
+been published. The floor also answers only "can a decision be built on
+this?". A second gate stands between opening a role and **publishing** it,
+and there the law fills in what the floor leaves open. EU applicants have a
+right to the pay or its range before the interview (Directive (EU) 2023/970,
+Art. 5(1)), and New York and Colorado require a range in the advertisement
+itself. Location decides which of those rules applies. So pay and location
+may stay unknown while a role is sourced quietly, but not once it is
+advertised.
 
 Note the interlock: the gate reads structure, so the routing rule above is what
 makes the gate satisfiable at all, and the non-answer rule is what stops it
@@ -242,6 +299,12 @@ application may be judged against it.
   therefore cannot be defended or removed.
 - **The living brief** — a record still being edited after candidates were
   measured against it.
+- **The fallback gate** — a requirement nobody graded, filled in by a
+  coercion or a lift as a prerequisite, which then excludes people on a
+  grade no one chose.
+- **The undisclosed gate** — a requirement that excludes people but never
+  reached what candidates saw and was never recorded before they were
+  considered.
 
 ## The techniques
 

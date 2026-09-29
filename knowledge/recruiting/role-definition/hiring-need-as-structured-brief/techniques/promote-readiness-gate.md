@@ -57,6 +57,38 @@ requestor does not yet have, and the cost of that stall lands on people waiting
 to be considered —
 [a candidate's process never stalls on your constraints](../../../_laws.md#a-candidates-process-never-stalls-on-your-constraints).
 
+**That exclusion holds for opening a role, not for publishing it.** Opening
+lets a brief support decisions. Publishing puts it in front of candidates,
+and there some of the excluded fields become obligations:
+- EU applicants have a right to "the initial pay or its range" before the
+  interview, "such as in a published job vacancy notice" (Directive (EU)
+  2023/970, Art. 5(1)). The same article bars asking for pay history.
+- New York bars advertising a job performed even partly in the state
+  "without disclosing ... the compensation or a range of compensation"
+  (Labor Law §194-b).
+- Colorado requires the range, a description of benefits, and the
+  application close date in every job notice (C.R.S. 8-5-201).
+
+Location decides which of these rules applies. So run two gates: a floor for
+opening, which is this technique, and a publish gate that asks for a pay band
+wherever the role's location requires one. Record when the band was set,
+because New York's test is a range the employer "in good faith believes to
+be accurate at the time of the posting". The band's own honesty belongs to
+the sibling subject **compensation banding and market honesty**.
+
+**The floor is a heuristic, and it should say so.** No study we found
+compares hires made against outcome-first briefs with hires made against
+requirement lists. An evidence review of performance-based hiring, prepared
+in 2026 for the firm that sells it, concedes that it "has not been the
+subject of a published predictive validation study". The floor is defended by what it enables downstream, not
+by an effect size. Do not report it as evidence-based.
+
+**The gate is also the moment gating requirements are fixed.** A US federal
+contractor's basic qualification counts only if it was advertised, or
+recorded "prior to considering any expression of interest" (41 CFR 60-1.3).
+Promotion is where the brief's gating rows reach that state, which makes
+the freeze below a legal requirement and not only housekeeping.
+
 ## The gate reads structure, which is what makes the routing rule load-bearing
 
 The gate looks at the structured lists — requirement rows, success-criteria

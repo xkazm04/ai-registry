@@ -90,7 +90,14 @@ it operational:
 - **When a turn is edited or the transcript is re-numbered, the pointer must
   survive** — reference turns by stable identity, not by position in a list
   that a later insertion shifts. A pointer that silently slides to a different
-  sentence is worse than no pointer.
+  sentence is worse than no pointer. Bounding the stored transcript is the
+  quiet version of the same shift. Keeping the newest N turns behind a
+  "turns dropped" marker renumbers every surviving turn at each compaction,
+  and a positional pointer written before a compaction then cites whatever
+  sentence now sits at its old index. Setting the cap to the extractor's own
+  window does not help, because the renumbering happens across compactions,
+  not inside one. Either rebase every stored pointer when turns are dropped,
+  or give turns identities that survive being dropped.
 - **When an entry is confirmed at a later turn than it was extracted, keep
   both.** The origin explains where the idea came from; the confirmation is
   what upgraded its basis to stated, and a challenge may test either.
