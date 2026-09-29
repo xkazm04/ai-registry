@@ -5,7 +5,8 @@ subject: interview-calendar-integrity
 technique: three-valued-free-busy-unknown-is-not-free
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Three-valued free/busy in a Next.js scheduling API (kp)
@@ -45,18 +46,22 @@ pre-integration slot list is served unchanged.
 
 ## Three statuses, one of which is a claim
 
-`CALENDAR_STATUSES` (`free-busy.ts:37`) is the canonical list:
+`CALENDAR_STATUSES` (`app/_lib/calendar/free-busy.ts`) is now a four-member canonical list (it was three
+when first recorded; `needs_reconnect` was added since):
 
 | Status | Source | Claims a check? |
 | --- | --- | --- |
 | `checked` | `fetchBusy` returned an array | yes — the only one |
 | `not_connected` | `isCalendarConnected` false | no |
 | `unavailable` | `fetchBusy` returned `null` while connected | no |
+| `needs_reconnect` | connected, but the grant is revoked (`invalid_grant`) or the stored token no longer decrypts | no — recruiter-only, the candidate wire still carries one bit |
 
 The two non-checked states are kept apart even though both produce an unfiltered
 grid, exactly as the technique requires: `not_connected` is a steady-state fact
-the recruiter can fix, `unavailable` is an incident (outage, revoked grant,
-per-calendar error).
+the recruiter can fix, `unavailable` is an incident (outage, throttling,
+per-calendar error). The revoked-grant case was first folded into `unavailable` here
+and was later split out as `needs_reconnect`: waiting never fixes a dead grant, a
+reconnect does. The split is field evidence for the golden path's fourth status.
 
 The convenience boolean is **derived, not stored**: `calendarChecked` is exactly
 `status === "checked"` — one truth, no drift.
@@ -80,9 +85,9 @@ field.
 
 ## Confirm-time re-check on the same axis
 
-`slotStillFree` (`available-slots.ts:95`) returns `Promise<boolean | null>` —
+`slotStillFree` (`available-slots.ts`, `slotStillFree`) returns `Promise<boolean | null>` —
 three-valued by construction. `null` covers both the unplaceable-instant case
-(line 101, delegated to `offeredSlotFor`) and the lookup-failed case (line 103),
+(delegated to `offeredSlotFor`) and the lookup-failed case,
 and both MUST proceed to booking. `app/api/schedule/calendar-conflict.test.ts`
 pins the 90-minute span, the confirm-time refusal, both unknown paths, and a null
 `durationMin`.

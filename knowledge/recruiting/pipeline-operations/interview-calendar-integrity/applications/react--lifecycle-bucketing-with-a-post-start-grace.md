@@ -5,7 +5,8 @@ subject: interview-calendar-integrity
 technique: lifecycle-bucketing-with-a-post-start-grace
 stack: react
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: react@19
 ---
 
 # The vanishing interview, and the partition that fixed it (kp)
@@ -14,7 +15,7 @@ verified_on: 2026-08-20
 
 kp's recruiter Schedule tab computed its `upcoming` bucket as
 `confirmed && Date.parse(slotAt) >= now`. The header comment on
-`app/features/hiring/schedule/scheduleInviteLifecycleBuckets.ts:1` records what
+`app/features/hiring/schedule/scheduleInviteLifecycleBuckets.ts` records what
 that cost:
 
 > *"A confirmed interview therefore VANISHED from the entire panel the instant
@@ -73,7 +74,7 @@ rather than inventing a second default.
 ## The display-window union
 
 The same class of bug appears in the week grid, and
-`app/features/hiring/schedule/ScheduleCalendar.tsx:92` fixes it the way the
+`app/features/hiring/schedule/ScheduleCalendar.tsx` fixes it the way the
 technique prescribes — the hour rows are *"the configured interview hours + the
 proposal window, UNIONED with any hour a real booking/pick already occupies — so
 no booking can land on a row the grid doesn't render (the off-hour-vanish bug,

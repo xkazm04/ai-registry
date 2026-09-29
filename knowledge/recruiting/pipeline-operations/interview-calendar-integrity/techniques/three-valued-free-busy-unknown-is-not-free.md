@@ -36,7 +36,9 @@ The absent third value is not a nicety. It is the whole discipline
 
 1. **Type the result with three states.** The lookup returns a value that names
    which of *not connected*, *unavailable*, or *checked* occurred, and only the
-   third carries a set of busy intervals. There is no nullable boolean and no
+   third carries a set of busy intervals. Where the failure has a repair that
+   waiting cannot supply (a revoked or undecryptable grant), split it out of
+   *unavailable* as its own recruiter-only state, *needs reconnect*. There is no nullable boolean and no
    empty-list-means-fine convention anywhere in the chain.
 
 2. **Never collapse at a boundary.** The third value must survive every hop it

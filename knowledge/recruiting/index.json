@@ -4491,9 +4491,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/interview-calendar-integrity.md",
-   "digest": "sha256-b2:9214ce15e555b920",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:04d58cffe96ef338",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "audience-scoped-calendar-disclosure",
@@ -4587,19 +4587,22 @@
      "stack": "node",
      "technique": "idempotent-event-lifecycle-with-orphan-surfacing",
      "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/applications/node--idempotent-event-lifecycle-with-orphan-surfacing.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "three-valued-free-busy-unknown-is-not-free",
      "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/applications/node--three-valued-free-busy-unknown-is-not-free.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "lifecycle-bucketing-with-a-post-start-grace",
      "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/applications/react--lifecycle-bucketing-with-a-post-start-grace.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },

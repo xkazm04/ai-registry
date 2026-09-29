@@ -5,7 +5,8 @@ subject: interview-calendar-integrity
 technique: idempotent-event-lifecycle-with-orphan-surfacing
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # One event per interview, and the orphan it names (kp)
@@ -17,7 +18,7 @@ states the three invariants the technique asks for, in order.
 
 *"Every function here is best-effort and returns a state instead of throwing. A
 Google outage must never turn a confirmed interview into an error response, a
-half-committed booking, or a rolled-back slot"* (`event-sync.ts:20`). The
+half-committed booking, or a rolled-back slot"* (`app/_lib/calendar/event-sync.ts`). The
 symmetry with the read axis is explicit: *"Same contract free/busy already holds:
 unknown proceeds."*
 
@@ -43,12 +44,12 @@ clear-on-successful-delete rule.
 
 ## The five write-back states, on their own axis
 
-`CALENDAR_EVENT_STATES` (`free-busy.ts:65`) is `written | not_connected | failed
+`CALENDAR_EVENT_STATES` (`app/_lib/calendar/free-busy.ts`) is `written | not_connected | failed
 | removed | orphaned`, and the README calls it *"a second axis from the free/busy
 `CALENDAR_STATUSES`, sharing only the `not_connected` spelling"* — exactly the
 two-axis separation the technique requires.
 
-`removeInterviewEvent` (`:118`) deletes *"exactly the event kp created (never a
+`removeInterviewEvent` (`event-sync.ts`) deletes *"exactly the event kp created (never a
 search-and-guess)"*, and on failure:
 
 ```
@@ -79,12 +80,12 @@ human for a closed one.
 ## Body composition and the second invitation
 
 *"The event's BODY is not invented here"* (`:33`): `interviewCalendarEvent`
-(`app/_lib/calendar-links.ts:82`) already composes title, description (stage,
+(`interviewCalendarEvent` in `app/_lib/calendar-links.ts`) already composes title, description (stage,
 join link, reschedule URL) and location for the `.ics` and the add-to-calendar
 template URL, and the written event is that same object — *"so the real calendar
 entry and the link-only fallback can never disagree."*
 
-`google-calendar.ts:164` suppresses the provider's own mail: *"NO `sendUpdates`,
+`app/_lib/calendar/google-calendar.ts` suppresses the provider's own mail: *"NO `sendUpdates`,
 on purpose: kp owns the candidate's confirmation email"*, otherwise Google sends
 a second, un-branded invite for one interview. Both of these are upward lessons
 the draft did not have.

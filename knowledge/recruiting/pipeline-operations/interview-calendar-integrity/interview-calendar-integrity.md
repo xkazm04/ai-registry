@@ -60,7 +60,7 @@ is the only genuinely broken outcome, because it stalls a candidate over an
 infrastructure problem they cannot see, cannot influence, and did not cause
 ([a candidate's process never stalls on your constraints](../../_laws.md#a-candidates-process-never-stalls-on-your-constraints)).
 
-## Three statuses, one of which is a claim
+## Three statuses (and a fourth for a dead grant), one of which is a claim
 
 Because the third value must survive to the surface, the status carried alongside
 any set of offered times has three members, and only one of them asserts that a
@@ -78,6 +78,14 @@ paged because an interviewer has not connected a calendar, and somebody does nee
 to know that a connected one stopped answering. Collapsing them into a single
 "couldn't check" is the small compromise that later makes a chronic token
 expiry invisible for a quarter.
+
+A fourth member is earned once a connected calendar can be *dead* rather than
+merely quiet: **needs reconnect** — the grant was revoked or the stored credential
+no longer decrypts. It nests inside the unavailable case but must not stay there,
+because the repairs are opposite: an outage is a wait, a dead grant is never fixed
+by waiting, only by a human reconnecting. Left folded into "unavailable" it is
+exactly the chronic token expiry that stays invisible for a quarter. It is
+recruiter-facing only; the candidate's one bit does not change.
 
 The rule that keeps this honest is that a status is an **assertion boundary**, not
 a decoration: no surface may render "checked" copy — no "we found a free time",
