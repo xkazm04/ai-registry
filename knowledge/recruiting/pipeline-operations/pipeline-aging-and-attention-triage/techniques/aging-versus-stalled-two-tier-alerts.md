@@ -55,6 +55,24 @@ prefer names that carry their own severity — a word that only means "old"
 it says which side of the pair it is. Cross-layer vocabulary drift is not a
 naming quibble; it is how a policy number gets tuned against the wrong tier.
 
+## An alert is an event: once per stint, per tier
+
+Marking a row aging is a state that is true every day the row stays put; writing
+an alert into a feed is an event. Conflating them turns the feed into a daily
+repeat of "still waiting" for every row nobody has moved, which is the fastest
+way to teach a recruiter to skip the feed. Write each tier's alert **once per stint
+in a stage** (keyed on the moment the entry entered the stage), so the aging alert
+and the stalled alert each appear once and the row's continuing state is carried by
+the badge, which is recomputed and never written.
+
+Two edges of the stint need stating. A move out of the stage ends the stint, so an
+alert computed for the old stage must be dropped when the same pass advances the
+entry, or the row written after the move sits inside the new stint and suppresses
+that stint's own first alert. And the preview of a pass must use the same rule as the
+commit through one shared function, or the forecast count and the feed disagree.
+A per-day key is right only for an event that is genuinely new each day, such as a
+repeated refusal, and wrong for a duration.
+
 ## Both tiers nudge; neither acts
 
 This is the hard constraint and it is not negotiable. An aging surface may
@@ -111,6 +129,8 @@ is how an entry vanishes for a quarter and reappears as a complaint.
   anything blocked on a known human approval gate.
 - When a tier's population for a stage exceeds a small share of that stage, do
   not retune the tier; escalate the stage.
+- Write each tier's alert once per stint in the stage, drop it when the entry
+  moves, and compute the preview through the same function as the commit.
 - Never let either tier be an input to an advance, reject or close.
 
 ## When not to use this

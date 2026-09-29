@@ -227,6 +227,10 @@ pipeline discipline wants to borrow:
 - **The incomplete partition.** Queues written as a list of interesting cases
   rather than a total partition, so a live item satisfying none of them
   disappears from the surface at exactly the moment it mattered.
+- **The daily repeat.** A duration alert written into the feed once per pass
+  rather than once per stint, so every unmoved row re-announces itself each day
+  until the feed is skipped, and a hire in a terminal stage announces itself
+  forever.
 - **The half-tunable policy.** Thresholds adjustable in the interface layer but
   frozen in the engine that runs the daily pass — two policies, one of them
   unarguable by the people who own the process.
