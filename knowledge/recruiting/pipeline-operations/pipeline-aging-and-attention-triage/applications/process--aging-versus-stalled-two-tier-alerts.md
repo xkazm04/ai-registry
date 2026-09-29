@@ -5,99 +5,99 @@ subject: pipeline-aging-and-attention-triage
 technique: aging-versus-stalled-two-tier-alerts
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # Two tiers in the automation policy pass (process)
 
-The daily policy pass lives in the spawned Python analysis pipeline, and its
-two-tier alerting is four lines of `pipeline/jobfit/automation.py`.
+The daily policy pass lives in the spawned Python analysis pipeline
+(`pipeline/jobfit/automation.py`). This note was first written against a pass
+that carried its own flat aging numbers, and four of its five findings were
+deviations from the standard. On 2026-09-23 a single commit (`1f62d70c5`, one
+architecture challenge) closed them, citing this subject's three techniques as
+what it encodes. What follows is the tree as re-read on 2026-09-29, with the
+old shape kept because the way it failed is the lesson.
 
-## The numbers
+## Before: one flat cut, inverted names, an alert every day
 
-`POLICY` (`:62-73`) is the file's single rules table — "Task 7 thresholds —
-tunable per market/season (the only place rules live)". Two of its entries are
-this technique's:
+The pass used to apply `stale_days: 21` / `aging_days: 30` to
+`days = int(entry.get("daysInStage") or 0)` for every stage. Three defects
+followed from that one design: an offer and an intake row with 21 silent days
+emitted the same alert, while the board's amber dot fired at 3 days for the
+offer; a hire in the terminal stage collected an `aging_alert` every day from
+day 30 on; and the same alert was re-written into the feed on every business
+day "until someone moved the card". The ratio 30/21 (about 1.43) was also below
+the two-to-three-times separation the standard recommends.
 
-```
-"stale_days": 21,
-"aging_days": 30,
-```
+## After: the tier is resolved once and handed in
 
-The ratio is 30/21 ≈ 1.43, well below the two-to-three-times separation the
-standard recommends: the two tiers fire nine days apart on a three-week base,
-close enough that a single week of inattention crosses both.
+`app/_lib/aging-policy.ts` is now the one aging clock. `agingTier(stage, days,
+axis, overrides)` returns `none | aging | stalled`: a terminal-role stage never
+ages, a non-positive SLA never ages, an unknown dwell reads fresh, `aging` is
+dwell at or past the stage's SLA, and `stalled` is dwell at or past
+`STALLED_MULTIPLE = 2` times it. The multiple is stated once and both numbers
+derive from the per-stage table, exactly as the standard asks; 2x sits at the
+bottom edge of its two-to-three range.
 
-## The tiers only nudge
+Three surfaces read that one function: the board's amber dot, the sidebar badge,
+and the policy pass. The pass never re-derives the tier.
+`listActiveEntriesForAutomation` stamps `agingTier` on each entry on that
+entry's own workspace axis, and Python maps it (`AGING_TIER_ALERTS`, `automation.py`
+`:178`): `aging` becomes `stale_alert`, `stalled` becomes `aging_alert`. The flat
+`POLICY` 21/30 cut survives only as the fallback for a caller that sends no
+tier (the bare CLI) and now also refuses a terminal stage on that path
+(`aging_alerts`, `:220-233`). The constants that cross the language boundary as
+code are bound by `AgingTierSyncTest`, which reads the TypeScript literals and
+fails on drift.
 
-`:342-349` is the whole alerting mechanism, and it is deliberately inert:
+## The vocabulary inversion: kept, but written down once
 
-```
-alerts: list[str] = []
-if days >= POLICY["aging_days"]:
-    alerts.append("aging_alert")
-elif days >= POLICY["stale_days"]:
-    alerts.append("stale_alert")
+The persisted event kinds still read the wrong way round by name (the soft
+tier is `stale_alert`, the hard tier is `aging_alert`) because stored rows must
+keep reading. The change is that the mapping is now a single documented
+constant, `AGING_TIER_ALERT` in `aging-policy.ts`, whose comment says why it is
+inverted, rather than two layers each guessing. That is the standard's "write
+it down where both layers can see it" met by a bridge rather than a rename. The
+standard's stronger advice, names that carry their own severity, is not
+followed at the storage layer; the recruiter-facing layer and the internal
+`AgingTier` type do use `aging` / `stalled`.
 
-def out(action, to_stage, reason):
-    return {"action": action, "toStage": to_stage, "alerts": alerts, "reason": reason}
-```
+## The alert is an event: once per stint, not once per pass
 
-`alerts` rides *alongside* `action` and never sets it. Every `return out(...)`
-below chooses its action from stage, score, archetype and approval state; no
-branch anywhere in the pass reads `days` to advance, reject or close an entry.
-That is the standard's hard constraint — a duration reorders and annotates,
-never decides — realized as a structural separation rather than a review rule.
-The surrounding fairness posture is consistent with it: `RECOMMENDATION_FALLBACK
-= "hold"` (`:88-92`) because a malformed verdict must "never silently `advance`
-… or `reject`", and early-career archetypes are never auto-advanced or
-auto-rejected (`:74-76`).
+`recordDecisionAlerts` (`automation-pass.ts`) is shared by the preview and the
+commit loop, so the forecast count and the feed agree. The two aging kinds are
+deduped once per stage stint per tier, keyed on the snapshot's `stageChangedAt`
+through `hasEventSinceStageChange`. An aging alert on an `advance` decision, or
+on a `staleSkip` where the entry moved mid-pass, is dropped, because the move
+ends the stint the alert describes and a row written after it would sit inside
+the new stint and suppress that stint's own first alert. The fairness backstop's
+`fairness_gate_blocked_reject` keeps a per-day dedupe, since each refusal is a
+fresh event. The standard's two-tier technique did not say this; it is now
+carried there as its own rule.
 
-The `elif` is also correct against the standard: an entry is in exactly one
-tier, never both.
+## Still true: the tiers only nudge
 
-## Deviation: the vocabulary is inverted against the interface layer
+`alerts` rides alongside `action` and never sets it. Every `return out(...)`
+chooses its action from stage, score, archetype and approval state, and no
+branch reads `days` or the tier to advance, reject or close.
+`RECOMMENDATION_FALLBACK = "hold"` and the early-career gate are unchanged. The
+`elif` shape, one tier per entry and never both, holds on both the tier path
+and the fallback.
 
-Here `stale_days` (21) is the **softer** tier and `aging_days` (30) the harder
-one. In the recruiter-facing layer the same pair reads the other way round:
-`app/features/shared/pipelineTypes.ts:110` calls its flat legacy constant
-`STALE_DAYS` and its per-stage table `STAGE_SLA_DEFAULTS` for what the board
-badges call *aging*, at 3–14 days. So "aging" names the mild state in one layer
-and the severe state in the other, and the two scales differ by an order of
-magnitude on top of that. This is exactly the cross-layer drift the standard
-warns about: a conversation about "the aging threshold" is about two different
-populations depending on which layer the speaker works in.
+## Remaining deviations
 
-## Deviation: one global cut, not per stage
-
-`stale_days` and `aging_days` are workspace-wide constants applied to
-`days = int(entry.get("daysInStage") or 0)` (`:337`) regardless of stage, while
-the interface layer has per-stage thresholds. The pass therefore reproduces the
-blunt global cut in the one place a scheduled sweep would most benefit from
-stage sensitivity — an offer with 21 days of silence and an intake row with 21
-days of silence emit the same alert.
-
-## Deviation: not tunable at runtime
-
-The header comment claims the numbers are "tunable per market/season", but
-there is no override mechanism: changing one is a code deploy. The repo's own
-harness review records this against a sibling rule that *is* recruiter-tunable
-in the interface (`docs/harness/ambiguity-biz-2026-06-25/hiring-automation-scheduler.md:9`),
-noting that "the product already establishes the expectation that recruiters set
-their own gates — just not for the gates that actually drive the scheduler", and
-that none of the constants carries recorded reasoning for its value. Against the
-standard, a policy layer with no override path and no derivation for its numbers
-is the half-tunable failure mode.
-
-## The coercion, and the counter-example beside it
-
-`:337` reads `days = int(entry.get("daysInStage") or 0)` — a missing duration
-becomes zero and therefore never alerts. Two lines above, the same function is
-explicit that the identical reflex is a defect for a *score*: `scored = score >
-0`, with the docstring at `:239-245` warning that without it an unscored entry
-"would collapse to `int(None or 0) == 0` and be rejected for `0 <
-bau_reject_score`, silently turning a data gap into a rejection." The duration
-coercion happens to land on silence, which is the posture the standard
-prescribes for an advisory badge — but by accident of arithmetic rather than by
-an explicit unmeasured state, and the same file demonstrates on the line above
-that the authors know the difference.
+- **The fallback path is still one global cut.** A caller that sends no tier
+  gets 21/30 days regardless of stage. The production pass always sends one, so
+  the blunt cut is confined to the bare CLI, but it is the same number the
+  standard calls wrong.
+- **The 21/30 fallback is still not tunable at runtime.** The `POLICY` header
+  still says "tunable per market/season" and there is still no override
+  mechanism for those two numbers. What changed is that the numbers that drive
+  the production alerts are now the team's own per-column cadence, which is
+  tunable (see the React application), so the half-tunable failure no longer
+  applies to the path that matters.
+- **A missing duration still coerces to zero.** `days = int(entry.get("daysInStage") or 0)`
+  (`:973`) is unchanged, and on the fallback path a missing duration therefore
+  never alerts by arithmetic rather than by an explicit unmeasured state. On the
+  tier path the TypeScript side reads an unparseable or absent timestamp as
+  `none` on purpose (`daysInStageAt` returns null), which is the explicit form.

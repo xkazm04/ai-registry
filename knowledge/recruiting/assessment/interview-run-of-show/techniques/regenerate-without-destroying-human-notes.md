@@ -97,6 +97,14 @@ something the record does not hold, per
 - **Deletion by a human is a state, not an absence.** A question the interviewer removed
   must not be re-proposed on the next regeneration as though it were new. Record the
   removal, and treat a re-proposal as a duplicate.
+- **Preview the report before the write, not after it.** Step six is strongest as a diff
+  the interviewer sees while the current plan is still the live one: stage the regenerated
+  plan beside it, show what was added, removed, retimed and reworded, and which of their
+  own ticks and imported questions would detach, then let them keep or replace. Make the
+  decision idempotent (deciding twice, or with nothing staged, writes nothing), and
+  reserve direct commit for callers that have no human in front of them. Those callers
+  still replace the plan unreported, so the report is owed wherever a person could be
+  looking, not only where one happens to be.
 - **Regeneration never changes the timing contract silently.** If the fresh material
   would push the plan past its duration band, the plan reports the collision instead of
   absorbing it.

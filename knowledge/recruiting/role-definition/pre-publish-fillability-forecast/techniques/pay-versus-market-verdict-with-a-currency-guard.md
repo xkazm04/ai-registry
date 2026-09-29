@@ -103,9 +103,15 @@ form of this rule.
 - **When no comparable band exists** for the role, level and geography. A
   verdict against a band assembled from unlike roles is worse than no verdict,
   because it is quotable.
-- **When the range is not the offer.** In markets where the posted range is
-  ceremonial and the real number is negotiated, the verdict describes a
-  document rather than an offer. It still has value as an advertising
+- **When the range is not the offer.** Where no rule binds the posted range and
+  it is ceremonial, with the real number negotiated, the verdict describes a
+  document rather than an offer. That escape is narrowing: pay-transparency rules
+  now require a good-faith range in the advertisement in several US
+  jurisdictions and the starting pay or its range before the interview in the EU
+  (Directive 2023/970, Art. 5; transposition was due 7 June 2026), so in covered
+  markets the range is a commitment and a range widened until the verdict goes
+  silent is the evasive one. Whether a role is covered is the compensation
+  banding subject's question, not this one's. It still has value as an advertising
   diagnostic — candidates read the posted range — but it must be worded as
   being about the posting.
 - **When total compensation dominates.** Where equity, bonus or benefits carry

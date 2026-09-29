@@ -143,6 +143,13 @@ it — which is most of them.
   worth watching for regardless of which question is running — kept short enough to be
   glanced at, because a checklist that requires reading during a conversation is not
   used during a conversation.
+- **A defence question's premise must be a finding, and one predicate decides that for
+  every consumer.** When the worries come from a generated list, a clean record often
+  arrives as a sentence saying there are none, and a guard that recognises one phrasing
+  lets the rest through as accusations ("you might worry that no concerns were found")
+  in the kit, the gap count and any reviewer panel at once. Filter absence-statements
+  with one shared, conservative test, and choose its failure direction on purpose: a
+  doubtful entry stays as a question rather than a real concern being deleted silently.
 
 ## When not to use this
 

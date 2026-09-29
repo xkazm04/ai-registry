@@ -5,15 +5,16 @@ subject: pipeline-aging-and-attention-triage
 technique: per-stage-aging-thresholds-not-one-global-cut
 stack: react
 status: forged
-verified_on: 2026-09-20
+verified_on: 2026-09-29
 ---
 
 # The per-role SLA table and its per-board overrides (React)
 
-`app/features/shared/pipelineTypes.ts:115-168` holds the technique's whole policy
-surface: one flat legacy constant kept as a last resort, one table keyed by stage
-**role**, a derived name-keyed table for callers that only know a canonical name,
-and one resolver.
+`app/_lib/aging-policy.ts:33-90` holds the technique's whole policy surface (it moved
+there from `pipelineTypes.ts` on 2026-09-23 so the server-side store can read it
+without the client module; `pipelineTypes.ts:111` re-exports it): one flat legacy
+constant kept as a last resort, one table keyed by stage **role**, a derived
+name-keyed table for callers that only know a canonical name, and one resolver.
 
 ```
 export const STALE_DAYS = 10; // legacy flat default — fallback for unknown stages
@@ -55,16 +56,17 @@ export function slaForStage(
 ): number
 ```
 
-`:157-168`. The resolution order is the recruiter's override for this column id →
-`roleOf(stage, axis)` → the shipped default for a canonical id that has been
+`aging-policy.ts:77-90`. The resolution order is an explicit override for this column
+id (the board's optimistic value between a save and the next load) → the team's own
+cadence on the axis, `slaDays` (terminal never carries one) → `roleOf(stage, axis)` → the shipped default for a canonical id that has been
 retired from the axis but still has candidates standing on it → the flat cut.
 Every caller passes the axis it already held: the board's own reads, the row
 tooltip, and the server-side badge in `app/_lib/attention.ts`, which resolves the
-workspace's axis once (`:73`) and then asks both stage questions through it —
-`stageHasRole(e.stage, "terminal", axis)` for the exclusion (`:76`) and
-`slaForStage(e.stage, undefined, axis)` for the threshold (`:90`).
+workspace's axis once and then asks both stage questions through it, now as the single
+call `agingTierAt(e.stage, e.stageChangedAt, now, axis)`, which applies the terminal
+exclusion and `slaForStage` internally.
 
-`attention.ts:87-89` records the failure the parameter closes, in the standard's
+`attention.ts`'s `attentionStale` comment records the failure the parameter closes, in the standard's
 own terms: "a composed column ('Tech round', role interview) ages at the
 interview default, not on the flat legacy cut a name lookup fell through to."
 The same block documents a second, sharper case for honouring the resolver's
@@ -105,66 +107,62 @@ to no product semantics, and a test asserts that choice
 population it applies to is now the columns a team explicitly declined to
 classify, not every column it ever added.
 
-## Overrides: bounded and tenant-scoped, still unattributed
+## Overrides became team data
 
-`app/features/hiring/pipeline/pipelineSla.ts` states the range once —
-`SLA_MIN_DAYS = 1`, `SLA_MAX_DAYS = 365`, and `clampSlaDays` rounds to whole days
-and clamps into that range. Its header records why the bound is enforced in code
-rather than declared on the input: a native number input's `min`/`max` "are
-advisory — they style the field, they do not stop a paste, an arrow-key overshoot
-or a programmatic set", and a typed 5000 "silenced that column's amber aging dot
-for fourteen years, with the field showing the honest 5000 and nothing saying it
-was out of range". That is the standard's **bounded** requirement met, with the
-suppression-with-extra-steps failure named.
+This is the largest change since the note was first written. Overrides used to
+live in `localStorage`, so the server-side count could see none of them and the
+badge could only approximate. On 2026-09-23 the cadence moved onto the workspace
+axis as an optional `slaDays` per column, written by `PATCH /api/pipeline/stage-sla`
+inside the store's read-modify-write (`applyStageSla`, `stage-sla.ts`), and read
+through the one clock by the board, the sidebar badge and the automation pass. The
+`stage-sla.ts` header gives the reason in the standard's terms: two recruiters on
+one team aged the same board differently, and the server-side surfaces contradicted
+the board the moment anyone tuned a column.
 
-`usePipelineSla.ts` is the store. Two properties match the standard: overrides
-are keyed per workspace rather than per browser (`:7-11` records the bug —
-"after a team switch team A's stage ids and cadences governed team B's aging
-chips"), and values are clamped on the way *in* as well as on the way out, so a
-value stored by an older, unbounded build cannot keep silencing a column. A
-cleared override is a deletion, so the column goes back to its role default
-(`:41`), and an unresolved tenant writes nothing while the override still applies
-in memory for the session (`:43-45`).
+What that satisfies of the override contract:
 
-What the standard asks for and this does not have: overrides are **unattributed
-and undated**. Who set ninety days on this board, and when, is not recorded
-anywhere — and an unexplained long threshold is indistinguishable from an
-accident.
+- **Bounded, in code.** `STAGE_SLA_MIN_DAYS = 1` and `STAGE_SLA_MAX_DAYS = 365` in
+  `decision-config-schema.ts`, refused with a named error, and the schema refuses
+  `slaDays` on the terminal role. `pipelineSla.ts` still clamps the browser side
+  and still records why `min`/`max` on a number input are advisory.
+- **Authority, not taste.** The route asks for `pipeline:write`, the same
+  capability every axis write asks for; its comment calls this a tighten, since
+  before anyone could tune their own browser.
+- **Migration offers, never imports.** A browser's leftover per-browser cadences
+  (`kp.pipelineStageSla:<ws>`) are offered to the team once and cleared after
+  adoption or discard, "because one browser's taste is not team policy until
+  someone with `pipeline:write` says so".
+- **No approximation left to declare for cadence.** The shared badge now reads the
+  same team value as the board, so the technique's own "when not to use" clause
+  applies: where the shared surface can see the true policy, use it and skip the
+  apparatus. The standard still stands for any policy that stays local.
 
-## The shared badge still approximates, and still says so only in source
-
-Overrides live in `localStorage`, so the server-side count cannot see them. What
-*has* changed is that the shared computation is no longer approximate about
-**roles** — it resolves the workspace's own axis before it counts — so the
-approximation is now confined to the per-board overrides, which is the boundary
-the overridable-defaults technique actually describes.
-`docs/features/hiring-pipeline/README.md` §"Aging thresholds follow the role, not
-the name" states it for a reader: "the sidebar badge is computed server-side from
-the defaults only — a recruiter's local overrides are a per-browser concern it
-approximates."
-
-The user-visible half of the declared-approximation contract is still missing.
-The disclosure lives in a source comment and a feature doc, not on the badge, so
-a recruiter who tuned their board has no in-product explanation for why the nav
-count disagrees with their lanes.
+What the standard asks for and this still lacks: an override's **actor and date**.
+The route writes the axis with scope `"team"` and I found no `updatedBy` or actor
+on the write in the route or in `stage-sla.ts`; I did not read the store's own audit
+trail, so whether it records who set ninety days on a column is not evaluated here.
+The SLA editor that used to render the override was deleted with the old board view
+(2026-09-25); the kit view's `PipelineKitSla.tsx` now carries the edit, showing the
+team cadence with the role default as placeholder. Whether it marks a column as
+running a custom policy was not read.
 
 ## One reasoned divergence from the override rule
 
 The overridable-defaults technique asks for overrides keyed by **role**, so an
 override survives a rename exactly as a default does. Here they are keyed by
-**column id** (`slaForStage`'s first lookup, and `setStageSla(stage, days)`).
+**column id** (`slaForStage`'s override and axis lookups, `setStageSla(stage, days)`).
 On an editable axis that meets the same goal by a different mechanism: the id is
 the column's stable identity and the label is the editable part, so a rename
-carries the override with it. It also expresses something a role key cannot — two
+carries the override with it. It also expresses something a role key cannot: two
 columns playing the same role, tuned differently, which is precisely why a team
 composes a second interview column in the first place.
 
-## Where the strip sits
+## What stopped being true
 
-`app/features/hiring/pipeline/PipelineAttentionStrip.tsx:1-15` consolidates the
-two queues that outrank the board into one ranked list, placed "above everything
-a fresh workspace is shown, because a stalled application outranks onboarding".
-The same header records the reachable-empty rule — "Renders nothing when both
-queues are empty; the strip must never be a permanent fixture the eye learns to
-skip" — which is the property terminal exclusion and per-role thresholds exist to
-protect.
+Two claims in the earlier version of this note are gone and should not be repeated
+from memory. The attention strip (`PipelineAttentionStrip.tsx`) and its
+"reachable-empty" header were deleted with the old board on 2026-09-25, so this
+application no longer evidences the ranked-strip rule; the node application records
+what replaced it. And the "approximation is confined to per-board overrides" claim
+is void for cadence, per the section above, because there is no per-browser
+override left for the server to miss.

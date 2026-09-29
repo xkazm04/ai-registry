@@ -1,11 +1,11 @@
 ---
 name: contest
-description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" --participants <specs> for a full round, or /contest init|run|collect|judge|reveal|router|verdict|refine|status <id> to drive one step."
+description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.7.0
-tags: contest, prototyping, ui, multi-model, blind-judging, vault
-argument-hint: "\"<idea>\" --participants engine:model@effort,... | init|run|collect|judge|reveal|router|verdict|refine|status <id>"
+version: 1.8.0
+tags: contest, prototyping, ui, landing, multi-model, blind-judging, vault
+argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|status <id>"
 ---
 
 # Contest - three seats, three ideas each, one blind panel
@@ -41,8 +41,16 @@ resumes by re-running the same command.
 
 ```
 /contest "<idea>" --participants claude:opus@xhigh,grok:grok-4.6@high,codex:gpt-5.6-sol@high
+/contest "<idea>"                      # UI roster: claude:claude-sonnet-5-5@max,claude:claude-opus-5-5@xhigh
+/contest --landing "<idea>"            # landing / representative page preset (see Landing contests)
 /contest init|run|collect|judge|aggregate|reveal|router|verdict|refine|status <id>
 ```
+
+**The UI roster.** When a call names no participants (and the overlay sets none), `init` seats
+`claude:claude-sonnet-5-5@max,claude:claude-opus-5-5@xhigh` and says so (`[UI default]`). On the
+first landing contest Sonnet at max effort held level with Opus at xhigh - the owner took two of
+its three variants forward - at about 1.4x the wall time and cost. Name participants explicitly for
+a design (backend) contest or a cross-family field.
 
 The full form runs steps 1 to 8 below with a pause before the verdict. The step form drives one
 step and is what a resumed session uses. Under the hood every step is:
@@ -52,6 +60,37 @@ node <skill>/scripts/contest.mjs <step> --id <slug> [options]
 ```
 
 Run it from the consuming repo's root; the arena defaults to `.contest/arena/<id>/` there.
+
+## Landing contests - `--landing`
+
+For a representative or landing page, where the prize is a stranger's first three seconds:
+visual quality, motion and creativity are judged hardest, and utility is the floor. `--landing`
+sets, under any option the call names explicitly:
+
+- the UI roster as participants, 3 variants each, a **90 min** ceiling (graphics-heavy variants
+  took 46 and 66 min on the first run);
+- `--review owner`: the seats are told the owner reviews every variant in a browser, blind. There
+  is no judge panel by default; the host's visual pass (step 6) and the owner decide;
+- `references/landing-bar.md` appended to the brief. That is the owner's bar in their words:
+  **visually dominant, with nested layers and custom illustrative elements**, motion that carries
+  the story, a composition that holds at every size, and the item under attention taking the
+  dominant space.
+
+Host work that made the first landing contest land:
+
+- **When a current page exists, stage it**: screenshots of its states at 1600x900 plus its source
+  under `data/current-landing/`, with its known faults named in the brief. A seat that can see what
+  it has to beat builds a recognisable successor.
+- **Consider a fixed shape**: variant-1 is the direct successor (keep the concepts and upgrade every
+  one), and variants 2 and 3 succeed the concept, not the layout. The owner fused the two successors
+  and took three of the four free variants forward as parallel views.
+- **Give the honesty rule for imagery**: only real screenshots may be presented as real, and
+  designed key art is labelled as stylised. Warn that a `file://` image cannot become a WebGL
+  texture.
+- **Probe the visual pass by role, not by text**: open each item through its accessible button
+  (`get_by_role('button', name=...)`), because a text click lands on captions and external links.
+  Screenshot the intro at about 0.7, 1.8 and 3.2 s, then the overview, then an opened live item
+  and an opened in-progress item, at 1920x1080, 1280x800 and 390x844.
 
 ## 0. Overlay and vault
 
@@ -105,7 +144,7 @@ in a browser. What changes is host work, all of it outside the instrument:
 
 ```
 node <skill>/scripts/contest.mjs init --id <slug> --title "<title>" --brief BRIEF.md \
-  --participants <specs> [--variants 3] [--data <dir>] [--timeout-min 60] [--vault <root>]
+  [--participants <specs>] [--landing] [--review panel|owner] [--variants 3] [--data <dir>] [--timeout-min 60] [--vault <root>]
 ```
 
 `init` writes `contest.json`, the participants' workspaces, and each `PARTICIPANT.md` from
@@ -356,7 +395,7 @@ runs with no overlay at all; say when defaults are in force. YAML frontmatter fo
 vault: ["<abs obsidian root>", ...]   # candidate roots, first existing wins  [<repo>/.contest]
 vault_subdir: Contest                 # namespace inside the vault; "" = the root itself  [Contest]
 arena: .contest/arena                 # where contests and entries live, git-ignored  [.contest/arena]
-participants: ""                      # default seats when the call names none  [none - the call must name them]
+participants: ""                      # default seats when the call names none  [the UI roster: claude:claude-sonnet-5-5@max,claude:claude-opus-5-5@xhigh]
 judges: ""                            # default panel  [none - the call must name them]
 variants: 3                           # per participant  [3]
 timeout_min: 60                       # per seat  [60]

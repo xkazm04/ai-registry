@@ -2,7 +2,8 @@
 /**
  * contest - run a blind design contest between CLI agent seats.
  *
- *   node contest.mjs init    --id <slug> --title "<t>" --brief <file> --participants <specs> [--variants 3]
+ *   node contest.mjs init    --id <slug> --title "<t>" --brief <file> [--participants <specs>] [--variants 3]
+ *                            [--landing | --preset <name>] [--review panel|owner]
  *                            [--arena .contest/arena] [--data <dir>] [--vault .contest] [--vault-subdir Contest]
  *                            [--project <name>] [--timeout-min 60]
  *   node contest.mjs run     --id <slug> [--only <participant-id>] [--force]
@@ -35,6 +36,7 @@ import { parseParticipants, engineCommand, parseEnvelope, classifyOutcome } from
 import { blindMap, unblind, scrubIdentity, materialPhrases, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown, feedbackSection } from './lib/judging.mjs';
 import { renderRouter, fileHref } from './lib/router.mjs';
 import { renderContestNote, upsertIndex, upsertPatterns, readPatterns, slugify } from './lib/vault.mjs';
+import { resolveInit, reviewLines } from './lib/presets.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REFERENCES = path.join(HERE, '..', 'references');
@@ -171,14 +173,18 @@ function init() {
   const id = slugify(need('id'));
   const title = need('title');
   const briefFile = need('brief');
-  const participants = parseParticipants(need('participants'));
-  const variants = Number(opts.variants ?? 3);
+  let shape;
+  try { shape = resolveInit(opts); } catch (e) { die(e.message); }
+  const participants = parseParticipants(shape.participants);
+  const variants = shape.variants;
   const dir = contestDir(id);
   if (fs.existsSync(path.join(dir, 'contest.json')) && !opts.force) die(`contest "${id}" exists at ${dir} (use --force to re-init the briefs; entries are kept)`);
   fs.mkdirSync(path.join(dir, 'entries'), { recursive: true });
   // The template opens the brief with its own "## The idea"; a brief that starts the same way
   // would print the heading twice (measured on the first contest).
-  const brief = read(briefFile).trim().replace(/^##\s+The idea\s*\n+/i, '');
+  let brief = read(briefFile).trim().replace(/^##\s+The idea\s*\n+/i, '');
+  // A preset's bar is part of the brief every seat reads, so it lands in BRIEF.md too.
+  if (shape.bar) brief = `${brief}\n\n${read(path.join(REFERENCES, shape.bar)).trim()}`;
   fs.writeFileSync(path.join(dir, 'BRIEF.md'), `${brief}\n`);
   if (opts.data) copyDir(path.resolve(cwd, opts.data), path.join(dir, 'data'));
   const hasData = fs.existsSync(path.join(dir, 'data'));
@@ -186,7 +192,7 @@ function init() {
   const vault = path.resolve(cwd, opts.vault ?? '.contest');
   const c = {
     id, title, date: today(), project: opts.project ?? path.basename(cwd), arena: arenaRoot(),
-    brief_file: 'BRIEF.md', variants, timeout_min: Number(opts['timeout-min'] ?? 60),
+    brief_file: 'BRIEF.md', variants, timeout_min: shape.timeout_min, preset: shape.preset, review: shape.review,
     participants, judges: [], vault, vault_subdir: opts['vault-subdir'] ?? 'Contest',
     created: new Date().toISOString(),
   };
@@ -199,6 +205,7 @@ function init() {
     ? ['## What has won before', '', 'Judges of earlier contests named these philosophies in winning work. They are the floor, not a recipe: a variant that merely re-implements one of them will lose to one that finds the next.', '', ...top.map((p) => `- **${p.slug}** (won ${p.wins}, seen ${p.seen}): ${p.statement}`)].join('\n')
     : '';
   const template = read(path.join(REFERENCES, 'participant-brief.md'));
+  const lines = reviewLines(shape.review);
   const dataLine = hasData
     ? 'The input data is in `data/` beside the variant directories, with `data/SCHEMA.md` describing it. Reference it by relative path from `index.html` (for example `<script src="../data/knowledge.js">`), or inline it. Never modify `data/`.'
     : 'No input data is provided; build your own realistic dataset inside the variant and say in `NOTES.md` how it was made.';
@@ -209,10 +216,11 @@ function init() {
     const text = template
       .replaceAll('{{title}}', title).replaceAll('{{brief}}', brief).replaceAll('{{variants}}', String(variants))
       .replaceAll('{{data_line}}', dataLine).replaceAll('{{patterns_section}}', patternsSection)
-      .replaceAll('{{timeout}}', String(c.timeout_min));
+      .replaceAll('{{timeout}}', String(c.timeout_min))
+      .replaceAll('{{review_line}}', lines.review_line).replaceAll('{{rubric_intro}}', lines.rubric_intro);
     fs.writeFileSync(path.join(ws, 'PARTICIPANT.md'), text);
   }
-  console.log(`contest "${id}" at ${dir}\n  ${participants.length} participant(s): ${participants.map((p) => p.spec).join(', ')}\n  ${variants} variants each, ${c.timeout_min} min ceiling, data: ${hasData ? 'staged' : 'none'}, prior patterns quoted: ${top.length}\n  vault: ${path.join(vault, c.vault_subdir)}`);
+  console.log(`contest "${id}" at ${dir}${shape.preset ? ` (preset: ${shape.preset})` : ''}\n  ${participants.length} participant(s)${shape.participantsDefaulted ? ' [UI default]' : ''}: ${participants.map((p) => p.spec).join(', ')}\n  ${variants} variants each, ${c.timeout_min} min ceiling, review: ${shape.review}, data: ${hasData ? 'staged' : 'none'}, prior patterns quoted: ${top.length}\n  vault: ${path.join(vault, c.vault_subdir)}`);
 }
 
 // ---------------------------------------------------------------- run

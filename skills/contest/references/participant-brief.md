@@ -1,7 +1,7 @@
 # {{title}}
 
 You are one participant in a design contest. Other seats are answering the same brief right
-now; a blind panel will score every variant, and one will win. You compete on the quality of
+now; {{review_line}}. You compete on the quality of
 what you leave in this directory and on nothing else.
 
 ## The idea
@@ -35,7 +35,7 @@ variant-3/index.html     variant-3/NOTES.md
 
 ## The bar
 
-The panel scores each variant 1 to 10 on seven dimensions, equally weighted:
+{{rubric_intro}}
 
 | Dimension | What a 10 looks like |
 |---|---|

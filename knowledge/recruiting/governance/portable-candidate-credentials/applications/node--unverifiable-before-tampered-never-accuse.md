@@ -5,7 +5,8 @@ subject: portable-candidate-credentials
 technique: unverifiable-before-tampered-never-accuse
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Tri-state signature checking in the Durable Skill Profile store
@@ -25,22 +26,23 @@ was unset, recomputed every signature to a mismatch, and the public page rendere
 
 ## The three fixes, in the order they matter
 
-**1. A dedicated credential key** (`skill-profiles.ts:57–72`). `activeSkillProfileKey()`
+**1. A dedicated credential key** (`skill-profiles.ts:57–62`). `activeSkillProfileKey()`
 resolves `KP_SKILL_PROFILE_KEY` with an id from `KP_SKILL_PROFILE_KEY_ID` (default `"k1"`),
 entirely decoupled from `KP_SECRET`. Rotating the auth secret no longer touches
-credentials. `skillProfileKeyById()` at line 68 resolves a *retired* id to
-`KP_SKILL_PROFILE_KEY_<id>`, which is what makes rotation non-destructive: each row stores
-the `key_id` it was signed under (`skill-profiles.ts:296`, insert), and verify resolves the
+credentials. `skillProfileKeysById()` at line 79 resolves a *retired* id to
+`KP_SKILL_PROFILE_KEY_<id>` (and, since 2026-08-21, to the active secret too — see the
+half-done rotation below), which is what makes rotation non-destructive: each row stores
+the `key_id` it was signed under (`skill-profiles.ts:331`, insert), and verify resolves the
 key by that stored id, so outstanding `/skill/[token]` links keep verifying under the
 retired key while new mints sign under the new one.
 
 **2. The key id is bound into the MAC**, not merely stored beside it (`skillProfileMac`,
-line 83). A stored id cannot be swapped to point at a weaker or retired key without
+line 98). A stored id cannot be swapped to point at a weaker or retired key without
 invalidating the signature — the same construction the decision chain uses in
 `decisionContentMac` (`app/_lib/decision-hash.ts`).
 
 **3. Verification is tri-state, and the states are structurally separate.**
-`checkSkillProfileSignature` (line 104) returns `"ok" | "mismatch" | "unconfigured"`:
+`checkSkillProfileSignature` (line 119) returns `"ok" | "mismatch" | "unconfigured"`:
 
 ```
 const secret = skillProfileKeyById(keyId);
@@ -48,24 +50,51 @@ if (!secret) return "unconfigured";
 return timingSafeHexEqual(skillProfileMac(dsp, keyId, secret), signature) ? "ok" : "mismatch";
 ```
 
-The absence of key material returns **before any comparison happens**. That is the
+The absence of key material returns **before any comparison happens** (the snippet is the
+2026-08-20 shape; the current one is in the next section). That is the
 technique's step 1 realized in five lines: "cannot check" is established before "checked
 and disagreed" can be reached, so a config problem can never fall through into a fraud
-verdict. `verifySkillProfileToken` (line 317) then projects it onto the verdict:
+verdict. `verifySkillProfileToken` (line 365) then projects it onto the verdict:
 
 ```
 const verifiable = sig !== "unconfigured";
 const signatureOk = sig === "ok";
 ```
 
-and `app/skill/[token]/page.tsx:32–36` states the rule in the copy layer's own words —
+and `app/skill/[token]/page.tsx:54–59` states the rule in the copy layer's own words —
 "unverifiable comes BEFORE tampered … that is OUR configuration problem, not evidence the
 bearer forged anything."
+
+## The half-done rotation: a key id is a set, not a key
+
+Field evidence dated one day after this application was first verified. Commit `6010c6b86`
+(2026-08-21) records a failure the three fixes above did not prevent: the active key id
+*defaults* to `"k1"`, so an operator who rotated `KP_SKILL_PROFILE_KEY`, pinned the retired
+value as `KP_SKILL_PROFILE_KEY_k1`, and left the id alone made the active-id branch win. Every
+outstanding `k1` credential was recomputed under the *new* secret, disagreed, and rendered red
+"TAMPERED" to employers, with the correct key sitting in the environment. The neutral
+"unverifiable" state never engaged because key material *was* present, so the pre-comparison
+guard (`unconfigured`) had nothing to catch. Present-but-wrong-generation is the gap that
+"is the key loaded" does not cover.
+
+The fix (`skillProfileKeysById`, line 79) resolves a stored id to *every* secret the operator
+supplied for it, the pinned one and the active one, and `checkSkillProfileSignature`
+(line 119) reports `mismatch` only when **none** reproduces the signature. A forgery still
+matches neither, so the tamper verdict keeps its meaning; a half-done rotation now verifies.
+The lesson for the standard: "mismatch" is a verdict about the whole candidate set for an id,
+and an id that defaults to a constant makes two generations share a name.
+
+Its sibling in the same commit is the reissue ordering (`issueSkillProfile`, line 231). The
+old row used to be revoked *before* the replacement was signed, so an unreadable signing key
+revoked the live credential and then threw, and every link the candidate had already shared
+read "revoked" permanently. Signing and every other refusal now run first, and the supersede
+plus the INSERT share one `IMMEDIATE` transaction (lines 326–336): the golden path's "never
+revoke into nothing" guard, enforced by ordering instead of by intention.
 
 ## The legacy-pinning detail worth copying
 
 Rows written before the fix carry `key_id = ""` and are verified by
-`legacySkillProfileSecret()` (line 77), which reads `KP_SKILL_PROFILE_LEGACY_KEY` if set,
+`legacySkillProfileSecret()` (line 92), which reads `KP_SKILL_PROFILE_LEGACY_KEY` if set,
 else `KP_SECRET`. That fallback exists so an operator who must rotate the leaked auth
 secret can *pin* its old value under the legacy name and keep pre-fix credentials
 verifying. This is the technique's step 2 applied retroactively — retired key material
@@ -80,10 +109,10 @@ one on the day of a routine rotation.
   requirement holds: a hosted lookup is not third-party verification, and the public page
   should say so rather than implying a stranger checked anything themselves.
 - **Dev/open mode still mints under the legacy auth secret** when no dedicated key is
-  configured (`signNewSkillProfile`, line 118). The standard prefers issuing an honestly
+  configured (`signNewSkillProfile`, line 135). The standard prefers issuing an honestly
   **unsigned** credential over signing with a key that may not survive the week; the
   mitigation here is that minting throws outright when no key material exists at all
-  (line 123), so an unverifiable-by-construction credential is never handed out silently.
+  (lines 139–141), so an unverifiable-by-construction credential is never handed out silently.
 - **Copy is per-state but the diagnostic cause is not surfaced to operators as a metric.**
   The standard asks for a spike in `unconfigured` results, concentrated on one key
   generation, to raise an operational alarm — that is the difference between detecting

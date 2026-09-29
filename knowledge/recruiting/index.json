@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 394,
-  "applications": 254,
+  "applications": 255,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -4395,8 +4395,8 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/inference-labelling-and-refusal/inference-labelling-and-refusal.md",
-   "digest": "sha256-b2:0430b539465ecdb5",
-   "revision": 2,
+   "digest": "sha256-b2:72a7c498b07fdffd",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -4517,7 +4517,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/interview-calendar-integrity/interview-calendar-integrity.md",
    "digest": "sha256-b2:293e8ac1c60f9a41",
-   "revision": 3,
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -4644,7 +4644,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-round-design/interview-round-design.md",
    "digest": "sha256-b2:6c115a739c45b00b",
-   "revision": 4,
+   "revision": 5,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -4766,9 +4766,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-run-of-show/interview-run-of-show.md",
-   "digest": "sha256-b2:2053ff039d5ee8f0",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:85d0fb2d85788aaa",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "duration-band-and-clamping",
@@ -4859,19 +4859,19 @@
      "stack": "node",
      "technique": "duration-band-and-clamping",
      "file": "knowledge/recruiting/assessment/interview-run-of-show/applications/node--duration-band-and-clamping.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "node",
      "technique": "regenerate-without-destroying-human-notes",
      "file": "knowledge/recruiting/assessment/interview-run-of-show/applications/node--regenerate-without-destroying-human-notes.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "question-kit-grounded-in-named-evidence-gaps",
      "file": "knowledge/recruiting/assessment/interview-run-of-show/applications/process--question-kit-grounded-in-named-evidence-gaps.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -4998,7 +4998,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/governance/multi-jurisdiction-hiring-compliance/multi-jurisdiction-hiring-compliance.md",
    "digest": "sha256-b2:b46920aab9e492a6",
-   "revision": 2,
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5344,9 +5344,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/pipeline-aging-and-attention-triage.md",
-   "digest": "sha256-b2:b0471adcefbe0b68",
-   "revision": 2,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:e4e2ae0062c00fff",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "aging-versus-stalled-two-tier-alerts",
@@ -5439,19 +5439,19 @@
      "stack": "node",
      "technique": "attention-queue-ordering-and-rationale",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/node--attention-queue-ordering-and-rationale.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "aging-versus-stalled-two-tier-alerts",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/process--aging-versus-stalled-two-tier-alerts.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "react",
      "technique": "per-stage-aging-thresholds-not-one-global-cut",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/react--per-stage-aging-thresholds-not-one-global-cut.md",
-     "verified_on": "2026-09-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -5460,9 +5460,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
-   "digest": "sha256-b2:e915d448eb862521",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:fd3338d7d1babc84",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "entry-and-terminal-role-requirements",
@@ -5559,19 +5559,22 @@
      "stack": "node",
      "technique": "retired-stage-tombstones-and-migration",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/node--retired-stage-tombstones-and-migration.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "screening-gate-index",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/node--screening-gate-index.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "off-axis-candidate-recovery",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/react--off-axis-candidate-recovery.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -5580,9 +5583,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
-   "digest": "sha256-b2:9e282e16d3690e9e",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:615a79cbff0481b3",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "freshness-is-separate-from-integrity",
@@ -5679,19 +5682,28 @@
      "stack": "node",
      "technique": "freshness-is-separate-from-integrity",
      "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/node--freshness-is-separate-from-integrity.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "unverifiable-before-tampered-never-accuse",
      "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/node--unverifiable-before-tampered-never-accuse.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "numbers-only-for-genuine-states",
      "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/react--numbers-only-for-genuine-states.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "spec",
+     "technique": "trust-state-resolution",
+     "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--revocation-without-a-beacon.md",
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -5938,9 +5950,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/pre-publish-fillability-forecast.md",
-   "digest": "sha256-b2:50824597abf2865b",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:e9384c0804d9ba2c",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "counterfactual-gate-loosening",

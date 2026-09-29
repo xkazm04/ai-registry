@@ -128,6 +128,16 @@ will import each other's candidates into the wrong part of the process.
 - When off-axis occupants appear in numbers, that is an axis-edit incident,
   not a per-candidate problem. Surface the aggregate to whoever edits the
   board.
+- When the surface that renders the notice is rewritten or deleted, the
+  notice moves with it or the reference is refused. The resolver that answers
+  "is this stage on the board" can stay green in its own tests while nothing
+  calls it, and the link then filters by a column the board no longer draws
+  and says nothing. Pin the notice at the surface, not only the pure function
+  beneath it.
+- When a group's recovery is a single "move all" control, decide whether it is
+  one request or a loop of per-candidate moves. A loop that fails partway
+  leaves a half-moved group that reads as progress, so report the count that
+  did not move.
 
 ## When not to use this
 

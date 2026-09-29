@@ -3,6 +3,15 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 
+## 1.7.0 - 2026-09-29 - dollar (cinema-portfolio, the first landing contest)
+
+- **Two same-family seats at different tiers made a full field.** claude-sonnet-5-5@max and claude-opus-5-5@xhigh ran with no judge panel: 6 of 6 variants delivered, zero page errors in 18 browser runs. The owner took five forward: a fusion of both successors, two alternative views and one port into another app. Sonnet cost 66 min / $28.24 / 219 turns against Opus's 46 min / $19.35 / 121 turns, and held level. This became the UI roster and the `--landing` preset in 1.8.0.
+- **The owner's taste for landing pages, verbatim:** "visually dominant with nested layers and custom illustrative elements", and "creative and execution excellence". The variant with drawn per-app cut-paper artwork was called "superior over all variants regarding artstyle and engineering execution". Stock icons in a nicer frame did not compete.
+- **The owner picked parts, not variants.** For the successor slot the verdict was a component-level fusion: one seat's component design, animations and beam particles, the other seat's viewport sizing, centre-stage hover name, circle-plus-film-ring composition and header. On a landing brief, present the successors side by side by component, not only by total.
+- **Staging the current page's screenshots and source made the successor slot work.** Both successors were recognisable and upgraded every concept. Neither repeated the faults the brief named (a panel colliding with the corner controls, an intro that ran too long).
+- **The participant template promised a blind panel that did not exist**; both PARTICIPANT.md files were hand-edited. Fixed in 1.8.0 with `--review owner`.
+- **The generic visual-pass probe never opened an item.** A text click on an app name hit a caption or an external "now showing" link. Driving accessible buttons by role opened 5 of 6 variants; the sixth used zero-size absolutely-positioned wrappers and needed a click at the element's coordinates. Documented in the landing section of SKILL.md.
+
 ## 1.4.0 - 2026-09-23 - personas (Cadastre promotion, contract capture)
 
 - A winner's heavy content lives behind an interaction (a deed opens a full-scale layer on click), so a contract captured at load found 13 of 34 roles NOT FOUND and would have licensed a port that never checked the part the owner chose it for. `style-contract.py` gained `--drive click:<sel> | press:<key> | wait:<ms>` (repeatable, run in order before measuring); a role that only exists after an interaction carries the same steps in `roles.json` and is captured and checked through them on both sides. Two captures are merged: the base one and the driven one.

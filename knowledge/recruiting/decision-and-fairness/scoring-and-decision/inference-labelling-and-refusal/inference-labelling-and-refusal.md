@@ -197,10 +197,10 @@ a coerced one, and it must say so rather than pose as model output.
 
 The duty to tell a person that a machine was involved, and what it did, is in
 force in some places and pending in others, and the dates have moved twice in a year.
-Two facts were read on 2026-09-29. EU AI Act Article 86(1) (text) gives an
+Two facts were read from the text on 2026-09-29. EU AI Act Article 86(1) gives an
 affected person the right to "clear and meaningful explanations of the role of the AI
 system in the decision-making procedure and the main elements of the decision taken".
-Colorado's SB26-189 (from the legislature's bill page, not the enacted text) repeals and re-enacts the state's high-risk AI law with an
+Colorado's SB26-189 repeals and re-enacts the state's high-risk AI law with an
 effective date of 2027-01-01; it requires clear and conspicuous notice at the point of
 interaction with a covered automated decision tool and a plain-language description
 of the tool's role within 30 days of an adverse decision. An earlier date (2026-06-30)

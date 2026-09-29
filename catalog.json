@@ -174,16 +174,16 @@
     },
     {
       "name": "contest",
-      "version": "1.7.0",
+      "version": "1.8.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:272dd0fea63634e5",
+      "contentHash": "sha256-n1:3db345097428fe79",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 11,
+      "lessons": 12,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:d977b13ef7a222b6",
+      "lessonsHash": "sha256-n1:d535f437b8a8e7d7",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -990,7 +990,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 6,
-    "lessons": 292
+    "lessons": 293
   },
   "bundles": [
     {
@@ -1106,9 +1106,9 @@
       "purity": "recruiting",
       "subjects": 64,
       "techniques": 394,
-      "applications": 254,
-      "files": 716,
-      "contentHash": "sha256-b2:90768270f6babcbf"
+      "applications": 255,
+      "files": 717,
+      "contentHash": "sha256-b2:44a068b062c48a3f"
     },
     {
       "name": "software-engineering",

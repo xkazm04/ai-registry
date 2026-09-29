@@ -248,3 +248,20 @@ test('plan hands seats to an outside dispatcher, and the other steps accept what
     for (const s of judges.seats) fs.rmSync(s.cwd, { recursive: true, force: true });
   }
 });
+
+test('presets: --landing brings the UI seats, owner review and the landing bar; a named option still wins', async () => {
+  const { resolveInit, reviewLines, UI_DEFAULT_PARTICIPANTS } = await import('../scripts/lib/presets.mjs');
+  const landing = resolveInit({ landing: true });
+  assert.deepEqual([landing.preset, landing.participants, landing.variants, landing.timeout_min, landing.review, landing.bar],
+    ['landing', UI_DEFAULT_PARTICIPANTS, 3, 90, 'owner', 'landing-bar.md']);
+  assert.equal(landing.participantsDefaulted, true);
+  const named = resolveInit({ landing: true, participants: 'claude:opus@xhigh', 'timeout-min': '45', review: 'panel' });
+  assert.deepEqual([named.participants, named.timeout_min, named.review, named.participantsDefaulted], ['claude:opus@xhigh', 45, 'panel', false]);
+  // No preset: the UI seats are the default roster, a panel decides, and there is no extra bar.
+  const plain = resolveInit({});
+  assert.deepEqual([plain.preset, plain.participants, plain.timeout_min, plain.review, plain.bar], [null, UI_DEFAULT_PARTICIPANTS, 60, 'panel', null]);
+  assert.throws(() => resolveInit({ preset: 'poster' }), /unknown preset/);
+  assert.throws(() => resolveInit({ review: 'crowd' }), /panel or owner/);
+  assert.match(reviewLines('owner').review_line, /owner/);
+  assert.match(reviewLines('panel').rubric_intro, /1 to 10/);
+});

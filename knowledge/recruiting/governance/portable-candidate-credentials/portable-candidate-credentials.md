@@ -122,7 +122,11 @@ current result, and leaving it live lets the artifact in the candidate's hands s
 disagree with the record. Revoke and mint afresh. The guard that matters: never revoke
 into nothing. If the re-evaluation produced no substance, the old credential stays intact —
 withdrawing a genuine artifact with nothing to replace it takes something real from the
-person for the sake of internal tidiness.
+person for the sake of internal tidiness. The same guard binds the *order* of operations, not
+only the decision: sign the replacement and clear every other refusal first, then withdraw the
+old credential and store the new one as a single atomic step. A withdrawal that lands before a
+signing step that then fails leaves every link the person already shared reading "revoked",
+permanently, with nothing behind it (a field failure, measured in an application below).
 
 The ordering rule that transfers furthest out of this domain: **unverifiable must be
 checked and reported before tampered.** When a signature does not check out, there are
@@ -246,4 +250,11 @@ than verification logic.
   candidates' credentials enumerable by anyone who increments a number.
 - **A verification page that reports back who checked it.** The credential is the
   candidate's; turning it into a beacon that tells you which companies they are talking to
-  betrays the ownership the artifact claims.
+  betrays the ownership the artifact claims. Be exact about what this can and cannot promise.
+  With a hosted, symmetric check the issuer's server necessarily sees every lookup, so the
+  promise is what you keep and what you use, never that the lookup is unobserved. The revoked
+  state is the hard case, because withdrawal is only visible to a verifier that asks. The way
+  to let a verifier learn it without the issuer learning *which* credential was asked about is
+  a published list of many credentials' status that the verifier fetches whole — and that
+  protection shrinks with the population: an employer that has issued a few hundred
+  credentials offers a very small crowd to hide in (see the specification application).
