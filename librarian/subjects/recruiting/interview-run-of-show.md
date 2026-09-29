@@ -29,4 +29,4 @@ First touch by `/deepen`, dispatched by the Curator lane on the scan finding "ne
 
 ## Impact
 
-Read from the regenerated registry map (see the result file for the counts): recorded here by slug only after `build-registry-map` ran against origin.
+Dry-run of `build-registry-map` at the landing (nothing written): no project carries a stale verdict against this subject, so no `/conform --stale` queue and no map commit. kp is the consumer tree the applications cite; its `.ai/registry-map.json` was not touched.
