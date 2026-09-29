@@ -1,0 +1,75 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-scg-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T18:38:00Z",
+  "ended_at": "2026-09-29T19:06:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/sourcing-campaign-honesty",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/sourcing-campaign-honesty",
+      "technique": "stated-facts-only-gate",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/sourcing-campaign-honesty",
+      "technique": "no-fabricated-testimonial",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/sourcing-campaign-honesty.md",
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/techniques/stated-facts-only-gate.md",
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/techniques/no-fabricated-testimonial.md",
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/techniques/missing-fact-as-a-warning-code.md",
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/techniques/hook-taxonomy-bounded-by-what-is-provable.md",
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/techniques/defaulted-value-is-absent-not-advertised.md",
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/techniques/regeneration-produces-new-copy-not-a-reshuffle.md",
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/applications/process--stated-facts-only-gate.md",
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/applications/process--no-fabricated-testimonial.md",
+    "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/applications/react--missing-fact-as-a-warning-code.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/sourcing-campaign-honesty.md"
+  ],
+  "commits": [
+    {
+      "sha": "1e2e0c53",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty librarian/applied.md librarian/subjects/recruiting/sourcing-campaign-honesty.md"
+    },
+    {
+      "sha": "ab473e81",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/techniques/missing-fact-as-a-warning-code.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No new technique; a new false-claim class (distorted), one rule reversed by kp's own incident, one code A/B (8 of 8 planted defects passed before, 2 of 8 after, 0 of 6 clean dropped). kp 092f2e1e and 60aab808 local, unpushed (kp main 47 ahead). Registry on origin, gate 23/23."
+}

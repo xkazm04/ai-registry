@@ -127,7 +127,15 @@ measured section with n and its limits.
 
 ## Impact
 
-Filled in after the map was regenerated; see the run result.
+- **kp:** the only project that joins the subject. The impact table listed nine subjects
+  with stale verdicts under kp and this was not one of them, so **0 stale verdicts on this
+  subject**: no verdict was judged against it. kp's map was rebuilt from the origin tree
+  that carries this landing and committed locally (`60aab8088`, a pathspec commit of
+  `.ai/registry-map.json` alone); it moved the recruiting bundle digest and one other
+  subject's pair. No other project's map was rebuilt.
+- **Not pushed:** kp main was 47 ahead of origin with sibling commits interleaved, so the
+  boundary check (`092f2e1e3`) and the map stay local. Return: the operator's call on
+  publishing kp main.
 
 ## Saturation ledger
 

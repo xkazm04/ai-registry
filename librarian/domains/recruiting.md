@@ -1271,3 +1271,22 @@ Conditions on the golden path and five techniques:
 Landed in kp (`775c5d02e`, local): `detectableRatio` and a sentence under the not-significant and clean lines; a group at the stated ratio is shown 79-83% of the time across 13 cells of 4,000 draws. The first check of it counted the wrong thing and read 40%; the table caught it, and the note keeps the mistake. Six `applied.md` rows: one code (better), five unapplied. Three applications re-resolved against kp and re-verified to 2026-09-29 (every one had a moved citation; `certifiable` gained a clause); two new node applications.
 
 Impact: kp only, seven contexts, one verdict now stale against the moved subject; the map was rebuilt and committed locally (`0b3d183d4`). Yield high, dry_streak 0, depth L3. See [[small-sample-honesty-in-hiring-analytics]].
+
+## 2026-09-29 - deepen: sourcing-campaign-honesty
+
+Dispatched from the attention scan ("never swept by the librarian"). The subject stood at its founding revision with no note and no applied row, and its consumer had moved more than the literature: kp had stamped `source` honestly, added `defaultedFields` to the pack, and deleted the whole Campaign tab on 2026-09-16, so the React application's recruiter-facing half described a surface that no longer exists. Lanes: a regulatory lane on primary text (FTC 16 CFR 465, EU UCPD, UK DMCC, AI Act Art. 50, Directive 2023/970, New York 194-b), a counter lane on three claims the page stated flat, an engineering counter lane on "the gate, not an output check", a blind training-data lane, and a re-read of kp at two commits.
+
+No new technique. One new way a claim becomes false, **distorted**: every value is in the record and the claim still overstates it (one end of a range as the headline, "up to" as "earn"). The blind lane, the sibling pay test and kp's own test fixture all reach it.
+
+Conditions on the golden path and five techniques:
+- **the retention effect of an honest ad is modest**: real, small, and never measured as a share of "culture fit" exits; the page now rests on the reader's ability to check, not on retention arithmetic;
+- **"highest-converting testimonial" has no comparison behind it**: one lab study against no testimonial, one study where independent word-of-mouth out-attracted it;
+- **a reviewer does not reliably catch an invented fact**, rather than cannot;
+- **the testimonial exclusion is the team's policy, not a rule the law states**: the fake-review rules are scoped to consumers and products, and none read names a recruitment testimonial;
+- **the output boundary is a backstop to the gate**, not its rival: a deterministic literal check, with what it cannot see written beside it;
+- **an unknown warning code is shown, not dropped**: a rule kp learned itself, and the page had endorsed the opposite;
+- **a pay code's severity is keyed to the market**: New York reads "advertise" as any written description made available to applicants and requires the range; the EU directive and the Czech bill do not put it in the advertisement.
+
+Landed in kp (`092f2e1e3`, local): the boundary now checks the model's words. Planted defects passed 8 of 8 before and 2 of 8 after, 0 of 6 clean shapes dropped, ten tests red-first, the deterministic pack passes its own check in four languages. The two it cannot see are named in the technique. The euphemism ban had covered two languages of four. Six `applied.md` rows: two code (better), four unapplied with return conditions. Three applications re-verified to 2026-09-29, every citation moved; the React one is kept as the last state of a withdrawn surface.
+
+Impact: kp only, 0 stale verdicts on this subject; the map was rebuilt and committed locally (`60aab8088`). kp main is 47 ahead and was not pushed. Yield high, dry_streak 0, depth L3. See [[sourcing-campaign-honesty]].
