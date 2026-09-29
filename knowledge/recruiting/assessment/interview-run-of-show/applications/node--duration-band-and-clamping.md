@@ -5,7 +5,7 @@ subject: interview-run-of-show
 technique: duration-band-and-clamping
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # The timing contract as a pure, CI-enforced module
@@ -37,17 +37,17 @@ would breach the ceiling, so past five questions the per-question value drops to
 
 ## The clamp is a proven no-op downward
 
-`buildRunOfShow` (`:92`) slices to `MAX_QUESTIONS` at `:100`, picks `qMinutes` at `:102`,
+`buildRunOfShow` (`:95`) slices to `MAX_QUESTIONS` at `:102`, picks `qMinutes` at `:104`,
 pushes the intro, one block per question, then computes:
 
 ```ts
 const withWrap = cursor + WRAP_MIN;
 const target = clamp(withWrap, MIN_DURATION_MIN, MAX_DURATION_MIN);
 const deficit = target - withWrap;
-if (deficit > 0) push(deficit, s.openTopic, s.openGoal, []);   // :131-135
+if (deficit > 0) push(deficit, s.openTopic, s.openGoal, []);   // :130-134
 ```
 
-The comment at `:126-130` names both sparse cases explicitly — "0 questions → 7 min,
+The comment at `:125-129` names both sparse cases explicitly — "0 questions → 7 min,
 1 question → 11 min" — and states the invariant that makes the clamp safe: "The
 MAX_QUESTIONS cap + the per-question flip keep the upper bound ≤ MAX, so we only ever
 pad here, never trim." The final `clamp` at `:140` is then annotated as "a defensive
@@ -63,7 +63,7 @@ absorbs drift.
 The header at `:11-13` states the reason the module has no DB or CLI imports: "the
 timing contract is unit-testable in isolation (`run-of-show.test.ts`) and the bounds are
 enforced in CI." The interviewer-facing prose was originally a `Record<"en"|"cs", …>`
-table inside this file — the `F5` note at `:56-66` records that a German or French
+table inside this file — the `F5` note at `:58-66` records that a German or French
 recruiter "silently got the English plan" — and the fix passed the strings in as a
 `RosStrings` parameter rather than importing a catalog loader, specifically to keep the
 module pure. The band survived a localization refactor because it had no dependencies to
@@ -72,21 +72,46 @@ drag along.
 ## The truthful floor on the scheduling side
 
 `app/_lib/interview-planned-minutes.ts` holds the other half: the number the scheduling
-surfaces promise. `plannedInterviewMinutes` (`:53`) is documented as computing the
+surfaces promise. `plannedInterviewMinutes` (`:56`) is documented as computing the
 duration "WITHOUT its side effects: it never generates missing prep, so it is safe to
 call when minting a scheduling link. An entry whose prep doesn't exist yet reports the
 quick screen — the truthful floor — rather than a promise the brief may not keep."
 
-Its precedence chain is `debrief > generic student > grounded prep > quick screen`, and
-the debrief length at `:26-28` is `Math.min(25, 8 + 3 * followupCount)` — roughly three
+Its precedence chain is `debrief > generic student > the job's interview kit > grounded prep >
+quick screen`, and the debrief length at `:34` is `Math.min(25, 8 + 3 * followupCount)` — roughly three
 minutes per minted question on top of an open walkthrough, capped "to stay a screen",
 and single-sourced so the brief and the schedule estimate cannot disagree.
 
-The module's own existence is a second lesson: the header at `:4-15` records that
+The module's own existence is a second lesson: the header at `:4-17` records that
 importing this estimate from `interview-run.ts` dragged the voice layer, prep generator
 and transcript pipeline into routes that only mint a link — 116 modules where ~55 do the
 work — so the leaf was extracted and re-exported. A duration promise that is expensive to
 compute is a promise something will eventually skip computing.
+
+## The kit-pinned booking has one authority, and its ceiling is the provider's
+
+A job with a published interview kit is booked at the kit's length, not the CV plan's and
+not the quick screen's. Before 2026-09-18 that number was computed in four places that
+disagreed: the mint booked the quick screen's 5 minutes for a candidate with no plan and
+connect then squeezed a 20-minute kit to its floors; a candidate with a plan got the
+plan's own length, which the kit then replaced; the rehearsal booked `max(20, natural)`
+with no ceiling; the scheduling estimate ignored the kit; and the saved fallback brief said
+"under 5 minutes". `kitBookedMin` (`app/_lib/interview-kit-booking.ts:316`) is now the one
+rule - warm-up, the kit's competency budgets, the capped CV probes, role questions and
+closing - and the mint, connect, the rehearsal door and `plannedInterviewMinutes` all read
+it (`interview-planned-minutes.ts:71`). It is clamped to the same 15-30 band the CV plan
+uses (`:329`), and a kit authored past 30 is fitted into 30 proportionally, as an
+over-long plan is.
+
+The comment on that function is the first place in this tree where the ceiling has a
+stated derivation, and it is not attention: `interview-duration.mjs` sets
+`PROVIDER_CAP_MIN = GROUNDED_MAX_MIN + 10` (`:43`, 40 minutes), and the director's own end
+is `round(30 x 1.2) + 2 = 38`, inside the cap; a booking past 32 would put the planned end
+outside it and the call would be severed mid-answer instead of closed. So the ceiling of a
+machine-run round is bounded by the surface's hard cut-off plus the overrun the surface
+itself adds, and the technique's "attention degrades" ceiling is a second, independent
+bound - the lower of the two binds. This is evidence from one surface; the standard's
+guidance that a human panel round can run to an hour is unchanged.
 
 ## The same craft, hand-written: the scripted round
 
@@ -114,7 +139,7 @@ two anchor points inline ("integrate and build on it (5) vs acknowledge and igno
   no minutes. It also has no named slack absorber, leaving the 20-to-22 residue
   unassigned. The generated plan gets both right; the hand-written script does not, and
   the standard stays.
-- `MAX_QUESTIONS = 6` drops surplus questions from the CV-derived set (`:100`,
+- `MAX_QUESTIONS = 6` drops surplus questions from the CV-derived set (`:102`,
   `.slice(0, MAX_QUESTIONS)`) without recording that anything was dropped. The brief
-  path does this better — see the prose cap in `interview-run.ts:109-112` — and the plan
-  path should adopt it.
+  path does this better — see the prose cap in `interview-run.ts:99-108` — and the plan
+  path should adopt it. Re-read 2026-09-29: still true.

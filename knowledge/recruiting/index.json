@@ -4741,9 +4741,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-run-of-show/interview-run-of-show.md",
-   "digest": "sha256-b2:2053ff039d5ee8f0",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:85d0fb2d85788aaa",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "duration-band-and-clamping",
@@ -4834,19 +4834,19 @@
      "stack": "node",
      "technique": "duration-band-and-clamping",
      "file": "knowledge/recruiting/assessment/interview-run-of-show/applications/node--duration-band-and-clamping.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "node",
      "technique": "regenerate-without-destroying-human-notes",
      "file": "knowledge/recruiting/assessment/interview-run-of-show/applications/node--regenerate-without-destroying-human-notes.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "question-kit-grounded-in-named-evidence-gaps",
      "file": "knowledge/recruiting/assessment/interview-run-of-show/applications/process--question-kit-grounded-in-named-evidence-gaps.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
