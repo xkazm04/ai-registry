@@ -1,0 +1,67 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-irs2-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T15:20:00Z",
+  "ended_at": "2026-09-29T16:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/interview-run-of-show",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/interview-run-of-show",
+      "technique": "question-kit-grounded-in-named-evidence-gaps",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/assessment/interview-run-of-show/interview-run-of-show.md",
+    "knowledge/recruiting/assessment/interview-run-of-show/techniques/duration-band-and-clamping.md",
+    "knowledge/recruiting/assessment/interview-run-of-show/techniques/fixed-opening-and-closing-blocks.md",
+    "knowledge/recruiting/assessment/interview-run-of-show/techniques/per-question-time-budget-that-tightens.md",
+    "knowledge/recruiting/assessment/interview-run-of-show/techniques/question-kit-grounded-in-named-evidence-gaps.md",
+    "knowledge/recruiting/assessment/interview-run-of-show/applications/process--question-kit-grounded-in-named-evidence-gaps.md",
+    "librarian/applied.md",
+    "librarian/subjects/recruiting/interview-run-of-show.md"
+  ],
+  "commits": [
+    {
+      "sha": "6f05937f",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/assessment/interview-run-of-show"
+    },
+    {
+      "sha": "c13104f3",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json"
+    },
+    {
+      "sha": "097ef49f",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/subjects/recruiting/interview-run-of-show.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second same-day pass: the tree pass left the golden path at L1. Counter-evidence refuted three claims as worded (follow-up as validity, count ceiling, disclosure in the opening), narrowed two. kp generator executed, unchanged. No verdict judged against it."
+}
