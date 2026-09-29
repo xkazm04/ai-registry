@@ -56,10 +56,20 @@ a person should look, or we should re-run when the source returns*.
    refuse the routing, rather than discovering the weakness when someone reads the
    result.
 3. **Keep the score's semantics constant.** Whatever the flag says, the number means
-   the same thing it always meant, computed over the evidence that arrived. Two
-   candidates' scores stay comparable; their *completeness* is what differs, and that
-   is what the flag carries
+   the same thing it always meant. Two candidates' scores stay comparable; their
+   *completeness* is what differs, and that is what the flag carries
    ([a-claim-carries-its-sample-and-its-basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
+   "Computed over the evidence that arrived" is where this step usually fails.
+   A score whose formula still has a slot for the missing input, filled with zero,
+   is the observed-only partial sum. It is a lowered score under another name,
+   and the flag beside it does not undo the ranking. Either
+   drop the missing input from the denominator, or impute it neutrally and say so,
+   the way psychometric practice treats examinees whose data are incomplete through
+   technical failure: "Such reporting essentially involves imputation of missing
+   scores" (Sinharay, 2021). The tell is an asymmetry inside one formula. If a
+   signal the *job* failed to state is imputed neutral but the same signal the
+   *reader* failed to extract from the candidate counts as zero, the candidate is
+   paying for your parser.
 4. **Make ranking flag-aware, not score-adjusted.** Incomplete readings are not pushed
    down the list. They are marked, and where the surface supports it, surfaced for
    attention — an incomplete reading is a reason to look, not a reason to skip.
@@ -75,6 +85,11 @@ a person should look, or we should re-run when the source returns*.
 
 - **When evidence is missing, flag; when evidence is present and weak, score.** The
   distinction is whether the gap is on your side or in the candidate's record.
+  An empty extraction counts as missing unless the reader can tell "the document
+  states none" from "we could not read it". Most readers cannot. And do not assume
+  the gaps fall at random: "missing data correlated with sensitive attributes and
+  outcomes can exacerbate disparities, even for little missingness" (IEEE
+  Intelligent Systems, 2025).
 - **When a threshold would be crossed differently with the full evidence, do not
   evaluate the threshold at all** — hold. A borderline decision made on a known-partial
   basis is a decision made about your infrastructure.

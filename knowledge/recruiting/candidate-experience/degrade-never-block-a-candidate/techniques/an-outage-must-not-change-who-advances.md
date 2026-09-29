@@ -40,10 +40,18 @@ It may change *when* a human looks. It must not change the outcome.
 Three structural commitments make the property hold, and they are the only reliable
 ones:
 
-1. **A degraded instrument may not execute an adverse outcome.** Fallback readings
-   produce holds and reviews. Rejection, deprioritisation and auto-close require an
-   authoritative instrument or a human
+1. **A degraded instrument may not execute an outcome that changes who advances, in
+   either direction.** Fallback readings produce holds and reviews. Rejection,
+   deprioritisation and auto-close require an authoritative instrument or a human
    ([no-adverse-outcome-is-solely-automated](../../../_laws.md#no-adverse-outcome-is-solely-automated)).
+   So does an unattended *advance*. A fallback that can only clear people looks
+   harmless per request, but it moves the people inside its window ahead of the
+   people outside it. It spends interview capacity on a reading nobody validated,
+   and a hire it leads to can close the role on everyone else. Disruption studies
+   find effects in both directions: in the 2013 interruptions of an online state
+   test, roughly as many examinees were "impacted more favorably" as adversely
+   (Sinharay et al., 2015). A fixed-confidence "advance" from a template is the
+   usual way this enters a pipeline, and it is the one to test for first.
 2. **Degradation is never encoded in a ranking input.** No score discount, no
    confidence haircut, no quiet reordering — see the grounding-declaration technique.
 3. **A degraded window is recomputable.** Because the grade, the reason and the
@@ -59,6 +67,25 @@ ones:
    This is why the reason must be queryable rather than logged.
 3. **Compare advance rates inside and outside the window** for the same role and the
    same stage. A material gap is an incident finding, whatever the uptime numbers said.
+   But the comparison is an alarm, never a clearance, for three measured reasons:
+   - *Power.* A window is short and its per-role counts are small. The selection
+     guidelines already say that differences "based on small numbers and ... not
+     statistically significant" may not show impact, and point to a longer period
+     instead (29 CFR 1607.4D). A null at small n is reported as *not evaluable*,
+     never as *clean*.
+   - *Cancellation.* The studies of Indiana's 2013 online-test interruptions found a
+     negligible average effect, while about 5% of examinees were affected in each
+     direction. The state's own reviewer still recommended invalidating more than
+     1,100 interrupted maths tests and more than 280 English ones, each on the
+     student's shortfall against their own predicted score.
+   - *Missing people.* One follow-up found "a small negative impact ... on average"
+     that vanished "after removing records of the disrupted examinees who were unable
+     to complete the test" (Castellano, Sinharay et al., 2023). So the denominator
+     counts every candidate who abandoned or never completed inside the window.
+
+   The acceptance test is therefore per candidate. Re-read every degraded-window
+   reading on the authoritative instrument and count the decisions that change.
+   Split that count by group where the data allows.
 4. **Recompute before anyone acts.** Candidates still in flight are re-run on the
    authoritative instrument before a reviewer sees a list that mixes grades. Ranked
    comparison across grades is the mechanism by which the criterion actually bites.
@@ -68,7 +95,12 @@ ones:
    rather than preventing the next instance.
 6. **Record the window in the audit trail of every decision it touched**, so that a
    later question about a specific person has an answer that does not depend on
-   someone remembering a Tuesday.
+   someone remembering a Tuesday. The testing standards ask for the same thing at the
+   same grain: disruption records kept "so that research studies or case reviews
+   based on test records can take it into account", including "disruptions in the
+   testing environment that may affect all test takers in the testing session"
+   (AERA/APA/NCME *Standards*, 2014, comment to 6.3). An advance that records only
+   "system" as its actor, with no engine, has already lost this.
 7. **Never sort mixed grades into one list without marking them.** If recomputation is
    not yet possible, the surface separates or marks degraded readings so a reviewer is
    not silently comparing two instruments.
@@ -91,6 +123,11 @@ ones:
 - **When a step cannot satisfy this property under degradation, that step does not run
   unattended.** Some steps have no honest floor; the correct design is a human gate,
   not a weaker automation.
+- **When a candidate is held because of degradation, bound the hold.** A hold delays
+  the candidate, and delay costs them. Give it a time limit. When the limit expires,
+  re-read on the authoritative instrument, never reject by default. Tell the reviewer
+  the reading was degraded, so they are not ratifying the fallback's recommendation
+  as though the model had made it.
 
 ## When not to use it
 

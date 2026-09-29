@@ -94,9 +94,13 @@ its output was quietly feeding a threshold.
 - **When the deterministic floor cannot honestly support the step, hold for a human
   rather than inventing a weaker verdict.** An explicit pending state is a better
   artefact than a confident guess from a keyword matcher.
-- **When the degraded result would be adverse to the candidate, it may not be
-  executed unattended.** Degraded instruments produce holds and reviews, never
-  rejections.
+- **When the degraded result would change who advances, it may not be executed
+  unattended — adverse or favourable.** Degraded instruments produce holds and
+  reviews, never rejections and never clearances. A template's "advance" is the
+  common leak: its confidence is a constant somebody typed, and when that constant
+  sits above the bar the model has to earn, the fallback clears people the
+  instrument might have held. See
+  [an-outage-must-not-change-who-advances](./an-outage-must-not-change-who-advances.md).
 - **When part of a composite output came from the floor and part from the model, the
   whole output takes the weaker grade** if the degraded part carries the conclusion.
   Partial-credit provenance is how laundering returns through the back door.

@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 393,
-  "applications": 250,
+  "applications": 251,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3372,9 +3372,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/degrade-never-block-a-candidate.md",
-   "digest": "sha256-b2:8c24ae4b48410a15",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:42db1bcfc4f098d3",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "a-candidate-action-is-debited-never-gated",
@@ -3467,19 +3467,27 @@
      "stack": "node",
      "technique": "a-candidate-action-is-debited-never-gated",
      "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/node--a-candidate-action-is-debited-never-gated.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "never-cache-a-degraded-verdict",
      "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/node--never-cache-a-degraded-verdict.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "an-outage-must-not-change-who-advances",
      "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/process--an-outage-must-not-change-who-advances.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "declare-degraded-grounding-rather-than-lowering-confidence-silently",
+     "file": "knowledge/recruiting/candidate-experience/degrade-never-block-a-candidate/applications/process--declare-degraded-grounding-rather-than-lowering-confidence-silently.md",
+     "verified_on": "2026-09-29"
     }
    ]
   },

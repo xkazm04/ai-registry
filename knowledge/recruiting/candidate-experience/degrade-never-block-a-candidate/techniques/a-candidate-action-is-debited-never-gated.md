@@ -85,10 +85,20 @@ still grows, but the candidate's action completes.**
   tier as its own isolated scope** — never to a default account. An anonymous,
   demonstration or unlinked session must be unable to spend, or pollute, a real
   customer's allowance, and the candidate in front of it still completes their action.
-- **When a deadline is attached to the candidate's action, never gate it under any
-  circumstance** — including fraud holds and abuse controls. A decline deadline does
-  not pause for your investigation. Suspend the operator, keep the acceptance path
-  open, and reconcile afterwards.
+- **When a deadline is attached to the candidate's action, no billing, quota or
+  provider state may gate it.** A decline deadline does not pause for your meter.
+  Suspend the operator, keep the acceptance path open, and reconcile afterwards.
+- **When an identity or fraud control must stop a deadline-bearing action, it holds
+  rather than refuses, and the hold owns the deadline.** An absolute "never gate"
+  does not survive contact with hiring fraud. The FBI's 2025 advisory on fraudulent
+  remote hires tells employers to "not grant access to any systems until the
+  background check is completed", and notes that sometimes "an individual is
+  employed to pass the initial interview, but the on-the-job work is completed by a
+  different individual" (IC3 PSA250723). So the control is a human-reviewed hold.
+  The candidate is told a person is checking, and the deadline is extended by the
+  length of the hold. Where you can, place the control at provisioning and start
+  date rather than at acceptance, which is what that advisory actually gates. What
+  never qualifies as a fraud control is an account's billing state.
 
 ## What this is not
 

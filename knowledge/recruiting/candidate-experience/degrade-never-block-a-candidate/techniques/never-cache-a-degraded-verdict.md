@@ -93,6 +93,16 @@ without also accepting its grade is an API that will eventually freeze a fallbac
 - **When an incident is declared, treat the whole window as suspect,** not just the
   requests that visibly failed. Partial degradation rarely announces itself
   per-record.
+- **When the provider is down and an authoritative entry for the same inputs has
+  just expired, prefer it, marked stale, over a fresh fallback.** This is the HTTP
+  stale-if-error rule: "a cached stale response MAY be used", and it "SHOULD still be
+  visibly stale" (RFC 5861). An older reading of the same candidate by the same
+  instrument keeps the cohort on one instrument; a fresh fallback splits it. It
+  holds only while the key still binds everything the verdict judged, so a changed
+  profile, rubric or role is a miss, never a stale hit
+  ([a-verdict-is-bound-to-what-it-judged](../../../_laws.md#a-verdict-is-bound-to-what-it-judged)).
+  Bound the staleness, and never let a stale entry drive an unattended decision it
+  would not have driven when fresh.
 
 ## When not to use it
 

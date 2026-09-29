@@ -5,7 +5,8 @@ subject: degrade-never-block-a-candidate
 technique: never-cache-a-degraded-verdict
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Cacheability as a property of provenance — TypeScript
@@ -33,18 +34,19 @@ recommends: the deterministic verdict is still returned to the caller, just neve
 stored, so the first request after the provider recovers recomputes, gets an `"llm"`
 verdict, and caches that. Lazy invalidation falls out of never having written.
 
-The producing side matches. `pipeline/jobfit/match_reasoning.py:300` — `_coerce()` —
+The producing side matches. `pipeline/jobfit/match_reasoning.py:474` — `_coerce()` —
 returns `(reasoning, degraded)` where `degraded` is True when **the core of the
 result (verdict + strengths)** came from the deterministic template rather than the
 model, which the caller reports as `source="deterministic"`. That is the technique's
 "the degraded part that carries the conclusion colours the whole payload" rule, and
-the comment states its purpose exactly: "so a coerced-away answer can never pose as
-LLM output".
+the docstring states its purpose exactly (`:479`): "so a coerced-away answer can never
+pose as LLM output". Its caller returns `("deterministic" if degraded else "llm")`
+(`:555-559`).
 
 ## Key-side separation: automation drafting
 
 The automation cache took the other route — it caches degraded output, so it must key
-on the grade. `app/_lib/automation-cache-key.ts:62-70` documents the incident that
+on the grade. `app/_lib/automation-cache-key.ts:104-113` documents the incident that
 forced it:
 
 > The two produce materially different output under ONE key otherwise: a
@@ -55,21 +57,33 @@ forced it:
 Both directions of the poisoning, in one comment. Two implementation details are the
 generalizable craft:
 
-- **Folded unconditionally**, not only when `degraded` is true, so entries written
+- **Folded unconditionally** (`automation-cache-key.ts:182-183`,
+  `input.degraded ? "no-llm" : "llm"`), not only when `degraded` is true, so entries written
   before the axis existed — the ones that may already be poisoned — are retired by the
   key change itself.
-- **Resolved before the key, not at spawn time.** `app/_lib/automation-run.ts:212`
+- **Resolved before the key, not at spawn time.** `app/_lib/automation-run.ts:422`
   computes `const degraded = !meterAllows("ai_candidates", { workspace: workspaceId })`
-  once; the same boolean feeds the cache-key axis at `automation-run.ts:227` and the
-  `--no-llm` CLI flag at `automation-run.ts:242`, "so they can't disagree".
+  once; the same boolean feeds the cache-key axis at `automation-run.ts:455` and the
+  `--no-llm` CLI flag at `automation-run.ts:471`, "so they can't disagree".
 
-`app/_lib/automation-cache-key.test.ts:183` pins it: *"THE FIX: a degraded (--no-llm)
+`app/_lib/automation-cache-key.test.ts:194` pins it: *"THE FIX: a degraded (--no-llm)
 result never shares a key with an LLM result."*
 
-Note the tenancy detail at `automation-run.ts:207-209` and `enforce.ts:99-103`: the
+Note the tenancy detail at `automation-run.ts:419-421` and `enforce.ts:110-114`: the
 degrade switch reads the *asking* workspace's billing state. Before the workspace axis
 existed, every tenant's automation degrade was decided by the default workspace's plan
 — one team's candidates ran on another team's quota.
+
+## The verdict carries its engine past the cache (since 2026-09-04)
+
+The cache is no longer the only place the grade lives. `automation-run.ts` stamps
+`verdictSource` (`VERDICT_SOURCES = ["llm", "template"]`, `:219`; `verdictSourceOf`,
+`:230`) onto every approval payload, and writes the engine into each automation event's
+actor (`auto:automation-template` / `auto:automation-llm`). A cache HIT keeps the source
+it was stored with, which is why the grade had to be a key axis first. The stamp is
+what made the 2026-09-29 fix possible: a template screening verdict no longer routes
+"advance" on its own (see the process application of
+[an-outage-must-not-change-who-advances](../techniques/an-outage-must-not-change-who-advances.md)).
 
 ## Deviations from the standard
 
@@ -80,3 +94,6 @@ existed, every tenant's automation degrade was decided by the default workspace'
   The standard stays.
 - **No degraded-write metric.** Neither cache counts uncacheable results, so a week of
   weak instrument is not visible as an operational signal.
+- **No stale-if-error preference.** Degradation flips the key, so an authoritative
+  entry for the same inputs is never served, stale and marked, in place of a fresh
+  template. The technique's new decision rule prefers it; nothing here tries it yet.

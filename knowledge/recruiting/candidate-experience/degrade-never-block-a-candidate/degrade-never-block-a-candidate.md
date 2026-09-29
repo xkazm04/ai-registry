@@ -48,11 +48,32 @@ list and stops.
 
 Nobody decided that applying on Tuesday morning should lower your chance of a
 callback. But that is now, materially, one of the criteria. It is undeclared,
-unvalidated, invisible in the audit record, unmentioned in any policy, and — this is
-the part that should end the argument — it correlates with things you do not control
-and cannot defend. Application timing is not random with respect to timezone, shift
-work, caring responsibilities, or which sourcing channel was pushed that week. An
-outage-shaped criterion is a proxy criterion you did not know you had.
+unvalidated, invisible in the audit record and unmentioned in any policy, and that
+is enough on its own. Selection doctrine has required standardized administration
+for decades: "Selection procedures should be administered and scored under
+standardized conditions" (29 CFR 1607.5E), and the testing standards put the
+burden on whoever allowed the departure to show it "did not affect test-taker
+performance or the quality or comparability of the scores produced" (AERA/APA/NCME
+*Standards*, 2014, comment to 6.1). Two instruments in one cohort is that
+departure.
+
+The fairness exposure is worse again, but treat it as a hypothesis to check per
+incident, not a fact to assert. Application timing *may* track timezone, shift work,
+caring responsibilities or the sourcing channel pushed that week. No study we found
+measures intraday arrival by group. The test-interruption literature does warn that
+"students of varying demographic characteristics may be affected differently by test
+interruptions" (CCSSO, 2015). So compare the degraded cohort's mix of channel,
+timezone and arrival hour with the role's baseline before you assert the skew or
+dismiss it. An outage-shaped criterion is a proxy criterion you did not know you had
+exactly when that mix differs, and nobody knows until they look.
+
+And the criterion cuts both ways. In the best-studied case, the 2013 interruptions
+of an online state test, the average effect was negligible. Yet about 5% of
+examinees came out "impacted more favorably by the interruption and a similar
+percentage ... adversely" (Sinharay et al., 2015, as tabulated by CCSSO 2015). A
+degraded instrument that is *more lenient* for the people inside its window has
+changed who advances just as surely as a harsher one. The two directions also cancel
+in an average, which is why the average certifies the window clean.
 
 So the standard is not "the system should stay up". It is: **whatever your system's
 operational state, the same candidate must receive the same treatment, or the
@@ -159,9 +180,22 @@ Three consequences follow, and each is a design constraint rather than an aspira
 2. **The floor must be sufficient for the decision it supports.** If a stage cannot
    proceed without the model's contribution, the model is not a garnish — it is a
    dependency, and the correct behaviour is to *hold* the candidate for a human, not
-   to invent a weaker verdict. The hold verdict itself and its fairness properties
-   belong to the automated-screening sibling; what belongs here is knowing which of
-   your steps have a real floor and which only appear to.
+   to invent a weaker verdict. The same holds for a favourable verdict. A template
+   that answers "advance" with a fixed confidence is not measuring anything, and
+   letting it clear a bar the model has to earn lets the degraded window decide who
+   moves on. A degraded instrument may execute no outcome that changes who advances,
+   in either direction. The hold verdict itself and its fairness properties belong
+   to the automated-screening sibling; what belongs here is knowing which of your
+   steps have a real floor and which only appear to.
+
+   A hold is not free, either. Delay has its own cost to the candidate: slower offers
+   are accepted less often, and the candidates with the most alternatives leave
+   first. So the hold carries a time bound. When the bound expires, the candidate is
+   re-read on the authoritative instrument, never rejected by default. The person who
+   resolves the hold is told that the reading was degraded and has the authority to
+   change the outcome. A reviewer who routinely confirms the fallback's
+   recommendation is the "token gesture" that European data-protection guidance says
+   does not count as human involvement (WP251rev.01, p. 21).
 3. **The degraded output must say so.** Not in a log — in the artefact, travelling
    with it. See
    [degrade-to-the-deterministic-path-with-honest-provenance](./techniques/degrade-to-the-deterministic-path-with-honest-provenance.md).
@@ -209,10 +243,20 @@ Two smaller disciplines, both learned the hard way.
 **Grace before downgrade.** A payment failure is usually a transient fact about a
 card, not a decision by a customer to stop hiring. Cutting entitlements the instant a
 charge declines can strand candidates mid-process — an offer that cannot be accepted,
-an interview that cannot be booked — for a reason that resolves itself in three days.
-Hold the entitlement through a grace window, notify the account, and downgrade only
-after the window closes. Never let the downgrade retroactively invalidate a candidate
-commitment already made.
+an interview that cannot be booked — for a reason the payment processor is still
+working through. Hold the entitlement through a grace window, notify the account,
+and downgrade only after the window closes. Never let the downgrade retroactively
+invalidate a candidate commitment already made.
+
+Size the window to the retry schedule, not to a guess. As of 2026-09-29, one
+processor's recommended default is "8 tries within 2 weeks" (Stripe, Smart Retries
+docs). A billing vendor reports that "90% of recovered transactions occur within the
+first 10 days of a failed payment" (Recurly, 2026). A window of a few days ends while
+recovery is still in progress. A hard decline is the exception: it never resolves on
+its own, so ask the customer to act at once while the entitlement is still held. And
+the downgrade itself is an evaluation hazard, not only a billing one. If the lower
+tier routes screening to a cheaper instrument, a lapsed card changes who advances.
+The rule below covers that case.
 
 The grace must be *bounded*, though, and the direction of the default depends on
 which fact is missing. Where the customer has demonstrably paid through a period,
@@ -234,6 +278,13 @@ enrichment for candidates beyond the first fifty when the account is near its li
 That is a selection criterion made of the customer's invoice, applied to individual
 people, and it is precisely the failure the whole subject exists to prevent. See
 [an-outage-must-not-change-who-advances](./techniques/an-outage-must-not-change-who-advances.md).
+
+The degrade switch is the one sanctioned exception, and it holds only under a
+condition. Past an allowance the pipeline reads the meter to choose which *engine*
+answers. That is safe only while the engine cannot choose the *candidate*: the
+degraded engine produces holds and plainer prose, never a clearance the model
+would have had to earn. A deterministic path that can advance people on its own
+turns the meter back into a criterion, one engine removed.
 
 ## Where this subject stops
 
@@ -283,6 +334,9 @@ candidates advance has introduced a selection criterion nobody chose.
   been read in a year, and is discovered to be wrong at the worst possible moment.
 - **The billing-aware ranker** — quota or plan state consulted inside an evaluation
   path, making the customer's invoice a criterion applied to people.
+- **The lenient fallback** — a degraded instrument that may only *advance* people is
+  waved through because nobody was harmed, while it changes who moves on for
+  everyone inside its window.
 - **The instant cut-off** — an entitlement downgrade on the first declined charge,
   stranding candidates mid-process for a transient payment fact.
 
