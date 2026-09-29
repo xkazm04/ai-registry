@@ -1232,3 +1232,24 @@ Dispatched from the attention scan ("never swept by the librarian"). Landed: the
 ## 2026-09-29 - deepen: selection-score-calibration
 
 Dispatched from the attention scan ("never swept by the librarian"). Landed: the drift technique's floor corrected (the curve's floor made a three-axis alarm fire on 99.8% of no-drift window pairs at 20 outcomes; about 200 per window for this design), the Brier range (0 to 1) and the "past run-to-run jitter" claim replaced by measured noise, PSI given its sampling distribution and its provenance as a rule of thumb, the skill estimate given its small-n bias and width, fixed bins reframed as a display with the CORP curve as the reference, calibration withdrawn as a fairness precondition, the EU monitoring duties split between provider (Article 72) and deployer (26(5), 26(6)) and dated to 2 December 2027 (Regulation (EU) 2026/1744), the reviewer-saw-score ceiling called a conservative default, other sparing paths kept out of the clean arm, and one new application (the skill ladder at the floor). Six lanes and three measurements; one kp fix (`5deab937`, local). Four `applied.md` rows. Impact: kp only, eight contexts never judged, no stale verdict; the map was not regenerated (see the subject note). Yield high, dry_streak 0, depth L3. See [[selection-score-calibration]].
+
+## 2026-09-29 - deepen: requisition-lifecycle-governance
+
+The Curator lane dispatched this on "never swept by the librarian". The subject was at revision 1 from the bundle's founding (2026-08-21) with no note and no applied row; its applications were last verified 2026-08-20, and the fleet and the law had both moved under it. A blind training-data lane ran first, then three counter lanes (vendor documentation, law, ghost-posting data), primary reads of 29 CFR 1602.14, 41 CFR 60-1.12 and the Ontario Employment Standards Act text, and a kp re-read.
+
+One technique earned, `fill-is-a-count-and-close-is-the-act-it-triggers`: a requisition is N seats, filled is a count derived from hires against a stated target, closed is an act, and the close is a compare-and-swap so two simultaneous hires retire the role once. Convergence: kp's fill hook, three products' own pages, the blind lane on one of them.
+
+Ten corrections or conditions, none refuting a technique:
+- **"never delete a requisition" becomes a retention clock**: the role's row is non-personal and stays, the candidates go on their own clock; no law read requires permanence or names a requisition as a record;
+- **hold can be a state**, by the same permission test, on two conditions (the posting comes down; an owner and a review date);
+- **disclosure duties attach to the step the law names**, which is sometimes the internal notice (Colorado) or the interview (EU) and sometimes not internal at all (Ontario);
+- **reopen was two acts and the subject contradicted itself**; split on whether anyone was shown the ending;
+- **the immortal requisition is the accidental slice** of ghost-posting figures that cannot separate accidental, deliberate and standing;
+- **approval expiry is a design position**; no documentation or measurement behind it;
+- **closed on the last seat, not the first**; resuming a hold needs no new approval and reopening a close does; a queued close message is a legal duty in one place only (Ontario s. 8.6); a hold has a return date or it is a close.
+
+The tree found what no lane asked: the fill hook had no behavioural test. Four added (kp `bddc2020`, local, not pushed); deleting the target check made a three-seat role close on its first hire and withdraw two people for open seats, deleting the swap made two concurrent hires both report filled.
+
+Six `applied.md` rows: one code (better), five unapplied with return conditions. All three applications re-verified at kp `006bf7a0a` and every line citation moved; two of their three recorded shortfalls were closed (one by a mechanism the standard does not describe), and one surface (the honest-null sort) left the tree. Two new kp applications (fill, publish) and four `process` applications.
+
+Impact: three kp contexts join the subject (`jd-management-api`, `jobs-api`, `jobs-posting-campaign`), all state unknown, so 0 stale verdicts. No map was rebuilt. Yield high, dry_streak 0, depth L3. See [[requisition-lifecycle-governance]].
