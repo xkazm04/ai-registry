@@ -39,7 +39,9 @@ what the final rule requires.
 - Questions and answers, no. 15, read: "The precise definition of the term
   'applicant' depends upon the user's recruitment and selection procedures." And:
   "A person who voluntarily withdraws formally or informally at any stage of the
-  selection process is no longer an applicant or candidate."
+  selection process is no longer an applicant or candidate" - and the agency's own
+  page, re-read 2026-09-29, ends the sentence "for purposes of computing adverse
+  impact", which is the computation this technique feeds.
 
 Two consequences for the gate's denominator. A candidate **rejected** at screening
 was assessed and not selected, so they stay in the denominator: the technique's
