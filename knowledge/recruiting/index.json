@@ -5202,9 +5202,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/peer-benchmarking-under-k-anonymity/peer-benchmarking-under-k-anonymity.md",
-   "digest": "sha256-b2:ed4ac355e385770f",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:d4dfdb04483e2097",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "aggregates-only-never-a-row",
@@ -5294,19 +5294,21 @@
      "stack": "node",
      "technique": "all-time-basis-and-why-a-window-biases",
      "file": "knowledge/recruiting/measurement/peer-benchmarking-under-k-anonymity/applications/node--all-time-basis-and-why-a-window-biases.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "exclude-yourself-from-the-peer-aggregate",
      "file": "knowledge/recruiting/measurement/peer-benchmarking-under-k-anonymity/applications/node--exclude-yourself-from-the-peer-aggregate.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "sql",
      "technique": "normalise-each-contributor-to-its-own-process",
      "file": "knowledge/recruiting/measurement/peer-benchmarking-under-k-anonymity/applications/sql--normalise-each-contributor-to-its-own-process.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
