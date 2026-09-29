@@ -91,18 +91,6 @@ side tried to make the number smaller.
   must be labelled as a default and made editable, never shipped as a
   constant. [Inference must look like inference](../../../_laws.md#inference-must-look-like-inference)
   applies to money exactly as it applies to a judgement about a person.
-- When the estimate is elicited from the people who use the tool ("how much
-  time does this save you?"), it is a belief, not a measurement, and it is
-  weakest exactly where the tool is new. One pre-registered field trial of
-  experienced practitioners recorded a forecast speedup of about a quarter, a
-  post-hoc belief of about a fifth, and a measured slowdown of about a fifth
-  ([METR, 2025](https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/),
-  16 developers, 246 tasks, software work rather than hiring). The same
-  organisation's [2026 follow-up](https://metr.org/blog/2026-02-24-uplift-update/) says the effect has likely moved since and
-  calls its own new estimates unreliable, so the transferable point is the
-  gap between belief and measurement, not the sign or the size. Seed the table
-  from a written task sentence, and replace an estimate with a recorded
-  duration where one exists, never with a survey answer.
 - When a new action kind is added and no estimate is written for it, its
   saving is zero until someone writes one. Never fall back to a blended
   average for unknown kinds — that turns every new feature into an automatic

@@ -65,14 +65,6 @@ the interesting part.
   read path, and every call site passing it. A computation that *accepts* an
   override no caller supplies is measuring against a constant while claiming
   otherwise, and the claim is worse than the constant would have been alone.
-- When a widely repeated hours-per-hire figure cannot be traced to a source,
-  a year and a population, it is not a research anchor, whatever the comment
-  above it says. A 2026-09-29 search for the origin of one such figure (a
-  ~40-51 hour range with a screening and sourcing split) found no primary
-  study; the only "42" in the benchmarking literature located was a
-  time-to-fill in days, and a blind recall lane ascribed the screening share
-  to vendor marketing. Ship an untraceable figure as a labelled placeholder
-  the team is asked to replace, not as a cited default.
 - When the baseline is used in two places, it is read from one place. Two
   copies of an assumption diverge, and the divergence is invisible because
   both sides look internally consistent.
