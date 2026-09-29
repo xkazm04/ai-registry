@@ -1,0 +1,100 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-hb-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T09:50:00Z",
+  "ended_at": "2026-09-29T10:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/hiring-need-as-structured-brief",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/hiring-need-as-structured-brief",
+      "technique": "graded-requirements-two-axes",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/hiring-need-as-structured-brief",
+      "technique": "per-field-provenance-stated-inferred-default",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/hiring-need-as-structured-brief",
+      "technique": "per-field-provenance-stated-inferred-default",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/hiring-need-as-structured-brief",
+      "technique": "minimal-spine-with-open-facets",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/hiring-need-as-structured-brief.md",
+    "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/techniques/graded-requirements-two-axes.md",
+    "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/techniques/per-field-provenance-stated-inferred-default.md",
+    "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/techniques/promote-readiness-gate.md",
+    "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/techniques/merge-that-never-regresses-a-stated-value.md",
+    "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/techniques/source-turn-traceability.md",
+    "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/applications/node--promote-readiness-gate.md",
+    "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/applications/process--merge-that-never-regresses-a-stated-value.md",
+    "knowledge/recruiting/role-definition/hiring-need-as-structured-brief/applications/process--per-field-provenance-stated-inferred-default.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/hiring-need-as-structured-brief.md"
+  ],
+  "commits": [
+    {
+      "sha": "6b721d2e",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/role-definition/hiring-need-as-structured-brief"
+      ]
+    },
+    {
+      "sha": "c68e561c",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/recruiting/index.json"
+      ]
+    },
+    {
+      "sha": "1d989d9f",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/hiring-need-as-structured-brief.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No technique; 6 conditioned, 2 confirmed. kp 8a44493f7 (local; main holds unpushed sibling commits): fallback hardness 3/3 to 1/3 blocking, forced enum, facet cap 20 to 32. Stated-only blocking simulated, not changed. 1 unmeasurable, 6 unapplied. Maps local in 12 projects."
+}
