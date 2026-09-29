@@ -1,0 +1,87 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ppf-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T14:37:00Z",
+  "ended_at": "2026-09-29T15:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/pre-publish-fillability-forecast",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/pre-publish-fillability-forecast",
+      "technique": "counterfactual-gate-loosening",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/pre-publish-fillability-forecast",
+      "technique": "must-have-demotion-delta",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/pre-publish-fillability-forecast",
+      "technique": "pay-versus-market-verdict-with-a-currency-guard",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/pre-publish-fillability-forecast.md",
+    "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/techniques/counterfactual-gate-loosening.md",
+    "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/techniques/must-have-demotion-delta.md",
+    "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/techniques/pay-versus-market-verdict-with-a-currency-guard.md",
+    "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/process--counterfactual-gate-loosening.md",
+    "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/process--counterfactual-gate-loosening--joint-pass.md",
+    "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/process--pay-versus-market-verdict-with-a-currency-guard.md",
+    "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/process--reuse-the-production-scorer-not-a-model-of-it.md",
+    "knowledge/recruiting/role-definition/pre-publish-fillability-forecast/applications/react--staged-suggestion-never-auto-applied.md",
+    "librarian/applied.md",
+    "librarian/subjects/recruiting/pre-publish-fillability-forecast.md"
+  ],
+  "commits": [
+    {
+      "sha": "76752c61",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast"
+    },
+    {
+      "sha": "515e873a",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast"
+    },
+    {
+      "sha": "78ab9804",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md"
+    },
+    {
+      "sha": "62ea4665",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/subjects/recruiting/pre-publish-fillability-forecast.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Beside twin dp-pfp-0929. Three claims refuted by execution against kp's scorer: gate deltas sum to at most the joint effect, a zero is not free, a stamped pay band or level is not stated. Three kp fixes, local and unpushed (d790fdf67, fb942a9af, 0c6c9e39c)."
+}
