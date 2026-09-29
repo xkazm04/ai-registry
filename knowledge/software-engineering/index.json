@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1818,
-  "applications": 1211,
+  "techniques": 1819,
+  "applications": 1212,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1818/1818",
+  "use_when_coverage": "1819/1819",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -37108,9 +37108,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256-b2:4337a608b34cbe4a",
-   "revision": 18,
-   "changedAt": "2026-09-16",
+   "digest": "sha256-b2:b7d28920c42693f8",
+   "revision": 19,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -37123,6 +37123,7 @@
      "shared_with": [],
      "use_when": [
       "an engine offers to build a voice from a description or a sample instead of a catalog",
+      "the engine that authors a voice is too slow to speak it live",
       "storing a user's custom voice so it survives an engine upgrade",
       "deciding whether a voice control needs a consent record",
       "a custom voice sounds different every time it is regenerated",
@@ -37240,6 +37241,26 @@
       "a second app needs the same voice engines the first one has",
       "wrapping a voice engine behind an app route",
       "letting a user compare engines by ear before committing"
+     ]
+    },
+    {
+     "slug": "real-time-synthesis-budget",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "count-carries-predicate",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a speech synthesis engine for live conversation",
+      "a vendor publishes a speed figure for a synthesis model",
+      "an engine clones or designs voices well but runs slower than real time",
+      "deciding whether a slow voice belongs in live replies or in pre-rendered content",
+      "a synthesis engine is started as a new process for every sentence",
+      "an acceleration option is enabled and the engine is still slow",
+      "deciding whether local synthesis should default to the graphics card or the processor",
+      "a voice capability works on the developer's machine and not on the machine most users have"
      ]
     },
     {
@@ -37383,6 +37404,12 @@
      "technique": "portable-provider-package",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/node--portable-provider-package.md",
      "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "process",
+     "technique": "real-time-synthesis-budget",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/process--real-time-synthesis-budget.md",
+     "verified_on": "2026-09-30"
     },
     {
      "stack": "python",
@@ -38771,6 +38798,7 @@
     "voice-io/duplex-agent-sessions",
     "voice-io/engine-choice-on-decisive-terms",
     "voice-io/on-device-vs-cloud",
+    "voice-io/real-time-synthesis-budget",
     "web-scraping/dry-run-preview",
     "web-scraping/llm-assisted-rule-authoring",
     "web-scraping/shape-change-detection",
@@ -39979,6 +40007,7 @@
     "versioning-snapshots/lineage-and-variants",
     "voice-io/decode-time-vocabulary-biasing",
     "voice-io/engine-choice-on-decisive-terms",
+    "voice-io/real-time-synthesis-budget",
     "web-scraping/dedup-and-datasets",
     "web-scraping/shape-change-detection",
     "webhook-ingestion/delivery-logging-and-replay",
@@ -42162,6 +42191,7 @@
     "untrusted-extension-host/two-tier-extension-format",
     "usage-pricing-models/advance-billing-refuses-retroactive-models",
     "vendored-patch-stack/least-invasive-carrier",
+    "voice-io/real-time-synthesis-budget",
     "voice-io/render-acceptance",
     "voice-io/unattended-caller-attribution",
     "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",

@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 22,
-  "techniques": 152,
-  "applications": 83,
+  "techniques": 153,
+  "applications": 84,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "152/152",
+  "use_when_coverage": "153/153",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1070,9 +1070,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/generated-speech-acceptance/generated-speech-acceptance.md",
-   "digest": "sha256-b2:746b2293187565dc",
-   "revision": 1,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:944f40c9b53212c0",
+   "revision": 2,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "hard-slice-stratification",
@@ -1102,6 +1102,23 @@
       "the judge model a benchmark used has been retired",
       "comparing style scores across two judge versions",
       "deciding what a listening judge may and may not decide"
+     ]
+    },
+    {
+     "slug": "listening-board",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between speech generators or voices after the scorers have run",
+      "a speaker-similarity ranking and a listener disagree",
+      "presenting cloned voices for a decision",
+      "the scores of two candidates are close",
+      "deciding which clips a decision-maker must hear",
+      "the same engine was run on two devices and someone asks whether the voice changed"
      ]
     },
     {
@@ -1166,6 +1183,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "listening-board",
+     "file": "knowledge/media-generation/audio-generation/generated-speech-acceptance/applications/process--listening-board.md",
+     "verified_on": "2026-09-30"
+    },
     {
      "stack": "python",
      "technique": "normalize-before-you-compare",
@@ -3048,6 +3071,7 @@
     "generated-output-grading/unconditional-fail-criteria",
     "generated-output-grading/vision-model-grading-schema",
     "generated-speech-acceptance/hard-slice-stratification",
+    "generated-speech-acceptance/listening-board",
     "generated-speech-acceptance/round-trip-intelligibility",
     "generated-speech-acceptance/three-axes-beside-intelligibility",
     "generative-provider-routing/cost-per-usable-economics",
@@ -3208,6 +3232,7 @@
     "generated-music-acceptance/rights-and-provenance-record",
     "generated-output-grading/replication-as-comprehension-test",
     "generated-speech-acceptance/instruction-following-judged-on-audio",
+    "generated-speech-acceptance/listening-board",
     "generated-speech-acceptance/normalize-before-you-compare",
     "generated-speech-acceptance/published-number-comparability",
     "generated-speech-acceptance/three-axes-beside-intelligibility",
