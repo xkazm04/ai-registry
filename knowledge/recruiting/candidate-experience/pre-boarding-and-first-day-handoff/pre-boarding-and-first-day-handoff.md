@@ -89,6 +89,13 @@ returned, a role restructured, a start date withdrawn, an offer accepted and the
 rescinded by either side. The live pipeline state is what governs; the token only
 proves who is asking.
 
+Where a team's board has a step between the offer and the hire (a background check, a
+contract signature), acceptance and hire are two events, and the difference is a
+condition on the rule rather than an exception to it: acceptance starts the owner's
+accountability and the silence-gap contact; provisioning and every once-per-person
+effect wait for the entry to cross onto the hired role. A role closed in that interval
+withdraws the entry while the offer still reads accepted.
+
 This has a sharp operational form, and it is the subject of a technique below: a
 revoked pre-boarding run is never silently re-created. A gate that says "no run
 exists, therefore start one" will happily re-provision a hire someone deliberately
