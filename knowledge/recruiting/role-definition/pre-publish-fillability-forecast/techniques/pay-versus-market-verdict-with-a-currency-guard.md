@@ -124,8 +124,13 @@ form of this rule.
   it is ceremonial, with the real number negotiated, the verdict describes a
   document rather than an offer. That escape is narrowing: pay-transparency rules
   now require a good-faith range in the advertisement in several US
-  jurisdictions and the starting pay or its range before the interview in the EU
-  (Directive 2023/970, Art. 5; transposition was due 7 June 2026), so in covered
+  jurisdictions and the initial pay or its range in the EU, given so as to ensure
+  an informed and transparent negotiation, whether in the notice, before the
+  interview or otherwise (Directive 2023/970, Art. 5(1); no questions about pay
+  history, Art. 5(2); gender-neutral notices and titles, Art. 5(3)). Transposition
+  was due 7 June 2026 and secondary trackers that month counted only a handful of
+  Member States as complete, Czechia and Germany not among them, so the local
+  rule is the thing to check, not the Directive. In covered
   markets the range is a commitment and a range widened until the verdict goes
   silent is the evasive one. Whether a role is covered is the compensation
   banding subject's question, not this one's. It still has value as an advertising
