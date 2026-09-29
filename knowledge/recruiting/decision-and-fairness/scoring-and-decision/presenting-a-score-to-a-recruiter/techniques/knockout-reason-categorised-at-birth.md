@@ -104,6 +104,33 @@ that a gate was passed by silence rather than by evidence.
   itself an inference ("the résumé does not mention authorization"), it is an
   open question with a probe attached, not a categorical bar. Only an explicit
   negative from the record qualifies.
+- **The classifier that feeds a gate is part of the gate.** A level minted from
+  a school name with no degree title is an inference about the candidate; used
+  against a degree floor it produced a knockout the CV never earned (the same CV
+  in another language, classified unknown, passed). Return `uncertain`, widen
+  the confidence band, name the assumption, and let only a *measured* shortfall
+  open the gate.
+- **A gate needs a symmetry test on its detector, not only a category on its
+  output.** A knockout removes a person before any score exists, so a detector
+  defect is invisible in every score distribution. Two were measured in one
+  engine: a language requirement failed when the candidate's list *ended* in the
+  language code and passed when it started with it, and an inflected-language
+  seniority term failed to match its feminine form, so an identical CV was
+  knocked out of senior roles under a feminine surface. Feed each gate two
+  inputs that differ only in list order, inflection or name, and require one
+  verdict.
+- **A number computed as if the gate were lifted travels in a separate list.**
+  Subordinating it in prose or with a flag leaves it in the ranked results, where
+  a sort can rank it. Return knocked-out items in their own channel with the
+  gate's category and the as-if figure, never counted toward the returned total,
+  and default the channel off so a path that should not see it gets a payload
+  identical to before.
+- **A preference is a flag, never a bar.** What a person would like (pay floor,
+  place, work mode) renders beside the card as ok, flag or unknown and never
+  enters the total, the tier or the gate; a test asserting identical totals and
+  ranking with and without the preferences is the check. An unstated posting
+  value, or one the intake step defaulted, is `unknown`, never "under"; a
+  different currency is "not comparable", never converted silently.
 - **Multiple knockouts are all recorded**, not just the first. Which one a
   candidate could clear determines whether they can be reconsidered.
 - **A rollup of categories orders by count, with a declared tie-break.** The
