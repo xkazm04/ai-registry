@@ -83,13 +83,19 @@ What did not survive: the notice. The doc says the explicit "this stage is no
 longer on your board" line, with its one-click way out, rendered from
 `PipelineFilterBar`, and the no-flash rule (wait for the board fetch) lived
 there too. `resolveStageFilter` has no caller outside tests in the current
-tree, and no kit component reads `stageFilter` or `clearStageFilter`. A stale
-`?stage=` link on the current surface therefore filters the list by an id the
-board no longer draws and says nothing; the candidates on that column do show
-in the off-board section, but nothing connects it to the filter. That is the
-silence the technique names, reintroduced by a deletion whose commit message
-records that the source-reading tests pinning the deleted files "lose those
-halves". The pure half stayed green; the behaviour went.
+tree. Two things an earlier reading of this page got wrong, corrected at kp
+`7340988e2`: the message keys the notice used (`pipeline.tab.stageOffBoard`,
+`stageOffBoardClear`) are orphaned in `messages/*.json`, and the surface is not
+silent. With `?stage=` set the orbit view renders a "Matches" section with a
+Clear-filters button, listing the active candidates on that id or "Nobody on the
+board matches this link." What a stale `?stage=` link does not get is a sentence
+saying the stage is off this board, and nothing connects the Matches section to
+the off-board one. That is the technique's silence in a weaker form, reintroduced
+by a deletion whose commit message records that the source-reading tests pinning
+the deleted files "lose those halves". The pure half stayed green; the naming
+went. The README (`:838-860`) still documents the deleted filter bar rendering the
+notice, and `usePipelineFilters.ts:57` still mentions the deleted strip.
+`offAxisStageIds` also has no caller outside tests.
 
 Labels follow one rule across the surviving pieces, the workspace's own label
 wins where it authored one and otherwise the catalog translates the id, so the

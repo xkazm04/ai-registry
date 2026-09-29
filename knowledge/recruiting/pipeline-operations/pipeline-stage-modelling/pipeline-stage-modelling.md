@@ -64,25 +64,39 @@ A pipeline that stores only (1) and (4) is the naive model, and it is the one
 almost every system starts with, because for the first year there is exactly
 one board and its column really is called what everyone calls it.
 
-## One step, one activity: a stage is a place a person can stand
+## One decision point, one stage: a stage is a place a person can stand
 
 Before any of the machinery, one structural rule decides whether an axis is
-modellable at all. **Each stage runs exactly one activity, and a candidate is
-always standing on exactly one stage.** The tempting alternative — one
-interview column that contains two or three rounds, configured behind it — is
-the single most common way a board stops describing reality. Where is a
-candidate who finished round one? Nowhere the board can draw. The
-configuration exists, the interface cannot render it, and every dwell,
-conversion and aging figure over that column averages people in
+modellable at all. **A candidate is always standing on exactly one stage, and a
+stage ends in one decision about whether they go on.** The tempting alternative
+— one interview column that contains two or three rounds, each of which can end
+the process, configured behind it — is a common way a board stops describing
+reality. Where is a candidate who finished round one and passed? Nowhere the
+board can draw. The configuration exists, the interface cannot render it, and
+every dwell, conversion and aging figure over that column averages people in
 incomparable states.
 
-Three rounds means three stages. If a team wants an automated round, then a
-scored pass, then a human panel, that is three columns they add, name and
-order — the same gesture they already use for everything else, and it
-produces a board a candidate can genuinely occupy. This is also the argument
-that settles the `scoring` question below: any activity a candidate waits
-through deserves a column, and hiding it behind another column's
-configuration is how it becomes invisible.
+Three rounds with a pass or fail between them means three stages. If a team
+wants an automated round, then a scored pass, then a human panel, that is three
+columns they add, name and order — the same gesture they already use for
+everything else, and it produces a board a candidate can genuinely occupy. This
+is also the argument that settles the `scoring` question below: any activity a
+candidate waits through deserves a column, and hiding it behind another
+column's configuration is how it becomes invisible.
+
+The rule is about decisions, not about activities, and an earlier statement of
+it ("exactly one activity") was wider than the evidence. Shipped systems put
+several interviews in one stage, and the practitioner guidance found draws the
+line at the decision point: an onsite of several interviews is one stage when
+they all happen whatever any one of them says, and a stage that hides a
+pass-through between a recruiter call, a manager call and a team call is three.
+Two independent readings reached the same boundary, one from training alone
+(rounds as children of a gate, with their own timestamps) and one from the
+vendors' documents. So: the interviews inside a parallel loop are children of the
+stage and may carry their own timestamps and scorecards; a round that can end
+the candidate's process before the next begins is a stage. No source measured what
+the stacked column does to dwell or conversion, so the harm above is argued, not
+measured.
 
 ## The closed role vocabulary
 
@@ -160,6 +174,16 @@ wrong; they lose and oblige different things.
 
 Pick one per board and write it down. The failure is a system that has both a
 status and a terminal move and consumers that each assume the other one.
+Both shapes ship: the applicant-tracking systems read keep a lifecycle status
+beside the stage (rejected, withdrawn, hired), and one types `Archived` as a stage.
+
+Closure is not one bucket either way. A rejection is a non-selection and stays in
+the denominator of every step it followed; a voluntary withdrawal is treated by at
+least the US selection-procedure guidelines as ending the person's standing as an
+applicant from that moment, so it leaves the denominator of the steps after it. A
+board that stores both as "closed" cannot compute a rate under a regime that
+distinguishes them. Store the outcome (rejected, withdrawn, hired) and the stage
+they closed from, and let the rate name which population it used.
 
 ## The three consumers, and why they need different things
 
@@ -200,7 +224,10 @@ and becomes a schema — with everything that implies:
 - **Removing** is a migration in the ordinary database sense: the occupants
   go somewhere a human chose before the axis is rewritten, and the historical
   record keeps resolving afterwards. Nobody is stranded silently — not the
-  candidate who was in that column, and not the audit row naming it.
+  candidate who was in that column, and not the audit row naming it. "Keeps
+  resolving" has to reach the measures and not only the labels, and the
+  migration has to be the only door: a second endpoint that accepts an axis with
+  a column missing turns the guarantee into a convention.
 
 Treating an axis edit as a migration is what makes "rename, split or reorder
 your board freely" an honest promise rather than a reckless one.
@@ -217,6 +244,15 @@ role-level aggregates cross the boundary. "Fraction who cleared this team's
 screening gate" is comparable across teams because the gate is defined by role
 on each board independently. "Fraction who reached column three" is not
 comparable and never was.
+
+Read precisely, this does not refuse a shared spine. Every shipped system that
+reports across pipelines keeps one, small and stable (three to six buckets in the
+ones read), above each team's own stages, and the role vocabulary here is that
+spine. What is refused is the spine defined by *position or name*, which is
+what a product falls back on when it has no roles and asks its users to keep stage
+names and order consistent by convention. The spine may be coarser than the seven
+roles for a given report; it may not be looser than the roles about which stage
+belongs to it.
 
 ## Stale references and candidates off the axis
 
@@ -288,6 +324,20 @@ say "past screening", every board agrees on what that means.
   things and the metric over it means neither.
 - **Cross-team normalization by position.** Comparing column three to column
   three and calling it a benchmark.
+- **The gate as the whole screening set.** Treating every column before the gate
+  as a screening stage. A homework, scoring, custom or early offer column can sit
+  before the first interview and nothing there triages evidence; the set an
+  automated screen may act in is the entry and screening roles *intersected* with
+  the gate. Executed in one shipped implementation, the wider set offered the
+  screen at a custom column, and a permission table that read the default axis let
+  a screening-role column *behind* a human interview move a candidate on while the
+  same table made the screen inert on every renamed board.
+- **The tombstone that resolves a label and nothing else.** A retired stage kept
+  for display while every measure treats a row standing on it as unresolvable: a
+  candidate rejected after an interview, on an Interview column since removed,
+  counts as never having advanced.
+- **Closed, but as one bucket.** Rejected and withdrawn stored as the same
+  outcome, so no rate can follow a regime that counts them differently.
 
 ## The techniques
 
