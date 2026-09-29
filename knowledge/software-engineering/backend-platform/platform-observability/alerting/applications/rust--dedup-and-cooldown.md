@@ -7,6 +7,8 @@ stack: rust
 status: forged
 verified_on: 2026-09-29
 verified_against: rust@1.96
+applied: experiment
+ab_verdict: better
 ---
 
 # Two Rust alert paths, one question: what does a failed send do to the window?
@@ -48,6 +50,30 @@ the row released so the predicate no longer counts it. The pre-filter
 `should_send_key` (`mod.rs:198-207`) stamps before sending too, so it needs the
 same treatment.
 
+## Measured 2026-09-29: the failed send, and a trap in the retry
+
+Product code unchanged, run in a throwaway worktree of `73f571f15f` against an
+in-memory store and a loopback webhook that answers 503 to its first request and
+200 afterwards, with one dedup key and two ticks.
+
+- **A, the product as built.** One webhook hit, one row, zero fully delivered
+  rows: tick two was `Suppressed` and the row says `ok: false`. Over the window
+  the alert was delivered to nobody.
+- **B, the same inputs under the delivery clock** (the fire is not spent, so tick
+  two re-attempts it and appends the outcome). Two hits, one row, and the row's
+  attempts read `[false, true]`: delivered on the retry.
+
+The verdict is better, with a condition the technique did not have.
+`fully_delivered()` is `!delivered.is_empty() && delivered.iter().all(|d| d.ok)`,
+an all-attempts conjunction, so after B the row **still reads not delivered**
+(`fully_delivered_rows = 0`). A clock built on that predicate would retry a fire
+that had already gone through, on every tick, forever. The outcome must be the
+latest attempt per channel; the append-only attempt list stays as history. That
+is now in the technique.
+
+Not measured: the Postgres and Firestore stores, the replica election under load,
+and any retry bound, since the harness re-attempts once by hand.
+
 ## personas: detection stamps the window, delivery is a separate durable queue
 
 `src-tauri/src/commands/execution/alert_evaluator.rs` reads the cooldown from
@@ -70,6 +96,27 @@ between the fire and the queue only warns on failure (`:321-323`), so a failure
 there burns the window with nothing queued. And the breaker state is
 in-memory (`:484`) and the delivery status lives on the subscription, not the
 alert, so "was this fire delivered?" is not answerable from the fire row.
+
+## Reminder or re-fire: three trees walked
+
+The technique now separates a fire from a reminder. Three trees, read at the shas above:
+
+- **personas** re-fires from `last_fired_at`, which selects the newest `fired_at` for the
+  rule and reads nothing else (`alert_evaluator.rs:152-163`). `dismiss_fired_alert` only sets
+  `dismissed = 1` on the row (`alert_rules.rs:292-296`), so a dismissed alert is followed by
+  a fresh fire row an hour later while the condition holds.
+- **tracklight** gates on `dedup_key = ?1 AND fired_at > ?2` alone (`sqlite/alerts.rs:38-45`).
+  It has an acknowledgement read model (`crates/api/src/alerts/read.rs`, which records who
+  acknowledged) and the gate never consults it.
+- **systedo-case** has the declared shape: `src/lib/campaigns/alert-suppression.ts` keeps a
+  per-key episode (`lastAlertAt`, `count`, `active`), re-alerts "once as a reminder" after a
+  six-hour cooldown, groups repeats by count, and switches the reminder off for the anomaly
+  class (`remindAfterCooldown`). Nothing there is acknowledgement-driven, so it has a
+  reminder without an owner-stop.
+
+Under the technique, personas and tracklight would stop re-notifying an episode someone owns;
+the prediction would fail if a dismissal or acknowledgement were consulted anywhere before
+the gate, and neither is. This is a walk of code, not a run.
 
 ## What the two together teach
 

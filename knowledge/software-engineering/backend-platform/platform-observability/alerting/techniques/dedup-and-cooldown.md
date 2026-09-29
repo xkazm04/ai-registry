@@ -86,7 +86,11 @@ revoked webhook is a finding on the channel, surfaced where its owner will
 see it, not an endless loop. Delivery is judged per reach: a fire delivered
 to a quiet surface while its interrupting channel failed is not delivered.
 And the retry never creates a second episode: it re-attempts the same fire,
-so the suppressed-repeat count and the lifecycle record stay one. The batch
+so the suppressed-repeat count and the lifecycle record stay one. The outcome
+the clock reads is the **latest attempt per channel**; the attempts themselves
+stay on the record as history. A "delivered" test written as *every attempt
+succeeded* reads a fire that failed once and then succeeded as undelivered
+forever, and the retry never stops. The batch
 channel already applies this discipline to its own claim —
 [periodic-digest](./periodic-digest.md) releases the window when the send
 fails — and the event channel owes the same.

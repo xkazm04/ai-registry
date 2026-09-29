@@ -2966,8 +2966,8 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
-   "digest": "sha256-b2:6a3a437ff0e42713",
-   "revision": 3,
+   "digest": "sha256-b2:90e16e9a2b80434b",
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {

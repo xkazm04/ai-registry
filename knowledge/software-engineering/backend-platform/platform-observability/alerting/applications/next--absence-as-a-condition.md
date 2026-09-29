@@ -7,6 +7,8 @@ stack: next
 status: forged
 verified_on: 2026-09-29
 verified_against: next@16
+applied: unapplied
+ab_verdict: unapplied
 ---
 
 # Silence made readable: ascent's control ledger and systedo-case's cron health
@@ -56,8 +58,21 @@ technique's sender-interval-inside-receiver-window rule with a grace, written as
 a multiplier, and the tolerance is why one late tick does not page.
 
 Two edges. The comment records that "a cron absent from this map is not judged",
-so a new cron with no entry is invisible: a coverage hole at the exact place
-the technique says the rule must be declared. And the receiver is a route in the
+so a new cron with no entry would be invisible, the exact place the technique says
+the rule must be declared. Measured 2026-09-29: `vercel.json` schedules six crons
+(sync, catalog-sync, digest, report, social, ledgers), there are six cron route
+files, and all six have an entry in `CRON_MAX_AGE_MS`. The hole is latent, not live;
+nothing in the tree ties the two lists together, so the next cron added to one and
+not the other is unseen. And the receiver is a route in the
 same application whose schedule it checks; whether anything outside it polls
 `/api/health` was not established in this read, and without that the watcher
 shares a failure domain with the thing it watches.
+
+## Why this row is unapplied
+
+The one change the technique asks of ascent, a consecutive-`unmeasurable` streak, needs
+real observation rows, which live in the project's database and were not readable in
+this run; a fixture-only test of a new function would assert the function against
+its own fixtures. The return condition is a pass that can read a fleet's real
+`control-observations` and count how long each unreadable control has been
+unreadable.
