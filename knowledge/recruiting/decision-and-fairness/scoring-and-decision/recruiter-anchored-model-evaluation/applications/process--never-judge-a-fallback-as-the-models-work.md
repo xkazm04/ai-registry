@@ -6,6 +6,8 @@ technique: never-judge-a-fallback-as-the-models-work
 stack: process
 status: forged
 verified_on: 2026-09-29
+applied: simulation
+ab_verdict: not-better
 ---
 
 # Fallback exclusion in the bench harness
@@ -132,3 +134,87 @@ a probe, and it cannot catch a row that declares a capability its adapter only
 half implements. And the fallback count, while present in `llmRate`'s denominator, is
 not broken out from hard errors in the baked cell, so a report cannot
 distinguish a provider outage from a systematic truncation.
+
+## Second reading of the recorded runs (2026-09-29)
+
+Counted from the local bench record files (37 record sets, 816 rows, none published);
+counts only.
+
+### The direction of the contamination
+
+The technique's first wording said contamination flatters unreliable models. The
+records hold 13 judged rows whose `source` is not `llm`, all from runs before the
+filter existed, and all 13 scored below the median of the same operation's real
+answers:
+
+| operation | judged fallback rows | their score | judged real answers, median |
+| --- | --- | --- | --- |
+| interview_scorecard | 3 | 2 | 8 (n=51) |
+| devcase_case_design | 3 | 3 | 8 (n=51) |
+| weight_proposal | 3 | 3-4 | 7 (n=56) |
+| group_compare | 3 | 6 | 8 (n=50) |
+| campaign_pack | 1 | 3 | 8 (n=57) |
+
+Thin stubs punish the models that fell back rather than flattering them. The
+technique now states the direction as the sign of the template's score minus the
+model's. Thirteen rows over five operations, one round.
+
+### The fallback rows of the committed bake were slow and paid
+
+The committed bake (240 rows, four record sets) has four non-served rows, all
+deterministic fallbacks and none errored:
+
+| model | operation | wall time | priced spend |
+| --- | --- | --- | --- |
+| gemini-3.6-flash | automation_outreach | 15.7 s | $0.0030 |
+| deepseek-v4-flash | automation_outreach | 51.4 s | $0.0013 |
+| claude-sonnet-5 | automation_offer | 33.1 s | $0.1729 |
+| claude-sonnet-5 | weight_proposal | 180.1 s | unpriced |
+
+Each was stamped after a failed generation. The median served-row latency of those
+three models was 12.0, 21.5 and 27.8 s, so these were the slow, paid tail: leaving them
+in would make the models look slower and dearer, not faster. At this fallback rate
+(1.7%) the effect is small (spend +0.5% for gemini, +2% deepseek, +1.5% sonnet; all-rows
+p50 within about 4%), and `costPerTaskUsd` carries none of it.
+
+### Where the mark is set, and where it is not
+
+`_generate` (`pipeline/jobfit/automation.py:490`) reports `deterministic` when the
+coerced result equals the template (`if result == deterministic()`, line 538), so a
+coercion that discards the whole payload no longer ships as the model's (commit
+`dcba70388`, after one model's interview-prep cell had been graded on the template).
+That is a comparison inside the production path at the moment of coercion, not a text
+guess, and it catches a whole payload replaced.
+
+It does not catch a hybrid. `weight_proposal._coerce` (`weight_proposal.py:145-158`)
+backfills any candidate the model missed with the deterministic proposal, and a
+proposal whose rationale came back empty keeps its weights but takes the
+deterministic rationale; the comment records "~85% of rationales empty across every
+model" in the 2026-08-11 bench. The caller returns `_coerce(...), "llm"`
+(weight_proposal.py:183) with no comparison, so a payload with no usable proposal at all
+is marked as the model's. Whether the recorded `weight_proposal` rows contain such
+hybrids could not be read: the record files carry no payload.
+
+### The budget binds some arms and not others
+
+The matrix document adds an asymmetry the technique now names: the per-use-case ceiling
+binds the API adapters and "CLI targets have no ceiling, which is why the Claude
+columns never showed it"; a weak gemini column was for a time gemini's reasoning
+tokens eating the cap.
+
+### The mirror of the empty-prompt defect
+
+`CAP_WEB_RESEARCH` (`capabilities.py:18-25`) is "declared only where a door exists that
+actually opens the session", because declaring it on a text API "would let that API
+answer 'what does the market ask for today' from its training data, a plausible answer
+with no sources behind it." A use case that cannot be benchmarked at all, `role_research`,
+is listed as unmeasured (`UNMEASURED_USE_CASES` in `app/_lib/llm-quality.ts`), since live
+web research has no fixed input a bench could judge.
+
+### Verdict
+
+`applied: simulation`, `ab_verdict: not-better` for the standing sentences on direction
+("flattering") and on the instant-and-free premise: three real cases (the judged
+fallbacks, the four slow paid rows, `weight_proposal`'s backfill) each contradicted or
+went beyond a sentence of the technique, and it gained the conditions. The rule of
+excluding fallbacks from quality was not contradicted and stands.

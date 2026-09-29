@@ -119,3 +119,26 @@ hand-written known-excellent artifact seeded into every run to prove both tails
 are reachable — are not implemented. The 2026-08-11 re-anchoring was validated
 by the spread of the re-run rather than by planted anchors, which detects
 compression only after a full matrix has been paid for. The standard stands.
+
+## What the recorded run's scores actually look like (second reading, 2026-09-29)
+
+The deviation above says the tails were validated by the spread of a re-run. The
+record files of the committed bake (the four `n4` sets of the 2026-08-11 round: 240
+rows, 236 judged, judge Fable 5 through the Claude CLI) show how much of the scale
+the judge used. Overall judged scores, counted from the local records: 10 → 0,
+9 → 102, 8 → 106, 7 → 23, 6 → 3, 5 → 1, 4 → 1, 3 or below → 0. Eighty-eight
+percent of answers sit on 8 or 9, two percent at 6 or below, the top integer is never
+awarded and the two lowest bands are empty. The old harness, by the matrix
+document's own account, averaged about 7 with no cell above 8.6, so the re-anchoring
+moved the pile from the middle to the top. That is what genuinely better output
+would look like after five harness defects were repaired, and it is equally what a
+lenient judge produces; without a planted known-bad artifact the run cannot say which.
+"Spread shows the tails are reachable" is therefore not established by these records:
+the bottom tail was reached once and the top integer never.
+
+The same records give the only same-vendor comparison available. Among judged
+rows the two Claude targets average 8.57 (n=118, 64% scored 9) and the other two
+7.99 (n=118, 22% scored 9), a gap larger than the matrix document's own stated cell
+noise of about ±0.3-0.5. Quality and self-preference are confounded in that gap, so
+it is a size to test with a second-vendor judge over the same texts, not a measured
+bias; that pass would spend subscription and API calls and was not run.

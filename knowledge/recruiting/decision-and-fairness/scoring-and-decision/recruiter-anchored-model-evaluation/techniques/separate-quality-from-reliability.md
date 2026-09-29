@@ -42,6 +42,11 @@ that is a stalled process, not a rounding error
 Set the reliability bar by what happens to the affected person, not by what the
 mean looks like.
 
+Distinguish failing to deliver from degrading to a labelled, gated template: the
+second is a degraded delivery and the candidate's process continued, so the
+disqualifying bar sits on non-delivery and the fallback rate gets its own,
+separately stated, bar.
+
 This split is shared craft with the practice on validating machine interviewers,
 but the axes are not interchangeable. There, reliability means conversational
 invariants — no leaked instructions, no verdict spoken to the candidate, no
@@ -116,6 +121,16 @@ will compare them anyway unless the number is on the page
 - **When a stakeholder asks for one number, give the pair and the gate
   sentence** — ships or does not ship, and on which axis it failed. The pair is
   what makes the answer arguable.
+- **When a routing composite exists, keep reliability out of it.** Let a floor on
+  a harm-carrying dimension act as a veto, and let reliability gate the
+  candidates. Multiplying the composite by a validity penalty blends the axes
+  again and counts the same failure twice when the reliability gate also sees it.
+- **When a tie band is set, set it at or above the noise the same report
+  states.** A band tighter than the stated noise lets the ordering, not the
+  measurement, choose. The published noise floor of a single judge is well above
+  the differences usually claimed
+  ([arXiv 2609.27787](https://arxiv.org/abs/2609.27787)), so a band with no
+  repeat-judging behind it is an assumption.
 - **When a reliability defect is fixed, re-run quality from scratch.** The
   surviving sample changed, and the runs that used to fail were not a random
   subset — they were the hard inputs.

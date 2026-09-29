@@ -110,6 +110,16 @@ from the record — a parsed employment date, a stated certification, a supplied
 compensation band. There, absent from the record means it must not appear, and
 an unsupported value is a defect no matter how plausible.
 
+The same holds whenever the checker holds the whole source rather than a slice,
+for any specific checkable assertion about the person: an employer, a credential,
+a figure. The neutrality rule exists because the excerpt is truncated; take the
+truncation away and the reason goes with it. A deterministic gate over the full
+source set that blocks an unsupported figure before a document is exported and a
+judge over a truncated excerpt that labels the same absence unverifiable are both
+right, about different evidence. Say which one you are, and keep the count of
+unverifiable claims for the general-knowledge and inference cases, where the
+rule still stands.
+
 Do not use it to excuse a model that reaches beyond evidence habitually. The
 rule says unverifiable is not a lie; it does not say it is free. That is what
 the count is for.

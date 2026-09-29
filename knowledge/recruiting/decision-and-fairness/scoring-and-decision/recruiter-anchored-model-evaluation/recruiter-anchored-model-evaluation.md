@@ -62,6 +62,21 @@ almost no spread, suspect the rubric before the models.** Real generation
 quality across a modern model matrix on a hard drafting task is not
 uniform. If your instrument says it is, your instrument has one usable band.
 
+Compression has a direction, and the prompt sets it. "Be critical" on an
+undescribed scale tends to pile answers in the middle; a lenient prompt piles
+them at the top; and an anchored rubric can move the pile rather than remove
+it. In the measured matrix recorded in the applications, re-anchoring moved
+the pile from the middle of the scale to the top: nearly all judged answers sat
+on two adjacent integers and the top integer was never awarded. Both ends of
+the scale need a probe, not only the middle, and whether a top-heavy table is
+genuine quality or a lenient judge is only decidable with a known-bad artifact
+planted in the run. The same matrix also shows the rubric is the first suspect
+and rarely the only one: it was one of five causes of the flat table, beside output ceilings that truncated
+large deliverables, templates shipped as model output, prompts that starved the
+model of the evidence it was asked to use, and a stale seed corpus. Suspect the
+harness before the models, and read the judge's own issue lists before trusting
+a low cell.
+
 Score compression is only the most visible of a family of judge pathologies that
 are by now well documented and worth designing against explicitly: judges reward
 length independent of substance, they prefer whichever candidate output they
@@ -77,6 +92,11 @@ harness can declare its judge independent and then route a target through the
 judge's own engine, and a pointwise judge has no order to randomise but does have
 run-to-run inconsistency to measure
 ([decision-anchored-score-bands](./techniques/decision-anchored-score-bands.md)).
+The size of each bias is also judge-specific: reported verbosity effects range
+from negligible to large across vendors, and self-preference appears to run
+partly through how familiar the text is to the judge rather than through family
+membership ([Wataoka et al. 2024](https://arxiv.org/abs/2410.21819)), so a judge
+from another vendor lowers the risk without removing it.
 
 ## Anchor the bands to a decision, not to an adjective
 
@@ -149,7 +169,7 @@ These rules live in the task definition, not in the judge's general instincts.
 
 Collapsing an artifact to one score destroys the diagnosis. Score at least
 three dimensions, each against **its own question**, and never average them
-into a headline:
+into a headline that stands in for the diagnosis:
 
 - **Is this about this candidate, or could it be pasted onto any candidate?**
   The single most common failure of generated hiring text is generic praise
@@ -187,6 +207,19 @@ invented claim is worse than an untidy one), fixes the weights before the result
 prints them beside the pick, and keeps the three medians in the record for whoever
 has to challenge it
 ([separate-quality-from-reliability](./techniques/separate-quality-from-reliability.md)).
+A floor on the dimension that carries harm — a contradicted claim — acts as a
+veto rather than a weight, and a reliability figure gates the composite instead
+of entering it.
+
+Resolution is the other half of trusting a judged number. A judged cell built
+from a handful of scenarios cannot separate models a fraction of a point apart:
+published measurements of judge-scored benchmarks put the noise floor of a
+single judge above the size of the improvements usually claimed
+([Ask Which, Not How Good, 2026](https://arxiv.org/abs/2609.27787)), and adding
+scenarios does not lower the part of that noise that belongs to the judge.
+Report the interval, treat a difference inside it as a tie, and for the close
+cluster at the top of the table run a second judge, repeated judgements, or a
+pairwise pass rather than reading the order.
 
 ## Grounding: unverifiable is not fabricated
 
@@ -214,6 +247,17 @@ and the grounding dimension measures what it claims to
 This mirrors the distinction the faithfulness literature draws between a claim
 that contradicts the source and one the source neither supports nor denies; they
 are separate categories with separate costs, and only the first is a lie.
+
+The rule is tied to the excerpt being a slice. When the judge holds the whole
+record the artifact was built from, a specific checkable assertion about the
+person — an employer, a credential, a date, a figure — that the record does not
+carry is unsupported, and an unsupported figure in a document about to leave the
+building is a defect to repair, not a neutral. Two working systems in the
+evidence sit on either side of this line for exactly that reason: a judge over a
+truncated excerpt calls the same absence unverifiable, and a deterministic gate
+over the full source set blocks it. Decide which you hold before choosing the
+label, and never let the truncated case's leniency migrate to the whole-record
+case.
 
 Note the downstream consequence, which belongs to a neighbouring practice but
 must be honoured here: *unverifiable* is a real state that the artifact should
@@ -243,7 +287,14 @@ material rate is disqualifying for a candidate-facing path, because the
 candidate does not experience the average
 ([a-candidates-process-never-stalls-on-your-constraints](../../../_laws.md#a-candidates-process-never-stalls-on-your-constraints)),
 while a quality gate sits deliberately below full marks because judged scores
-carry noise.
+carry noise. Two conditions keep that from being misread. A fallback that ships
+a labelled, gated template is a degraded delivery, not a stalled process, so the
+disqualifying bar belongs on failure to deliver anything, and the fallback rate
+gets its own bar. And a floor has to be resolvable at the size of the cell it is
+applied to: with four attempts per cell a 0.9 floor is the rule "no fallback at
+all", because one fallback already reads 0.75, and a perfect four out of four
+cannot be told from three out of four at any usual confidence. Apply the floor to
+pooled attempts, or with an interval, or a single row will decide the routing.
 
 This two-axis split is shared craft with the practice on validating machine
 interviewers, but the axes are not the same axes. There, reliability means
@@ -266,8 +317,12 @@ so a judge scores it in a predictable middling band. Feed those into a model's
 quality cell and you have averaged a model's real output with a template's, and
 the resulting number describes neither. Worse, the contamination is *biased*:
 the models that fail most often get the most template rows, which pulls their
-quality toward the template's score — flattering the unreliable models and
-flattening the whole comparison.
+quality toward the template's score. The direction is the sign of the template's
+score minus the model's, not a constant. A rich template scored in a middling
+band flatters the unreliable model; a thin stub — an empty scorecard, a skeleton
+case design — scores far below any real answer and punishes it, and in the
+measured records the judged fallbacks all landed below the same operation's
+real answers. Either way the comparison flattens toward one value.
 
 The mechanics: mark every fallback at the moment it is emitted, in the record
 itself, not by pattern-matching the text afterwards; exclude marked rows from
@@ -277,17 +332,28 @@ built from three surviving runs is not comparable to one built from thirty
 ([a-claim-carries-its-sample-and-its-basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
 [never-judge-a-fallback-as-the-models-work](./techniques/never-judge-a-fallback-as-the-models-work.md).
 
-Two extensions of the rule earn their place. Exclude fallbacks from **every**
-per-model statistic, not just quality: a template is produced instantly and for
-nothing, so leaving it in a latency or cost aggregate lets the least reliable
-model post the best speed, and it passes its own structural contract by
-construction, so leaving it in a validity rate makes a model that never once
-answered read as "valid 100%". Give every report of the same run one definition
-of the model's own rows. And watch where the fallbacks come from — the most
+Four extensions of the rule earn their place. Exclude fallbacks from **every**
+statistic that describes the model's answer, not just quality — including a
+structural pass rate, which a template passes by construction and which would
+otherwise read "valid 100%" for a model that never once served — and give every
+report of the same run one definition of the model's own rows. But do not assume
+the premise that a template is instant and free: whether the row's time and
+spend include the failed generation that preceded it is a property of the
+record. Where they do, the fallback rows are the slow, paid ones, and dropping
+them from the per-answer figures is right only if the cost of the failed
+attempts is reported on the reliability axis beside them. Third, a mark that
+compares the final output with the template catches a whole payload replaced
+and misses a hybrid: a coercion that keeps the model's numbers and backfills an
+empty rationale from the template still passes as the model's own. Where
+backfill is per field, the record needs a per-field or per-row provenance mark,
+or the hybrid rows are judged as the model's. And watch where the fallbacks come from — the most
 common cause is not a provider outage but a limit the team set themselves. An
 output budget tuned for short artifacts truncates a structurally large
 deliverable, the truncated output fails its parse, the template ships, and a
-capable model is written off on numbers that describe a configuration.
+capable model is written off on numbers that describe a configuration. Check
+that the budget binds every arm alike: an arm run through a route with no output
+ceiling never shows the truncation, so the artifact falls on the arms that have
+one and reads as a difference between vendors.
 
 The same discipline catches a nastier class of defect. If a route claims a
 capability the underlying provider does not truly have — document reading,
@@ -299,7 +365,11 @@ prompt*, and the evaluation will happily score the resulting fluent, generic
 text as mediocre-but-acceptable. The defence is to treat a declared capability
 as a claim to be verified with a probe whose output is impossible without the
 capability, and to treat an artifact produced by a degraded route as a fallback:
-excluded from quality, counted on reliability.
+excluded from quality, counted on reliability. The same class covers a route
+that lacks a capability it claims to have in the other direction: a text-only
+route asked to research the open web will answer, fluently and with no sources,
+from what it already holds. Declare such a capability only where a door that
+actually opens it exists.
 
 ## What this subject does not own
 
@@ -310,6 +380,12 @@ observability practice's territory, and it is a genuinely separate discipline.
 This subject owns **what the judge is asked to judge and how its bands are
 anchored to a hiring decision.** When those two are confused, teams build
 excellent telemetry around a rubric that measures nothing.
+
+Its method also needs a fixed input: the excerpt the judge grounds against is
+frozen, and the same scenarios can be run through every arm. An artifact whose
+input is a live search of the open web has no such excerpt and cannot be judged
+this way; it needs a check on the sources it cites, and a measured matrix should
+list it as unmeasured rather than score it on a proxy.
 
 Equally, this subject stops at the artifact. Whether the *score* attached to a
 candidate predicts anything, whether the instrument separates people, whether a

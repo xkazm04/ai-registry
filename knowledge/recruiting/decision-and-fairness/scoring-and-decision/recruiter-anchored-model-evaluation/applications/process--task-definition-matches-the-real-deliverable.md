@@ -77,3 +77,11 @@ elsewhere, and nothing ties a definition change to a re-baseline: the technique'
 "the verdict was bound to the old definition" is followed by convention. The
 committed scorecard was measured on 2026-08-12, the day after the `campaign_pack`
 correction, so the baked cells postdate it; that is a timing fact, not a control.
+
+## Second reading (2026-09-29)
+
+One use case, `role_research`, has no entry at all: live web research has no fixed input a
+bench could judge, so the tree lists it as unmeasured (`UNMEASURED_USE_CASES`,
+`app/_lib/llm-quality.ts`) and pins its engine instead. The technique now says a definition can
+only be scored against an excerpt every arm saw identically, and lists this as a case where it
+does not apply.

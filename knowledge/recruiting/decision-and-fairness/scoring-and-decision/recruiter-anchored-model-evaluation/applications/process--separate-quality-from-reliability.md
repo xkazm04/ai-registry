@@ -95,3 +95,33 @@ survivors. The bake keeps any cell with at least one judged row and records `jud
 beside it; the routing code widens the noise band instead of withholding the
 number. Both
 are visible, but no cell is ever labelled inconclusive.
+
+## Second reading (2026-09-29)
+
+**The floor at n=4 is not separable from a perfect cell.** The simulation above holds; the
+interval view adds why. At four attempts a cell reading 4 of 4 has a Wilson 95% interval of
+0.51-1.00 and 3 of 4 has 0.30-0.95, so the two overlap almost entirely; pooled over the five
+`automation` operations (20 attempts) gemini, deepseek and sonnet each served 19 of 20 (interval 0.76-0.99) against opus
+20 of 20. The four non-served rows of the committed bake were all
+deterministic fallbacks, none errored, so the floor was tripped by fallbacks alone. One row per
+rival model fixed the routing of `automation`.
+
+**The composite multiplies validity in.** `qualityComposite` (`app/_lib/llm-quality.ts:187`)
+takes the weighted dimension mean and multiplies it by `INVALID_FACTOR = 0.7` (line 182) when
+the cell's majority validity is false, on the reasoning that an invalid output is coerced to the
+fallback in production. That blends a reliability fact into the quality number while the same
+cell's `llmRate` also feeds the floor, so it would count one failure twice. No served row in the
+committed bake was structurally invalid, so the factor never fired.
+
+**The band is tighter than the noise the same document states.** The matrix document gives n=4
+cells "about ±0.3-0.5 noise" and calls differences within 0.3 ties, while `NOISE_BAND.narrow`
+is 0.15 at four judged scenarios. Multi-operation use cases average over operations, which
+shrinks the noise; `match_reasoning` and the other single-operation use cases do not, and
+`match_reasoning`'s pick of gemini over opus (a 0.1 gap, 68 times cheaper) rests on the narrow
+band. A published measurement puts the single-judge noise floor at 0.41-1.24 points on a 0-5
+scale ([arXiv 2609.27787](https://arxiv.org/abs/2609.27787), abstract); not measured on this
+tree's judge.
+
+**A fallback is a degraded delivery.** The floor counts a fallback as a reliability miss, yet
+the pipeline ships a labelled deterministic answer in that case and the candidate's process did
+not stall. The technique now separates the two bars.

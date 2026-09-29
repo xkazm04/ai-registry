@@ -46,6 +46,22 @@ Two diagnostics distinguish the two explanations, and they are cheap:
 A scale that fails either probe is not strict. It is unusable, and its
 strictness is the alibi.
 
+Compression has two directions and the probes cover both. A rubric that says
+"be critical" tends to pile answers in the middle; a rubric that says a flawless
+artifact must reach the top can pile them at the top. In the measured matrix recorded
+in the applications, re-anchoring did lift the table out of the middle, and then
+nearly all judged answers sat on two adjacent integers with the top integer never
+awarded and the bottom bands almost empty. That is compatible with genuinely good output after
+the harness defects were repaired, and equally with a lenient judge; without a
+planted known-bad artifact the table cannot say which, and a ranking among
+models whose means sit half a point apart inside that pile is not readable
+(see [separate-quality-from-reliability](./separate-quality-from-reliability.md)
+for resolution). Two limits on the probes: hand-made extremes prove the ends are
+reachable, not that adjacent bands separate, so add one artifact per band
+boundary the decision cares about; and prefer a real failure mined from the
+pipeline's own history as the known-bad, because a synthetic one is bad in a
+different way than production is.
+
 ## Constructing the bands
 
 1. **List the actions, not the grades.** Ask the practitioner who receives this
@@ -128,9 +144,13 @@ remove the other well-documented judge pathologies, and a scale that fixes one
 while ignoring the rest inherits a false confidence. Alongside the bands:
 randomise the order in which candidate outputs are presented when scoring is
 comparative, since judges systematically favour a position; keep length out of
-the band text so verbosity cannot buy a band; and never let a model be the sole
-judge of output from its own family, since judges under-penalise errors in text
-that resembles their own writing.
+the band text so verbosity cannot buy a band, and measure the length-to-score
+relation on your own texts, since verbosity effects differ widely between
+judges; and never let a model be the sole judge of output from its own family,
+since judges under-penalise errors in text that resembles their own writing.
+Self-preference appears to run partly through how familiar the text is to the
+judge ([Wataoka et al. 2024](https://arxiv.org/abs/2410.21819)), so a judge from
+another vendor lowers the risk without removing it.
 
 Two of these need a closer reading than a checklist gives them. A judge that
 scores one artifact at a time has no order to randomise, but it still has

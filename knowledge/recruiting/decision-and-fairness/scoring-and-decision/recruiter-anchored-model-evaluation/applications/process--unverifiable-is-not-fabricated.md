@@ -6,6 +6,8 @@ technique: unverifiable-is-not-fabricated
 stack: process
 status: forged
 verified_on: 2026-09-29
+applied: simulation
+ab_verdict: not-better
 ---
 
 # The grounding rule in the bench judge prompt
@@ -84,3 +86,26 @@ verbatim quote per contradiction is likewise requested only implicitly, through
 **No escalation for adverse unverifiable claims.** Nothing in the rubric treats
 an unsupported claim that works against the candidate differently from an
 unsupported compliment; both dissolve into one correctness number.
+
+## The whole record and the slice disagree, by design (second reading, 2026-09-29)
+
+The rule above is right for a slice. The source-tree check in
+`node--evidence-grounded-correctness.md` holds the whole source set and treats a figure
+absent from it as unsupported, blocking the export. The two do not contradict: the judge
+sees a 4000-character excerpt of a longer input, the gate sees everything the generator was
+given. The technique now says so: the neutrality rule follows the truncation, and where the
+checker holds the whole record a specific checkable assertion about the person that the
+record does not carry is a defect. The judge's own carve-out ("inventions of fact kinds the
+task forbids") is the narrow form of the same idea.
+
+The technique also lost a sentence. It said scoring after claim enumeration is "markedly
+more stable" than scoring by impression. A 2026 prompt-controlled comparison found a
+holistic judge matching or beating a decompose-then-verify judge on two of three
+benchmarks, with the gap concentrated in partly supported answers, i.e. incompleteness
+(arXiv 2603.28005, abstract read verbatim), and no study of run-to-run stability for hiring
+text is known. This tree's judge is holistic in the sense the study tested; the enumeration
+stays recommended for auditability, not for stability.
+
+`applied: simulation`, `ab_verdict: not-better`: the standing absolute was walked against
+this tree's slice-based judge, the whole-record gate and the external comparison; it held for
+the first, failed for the second, and was unsupported for the third.
