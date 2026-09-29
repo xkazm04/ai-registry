@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 394,
-  "applications": 271,
+  "techniques": 395,
+  "applications": 277,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "394/394",
+  "use_when_coverage": "395/395",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -7164,9 +7164,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/requisition-lifecycle-governance.md",
-   "digest": "sha256-b2:4b3e20ec04148994",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:548fa21c15091d6e",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "best-effort-ingest-with-an-explicit-retry",
@@ -7209,6 +7209,21 @@
       "designing the state machine a role moves through",
       "deciding whether a role needs a closed state",
       "open-requisition counts have stopped being believable"
+     ]
+    },
+    {
+     "slug": "fill-is-a-count-and-close-is-the-act-it-triggers",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "every-decision-names-its-actor"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a requisition can hold more than one seat",
+      "deciding when a filled role closes itself",
+      "a filled role is still chasing candidates",
+      "two hires landing at once closed a role twice"
      ]
     },
     {
@@ -7260,19 +7275,64 @@
      "stack": "node",
      "technique": "best-effort-ingest-with-an-explicit-retry",
      "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/applications/node--best-effort-ingest-with-an-explicit-retry.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "closing-withdraws-candidates-in-flight",
      "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/applications/node--closing-withdraws-candidates-in-flight.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "fill-is-a-count-and-close-is-the-act-it-triggers",
+     "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/applications/node--fill-is-a-count-and-close-is-the-act-it-triggers.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "publish-means-two-different-things",
+     "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/applications/node--publish-means-two-different-things.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "closing-withdraws-candidates-in-flight",
+     "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/applications/process--closing-withdraws-candidates-in-flight.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2026-12-29"
+    },
+    {
+     "stack": "process",
+     "technique": "draft-live-and-closed-as-distinct-states",
+     "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/applications/process--draft-live-and-closed-as-distinct-states.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2027-03-29"
+    },
+    {
+     "stack": "process",
+     "technique": "fill-is-a-count-and-close-is-the-act-it-triggers",
+     "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/applications/process--fill-is-a-count-and-close-is-the-act-it-triggers.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2026-12-29"
+    },
+    {
+     "stack": "process",
+     "technique": "publish-means-two-different-things",
+     "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/applications/process--publish-means-two-different-things.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2026-12-29"
     },
     {
      "stack": "react",
      "technique": "ingest-as-draft-never-as-live",
      "file": "knowledge/recruiting/role-definition/requisition-lifecycle-governance/applications/react--ingest-as-draft-never-as-live.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -9091,6 +9151,7 @@
     "requirement-inflation-control/never-promote-an-unstated-tool",
     "requisition-lifecycle-governance/best-effort-ingest-with-an-explicit-retry",
     "requisition-lifecycle-governance/draft-live-and-closed-as-distinct-states",
+    "requisition-lifecycle-governance/fill-is-a-count-and-close-is-the-act-it-triggers",
     "requisition-lifecycle-governance/ingest-as-draft-never-as-live",
     "role-intake-conversation/expansion-reflection-over-confirmation",
     "role-intake-conversation/premature-solution-quarantine",
@@ -9360,6 +9421,7 @@
     "requirement-inflation-control/ninety-day-outcome-as-the-despec-filter",
     "requisition-lifecycle-governance/closing-withdraws-candidates-in-flight",
     "requisition-lifecycle-governance/draft-live-and-closed-as-distinct-states",
+    "requisition-lifecycle-governance/fill-is-a-count-and-close-is-the-act-it-triggers",
     "requisition-lifecycle-governance/headcount-approval-as-a-precondition",
     "requisition-lifecycle-governance/publish-means-two-different-things",
     "role-intake-conversation/contradiction-as-a-dig-site",
