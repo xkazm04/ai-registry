@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 395,
-  "applications": 265,
+  "applications": 267,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -5585,8 +5585,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
-   "digest": "sha256-b2:615a79cbff0481b3",
-   "revision": 2,
+   "digest": "sha256-b2:a00f63d0b0dedbb5",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5703,8 +5703,20 @@
     },
     {
      "stack": "spec",
+     "technique": "signed-artifact-over-a-canonical-form",
+     "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--signed-artifact-over-a-canonical-form--jcs-and-rdfc.md",
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "spec",
      "technique": "trust-state-resolution",
-     "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--revocation-without-a-beacon.md",
+     "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--trust-state-resolution--bitstring-status-list.md",
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "spec",
+     "technique": "unverifiable-before-tampered-never-accuse",
+     "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--unverifiable-before-tampered-never-accuse--open-badges-3.md",
      "verified_on": "2026-09-29"
     }
    ]
