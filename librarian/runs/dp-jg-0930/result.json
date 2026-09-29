@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-jg-0930",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-30T00:20:00Z",
+  "ended_at": "2026-09-30T00:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/judgment-guardbands",
+      "at": "2026-09-30",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Idled: dp-jg-0929 landed f2006265 yesterday; never-swept was stale. No currency flag, deviation or new app. Return: apps verified 08-20 reaching their clock, a deviation, a probe against Hsiao 2609.10996, or a training-data lane."
+}
