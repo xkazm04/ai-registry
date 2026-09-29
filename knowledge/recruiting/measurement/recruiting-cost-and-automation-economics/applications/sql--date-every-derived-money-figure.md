@@ -5,18 +5,20 @@ subject: recruiting-cost-and-automation-economics
 technique: date-every-derived-money-figure
 stack: sql
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: sql@3
 ---
 
 # The blended cost-per-hire carries its oldest input's date
 
+Line references are to kp at its committed `0c6c9e39c`, read 2026-09-29.
 Channel spend in this repo is a single stored figure per channel:
 `channel_spend(channel, amount_czk, updated_at, workspace_id)`, written by
-`setChannelSpend` (`app/_lib/db/channels.ts:188`) and read back as
-`listChannelSpendDetail` (`:208`), which returns the amount **and** its
+`setChannelSpend` (`app/_lib/db/channels.ts:402`) and read back as
+`listChannelSpendDetail` (`:417`), which returns the amount **and** its
 `updatedAt` as one record. Every money column downstream is that one number
 divided by a count, and the comment on the row type says so
-(`app/_lib/db/analytics.ts:188-191`):
+(`app/_lib/db/analytics.ts:286-288`):
 
 > when a human last entered `spendCzk`. The three money columns on this row
 > are derived from that ONE stored number, so they carry its date: a six-week-
@@ -27,7 +29,7 @@ blend.
 
 ## Oldest wins, because a blend is only as current as its stalest input
 
-`analytics.ts:613-618` computes the leadership cost-per-hire as total spend
+`analytics.ts:758-768` computes the leadership cost-per-hire as total spend
 over hires, and then computes its vintage:
 
 ```
@@ -42,25 +44,25 @@ row launder a set of fossils." The date is null exactly when the figure is
 null, so the pair can never separate.
 
 The date survives to the reader rather than dying in the payload:
-`EconomicsBoard.tsx:356-359` passes `costPerHireAsOf` into the compute-cost
+`EconomicsBoard.tsx:356-363` (`:361`) passes `costPerHireAsOf` into the compute-cost
 panel with the same sentence repeated at the call site. That is the
 technique's rule 3 — the date renders next to the figure, not in a tooltip.
 
 ## Two refusals the same query makes, and why they belong to dating
 
-**Lifetime numerator, windowed denominator.** `analytics.ts:570-571` guards
+**Lifetime numerator, windowed denominator.** `analytics.ts:720-721` guards
 both per-channel cost columns with `!cutoffIso` — in any windowed view they
 are `null` and the surface renders an em dash. The comment states the size of
 the error avoided: spend is a single lifetime figure with no window, so
 dividing it by a windowed applicant or hire count inflated cost-per-applicant
 and cost-per-hire "by ~(lifetime / window), worst for the most mature
-accounts". The blended figure at `:613` takes the same guard. This is the
+accounts". The blended figure at `:763` takes the same guard. This is the
 golden path's rule that a windowed denominator under an unwindowed numerator
 is not an approximation but a different quantity — and note which way the
 repo resolved it: withhold the figure until spend is recorded per period,
 rather than pro-rating the numerator by a guess.
 
-**Every stored figure that divides is reachable.** `analytics.ts:538-549`
+**Every stored figure that divides is reachable.** `analytics.ts:689-699`
 seeds a `byChannel` row for any channel with recorded spend even when no
 candidates are attributed to it, and the second of its two stated reasons is
 the technique's corollary about ownership of inputs:
@@ -78,9 +80,9 @@ dated figure whose date can never advance is only half the control.
 
 Two ledgers meet on this board and neither is converted into the other. The
 channel spend is in the application's currency; the model-usage ledger prices
-in a different one, and `analytics.ts:73-76` records the constraint plainly —
+in a different one, and `analytics.ts:120-122` records the constraint plainly —
 the tile is "labelled in USD, never fake-converted". The section's closing
-comment (`EconomicsBoard.tsx:365-376`) states the rule for the whole surface:
+comment (`EconomicsBoard.tsx:366-379`) states the rule for the whole surface:
 "Nothing here converts, sums or compares the [one] ledger against the [other]
 spend", and places the link to the billing breakdown *under the compute panel
 specifically* so it can never read as a total of both. Where a reader wants
@@ -90,8 +92,8 @@ navigation rather than arithmetic that the companion technique asks for.
 
 The same comment records the metric that was *declined*, and it is the
 cleanest example in the repo of refusing a figure whose denominator cannot be
-defended (`EconomicsBoard.tsx:370-372`, restated in
-`docs/features/analytics/README.md:166-168`): a per-decision cost column stays
+defended (`EconomicsBoard.tsx:372-374`, restated in
+`docs/features/analytics/README.md:445-452`): a per-decision cost column stays
 out because the usage ledger's `request_id` is never joined to a pipeline
 event, so "an unlabelled per-decision figure would be the LLM slice reading as
 the whole cost of the decision". The available number was computable and
@@ -102,28 +104,42 @@ navigation exit instead — "this adds a navigation exit, not a number".
 
 Two further honesty controls on the same ledger are worth recording because
 they are dating's neighbours on the confidence ladder. `computeCostWindow`
-(`analytics.ts:874-915`) sums over priced rows only and returns
+(`analytics.ts:1062-1106`) sums over priced rows only and returns
 `unpricedCalls` separately, so that a null-cost row cannot render as zero
-spend — "so `$0` ≠ `nothing spent`". And `workspaceCount` (`:669`) exists
+spend — "so `$0` ≠ `nothing spent`". And `workspaceCount` (typed at `:139`, computed at `:836`) exists
 because the usage table has no workspace column: the numerator is
 account-wide while the denominator is one workspace's hires, so the per-hire
 figure is suppressed entirely when more than one workspace shares the ledger.
 A scope mismatch and a clock mismatch are the same defect on different axes,
 and both are answered here by withholding rather than by qualifying.
 
+Since the first reading a third case has joined them, by the same rule and the
+same test. Scoping the analytics tab to one role (2026-09-23) withholds, by name
+and with a reason, every figure that cannot be honestly scoped: `JOB_SCOPE_WITHHELD`
+(`analytics.ts:18-25`) lists `channelSpend` and `costPerHire` (reason
+`workspaceSpend`) and `computeCostPerHire` (`accountLedger`), the spend map is
+emptied under a role (`:688`, "withheld under a role scope, never divided by its
+hires"), and the compute per-hire is gated on `!jobId` (`:840-843`). Nothing is
+pro-rated to a role.
+
 ## The upstream exclusion every one of these figures inherits
 
-`analytics.ts:13-19` defines `notSim`, a `NULL`-safe predicate applied to
+`analytics.ts:30-37` defines `notSim`, a `NULL`-safe predicate applied to
 every cohort and event query in the analytics aggregate, so that simulated
 demonstration rows — real pipeline rows carrying a marked job title — can
 never move a leadership metric: "hired this week", the funnel, ROI, or
 cost-per-hire. It is a query-level structural exclusion, not a flag a caller
 remembers to pass, and it keeps the simulation's own reads unfiltered by going
-through a different path. That is the golden path's requirement exactly:
+through a different path. The predicate is keyed on a title string, `(SIM)`, not on a flag column, so a demo
+row whose title is edited would leak in and a real role carrying the marker would
+drop out: structural at the query, not at the row. The size of the silence is now
+printed: `excludedSim` counts what the predicate dropped over the same window and
+workspace (`:214`, `:385-403`) and the page header says so
+(`AnalyticsHeader.tsx:130-131`). That is the golden path's requirement exactly:
 fabricated evidence for a money claim is excluded at the source, because an
 exclusion that is optional anywhere is absent somewhere.
 
-## Deviation
+## Deviations
 
 No staleness horizon is defined. The figure is dated and the date reaches the
 reader, but nothing declares when a spend entry is too old to divide with, and
@@ -131,3 +147,19 @@ nothing degrades or withholds past a threshold. The technique's rules 4 and 5
 are unimplemented; a two-year-old entry renders with a two-year-old date and
 otherwise full confidence, which relies on the reader doing the arithmetic on
 the date themselves.
+
+Nor is the date on every rendering of the number. The board's compute panel
+prints the oldest spend date beside the figure
+(`AnalyticsComputeCostPanel.tsx:121-125`), and the metric-pack basis appends it
+(`api/analytics/metric-pack/route.ts:70-71`), but the leadership readout in
+`AnalyticsAutomationPanel.tsx:149-152` shows the same cost per hire with only the
+label "all time" and no as-of date. The technique's rule 3 holds on one surface and
+not on the other that leadership reads.
+
+Two things the sweep also found and left standing. Spend is still CZK only: the
+`channel_spend` table has no currency column and the blended sum at `:762` adds
+plain amounts, which is sound while the workspace is single-currency and is the
+exact shape the never-sum technique warns about for the day it stops being. And
+windowed cost figures are still withheld (`:719-721`, "until spend is stored
+per-period"): no per-period spend record has appeared since the first reading, so
+the honest view is still the all-time one.

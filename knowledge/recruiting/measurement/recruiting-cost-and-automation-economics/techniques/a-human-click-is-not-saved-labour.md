@@ -87,6 +87,18 @@ two.
   the review time per item is not the task's review estimate; it is close to
   nothing, and that is a signal about the review's quality, not a saving to
   book. Report it as a review-quality observation, not as efficiency.
+- When review time falls as the output improves, that is a signal to examine, not
+  a saving. Automation-bias research finds that reliable automation breeds
+  complacency in experts as well as novices (Parasuraman and Manzey's 2010
+  review), and in a survey of 694 recruiting professionals an inconsistent
+  algorithmic recommendation swayed which CV they preferred, though the authors
+  decline to call it proven automation bias. Falling review minutes may mean a
+  cheaper review or a worse one, and the timestamps cannot say which.
+- When a draft is discarded, the reading it took is cost, not zero. Counting
+  only the accepted drafts and valuing them at the full task hides the review of
+  the rest: in METR's 2025 trial developers accepted under 44% of AI generations
+  and spent about 9% of their time reviewing and cleaning AI output. Neither
+  number is a recruiting one; they show the size the residual can take.
 - When approval is recorded but no human could plausibly have read the output
   in the interval, exclude those items from the saving and surface the
   pattern. A saving model that rewards rubber-stamping is building the wrong

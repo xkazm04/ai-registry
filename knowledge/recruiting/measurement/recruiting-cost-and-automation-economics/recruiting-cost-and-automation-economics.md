@@ -74,6 +74,21 @@ The canonical formula — internal costs plus external costs, divided by hires
 in the period — is arithmetically trivial and operationally a minefield, and
 every landmine is in the denominator.
 
+Two published definitions exist, and a figure that departs from them should say
+where. ANSI/SHRM 06001.2012 puts internal and external recruiting costs over the
+hires of the *same* period, counts as a hire a person who accepted **and started**,
+leaves onboarding out, and names the time of hiring managers and interviewers as
+part of the internal cost, the term products most often drop. ISO/TS 30407:2017
+is a technical specification for the same metric: it splits it into an internal
+form, a comparable form and a hire-cost ratio, and asks that the inputs, the
+process and the formula be visible. Both were read from catalogue descriptions and
+a secondary summary; the standards' own text is paywalled and was not opened. The
+benchmark people hold a figure against is a member survey, not a standard: SHRM's
+2025 report gives a non-executive average of $5,475 and an executive average of
+$35,879 (2,371 respondents, unweighted, not everyone answering every metric). It is
+an average of self-reported figures, and an average and a median of the same
+population are different numbers; say which one a benchmark is before comparing.
+
 - **The clocks do not match.** Spend accrues when it is incurred; a hire
   lands when someone signs. A quarter with heavy advertising and no
   completions divides a large numerator by a small denominator and reports a
@@ -139,6 +154,26 @@ independently:
    waiting on hiring managers has produced a capacity figure, not a cost
    saving. Present hours as hours; converting them to currency asserts the
    reallocation, and that assertion needs an owner.
+
+The measured record is thin and mostly points one way. In the one randomized
+trial of experienced developers (METR, 2025: 16 people, 246 tasks) those allowed
+AI tools took 19% longer while forecasting a 24% speedup and afterwards believing
+they had been 20% faster; the authors' 2026 follow-up calls its own newer data
+weak evidence, because many developers withheld tasks they would not do without
+the tool. A Danish study of about 25,000 workers found precise null effects on
+earnings and recorded hours, ruling out effects larger than 2%. Neither is a
+recruiting study. No measured recruiter-time study of a drafting or screening
+assistant turned up, and the recruiting field experiment that reports recruiter
+hours falling from about 160 to 82 models them from a stated screening routine
+rather than timing anyone, with authors affiliated to the tool's vendor. A
+perceived saving is not a measured one, and a modelled saving is an assumption in
+a better suit.
+
+An hours-saved figure is also gross. Whether the tooling paid for itself is the
+saving minus what the tooling cost (licence, metered computation, and the reviewing
+time above) on one basis. Where the two sit in different currencies the rule below
+applies: show the saving and the tool cost side by side and let the reader net
+them, rather than ship one "ROI" that quietly dropped a side.
 
 The craft is not to avoid counterfactuals — a product that cannot say what it
 is worth will be cancelled by someone who does not share that scruple. The
@@ -218,7 +253,13 @@ sourcing and screening hours differs from the average. Quoting the average at
 them destroys the claim's credibility on first contact, and credibility on a
 money claim is spent once. Ship the research figure as a labelled, cited,
 editable default; treat the first customer who changes it as the feature
-working.
+working. The default's own pedigree has to survive the same scrutiny: the
+commonly repeated split of about 23 hours of screening and 13 of sourcing per
+hire has no measurement behind it that could be found. Vendor pages give it
+without a study, attribute it variously to a consultancy and to a professional
+body, and state the 13 elsewhere as hours per week per role, a different unit.
+A component with no traceable source is not a research mid-point; label it an
+unsourced default where it is used.
 
 And check that "editable" is true of the *product*, not merely of the
 computation. A parameter that accepts an override no call site passes is
