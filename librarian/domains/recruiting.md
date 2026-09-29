@@ -1071,3 +1071,44 @@ Three applications were re-verified at kp 24006b85e, and one node application wa
 Impact: kp has 1 context on this subject and 0 stale verdicts. The join missed every seam
 touched. Maps were committed locally in twelve projects, none pushed. Yield high,
 dry_streak 0, depth L3. See [[honest-measurement-presentation]].
+
+## 2026-09-29 - deepen: inclusive-job-advertising
+
+The Curator lane dispatched this on "never swept by the librarian". The subject was at
+revision 1 from 2026-08-21, and all three applications were last verified 2026-08-20. kp
+had since added German and French lists and narrowed its salary predicate. Four lanes
+ran: counter, regulatory on primary law, blind, and tree.
+
+The largest flip converged across the regulatory and blind lanes. "A masculine job title
+is the unmarked form" does not hold as an advertising rule. German courts treat a bare
+masculine title as an indicator that shifts the burden of proof. Directive 2023/970 Art.
+5(3) requires gender-neutral titles, and the Czech ombudsman calls pairing good practice.
+Title severity now keys off the jurisdiction.
+
+The counter and blind lanes refuted the "100% versus 60%" asymmetry: the requirement
+lever is ambiguity and padding. The counter lane refuted "eleven seconds", the five-item
+ceiling and the 50% band ratio as unsourced, and a probe refuted the case-folding claim.
+
+Four were conditioned:
+- coded wording, where field effects run from none to a few points;
+- posted pay, which sorts applicants rather than raising volume;
+- EU pay information, which need not be in the posting;
+- the boilerplate decoding table, which is a reading.
+
+Age wording was confirmed, with the citation corrected.
+
+The tree found two live seams:
+- **kp's place test refused its own copy's remedies in three locales,** and its pay test
+  missed the trailing euro sign;
+- **kp never normalized,** so decomposed text silenced Czech findings and invented
+  missing ones.
+
+No technique earned. Seven `applied.md` rows:
+- two code, better: kp ec835e39a and 9f2ff09d6, both local;
+- five unapplied, two carrying fact-check notices on kp copy.
+
+All three applications were re-verified at kp 9f2ff09d6.
+
+Impact: kp has 6 contexts on this subject and 0 stale verdicts. A sibling's 13:21
+rebuild, from a tree containing this landing, had already regenerated the maps, so no
+rebuild ran here. Yield high, dry_streak 0, depth L3. See [[inclusive-job-advertising]].
