@@ -71,11 +71,12 @@ carries a question that **names the worry out loud** and invites the explanation
 This feels adversarial and is the opposite. The concern exists whether or not it is
 voiced; unvoiced, it travels silently into the decision meeting where the candidate is
 not present to answer it. Voiced, it becomes answerable. The practitioner's formulation
-is that **defensiveness reads worse than the gap itself** — which is a claim about the
-interviewer as much as the candidate. A question improvised in the moment on a delicate
-subject comes out accusatory, the candidate hears an accusation, defends, and the
-defence becomes the finding. Writing the question in advance is what keeps the tone an
-invitation.
+is that **defensiveness reads worse than the gap itself** — a claim about the
+interviewer as much as the candidate, and one with no source behind it (an exact-phrase
+search found none), so hold it as craft, not finding. A question improvised in the moment
+on a delicate subject comes out accusatory, the candidate hears an accusation, defends,
+and the defence becomes the finding. Writing the question in advance is what keeps the
+tone an invitation, and it is also what makes the question auditable.
 
 **When the record holds no worry, do not drop the bucket — invert the question.** A
 clean record is not a reason to skip the hardest question in the kit; it is a reason to
@@ -85,16 +86,28 @@ what it measures is calibration — whether a person knows the shape of what the
 know — and calibration is one of the few things a conversation reads better than any
 document does.
 
-Three rules:
+Four rules:
 
 - **The worry is a question, never a finding.** The gap in the record is a gap, and
   where the record does not settle it, the uncertainty resolves toward the candidate,
   per [uncertainty-resolves-toward-the-candidate](../../../_laws.md#uncertainty-resolves-toward-the-candidate).
   The kit may say "unexplained fourteen-month gap"; it may not say "likely dismissed".
 - **State the observation, then ask.** "There's a period between these two roles I
-  couldn't account for from the record — what were you doing then?" The candidate should
-  be able to hear exactly what was seen and answer that, rather than guess at the
-  concern behind a vague question.
+  couldn't account for from the record — is there anything about that stretch you'd want
+  us to know as it bears on this role?" The candidate should be able to hear exactly what
+  was seen and answer that, rather than guess at the concern behind a vague question.
+  Ask about the work and the record, not the reason: "why did you leave" or "what were
+  you doing" invites the health, family or immigration answers a pre-offer interview
+  should not collect, and the record alone cannot tell a chosen absence from one that
+  happened to the candidate.
+- **Ask it of everyone the record fits.** A record-specific question departs from the
+  structured norm of the same questions for every candidate (ACAS and OPM both advise it),
+  and departures land unevenly: an audit study of employers found a penalty for
+  mothers and none for fathers (Correll, Benard & Paik 2007), and US guidance lists asking women, not men,
+  about children as disparate treatment. So the defence question fires on a defined
+  feature of the record, for every candidate who shows it, and the kit records that the
+  rule fired. If a protected answer arrives unprompted, the pack says beforehand what
+  happens: it is not noted and not scored.
 - **Where the kit's own framing rests on a guess, label the guess.** A prep note that
   reads like an observation but is actually an inference about the person must look like
   an inference, per

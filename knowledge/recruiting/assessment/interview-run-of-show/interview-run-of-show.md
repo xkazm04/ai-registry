@@ -47,6 +47,14 @@ impression and the halo of everything else that happened, which is worse than no
 because it carries a number. When the plan and the scorecard disagree, the plan is the
 truth. The scorecard is an aspiration.
 
+Minutes are necessary for a reading, not sufficient for a clean one. The nearest measured
+analogue, assessment-centre dimension ratings, found the largest single source of
+dimension variance to be a general factor (Kuncel & Sackett 2014, *J. Applied
+Psychology* 99; assessment centres, not interviews, and the abstract's claim is about
+overall dimension ratings). A fed axis still shares much of its rating with the
+impression of the whole conversation, so a block feeds an axis only when the interviewer
+records the evidence *for that axis* before forming the overall view.
+
 That gives the single most useful review question for any run of show: hold the
 scorecard beside it and ask which axis is fed by which block. Every unfed axis is either
 a design error to fix here or an axis to remove from this round's instrument. Both are
@@ -66,9 +74,11 @@ Which produces the rule that fixes the second failure mode above. When a plan's 
 genuinely sum to less than the block that was booked, the correct move is to **promise
 the shorter, truthful duration**, not the longer, aspirational one. A candidate told
 "about twenty-five minutes" who is released at twenty-five has been dealt with
-straight. A candidate told forty-five and released at twenty-five draws the obvious
-inference — that they were dismissed early — and it is frequently wrong, but the process
-handed them the evidence for it. Say only what the plan holds.
+straight. A candidate told forty-five and released at twenty-five is left to guess
+why — and the natural guess, that they were dismissed early, is frequently wrong, but the
+process handed them the evidence for it. That reaction is design reasoning, not a
+measured effect: no study of candidate reactions to a short interview turned up. Say only
+what the plan holds.
 
 Upstream, the same arithmetic is a symptom, not a fact of life: a plan that cannot fill
 its block usually means the brief it was generated from is too thin to interview
@@ -80,9 +90,11 @@ exist to consume minutes.
 Every conversation has a spine that does not vary with how many questions there are:
 
 - **An opening** — who is on the call and why, what the round is for, how long it will
-  run, what happens afterwards, and any disclosure the candidate is owed before
-  assessment begins (that a machine is participating, that a recording is being kept,
-  that notes will be shared with a panel).
+  run, what happens afterwards, and the disclosures the candidate is owed (that a
+  machine is participating, that a recording is being kept, that notes will be shared
+  with a panel). The opening **restates** what a legal notice has already said; it is
+  not where the notice is first given, because several regimes require notice or consent
+  before the interview.
 - **A closing** — the candidate's questions, and a concrete statement of what happens
   next and by when.
 
@@ -110,14 +122,27 @@ the shortfall at minute thirty.
 
 Make the tightening explicit in the plan so the trade is visible while it can still be
 changed. And put a **floor** under it. Below roughly four minutes a competency question
-stops being a structured probe: there is time for the answer and no time for the
-follow-up, and the follow-up is where structured interviewing gets its validity — the
-first answer is usually a rehearsed narrative, and the probe into specifics is what
-separates the candidate who did the thing from the candidate who was nearby when it
-happened. A plan that has driven per-question time under the floor has not made the
-interview more thorough; it has converted it into a quiz. When the floor binds, cut
-questions. There is also a **ceiling on count** for the same reason: past a certain
-number, adding a question can only subtract depth from every other one.
+leaves time for the answer and none for a follow-up, and the first answer is often a
+rehearsed narrative: the probe into specifics is what separates the candidate who did the
+thing from the candidate who was nearby when it happened. A plan that has driven
+per-question time under the floor has not made the interview more thorough; it has
+converted it into a quiz. When the floor binds, cut questions.
+
+Read that floor for what it is: **a planning heuristic, not a research finding.** No
+measured per-question time turned up, and the structured-interview literature does not
+make follow-up the source of validity. The field's own review calls the evidence on
+probing "almost nonexistent", records that unlimited probing may lower reliability and
+validity and increase faking, and lists *limiting* follow-up as a component of structure;
+what it proposes, untested, is that **planned** probing beats both unlimited and none
+(Levashina, Hartwell, Morgeson & Campion 2014, *Personnel Psychology* 67). So the
+follow-up the floor protects is a planned, neutral, uniform one — the same narrowing
+probe for every candidate, used when an answer stays abstract — never an interviewer's
+free improvisation. A count **ceiling** follows from the floor and the booked minutes;
+it is not a limit found in the evidence. Interview length is unrelated to reliability and
+validity in the meta-analytic record (Thorsteinson 2018, *J. Occup. Organ. Psychol.*
+91), and more questions is itself a listed component of structure. Treat "past a certain
+number a question only subtracts depth" as the arithmetic of a fixed slot, not as a
+finding about interviews.
 
 The corresponding cap on the other side: a very short question list should not inflate
 per-question minutes without limit, because "twelve minutes on this question" is not a
@@ -166,11 +191,22 @@ Three consequences follow, and each is a discipline in its own right:
   credential — the question states the worry directly and invites the answer. This feels
   confrontational and is the opposite: the concern exists whether or not it is voiced,
   and a candidate who is never asked cannot answer it. The practitioner's formulation is
-  that *defensiveness reads worse than the gap itself* — which is precisely why the
-  question must be phrased as an invitation to explain rather than an accusation to
-  parry, and why the interviewer needs it written down rather than improvised in the
-  moment when the tone is hardest to control. The worry is a question, never a finding;
-  where the record does not settle it, the uncertainty resolves toward the candidate.
+  that *defensiveness reads worse than the gap itself* — an impression with no source
+  behind it, offered as the reason the question must be phrased as an invitation to
+  explain rather than an accusation to parry, and written down rather than improvised in
+  the moment when the tone is hardest to control. The worry is a question, never a
+  finding; where the record does not settle it, the uncertainty resolves toward the
+  candidate. Two limits come with the practice. A record-specific question cuts against
+  the structured-interview norm of asking every candidate the same questions, so the
+  same question goes to every candidate whose record shows a comparable feature, not
+  only to the ones who look unusual; asking female applicants, but not male ones, about
+  marriage, young children or caregiving is the drift EEOC's caregiver guidance lists as
+  evidence of disparate treatment. And a gap
+  question asks about the work and the record, never the reason: an employment gap is
+  the case where the record cannot tell a chosen absence from caregiving or illness, and
+  a pre-offer question that elicits a health answer is one the interviewer may not ask.
+  The script says in advance what to do with a protected answer that arrives unprompted:
+  do not record it, do not score it.
 - **Each question carries a scaffold for the answer** — what a good answer contains,
   what to listen for, what follow-up to use if the answer stays abstract. Without it the
   question is a prompt for a story and the rating that follows is a rating of the story.
@@ -209,12 +245,24 @@ whose text is whose.
 
 The minutes do not stop when the call ends. Writing the ratings takes real time, it is
 the part everyone assumes is free, and it is the part that decides whether the loop has
-evidence or recollection. Ratings written the next morning are recollections; the
-quotable specifics are gone within the hour. So the plan allocates debrief minutes as a
-block, scaled to the size of the instrument being filled — more competencies, more
-writing — with a cap, because past a certain point a longer form is a form that will not
-be completed rather than a longer debrief. Book that time adjacent to the conversation,
-not at the end of the day.
+evidence or recollection. Ratings written the next morning are written from memory, and
+recall of detail falls with delay; no source turned up for how fast, so read "the same
+hour" as a prudent default rather than a measured window. So the plan allocates debrief
+minutes as a block, scaled to the size of the instrument being filled — more
+competencies, more writing — with a cap, because past a certain point a longer form is a
+form that will not be completed rather than a longer debrief. Book that time adjacent to
+the conversation, not at the end of the day.
+
+The debrief block is the second half of the evidence trail, not the first. The structure
+literature lists rating each answer, taking notes, and not discussing applicants between
+interviews as components of a structured evaluation (Levashina et al. 2014). Notes taken
+during the conversation raise recall accuracy, but not by themselves the accuracy of the
+judgment; reviewing them does that for conventional note-takers, and the authors read
+note-taking as "more important for memory and legal reasons than for improving the
+decisions made by interviewers" (Middendorf & Macan 2002, *J. Applied Psychology* 87). So the plan gives the
+interviewer a place to write behavioural notes as the conversation runs, and the debrief
+minutes are spent reading them and rating **before** anyone discusses the candidate,
+because a panel that talks first has stopped producing independent ratings.
 
 ## Seams with the neighbouring subjects
 

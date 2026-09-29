@@ -131,3 +131,26 @@ comment at `:22-24`, there was never more than one group.
   production experience with Kubernetes" is dropped as a non-finding. The new regex is
   conservative; the legacy marker beside it is not, and it is the one direction the
   guard's own comment says it must not fail.
+- **The defence question fires by list position, not by the feature.** The cap
+  `_RED_FLAG_TARGET = 3` (`interview.py:70`) slices `flags[:3]` in the order the model
+  emitted them. Executed against `_red_flag_questions` at kp `7665a75ca` (the file last
+  changed 2026-08-21): two records carrying the identical "Unexplained 14-month employment
+  gap" flag, one with it first of three flags and one with it fourth of four. The first
+  gets the gap question; the second gets three other questions and none about the gap. So
+  whether a candidate is asked depends on how many other flags the model happened to
+  emit. This generator is a candidate-side rehearsal kit ("so the user knows exactly what
+  experience to surface"), so no interviewer is asking anything unevenly; the finding
+  matters the day the same generator feeds an interviewer's pack, and the standard's
+  "the same question for every record that shows the feature" then fails on the cap.
+- **No proxy filter on the flag text.** The standard keeps the defence question for
+  things the candidate chose. Executed: a flag "Career break of 2 years, appears to be
+  parental leave" becomes "A recruiter reading your CV might worry that career break of 2
+  years, appears to be parental leave. How do you address that head-on?" Nothing between
+  `real_risk_flags` and the template tests for a caregiving, health or service proxy, and
+  the template asks how to address it, which invites the reason rather than the work.
+  The rehearsal framing softens the harm (the candidate is told a recruiter might read
+  it that way, not asked by one); it does not make the flag one the candidate chose.
+- **The scaffold sentence the standard quoted is the product's own.** "Defensiveness
+  reads worse than the gap itself" is the string at `interview.py` `situation=`, and an
+  exact-phrase search on 2026-09-29 found no outside source for it. The technique now
+  holds it as craft, not finding; this application is the only place it is attested.

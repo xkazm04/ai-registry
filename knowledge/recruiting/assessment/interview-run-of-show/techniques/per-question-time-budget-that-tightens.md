@@ -27,17 +27,27 @@ the open block's minimum. Then per-question minutes is that budget divided by th
 subject to three constraints:
 
 - **A floor** on per-question minutes. Around four minutes for a competency question in
-  a human round: enough for the answer plus at least one narrowing follow-up. Below it,
-  the question gets the rehearsed narrative and nothing else. Structured interviewing
-  earns its validity in the follow-up — the move from "we improved reliability" to "what
-  did you personally change, and how did you know it worked" — and a plan that budgets
-  the answer but not the probe has budgeted the least informative half.
+  a human round: enough for the answer plus one planned narrowing follow-up. Below it,
+  the question gets the rehearsed narrative and nothing else. The follow-up is the move
+  from "we improved reliability" to "what did you personally change, and how did you know
+  it worked", and a plan that budgets the answer but not the probe has budgeted the
+  least informative half. **The figure is a planning heuristic, not a finding.** No
+  measured per-question time exists in the sources read, and the structured-interview
+  review calls probing research "almost nonexistent", warns that unlimited probing may
+  lower reliability and validity and raise faking, and proposes planned probing as the
+  untested middle (Levashina et al. 2014). So the floor buys a *planned, uniform* probe —
+  written into the kit, the same for every candidate, used when the answer stays
+  abstract — not licence for free-form questioning.
 - **A ceiling** on per-question minutes. Past roughly eight to ten minutes a single
   question is no longer a question; it is an unstructured segment wearing a question's
   label. If a short list leaves that much per item, the surplus belongs in a named open
   block, not spread thin across the questions.
-- **A maximum question count** for the round. It follows from the floor, and it should be
-  written down as its own number because it is the constraint a kit generator will
+- **A maximum question count** for the round. It follows from the floor and the booked
+  minutes, not from evidence that more questions hurt: interview length is unrelated to
+  reliability and validity in the meta-analytic record (Thorsteinson 2018), and a larger
+  number of questions is itself a listed component of structure. It is the arithmetic of a
+  fixed slot, and it should be written down as its own number because it is the
+  constraint a kit generator will
   otherwise violate cheerfully. When the generator produces more than the maximum, the
   plan carries the maximum and the remainder is visibly held back, not silently
   appended.
