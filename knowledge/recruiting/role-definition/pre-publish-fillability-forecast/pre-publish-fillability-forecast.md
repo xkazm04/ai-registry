@@ -43,6 +43,14 @@ score zero here because you have never sourced in that market before. The
 inverse is rarer but real: a pool rich in one former employer's alumni will
 overstate how ordinary a rare skill is.
 
+A pool that a store caps is a third case. When the scorer reads only the
+newest N profiles, "the pool" is a recency prefix of what the record holds, the
+older profiles were never scored, and a count over it can neither be quoted as
+"in your database" nor read as representative of it (recent sign-ups differ from
+old ones by channel and seniority mix). The forecast carries the cap as a flag
+beside the counts and the sentence that goes with it: the newest N of the
+profiles held, older ones not evaluated.
+
 So every number the forecast emits carries its base, and the language is
 scoped accordingly: not "this role is unfillable" but "of the N people in your
 pool, zero clear the current requirements". A forecast that drops the qualifier
@@ -64,12 +72,30 @@ people appear". They cannot act on "relax these four things simultaneously and
 the pool reaches thirty" — that is not a conversation they can have with a
 hiring manager, because it does not identify a culprit to argue about.
 
-**Deltas do not sum.** Blockers overlap. If the language gate excludes forty
-people and the seniority floor excludes forty, dropping both may surface
-forty-five, not eighty — most of the excluded were excluded twice. Any
-presentation that invites addition is lying by arithmetic. Single-lever deltas
+**Deltas do not sum, and for hard gates the sum is the smaller number.** A
+single-gate delta counts the people that gate blocks *alone*. Anyone who fails
+two gates is recovered by neither lever, so removing both restores the two
+deltas plus everyone the two share: the sum of gate deltas never exceeds the
+joint effect, and understates it by exactly the overlap. (One person failing
+only the language gate, one failing only the degree gate, three failing both:
+the deltas are one and one, and removing both gates restores five.) The intuition that overlap makes the sum too *large* is true of
+the marginal count of who each gate fails — forty and forty can be forty-five
+people — and false of the delta this instrument reports. Either way, a
+presentation that invites addition is lying by arithmetic: single-lever deltas
 must be labelled as independent counterfactuals, each measured against the same
 unmodified baseline, and never stacked in a running total.
+
+**A zero is not "free".** A gate whose every casualty is also blocked by a
+second gate reads zero, and where all the excluded fail two gates the table
+holds no lever at all on exactly the pool the gates jointly empty. Single-lever
+attribution therefore has one companion pass — the requisition with every
+levered gate removed — and it is reported as its own row when it restores more
+than the deltas add up to. It names no culprit, and says so; the recruiter
+then knows the answer is a *pair* and can argue about which one. Must-have
+skills have the same blind spot in another form (a few points per skill, so no
+single demotion crosses the bar and a pair does), and there the fallback is the
+pairs, run only when every single lever reads zero
+(`counterfactual-gate-loosening`, `must-have-demotion-delta`).
 
 **Combinatorics.** Each counterfactual is a full re-scoring pass over the pool.
 Single-lever is linear in the requirement count; subsets are exponential, and
@@ -77,7 +103,10 @@ the expensive answer is also the less useful one.
 
 The forecast therefore runs one pass per removable constraint, each starting
 from the *original* requisition with exactly one thing changed, and reports
-each delta against the shared baseline.
+each delta against the shared baseline. The two companion passes above are
+bounded — one extra pass over the gates, a capped set of pairs among the skills
+and only when the singles are all zero — and are the cost of not being wrong
+about an empty pool, not a step towards the optimisation this section refuses.
 
 ## The two levers have different denominators
 
@@ -130,7 +159,7 @@ defaults onto a parsed job — a work mode, a seniority, a location — so that
 downstream code has a value to read. Those stamped values are **phantoms**: the
 advertisement said nothing, and a default said something on its behalf.
 
-Two consequences, and the first is the more serious.
+It bites in three places, and the first is the most serious.
 
 A phantom must never act as a hard gate. An advertisement that stated no work
 mode, defaulted to on-site, will silently exclude every remote-only candidate
@@ -144,6 +173,16 @@ And a phantom must never appear as a lever. "Loosen the work-mode requirement,
 +22 eligible" recommends editing a line the hiring manager never wrote,
 against a constraint they never imposed. The recruiter who acts on it changes
 nothing real and loses trust in every other row.
+
+The third place is the pay verdict, and it fails in the
+opposite direction: it produces a clean bill of health. When an advertisement
+states no pay and the normalisation layer stamps the market band on it, the
+verdict compares the market band with itself and answers "not below market"
+for a role that named no figure. When it states a range but no level, the
+range is judged against the band of a level it never claimed, and a
+mid-level default can turn an honest junior range into "below market". Both are cases of the verdict's own input being absent, and absence
+renders as silence with the reason named, never as a verdict
+(`pay-versus-market-verdict-with-a-currency-guard`).
 
 ## The pool is people's data, and the forecast is a new use of it
 
@@ -248,6 +287,26 @@ grounded in market data but any specific number a recruiter would enter is not
 — the coach shows the verdict and the evidence and stops there, deliberately
 offering no one-click apply. That is not a missing feature. It is the feature.
 
+## A count is not an exemption
+
+The output is aggregate, but the instrument scores individual profiles to
+produce it, and a regime that regulates the scoring does not stop at the
+report. In the EU, AI systems used for recruitment or selection — named in
+Annex III(4)(a) of Regulation 2024/1689 as placing targeted advertisements,
+analysing and filtering applications and evaluating candidates — are high-risk.
+The Commission's draft guidelines on Annex III (19 May 2026, non-binding, final
+text expected at the end of 2026) read a system that produces suitability scores
+by comparing a candidate's profile with a job description as within that
+point, and the employment section carves out no aggregate-only exception (the
+carve-outs it lists are ad-wording checkers and similar). Reading a
+counts-only scorer as inside the point is an inference from that text, not a
+holding; the route out, if any, is the Article 6(3) preparatory-task filter, and
+a system that profiles natural persons never takes it. The high-risk
+obligations for Annex III systems apply from 2 December 2027 under Regulation
+2026/1744, which moved them from 2 August 2026. So the decision whether the
+forecast is in scope belongs in the operator's record now, and not to a default
+that reads "aggregate, so outside".
+
 ## Where this subject ends
 
 Three seams are worth naming, because each neighbour is a full discipline and
@@ -282,6 +341,12 @@ the question, the audience and the artefact differ.
   here, and the one that is cheapest to make on day one.
 - **Stacked deltas.** Presenting independent counterfactuals in a list invites
   mental addition. Say what they are.
+- **A zero read as free, or as "not close".** Every gate at zero can mean the
+  gates block the same people; every skill at zero can mean a pair reaches the
+  bar. An empty lever table on an empty pool is the signal to look for the
+  joint, not to conclude the requisition is fine or the pool hopeless.
+- **A verdict over an input nobody stated.** A stamped pay band, a stamped
+  level: silence with the reason, not a reassuring boolean.
 - **Market language over a pool measurement.** The forecast's confidence is
   bounded by the pool's coverage and must say so.
 - **A silent pay verdict.** Two-state booleans over three-state questions.
