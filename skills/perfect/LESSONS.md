@@ -524,3 +524,8 @@ rule that only this loop's participants currently follow.
 - Confirmed working: grouping two overlapping directions into ONE sequential lot rather than
   isolating them. The two /perfect builders never collided. Every problem in this round came from
   outside the wave.
+
+## 2.7.0 - 2026-09-29 - ai-registry (scout model pin, from an intake run)
+- The Roles table called scouts "cheap", and the cost-discipline line called them "Explore-tier". Since Claude Code 2.1.198 (2026-07-01) an unpinned Explore scout inherits the Director's model (capped at opus), so a Fable/Opus Director's per-context scouts run on Opus. The premise was set by a harness default the harness has since changed.
+- Paired on one enumerate-the-sites brief (8 sites, greppable), two runs per arm: anchors 8 of 8 in all six runs; haiku about 0.4x the cost of an opus-inherited scout at similar wall time, but only 0.83x a mid-tier scout (haiku's price assumed) and 1.8x slower. The opus arm traced callers unprompted; haiku did not.
+- Per-context briefs here ask for mount-point tracing, so the default stays the inherited model and `haiku` is for enumeration-only briefs until the same pair is run over a tracing brief. Do not pin the small tier across the loop on this evidence.

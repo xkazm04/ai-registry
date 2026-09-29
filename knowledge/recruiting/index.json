@@ -5463,7 +5463,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
    "digest": "sha256-b2:fd3338d7d1babc84",
-   "revision": 2,
+   "revision": 5,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -6546,8 +6546,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/recruiting-cost-and-automation-economics.md",
    "digest": "sha256-b2:57516f359a02d166",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "a-human-click-is-not-saved-labour",

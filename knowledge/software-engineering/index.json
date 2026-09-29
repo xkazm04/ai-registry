@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1818,
-  "applications": 1209,
+  "applications": 1210,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -21094,8 +21094,8 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/model-routing.md",
-   "digest": "sha256-b2:fa20ac07949ea503",
-   "revision": 20,
+   "digest": "sha256-b2:5484901d8df95b15",
+   "revision": 21,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -21296,6 +21296,13 @@
      "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/claude-code--cache-continuity.md",
      "verified_on": "2026-09-08",
      "verified_against": "claude-code@2.1.263"
+    },
+    {
+     "stack": "claude-code",
+     "technique": "turn-classification",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/claude-code--turn-classification.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "claude-code@2.1.284"
     },
     {
      "stack": "next",

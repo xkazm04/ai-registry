@@ -3,7 +3,7 @@ name: perfect
 description: "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Fable 5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Opus-class builder subagents on ONE shared branch - grouped so their write sets cannot collide - while making every review/merge decision itself. All state lives in a linked Obsidian vault (or <repo>/.perfect/) so any future session resumes the loop exactly where the last one stopped; per-repo specifics (vault path, gates, Class B/C files, repo law, taste) come from .claude/perfect/config.md. Invoke with /perfect [init|propose|build|status|smoke|reflect] [context-name]."
 category: workflow
 memory: vault
-version: 2.7.0
+version: 2.7.1
 tags: loop, director, builders, shared-branch, vault, product-quality
 argument-hint: "[init|propose|build|status|smoke|reflect] [context]"
 contexts: tracked
@@ -17,7 +17,7 @@ contexts: tracked
 
 - **Director (the main session — the strongest available model at xhigh reasoning; currently Fable 5, Opus 5 acceptable fallback).** Owns everything that is judgment: opportunity-scoring contexts, drafting directions, adversarially challenging them before the user ever sees them, running the acceptance gate, writing builder briefs, answering builders' product questions mid-flight, reviewing every diff, deciding merge/redo/drop, running the repo gates, committing, and writing the vault. The Director **never delegates a decision** to a builder and never rubber-stamps a builder's diff.
 - **Builders (Opus-class subagents, `model: "opus"`, one per *lot* — see Phase B step 1).** Each receives a tight brief (direction specs + acceptance criteria + an explicit **write set** + repo-convention digest) and implements **in the wave's single shared tree**, alongside its siblings. Isolation is not what keeps them from colliding — disjoint grouping is. Builders return a structured report; when they hit a genuine product ambiguity they **return the question instead of guessing** — the Director answers via `SendMessage` and the builder continues.
-- **Scouts (Explore subagents, cheap).** Produce the per-context current-state brief the Director synthesizes directions from. Never used for judgment.
+- **Scouts (Explore subagents).** Produce the per-context current-state brief the Director synthesizes directions from. Never used for judgment. **Not cheap by default:** since Claude Code 2.1.198 an Explore scout that names no model inherits the session's (capped at opus), so a Fable/Opus Director's scouts run on Opus. Set `model` per scout: `haiku` for an enumerate-the-sites brief (measured about 0.4x the Opus-inherited cost at equal anchor accuracy), the inherited model for a brief that asks for mount-point or consumer tracing (which is most per-context briefs here; the small tier did not volunteer tracing, and it is untested when asked).
 
 ## Project overlay
 
@@ -262,7 +262,7 @@ Template: `${CLAUDE_SKILL_DIR}/references/builder-brief.md`. Non-negotiable cont
 
 - **Never stash, never `git add -A` on the shared tree** — per-file staging, staged-count check before every commit; other sessions' work is sacred. `git add <file>` of an existing path sweeps foreign WIP — author NEW files, never hunk-split from an agent (`git add -p`/`-i`/`rebase -i` hang the harness). Inside a wave, `git commit --only <paths>` is the form that makes this safe by construction; a repo whose law lets foreign sessions bare-commit into a shared checkout should be asked (via its CLAUDE.md) to use `--only` too — the method cannot defend that direction.
 - **Efficiency outranks defensive isolation.** Before adding any protective step to this loop, ask whether the risk it defends against is instead a signal that the *grouping* is wrong. Machinery that exists to survive a bad wave plan should be deleted and the wave plan fixed.
-- **Cost discipline**: scouts are Explore-tier; builder-tier spend goes only to accepted work; the Director never re-runs a scout whose brief is < 1 round old (it's in the context note).
+- **Cost discipline**: scouts are Explore-tier only when pinned (see Roles - an unpinned scout inherits the Director's model); builder-tier spend goes only to accepted work; the Director never re-runs a scout whose brief is < 1 round old (it's in the context note).
 - **Honest ledger**: a direction only reaches `shipped` with gates green AND the Director having read the diff; anything else is `failed` with a reason. No silent drops — every accepted direction's fate is recorded.
 - **Interruptibility is a feature**: write the vault incrementally (after every context in P, after every merge in B) so a killed session resumes losslessly.
 - **The user is the product owner**: the gate is theirs; the Director challenges but never overrides a rejection, and repeated rejections of a lens/context recalibrate the queue scores. A go-ahead is scoped to the facts it was given: **re-measure a concurrency precondition immediately before the mutating command** — "blocked" and "approved" are both timestamps, not states (a merge unsafe at 19:00 was safe at 21:38; an approval true when asked was false 14 minutes later).

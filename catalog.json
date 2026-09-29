@@ -566,10 +566,10 @@
     },
     {
       "name": "perfect",
-      "version": "2.7.0",
+      "version": "2.7.1",
       "category": "workflow",
       "path": "skills/perfect/SKILL.md",
-      "contentHash": "sha256-n1:0fc53cc208cddf33",
+      "contentHash": "sha256-n1:138c40e1b5d9f513",
       "adopters": [
         "ascent@plugin:2.3.0",
         "kp@plugin:2.3.0",
@@ -580,9 +580,9 @@
       ],
       "invokes30d": 46,
       "reportedInvokes": 46,
-      "lessons": 26,
+      "lessons": 27,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:52924ade47096a06",
+      "lessonsHash": "sha256-n1:87875b14f8369e50",
       "usageContributors": [
         "wolf"
       ],
@@ -715,18 +715,18 @@
     },
     {
       "name": "spark",
-      "version": "1.7.0",
+      "version": "1.7.1",
       "category": "workflow",
       "path": "skills/spark/SKILL.md",
-      "contentHash": "sha256-n1:f9840adce27dcdcf",
+      "contentHash": "sha256-n1:09eb5958cd379432",
       "adopters": [
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 29,
+      "lessons": 30,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:1823463abc7fdb32",
+      "lessonsHash": "sha256-n1:ab1bf241fbcef9cd",
       "usageContributors": [
         "wolf"
       ],
@@ -990,7 +990,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 6,
-    "lessons": 293
+    "lessons": 295
   },
   "bundles": [
     {
@@ -1108,7 +1108,7 @@
       "techniques": 396,
       "applications": 275,
       "files": 739,
-      "contentHash": "sha256-b2:915382fabac7ebe9"
+      "contentHash": "sha256-b2:00e296690060f10c"
     },
     {
       "name": "software-engineering",
@@ -1119,9 +1119,9 @@
       "purity": "software",
       "subjects": 233,
       "techniques": 1818,
-      "applications": 1209,
-      "files": 3265,
-      "contentHash": "sha256-b2:c66360724399b1a0"
+      "applications": 1210,
+      "files": 3266,
+      "contentHash": "sha256-b2:e9a25d2986a1551d"
     }
   ],
   "usageEvidence": {

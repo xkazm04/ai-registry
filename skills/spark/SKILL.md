@@ -5,7 +5,7 @@ memory: vault
 category: workflow
 description: Turn a vague product idea (a "sparkle") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director review. Runs live in a memory vault (a linked Obsidian folder, or <repo>/.spark/ with the same schema); every run ends with a self-improvement retro that sharpens the skill itself. Per-repo specifics - vault path, gates, context map, host rituals, repo law - come from the overlay at .claude/spark/config.md, and the loop runs on defaults without it. Invoke with `/spark <idea...>` or `/spark resume <slug> | status | reflect`.
 argument-hint: "<idea...> | resume <slug> | status | reflect"
-version: 1.7.0
+version: 1.7.1
 model: fable
 ---
 
@@ -16,7 +16,7 @@ model: fable
 ## Roles
 
 - **Director (the main session).** Owns targeting, question design, the design brief, builder briefs, diff review, merge decisions, gates, vault writes, and the retro. Never delegates judgment.
-- **Scouts (Explore subagents, read-only, cheap).** One per target context: current-state brief with `file:line` evidence. A surface only "exists" if it renders — trace mount points.
+- **Scouts (Explore subagents, read-only).** One per target context: current-state brief with `file:line` evidence. A surface only "exists" if it renders — trace mount points. **Not cheap by default:** since Claude Code 2.1.198 an Explore scout that names no model inherits the session's (capped at opus), so a Fable/Opus Director's fan-out runs on Opus. Set `model` per scout: `haiku` for an enumerate-the-sites brief (measured about 0.4x the Opus-inherited cost at equal anchor accuracy), the inherited model for a brief that asks for mount-point or consumer tracing (the small tier did not volunteer tracing; untested when asked).
 - **Builders (strong subagents, one per work package).** Tight brief + acceptance criteria + file scope; work in the spark's worktree; return structured reports; return questions instead of guessing.
 
 ## Project overlay
