@@ -1,0 +1,67 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pbfh-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T14:20:00Z",
+  "ended_at": "2026-09-29T15:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/pre-boarding-and-first-day-handoff",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "pre-boarding-and-first-day-handoff",
+      "technique": "rescinding-an-accepted-offer-is-a-decision-with-a-process",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/pre-boarding-and-first-day-handoff.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/techniques/rescinding-an-accepted-offer-is-a-decision-with-a-process.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/techniques/signature-seam-declared-not-implied.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/techniques/pre-boarding-questionnaire-as-a-hire-record.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/techniques/the-acceptance-to-start-date-silence-gap.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--rescinding-an-accepted-offer-is-a-decision-with-a-process.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--the-live-stage-gates-the-handoff.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--rescinding-an-accepted-offer-is-a-decision-with-a-process.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--signature-seam-declared-not-implied.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--pre-boarding-questionnaire-as-a-hire-record.md",
+    "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--the-acceptance-to-start-date-silence-gap.md",
+    "librarian/subjects/recruiting/pre-boarding-and-first-day-handoff.md",
+    "librarian/applied.md"
+  ],
+  "commits": [
+    {
+      "sha": "cbedbcd9",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff"
+    },
+    {
+      "sha": "274a9fde",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second pass after dp-pbh-0929 (dispatching checkout was behind origin). External lanes run: one technique earned (rescission), three rules gained conditions, an unsupported 60-day figure dropped. kp probe measured; maps not regenerated."
+}
