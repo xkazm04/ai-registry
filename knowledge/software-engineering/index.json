@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1815,
-  "applications": 1195,
+  "applications": 1196,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -3116,9 +3116,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/analytics-time-windows.md",
-   "digest": "sha256-b2:92b652495184231c",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:5de044d7d42d1931",
+   "revision": 4,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "baseline-as-window-start",
@@ -3202,6 +3202,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "calendar-arithmetic",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/node--calendar-arithmetic--persisted-monthly-slot.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "calendar-arithmetic",

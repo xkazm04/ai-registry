@@ -70,8 +70,20 @@ the property everything downstream assumes.
 ## Decision rules
 
 - **When a boundary instant must belong somewhere, it belongs to the later
-  window.** This follows from half-open and should never be re-litigated per
-  surface; a surface that inverts it locally has created a second convention.
+  window** — for observations that stamp *when something happened*. This
+  follows from half-open and should never be re-litigated per surface; a
+  surface that inverts it locally has created a second convention.
+- **When the stamp means "the interval that just ended", the mirror
+  `(start, end]` is the half-open form, and it tiles just as well.** A
+  cumulative counter, a scrape or a periodic snapshot summarizes the time
+  *before* its stamp, so the sample stamped exactly at `end` belongs to the
+  window ending there. The invariant is tiling under one declared direction,
+  not the direction itself. A widely used time-series query engine moved its
+  range selectors from closed-closed to left-open, right-closed in its 3.0
+  release, "more consistent": under closed-closed a fixed-length window over
+  evenly spaced samples returned 5 or 6 of them depending on where the scrape
+  landed against the edge. Pick the direction from what the timestamp denotes,
+  write it beside the constructor, and let no surface mix the two.
 - **When the storage engine's date functions truncate rather than compare, use
   them for the bucket key only, not for the window edge.** Truncation is a
   floor operation; the window edge is a comparison. Mixing them produces
