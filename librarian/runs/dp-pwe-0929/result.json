@@ -34,12 +34,12 @@
   ],
   "commits": [
     {
-      "sha": "fc480ee2",
+      "sha": "22200d85",
       "branch": "main",
       "pathspec": "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding"
     },
     {
-      "sha": "051b0dc1",
+      "sha": "409408f0",
       "branch": "main",
       "pathspec": "knowledge/recruiting/index.json catalog.json"
     }
