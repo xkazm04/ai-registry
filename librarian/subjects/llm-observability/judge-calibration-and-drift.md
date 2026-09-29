@@ -1,7 +1,8 @@
 ---
 domain: llm-observability
 subject: judge-calibration-and-drift
-last_touched: 2026-09-15
+last_touched: 2026-09-29
+touched_by: intake
 ---
 
 # judge-calibration-and-drift
@@ -266,3 +267,32 @@ while its own benchmark doc already unpinned generation self-consistency for thi
 Arm A's reproducible split under `exact` is banked untriaged against
 `cross-provider-benchmark-operations/determinism-stamping`: an exact stamp records the request, not a
 replay. It would rewrite that technique's definition, so it did not clear the gate.
+
+## 2026-09-29 - [[2026-09-29-ultraeval-audio]]
+
+`judge-replacement-bridge` added (technique, application, golden-path section and failure mode). The
+source originated the mechanism and the run corrected it. A benchmark's original judge model was
+withdrawn; the reproduction team replayed a substitute over the benchmark's own reference recordings and
+compared per axis and language with the published aggregates. The anchor and the per-cell reporting are
+right. The verdict was not: gaps of about -2.2 to +1.5 points, both signs, different valid-row counts
+and no repeated replay were called "broadly aligned". The technique keeps the anchor, takes the
+tolerance from the replacement's own repeatability floor, applies no correction when the signs mix, and
+licenses only an aggregate comparison with a caveat, never a trusted verdict.
+
+- **Convergence.** Two independent trees drop the judge's identity from the stored row: the source's
+  evaluator returns a score, raw output and instruction type, so rows from two registered judge models
+  are identical; the fleet's judge-parking step recorded the model per pick and dropped it before the parked
+  row.
+- **Seam chosen to falsify** (gravitone): the retry ladder could have mixed judges
+  inside one agreement figure. On the 29 recorded cycles it never fired (58 of 58 non-skipped picks came
+  from the first rung, 0 errors), so the mixing hypothesis is refuted on history. What held: a committed
+  row could not say which judge made a pick, and an errored call would have been stored as a tie.
+- **Paired replay** over 27 recorded cycle copies: judged pairs naming the judge 0/46 to 46/46, every
+  other parked field and the logged agreement identical on 27/27, a synthetic 503 stored as an error and
+  not a pick. **Shipped** as `1fe0c17` in the project, not pushed.
+- **Bridge half `unmeasurable`.** The floor needs a live judge key and the benchmark's reference
+  recordings. Return condition: a run that has both replays the anchor five times and compares the spread
+  with the 2.2-point gap.
+- **Structural fact nobody designed:** the ledger's agreement (ties counted as dissent) and the parking step's
+  log line (ties excluded) are two definitions of one statistic. Left as is, because changing it restates
+  history.

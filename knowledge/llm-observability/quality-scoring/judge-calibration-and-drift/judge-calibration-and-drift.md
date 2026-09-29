@@ -13,6 +13,7 @@ techniques:
   - judge-selection-by-spread
   - repeatability-floor
   - fit-and-report-on-disjoint-labels
+  - judge-replacement-bridge
 ---
 
 # Judge calibration and drift
@@ -190,6 +191,19 @@ its agreement on that set is a training score. The trust record then comes from
 labels no fitting step read
 ([fit-and-report-on-disjoint-labels](./techniques/fit-and-report-on-disjoint-labels.md)).
 
+## The judge you did not choose is retired
+
+Everything above assumes the operator owns the labels. A benchmark someone else
+wrote is the other case: its published scores came from a judge model, the
+provider stopped serving that model, and there is no human-labelled set to earn
+trust back with. The replacement is scored against the one fixed point that
+exists, the benchmark's own reference outputs and their published aggregates,
+cell by cell, with the tolerance taken from the replacement's measured
+repeatability floor. That earns a provisional, aggregate-level comparison with a
+disclosed caveat and never a trusted verdict, and it only works if every stored
+verdict names the judge that produced it
+([judge-replacement-bridge](./techniques/judge-replacement-bridge.md)).
+
 ## Failure modes of the naive reading
 
 - **Calibrate once, trust forever.** The instrument under the trust verdict
@@ -207,6 +221,9 @@ labels no fitting step read
   starts untrusted — the verdict does not transfer.
 - **The uncalibrated gate.** Scores from an untrusted or never-calibrated
   judge failing builds, closing tickets, or reaching customers as fact.
+- **One series, two judges.** A retired judge's published row and its
+  replacement's row merged under the benchmark's name, or a fallback ladder
+  inside the judge client that changes the model per item and stores none of it.
 
 ## The techniques
 
@@ -234,3 +251,7 @@ labels no fitting step read
   the moment labels are used to change or choose the judge they stop
   certifying it: split before fitting, re-measure the winner, bind the
   search to the loss direction.
+- [judge-replacement-bridge](./techniques/judge-replacement-bridge.md) — a
+  retired judge with no human labels: replay the replacement over the
+  benchmark's reference outputs, tolerance from the repeatability floor, and
+  the judge's identity carried in every stored verdict.
