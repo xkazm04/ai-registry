@@ -17,6 +17,14 @@ the excluding phrases are cheerful, common, and usually written by someone who
 would never write an age limit. They are also the phrases that regulators and
 claimants find first, precisely because they are searchable strings.
 
+The effect on readers is among the better-evidenced in this subject. In a
+preregistered field study that randomized the wording of real advertisements,
+subtle age-stereotyped language deterred older applicants, and the pool it drew
+was measurably younger. That study measured the *reader*. A separate line of
+work, which found that such language in an advertisement predicts lower
+callbacks for older applicants, measured the *employer* — the wording is a
+symptom as well as a cause. Cite each for what it measured.
+
 ## The families
 
 - **The nativity family** — *digital native*, *born with a phone in hand*,
@@ -32,7 +40,14 @@ claimants find first, precisely because they are searchable strings.
 - **The vitality family** — *young dynamic team*, *energetic*, *youthful*,
   *high-energy culture*, *fits our young team*. Describes the incumbent
   population as a criterion. This one is doubly bad: it signals age, and it
-  states that similarity to the existing team is the selection basis.
+  states that similarity to the existing team is the selection basis. The
+  noun decides it: *young* applied to the team or the staff is an age
+  statement about the people, while *young* applied to the company describes
+  the organization. Case law in at least one jurisdiction has drawn exactly
+  that line: a "young dynamic team" was direct age discrimination, and a
+  "young and dynamic company" was not an indicator. A pattern on the bare
+  adjective cannot see the noun; match the phrase, or report the adjective
+  with its noun and let the writer see the distinction.
 - **The seniority-ceiling family** — *maximum N years of experience*, *not
   overqualified*, *no more than two prior roles*. An upper bound on experience
   is an age proxy with the arithmetic left as an exercise, and unlike a lower

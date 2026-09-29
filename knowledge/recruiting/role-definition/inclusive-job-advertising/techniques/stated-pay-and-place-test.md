@@ -13,9 +13,17 @@ use_when: [deciding whether a posting really discloses pay, a posting says flexi
 
 The concern: distinguishing a **disclosure** from a **phrase that gestures at
 one**. Pay and place are the two facts a reader most wants and the two most
-often replaced by a gesture, and the gesture is what makes an otherwise
-well-written posting fail to convert. The test is mechanical and deliberately
-narrow: a statement counts only if it is *concrete*.
+often replaced by a gesture. The test is mechanical and deliberately narrow: a
+statement counts only if it is *concrete*.
+
+What a stated figure does is better evidenced than what a gesture costs, and
+it is not simply "more applications". In randomized and natural experiments,
+posted pay **sorts** readers: toward well-paid vacancies and away from poorly
+paid ones, with total volume rising in some markets and unchanged in others,
+and in some settings a larger share of applicants who fit the stated
+requirements less well. Disclose because the reader is entitled to the fact and
+because many jurisdictions now require it, and expect the figure to change who
+applies more reliably than how many.
 
 ## What counts as stated pay
 
@@ -31,9 +39,12 @@ A pay statement must contain, in the posting body the reader sees:
 Nothing else qualifies. *Competitive*, *attractive*, *market rate*, *depending
 on experience*, *up to a generous package* are all zero. A range with no upper
 bound is not a range. A range so wide it contains every plausible answer is a
-gesture in a number's clothes: the working test is that the top of the band
-should not exceed the bottom by more than roughly half, and a band that must be
-wider needs an explanation in the text of what moves a candidate through it.
+gesture in a number's clothes, and preregistered experiments find very wide
+ranges lower how trustworthy readers judge the employer. No study supports a
+particular width ratio, so the test is not arithmetic; it is whether the text
+says why the band is as wide as it is. A reason tied to location reads as a
+reason. In the same experiments, "depending on qualifications" made the
+trust cost worse, not better.
 
 Two adjacent facts are not pay and must not be allowed to satisfy the test:
 **equity** and **bonus** and **benefits** are additional disclosures, valuable
@@ -120,9 +131,21 @@ is wasted.
 ## When not to use it
 
 - **Not as a hard block where disclosure is optional and the employer has
-  decided against it.** The lint still reports the conversion cost; the gate is
+  decided against it.** The lint still reports the missing fact; the gate is
   a policy decision that belongs to the organization, and pretending otherwise
-  gets the check switched off.
+  gets the check switched off. What "optional" means differs by regime, and a
+  gate built for one is wrong in the other:
+  - several US states and cities require a good-faith range **in the posting
+    itself**, with both a minimum and a maximum; an open-ended "from X" or
+    "up to Y" does not comply;
+  - the EU pay-transparency directive requires the initial pay or its range to
+    reach the applicant in time for an informed negotiation, and names the
+    posting as only one way to deliver it, alongside "prior to the job
+    interview". National transpositions are still arriving, and at least one
+    draft requires only a minimum figure, due before the contract.
+
+  Where the posting is not the legally required channel, the gate belongs on
+  the step the law names, and the posting lint stays advisory.
 - **Not to validate the band's correctness.** Whether the band is right for the
   market and internally equitable is the compensation discipline's question.
   This test cannot tell a defensible band from an indefensible one — only a

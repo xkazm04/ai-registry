@@ -17,16 +17,32 @@ gendered terms** (a gendered job title, a gendered pronoun for the incumbent,
 an explicit gendered pair) and **coded adjectives** whose literal meaning is
 neutral but whose measured effect on readers is not.
 
-The evidence base for the second form is the reason this is a technique and not
-an opinion: in repeated studies, advertisements loaded with masculine-coded
-adjectives — *aggressive*, *competitive*, *dominant*, *assertive*, *fearless*,
-*driven*, and the *rockstar / ninja / warrior* family — reduce the degree to
-which women report that a job appeals to them and that they would belong in
-it, while leaving men's ratings essentially unchanged. The mechanism is
-belonging, not competence: readers do not conclude they cannot do the job, they
-conclude it is not their environment. Feminine-coded terms show a much weaker
-effect in the mirror direction, so the practical asymmetry is real: the
-masculine-coded list is where the yield is.
+The evidence base for the second form is real and smaller than its reputation.
+In laboratory studies, advertisements loaded with masculine-coded adjectives —
+*aggressive*, *competitive*, *dominant*, *assertive*, *fearless*, *driven*, and
+the *rockstar / ninja / warrior* family — reduce the degree to which women
+report that a job appeals to them and that they would belong in it, while
+leaving men's ratings unchanged. The mechanism is belonging, not competence:
+readers do not conclude they cannot do the job, they conclude it is not their
+environment. The original work found masculine wording concentrated in
+male-dominated fields and no matching pattern for feminine wording, which is
+why the masculine-coded list is where a check looks; it did not establish a
+weaker mirror effect, and nothing here should claim one.
+
+On real applicant pools the effect shrinks and varies:
+- a preregistered replication held for start-ups and not for established firms;
+- a study of hundreds of thousands of job-board postings found wording barely
+  moved women's inquiries, and its attached field experiment found no
+  significant effect;
+- a single employer's rewrite of one male-dominated role raised the share of
+  women applying by about four points and held for ten months;
+- a grammatical-neutrality treatment raised women's applications only while
+  few competing advertisements carried it.
+
+So a coded-language pass is cheap, worth doing, and not a lever to promise an
+outcome from. Its effect is measured at the employer's own funnel, not
+borrowed from the literature, and it is expected to fade as the whole market
+adopts the same wording.
 
 ## Procedure
 
@@ -48,8 +64,9 @@ masculine-coded list is where the yield is.
    informative, harder to fake in an interview, and neutral by construction.
 5. **Count density, not just presence.** One coded adjective in a long posting
    is noise; five is a voice. Where the check can afford a second pass, report
-   the count and the ratio alongside the individual hits, because the effect
-   in the literature tracks loading rather than any single word.
+   the count alongside the individual hits: the studied manipulations varied
+   the loading of a whole advertisement, never a single word, so one hit is
+   weak evidence of anything.
 
 ## Decision rules
 
@@ -61,16 +78,30 @@ masculine-coded list is where the yield is.
 - **When a coded adjective does not survive translation — the writer cannot
   say what the person does — delete it.** A word that decompresses to nothing
   was decoration with a cost attached.
-- **Grammatical gender is not a preference.** In languages with grammatical
-  gender, the masculine form of an occupational noun is often the unmarked
-  citation form, and flagging every posting for using it produces a check that
-  is either universally noisy or, once suppressed, universally silent. Flag
-  what is a *choice*: an explicit gendered pair where the neutral or paired
-  form is the local convention, a gendered adjective describing the person, an
-  explicit gendered qualifier. [Meaning does not live in a
+- **Grammatical gender is not a preference, and not a defence either.** In
+  languages with grammatical gender, the masculine form of an occupational
+  noun is often the unmarked citation form. Flagging every posting for it at
+  one severity produces a check that is either universally noisy or, once
+  suppressed, universally silent. Always flag what is a *choice*: a gendered
+  adjective describing the person, an explicit gendered qualifier, a
+  single-gender form where the paired form is the local convention. For the
+  **bare unmarked title** itself, the severity comes from the posting's
+  jurisdiction, not its language:
+  - where courts treat a title that is not gender-neutral as an indicator of
+    discrimination, it is a finding, and the fix is the local neutral or
+    all-genders form;
+  - where the equality body holds the generic form lawful and pairing good
+    practice, it is a low-severity suggestion to pair the forms;
+  - where equal-pay law now requires gender-neutral job titles, as the EU
+    pay-transparency directive does, the stricter reading is the one to plan
+    for, whatever older local guidance said.
+
+  A *marked* single-gender title, such as the feminine form alone, is a choice
+  rather than grammar, and it has been held against employers in both kinds of
+  jurisdiction. [Meaning does not live in a
   label](../../../_laws.md#meaning-does-not-live-in-a-label) applies literally
-  here: the rule keys off what the wording does in that language, never off a
-  surface string carried over from another one.
+  here: the rule keys off what the wording does in that language and that
+  jurisdiction, never off a surface string carried over from another one.
 - **Present findings as advice, in the grammar of advice.** A pattern match is
   a heuristic about text, not a measurement of the writer's intent or of the
   posting's real-world effect. Per [inference must look like

@@ -24,6 +24,12 @@ Each offender is paired with (a) what the reader hears and (b) the fact it is
 standing in front of. The fix is always to supply the fact or delete the
 phrase — never to substitute a fresher euphemism.
 
+The middle column is a reading, not a measurement. It is widely repeated, no
+controlled study has tied the phrases themselves to fewer applications, and
+vendor data on cliché-heavy postings points both ways. The technique does not
+depend on it: the right-hand column is the case, because a phrase in the slot
+of a fact is a missing fact whichever way the reader decodes it.
+
 | Phrase family | What the reader hears | The fact behind it |
 | --- | --- | --- |
 | competitive salary, attractive package, salary commensurate with experience | we will not tell you the number, so it is not good, or you will be priced on what you will accept | the band, with currency and period |

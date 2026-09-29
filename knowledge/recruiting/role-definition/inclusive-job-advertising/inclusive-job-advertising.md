@@ -37,8 +37,8 @@ did not apply — sourcing-campaign honesty owns that, and its rule (only stated
 facts may appear; a defaulted or assumed value is simply absent) is the same
 rule as this subject's stated-fact test, applied on the other side of the
 seam. What this subject owns is the moment where a real role, a real band and a
-real requirement list are turned into sentences that a stranger reads in about
-eleven seconds and decides, largely pre-verbally, whether to act on.
+real requirement list are turned into sentences that a stranger skims, often on
+a phone, and decides in about a minute whether to act on.
 
 ## The advertisement is a conversion surface, not a specification
 
@@ -65,12 +65,12 @@ one of them:
   and none of another's has changed the shape of your pipeline before a single
   screening rule has run.
 
-## Boilerplate is not filler — it is a red flag
+## Boilerplate is not filler — it stands in front of a fact
 
 The load-bearing distinction of this subject: **"competitive salary" and
 "dynamic environment" are not weak writing that a good editor would tighten.
-They are negative information.** A reader decodes them, correctly and almost
-instantly:
+They stand where a fact should be.** An experienced reader decodes them roughly
+like this:
 
 - *competitive salary* — we will not tell you the number, which means the
   number is not good, or means we intend to price you individually based on
@@ -82,6 +82,11 @@ instantly:
   underscoped and you will absorb the gap.
 - *rockstar*, *ninja*, *guru* — the employer's self-image is the subject of
   the advertisement, not the job.
+
+That reading is plausible and widely repeated, and no controlled study has yet
+tied the phrases themselves to fewer applications. The case for removing them
+does not rest on it: each phrase occupies the slot of a fact, and the missing
+fact is the cost the reader can see.
 
 Treating these as cosmetic produces the standard, useless intervention: a
 rewrite pass that swaps one euphemism for a fresher one. The correct
@@ -97,11 +102,16 @@ what is actually decided, in the words the record holds, or says nothing.
 
 Nobody writes "we prefer men" or "we prefer people under thirty-five". They
 write **aggressive**, **competitive**, **dominant**, **ninja** — masculine-coded
-adjectives that, in repeated study, measurably reduce the number of women who
-report that a role appeals to them and that they belong in it, without changing
-how appealing men find it. And they write **digital native**, **recent
-graduate**, **young dynamic team**, **energetic** — phrases whose literal
-content is empty and whose received content is an age band.
+adjectives that, in laboratory study, reduce how much women report that a role
+appeals to them and that they belong in it, without changing how appealing men
+find it. On real applicant pools the effect is much smaller: from none in a
+large job-board study to a few points in a single employer's rewrite, and it
+fades when every competing posting adopts the same wording. And they write
+**digital native**, **recent graduate**, **young dynamic team**, **energetic** —
+phrases whose literal content is empty and whose received content is an age
+band. The age phrases are the better-evidenced of the two: in a randomized field
+study of real advertisements, stereotyped age language measurably deterred older
+applicants.
 
 Three principles govern the response:
 
@@ -116,11 +126,19 @@ Three principles govern the response:
   line". The behavioural version is more informative, harder to fake, and
   gender-neutral by construction. A pure removal pass loses information and
   the manager will re-add the word.
-- **Some of it is grammar, not attitude.** In grammatically gendered
-  languages a masculine job title is not a preference, it is the unmarked
-  form; whereas an explicit gendered pair or a gendered adjective *is* a
-  choice. A check that cannot tell these apart will either scream at every
-  posting in half the world's languages or say nothing useful in any of them.
+- **Some of it is grammar, and grammar is not a defence.** In grammatically
+  gendered languages a masculine job title is the unmarked form, and a check
+  that flags it with one severity everywhere will either scream at every
+  posting in half the world's languages or, once suppressed, say nothing. But
+  whether the unmarked form is acceptable *in an advertisement* is a legal
+  question with jurisdiction-specific answers. One jurisdiction's courts treat
+  a bare masculine title as evidence of discrimination that shifts the burden
+  of proof to the employer. Another's equality body holds the generic masculine
+  lawful and calls pairing the forms good practice. The EU pay-transparency
+  directive now requires vacancy notices and job titles to be gender-neutral.
+  So the title check keys its severity off the posting's jurisdiction: a
+  finding where a neutral or paired title is expected, a quiet suggestion where
+  pairing is good practice. It never keys off the language alone.
 
 ## Vagueness and dishonesty are the same failure viewed from two sides
 
@@ -139,8 +157,10 @@ This test has a second, harder edge that is easy to miss: **the concreteness
 requirement is not a licence to invent.** If the band has not been approved,
 the posting does not state a band. It does not state an aspirational one, and
 it does not state a wide one to be safe — a range so wide it contains every
-plausible answer is a gesture wearing a number's clothes, and it teaches the
-reader that your numbers are not real. The correct output of a posting whose
+plausible answer is a gesture wearing a number's clothes, and in controlled
+study it lowers how trustworthy readers judge the employer. A range that must
+be wide says why in the text; saying that it varies by location is read as a
+reason, and saying that it depends on qualifications is read as an evasion. The correct output of a posting whose
 band is undecided is a *blocked posting*, escalated to the person who can
 decide, not a posting with a euphemism in the pay slot. Vagueness and
 overpromise are not opposites to be balanced; they are two ways of not
@@ -149,18 +169,26 @@ knowing the fact, and the remedy for both is to go and find the fact.
 ## A long list of requirements is an exclusion mechanism
 
 The requirement list is part of the advertisement's language even though its
-*content* belongs to another discipline. The mechanism is well attested and
-asymmetric: readers from under-represented groups tend to treat a must-have
-list as a checklist to be satisfied completely, and self-select out on the
-first item they do not meet, while readers from over-represented groups treat
-the same list as an aspiration and apply at a lower match rate. So the length
-of the list is itself a filter — one that runs before your filters, on a
-population you never see, in a direction you did not choose.
+*content* belongs to another discipline. Every reader who does not meet an item
+has to decide whether "required" means required, and a reader who takes it
+literally self-selects out. So the list is itself a filter — one that runs
+before your filters, on a population you never see.
 
-The practical rule: **count the must-haves and cap them.** Roughly five is the
-working ceiling; beyond that the list is describing a wish, and each additional
-conjunctive item narrows the pool multiplicatively while the writer reasons
-about it additively. This subject does not re-teach how to decide which items
+The popular version of this mechanism is wrong in its specifics. "Women apply
+only when they meet every requirement, men at sixty percent" traces to an
+unpublished anecdote, and large tests find at most a small gender gap, confined
+to marginally qualified readers. What the evidence does support is less
+gendered and more useful: cutting optional qualifications from real postings
+raised applications from men and women alike, and making it clear which
+requirements are genuinely required raised the rate at which qualified women
+applied. The lever is **ambiguity and padding**, not a demographic reflex.
+
+The practical rule: **count the must-haves and cap them, and make every one of
+them literal.** No study supports a particular ceiling; a cap of around five to
+eight is a house choice that keeps the list describing the job instead of a
+wish. Each additional conjunctive item narrows the pool multiplicatively while
+the writer reasons about it additively, and an item the team would waive for a
+strong candidate is not a must-have and should not be written as one. This subject does not re-teach how to decide which items
 survive the cap — the sibling discipline of requirement-inflation control owns
 the outcome filter and the forced ranking that does that work. What belongs
 here is the *count as a property of the finished text*: a lint that reads the
@@ -260,10 +288,14 @@ composed in the document's own language at render time.
   first accented character so an inflected form never matches. Both fail in
   the safe-looking direction — no finding — which is why they survive review.
 - **Confusing "we removed the coded words" with "we widened the pool".** The
-  coded-language pass is necessary and small. The concrete facts — pay, place,
-  a short honest requirement list, what the first ninety days actually contain
-  — are what move application rates. A posting that is scrupulously neutral and
-  says nothing converts no better than one that is neither.
+  coded-language pass is cheap and its measured effect on real pools is small
+  and uncertain. The concrete facts — pay, place, a short honest requirement
+  list, what the first ninety days actually contain — are the larger levers,
+  and they do not all push the same way: a posted figure moves readers *toward*
+  well-paid roles and away from poorly paid ones, and can draw in readers who
+  fit the requirements less well, so a stated band changes *who* applies at
+  least as much as how many. A posting that is scrupulously neutral and says
+  nothing converts no better than one that is neither.
 - **Auditing the posting and never the outcome.** The advertisement's language
   is measurable at the funnel: view-to-apply rate by source and, where the
   data supports it, the demographic shape of the applicant pool against the

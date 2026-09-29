@@ -17,7 +17,7 @@ from clean. This is the most dangerous failure in the subject because it fails
 silently in the flattering direction, and because the team that built the check
 never sees it: their own postings are in the language the list covers.
 
-## Three mechanical traps, all of which fail silently
+## Five mechanical traps, all of which fail silently
 
 **1. The list is in the wrong language.** A posting written in the local
 language and checked against an interface-language phrase list produces zero
@@ -57,9 +57,28 @@ that correctly matches an accented city or an inflected stem and then closes
 with a trailing boundary fails on exactly the words it was written for. The
 remedy is to *end the pattern at a letter run rather than a boundary* where the
 tail may be accented, and to reserve boundary assertions for positions that are
-provably ASCII — chiefly the front of an unaccented stem. Case-insensitive
-matching needs the same treatment: folding must be unicode-aware or an accented
-capital will not fold to its lowercase form.
+provably ASCII — chiefly the front of an unaccented stem. A boundary fails at
+the front of an accented stem as well: in at least one mainstream engine a
+leading boundary before a diacritic-initial word does not match even at the
+start of the text. Where the engine supports lookaround, a letter-class guard
+on each side (not preceded by a letter, not followed by one) is the portable
+boundary. Case-insensitive folding is the one piece that mostly survives: an
+accented capital folds to its lowercase form in ordinary case-insensitive mode
+in the engines checked, and only special cases (sharp s, long s) need the
+unicode mode's full folding. Verify the folding on the target engine rather
+than assuming either way.
+
+**5. The text is not in the form the patterns were written in.** Unicode can
+write an accented letter as one code point or as a base letter followed by a
+combining mark, and text pasted from some platforms or extracted from a PDF
+arrives decomposed. A combining mark is not a letter, so a stem's letter run
+stops at the first mark, exactly as trap three stops at an accent; and a
+currency written with an accented letter no longer matches its pattern. The
+failure runs both ways at once: the offenders go unreported, and the stated
+pay and place read as missing. **Normalize the text to the composed form
+before matching**, and if findings point back into the writer's text, map
+their positions from the normalized text back to the original, because the two
+differ in length.
 
 ## Procedure
 
@@ -70,7 +89,14 @@ capital will not fold to its lowercase form.
    stable language identity on the record, never off a display setting that
    happens to be in front of a user.
 2. **Build one list per supported language**, sourced natively, capped at the
-   highest-frequency offenders so the signal stays high.
+   highest-frequency offenders so the signal stays high. A language's list is
+   more than its offenders: the **positive detectors** are per-language too.
+   The work-mode words that satisfy a place test and the way a currency is
+   written against a figure (before it in one market, after it in the next)
+   are properties of the language. A place or pay test written in one language
+   fails the other in the loud direction. It reports a missing fact that the
+   posting states, and that costs the check its credibility as surely as
+   silence costs it its coverage.
 3. **Write stemmed, unicode-aware, case-insensitively-folded patterns** with a
    boundary at the front and a letter run at the back. The front boundary is
    what stops a stem matching inside a longer unrelated word; the open letter
@@ -79,10 +105,15 @@ capital will not fold to its lowercase form.
 4. **Test every pattern against real inflected text**, including the accented
    forms specifically. A test corpus of one sentence per pattern, containing at
    least one diacritic-bearing inflection, catches the entire class-three trap
-   at review time instead of a year later.
+   at review time instead of a year later. Run the same corpus once more in
+   decomposed form, and assert the findings are identical: that one test covers
+   trap five.
 5. **Report an unsupported language explicitly.** When a posting's language has
    no list, the check must say *not checked in this language*, not return an
-   empty finding set.
+   empty finding set. Coverage is per list, not per language: a language that
+   has a boilerplate list and no coded-language list is checked for one and
+   not the other, and the surface must not let a clean result on the first
+   stand for both.
 
 ## Decision rules
 

@@ -108,14 +108,37 @@ total over the vocabulary and fails loudly on an unknown member, so adding a
 finding kind without adding its copy is caught before it ships rather than
 discovered as a mislabelled finding in front of a writer.
 
+The guard is owed **at every layer that translates the vocabulary**, not only
+at the first. An engine that maps kinds to message keys exhaustively, feeding
+a panel that maps keys to copy through a conditional chain, has moved the
+fall-through one layer down: adding the new message key discharges the
+engine's compile error, and the panel's chain absorbs the key into its last
+label. Each mapping ends on a named member with the residue a compile error.
+
+## The remedy a finding names must clear the finding
+
+A finding that says *what to write* is a promise that writing it will satisfy
+the check. When the detector does not accept the remedy its own copy
+recommends, the writer who followed the advice is nagged again, and learns the
+panel is wrong in the one moment it was being obeyed. This is easy to ship in a
+multilingual product, because the copy is translated by one hand and the
+detector's word list is extended by another. Treat every remedy the copy
+names, in every locale, as a test fixture: read the copy from the catalog, not
+a restatement of it, and assert that each remedy it names clears the finding.
+A copy edit that names a new remedy then fails until the detector knows it.
+
 ## Procedure
 
 1. Define the substance threshold once, as a named constant, next to the
    predicate that uses it.
 2. Compute findings only when body substance clears the threshold; otherwise
    return the explicit not-yet-checked state.
-3. Return findings as a list of typed items — phrase, reason, suggested fact —
-   ordered by cost, fact-shaped findings first.
+3. Return findings as a list of typed items — phrase, reason, suggested fact.
+   Findings with no position in the text (a missing pay or place statement)
+   lead, because they have nowhere in the document to sit and they cost the
+   most; findings that point at a phrase follow in document order, as the
+   phrase technique requires. Cost is carried by a finding's kind and emphasis,
+   never by re-sorting the phrases.
 4. Expose the fact predicates separately from the prose findings, so a policy
    gate can consume the fact without consuming the advice.
 5. Run the check on every edit. It is a rules pass; if it is expensive enough
@@ -132,6 +155,13 @@ discovered as a mislabelled finding in front of a writer.
   never a finding.
 - **When two surfaces need the same fact, they share the predicate or one of
   them is wrong.** There is no third option that survives a release.
+- **When a suppression reads a signal, the signal is the evidence, never the
+  intention that preceded it.** A "this will have a band" option ticked before
+  the step that produces the band ran is a promise; after the step, the
+  artifact is the evidence, and a suppression that trusts the promise renders
+  an all-clear over a posting with no figure in it.
+- **When a finding tells the writer what to write, the check accepts it** in
+  every locale the copy exists in, and a test reads the copy to prove it.
 - **When a rules check would need a model to decide, it is out of scope.** The
   always-on lint stays deterministic, instant and free; anything needing
   judgment moves to an explicit, invoked, clearly-labelled assist.
