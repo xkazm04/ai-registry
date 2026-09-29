@@ -6174,9 +6174,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding/public-work-evidence-bounding.md",
-   "digest": "sha256-b2:132cec159e26a078",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:6f71b19cdb7de542",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "absent-signal-versus-unavailable-source",
@@ -6275,19 +6275,21 @@
      "stack": "node",
      "technique": "absent-signal-versus-unavailable-source",
      "file": "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding/applications/node--absent-signal-versus-unavailable-source.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "verify-identity-before-crediting-work",
      "file": "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding/applications/node--verify-identity-before-crediting-work.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "corroborate-a-claim-never-replace-it",
      "file": "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding/applications/process--corroborate-a-claim-never-replace-it.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
