@@ -1253,3 +1253,21 @@ The tree found what no lane asked: the fill hook had no behavioural test. Four a
 Six `applied.md` rows: one code (better), five unapplied with return conditions. All three applications re-verified at kp `006bf7a0a` and every line citation moved; two of their three recorded shortfalls were closed (one by a mechanism the standard does not describe), and one surface (the honest-null sort) left the tree. Two new kp applications (fill, publish) and four `process` applications.
 
 Impact: three kp contexts join the subject (`jd-management-api`, `jobs-api`, `jobs-posting-campaign`), all state unknown, so 0 stale verdicts. No map was rebuilt. Yield high, dry_streak 0, depth L3. See [[requisition-lifecycle-governance]].
+
+## 2026-09-29 - deepen: small-sample-honesty-in-hiring-analytics
+
+Dispatched from the attention scan ("never swept by the librarian"). The subject stood at its founding revision with no note and no applied row, and kp had moved under it: a significance test on its four-fifths check three days earlier, an accrual-horizon module that cites the technique by name, and a headline certified off five observations against a floor of eight, fixed in August. Lanes: a blind training-data lane, a web counter lane on five claims, a ground-truth lane (seeded simulations, then kp's real function run against known answers), primary reads of the federal selection guideline and its Q&A (matched verbatim), and a re-read of kp for every citation.
+
+One technique earned, `state-what-the-sample-could-have-seen`: a floor licenses a figure, not its precision. A rate owes its interval (four of eight is compatible with 22% to 78%), a zero its upper bound (none in ten is compatible with about 26%), a not-significant verdict the smallest gap it could have seen, and a superlative among measured cells its separation (eight equal cells of fifteen crown a best at 47% against a true 30%). The asymmetry is deliberate: a significant exact-test result needs no statement and no floor on selections belongs anywhere; a clean line does. The blind lane reached all four clauses unprompted.
+
+Conditions on the golden path and five techniques:
+- **the thirty-per-group floor has no authority behind it**: the guideline names no head-count, its tests are significance, practical significance, one-person-flips-the-result and a longer window; the ratio alone flagged 78% of equal pairs at thirty each and a 10% base rate;
+- **a clean line at thirty per group could see almost nothing**: against kp's real function the verdict mix for equal groups and for a group at half the rate was the same at a 10% base rate;
+- **the count is the rows the arithmetic used**, not the population the metric is labelled with;
+- **an accrual date needs a named reason when there is none**, and its pace must be counted in the sample's own unit;
+- **a permitted small-category exclusion stays disclosed**, with count and rate;
+- **a privacy floor and a reliability floor are sized separately**.
+
+Landed in kp (`775c5d02e`, local): `detectableRatio` and a sentence under the not-significant and clean lines; a group at the stated ratio is shown 79-83% of the time across 13 cells of 4,000 draws. The first check of it counted the wrong thing and read 40%; the table caught it, and the note keeps the mistake. Six `applied.md` rows: one code (better), five unapplied. Three applications re-resolved against kp and re-verified to 2026-09-29 (every one had a moved citation; `certifiable` gained a clause); two new node applications.
+
+Impact: kp only, seven contexts, one verdict now stale against the moved subject; the map was rebuilt and committed locally (`0b3d183d4`). Yield high, dry_streak 0, depth L3. See [[small-sample-honesty-in-hiring-analytics]].
