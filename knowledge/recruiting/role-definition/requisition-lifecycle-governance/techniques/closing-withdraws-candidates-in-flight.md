@@ -24,6 +24,16 @@ operational view filters to live roles. They wait, follow up once or twice, and
 then correctly conclude they were ghosted. From the organisation's side nothing
 appears to have gone wrong: the role closed cleanly and the dashboard is tidy.
 
+It is also the **default** of the products read for this pass: closing a job in
+the most widely used one leaves every active candidate active on the closed job
+and only suggests rejecting or moving them (it prompts about pending offers and
+nothing else), another treats closing and archiving the pipeline as two
+separate steps, and a third ships an audit report whose purpose is to list
+closed, filled or frozen requisitions that still hold candidates. The cascade
+below is therefore this standard's position rather than an industry norm, and
+the existence of the audit report is the evidence that the failure is real
+enough to have been reported on.
+
 This is the exact failure
 [a candidate's process never stalls on your constraints](../../../_laws.md#a-candidates-process-never-stalls-on-your-constraints)
 forbids. The role was cancelled, the budget was pulled, someone else was hired
@@ -43,7 +53,17 @@ Design closing as one operation with three effects, in this order:
 3. **Queue the communication that terminal outcome implies.** Queue, not
    assume: the message is a separate deliverable with its own owner and its own
    failure modes, and a close that marks people rejected without emitting
-   anything has produced silence with better bookkeeping.
+   anything has produced silence with better bookkeeping. This is good practice
+   everywhere and a legal duty in narrow places: no statute read for this pass
+   requires notice when a posting is withdrawn as such, but Ontario's
+   job-posting rules oblige an employer that interviews an applicant for a
+   publicly advertised posting to give that applicant the prescribed information
+   within the prescribed period (Employment Standards Act, 2000, s. 8.6, in force
+   1 January 2026; the regulation is reported to set 45 days from the interview or
+   the last interview, and the information as whether a hiring decision has been
+   made, which the regulation text was not retrievable to confirm here). A close
+   does not stop that clock, so a queued message should carry the date the duty
+   arose, not just the date of the close.
 
 **Atomicity matters.** If the requisition flips closed and the cascade runs
 later — a nightly job, a background task, a follow-up click — then the window
@@ -141,8 +161,21 @@ irritation; a missing one is a person waiting indefinitely.
   silent survival through a close. Silently carrying people across roles moves
   a person into a job they never applied for.
 - **When a role is frozen indefinitely, close it.** Leaving it live to avoid
-  the cascade is the stranding failure chosen deliberately.
-- **When reopening, restore deterministically and up front — never as a side
+  the cascade is the stranding failure chosen deliberately. A pause with an owner
+  and a return date is a hold, which keeps the pipeline by design and takes the
+  advertisement down; it is the pause with neither that this rule is about.
+- **Two acts share the word *reopen*; the line between them is whether anyone was
+  shown the ending.** *Undoing* a close — a misclick, a freeze lifted within
+  days — is the inverse transition described here: same span, the withdrawn
+  people restored, no new approval because nothing about the role changed, and it
+  is only clean while nobody has been shown that their process ended, which means
+  before the queued message has gone and before a status page has rendered "not
+  selected". *Reopening a role whose close has stood* is the new span from the
+  states technique: a fresh approval, and the people it told the process was over
+  come back by an invitation with their consent, not by a status flip. A system
+  whose status page shows the ending the moment it is written has a window of
+  zero for the first, and should say so rather than restoring on a timer.
+- **When restoring, restore deterministically and up front — never as a side
   effect of re-sourcing.** Re-running the matcher and letting it incidentally
   revive whoever it re-selects leaves everyone else stranded in a terminal
   state with a lying timeline, and records no reopen event at all. Restore by

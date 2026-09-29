@@ -123,6 +123,17 @@ is publishable by accident.
 - **When an ingested role is later opened, it goes through the same go-live
   gate as a hand-written one.** Ingest earns no shortcut; it is a faster way to
   reach the starting line, not a way past it.
+- **When the same advertisement arrives twice, land one draft.** Key the landing
+  on a hash of the text so a repeated paste upserts, and tell the operator
+  whether the result was added or already present. A hash only catches identical
+  text; a repost with a changed date or title is a near-duplicate it will miss,
+  and the cost of that miss is a second draft, not a second live role.
+- **When an ingest names an existing role as its target, it is an edit, not a
+  landing.** "Draft, always" governs the creation of a role. Parsing an
+  advertisement *into* a role that is already live rewrites what candidates are
+  reading, and it must clear the same ownership and edit gates as any other write
+  to that role; unguarded, one team's paste can replace another team's live
+  opening while the row keeps its status and its apply link.
 
 ## When not to use this
 

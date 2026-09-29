@@ -3,13 +3,14 @@ layer: golden-path
 type: golden-path
 subject: requisition-lifecycle-governance
 status: forged
-use_when: [designing the states a role moves through, deciding who may open or close a role, importing an external advertisement into a hiring system, a filled role is still counted as open, deciding what publishing a role actually does]
+use_when: [designing the states a role moves through, deciding who may open or close a role, importing an external advertisement into a hiring system, a filled role is still counted as open, deciding what publishing a role actually does, a role with more than one seat, pausing or reopening a role]
 techniques:
   - draft-live-and-closed-as-distinct-states
   - headcount-approval-as-a-precondition
   - publish-means-two-different-things
   - ingest-as-draft-never-as-live
   - best-effort-ingest-with-an-explicit-retry
+  - fill-is-a-count-and-close-is-the-act-it-triggers
   - closing-withdraws-candidates-in-flight
 ---
 
@@ -66,10 +67,35 @@ state exists so that "how many roles are we hiring for" has an answer that is
 true. See
 [draft-live-and-closed-as-distinct-states](./techniques/draft-live-and-closed-as-distinct-states.md).
 
-Closed is a state, never a deletion. The record of a role that ran, and of the
+Closed is a state, not a deletion. The record of a role that ran, and of the
 people judged against it, is exactly the record you need when a decision is
-challenged. Deleting a requisition destroys the defence for every rejection
-issued under it.
+challenged, and deleting the requisition removes the anchor that says what the
+role required when the decisions were made. What follows is a retention clock,
+not permanence: the requisition itself is non-personal and stays, while the
+personal data of the candidates attached to it ages out on its own schedule and
+ends in anonymisation. The legal floors are short (one year in the United States,
+longer only for larger federal contractors or once a charge is filed) and the EU
+and UK add a ceiling; no law read for this pass names a requisition as a record.
+
+**Three is the minimum for permissions, and a fourth state can earn its place.**
+A pause that keeps the approval and the pipeline while withholding offers or
+hire-ready moves is a *hold*, and the enterprise products model it as a real
+status because it carries a permission set of its own. The test that keeps
+*pending approval* and *filled* out of the machine admits it, on two conditions:
+entering a hold takes the advertisement down, since a frozen role whose posting
+stays up keeps taking applications for a seat nobody can offer, and a hold has an
+owner and a review date, since one without them is the immortal requisition under
+a kinder name.
+
+Not every live-but-dead requisition is a forgotten one, and the figures in
+circulation do not say which. A platform's own data classed 18 to 22 percent of
+posted jobs as ghost jobs by an unpublished definition, and a 2024 survey of 649
+hiring managers had 40 percent of firms admitting a fake listing within the year,
+mostly for deliberate reasons. The closed state repairs the *accidental* slice.
+The *deliberate* slice, a posting with no seat behind it, is a disclosure matter
+(in Ontario, since 1 January 2026, a public posting must state whether it is for
+an existing vacancy), and a *standing* pool is legitimate if it is recorded as
+one.
 
 ## Every transition names its actor, and most transitions have a precondition
 
@@ -89,7 +115,12 @@ exists in the plan because someone left it) and a **net-new** requisition (a
 seat that expands the organisation, and therefore needs a different, usually
 longer, chain); an attached budget or band, so that the offer at the end of the
 process is one the organisation can actually make; and an expiry, because an
-approval granted for a quarter is not an approval granted for ever. See
+approval granted for a quarter is not an approval granted for ever. (The expiry
+is a design position: no vendor documentation read documents one, and nothing
+measures whether it shortens the life of a dead requisition. The band is worth
+attaching early for a reason beyond the offer: the step a pay-disclosure law
+names is sometimes the notice to current employees or the invitation to
+interview, not the advertisement.) See
 [headcount-approval-as-a-precondition](./techniques/headcount-approval-as-a-precondition.md).
 The recurring, expensive failure is the role sourced, screened and interviewed
 to final stage before anyone discovers there is no funded seat behind it —
@@ -131,7 +162,11 @@ control that does both performs the wrong one roughly half the time — someone
 who wanted to let the team review a draft has just paid to advertise it, or
 someone who thought they had advertised the role finds that no external
 candidate ever saw it. Split the verb; name each action by what it does to the
-outside world; and make the external one explicitly the second step. See
+outside world; and make the external one explicitly the second step. Two things
+the split hides: there is a third value, *unlisted* (reachable by anyone holding
+the link, shown on no board), and a posting's state is independent of the
+requisition's, so a frozen or closed role keeps its posting until something takes
+it down. See
 [publish-means-two-different-things](./techniques/publish-means-two-different-things.md).
 
 ## Importing an advertisement produces a draft, never an open role
@@ -190,6 +225,27 @@ about the world, and rendering both as a zero tells the recruiter a role is
 unattractive when it is in fact invisible. A null is not a zero; a missing
 pipeline is not an empty one.
 
+## Filled is a count; closed is the act it triggers
+
+A requisition is a permission to hire some number of people, and the number is
+one only by default. *Filled* is a count, hires against the number the role was
+opened for; *closed* is an act, with an actor and a cause. Fill is the commonest
+cause of a close and not the same thing, and a system with one flag for both has
+to guess which it means.
+
+The guess fails both ways. Close on the first hire of three, and every candidate
+in flight for the two open seats is withdrawn on the strength of a fact that does
+not end their process. Never close on the last, and the role is the immortal
+requisition again, with a hired headcount to prove it. The products whose
+documentation was read for this pass all keep the seat separate from the role
+(closing the job when its last opening closes, or marking the requisition filled
+only when every position is). The discipline is small: state the target when the
+role opens, derive *filled* from the count rather than storing it, read a hire
+off the stage's meaning and not its name, run the check after the hire commits
+and never let it fail the hire, and make the close a compare-and-swap so that two
+hires landing together retire the role once. See
+[fill-is-a-count-and-close-is-the-act-it-triggers](./techniques/fill-is-a-count-and-close-is-the-act-it-triggers.md).
+
 ## Closing is an event that happens to people
 
 The most common candidate-experience failure in this whole area is a close that
@@ -215,10 +271,17 @@ that it is atomic with the close, and that nobody is silently stranded —
 See [closing-withdraws-candidates-in-flight](./techniques/closing-withdraws-candidates-in-flight.md).
 
 A close must not be a one-way trap either. Roles are closed by mistake, and
-freezes are lifted. Reopening therefore needs to be a **first-class inverse
-transition** — deterministic, attributed, and complete — rather than a side
-effect of opening the role again and letting the sourcing pass incidentally
-revive whoever it happens to re-select. That incidental version is the worst of
+freezes are lifted. But two acts share the word *reopen*, and the line between
+them is whether anyone was shown the ending. **Undoing** a close, before the
+queued message has gone and before a status page has rendered "not selected", is
+a **first-class inverse transition** — deterministic, attributed, and complete —
+rather than a side effect of opening the role again and letting the sourcing pass
+incidentally revive whoever it happens to re-select. **Reopening a role whose
+close has stood** is a new span with a new approval, and the people who were told
+their process was over come back by an invitation, not by a status flip. The
+products read for this pass split the same way (one forbids reopening a closed
+requisition, one reopens through draft and a fresh approval, one resumes a
+suspension with no second round). That incidental version is the worst of
 both: the candidates the matcher no longer returns stay stranded in a terminal
 state with a timeline that lies about why, and nothing records that a reopen
 happened at all. What makes a clean inverse possible is the cascade writing a
@@ -268,7 +331,14 @@ closing a requisition is something that happens to people.
 - **The zero that means nothing** — never-ingested and nobody-applied rendered
   as the same number.
 - **The stranded pipeline** — a role closed, its candidates left in an active
-  stage, no decline ever sent.
+  stage, no decline ever sent. Also the default in the products read.
+- **The one-seat close** — a three-seat role closed on its first hire, so the
+  people in flight for the two open seats are withdrawn from a process that was
+  not over.
+- **The immortal hold** — a pause with no owner, no review date and the
+  advertisement still up.
+- **The undone ending** — a reopen that restores people to a process they were
+  already shown had ended.
 - **The unattributed close** — a role that ended with no record of who ended it
   or why, so nobody can answer the candidate who asks.
 
@@ -289,6 +359,9 @@ closing a requisition is something that happens to people.
 - [best-effort-ingest-with-an-explicit-retry](./techniques/best-effort-ingest-with-an-explicit-retry.md)
   — the save/index split, the visible failure state, the polite refusal
   downstream, and the retry that may never create.
+- [fill-is-a-count-and-close-is-the-act-it-triggers](./techniques/fill-is-a-count-and-close-is-the-act-it-triggers.md)
+  — the seat count, filled derived rather than stored, and the compare-and-swap
+  that lets two simultaneous hires retire a role once.
 - [closing-withdraws-candidates-in-flight](./techniques/closing-withdraws-candidates-in-flight.md)
   — the close as a cascade, atomicity, attribution, and the honest-null rule for
   a pipeline that never existed.
