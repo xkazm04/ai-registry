@@ -42,7 +42,8 @@ purpose; monitoring in operation and escalation when something looks wrong;
 retention of the logs the system produces for the required period; notification
 of affected workers and their representatives before putting the system into
 service in the workplace; and, for some deployers, an impact assessment on
-fundamental rights performed *before* deployment.
+fundamental rights performed *before* deployment, which may build on the
+data-protection impact assessment already owed rather than start from nothing.
 
 Two of those deployer duties are irreducible and cannot be bought: **oversight
 competence** and **worker notification**. No vendor can be competent on your
@@ -102,6 +103,13 @@ event; a blended status has to be rebuilt.
 - When a vendor offers a conformance assurance, read it as evidence about the
   *builder* duties only, and record it as such. It is not evidence about your
   oversight, your notification or your retention.
+- When an amendment softens one duty, check that you are not softening its
+  neighbour in your head. The duty to support staff AI literacy was reduced to
+  "take measures", with an express statement that no specific level need be
+  guaranteed; the deployer duty to assign oversight to people with competence,
+  training and authority was left as it was. Reading the first amendment as
+  covering the second is how an unmet irreducible duty gets filed as a
+  low-priority one.
 - When an exemption or derogation is available — narrow procedural task,
   preparatory step — assess it against what the system does to a candidate's
   progression, not against how the feature is described internally. A

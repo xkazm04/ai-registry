@@ -70,8 +70,15 @@ one, by an amending regulation adopted in mid-2026 (the transparency duties
 beside them kept their original date); another jurisdiction repealed and
 replaced its statute months before it was due to bite, converting a duty of
 reasonable care with impact assessments into notice, adverse-outcome disclosure
-and human review, and moving the start to the following year. Anything you wrote against the superseded version is now a liability
-wearing a compliance badge.
+and human review, and moving the start to the following year. Anything you
+wrote against the superseded version is now a liability wearing a compliance
+badge.
+
+A moved date is also the moment a catalog most often over-corrects. Record the
+amending instrument, what moved, and **what did not**: the deferral above left
+the prohibitions, the duty to tell a person they are dealing with an AI system,
+and the data-protection law exactly where they were, and a page that said "the
+deadline moved" without saying so taught its readers that nothing binds yet.
 
 ## The null column is the most important column
 
@@ -79,13 +86,25 @@ Across every major regime today, exactly one axis is usually empty: almost no
 jurisdiction has codified a numeric adverse-impact threshold. One long-standing
 national convention does — a selection-rate ratio below four-fifths of the
 most-selected group's rate, from a 1978 employee-selection guideline that
-remains the reference point. Everything else imposes duties *without* a number:
+remains the reference point. Even that one cell is weaker than it looks: the
+guideline calls the ratio a rule of thumb that enforcement agencies will
+"generally" regard as evidence of adverse impact, not a pass line, and in 2026
+the same government moved to rescind the guideline's interpretive parts while
+the text still stood in the regulations. Everything else imposes duties
+*without* a number:
 prohibit discriminatory effect, publish impact ratios, provide human review,
 disclose use, notify workers' representatives. Even the jurisdiction that most
 famously mandates an annual independent bias audit and the **publication** of
 impact ratios does not itself codify a pass line — the number everyone quotes
 is borrowed from the older national convention and functions as a trigger for
 attention, not a statutory verdict.
+
+The empty cell is sometimes a decision, not an omission. A state civil-rights
+regulator that adopted disparate-impact rules for automated hiring tools in
+late 2025 declined, on the record, to codify a standard for showing
+disparate impact, because a number "could be misconstrued to suggest a
+categorical threshold below which discrimination is permitted." A house bar
+that presents itself as the line makes exactly that suggestion.
 
 This distinction is the whole game, and it is the reason the axis is nullable
 rather than defaulted. A product that fills the empty cell with a plausible
@@ -104,7 +123,11 @@ and only one of them is stable. Guidance pages are withdrawn, agency priorities
 are redirected by executive action, and a central authority may publicly
 deprioritise the very liability theory a control was built to survive — while
 the statute creating that liability sits untouched, and private litigation over
-algorithmic screening grows regardless.
+algorithmic screening grows regardless. The same holds one level down: an
+interpretive guideline can be slated for rescission, and a government's own
+legal office can call its reading of the statute unconstitutional, while the
+statute and the guideline's text both remain in force until someone finishes
+the rulemaking.
 
 The rule that follows: **never key a control off enforcement appetite.** Build
 against the duty, not against the probability of being asked — a control removed

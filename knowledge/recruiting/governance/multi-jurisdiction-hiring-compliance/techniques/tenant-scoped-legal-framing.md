@@ -60,8 +60,12 @@ a header, not an inference from the candidate's address.
    spans-jurisdictions row, which names the guarantee without naming any
    country's instrument — never to the home jurisdiction, never to whichever
    regime most customers use, never to an empty section
-   ([law](../../../_laws.md#uncertainty-resolves-toward-the-candidate)). The
-   comfortable default is the dangerous one precisely because it looks right to
+   ([law](../../../_laws.md#uncertainty-resolves-toward-the-candidate)). If the
+   server-side resolver itself can fail (a locked or unreachable settings
+   store) and the surface must still render, the degradation is logged with the
+   workspace it failed for and the fallback it chose, so the operator learns
+   that a workspace's regime went dark instead of reading another region's
+   law on its candidates' pages. The comfortable default is the dangerous one precisely because it looks right to
    the majority of readers and is wrong for exactly the minority who would
    notice.
 3. **On an anonymous candidate surface, resolve server-side from the token.**
@@ -72,6 +76,14 @@ a header, not an inference from the candidate's address.
    and pass it in as data. A client fetch on an unauthenticated surface is
    either wrong or leaky, and no amount of care in the endpoint fixes it,
    because the missing information is on the caller's side.
+   **Then pin the channel, not the value.** The regression that matters is
+   the next candidate surface someone adds and renders bare: it silently
+   reverts to asserting one region's law, and nothing on screen reads as a bug.
+   A test that enumerates the public render sites and fails when one is not
+   handed the server-resolved values notices it. Keep the sites that may
+   resolve differently (an authenticated, session-bearing surface) in a short
+   allowlist where every entry carries its reason, so an exception is a
+   deliberate act and not a drift.
 4. **Distinguish a gated response from a successful one.** Parse the status,
    not only the body. An authentication proxy answers a JSON error object with a
    failure status; body-only parsing accepts it, finds no jurisdiction, and

@@ -5,97 +5,110 @@ subject: multi-jurisdiction-hiring-compliance
 technique: tenant-scoped-legal-framing
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
+applied: code
+ab_verdict: better
 ---
 
 # Node: scoping the compliance lookup to the caller's workspace
 
-`app/api/compliance/route.ts` is a nine-line handler carrying twenty-five lines
-of comment, and the comment is the artifact worth reading.
+On 2026-08-20 this application recorded two open deviations and named the fix.
+The fix landed on 2026-09-08 (KandiDate commit `7a6e09e2c`, "resolve the
+candidate's jurisdiction server-side, from their own tenant"), so this note now
+reads as the before, the after, and what the after still leaves open.
 
-## The incident
+## The incident, and the first failure mode
 
-`route.ts:19-22`, verbatim: "Bare, `getActiveRegimeId()` always answered for the
-default workspace: a team that had set its jurisdiction to `us` still saw 'EU
-equal-treatment directives / processed under GDPR' on its Decisions compliance
-card, and shipped that same wrong law to its candidates."
+`app/api/compliance/route.ts:27-30`: bare, `getActiveRegimeId()` "always answered
+for the default workspace: a team that had set its jurisdiction to `us` still saw
+'EU equal-treatment directives / processed under GDPR' on its Decisions
+compliance card, and shipped that same wrong law to its candidates." The route's
+fix is the technique's rule: resolve the workspace from the session first, then
+read its regime — `getActiveRegimeId(await currentWorkspace())` (`route.ts:55`).
 
-That is the technique's first failure mode observed in production. The fix is
-the technique's rule: resolve the workspace from the session first, then read
-its regime — `getActiveRegimeId(await currentWorkspace())`.
+## The refusal to widen trust, now stated as a decision about the route's job
 
-## The refusal to widen trust
+`route.ts:19-25` (the block headed "SO THIS ROUTE STAYS GATED"): the route is
+deliberately absent from the public allow-list, and allow-listing it "would fix
+nothing: an anonymous request carries no workspace, so the answer would still be
+the default team's, and the only way to make it tenant-aware for a public caller
+would be a caller-supplied workspace id — which would let anyone enumerate any
+team's legal posture. A wrong answer that is also enumerable is worse than the
+gated one."
 
-`route.ts:31-33`: "Widening this route's trust (e.g. a caller-supplied workspace
-id) would let anyone enumerate any team's legal posture, so it stays off the
-table."
+That is the technique's second failure mode, refused by design. The 2026-08-20
+version of this note called the route "safe to expose unauthenticated"; the
+project reached the opposite conclusion, correctly, once it saw that an
+unauthenticated answer is a wrong answer and a wrong answer that renders is the
+dangerous kind. The route now serves only session-bearing callers: the recruiter
+Decisions card and the interview simulator inside the authenticated shell.
 
-This is the second failure mode, refused by design rather than mitigated by an
-authorisation check. The route is safe to expose unauthenticated for the
-opposite reason to the usual one — not because access is controlled, but
-because the response contains nothing about a *specific* caller: only a regime
-identifier and a duration, "no candidate data" (`route.ts:14-16`).
+## The candidate half, closed by resolving before the HTML is sent
 
-## The candidate half, and why it is not closed by this route
+`app/_lib/compliance-disclosure.ts` exports `disclosureComplianceFor(workspaceId)`
+(`:32`), a server-side resolver that returns the candidate's regime and the
+enforced retention window from the workspace behind the token the surface has
+already established. `AiDisclosure.tsx:1-45` lists the resolution point for each
+public surface: "the invite behind a /schedule token, the session behind an
+/interview token, the posting behind a /devcase/apply token, the offer behind an
+/offer token, the status link behind a /status token, the job behind /apply/[id]".
+When the props are supplied the component "opens no network connection at all".
 
-`route.ts:24-30` scopes the honesty precisely: "This closes the SESSION-BEARING
-half only, and deliberately so. The recruiter Decisions card
-(`decisionsComplianceState.ts`) carries a cookie and is now correct; an
-anonymous candidate rendering `AiDisclosure` has none, so `currentWorkspace()`
-falls back to the default — the shipped behavior, unchanged, not a new leak."
+That is the technique's step 3 realized, and the source comment is candid about
+why the earlier design could not be patched: the client fetch "was wrong twice
+and both times toward UNDER-disclosure" — a fail-closed proxy 401'd the
+non-allow-listed route, so the pre-fetch EU default became the final state; and
+even when reachable it answered for the caller's workspace, which for an
+anonymous candidate is the default one. "A client fetch cannot prove which tenant
+it is asking about, so no amount of allow-listing fixes the second half."
 
-And it names the durable fix, which is the technique's server-side-from-token
-rule: "resolve the regime SERVER-side from the capability token's workspace and
-pass it in as a prop, because a client fetch cannot prove which tenant's job the
-candidate is looking at." This was an upward lesson — the draft standard said
-"scope by the session" and had no answer for a surface where there is no
-session. The capability token the candidate already holds is the answer.
+## Pinning the channel, not the value
 
-## The disclosure consumes the row, it does not choose it
+The regression that matters after the fix is structural, and the project pinned
+it structurally. `app/_components/ai-disclosure-props.test.ts` reads the source
+text of every public render site (`PUBLIC_SURFACES`, `:35`) and fails if one does
+not hand the component its server-resolved values, and it fails on a *new* site
+that is in neither list (`:91`), and on a surface that mounts the component twice
+and feeds only one of the two. The one exception is a named allowlist
+(`FETCH_FALLBACK_SITES`, `:54`) whose single entry carries its own reason:
+"recruiter-facing simulator inside the authenticated shell — session-bearing, so
+/api/compliance is reachable and tenant-correct." The test's header states the
+scenario it exists for: "someone adds a ninth candidate surface, renders a bare
+`<AiDisclosure />`, and it quietly reverts to asserting EU law. Nothing about that
+reads as a bug on the screen. This test is what notices."
 
-`app/_components/AiDisclosure.tsx:16-22` records the requirement from the
-consuming side: the note "self-resolves the workspace's active compliance regime
-… and names that regime's anti-discrimination framework + data law." That is the
-seam with `candidate-ai-disclosure-and-explanation` working correctly — this
-subject supplies which framework and which data law; the disclosure decides how
-to say it.
+It reads source text because `node:test` has no DOM and "this call site was GIVEN
+the values" is visible in the JSX itself. That trade is worth naming: it pins the
+wiring rather than the rendering, which is the right layer for a defect that
+renders fine.
 
-The same block also shows the enforced-number rule in practice: the fetch
-carries `consentRetentionMonths` derived server-side from `KP_CONSENT_TTL_DAYS`,
-"so the consent sentence states the enforced duration instead of a hardcoded '12
-months'" (`route.ts:10-13`, `AiDisclosure.tsx:20-22`). A retention promise that
-does not read the setting enforcing it is a claim the record does not hold.
+## Status-blind parsing, and the fetch path that survives
 
-## Status-blind parsing, found and fixed
+The gated-versus-successful distinction from the earlier note is still in the
+tree (`AiDisclosure.tsx:70`, `if (!r.ok) throw new Error(...)`). It now protects
+only the session-bearing simulator, and a 2026-09-22 change
+(`9789b8cc1`, "disclose simulator fallback on fetch failure") closed the
+remaining silent case there: when that fetch fails, the component now shows an
+alert with a retry control instead of keeping the EU defaults quietly. That is
+the technique's step 5 (never leave a stale assertion on screen) applied to the
+one surface that can still fail this way.
 
-`AiDisclosure.tsx:57-64` documents the subtlest bug in the technique: "Status-
-blind parsing made a GATED response indistinguishable from a successful one: the
-auth proxy answers `{"error":"Unauthorized"}` with 401, which parses fine, yields
-no `jurisdiction`, and silently leaves the EU default standing. Rejecting on
-`!r.ok` routes that through the same failure path as a network error, so the
-endpoint being unreachable is a real (and retried) failure rather than an
-invisible fallback."
+## What the fix leaves open
 
-Upward lesson, taken into the technique as its own procedure step. A compliance
-lookup whose failure is indistinguishable from success does not fail closed; it
-fails invisibly, which is worse.
+One deviation stands, narrower than before. If the server resolver's own read
+fails (a locked or unreachable decision-config store), it degrades to
+`DEFAULT_REGIME_ID`, which is `"eu"`, not to the neutral `global` row
+(`compliance-disclosure.ts:45`). It does the part the technique now asks for —
+`console.warn` names the workspace and the fallback and says "which may be the
+wrong law for this workspace" (`:40-44`) — but the destination is still a
+jurisdiction rather than the neutral row. The gated route has the same shape:
+`normalizeRegimeId` sends a stale or hand-edited row to the EU default
+(`route.ts:52-54`). Both are the catalog application's coercion-target
+deviation seen from the lookup side, and both are fixed by the same one-line
+change.
 
-## Open deviations
-
-Two, both recorded in `AiDisclosure.tsx:33-40` rather than hidden:
-
-1. `/api/compliance` is not on the public allow-list
-   (`app/_lib/auth/public-routes.ts`), so on any deployment with
-   `KP_OPERATOR_PASSWORD` set the proxy 401s it and no candidate ever receives
-   the real regime — the pre-fetch `eu` default becomes the permanent state.
-2. The route answers for the default workspace for anonymous callers, per the
-   comment above.
-
-The standard is unchanged by either: the framing must be resolved server-side
-from the token and passed in as data, and the failure state must be the neutral
-row, not a jurisdiction. Both deviations are honestly labelled in-code as
-deliberate calls pending that fix, which is the right way to carry a known gap —
-and it is worth noting that the file's comment was itself corrected once for
-overclaiming ("an earlier revision of this comment claimed … that is only true
-for an EU workspace"). A compliance comment that audits itself is rarer than the
-control it documents.
+The standard is unchanged: framing resolved server-side from the token and passed
+in as data, with the neutral row as the failure state. What this application adds
+to the technique is the two pieces that made the fix stick — a test that fails
+on the next bare render site, and a fallback that announces itself.
