@@ -1220,3 +1220,12 @@ Five `applied.md` rows: two experiments (10 of 101; 3 of 16 versus 0 of 16), two
 (the tree already ships the fix: 28 and 35 tests pass), one unapplied. The band deviation is
 recorded, not fixed: it moves a recruiter-visible threshold. Impact: no stale verdict against
 this subject. Yield high, dry_streak 0, depth L3. See [[presenting-a-score-to-a-recruiter]].
+
+## 2026-09-29 - deepen: pre-boarding-and-first-day-handoff
+
+First librarian note, dispatched on "never swept by the librarian". The content pass had landed an hour earlier (1ec9cfd6) with no ledger behind it, so this run reviewed that diff instead of repeating the research and did the propagation the landing owed.
+
+- **Landed earlier, reviewed here:** a new technique (a rescission is a named decision with a ground and its own outcome, not the selection-stage reject); the renege-follows-silence claim demoted to a stated hypothesis; statutory form read per clause and act, not per contract; consent treated as a weak basis for mandatory pre-start fields.
+- **Added here:** a kp application for the questionnaire technique. Two arms over one probe: an erasure of a Hired entry left a phone number, an immunisation answer and the signer name readable before the scrub for the retired onboarding module was added, and blanked them after. The scrub is keyed to table existence, which is the condition the technique gains.
+
+Four `applied.md` rows: one experiment (unmeasurable, the fixed arm is a design), one code (better), two unapplied with return conditions (kp holds no signing seam and no accepted-to-started window). Impact: kp only, six unjudged pairs, no stale verdict. Yield medium, dry_streak 0, depth L2. See [[pre-boarding-and-first-day-handoff]].
