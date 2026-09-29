@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ssh-0929b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T19:40:00Z",
+  "ended_at": "2026-09-29T19:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/small-sample-honesty-in-hiring-analytics",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Stale dispatch: checkout 102 behind origin, so never-swept was false; origin has dp-ssh-0929 (c11efbe0, df950d68), dry_streak 0, clocks 2026-12-29 and 2027-03-29, no event since. Nothing landed; no clock or event for a second pass."
+}
