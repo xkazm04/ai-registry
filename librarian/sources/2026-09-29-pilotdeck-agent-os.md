@@ -193,8 +193,10 @@ re-run before any number was reported.
 rewrites tracked files beside a live sibling, so it was not rebuilt. The seven fleet changes
 above are coverage at seams the projects already have; none creates a capability a
 project's scope does not name. One earlier proposal is still waiting in tracklight (a batch
-budget enforced against a ceiling the wire does not send) and is put to the operator at the
-end of the run.
+budget enforced against a ceiling the wire does not send) was put to the operator at the
+end of the run, **accepted**, and executed in the same session on a worktree branch: option A,
+gate green (runner 204, engine 215, re-run by the director), merged as `73f571f`, not pushed.
+See the applied ledger.
 
 ## Instruments and incidents
 
