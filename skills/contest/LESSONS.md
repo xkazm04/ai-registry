@@ -370,3 +370,27 @@ blinded** - host visual pass only, disclosed in the verdict. 6/6 delivered, 0 pa
   cheap. Extracting the control behind the same interface as the new approaches, and proving the
   extracted control renders identical rects to the original, is what makes the round a
   measurement rather than a re-pitch.
+
+## 1.7.0 - 2026-09-29 - statreel (brand-screens, 3 seats x 3 variants, no panel)
+
+Run shape: `claude:claude-opus-5-5@xhigh`, `codex:gpt-6-sol@high`, `grok:grok-4.7@high`; each variant
+one brand direction carried through three pages (landing, heatmap, studio) plus a `tokens.css`.
+Owner asked for no LLM judges. 9/9 delivered, 0 leaks, 0 page errors, 0 network requests.
+
+- **`resolveBin` still misses `claude.exe` behind the npm shim** (the 1.2.0 finding, unfixed): the
+  first `run` died with "cannot find the claude CLI on PATH" and `CONTEST_CLAUDE_BIN` pointing at
+  `node_modules/@anthropic-ai/claude-code/bin/claude.exe` was needed. The shim's `exec` target is
+  greppable; the resolver could read it.
+- **The participant template hard-codes two promises a contest may not make**: "Libraries only from
+  a public CDN" and "a blind panel will score". An offline brief with an owner-only verdict needed
+  identical manual edits to every `PARTICIPANT.md` after `init`. Proposal: `init --offline` and
+  `init --no-panel` render those lines accordingly.
+- **Multi-page variants need a per-page visual pass.** `visual-pass.mjs` opens `index.html` only; the
+  brief required three pages per variant and a 390 px landing. A host pass over every page x width
+  (27 loads for 9 variants, ~4 min) found the field's only hard-constraint breach - 28 labels under
+  12 px on one landing - on a page whose seat reported "raised to 12 px". Self-reports are not
+  evidence; measure every page the brief names.
+- **Cost and wall, as the CLIs reported them**: claude-opus-5-5@xhigh 49.4 min / 26 turns / $22.63;
+  gpt-6-sol@high 25.9 min / 1 turn / no price reported; grok-4.7@high 66.8 min / 88 turns / $2.39.
+- **The one-turn seat again brought one information architecture three times** (three skins on a
+  shared layout), while the other two seats brought three structurally different bets each.
