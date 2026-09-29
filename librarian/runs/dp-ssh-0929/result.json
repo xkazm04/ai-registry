@@ -1,0 +1,87 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ssh-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T18:25:00Z",
+  "ended_at": "2026-09-29T19:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/small-sample-honesty-in-hiring-analytics",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/small-sample-honesty-in-hiring-analytics",
+      "technique": "state-what-the-sample-could-have-seen",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/small-sample-honesty-in-hiring-analytics.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/techniques/state-what-the-sample-could-have-seen.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/techniques/a-named-minimum-per-claim.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/techniques/state-the-accrual-horizon.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/techniques/insufficient-sample-is-not-a-pass.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/techniques/not-measurable-versus-zero.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/techniques/gate-each-cohort-not-only-the-headline.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--state-what-the-sample-could-have-seen.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--state-the-accrual-horizon.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--a-named-minimum-per-claim.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--insufficient-sample-is-not-a-pass.md",
+    "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/process--thin-but-real-as-a-labelled-state.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/small-sample-honesty-in-hiring-analytics.md"
+  ],
+  "commits": [
+    {
+      "sha": "c11efbe0",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics"
+    },
+    {
+      "sha": "e53ebc97",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md"
+    },
+    {
+      "sha": "df950d68",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics"
+    },
+    {
+      "sha": "6d50585a",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json"
+    },
+    {
+      "sha": "623556cf",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/domains/recruiting.md librarian/subjects/recruiting/small-sample-honesty-in-hiring-analytics.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One technique earned (a floor licenses the figure, not its precision), eight conditions, one code row (better), five unapplied. Blind lane converged. kp 775c5d02e and map 0b3d183d4 local, not pushed (kp main 46 ahead). Registry on origin, gate 23/23."
+}
