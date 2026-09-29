@@ -1,0 +1,82 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-paat-0929b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T15:44:00Z",
+  "ended_at": "2026-09-29T16:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/pipeline-aging-and-attention-triage",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/pipeline-aging-and-attention-triage",
+      "technique": "per-stage-aging-thresholds-not-one-global-cut",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/pipeline-aging-and-attention-triage",
+      "technique": "terminal-stages-never-age",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/pipeline-aging-and-attention-triage",
+      "technique": "aging-versus-stalled-two-tier-alerts",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/pipeline-aging-and-attention-triage.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/techniques/per-stage-aging-thresholds-not-one-global-cut.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/techniques/aging-versus-stalled-two-tier-alerts.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/techniques/terminal-stages-never-age.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/techniques/attention-queue-ordering-and-rationale.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/techniques/overridable-defaults-with-a-server-side-approximation.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/node--attention-queue-ordering-and-rationale.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/process--aging-versus-stalled-two-tier-alerts.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/react--per-stage-aging-thresholds-not-one-global-cut.md",
+    "librarian/applied.md",
+    "librarian/subjects/recruiting/pipeline-aging-and-attention-triage.md"
+  ],
+  "commits": [
+    {
+      "sha": "8a792132",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage"
+    },
+    {
+      "sha": "99e84ed6",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json"
+    },
+    {
+      "sha": "4ebf7aff",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/subjects/recruiting/pipeline-aging-and-attention-triage.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First sweep. The same-day sibling re-read (in 001fbb4a) was treated as unverified; every citation re-read against kp dd0669e3a. kp map committed locally (b65ce4b8e), kp unpushed. check-bundles red on trunk for spec--revocation-without-a-beacon.md, not this run."
+}
