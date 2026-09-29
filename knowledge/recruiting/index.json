@@ -5344,8 +5344,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/pipeline-aging-and-attention-triage.md",
-   "digest": "sha256-b2:e4e2ae0062c00fff",
-   "revision": 3,
+   "digest": "sha256-b2:771f4c9edd97ec09",
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5439,7 +5439,8 @@
      "stack": "node",
      "technique": "attention-queue-ordering-and-rationale",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/node--attention-queue-ordering-and-rationale.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
@@ -5451,7 +5452,8 @@
      "stack": "react",
      "technique": "per-stage-aging-thresholds-not-one-global-cut",
      "file": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage/applications/react--per-stage-aging-thresholds-not-one-global-cut.md",
-     "verified_on": "2026-09-29"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },
