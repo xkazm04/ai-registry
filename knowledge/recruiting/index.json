@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 394,
-  "applications": 266,
+  "applications": 268,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -5438,8 +5438,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
-   "digest": "sha256-b2:fd3338d7d1babc84",
-   "revision": 3,
+   "digest": "sha256-b2:63685dbf6b203b69",
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5553,6 +5553,20 @@
      "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/react--off-axis-candidate-recovery.md",
      "verified_on": "2026-09-29",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "spec",
+     "technique": "screening-gate-index",
+     "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/spec--screening-gate-index.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2027-03-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "stage-role-vocabulary-not-stage-names",
+     "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/spec--stage-role-vocabulary-not-stage-names.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2026-12-29"
     }
    ]
   },
