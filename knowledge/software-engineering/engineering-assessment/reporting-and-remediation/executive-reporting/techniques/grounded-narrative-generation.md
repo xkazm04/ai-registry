@@ -65,6 +65,25 @@ Two construction details decide whether this check is real:
   Token equality after a declared normalization (separators, percent signs) is
   the whole test; anything looser is a threshold pretending to be a gate.
 
+**Membership is necessary, not sufficient: bind each figure to its subject.**
+The check above proves every number exists *somewhere* in the report; it cannot
+see a sentence that attaches a real number to the wrong thing — "security
+scored 62" when 62 is the overall score. Every token is licensed and the
+sentence is false, which is the error class a stakeholder is least equipped to
+catch, and prompt instructions do not remove it. Add a second gate that maps
+each named subject (a dimension, "overall", "percentile") to the figures it
+legitimately carries — current, prior, and delta, by absolute value, since
+prose writes a −4 as "down 4" — and requires a figure standing next to a
+subject word to be one of that subject's. Three constraints keep the gate from
+deleting the feature by rejecting good prose: judge only figures that *have* a
+home (a repo count belongs to no subject; leave it to the membership test);
+use a short adjacency window bounded by the sentence, because a clause-wide
+window binds a figure to a subject that was merely mentioned nearby; and on
+any ambiguity widen what is allowed, so the gate never invents a violation from
+an ambiguous word. The trade is deliberately toward a distant mis-binding going
+unchecked rather than true sentences being discarded until the fallback ships
+every time. Violation discards, as above.
+
 Run cheap **shape checks before the grounding gate**: reject output that is
 empty, that exceeds a length past which it is no longer an executive summary
 (reject rather than truncate — a truncated paragraph ends mid-claim), that
@@ -139,6 +158,12 @@ happened".
 - **When the check flags a token that is genuinely in the data but formatted
   differently, fix the normalizer, not the threshold.** Loosening the
   membership test to "close enough" reintroduces the failure it prevents.
+- **When choosing where the payload is sent, use the reader's own configured
+  provider or none.** The payload is the whole document, so the generator's
+  destination is part of the closed world. A tenant on a self-hosted model must
+  not have its report sent to a platform default; if their provider is
+  configured but cannot be resolved, degrade to the template. "Could not tell"
+  is not "has none".
 - **When a report has several generated slots, run them through one checked
   path.** Per-slot ad-hoc generation is how the second slot ships unchecked.
 - **When the same serialization can serve the copy affordance and a

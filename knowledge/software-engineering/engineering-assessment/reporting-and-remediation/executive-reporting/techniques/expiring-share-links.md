@@ -75,7 +75,17 @@ snapshot, which is exactly the lesson.
   the payload and honour the link only while that issuer still holds the
   authority they shared under** — so removing or demoting a person kills the
   links they minted, without a revocation table. It is not full revocation,
-  but it closes the case that actually happens.
+  but it closes the case that actually happens. It is the coarse lever, though:
+  it kills every link the person ever minted, which is the wrong answer to "that
+  one went to the wrong address". Pair it with the grant identifier above and a
+  revocation lookup **injected into the verifier**, so the token module stays
+  free of I/O; keep revocations in a ledger no retention sweep touches, since a
+  purged revocation row silently un-revokes a link.
+- **Evolve the payload by superset.** Links already forwarded are readers in the
+  wild. Add a field rather than re-mean one (a new half-open window bound beside
+  the old inclusive one, derived from the same instant so they cannot drift), so
+  the signature still covers what it covered at mint time, and render an old
+  token exactly as it was minted.
 - **A named reaper.** Grants, and the rendered snapshots behind them, are
   created resources —
   [creation-names-reaper](../../../../_laws.md#creation-names-reaper) — and the code
@@ -102,7 +112,19 @@ a share link as proof the numbers are authentic.
   link over a live re-render.** A link that re-queries shows a recipient
   numbers that move between openings and, worse, may widen over time as data
   arrives. A shared *report* is an artifact; a shared *dashboard* is a
-  different product with a different consent conversation.
+  different product with a different consent conversation. **The exception is
+  a system where a stored rendering would itself be a regulated artifact** —
+  one under a retention floor and an erasure obligation, holding sensitive
+  aggregates. There a snapshot is a new copy that must be reachable by every
+  purge path, and a forwarded one goes stale invisibly. Keep the live
+  re-render, freeze the window, and carry a **fingerprint of the quantities the
+  sender saw** inside the signed payload; on open, compare it with the
+  rendered figures and answer in three states, `unchanged`, `changed` and
+  `unverifiable`. The third must never collapse into the first: a legacy link
+  with no fingerprint has had nothing compared, and saying "unchanged" would be
+  the silent falsehood the fingerprint exists to remove. Include the
+  denominators among the fingerprinted figures. Cost accepted: the recipient
+  cannot reproduce the sender's numbers, only be told they moved.
 - **When choosing a lifetime, derive it from the cadence** — a small multiple
   of the reporting period — and make it overridable downward, not upward,
   without an explicit approval.

@@ -166,10 +166,13 @@ must be a property:
   serialization and nothing else — no store access, no repository contents, no
   history. It cannot mention what it was not given, so the class of "plausible
   detail the model knows about this domain in general" never reaches the page.
-- **No new numbers.** Every numeric token in the returned prose must already
-  appear in the facts payload, and a single invented figure discards the whole
-  narrative rather than being edited: editing implies you know which number
-  was meant, and you do not.
+- **No new numbers, and no borrowed ones.** Every numeric token in the returned
+  prose must already appear in the facts payload, and a single invented figure
+  discards the whole narrative rather than being edited: editing implies you
+  know which number was meant, and you do not. Membership alone is not enough,
+  because a true figure attached to the wrong subject ("security scored 62"
+  when 62 is the overall score) passes it; a second check binds each figure
+  standing next to a named subject to that subject's own figures.
 - **Degradation the caller cannot structurally distinguish.** When generation
   is unavailable or rejected, the document renders deterministic template copy
   in the same slot with the same shape. There is no error state to render,
@@ -192,7 +195,10 @@ it is long and hard to guess. Reports age badly — a snapshot forwarded eleven
 months later is read as current — so expiry is a correctness feature before it
 is a security one. Details, including the rule that a capability's audience is
 never wider than its narrowest referenced fact, are in
-[expiring-share-links](./techniques/expiring-share-links.md).
+[expiring-share-links](./techniques/expiring-share-links.md). That technique
+also carries the condition on "share a snapshot, not a live view": where a stored
+copy would itself be a retention-bound artifact, the link re-renders and carries a
+fingerprint of the figures the sender saw, so the reader is told when they moved.
 
 One assembly economy worth taking: the same serialization that grounds the
 prose generator also serves the human "copy this report" affordance and any
