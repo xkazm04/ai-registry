@@ -7,6 +7,8 @@ stack: node
 status: forged
 verified_on: 2026-09-29
 verified_against: node@24
+applied: code
+ab_verdict: better
 ---
 
 # One derived index, and everything that used to read a string
