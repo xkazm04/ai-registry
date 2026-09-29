@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: eval-harness
-last_touched: 2026-09-23
+last_touched: 2026-09-29
 touched_by: intake
 dry_streak: 0
 ---
@@ -712,3 +712,25 @@ through a line count; a self-reported feature status).
 Lead drain (run lib-0923), L263 AMEND to `eval-economics` (a long run persists each cell as it finishes) + APPLICATION. The lead's other half (run before polishing the output surface) **declined**: one sighting, figures unverifiable.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 2, systedo-case 1.
+
+## 2026-09-29 - [[2026-09-29-ultraeval-audio]]
+
+Intake run in-uea-0929 (research-model release, an open audio evaluation framework). One source-tree
+application, `python--eval-economics--ultraeval-audio`, a second witness to the kp application's
+"the resume key is the scenario name alone" that says something the first does not: it was
+**executed**, and the key is a row **position**, not a name.
+
+- **Paired, executed** on the tree's real resume loader and task runner (scoring packages stubbed;
+  six and eight synthetic items, so structure and never magnitude). A cached score outranks a swapped
+  evaluator: a full cache reports the old evaluator's mean under the new one's name with 0 evaluator
+  calls, and a half cache blends both (0.5). Recorded ids are positions in a sampled list but are bound
+  to raw dataset rows on resume, so 2 of 3 cached rows carried another item's output (unsampled
+  control: 0 of 8).
+- **Arm B** (a resume keyed by item content and evaluator identity): 0 misbound rows, the new evaluator
+  runs on all six with 0 model calls, and the floor held (an unchanged-config resume still makes 0
+  calls). Verdict `better`.
+- **Not amended.** The technique's third bullet already says a cell is keyed by what makes it the
+  same measurement. Item identity by name rather than position is a boundary of that rule, scored
+  1/0/1 (a boundary case, opened and executed), so it is banked untriaged until a third tree shows it.
+- The tree also shows the technique's good half built: a re-score door (`load_inf_file` keeps only
+  prompt and inference) and a snapshot of the resume source before the recorder can truncate it.
