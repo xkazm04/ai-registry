@@ -148,6 +148,30 @@ with, and change is a number they will defend to their own finance team. A
 number that arrives whole is one they will quietly stop quoting the first
 time it looks wrong.
 
+## A saving is not a return
+
+The opening question of this subject is whether the automation *paid for
+itself*, and an hours-saved panel answers only half of it. Hours saved is a
+gross figure; a return is that figure against what the automation cost to
+run. A surface titled "ROI" that prints only the gross side has answered a
+different question under the name of the one buyers ask.
+
+The cost side belongs beside the saving, in its own currency and on its own
+scope. It is not netted into the saving unless a declared, dated conversion
+exists, because netting across currencies is the sum this subject forbids
+above, and netting against a partially priced ledger subtracts a cost that is
+too small: an unpriced row is not a free one.
+
+The rule is conditioned by materiality, and the condition is computable per
+action kind. A kind credited at *m* minutes and a loaded hourly rate *r* is
+worth `m × r / 60` of currency, so the cost of the inference behind one such
+action either sits far below that or does not. Where the recorded price per
+action is a small share of the credited value, gross and net headlines differ
+by a rounding error and printing the cost beside the figure is enough. Where
+one action's price approaches its credited value, the gross headline is
+overstating and the surface must say so. Compute the ratio; do not assume
+either regime.
+
 ## Refusals are the strongest part of a cost surface
 
 Two habits separate a credible economics surface from a vendor deck.
