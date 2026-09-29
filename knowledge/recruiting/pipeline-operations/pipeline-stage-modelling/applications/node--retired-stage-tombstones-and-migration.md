@@ -49,8 +49,12 @@ submitted one rather than trusted from the client, and every entry of the
 `migrate` mapping is checked against `nextIds` — the ids of the axis being
 written — with the comment stating the trap: "Mapping onto another column
 this same edit removes would move candidates from one hole into another."
-The refusal is specific (`migrate["X"] targets "Y", which the new pipeline
-does not contain.`), not a generic invalid-body error.
+The refusal is specific, not a generic invalid-body error: a code with the
+offending pair as data, `jsonRefusal("PIPELINE_MIGRATION_MAPPING_INVALID", 400,
+{ fromStage, toStage, reason: "target_missing" })` (`:80-107`). An earlier
+reading of this page quoted an English sentence here; no such string exists
+anywhere in `app/`, it was removed on 2026-09-02, and the page was already stale
+when it was written.
 
 ## Tombstones
 
@@ -85,11 +89,15 @@ by `app/_lib/db/pipeline-stage-migration.test.ts`.
 
 ## The validator that bounds what a removal may produce
 
-`app/_lib/decision-config-schema.ts:505-542` is the well-formedness set, and
+`app/_lib/decision-config-schema.ts:519-553` is the well-formedness set, and
 it is deliberately short: at least two stages (`:525`, "needs at least an
-entry and a terminal stage"), exactly one each of `entry` and `terminal`
-(`:527-530`), at most one `offer` (`:534`), the axis must open with entry
-(`:541`) and end with terminal (`:542`). the README (`:162-166`)
+entry and a terminal stage"), the presence of an `entry` and a `terminal`
+(`:527-531`) and their uniqueness (`:532-535`), at most one `offer` (`:534`), the
+axis must open with entry (`:541`) and end with terminal (`:542`). Executed
+against constructed axes: no terminal, two terminals, two entries, two offers, a
+terminal not last, a missing or unknown role, a duplicate id, thirteen stages and
+an extra key are all refused; twelve stages and an axis that lacks a screening,
+interview or offer stage are accepted. The README (`:162-166`)
 states the governing principle in the standard's own terms: "the validator
 enforces only what the rest of the product resolves through … Everything else
 is open — any number of screening stages, interview rounds or `custom`
@@ -159,7 +167,30 @@ The validator refuses a stage id that is both live and retired
 resolve to two different columns depending on which list was consulted"), which
 closes the worst reading of re-adding a column: a new stage cannot silently
 share a tombstone's id. What it does not do is mark the generation. Dropping the
-tombstone from `retired` and re-creating the id is accepted, and the new stage
-then inherits the old one's history, because identity is the id. That path
-runs through the composer, which this reading did not open, so it is unverified
-whether the composer offers it.
+tombstone from `retired` and re-creating the id is accepted by the validator
+(executed), and the new stage then inherits the old one's history, because
+identity is the id. The composer does not offer that path: `mintStageId`
+(`pipelineAxisDraft.ts:125-127`) mints against live *and* retired ids, and there
+is no restore action. So the hole is reachable through the API and not through
+the screen.
+
+**The door the guarantee sits on is one of two.** The route's header (`:12-17`,
+`:111`) says removal is its own endpoint "rather than a flag on
+/api/decisions/config" and that its occupancy check "is the guarantee". But
+`validateDecisionConfig` dispatches `phase: "pipelineStages"`
+(`decision-config-schema.ts:429`), the general config route
+(`app/api/decisions/config/route.ts:44-80`) accepts it from any seat holding
+`pipeline:write`, and that route checks the shape and the version token and
+nothing about occupancy, and does not check that a removed column lands in
+`retired`. Read, not run: a body that drops an occupied column without a mapping
+would strand its occupants, which is the failure the migration route exists to
+prevent. The standard's own rule for the invariants, "enforce at every write
+door", applies to this one too.
+
+**Tombstones resolve labels, not measures.** Closed candidates are excluded from
+the sweep by design, so they keep a removed column's id, and every measure over
+them drops them to "unresolvable": see the last paragraph of "Where closure lives
+here" in the [gate application](./node--screening-gate-index.md). The technique's
+promise that the tombstone's role and position keep an old cohort computable is
+kept for display and broken for the fairness rate. No metric file reads
+`retired`.

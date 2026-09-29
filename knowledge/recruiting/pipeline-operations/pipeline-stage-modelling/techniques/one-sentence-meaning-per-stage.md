@@ -106,6 +106,23 @@ Two ownership rules:
   conversation on a screening-role stage — fix the role. The sentence is the
   better evidence of intent, because a human wrote it deliberately.
 
+## What backs this, and what does not
+
+This technique is an argument, not a measured result. A search of five shipped
+applicant-tracking systems' documentation on 2026-09-29 found no stage object with a
+description field and no page recommending one; the sources that say stages need
+entry and exit criteria are vendor blogs, and no study was found of whether a stage
+definition improves reporting or the candidate's experience. The nearest research is
+procedural-justice work on transparency in selection (search-derived, not read). Use
+the technique for the reason it gives, that a column with no stated meaning is used
+for three things, and do not cite it as a finding.
+
+The one shipped implementation read has the sentence per **role** (a catalogue
+message keyed by role, shown in the setup journey) and none per stage: its stage
+schema refuses an unknown key, `meaning` included. That covers a default board and
+fails the case the decision rules below care about, a custom stage, where the role's
+sentence is the generic one the rules say to prompt against.
+
 ## When not to use this
 
 Do not require sentences on a scratch board or a personal lane nobody else

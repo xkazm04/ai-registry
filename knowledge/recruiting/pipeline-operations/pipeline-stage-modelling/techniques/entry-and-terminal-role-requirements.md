@@ -18,9 +18,12 @@ actually traverse, and both concern the ends:
 - **Exactly one entry-role stage, and it is first.** A new applicant needs
   one unambiguous landing place. Two entry stages means an arriving candidate
   has no defined destination and the answer becomes whichever code path ran.
-- **At least one terminal-role stage, and terminal stages sit last.** A
-  pipeline with no absorbing state is one a candidate can never leave, which
-  is a process that never ends for a person waiting on it
+- **Exactly one terminal-role stage, and it sits last.** A pipeline with no
+  absorbing state is one a candidate can never leave, which is a process that
+  never ends for a person waiting on it. (An earlier line here said "at least
+  one ... terminal stages", which the full set below contradicted: hired,
+  rejected and withdrawn are outcomes on one stage, not three stages, and the
+  shipped validator read refuses both zero and two.)
   ([a candidate's process never stalls on your constraints](../../../_laws.md#a-candidates-process-never-stalls-on-your-constraints)).
 
 Everything between the ends is the team's business.
