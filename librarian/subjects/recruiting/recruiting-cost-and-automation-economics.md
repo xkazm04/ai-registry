@@ -115,3 +115,55 @@ its map cannot see: the matcher pairs no context with it. That is a matcher lead
 verdict, so there is no `/conform --stale` queue entry. Map writes were skipped because a real
 run would carry only unrelated churn into five projects, one of which (kp) holds unpushed
 sibling work.
+
+### 2026-09-29 - `/deepen`, second pass (dp-rce-0929)
+
+Dispatched on "never swept by the librarian" at registry HEAD 069f130b. That finding was
+stale: the primary checkout was 73 commits behind origin/main and 47 ahead, and origin already
+carried the first pass (bdf71ef6) landed the same day. The pass therefore ran in a detached
+worktree of origin/main (096d3d60) and landed only what the first pass had not. Lanes: the
+three applications re-read against kp at f63450548 (committed tree; the working tree carries
+another session's edits and was not read), a counter-evidence web lane over seven claims, and
+a blind training-data lane. Depth stays L2.
+
+**Convergence, stated as a result:** the web and blind lanes independently re-found what the
+first pass landed (the METR belief-versus-measurement gap, the SHRM 2025 averages, the
+unsourced 42-hour anchor, gross versus net). Those were verified and left untouched; the
+uncapped-ratio technique also already absorbs the blind lane's opposite view (clamp the
+display, keep the value), so it stands unchanged.
+
+**Landed (status stays `forged`; no new technique):**
+- Golden path: the gross-versus-net paragraph gains its materiality condition, computed per
+  action kind (`minutes x rate / 60` against the recorded price of the inference behind one
+  action).
+- `node--per-action-manual-minute-estimates`: a three-case simulation on kp's own function
+  (`applied: simulation`, `ab_verdict: not-better`: cost is 0.4-4% of the gross saving at
+  recorded prices, so netting does not change kp's headline; the $5 boundary probe is the
+  falsifier), and two deviations: the ROI panel prints the baseline with no default-or-set
+  mark and no source for the 42 hours, and its headline converts hours to currency.
+- `node--an-uncapped-ratio-as-a-denominator-alarm`: the breach has no display state; a 317%
+  fixture would print as "about 317% of the ~42 h a hire takes by hand".
+- NEW `react--date-every-derived-money-figure` (react@19): the blended cost per hire is dated
+  in the compute panel and undated in the automation panel's leadership tile and CSV, because
+  the automation panel's props carry the value and not the date. This is the subject's second
+  stack.
+
+**Banked leads (return conditions):**
+- Realized versus theoretical hours (a holdout or volume-normalised pre/post as the way
+  to measure a saving where a before exists; blind lane only). Return when a second lane or a
+  customer with a measured baseline supplies the design.
+- FTC substantiation of AI savings claims and the EU AI Act Annex III date move (2 Dec 2027,
+  via the Digital Omnibus): law-firm commentary and search summaries only, not read at the
+  source. Return with the primary texts.
+- Cost per hire as a mean only (the standard's own definition) versus median plus segments
+  (blind lane): not verified at the standard's text, which stays paywalled.
+
+**Not evaluated:** the standards' own text; the SHRM 2026 medians; kp's working tree; any
+consumer beyond kp.
+
+**Applied:** one row in `librarian/applied.md` (simulation, `not-better`, kp).
+
+**Impact:** none. A grep of the committed kp registry map finds no pair for this subject
+(the matcher pairs no context with it, as the first pass found); no `/conform --stale` queue
+entry. The map generators were not run: a real run would rewrite every fleet map with
+unrelated churn, and kp holds unpushed sibling work.
