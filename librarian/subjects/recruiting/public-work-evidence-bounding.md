@@ -30,4 +30,6 @@ The three applications carried `verified_on: 2026-08-20`. kp had since moved the
 **Not evaluated:** any web lane for the golden path's fairness claims (industries that forbid publishing, availability tracking free time); a training-data-only lane. Return condition: a consumer deviation, or the frozen-summary fix landing in kp and its application row being re-read.
 
 ## Impact
-See the result file; map figures were read from a dry run at the landing commit.
+Map read at registry 051b0dc1: one project joins this subject, kp (1 context, `pair state: unknown`, never judged), so 0 stale verdicts and nothing for `/conform --stale`. Fleet-wide the dry run held 209 stale verdicts, none under this subject. kp's map regenerated and committed locally as f7decc8b, not pushed (kp main carries unpushed sibling commits). Only this subject's digest moved in that map.
+
+No `applied.md` row owed: no technique was added and no golden-path rule flipped. The two new deviations are unapplied by construction: both live in kp's frozen-summary and transport code that has sibling WIP, and closing either is a kp change, not a registry one.

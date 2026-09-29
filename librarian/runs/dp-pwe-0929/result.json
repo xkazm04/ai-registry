@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pwe-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T14:35:00Z",
+  "ended_at": "2026-09-29T14:44:18Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/public-work-evidence-bounding",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding/applications/node--absent-signal-versus-unavailable-source.md",
+    "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding/applications/node--verify-identity-before-crediting-work.md",
+    "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding/applications/process--corroborate-a-claim-never-replace-it.md",
+    "librarian/subjects/recruiting/public-work-evidence-bounding.md"
+  ],
+  "commits": [
+    {
+      "sha": "fc480ee2",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/candidate-evidence/public-work-evidence-bounding"
+    },
+    {
+      "sha": "051b0dc1",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Applications re-read against kp 70dd2319d; an interrupted first pass had cited uncommitted kp WIP and wrong lines, all re-resolved. Two kp deviations recorded. No web, blind or counter lane; techniques and golden path untouched."
+}
