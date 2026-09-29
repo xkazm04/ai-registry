@@ -12098,3 +12098,28 @@ finish on the version it loaded.)
   called it "a summary builder used by three modes". Read for the amendment's claim,
   it held the opposite-side failure (a second writer rewriting "immutable" evidence),
   which the source did not show.
+
+## 2.14.1 - 2026-09-29 - fan-out-point-36h-game-build
+
+- **A build-walkthrough's tour half yielded the finding, once read as a distribution.**
+  The source-classes entry says the tour "produced nothing but catches and proper
+  nouns". Read claim by claim, that held here too. Read as *where the same defect
+  shows up across instances*, the playthrough became evidence: one held-item fault on
+  every race and class, in a run that built one character first. When a demo shows N
+  instances of one kind, ask which defects repeat across all N. A defect in every
+  instance is a template's defect, and the run's order says when it was copied. One
+  run so far; a lesson, not a rule.
+- **The falsifying seam rewrote the technique before it landed, not after.** The first
+  draft was "stop the line until the first instance is judged". The fleet tree's
+  recorded runs showed that rule completing 9 of 85 areas, because the gate it waited
+  on never ran. Replaying the policy over recorded state before drafting the decision
+  rules costs minutes. It is the cheapest form of the v2.7 falsifier rule, and here it
+  decided the shape (request plus bounded hold) rather than adding an amendment.
+- **A replay arm can be fixed by construction.** Arm A (0 requests from code with no
+  such event) moves nothing, and a 2026-09-10 review had already flagged the sibling
+  application for the same shape. Put the verdict on a quantity the construction does
+  not fix: here, B's precision (3 of 4) and the strict hold's floor. Noted under the
+  scorecard row as a lesson; the declared focus is ship.
+- **A positive control can fail on spelling.** `gray box` missed a file that writes
+  `no-gray-box`, and the grep looked like an instrument fault. Build the control from a
+  string copied out of the file, not from memory.
