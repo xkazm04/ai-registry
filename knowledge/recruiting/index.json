@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
   "techniques": 395,
-  "applications": 267,
+  "applications": 268,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -5851,8 +5851,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/pre-boarding-and-first-day-handoff.md",
-   "digest": "sha256-b2:6f7e79404db5d432",
-   "revision": 2,
+   "digest": "sha256-b2:51bb7c320cf1402e",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5962,6 +5962,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "pre-boarding-questionnaire-as-a-hire-record",
+     "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--pre-boarding-questionnaire-as-a-hire-record.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "rescinding-an-accepted-offer-is-a-decision-with-a-process",
