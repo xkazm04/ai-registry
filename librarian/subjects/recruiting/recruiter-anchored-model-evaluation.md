@@ -46,3 +46,31 @@ First touch by `/deepen`, dispatched by the Curator lane on the finding "never s
 Map built from origin/main after the knowledge commit (ebd5d325): one project joins this subject, kp (6 contexts, `pair state: unknown`, never judged), so 0 stale verdicts and nothing for `/conform --stale`; no other project joins it. kp's map committed locally as a99531095, not pushed (kp main carries unpushed sibling commits). The run rewrote the other eleven projects' maps as well; they were already modified by earlier uncommitted regenerations and were left as they are, not committed and not reverted.
 
 Four `applied.md` rows owed and written: one experiment (`unmeasurable`) and three `unapplied` with return conditions. The independence finding is the one to act on first: a cross-family re-judge of the committed grid is a spend decision, so it is left to the operator.
+
+## 2026-09-29 (second pass) - what the recorded runs show that the first read did not
+
+Dispatched by the Curator lane on "never swept by the librarian", with registry HEAD 7e649601 at dispatch. That HEAD was 65 commits behind origin/main and did not contain the first pass above (ebd5d325, c680fb9c); the work was done before this was seen, then ported onto a detached worktree of origin/main 62f671f4 and cut down to what the first pass had not covered. The overlap was large: the floor-at-n=4 simulation (1 pick of 11 flips, `automation`), the 8-of-11 Claude picks and the judge-independence finding were reproduced independently by both passes, which is the only convergence claim made here and it is about kp facts, not technique placement.
+
+**Depth rung:** L3 for the kp claims (the local bench record files, 37 sets, 816 rows, counted, nothing published; the shipped `recommendForUseCase` run over the baked file); L2 for two arXiv abstracts read verbatim through the arXiv API (2603.28005, 2609.27787), and the two already cited by the first pass. Lanes: kp tree, a blind training-data-only lane, an external counter-evidence lane. The blind lane converged with the tree on two points (compression direction follows the prompt and is often lenient; excluding fallbacks from cost and latency hides real spend), and its other points were left out for lack of a source (halo effects, prompt injection, judge drift are real practice but not read here).
+
+**Landed (knowledge cb3f2b37):**
+- **Contamination direction.** The golden path and technique said fallback contamination flatters unreliable models. All 13 judged fallback rows in the record history scored below the same operation's real answers (2-6 against 7-8): thin stubs punish. The rule is now the sign of template score minus model score.
+- **Fallback rows are slow and paid.** The four fallback rows of the committed bake took 15.7-180 s and three were priced; the premise "instant and free" is a property of the record, not a given. Effect on the aggregates at a 1.7% fallback rate: under 5%.
+- **A hybrid passes the mark.** `_generate` compares the coerced result with the template; `weight_proposal` backfills per candidate and per rationale and returns `"llm"` with no comparison, in a bench where about 85% of rationales came back empty. Recorded payloads were off, so whether hybrids sit in the graded rows is unread.
+- **Ceiling clustering.** 88% of 236 judged answers on 8 or 9, no 10, one below 5. "Spread shows the tails are reachable" is not established by this bake; only a planted known-bad artifact separates a good matrix from a lenient judge.
+- **Same-vendor split.** Claude targets 8.57 (n=118), others 7.99 (n=118) under a Claude judge; confounded, a size to test.
+- **Unverifiable is not fabricated, conditioned.** The neutrality rule follows the excerpt's truncation. Where the checker holds the whole record a specific checkable assertion the record lacks is a defect; the source-tree gate and the bench judge are both right about different evidence.
+- **"Markedly more stable" removed.** A prompt-controlled comparison (arXiv 2603.28005) found a holistic judge matching or beating decompose-then-verify on two of three benchmarks; no stability study for hiring text is known. Enumeration stays for auditability.
+- Smaller conditions: deliver versus degrade for the reliability bar; the composite's validity factor counts one failure twice; the tie band is tighter than the noise kp's own document states; the ceiling must bind every arm; `CAP_WEB_RESEARCH` is the mirror of the empty-prompt defect; a use case with no fixed input is listed as unmeasured.
+
+**Verified, left alone:** median across scenarios, the five-band decision anchors, the structural-verdict-to-judge hand-off, the fallback exclusion from quality. Every kp citation in the applications was re-resolved at kp 7e6accbc9 (the first pass read b2c19295b) and the first pass's numbers were not compared line by line against this pass's.
+
+**Not evaluated:** a second-vendor judge over the same texts (spend); repeat-judge variance; the planted-probe run; whether `weight_proposal` rows in the record contain hybrids; the career-ops self-test. Return condition for the first three: a bench re-bake or a second judge in kp.
+
+**Applied:** three rows in `applied.md`: never-judge-a-fallback (simulation, not-better), unverifiable-is-not-fabricated (simulation, not-better), decision-anchored-score-bands (simulation, unmeasurable, instrument: a planted known-bad run).
+
+## Impact (second pass)
+Map built after the knowledge commit: kp only joins this subject (6 contexts, all `unknown`, never judged), so 0 stale verdicts and nothing for `/conform --stale`. kp's map committed locally as f63450548, unpushed (kp main is 36 ahead of origin with sibling commits). The map run also rewrote the other eleven projects' maps as before; they were left as they are.
+
+## Saturation ledger (second pass)
+Rung L3 on kp facts, L2 on the literature. Two passes in one day; the second yielded conditions on three techniques and the golden path, no new technique, one removed sentence. Dry streak 0. Clocks: the arXiv-cited claims carry a 2027-03-29 refresh (2026 preprints, single studies); the kp facts move with the next re-bake or a second judge. Event: kp adding a second judge, a planted-probe run, or per-field provenance in `weight_proposal`.

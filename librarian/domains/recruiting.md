@@ -1220,3 +1220,7 @@ Five `applied.md` rows: two experiments (10 of 101; 3 of 16 versus 0 of 16), two
 (the tree already ships the fix: 28 and 35 tests pass), one unapplied. The band deviation is
 recorded, not fixed: it moves a recruiter-visible threshold. Impact: no stale verdict against
 this subject. Yield high, dry_streak 0, depth L3. See [[presenting-a-score-to-a-recruiter]].
+
+## 2026-09-29 - deepen (second pass): recruiter-anchored-model-evaluation
+
+Dispatched from a registry HEAD that predated the same day's first pass ([[recruiter-anchored-model-evaluation]]); ported onto origin/main and cut to what the first pass had not covered. Landed conditions on three techniques and the golden path from kp's recorded bench runs: fallback contamination direction (all 13 judged fallbacks scored below real answers), fallback rows slow and paid, a hybrid backfill that passes the provenance mark, a re-anchored grid piled at the top (88% on 8 or 9, no 10), unverifiable-neutral only for a slice, and one removed stability claim. Three `applied.md` rows (two not-better, one unmeasurable). Impact: kp only, six unjudged pairs, no stale verdict. Yield medium, dry_streak 0. Both same-day passes independently reproduced the floor-at-n=4 result (one pick of eleven), which is the record's only convergence claim.
