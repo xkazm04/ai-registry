@@ -14951,9 +14951,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/file-browsing.md",
-   "digest": "sha256-b2:709a7dcf28ef6b44",
-   "revision": 3,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:5ccb1317ab342eb5",
+   "revision": 4,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "file-mutations",

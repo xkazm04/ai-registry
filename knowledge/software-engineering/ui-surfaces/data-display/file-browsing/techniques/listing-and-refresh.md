@@ -68,8 +68,11 @@ The view goes stale the moment the listing returns. The refresh strategies,
 in descending fidelity and ascending cost:
 
 1. **Store change notifications (watching)** — lowest latency, but watchers
-   have real failure modes: they drop events under bursts, they often cannot
-   watch network or virtual volumes, and they silently die. A watcher without
+   have real failure modes: they drop events under bursts (a queue that
+   overflows loses events and says so once), they often cannot watch network or
+   virtual volumes (a change made by a remote writer raises no local event),
+   some platforms watch one directory at a time so a deep tree costs one watch
+   per folder against a per-user limit, and they silently die. A watcher without
    a reconciliation pass is a gate that stopped seeing its target — pair
    watching with a periodic or on-focus verify.
 2. **Opportunistic refresh** — re-list on navigation, on window focus, after
