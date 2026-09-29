@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rce-0929b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T18:14:00Z",
+  "ended_at": "2026-09-29T18:35:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/recruiting-cost-and-automation-economics",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Stale dispatch: checkout 86 behind origin, so never-swept was false; origin has passes bdf71ef6 and 19f4c8c1/a3e52ad9. Local residue committed then reverted (f2e7a095, a787b963). Nothing pushed; no clock or event for a third pass."
+}
