@@ -5,7 +5,7 @@ subject: recruiter-anchored-model-evaluation
 technique: evidence-grounded-correctness
 stack: node
 status: forged
-verified_on: 2026-09-10
+verified_on: 2026-09-29
 verified_against: node@18
 proof: structural-only
 ---
@@ -50,6 +50,41 @@ The registry's sibling rule that unverifiable is not fabricated remains necessar
 an unsupported assertion can require clarification without alleging misconduct.
 Preserve the generator's exact source set, the extractor version, recognized-claim
 count, and unexamined categories when adapting this gate.
+
+## Since the pinned commit
+
+Re-read on 2026-09-29 against upstream `main` (`5118d3555`); the verify file has
+grown from 1273 to 1458 lines and the pinned links above still resolve at the pinned
+commit. Five changes bear on this reading:
+
+- **Default sources moved to the data root.** A fix on 2026-09-17 (#4208) records
+  that the gate had resolved its default source files and its config from the code
+  checkout, so under a configured data root it read no sources and reported claims
+  copied verbatim from the owner's own `cv.md` as absent. That is the empty-source
+  hazard named above, observed in the field; `readIfExists` still returns an empty
+  string for a missing file, so a wrong path still fails as a wrong block, not as an
+  error.
+- **The result has a verdict.** `verifyFacts` now returns `pass`, `warn` or
+  `block`. A recognition-coverage gap turns a would-be pass into `warn` and never
+  creates or removes a block, and `configMissing` rides along outside the verdict so
+  a caller can say the phrase lists never loaded.
+- **The export callers do not print the coverage reason.** `assertFacts` throws
+  only on `block`. In `generate-cover-letter.mjs` (line 371 on `main`) and
+  `generate-pdf.mjs` (line 1441) a `warn` prints its header and then only the
+  advisory phrases; `coverage.message` is printed only by the command-line path
+  (verify-cv-facts.mjs:1426). A document whose only finding is a coverage gap
+  therefore renders after a warning line that names no reason.
+- **False-positive classes were narrowed.** Fixes on 2026-09-25 stop a cited posting
+  requirement being read as a personal metric (#3917) and a CV's own reworded prose
+  being read as a tool claim (#4006), and the source comments say a plan horizon such
+  as "the first 90 days" was once flagged and cannot be evidenced by any source. An
+  `invented` result is a statement about extraction, as the label caveat above says.
+- **The coverage rule is unchanged.** It still fires only with two or more count-like
+  spans and no recognised count, and the two blind spots (a coincidental English
+  noun, spaceless scripts) are still documented in the source.
+
+The self-test was not re-run for this reading, so the 88-check figure below is
+the 2026-09-10 one and describes the pinned commit only.
 
 ## Verification
 

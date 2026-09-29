@@ -60,8 +60,15 @@ template was scored repeatedly.
 6. **Exclude fallbacks from the performance statistics too, not just quality.**
    A template is produced instantly and costs nothing, so leaving fallback rows
    in a latency or cost aggregate lets the least reliable model post the best
-   speed. Every per-cell statistic that is supposed to describe *the model* runs
-   over real generations only; only the reliability rates run over all attempts.
+   speed. (The template itself is free, but the row is not always: a fallback
+   that follows a failed call carries that call's wall time and may carry a
+   partial spend. The exclusion rests on whose work the row is, not on how cheap
+   it looks.) Every per-cell statistic that is supposed to describe *the model*
+   runs over real generations only; only the reliability rates run over all
+   attempts. That includes the **structural-validity rate**: a fallback is
+   contract-valid by construction, so a validity rate taken over all rows cannot
+   fail, and a target that never once served reads as "valid 100%". Validity is a
+   statistic about the model's own answers, and is zero when there are none.
 7. **Aggregate with a median across scenarios, not a mean.** One catastrophic or
    one flattering scenario should not move a cell, and judged scores are exactly
    the kind of noisy quantity a mean mishandles.
@@ -101,6 +108,12 @@ gets logged as a normal degraded run.
   are unrelated.
 - **When a row's fallback flag is missing, treat the row as unscored.** Do not
   guess from the text.
+- **When two reports summarise the same run, give them one row partition.** A
+  harness that prints a run summary and also bakes a scorecard tends to grow two
+  aggregators, and the exclusion gets applied to one of them. Define "the model's
+  own rows" once and have both call it; otherwise the printed table and the
+  committed table answer latency and cost over different rows, and nobody sees the
+  difference until a ranking flips.
 - **Distinguish a missing provenance mark from a malformed judge field.** An
   unmarked row is unusable, because nobody knows what produced it. A single
   dimension the judge formatted oddly — a fraction, a word instead of a number —

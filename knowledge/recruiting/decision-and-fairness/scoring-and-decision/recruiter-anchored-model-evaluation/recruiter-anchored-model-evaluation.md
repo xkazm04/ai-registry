@@ -71,7 +71,12 @@ fixed by telling the judge to be objective. They are reduced by removing the
 judge's discretion over what the scale means — which is the whole programme of
 this subject — and by mechanical countermeasures: randomise presentation order,
 never let a model be the sole judge of its own family's output, and prefer
-questions with checkable answers over questions of taste.
+questions with checkable answers over questions of taste. Two of those are
+properties of a particular run, not of a design, and are worth checking there: a
+harness can declare its judge independent and then route a target through the
+judge's own engine, and a pointwise judge has no order to randomise but does have
+run-to-run inconsistency to measure
+([decision-anchored-score-bands](./techniques/decision-anchored-score-bands.md)).
 
 ## Anchor the bands to a decision, not to an adjective
 
@@ -175,6 +180,14 @@ that is specific and grounded but keeps dropping a required section has a prompt
 problem, and a model that is complete and generic has a retrieval problem. The
 averaged score says only "six".
 
+The rule is against the composite *replacing* the dimensions, not against ever
+composing them. Choosing one model for one job needs a single ordering, and the
+defensible version weights the dimensions by what each kind of error costs (an
+invented claim is worse than an untidy one), fixes the weights before the result,
+prints them beside the pick, and keeps the three medians in the record for whoever
+has to challenge it
+([separate-quality-from-reliability](./techniques/separate-quality-from-reliability.md)).
+
 ## Grounding: unverifiable is not fabricated
 
 The grounding dimension has a failure mode severe enough to deserve the
@@ -267,7 +280,10 @@ built from three surviving runs is not comparable to one built from thirty
 Two extensions of the rule earn their place. Exclude fallbacks from **every**
 per-model statistic, not just quality: a template is produced instantly and for
 nothing, so leaving it in a latency or cost aggregate lets the least reliable
-model post the best speed. And watch where the fallbacks come from — the most
+model post the best speed, and it passes its own structural contract by
+construction, so leaving it in a validity rate makes a model that never once
+answered read as "valid 100%". Give every report of the same run one definition
+of the model's own rows. And watch where the fallbacks come from — the most
 common cause is not a provider outage but a limit the team set themselves. An
 output budget tuned for short artifacts truncates a structurally large
 deliverable, the truncated output fails its parse, the template ships, and a
@@ -307,6 +323,14 @@ scale is a compression device. Check the spread before trusting the ranking.
 **"The judge is a strong model, it knows what good looks like."** It knows what
 *fluent* looks like. What "good" means for a screening summary read in ten
 seconds before a call is a domain fact that has to be supplied.
+
+**"The judge reached both ends of the scale, so it is calibrated."** That shows
+the tails exist, not that the judge puts an artifact where a recruiter would.
+In a study of two expert domains, judges agreed with domain experts on overall
+preference about two times in three, and a later comparison found judges agreeing
+with each other more than with the human labels, so have the people who receive the artifact place a small
+sample blind and report the agreement beside the scores
+([decision-anchored-score-bands](./techniques/decision-anchored-score-bands.md)).
 
 **"We average the dimensions for the leaderboard."** Then the leaderboard cannot
 tell a grounding problem from a formatting problem, and every fix is a guess.

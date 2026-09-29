@@ -5,20 +5,23 @@ subject: recruiter-anchored-model-evaluation
 technique: unverifiable-is-not-fabricated
 stack: process
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # The grounding rule in the bench judge prompt
 
+Line numbers re-resolved on 2026-09-29 against kp `origin/main` at `b2c19295b`; the
+prompt wording quoted below is unchanged.
+
 Correctness in the bench rubric is scored against a real evidence excerpt, not
 against the judge's world knowledge. `scenarios.py` stamps the model's actual
 input — the job-ad text, the interview transcript, or the candidate facts — into
-`meta["judgeInput"]`, and `_judge_prompt` (`pipeline/jobfit/llm/bench/judge.py:110`)
+`meta["judgeInput"]`, and `_judge_prompt` (`pipeline/jobfit/llm/bench/judge.py:109`)
 lifts it back out and shows it under its own heading.
 
 ## The rule, as written
 
-`pipeline/jobfit/llm/bench/judge.py:131` embeds the technique's central sentence
+`pipeline/jobfit/llm/bench/judge.py:130-132` embeds the technique's central sentence
 in the prompt itself:
 
 > Input evidence (a TRUNCATED excerpt of what the model was given — check claims
@@ -30,11 +33,11 @@ Three parts are load-bearing and all three are present: the excerpt is announced
 as truncated, so the judge cannot treat it as the world; outside-the-excerpt is
 named as its own state; and the penalty is scoped to direct contradictions plus
 the task-forbidden invention kinds (invented pay, benefits or testimonials in
-`campaign_pack`, judge.py:61).
+`campaign_pack`, judge.py:60-65).
 
 ## Truncation must match the generator's
 
-`_EVIDENCE_MAX = 4000` (judge.py:107) is not an arbitrary cap. Its comment
+`_EVIDENCE_MAX = 4000` (judge.py:106) is not an arbitrary cap. Its comment
 states the constraint:
 
 > Matches `scenarios._JI_MAX`: an excerpt narrower than the model's real input
@@ -52,7 +55,7 @@ the compression failure arriving by a second route.
 
 ## The three dimensions, each with its own question
 
-`_JUDGE_SYSTEM` (judge.py:76) scores relevance, correctness and adherence
+`_JUDGE_SYSTEM` (judge.py:75) scores relevance, correctness and adherence
 against distinct questions rather than a shared vibe:
 
 - relevance — "does it address THIS candidate/job/case, or could it be pasted
@@ -63,7 +66,7 @@ against distinct questions rather than a shared vibe:
   shape?"
 
 They are carried separately all the way to the scorecard: `_DIMS` in
-`pipeline/jobfit/llm/bench/bake_quality.py:31` keeps a per-dimension median per
+`pipeline/jobfit/llm/bench/bake_quality.py:39` keeps a per-dimension median per
 cell rather than a single blended number.
 
 ## Deviations
@@ -71,7 +74,7 @@ cell rather than a single blended number.
 Two, and the standard stands on both.
 
 **No claim-level extraction.** The judge returns `score`, three dimensions, a
-one-sentence `verdict` and an `issues` list (judge.py:143-145). It does not
+one-sentence `verdict` and an `issues` list (judge.py:143-144). It does not
 enumerate the artifact's claims and label each supported / contradicted /
 unverifiable, so there is no unverifiable *count* — the diagnostic that
 separates a model that does not lie from a model that is merely unaudited. A

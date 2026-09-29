@@ -90,7 +90,23 @@ will compare them anyway unless the number is on the page
 
 - **When a model fails reliability on a candidate-facing path, it does not ship,
   however good its quality score.** Quality cannot buy back an artifact that
-  never arrived.
+  never arrived. Write the gate as control flow: filter on reliability first, rank
+  the survivors on quality second, and say so out loud when nobody clears it.
+- **When the gate is a rate, restate it as a count at your sample size.** A floor of
+  90% sounds strict and is not the bar the previous rule sets; at four scenarios
+  per cell the only reachable rates are 0, 25, 50, 75 and 100%, so it admits
+  nothing but a perfect cell, and at ten it first admits one failure. Choose the
+  floor from what one failed attempt means for a candidate, then print what it
+  amounts to in attempts.
+- **When a single model must be picked, compose the dimensions, but do not let the
+  composite replace them.** "Never blend" is about diagnosis; a routing decision
+  needs one ordering. Fix the weights before the result, from the cost of each kind
+  of error (an invented claim costs more than an untidy one), print them beside
+  the pick, and keep the per-dimension cells in the record and on the surface a
+  reader uses to challenge the pick. Compare composites with a noise allowance set
+  in advance, and let a tie inside it go to the cheaper option; a difference
+  smaller than the judge's own run-to-run spread is a tie whatever the second
+  decimal says.
 - **When a cell looks bad, check the surviving sample before ranking anything.**
   A poor cell over four survivors is a reliability finding wearing a quality
   costume.
