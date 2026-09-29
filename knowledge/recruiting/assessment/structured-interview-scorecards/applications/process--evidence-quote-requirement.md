@@ -4,7 +4,7 @@ type: application
 subject: structured-interview-scorecards
 technique: evidence-quote-requirement
 stack: process
-verified_on: 2026-08-20
+verified_on: 2026-09-29
 ---
 
 # The synthesis prompt and the placeholder contract
@@ -17,7 +17,7 @@ render as one?).
 
 ## The prompt states the requirement, not the aspiration
 
-`automation.py:880` composes the synthesis prompt around the resolved rubric.
+`automation.py:2487` (prompt `scorecard-v8`) composes the synthesis prompt around the resolved rubric.
 Three clauses do the work:
 
 ```
@@ -32,7 +32,7 @@ The neutral `3` plus **empty evidence** is exactly the arrangement the standard
 calls for: the model is never asked to explain an absence in the evidence field,
 which is where an explanation would be read downstream as evidence.
 
-The rubric block above it (`_rubric_line`, `:867`) inlines the per-level
+The rubric block above it (`_rubric_line`, `:2438`) inlines the per-level
 behavioural anchors when a competency has them (`Level anchors — 1=…; 5=…`) and
 falls back to the generic `RATING_ANCHORS` line when it does not, keeping the
 experienced prompt byte-identical to its pre-anchors form. The comment states the
@@ -54,7 +54,7 @@ rule:
 > unconfirmed (possible transcription error) rather than asserting it."
 
 Two supporting mechanics: the transcript is **head+tail sampled, not
-front-sliced** (`sample_scorecard_notes`, with the comment noting the read-back
+front-sliced** (`sample_scorecard_notes`, `:2398`, with the comment noting the read-back
 "lives at the END of the call" — front-slicing would drop the authoritative
 turn); and the outcome is emitted as structured `entities`
 (`confirmed` / `corrected{heard,meant}` / `unconfirmed`) *only* if the exchange
@@ -67,13 +67,13 @@ absent … when it didn't, never invented."
 
 ## The placeholder contract, matched by prefix
 
-The deterministic fallback (`automation.py`, `deterministic()`) fills every
+The deterministic fallback (`automation.py:2532`, `deterministic()` inside `interview_scorecard`) fills every
 competency with `rating: 3` and the evidence string
 `"Not assessed (auto-synthesis unavailable)."`. That string is boilerplate, and
 if any surface renders `evidence` as a quote, it becomes a fabricated candidate
 utterance.
 
-`app/_lib/interview-scorecard.ts:41` is the single TS mirror of the contract:
+`app/_lib/interview-scorecard.ts:53-59` is the single TS mirror of the contract:
 
 ```ts
 const PLACEHOLDER_EVIDENCE_PREFIX = "Not assessed";
@@ -92,11 +92,81 @@ scan finding (`interview-simulation-comparison #2`). Note also `evidence` is
 declared optional on `ScorecardRating` precisely because it "is absent on a
 not-assessed axis".
 
-## What this realization does not have
+## The grounding pass: a quote must occur in what the model read
 
-Nothing here samples drafted scorecards back against their transcripts on a
-cadence, so a slowly rising rate of *almost-right* quotes would not be detected.
-And because scorecards are team-scoped with no per-interviewer identity, the
-human-written half of the evidence discipline has no rater-level signal to
-calibrate against — the standard's independent-scoring-before-debrief rule has no
-representation in this system at all.
+The first pass recorded that nothing checked a drafted quote against the transcript. That
+closed on 2026-09-04 (commit `22b4db8d6`). `ground_scorecard_evidence`
+(`automation.py:2278`) runs on every drafted scorecard (call site `:2595`): it folds case,
+punctuation and whitespace (`_normalize_for_grounding`, `:2265`) and requires the quote
+to be contained in the *sampled* notes, "that is what the model was shown, so a quote from
+an elided middle turn is one the model could not have read". A paraphrase fails on
+purpose (the test suite pins "The candidate described refactoring a billing system." as
+ungrounded), the placeholder is never counted as an invented quote, and the dropped count
+rides the record as `ungroundedEvidence` and widens `_scorecard_confidence` (`:2314`)
+with the cause in words, so "the model quoted lines the transcript does not contain" and
+"the interview was short" read differently. The failed quote is spelled
+`UNGROUNDED_EVIDENCE = "Not assessed (quote not found in the transcript)."` (`:2262`),
+deliberately inside the shared "Not assessed" prefix so every TypeScript surface already
+filters it from quote lists with no read-side change, and its parenthetical says which
+kind of absence it is. That is the standard's containment check, its "against what the
+model read" rule and its count-it rule, all met.
+
+Two behaviours were executed against the module at kp `60aab8088` (a Python call to
+`ground_scorecard_evidence` with a two-turn transcript in the suite's own
+`Interviewer:` / `Candidate:` format, bytecode writing off, no tree change):
+
+- **The rating outlives its evidence.** A rating of 4 whose quote was invented came back
+  `{'rating': 4, 'evidence': 'Not assessed (quote not found in the transcript).'}`. Only
+  the evidence text is replaced (`:2310`); the number stays. The read-side guard
+  `isNotAssessedRating` (`interview-scorecard.ts:80`) treats a rating as not-assessed
+  only when it equals `NOT_ASSESSED_RATING` (3) *and* carries placeholder evidence, so the
+  4 is a live rating with a placeholder beside it. The compare grid's CSV blanks only
+  guarded ratings, so this one exports as a 4 unless the director's record (below) says the axis was never reached. The suite asserts the evidence and the
+  confidence band and never asserts what became of the rating. By the standard, a rating
+  with no admissible evidence is unassessed, and the demotion is the missing half.
+- **The check is speaker-blind.** Notes reading `Interviewer: Tell me whether you led a
+  team of forty engineers at Google.` then `Candidate: No, I only worked on a small
+  billing team.`, with a rating of 5 quoting "led a team of forty engineers at Google",
+  returned `dropped = 0` and the quote untouched. Containment is over the whole string,
+  so a line the interviewer spoke is grounded as the candidate's words. The standard's
+  rule is that the quote is the candidate's, not the interviewer's.
+
+## The human path does not require a quote
+
+The human scorecard route accepts a rating with the note left blank:
+`parsed.push(evidence ? { competency, rating, evidence } : { competency, rating })`
+(`app/api/interview-prep/scorecard/route.ts:130`), and `isNotAssessedRating`'s comment
+makes it doctrine: "a human scorecard rating … omits `evidence` when the recruiter left
+the note blank, and that 3 is a deliberate, observed rating". The unrated competency is
+handled well (`:127`, "an unrated competency is simply omitted"), which is the right
+exit for absence, and it is the better of the two paths on the unassessed axis. But the
+evidence-optional rule means the machine path is held to a stricter evidence standard
+than the person's, on the ratings an adverse decision most often rests on.
+
+## Independent scoring, now partly represented
+
+The first pass found the standard's independent-scoring rule had "no representation in
+this system at all". It has some now, from the r09 change that keys human scorecards by
+(interviewer, round) (`app/_lib/human-scorecard-set.ts`, `upsertHumanScorecard` `:87`, cap
+`MAX_HUMAN_SCORECARDS = 24` at `:42`, refusing a new key at the cap rather than evicting).
+The module's header cites this registry's own standard and the round-design rule "no
+access to the first rating before recording the second". What it enforces is narrower than
+the rule:
+
+- **Met: the form is blind.** `ownScorecard` (`:96`) seeds the scoring form only from the
+  caller's own record, so a second interviewer opens an empty form and cannot overwrite
+  the first (`ScheduleHumanScorecardPanel.tsx:26-31`, `:53`).
+- **Met: nothing averages a panel.** The compare CSV joins several interviewers' ratings
+  in record order (`"2 / 5"`, `jobsCompareCohorts.ts:124`) and its comment says why:
+  "combining independent assessors is a decision, not an export".
+- **Open: nothing gates the reveal.** The scorecard GET returns the whole panel to any
+  caller (`route.ts:51`, `records`), the transcript modal lists every record whether or
+  not the viewer has saved (`ScheduleInterviewTranscriptModal.tsx:40`), and the drawer
+  and compare grid show every interviewer's card (commit `2b414973c`, 2026-09-24). So a
+  second interviewer can read the first one's verdict before writing their own. The
+  blind form protects against seeding, not against reading. In open mode (no identity)
+  there is one slot per round, which is the old behaviour.
+- **Open: no rater-level signal is computed.** Per-interviewer identity now exists, and
+  with it the possibility of an agreement or leniency measure. Nothing computes one, and
+  nothing samples drafted scorecards back against transcripts on a cadence (the grounding
+  pass is per run, and the standard asks for both).

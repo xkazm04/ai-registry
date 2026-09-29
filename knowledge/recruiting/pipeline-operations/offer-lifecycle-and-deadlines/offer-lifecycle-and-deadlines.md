@@ -41,7 +41,13 @@ it never has another. There is no un-declining, no re-accepting, no automated
 process that quietly moves a live offer back to draft. If a decline was a mistake,
 that is a *new offer*, with its own dispatch, its own terms and its own deadline —
 which is the honest record and also happens to be the only version a later audit
-can read.
+can read. The same holds for a *late yes*: an acceptance that arrives after the
+published deadline is not an acceptance, but it is not nothing either. The German civil
+code treats a late acceptance as a new offer that the organisation may take up (a
+statute read directly; the common-law position was seen only in secondary sources),
+which is the legal shape of a re-issue — the organisation may honour it, and may
+not pretend it was on time. So
+record that the candidate tried, and put it in front of a person.
 
 The second invariant: **exactly one actor's action produces each transition**. The
 extend is the recruiter's call. The accept and the decline are the candidate's. The
@@ -94,6 +100,16 @@ to everyone. Bound the range, default to the common case, and let the role move 
 inside those bounds — `role-appropriate-deadline-bounds` holds the procedure and
 the reasoning.
 
+Hold those numbers as convention, not measurement. What the sources found (checked
+2026-09-29) actually support is narrow: for campus hiring a professional body's
+advisory opinion calls a one- to two-week window common and warns that less can
+constitute undue pressure, and its own survey has the average student response
+window near 14 days since 2019. No source found gives a measured default for
+professional hiring, or a measured executive window, and none relates window length
+to acceptance rate. The week, the month and the same-day floor are the working
+judgment of practitioners; use them as defaults, not as findings, and do not cite
+them as data.
+
 One asymmetry inside the deadline machinery is worth stating at the top level: an
 offer whose deadline is *missing or unreadable* must never expire. A null date is
 not a date in the past. Systems acquire deadlines by migration, and the offers that
@@ -115,8 +131,12 @@ the offers where it was real.
 ## Negotiation is part of the standard, not an exception to it
 
 The most common structural gap in offer tooling is to model the candidate's
-response as binary: accept or decline. Real offer craft has a third path, and it
-is the *most* common one at senior levels — the counter. A candidate who names a
+response as binary: accept or decline. That is not a hypothetical gap: of the
+applicant-tracking products whose public documentation was read in 2026, none gave
+the candidate a way to counter, one gave the recruiter a manually set "in
+negotiation" status, and negotiation happened outside the tool. Real offer craft has a third
+path, and surveys put it at roughly two in five workers negotiating at their last
+offer (no source found splits that by seniority) — the counter. A candidate who names a
 number, asks for a different start date, requests a signing consideration or wants
 one clause changed is not declining; they are engaged. A system that offers them
 only two buttons converts a negotiable offer into a refusal, and the recruiter
@@ -128,7 +148,10 @@ pauses or extends the clock, notifies a named recruiter, and preserves the origi
 terms until they are formally superseded. The counter is answered by a person, not
 a rule. When it produces new terms, those terms are a *new dispatch* under the
 same lifecycle — new letter, new deadline, new countdown — so the record never
-holds an offer whose terms and whose letter disagree.
+holds an offer whose terms and whose letter disagree. Whether a negotiating state
+pauses the clock or only extends it has no precedent in the tools looked at; it is
+this standard's position, chosen because a live conversation with a named person
+should not be cut across by a timer, not a practice to point to.
 
 Where a system genuinely cannot support this yet, name it as a known cap on
 acceptance rate rather than a design choice, and give the candidate a stated,
@@ -165,10 +188,15 @@ actually says.
 ## Silence is the cruellest expiry
 
 The deadline lapses an offer without anyone acting. That is its purpose, and it is
-also its danger, because the most common reason an offer lapses is not a decision —
-it is a person who meant to reply, got a family emergency or a bad week, and lost a
-live job offer to an inbox. The organisation experiences this as a clean automatic
-close. The candidate experiences it as having been dropped.
+also its danger, because one reason an offer lapses is not a decision — it is a
+person who meant to reply, got a family emergency or a bad week, and lost a live
+job offer to an inbox. The organisation experiences this as a clean automatic close.
+The candidate experiences it as having been dropped. Do not size the problem as
+"most lapses": no source found separates inattention from decision, and the ones
+that name a reason put a competing offer first. That is a reason to keep the nudge
+(a reminder is cheap and the forgetful case is the one it can save), and to have it
+say how to ask for more time, which is what turns a silent deferral into a
+conversation.
 
 The fix is small and non-negotiable: **exactly one proactive nudge before expiry**,
 sent at a lead time proportional to the window, saying what is on the table, when

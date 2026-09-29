@@ -60,8 +60,8 @@ This is why the standard mitigations all fail:
    things the generator produces. A format reachable under pressure will be
    reached under pressure.
 3. **Record the exclusion and its reason next to the taxonomy**, because the
-   omission looks like an oversight to the next person, and the highest-
-   converting format is proposed again in every campaign review. The reasoning
+   omission looks like an oversight to the next person, and the most-proposed
+   format is proposed again in every campaign review. The reasoning
    — the format itself is the problem, not the wording — has to be as durable
    as the list.
 4. **Provide the honest substitute.** Testimonials are legitimate and valuable
@@ -86,7 +86,21 @@ This is why the standard mitigations all fail:
   guardrail in a review checklist.
 - **A quotation mark in generated recruitment copy is a defect until proven
   otherwise.** Cheap, mechanical, catches the regression when someone adds a
-  narrative format later.
+  narrative format later. Enforce it, and the first-person check, in code at
+  the boundary and in the language the copy is written in; a review checklist
+  alone will not, at volume.
+- **Close the taxonomy on the words, not only the label.** Mapping an
+  out-of-menu angle onto a fallback member fixes the label and keeps the prose:
+  a testimonial the model relabelled as the fallback hook arrives as a
+  testimonial. On a planted-defect fixture a label-only boundary passed every
+  relabelled testimonial, quoted or not; a check on the words caught them and
+  dropped no clean variant (the application has the counts and the fixture's
+  limits).
+- **Do not expect the law to hold this line for you.** The rules that name fake
+  testimonials are scoped to consumers and to products, services or traders; an
+  employee-voice asset aimed at job seekers is not plainly inside any of them.
+  The exclusion is the team's own policy, so it has to be built to be enforced
+  by the system, not by a regulator.
 - **An attributed asset carries its consent.** A real testimonial that cannot
   name who said it, and show that they agreed to this use, is operationally
   identical to a fabricated one. Per [say only what the record

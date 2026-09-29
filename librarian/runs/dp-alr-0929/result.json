@@ -1,0 +1,85 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-alr-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-29T19:50:00Z",
+  "ended_at": "2026-09-29T20:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/alerting",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/alerting",
+      "technique": "dedup-and-cooldown",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/alerting",
+      "technique": "dedup-and-cooldown",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/techniques/absence-as-a-condition.md",
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/techniques/dedup-and-cooldown.md",
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/techniques/evaluation-loop.md",
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/techniques/flap-control.md",
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/rust--dedup-and-cooldown.md",
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/next--absence-as-a-condition.md",
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/react--evaluation-loop.md",
+    "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/rust--rule-authoring-validation.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/alerting.md"
+  ],
+  "commits": [
+    {
+      "sha": "3604f521",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering/backend-platform/platform-observability/alerting"
+    },
+    {
+      "sha": "346ab0b0",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering/index.json catalog.json rules/ai-registry-software-engineering.md"
+    },
+    {
+      "sha": "055c14dc",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering/backend-platform/platform-observability/alerting knowledge/software-engineering/index.json catalog.json"
+    },
+    {
+      "sha": "b943e93d",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/domains/software-engineering.md librarian/subjects/software-engineering/alerting.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "New technique absence-as-a-condition (unapplied: ascent needs real rows). 12 fleet maps committed locally, none pushed; 0 stale verdicts, 15 pairs never judged. Banked: grouping/inhibition, ack expiry, HA-pair evaluators."
+}

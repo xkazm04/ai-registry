@@ -22,6 +22,22 @@ after it has already cost the person the offer. Two or more is a dunning sequenc
 and a dunning sequence about a job offer reads as pressure, which is the failure
 mode the whole deadline instrument is trying to avoid.
 
+## How firm "exactly one" is
+
+It is a design position, and the evidence for it is thinner than the wording. Checked
+2026-09-29: nothing found measures reminder count against perceived pressure in
+hiring, and the adjacent controlled evidence leans the other way on count. A
+randomised trial of appointment reminders found two reminders cut missed
+appointments more than either one alone (4.4% against 5.8% and 5.3%), with the gap
+widest for patients already at high risk of missing. A tax-reminder trial found
+weekly reminders beat a one-off and a doubled frequency lost its effect, which is a
+diminishing-returns result on overdue payments, not a test of one against two before
+a deadline. A blind lane asked for its own standard proposed two pre-expiry
+reminders. So the case for one is the asymmetry below — a duplicate on this channel
+costs more than a miss — and not a measured optimum. A deployment that tracks lapses
+without a reply can test a second reminder gated on a state (the page never opened);
+until then hold to one, and do not quote it as what the research says.
+
 ## Lead time is proportional, floored, and capped
 
 The reminder's lead time is derived from the window, not fixed:
@@ -35,6 +51,9 @@ The reminder's lead time is derived from the window, not fixed:
 - **Capped at a small number of days** so a two-month executive window does not
   generate a nudge the candidate reads as a demand three weeks before they were
   ever going to answer.
+
+These fractions, the floor and the cap are a heuristic; no study found tests a lead
+time as a share of the window. Tune them against your own lapse-without-reply rate.
 
 Compute the reminder time at dispatch and store it, so an extension re-arms it
 deliberately rather than a rolling calculation firing whenever a job happens to run.

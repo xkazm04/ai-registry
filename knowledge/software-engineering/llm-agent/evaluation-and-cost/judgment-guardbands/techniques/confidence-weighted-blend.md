@@ -94,10 +94,18 @@ routes both into one number can no longer tell them apart in its own record.
 A model's self-reported confidence looks like the natural input here and is
 the wrong one, for three independent reasons.
 
-**It is not calibrated.** Judgment models render verdicts in a uniformly
-assured register; the stated number correlates weakly with correctness and
-tends to compress into a narrow high band regardless of the actual difficulty
-of the case.
+**It is not reliably calibrated.** Judgment models have rendered verdicts in
+a uniformly assured register; the stated number correlated weakly with
+correctness and compressed into a narrow high band regardless of the actual
+difficulty of the case. That is the older finding, and it is softening: a
+September 2026 benchmark study (Hsiao, arXiv 2609.10996) reports that on
+current top-tier proprietary judges, with a prompt that warns of
+overconfidence, verbalized confidence calibrates well enough to beat the
+alternatives as a soft score. Its scope is benign inputs on summarization,
+factuality and helpfulness benchmarks; it tests no adversarial input. So this
+reason is now conditional on the judge model and prompt and must be measured
+on yours, while the next reason does not depend on calibration at all and
+alone keeps the value out of the arithmetic.
 
 **It is model output.** It arrives through the same channel as the score, so
 anything that can influence the score can influence the confidence. Scaling

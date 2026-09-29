@@ -1221,6 +1221,18 @@ Five `applied.md` rows: two experiments (10 of 101; 3 of 16 versus 0 of 16), two
 recorded, not fixed: it moves a recruiter-visible threshold. Impact: no stale verdict against
 this subject. Yield high, dry_streak 0, depth L3. See [[presenting-a-score-to-a-recruiter]].
 
+## 2026-09-29 - deepen (second pass): recruiter-anchored-model-evaluation
+
+Dispatched from a registry HEAD that predated the same day's first pass ([[recruiter-anchored-model-evaluation]]); ported onto origin/main and cut to what the first pass had not covered. Landed conditions on three techniques and the golden path from kp's recorded bench runs: fallback contamination direction (all 13 judged fallbacks scored below real answers), fallback rows slow and paid, a hybrid backfill that passes the provenance mark, a re-anchored grid piled at the top (88% on 8 or 9, no 10), unverifiable-neutral only for a slice, and one removed stability claim. Three `applied.md` rows (two not-better, one unmeasurable). Impact: kp only, six unjudged pairs, no stale verdict. Yield medium, dry_streak 0. Both same-day passes independently reproduced the floor-at-n=4 result (one pick of eleven), which is the record's only convergence claim.
+
+## 2026-09-29 - deepen: rejection-with-dignity
+
+Dispatched from the attention scan ("never swept by the librarian"). Landed: the strong-profile sentence corrected (a comparison is sayable only when the record holds one; the stage that decided supplies the reason), the protected-attribute technique given its measured limits (a name deny-list caught 0 of 8 proxy phrases, the drafted-letter guard held 6 of 20 explicit lines against 19 of 20 for the recorded-line filter, a dropped line changes what survivors mean), the three-line ceiling reframed as a design judgement, the legal position dated 2026-09-29, and one new application (the candidate-requested feedback letter). Three lanes plus a run over kp; one kp fix (`4dd303bdd`, local). Five `applied.md` rows. Impact: kp only, one context never judged, no stale verdict; the map was not regenerated (see the subject note). Yield high, dry_streak 0, depth L3. See [[rejection-with-dignity]].
+
+## 2026-09-29 - deepen: selection-score-calibration
+
+Dispatched from the attention scan ("never swept by the librarian"). Landed: the drift technique's floor corrected (the curve's floor made a three-axis alarm fire on 99.8% of no-drift window pairs at 20 outcomes; about 200 per window for this design), the Brier range (0 to 1) and the "past run-to-run jitter" claim replaced by measured noise, PSI given its sampling distribution and its provenance as a rule of thumb, the skill estimate given its small-n bias and width, fixed bins reframed as a display with the CORP curve as the reference, calibration withdrawn as a fairness precondition, the EU monitoring duties split between provider (Article 72) and deployer (26(5), 26(6)) and dated to 2 December 2027 (Regulation (EU) 2026/1744), the reviewer-saw-score ceiling called a conservative default, other sparing paths kept out of the clean arm, and one new application (the skill ladder at the floor). Six lanes and three measurements; one kp fix (`5deab937`, local). Four `applied.md` rows. Impact: kp only, eight contexts never judged, no stale verdict; the map was not regenerated (see the subject note). Yield high, dry_streak 0, depth L3. See [[selection-score-calibration]].
+
 ## 2026-09-29 - deepen: pre-boarding-and-first-day-handoff
 
 First librarian note, dispatched on "never swept by the librarian". The content pass had landed an hour earlier (1ec9cfd6) with no ledger behind it, so this run reviewed that diff instead of repeating the research and did the propagation the landing owed.
@@ -1258,6 +1270,7 @@ Four `applied.md` rows: one code (better), three unapplied with return condition
 
 Impact: the subject joins no kp context (0 occurrences in the committed map, positive control 8 for a sibling subject), so 0 stale verdicts. No map was rebuilt: a clean-worktree build dropped 151 pairs and two carried verdicts against the sibling's 17:10Z map, so it was discarded and kp's file restored. Yield medium, dry_streak 0, depth L3. See [[requirement-inflation-control]].
 
+
 ## 2026-09-29 - deepen: requisition-lifecycle-governance
 
 The Curator lane dispatched this on "never swept by the librarian". The subject was at revision 1 from the bundle's founding (2026-08-21) with no note and no applied row; its applications were last verified 2026-08-20, and the fleet and the law had both moved under it. A blind training-data lane ran first, then three counter lanes (vendor documentation, law, ghost-posting data), primary reads of 29 CFR 1602.14, 41 CFR 60-1.12 and the Ontario Employment Standards Act text, and a kp re-read.
@@ -1278,3 +1291,91 @@ The tree found what no lane asked: the fill hook had no behavioural test. Four a
 Six `applied.md` rows: one code (better), five unapplied with return conditions. All three applications re-verified at kp `006bf7a0a` and every line citation moved; two of their three recorded shortfalls were closed (one by a mechanism the standard does not describe), and one surface (the honest-null sort) left the tree. Two new kp applications (fill, publish) and four `process` applications.
 
 Impact: three kp contexts join the subject (`jd-management-api`, `jobs-api`, `jobs-posting-campaign`), all state unknown, so 0 stale verdicts. No map was rebuilt. Yield high, dry_streak 0, depth L3. See [[requisition-lifecycle-governance]].
+
+## 2026-09-29 - deepen: small-sample-honesty-in-hiring-analytics
+
+Dispatched from the attention scan ("never swept by the librarian"). The subject stood at its founding revision with no note and no applied row, and kp had moved under it: a significance test on its four-fifths check three days earlier, an accrual-horizon module that cites the technique by name, and a headline certified off five observations against a floor of eight, fixed in August. Lanes: a blind training-data lane, a web counter lane on five claims, a ground-truth lane (seeded simulations, then kp's real function run against known answers), primary reads of the federal selection guideline and its Q&A (matched verbatim), and a re-read of kp for every citation.
+
+One technique earned, `state-what-the-sample-could-have-seen`: a floor licenses a figure, not its precision. A rate owes its interval (four of eight is compatible with 22% to 78%), a zero its upper bound (none in ten is compatible with about 26%), a not-significant verdict the smallest gap it could have seen, and a superlative among measured cells its separation (eight equal cells of fifteen crown a best at 47% against a true 30%). The asymmetry is deliberate: a significant exact-test result needs no statement and no floor on selections belongs anywhere; a clean line does. The blind lane reached all four clauses unprompted.
+
+Conditions on the golden path and five techniques:
+- **the thirty-per-group floor has no authority behind it**: the guideline names no head-count, its tests are significance, practical significance, one-person-flips-the-result and a longer window; the ratio alone flagged 78% of equal pairs at thirty each and a 10% base rate;
+- **a clean line at thirty per group could see almost nothing**: against kp's real function the verdict mix for equal groups and for a group at half the rate was the same at a 10% base rate;
+- **the count is the rows the arithmetic used**, not the population the metric is labelled with;
+- **an accrual date needs a named reason when there is none**, and its pace must be counted in the sample's own unit;
+- **a permitted small-category exclusion stays disclosed**, with count and rate;
+- **a privacy floor and a reliability floor are sized separately**.
+
+Landed in kp (`775c5d02e`, local): `detectableRatio` and a sentence under the not-significant and clean lines; a group at the stated ratio is shown 79-83% of the time across 13 cells of 4,000 draws. The first check of it counted the wrong thing and read 40%; the table caught it, and the note keeps the mistake. Six `applied.md` rows: one code (better), five unapplied. Three applications re-resolved against kp and re-verified to 2026-09-29 (every one had a moved citation; `certifiable` gained a clause); two new node applications.
+
+Impact: kp only, seven contexts, one verdict now stale against the moved subject; the map was rebuilt and committed locally (`0b3d183d4`). Yield high, dry_streak 0, depth L3. See [[small-sample-honesty-in-hiring-analytics]].
+
+## 2026-09-29 - deepen: sourcing-campaign-honesty
+
+Dispatched from the attention scan ("never swept by the librarian"). The subject stood at its founding revision with no note and no applied row, and its consumer had moved more than the literature: kp had stamped `source` honestly, added `defaultedFields` to the pack, and deleted the whole Campaign tab on 2026-09-16, so the React application's recruiter-facing half described a surface that no longer exists. Lanes: a regulatory lane on primary text (FTC 16 CFR 465, EU UCPD, UK DMCC, AI Act Art. 50, Directive 2023/970, New York 194-b), a counter lane on three claims the page stated flat, an engineering counter lane on "the gate, not an output check", a blind training-data lane, and a re-read of kp at two commits.
+
+No new technique. One new way a claim becomes false, **distorted**: every value is in the record and the claim still overstates it (one end of a range as the headline, "up to" as "earn"). The blind lane, the sibling pay test and kp's own test fixture all reach it.
+
+Conditions on the golden path and five techniques:
+- **the retention effect of an honest ad is modest**: real, small, and never measured as a share of "culture fit" exits; the page now rests on the reader's ability to check, not on retention arithmetic;
+- **"highest-converting testimonial" has no comparison behind it**: one lab study against no testimonial, one study where independent word-of-mouth out-attracted it;
+- **a reviewer does not reliably catch an invented fact**, rather than cannot;
+- **the testimonial exclusion is the team's policy, not a rule the law states**: the fake-review rules are scoped to consumers and products, and none read names a recruitment testimonial;
+- **the output boundary is a backstop to the gate**, not its rival: a deterministic literal check, with what it cannot see written beside it;
+- **an unknown warning code is shown, not dropped**: a rule kp learned itself, and the page had endorsed the opposite;
+- **a pay code's severity is keyed to the market**: New York reads "advertise" as any written description made available to applicants and requires the range; the EU directive and the Czech bill do not put it in the advertisement.
+
+Landed in kp (`092f2e1e3`, local): the boundary now checks the model's words. Planted defects passed 8 of 8 before and 2 of 8 after, 0 of 6 clean shapes dropped, ten tests red-first, the deterministic pack passes its own check in four languages. The two it cannot see are named in the technique. The euphemism ban had covered two languages of four. Six `applied.md` rows: two code (better), four unapplied with return conditions. Three applications re-verified to 2026-09-29, every citation moved; the React one is kept as the last state of a withdrawn surface.
+
+Impact: kp only, 0 stale verdicts on this subject; the map was rebuilt and committed locally (`60aab8088`). kp main is 47 ahead and was not pushed. Yield high, dry_streak 0, depth L3. See [[sourcing-campaign-honesty]].
+
+## 2026-09-29 - deepen: structured-interview-scorecards
+
+Dispatched from the attention scan ("never swept by the librarian"); no prior note, no applied row. The golden path leaned on figures nobody had sourced, and kp had moved under all three applications since 2026-08-20.
+
+No new technique. Conditions on the golden path and three techniques:
+- **structured beats unstructured on average, and the spread is the finding**: about .42 against .19, 80% range .18 to .66, the 1998 .51/.38 pair superseded;
+- **anchors are half a mechanism**: the one controlled interview comparison found anchors and frame-of-reference training comparable and additive, so calibration is not a nicety;
+- **retranslation is a clarity screen**, its thresholds convention; **five levels is a convention**, with four to six the defensible range;
+- **independent scoring rests on principle, not a hiring experiment**, and independent ratings are not independent observations (panel .74 against .44 separate);
+- **a neutral placeholder is the bar when the bar is the midpoint**, so omit the rating and take coverage from an independent record.
+
+Applications re-verified against kp at `60aab8088` (all lines re-resolved; a fourth application added for the unassessed technique). Executed against the real module: a failed quote leaves a live rating beside placeholder evidence, and the grounding check is speaker-blind. Also found: the whole experienced rubric is description-only, and the human form takes a rating with no note. Nothing landed in kp; three `unapplied` rows in `applied.md` with return conditions.
+
+Impact: kp only, no stale verdicts on this subject; the map was dry-run and not written. Yield high, dry_streak 0, depth L2 for the applications and L1 for the golden path. See [[structured-interview-scorecards]].
+
+## 2026-09-29 - deepen: voice-interview-fidelity
+
+Dispatched from the attention scan ("never swept by the librarian"). Origin had not touched the subject since the bundle joined, so it was a first pass and not a repeat. The consumer had moved more than the literature: kp gained per-job keyword bias for one of its two voice providers, grounding of evidence quotes, a language pin fixed for every shipped locale, and an opt-in recording a recruiter re-listens to, which cites this subject in four files. Lanes: a consumer-tree re-read of every citation and recorded deviation, a counter-evidence lane on seven flat claims, a blind training-data lane, and my own verbatim read of the Commission's guidelines on prohibited practices.
+
+**One new technique**, `phantom-terms-and-silence-insertions`: a recall-only entity gate cannot see a lexicon term that was heard and never said. The blind and counter-evidence lanes reached it independently and kp's shipped metric shows the gap.
+
+Conditions and refutations on the golden path and five techniques:
+- **"the tail narrowed least" is unsupported**, the 2020 disparity holds for the systems it tested, and a 2024 evaluation puts the gap at 1.2 to 2.8 times depending on training data;
+- **accented speech is not uniformly many times worse**: concentrated in particular first languages on read speech, non-significant across first languages on 22 spontaneous recordings;
+- **"priming helps the worst-served most" is a hypothesis** with a documented cost: a boosted term can be transcribed unspoken;
+- **the read-back is the best repair, not a guaranteed one**: ear-only error detection was 44% in the one measurement found, which was not an interviewer's read-back;
+- **a wrong language code yields fluent wrong-language text for one model family**; nothing found for the others;
+- **the vendor withdrawal claim** narrows to one vendor, one component and a stated reason about predictive power;
+- **the manner prohibition gains a legal anchor**, the EU AI Act's workplace emotion-inference ban read to cover candidates (paragraph 254, verified verbatim), narrower than the page's own rule;
+- **the sampling premise was a budget choice**, and grounding a quote in the transcript proves the transcript holds it, not that the candidate said it.
+
+Four `applied.md` rows: one simulation (unmeasurable: the shipped metric misses 4 of 4 planted insertion-only cases, catches them once the precision side is added, and no real pair holds one), three unapplied with return conditions. All three applications re-verified to 2026-09-29 with every citation re-pointed at kp `60aab8088`; four written, so the last two techniques with no application before have one. kp is not edited: main is 47 ahead with sibling work.
+
+Impact: kp only, through 20 contexts, 0 stale verdicts on this subject; the map was rebuilt with `--project kp` and committed locally. Yield high, dry_streak 0, depth L3. See [[voice-interview-fidelity]].
+
+## 2026-09-29 - deepen: work-sample-timeboxing-and-cost
+
+Dispatched from the attention scan ("never swept by the librarian"); no prior note, no applied row. The subject's headline number, half the invited senior pool lost to a half-day take-home, is a code comment in kp with no source, and kp had moved under all three applications since 2026-08-20.
+
+No new technique. Conditions on the golden path and five techniques:
+- **the drop-off figure has no source**: no public measurement of take-home non-completion against length was found; a survey of almost 700 engineers found 6% refuse and no senior difference, and no link between how well someone interviews and whether they do one; the argument now stands on time inequality, which needs no figure;
+- **the equity evidence sits at grading, not time**: a vendor analysis of about 384,000 submissions found the pass gaps under non-anonymous grading and largely erased them anonymised; it could not test the time argument;
+- **a payment line is a policy line, not a legal one**: no statute or guidance in the US, UK or EU sets an hours threshold; UK guidance turns on purpose, length against need, resemblance to the job and observation, and calls a trial over a day likely to attract the wage;
+- **no-documentation extra time is a choice above the legal floor**; **disclosure is owed as entitlement and law, not because logging spoils the sample** (the one study is a person watching live);
+- **an unusable proposal resolves to the default, a readable out-of-band one to the nearest bound**, and every reader of the number applies the same fallback;
+- **measured overrun is an instrument reading first**; shown per person it must say it is session age, respect an allowance, stay out of the score and say "not comparable".
+
+Applications re-verified against kp at `60aab8088` (every line re-resolved; a fourth added for the observation technique). kp closed the 80-hour approve bound and the 4.0 default and records the clamp. Executed against the committed modules: one paste of 640 characters after 400 edits takes a 100 "authentic" session to 35 "suspect" and holds it, though the intro names neither paste nor its use and says any tool including AI is fine; the local draft key is per posting, so a second candidate on one browser profile is handed the first's name, contact, session and files; the TypeScript and Python fallbacks disagree on five of fourteen inputs. Nothing landed in kp; five rows in `applied.md`, none better or not-better.
+
+Impact: kp only, no stale verdicts on this subject; the map was dry-run and not written. Yield high, dry_streak 0, depth L2 for the applications and L1 for the golden path. Cross-subject lead for a sweep of `ai-assistance-detection-and-fairness`: kp's fixed 600-character paste rule against that subject's own "unreviewed bulk" and no-threshold guidance. See [[work-sample-timeboxing-and-cost]].

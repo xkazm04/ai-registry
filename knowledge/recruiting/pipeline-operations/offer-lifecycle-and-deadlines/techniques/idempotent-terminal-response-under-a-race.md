@@ -72,7 +72,12 @@ recorded, and answer from that:
   reach a person. Do not silently overwrite; a decline is not undone by a later
   accept arriving.
 - **Expired** — return the expired answer, which is distinct from both success and
-  from "no such offer".
+  from "no such offer". Losing the write does not by itself mean someone answered:
+  the offer can lapse between the lapse check and the claim, so classify the loser by
+  the state actually recorded, and never let "not accepted" fall through to "declined".
+  The refusal still carries a fact: a candidate tried to accept after the lapse.
+  Record it and route it to a person; see
+  `expired-is-a-different-answer-from-invalid`.
 
 The general shape is: identical repeats of a terminal action are idempotent and
 succeed; conflicting terminal actions fail loudly with the actual state named. Where
@@ -90,6 +95,14 @@ and the transition, not on the request — so a retried notification job recogni
 its own prior success. The acceptance event that downstream processes consume
 should be exactly one event per offer, forever, and that guarantee is what the
 pre-boarding handover is entitled to rely on.
+
+The offer's write is not the only claim a consequence can need. Where a candidate
+can be issued a second offer after the first is answered (a corrected re-issue, a
+mistaken decline replaced), each offer wins its own compare-and-swap, so a hire
+metered or announced on "the winner of the write" fires once per offer, not once per
+person. Key the person-level consequence on the *crossing* — the candidate was not
+hired before this call and is after it — and treat an acceptance that lands on a
+board with a stage beyond the offer as an accepted offer, not yet a hire.
 
 ## Do not make the candidate the concurrency control
 

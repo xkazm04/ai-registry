@@ -1,0 +1,61 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-sis-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T19:20:00Z",
+  "ended_at": "2026-09-29T20:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/structured-interview-scorecards",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/recruiting/assessment/structured-interview-scorecards/structured-interview-scorecards.md",
+    "knowledge/recruiting/assessment/structured-interview-scorecards/techniques/behaviourally-anchored-level-writing.md",
+    "knowledge/recruiting/assessment/structured-interview-scorecards/techniques/evidence-quote-requirement.md",
+    "knowledge/recruiting/assessment/structured-interview-scorecards/techniques/unassessed-competency-handling.md",
+    "knowledge/recruiting/assessment/structured-interview-scorecards/applications/node--role-family-axis-extension.md",
+    "knowledge/recruiting/assessment/structured-interview-scorecards/applications/node--rubric-versioning-at-write-time.md",
+    "knowledge/recruiting/assessment/structured-interview-scorecards/applications/process--evidence-quote-requirement.md",
+    "knowledge/recruiting/assessment/structured-interview-scorecards/applications/node--unassessed-competency-handling.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/structured-interview-scorecards.md"
+  ],
+  "commits": [
+    {
+      "sha": "9e9d0fd3",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/assessment/structured-interview-scorecards librarian/applied.md librarian/domains/recruiting.md librarian/subjects/recruiting/structured-interview-scorecards.md"
+    },
+    {
+      "sha": "30fc1fe6",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No new technique. Figures sourced, anchors reframed as half a mechanism, placeholder-is-the-bar found. kp read at 60aab8088: a failed quote leaves a live rating and the grounding check is speaker-blind (both executed). Three unapplied rows. Map dry-run only; kp untouched."
+}

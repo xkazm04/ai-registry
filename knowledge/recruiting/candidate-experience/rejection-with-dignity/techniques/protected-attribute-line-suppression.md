@@ -54,6 +54,16 @@ this is [uncertainty-resolves-toward-the-candidate](../../../_laws.md#uncertaint
 applied to prose: the ambiguous case fails closed, away from the adverse
 statement.
 
+The false-positive price depends on the shape of the recorded reason, so measure
+it on your own data before trusting "one bullet". On one implementation's 835
+short skill labels from 120 real postings the filter dropped none; on 906
+sentence-shaped stack lines from 100 real postings it dropped 32 (3.5%), and the
+dropped lines were ordinary domain vocabulary (a medical-services role, "single-
+tenant", "Exclusive Agency", a union-governed workplace). On a probe of 19 lines
+built to collide it dropped 13, which shows the mechanism, not a rate. The cost
+is one bullet only when other bullets survive to carry the reason, which is the
+next rule.
+
 ## Multilingual by construction
 
 A deny-list in one language protects one language. If you send in five, the
@@ -64,11 +74,33 @@ translation:
 
 - **Morphology.** Inflected languages carry the sensitive term in a dozen
   surface forms; match on stems or enumerate the forms, and accept the extra
-  false positives (see the asymmetry above).
+  false positives (see the asymmetry above). Two engine facts make this fail
+  quietly. In JavaScript `\b` and `\w` are ASCII-only, so a stem ending in a
+  diacritic never reaches its closing boundary: `\bpohlaví\b` matched nothing at
+  all, and `\bvěk\b` matched only the bare nominative while "věku" passed. And a
+  bare whole-word match on a stem is a nominative-only match in any engine. Write
+  the boundary as "start or a non-letter" under the Unicode flag with an open
+  tail, and test with inflected forms, not the dictionary form.
 - **Idiom, not dictionary.** The dangerous phrases are colloquial — the local
   idiom for "too old for the team" rarely contains the word for old. Patterns
   are collected from real recruiter free text in each language, not translated
-  from the base list.
+  from the base list. Measured on one implementation (a hand-labelled probe, 8
+  proxy phrases in English and Czech): a deny-list of attribute names caught 0
+  of 8, including every example this technique opens with.
+- **One vocabulary for every path.** A letter drafted by a model and a line
+  quoted from the record are two paths, and they tend to grow two vocabularies.
+  On the same probe the drafted-prose guard held 6 of 20 explicit protected
+  lines (English 4 of 6, Czech 2 of 8, German 0 of 3, French 0 of 3) while the
+  recorded-line filter held 19 of 20; until they were reconciled the guard on the
+  path with the more freedom was the narrower one. Each language's patterns are a
+  gate in themselves: a locale added to the catalog without its patterns is an
+  unguarded locale that reports success.
+- **Patterns from other languages collide with yours.** Every line is tested
+  against every language's patterns, so an open stem in one language hits
+  ordinary words in another: a French `age` stem with no closing boundary drops
+  "agent", "agency" and "agenda", and a German `alter` drops "alternative" and
+  SQL's ALTER. Use whole word forms where the stem is a word in the base
+  language.
 
 ## The procedure
 
@@ -90,6 +122,14 @@ translation:
    state rather than shipping a reason section that is labelled as sourced and
    contains nothing. A state label that no longer describes its payload is a
    lie in the audit trail, which is the one place that cannot afford one.
+   The same holds when suppression removes only **some** lines. The recorded
+   list is the reason; a list with its first or decisive item cut and the second
+   and third kept is a different reason under the same heading. One
+   implementation ships the survivors under "where the decision landed, based on
+   what we recorded", and that sentence is no longer true. Either keep the
+   heading honest about being partial or, where the removed line is the
+   decisive one, collapse to the no-reason form. Unranked lists cannot say which
+   line was decisive, which is one more reason to record a ranking.
 7. Keep the unfiltered assessment in the internal record. The filter governs
    what is said to the candidate, not what the organisation knows.
 
@@ -111,7 +151,17 @@ translation:
 - **As the primary defence.** Suppression is the last line. Reasons should
   never be recorded in these terms; that hygiene belongs upstream, in how
   reason vocabularies are closed and how screening rules avoid proxies. A
-  filter that is doing constant work is reporting an upstream defect.
+  filter that is doing constant work is reporting an upstream defect. The
+  stronger form of the upstream control is an allow-list: a letter path whose
+  reasons can only be labels from a catalog (an unknown label is dropped, never
+  printed) cannot carry a proxy phrase at all, which no deny-list can promise.
+  Use the deny-list where the text is free (a recruiter's note, a model draft),
+  and for a model draft prefer discarding the whole draft for the deterministic
+  template over cutting a sentence, since a letter whose stated reason has been
+  cut is no longer the letter that was written. Step 1 stands for reviewer-owned
+  text too: a recruiter's approved letter is where "given her age" would be
+  typed, and a person owning every sentence is a reason to filter it, not to
+  skip it.
 - **On the audit trail, the debrief record, or discovery material.** Those need
   the truth as recorded, including what was said internally.
 - **As a substitute for register review.** The filter catches attribute

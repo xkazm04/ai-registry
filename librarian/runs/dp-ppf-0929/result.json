@@ -6,7 +6,7 @@
   "mode": "interactive",
   "domain": "recruiting",
   "started_at": "2026-09-29T14:37:00Z",
-  "ended_at": "2026-09-29T15:00:00Z",
+  "ended_at": "2026-09-29T15:20:00Z",
   "exit": 0,
   "counts": {
     "dispatched": 0,
@@ -60,22 +60,22 @@
   ],
   "commits": [
     {
-      "sha": "57594d5d",
+      "sha": "76752c61",
       "branch": "main",
       "pathspec": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast"
     },
     {
-      "sha": "63c565b3",
+      "sha": "515e873a",
       "branch": "main",
       "pathspec": "knowledge/recruiting/role-definition/pre-publish-fillability-forecast"
     },
     {
-      "sha": "682dc794",
+      "sha": "78ab9804",
       "branch": "main",
       "pathspec": "knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md"
     },
     {
-      "sha": "be8444d5",
+      "sha": "62ea4665",
       "branch": "main",
       "pathspec": "librarian/applied.md librarian/subjects/recruiting/pre-publish-fillability-forecast.md"
     }
@@ -83,5 +83,5 @@
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "Three claims refuted by execution against kp's scorer: gate deltas sum to at most the joint effect, a zero is not free, a stamped pay band or level is not stated. Three kp fixes local, unpushed (d790fdf67, fb942a9af, 0c6c9e39c). check-bundles red at origin on a sibling file."
+  "notes": "Beside twin dp-pfp-0929. Three claims refuted by execution against kp's scorer: gate deltas sum to at most the joint effect, a zero is not free, a stamped pay band or level is not stated. Three kp fixes, local and unpushed (d790fdf67, fb942a9af, 0c6c9e39c)."
 }

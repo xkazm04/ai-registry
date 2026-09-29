@@ -89,6 +89,11 @@
       "checkouts": {
         "Wolf": "kiro/gigs"
       }
+    },
+    "statreel": {
+      "checkouts": {
+        "Fox": "dolla/StatReel"
+      }
     }
   }
 }

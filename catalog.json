@@ -181,9 +181,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 12,
+      "lessons": 13,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:d535f437b8a8e7d7",
+      "lessonsHash": "sha256-n1:ffe43cda21d6105e",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -990,7 +990,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 6,
-    "lessons": 295
+    "lessons": 296
   },
   "bundles": [
     {
@@ -1105,10 +1105,10 @@
       "profile": "rkb/0.1",
       "purity": "recruiting",
       "subjects": 64,
-      "techniques": 396,
-      "applications": 275,
-      "files": 739,
-      "contentHash": "sha256-b2:00e296690060f10c"
+      "techniques": 398,
+      "applications": 291,
+      "files": 757,
+      "contentHash": "sha256-b2:45aa91f71f2f62ba"
     },
     {
       "name": "software-engineering",
@@ -1118,10 +1118,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 233,
-      "techniques": 1819,
-      "applications": 1212,
-      "files": 3269,
-      "contentHash": "sha256-b2:9971a7360666b531"
+      "techniques": 1820,
+      "applications": 1215,
+      "files": 3273,
+      "contentHash": "sha256-b2:d543af1d2a7ca5b3"
     }
   ],
   "usageEvidence": {

@@ -49,7 +49,9 @@ nobody attributes the resulting drift to the arithmetic.
    shift, one day is 23 hours and another is 25. Loops that step a cursor
    forward by a fixed day drift by an hour across the shift and mis-assign
    every observation in that hour; over a long range the cursor eventually
-   crosses a midnight and the drift becomes a whole misplaced bucket.
+   crosses a midnight and the drift becomes a whole misplaced bucket. Nor does
+   every local day begin at midnight (see step 2 of the procedure), and some
+   zones' offsets differ from universal time by 30 or 45 minutes.
 
 ## Procedure
 
@@ -57,13 +59,30 @@ nobody attributes the resulting drift to the arithmetic.
    window advances by adding one to the month component and letting the
    calendar normalize (31 January + 1 month is a February date, not 3 March).
    A quarter is three such additions or one snap to a quarter boundary — never
-   90 days.
+   90 days. Check what the language's own date type does before trusting the
+   sentence: a mutable date whose month setter *overflows* turns 31 January
+   plus one month into 3 March (measured, Node 24: `setUTCMonth(1)` on
+   2026-01-31 gives 2026-03-03), which is the exact defect this rule names.
+   Calendar libraries clamp instead, and where the built-in type is all there
+   is, the clamp is written by hand and tested on the 29th, 30th and 31st.
 2. **Snap before you step.** Compute the period's start by snapping to the
-   first instant of the day, week, month or quarter in the canonical zone;
+   first instant of the day, week, month or quarter in the canonical zone —
+   the *first instant*, not `00:00`: in a zone whose seasonal shift is made at
+   midnight the local day begins at 01:00, and `00:00` does not exist on that
+   date. Use the library's start-of-day operation rather than setting the
+   clock fields to zero;
    then compute the end by adding one period unit to the *snapped* start. Never
    subtract a duration from "now" and call the result a period start.
-3. **Generate bucket edges by repeated calendar stepping, not by multiplying.**
-   The k-th boundary is start advanced k times, not start + k × length.
+3. **Generate bucket edges from the anchor, not from the previous edge.** The
+   k-th boundary is the *anchor* plus k calendar units in one addition — never
+   the (k-1)-th boundary plus one unit, and never start + k × fixed length.
+   Stepping from the previous edge is the fixed-length walk in disguise once a
+   clamp has fired: measured on 2026-01-31, four single steps give Feb 28,
+   Mar 28, Apr 28, May 28, while anchor + k months gives Feb 28, Mar 31,
+   Apr 30, May 31 (Python `dateutil`, 2.9.0). The same holds for a *persisted*
+   schedule: if the stored slot is the clamped date, the day-of-month the user
+   chose is gone, so store the intended day (or the original anchor) beside the
+   slot.
 4. **Clamp day-of-month overflow to the target month's last day.** The 31st
    plus one month is the 28th, 29th or 30th, and then the *next* step returns
    to the 31st — anchored on the original day-of-month, not on the clamped
@@ -141,3 +160,6 @@ nobody attributes the resulting drift to the arithmetic.
   describe.
 - A cursor loop that adds a fixed day increment while iterating a range in a
   zone with seasonal shifts.
+- A month step whose input is the previous step's output: a schedule that,
+  once it has clamped to the 28th, never returns to the 31st.
+- `setHours(0, 0, 0, 0)` or `T00:00` used as "the start of the day".

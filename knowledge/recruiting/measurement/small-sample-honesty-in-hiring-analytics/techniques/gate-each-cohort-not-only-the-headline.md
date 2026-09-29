@@ -92,9 +92,10 @@ between two groups whose rates matter — it must clear both, per arm.
 - When a comparison has one arm below floor, the comparison refuses — not the
   arm. A ratio with one credible side is not half a claim, it is no claim
   ([absence of evidence is not evidence](../../../_laws.md#absence-of-evidence-is-not-evidence)).
-- When a cell is highlighted as best or worst, it must be measured. Superlatives
-  over thin cells are the most-quoted and least-supported numbers on any
-  hiring dashboard.
+- When a cell is highlighted as best or worst, it must be measured. Superlatives over thin cells are the most-quoted and least-supported numbers on any
+  hiring dashboard. Measured is necessary, not sufficient: the best of many measured
+  cells is high partly by construction, so it must also separate from the rest by
+  its interval ([state what the sample could have seen](state-what-the-sample-could-have-seen.md)).
 - When one cell serves as the **reference** the others are measured against, it
   must clear the floor on its own before it may hold that role. This is the
   most damaging thin-cell failure and the least obvious: a group of one with a

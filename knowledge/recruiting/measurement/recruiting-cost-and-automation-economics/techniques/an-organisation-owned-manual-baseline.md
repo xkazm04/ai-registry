@@ -32,6 +32,11 @@ the interesting part.
 1. **Pick a research anchor and record it as a mid-point, not a fact.** Name
    the source, the year, and the population it was drawn from. Record it as a
    range if the source gives one, and keep the mid-point as the default value.
+   Open the source before recording it, and check the unit: a figure per hire,
+   per role and per week are three different quantities that circulate under one
+   number. A component you cannot trace to a measurement (the widely repeated
+   split of screening and sourcing hours per hire is one) is recorded as an
+   *unsourced default*, and the interface says so.
 2. **Decompose it into the parts a team recognises.** Sourcing hours,
    screening hours, interviewing hours, coordination hours. A team cannot
    sensibly edit a single opaque total, but they can tell you that their
@@ -88,7 +93,10 @@ organisations will never change it, so the default *is* the number for most
 readers. Choose it as though it were the only value: cite it, keep it current
 as research is republished, and prefer a widely recognised figure over a more
 precise obscure one — a reader who recognises the source argues with the
-model, and a reader who does not argues with your motives.
+model, and a reader who does not argues with your motives. Recognised is not the
+same as traceable: a number every vendor page repeats, with no study under it,
+is popular rather than sourced, and it fails the moment a finance reader asks
+where it came from.
 
 ## When not to use this
 

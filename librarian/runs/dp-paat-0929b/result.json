@@ -60,17 +60,17 @@
   ],
   "commits": [
     {
-      "sha": "8a792132",
+      "sha": "31429bd1",
       "branch": "main",
       "pathspec": "knowledge/recruiting/pipeline-operations/pipeline-aging-and-attention-triage"
     },
     {
-      "sha": "99e84ed6",
+      "sha": "24123ba3",
       "branch": "main",
       "pathspec": "knowledge/recruiting/index.json catalog.json"
     },
     {
-      "sha": "4ebf7aff",
+      "sha": "2468c0d1",
       "branch": "main",
       "pathspec": "librarian/applied.md librarian/subjects/recruiting/pipeline-aging-and-attention-triage.md"
     }
@@ -78,5 +78,5 @@
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "First sweep. The same-day sibling re-read (in 001fbb4a) was treated as unverified; every citation re-read against kp dd0669e3a. kp map committed locally (b65ce4b8e), kp unpushed. check-bundles red on trunk for spec--revocation-without-a-beacon.md, not this run."
+  "notes": "Second pass after dp-paat-0929 (first, L1/L2, on origin): ran blind and web lanes, executed offer and stint cases on kp. Rebuilt on origin/main; local main is diverged (35 ahead, 56 behind), untouched. kp map committed locally, kp unpushed."
 }

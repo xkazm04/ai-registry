@@ -44,7 +44,11 @@ Three constraints bind every sentence, and they bind simultaneously:
 - **Legal.** A decline is an adverse action: discoverable, quotable, testable
   against the record. A sentence that cannot be traced to a recorded decision
   is an unsupported adverse statement about a person, in writing, from the
-  party that made the decision.
+  party that made the decision. This constraint binds what may be *said*; it is
+  not a duty to *say* a reason. Where a reason is owed at all it is owed on
+  request, by statute or by a regulator, and the frozen recorded reason is what
+  answers it (the dated position is in
+  [name-the-decisive-reason-from-the-record](./techniques/name-the-decisive-reason-from-the-record.md)).
 - **Human.** The person invested time, hope and disclosure. The register owes
   them proportionality, plainness, and an accurate picture of what happens next
   — including the unflattering parts (how long you keep their data, whether
@@ -54,7 +58,11 @@ The naive reading satisfies the third constraint and quietly violates the first
 two. "Personalise every rejection" sounds like candidate care; implemented as a
 per-candidate generation pass it means a language model writes a *fresh*
 rationale for each person, and a fresh rationale is by construction not the one
-on file. It reads beautifully and it is theatre. The reason has to be the one on
+on file. It reads beautifully and it is theatre. (The case against generating
+the reason is a case about truth and audit, not about how candidates react: the
+few experiments on reaction favour an explained, considerate letter over a
+typified one, so the design goal is an explanation that is *recorded*, not the
+absence of one.) The reason has to be the one on
 the record or it is not a reason, it is a bedside manner with a citation format.
 
 ## The three states of a reason, and only three
@@ -75,7 +83,15 @@ letters go wrong:
 3. **No recorded reason.** Say nothing. An empty feedback section is a better
    artifact than generic advice, because generic advice is a claim about a
    person that nobody made. The temptation to fill the gap is precisely the
-   failure this subject exists to prevent.
+   failure this subject exists to prevent. When the candidate *asked* for
+   feedback, silence reads as a non-answer, so the honest empty form says that
+   the record holds nothing specific and that the sender would rather not
+   guess; it still names no reason.
+
+A reason is also bound to the stage that decided. A candidate rejected after an
+interview was rejected on the interview, and a gap read off their CV is a reason
+the decision never used, one they can check against the application they sent
+before they were invited in.
 
 There is no fourth state where the system reasons its way to a plausible
 reason. A rationale reconstructed after the fact is an inference, and an
@@ -100,8 +116,13 @@ The structural cause is always the same: a template or a generator that treats
 "give constructive feedback" as a slot that must be filled. Fill-the-slot is
 the enemy. Every feedback line must survive a check against what the candidate
 actually showed, and when the record holds a strong profile with nothing
-missing, the correct sentence is that another candidate matched the role more
-closely — gracefully, with no invented deficiency.
+missing, there is no deficiency to name. "Another candidate matched the role
+more closely" is a fact only where the record holds a comparison (a ranked
+shortlist, a candidate chosen instead); read off a strong profile alone it is
+one more reason nobody recorded, and a letter that says it has invented "the
+decision was close" as surely as one that invents a gap. Without a recorded
+comparison the honest letter says the application is not being taken forward
+and stops.
 
 The second structural cause is a **starved fact base**. A letter step handed
 only a name and a few skill tags cannot say anything specific, so it produces
@@ -112,11 +133,13 @@ base — the letter reads the same evidence the decision read, and no more.
 
 ## Volume is not generosity
 
-A rejection is not improved by length. Past about three feedback points the
-genre changes: it stops reading as help and starts reading as a case being
+A rejection is not improved by length. Past a few feedback points the genre
+plausibly changes: it stops reading as help and starts reading as a case being
 built against the person — a dossier, produced by the party that just rejected
-them, enumerating their shortcomings. That is how the recipient experiences it
-and that is how it reads in a complaint file.
+them, enumerating their shortcomings. That is a design judgement, not a
+measured threshold: no study found varies the number of feedback lines, and
+the nearest experiment finds performance feedback lowered the well-being of
+rejected people (see the ceiling technique for the source and its limits).
 
 Volume also correlates with invention, because the record rarely holds more
 than a couple of genuine, defensible observations. Line four is almost always
@@ -149,6 +172,15 @@ when the filter fired so the audit trail can show the control worked. It is a
 last line of defence, never a substitute for not recording reasons in those
 terms — but it must exist regardless, because a control that assumes clean
 input is not a control.
+
+Two limits belong beside that rule, both measured on a real implementation. A
+list of attribute *names* does not catch the shorthand this section opens with:
+none of "overqualified for a young team", "recent graduate", "too old for the
+team" or "long gap in employment" contains a listed word. The control that
+does catch them is a closed vocabulary upstream (a reason may only be one of
+the labels the catalog holds); the deny-list is the backstop for free text. And
+the drafted-prose guard and the recorded-line filter must be one vocabulary in
+every language the letters are drafted in, or the weaker one is the control.
 
 ## Proportionality: the letter must sound like the process that happened
 
@@ -200,7 +232,15 @@ the batch is previewed and approved as an exact set by a named human, the
 approval is bound to the cohort actually reviewed, and the decision remains
 reversible with a reconsider path that can read the sealed reason back. The
 audit record for each message carries who approved it, whether a reason was
-explained, and whether the protected-attribute filter fired.
+explained, and whether the protected-attribute filter fired. This is a
+safeguard the standard chooses, and only in some regimes a legal requirement:
+the EU's GDPR Art. 22 restricts solely automated decisions with significant
+effect, the UK's replacement regime (Data (Use and Access) Act 2025, s.80) permits them behind
+safeguards that include human review and a right to contest, and no US
+jurisdiction found forbids an automated rejection (checked 2026-09-29, see the
+decisive-reason technique). The human gate is worth keeping where none of that
+applies, because it is what makes the letter's reason a person's recorded
+decision rather than a batch output.
 
 Neither invariant is real until it carries a number. "We never ghost anyone"
 and "we explain our rejections" are claims about the system, and three

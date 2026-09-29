@@ -6,6 +6,7 @@ status: forged
 techniques:
   - rule-authoring-validation
   - evaluation-loop
+  - absence-as-a-condition
   - dedup-and-cooldown
   - flap-control
   - alert-lifecycle
@@ -97,7 +98,9 @@ hangs off this record. Cooldowns are computed from persisted fire history,
 never from process memory: an in-memory "last fired at" evaporates on
 restart, and the restart re-fires every currently-true rule at once — a
 paging storm at exactly the moment (a deploy, a crash recovery) when the
-team is least able to absorb it. The fire record is also the audit trail
+team is least able to absorb it. The record carries a second fact beside
+detection: whether anyone was actually *told*. The cooldown runs on that, not
+on the detection stamp, or one failed send silences a rule for its whole window. The fire record is also the audit trail
 ("did this rule fire last Tuesday?"), the fatigue dataset ("which rule fires
 most?"), and the deduplication substrate. Suppression semantics —
 per-rule cooldowns over that history, and the double-fire problem when
@@ -107,6 +110,18 @@ suppression shapes (cooldown, debounce, throttle, hysteresis) are owned by
 the scheduling subject at
 [cooldown-and-debounce](../../work-execution/scheduling/techniques/cooldown-and-debounce.md);
 this subject applies them, it does not re-derive them.
+
+## Silence is a state, and the watcher needs a watcher
+
+Every rule above assumes a signal is arriving. The day the emitter dies, the
+metric is renamed, or the evaluator itself stops, a comparison has nothing to
+compare and the system looks exactly as healthy as it does on a good day. So
+absence is treated as a condition in its own right: a rule that cannot evaluate
+is a visible state with an age, each rule declares what no data means for it
+(silence is the symptom for a job that must run; it is only "unknown" for a
+rate on an idle system), and the evaluator is watched by a heartbeat that
+must keep arriving at a receiver outside it — its death is then an alarm, not
+a quiet night. That is [absence-as-a-condition](./techniques/absence-as-a-condition.md).
 
 ## Alert fatigue is the death of the channel
 
@@ -194,9 +209,14 @@ kind of noise. That is [periodic-digest](./techniques/periodic-digest.md).
 - [evaluation-loop](./techniques/evaluation-loop.md) — one always-running
   evaluator; fixed cadence; overlapping-tick guards; the private metric
   window that view filters cannot skew.
+- [absence-as-a-condition](./techniques/absence-as-a-condition.md) — no data as
+  a state with an age; the per-rule policy (skip, breach, hold) decided by
+  whether silence is the symptom; a heartbeat through the real delivery path
+  to a receiver outside the evaluator.
 - [dedup-and-cooldown](./techniques/dedup-and-cooldown.md) — persisted fire
-  history as the suppression substrate; per-rule cooldowns that survive
-  restart; the two-evaluator double-fire problem and the authority rule.
+  history as the suppression substrate; a clock that runs on delivery, not
+  detection; per-rule cooldowns that survive restart; reminders as a distinct
+  object from fires; the two-evaluator double-fire problem and the authority rule.
 - [flap-control](./techniques/flap-control.md) — sustained-for durations,
   hysteresis bands, and recovery notifications; why edge-triggering comes
   before any cooldown.

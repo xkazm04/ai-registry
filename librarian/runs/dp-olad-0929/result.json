@@ -1,0 +1,47 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-olad-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T13:00:00Z",
+  "ended_at": "2026-09-29T13:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/offer-lifecycle-and-deadlines",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/node--idempotent-terminal-response-under-a-race.md",
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/node--role-appropriate-deadline-bounds.md",
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/react--server-authoritative-countdown.md",
+    "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/techniques/idempotent-terminal-response-under-a-race.md",
+    "librarian/subjects/recruiting/offer-lifecycle-and-deadlines.md"
+  ],
+  "commits": [
+    {
+      "sha": "3afa27d5",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Tree-only pass, no research lanes. kp offer page moved to the kit; boundary was mis-stated. No new technique, no applied row. kp 4 contexts all unknown. kp map 52363b016 local, unpushed."
+}

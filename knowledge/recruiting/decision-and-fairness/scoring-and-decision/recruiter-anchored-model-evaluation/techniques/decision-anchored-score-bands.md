@@ -46,6 +46,22 @@ Two diagnostics distinguish the two explanations, and they are cheap:
 A scale that fails either probe is not strict. It is unusable, and its
 strictness is the alibi.
 
+Compression has two directions and the probes cover both. A rubric that says
+"be critical" tends to pile answers in the middle; a rubric that says a flawless
+artifact must reach the top can pile them at the top. In the measured matrix recorded
+in the applications, re-anchoring did lift the table out of the middle, and then
+nearly all judged answers sat on two adjacent integers with the top integer never
+awarded and the bottom bands almost empty. That is compatible with genuinely good output after
+the harness defects were repaired, and equally with a lenient judge; without a
+planted known-bad artifact the table cannot say which, and a ranking among
+models whose means sit half a point apart inside that pile is not readable
+(see [separate-quality-from-reliability](./separate-quality-from-reliability.md)
+for resolution). Two limits on the probes: hand-made extremes prove the ends are
+reachable, not that adjacent bands separate, so add one artifact per band
+boundary the decision cares about; and prefer a real failure mined from the
+pipeline's own history as the known-bad, because a synthetic one is bad in a
+different way than production is.
+
 ## Constructing the bands
 
 1. **List the actions, not the grades.** Ask the practitioner who receives this
@@ -99,7 +115,27 @@ strictness is the alibi.
 - **When a practitioner disagrees with a band assignment, that is the
   calibration signal you wanted.** Anchored bands are arguable by design.
   Collect the disagreements; a systematic one means a band's sentence is
-  ambiguous, not that the judge is bad.
+  ambiguous, not that the judge is bad. Do not wait for them to turn up: have the
+  practitioners who receive the artifact place a small sample of outputs in the
+  bands without seeing the judge's scores, and report the agreement rate beside
+  the results. The planted probes and the spread of a re-run show that the scale
+  reaches its tails, not that the judge puts artifacts where a recruiter would, and
+  a judge can be perfectly consistent and consistently off. Measured agreement
+  between LLM judges and domain experts on overall preference has been 68% in
+  dietetics and 64% in mental health
+  ([Szymanski et al., 2024](https://arxiv.org/abs/2410.20266)), and a later
+  comparison of three LLM rubric judges and a classifier found that on graded
+  criteria all four agreed more with one another than with the human labels and
+  mostly assigned lower levels than the raters did; the authors' one offered
+  account is that raters followed scale conventions the criterion texts omitted
+  ([Rao and Callison-Burch, 2026](https://arxiv.org/abs/2609.29769)). Agreement
+  among judges is not agreement with the reader, and an unwritten convention is
+  exactly what a decision anchor is meant to write down.
+- **When the scale is numeric, anchor every number or shrink the scale.** Five
+  actions carried on a ten-point integer scale leave the digit inside each band
+  undefined, and the resolution a report shows (a median to one decimal) is then
+  finer than the resolution the rubric defines. Either name what separates a 9 from
+  a 10, or score in the five bands and stop reporting differences smaller than one.
 
 ## Countermeasures that belong beside the bands
 
@@ -108,9 +144,28 @@ remove the other well-documented judge pathologies, and a scale that fixes one
 while ignoring the rest inherits a false confidence. Alongside the bands:
 randomise the order in which candidate outputs are presented when scoring is
 comparative, since judges systematically favour a position; keep length out of
-the band text so verbosity cannot buy a band; and never let a model be the sole
-judge of output from its own family, since judges under-penalise errors in text
-that resembles their own writing.
+the band text so verbosity cannot buy a band, and measure the length-to-score
+relation on your own texts, since verbosity effects differ widely between
+judges; and never let a model be the sole judge of output from its own family,
+since judges under-penalise errors in text that resembles their own writing.
+Self-preference appears to run partly through how familiar the text is to the
+judge ([Wataoka et al. 2024](https://arxiv.org/abs/2410.21819)), so a judge from
+another vendor lowers the risk without removing it.
+
+Two of these need a closer reading than a checklist gives them. A judge that
+scores one artifact at a time has no order to randomise, but it still has
+run-to-run inconsistency, so score a sample more than once and report the spread
+before setting any tolerance for what counts as a tie. And "not the sole judge of
+its own family" is a property of the run being scored, not of the design: check
+the judge's engine against the actual target list, because a harness can state
+that its judge is independent and then route a target through the same engine.
+Self-preference is measured
+([Panickssery, Bowman and Feng, NeurIPS 2024](https://arxiv.org/abs/2404.13076))
+and the tested alternative to a single foreign judge is a panel of smaller judges
+from disjoint model families, which in one study outperformed a single large judge
+with less intra-model bias at under a seventh of the cost
+([Verga et al., 2024](https://arxiv.org/abs/2404.18796)). Where a panel is not
+affordable, name the columns a shared-family judge graded on the result itself.
 
 ## When not to use it
 

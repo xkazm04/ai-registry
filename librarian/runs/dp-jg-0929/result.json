@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-jg-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-29T11:00:00Z",
+  "ended_at": "2026-09-29T12:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/judgment-guardbands",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/judgment-guardbands.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/techniques/confidence-weighted-blend.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "librarian/subjects/software-engineering/judgment-guardbands.md"
+  ],
+  "commits": [
+    {
+      "sha": "f2006265",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering",
+        "catalog.json",
+        "librarian/subjects/software-engineering/judgment-guardbands.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 condition, 0 techniques, 0 applications. L1 only. No apply row owed (no new technique or flipped rule). Registry-map regeneration not run."
+}

@@ -109,3 +109,27 @@ a vanished file closes with a reason rather than freezing its last frame;
 a changed content version invalidates the open preview the same way it
 invalidates the thumbnail. The preview is a cache too — it just has a
 shorter name.
+
+## Entries whose bytes are not local
+
+A store that syncs on demand lists every file with full metadata while some of
+the bytes live elsewhere. Listing costs nothing; the first *content* read is a
+download. A thumbnail worker that opens every visible tile therefore turns
+scrolling a folder into a bulk transfer the user never asked for - and the
+operating system may surface that to the user as unrequested background
+downloading, or let them block the application from doing it.
+
+- **Metadata is free, content is a request.** Size, timestamps and the kind
+  bucket come from the listing; reading bytes is the act that costs.
+- **Know which entries are remote before reading them.** Where the store marks
+  online-only entries, the ladder starts one rung lower for them: kind icon,
+  and a thumbnail only when the store itself serves one or the user asks.
+  Opening a file on purpose, by the user's own action, is the point where a
+  download is the correct response.
+- **Show the state.** An online-only tile renders as such, not as a broken
+  image, and a download in progress has progress and a way to stop it.
+- **Where the marker is hidden, assume the cost.** A store may hide its markers
+  from applications that do not opt in, so a read-everything worker cannot
+  tell local from remote. Bound its concurrency and bytes per pass, the same
+  discipline as the big-directory rule in
+  [listing-and-refresh](./listing-and-refresh.md).

@@ -89,6 +89,10 @@ below-threshold comparators, because those are precisely the ones that
 manufactured zeros set off, and a test that only proves ">" rules stay
 quiet on empty data proves nothing about the direction that pages.
 
+Skipping is the answer for *one* tick. A rule that stays not-evaluable, and a
+rule whose silence is itself the symptom, are a different matter:
+[absence-as-a-condition](./absence-as-a-condition.md).
+
 ## Evaluate windows, not instants
 
 A rule with a window ("above 5% for ten minutes") is evaluated as an
@@ -112,5 +116,6 @@ by nothing.
   contained per-rule and surfaced on that rule's status — one broken rule
   must not abort the tick for the other forty.
 - The loop exposes its own liveness (last tick time, rules evaluated,
-  duration) — the watcher is itself watchable, and its silence is a fact
-  someone can observe rather than infer.
+  duration) — the watcher is itself watchable. That record cannot report the
+  loop's own death, so a heartbeat to a receiver outside the loop carries
+  that ([absence-as-a-condition](./absence-as-a-condition.md)).

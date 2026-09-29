@@ -1133,3 +1133,70 @@ Source-class tally (post-hoc, this run):
 - The blind lane converged on the technique and added two sharpenings (distinct
   per-identity values, and mutation-checking the harness) with zero tool calls. It also
   named generation stamps, which the cross-domain lane then confirmed in three code bases.
+
+## Run dp-alr-0929 - alerting, a first sweep that found the assumptions under the rules
+
+Dispatched by the registry's attention scan ("never swept by the librarian"). Seven techniques
+and two applications had stood since August without a re-read. The golden path held; what did
+not hold was what its rules quietly assumed about delivery and about a signal that keeps
+arriving.
+
+Four lanes: primary-source counter-evidence, an absence-of-signal survey, a blind
+training-data lane, and a read-only fleet-code lane over the five joined projects. The blind
+lane and the primary lanes converged on two findings, the delivery clock and absence, without
+seeing each other. One new technique (`absence-as-a-condition`), two applications new and two
+re-verified, five conditions or corrections landed (the delivery clock and its
+latest-attempt-per-channel trap, reminders as a distinct object, sustain no longer the
+single best defence, recovery holds costing reset time, the technique-level reconciliation
+of edge versus repeat). Applied: 1 experiment `better`, 1 simulation `better`, 1 `unapplied`.
+Impact: none stale, 15 pairs across 7 projects never judged.
+
+| subject | rung | last-pass yield | clocks | demand | dry |
+| --- | --- | --- | --- | --- | --- |
+| alerting | L2 | 1 technique, 2 applications new + 2 re-verified, 5 conditions (1 found by running the retry) | none derived (generic subject); applications re-verified 2026-09-29 | 15 unjudged fleet pairs in 7 projects | 0 |
+
+Source-class tally (post-hoc, this run):
+- A primary system's own source beat its documentation. The router's pipeline order
+  (dedup, retry, then the notification log written only on success) settled the delivery-clock
+  question where the docs' wording never says "successfully".
+- Running the retry beat reasoning about it: the trap in the delivered predicate was
+  invisible in the code read and obvious in one printed row.
+- The blind lane, with zero tool calls, named the delivery clock, absence, grouping and
+  ack expiry; three of four were then confirmed by primary lanes and one banked.
+- A summary of a docs page dropped or softened the operative sentence twice; the raw page
+  was re-read before anything was quoted.
+- Our own applications, re-read against the current trees, stayed true and gained two
+  corrections; the fleet-code lane found a third implementation's contrast in the same pass.
+
+## Run dp-atw-0929 - analytics-time-windows, the k-th edge and a slot that forgot the 31st
+
+A Curator dispatch on "never swept by the librarian". The subject carries six techniques
+and four August applications, all from ascent. The map joins it to kp, systedo-case,
+personas and ascent, and every pair is unjudged.
+
+Three findings landed. The calendar-arithmetic step that generated edges said "start
+advanced k times", which reads as stepping and contradicts the clamp step under it;
+measured, four single steps from 31 January give the 28th three times running while anchor
+plus k months returns to the 31st. The half-open rule "the later window, never
+re-litigate" holds for stamps meaning when it happened, and a stamp meaning the interval
+that just ended takes the mirror form; a query engine's 3.0 release moved to it for
+consistent sample counts. The runtime's own month setter overflows (Node 24: Jan 31 to
+Mar 3), the exact defect the technique names.
+
+One tree finding, simulated on the verbatim functions: ascent's settle path writes the
+clamped monthly slot back as the anchor, so 11 of 12 slots land off the intended day, and
+the test titled for the chain checks one step. The repair is a schema change and was left.
+Applied: 1 simulation better, 1 unapplied. The four August applications' line references
+have drifted and were not re-resolved.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| analytics-time-windows | L2/L3 | 1 application (node), 1 correction, 1 condition, 1 addition, 0 techniques | 0 stale (all 11 pairs unjudged); ascent slot repair owed, citations re-resolution owed | 0 |
+
+Source-class tally (post-hoc, this run):
+- A tool's migration guide stated a boundary change and its reason in two lines; design
+  pages did not.
+- Running the technique's own example on real runtimes beat reading: the runtime most code
+  reaches for first was the one that disagreed with the text.
+- A docs fetch for another engine's window bounds returned nothing usable, so that claim
+  was not landed.

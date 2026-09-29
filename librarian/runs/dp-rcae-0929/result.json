@@ -1,0 +1,56 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rcae-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T15:20:00Z",
+  "ended_at": "2026-09-29T16:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/recruiting-cost-and-automation-economics",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/recruiting-cost-and-automation-economics.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/techniques/a-human-click-is-not-saved-labour.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/techniques/an-organisation-owned-manual-baseline.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/techniques/never-sum-two-currencies.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/techniques/per-action-manual-minute-estimates.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/node--an-uncapped-ratio-as-a-denominator-alarm.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/node--per-action-manual-minute-estimates.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/sql--date-every-derived-money-figure.md",
+    "librarian/subjects/recruiting/recruiting-cost-and-automation-economics.md"
+  ],
+  "commits": [
+    {
+      "sha": "bdf71ef6",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics"
+    },
+    {
+      "sha": "487a686c",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Detached worktree of origin/main 32caa851. Three lanes; kp cited at committed 0c6c9e39c. 42 h anchor unsourced, two standards named, applications re-pinned, two kp deviations. No new technique; no fleet map carries the subject."
+}

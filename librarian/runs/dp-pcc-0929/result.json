@@ -5,31 +5,44 @@
   "skill_version": "1.4.0",
   "mode": "interactive",
   "domain": "recruiting",
-  "started_at": "2026-09-29T14:25:00Z",
-  "ended_at": "2026-09-29T14:40:00Z",
+  "started_at": "2026-09-29T14:00:00Z",
+  "ended_at": "2026-09-29T14:50:00Z",
   "exit": 0,
   "counts": {
     "dispatched": 0,
-    "landed": 0,
+    "landed": 1,
     "declined": 0,
     "idled": 0,
-    "contended": 1
+    "contended": 0
   },
   "subjects": [
     {
       "id": "recruiting/portable-candidate-credentials",
       "at": "2026-09-29",
       "engine": "deepen",
-      "outcome": "contended",
+      "outcome": "landed",
       "points_before": null,
       "points_after": null
     }
   ],
-  "verdicts": [],
+  "verdicts": [
+    {
+      "subject": "portable-candidate-credentials",
+      "technique": "signed-artifact-over-a-canonical-form",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "portable-candidate-credentials",
+      "technique": "unverifiable-before-tampered-never-accuse",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
   "files": [],
   "commits": [],
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "Nothing landed. Six subject files plus an untracked spec application hold another session's uncommitted, unrecorded edits (mtime 15:20-15:22, no run folder or board claim). Left untouched. Re-dispatch once committed or found abandoned."
+  "notes": "Never-swept subject. kp fixed two predicted failures the day after verification (revoke-before-sign reissue, half-done rotation branding tampered); placed as ordering and decision rules. Citations re-read after the kit move. No new technique, no blind lane."
 }

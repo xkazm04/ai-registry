@@ -35,6 +35,25 @@ is the least distorting neutral value available when a schema forces an integer,
 and it becomes acceptable exactly when the coverage state travels with it
 everywhere the number goes.
 
+Hold that concession narrowly, because "neutral" hides a collision. A scale that
+names its bar, as this subject requires, almost always names the middle level: on a
+five-point scale labelled "well below, below, meets the bar, above, exceptional",
+the midpoint *is* "meets the bar". A placeholder 3 then reads, to any threshold or
+gate that has not been taught otherwise, as a competency that cleared it. Two
+arrangements avoid this, in order of preference:
+
+- **Omit the rating.** Where a person fills the scorecard, an unrated competency is
+  simply not submitted. Nothing is stored that can participate in arithmetic, and
+  the absence is the record. The same product that stores a placeholder 3 for its
+  machine-drafted scorecards omits the rating on its human form, which is the
+  better of its two paths and the one that needs no guard.
+- **If an integer is forced, make the guard total.** Every reader that ranks,
+  exports, averages, thresholds or shows the number must consult the coverage state,
+  and the pair (placeholder rating, placeholder evidence) must be recognised as one
+  thing. Recognising it takes both halves: a rule keyed on the rating alone misfires
+  on a person's deliberate 3, and a rule keyed on the evidence text alone misfires
+  when a later step rewrites the evidence and leaves a real-looking number behind.
+
 ## The arrangement that works
 
 Separate the two facts a single integer cannot carry:
@@ -46,6 +65,28 @@ Separate the two facts a single integer cannot carry:
 - **The coverage flag** is the load-bearing artifact. It states, per scorecard,
   which axes carry an observation and which do not, and it is what surfaces to
   humans.
+
+Where the flag comes from matters as much as that it exists. A flag derived from the
+producer's own sentinel ("the model wrote Not assessed") is the producer marking its
+own homework: it fails in both directions, reporting an axis as skipped when the
+interview covered it, and a real-looking rating on an axis nothing ever asked about.
+Where the loop leaves an independent record of what happened, derive coverage from
+that. A directed interview whose agenda blocks each name a competency, plus an event
+ledger of which blocks were begun and which were covered on a verified quote, yields
+four states per axis rather than two: *covered* (a block was covered on verified
+evidence), *asked* (begun, never covered), *not reached* (planned, never begun) and
+*not planned* (the agenda carried no scored block for it). The middle two are
+different findings, a probe that failed and a loop that ran out of time, and the
+last is a rubric-versus-agenda mismatch that no interviewer could have fixed
+mid-loop. Then show the disagreements as their own flags, a rating on an axis nothing
+began, and a not-assessed sentinel on an axis the ledger says was covered, because
+those are the cases a reader cannot see. Two rules keep it honest: an interview with
+no such record has *unknown* coverage, and unknown is never rendered as an all-not-
+reached map that accuses a call which was simply not directed; and an "owed
+questions" count is only known once the loop has closed, so a dropped call reports
+unknown, not zero. This four-state derivation is one deployment's arrangement, and the
+evidence for it is that deployment's incident (see the application); what carries
+over is the source of the flag, not the state names.
 
 Everything that consumes ratings must consume the flag with them. A rating
 exported, averaged, ranked or thresholded without its coverage state has laundered
@@ -119,6 +160,18 @@ verdict. It has produced three ratings and two absences, and the honest summary
 says exactly that. Rescaling — averaging over the observed axes and presenting
 the result as though the instrument were complete — is the same laundering as the
 silent midpoint, arrived at by arithmetic instead of by default value.
+
+## Renormalising is a disclosure, not a licence
+
+The measurement literature gives a legitimate move that this technique appears to
+forbid: drop the absent inputs from numerator and denominator and divide by what was
+observed, carrying the observed fraction beside the result. The two agree on the
+part that matters. Renormalising is honest as a *description* of the observed axes,
+with its coverage stated. It is dishonest as a *decision input* when the result is
+then compared with a bar that was calibrated on the full set, because three observed
+axes and five observed axes are different instruments wearing one scale. A partial
+loop reports its ratings, its absences and its coverage; the meeting decides whether
+that is enough to conclude, and that decision is not delegated to an average.
 
 ## When not to use this
 

@@ -4,8 +4,8 @@
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 64,
-  "techniques": 396,
-  "applications": 275,
+  "techniques": 398,
+  "applications": 291,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -19,7 +19,7 @@
    "measurement"
   ],
   "layout": "nested",
-  "use_when_coverage": "396/396",
+  "use_when_coverage": "398/398",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4766,8 +4766,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/interview-run-of-show/interview-run-of-show.md",
-   "digest": "sha256-b2:85d0fb2d85788aaa",
-   "revision": 2,
+   "digest": "sha256-b2:fc23fd753ce7ea18",
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5114,9 +5114,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/offer-lifecycle-and-deadlines.md",
-   "digest": "sha256-b2:32cfbfc337e377cc",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:2dd5f1019a2a6048",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "expired-is-a-different-answer-from-invalid",
@@ -5208,19 +5208,22 @@
      "stack": "node",
      "technique": "idempotent-terminal-response-under-a-race",
      "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/node--idempotent-terminal-response-under-a-race.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "role-appropriate-deadline-bounds",
      "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/node--role-appropriate-deadline-bounds.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "react",
      "technique": "server-authoritative-countdown",
      "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/applications/react--server-authoritative-countdown.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -5462,8 +5465,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
-   "digest": "sha256-b2:fd3338d7d1babc84",
-   "revision": 5,
+   "digest": "sha256-b2:99756265cc6fc4e7",
+   "revision": 6,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5577,6 +5580,20 @@
      "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/react--off-axis-candidate-recovery.md",
      "verified_on": "2026-09-29",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "spec",
+     "technique": "screening-gate-index",
+     "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/spec--screening-gate-index.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2027-03-28"
+    },
+    {
+     "stack": "spec",
+     "technique": "stage-role-vocabulary-not-stage-names",
+     "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/spec--stage-role-vocabulary-not-stage-names.md",
+     "verified_on": "2026-09-29",
+     "refresh_by": "2026-12-29"
     }
    ]
   },
@@ -5585,8 +5602,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
-   "digest": "sha256-b2:28da500b6d12cdda",
-   "revision": 4,
+   "digest": "sha256-b2:69bedfad1db06dbf",
+   "revision": 5,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5711,6 +5728,12 @@
      "stack": "spec",
      "technique": "trust-state-resolution",
      "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--trust-state-resolution--bitstring-status-list.md",
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "spec",
+     "technique": "trust-state-resolution",
+     "file": "knowledge/recruiting/governance/portable-candidate-credentials/applications/spec--trust-state-resolution.md",
      "verified_on": "2026-09-29"
     },
     {
@@ -5851,8 +5874,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/pre-boarding-and-first-day-handoff.md",
-   "digest": "sha256-b2:51bb7c320cf1402e",
-   "revision": 3,
+   "digest": "sha256-b2:642373c1d68765ca",
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -6420,9 +6443,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
-   "digest": "sha256-b2:00dbf484bc166d27",
-   "revision": 2,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:13ad9e158b079e32",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "decision-anchored-score-bands",
@@ -6517,26 +6540,38 @@
      "stack": "node",
      "technique": "evidence-grounded-correctness",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/node--evidence-grounded-correctness.md",
-     "verified_on": "2026-09-10",
+     "verified_on": "2026-09-29",
      "verified_against": "node@18"
     },
     {
      "stack": "process",
      "technique": "decision-anchored-score-bands",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--decision-anchored-score-bands.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "never-judge-a-fallback-as-the-models-work",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--never-judge-a-fallback-as-the-models-work.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "separate-quality-from-reliability",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--separate-quality-from-reliability.md",
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "task-definition-matches-the-real-deliverable",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--task-definition-matches-the-real-deliverable.md",
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "unverifiable-is-not-fabricated",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--unverifiable-is-not-fabricated.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -6545,8 +6580,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/recruiting-cost-and-automation-economics.md",
-   "digest": "sha256-b2:57516f359a02d166",
-   "revision": 3,
+   "digest": "sha256-b2:c589626d3c1a8369",
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -6644,19 +6679,29 @@
      "stack": "node",
      "technique": "an-uncapped-ratio-as-a-denominator-alarm",
      "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/node--an-uncapped-ratio-as-a-denominator-alarm.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "per-action-manual-minute-estimates",
      "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/node--per-action-manual-minute-estimates.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "date-every-derived-money-figure",
+     "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/react--date-every-derived-money-figure.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     },
     {
      "stack": "sql",
      "technique": "date-every-derived-money-figure",
      "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/sql--date-every-derived-money-figure.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "sql@3"
     }
    ]
   },
@@ -6930,9 +6975,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/rejection-with-dignity.md",
-   "digest": "sha256-b2:814f4a7318b51875",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:2775c4b674b85615",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "deterministic-dispatch-so-nobody-is-ghosted",
@@ -7025,19 +7070,28 @@
      "stack": "node",
      "technique": "deterministic-dispatch-so-nobody-is-ghosted",
      "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/node--deterministic-dispatch-so-nobody-is-ghosted.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "name-the-decisive-reason-from-the-record",
+     "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/node--name-the-decisive-reason-from-the-record--feedback-on-request.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "protected-attribute-line-suppression",
      "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/node--protected-attribute-line-suppression.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "name-the-decisive-reason-from-the-record",
      "file": "knowledge/recruiting/candidate-experience/rejection-with-dignity/applications/process--name-the-decisive-reason-from-the-record.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -7461,9 +7515,9 @@
    "subcategory": "scoring-and-decision",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/selection-score-calibration.md",
-   "digest": "sha256-b2:dff11163b9a17253",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:3532a6c1ef935e0a",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "base-rate-skill-score",
@@ -7557,21 +7611,30 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "base-rate-skill-score",
+     "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--base-rate-skill-score.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "deterministic-holdout-clean-arm",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--deterministic-holdout-clean-arm.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "label-leakage-taxonomy",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--label-leakage-taxonomy.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "post-deployment-drift-monitoring",
      "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/process--post-deployment-drift-monitoring.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -7824,9 +7887,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/small-sample-honesty-in-hiring-analytics.md",
-   "digest": "sha256-b2:c3b68501227b54dc",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:f9ec04ea75914e2f",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "a-named-minimum-per-claim",
@@ -7901,6 +7964,22 @@
      ]
     },
     {
+     "slug": "state-what-the-sample-could-have-seen",
+     "status": "forged",
+     "laws": [
+      "a-claim-carries-its-sample-and-its-basis",
+      "absence-of-evidence-is-not-evidence",
+      "a-verdict-is-bound-to-what-it-judged"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a figure has just cleared its floor",
+      "a fairness or quality check came back clean on a small cohort",
+      "a dashboard ranks sources or stages",
+      "showing a zero from a small count"
+     ]
+    },
+    {
      "slug": "thin-but-real-as-a-labelled-state",
      "status": "forged",
      "laws": [
@@ -7920,19 +7999,35 @@
      "stack": "node",
      "technique": "a-named-minimum-per-claim",
      "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--a-named-minimum-per-claim.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "insufficient-sample-is-not-a-pass",
      "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--insufficient-sample-is-not-a-pass.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "state-the-accrual-horizon",
+     "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--state-the-accrual-horizon.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "state-what-the-sample-could-have-seen",
+     "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/node--state-what-the-sample-could-have-seen.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "thin-but-real-as-a-labelled-state",
      "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/applications/process--thin-but-real-as-a-labelled-state.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -7941,9 +8036,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/sourcing-campaign-honesty.md",
-   "digest": "sha256-b2:d1e0be8eea013c8d",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:c7b0cfeac29652fb",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "defaulted-value-is-absent-not-advertised",
@@ -8035,19 +8130,19 @@
      "stack": "process",
      "technique": "no-fabricated-testimonial",
      "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/applications/process--no-fabricated-testimonial.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "stated-facts-only-gate",
      "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/applications/process--stated-facts-only-gate.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "react",
      "technique": "missing-fact-as-a-warning-code",
      "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/applications/react--missing-fact-as-a-warning-code.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -8056,9 +8151,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/structured-interview-scorecards/structured-interview-scorecards.md",
-   "digest": "sha256-b2:53833986454b354c",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:0fb73cd4c34a33e5",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "behaviourally-anchored-level-writing",
@@ -8153,19 +8248,28 @@
      "stack": "node",
      "technique": "role-family-axis-extension",
      "file": "knowledge/recruiting/assessment/structured-interview-scorecards/applications/node--role-family-axis-extension.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "rubric-versioning-at-write-time",
      "file": "knowledge/recruiting/assessment/structured-interview-scorecards/applications/node--rubric-versioning-at-write-time.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "unassessed-competency-handling",
+     "file": "knowledge/recruiting/assessment/structured-interview-scorecards/applications/node--unassessed-competency-handling.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "evidence-quote-requirement",
      "file": "knowledge/recruiting/assessment/structured-interview-scorecards/applications/process--evidence-quote-requirement.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -8174,9 +8278,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/voice-interview-fidelity/voice-interview-fidelity.md",
-   "digest": "sha256-b2:e4838dda955eb6c6",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:45d3a27151ad5179",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "accent-and-first-language-error-disparity",
@@ -8253,6 +8357,22 @@
      ]
     },
     {
+     "slug": "phantom-terms-and-silence-insertions",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "inference-must-look-like-inference",
+      "a-claim-carries-its-sample-and-its-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a transcript passed the entity gate and still lists a skill the candidate never mentioned",
+      "enabling or enlarging a recognition vocabulary list",
+      "a transcript contains text from a stretch where nobody was speaking",
+      "choosing what the entity metric must count"
+     ]
+    },
+    {
      "slug": "transcript-sampling-that-keeps-the-conclusion",
      "status": "forged",
      "laws": [
@@ -8272,19 +8392,48 @@
      "stack": "node",
      "technique": "closing-read-back-as-the-authoritative-record",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--closing-read-back-as-the-authoritative-record.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "entity-fidelity-not-aggregate-error-rate",
+     "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--entity-fidelity-not-aggregate-error-rate.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "language-choice-and-per-turn-drift-detection",
+     "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--language-choice-and-per-turn-drift-detection.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "never-infer-from-how-a-person-sounds",
+     "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--never-infer-from-how-a-person-sounds.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "transcript-sampling-that-keeps-the-conclusion",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/node--transcript-sampling-that-keeps-the-conclusion.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "entity-fidelity-not-aggregate-error-rate",
      "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/process--entity-fidelity-not-aggregate-error-rate.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
+    },
+    {
+     "stack": "process",
+     "technique": "phantom-terms-and-silence-insertions",
+     "file": "knowledge/recruiting/assessment/voice-interview-fidelity/applications/process--phantom-terms-and-silence-insertions.md",
+     "verified_on": "2026-09-29"
     }
    ]
   },
@@ -8293,9 +8442,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/work-sample-timeboxing-and-cost.md",
-   "digest": "sha256-b2:8a073bc563b1b65b",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:043a27a092f107f0",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "accommodation-and-device-advisory",
@@ -8387,19 +8536,28 @@
      "stack": "node",
      "technique": "clamp-a-proposed-timebox",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/node--clamp-a-proposed-timebox.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "hard-timebox-cap",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/process--hard-timebox-cap.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "react",
      "technique": "draft-durability-and-no-silent-loss",
      "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/react--draft-durability-and-no-silent-loss.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "state-what-is-and-is-not-observed",
+     "file": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/react--state-what-is-and-is-not-observed.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
     }
    ]
   }
@@ -8767,12 +8925,14 @@
     "small-sample-honesty-in-hiring-analytics/a-named-minimum-per-claim",
     "small-sample-honesty-in-hiring-analytics/gate-each-cohort-not-only-the-headline",
     "small-sample-honesty-in-hiring-analytics/state-the-accrual-horizon",
+    "small-sample-honesty-in-hiring-analytics/state-what-the-sample-could-have-seen",
     "small-sample-honesty-in-hiring-analytics/thin-but-real-as-a-labelled-state",
     "sourcing-campaign-honesty/hook-taxonomy-bounded-by-what-is-provable",
     "structured-interview-scorecards/separate-rubric-per-population",
     "structured-interview-scorecards/unassessed-competency-handling",
     "voice-interview-fidelity/accent-and-first-language-error-disparity",
     "voice-interview-fidelity/entity-fidelity-not-aggregate-error-rate",
+    "voice-interview-fidelity/phantom-terms-and-silence-insertions",
     "voice-interview-fidelity/transcript-sampling-that-keeps-the-conclusion"
    ]
   },
@@ -8918,6 +9078,7 @@
     "small-sample-honesty-in-hiring-analytics/gate-each-cohort-not-only-the-headline",
     "small-sample-honesty-in-hiring-analytics/insufficient-sample-is-not-a-pass",
     "small-sample-honesty-in-hiring-analytics/not-measurable-versus-zero",
+    "small-sample-honesty-in-hiring-analytics/state-what-the-sample-could-have-seen",
     "sourcing-campaign-honesty/defaulted-value-is-absent-not-advertised",
     "sourcing-campaign-honesty/missing-fact-as-a-warning-code",
     "sourcing-campaign-honesty/stated-facts-only-gate",
@@ -8999,6 +9160,7 @@
     "silver-medalist-rediscovery/fit-floor-for-readmission",
     "silver-medalist-rediscovery/prior-outcome-taxonomy",
     "small-sample-honesty-in-hiring-analytics/insufficient-sample-is-not-a-pass",
+    "small-sample-honesty-in-hiring-analytics/state-what-the-sample-could-have-seen",
     "structured-interview-scorecards/rubric-versioning-at-write-time",
     "voice-interview-fidelity/closing-read-back-as-the-authoritative-record",
     "work-sample-timeboxing-and-cost/hard-timebox-cap"
@@ -9171,6 +9333,7 @@
     "structured-interview-scorecards/evidence-quote-requirement",
     "voice-interview-fidelity/closing-read-back-as-the-authoritative-record",
     "voice-interview-fidelity/entity-fidelity-not-aggregate-error-rate",
+    "voice-interview-fidelity/phantom-terms-and-silence-insertions",
     "voice-interview-fidelity/transcript-sampling-that-keeps-the-conclusion",
     "work-sample-timeboxing-and-cost/state-what-is-and-is-not-observed"
    ]
@@ -9284,7 +9447,8 @@
     "structured-interview-scorecards/behaviourally-anchored-level-writing",
     "structured-interview-scorecards/evidence-quote-requirement",
     "voice-interview-fidelity/closing-read-back-as-the-authoritative-record",
-    "voice-interview-fidelity/never-infer-from-how-a-person-sounds"
+    "voice-interview-fidelity/never-infer-from-how-a-person-sounds",
+    "voice-interview-fidelity/phantom-terms-and-silence-insertions"
    ]
   },
   "a-candidates-process-never-stalls-on-your-constraints": {

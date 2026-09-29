@@ -21,10 +21,17 @@ what you *do* collect answers it.
 This is an obligation of the timed-exercise setting specifically. Someone working
 alone against a clock, inside your tooling, has no way to know where the
 observation stops, and the default assumption in the absence of a statement is
-the maximum. That assumption is both unpleasant and corrosive to the
-measurement: a candidate who believes they are being watched keystroke by
-keystroke performs rather than works, and performance is precisely the thing the
-exercise was designed to see past.
+the maximum. That assumption is unpleasant, and the candidate is owed the answer
+because it is their work and their data. Whether it also spoils the measurement
+is less established than the practice assumes. The one randomised study found
+(48 students, a live whiteboard problem, a person watching and prompting
+thinking aloud) saw scored performance roughly halve and stress rise, and its own
+authors called the sample too small for firm conclusions. A silent recorder is
+not that experiment: a follow-up on recorded unattended sessions found the
+missing watcher helped, and reviews of passive electronic monitoring report a
+small stress effect and no average performance effect, larger as the task gets
+harder. Argue the disclosure from entitlement and from what your own assessors may
+later claim, and keep the performance argument for a live observer.
 
 ## The contract has three parts
 
@@ -35,7 +42,10 @@ exercise was designed to see past.
   applications or tabs. Anything on the candidate's machine outside the exercise
   surface. Say each of these that is true; do not say any that is not.
 - **What it is used for, and for how long.** Assessment of this application, by
-  named humans, retained on a stated schedule.
+  named humans, retained on a stated schedule. Include what a signal can set in
+  motion, not only who reads it: a submission held for a conversation because one
+  recorded value crossed a line is a use, and the person cannot weigh a use they
+  were not told about.
 
 ## Procedure
 
@@ -48,7 +58,12 @@ exercise was designed to see past.
    description reads as evasion regardless of its content.
 3. **Verify the contract against the implementation, both directions.** Every
    "we record" must correspond to something actually recorded, and every "we
-   never" must be impossible in the tooling, not merely disabled. A capability
+   never" must be impossible in the tooling, not merely disabled. The direction
+   that slips is the third one: list the recorder's event kinds from the code,
+   lay them beside the disclosure sentence, and require each kind to be named
+   there or to be something that is never stored. A sentence written when there
+   were three event kinds stays true of those three while the recorder grows a
+   fourth. A capability
    present and unused is a promise you are one configuration change from
    breaking, and the candidate cannot audit the difference.
 4. **Re-verify when the surface changes.** Adding an embedded helper, a
@@ -83,10 +98,23 @@ exercise was designed to see past.
   the signal opens a question, and the question is answered in a conversation.
 - **When a candidate asks what is observed, answer with the same sentences.** A
   disclosure that changes when questioned was never a contract.
-- **When observation would be covert, it does not happen.** Undisclosed
-  monitoring in an assessment is unlawful in many jurisdictions, indefensible in
-  all of them, and it fails on its own terms because it cannot be used in a
-  decision you would have to explain.
+- **When the invitation allows a tool, a signal the tool's ordinary output
+  produces cannot be a penalty, and the disclosure says what it can do.** "You may
+  use any tools, including AI" beside a rule that scores or holds a submission on a
+  large paste tells the candidate two things that cannot both be relied on. The
+  signal may open a question with a person, and the sentence that says so belongs
+  on the same screen as the permission. What a paste size may be read as, and why a
+  fixed size threshold is a bad rule, belongs to the assistance-detection
+  neighbour; what belongs here is that the candidate was told.
+- **When observation would be covert, it does not happen.** Disclosure of the
+  data you collect about a candidate is a legal duty in the EU at the time it is
+  collected (GDPR Art. 13), several jurisdictions add notice duties for automated
+  decision tools (New York City and, for AI video interviews, Illinois now;
+  Colorado from 2027), and the EU bans AI that infers emotions in the workplace,
+  which the Commission's guidelines read to include recruitment. Check the rule
+  that applies to your exercise; these are not a checklist. Where none of them
+  applies, do it anyway: covert observation fails on its own terms,
+  because it cannot be used in a decision you would have to explain.
 
 ## When not to use it
 

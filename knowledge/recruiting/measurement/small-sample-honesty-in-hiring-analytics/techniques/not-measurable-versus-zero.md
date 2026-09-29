@@ -105,8 +105,11 @@ to instrument.
 Do not turn a genuine zero into a refusal. If a stage was measured and nobody
 passed through it, zero is the truth and hiding it behind "not measurable"
 suppresses a real finding — a stage nobody uses, a source that produces
-nothing. The test is whether the counting happened, not whether the count is
-large.
+nothing. The test is whether the
+counting happened, not whether the count is large. A genuine zero from a small
+count is still a bounded claim: none in ten is compatible with a true rate of
+about a quarter, so render it as "0 of 10", never a bare "0%", and never as
+evidence that the thing does not happen ([state what the sample could have seen](state-what-the-sample-could-have-seen.md)).
 
 Do not use a refusal where a *thin* state is correct. Two observations are not
 zero observations, and refusing on them discards the only evidence a young team

@@ -112,6 +112,20 @@ quoted in a board deck.
 - **When a clean arm exists but spans only part of the score range,** state the
   range on the claim. A validity claim about scores of 20–40 is not a validity
   claim about the cutoff at 65.
+- **When someone proposes to repair the contaminated arm by reweighting or
+  imputing what the rejected would have done,** decline. Those methods assume no
+  unmeasured confounders (Lakkaraju and colleagues, KDD 2017, which names a
+  randomised sample of the unreached region as the common remedy and treats
+  imputation as unsafe otherwise), and a recruiter sees a CV, an interview and a
+  hunch the score never did. The clean arm is the repair; classification is the
+  discipline for everything else. Its evidence is one-sided, too: a random sample
+  of the below-floor range says nothing about the range the gate always passes.
+- **The reviewer-saw-score ceiling is a conservative default, not a measured
+  effect.** The one hiring experiment found shows recommendations moving choices
+  (lay participants, simulated advice, no hidden-score arm) and a risk-assessment
+  crowdsourcing study reports no anchoring; neither is a recruiter study. Keep the
+  medium level until an arm exists in which a sampled reviewer does not see the
+  number, and do not describe the ceiling as an estimate of anchoring.
 - **When provenance is ambiguous, downgrade.** Authority over an outcome may be
   moved from human to automated when the record is unclear, never the reverse.
 - **When an arm's population differs systematically from the whole,** say so

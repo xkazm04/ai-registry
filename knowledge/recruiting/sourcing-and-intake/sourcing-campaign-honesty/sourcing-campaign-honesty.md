@@ -47,26 +47,41 @@ still connected to the market they left.
 So the falsehood is discovered *after* the hire, by the party it damages, when
 the cost is a resignation, a re-run of the whole requisition, and one more
 person telling their network what your advertisement was worth. Early
-attrition attributed to "culture fit" is very often a claim in an
-advertisement that nobody could keep. That asymmetry is the whole reason this
-subject exists as a discipline of *structure* rather than of *editing*:
+attrition put down to "culture fit" can be a claim in an advertisement the job
+did not keep.
 
-- **A human reviewer cannot detect an invented fact.** A recruiter reading
-  generated copy about a role they did not scope has no way to know that
+The size of that effect is modest, and the page should not lean on more than
+the evidence carries. Realistic-job-preview meta-analyses find that an honest
+preview lowers voluntary turnover by a small margin, with perceived
+organisational honesty as the main route (Earnest, Allen & Landis 2011, k = 52,
+about 17,000 people; Phillips 1998), and a broken promise moves the intention
+to leave far more than the leaving itself (Zhao et al. 2007). Nothing measures
+what share of "culture fit" exits are a broken advertisement claim. So the case
+for structure does not rest on retention arithmetic. It rests on the reader
+being able to check every word, and on the employer being unable to take one
+back. That asymmetry is the whole reason this subject exists as a discipline of
+*structure* rather than of *editing*:
+
+- **A human reviewer does not reliably catch an invented fact.** A recruiter
+  reading generated copy about a role they did not scope cannot tell that
   "generous learning budget" was supplied by the generator rather than by the
-  hiring manager. It reads exactly like a fact they had forgotten. Detection
-  requires comparing the copy to the input record line by line — which is
-  work nobody does at the volume campaigns are produced.
-- **A reviewer who could detect it would still approve it.** The invented
-  claim is, by construction, the most attractive sentence in the draft. The
-  incentive at review time points the wrong way.
+  hiring manager. It reads exactly like a fact they had forgotten. Catching it
+  means comparing the copy to the input record claim by claim, which trained
+  annotators with the source open do reliably and which nobody does at the
+  volume campaigns are produced. "Cannot" is too strong; "does not, at volume"
+  is what holds.
+- **A reviewer who could catch it may not look hard.** The invented claim is,
+  by construction, the most attractive sentence in the draft, so the incentive
+  at review time plausibly points the wrong way. That part is reasoned, not
+  measured: the over-reliance studies show people accept fluent machine output
+  more readily when checking is costly, not that they cannot check.
 - **Volume defeats review entirely.** Campaign generation exists because a
   team needs twenty assets, not one. A control that works only when someone
   reads carefully has already failed at the moment the feature earned its
   place.
 
-The conclusion is uncomfortable and load-bearing: **you cannot review your way
-out of a format that requires invention.** If a copy format can only be filled
+The conclusion is uncomfortable and load-bearing: **you cannot count on review
+to get you out of a format that requires invention.** If a copy format can only be filled
 by making something up, no prompt instruction, no reviewer, and no
 post-generation lint will save it. The format must not exist. Honesty here is
 enforced at the level of *what may be asked for*, not *what came back*.
@@ -108,7 +123,7 @@ direction — asking whether a record is complete enough to *post* — and the t
 must agree about which values are real, or one screen will call a role ready
 while the other refuses to speak about it.
 
-## Three ways a claim becomes false, and only one is a lie
+## Four ways a claim becomes false, and only one is an invention
 
 Precision here matters because the remedies differ.
 
@@ -124,9 +139,20 @@ Precision here matters because the remedies differ.
   hired for. Nobody invented anything; the fact was simply carried across a
   boundary it does not hold across. Scope is part of a fact, and a fact set
   that stores values without their scope will export this failure silently.
+- **Distorted.** The claim traces to a stated value and changes shape on the
+  way to the copy: one end of a stated range as the headline, "up to"
+  rewritten as "earn", "may" as "will", a rate stripped of its period. Every
+  value in it is in the record, so a value check passes it, and so does the
+  gate, because the gate decides what the generator may *see*, not what it
+  makes of it. Shape is part of a fact as scope is: a range is a fact only as a
+  range, and the regimes that require pay in the advertisement require both
+  ends and treat "from X" or "up to Y" alone as non-compliant (see [the pay
+  test](../../role-definition/inclusive-job-advertising/techniques/stated-pay-and-place-test.md)).
 
 A campaign generator that defends only against invention is defending against
-the least likely of the three.
+the class an input gate removes most cleanly. Each of the other three needs a
+control of its own: provenance for the defaulted, scope for the borrowed, shape
+for the distorted.
 
 ## Some formats are the problem, not their wording
 
@@ -134,9 +160,14 @@ The sharpest instrument in this subject is *format exclusion*, and it is worth
 teaching as a general move because practitioners reach for it far too rarely.
 
 Consider the employee-testimonial hook — "here is what someone on the team
-says about working here". It is the highest-converting format in recruitment
-marketing, which is precisely why it is proposed in every campaign brief. And
-it cannot be generated honestly at all. Not "must be generated carefully":
+says about working here". It is the format most often proposed in a campaign
+brief, and for good reason: in a controlled lab study, testimonials on a
+recruitment site raised attraction and perceived credibility, more so as video
+than as text (Walker et al. 2009). That study compared testimonials with none,
+not with other formats. Nobody has shown the hook to be the highest-converting
+one, and independent web word-of-mouth out-attracted company testimonials among
+potential nurse-manager applicants (Van Hoye & Lievens 2007). And it cannot be
+generated honestly at all. Not "must be generated carefully":
 **cannot**. A testimonial's entire persuasive value comes from its being a
 specific person's actual experience. A generated one is a fabricated quotation
 attributed to a real workforce. There is no wording that makes it acceptable,
@@ -157,6 +188,17 @@ attributed opinion, a measured outcome — the format is removed from the menu.
 Everything else in this subject is a filter on content; this one is a filter on
 *form*, and it is the only control that survives an operator who wants the
 output badly.
+
+It is also a **policy, not a prohibition the law states**, and the design should
+not assume a regulator will hold the line for it. The rules that name fake
+testimonials are scoped to consumers: the US FTC rule defines a consumer
+testimonial as a message consumers are likely to believe reflects the
+experience of a consumer with "a product, service, or business", and the EU and
+UK fake-review provisions are framed around products, traders and transactional
+decisions. None of the texts read names an employee testimonial aimed at job
+seekers, and whether they reach one is unsettled. The exclusion stands on the
+harm and the speech act, and a team that waits for the statute to make it
+unavoidable will wait past the campaign.
 
 ## Thin copy is a finding; padded copy is a fault
 
@@ -188,6 +230,17 @@ That is the same test the advertisement-language discipline applies to human-
 written postings — a phrase never satisfies a fact test — and the two sides of
 the seam have to state it identically, or a claim blocked when a person types
 it will leak through when a machine generates it.
+
+**Thin is not always allowed.** Silence plus a diagnostic is right where the
+disclosure is optional. Where the asset is itself the advertisement, in a regime
+that requires the range in the advertisement, a missing pay fact is a reason not
+to ship that asset, or to ship it linked to a compliant posting where the regime
+accepts a link. It is not thin copy. New York, for one, defines "advertise" as
+making a written description of an opportunity available to applicants, however
+delivered. The EU directive does not put the range in the advertisement at all,
+and the Czech bill in progress leaves the channel open. Which side of that line
+a market is on is the pay test's question, not this subject's; this subject's
+job is to make the absence a code that whatever gate decides can read.
 
 ## The degraded path is where honesty is actually tested
 
@@ -234,9 +287,39 @@ distinct campaigns, and you have seen them — rather than to manufacture a
 fourth. Regeneration is a bounded resource, and a generator that pretends it
 is unbounded is buying its variety with invented facts.
 
+## The gate is the control; the boundary is the backstop
+
+An input gate decides what the generator may *see*. It does not decide what the
+generator does with it. Instruction-only grounding is measurably imperfect: on a
+public benchmark that tells each model to summarise using only the facts in the
+passage, every frontier model tested still added unsupported content in a
+measurable share of outputs (the figures, and what they do not transfer to, sit
+in the [gate's application](applications/process--stated-facts-only-gate.md)). "Use only the facts"
+is reinforcement, and the gate stays the control. But "the gate, not an output
+check" is too strong if it is read as "no output check": what the record's
+shape and the instruction still leave open is partly literal, and literal is
+cheap to check.
+
+So the output boundary carries a small deterministic check, made cheap by the
+fact set being closed and short: every figure in the copy must be one the fact
+set carries (separators ignored); a quotation mark, or a first-person voice in
+the language the copy is written in, is a defect; a phrase from the banned
+filler list is a defect, in every language the generator writes. A variant that
+fails is dropped, not repaired, exactly as a malformed one is. The same list
+feeds the instruction and the check, so the two cannot drift.
+
+Say what it cannot see, because the lint's confidence is bounded by its class: a
+true value bound to the wrong claim, an invented perk written without a
+numeral, and one end of a stated range standing alone as the headline all pass.
+A model-based entailment check is not the answer to those by default. It is a
+second model to certify, and published results for such checkers leave them well
+short of reliable on the small edits to true statements that distortion is made
+of. Treat the lint as bounding one class, and the rest of the honesty claim as
+resting on the fact set, the taxonomy and the sample audit.
+
 ## Where this subject stops
 
-Four seams, stated so nobody re-teaches a neighbour's craft:
+Five seams, stated so nobody re-teaches a neighbour's craft:
 
 - **The advertisement's language** — bias, coded wording, boilerplate that
   reads as a red flag, the stated-pay-and-place test — belongs to the
@@ -259,6 +342,13 @@ Four seams, stated so nobody re-teaches a neighbour's craft:
   subject governs copy aimed at an audience, that one governs a message aimed
   at a person. Honesty rules transfer across the seam unchanged; consent,
   frequency and halt rules do not exist on this side.
+- **Rendering a script into video.** This subject stops at the script. Turning it
+  into a video with a synthetic presenter is a separate act with its own
+  disclosure duties for synthetic media (the EU AI Act's Article 50, applicable
+  from 2 August 2026), which attach to whoever renders and publishes it. On the
+  wording of the Act's deep-fake definition, a wholly fictional presenter that
+  resembles no real person may fall outside it, which is one more reason the
+  testimonial exclusion is a policy this subject must hold itself.
 
 ## Failure modes of the naive reading
 

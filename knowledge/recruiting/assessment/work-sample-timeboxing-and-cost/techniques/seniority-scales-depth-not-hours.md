@@ -22,13 +22,18 @@ that says it is has three separate defects.
 
 ## Why the longer senior exercise fails
 
-- **It filters the exact pool the exercise exists for.** Senior candidates have
-  other processes running, less need to prove themselves, and a sharp sense of
-  what unpaid time costs. They decline long exercises at a much higher rate than
-  junior candidates do. Extending the senior version therefore produces the
-  worst possible sample: the strongest people gone, the ones with the most free
-  time remaining, and a scoring distribution that looks reassuringly wide because
-  it is measuring availability.
+- **It may filter the exact pool the exercise exists for, and you should find
+  out rather than assume.** Senior candidates plausibly have other processes
+  running and a sharp sense of what unpaid time costs, and the one company
+  recollection found says candidates holding competing offers withdrew more. That
+  a senior candidate declines a long exercise at a higher rate than a junior one
+  is not established: the one survey with data on it found take-home completion
+  unchanged among senior respondents. What it does support is caution, because
+  extending the senior version risks the worst sample: the strongest people gone
+  if the mechanism holds, the ones with the most free time remaining, and a
+  scoring distribution that looks reassuringly wide because it is measuring
+  availability. Your own conversion by level is the only measurement that
+  settles it (step 5 below).
 - **It buys volume, and volume is the thing capable tooling makes free.** More
   deliverables is more artifact, and artifact quality is roughly constant across
   a pool with the same tooling. You spend the candidate's scarcest resource on
@@ -111,5 +116,6 @@ than capped.
 The recognisable signature is a senior submission set that is uniformly
 competent, uniformly complete, uniformly hard to rank — because the exercise
 asked for volume and everyone's tooling supplied it — sitting next to a senior
-invitation-acceptance rate far below the junior one. Both symptoms have the same
-cause, and adding time makes both worse.
+invitation-acceptance rate far below the junior one. Both symptoms usually
+share a cause, and adding time makes both worse. Confirm the second from your own
+funnel before you act on the first.

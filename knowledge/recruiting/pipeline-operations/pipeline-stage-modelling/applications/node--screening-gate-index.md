@@ -7,6 +7,8 @@ stack: node
 status: forged
 verified_on: 2026-09-29
 verified_against: node@24
+applied: code
+ab_verdict: better
 ---
 
 # One derived index, and everything that used to read a string
@@ -14,9 +16,13 @@ verified_against: node@24
 `app/_lib/pipeline-stages.ts` is the whole technique in a pure, DB-free module
 — deliberately free of the `better-sqlite3` import so the fairness predicate
 is unit-testable in isolation and the stage order has one source (`:1-6`).
-Re-read 2026-09-29 at kp `ca3d48934`: the module has grown (line numbers below
-are the current ones), and three things moved that the first reading recorded
-differently.
+Re-read 2026-09-29 at kp `ca3d48934`, then again the same day at `7340988e2`
+with the pure functions executed against constructed axes (the cited files did
+not change between the two). Line numbers are the `7340988e2` ones unless a
+sentence says they are after the fix. That second read found the screening set
+and the permission table wrong in ways the first read had recorded as fine; the
+fix landed as kp `5f990d590` on the local main branch (unpublished), and the
+sections below say which side of it each line describes.
 
 ## The incident comment that justifies the module
 
@@ -60,19 +66,36 @@ provable rather than hopeful.
 
 ## Both sides of the boundary from one number
 
-`screeningStageIds` (`:213-218`) is `axis.slice(0, screeningGateIndex(axis))`
-minus every `homework` stage, and `isScreeningStage` (`:220-223`) is
-`i < screeningGateIndex(axis)` with the same exclusion. The comment at `:196-205` names the property the standard asks for: the pre-gate
-set and the past-gate predicate are "in exact lockstep BY CONSTRUCTION now —
-both read `screeningGateIndex`, so *screening stage* and *not yet past
-screening* cannot drift apart", with a test pinning the pair.
+At `7340988e2`, `screeningStageIds` (`:213-218`) was
+`axis.slice(0, screeningGateIndex(axis))` minus every `homework` stage, and
+`isScreeningStage` (`:220-223`) was `i < screeningGateIndex(axis)` with the same
+exclusion. The comment at `:196-205` names the property the standard asks for:
+the pre-gate set and the past-gate predicate are "in exact lockstep BY
+CONSTRUCTION now — both read `screeningGateIndex`, so *screening stage* and *not
+yet past screening* cannot drift apart", with a test pinning the pair.
+
+Executed over constructed axes, "the range minus homework" was too wide. A
+`custom`, a `scoring` or an early `offer` column placed before the first
+interview was in the set (`[New, Scr, Cust:custom, Int, ...]` gave
+`New, Scr, Cust`), so it was offered "Screen with AI" and could be named as the
+place an already-screened candidate lands. The golden path says a custom stage is
+"never counted as screening"; the code counted it. Since `5f990d590` the set is
+the `entry` and `screening` roles **intersected** with the ordinal gate
+(`pipeline-stages.ts:218-227` after the fix). It still reads the one gate number,
+so the lockstep with `hasAdvancedPastScreening` holds, and the default board
+answers byte-for-byte as before.
 
 The mirror derivation is `screenedLandingStage` (`:164-168`): the last stage
-before the gate, falling back to the entry stage and then `axis[0]`, "so this
-always names a real place to put somebody". It exists because two paths file
-an already-assessed candidate — a rematch redirect and an applicant-tracking
-import carrying a screened status — and both used to hardcode `"Screened"`,
-"which is only that stage's name on the default axis".
+before the gate, "so this always names a real place to put somebody". It exists
+because two paths file an already-assessed candidate — a rematch redirect and an
+applicant-tracking import carrying a screened status — and both used to hardcode
+`"Screened"`, "which is only that stage's name on the default axis". Executed, it
+returned the homework column (`[New, Scr, HW, Int]` gave `HW`), the custom column
+and, on the enterprise preset, `Homework`: an already-assessed person filed into
+the case step. It now takes the last entry or screening stage before the gate. Its
+docstring promised an entry-stage fallback the code never had
+(`before[last] ?? axis[0]`); the two agree on every valid axis, where the entry is
+first.
 
 ## What an automated screen may do, per position
 
@@ -107,14 +130,16 @@ k-anonymity floor — "an org benchmark is never a window onto ONE other team"
 
 The homework column is the case the standard's "everything before the gate" rule
 had not met. It sits before the gate (a case precedes the first interview) but
-nothing triages a CV there, so `screeningStageIds` and `isScreeningStage`
-subtract it (`:213-223`, the `StageRole` comment at `:40-53`): "a 'Screen with AI'
-run at a homework column would advance a candidate past the assignment the
-column exists to give them." `hasAdvancedPastScreening` stays purely ordinal
-and is untouched, so the metric and the automation permission still share one
-boundary number, but the automation set is now the range minus a role, not the
-range. The lockstep the comment at `:196-205` still claims is therefore true of
-the gate and no longer of the two sets.
+nothing triages a CV there, so the set has to be narrower than the range
+(the `StageRole` comment at `:40-53`): "a 'Screen with AI' run at a homework
+column would advance a candidate past the assignment the column exists to give
+them." `hasAdvancedPastScreening` stays purely ordinal, so the metric and the
+automation permission still share one boundary number. What the first fix got
+wrong was the direction of the narrowing: it subtracted the one role it had met,
+and the executed axes above show four more (`custom`, `scoring`, an early `offer`,
+and a `screening`-role column that sits *after* the gate). Intersecting with the
+roles that triage is one rule where the subtraction was a list that grows with
+each new role.
 
 ## Where closure lives here: a status beside the stage
 
@@ -140,22 +165,84 @@ funnel, re-engagement and offer-acceptance reporting". That is the golden path's
 Not read: every other consumer of `status`. The claim is that these two
 computations are right, not that no in-flight count anywhere forgets the filter.
 
+**The protection ends where the stage does.** "Position alone is the honest
+answer" holds while the kept stage is still on the axis. Migration deliberately
+skips closed candidates (all four terminal statuses), so a candidate rejected
+after an interview keeps the id of an `Interview` column the workspace later
+removes. The cohort loop resolves rows against the live axis only
+(`analytics.ts:533`, `axis` is the workspace's current one), and no metric file
+reads the retired list (`retired` appears in none of `analytics.ts`,
+`analytics-cohort.ts`, `org-benchmarks.ts`). `stageIndex` is -1 for that row, so
+`hasAdvancedPastScreening` answers false: a person who was interviewed counts as
+not having advanced, in the denominator and out of the numerator. The tombstone
+resolves the row's *label* and nothing that measures. Executed for the pure half
+(an unresolvable id returns false everywhere); the analytics loop was read, not
+run, because the tree has no dependencies installed here.
+
 ## Where this falls short of the standard
 
-`screenStageOutcome` (`:249-256`) is not axis-aware. Its only caller
-(`automation-run.ts:569`) passes the entry's stage and the route and no axis, so
-`isScreeningStage` resolves against the shipped default axis, and the entry
-branch is the literal `stage === "Accepted"`. Ids are the frozen shipped names, so a *rename* is safe; the failure needs an id
-the default axis does not carry (a screening step the team added, or a shipped
-column it removed). There the screen reads as advisory: nothing moves, nothing is
-held for review, and no error says so. That is the standard's silent failure
-sitting in the permission table, which the technique describes as indexed by
-role. It is the one shortfall on this page that changes what an automated
-action does.
+At `7340988e2` `screenStageOutcome` (`:249-256`) was not axis-aware. Its only
+caller (`automation-run.ts:569`) passed the entry's stage and the route and no
+axis, so `isScreeningStage` resolved against the shipped default axis, and the
+entry branch was the literal `stage === "Accepted"`. Executed, in both directions:
+
+| Axis | Stage | Before | After `5f990d590` |
+| --- | --- | --- | --- |
+| renamed (`Inbox, Triage, Talk, Deal, Won`) | `Inbox`, `Triage` | `advisory`, `advisory` | `advanced`, `advanced` |
+| `[New, Scr, Cust, Int, ...]` | `New`, `Scr` | `advisory` | `advanced` |
+| enterprise preset (`Accepted, Homework, Interview, Screened, Human interview, ...`) | `Screened` (screening role, after the first interview) | `advanced` | `advisory` |
+| shipped default | all five | unchanged | unchanged |
+
+So on any board whose ids differ from the shipped names the automated screen did
+nothing at all (the earlier reading of this page saw only that direction), and on
+the shipped enterprise preset the one screening column that sits behind a human
+interview *moved* a candidate on a clean verdict, where the comment in
+`stage-ai-actions.ts:50-51` promises "a late screen informs and moves nobody".
+That is the standard's silent failure sitting in the permission table. The fix
+threads the workspace axis in from `automation-run.ts` (default kept for callers
+without one) and asks the role, not the name, at the entry branch. Two new tests in
+`pipeline-stage-roles.test.ts` fail on the old module and pass on the new one;
+that file plus `pipeline-screening.test.ts` ran 22/22. Not run: the type-check
+(the detached tree has no `node_modules`) and the full unit suite.
+
+The path that follows a clean verdict on a board with no interview or offer stage
+is code-read, not run: the gate is then the terminal stage, a clean screen at the
+last screening column would ask `actOnPipelineEntry` to advance onto it, and the
+"cannot reach the terminal without an offer" guard (`acceptWouldReachTerminal`)
+sits in `pipeline-entry-action.ts`, not in the store call the automation uses.
+The validator does accept such an axis.
 
 `SCREENING_STAGES` (`:206`) still exists as a literal `["Accepted",
-"Screened"]` and is still re-exported from `db/pipeline.ts:91`. It is correct only
-on the shipped axis.
+"Screened"]` and is still re-exported from `db/pipeline.ts:91`; only tests read
+it. It is correct only on the shipped axis.
+
+**The length fallback is unreachable on a valid board.** The standard, and the
+`screeningGateIndex` comment, present "nothing is past the gate" (`axis.length`) as
+a live outcome. The validator requires exactly one terminal stage, so a validated
+axis always has a gate at or before it; executed, an axis with no terminal is
+refused. The test at `pipeline-stage-roles.test.ts:182-195` uses an axis the
+product would refuse. The case that does occur is an axis with an entry, a
+screening step and a terminal and nothing between: the gate is the terminal, so
+only a hired candidate has "advanced past screening".
+
+**Name-coupled read sites outside the README's list.** The README triage says the
+leftovers degrade to *filing the candidate in the wrong column, not a wrong
+number*. Read at `7340988e2`: `interview-recording.ts:132` starts the audio
+retention clock on `entryStage === "Hired"`, `journey/project.ts:1019` sets a
+cohort outcome on `entry.stage === "Hired"`, `floor-move-preview.ts:156` filters
+its cohort on `stage === "Screened"`, `db/core.ts:3731` checks `Accepted` /
+`Screened`, and `features/shared/decisionsTypes.ts:92` holds a literal stage list.
+They bite only when a workspace drops or replaces a shipped id, since a rename
+keeps the frozen id, and at least the first two change a retention clock and an
+outcome, not a filing.
+
+**Two definitions of "screening stage" coexisted.** The TypeScript manual screen
+and `batch_screen` used the range minus homework; the Python policy pass
+(`pipeline/jobfit/automation.py:194-235`) is role-driven from a `stageRole` the
+TypeScript side stamps, and rejects only on `screening`-role columns
+(`StageRoleSyncTest` pins the two role tables). They differed on exactly the
+custom, scoring and late-screening cases above. After the fix they agree on the
+pre-gate case; the Python side was read, not run.
 
 The aging-threshold coupling the first reading recorded is closed.
 `slaForStage` (`aging-policy.ts:76-90`) resolves an override, then the team's

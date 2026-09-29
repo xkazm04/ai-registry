@@ -23,14 +23,20 @@ The defect is not the fallback. The defect is scoring it.
 ## The contamination, and why it is biased
 
 A deterministic fallback has a characteristic profile: stylistically
-consistent, structurally complete, mildly generic. A judge scores it in a
-predictable middling band, run after run, with almost no variance. Mixed into a
-model's quality cell, those rows pull the cell toward the template's score.
+consistent, structurally uniform, mildly generic. A judge scores it in one
+predictable band, run after run, with almost no variance. Mixed into a model's
+quality cell, those rows pull the cell toward the template's score.
 
 That would be tolerable if it were uniform noise. It is not. **The models that
-fail most often receive the most template rows**, so the contamination flatters
-exactly the models that deserve the worst reliability marks, and it compresses
-the spread between all of them toward a single value. A matrix contaminated this
+fail most often receive the most template rows**, so the cells of the least
+reliable models move furthest, and the spread between all of them compresses
+toward a single value. Which way they move is the sign of the template's score
+minus the model's own. A rich template that lands in a middling band flatters an
+unreliable model. A thin stub — an empty scorecard, a skeleton case design — lands
+near the floor and punishes it; in the recorded runs that judged fallbacks
+before the exclusion existed, every one scored below the same operation's real
+answers (counts in the application). Do not assume the flattering direction
+before looking. A matrix contaminated this
 way looks like the classic symptom of an unanchored rubric — everything within a
 point of the middle — and the two causes get confused. Rule out both.
 
@@ -43,6 +49,14 @@ template was scored repeatedly.
 
 1. **Mark the fallback where it is emitted.** The record carries a flag set by
    the code path that substituted the output, at the moment of substitution.
+   The place where the payload is last replaced is where the mark belongs: a
+   coercion step that discards the model's answer and returns the template must
+   set it, or the row ships marked as the model's. Comparing the final output
+   with the template does catch a whole payload replaced, but it cannot see a
+   hybrid — the model's numbers kept and an empty field filled from the
+   template — so where backfill is per field the record carries a per-field or
+   per-row provenance mark, and a hybrid row is scored, if at all, as its own
+   stratum.
 2. **Never detect fallbacks by pattern-matching the text afterwards.** A good
    template resembles good generation, retrospective detection has both error
    directions, and the direction it errs in is unknowable. An unmarked row is a
@@ -60,8 +74,17 @@ template was scored repeatedly.
 6. **Exclude fallbacks from the performance statistics too, not just quality.**
    A template is produced instantly and costs nothing, so leaving fallback rows
    in a latency or cost aggregate lets the least reliable model post the best
-   speed. Every per-cell statistic that is supposed to describe *the model* runs
-   over real generations only; only the reliability rates run over all attempts.
+   speed. (The template itself is free, but the row is not always: a fallback
+   that follows a failed call carries that call's wall time and may carry a
+   partial spend. The exclusion rests on whose work the row is, not on how cheap
+   it looks.) Every per-cell statistic that is supposed to describe *the model*
+   runs over real generations only; only the reliability rates run over all
+   attempts. That includes the **structural-validity rate**: a fallback is
+   contract-valid by construction, so a validity rate taken over all rows cannot
+   fail, and a target that never once served reads as "valid 100%". Validity is a
+   statistic about the model's own answers, and is zero when there are none.
+   The failed attempts behind a fallback are a real cost of an unreliable model:
+   report their time and spend per fallback on the reliability axis, beside the rate.
 7. **Aggregate with a median across scenarios, not a mean.** One catastrophic or
    one flattering scenario should not move a cell, and judged scores are exactly
    the kind of noisy quantity a mean mishandles.
@@ -101,6 +124,12 @@ gets logged as a normal degraded run.
   are unrelated.
 - **When a row's fallback flag is missing, treat the row as unscored.** Do not
   guess from the text.
+- **When two reports summarise the same run, give them one row partition.** A
+  harness that prints a run summary and also bakes a scorecard tends to grow two
+  aggregators, and the exclusion gets applied to one of them. Define "the model's
+  own rows" once and have both call it; otherwise the printed table and the
+  committed table answer latency and cost over different rows, and nobody sees the
+  difference until a ranking flips.
 - **Distinguish a missing provenance mark from a malformed judge field.** An
   unmarked row is unusable, because nobody knows what produced it. A single
   dimension the judge formatted oddly — a fraction, a word instead of a number —
@@ -111,7 +140,9 @@ gets logged as a normal degraded run.
 - **When a fallback rate spikes on a structurally large deliverable, look at the
   output budget before the model.** A generation cut off at a token ceiling
   fails its parse and ships the template, and the resulting near-bottom scores
-  are a configuration finding, not a capability finding.
+  are a configuration finding, not a capability finding. Check the budget binds
+  every arm: a route with no output ceiling never truncates, so the defect falls
+  only on the arms that have one and reads as a difference between vendors.
 - **When exclusion leaves too few artifacts for a cell to mean anything, report
   the cell as inconclusive.** Not as a low score, and not as a blank — a blank
   reads as "not run" and invites a re-run that will produce the same nothing.

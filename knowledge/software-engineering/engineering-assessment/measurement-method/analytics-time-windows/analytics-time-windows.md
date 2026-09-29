@@ -80,6 +80,10 @@ every real change beside it. Boundary hits are not rare in practice: systems
 generate observations on round timestamps — job ticks, batch writes, midnight
 recomputations — precisely at the moments windows are cut. The rule and its
 consequences are [half-open-interval-policy](./techniques/half-open-interval-policy.md).
+The direction is not sacred and the tiling is: stamps that mean "when it
+happened" take `[start, end)`, stamps that mean "the interval that just ended"
+take `(start, end]`, and either is correct only if every surface uses the one
+the timestamp's meaning selects.
 
 ### 2. One canonical zone, resolved in one place
 
@@ -104,8 +108,9 @@ thirty days grants **more than twelve renewals a year** — a real cost, paid
 silently. A week binned by dividing an epoch timestamp by a week's length
 anchors on whatever weekday the epoch happened to be, so two entities whose
 data starts a few days apart get bins that are out of phase and cannot be
-compared. Add months to months and days to days; let the calendar handle the
-irregularity. See [calendar-arithmetic](./techniques/calendar-arithmetic.md).
+compared. Add months to months and days to days, always from the
+anchor rather than from the previous result (a clamped 28th never climbs back
+to the 31st), and let the calendar handle the irregularity. See [calendar-arithmetic](./techniques/calendar-arithmetic.md).
 
 ### 4. The window's start is the comparison baseline
 

@@ -1,0 +1,71 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-wst-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T19:52:00Z",
+  "ended_at": "2026-09-29T20:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/work-sample-timeboxing-and-cost",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/work-sample-timeboxing-and-cost",
+      "technique": "clamp-a-proposed-timebox",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/work-sample-timeboxing-and-cost.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/techniques/hard-timebox-cap.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/techniques/clamp-a-proposed-timebox.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/techniques/seniority-scales-depth-not-hours.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/techniques/state-what-is-and-is-not-observed.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/techniques/accommodation-and-device-advisory.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/techniques/draft-durability-and-no-silent-loss.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/node--clamp-a-proposed-timebox.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/process--hard-timebox-cap.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/react--draft-durability-and-no-silent-loss.md",
+    "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost/applications/react--state-what-is-and-is-not-observed.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/work-sample-timeboxing-and-cost.md"
+  ],
+  "commits": [
+    {
+      "sha": "6acce196",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/assessment/work-sample-timeboxing-and-cost librarian/applied.md librarian/domains/recruiting.md librarian/subjects/recruiting/work-sample-timeboxing-and-cost.md"
+    },
+    {
+      "sha": "a8355a8c",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "No new technique. The 40-60% drop-off figure had no source. kp read at 60aab8088: two deviations closed; a 640-char paste takes a session 100->35 while disclosure omits paste; draft key per posting. Five applied rows, none better/not-better; kp untouched."
+}

@@ -5,8 +5,8 @@
   "skill_version": "1.4.0",
   "mode": "interactive",
   "domain": "software-engineering",
-  "started_at": "2026-09-29T20:00:00Z",
-  "ended_at": "2026-09-29T20:30:00Z",
+  "started_at": "2026-09-29T09:00:00Z",
+  "ended_at": "2026-09-29T10:00:00Z",
   "exit": 0,
   "counts": {
     "dispatched": 0,
@@ -25,11 +25,40 @@
       "points_after": null
     }
   ],
-  "verdicts": [],
-  "files": [],
-  "commits": [],
+  "verdicts": [
+    {
+      "subject": "software-engineering/analytics-time-windows",
+      "technique": "calendar-arithmetic",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/analytics-time-windows.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/techniques/calendar-arithmetic.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/techniques/half-open-interval-policy.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/node--calendar-arithmetic--persisted-monthly-slot.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/analytics-time-windows.md"
+  ],
+  "commits": [
+    {
+      "sha": "aae9fb60",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "Training-data pass, no web lanes: one correction to calendar-arithmetic (week-start spacing is 7 days only in UTC; civil-date index in shifting zones). Map showed no verdicts against the subject. Skills gate red from sibling state."
+  "notes": "1 correction, 1 condition, 1 addition, 1 new application, 0 techniques. Applied: 1 simulation better (ascent monthly slot, code unchanged), 1 unapplied. 0 stale verdicts, maps not rebuilt."
 }

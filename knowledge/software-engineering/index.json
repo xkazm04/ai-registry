@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1819,
-  "applications": 1212,
+  "techniques": 1820,
+  "applications": 1215,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1819/1819",
+  "use_when_coverage": "1820/1820",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3014,10 +3014,24 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/alerting.md",
-   "digest": "sha256-b2:bad79dd7b84ba6b3",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:90e16e9a2b80434b",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
+    {
+     "slug": "absence-as-a-condition",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rule's metric stopped being emitted",
+      "deciding what a no-data tick does to a sustain streak",
+      "a job that must run on a schedule needs a rule",
+      "the evaluator itself could be dead"
+     ]
+    },
     {
      "slug": "alert-lifecycle",
      "status": "forged",
@@ -3042,6 +3056,7 @@
      "shared_with": [],
      "use_when": [
       "choosing where last-fired state lives",
+      "a failed send leaves a rule silent for its whole window",
       "opposite-direction alerts alternate past cooldown",
       "two evaluators each believe they own firing"
      ]
@@ -3080,6 +3095,7 @@
      "shared_with": [],
      "use_when": [
       "alerts flip between firing and recovering",
+      "picking a rule shape for an availability objective",
       "identical inputs leave subjects holding different labels",
       "tuning how long a breach must hold before it counts"
      ]
@@ -3114,16 +3130,32 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "absence-as-a-condition",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/next--absence-as-a-condition.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "react",
      "technique": "evaluation-loop",
      "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/react--evaluation-loop.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-29",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "rust",
+     "technique": "dedup-and-cooldown",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/rust--dedup-and-cooldown.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
      "technique": "rule-authoring-validation",
      "file": "knowledge/software-engineering/backend-platform/platform-observability/alerting/applications/rust--rule-authoring-validation.md",
-     "verified_on": "2026-08-18"
+     "verified_on": "2026-09-29",
+     "verified_against": "rust@1.80"
     }
    ]
   },
@@ -3132,8 +3164,8 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/analytics-time-windows.md",
-   "digest": "sha256-b2:8137e4905509e509",
-   "revision": 4,
+   "digest": "sha256-b2:9b81f64365c4edae",
+   "revision": 5,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -3218,6 +3250,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "calendar-arithmetic",
+     "file": "knowledge/software-engineering/engineering-assessment/measurement-method/analytics-time-windows/applications/node--calendar-arithmetic--persisted-monthly-slot.md",
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "calendar-arithmetic",
@@ -15007,9 +15046,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/file-browsing/file-browsing.md",
-   "digest": "sha256-b2:709a7dcf28ef6b44",
-   "revision": 3,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:5ccb1317ab342eb5",
+   "revision": 4,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "file-mutations",
@@ -17982,9 +18021,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/judgment-guardbands/judgment-guardbands.md",
-   "digest": "sha256-b2:6f0d381e3a82e919",
-   "revision": 2,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:3f1ecbef594aab1b",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "confidence-weighted-blend",
@@ -38857,6 +38896,7 @@
     "agent-runtime-assembly/indeterminate-closure-on-interruption",
     "agent-runtime-assembly/operator-tier-code-loading",
     "agent-runtime-assembly/rewrite-before-the-gate",
+    "alerting/absence-as-a-condition",
     "alerting/evaluation-loop",
     "alerting/periodic-digest",
     "app-shell/lazy-section-loading",

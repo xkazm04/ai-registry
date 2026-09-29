@@ -68,7 +68,11 @@ is "does this match the record" and it does.
 4. **Give assertion a cheap path.** The right response to "this was defaulted"
    is a one-click confirm by someone with the authority to decide, which
    converts it into an asserted fact with an actor and a timestamp. Without
-   that path, the rule reads as obstruction and teams route around it.
+   that path, the rule reads as obstruction and teams route around it. The path
+   has its own decay: a confirm that costs one click is one click that gets
+   given without reading, and a confirmed default then looks exactly like a
+   decision. Expect it, and run the step 5 audit over *confirmed* values as well
+   as unconfirmed ones; a confirm rate near one is a warning, not a success.
 5. **Audit the defaults periodically by sampling.** Take a set of published
    roles, ask the hiring manager to state the value cold, and compare. The
    disagreement rate on defaulted fields is the size of the exposure and it is

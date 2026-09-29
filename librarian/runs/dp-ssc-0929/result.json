@@ -1,0 +1,83 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ssc-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T17:40:00Z",
+  "ended_at": "2026-09-29T18:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/selection-score-calibration",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/selection-score-calibration",
+      "technique": "post-deployment-drift-monitoring",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "recruiting/selection-score-calibration",
+      "technique": "base-rate-skill-score",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiting/selection-score-calibration",
+      "technique": "deterministic-holdout-clean-arm",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/selection-score-calibration.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/techniques/base-rate-skill-score.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/techniques/deterministic-holdout-clean-arm.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/techniques/label-leakage-taxonomy.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/techniques/outcome-axis-selection-advance-versus-hire.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/techniques/post-deployment-drift-monitoring.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/techniques/reliability-bins-and-proper-scoring.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--base-rate-skill-score.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--deterministic-holdout-clean-arm.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/node--label-leakage-taxonomy.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration/applications/process--post-deployment-drift-monitoring.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/domains/recruiting.md",
+    "librarian/subjects/recruiting/selection-score-calibration.md"
+  ],
+  "commits": [
+    {
+      "sha": "abc3a11a",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/selection-score-calibration knowledge/recruiting/index.json catalog.json rules/ai-registry-recruiting.md"
+    },
+    {
+      "sha": "926ce017",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/domains/recruiting.md librarian/subjects/recruiting/selection-score-calibration.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Pushed from a detached origin worktree (primary main diverged). kp fix 5deab937 is local, unpushed (sibling work in kp). Map not regenerated: it would revert local digests; dry run: 8 unjudged kp contexts, no stale verdict. Gates: knowledge 8/8, librarian 5/5; --all not run."
+}

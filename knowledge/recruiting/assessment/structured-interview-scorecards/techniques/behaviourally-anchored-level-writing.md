@@ -80,18 +80,34 @@ candidate.
 
 Five levels is the workable default: enough to distinguish clearly-below,
 below, at, above and exceptional, few enough that raters can hold the ladder in
-mind. Adding levels does not add resolution; it adds argument. Removing the
+mind. It is a convention and not a measured optimum. The scale-length research
+(one study of 1,358 people rating a self-report personality inventory across 2 to
+11 options is the cleanest) finds precision rising to about six options and flat
+beyond, with criterion validity not tracking the count, and concludes that the
+common practice rests on lore; none of it tests behaviourally anchored interview
+ratings. So the defensible range is four to six, and the deciding constraint is
+the one this technique already names: every level needs a paragraph a stranger can
+tell apart. Levels you cannot anchor distinctly add argument, not resolution.
+Removing the
 midpoint to force a decision (an even-numbered scale) trades one distortion for
 another and is only worth it when the instrument's job is a binary and the anchors
 say so.
 
-## Retranslation is the acceptance test
+## Retranslation is the pre-launch clarity test
 
-Before a rubric goes live, run the anchors past people who did not write them:
+Before a rubric goes live, run the anchors past people who did not write them
+(an acceptance test for clarity, and only that):
 
 1. Strip competency headers and level numbers from every anchor paragraph.
 2. Shuffle them.
 3. Ask the reviewers to assign each one to a competency and to a level.
+
+Set the pass mark before looking: the literature's thresholds for how many
+reviewers must sort an anchor back to where it was written are convention
+(60% to 80% appears, 70% is common), and no study found tests whether passing
+predicts later interrater agreement or validity. Treat retranslation as a clarity
+screen that costs an afternoon, and follow it with agreement measured on real
+cases; do not read a pass as certification.
 
 Anchors that land under the wrong competency are measuring something other than
 what the header claims — usually general polish, which is how halo enters a
@@ -101,6 +117,11 @@ launch and expensive to discover from a year of ratings.
 
 The same exercise repeated on live transcript fragments is calibration; the
 difference is only whether the material under test is the anchor or the rater.
+Do both: in the one controlled interview comparison, anchored scales and
+frame-of-reference training each lifted rating accuracy and reliability by a
+comparable amount, and using both lifted accuracy further. The anchors are half a
+mechanism, and writing them well and never calibrating on them leaves the rest of it
+unbuilt.
 
 ## Where the anchors come from
 

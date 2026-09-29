@@ -47,6 +47,20 @@ Read the result on a fixed scale:
   important thing the surface can say. Clamping it is the same class of error as
   imputing an unscored candidate to the mean.
 
+**The estimate is noisy and, for a good score, biased low at small n.** The
+reference constant is fitted on the same cohort it is scored on, so its error is
+slightly understated (Ferro and Fricker 2012: the uncertainty term is biased by
+minus p(1-p)/n, about one per cent at n=100; they decline to sign the bias of the
+ratio). Simulated with a calibrated score whose true skill is 0.334 (4,000 samples
+per size, scores uniform), the mean measured skill was 0.296 at n=20, 0.309 at 30,
+0.320 at 50 and 0.327 at 100, with a standard deviation of 0.20, 0.16, 0.11 and
+0.08. That is the sign for a calibrated score only; an overfitted one is biased
+the other way. Two consequences: a skill point estimate at a few dozen outcomes
+is one draw from a wide interval and should print with one (or with n beside it
+and the word *indicative*), and a verdict band cut at a fixed skill will
+mislabel good scores at the floor: at n=20 that score read under a 0.2 bar 30%
+of the time and negative 7.7% of the time.
+
 Report the base rate itself alongside the skill score, always. A skill of 0.15
 against a base rate of 0.5 and against a base rate of 0.93 are different claims,
 and the reader cannot recover the second number from the first.

@@ -1,0 +1,38 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-mjh-0929b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T15:05:00Z",
+  "ended_at": "2026-09-29T15:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/multi-jurisdiction-hiring-compliance",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/recruiting/multi-jurisdiction-hiring-compliance.md",
+    "librarian/runs/dp-mjh-0929/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Idled: deepened an hour earlier, no clock or event fired. The ranking finding was a deleted ledger; restored it and cherry-picked the unpublished correction onto origin/main, which still had Illinois withdrawn."
+}

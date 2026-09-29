@@ -41,20 +41,34 @@ each exception was reasonable.
    an email template, a report on candidate effort. The same applies to defaults:
    a data model whose default duration sits above the cap will silently
    manufacture over-policy exercises for every path that does not set the field.
+   And to history: a record written before the clamp existed keeps its number
+   until something migrates it, so a display clamp is the backstop for those rows
+   and never the fix.
 4. **Clamp before any dependent scoping is computed.** Task count, phase timing
    and any mid-exercise event schedule derive from the duration. Deriving them
    from the unclamped value and then clamping the display produces an exercise
    whose stated length no longer matches its contents.
-5. **Resolve an unusable proposal downward, not upward.** Missing, unparseable,
-   zero, negative, or absurd values resolve to the level's *default*, which sits
-   at or below the middle of the band — never to the ceiling. Where the system is
-   unsure and the consequence lands on the candidate, it fails toward the person
+5. **Separate a proposal that carries no intent from one that carries too
+   much.** Missing, unparseable, non-finite or non-numeric values say nothing
+   about what the proposer wanted, so they resolve to the level's *default*,
+   which sits at or below the middle of the band — never to the ceiling. A
+   readable number outside the band does say something: a reviewer typing 10
+   means "longer", and dropping the edit hides that while resolving it to the
+   default misreads it, so it clamps to the nearest bound and the clamp is
+   recorded and shown to the proposer. A zero or negative number is readable and
+   goes to the floor. Where the system is unsure and the consequence lands on the
+   candidate, it fails toward the person
    ([uncertainty-resolves-toward-the-candidate](../../../_laws.md#uncertainty-resolves-toward-the-candidate)).
+   Every reader of the number applies the same fallback: a display path that
+   resolves a missing value to the ceiling while the record resolves it to the
+   default has made two numbers out of one.
 6. **Record the clamp as an event, not a silent adjustment.** Store what was
    proposed, what was applied, and by which rule. A silent maximum function
    destroys exactly the evidence that would show a pattern of managers requesting
    double the policy — which is a policy conversation you can only have if the
-   requests survived.
+   requests survived. Record it at every seam that clamps, not only the one with a
+   human reader: the generator's echo of a longer number is the pattern most worth
+   counting, and it is the one that usually clamps in silence.
 7. **Where an override above the ceiling exists at all, make it named and
    expiring.** An exercise shipped above the policy maximum imposes hours on
    people; it carries the name of whoever authorised it
@@ -82,7 +96,11 @@ each exception was reasonable.
   it as a policy issue, not as a per-exercise correction.
 - **When a candidate has already been invited under a number, do not re-clamp
   their exercise.** The published number is the agreement. Fix the policy for the
-  next cohort and honour the current one.
+  next cohort and honour the current one. That needs the number to be kept with
+  the invitation: a clamp that runs whenever the exercise is read, or a policy
+  band that moves under a stored exercise, changes the agreement silently for
+  everyone already invited, and lowering it is no exception, because the tasks
+  were scoped to the old number and now do not fit the new one.
 
 ## When not to use it
 

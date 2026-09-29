@@ -158,3 +158,9 @@ shape.
 Do not stretch one definition across a family of related artifacts to save
 effort. The shared parts will be right and the differences — which are where the
 domain rules live — will be averaged away.
+
+Do not write one for an artifact whose input cannot be fixed. A definition can
+only be scored against an evidence excerpt that every arm saw identically; an
+agent that researches the open web sees a different world on every run, so there
+is no excerpt to ground against. List such a use case as unmeasured, say why, and
+check the sources it cites instead of scoring it on a proxy.

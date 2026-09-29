@@ -29,7 +29,11 @@ round: enough for the fixed opening, at least the minimum question count at the
 per-question floor, and the closing. Set the ceiling at the point past which candidate
 and interviewer attention degrade and the marginal minute stops buying signal; for a
 single conversational round that is usually somewhere around an hour, and a design that
-wants more should be two rounds, which is round design's decision, not this one's.
+wants more should be two rounds, which is round design's decision, not this one's. The
+hour is a scheduling and attention choice, not a measured optimum: length showed no
+relation to reliability or validity across the meta-analytic record (Thorsteinson 2018),
+so the evidence argues for shorter rounds when the plan cannot fill the slot, not for a
+longer one.
 
 ## The procedure
 

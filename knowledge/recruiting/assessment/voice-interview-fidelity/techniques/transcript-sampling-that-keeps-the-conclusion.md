@@ -38,9 +38,14 @@ a scorecard that misreads the whole conversation's frame.
 ## The procedure
 
 1. **Budget in the units the consumer actually meters**, and measure the real
-   transcript distribution before choosing a shape. Many interviews fit whole; the
-   sampler should be a no-op for those, and a no-op is worth confirming rather
-   than assuming.
+   transcript distribution before choosing a shape. The budget is a choice. Forty
+   minutes of speech is a few thousand words, inside any current model's context,
+   so a small budget is a cost or latency decision that should be made on purpose.
+   Measure the share of interviews that fit whole: a sampler that is a no-op for
+   most interviews is a guard, and one that bites on most of them is the scorer's
+   real input, where the split and the coverage record carry the weight. Position
+   effects in long contexts are model- and task-dependent and, at this length, are
+   not the reason to keep the closing; the read-back is.
 2. **Allocate asymmetrically.** The tail gets more than the head — the closing
    material is denser in decision-relevant content. A workable default is roughly
    one-third head to two-thirds tail, tuned by reading real outputs.
@@ -73,7 +78,13 @@ a scorecard that misreads the whole conversation's frame.
 - **When the read-back is identifiable, protect it explicitly** rather than
   relying on the tail allocation to capture it. A long closing exchange —
   candidate questions, logistics, thanks — can push the read-back back out of a
-  fixed tail window. Anchor on the read-back and expand around it.
+  fixed tail window. Anchor on the read-back and expand around it. Where the
+  agenda structurally places the read-back after the candidate's questions and just
+  before the goodbye, a tail window catches it and the anchor is insurance; where it
+  can precede them, or a close can run long, the anchor is required.
+- **A comment that says the split favours the tail is not the split.** Check the
+  arithmetic. An even division of the budget between head and tail is defensible,
+  and a comment claiming otherwise misleads the next person to tune it.
 - **When a competency was covered only in dropped material, mark it unassessed
   rather than rated.** A rating on material the rater never saw is a claim the
   record does not hold

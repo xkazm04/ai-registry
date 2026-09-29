@@ -76,6 +76,16 @@ touch four.
   ([a claim carries its sample and its basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
   Repricing history at today's rate makes past quarters move with the foreign
   exchange market.
+- When a currency stops existing, the rows keep their label. Bulgaria joined the
+  euro on 1 January 2026 at a fixed BGN 1.95583 to the euro, and the euro was the
+  sole legal tender from 1 February 2026; a lev row entered last year is still a
+  lev row. Converting it at the legal rate is a named, dated conversion like any
+  other, and rewriting the stored label to euro is a fabricated fact about a
+  payment. A workspace default currency is the input that goes wrong on that day.
+- When money is stored as an integer count of minor units, the scale belongs to
+  the currency. ISO 4217 lists currencies with no minor unit (the yen) and with
+  three (the Kuwaiti dinar); a money type that assumes two decimals misprices
+  them by a factor of a hundred or ten. Look the exponent up, do not hard-code it.
 - When a per-unit figure is derived — cost per hire, cost per application —
   the currency of the result is the currency of the numerator, and if the
   numerator had several, the result does not exist until they are converted.

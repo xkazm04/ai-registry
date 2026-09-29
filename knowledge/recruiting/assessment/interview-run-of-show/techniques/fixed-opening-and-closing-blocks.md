@@ -35,7 +35,21 @@ Three to five minutes, and it does four jobs:
 - **Disclosures owed before assessment begins.** That a machine is participating or
   transcribing, that a recording is retained, that the notes go to a panel. These are
   obligations in their own right, and they are also the sort of thing that poisons a
-  conversation when it surfaces halfway through.
+  conversation when it surfaces halfway through. **The opening restates; it is rarely
+  where the duty is met.** Timing is per regime. An Illinois employer that has candidates
+  record video interviews analysed by AI must notify, explain and obtain consent "before
+  the interview" (820 ILCS 42/5). New York City's automated-decision-tool rule wants the
+  notice ten business days before use (DCWP). The EU AI Act's transparency duty (the
+  provider's, for systems that interact with people, unless that is obvious) is met "at
+  the latest at the time of the first interaction" (Art. 50(5), applying from 2 August
+  2026), and GDPR Art. 13 information is due when the data are obtained. Recording law
+  varies by state: where all parties must consent, announce before recording starts and
+  capture the announcement. So the candidate is told at invitation or scheduling, and the
+  opening confirms it and is where the recording announcement is made. Regime detail
+  lives in candidate-ai-disclosure-and-explanation and
+  multi-jurisdiction-hiring-compliance; dates move, and the EU Annex III employment
+  duties now apply from 2 December 2027. No source found makes the round's length or the
+  next step a legal duty: those two jobs of the opening are practice, not obligation.
 - **Naming the actor.** The candidate is told who is assessing them and who will decide,
   per [every-decision-names-its-actor](../../../_laws.md#every-decision-names-its-actor).
   "Someone from the team will get back to you" is the version that later becomes a

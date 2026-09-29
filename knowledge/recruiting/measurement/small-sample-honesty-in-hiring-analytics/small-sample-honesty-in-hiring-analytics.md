@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: small-sample-honesty-in-hiring-analytics
 status: forged
-use_when: [deciding whether a hiring figure may be published, designing a metric that can refuse, reviewing a dashboard that never says "cannot say", setting a minimum sample for a hiring claim]
+use_when: [deciding whether a hiring figure may be published, designing a metric that can refuse, reviewing a dashboard that never says "cannot say", setting a minimum sample for a hiring claim, reading a clean verdict from a small cohort]
 techniques:
   - a-named-minimum-per-claim
   - not-measurable-versus-zero
@@ -11,6 +11,7 @@ techniques:
   - insufficient-sample-is-not-a-pass
   - gate-each-cohort-not-only-the-headline
   - state-the-accrual-horizon
+  - state-what-the-sample-could-have-seen
 ---
 
 # Small-sample honesty in hiring analytics
@@ -58,7 +59,8 @@ plausible number that nobody flagged.
 The honest vocabulary has three states:
 
 - **Measured.** The claim clears its named minimum. Render the number, with
-  its basis and its count.
+  its basis and its count and, wherever a percentage is shown, its interval:
+  clearing the floor licenses the figure, not its precision.
 - **Thin but real.** There is genuine data, more than none, and less than the
   minimum. The observations exist and are worth showing to a human who will
   read them as anecdote — but the figure derived from them may not drive a
@@ -134,13 +136,21 @@ asking different questions of the same data:
 
 - A **headline rate** needs enough that one outlier cannot move it by tens of
   percent. On a percentage, that is roughly the reciprocal of the resolution
-  you intend to display.
+  you intend to display. That sizes granularity, not noise: at eight, one
+  observation moves the rate about twelve points, and four of eight is still compatible
+  with anything from about 22% to 78%.
 - A **bottleneck flag** — "candidates wait nine days here" — needs enough that
   the flag is about the stage rather than about one person's holiday. Its
   minimum is justified behaviourally: below it, the flag misdirects the
   recruiter's next hour of work.
 - A **selection-rate ratio** needs enough in *each* group for a proportion to
-  be stable, and the floor is a statistical one, not a product one.
+  be stable, and the floor is a statistical one, not a product one. The federal guideline
+  behind the four-fifths rule names no head-count: it says differences on small
+  numbers that are not significant may not be adverse impact, and that numbers
+  too small to be reliable may be judged over a longer period. A round thirty is
+  a borrowed rule of thumb, so argue the number rather than inventing authority
+  for it, and put no floor on the count of *selections*, which would hide the
+  group with none.
 - A **reliability curve** needs enough resolved outcomes to have anything to
   plot against, and enough variation among them that a curve can exist.
 - A **comparison** needs at least two things to compare, which is a floor of a
@@ -157,7 +167,27 @@ read it as a sign that nobody asked what each claim actually needs. And a floor
 is counted in the unit that actually carries the claim: a time-saved figure
 rests on the assisted actions performed, not on the hires that happened to
 close, and gating it on the wrong unit withholds a well-evidenced number while
-publishing a thin one.
+publishing a thin one. It is counted after the claim's own exclusions too: a
+time-to-hire median computed over the hires that carry complete timestamps rests
+on those, and one deployed pack printed "over 9 hires", measured and certifiable,
+for a figure resting on five against a floor of eight.
+
+## A cleared floor buys a figure, not its precision
+
+A floor answers whether a figure may be shown; readers take it to answer how far
+it may be trusted, and it does not. A rate at its floor is still wide. A zero
+from a small count is a bounded claim, not a nothing: none in ten is compatible
+with a true rate near a quarter. And a fairness or quality check that comes back
+clean on a small cohort may simply have been unable to see anything — at thirty
+per group a group selected at half the reference rate is missed at least as often
+as it is caught. So every figure and every verdict a sample produces states what
+that sample could and could not have shown: the interval beside a rate, "0 of 10"
+in place of "0%", and beside a not-significant verdict the smallest gap it would
+reliably have detected. The asymmetry is deliberate: a significant result under
+an exact test holds its error rate at any size and needs nothing added; a clean
+or not-significant one is the verdict that owes the statement. The technique that
+carries the procedure is
+[state what the sample could have seen](techniques/state-what-the-sample-could-have-seen.md).
 
 ## Thin data is the normal case, so it must be designed for, not tolerated
 
@@ -194,6 +224,15 @@ differently, they are stored differently, they trigger different follow-up, and
 no aggregation may fold one into the other. A summary that counts "checks
 passed" and includes the skipped ones is a compliance artifact that lies.
 
+A check that *did* run on a small cohort is not exempt from the same honesty. A
+clean line is bound to what it could have seen
+([a verdict is bound to what it judged](../../_laws.md#a-verdict-is-bound-to-what-it-judged)),
+and says so. And where a rule lets a small category be left out of a calculation,
+the exclusion stays a disclosed one: New York City's bias-audit rules for
+automated employment tools allow setting aside a category under two per cent of
+the data, and still require the justification, the applicant count and the rate
+to be published. Excluded is not the same as unmentioned.
+
 The same shape recurs away from fairness. An unrun check is not a passed check.
 An unmeasured competency is not a met competency. A model that could not
 determine something has not found no concern. Each of these is
@@ -229,6 +268,13 @@ the granularity, not about the metric. Widen the bucket until the cells clear
 their floor, or show counts rather than rates. Do not draw a line through
 points that individually refuse.
 
+Clearing the floor does not make a superlative safe. The best of eight
+well-populated cells is high partly by construction: eight sources with the same
+true rate and fifteen candidates each show a "best source" about seventeen points
+above the truth on average. A cell may be called best or worst only when its
+interval separates from the rest, allowing for how many cells were compared;
+otherwise say that none is distinguishable.
+
 ## Time is a sample dimension
 
 The last quiet failure is temporal. A rate computed on a cohort that has not
@@ -245,7 +291,12 @@ application-to-hire rate in a median cycle time, a quality-of-hire or early
 attrition signal in months. Stating it also gives the honest answer to the
 question that thin data always provokes — *when will this be reliable?* — which
 converts a refusal from a dead end into a plan, and is the difference between a
-team that trusts the instrument and a team that routes around it.
+team that trusts the instrument and a team that routes around it. Not every
+refusal has an honest date, and then the honest response is to say which reason
+applies: nothing has accrued lately, so any date would be invented; the figure is
+a rolling window whose count is capped at pace times window and never reaches
+the floor however long anyone waits; or it describes the present rather than a
+cohort, so waiting does not grow it.
 
 ## Failure modes of the naive reading
 
@@ -255,7 +306,11 @@ team that trusts the instrument and a team that routes around it.
 - **The zero that means unknown.** An unmeasured quantity coerced to a number,
   usually the one that ranks a person worst or clears a gate silently.
 - **The shared threshold.** One constant gating six different claims, chosen
-  for the first claim written and never revisited for the other five.
+  for the first claim written and never revisited for the other five. The measured case: a floor sized for drawing one
+  reliability curve was reused to gate a comparison of two windows, and on windows
+  drawn from the same population under a perfectly calibrated score it alarmed on
+  99.8% of pairs at twenty outcomes (the score-calibration discipline has the
+  arithmetic).
 - **The gated headline with an open drill-down.** Honest at the top, unguarded
   everywhere the reader actually looks.
 - **The skipped check counted as clean.** The compliance failure, and the only
@@ -263,6 +318,12 @@ team that trusts the instrument and a team that routes around it.
 - **The lowered floor.** A minimum reduced because a customer's data did not
   clear it. The floor exists precisely for that customer; moving it converts an
   honest refusal into a dishonest number and takes the standard down with it.
+- **The clean bill at the floor.** A not-significant fairness or quality line
+  that never says how small a gap it could have seen. At hiring-sized cohorts it
+  reads as parity when it is blindness.
+- **The floor on the wrong count.** A minimum checked against the population the
+  metric is labelled with, while the arithmetic ran over the subset that survived
+  its own filters.
 - **The permanent refusal.** A metric that refuses correctly but never says
   what would change it, so the team concludes the analytics are broken rather
   than that the sample is young.
@@ -284,5 +345,11 @@ contributes is that its "too small to assess" is a verdict of its own. Floors
 for comparing candidates against one another belong to comparative shortlist
 evaluation, and the important lesson from that seam is that a comparison floor
 and a statistical floor are different numbers answering different questions and
-must not be unified. Telemetry volume, sampling of traces and instrumentation
-cost are an observability concern and are governed there.
+must not be unified. A floor of five or so on a group is usually a privacy floor, protecting a
+person from being identified in a small cell; it says nothing about whether the
+figure is stable, and the two are sized separately. The cross-organisation
+benchmark discipline owns that pairing, and statistical agencies draw the same
+line: a cell that fails an accuracy standard is flagged rather than necessarily
+withheld, which is the thin state by another name. Telemetry volume, sampling of
+traces and instrumentation cost are an observability concern and are governed
+there.

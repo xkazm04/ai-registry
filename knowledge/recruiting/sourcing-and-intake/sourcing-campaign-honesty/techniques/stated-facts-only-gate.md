@@ -18,23 +18,32 @@ emits a closed set of facts. Its defining property is what it *withholds*.
 
 ## Why the gate is the input, not the output
 
-Two placements are possible and only one works.
+Two placements are possible. Only one can be the control; the other is a
+backstop.
 
 An **output check** — generate freely, then verify each claim against the
-record — fails on the hardest cases. Verifying a claim requires knowing what
-the claim asserts, and marketing prose asserts things obliquely: "you'll ship
-to real users in your first week" is a claim about onboarding, deployment
-practice and team autonomy simultaneously, and none of the three is a field.
-An output verifier either checks only literal values (missing every implied
-promise) or is itself a generator judging a generator, which cannot be relied
-on for the case that matters. Per [a predictor cannot grade its own
-labels](../../../_laws.md#a-predictor-cannot-grade-its-own-labels), the same
-machinery that produced the flourish is the last thing that should certify it.
+record — fails on the hardest cases when it is the only control. Verifying a
+claim requires knowing what the claim asserts, and marketing prose asserts
+things obliquely: "you'll ship to real users in your first week" is a claim
+about onboarding, deployment practice and team autonomy simultaneously, and
+none of the three is a field. An output verifier comes in two kinds. A
+**deterministic** one checks literal values — figures, quoted strings, banned
+phrases — which is cheap and exact and misses every implied promise and every
+reshaped value. A **model-based** one (an entailment checker, or a second
+model as judge) reads the prose, and is a second model to certify: published
+results for such checkers are well short of reliable, and their weakest cases
+are small edits to true statements, which is what a distorted claim is. Where
+the judge is the same machinery as the generator, per [a predictor cannot grade
+its own labels](../../../_laws.md#a-predictor-cannot-grade-its-own-labels), it
+is the last thing that should certify the flourish; a different model family is
+the standard mitigation and does not make it a control.
 
 An **input gate** does not have this problem, because it never needs to
 understand the prose. It only needs to answer, per candidate fact, *did a
 person assert this?* — a question with a determinate answer. The generator
 then cannot claim what it was never told, whatever genre pressure it is under.
+What the gate cannot do is govern what the generator makes of a fact it was
+given; step 8 is the cheap check that covers the literal part of that.
 
 ## Procedure
 
@@ -61,9 +70,12 @@ then cannot claim what it was never told, whatever genre pressure it is under.
    published.
 6. **Mark the absences in the payload the generator sees**, explicitly, as
    null-with-a-meaning rather than as omitted keys — *this field is unknown;
-   never guess it*. An omitted key reads to a generator as an oversight it
-   should helpfully repair; a present null that has been named as unknown is a
-   fact about the record.
+   never guess it*. The reasoning is that an omitted key reads to a generator
+   as an oversight it should helpfully repair, while a present null that has
+   been named as unknown is a fact about the record. That is a design
+   hypothesis, not a measurement: no controlled comparison of the two was found
+   (2026-09-29), so keep the convention because it costs nothing, and do not
+   cite it as evidence.
 7. **State the constraint in the instruction as well.** The gate is the
    control; the instruction is the reinforcement. Both, because the two fail
    in uncorrelated ways — the gate cannot stop the genre's euphemisms, and the
@@ -73,6 +85,19 @@ then cannot claim what it was never told, whatever genre pressure it is under.
    to a draft produced in another, and the generator will reach for that
    market's equivalent of "competitive salary" without ever touching a listed
    phrase.
+8. **Check the literal class at the output boundary.** The model's reply is
+   untrusted input, and part of what can go wrong in it is checkable without
+   understanding prose: a figure the fact set does not carry (compare digit
+   runs with separators stripped, so "65 000" matches "65000"; allow only the
+   figures the instruction itself dictates), a quotation mark or first-person
+   voice in the language the copy is written in, and a phrase from the banned
+   filler list. Drop the variant that fails; do not repair it. Make the
+   instruction's banned list and the boundary's the **same list**, so the two
+   cannot drift, and cover every supported language in the boundary even where
+   the instruction names fewer. State what the check cannot see next to it —
+   a true value bound to the wrong claim, an invented perk with no numeral, a
+   range endpoint standing alone — so nobody reads a passing variant as a
+   verified one.
 
 ## Decision rules
 
@@ -88,6 +113,14 @@ then cannot claim what it was never told, whatever genre pressure it is under.
 - **Scope travels with the value.** A benefit that exists at one site is not a
   fact about the role at another. When the record cannot express the scope,
   the value does not qualify.
+- **Shape travels with the value.** A stated range is a fact as a range. Pass
+  it to the generator whole, with its period and its currency, and do not let a
+  hook quote one endpoint alone: "up to the top of the band" is a claim about
+  the role's pay that the record never made, and the regimes that require pay in
+  an advertisement require both ends. The same goes for modality — "may" stays
+  "may". The check for this is a rule about the hook, not a scan of the copy,
+  which is why the gate step can state it and the boundary step cannot yet
+  enforce it.
 - **Freshness is part of assertion.** A fact asserted against a requisition
   that has since been re-scoped is stale, and staleness is a form of absence.
   Cheap version: facts are read at generation time from the live record, never

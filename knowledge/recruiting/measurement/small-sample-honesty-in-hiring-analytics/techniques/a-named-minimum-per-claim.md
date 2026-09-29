@@ -49,9 +49,9 @@ is too low fails invisibly.
 - **A displayed percentage.** The floor is roughly the reciprocal of the
   resolution you intend to show, scaled by how much movement matters. If a
   reader would act on a ten-point difference, a denominator where one
-  observation is worth more than ten points is below the floor. Showing a
-  decimal place raises the floor by an order of magnitude, which is usually the
-  cheapest argument against showing one.
+  observation is worth more than ten points is below the floor. Showing a decimal place raises the floor by an order of magnitude, which is usually the
+  cheapest argument against showing one. This sizes granularity, not noise: a rate
+  at this floor is still wide, and [state what the sample could have seen](state-what-the-sample-could-have-seen.md) says what it owes.
 - **A benchmark-shaped headline.** Anything a team will quote outside the room
   wants a floor tied to the organization's own scale rather than to statistics
   — a meaningful fraction of a typical team's annual hiring, large enough that
@@ -66,7 +66,12 @@ is too low fails invisibly.
 - **A group comparison.** Sized by statistics rather than by product: a
   proportion needs enough observations in *each* arm before the ratio between
   them is anything but noise, and the floor applies per arm, never to the
-  total. This floor is not the product's to soften.
+  total. This floor is not the product's to soften. No codified head-count exists for the
+  four-fifths rule: the guideline's own tests are significance and whether one
+  different person would flip the result, and it lets numbers too small to be
+  reliable be judged over a longer period. Argue the number rather than borrowing
+  authority for a round one, and never place a floor on selections, which would
+  hide the group with none.
 - **A regime floor.** A fourth kind, and the one that is almost never named: a
   count below which the *phenomenon being measured is not happening*, quite
   apart from statistical stability. A recruiter-capacity ratio computed over two
@@ -82,8 +87,17 @@ not the unit the metric is displayed in. A time-saved figure rests on the
 automated actions actually performed, not on hires — gating it on hire count
 would withhold a well-evidenced number from a team with three hundred assisted
 actions and four hires, and would publish it for a team with the reverse. Ask
-what the arithmetic is actually averaging over, and put the floor there. Where
-the display unit and the evidence unit differ, the basis says both.
+what the arithmetic is actually averaging over, and put the floor there. Where the display unit and the evidence unit differ, the basis says both.
+
+The count is also the count *after the claim's own exclusions*. A time-to-hire
+median is computed over the hires whose timestamps are complete, which can be a
+much smaller set than the hires. Sampling the metric on the hire count printed
+"over 9 hires", measured and certifiable, for a median resting on five against a
+floor of eight, and the producer had already been fixed and pinned while nothing
+read the field that would have caught it. Take the sample from the rows the
+arithmetic used, and let the basis text name that population: a basis that names
+a bigger population than the statistic is the same error one sentence further
+down.
 
 ## Decision rules
 

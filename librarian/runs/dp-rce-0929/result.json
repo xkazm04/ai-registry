@@ -1,0 +1,60 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rce-0929",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T18:40:00Z",
+  "ended_at": "2026-09-29T19:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/recruiting-cost-and-automation-economics",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/recruiting-cost-and-automation-economics",
+      "technique": "per-action-manual-minute-estimates",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/recruiting-cost-and-automation-economics.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/node--per-action-manual-minute-estimates.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/node--an-uncapped-ratio-as-a-denominator-alarm.md",
+    "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/applications/react--date-every-derived-money-figure.md",
+    "librarian/applied.md",
+    "librarian/subjects/recruiting/recruiting-cost-and-automation-economics.md"
+  ],
+  "commits": [
+    {
+      "sha": "19f4c8c1",
+      "branch": "main",
+      "pathspec": "knowledge catalog.json rules"
+    },
+    {
+      "sha": "a3e52ad9",
+      "branch": "main",
+      "pathspec": "librarian/applied.md librarian/subjects/recruiting/recruiting-cost-and-automation-economics.md"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second pass of the day, from a stale dispatch (checkout 73 behind): worktree of origin/main, only what pass one (bdf71ef6) lacked. Lanes re-found its findings. No map run; no pair."
+}

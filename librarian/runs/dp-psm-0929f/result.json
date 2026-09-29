@@ -1,0 +1,46 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-psm-0929f",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T18:14:00Z",
+  "ended_at": "2026-09-29T18:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/pipeline-stage-modelling",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/spec--screening-gate-index.md",
+    "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/applications/node--screening-gate-index.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json"
+  ],
+  "commits": [
+    {
+      "sha": "7d1f5366",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling catalog.json knowledge/recruiting/index.json"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-primary-checkout",
+  "notes": "Idled: origin already holds five same-day passes on this subject (dp-psm-0929 to 0929e); dispatched against a local main 86 behind. Verified, not re-researched; two small deltas landed (7d1f5366). A duplicate local landing was reverted, never pushed."
+}

@@ -1,0 +1,93 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ram-0929b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T16:38:00Z",
+  "ended_at": "2026-09-29T16:56:41Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/recruiter-anchored-model-evaluation",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiter-anchored-model-evaluation",
+      "technique": "never-judge-a-fallback-as-the-models-work",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiter-anchored-model-evaluation",
+      "technique": "unverifiable-is-not-fabricated",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "recruiter-anchored-model-evaluation",
+      "technique": "decision-anchored-score-bands",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/techniques/decision-anchored-score-bands.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/techniques/evidence-grounded-correctness.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/techniques/never-judge-a-fallback-as-the-models-work.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/techniques/separate-quality-from-reliability.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/techniques/task-definition-matches-the-real-deliverable.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/techniques/unverifiable-is-not-fabricated.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--decision-anchored-score-bands.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--never-judge-a-fallback-as-the-models-work.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--separate-quality-from-reliability.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--task-definition-matches-the-real-deliverable.md",
+    "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/applications/process--unverifiable-is-not-fabricated.md",
+    "librarian/subjects/recruiting/recruiter-anchored-model-evaluation.md",
+    "librarian/domains/recruiting.md",
+    "librarian/applied.md"
+  ],
+  "commits": [
+    {
+      "sha": "cb3f2b37",
+      "branch": "main",
+      "pathspec": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation"
+    },
+    {
+      "sha": "59044c22",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/recruiting/index.json",
+        "catalog.json"
+      ]
+    },
+    {
+      "sha": "f809e95f",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/recruiting.md",
+        "librarian/subjects/recruiting/recruiter-anchored-model-evaluation.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second same-day pass: dispatch HEAD predated dp-ram-0929, so the work was ported onto origin/main and cut to the uncovered delta. Counts from kp local bench records, none published. Not run (spend): a second-vendor judge, a planted-probe run."
+}

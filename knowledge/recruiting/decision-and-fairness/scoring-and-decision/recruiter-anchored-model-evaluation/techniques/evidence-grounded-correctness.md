@@ -49,9 +49,15 @@ template masquerading as generation.
    in the prompt: this excerpt is the whole basis.
 2. **Ask for claim-level extraction before scoring.** The judge lists the
    assertions the artifact makes about the person or the role, then labels each
-   *supported*, *contradicted*, or *unverifiable*. Scoring after enumeration is
-   markedly more stable than scoring by impression, and the enumeration is the
-   artifact a human reviewer can check.
+   *supported*, *contradicted*, or *unverifiable*. The enumeration is the
+   artifact a human reviewer can check, which is its reliable value. Do not
+   promise more: a prompt-controlled 2026 comparison found a holistic judge
+   matched or beat a decompose-then-verify judge on two of three benchmarks, with
+   the gap concentrated in partly supported answers, i.e. incompleteness
+   ([arXiv 2603.28005](https://arxiv.org/abs/2603.28005)), and no study of
+   run-to-run stability for hiring text is known. Pilot both arms on your own
+   scenarios, and score completeness against the task definition separately
+   because a claim list cannot see what is missing.
 3. **Require a verbatim quote for every contradiction.** A judge that cannot
    point at the line it objects to has produced an opinion, and an opinion
    cannot be argued with or shown to be wrong.

@@ -83,6 +83,11 @@ hooks does not support ten distinct campaigns, and the honest system says so.
 - **Reshuffling is a symptom, not the disease.** Cosmetic reordering means the
   variation space was exhausted several presses ago and the system did not
   admit it. The fix is the exhaustion message, not more entropy.
+- **Every press is a fresh draw against the gate.** Whatever small chance a
+  generation has of slipping something past the checks, the chance that at least
+  one of *n* presses does grows with *n*. A recruiter who regenerates until the
+  copy lands is, without meaning to, searching for the variant the checks pass.
+  Bounding the count is a safety control as well as a cost one.
 - **Sampling variability is a wording knob, not a variation strategy.** Turning
   it up produces sentences that sound different and assert the same things,
   until it produces sentences that assert new things. There is no setting that

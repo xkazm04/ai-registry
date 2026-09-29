@@ -8,7 +8,7 @@ laws:
   - count-carries-predicate
   - identity-survives-reuse
 shared_with: []
-use_when: [choosing where last-fired state lives, opposite-direction alerts alternate past cooldown, two evaluators each believe they own firing]
+use_when: [choosing where last-fired state lives, a failed send leaves a rule silent for its whole window, opposite-direction alerts alternate past cooldown, two evaluators each believe they own firing]
 ---
 
 # Dedup and cooldown
@@ -50,6 +50,51 @@ So the write order is fixed: **evaluate → check history → persist the fire
 system will repeat; a fire persisted but not delivered is recoverable from
 the record. Persist first.
 
+## The suppression clock runs on delivery, not on detection
+
+"Persist first" protects the *record*. It does not say which timestamp the
+cooldown reads, and reading the wrong one breaks the alert the cooldown was
+meant to protect. If the window is computed as "time since this rule's last
+fire row", a fire whose delivery **failed** — a webhook answering 503, an
+expired token, a dead relay — has already stamped it. The next tick sees a
+recent fire and suppresses, and the condition goes unannounced until the
+window ends, with the record saying "fired" the whole time. "Recoverable from
+the record" is not recovery if the very check that would retry the fire reads
+the row as done.
+
+The record answers two questions and they need two fields: *did we detect
+this?* and *did anyone get told?* The rule:
+
+> **The suppression clock reads the last *delivered* fire — a delivery
+> outcome on the record, or a separate last-notified stamp written only on
+> confirmed delivery. A fire whose every channel failed leaves the window
+> unspent and is retried on later ticks, with backoff and a bounded attempt
+> count, the outcome written back to the record.**
+
+There is one honest exception, and it is a design, not an omission: the clock
+may stay on detection when **delivery is itself a durable queue keyed by the
+fire** — an outbox row per fire, drained by a worker that retries from a
+persisted position. Then the failed send is not lost, it is pending, and the
+cooldown is correctly counting detections. What is never sound is the middle
+case: a detection-stamped window in front of a delivery that makes one
+attempt and forgets it. Mainstream alert routers land on the same split: the
+group's alert state is re-flushed until a send succeeds, and the timestamp
+that paces re-notification is written only after it does.
+
+Three bounds keep the retry honest. It stops at a bound and says so — a
+revoked webhook is a finding on the channel, surfaced where its owner will
+see it, not an endless loop. Delivery is judged per reach: a fire delivered
+to a quiet surface while its interrupting channel failed is not delivered.
+And the retry never creates a second episode: it re-attempts the same fire,
+so the suppressed-repeat count and the lifecycle record stay one. The outcome
+the clock reads is the **latest attempt per channel**; the attempts themselves
+stay on the record as history. A "delivered" test written as *every attempt
+succeeded* reads a fire that failed once and then succeeded as undelivered
+forever, and the retry never stops. The batch
+channel already applies this discipline to its own claim —
+[periodic-digest](./periodic-digest.md) releases the window when the send
+fails — and the event channel owes the same.
+
 ## Keys and identity
 
 Suppression is computed **per rule** — and per whatever finer key the rule's
@@ -75,11 +120,38 @@ condition holds information: *nine*. The suppressed occurrences are
 counted against the fire record they deduplicate into
 ([count-carries-predicate](../../../../_laws.md#count-carries-predicate) — the
 count travels with what was counted: this rule, this window, this
-condition), and the next allowed fire says "still failing; 9 suppressed
+condition), and the next allowed reminder says "still failing; 9 suppressed
 since last notice". Without the count, a condition that flapped once and a
 condition that hammered through an entire cooldown window read identically
 in history, and the fatigue analysis that decides which rules to retune
 loses its best column.
+
+## A repeat while open is a reminder, not a fire
+
+Two sentences elsewhere in this subject look like a contradiction and are
+not. [Flap-control](./flap-control.md) says a rule fires on the transition
+into breach and never on remaining in breach; this file says the next allowed
+send after a cooldown reads "still failing". Both hold once the second is
+named for what it is: a **reminder** — a declared re-notification of an
+episode that is still open and unacknowledged.
+
+- A reminder has its own interval, set per severity, and it is data.
+- It stops the moment the episode is acknowledged or resolved
+  ([alert-lifecycle](./alert-lifecycle.md)); a reminder to someone who already
+  owns the problem is noise, and one after resolution is a false alarm.
+- It is recorded against the *episode*, not as a new fire, so reminders do
+  not inflate the fire count or the actionability rate they are meant to help.
+- It carries the suppressed count.
+
+Mainstream routers and paging tools re-notify by design — repeat intervals
+measured in hours, escalation policies that repeat when nobody acknowledges —
+so "never re-notify" would be the wrong lesson. What flap-control rules out is
+narrower: a **level-triggered rule with a cooldown standing in for edge
+detection**. That design has no episode, no owner and no ending; it re-fires
+whether or not anyone has the problem, counts each re-fire as a new
+occurrence, and gives the window a job — marking where one incident stops and
+the next starts — that a timer cannot do. A cooldown that paces reminders of
+a tracked episode is the same window doing an honest job.
 
 ## Opposite directions across one boundary share one pool
 
@@ -166,6 +238,10 @@ keep two fire paths alive.
 
 - Persist the fire before delivering it; recover from "persisted but not
   delivered", never from "delivered but not persisted".
+- The cooldown reads delivered fires (or a delivery-backed outbox), never
+  merely detected ones; a failed delivery leaves the window unspent.
+- A repeat while the episode is open is a reminder with its own per-severity
+  interval, stopped by acknowledgment or resolution.
 - Cooldown windows are rule data, not code constants — the first noisy rule
   will need its own window, and that must not require a deploy.
 - On restart, the first tick consults history like any other tick; there is

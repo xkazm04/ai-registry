@@ -18,12 +18,16 @@ both languages is scored **indeterminate** rather than as a violation.
 
 ## The concern
 
-Language drift is a fidelity failure before it is an etiquette failure. A
-recogniser configured for one language and fed another does not produce errors; it
-produces **fluent hallucinated text** — well-formed sentences that were never
-spoken. That output passes every readability check and every plausibility check a
-downstream model can apply, and it is unrecoverable, because nothing in the
-artifact signals that it is fiction.
+Language drift is a fidelity failure before it is an etiquette failure. In at
+least one widely used open model family, a recogniser forced to one language and
+fed another does not produce errors; it produces **fluent text in the wrong
+language**, a translation of what was said rather than phonetic noise, and the
+maintainers call the behaviour undocumented. That output passes every readability
+check and every plausibility check a downstream model can apply, and it is
+unrecoverable, because nothing in the artifact signals that it is not what was
+said. Other engines' behaviour on a wrong language code was not found documented, so
+the mechanism is engine-specific; the check is to feed your own stack known-language
+audio with the wrong code and read what comes back.
 
 Drift also imposes an unfair load on the candidate. Being addressed in a second
 language after choosing a first mid-interview costs comprehension and composure at

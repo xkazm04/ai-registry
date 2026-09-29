@@ -35,7 +35,11 @@ same saving under a blend, and both will be wrong in opposite directions.
    estimate *of*, and without it the number cannot be argued with, only
    overwritten.
 3. **Estimate against the deliberate, unhurried version of the task.** Not
-   the rushed version and not the best case. A structured scorecard filled
+   the rushed version and not the best case. No independently measured time for
+   a fully scored CV was found; the figure people quote (7.4 seconds, from an
+   eye-tracking study by a CV-writing service, sample not stated) times a
+   first-glance triage, not a scored evaluation, so it neither supports nor
+   contradicts an estimate in minutes. A structured scorecard filled
    properly is a task in the tens of minutes; skim-reading and scoring a CV
    is single-digit-to-low-double-digit minutes. If your estimate implies a
    recruiter working faster than a recruiter has ever worked, it is inflating
@@ -95,6 +99,12 @@ side tried to make the number smaller.
   saving is zero until someone writes one. Never fall back to a blended
   average for unknown kinds — that turns every new feature into an automatic
   increase in the reported saving.
+- When two kinds record successive steps of one human pass over the same item
+  (read and score it, shortlist it, then reject it), their estimates are not
+  additive unless a person would have done each step separately. Summing by
+  kind is how several features each claim the whole task. Count the task once
+  per item, or state the overlap; whether the events fire together is a question
+  for the recorded trail, not for the table.
 - When two action kinds differ by more than a factor of three, never merge
   them for tidiness. The factor of three is the whole information content.
 - When an estimate is raised, the raise needs the same one-sentence
@@ -106,7 +116,12 @@ side tried to make the number smaller.
   action count and its estimate basis with it
   ([a claim carries its sample and its basis](../../../_laws.md#a-claim-carries-its-sample-and-its-basis)).
   "Nine hours" alone is a marketing number; "nine hours, from a hundred and
-  forty assisted actions at the stated per-action estimates" is a claim.
+  forty assisted actions at the stated per-action estimates" is a claim. The
+  regulators say the same from the other side: the US FTC has held since 1984
+  that an objective claim needs a reasonable basis before it is made, and its
+  2024 enforcement sweep stated that there is no AI exemption from that; the UK
+  advertising code asks for documentary evidence for objective claims. A basis
+  that travels with the number is what makes it defensible.
 
 ## When not to use this
 

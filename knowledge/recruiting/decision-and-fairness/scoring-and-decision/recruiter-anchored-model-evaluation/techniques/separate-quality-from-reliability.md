@@ -42,6 +42,11 @@ that is a stalled process, not a rounding error
 Set the reliability bar by what happens to the affected person, not by what the
 mean looks like.
 
+Distinguish failing to deliver from degrading to a labelled, gated template: the
+second is a degraded delivery and the candidate's process continued, so the
+disqualifying bar sits on non-delivery and the fallback rate gets its own,
+separately stated, bar.
+
 This split is shared craft with the practice on validating machine interviewers,
 but the axes are not interchangeable. There, reliability means conversational
 invariants — no leaked instructions, no verdict spoken to the candidate, no
@@ -90,7 +95,23 @@ will compare them anyway unless the number is on the page
 
 - **When a model fails reliability on a candidate-facing path, it does not ship,
   however good its quality score.** Quality cannot buy back an artifact that
-  never arrived.
+  never arrived. Write the gate as control flow: filter on reliability first, rank
+  the survivors on quality second, and say so out loud when nobody clears it.
+- **When the gate is a rate, restate it as a count at your sample size.** A floor of
+  90% sounds strict and is not the bar the previous rule sets; at four scenarios
+  per cell the only reachable rates are 0, 25, 50, 75 and 100%, so it admits
+  nothing but a perfect cell, and at ten it first admits one failure. Choose the
+  floor from what one failed attempt means for a candidate, then print what it
+  amounts to in attempts.
+- **When a single model must be picked, compose the dimensions, but do not let the
+  composite replace them.** "Never blend" is about diagnosis; a routing decision
+  needs one ordering. Fix the weights before the result, from the cost of each kind
+  of error (an invented claim costs more than an untidy one), print them beside
+  the pick, and keep the per-dimension cells in the record and on the surface a
+  reader uses to challenge the pick. Compare composites with a noise allowance set
+  in advance, and let a tie inside it go to the cheaper option; a difference
+  smaller than the judge's own run-to-run spread is a tie whatever the second
+  decimal says.
 - **When a cell looks bad, check the surviving sample before ranking anything.**
   A poor cell over four survivors is a reliability finding wearing a quality
   costume.
@@ -100,6 +121,16 @@ will compare them anyway unless the number is on the page
 - **When a stakeholder asks for one number, give the pair and the gate
   sentence** — ships or does not ship, and on which axis it failed. The pair is
   what makes the answer arguable.
+- **When a routing composite exists, keep reliability out of it.** Let a floor on
+  a harm-carrying dimension act as a veto, and let reliability gate the
+  candidates. Multiplying the composite by a validity penalty blends the axes
+  again and counts the same failure twice when the reliability gate also sees it.
+- **When a tie band is set, set it at or above the noise the same report
+  states.** A band tighter than the stated noise lets the ordering, not the
+  measurement, choose. The published noise floor of a single judge is well above
+  the differences usually claimed
+  ([arXiv 2609.27787](https://arxiv.org/abs/2609.27787)), so a band with no
+  repeat-judging behind it is an assumption.
 - **When a reliability defect is fixed, re-run quality from scratch.** The
   surviving sample changed, and the runs that used to fail were not a random
   subset — they were the hard inputs.

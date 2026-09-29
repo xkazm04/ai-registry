@@ -6,7 +6,7 @@ technique: flap-control
 status: forged
 laws: []
 shared_with: []
-use_when: [alerts flip between firing and recovering, identical inputs leave subjects holding different labels, tuning how long a breach must hold before it counts]
+use_when: [alerts flip between firing and recovering, picking a rule shape for an availability objective, identical inputs leave subjects holding different labels, tuning how long a breach must hold before it counts]
 ---
 
 # Flap control
@@ -33,16 +33,31 @@ each stage answers a different question:
 1. **Edge-trigger first.** A rule fires on the transition into breach
    (false→true), never on remaining in breach (true→true). Level-triggered
    evaluation with a cooldown bolted on looks similar from a distance and
-   is wrong up close — it is a siren with a snooze button, re-alarming on a
-   timer rather than on events. The rule's state (currently-breaching or
-   not) is part of evaluation state, persisted with it.
+   is wrong up close — it is a siren with a snooze button, re-firing on a
+   timer with no notion of an episode, an owner or an ending. The rule's
+   state (currently-breaching or not) is part of evaluation state, persisted
+   with it. "Never on remaining in breach" is a statement about *fires*; the
+   paced re-notification of an episode that is still open and unacknowledged
+   is a **reminder**, a different declared object with its own interval and
+   its own stop condition ([dedup-and-cooldown](./dedup-and-cooldown.md)).
 2. **Sustained-for before the edge counts.** The transition into breach is
    recognized only after the condition has held for a configured duration
-   or number of consecutive evaluations. This is the single highest-value
-   flap defense: a ten-minute sustain requirement erases every transient
-   spike for free, at the cost of ten minutes of detection latency — a cost
-   the rule's author accepts *per rule*, because a latency that is
-   negligible for "disk filling" may be unacceptable for "service down".
+   or number of consecutive evaluations. For short, ephemeral noise this is
+   the cheapest flap defense there is: a ten-minute sustain requirement
+   erases every transient spike, at the cost of ten minutes of detection
+   latency — a cost the rule's author accepts *per rule*, because a latency
+   that is negligible for "disk filling" may be unacceptable for "service
+   down". It is not the right tool for every rule. A fixed duration does not
+   scale with severity — a total outage and a marginal one alert after the
+   same delay — and a signal that touches the good side even once resets a
+   strict streak. For a rule over a ratio measured against an objective (an
+   availability target, an error budget) the stronger shape is a *pair of
+   windows evaluated together*: a long window for significance and a short
+   one, about a twelfth of its length, that must also be breaching, with the
+   **rate of budget consumption** rather than a fixed level as the trigger.
+   The pair catches slow burns and fast ones, and the short window makes the
+   alert stop soon after the burn does. Keep the plain sustain for filtering
+   noise over short spans.
    Sustained-for is not debounce-by-another-name: debounce waits for quiet
    after stimulus; sustained-for demands *continuous* stimulus. An
    intermittent breach — nine breaching samples out of ten — resets a
@@ -51,10 +66,16 @@ each stage answers a different question:
    streak.
 3. **Hysteresis governs the way out.** The condition ends not when the
    signal dips below the firing threshold but when it crosses a stricter
-   recovery band and stays there (a recovery sustain mirrors the firing
-   sustain). Symmetric thresholds guarantee flapping for any signal that
-   hovers; the band width is chosen from the signal's observed noise, and
-   it too is rule data.
+   recovery band and stays there. Two devices serve this stage and they are
+   not the same: a **band** (a stricter recovery threshold) and a **hold**
+   (the alert stays open for a duration after the last breaching sample,
+   which also bridges a gap where the data briefly disappears). Symmetric
+   thresholds guarantee flapping for any signal that hovers; the band width
+   and the hold are chosen from the signal's observed noise, and both are
+   rule data. Both have a cost the firing side's sustain does not advertise:
+   they lengthen the alert's **reset time** — how long it stays open after
+   the problem has ended — and a long reset time is how an alert comes to be
+   ignored. It is a trade the author should see, like detection latency.
 4. **Cooldown last.** Whatever transitions survive stabilization are then
    rate-bounded by [dedup-and-cooldown](./dedup-and-cooldown.md). Cooldown is
    the backstop, not the mechanism: if cooldown is doing most of the
@@ -133,4 +154,6 @@ so even a residual flap costs attention asymmetrically little.
   handled one.
 - Detection latency introduced by sustain is disclosed on the rule's
   authoring surface ("fires after N minutes of breach"), because the author
-  is trading latency for quiet and should see both sides of the trade.
+  is trading latency for quiet and should see both sides of the trade. So is
+  the reset time a recovery band or hold adds ("stays open N minutes after
+  the last breach").

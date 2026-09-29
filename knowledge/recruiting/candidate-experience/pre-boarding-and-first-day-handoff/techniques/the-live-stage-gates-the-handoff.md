@@ -43,6 +43,10 @@ failure:
    the necessary condition.
 3. **Re-read the entry's live stage** and require it to hold the terminal, hired role.
    This is the sufficient condition, and it is the step that is routinely omitted.
+   Where a workspace can compose a column *after* the offer step (a background check,
+   a contract signature), an accepted offer is not yet a hire: the gate stays shut
+   until the entry has **crossed** onto the terminal role, and the acceptance alone
+   starts only the owner's accountability, not provisioning.
 4. **Refuse outright if an existing run is cancelled.** A revoked run stays revoked;
    it never resolves and is never re-created around.
 5. **Otherwise ensure a run exists**, idempotently, so the link works even for a hire
@@ -109,10 +113,24 @@ Conversely, nothing downstream may run *twice*. Because the acceptance is claime
 exactly one writer, the handoff hangs off that claim, not off a status read — a status
 read is a snapshot two concurrent responses both pass.
 
+**That claim is per token, and the hire is per person.** A re-issued offer mints a fresh
+token once the first is answered, and each token wins its own claim, so a second accept
+on an already-hired entry passes the claim and must still not provision again. Key the
+once-only effects on the *crossing* — the entry was not on the terminal role before the
+response and is on it after — and never on "the entry advanced", which is also true of a
+move onto a post-offer column. The claim proves this response
+is the first on its token; the crossing proves this is the first time the person was
+hired.
+
 ## Decision rules
 
 - **When a stage moves after acceptance, re-evaluate every open pre-boarding
   artifact.** The link the person holds does not expire on its own.
+- **When the role is closed while a hire is still short of the terminal stage, the
+  entry is withdrawn with the rest** — an accepted offer on a post-offer column is a
+  frozen fact on a live-withdrawn record. Reopening the role can restore that entry, so
+  a *run* that was cancelled must carry its own recorded state rather than inherit the
+  entry's.
 - **When the people team revokes a run, that revocation outranks any later
   provisioning trigger, including a fresh acceptance on a duplicate link.**
 - **When a hire is closed out on one requisition and hired on another, resolve against

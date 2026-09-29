@@ -49,6 +49,17 @@ was metered on acceptance and mirrored as `candidate.hired` is not reversed anyw
 this path (read, not run: `recordMeterUsage` and the outcome record sit on the accept
 path only). Whether a recruiter's UI offers reject on a hired card was not measured.
 
+## The tree already carries one ground's distinct outcome
+
+`closeEntriesByJobId` (`app/_lib/db/pipeline.ts`) is the "the role changed" ground done
+as the technique asks. Closing a role withdraws every `active` entry short of the
+terminal stage as `role_closed` — "a DISTINCT terminal status — they cleared the bar but
+lost the role to timing, NOT a merit reject, so reject-rate stays honest" — with an event
+per entry, and it resolves the placed candidate by role so the hire is never swept up
+(read, not run). That covers a person parked on a post-offer column when the role goes.
+It stops at the hire: a person already on the terminal stage is deliberately left
+untouched, so the one door left for withdrawing *them* is the reject above.
+
 ## The tree already carries the ledger half
 
 The accept path shows the ledger idea in code, unnamed. `respondToOffer` explains that a
