@@ -84,6 +84,16 @@ made concrete at the level of a single observation.
   with neither, because its asymmetry is invisible to the reader.
 - **When the two readings imply different probes, the signal is really two
   signals** — split it, and give each its own question.
+- **When a flag decides what travels, it must not differ by direction.** The
+  usual carrier is the needs-confirmation field. Marking a document-read strength
+  as settled and a document-read risk as open looks like a small modelling choice.
+  Every artifact that filters on the field then exports one side. Measured on one
+  production panel over 66 seeded candidates: two strength detectors were marked
+  settled, their adverse twins open, and the copyable checklist kept only open
+  rows. Sixty candidates had a strength on screen that never left it, and 32 got
+  a risks-only export while the screen looked balanced. A strength read off a
+  document is exactly as unconfirmed as a risk read off it. Mark both open, and
+  test the export, not the screen.
 - **When an aggregate view rolls signals up, roll both sides up.** A count of
   concerns with no count of strengths reintroduces the dossier at the summary
   layer, where most readers actually stop.

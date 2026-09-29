@@ -69,6 +69,17 @@ Diagnose the artifact, not the intent:
 
 ## Decision rules
 
+- **When the person who reads the checklist also rates the answers, give them the
+  question and withhold the hypothesis.** A first impression formed from
+  application material has been tied to confirmatory interviewer behaviour in the
+  field (Dougherty, Turban & Callender 1994). Interviewers who did not preview
+  applications rated more reliably (Dipboye, Fontenelle & Garner 1984). The
+  checklist with its readings belongs to whoever prepares the round. The rater
+  gets neutral questions from the bank, asked the same way of every candidate the
+  rule selects. Asking caregiving questions of some applicants and not others is
+  itself listed as evidence of disparate treatment (EEOC Enforcement Guidance on
+  caregiving responsibilities, 2007). The companion technique on a confirmation
+  probe per signal carries the structured-interview terms.
 - **When an item cannot be phrased as something to confirm, it does not belong on
   the checklist** — this rule alone removes most dossier content, because
   character observations resist the phrasing by nature.

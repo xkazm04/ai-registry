@@ -15,7 +15,8 @@ The most informative deterministic reading available from a career document is n
 what it claims — it is the **ratio between what it claims and what it evidences**.
 A document that asserts thirty capabilities and describes four outcomes has a
 different shape from one that asserts six and describes eleven, and that shape is
-countable, reproducible, and free of any judgment about the person.
+countable, reproducible, and makes no judgment about the person, although its
+input is not neutral (see below).
 
 It is also the signal most easily corrupted into an accusation. "Overclaim" names
 a property of a document, not a character trait, and the moment it is rendered as
@@ -44,6 +45,22 @@ Each is arithmetic over structured fields. That matters: it can be pinned by a
 test, reproduced years later from the same input, and explained to a candidate in
 one sentence — none of which is true of a model's impression that someone "seems
 to exaggerate".
+
+The arithmetic is free of judgment, but its input is not, and self-presentation
+is measurably gendered. Women gave themselves lower self-evaluations when those
+evaluations were shown to potential employers (Exley & Kessler 2022). Women
+programmers with previous experience in a language were 11.07% less likely than
+men to list it on their resume (Murciano-Goroff 2022). Women also used more
+communal language about themselves in resumes (Ng et al. 2024). Every reading
+above counts what a person chose to say. Two consequences follow:
+
+- **Low density and low concreteness each point to two readings about
+  presentation, and neither is about delivery.** The favourable reading, modest
+  self-description, is not a hedge. It is a measured, sex-linked difference.
+- **Monitor the firing rate by subgroup and perturb the vocabulary.** A detector
+  that fires more often on one sex's descriptions of the same work is a proxy, and
+  the only way to see it is to run it on paired inputs that differ in inflection
+  and modesty and in nothing else.
 
 ## Procedure
 

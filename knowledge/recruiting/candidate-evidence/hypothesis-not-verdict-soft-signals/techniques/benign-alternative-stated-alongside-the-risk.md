@@ -26,30 +26,56 @@ are hypotheses. In the sentence, because that is the unit that travels.
 The shape that has proven durable, on the hardest example in the domain — a short
 average tenure across several roles:
 
-> **Average tenure 1.4 years across 4 roles.** Can signal flight risk — or fast
-> growth. Confirm the reasons.
-> *Confidence 0.5 · needs confirmation · Probe: "walk through the last three moves
-> and the reason for each transition."*
+> **Average tenure 1.4 years across 4 roles.** Can mean contract or project work,
+> fast growth — or roles that ended early; the document does not say which.
+> Confirm what each move was.
+> *Confidence 0.5 · needs confirmation · Probe: "walk through the last three moves:
+> what each role added and what you were looking for next."*
 
-Five things are doing work, and every one of them is load-bearing:
+Six things are doing work, and every one of them is load-bearing:
 
 1. **The number leads.** "Short tenures" is a judgment; "1.4 years across 4 roles"
    is a fact the candidate can engage with and a reader can check. The sample
    travels with the claim.
-2. **Both readings are in one sentence, joined by "or".** The em-dash-and-or
+2. **Every reading is about the record.** Contract work, growth and roles that
+   ended early are worlds that produce this document. None of them is a claim
+   about who the person is or what they will do next.
+3. **The readings share one sentence, joined by "or".** The em-dash-and-or
    construction refuses to let the adverse reading stand alone even for a clause.
-3. **The favourable reading is specific and plausible**, not a token hedge.
-   "Fast growth" names a real world that produces this exact document.
-4. **The imperative is to confirm, not to weigh.** The sentence ends by handing
+4. **The favourable reading is specific and plausible**, not a token hedge.
+   "Fast growth" names a real world that produces this exact document, and the
+   sentence says outright that the document cannot tell the worlds apart.
+5. **The imperative is to confirm, not to weigh.** The sentence ends by handing
    the reader an action that is not a decision.
-5. **The confidence is honestly middling.** Around a coin flip, because that is
+6. **The confidence is honestly middling.** Around a coin flip, because that is
    what the document supports. A 0.9 on this reading would be a lie about the
    evidence, and a 0.2 would be a reason not to have emitted it.
 
 That sentence is
 [inference-must-look-like-inference](../../../_laws.md#inference-must-look-like-inference)
-compressed into fourteen words, and it is worth copying almost verbatim wherever
-this pattern recurs.
+compressed into two lines, and it is worth copying almost verbatim wherever this
+pattern recurs.
+
+**This technique's own first model sentence failed point 2.** It read "Can signal
+flight risk — or fast growth. Confirm the reasons." It had the number, the "or",
+the confirmation verb and the coin-flip confidence, and it named a reading the
+golden path forbids in every rendering. A production panel shipped it verbatim for
+weeks, and a review against this technique praised it, because every check listed
+here was a check of shape. Balance does not launder a forbidden reading. Pairing
+"flight risk" with "fast growth" still hands the interviewer a prediction about the
+person. Time in prior jobs does predict later voluntary turnover, modestly
+(Barrick & Zimmerman 2005, r between -.16 and -.22 across their predictors), so
+the objection is not that the reading is empty. The objection is that it is a
+trait label on a person, drawn from a record whose short tenures are often set by
+layoffs, contracts, relocation or care, and whose longest tenures belong to older
+workers (the same study's largest subgroup difference, d = -0.43 on months in the
+last job). The probe changed for a related reason. "The reason for each
+transition" is answered well only by a candidate willing to disclose a layoff, an
+illness or a family move. "What each role added and what you were looking for
+next" is answerable well by everyone. It still reaches the motive, which is where
+the information is. Histories of moving toward better jobs predict better outcomes
+than histories of leaving bad ones, and more strongly than the tenure arithmetic
+does (Sajjadiani et al. 2019).
 
 ## Procedure
 
@@ -73,6 +99,11 @@ this pattern recurs.
 
 ## Decision rules
 
+- **When the adverse reading is a prediction about the person, the sentence fails
+  however balanced it is.** Check the vocabulary of both readings against the
+  forbidden list before checking the shape. The shape checks above all pass on a
+  sentence that names "flight risk", and a reviewer who runs only them will
+  approve it.
 - **When the benign alternative is not credible, do not ship the signal.** A
   manufactured innocent reading is worse than none: it looks like fairness and
   functions as cover for a conclusion already reached.

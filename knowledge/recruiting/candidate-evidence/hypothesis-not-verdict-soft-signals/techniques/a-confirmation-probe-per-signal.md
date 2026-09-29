@@ -27,9 +27,16 @@ the guess names its own test.
 
 ## What makes a probe a probe
 
-- **It is askable verbatim.** "Walk me through your last three moves and what
-  drove each transition" is a probe. "Assess flight risk" is a task assigned to an
-  interviewer, which they will discharge by forming an impression.
+- **It is askable verbatim.** "Walk me through your last three moves: what each
+  role added and what you were looking for next" is a probe. "Assess flight risk"
+  is a task assigned to an interviewer, which they will discharge by forming an
+  impression.
+- **It does not need a private circumstance to be answered well.** "What drove
+  each transition" reads as neutral and is not: a candidate who moved because of a
+  layoff, an illness or a partner's job must disclose it or dodge. Ask what the
+  move added and what they were looking for. That reaches the motive, which is the
+  informative part (histories of moving toward better jobs predict better than
+  histories of leaving bad ones), without requiring the circumstance.
 - **It is answerable well in more than one way.** If only one answer clears it,
   it is a verdict with a question mark. The test: name two good answers before
   shipping the probe. If you cannot, the signal was a conclusion.
@@ -43,9 +50,13 @@ the guess names its own test.
 
 ## Routing: not every probe belongs in an interview
 
-The strongest response to a hypothesis is a **targeted demonstration**, because it
-skips the argument about the document entirely. Map each signal, where one fits,
-to a kind of work sample rather than to a conversational question:
+A **targeted demonstration** is often the best response to a hypothesis, because
+it skips the argument about the document entirely. It is direct evidence of
+moderate validity, not proof. The revised estimate for work samples is .33, below
+structured interviews at .42, with a larger subgroup difference (Sackett, Zhang,
+Berry & Lievens 2022). So a demonstration complements the structured interview; it
+does not replace it. Map each signal, where one fits, to a kind of work sample
+rather than to a conversational question:
 
 - an overclaim on a specific capability → a small exercise in that capability;
 - outcomes stated without any quantity or scope → an exercise whose output is
@@ -62,6 +73,36 @@ else is interview-only.** Two conditions, checked in that order, with no third
 path — which means an already-confirmed signal cannot silently re-enter the
 assessment as an exercise, and a signal with no mapped kind cannot be improvised
 into one by whoever builds the sample.
+
+## A probe is ancillary information to a structured interview
+
+A probe that fires only for the candidates whose document tripped a detector is
+unequal questioning, and structured-interview doctrine is built against it. The
+review that defines structure lists asking every applicant the same questions,
+limiting follow-up and controlling ancillary information among its components. It
+recommends "only use planned neutral probes that will not cue the applicant to
+desired answers, to probe equally across all applicants" (Levashina, Hartwell,
+Morgeson & Campion 2014). Interviewers who did not preview the applications made
+more reliable evaluations (Dipboye, Fontenelle & Garner 1984). First impressions
+formed from application material have been tied to confirmatory interviewer
+behaviour in the field (Dougherty, Turban & Callender 1994). Experienced
+interviewers asking set questions have not reliably shown it (Sackett 1982). The
+same review notes that research on probing itself is almost nonexistent.
+
+So a CV-derived probe fits a structured interview only on these terms:
+
+- **It comes from a fixed bank, authored before any candidate is seen.** The
+  detector selects a probe; it does not compose one per person. That is what this
+  technique's "author the probe with the detector" already produces. The condition
+  is that the bank is closed.
+- **A written rule triggers it, and the rule is the same for everyone.** Where the
+  question is cheap, such as "what each role added", ask it of every candidate and
+  drop the trigger entirely.
+- **It is scored on the dimension and anchors the core questions already use.** A
+  probe answer may not create a new scored criterion.
+- **The hypothesis stays away from whoever rates.** The panel receives the
+  question, not the reason it was chosen. "Tenure 1.4 years, confirm" belongs to
+  whoever prepares the round. The rater gets a neutral question.
 
 ## Procedure
 

@@ -34,7 +34,8 @@ applied to a list rather than to a sentence).
    supposed to land.
 2. **Document-structural** — arithmetic over parsed career data. Tenure averages,
    claim counts, presence of quantities. Deterministic, model-free, cheap,
-   testable, reproducible from the same input.
+   testable, reproducible from the same input. Reproducible is not neutral: see
+   the decision rule on neutrality below.
 3. **Document-hypothesis** — a reading of what a document's shape suggests. Still
    rule-driven, but interpretive. The natural home of most soft signals.
 4. **Model-emitted** — a language model's own risk or strength impressions. A wide
@@ -92,7 +93,32 @@ mistake is to collapse it because the model's sentence is better written.
 - **When the model returns a flag in a category the system forbids — temperament,
   motivation, loyalty, anything read off a protected characteristic — drop it
   before it reaches storage**, not at render time. A forbidden inference that
-  exists in a record will eventually be exported by someone.
+  exists in a record will eventually be exported by someone. The filter a model
+  tier usually gets first removes non-findings ("no significant concerns"). That
+  filter says nothing about categories. One production panel shipped with only
+  that filter and a test pinning "Two-year employment gap is unexplained." as a
+  real flag that must survive into the panel. A category filter is a separate
+  predicate, matched on the category phrase ("employment gap", "flight risk",
+  "culture fit") so that a skill gap or a missing credential keeps its row. Test
+  it with both known lists: the forbidden flags it must drop and the legitimate
+  flags it must keep. An inferred characteristic is still special category data
+  in the UK regulator's reading, however it was produced (ICO, AI in recruitment
+  audit outcomes, November 2024).
+- **When a detector is deterministic, test it for neutrality anyway.** Arithmetic
+  is reproducible, and its input is still a person's self-presentation, which
+  varies by sex, language and culture. Two measured cases:
+  - Women with previous experience in a programming language were 11.07% less
+    likely than men to list it on their resume (Murciano-Goroff 2022), so a
+    claim-count detector reads a gendered presentation gap as a document property.
+  - A concreteness detector matched a language's achievement verbs in their
+    masculine form only. Where the past tense inflects for gender, the same sentence
+    written by a woman scored as vague and the man's as quantified impact.
+  
+  The fix is a perturbation test over the detector's own vocabulary: every
+  inflection, every locale, and self-descriptions that differ only in modesty. A
+  gendered-prose pair that carries none of the detector's trigger words proves
+  nothing about that detector, and in the incident above such a pair was already
+  in the suite.
 - **When tiers disagree about direction, show both with their sources and resolve
   nothing.** Disagreement between an observation and an impression is itself
   informative, and forcing a synthesis is where a panel becomes a verdict.

@@ -46,10 +46,15 @@ Three grades of knowledge about a candidate, and they are never interchangeable:
 - **A document yields hypotheses.** Someone's account of their own past, unaudited.
 - **A conversation yields evidence.** They answered a question you chose, live,
   and you saw how they answered it.
-- **A demonstration yields proof.** They did the thing, under conditions you set.
+- **A demonstration yields direct evidence.** They did the thing, under conditions
+  you set.
 
 Everything in this subject lives on the first rung and exists to move a specific
-question up to the second or third. That is the whole mechanism, and it is
+question up to the second or third. The third rung is not proof. The revised
+validity estimate for work samples is .33, below structured interviews at .42, and
+work samples show a larger subgroup difference (Sackett, Zhang, Berry & Lievens
+2022). A demonstration settles the narrow question it was built for, and it
+complements the structured interview rather than replacing it. That is the whole mechanism, and it is
 [inference-must-look-like-inference](../../_laws.md#inference-must-look-like-inference)
 applied to the softest, most seductive category of reading a system can perform.
 The sibling subject on inference labelling owns the general grammar of guess versus
@@ -82,6 +87,22 @@ Illegitimate, in every rendering, at every confidence:
 - anything read off a name, a school, a photograph, an address, a date of birth or
   a gap — and gaps deserve their own paragraph below.
 
+**This line is a policy, not a claim that the forbidden readings carry no
+information.** Time in prior jobs predicts later voluntary turnover, modestly
+(Barrick & Zimmerman 2005, r between -.16 and -.22 across their predictors). That
+same study found its largest subgroup difference on months in the last job (d =
+-0.43, older workers longer). The ban on "flight risk" rests on what the label
+does. It is a trait placed on a person, from a record whose short tenures are
+often set by layoffs, contracts, relocation or care, and it lands unevenly by age.
+The ban does not rest on the reading being empty. The line is also stricter than the
+nearest statute. The EU AI Act's workplace ban on inferring emotions requires
+biometric input (Art. 5(1)(f) with Art. 3(39)), so a text reading of temperament
+falls outside it. What the law does say is that reading "reliability or behaviour"
+off a document is profiling (GDPR Art. 4(4), Recital 71). A recruitment system
+that profiles is always high-risk under the AI Act (Art. 6(3) with Annex III
+4(a)), with those obligations applying from 2 December 2027 after Regulation (EU)
+2026/1744.
+
 The operational test has three parts, and a signal must pass all three. **State
 it as a fact about the document without using an adjective about the person** — if
 you cannot, delete it. **Name the single question that would settle it** — if none
@@ -93,13 +114,23 @@ it survives; if they would recognise it as a claim about who they are, it does n
 
 A break in employment correlates with pregnancy, illness, disability, caregiving,
 military service, immigration status and incarceration. It is the highest-risk
-"signal" in this whole subject because it proxies for protected characteristics
-almost perfectly and carries almost no information about capability. A system may
-note that a named capability has not appeared in a described role for some years —
-that is a recency-of-practice question with an honest probe. A system may not
-render a break as a risk, an antipattern, a deduction, or a thing to be explained.
-The difference is not presentational. One asks about the work; the other asks the
-candidate to account for their life.
+"signal" in this whole subject. Most breaks come from job loss (Weisshaar 2018).
+Breaks for caregiving carry a penalty that survives positive information about
+past performance. In the same experiment, that information "essentially
+eliminates" the penalty for unemployment (Weisshaar 2021). No study found here shows that a break predicts later
+performance. That makes it an unvalidated reading, heavily confounded, whose
+harm falls on protected groups and resists correction by the evidence this subject
+relies on. A system may note that a named capability has not appeared in a
+described role for some years — that is a recency-of-practice question with an
+honest probe. A system may not render a break as a risk, an antipattern, a
+deduction, or a thing to be explained. The difference is not presentational. One
+asks about the work; the other asks the candidate to account for their life.
+
+Recency of practice is itself a partial proxy for a break, so it carries three
+conditions. The role must document a need for current practice of that named
+capability. The window is set per capability, never as a blanket cutoff. Practice
+outside employment (open source, freelance, courses with an artifact) counts. A
+recency signal that fails any of these is a break detector with a nicer name.
 
 ## A signal is a five-part record or it is not a signal
 
@@ -166,18 +197,42 @@ holds up:
 Build the deterministic tiers first and let the model's flags fold in **beneath**
 them, clearly labelled as the lower-trust tier they are. That order is not a
 performance preference. A deterministic detector can be pinned by a test, argued
-with, and reproduced in an audit; a model flag can only be believed or not. When
+with, and reproduced in an audit; a model flag can only be believed or not.
+
+Reproducible is not neutral. A document-structural detector counts what a person
+chose to say, and self-presentation varies by sex, language and culture. Women
+with experience in a programming language are measurably less likely than men to
+list it (Murciano-Goroff 2022). In a language whose past tense inflects for
+gender, a concreteness detector keyed on masculine verb forms scored a woman's
+sentence as vague and the identical man's sentence as quantified impact. The
+deterministic tier earns its place by being testable, and that only pays if the
+tests perturb the detector's own vocabulary for exactly this. The technique on
+signal-source trust ordering carries the rule. When
 the model is unavailable the deterministic layer still produces the checklist, and
 the surface degrades honestly rather than blocking a candidate's progress.
 
 ## What a soft signal may and may not cause
 
-- **It may cause a question.** That is the entire licensed effect.
+- **It may cause a question.** That is the entire licensed effect, and the
+  question has terms. Inside a structured interview it is a planned neutral probe
+  from a bank authored before any candidate was seen. A written rule selects it,
+  the same for everyone. It is scored on the anchors the core questions use, and
+  the rater receives the question without the hypothesis behind it. Structure
+  means the same questions for every applicant and controlled ancillary
+  information (Levashina, Hartwell, Morgeson & Campion 2014). A question that
+  fires only for flagged candidates is unequal probing. Where it touches
+  caregiving, asking some applicants and not others is listed as evidence of
+  disparate treatment (EEOC, 2007).
 - **It may cause a work sample to be chosen over another** — a targeted test is
-  the strongest possible response to a hypothesis, and the cheapest way to stop
-  arguing about a document.
+  often the best response to a hypothesis, and the cheapest way to stop arguing
+  about a document. It is direct evidence of moderate validity with a larger
+  subgroup difference than a structured interview, so it complements the interview
+  and is not a substitute for it.
 - **It may cause a hold**, because holding is the direction uncertainty is allowed
-  to resolve in.
+  to resolve in. The hold is released by asking the question, never by a clock
+  running out. A soft output that overrules a human's decision to advance someone
+  has become an automated employment decision under the New York City rule's third
+  limb (6 RCNY 5-300).
 - **It may not subtract from a score.** A soft reading that moves a rank has
   become a verdict, and it has done so without the candidate ever being asked.
 - **It may not, alone or in aggregate, reject.** Accumulating five weak
@@ -208,6 +263,15 @@ the surface degrades honestly rather than blocking a candidate's progress.
   older rubric, still sitting on the panel's checklist after the interview already
   answered it. A signal is bound to the document version it was read from, and a
   confirmed or refuted signal must visibly leave the open list.
+- **The one-sided export.** A screen that renders both columns and an artifact
+  that carries only one. The usual cause is a confirmation flag set by direction,
+  with strengths "settled" and risks "open", read by an export that keeps open
+  rows. The screen passes every symmetry review. The copied list that reaches
+  the panel is a risk list. Test the export, not the screen.
+- **The balanced forbidden word.** "Can signal flight risk — or fast growth" has
+  the number, the "or", the confirmation verb and a coin-flip confidence. It still
+  names a prediction about the person. Shape checks pass it. Only a vocabulary
+  check against the line above catches it, so run that one first.
 - **The unfalsifiable strength.** Symmetry done badly — vague praise that no probe
   could ever check — is as useless as vague risk, and it inflates the surface with
   things the interviewer cannot act on.
