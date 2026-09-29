@@ -5811,9 +5811,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/pre-boarding-and-first-day-handoff.md",
-   "digest": "sha256-b2:da930da3bf2357d6",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:7a8ec4b40c83d885",
+   "revision": 2,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "industry-preset-checklists",
@@ -5909,13 +5909,14 @@
      "stack": "node",
      "technique": "the-live-stage-gates-the-handoff",
      "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/node--the-live-stage-gates-the-handoff.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "language-neutral-template-keys",
      "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/applications/process--language-neutral-template-keys.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
