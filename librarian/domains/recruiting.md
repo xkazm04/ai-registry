@@ -1238,3 +1238,22 @@ First librarian note. The content pass had landed that afternoon (a20cc006) afte
 - **Verified, left alone:** the landed key-outlives-the-issuer condition, revoked-first scoped to the issuer's own record, the 120-bit share-link floor, the superseded-status gap.
 
 Three `applied.md` rows: one code (better), two simulations (better, each with a falsifier: the legacy-row count and the superseded-link traffic are unmeasured). Impact: kp only, one unjudged pair, no stale verdict. Yield low-medium, dry_streak 0, depth L2. See [[portable-candidate-credentials]].
+
+## 2026-09-29 - deepen: requirement-inflation-control
+
+The Curator lane dispatched this on "never swept by the librarian". The subject was at revision 1 from 2026-08-21 with no note and no applied row; its three applications were last verified 2026-08-20. Two same-day siblings (inclusive-job-advertising, hiring-need-as-structured-brief) had already conditioned claims this subject repeats. A counter lane, two primary reads (the 2024 hiring analysis and the Coffman, Collis and Kulkarni working paper, both from PDF text) and a kp re-read ran. No blind lane ran, so convergence on the folklore claim rests on the sibling's blind lane.
+
+Five corrections, none refuting a technique:
+- **the self-selection effect is small and only among marginally qualified readers, and the stronger lever is ambiguity about how literal the bar is** (6 to 29 percent for qualified women when the qualifying score was stated); nothing tested varies the count;
+- **"quality visibly falls off past six" has no measurement**, so the numbers are conventions and the multiplication argument is the firm reason;
+- **the degree paper-reset now has its sample** (about 11,000 roles, +3.5 points in the roles that dropped the line, 0.14 points net, 37/45/18 split), and where the filter went is the authors' inference, not an observation;
+- **the 67/16 supervisor gap is a 2017 figure**, dated, with the later loosening noted;
+- **machine-drafted inflation is a mechanism, not a measured rate.**
+
+One condition added: in a two-axis grading a fallback is judged on the cell, per consumer, not on the axis. No technique earned.
+
+The tree found one live defect no lane asked about: kp's keyless design_role fallback sliced the merged must list at six, so eight stated confirmed dealbreakers came back as six, silently, while the model path forbids it. Fixed and measured (kp 006bf7a0a, local, not pushed): 8 stated returned 6 before and 8 after, 3 and 6 unchanged; red-first test, 278 devcase tests green.
+
+Four `applied.md` rows: one code (better), three unapplied with return conditions. All three applications re-verified at kp 4dd303bdd and every line citation moved; a fourth application holds the cap A/B.
+
+Impact: the subject joins no kp context (0 occurrences in the committed map, positive control 8 for a sibling subject), so 0 stale verdicts. No map was rebuilt: a clean-worktree build dropped 151 pairs and two carried verdicts against the sibling's 17:10Z map, so it was discarded and kp's file restored. Yield medium, dry_streak 0, depth L3. See [[requirement-inflation-control]].
