@@ -145,6 +145,23 @@ And a phantom must never appear as a lever. "Loosen the work-mode requirement,
 against a constraint they never imposed. The recruiter who acts on it changes
 nothing real and loses trust in every other row.
 
+## The pool is people's data, and the forecast is a new use of it
+
+A reachable pool is made of people who applied to something else. Re-scoring
+them against an unpublished requisition is processing for a purpose they were
+never shown, so the forecast inherits the pool's own limits: a person whose
+retention window has lapsed, who withdrew, or who asked for erasure is not in the
+pool, and a forecast that quietly counts them is measuring records it had no
+business holding. Where the applicable regime binds purpose and storage
+(the EU's does, in Article 5(1)(b) and (e) of the GDPR), an operator has to
+decide whether "how fillable is this role" sits inside the purpose the applicants
+were told, and the decision belongs in the record, not in a default.
+
+The output carries counts and lever attributions, never a named list of who
+would appear. The forecast answers a question about the requisition; the moment
+it lists people it has become a screening run over candidates nobody applied for,
+which is the neighbouring discipline's job under its own rules.
+
 ## Reuse the scorer; do not model it
 
 Everything above is only worth reading if the forecast agrees with reality. The

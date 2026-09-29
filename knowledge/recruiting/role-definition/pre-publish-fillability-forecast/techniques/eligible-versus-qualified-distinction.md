@@ -85,6 +85,11 @@ well", and no sentence describes it correctly.
 5. **Unknowns do not fail gates.** A gate whose input is missing is skipped,
    not failed, so eligibility is never reduced by the record's incompleteness
    ([uncertainty resolves toward the candidate](../../../_laws.md#uncertainty-resolves-toward-the-candidate)).
+   The cost of that mercy is that "eligible" quietly includes people admitted
+   *because* a gate was skipped, and for a gate the role cannot lawfully waive (a
+   licence, work authorization) that is a promise the forecast cannot keep. Carry
+   the count of people admitted with a statutory gate unverified beside the
+   eligible number, so "+14 eligible" does not read as "+14 who can be hired".
    The counterfactual inherits this rather than reimplementing it — see
    `reuse-the-production-scorer-not-a-model-of-it`.
 
