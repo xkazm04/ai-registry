@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rwd-0929e",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-09-29T21:00:00Z",
+  "ended_at": "2026-09-29T21:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/rejection-with-dignity",
+      "at": "2026-09-29",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": "stale-primary-checkout",
+  "notes": "Dispatched on never-swept from a primary checkout 67 ahead, 124 behind origin. Origin already held dp-rwd-0929b (17708bb0): the same corrections at L3. This run reached them independently; nothing pushed, duplicate edit kept in a local stash."
+}
