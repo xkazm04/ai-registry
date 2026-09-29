@@ -74,6 +74,27 @@ the score; it is another measurement. Folding it in makes the canonical number
 wrong; rendering it as a bare "match" beside the canonical number makes the
 card wrong. It gets its own caption, naming what it measured and when.
 
+A caption is the last of three decisions, and it fails alone. Measured in a
+field tree: a work-sample "transfer" score was written into the column every
+surface reads as the match score, and the surface labelled it a plain match. The
+repair needed all three, in this order:
+
+- **Storage.** The number stays on the record whose question it answers and is
+  reached by a link. It is not copied under a new name: a copy is a second
+  producer of one figure and drifts when the source is re-evaluated. Where the
+  producer had no figure, it writes null, never a default.
+- **Ranking.** The read path that feeds every sort, band and threshold stays
+  single-question. Widening it "with better labels on it" re-creates the
+  conflation in the one place a caption cannot reach.
+- **Display.** A surface that shows one number per candidate may fall back to
+  the other question's figure, but only when the record carries its *kind* as
+  data, the kind is rendered on the non-primary case, and the fallback never
+  feeds a ranking.
+
+The same shape covers a figure computed *as if* a gate were lifted: it travels
+in a separate list from the ranked results, so nothing that reads the ranking can
+rank it (see knockout-reason-categorised-at-birth).
+
 ## Decision rules
 
 - **When two producers disagree and both are current, prefer the more
@@ -94,6 +115,17 @@ card wrong. It gets its own caption, naming what it measured and when.
   safe; the same job allowed to overwrite existing figures silently re-scores
   a population under a newer rubric with no event, no version bump, and no
   way to explain why a candidate moved.
+- **A producer you did not list is still a producer.** Every read-side rule
+  above assumed the field was written only by the producers on the map. A
+  workflow step that writes a different quantity into the canonical column
+  bypasses the null policy, the precedence and the provenance at once. When a
+  new path moves candidates onto the surface, ask what it writes to the score
+  field, and write null where it has nothing.
+- **An unrecorded rubric version is stored as unknown, never as current.** A
+  NULL version means "unknown standard"; a reader that maps NULL to the latest
+  version re-means every old figure the day the rubric moves. A stored version
+  that no surface renders is still the provenance-stored-but-never-surfaced
+  anti-pattern below.
 - **New producer, new precedence entry, same day.** A producer added without a
   precedence rule is a future divergence with a date on it. If you cannot say
   where it sits in the order, you have not decided what it means.

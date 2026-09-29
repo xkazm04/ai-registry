@@ -96,7 +96,15 @@ salary is a different concept from the screening score, and folding it into
 the canonical value destroys both. The rule is: **reconcile rival answers,
 label different questions.** A number that answers a different question gets
 its own caption and its own place on the card, never the bare word "match".
-See one-canonical-score-with-provenance.
+
+A caption is not enough on its own. A work-sample score that was written into
+the column every surface reads as the match score, and then captioned, still sat
+in every sort and threshold. The different question is kept out at three
+separate points: it is **stored** on the record whose question it answers (not
+copied, and null where nothing was computed, never zero); it is **kept out of the
+read path** that ranks and gates; and where a card shows one number it may fall
+back to it only with its kind carried as data and rendered. See
+one-canonical-score-with-provenance.
 
 ## Failure mode: the total that does not add up
 
@@ -150,7 +158,10 @@ derived from a band boundary rather than chosen by feel: a "show me at least
 renders as not-strong, so the filter and the colours disagree in front of the
 recruiter. The band vocabulary is also **closed** — five or so tiers, named
 once — because an open vocabulary is a label, and meaning does not live in a
-label. See score-bands-locked-across-surfaces.
+label. Count the tables, not only their copies: two families of cutoffs, each
+single-sourced and each pinned by its own mirror test, were measured
+disagreeing on 10 of 101 integer scores on one candidate card, because no test
+related the two families. See score-bands-locked-across-surfaces.
 
 ## Failure mode: zero standing in for nothing
 
@@ -224,6 +235,16 @@ can zero out a dimension the role genuinely requires and call the result a
 match; and the re-weighted figure is a *view*, provenanced as such, never
 overwriting the canonical score.
 
+The control has a second edge. A recruiter who is looking at candidates while
+moving the weights can move them until a preferred candidate rises, and the
+result then reads as a justified priority. This follows from the
+constructed-criteria literature (evaluators redefining merit to fit a preferred
+applicant) and is held here as a design consequence, not a measured finding in
+a hiring surface: record the
+weights the role committed to before candidates are viewed, log every change
+with the actor, and show a re-weighted score as a change from the committed
+weights, not as the score.
+
 ## Failure mode: the knockout re-derived from prose
 
 A categorical disqualification — no work authorization, a licence the role
@@ -246,7 +267,11 @@ requirement the role actually asserted.** Requisition intake fills blanks with
 policy defaults — a work mode, a location norm, a seniority floor nobody typed
 — and a default is a phantom the role never stated. Phantoms may inform
 ranking; they may never bar a person. Where the candidate's side is the
-unknown one, the gate is *skipped*, not failed. See
+unknown one, the gate is *skipped*, not failed. Two more properties of a
+defensible gate: a knockout removes a person before any score exists, so its
+*detector* needs a symmetry test (the same CV in a different list order, or
+inflection, must get the same verdict); and a figure computed as if the gate were
+lifted may be shown, but in a list of its own that no ranking reads. See
 knockout-reason-categorised-at-birth.
 
 ## What a rendered score may never do on its own
@@ -259,6 +284,16 @@ and the surface must be built so that the person is making a decision rather
 than confirming one — which means the challengeable material (assumptions,
 component breakdown, absent tiers, knockout category) is present *at the
 moment of the click*, not one navigation away.
+
+Present is necessary and not sufficient. Explanations shown beside an AI
+recommendation have been reported to raise acceptance of the recommendation
+whether or not it was right, and cognitive forcing designs (the person commits to
+their own read first, or must give a reason) reduced over-reliance in the one
+experiment read here, at the price of lower liking. Neither study is about
+hiring; both were read at abstract level. So a panel on the screen is not
+evidence that the recruiter decided: build one forcing step into the advance and
+reject actions and measure whether it changes outcomes. See
+surface-the-assumptions-behind-the-number.
 
 **A degraded run is presented as degraded, never frozen as authoritative.**
 When the scoring path falls back — a model unavailable, a partial evidence

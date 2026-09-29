@@ -5,13 +5,14 @@ subject: presenting-a-score-to-a-recruiter
 technique: one-canonical-score-with-provenance
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-29
+verified_against: node@24
 ---
 
 # Reconciling three producers of "the match score"
 
 `app/_lib/match-score.ts` is this repo's reconciliation module. Its header
-comment (`match-score.ts:44`) opens with the incident rather than the design:
+comment (`match-score.ts:46`) opens with the incident rather than the design:
 
 > "The match score" has THREE independent producers, none of which used to be
 > reconciled anywhere — the same candidate showed 57 on the offer-approval card
@@ -37,16 +38,20 @@ The module enumerates the producers instead of assuming everyone knows them:
 The fill-only marking on the backfill is the technique's rule in place: the
 sweep may score the unscored, never overwrite an existing figure.
 
+The map lost a fifth entry on 2026-08-28: the work-sample transfer score had been
+written into (B) by the promote step. It no longer is, and it lives in its own field
+with its own read path; see [the transfer-score application](node--one-canonical-score-with-provenance--transfer-score-own-field.md).
+
 ## Precedence, and what stays out
 
-`getCanonicalMatchScore` (`match-score.ts:110`) implements the precedence in
+`getCanonicalMatchScore` (`match-score.ts:118`) implements the precedence in
 one place — freshest job-matched analysis (provenance `{ source: "analysis",
 at, slug }`) → the entry's own snapshot (`{ source: "snapshot" }`) → `null`,
 "never a fabricated 0". `canonicalScoreOf` and `provenanceOf`
-(`match-score.ts:139` and `:147`) are the client-side accessors; the comment
+(`match-score.ts:146` and `:152`) are the client-side accessors; the comment
 on the latter pair is blunt — *never fabricates*.
 
-The more interesting half is the exclusion rule at `match-score.ts:78`:
+The more interesting half is the exclusion rule at `match-score.ts:84`:
 
 > Numbers that are genuinely a DIFFERENT concept — the draft-time pricing basis
 > (C) on the offer card, the group-eval ranking total — are not folded into the
@@ -69,8 +74,8 @@ the candidate axis is an exact, case-insensitive label match, because "a fuzzy
 join would invent history for same-named strangers." A corpus job with no
 job-matched analyses resolves to its snapshot rather than borrowing one.
 
-`buildFreshestFits` and `withCanonicalScores` (`match-score-resolve.ts:34`
-and `:51`) stamp `canonicalScore` + `scoreProvenance` onto the `/api/pipeline`
+`buildFreshestFits` and `withCanonicalScores` (`match-score-resolve.ts:40`
+and `:57`) stamp `canonicalScore` + `scoreProvenance` onto the `/api/pipeline`
 payload, so the board card, the drawer header and the offer approval card all
 read one number and can say where it came from. The pure module stays
 dependency-free so both server modules and client components import the same
@@ -96,7 +101,7 @@ module gives the decision layer the same honesty.
 Producer (C) remains unreconciled by design and un-persisted, so the pricing
 basis and the decision snapshot can drift arbitrarily far apart; the module
 documents this rather than fixing it, and mitigates it only by requiring the
-offer card to label its own figure. And no rubric or scale version rides with
-the resolved score — provenance names the producer and the timestamp but not
-the rubric it was scored under, so a rubric revision cannot mark historical
-figures superseded.
+offer card to label its own figure. And the resolved score's provenance still names the producer and the timestamp but not
+the scoring version. A role-rubric version now exists on the entry (`rubric_version`,
+NULL meaning unknown standard) but nothing renders it, and it does not version the
+matcher's own weights; the detail is in the transfer-score application's open deviations.

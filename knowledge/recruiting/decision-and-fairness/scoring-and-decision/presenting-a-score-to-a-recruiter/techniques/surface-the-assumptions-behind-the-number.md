@@ -103,6 +103,21 @@ assumptions reach the score card at all.
   band boundary — it is promoted to the headline area**, not left in a list.
   A candidate who is *strong* only because a degree was assumed equivalent is
   a different card from one who is strong on evidence.
+- **Visible is not scrutinised.** Showing the assumptions beside the number
+  makes them available; it does not make the recruiter use them. Two
+  human-AI studies read at abstract level put the opposite on record:
+  explanations "increased the chance that humans will accept the AI's
+  recommendation, regardless of its correctness" (Bansal et al., CHI 2021), and
+  "adding explanations to the AI decisions does not appear to reduce the
+  overreliance and some studies suggest that it might even increase it", with
+  cognitive forcing designs reducing it at the price of lower subjective ratings
+  and more benefit for people high in need for cognition (Buçinca et al., CSCW
+  2021). Neither is a hiring study. The design consequence: at the decision that
+  matters (advance, reject), ask for something that requires the material, such
+  as the recruiter's own read recorded before the score is revealed, or a stated
+  reason when they agree with a low-confidence figure. Treat that as a cost the
+  recruiters will rate poorly and measure it, rather than assuming the panel did
+  the work.
 - **When there are too many assumptions to show, that is the finding.** A
   score built on eight imputations is not a score; the honest render is a
   low-confidence marker or a refusal, not a tidy list. Truncating the list to

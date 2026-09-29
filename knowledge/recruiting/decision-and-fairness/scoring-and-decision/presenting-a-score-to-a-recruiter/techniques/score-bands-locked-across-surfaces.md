@@ -66,6 +66,18 @@ same 0–100 number, a candidate will read *mid* by one and *strong* by the
 other on the same card, which is the exact failure this technique exists to
 prevent.
 
+The trap is that every rule above can be satisfied *per family*. A field tree
+was measured with two such families over one match number: a fit tier
+(strong, promising, partial at 70 and 55) mirrored across two runtimes by a
+test, and a colour tone (strong, mid, weak at 75 and 50) with its own single
+home. Each was derived, closed and pinned, and they disagreed on 10 of the 101
+integer scores, side by side on one candidate. A mirror test binds a table to
+its copy; it says nothing about a second table. So the relationship has to be
+asserted too: either one family derives from the other, or a test enumerates
+every consumer of a quantity and requires their cutoffs to partition the scale
+identically. The audit that finds it is not "is each table single-sourced" but
+"how many tables band this number".
+
 **7. Keep the vocabulary closed and small.** Around five tiers. A closed
 vocabulary is checkable, translatable, and comparable across time; an open one
 is prose. Version the scale: a rating carries the version of the band table it
