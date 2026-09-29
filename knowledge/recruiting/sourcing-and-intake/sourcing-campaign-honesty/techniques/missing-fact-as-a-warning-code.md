@@ -80,7 +80,7 @@ For it to work it has to be three things at once:
    the posting as one channel among several, and the Czech bill in progress
    leaves the channel open), the code stays a warning and the gate belongs on
    the step the law names. The code is the same in both; only its severity is
-   keyed to the market. [The pay test](../../role-definition/inclusive-job-advertising/techniques/stated-pay-and-place-test.md)
+   keyed to the market. [The pay test](../../../role-definition/inclusive-job-advertising/techniques/stated-pay-and-place-test.md)
    holds the regime detail.
 
 ## Decision rules

@@ -7977,9 +7977,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/sourcing-campaign-honesty.md",
-   "digest": "sha256-b2:d1e0be8eea013c8d",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:c7b0cfeac29652fb",
+   "revision": 3,
+   "changedAt": "2026-09-29",
    "techniques": [
     {
      "slug": "defaulted-value-is-absent-not-advertised",
@@ -8071,19 +8071,19 @@
      "stack": "process",
      "technique": "no-fabricated-testimonial",
      "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/applications/process--no-fabricated-testimonial.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "process",
      "technique": "stated-facts-only-gate",
      "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/applications/process--stated-facts-only-gate.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     },
     {
      "stack": "react",
      "technique": "missing-fact-as-a-warning-code",
      "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/applications/react--missing-fact-as-a-warning-code.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-29"
     }
    ]
   },
