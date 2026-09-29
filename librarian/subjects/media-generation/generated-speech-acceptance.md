@@ -1,8 +1,8 @@
 ---
 domain: media-generation
 subject: generated-speech-acceptance
-last_touched: 2026-09-29
-touched_by: intake
+last_touched: 2026-09-30
+touched_by: deepen
 dry_streak: 0
 ---
 
@@ -11,6 +11,24 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-09-30 - `/deepen` (source-driven), the listening board
+
+`listening-board` (NEW, 6 -> 7 techniques) and `process--listening-board`. The golden path already
+held that a listener stays in the loop; nothing said how the hearing is organised or recorded. The
+evidence is a cloning bake-off in which the similarity proxy ranked one engine first by 0.01 and
+the listener chose another, and chose a stock preset for live use over every clone. The rule that
+case forced: a scorer lead inside the set's resolution is a tie the listener breaks, and an
+overruled top score is evidence about the score.
+
+**The return condition in the entry below is met.** A fleet project (Personas) now generates and
+scores speech: its bake-off used a held-out same-speaker ceiling (0.86) and an other-speaker floor
+(~0.06), which is `three-axes-beside-intelligibility`'s calibration rule applied before this subject
+was read. Recorded as a witness, not as an applied row: it was not an A/B of the technique.
+
+**Apply: unapplied.** The listening-board rules were read out of that same bake-off. Return when a
+second project runs a listening decision over generated speech. Two deviations of the source board
+are recorded in the application: labelled rather than blind, and no loudness matching of takes.
 
 ### 2026-09-29 - `/intake`, forged from an audio evaluation framework
 

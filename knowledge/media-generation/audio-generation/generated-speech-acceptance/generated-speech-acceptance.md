@@ -3,7 +3,7 @@ layer: golden-path
 type: golden-path
 subject: generated-speech-acceptance
 status: forged
-use_when: [deciding whether a synthesized voice clip says what it was given, comparing two speech generators or two runs of one, a reproduced score disagrees with a published one, scoring style or emotion adherence with a listening judge, a clip sounds fine and a scorer disagrees]
+use_when: [deciding whether a synthesized voice clip says what it was given, comparing two speech generators or two runs of one, a reproduced score disagrees with a published one, scoring style or emotion adherence with a listening judge, a clip sounds fine and a scorer disagrees, a listener prefers a different candidate than the top score]
 techniques:
   - round-trip-intelligibility
   - normalize-before-you-compare
@@ -11,6 +11,7 @@ techniques:
   - hard-slice-stratification
   - published-number-comparability
   - instruction-following-judged-on-audio
+  - listening-board
 ---
 
 # Generated speech acceptance
@@ -118,6 +119,24 @@ aggregate
 ([instruction-following-judged-on-audio](./techniques/instruction-following-judged-on-audio.md)).
 That replay certifies an aggregate. It says nothing about any single item,
 and the judge's identity belongs in the header of every table it produced.
+
+## The listener's verdict is an artifact too
+
+The scorers rank; when the question is which generator or which voice to
+adopt, a listener decides, and that hearing needs as much structure as any
+scorer or it produces an impression a number can always outvote. The
+instrument is a board: every arm on the same line side by side, the reference
+and a held-out clip of the same speaker as audible anchors, every measured
+clip reachable, device runs labelled as takes where the generator samples,
+one clip at a time in a matched format, the scores printed under each clip,
+and a short list of questions aimed at what the scorers cannot hear —
+delivery copied along with timbre, texture, numbers and a final rise. Its
+output is a record: the listener's choice per use beside the scorers'
+ranking, the audible cause of any disagreement or "cause not traced", and how
+many listened. A scorer lead smaller than the set can resolve is a tie the
+listener breaks, and a listener who overrules the top score is evidence about
+the score
+([listening-board](./techniques/listening-board.md)).
 
 ## What no score decides
 

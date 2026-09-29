@@ -4,6 +4,29 @@ Audit trail (OKF reserved file). One block per event that changed or
 validated this bundle's content. Public-safe by rule: no private paths, no
 operator preferences — those live consumer-side.
 
+## 2026-09-30 — generated-speech-acceptance: the listening board
+
+- Trigger: a cloning bake-off for a desktop companion (four engines, one
+  reference voice, three lines, 2026-09-29) in which the proxies ranked one
+  cloner first by 0.01 similarity and the owner, listening, chose another —
+  and chose a stock preset for live replies over every clone.
+- New technique `listening-board` (6 → 7 techniques): the golden path said a
+  listener stays in the loop and no technique said how that hearing is
+  organised. Group by line, not by candidate; the reference and a held-out
+  same-speaker clip as audible anchors; every measured clip reachable; device
+  runs labelled as takes for sampling engines; one clip at a time, matched
+  format; a listen-for list aimed at the scorers' blind spots (delivery copied
+  with timbre, texture, numbers and a final rise); the verdict recorded per use
+  beside the ranking, with "cause not traced" where no audible cause was heard.
+  A scorer lead inside the set's resolution is a tie the listener breaks.
+- Application `process--listening-board` with the similarity anchors (0.86
+  ceiling, ~0.06 floor), the per-engine means, the 0% error rates and the one
+  normaliser artefact ("time out" for "timeout"), and two deviations recorded
+  as such: the board was labelled, not blind, and the takes were not
+  loudness-matched.
+- First consumer witness for this subject: the subject note's "no fleet
+  project generates or scores speech" no longer holds.
+
 ## 2026-08-27 — forge from a run: character-identity-continuity
 
 - Trigger: a trailer-consistency spike on a single-GPU studio pipeline that
