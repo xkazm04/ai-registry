@@ -351,3 +351,12 @@ inferred class whose failure default is chosen (a named tier) and whose parse fa
 tier on a negation, a quotation of the prompt or a hedge (executed on hostile judge output).
 Contradictions recorded for the record, not the corpus: the orchestrator's tool whitelist is described
 as enforced and never applied; the sub-agent default model is overridden by the router when it is enabled.
+
+## 2026-09-29 - intake decision-model video ([[2026-09-29-decision-model-use-cases]], run `in-2nc-0929`)
+
+New application `claude-code--turn-classification`: the harness moved its own silent default for the built-in
+search subagent from the small tier to the session's model in release 2.1.198 (2026-07-01, changelog verbatim),
+which is the technique's "defaulting expensive converts every future omission into invisible spend" happening
+inside one release with no call site changed. Paired six-run scout experiment (floor held 6/6): verdict `better`
+for an enumerate-the-sites brief, `unmeasurable` for a tracing brief. No technique changed; the rule was already
+written and two workflow skills were on the wrong side of it, so the correction went into those skills.

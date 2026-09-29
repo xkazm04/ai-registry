@@ -1,0 +1,64 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-2nc-0929",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "run",
+  "domain": "software-engineering",
+  "started_at": "2026-09-29T18:23:57Z",
+  "ended_at": "2026-09-29T18:35:33Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/model-routing",
+      "at": "2026-09-29",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "model-routing",
+      "technique": "turn-classification",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "model-routing",
+      "technique": "turn-classification",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "catalog.json",
+    "knowledge/recruiting/index.json",
+    "knowledge/software-engineering/index.json",
+    "knowledge/software-engineering/llm-agent/orchestration/model-routing/applications/claude-code--turn-classification.md",
+    "skills/spark/SKILL.md",
+    "skills/spark/LESSONS.md",
+    "skills/perfect/SKILL.md",
+    "skills/perfect/LESSONS.md",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/sources/2026-09-29-decision-model-use-cases.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/model-routing.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Demo video, seven catches, one landing: a harness default (built-in search subagent model) moved in 2.1.198 under two of this registry's skills, found by grepping skills after the map was silent. One application, two skill corrections, six-run paired experiment. Nothing pushed."
+}
