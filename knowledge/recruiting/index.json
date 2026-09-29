@@ -5585,8 +5585,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
-   "digest": "sha256-b2:a00f63d0b0dedbb5",
-   "revision": 3,
+   "digest": "sha256-b2:28da500b6d12cdda",
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {

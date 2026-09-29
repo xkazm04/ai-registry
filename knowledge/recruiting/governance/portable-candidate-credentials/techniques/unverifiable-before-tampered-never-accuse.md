@@ -67,6 +67,11 @@ generation after the cutoff (or, when the cutoff is unknown, everything under it
 **unverifiable**, with the same system-side copy and a re-issue path. Still not tampered: what
 the system can no longer stand behind is the key, and the bearer did nothing. The rest of the
 retired generations stay loadable, so one leaked key does not turn the whole catalogue red.
+The cutoff is only as good as the instant it is compared against. Where the sealing time is a
+field in the row or in the signed payload, the holder of the leaked key writes it, and a forgery
+backdated to before the cutoff passes the cutoff test; so use a cutoff only when the instant is
+attested outside the row (a third-party timestamp, an append-only log), and otherwise refuse the
+whole generation (see the application).
 
 **2b. Give credentials their own dedicated signing key — never the platform's session or
 authentication secret.** This is the single highest-yield structural fix in the technique,

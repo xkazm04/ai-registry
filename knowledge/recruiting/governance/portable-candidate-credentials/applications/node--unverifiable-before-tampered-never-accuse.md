@@ -7,6 +7,8 @@ stack: node
 status: forged
 verified_on: 2026-09-29
 verified_against: node@24
+applied: code
+ab_verdict: better
 ---
 
 # Tri-state signature checking in the Durable Skill Profile store
@@ -100,6 +102,20 @@ secret can *pin* its old value under the legacy name and keep pre-fix credential
 verifying. This is the technique's step 2 applied retroactively — retired key material
 stays readable forever, rather than converting a verifiable period into an unverifiable
 one on the day of a routine rotation.
+
+## A leaked retired key: the cutoff was the wrong lever here
+
+The tree kept every retired key loadable, which is right for rotation and wrong for a leak: a
+holder of a leaked secret can write a row whose MAC recomputes correctly under the key id. The
+store now treats `KP_SKILL_PROFILE_KEY_<id>_COMPROMISED` as no key material at all, so that
+generation resolves to unverifiable and the other generations keep verifying (commit
+`7e6accbc9`; the check sits beside the key lookup in `skill-profiles.ts`). It refuses the whole
+generation rather than applying a cutoff date, for a reason the technique had not stated: the
+issue time sits in the signed payload and in the row, both of which the forger writes, so a
+credential backdated to before any cutoff would pass it. Measured A/B on the new test (a forged,
+backdated row under a leaked key): before the change the page state is `verified` even after the
+operator marks the key compromised; after, it is `unverifiable`, never `tampered`. n = 1 fixture,
+so it shows the mechanism, not a rate.
 
 ## Deviations from the standard
 
