@@ -24134,9 +24134,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/peer-benchmarking.md",
-   "digest": "sha256-b2:3ff7a39dbfa9a12e",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:a6a7049568baa576",
+   "revision": 2,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "basis-disclosure",

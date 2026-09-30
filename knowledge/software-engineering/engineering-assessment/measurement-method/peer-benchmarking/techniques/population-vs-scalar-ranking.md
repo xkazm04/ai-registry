@@ -78,9 +78,18 @@ change the question to fit the query plan.
   ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
 - **Ties.** With coarse or banded scores, ties are common and the choice
   between "fraction strictly below" and "fraction below or equal" moves the
-  headline by whole points. Pick the conservative form for the subject —
-  strictly below, so a tie does not manufacture superiority — and apply it
-  uniformly.
+  headline by whole points. Strictly below is the conservative form — a tie
+  does not manufacture superiority — but it is not neutral: it is biased
+  downward by exactly the tied mass, so when a whole band of peers shares
+  the subject's score, the subject at the ceiling reads as "above 0%".
+  The tie-symmetric form is the mid-rank (strictly below plus half the
+  ties), which is what scipy's `percentileofscore` returns by default
+  (`kind='rank'`, checked against its documentation 2026-09-30; `weak` and
+  `strict` are the one-sided forms, `mean` the average of those two). Use
+  strictly-below where the claim is an upper bound the reader will
+  quote flat ("beats X%"), mid-rank where the score is banded enough that
+  ties are the common case, and never mix the two across surfaces or
+  windows. State the form in the basis.
 - **Inclusive or exclusive of self.** "Ahead of 40 of the other 47" and "40th
   of 48" are different denominators. Choose once, per surface, and say which.
 
