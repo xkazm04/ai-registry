@@ -5115,7 +5115,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/offer-lifecycle-and-deadlines/offer-lifecycle-and-deadlines.md",
    "digest": "sha256-b2:2dd5f1019a2a6048",
-   "revision": 2,
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5466,7 +5466,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/pipeline-operations/pipeline-stage-modelling/pipeline-stage-modelling.md",
    "digest": "sha256-b2:99756265cc6fc4e7",
-   "revision": 6,
+   "revision": 5,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -5603,8 +5603,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/governance/portable-candidate-credentials/portable-candidate-credentials.md",
    "digest": "sha256-b2:69bedfad1db06dbf",
-   "revision": 5,
-   "changedAt": "2026-09-29",
+   "revision": 7,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "freshness-is-separate-from-integrity",
@@ -5875,8 +5875,8 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/pre-boarding-and-first-day-handoff/pre-boarding-and-first-day-handoff.md",
    "digest": "sha256-b2:642373c1d68765ca",
-   "revision": 4,
-   "changedAt": "2026-09-29",
+   "revision": 6,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "industry-preset-checklists",
@@ -6444,7 +6444,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/scoring-and-decision/recruiter-anchored-model-evaluation/recruiter-anchored-model-evaluation.md",
    "digest": "sha256-b2:13ad9e158b079e32",
-   "revision": 3,
+   "revision": 4,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -6581,7 +6581,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/measurement/recruiting-cost-and-automation-economics/recruiting-cost-and-automation-economics.md",
    "digest": "sha256-b2:c589626d3c1a8369",
-   "revision": 4,
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -7888,7 +7888,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/measurement/small-sample-honesty-in-hiring-analytics/small-sample-honesty-in-hiring-analytics.md",
    "digest": "sha256-b2:f9ec04ea75914e2f",
-   "revision": 2,
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {
@@ -8037,7 +8037,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/sourcing-campaign-honesty/sourcing-campaign-honesty.md",
    "digest": "sha256-b2:c7b0cfeac29652fb",
-   "revision": 2,
+   "revision": 3,
    "changedAt": "2026-09-29",
    "techniques": [
     {

@@ -83,6 +83,30 @@ it names what it was computed from (which runs, which window, which
 version) and how to recompute it, or the day it looks wrong there is
 no arbiter — an unexplained baseline is folklore with decimals.
 
+## Percentiles do not compose
+
+A baseline built by averaging per-launch p95s, or a fleet figure built by
+averaging per-machine p99s, is a number that describes no population: the
+quantile of a union is not a function of the quantiles of its parts, and
+heavy tails make the error large exactly where the tail matters. Where
+windows cross a boundary (launches, sessions, machines), choose one of:
+
+- persist the **raw records** or the settled window and derive at compare
+  time (fine while volume is small; the durable sink stays small by rule);
+- persist a **mergeable histogram** with a stated error bound. DDSketch
+  (Masson, Rim, Lee, VLDB 2019) is log-bucketed with a relative-accuracy
+  guarantee, and merging sketches is as accurate as one sketch over all the
+  data. The paper says GK and t-digest are only one-way mergeable and can
+  carry large relative error on heavy-tailed data, and names HDR Histogram
+  as the earlier relative-error design;
+- persist the sample count with each stored percentile and refuse to
+  combine them, showing them side by side instead.
+
+Whichever is chosen, the stored baseline names it
+([derivation-names-recomputation](../../../../_laws.md#derivation-names-recomputation)).
+A per-launch p95 shown next to last launch's p95 is a comparison of two
+observed values and is fine; an *average* of them is the error.
+
 ## From number to human
 
 The last stage is the escalation path: threshold crossed → durable

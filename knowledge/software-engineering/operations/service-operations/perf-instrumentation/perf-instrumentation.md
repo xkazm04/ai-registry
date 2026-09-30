@@ -10,6 +10,7 @@ techniques:
   - continuous-monitors
   - probe-cost-budgeting
   - perf-data-lifecycle
+  - in-flight-visibility
 ---
 
 # Performance instrumentation
@@ -76,7 +77,11 @@ what window, over how many samples, computed how?* "p95 = 240ms" is not a
 finding; "p95 = 240ms over the last 500 calls to this operation,
 nearest-rank on the sorted window" is. Sample count is part of the honesty —
 a p99 over twelve samples is a coin flip wearing a lab coat, and the surface
-that renders it discloses the n or misleads. Storing raw records and
+that renders it discloses the n or misleads. Percentiles also do not compose:
+the p95 of two windows is not the average of their p95s, so anything that
+combines windows, launches or machines carries raw records or a mergeable
+histogram, never averaged percentiles
+([perf-data-lifecycle](./techniques/perf-data-lifecycle.md)). Storing raw records and
 deriving statistics at read time keeps every derived number recomputable
 ([derivation-names-recomputation](../../../_laws.md#derivation-names-recomputation));
 storing only a rolling aggregate is a number that can never be re-questioned.
@@ -101,6 +106,16 @@ downstream is a count of flags, never a reinterpretation of durations. The
 full discipline, including what cancelled durations do to a latency
 distribution, is
 [semantic-flags-over-heuristics](./techniques/semantic-flags-over-heuristics.md).
+
+## The window only sees what finished
+
+A ring written at settlement is a distribution of survivors. A call that hangs
+is absent until its deadline fires, and then it is clipped to the deadline;
+a stalled loop that stops issuing calls deletes the samples it would have
+produced. The window therefore travels with an in-flight count and the age of
+the oldest open call, and with a statement of whether durations start at the
+intended or the actual start
+([in-flight-visibility](./techniques/in-flight-visibility.md)).
 
 ## Startup is a pipeline, not a moment
 
@@ -205,6 +220,9 @@ same instrument shape, the shape is the subject.
 - [probe-cost-budgeting](./techniques/probe-cost-budgeting.md) — cost tiers,
   TTL-cached expensive probes, declared sampling, kill-switches, hot-path
   recording discipline.
+- [in-flight-visibility](./techniques/in-flight-visibility.md) — settled-only
+  windows are survivor distributions; in-flight gauge, oldest-open age,
+  coordinated omission, intended-start timing.
 - [perf-data-lifecycle](./techniques/perf-data-lifecycle.md) — live stores,
   durable sinks, baselines, retention, reset semantics, and the path from
   number to human.

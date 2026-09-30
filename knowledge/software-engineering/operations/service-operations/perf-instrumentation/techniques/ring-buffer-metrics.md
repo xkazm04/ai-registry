@@ -12,8 +12,9 @@ use_when: [sizing a fixed window of raw metric records, metric map grows though 
 # Ring-buffer metrics
 
 The default data structure for in-process metrics is a **fixed-size ring of
-raw records per metric key**. Not a running average, not a streaming
-quantile sketch, not an unbounded log — a window of the last N complete
+raw records per metric key**. Not a running average, not an unbounded log, and, for the live
+per-process window, not a streaming quantile sketch (a sketch earns its place
+only where windows must be merged, see [perf-data-lifecycle](./perf-data-lifecycle.md)) — a window of the last N complete
 records (duration, timestamp, outcome flags), overwritten in place as new
 ones arrive. The ring is chosen because it satisfies three duties at once:
 constant memory forever, constant-time writes on the hot path, and raw
@@ -100,6 +101,13 @@ practical consequences:
   wraps, which is exactly the day traffic became interesting.
 - Before the ring fills, n < N: derive over what exists and disclose the n.
   A p95 over 7 samples is the 7th sample.
+
+## The window records survivors
+
+The ring is written when a call settles, so an unfinished call is not in it.
+A healthy p99 beside a hung operation is possible; see
+[in-flight-visibility](./in-flight-visibility.md) for the in-flight gauge that
+sits beside the ring.
 
 ## Write-path discipline
 

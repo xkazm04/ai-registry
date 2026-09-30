@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1820,
-  "applications": 1216,
+  "techniques": 1821,
+  "applications": 1217,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1820/1820",
+  "use_when_coverage": "1821/1821",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -24348,9 +24348,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/perf-instrumentation/perf-instrumentation.md",
-   "digest": "sha256-b2:b3c34793ca9aec59",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:9c3f9bf41bb5df33",
+   "revision": 3,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "continuous-monitors",
@@ -24365,6 +24365,21 @@
       "deciding whether a fact needs a monitor or a probe",
       "the detector is manufacturing the jank it watches",
       "one burst firing the same alert hundreds of times"
+     ]
+    },
+    {
+     "slug": "in-flight-visibility",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a latency window looks healthy while users report hangs",
+      "records are written only at settlement",
+      "a stall suppresses the very calls that would have measured it"
      ]
     },
     {
@@ -24441,6 +24456,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "in-flight-visibility",
+     "file": "knowledge/software-engineering/operations/service-operations/perf-instrumentation/applications/react--in-flight-visibility.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "react@19"
+    },
     {
      "stack": "react",
      "technique": "ring-buffer-metrics",
@@ -38649,6 +38671,7 @@
     "packaging/signing-and-trust",
     "packaging/variant-config-parity",
     "page-load-pipeline/field-measured-load-budget",
+    "perf-instrumentation/in-flight-visibility",
     "perf-instrumentation/semantic-flags-over-heuristics",
     "persistent-batch-mutation/identity-reference-alignment-check",
     "pipeline-authoring/change-scoped-work-selection",
@@ -39230,6 +39253,7 @@
     "peer-benchmarking/cohort-minimum-size",
     "people-analytics-ethics/producer-enforced-suppression",
     "perf-instrumentation/continuous-monitors",
+    "perf-instrumentation/in-flight-visibility",
     "perf-instrumentation/startup-phasing",
     "persistent-batch-mutation/identity-reference-alignment-check",
     "pipeline-authoring/change-scoped-work-selection",
@@ -39891,6 +39915,7 @@
     "people-analytics-ethics/aggregate-vs-individual-split",
     "people-analytics-ethics/contribution-eligibility-floors",
     "people-analytics-ethics/naming-population-floor",
+    "perf-instrumentation/in-flight-visibility",
     "perf-instrumentation/perf-data-lifecycle",
     "perf-instrumentation/probe-cost-budgeting",
     "perf-instrumentation/ring-buffer-metrics",
