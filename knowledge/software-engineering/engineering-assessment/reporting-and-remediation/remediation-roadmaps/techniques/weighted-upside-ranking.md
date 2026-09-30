@@ -52,6 +52,16 @@ produces the classic plan whose first item is a six-month re-platforming.
   value.** An unknown achievability is not 1.0. Either give the catalog entry
   a declared conservative default or exclude the move from the ranked list
   and let coverage carry it.
+- **Fold effort in as a bounded discount, not a divisor, when the list is
+  short.** Dividing weight times headroom by effort over-rewards trivia and
+  can push a genuinely dominant expensive gap off a three-item list entirely,
+  so the roadmap becomes a chore list and the real problem goes unsaid. A
+  small per-step discount (Ascent uses 10% per ordinal: low 1.0, medium 0.9,
+  high 0.8) reorders only items within roughly a fifth of each other, which is
+  the case where two moves are comparably valuable and cost should settle it.
+  A gap that leads by more keeps its lead. State the accepted trade-off, since
+  the near-tie order is then a judgment, not a measurement. The dominant case
+  the ranking must not lose is covered separately by the coverage pass.
 - **When the effort estimate is coarse, use it anyway.** A three-level
   ordinal captures most of the value. The alternative is not "no estimate" —
   it is the implicit estimate that all efforts are equal, which is the one

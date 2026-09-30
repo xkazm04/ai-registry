@@ -94,6 +94,20 @@ generation, they can be enforced once, at review time, over a set of entries
 that is small and enumerable. That is one of the strongest arguments for a
 catalog: tone is a reviewable artifact rather than a per-run gamble.
 
+Generated entries are not a fixed catalog, and a rule stated only in the
+prompt is a request. Enforce the word-level rules with a deterministic lint
+over every entry on the one path all entries pass through, seeded with the
+catalog as positive fixtures. Use a lint, not a second model judging tone: it
+adds no call, no failure mode and no unreproducible verdict to a check that
+runs on every scan. Check the imperative opener on the first word only, since
+a mid-sentence verb is description. The title-contradicts-body rule reduces to
+a gap-claiming title paired with a body that asserts the capability is already
+present. **Record violations; never reject or rewrite.** Rejecting on phrasing
+sends an evidence-grounded item to the fallback template and loses the finding
+to protect the tone, and rewriting puts words in the generator's mouth that no
+longer match the evidence it cited. The entry ships unchanged and the drift
+stays observable.
+
 ## Declining is a first-class outcome
 
 Framing that invites, over a mechanism that only accepts, is a lie with good

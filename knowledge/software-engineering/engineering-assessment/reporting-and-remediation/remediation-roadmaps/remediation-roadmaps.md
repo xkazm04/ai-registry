@@ -121,8 +121,8 @@ answer and an invitation to the arithmetic error the next section forbids.
 ## Silence is a claim, so coverage is guaranteed
 
 The hardest-won rule in the subject, and the one that most often has to be
-imposed against the grain of a ranking: **every dimension below the healthy
-band gets at least one item naming it, whether or not that item ranks well.**
+imposed against the grain of a ranking: **every dimension measured below the
+healthy band gets at least one item naming it, whether or not that item ranks well.**
 The argument is about how absence is read. A reader who opens the roadmap
 looking for their weakest area and finds nothing about it does not conclude
 "there was no good move available" — they conclude *it must be fine*, and the
@@ -138,7 +138,8 @@ top-ranked opportunity, so the reader can tell the difference between "this is
 your best next move" and "this is weak and we owe you a mention"
 ([coverage-guarantee](./techniques/coverage-guarantee.md)). Truncating the list
 for readability is legitimate; truncating it in a way that erases a weak area
-is not.
+is not. The converse also holds: a dimension the run could not observe is not
+weak, only unread, and the pass must not manufacture a gap from a blind spot.
 
 ## A projected gain is a model output wearing a number's clothes
 

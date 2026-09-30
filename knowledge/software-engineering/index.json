@@ -28378,9 +28378,9 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/remediation-roadmaps.md",
-   "digest": "sha256-b2:c1c22f2efa9f9a74",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:7b3d5bbfe7560a46",
+   "revision": 2,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "cheapest-path-projection",
@@ -28467,13 +28467,14 @@
      "stack": "node",
      "technique": "weighted-upside-ranking",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/applications/node--weighted-upside-ranking.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "invitational-framing",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/applications/process--invitational-framing.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-30"
     },
     {
      "stack": "react",
