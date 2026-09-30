@@ -5,7 +5,8 @@ subject: people-analytics-ethics
 technique: producer-enforced-suppression
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-09-30
+verified_against: node@24
 ---
 
 # Producer-enforced suppression in a contributor-insights server module
@@ -17,7 +18,7 @@ floor lives in exactly one place: the producers.
 
 ## The floor is a predicate, defined once
 
-`src/components/org/shared/champions.ts:1-32` holds three constants, each with
+`src/lib/org/champions.ts:1-32` holds three constants, each with
 its rationale in the doc comment rather than in a commit message:
 
 - `CHAMPION_MIN_POP = 3` — "Minimum contributor population before naming AI
@@ -39,9 +40,9 @@ same file as the constant.
 
 ## The incident that moved it down a layer
 
-`src/lib/db/org-contributors.ts:311-320` records why: "The guard used to live
+`src/lib/db/org-contributors.ts:337` records why: "The guard used to live
 only in the React layer, so every new consumer had to remember it (the CSV
-export and the Adoption brief both forgot)." `src/lib/db/org-teams.ts:244-251`
+export and the Adoption brief both forgot)." `src/lib/db/org-teams.ts:371`
 records the same failure independently — two surfaces "each re-checked this and
 a third surface (the CSV/brief path) never did; now no consumer can surface
 what this never emits."
@@ -52,7 +53,7 @@ consumer written after the rule.
 
 ## What the payload looks like
 
-`getContributorInsights` (`src/lib/db/org-contributors.ts:329-347`) returns a
+`getContributorInsights` (`src/lib/db/org-contributors.ts:212`, payload `:360-361`) returns a
 shape whose per-individual fields are structurally empty below the floor:
 
 - `contributors` and `champions` — `[]` when `namingAllowed` is false, so a
@@ -65,7 +66,7 @@ shape whose per-individual fields are structurally empty below the floor:
 - `namingAllowed: boolean` — published solely so consumers "pick honest copy
   ('withheld', not 'no data')".
 
-`src/lib/org/adoption.ts:73-101` shows a second producer inheriting the same
+`src/lib/org/adoption.ts:167-185` shows a second producer inheriting the same
 guard: `enablementTargets` returns `[]` when `namingAllowed` is false, and its
 comment states the consequence — "an empty list IS the render guard; no call
 site re-checks the population." It also states why the cohort is exported at
@@ -76,7 +77,7 @@ surfaces drift apart before."
 ## Suppression removes identities, not findings
 
 The module is careful that the floor does not become an outage
-(`src/lib/db/org-contributors.ts:303-310` and `:341-346`). `distribution` — the
+(`src/lib/db/org-contributors.ts:73` and `:360-368`). `distribution` — the
 high/some/none spread of per-person AI share — is computed over every human and
 "always populated, even below the naming floor, so a small org still gets an
 adoption spread without any consumer having to walk the (withheld) per-person
@@ -85,13 +86,27 @@ with the reasoning stated inline: "a 2-person org is the MOST key-person-exposed
 org there is, and withholding its risk read would hide the finding, not a
 person."
 
-## Where the repo falls short of the standard
+## The shortfall the first read found, since closed
 
-`REDACTED_LOGIN = "—"` (`src/lib/db/org-contributors.ts:97`) is documented as
-"the same sentinel as 'no data'". Withheld and empty are therefore
-indistinguishable in that one field, which is precisely the collision the
-standard forbids — a consumer cannot tell a suppressed name from a repository
-with no contributor data, and the honest-copy rule above cannot be applied at
-field granularity. The standard stays: a distinct typed withheld state per
-field, not a shared sentinel. The rest of the shape does this correctly, which
-is what makes the exception visible.
+On 2026-08-20 the one exception was `REDACTED_LOGIN = "—"`, documented as "the
+same sentinel as 'no data'": withheld and empty were indistinguishable in that
+field, the collision the standard forbids. By 2026-09-30 it is fixed, and the
+shape of the fix is the reusable part. `topLoginState: "named" | "withheld" |
+"unknown"` (`TopContributorState` in `src/lib/org/champions.ts`) rides beside
+the string, and `topContributorLabel` owns the copy. The placeholder stays the
+same neutral "—" on purpose: a new "[withheld]" sentinel would have leaked
+through `ContributorsConcentrationTable`, which renders `topLogin` raw, so the
+state carries the meaning and no consumer string-compares the placeholder. The
+accepted trade-off is written down beside it: a consumer that never adopts the
+state keeps the old undifferentiated display, no worse than before. The
+producer test asserts the state, not the string.
+
+## Where the floor sits against the technique
+
+`CHAMPION_MIN_POP = 3` is below the five-to-ten band that
+[naming-population-floor](../techniques/naming-population-floor.md) gives for
+per-person publication. It holds here only because the output is a bounded,
+celebratory list capped at `CHAMPION_LIMIT = 6` behind a commit-volume gate.
+At a population of three the list is the whole team, so it would fail the
+technique's residual test if it were comparative. Copying the constant without
+the framing would not be safe.

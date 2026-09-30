@@ -59,6 +59,12 @@ result.
    the cohort definition per period and label it, or suppress period-over-
    period deltas at small n.
 
+A fourth failure is not about count. **Homogeneity:** a cohort clears the
+floor but every member shares the value, so naming the group names each person
+(all eight authors of a module sit at zero reviews). The floor protects group
+size, not content. Where the values collapse, publish the group-level finding
+and not the per-person list, or merge the cohort upward until the values differ.
+
 ## Choosing the number
 
 There is no universal threshold; there is a defensible procedure.

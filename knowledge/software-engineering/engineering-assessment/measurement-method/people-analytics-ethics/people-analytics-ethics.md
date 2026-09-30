@@ -211,6 +211,15 @@ requirements are the same ones good design already produces:
   monitor is not the test. A design describable in one page, floors named and
   per-person surfaces enumerated, passes that conversation; one that cannot be
   described does not, and the delay is the design's fault.
+- **A regulatory class of its own for employee-monitoring software.** The EU AI
+  Act lists systems that monitor or evaluate workers, allocate tasks, or inform
+  promotion and termination among its high-risk uses. A per-person performance
+  view is inside that class, an aggregate one is not, which is a further reason
+  to keep the two producers apart. As of 2026-09-30 the high-risk obligations
+  apply from 2 December 2027, moved from 2 August 2026 by Regulation (EU)
+  2026/1744, in force since 27 July 2026; the ban on inferring emotions at work
+  and the transparency duties are on their own earlier dates. Re-read the
+  dates before quoting them, they have already moved once.
 - **Retention that expires, and access on the subject's own terms.**
   Per-person granularity has a short useful life and a long liability tail:
   keep aggregate history, age the identified rows out on a stated schedule
