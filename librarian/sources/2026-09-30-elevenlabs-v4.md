@@ -61,6 +61,16 @@ media-generation candidates sharing another, so the XL trigger fired twice. Both
   application and network time (spec said 150 ms); the line id is the node id plus a variant marker; a pinned old
   model id needs a retirement clock and fails loudly; timing is budgeted in seconds per locale, not words.
 
+## Scope correction (operator, 2026-09-30): most of these trees are not registered
+
+The impact scan below listed sibling directories instead of resolving `projects.json`. Of the trees named in
+this note, only athena-everywhere, pof, kp, gravitone, personas and pumper are registered. hyper, story,
+studio-story, v, vaai, firetv, moderator, athena-portable and saber-arpg are **not**: the registry has no
+connection to them, no map, no applied ledger and no authorization to change them. The five model-id commits in
+hyper, story, studio-story, v and firetv are kept at the operator's word, but they are out-of-registry history.
+Future intakes and operations resolve impact through `loadFleet()` only and do not build on them. The three
+applications that cite these trees stand as read, and are a candidate for rewriting against a registered tree.
+
 ## Fleet impact (coverage ships on the recommendation; never pushed)
 
 Fifteen trees mention the vendor; nine call it. Model ids found: `eleven_v3` (hyper, story),
