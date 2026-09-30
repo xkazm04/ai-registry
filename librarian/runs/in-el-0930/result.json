@@ -1,0 +1,47 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-el-0930",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "single",
+  "domain": "media-generation",
+  "started_at": "2026-09-30T09:00:00Z",
+  "ended_at": "2026-09-30T10:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 2,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/audio-generation/multi-speaker-speech-production",
+      "at": "2026-09-30",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    },
+    {
+      "id": "game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline",
+      "at": "2026-09-30",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": 0,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-09-30-elevenlabs-v4.md",
+    "librarian/specs/2026-09-30-multi-speaker-speech-production.md",
+    "librarian/specs/2026-09-30-game-dialogue-voice-pipeline.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Two subjects forged from one vendor release page plus a fleet seam hunt. Five fleet model-id commits are structural-only and unpushed."
+}

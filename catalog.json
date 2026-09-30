@@ -1026,11 +1026,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 52,
-      "techniques": 333,
-      "applications": 143,
-      "files": 532,
-      "contentHash": "sha256-b2:075d6a6ae4e160f5"
+      "subjects": 53,
+      "techniques": 338,
+      "applications": 146,
+      "files": 541,
+      "contentHash": "sha256-b2:f79344de9fcb1f1a"
     },
     {
       "name": "grant-funding",
@@ -1091,11 +1091,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 22,
-      "techniques": 153,
-      "applications": 84,
-      "files": 264,
-      "contentHash": "sha256-b2:cc424eac394b3d12"
+      "subjects": 23,
+      "techniques": 158,
+      "applications": 87,
+      "files": 273,
+      "contentHash": "sha256-b2:249c3799e6109048"
     },
     {
       "name": "recruiting",

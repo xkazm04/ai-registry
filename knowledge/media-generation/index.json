@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 22,
-  "techniques": 153,
-  "applications": 84,
+  "subjects": 23,
+  "techniques": 158,
+  "applications": 87,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "153/153",
+  "use_when_coverage": "158/158",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1722,6 +1722,115 @@
     }
    ]
   },
+  "multi-speaker-speech-production": {
+   "category": "audio-generation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/multi-speaker-speech-production.md",
+   "digest": "sha256-b2:242c4736c3ed62d8",
+   "revision": 1,
+   "changedAt": "2026-09-30",
+   "techniques": [
+    {
+     "slug": "chunk-boundary-continuity",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a script exceeds the engine's character limit for one generation",
+      "a long read has an audible change of energy at a join",
+      "choosing where to cut a script",
+      "joining rendered pieces of one scene"
+     ]
+    },
+    {
+     "slug": "inline-direction-dialect",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "direction is written into script text as bracketed tags",
+      "an engine upgrade makes tags read aloud or ignored",
+      "a pause or delivery markup stopped working",
+      "keeping one script usable across two engine generations"
+     ]
+    },
+    {
+     "slug": "line-addressed-re-render",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a script revision should re-record only the changed lines",
+      "deciding whether a speech engine holds a speaker steady across re-renders",
+      "a reviewer approved most of a scene and wants one line changed"
+     ]
+    },
+    {
+     "slug": "voice-asset-model-generation-binding",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "upgrading the speech engine under a cast of cloned or designed voices",
+      "storing a cast sheet that must survive engine changes",
+      "a stored voice resolves but sounds different",
+      "deciding whether a rebuilt clone needs a fresh consent record"
+     ]
+    },
+    {
+     "slug": "world-lexicon-as-pronunciation-dictionary",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "invented names or acronyms are pronounced differently across lines",
+      "a pronunciation fix must reach every line that has the term",
+      "keeping pronunciation stable across an engine change",
+      "a script revision changes how a name is said"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "chunk-boundary-continuity",
+     "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/applications/node--chunk-boundary-continuity.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "line-addressed-re-render",
+     "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/applications/node--line-addressed-re-render.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "voice-asset-model-generation-binding",
+     "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/applications/node--voice-asset-model-generation-binding.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "node@22"
+    }
+   ]
+  },
   "music-prompt-composition": {
    "category": "audio-generation",
    "subcategory": null,
@@ -3085,6 +3194,11 @@
     "live-system-demo-film/audio-first-beat-pacing",
     "live-system-demo-film/recording-that-asserts-its-claims",
     "live-system-demo-film/script-as-single-source",
+    "multi-speaker-speech-production/chunk-boundary-continuity",
+    "multi-speaker-speech-production/inline-direction-dialect",
+    "multi-speaker-speech-production/line-addressed-re-render",
+    "multi-speaker-speech-production/voice-asset-model-generation-binding",
+    "multi-speaker-speech-production/world-lexicon-as-pronunciation-dictionary",
     "music-prompt-composition/duration-and-tempo-locking",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/no-engine-means-no-video",
@@ -3151,6 +3265,7 @@
     "image-prompt-composition/reference-role-map",
     "image-prompt-composition/style-first-token-ordering",
     "image-prompt-composition/two-block-style-and-action",
+    "multi-speaker-speech-production/inline-direction-dialect",
     "music-prompt-composition/reference-track-anchoring",
     "music-prompt-composition/section-plan-as-the-brief",
     "music-prompt-composition/sonic-style-vocabulary",
@@ -3242,6 +3357,7 @@
     "live-system-demo-film/script-as-single-source",
     "live-system-demo-film/seeded-stage-with-a-declared-boundary",
     "live-system-demo-film/summary-rendered-from-the-run",
+    "multi-speaker-speech-production/chunk-boundary-continuity",
     "music-prompt-composition/reference-track-anchoring",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/engine-arbitration-order",
@@ -3266,6 +3382,8 @@
     "generated-output-grading/regrade-without-regenerate",
     "generative-provider-routing/resolution-as-stage-property",
     "live-system-demo-film/retake-without-an-edit-session",
+    "multi-speaker-speech-production/line-addressed-re-render",
+    "multi-speaker-speech-production/world-lexicon-as-pronunciation-dictionary",
     "music-prompt-composition/section-plan-as-the-brief",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "review-iteration-loops/anchored-variation-slate",
@@ -3318,6 +3436,8 @@
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/prompt-dialect-matching",
     "live-system-demo-film/retake-without-an-edit-session",
+    "multi-speaker-speech-production/line-addressed-re-render",
+    "multi-speaker-speech-production/voice-asset-model-generation-binding",
     "narrative-engine-selection/fit-vs-hazard-axes",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/delivery-promise-lock",

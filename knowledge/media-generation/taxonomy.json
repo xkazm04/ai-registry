@@ -46,7 +46,8 @@
         "music-prompt-composition",
         "generated-music-acceptance",
         "sound-effect-generation",
-        "generated-speech-acceptance"
+        "generated-speech-acceptance",
+        "multi-speaker-speech-production"
       ]
     },
     {
