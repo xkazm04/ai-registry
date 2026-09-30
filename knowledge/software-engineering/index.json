@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1820,
-  "applications": 1215,
+  "applications": 1216,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20617,9 +20617,9 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/metrics-rollups/metrics-rollups.md",
-   "digest": "sha256-b2:e67c71e414c9a9c0",
-   "revision": 2,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:1905deb541d7de9d",
+   "revision": 3,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "aggregate-honesty",
@@ -20704,6 +20704,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "aggregate-honesty",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/metrics-rollups/applications/next--aggregate-honesty.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "next@16"
+    },
     {
      "stack": "react",
      "technique": "period-comparison",

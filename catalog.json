@@ -1108,7 +1108,7 @@
       "techniques": 398,
       "applications": 291,
       "files": 757,
-      "contentHash": "sha256-b2:1b6d797f4f4485d1"
+      "contentHash": "sha256-b2:45aa91f71f2f62ba"
     },
     {
       "name": "software-engineering",
@@ -1119,9 +1119,9 @@
       "purity": "software",
       "subjects": 233,
       "techniques": 1820,
-      "applications": 1215,
-      "files": 3273,
-      "contentHash": "sha256-b2:4814997240d4cb39"
+      "applications": 1216,
+      "files": 3274,
+      "contentHash": "sha256-b2:ea3d64edbcca2546"
     }
   ],
   "usageEvidence": {
