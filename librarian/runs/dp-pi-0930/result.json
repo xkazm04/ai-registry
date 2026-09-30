@@ -1,0 +1,41 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pi-0930",
+  "skill": "deepen",
+  "skill_version": "unknown",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-30T09:00:00Z",
+  "ended_at": "2026-09-30T10:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/perf-instrumentation",
+      "at": "2026-09-30",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [
+    {
+      "sha": "3c09c18d",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering/operations/service-operations/perf-instrumentation"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "New technique in-flight-visibility; two amendments. Application recorded unapplied (no verdict row owed). No separate blind training-data lane, so convergence is not lane-proven. Fleet registry-map files regenerated locally, not committed; no stale pairs."
+}
