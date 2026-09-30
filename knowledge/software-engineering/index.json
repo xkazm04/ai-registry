@@ -19204,7 +19204,7 @@
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/maturity-ladders/maturity-ladders.md",
    "digest": "sha256-b2:d0a5005593862139",
    "revision": 2,
-   "changedAt": "2026-09-29",
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "band-design",
@@ -20999,9 +20999,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
-   "digest": "sha256-b2:068da95be00c5489",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:8c2af696c8ba0de6",
+   "revision": 2,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "credential-posture-at-the-call-door",
