@@ -1,0 +1,66 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-ultrarag-0930",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "run",
+  "domain": "software-engineering",
+  "started_at": "2026-09-30T12:00:00Z",
+  "ended_at": "2026-09-30T13:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/llm-agent/prompt-and-context/retrieval",
+      "at": "2026-09-30",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "llm-observability/quality-scoring/grounded-answer-scoring",
+      "at": "2026-09-30",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "llm-observability/quality-scoring/quality-regression-gating",
+      "at": "2026-09-30",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "quality-regression-gating",
+      "technique": "paired-per-case-testing",
+      "verdict": "COVERED",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/techniques/padded-slots-are-misses.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/techniques/retrieval-evaluation.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/python--padded-slots-are-misses--ultrarag.md",
+    "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/techniques/decompose-then-verify.md",
+    "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/python--paired-per-case-testing--ultrarag.md",
+    "librarian/sources/2026-09-30-ultrarag.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Vendor repository; one technique, two amendments, two source-tree applications. Orchestrator unread, so the routing count of 1 is unverified; three leads banked."
+}

@@ -1054,9 +1054,9 @@
       "purity": "software",
       "subjects": 18,
       "techniques": 126,
-      "applications": 78,
-      "files": 227,
-      "contentHash": "sha256-b2:233a4dd733f7d283"
+      "applications": 79,
+      "files": 228,
+      "contentHash": "sha256-b2:64fb04d1e6e15412"
     },
     {
       "name": "localization",
@@ -1118,10 +1118,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 233,
-      "techniques": 1821,
-      "applications": 1217,
-      "files": 3276,
-      "contentHash": "sha256-b2:85984d44aede7ab9"
+      "techniques": 1822,
+      "applications": 1218,
+      "files": 3278,
+      "contentHash": "sha256-b2:acb933314b025467"
     }
   ],
   "usageEvidence": {

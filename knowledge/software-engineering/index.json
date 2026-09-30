@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1821,
-  "applications": 1217,
+  "techniques": 1822,
+  "applications": 1218,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1821/1821",
+  "use_when_coverage": "1822/1822",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -29060,9 +29060,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256-b2:8cfc2c346bb4e161",
-   "revision": 16,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:9f05c1f381f9d83f",
+   "revision": 17,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -29110,6 +29110,21 @@
       "fusing a lane whose input is another lane's output",
       "a retired or superseded item still reaches the slice",
       "another subsystem claims its column already gates retrieval"
+     ]
+    },
+    {
+     "slug": "padded-slots-are-misses",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an index is asked for more neighbours than it holds",
+      "a nearest-neighbour library returns a fixed-width result with filler slots",
+      "duplicated passages appear in a retrieved slice on a small corpus",
+      "resolving result identifiers through a positional list"
      ]
     },
     {
@@ -29270,6 +29285,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/node--relevance-floors.md",
      "verified_on": "2026-09-07",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "python",
+     "technique": "padded-slots-are-misses",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/python--padded-slots-are-misses--ultrarag.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "python@3.11"
     },
     {
      "stack": "python",
@@ -38749,6 +38771,7 @@
     "repository-landing-document/evidence-linked-badges",
     "repository-landing-document/style-rule-ships-its-detector",
     "retrieval/embedding-lifecycle",
+    "retrieval/padded-slots-are-misses",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
     "retrieval/second-pass-rescoring",
@@ -39327,6 +39350,7 @@
     "repo-manifest-standard/pointers-not-embeds",
     "repo-manifest-standard/version-gate-precedes-schema-gate",
     "retrieval/embedding-lifecycle",
+    "retrieval/padded-slots-are-misses",
     "retrieval/relationship-proximity-lane",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",

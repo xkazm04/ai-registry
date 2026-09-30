@@ -14,6 +14,7 @@ techniques:
   - second-pass-rescoring
   - ranking-budgets
   - relevance-floors
+  - padded-slots-are-misses
   - retrieval-evaluation
 ---
 
@@ -158,7 +159,11 @@ a threshold below which the honest answer is fewer results, or none. And an
 empty answer must be distinguishable from a broken lane — "nothing qualified"
 and "the embedder was unavailable, so only lexical lanes ran" are different
 claims the consumer needs told apart. Floors, degraded modes, and the
-three-way empty are [relevance-floors](./techniques/relevance-floors.md).
+three-way empty are [relevance-floors](./techniques/relevance-floors.md). The
+"always returns k" property has a mechanical twin: an engine asked for more
+neighbours than the index holds pads the answer with a sentinel identifier, and a
+positional lookup turns the filler into copies of the last passage
+([padded-slots-are-misses](./techniques/padded-slots-are-misses.md)).
 
 ## Measured or imaginary
 
@@ -234,5 +239,8 @@ memory subject demands when it labels recalled beliefs before injection.
   that replaces the greedy pack when admission cost is non-additive.
 - [relevance-floors](./techniques/relevance-floors.md) — thresholds, honest
   empties, degraded modes, fallback lanes.
+- [padded-slots-are-misses](./techniques/padded-slots-are-misses.md) — a
+  fixed-width result padded with a sentinel, the positional lookup that reads it
+  as the last document, and why the answer is a shorter list, never a refill.
 - [retrieval-evaluation](./techniques/retrieval-evaluation.md) — labeled query
   sets, ranking metrics, leak checks, regression gates.
