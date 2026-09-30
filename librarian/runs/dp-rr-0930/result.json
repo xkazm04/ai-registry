@@ -1,0 +1,41 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rr-0930",
+  "skill": "deepen",
+  "skill_version": "unknown",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-30T11:00:00Z",
+  "ended_at": "2026-09-30T12:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/remediation-roadmaps",
+      "at": "2026-09-30",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [
+    {
+      "sha": "b8eb4e6a",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Code-vs-claim lane on ascent only; no web or blind lane. Two deviations found closed, three technique amendments, one golden-path flip; react app not re-read. Applied row unapplied. Ascent map committed locally, unpushed; none stale."
+}

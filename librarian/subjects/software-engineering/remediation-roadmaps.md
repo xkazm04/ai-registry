@@ -46,5 +46,4 @@ application or a project grows a second roadmap seam.
 
 ### Impact
 
-See the regenerated map: ascent maps this subject; slugs and counts recorded below
-after the map run.
+ascent maps one context (Roadmap & Recommendation Tracking) to this subject; none judged, none stale. No other project maps it.
