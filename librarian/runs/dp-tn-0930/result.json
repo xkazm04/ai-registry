@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-tn-0930",
+  "skill": "deepen",
+  "skill_version": "1.0.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-30T09:00:00Z",
+  "ended_at": "2026-09-30T09:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/toasts-notifications",
+      "at": "2026-09-30",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Deepened rev 3 on 2026-09-20; check-currency has no entry for it, applications carry verified_against, all six inbox leads struck. No clock or event, so no research lanes spent. The missing librarian note is the librarian's."
+}
