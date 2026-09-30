@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pbs-0930",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-30T10:00:00Z",
+  "ended_at": "2026-09-30T10:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/peer-benchmarking",
+      "at": "2026-09-30",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Never-swept subject. One correction: strictly-below ties is a downward-biased bound; mid-rank added, scipy docs checked. Rest stands, no new technique, no project tree read. Fleet maps regenerated, not committed."
+}
