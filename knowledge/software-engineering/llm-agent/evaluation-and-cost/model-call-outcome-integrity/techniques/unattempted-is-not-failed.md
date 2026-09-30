@@ -76,6 +76,17 @@ number with a plausible story attached.
   an unobservable stop condition is unknown, and unknown is not "fine".
 - **Raise the ceiling until no arm can reach it, then record the number.** A comparison
   in which any participant was bounded is a comparison of ceilings.
+- **A stop condition is a vocabulary, not a flag.** Length is one member. Current
+  vendor vocabularies also report a filled context window (input plus output exhausted the
+  model's own limit), an exhausted iteration limit on a tool loop the vendor runs for you
+  (the response is a pause to be continued, not a finish), and a refusal. Map every member
+  the seam can receive to a named outcome and make an unmapped member loud: a window
+  exhaustion and an iteration pause are voids, and both can leave a tool block half-written.
+  A refusal is neither void nor wrong - the model was reached and declined - so it is its
+  own outcome and never a score of zero.
+- **In a stream the stop condition arrives last.** It is unknown until the final event, so a
+  stream that drops earlier has an unobservable stop condition: report that, never the text
+  received so far as a completed answer.
 - **The ceiling is not the only limit.** A wall-clock deadline and a remote request
   window produce the same three symptoms from different causes; each gets its own named
   outcome, because each has a different fix and a different owner.

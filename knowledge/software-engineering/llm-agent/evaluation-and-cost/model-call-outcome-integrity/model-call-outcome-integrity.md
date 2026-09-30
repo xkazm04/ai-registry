@@ -94,7 +94,7 @@ routing.
 ## What a seam must be able to say
 
 An outcome carries an answer or it carries a reason, and the reason is drawn from a
-closed set the seam owns. The minimum vocabulary separates four things that naive seams
+closed set the seam owns. The minimum vocabulary separates five things that naive seams
 collapse into one:
 
 | the seam observed | what it means | who owns it |
@@ -102,11 +102,14 @@ collapse into one:
 | the model answered | an answer exists and may be judged | the model |
 | the model answered wrongly | the answer exists and failed a check | the model |
 | the model was cut off | a ceiling, deadline or window ended the attempt | the caller |
+| the model declined | it was reached and refused; there is no answer to judge | the model, by policy - counted apart from wrong answers |
 | the model was never reached | no candidate was eligible, or none accepted the work | the caller |
 
-Only the first two are evidence about a model. The third and fourth are evidence about
-configuration, and a seam that cannot tell them apart will eventually publish the fourth
-as the second — which reads as a damning result and is a bug report about the seam.
+Only the answered and wrong rows are evidence about a model's quality; a decline is
+evidence about its policy and is counted apart. The cut-off and never-reached rows are
+evidence about configuration, and a seam that cannot tell them apart will eventually
+publish never-reached as wrong - which reads as a damning result and is a bug report about
+the seam.
 
 Two properties make the distinction reliable rather than aspirational. The seam must be
 **the only way to make a call**, because a bypass reintroduces every collapse this
