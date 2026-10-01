@@ -129,16 +129,16 @@
     },
     {
       "name": "conform",
-      "version": "1.8.2",
+      "version": "1.8.3",
       "category": "ai-native",
       "path": "skills/conform/SKILL.md",
-      "contentHash": "sha256-n1:8bd2e4236973d286",
+      "contentHash": "sha256-n1:59d049616dcb1e7b",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 13,
+      "lessons": 14,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:ce2cd1deb639a456",
+      "lessonsHash": "sha256-n1:82c6215f1132d182",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -990,7 +990,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 6,
-    "lessons": 296
+    "lessons": 297
   },
   "bundles": [
     {
@@ -1121,7 +1121,7 @@
       "techniques": 1822,
       "applications": 1218,
       "files": 3278,
-      "contentHash": "sha256-b2:acb933314b025467"
+      "contentHash": "sha256-b2:8115664a3a7ecbc6"
     }
   ],
   "usageEvidence": {

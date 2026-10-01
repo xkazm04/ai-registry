@@ -35463,9 +35463,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
-   "digest": "sha256-b2:00266562e54f6f86",
-   "revision": 3,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:81b073072d283dda",
+   "revision": 4,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "actionable-toasts",

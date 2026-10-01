@@ -111,6 +111,32 @@ re-animation and auditory re-announcement have different costs; the
 announcement layer keys strictly off event identity, so display churn is
 inaudible.
 
+## The conformance anchors
+
+Two WCAG 2.2 success criteria are the written basis for the rules above, and
+they are what an audit will cite:
+
+- **4.1.3 Status Messages (AA)**: a status change that does not take focus
+  must be programmatically determinable through role or properties, so
+  assistive technology can present it without receiving focus. This is the
+  criterion behind "announced, not just rendered" and "arrival never moves
+  focus": a toast with no live-region role fails it, and a toast that steals
+  focus to pass it trades one failure for another.
+- **2.2.1 Timing Adjustable (A)**: a time limit the content sets must be
+  user-turn-off-able, adjustable, or extendable (warned, and extendable by a
+  simple action), unless it is essential or a real-time event. An
+  auto-dismissing toast is a content-set time limit. Awareness-only messages
+  with a durable ledger twin sit inside the exceptions argument; **an
+  action-required toast that expires is the case an auditor will fail**, the
+  accessibility restatement of "a message that requires the user to do
+  something must not evaporate". Hover-and-focus pause serves pointer and
+  keyboard users but is not a user-controlled setting; where the product is
+  audited, expose dwell as a preference or let the ledger carry the message.
+
+Neither criterion names toasts or prescribes politeness grades; the
+severity-to-politeness mapping above is design judgment inside the room they
+leave.
+
 ## Motion and its absence
 
 The visual layer honors reduced-motion preferences by settling instantly
