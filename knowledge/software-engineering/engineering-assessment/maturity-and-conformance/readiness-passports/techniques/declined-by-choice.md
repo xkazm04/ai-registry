@@ -121,6 +121,19 @@ Two lifecycle rules keep the memory from becoming folklore:
   state first and an expiry second; deleting an old decline destroys the memory
   the whole mechanism exists to hold.
 
+Price the triggers, because both directions fail. A decline that never
+re-surfaces keeps suppressing a finding about a repo that no longer exists (an
+accepted "no scanning" on an internal prototype outlives the day it starts
+handling customer data). A decline that re-surfaces on every rewording or score
+jitter trains owners to re-decline reflexively, and then it carries no signal at
+all. Keep the trigger set narrow and structural (kind changed, severity rose,
+one long horizon) and never fire on rendered text; minted finding ids are what
+make "not on a rewording" enforceable. When it does fire, **leave the gap open
+and show the old decision beside it** rather than swapping one for the other,
+and read a baseline the old record never stored as *unknown*, which skips that
+comparison, never as "unchanged" and never as "changed". A realization of this
+is in [the Ascent overlay](../applications/node--declined-by-choice.md).
+
 ## Effect on the axes, and on the portfolio
 
 A decline **does not raise a rung**. Choosing not to close a gap is a decision,
