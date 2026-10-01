@@ -24134,9 +24134,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/peer-benchmarking.md",
-   "digest": "sha256-b2:a6a7049568baa576",
-   "revision": 2,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:a3239df32fc1070b",
+   "revision": 3,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "basis-disclosure",
@@ -24214,19 +24214,21 @@
      "stack": "node",
      "technique": "comparability-filters",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--comparability-filters.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "population-vs-scalar-ranking",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--population-vs-scalar-ranking.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "sql",
      "technique": "corpus-tenancy-boundary",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/sql--corpus-tenancy-boundary.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01"
     }
    ]
   },
