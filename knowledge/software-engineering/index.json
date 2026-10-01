@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1822,
-  "applications": 1218,
+  "applications": 1219,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -24134,9 +24134,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/peer-benchmarking.md",
-   "digest": "sha256-b2:a3239df32fc1070b",
-   "revision": 3,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:a6a7049568baa576",
+   "revision": 2,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "basis-disclosure",
@@ -24214,21 +24214,19 @@
      "stack": "node",
      "technique": "comparability-filters",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--comparability-filters.md",
-     "verified_on": "2026-10-01",
-     "verified_against": "node@24"
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "population-vs-scalar-ranking",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--population-vs-scalar-ranking.md",
-     "verified_on": "2026-10-01",
-     "verified_against": "node@24"
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "sql",
      "technique": "corpus-tenancy-boundary",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/sql--corpus-tenancy-boundary.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-08-20"
     }
    ]
   },
@@ -27657,7 +27655,7 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md",
-   "digest": "sha256-b2:9c832e01c193963d",
+   "digest": "sha256-b2:cd0e4bbb984184f7",
    "revision": 2,
    "changedAt": "2026-10-01",
    "techniques": [
@@ -27740,8 +27738,14 @@
      "stack": "node",
      "technique": "declined-by-choice",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--declined-by-choice.md",
+     "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "two-axis-readiness",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--held-rungs.md",
      "verified_on": "2026-10-01",
-     "verified_against": "node@22"
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -28256,8 +28260,8 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
-   "digest": "sha256-b2:eaf82a0c7f870145",
-   "revision": 5,
+   "digest": "sha256-b2:bb7ff5adfe881a8c",
+   "revision": 4,
    "changedAt": "2026-10-01",
    "techniques": [
     {
@@ -28360,21 +28364,19 @@
      "stack": "node",
      "technique": "claim-carry-forward-rules",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--claim-carry-forward-rules.md",
-     "verified_on": "2026-10-01",
-     "verified_against": "node@24"
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "node",
      "technique": "handoff-tenancy-and-idempotence",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--handoff-tenancy-and-idempotence.md",
-     "verified_on": "2026-10-01",
-     "verified_against": "node@24"
+     "verified_on": "2026-08-20"
     },
     {
      "stack": "process",
      "technique": "single-artifact-prompt-construction",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/process--single-artifact-prompt-construction.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-08-20"
     }
    ]
   },
@@ -35468,9 +35470,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
-   "digest": "sha256-b2:00266562e54f6f86",
-   "revision": 3,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:81b073072d283dda",
+   "revision": 4,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "actionable-toasts",

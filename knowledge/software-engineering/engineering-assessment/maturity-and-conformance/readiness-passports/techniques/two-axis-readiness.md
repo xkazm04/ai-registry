@@ -145,6 +145,27 @@ nothing; absence means we did not look
 portfolio view these are three visually distinct states, and the counts of each
 appear beside any aggregate.
 
+### A partial read holds the floor, not the whole axis
+
+Three states per axis is the whole-project case. The harder one is an assessor
+that read *part* of the evidence: a bounded fetch returned some of what the tree
+lists. Scoring the partial read as if it were the whole converts a coverage
+limit into a verdict; a pipeline nobody saw is priced as a weak one.
+
+The rule has two halves, and the second stops it becoming a blanket excuse. A
+rung is **held** when a coverage caveat stands *and* the level reached is the
+floor the unread content could still lift (no checks seen, no scanner seen). A
+level the read part already proves (a check or a scanner was actually observed)
+is a **measured lower bound** and stays scored. A held rung is not scored, not
+ranked and not drawn as a miss; the composite renormalizes over the axes that
+were measured, the held weight leaving the denominator, and a flat export
+prints the word for it, never the floor's name. Three guards keep it honest:
+with nothing held the formula is the unchanged sum; a tree read whole that shows
+no such evidence is an observed absence and scores; and an owner override
+re-derives over the same measured axes, so the hold survives it. On the
+delegation axis a held rung names the re-assessment as the next action, not a
+fix to the project.
+
 ## When not to use this
 
 - **A single-purpose fingerprint.** If the artifact serves exactly one decision
