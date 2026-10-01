@@ -89,5 +89,10 @@ suites (runner, log reader, scaffolder, harness) pass, typecheck and lint are cl
 - **A teardown fault with no report is read as a cut.** Pinned by a test: the unregistered name
   costs one bounded resume and ends correctly labelled. The proper fix is a batch end sentinel
   the editor itself emits, which the tree does not have.
+- **The resume does not pre-clean (step 7a).** The harness cannot know what the culprit left behind;
+  setup lives in the editor-side tests, and nothing here audits whether they remove before they
+  create. The engine's own design guidance for automation tests ("assume the test was left in a
+  bad state the last time it ran", from its automation framework page, read verbatim 2026-10-01)
+  is the standard those tests would be held to. Whether the tree's tests do is unread.
 - **The exit code is still discarded.** A launch ended from outside, with neither a fatal marker
   nor a watchdog, is invisible to this path and still reads as the zero-match it always did.

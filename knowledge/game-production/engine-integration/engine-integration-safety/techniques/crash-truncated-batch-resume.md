@@ -86,6 +86,15 @@ or full) and under the same isolation (a lease, an overlay, a sandboxed write ar
 resume in a different mode is a different experiment, and one that drops the isolation
 changes what the items can touch.
 
+**7a. Assume the interrupted launch's teardown never ran.** Whatever the culprit created, a
+file, a world, a registered object, is still there, and it was left there by the one item
+that was never allowed to clean up. A resume starts from that assumption: setup removes
+before it creates. A framework's own design guidance for its tests says the same from the
+other end ("assume the test was left in a bad state the last time it ran"), and a crash is
+the case where that stops being a habit and becomes a measured fact. This also bounds what a
+resume may trust: a result from a resumed item that depends on state the culprit may have
+left is weaker than one from a clean launch, and says so.
+
 **8. A single crash is an observation, not a diagnosis.** Leave the culprit with a suspect
 verdict and its evidence line. Do not quarantine it, open a ticket, edit code or run an
 expensive rebuild on one occurrence; act when the same item dies again in a launch of its
