@@ -365,3 +365,11 @@ per-project entries above stand; this is what only shows up across them.
 - **Deleted code leaves context rows behind.** Two media-playback contexts and one
   certification context now own no files; the context map still lists them and the registry
   map still pairs them. The fix is the project's context map, not a verdict.
+
+## 1.8.2 - 2026-10-01 - ai-registry (method repair, dispatched by Curator)
+
+- **Proposal, not field evidence: the skill documented no invocation.** `argument-hint` and the
+  description named `/conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]`, but
+  the body had no `## Invocation` block, so a planner could not tell whether bare `/conform` was
+  safe to dispatch. It cost Curator's plan every conform item at dispatch. Fixed in 1.8.3 by
+  writing down only the forms step 1 already describes, and saying there is no whole-repo form.
