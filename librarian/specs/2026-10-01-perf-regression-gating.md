@@ -80,7 +80,7 @@ paragraph unless a decision rule is genuinely new.
 
 ## Trees to reconcile read-only (never edit)
 
-The connected project **pof**, at its default branch (`C:\Users\kazda\kiro\pof`, master). Read-only. It has an
+The connected project **pof**, at its default branch (`<pof checkout>`, master). Read-only. It has an
 analysis half (CSV import, triage, base-versus-head compare under `src/lib/profiling/` and
 `src/app/api/performance-profiling/route.ts`; sessions are process-local) and a scripted scenario runner on a
 fixed 1/60 s timestep (`-benchmark -fps=60`, `src/types/observation.ts`), with the null-renderer mode noted as
@@ -92,14 +92,14 @@ no noise floor" is a legitimate negative-space application.
 ## Primaries (the drafter's web budget, ~6 fetches)
 
 Read with the registry's verbatim ingest, NOT a summarizing fetch (a summarizing fetch has been caught
-inventing quotes and inverting findings): `node C:\Users\kazda\kiro\ai-registry\scripts\research-ingest.mjs
+inventing quotes and inverting findings): `node <registry>/scripts/research-ingest.mjs
 "<url>" --json` prints a JSON with a `path` to a cleaned text file; Read that. Already fetched verbatim this
 session (read these first):
 
-- C:\Users\kazda\AppData\Local\Temp\ai-registry-research\automation-test-framework-in-unreal-engine-unreal-engine-5-8.clean.txt
+- <research-cache>/automation-test-framework-in-unreal-engine-unreal-engine-5-8.clean.txt
   (the engine's automation framework page: test types, design guidelines - note "do not assume the state";
   tests may run out of order or in parallel across machines)
-- C:\Users\kazda\AppData\Local\Temp\ai-registry-research\unreal-automationperformacehelper-unreal-python-5-2-experime.clean.txt
+- <research-cache>/unreal-automationperformacehelper-unreal-python-5-2-experime.clean.txt
   (a performance helper for functional tests: a baseline record first, then a named record with separate
   graphics-processor, render-thread and game-thread budgets, and per-thread within-budget checks)
 
@@ -107,7 +107,7 @@ To fetch (engine documentation, https://dev.epicgames.com/documentation/en-us/un
 profiler page (`csv-profiler`), the Unreal Insights introduction, `running-gauntlet-tests-in-unreal-engine`,
 `introduction-to-performance-profiling-and-configuration-in-unreal-engine`, and the vendor's own page
 https://www.tryaura.dev/documentation/performance-profiling (already ingested: cleaned text at
-C:\Users\kazda\AppData\Local\Temp\ai-registry-research\performance-profiling-aura-documentation.clean.txt).
+<research-cache>/performance-profiling-aura-documentation.clean.txt).
 The upper layers carry no product or tool names; names live only in applications.
 
 ## Open questions the drafter must resolve
