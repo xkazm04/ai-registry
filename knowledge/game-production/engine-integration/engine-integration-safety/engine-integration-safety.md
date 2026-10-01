@@ -11,6 +11,7 @@ techniques:
   - editor-thread-timeout-budgeting
   - transport-failure-taxonomy
   - judge-by-log-markers-not-exit-code
+  - crash-truncated-batch-resume
 ---
 
 # Engine integration safety
@@ -143,6 +144,14 @@ fail. A false verdict is the worst output this layer can produce, because it rea
 downstream as proof; an unresolved one costs only another run. Structural presence of a
 marker proves the marker was printed and nothing more — structural proof is never
 sufficient, in its smallest possible form.
+
+One more case the end marker alone cannot settle: a batch carried by one launch that dies
+partway. The items that completed keep their results; the one that was running is a
+suspect; and the items that never started are neither failed nor unregistered — they exist
+and were never reached. Reading them as absent starves them on every run behind the same
+culprit. They are resumed in a fresh launch without it, a bounded number of times, each
+resume having to make progress. That policy is its own technique, and a first crash is
+only ever an observation.
 
 ## The failure modes of the naive reading
 

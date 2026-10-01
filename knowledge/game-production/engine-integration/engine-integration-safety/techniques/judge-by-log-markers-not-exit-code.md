@@ -37,8 +37,13 @@ render as not-measured.
 sentinels, and contain no result marker whatsoever, because the work you named was never
 registered or matched nothing. Rendering that as a failure paints a board red with work
 nobody has written; rendering it as a pass is a lie. It is *deferred* — an honest planned
-wait. The signal that distinguishes it from a truncated run is that the callee enumerated
-its available work and reported the enumeration: the run happened, the target was absent.
+wait. A run that enumerated its available work and then reached its own end is what
+distinguishes it from a truncated run: the run happened, the target was absent. The
+enumeration alone does not, because it is the first thing a run does and a run that crashed
+after enumerating carries it too. What separates the two is the cut, a fatal marker or the
+watchdog firing. In a batch this matters per item: those an interrupted launch never reached
+exist and were never observed, which is a different state from nothing matched, and it has a
+different remedy (see crash-truncated-batch-resume).
 
 **4. Make markers unforgeable enough for the channel.** The channel carries the callee's
 own output, and content under test can print anything. Use a token unlikely to occur
