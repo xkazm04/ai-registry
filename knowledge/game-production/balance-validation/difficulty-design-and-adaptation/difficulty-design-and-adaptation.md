@@ -10,6 +10,9 @@ techniques:
   - player-chosen-challenge-and-adjustment-hazards
   - setting-bounded-overlapping-bands
   - reward-cadence-first-diagnosis
+  - skill-swap-cross-tier-test
+  - equal-skill-straight-time-loss
+  - tier-changes-decisions-not-specs-test
 ---
 
 # Difficulty design and adaptation
@@ -185,6 +188,18 @@ disjoint stacked tiers and the adaptation is cosmetic within each.
 What the construction buys, precisely: the player's declaration is never overridden,
 because the band cannot be left; the adaptation is real, because inside the band it
 responds; and two players are commensurable, because there is one scale underneath both.
+
+## Skill claims are checkable invariants
+
+A difficulty ladder that claims skill, not the stat sheet, decides outcomes has made three
+claims that can each be run. Swap the skill tier of a fixed competitor and require it to
+beat a rival of a different archetype by a declared margin on the course type that rewards
+skill (skill-swap-cross-tier-test). Hold skill equal and require a speed-capped
+competitor to lose measurable time where the cap can bind (equal-skill-straight-time-loss).
+And require each tier to change the opposition's decisions while leaving its physical
+specification, health, ammunition and damage identical, with no catch-up and a fixed
+rival schedule (tier-changes-decisions-not-specs-test). A claim that has been written
+down with its margin but never run is design intent and is labelled as such.
 
 ## One authority over the live difficulty value
 

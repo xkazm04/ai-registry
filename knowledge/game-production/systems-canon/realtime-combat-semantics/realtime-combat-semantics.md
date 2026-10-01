@@ -11,6 +11,9 @@ techniques:
   - hit-dedup-per-swing
   - single-source-of-health-truth
   - death-via-state-tag-not-input-disable
+  - start-protection-window
+  - no-one-shot-ehp-floor-in-racing
+  - armor-as-reduction-not-pool
 ---
 
 # Real-time combat semantics
@@ -151,6 +154,23 @@ the combatant's state that every gate already consults — the same gate that bl
 activation while stunned, rooted or silenced — so that "can this act", "can this be
 targeted" and "did this die" are three readings of one fact.
 
+## Three more, for a combat race
+
+A vehicular combat race adds a condition the six do not name: weapons form a
+counter-matrix, and every combatant starts the match in range of every other. Three
+further obligations follow, written for that case rather than for combat in general.
+**The opening is protected, and nothing is spent in it:** for a few seconds of the match
+clock damage is refused and so is the act of firing, before any ammunition, cooldown or
+pooled slot is debited, because a grace period that only shields the target lets the
+whole grid empty its magazines into it (start-protection-window). **No weapon deletes a
+full-health car,** measured against the weakest defended car and including same-second
+overlap, and a hazard's lead time is an authored readability budget, never a reaction
+result (no-one-shot-ehp-floor-in-racing). **Armor reduces the hit inside the one function
+that owns health and is never a second pool** (armor-as-reduction-not-pool). The first
+two are the match-level and roster-level forms of the escapable window and the
+survivability floor above; the third is the single-authority rule applied to a defensive
+stat.
+
 ## The failure modes of the naive reading
 
 The naive reading is that real-time is turn-based with a shorter turn. It produces four
@@ -207,5 +227,8 @@ reviewer walks a subsystem is review doctrine. Each of those is referenced here 
 because the seams are real; none of their rules are restated, because a rule with two homes
 has no home.
 
+The balance-simulation subject measures whether a roster complies with the floors stated here and never sets them; the pacing subject shapes how a fight unfolds in time and is not asked whether a single hit is survivable. When the question is what a weapon, a stat or a grace period owes the player, it is here; when it is how often a simulated fight violates that, or whether it feels flat, it is next door.
+
 What is left, and what this subject owns, is small and absolute: **six obligations a system
-takes on the moment it decides that time does not stop for the player.**
+takes on the moment it decides that time does not stop for the player,** and three more
+once those players are racing each other with weapons.

@@ -1,10 +1,10 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 53 subjects, 338 techniques, 146 applications.
+`game-production` - 65 subjects, 429 techniques, 175 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### systems-canon
-- agent-behaviour-authoring, arpg-systems-canon, design-canon-as-executable-law, game-economy-tuning, realtime-combat-semantics
+- agent-behaviour-authoring, arpg-systems-canon, design-canon-as-executable-law, game-economy-tuning, racing-career-economy, realtime-combat-semantics
 
 ### balance-validation
 - combat-pacing-and-dramatic-arc, difficulty-design-and-adaptation, encounter-balance-simulation, learning-curve-and-teaching-design, procedural-level-planning, terrain-synthesis-acceptance
@@ -26,3 +26,9 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 
 ### production-governance
 - ability-authoring-to-engine, generative-provider-auditing, production-coverage-measurement, production-prompt-architecture, production-work-prioritization, prompt-fitness-and-evolution
+
+### racing-vehicles
+- mass-based-arcade-collision, racing-track-authoring-and-lint, steering-feel-profile-shaping, top-down-vehicle-handling-model, vehicle-archetype-balance
+
+### couch-and-tv-play
+- controller-latency-instrumentation, fire-tv-device-realities, lan-pairing-and-session-continuity, on-device-verification-harness, phone-controller-input-protocol, two-thumb-touch-layout-design
