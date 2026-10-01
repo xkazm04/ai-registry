@@ -438,3 +438,22 @@ skill's source note; the outcome is recorded there.
   grok-4.7@high 25.0 min / 22 turns / $1.16; gpt-6-astra@high 28.7 min / 1 turn / no price reported.
 - **Turn counts do not compare across engines.** The codex CLI reports one turn for a 28.7-minute run,
   the longest wall of the three. Compare wall and deliverables, not turns.
+- **The owner closed it with no winner, and the reason was grounding, not execution (2026-10-01).**
+  Their review: the ideas were not well thought out or grounded in real life, the topic was not
+  researched deeply, the business cases were naive. The round had delivered nine complete reports
+  with honest evidence marks and no invented evidence, so every rubric part was present; it still
+  failed on the one thing the rubric did not ask for. A design contest on a topic that needs outside
+  knowledge (a market, a buyer) is only as good as the research the brief demands before design.
+- **A claim check measures truth, not groundedness - do not report it as evidence of realism.** The
+  host's live-page check confirmed 40 of 52 sampled claims, all prices and policies, and the host's
+  first summary called the businesses realistic on the strength of it. The owner's verdict shows the
+  two are different. Report a tally as "the cited prices were right", never as "the business holds".
+- **The brief's own premise set the ceiling.** One operator, no audience, no domain, 14 days, $500 and
+  a 60-minute seat select for the cheapest micro-product a model can cost out; all nine landed at $6 to
+  $199 with a $10 to $300 test. If the aim is a business worth the owner's time, give the operator an
+  edge or a chosen domain, state the ceiling wanted, and stage research before design (proposal, not
+  applied).
+- **The instrument cannot close a contest with no winner (proposal, not applied).** `verdict` needs a
+  winner, a combined design or a shortlist, so a close like this one is a hand-written vault note and a
+  `contest.json` that still reads undecided. A `verdict --close <note>` that writes the note and index
+  row, credits no pattern and sets `decided` would cover it.

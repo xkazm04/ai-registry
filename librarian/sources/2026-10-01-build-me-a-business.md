@@ -97,9 +97,9 @@ and how big it may be, rests on one author's unmeasured count (row 2).
   typed by the person, read from a file by a file tool, printed by a build or an `env` dump,
   returned in an error body, persisted in a summary or memory write. Home if it lands:
   `software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly` or `prompt-and-context`.
-- **A viral-format app as a business (row 6, with row 7 folded in).** Return when the contest
-  below has a verdict and one design has a validated first customer, or when a second source
-  reports revenue from this pattern. The corpus has no software-product validation subject
+- **A viral-format app as a business (row 6, with row 7 folded in).** Return when a second source
+  reports revenue from this pattern. (The contest below was the other condition: it closed with no
+  design and no validated customer.) The corpus has no software-product validation subject
   (`marketing` is local and zero-budget); one promotional video cannot author one.
 
 ## Phase 7.5 and 7.6
@@ -189,8 +189,27 @@ instrument's redaction also rewrote that vendor's host inside the other seats' U
 reader cannot follow the primary source for the model-price claim that six of the nine reports
 rest on (seat B's three use no model at runtime).
 
-Open: the owner's choice - a winner, a shortlist, a combined design, a reveal round or a refinement
-round. Nothing in this run builds any of the nine; the brief asked for design only.
+Closed: the owner closed the contest on 2026-10-01 with no winner, shortlist, combined design or
+further round. Their words, verbatim: "lets close the contest, the ideas are not well thought and
+grounded in real life, topic overall was not researched deeply and business cases to naive." Nothing
+in this run builds any of the nine; the brief asked for design only. The vault note
+(`contests/biz-design-1001`, written by hand because the instrument has no no-winner form) carries
+the decision, the seats unblinded and my reading of the review, marked as mine.
+
+**What the verdict says about the question this run was asked.** The dispatch asked whether several
+models, given an operator's situation and a stack preference list and no procedure, can design a
+realistic business with a new app and idea. With this brief, in 60-minute seats, the answer is no:
+nine complete, internally consistent, honestly marked reports, judged by the owner as naive and not
+grounded. My earlier summary said the seats had designed realistic businesses; that was wrong, and
+the cause was reading the fact-check tally as evidence of realism. The tally measured whether prices
+and policies were quoted correctly (a vendor page, fetched), and nothing in it touched whether a buyer
+exists. Two things the verdict does not settle: whether a differently built round (research as its
+own stage, a domain or an edge given to the operator) would change it, and whether the video's own
+business (a media-generation SaaS) is any better grounded; it showed no buyer, price test or cost.
+
+The lead on row 6 (a viral-format app as a business) had a return condition tied to this contest
+producing a design with a validated first customer. It produced none, so the lead stays banked on its
+other condition: a second source reporting revenue from the pattern.
 
 ## Reading notes for the next run over this source class
 
