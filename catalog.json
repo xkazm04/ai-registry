@@ -1119,9 +1119,9 @@
       "purity": "software",
       "subjects": 233,
       "techniques": 1822,
-      "applications": 1219,
-      "files": 3279,
-      "contentHash": "sha256-b2:e76813d7c679f949"
+      "applications": 1220,
+      "files": 3280,
+      "contentHash": "sha256-b2:3be3f8ba7a9fd42d"
     }
   ],
   "usageEvidence": {

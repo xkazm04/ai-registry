@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1822,
-  "applications": 1219,
+  "applications": 1220,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -28263,9 +28263,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
-   "digest": "sha256-b2:940036e1a6fcd893",
-   "revision": 3,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:ab4f0ae40c100d8e",
+   "revision": 6,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "batch-shaping-for-one-session",
@@ -28289,7 +28289,8 @@
      "shared_with": [],
      "use_when": [
       "matching last run's findings against this run's findings",
-      "an item someone claimed is neither marked resolved nor restated"
+      "an item someone claimed is neither marked resolved nor restated",
+      "a dismissed or closed finding reappears in a later run"
      ]
     },
     {
@@ -28303,7 +28304,8 @@
      "shared_with": [],
      "use_when": [
       "closing findings without a human confirming the work",
-      "deciding what counts as proof that remediation landed"
+      "deciding what counts as proof that remediation landed",
+      "a producer reports only its top few findings per source"
      ]
     },
     {
@@ -28331,7 +28333,8 @@
      "shared_with": [],
      "use_when": [
       "writing the endpoint that records a batch as claimed",
-      "a handoff can be re-sent, retried, or replayed from a stale selection"
+      "a handoff can be re-sent, retried, or replayed from a stale selection",
+      "a worker whose lease lapsed may still report back"
      ]
     },
     {
@@ -28367,19 +28370,28 @@
      "stack": "node",
      "technique": "claim-carry-forward-rules",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--claim-carry-forward-rules.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "handoff-tenancy-and-idempotence",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--handoff-tenancy-and-idempotence.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "single-artifact-prompt-construction",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/process--single-artifact-prompt-construction.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "react",
+     "technique": "evidence-based-auto-close",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/react--evidence-based-auto-close--personas.md",
+     "verified_on": "2026-10-01",
+     "verified_against": "react@19"
     }
    ]
   },
