@@ -181,9 +181,9 @@
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 13,
+      "lessons": 14,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:ffe43cda21d6105e",
+      "lessonsHash": "sha256-n1:052244557b19ee9b",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -990,7 +990,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 6,
-    "lessons": 297
+    "lessons": 298
   },
   "bundles": [
     {
@@ -1026,11 +1026,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 53,
-      "techniques": 338,
-      "applications": 146,
-      "files": 541,
-      "contentHash": "sha256-b2:f79344de9fcb1f1a"
+      "subjects": 54,
+      "techniques": 344,
+      "applications": 150,
+      "files": 552,
+      "contentHash": "sha256-b2:9d56b2251f6eb666"
     },
     {
       "name": "grant-funding",
@@ -1119,9 +1119,9 @@
       "purity": "software",
       "subjects": 233,
       "techniques": 1822,
-      "applications": 1218,
-      "files": 3278,
-      "contentHash": "sha256-b2:5f17294650a2107a"
+      "applications": 1219,
+      "files": 3279,
+      "contentHash": "sha256-b2:7b94d70e07009afc"
     }
   ],
   "usageEvidence": {

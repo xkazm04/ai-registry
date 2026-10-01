@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 53,
-  "techniques": 338,
-  "applications": 146,
+  "subjects": 54,
+  "techniques": 344,
+  "applications": 150,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "338/338",
+  "use_when_coverage": "344/344",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2046,10 +2046,26 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-integration-safety/engine-integration-safety.md",
-   "digest": "sha256-b2:46a9dea4645f98fe",
-   "revision": 4,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:84df39fc68d416ee",
+   "revision": 6,
+   "changedAt": "2026-10-01",
    "techniques": [
+    {
+     "slug": "crash-truncated-batch-resume",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "an-instrument-proves-it-had-input",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a batch of checks shares one launch of a heavyweight application and that launch can die partway",
+      "the items behind a crash stay unresolved on every run",
+      "designing the relaunch and resume policy of an automated session",
+      "deciding what a single crash is allowed to change"
+     ]
+    },
     {
      "slug": "editor-thread-timeout-budgeting",
      "status": "forged",
@@ -2139,6 +2155,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "crash-truncated-batch-resume",
+     "file": "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--crash-truncated-batch-resume.md",
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "editor-thread-timeout-budgeting",
@@ -3943,6 +3966,117 @@
     }
    ]
   },
+  "perf-regression-gating": {
+   "category": "engine-integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/engine-integration/perf-regression-gating/perf-regression-gating.md",
+   "digest": "sha256-b2:68ba78f2a478ee89",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "baseline-bound-to-build-and-machine",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "a-number-carries-its-unit-and-basis",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording the reference a frame-cost gate compares against",
+      "a comparison crosses machines or build configurations",
+      "a baseline is re-recorded by the pipeline that failed against it",
+      "deciding when a regression may be accepted"
+     ]
+    },
+    {
+     "slug": "bracketed-capture-window",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which frames of a run a cost gate measures",
+      "a symptom lasts a second inside a long session",
+      "a capture is started and stopped by hand or by an automated agent",
+      "a warm-up cost is polluting a steady-state number"
+     ]
+    },
+    {
+     "slug": "noise-floor-before-the-threshold",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "an-instrument-proves-it-had-input",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the threshold of a frame-cost gate",
+      "a performance check fails an unchanged build",
+      "a measured regression is smaller than the run-to-run difference nobody has measured"
+     ]
+    },
+    {
+     "slug": "per-thread-budgets-not-one-frame-time",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "declaring the runtime budget a gate compares against",
+      "a frame got slower and nobody can say which stage moved",
+      "a cheap run mode has no renderer and a budget names the graphics stage",
+      "deciding whether a gate compares to a budget or to a baseline"
+     ]
+    },
+    {
+     "slug": "percentile-and-hitch-gate",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the statistic a frame-cost gate compares",
+      "the average is flat and players report stutter",
+      "a worst-frame number keeps changing between identical runs",
+      "reporting a performance verdict beside the distribution it came from"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "baseline-bound-to-build-and-machine",
+     "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/node--baseline-bound-to-build-and-machine.md",
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "noise-floor-before-the-threshold",
+     "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/node--noise-floor-before-the-threshold.md",
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "per-thread-budgets-not-one-frame-time",
+     "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/node--per-thread-budgets-not-one-frame-time.md",
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
+    }
+   ]
+  },
   "playtest-signal-to-defect": {
    "category": "craft-judgment",
    "subcategory": null,
@@ -5215,9 +5349,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/runtime-observation-evidence.md",
-   "digest": "sha256-b2:e98f9ae9bcfc8e72",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:a73d7f7ec0bfa440",
+   "revision": 3,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "behavioural-discriminators-over-symbolic-pass",
@@ -6650,6 +6784,7 @@
     "encounter-balance-simulation/kill-share-and-damage-share-attribution",
     "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
     "encounter-balance-simulation/tier-band-peer-outlier-linting",
+    "engine-integration-safety/crash-truncated-batch-resume",
     "engine-integration-safety/judge-by-log-markers-not-exit-code",
     "engine-integration-safety/refuse-dont-kill-a-live-editor",
     "engine-integration-safety/single-instance-lease-and-drain",
@@ -6703,6 +6838,8 @@
     "motion-quality-gating/asset-reality-ledger",
     "motion-quality-gating/genre-response-latency-norms",
     "motion-quality-gating/six-dimension-motion-rubric",
+    "perf-regression-gating/noise-floor-before-the-threshold",
+    "perf-regression-gating/per-thread-budgets-not-one-frame-time",
     "playtest-signal-to-defect/complaint-to-owning-subject-routing",
     "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
     "playtest-signal-to-defect/observation-before-interpretation",
@@ -6983,6 +7120,10 @@
     "motion-quality-gating/genre-response-latency-norms",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
     "motion-quality-gating/six-dimension-motion-rubric",
+    "perf-regression-gating/baseline-bound-to-build-and-machine",
+    "perf-regression-gating/noise-floor-before-the-threshold",
+    "perf-regression-gating/per-thread-budgets-not-one-frame-time",
+    "perf-regression-gating/percentile-and-hitch-gate",
     "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
     "playtest-signal-to-defect/repro-minimization-protocol",
     "playtest-signal-to-defect/session-instrumentation-contract",
@@ -7062,6 +7203,8 @@
     "generative-provider-auditing/capability-is-not-registry-membership",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
     "learning-curve-and-teaching-design/teaching-escalation-ladder",
+    "perf-regression-gating/baseline-bound-to-build-and-machine",
+    "perf-regression-gating/bracketed-capture-window",
     "playtest-signal-to-defect/observation-before-interpretation",
     "procedural-level-planning/declare-what-each-engine-ignores",
     "procedural-level-planning/gate-and-key-solvability-proof",
@@ -7221,8 +7364,12 @@
     "aaa-craft-rubric-authoring/deliberately-overlapping-criteria",
     "adaptive-music-authoring/intensity-mapping-from-declared-game-state",
     "branching-narrative-graph-validation/reachability-and-orphan-detection",
+    "engine-integration-safety/crash-truncated-batch-resume",
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "imported-material-conformance/surface-conformance-swatch",
+    "perf-regression-gating/bracketed-capture-window",
+    "perf-regression-gating/noise-floor-before-the-threshold",
+    "perf-regression-gating/percentile-and-hitch-gate",
     "playtest-signal-to-defect/repro-minimization-protocol",
     "playtest-signal-to-defect/session-instrumentation-contract",
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
@@ -7255,6 +7402,7 @@
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "learning-curve-and-teaching-design/time-to-competence-measurement",
     "motion-quality-gating/filmstrip-sampling-discipline",
+    "perf-regression-gating/baseline-bound-to-build-and-machine",
     "playtest-signal-to-defect/session-instrumentation-contract",
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
     "production-coverage-measurement/audited-fact-drift-detection",
@@ -7330,6 +7478,7 @@
     "content-drift-and-revision/typed-operator-inheritance",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
+    "engine-integration-safety/crash-truncated-batch-resume",
     "engine-integration-safety/pid-scoped-teardown",
     "engine-integration-safety/refuse-dont-kill-a-live-editor",
     "engine-integration-safety/single-instance-lease-and-drain",
@@ -7374,6 +7523,7 @@
     "image-to-3d-input-gating/text-is-never-geometry",
     "learning-curve-and-teaching-design/teaching-escalation-ladder",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
+    "perf-regression-gating/per-thread-budgets-not-one-frame-time",
     "procedural-level-planning/critical-path-to-optional-branch-ratio",
     "production-prompt-architecture/acceptance-criteria-appended-not-replaced",
     "production-prompt-architecture/domain-scoped-knowledge-injection",
