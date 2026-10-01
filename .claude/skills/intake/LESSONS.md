@@ -12185,3 +12185,13 @@ finish on the version it loaded.)
 - The primary for a harness fact is the maintainer's changelog fetched verbatim, and the version's date comes from the package registry's publish time. Both were one command each and settled a claim the video made in a garbled sentence. The changelog's per-model prices were also the only citable source for a cost weighting; a price it did not carry (the small tier) had to be labelled an assumption in the record.
 - When an experiment pins a tier to stand in for one the session is not running, the record names it as a stand-in. A verdict measured on one brief class is scoped to that class: `better` for enumeration and `unmeasurable` for the tracing brief the skills actually send, two applied rows and not one.
 - Working directory drift: a `cd` inside a compound Bash command persists, and the harness moved the primary directory into a knowledge subfolder for three calls. Start each call with an absolute `cd` to the repo root.
+
+## 2.14.1 - 2026-10-01 - build-me-a-business
+
+- A build-walkthrough's recommended practice (here: a skill that holds the owner's choices and pointers, not a procedure) was already owned by the corpus, in three techniques of one subject, and said more exactly. Map the recommendation before extracting it as a candidate; the recommendation is the part of such a video most likely to be a catch.
+- A title promises a noun the demo may never deliver ("a business", answered by an application). Name what the noun requires (buyer, price test, unit cost, channel) and check whether the source shows any of it; the missing part is the source's boundary, and it is a testable claim, not a decline.
+- A control string that asserts a word the control file does not contain fails for the control, not for the instrument: the first skills-lane search returned 0 hits and "control failed". Redo it with a control that is known to be present (a heading) before reading the zero.
+
+### Redesign proposal
+
+Phase 5's promotion read covers a row whose only blocker is the +1 for an unchecked worker report. It does not cover a row whose only blocker is the +2 for source prose alone when one fetched primary would take RISK to 0. This run banked two such rows (a service's agent setup path; a secret kept out of the agent's context) at 0 of 3 fetches, because the method says to bank at +2. Proposal, not applied: extend the promotion read so that a row blocked only by source prose may spend one fetch, re-score, and land if the re-score clears the threshold. Evidence is one run; the scorecard's next row says whether it recurs.
