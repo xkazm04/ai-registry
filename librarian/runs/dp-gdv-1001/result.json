@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-gdv-1001",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-01T10:00:00Z",
+  "ended_at": "2026-10-01T10:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/game-dialogue-voice-pipeline",
+      "at": "2026-10-01",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single-stack finding is real, but the subject was forged 2026-09-30 and all 3 applications were verified then (node@24). No clock, deviation or second-stack voice consumer since. Idled; return when one registers."
+}
