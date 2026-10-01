@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pb-1001",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-10-01T00:00:00Z",
+  "ended_at": "2026-10-01T01:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/peer-benchmarking",
+      "at": "2026-10-01",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Re-resolved all three applications against ascent 8998d2c0 (code moved to org-benchmark.ts, corpus/eligibility.ts); added register qualify-not-derank condition. No stale verdicts in any map. Gate halted on a sibling's remediation-handoff files, not this subject."
+}
