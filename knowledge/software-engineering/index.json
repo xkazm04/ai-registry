@@ -24134,9 +24134,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/peer-benchmarking.md",
-   "digest": "sha256-b2:a6a7049568baa576",
-   "revision": 2,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:a3239df32fc1070b",
+   "revision": 3,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "basis-disclosure",
@@ -24214,19 +24214,21 @@
      "stack": "node",
      "technique": "comparability-filters",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--comparability-filters.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "population-vs-scalar-ranking",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--population-vs-scalar-ranking.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "sql",
      "technique": "corpus-tenancy-boundary",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/sql--corpus-tenancy-boundary.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01"
     }
    ]
   },
@@ -27655,9 +27657,9 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md",
-   "digest": "sha256-b2:588ec936ab3e51d0",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:9c832e01c193963d",
+   "revision": 2,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "blocker-rollups",
@@ -27738,7 +27740,8 @@
      "stack": "node",
      "technique": "declined-by-choice",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--declined-by-choice.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
@@ -28253,9 +28256,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
-   "digest": "sha256-b2:940036e1a6fcd893",
-   "revision": 3,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:eaf82a0c7f870145",
+   "revision": 5,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "batch-shaping-for-one-session",
@@ -28357,19 +28360,21 @@
      "stack": "node",
      "technique": "claim-carry-forward-rules",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--claim-carry-forward-rules.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "handoff-tenancy-and-idempotence",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--handoff-tenancy-and-idempotence.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "single-artifact-prompt-construction",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/process--single-artifact-prompt-construction.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01"
     }
    ]
   },
