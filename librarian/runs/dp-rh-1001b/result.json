@@ -1,0 +1,100 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rh-1001b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-10-01T08:59:00Z",
+  "ended_at": "2026-10-01T09:36:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/remediation-handoff",
+      "at": "2026-10-01",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/remediation-handoff",
+      "technique": "evidence-based-auto-close",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/remediation-handoff",
+      "technique": "claim-carry-forward-rules",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/remediation-handoff",
+      "technique": "handoff-tenancy-and-idempotence",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/remediation-handoff",
+      "technique": "handoff-tenancy-and-idempotence",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/techniques/batch-shaping-for-one-session.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/techniques/claim-carry-forward-rules.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/techniques/evidence-based-auto-close.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/techniques/finding-refutation-channel.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/techniques/handoff-tenancy-and-idempotence.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/techniques/resolution-trailers.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/techniques/single-artifact-prompt-construction.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--claim-carry-forward-rules.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--handoff-tenancy-and-idempotence.md",
+    "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/react--evidence-based-auto-close--personas.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/remediation-handoff.md"
+  ],
+  "commits": [
+    {
+      "sha": "41c32b34",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff"
+    },
+    {
+      "sha": "056ffebe",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    },
+    {
+      "sha": "15acf350",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/subjects/software-engineering/remediation-handoff.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Twin of dp-rh-1001: republished its unpushed pass (f4285c02 0fbfc20e 38c5fb9e) and ran the lanes it skipped. Maps not rewritten: consumer maps hold another session's uncommitted regen. Consumer rows local, unpushed: ascent 11716d51, personas c6199481e."
+}
