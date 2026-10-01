@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1822,
-  "applications": 1218,
+  "applications": 1219,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -27655,9 +27655,9 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md",
-   "digest": "sha256-b2:588ec936ab3e51d0",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:680e12e8bb7083ef",
+   "revision": 2,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "blocker-rollups",
@@ -27743,8 +27743,15 @@
     {
      "stack": "node",
      "technique": "two-axis-readiness",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--two-axis-readiness--held-rungs.md",
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "two-axis-readiness",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--two-axis-readiness.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01"
     },
     {
      "stack": "process",
