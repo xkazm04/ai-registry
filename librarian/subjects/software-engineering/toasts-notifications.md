@@ -35,4 +35,4 @@ draining, focus never stolen (all hedged with "many assistive technologies").
 
 ## Impact
 
-Recorded after the map regeneration; see the run result.
+None. A dry-run of the registry map (read-only, no project map written) showed no pair joined to this subject carrying a stale verdict.
