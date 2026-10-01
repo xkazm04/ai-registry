@@ -403,3 +403,38 @@ Owner asked for no LLM judges. 9/9 delivered, 0 leaks, 0 page errors, 0 network 
   gpt-6-sol@high 25.9 min / 1 turn / no price reported; grok-4.7@high 66.8 min / 88 turns / $2.39.
 - **The one-turn seat again brought one information architecture three times** (three skins on a
   shared layout), while the other two seats brought three structurally different bets each.
+
+## 1.8.0 - 2026-10-01 - ai-registry (business design round, 3 seats x 3 variants, no panel)
+
+A design contest whose variants are business-design reports. Seats: `claude:claude-sonnet-5-5@high`,
+`codex:gpt-6-astra@high`, `grok:grok-4.7@high`; the brief gave one operator's situation and stack
+preferences and no menu of ideas, and appended the design-report bar. Owner review, no judge panel.
+9/9 delivered, 0 page errors, 35 identity leaks redacted (all one seat). The round ran from the intake
+skill's source note; the outcome is recorded there.
+
+- **The rubric's structure saturated; only the claim check separated the seats.** The brief's table of
+  what a 10 looks like by part (buyer, money, reach, proof, exposure, evidence) gave all nine reports the
+  same skeleton, a numeric pass and kill line, and no invented evidence. A reader scoring the skeleton
+  would have scored a nine-way tie. What differed was whether the claims held on the live page, which
+  needs fetching. Schedule the claim check as a step of a business-design contest, not an optional extra.
+- **Blinding and source URLs collide (proposal, not applied).** The seat was told not to name its vendor;
+  one seat read that as "withhold the URL of the vendor's price page" and wrote "URL withheld to keep the
+  review blind", and `collect` rewrote the vendor's host inside another seat's URL. For six of the nine
+  reports the model-price claim then has no followable primary source in the blinded copy. Proposal: tell
+  design-contest seats that a source URL is not identity and must stay, and keep URL hosts through
+  redaction the way compound identifiers the staged data holds are already kept.
+- **A claim check chosen by the checker is not a census (host procedure).** Three verifiers took about six
+  claims per report and the reports differ in how many outside claims they make, so confirmed-over-checked
+  partly measures how much a report asserts. To compare seats, check every `S`-marked claim in each
+  report, and report recalled (`R`) claims as a separate count.
+- **Name seats only after the owner has opened the router, unless the owner asked for a seat
+  comparison.** Here they had asked for one, and the host still named seats beside findings in chat
+  before the router was opened; the blind was gone at seat level. Decide at the opening line which review
+  this is and keep to it.
+- **A tile component can hide the honesty device on the first screen.** All three variants of one seat
+  rendered the `S`/`R`/`A` pills as wide bars with the letter unreadable; the type-size measure and the
+  page-error count were both clean. Only reading the screenshots caught it.
+- **Cost and wall, as the CLIs reported them**: claude-sonnet-5-5@high 14.1 min / 38 turns / $2.59;
+  grok-4.7@high 25.0 min / 22 turns / $1.16; gpt-6-astra@high 28.7 min / 1 turn / no price reported.
+- **Turn counts do not compare across engines.** The codex CLI reports one turn for a 28.7-minute run,
+  the longest wall of the three. Compare wall and deliverables, not turns.

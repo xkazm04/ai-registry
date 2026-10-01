@@ -126,7 +126,71 @@ idea. Design round only; no reveal, refinement or build.
   (buyer, money, reach, proof, exposure, evidence, report) with no menu of ideas. Variants must
   differ on at least three named axes.
 - **Seat parity:** the three rendered `PARTICIPANT.md` files are byte-identical (same hash).
-- **Outcome:** pending when this note was first written; see the section appended below.
+- **Outcome:** the round is complete; see "Contest outcome" below. No verdict is written: the owner decides.
+
+## Contest outcome
+
+All three seats finished with 3 of 3 variants, no errors and no timeouts. As the CLIs reported them:
+`claude-sonnet-5-5@high` 14.1 min, 38 turns, $2.59; `grok-4.7@high` 25.0 min, 22 turns, $1.16;
+`gpt-6-astra@high` 28.7 min, 1 turn, no cost reported. Blind letters: A grok, B codex, C claude.
+All nine reports open from disk with 0 page errors at 1280 and 1920 px. I read eight of the nine in
+full; the ninth (A-3) through its notes, a screenshot and the fact-checker.
+
+Three fact-checkers (one per seat) each took about six load-bearing claims per report, preferring
+`S`-marked ones plus one or two `R`, and fetched the live primary page. Verdicts per claim:
+
+| Seat | Claims | Confirmed | Different | Unverifiable |
+| --- | --- | --- | --- | --- |
+| A grok | 18 | 16 | 1 | 1 |
+| B codex | 16 | 15 | 0 | 1 |
+| C claude | 18 | 9 | 4 | 5 |
+
+Read the table with its limits. It is not a census: the checkers chose the claims, and the reports
+differ in how many claims about the world they make (one cites three web sources in total), so a
+confirmation rate partly measures how much a report asserts. All five of C's unverifiable claims were
+`R`-marked recalls, which is what the mark promised. The `S`-marked claims that did not hold:
+C-1's "nearest public price" (a public pay-per-question plan sits far below it), C-2's platform
+averages (a syndicated third-party article; the live primary page gives about $356 against $470 per
+developer per month, and the report's own two tool counts disagree), and A-1's annual-promo path
+(not reproducible; the page shows the plain annual figure). B's one unverifiable is a page that
+blocks fetch tools, whose search excerpts match the claim.
+
+What the nine share. Every report names a buyer, a price, a margin formula with marked inputs, a
+route to the first hundred, a numeric pass line and kill line, and an exposure section that concedes
+no moat. No verifier found an invented customer, quote or traction figure. None has met a buyer, so
+whether any is a good business is untested; the reports' own tests are the instrument for that.
+
+Where they differ (my read, not a score):
+
+- **C** brought the most distinct bets: a human-reviewed service, a marketplace tool that agents
+  call, a consumer gift. Its stat tiles render the evidence-mark pills as wide coloured bars with the
+  letter unreadable, on the first screen of all three variants. Thinnest sourcing: C-3 has two `S`
+  marks (both the same model-price line) and about twenty `R`.
+- **B** priced the operator's own hours and states a break-even that includes them (about 26 to 49
+  accounts or jobs a month). Its AI role is the same in all three: none at runtime. Its type is the
+  smallest of the three seats (13 to 20% of visible text under 12 px).
+- **A** has the best sourcing and the sharpest compliance reasoning (cold outreach kept out of the
+  mail provider), and the cheapest tests ($10 to $25, 7 to 10 days). Its three variants are closer
+  to one idea three times: a model drafts text, code guards the digits, sold at $6 to $36, reached by
+  hand-copied addresses.
+- Holes the checkers found in competitor coverage: A-2 never opened a free SaaS price-comparison
+  beta that may substitute for it; B-1 does not mention an agency tier at its named competitor.
+- The one design that takes the video's "market to agents" literally (C-2) rates itself the lowest
+  ceiling of the nine (60% chance of under $50 a month; expected about $290). One design, one data point.
+- The seats treated the stack preference list as defaults: in the eight reports read in full, each
+  deferred or dropped part of it (Autumn most often) with a stated reason. That is the principle the
+  video states, observed.
+
+Process faults, mine. The host named seats beside findings in chat before the owner had opened the
+blind router, so the owner's blind review is lost at seat level. A tally table in chat said 17 of 18
+confirmed for seat A; the verifier's own counts give 16. The brief's "do not name your vendor" rule
+led seat C to withhold the model-price URL ("URL withheld to keep the review blind") and the
+instrument's redaction also rewrote that vendor's host inside the other seats' URLs, so a blinded
+reader cannot follow the primary source for the model-price claim that six of the nine reports
+rest on (seat B's three use no model at runtime).
+
+Open: the owner's choice - a winner, a shortlist, a combined design, a reveal round or a refinement
+round. Nothing in this run builds any of the nine; the brief asked for design only.
 
 ## Reading notes for the next run over this source class
 
