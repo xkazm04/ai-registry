@@ -1,0 +1,127 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-aura-1001",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-01T12:32:26Z",
+  "ended_at": "2026-10-01T14:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/engine-integration/engine-integration-safety",
+      "at": "2026-10-01",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/engine-integration/perf-regression-gating",
+      "at": "2026-10-01",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/engine-integration/runtime-observation-evidence",
+      "at": "2026-10-01",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "game-production/engine-integration/engine-integration-safety",
+      "technique": "crash-truncated-batch-resume",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "game-production/engine-integration/engine-integration-safety",
+      "technique": "judge-by-log-markers-not-exit-code",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "game-production/engine-integration/runtime-observation-evidence",
+      "technique": null,
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "game-production/engine-integration/perf-regression-gating",
+      "technique": "noise-floor-before-the-threshold",
+      "verdict": "unmeasurable",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/engine-integration/engine-integration-safety/engine-integration-safety.md",
+    "knowledge/game-production/engine-integration/engine-integration-safety/techniques/crash-truncated-batch-resume.md",
+    "knowledge/game-production/engine-integration/engine-integration-safety/techniques/judge-by-log-markers-not-exit-code.md",
+    "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--crash-truncated-batch-resume.md",
+    "knowledge/game-production/engine-integration/perf-regression-gating/perf-regression-gating.md",
+    "knowledge/game-production/engine-integration/runtime-observation-evidence/techniques/deterministic-headless-timestep.md",
+    "knowledge/game-production/taxonomy.json",
+    "librarian/specs/2026-10-01-perf-regression-gating.md",
+    "librarian/sources/2026-10-01-aura-documentation.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/perf-regression-gating.md",
+    "librarian/subjects/game-production/engine-integration-safety.md",
+    "librarian/subjects/game-production/runtime-observation-evidence.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md",
+    "librarian/runs/in-aura-1001/result.json"
+  ],
+  "commits": [
+    {
+      "sha": "3cc8ad5d",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/engine-integration/engine-integration-safety/engine-integration-safety.md",
+        "knowledge/game-production/engine-integration/engine-integration-safety/techniques/judge-by-log-markers-not-exit-code.md",
+        "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--crash-truncated-batch-resume.md",
+        "knowledge/game-production/engine-integration/engine-integration-safety/techniques/crash-truncated-batch-resume.md"
+      ]
+    },
+    {
+      "sha": "dba92bae",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/engine-integration/engine-integration-safety/techniques/crash-truncated-batch-resume.md",
+        "knowledge/game-production/engine-integration/engine-integration-safety/applications/node--crash-truncated-batch-resume.md"
+      ]
+    },
+    {
+      "sha": "23006e87",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/engine-integration/perf-regression-gating",
+        "knowledge/game-production/taxonomy.json",
+        "knowledge/game-production/engine-integration/runtime-observation-evidence/techniques/deterministic-headless-timestep.md",
+        "librarian/specs/2026-10-01-perf-regression-gating.md",
+        "librarian/sources/2026-10-01-aura-documentation.md",
+        "librarian/subjects/game-production/perf-regression-gating.md",
+        "librarian/subjects/game-production/engine-integration-safety.md",
+        "librarian/subjects/game-production/runtime-observation-evidence.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Vendor docs site (class: vendor documentation); 19 candidates, 7 already owned. Landed a crash-resume technique, a new perf-regression subject (L1) and 2 amendments; peer study led to 4 pof branches merged, unpushed. The applied rows live in pof's own ledger."
+}
