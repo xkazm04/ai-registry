@@ -35,7 +35,12 @@ a restated row stays. It no longer is, and each added branch is a lesson:
   not across a mock/real pair, not inside the run-to-run noise band, not across
   a rubric bump. A gap that vanishes while its number stands still is a reworded
   title, not a repair. No movement data (first scan, dimension dropped) falls
-  back to the title rule.
+  back to the title rule. **The trailer does not waive this bar for a gap.**
+  The movement checks run before the final
+  `claimed ? "trailer" : "not-restated"`, so the trailer only picks the
+  reason's name; `followups.test.ts` pins it — a claimed, unrestated row at
+  `{ before: 61, after: 61 }` keeps `no-movement`, and the case "closes a
+  not-restated row when the dimension moved — trailer or not" closes both.
 - **A craft rung closes on its trailer and nothing else.** It raises a ceiling
   the rubric has no headroom to record, and its absence next scan is model
   variance, so an unclaimed one stays in progress.
@@ -54,13 +59,20 @@ The module header states the hazard in the source's own words: tier-3 pairing
 not applied to in-progress rows, because *"since r6 every below-green
 dimension always has SOME item, so tier 3 would pair a fixed gap with whatever
 new gap the dimension produced next and carry 'in progress' onto work nobody
-took on."* And the closing rule, quoted verbatim into the golden path: *"A
-claimed item is carried only by its title; if the scan does not say it again,
-the claim is honoured as resolved."*
+took on."* And the closing rule: *"A claimed item is carried only by its
+title; if the scan does not say it again, the claim is honoured as
+resolved."*
 
 This is the subject's most valuable line. It is not a matching optimization —
 it is the recognition that a rubric which always emits *something* per weak
 dimension makes any structural fallback a claim-forger.
+
+That header (point 3) is older than the function under it. It still says a
+row is DONE "when a commit carries its trailer, or when the new assessment no
+longer restates it", which is the pre-2026-08-26 rule. The current rule is in
+the doc comment on `decideInProgress`: "the trailer is a hint, not a verdict",
+"not restated is weak on its own", and movement must be attributable. Cite
+that comment, not the header.
 
 ## The application (`persistScanReport` in `src/lib/db/scans-persist.ts`)
 
@@ -89,6 +101,34 @@ Resolved rows are copied forward onto the *new* scan as `done` with a system
 `RecommendationEvent`, *"so the ledger's archive reads off the latest scan
 like everything else"* — the derived status is materialized where it is read,
 not reconstructed by a cross-scan query.
+
+## The correction stops at `in_progress` (measured 2026-10-01)
+
+The loop above starts `if (r.status !== "in_progress") return;`, while
+`prevRecs` is every row of the previous scan, `done` and `dismissed`
+included. The new row is written `status: carried?.status ?? "open"`. So a
+dismissed or done row that is the lone leftover in its dimension is paired
+by `matchRecommendations`' tier 3 with a lone new gap, and the new gap is
+born `dismissed` or `done`. A done row restated verbatim, which is a
+regression or a close that was wrong, is carried as `done`. No test covers
+either case. The tests cover the claimed and the open row.
+
+Experiment, product code unchanged. The real matcher was exported from
+`8998d2c0` and run under node 24 type stripping, with the persist line and its
+`in_progress` correction applied. Arm B is the technique's rule: a judged row
+keeps its pairing only on a title tier, and a closed row restated on one
+reopens. n = 5 constructed cases with known answers:
+
+| Case | Truth | A (as built) | B |
+| --- | --- | --- | --- |
+| dismissed leftover + different new gap | open | dismissed | open |
+| done leftover (copied forward) + new gap | open | done | open |
+| open row reworded past normalization | open | open | open |
+| dismissed false positive reworded | dismissed | dismissed | open |
+| done row restated verbatim | open | done | open |
+
+A is right 2 of 5, B 4 of 5. Every error A makes hides a live finding. B's
+one error resurfaces a reworded dismissal, visibly, to be dismissed again.
 
 ## Scope guard
 

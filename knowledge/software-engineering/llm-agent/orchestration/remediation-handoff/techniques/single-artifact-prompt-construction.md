@@ -21,9 +21,16 @@ delivery.
 
 ## The shape
 
-A working artifact has five parts in this order, and the order is load-bearing
-because agents attend disproportionately to the opening and to the last
-instruction block before the data.
+A working artifact has five parts in this order. The order matters, though
+not quite for the reason usually given. Position effects in long inputs are
+real but model-dependent: material at the very start and the very *end* of
+the input is used best ([Liu et al. 2023](https://arxiv.org/abs/2307.03172)),
+which end wins varies by model, and the effect weakens once the input fills
+more than about half the window
+([Veseli et al. 2025](https://arxiv.org/abs/2508.07479)). Vendors' long-context
+guidance disagrees about the opening but agrees on the end. So the binding
+rules go near the top, and the one instruction that must not be lost is
+repeated after the data rather than placed just before it.
 
 1. **A header that scopes the work.** How many items, across how many
    codebases, from what kind of analysis, generated when. If a projected
@@ -34,18 +41,33 @@ instruction block before the data.
    apply and say why. The framing must set expectations about the *source*
    of the items — that they are an assessor's reading of the codebase, not
    ground truth — because an agent told that a finding is fact will
-   manufacture a fix for a gap that does not exist.
+   manufacture a fix for a gap that does not exist. That is measured, not
+   feared: handed stale reports against code that was already fixed, agents
+   proposed unneeded changes in a third to two thirds of cases, and the
+   authors' remedy is framing inaction as a path to success
+   ([Gloaguen et al. 2026](https://arxiv.org/abs/2605.07769)). Say in the
+   framing that "nothing to do here, and why" is a result.
 3. **A rules block.** The non-negotiables, stated as imperatives: work one
-   codebase at a time, on a branch; read the codebase's own contribution
-   guidance before changing anything; prefer the smallest change that really
-   closes the gap; extend tests where the gap is about verification; do not
-   edit files merely to satisfy a checker; end with a per-identifier summary
-   of resolved, skipped, and needs-a-human.
-4. **The return contract**, stated inside the rules block, not in a footnote:
-   the exact marker line to add to every commit that resolves an item, with
-   the exact key, and the note that several identifiers may share one line.
-   This is the single instruction whose omission breaks the loop, so it is
-   phrased as a rule rather than a suggestion.
+   codebase at a time, on a branch; read the codebase's own guidance before
+   changing anything, *naming* the files — the agent-instruction file nearest
+   each path it touches and the contribution guide — because agents
+   auto-load different subsets of these and none loads all; prefer the
+   smallest change that really closes the gap; extend tests where the gap is
+   about verification; do not edit files merely to satisfy a checker; end
+   with a per-identifier summary of resolved, skipped, and needs-a-human. The
+   checker rule is the weakest line in the block on its own — telling models
+   not to game a check had a
+   [near-negligible effect](https://metr.org/blog/2025-06-05-recent-reward-hacking/)
+   on whether they did — so
+   the closing side must back it by looking at what the resolving commits
+   touched ([evidence-based-auto-close](./evidence-based-auto-close.md)).
+4. **The return contract**, stated inside the rules block, not in a footnote,
+   **and repeated verbatim after the last codebase section**: the exact
+   marker line to add to every commit that resolves an item, with the exact
+   key, and the note that several identifiers may share one line. This is
+   the single instruction whose omission breaks the loop, so it is phrased as
+   a rule rather than a suggestion and placed where it is least likely to be
+   lost.
 5. **One section per codebase**, ordered by total projected value, each item
    under it stating title, identifier, category, impact and cost, why it
    matters, and the questions worth exploring before changing anything.
@@ -105,6 +127,16 @@ generation stamp, or a model.
 - **When you are tempted to add a link back to your system, add the content
   instead.** The agent may have no network, no credentials, and no reason to
   believe the link resolves.
+- **When the producer measured something, carry the measurement**: the
+  number as measured, its predicate, and the sentence "the fix must move
+  this". The agent can then tell done from plausible, and the closing side
+  re-reads the same number instead of a paraphrase of it.
+- **When the batch may outlast the agent's context, deliver the artifact as a
+  file** and tell the agent to re-read it before each commit. A session that
+  compacts summarizes its conversation, the pasted artifact included, while
+  instruction files are re-read from disk (as at least one agent's own
+  documentation of compaction states); an exact identifier or marker line is
+  precisely what a summary paraphrases.
 
 ## When not to use this
 

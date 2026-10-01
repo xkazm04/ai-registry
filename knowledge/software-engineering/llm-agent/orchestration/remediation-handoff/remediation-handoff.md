@@ -152,9 +152,11 @@ word, and it is only safe under conditions the naive version ignores — see
 
 Neither signal closes alone when the agent that wrote the marker is the one
 being verified. A marker the fresh assessment still contradicts stays open
-(an agent must not certify its own work), and an absence only counts when the
-category's measured score moved by more than noise on the same ruler; an
-aspirational finding with no score headroom closes on a marker or not at all.
+(an agent must not certify its own work), an absence only counts when the
+category's measured score moved by more than noise on the same ruler, and a
+marker beside an absence clears that same bar — it names the mechanism, it
+does not lower it. An aspirational finding with no score headroom closes on a
+marker or not at all.
 
 ## The hard part: honouring an unconfirmed claim
 
@@ -170,8 +172,8 @@ The reason is subtle and is the most expensive lesson in the subject.
 Matching old findings to new ones is usually done in tiers of decreasing
 confidence — exact title, normalized title, and then some structural fallback
 such as "this is the only unmatched item in its category on both sides, so
-they are probably the same". That last tier is right for *unclaimed* items:
-it prevents a trivially reworded finding from resurfacing as new. It is
+they are probably the same". That last tier is right for *open* items: it
+prevents a trivially reworded finding from resurfacing as new. It is
 catastrophically wrong for a *claimed* item, in any system whose analysis
 always produces at least one finding per weak category. The fixed gap
 disappears; the category produces its next-worst gap; the loose tier pairs
@@ -179,10 +181,19 @@ them; and the claim rides forward onto work nobody ever took on. The result
 is an item marked "in progress" that no human is progressing, and it is
 invisible because it looks exactly like a legitimate carry-forward.
 
+And a claim is only one of the judgements the loose tier can transfer. A
+dismissal or a closure rides it the same way, so a brand-new gap can arrive
+already dismissed or already done. A closed item that the fresh run restates
+under its own title is a regression, and should reopen rather than stay
+closed.
+
 So the rule is asymmetric by design: **loose matching for open items, strict
-matching for claimed ones.** Asymmetry is not an inconsistency to be tidied
-away later; it is the design. The full rule set, including what happens to
-the newly produced finding that took the old one's place, is
+matching for anything someone judged** — claimed, dismissed or closed.
+Asymmetry is not an inconsistency to be tidied away later; it is the design. Honouring is still conditional on the closing
+evidence above: where the category is scored on both runs and stood still,
+silence is likelier rewording than repair, and the claim stays. The full rule
+set, including what happens to the newly produced finding that took the old
+one's place, is
 [claim-carry-forward-rules](./techniques/claim-carry-forward-rules.md).
 
 ## The ledger of known gaps
@@ -230,9 +241,10 @@ counterexample.
   *which* mechanism closed it — marker, or no longer raised — because when a
   user disputes a closure, "the system decided" is not an answer.
 - **A shared handoff endpoint without ownership checks.** The batch names
-  identifiers; identifiers from another tenant must fail the whole request,
-  never be skipped, or the endpoint becomes an oracle for guessing which
-  foreign identifiers exist ([handoff-tenancy-and-idempotence](./techniques/handoff-tenancy-and-idempotence.md)).
+  identifiers; an identifier from another tenant must be answered exactly as
+  one that does not exist, whether the request fails whole or answers per
+  item, or the endpoint becomes an oracle for guessing which foreign
+  identifiers exist ([handoff-tenancy-and-idempotence](./techniques/handoff-tenancy-and-idempotence.md)).
 
 ## The techniques
 
