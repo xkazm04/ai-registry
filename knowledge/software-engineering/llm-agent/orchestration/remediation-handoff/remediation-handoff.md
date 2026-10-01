@@ -150,6 +150,12 @@ anyone said so. This is weaker than a marker and stronger than a human's
 word, and it is only safe under conditions the naive version ignores — see
 [evidence-based-auto-close](./techniques/evidence-based-auto-close.md).
 
+Neither signal closes alone when the agent that wrote the marker is the one
+being verified. A marker the fresh assessment still contradicts stays open
+(an agent must not certify its own work), and an absence only counts when the
+category's measured score moved by more than noise on the same ruler; an
+aspirational finding with no score headroom closes on a marker or not at all.
+
 ## The hard part: honouring an unconfirmed claim
 
 The genuinely difficult rule in this subject is what to do with an item

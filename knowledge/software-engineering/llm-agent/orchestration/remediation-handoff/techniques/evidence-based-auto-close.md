@@ -32,7 +32,10 @@ branch that counts, and read the result.
 **1. A resolution claim in the durable history.** A marker naming the
 finding's identifier appeared in the sampled commits
 ([resolution-trailers](./resolution-trailers.md)). High confidence, exact
-match, deterministic. Close on it directly.
+match, deterministic. Close on it directly **when the claimant is not the
+executor you are trying to verify** — see "A claim is a hint when the claimant
+writes it" below; where the agent writes its own marker, the marker is a claim
+to be confirmed by signal 2, not a closure.
 
 **2. The finding is no longer raised.** The fresh assessment, run over the
 same codebase with the same rubric, does not produce this finding again.
@@ -73,6 +76,36 @@ Signal 2 is safe only when three things hold, and each is a real trap.
   open — or worse, carry a claim onto it. The rules are
   [claim-carry-forward-rules](./claim-carry-forward-rules.md).
 
+## A claim is a hint when the claimant writes it
+
+The first version of this technique closed on a marker unconditionally, and
+in an autonomous loop that is the loop certifying its own homework: the agent
+writes the marker, the closer believes the agent. The reading that survived
+contact with a running loop is that **a marker is an honoured claim only when
+the rescan agrees.** A row still raised by the fresh assessment stays open
+however many markers name it, and the record says the claim was made and not
+confirmed. The marker still has work to do: it is the only signal for an item
+the rescan cannot witness (below), and it is what explains a close the rescan
+confirms.
+
+"No longer raised" is weak on its own for the mirror-image reason. A model
+that merely *rewords* a finding produces exactly the absence a fixed one does.
+So when the category's score is measured on both sides, **it must have moved,
+and the movement must be attributable**: not across a mock-to-real boundary,
+not inside the run-to-run noise band (a re-run of the same measurement), not
+across a rubric version bump (that measures the ruler). A close on absence
+with an unattributable movement stays open and says which reason held it.
+Unknown movement (a first run, a category dropped on one side) falls back to
+the absence rule rather than inventing a measurement.
+
+**Some findings cannot be witnessed by either signal.** An aspirational item —
+the next rung on a category already at its ceiling, raised by a model that
+re-answers an open question every run — has no score headroom to move and an
+absence that is ordinary variance. For those, the marker is the *only*
+admissible close, and an unclaimed one simply stays claimed. The cost is a
+ledger that can hold such items open indefinitely; the benefit is a counter
+that only ever increases on evidence somebody stood behind.
+
 ## Every close records its mechanism
 
 An auto-close writes a record on the item stating *which* rule fired —
@@ -105,17 +138,24 @@ assessor will ever get about its own precision.
 
 ## Decision rules
 
-- **When a marker names the item, close it as resolved by marker**, even if
-  the finding is also still restated — an executor's explicit claim outranks
-  the rubric's opinion, and if the rubric is right the finding returns next
-  run as a fresh open item.
+- **When a marker names the item and the finding is no longer raised, close
+  it as resolved by marker.** When the finding is still raised, keep it open
+  and record that the claim was made: an executor's claim does not outrank
+  the instrument that is checking it. (This replaced "close even if still
+  restated", which let an unattended agent close its own work; the exception
+  is a marker written by someone other than the executor under test, where
+  the explicit claim may reasonably win.)
+- **When a marker is the only available witness** (an aspirational item with
+  no score headroom), close on it alone; without one, keep it open.
 - **When the run did not complete for that codebase, apply no close rules at
   all** and leave the ledger untouched.
 - **When the run's scope is narrower than the ledger's, apply no close rules
   by absence**; markers may still be read, since a marker is a positive
   statement about a specific item.
 - **When the finding is no longer raised and no marker exists, close it as
-  no-longer-raised** and say so in the record.
+  no-longer-raised** only if its category's measured movement is attributable
+  (or unmeasured on one side), and say so in the record; otherwise keep it
+  open with the reason.
 - **When you cannot tell whether a run is authoritative, treat it as not.**
   A missed close costs one cycle; a wrong mass-close costs the ledger's
   credibility.
