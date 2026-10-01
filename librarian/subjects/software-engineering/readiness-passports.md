@@ -20,9 +20,13 @@ First touch: 2026-10-01 /deepen, dispatched by the attention scan (never swept b
 
 ## Open leads (banked, with return conditions)
 
-- `node--declined-by-choice` citations (`passport-overlay.ts`, cited at 11-142) are stale: the overlay file roughly doubled, `DECLINABLE_PATHS` now at :108, `applyPassportOverrides` at :281. Not re-resolved this pass, `verified_on` left at 2026-08-20 on purpose. Return: next deepen, or a consumer deviation.
+- ~~`node--declined-by-choice` citations stale~~ closed by the twin pass below (2026-10-01).
 - `findings carry ids, unknown is not absent, evidence is per field` (Ascent `c542dd3e`) and `passport-migrate.ts`/`passport-grades.ts` are unread against `fingerprint-provenance`. Return when read.
 - Held-rung rule is one tree. Promote to a technique only on a second tree with a partial-read assessor.
+
+## Twin pass: declined-by-choice (run dp-rp-1001b)
+
+A second dispatched worker ran the same subject the same day and took the lead above, in disjoint files. Application re-resolved against ascent 8998d2c0 (`verified_on` 2026-10-01, `verified_against` node@22). All three shortfalls the first reading named are closed in passport 0.4.0: declines join by minted finding id, re-surface on kind change / severity rise / 365 days (blocker stays open beside the decision), and the rollup counts declines and member dismissals beside open blockers. Still differs from the technique: the reason is optional there, and aging acts as expiry. The technique gained one paragraph on pricing the re-surface triggers. No new technique (one tree).
 
 ## Declines
 

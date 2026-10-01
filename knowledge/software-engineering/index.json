@@ -27657,8 +27657,8 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md",
-   "digest": "sha256-b2:680e12e8bb7083ef",
-   "revision": 2,
+   "digest": "sha256-b2:c63a7575b1e57d96",
+   "revision": 3,
    "changedAt": "2026-10-01",
    "techniques": [
     {
@@ -27740,7 +27740,8 @@
      "stack": "node",
      "technique": "declined-by-choice",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--declined-by-choice.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
