@@ -131,7 +131,14 @@ place and authoritative in another.
   provenance is impossible; the information exists only at production time.
 - **When a rubric version ships, rank within versions only.** If that empties
   the corpus below the floor, the honest output is a suppression, not a
-  cross-version rank.
+  cross-version rank. The rule binds a *position* claim, where one stale
+  row moves every other row's rank. A labelled board of individual ratings
+  (or an owner average) is a different claim: each row stays true under its
+  own instrument, so it may be *qualified* (a version chip, a stale count,
+  a note) instead of dropped — provided unknown version reads as non-current
+  and the mix is disclosed. Dropping every pre-bump row on bump day can
+  empty such a board; see the
+  [register treatment](../applications/node--comparability-filters.md).
 - **When you filter, filter both sides with the same predicate object.**
 - **When the filter is applied, its terms become part of the basis** that
   ships with the number
