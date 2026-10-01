@@ -85,7 +85,11 @@ destroying it is a separate subject; this is the part that belongs to the observ
 Do not fix the timestep when what you are measuring *is* real-time performance. Frame
 pacing, hitching, and thermal behaviour are properties of the uncapped loop, and a fixed
 step hides exactly the phenomenon under study. Those measurements need a different harness
-with a different honesty discipline; do not run them through this one.
+with a different honesty discipline; do not run them through this one. The boundary is the
+claim, not the mode: a fixed step does make the work in each frame identical, so the
+per-frame *cost* of that work can be measured on one, provided the step is stated as part of
+the number's basis and no stability is claimed for the time it takes. That discipline, and
+what a gate on it may say, is the perf-regression-gating subject.
 
 Do not extend determinism into forcing a seed on systems whose variability is the product —
 procedural generation, adversarial behaviour. There, fix the seed for reproduction of a

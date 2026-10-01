@@ -101,7 +101,8 @@
         "gameplay-runtime-patterns",
         "runtime-observation-evidence",
         "ship-pipeline-gating",
-        "visual-script-to-code-transpilation"
+        "visual-script-to-code-transpilation",
+        "perf-regression-gating"
       ]
     },
     {

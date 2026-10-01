@@ -80,3 +80,21 @@ they are not new runtime witnesses.
   }
 }
 ```
+
+## Touch log
+
+### 2026-10-01 - `/intake` (run `in-aura-1001`)
+
+Landed technique `crash-truncated-batch-resume` (a batch carried by one launch that dies partway: completed /
+culprit / unreached; resume the unreached without the culprit, bounded, each resume making progress; a single crash
+is an observation) with application `node--crash-truncated-batch-resume`, and amended `judge-by-log-markers-not-exit-code`
+step 3: an enumeration line cannot separate "nothing matched" from "cut short" because a run that crashed after
+enumerating carries it too; the cut (a fatal marker, or the watchdog firing) does. The correction came from executing
+the connected project's own batch path, not from the source. Source note
+`librarian/sources/2026-10-01-aura-documentation.md`.
+
+Applied against the connected project: paired on a simulated editor, tests with a real verdict 2 -> 5, existing tests
+labelled planned 4 -> 0, launches 3 -> 4, a clean batch still one launch. **No real crash log exists in the tree**, so
+the culprit-identification half is unmeasured. Step 7a (a resume assumes the interrupted launch's teardown never ran)
+is corroborated by the engine's own automation-framework guidance, read verbatim. This subject's existing review block
+above predates the landing and is not a verdict on it.
