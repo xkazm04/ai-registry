@@ -71,14 +71,37 @@ result: what was marked, what was skipped and why. That report is what lets a
 client that has been holding a selection for ten minutes correct itself
 without a full reload.
 
-## The claim is a record, not a lock
+## The claim is a record, not a lock — until a worker pulls
 
-Nothing of yours is blocked by a claim. It does not reserve the item, does
-not prevent a second operator from handing off the same finding, and does not
-expire on its own — expiry comes from the codebase, through the closing
-rules. Resist the pull toward locking semantics: a lock needs an owner, a
-timeout, a reaper and a release path, and buys you nothing, because the work
-it would protect happens in a process you neither start nor observe.
+For a human hand-off, nothing of yours is blocked by a claim. It does not
+reserve the item, does not prevent a second operator from handing off the same
+finding, and does not expire on its own — expiry comes from the codebase,
+through the closing rules. Resist the pull toward locking semantics: a lock
+needs an owner, a timeout, a reaper and a release path, and buys you nothing,
+because the work it would protect happens in a process you neither start nor
+observe.
+
+That holds while the executor is a person who pasted an artifact. It stops
+holding once a **machine executor pulls from the queue** (an agent over an API,
+a local loop): two pullers racing for one row is a real conflict, and a crashed
+puller leaves a row invisible to everyone. Then the claim gains the three
+things a lock needs, and no more:
+
+- **One arbiter.** Every path, the human hand-off included, goes through one
+  compare-and-set whose WHERE carries the expected state; the database decides
+  who won. Two implementations of "who holds this row" is the defect.
+- **A lease with a clamp**, expiring lazily at the next claim or read rather
+  than on a scheduler (a claim path that needs a cron to be correct is wrong
+  wherever the cron is down). A human's claim carries *no* lease, and a null
+  lease must never be read as expired, or the sweep pulls work from under a
+  person.
+- **No verb that closes.** Claiming, releasing and reporting an attempt write
+  events and clear leases; only the rescan can mark done
+  ([evidence-based-auto-close](./evidence-based-auto-close.md)).
+
+The same door is also where an executor is authorized *to claim at all* (an
+unproven or opted-out repository refuses a machine puller; unknown is not
+permission), which is the human-gate subject's question asked at claim time.
 
 Do include the claimed items in a regenerated artifact rather than filtering
 them out. An operator regenerating a prompt for work already in flight wants
