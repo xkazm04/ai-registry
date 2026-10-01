@@ -6,7 +6,6 @@ technique: single-artifact-prompt-construction
 stack: process
 status: forged
 verified_on: 2026-10-01
-verified_against: node@24
 ---
 
 # The fix prompt — one document per repository, built as a pure function
