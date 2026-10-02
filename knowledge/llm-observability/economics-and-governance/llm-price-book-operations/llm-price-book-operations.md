@@ -49,7 +49,9 @@ dashboard. What a current multi-provider book must be able to express:
   standard rate to long-context traffic is wrong on exactly the most expensive
   calls.
 - **Cached-token rates.** Cache *reads* bill at a small fraction of the input
-  rate (a tenth is typical); cache *writes* bill at a premium over it, and
+  rate (a tenth is typical, though the fraction is now per model: in
+  October 2026 one provider read its newest models at a twentieth and a
+  fortieth); cache *writes* bill at a premium over it, and
   the premium is **tiered by cache lifetime** — short-TTL and long-TTL writes
   are distinct priced classes. Cached tokens must be deducted from billable
   input and re-billed at their own class rate, and the discounts stack with

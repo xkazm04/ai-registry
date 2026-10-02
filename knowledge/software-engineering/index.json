@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1822,
-  "applications": 1219,
+  "applications": 1220,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -25437,9 +25437,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256-b2:821309b17c3f0f28",
-   "revision": 41,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:e95fd6dac9b39789",
+   "revision": 42,
+   "changedAt": "2026-10-02",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -25499,7 +25499,8 @@
       "choosing the denominator for a compaction's break-even",
       "a second compaction is proposed before the first one has repaid its rewrite",
       "a compaction policy needs a cache write/read ratio it cannot look up",
-      "the provider reprices the whole request above a prompt-length threshold below the window"
+      "the provider reprices the whole request above a prompt-length threshold below the window",
+      "an interactive session is about to sit idle longer than its prompt cache lives"
      ]
     },
     {
@@ -25897,6 +25898,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "compaction-horizon-breakeven",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/claude-code--compaction-horizon-breakeven.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "claude-code@2.1.287"
+    },
     {
      "stack": "claude-code",
      "technique": "elision-to-a-refetch-pointer",

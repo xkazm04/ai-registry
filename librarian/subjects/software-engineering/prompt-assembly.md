@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-09-29
+last_touched: 2026-10-02
 touched_by: deepen, intake
 dry_streak: 0
 ---
@@ -540,3 +540,14 @@ second-tree documents because the stack--technique names were taken:
 emergency truncation never persisted, so resume is larger than live; the only diagnostic dropped) and
 `node--summary-evidence-gate--pilotdeck` (a summary admitted on its finish reason, from input capped
 with no re-fetch pointer). Banked untriaged: emergency truncation not persisted as its own amendment.
+
+## 2026-10-02 - intake claude-mods ([[2026-10-02-claude-mods]], run `in-cccustom-1002`)
+
+Amended `compaction-horizon-breakeven` with "When the clock moves the wall": the rewrite premium
+assumes a warm cache, and an idle gap longer than the cache lifetime inverts it, because the next
+request rewrites the whole prefix anyway. Priced keep against compact-while-warm, said to never compact
+after expiry, and to run the clock from the request start. Evidence: a 14-day replay of one machine's
+sessions (247 gaps, median cold rewrite 344k, 34% of all cache writes, warm compaction cheaper at
+233-235 of 247). The application `claude-code--compaction-horizon-breakeven` (experiment,
+unmeasurable: the fidelity floor was never run) records a cache-clock plugin as the realization.
+Open: the paired continuation eval that would measure the floor.
