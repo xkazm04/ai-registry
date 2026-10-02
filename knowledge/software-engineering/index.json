@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1822,
-  "applications": 1220,
+  "applications": 1222,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -1246,9 +1246,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256-b2:5b7a2130a983e39f",
-   "revision": 8,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:5791230ffb7d9fad",
+   "revision": 9,
+   "changedAt": "2026-10-02",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1395,6 +1395,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "antigravity-cli",
+     "technique": "permission-stance-enforcement",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/antigravity-cli--permission-stance-enforcement.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "antigravity-cli@1.2.15"
+    },
+    {
+     "stack": "antigravity-cli",
+     "technique": "subscription-auth-selection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/antigravity-cli--subscription-auth-selection.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "antigravity-cli@1.2.15"
+    },
     {
      "stack": "claude-code",
      "technique": "child-observed-posture",
