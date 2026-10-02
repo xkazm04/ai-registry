@@ -1,0 +1,65 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "yoagent-1002",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-02T17:20:00Z",
+  "ended_at": "2026-10-02T21:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/prompt-assembly",
+      "at": "2026-10-02",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/test-harness",
+      "at": "2026-10-02",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/module-design",
+      "at": "2026-10-02",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "test-harness",
+      "technique": "mutation-lane-with-a-triaged-baseline",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/techniques/compaction-target-is-an-aim.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/techniques/compaction-is-a-fixed-point.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/techniques/cache-affinity-key-from-the-unrewritable-layer.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/techniques/mutation-lane-with-a-triaged-baseline.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/techniques/host-primitive-facade.md",
+    "librarian/sources/2026-10-02-yoagent.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Five techniques (3 prompt-assembly, 1 test-harness, 1 module-design), six applications. One applied row (code, better, floor held); three techniques unapplied, no fleet seam. Four leads, four untriaged. One fleet commit, not pushed."
+}

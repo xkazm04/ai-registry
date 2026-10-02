@@ -33,6 +33,9 @@ techniques:
   - fold-only-acknowledged-evidence
   - summary-evidence-gate
   - pinned-prompt-clock
+  - compaction-target-is-an-aim
+  - compaction-is-a-fixed-point
+  - cache-affinity-key-from-the-unrewritable-layer
 ---
 
 # Prompt assembly & context budgeting
@@ -528,3 +531,18 @@ disappearing.
   — when a command that mutates a standing layer takes effect: deferral to the
   next session as the default, immediate effect as an opt-in, the one rewrite
   that is exempt, and making a queued change visible.
+- [compaction-target-is-an-aim](./techniques/compaction-target-is-an-aim.md) — the
+  two numbers a derived compactor holds: a window the provider enforces and a
+  headroom target it chose; why the fallback pass must answer to the window, the
+  unit mismatch between a tail counted in messages and a target counted in budget,
+  and the survivor metrics (task kept, latest request kept, marker-only passes).
+- [compaction-is-a-fixed-point](./techniques/compaction-is-a-fixed-point.md) — the
+  rewrites no schedule decided to pay for: a compactor that is not idempotent and
+  deterministic invalidates settled history every pass; the marker charged to its
+  own cap, constant marker text, caps applied on append, turn-snapped cuts, and
+  reading a hit rate against its length ceiling.
+- [cache-affinity-key-from-the-unrewritable-layer](./techniques/cache-affinity-key-from-the-unrewritable-layer.md)
+  — the per-request key a provider uses to route toward a cached prefix: why a key
+  derived from the first message breaks under compaction, deriving it from the
+  standing layer, the shared-key concentration and its override, and the test that
+  must rewrite the head to reach the defect.

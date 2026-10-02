@@ -960,6 +960,15 @@
     },
     {
       "kind": "semantic",
+      "slug": "google-ai-ultra-for-agentic-production",
+      "path": "memory/semantic/google-ai-ultra-for-agentic-production.md",
+      "contentHash": "sha256-n1:fda09d3a6d645abc",
+      "confidence": 0.6,
+      "namespace": "engineering",
+      "source": "vendor-research-and-probe"
+    },
+    {
+      "kind": "semantic",
       "slug": "mage-arena-channels-and-shared-canon",
       "path": "memory/semantic/mage-arena-channels-and-shared-canon.md",
       "contentHash": "sha256-n1:4c94baa548e573d8",
@@ -1007,7 +1016,7 @@
   "counts": {
     "skills": 38,
     "practices": 8,
-    "memory": 8,
+    "memory": 9,
     "lessons": 299
   },
   "bundles": [
@@ -1136,10 +1145,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 233,
-      "techniques": 1822,
-      "applications": 1222,
-      "files": 3282,
-      "contentHash": "sha256-b2:debc72fed7d2c3e2"
+      "techniques": 1827,
+      "applications": 1228,
+      "files": 3293,
+      "contentHash": "sha256-b2:a7f4172aae9e6d4c"
     }
   ],
   "usageEvidence": {

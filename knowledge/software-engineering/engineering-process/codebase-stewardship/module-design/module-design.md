@@ -19,6 +19,7 @@ techniques:
   - mirror-type-at-the-edge
   - state-carrier-decides-the-lane
   - emitted-code-names-from-a-root
+  - host-primitive-facade
 ---
 
 # Module design
@@ -424,3 +425,8 @@ manners.
   generator's hidden interface is the scope it expands into: every name the invocation
   does not supply spelled from a root, helpers enclosed but products left visible, the
   composition obligation no root reaches, and the foreign-package probe that finds it.
+- [host-primitive-facade](./techniques/host-primitive-facade.md) — the case io-free-core
+  cannot reach, a component whose job is to drive work on two hosts: one module owns
+  spawn, sleep, timeout, time and the thread-safety bounds, a reasoned lint denylist
+  loaded only in the portable job, and the real-host test run with a job timeout
+  because a lint cannot see a hang.

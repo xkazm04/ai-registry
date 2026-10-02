@@ -260,3 +260,19 @@ hunks coexist and were staged separately.
 ### 2026-09-25 - `/intake` D4 pass on [[2026-09-16-modernweb-web]], one amendment + one application
 
 D4 (immutable sessions inside a mutable manager) had already landed on 2026-09-17 as backlog `3-026`, inside `configuration-axes-cross-the-ladder`. The 2026-09-16 note's untriaged table had never been updated, and that stale table is what sent this pass back to the source. Re-read at `43bbf041`, the source added a boundary on the ownership paragraph: it holds only where immutability is **enforced**. Two instances. On the reader side, the source's own coverage path deep-clones because a merging library mutated nested per-session objects across watch-mode runs. On the writer side, a fleet evaluation harness declares its bundle immutable and re-gathers it in place, beside a scorecard that pins nothing. The writer-token half (compare `(run, status)` before a derived write) is `client-state/async-race-guards` and was not duplicated. Applied as an `experiment` on personas: 0 of 14 archived bundles were ever re-gathered, so the verdict is `unmeasurable` with the replay script named. Boundary with `backend-platform/data-pipeline-semantics/self-describing-data-envelopes/batch-vs-instance-copy-policy`, which owns the per-type copy table; this subject owns only what "immutable" must mean for run evidence.
+
+## 2026-10-02 - /intake run (open Rust agent-loop crate), one technique, applied
+
+Source: [[2026-10-02-yoagent]]. Gained `mutation-lane-with-a-triaged-baseline` (23 to 24 techniques in the golden path); one
+source-tree application and one fleet application.
+
+- No mutation technique existed; `unreached-decisions-pin-nothing` is the manual reach probe, and the new technique
+  says a mutation run is that probe run by a machine. Lane shape from the source: weekly, non-blocking, scope declared,
+  tool version pinned, build cost fixed before frequency, sampled baseline that names its sample, four-bin triage kept in a
+  document, and a repeated shard loss read as a defect in the work (mutants that loop and allocate kill the host before
+  the tool's timeout).
+- **Applied (code, `better`, ab-paired).** Tracklight pricing module: 84 mutants, 7 missed; two real gaps, one under a
+  test named for its rule and answered by a stored row before the rule was consulted. Two tests committed in the project
+  (7a56d61, not pushed), both mutants caught, 296 tests green. Detection depends on test scope (two survivors caught only
+  under workspace tests).
+- Open: a second module run that finds a comparable gap would justify a scheduled lane in a fleet project.
