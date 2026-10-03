@@ -12221,3 +12221,8 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
 - A summarizing fetch put a number and a sentence together that the page does not pair (the 15-requests-per-minute figure is about cached state on a machine, not about the key). Ask for verbatim sentences before a figure enters a technique, and write the claim the sentence supports.
 - A background `&` inside a tool call is killed when the call returns on this platform; start long commands with the tool's own background option.
 - The category check (V1) mattered even when no spec was written: the obvious home for a Rust-library cluster, language-runtime, already held ten subjects. The cluster was tested for a new subject and stayed techniques because two neighbours existed; say so in the routing count.
+
+## 2.15.0 - 2026-10-03 - apply-conjunction-activated-fragments
+
+- When the project with the only plausible seam carries foreign WIP and is diverged from `origin`, `code` mode is not safely reachable, but `experiment` mode still is: run the real tool (here, `docker compose config`) against a scratch copy of the tree's own real artifacts, read-only, never touching the project's working tree. This is a cheaper and more decisive instrument than falling straight to `simulation`.
+- A composite-identifier fragment condition is not self-sufficient when the orchestrator itself hard-references one of the composite's constituent services (here, `depends_on`): the active set must independently carry that constituent's own singleton handle, or a request that reads as complete to an operator is refused. Worth checking on the next apply run against any conjunction-activated-fragments-shaped mechanism built on a real orchestrator.

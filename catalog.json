@@ -980,7 +980,7 @@
       "kind": "semantic",
       "slug": "mage-arena-mechanic-channel-matrix",
       "path": "memory/semantic/mage-arena-mechanic-channel-matrix.md",
-      "contentHash": "sha256-n1:59854ec7329d9fcb",
+      "contentHash": "sha256-n1:c69012f6a19f6caf",
       "confidence": 0.6,
       "namespace": "mage-arena",
       "source": "decision-record"
@@ -1146,9 +1146,9 @@
       "purity": "software",
       "subjects": 233,
       "techniques": 1827,
-      "applications": 1228,
-      "files": 3293,
-      "contentHash": "sha256-b2:a7f4172aae9e6d4c"
+      "applications": 1229,
+      "files": 3294,
+      "contentHash": "sha256-b2:4bc05e174dc1b8fe"
     }
   ],
   "usageEvidence": {

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1827,
-  "applications": 1228,
+  "applications": 1229,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -7160,9 +7160,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
-   "digest": "sha256-b2:07eff75ad030716d",
-   "revision": 2,
-   "changedAt": "2026-09-07",
+   "digest": "sha256-b2:3f5c1678dbe89ca6",
+   "revision": 3,
+   "changedAt": "2026-10-03",
    "techniques": [
     {
      "slug": "conjunction-activated-fragments",
@@ -7216,7 +7216,15 @@
      "stage": "multi-service"
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "docker-compose",
+     "technique": "conjunction-activated-fragments",
+     "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/applications/docker-compose--conjunction-activated-fragments.md",
+     "verified_on": "2026-10-03",
+     "verified_against": "docker-compose@2.40.3"
+    }
+   ]
   },
   "conformance-checking": {
    "category": "engineering-assessment",
