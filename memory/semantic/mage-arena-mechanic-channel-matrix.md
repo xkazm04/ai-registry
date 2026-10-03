@@ -17,11 +17,12 @@ and certified the feel) - **shipped**.
 
 | Mechanic | Desktop / TV build | VR build | Transfers as |
 |---|---|---|---|
-| Tier clock (spell tiers unlock every 15 s; a perfect absorb advances it) | simulated: wave sims of the arena kernel | designed: the same rule, shown on a wrist cuff | rule + data, unchanged |
-| Directional absorb with a 0.15 s perfect window | simulated | designed: raised palm; window may widen to 0.20 s if real hands need it | rule unchanged; the window is a per-channel tuning |
-| Spell lines climbing tiers in place; Flow (rotate lines within 2 s) | simulated, numbers recalibrated (e.g. the Bolt's damage was cut after simulation) | designed: a drawn sigil selects the line | rule + data; selection input differs |
+| Tier clock (spell tiers unlock every 15 s; a perfect absorb advances it) | simulated: wave sims of the arena kernel | simulated: C++ port matches the desktop/TV kernel on 45 conformance vectors (mage-arena-vr T06/T07, commit c94281f); wrist-cuff HUD designed | rule + data, unchanged |
+| Directional absorb with a 0.15 s perfect window | simulated | simulated: C++ port matches the desktop/TV kernel on 45 conformance vectors (mage-arena-vr T06/T07, commit c94281f); palm-ward detector timed from motion onset holds the 0.15 s window through 100 ms injected latency on synthetic clips (T04) - real hands in November | rule unchanged; the window is a per-channel tuning |
+| Spell lines climbing tiers in place; Flow (rotate lines within 2 s) | simulated, numbers recalibrated (e.g. the Bolt's damage was cut after simulation) | simulated: C++ port matches the desktop/TV kernel on 45 conformance vectors (mage-arena-vr T06/T07, commit c94281f); drawn-sigil recognizer >= 91% on synthetic and mouse corpora (T03) | rule + data; selection input differs |
 | Threat language (element colour = absorb, steel = dodge, black core = leave) | designed | designed: greybox must honour it | rule; colours restated per art style |
-| Enemy roster and AI mage competence | simulated | designed: same roster, first person | data + AI rules |
+| Enemy roster and AI mage competence | simulated | simulated: C++ port matches the desktop/TV kernel on 45 conformance vectors (mage-arena-vr T06/T07, commit c94281f) (duels at competence 1 and 1.5, soldier and creature bouts) | data + AI rules |
+| Fire school (Heat, fire spells) | NOT implemented: duels are water proxies; fire spells are data only | not implemented (data loaded only) | open: the rule-owning channel decides who implements it first |
 | Moving and dodging | WASD, roll, sprint | blink between three pads within arm's reach (seated) | NOT shared: input and camera specific |
 | Camera | oblique top-down, about 55 degrees | first person, seated | NOT shared |
 | Camp, schools, LLM Director, season | designed (desktop/TV only) | cut for the competition slice | lore and names shared |
