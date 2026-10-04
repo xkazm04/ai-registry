@@ -665,10 +665,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.3.0",
+      "version": "4.4.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:757c49031ae874ad",
+      "contentHash": "sha256-n1:39f99e89edc7eb83",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -677,9 +677,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 58,
+      "lessons": 59,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:395352da41afebc9",
+      "lessonsHash": "sha256-n1:3b0eed803f71a9fc",
       "usageContributors": [
         "wolf"
       ],
@@ -990,7 +990,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 6,
-    "lessons": 297
+    "lessons": 298
   },
   "bundles": [
     {
