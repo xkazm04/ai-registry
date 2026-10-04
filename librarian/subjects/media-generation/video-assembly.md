@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-09-22
+last_touched: 2026-10-04
 dry_streak: 0
 ---
 
@@ -11,7 +11,7 @@ First note: [[2026-08-26-joyai-echo]] - /intake run 23. Subject predates the not
 
 ## State
 
-6 techniques, 2 applications (process, react). The subject's posture is that a timeline is a document of record and a generated clip is a candidate held to the same bar as delivered footage. Two techniques took amendments in one run and they are related: both are places where the subject's rules assumed a *separated* pipeline.
+11 techniques, 8 applications (node, process, python, react). The subject's posture is that a timeline is a document of record and a generated clip is a candidate held to the same bar as delivered footage. Two techniques took amendments in one run and they are related: both are places where the subject's rules assumed a *separated* pipeline.
 
 ## 2026-08-26 - /intake run 23 ([[2026-08-26-joyai-echo]])
 
@@ -250,3 +250,47 @@ source note.
 ### 2026-09-22 - `/intake` intake-kqP09, one render-proven section (source: [[2026-09-22-h3-timeline-extend-bridge]])
 
 generated-shot-sourcing gains *A clip pinned at both ends is paced by the model, not by its span*. The ladder's rung 3 said the model "interpolates a motion path" between head and tail; a render pair on a local first-and-last-frame model said it does not interpolate evenly. Surplus span is spent holding the first frame and then snapping (3-4x the median step), and the operator chose the travel-sized span 2/2 blind over a discrimination ratio the gate had refused (1.16x). The source's own claim, that too short a span makes a bridge cut, **did not reproduce** for a small travel: a split 1/1 at 0.88x, recorded as unmeasurable. A corrected premise worth keeping: the practitioner located a real span failure and put it on the wrong side. Not landed: that an arrival needs the end-frame channel and a mask alone will not converge (never rendered; lead with a named instrument). Banked beside it: the tail's momentum outvotes the prompt (cut back before extending), the window as a subtrahend of each call's kept seconds, and keeping the pre-decode state with the clip. The last one has its home-if-landed in review-iteration-loops' stored-original rule. Director error recorded: one triage question was asked across two differently shuffled pairs and had to be re-asked per seed.
+
+### 2026-10-04 - `/intake` intake-1004-wipj, one technique from a corrected premise (source: [[2026-10-04-video-edited-itself]])
+
+New technique *The alignment names its text*, with `process--alignment-names-its-text`.
+The source - 496 words, the thinnest this skill has mined - claimed cues fire from
+returned **word** timestamps, and `derived-turn-markers` already owns that claim more
+fully ("the stat card fires when its figure is spoken"). The landing is what the source
+got wrong, confirmed against two vendors' own references in-run: the payload in one
+engine family is **per character**, so a word is a grouping the consumer computes; and
+the response carries **two** alignments, one indexed to the authored text and one to the
+normalised text the engine actually spoke. Normalisation is a rewrite (`$1,000,000` ->
+"one million dollars", ten characters becoming twenty), so the two agree up to the first
+expanded token and nowhere after it.
+
+- **The failure signature routes the diagnosis away from the cause.** Error is zero at
+  the head and grows *in steps at the expanding tokens* - close enough to the profile
+  `drift-correction` names as rate mismatch that its prescribed remedy, conform the rate
+  at the source, is a correct diagnosis of the wrong system. The discriminating test is
+  the error's shape between anchors: stepped-then-flat is an index space, smoothly
+  growing is a rate.
+- **`derived-turn-markers`' coincidence trap, one level lower.** A script with no
+  numbers, currency or dates normalises to itself, both alignments are identical, and the
+  pipeline that chose wrong passes every test it has. Worse than the original trap
+  because the agreement is not even a number somebody could have checked. The regression
+  needs a fixture carrying an expanding token, labelled with why.
+- **Risk is asymmetric by engine family, which is the half the source could not see.**
+  A word-boundary event stream reports word/punctuation/sentence granularity and offsets
+  into the *input* text only - one index space, chosen for you. So porting a pipeline
+  from that family to the character-alignment family silently converts a decision the
+  engine was making correctly into a decision nobody is making.
+- **Unapplied, with a negative seam search rather than a simulation.** Two projects
+  declare the domain. The closer one is already structurally correct at its own
+  granularity - scene times copied verbatim from the project's scene record, its own
+  comment naming the defect it fixed ("a literal somebody typed next to a literal
+  somebody else typed on the timeline") - but its voice lane is not synthesised at all;
+  the vendor is wired for music only. Three real cases for the index-space claim do not
+  exist, and inventing two would be the anti-pattern, so the row says `unapplied`.
+- Phase 6b considered and ruled out with its argument, not skipped: the arms produce
+  byte-identical audio and the observable is a signed offset in seconds, so the
+  operator's blind "better" pick has nothing to discriminate that arithmetic cannot.
+- Boundary recorded, not landed: `voice-io/engine-abstraction` models word-level
+  timestamps as a boolean capability axis, which cannot distinguish "two index spaces,
+  consumer chooses" from "one, engine chose" - a probe reports parity exactly where the
+  migration risk lives. Cross-bundle; banked as a lead with its return condition.
