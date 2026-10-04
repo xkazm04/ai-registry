@@ -2118,7 +2118,7 @@
    "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/multi-speaker-speech-production.md",
    "digest": "sha256-b2:242c4736c3ed62d8",
    "revision": 1,
-   "changedAt": "2026-10-04",
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "chunk-boundary-continuity",
