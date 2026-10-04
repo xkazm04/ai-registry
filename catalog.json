@@ -129,16 +129,16 @@
     },
     {
       "name": "conform",
-      "version": "1.8.2",
+      "version": "1.8.3",
       "category": "ai-native",
       "path": "skills/conform/SKILL.md",
-      "contentHash": "sha256-n1:8bd2e4236973d286",
+      "contentHash": "sha256-n1:59d049616dcb1e7b",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 13,
+      "lessons": 14,
       "lessonsPath": "skills/conform/LESSONS.md",
-      "lessonsHash": "sha256-n1:ce2cd1deb639a456",
+      "lessonsHash": "sha256-n1:82c6215f1132d182",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -665,10 +665,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.3.0",
+      "version": "4.4.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:757c49031ae874ad",
+      "contentHash": "sha256-n1:39f99e89edc7eb83",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -677,9 +677,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 58,
+      "lessons": 59,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:395352da41afebc9",
+      "lessonsHash": "sha256-n1:3b0eed803f71a9fc",
       "usageContributors": [
         "wolf"
       ],
@@ -990,7 +990,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 6,
-    "lessons": 296
+    "lessons": 298
   },
   "bundles": [
     {
@@ -1026,11 +1026,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 52,
-      "techniques": 333,
-      "applications": 143,
-      "files": 532,
-      "contentHash": "sha256-b2:075d6a6ae4e160f5"
+      "subjects": 53,
+      "techniques": 338,
+      "applications": 146,
+      "files": 541,
+      "contentHash": "sha256-b2:5017f52de2e6c8dc"
     },
     {
       "name": "grant-funding",
@@ -1054,9 +1054,9 @@
       "purity": "software",
       "subjects": 18,
       "techniques": 126,
-      "applications": 78,
-      "files": 227,
-      "contentHash": "sha256-b2:233a4dd733f7d283"
+      "applications": 79,
+      "files": 228,
+      "contentHash": "sha256-b2:f3c4cdaae8afc043"
     },
     {
       "name": "localization",
@@ -1091,11 +1091,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 24,
-      "techniques": 176,
-      "applications": 91,
-      "files": 296,
-      "contentHash": "sha256-b2:a2a34545e18ac1f7"
+      "subjects": 25,
+      "techniques": 181,
+      "applications": 94,
+      "files": 305,
+      "contentHash": "sha256-b2:a0491ef544cb648d"
     },
     {
       "name": "recruiting",
@@ -1118,10 +1118,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 233,
-      "techniques": 1821,
-      "applications": 1217,
-      "files": 3276,
-      "contentHash": "sha256-b2:1663a27982301324"
+      "techniques": 1822,
+      "applications": 1220,
+      "files": 3280,
+      "contentHash": "sha256-b2:2471235197e51812"
     }
   ],
   "usageEvidence": {

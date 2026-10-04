@@ -5,7 +5,7 @@ subject: readiness-passports
 technique: two-axis-readiness
 stack: node
 status: forged
-verified_on: 2026-08-20
+verified_on: 2026-10-01
 ---
 
 # Two derivations, two shapes: a weighted band and a predicate cascade
@@ -16,7 +16,7 @@ different kinds of question.
 
 ## Axis 1 — production readiness: weighted composite over four ordinal tables
 
-`src/lib/analyze/passport-score.ts:7-30`. Four lookup tables map ordinal enums
+`src/lib/analyze/passport-score.ts:58-96`. Four lookup tables map ordinal enums
 to points, and a fifth term is composed from delivery facts:
 
 ```ts
@@ -29,7 +29,7 @@ const OBS_PTS  = { none: 0, logs: 40, errors: 60, metrics: 80, tracing: 100 };
 weighted `0.25·ci + 0.25·tests + 0.20·security + 0.15·observability +
 0.15·delivery`, then banded at 25/45/65/85 into
 `prototype | internal | beta | production | hardened`
-(`passport-score.ts:20-30`).
+(`passport-score.ts:95`).
 
 Three things this confirms. The **non-uniform point spacing** inside each table
 is the technique's rule that a cardinal sort key is legitimate *within* one
@@ -42,9 +42,9 @@ import) is what stops the score being authored anywhere. And the function is
 
 ## Axis 2 — autonomy: a cumulative predicate cascade, not a score
 
-`src/lib/analyze/passport-autonomy.ts:1-143` answers "what can you safely hand
+`src/lib/analyze/passport-autonomy.ts:1-193` answers "what can you safely hand
 an agent in *this* repo?" with four tiers T0-T3 and, crucially, **no
-arithmetic**. `tierPredicates()` (`:63-113`) returns each tier's own
+arithmetic**. `tierPredicates()` (`:80-`) returns each tier's own
 predicates, each an object of `{ met, missing }` where `missing` is the
 literal next action:
 
@@ -55,13 +55,13 @@ literal next action:
 - T3: + AI demonstrably in the workflow + an eval harness + versioned
   migrations ("unattended runs need a reversible schema trail").
 
-`derive()` (`:115-143`) composes them cumulatively — the T2 checklist is
+`derive()` (`:144-`) composes them cumulatively — the T2 checklist is
 `[...preds.T1, ...preds.T2].filter(x => !x.met)` — so a reader sees every
 unmet predicate below their target tier, not just the nearest one. This is the
 technique's claim that a permission wants a cascade rather than a blend, built
 exactly that way and for exactly the stated reason.
 
-The two axes read overlapping inputs (`readInputs()` at `:42-60` pulls
+The two axes read overlapping inputs (`readInputs()` at `:59-` pulls
 `tests.level`, `ci.level` and `delivery.migrations` straight from the
 production block) but **neither is a term in the other** — the independence
 rule, honored.
@@ -70,11 +70,11 @@ rule, honored.
 
 The strongest confirmation is the token boundary. "Gated" is an enforced rung
 requiring branch protection, which a tokenless scan cannot observe. So
-`governance == null` caps the autonomy grant at T1 (`passport-autonomy.ts:135`,
+`governance == null` caps the autonomy grant at T1 (`passport-autonomy.ts:157`,
 `tier === "T1" && ... && enforcementVisible`) and the cap is *rendered into
 every affected checklist* rather than silently applied — `TOKENLESS_MISSING`
 (`:31-32`) leads the `missing` list for every tier above T1
-(`:139-141`), and it names the fix: "re-scan with a token."
+(`:167`), and it names the fix: "re-scan with a token."
 
 The same caveat also caps `ci`/`security` on the production axis
 (`src/lib/analyze/passport.ts:7-11`), which is a partial deviation from the
@@ -83,7 +83,7 @@ both axes. It is defensible because the same unobservable fact genuinely feeds
 both, and the cap is reported separately on each — but the general rule stands,
 and a design that capped globally on any caveat would not.
 
-A second cap is worth copying: migration honesty at `:22-25`. Sandbox/hooks
+A second cap is worth copying: migration honesty at `:18-20`. Sandbox/hooks
 detectors postdate older stored passports, so on a lifted row they are
 `null` — **unknown, never a fabricated `false`** — and the T2 checklist names
 the re-scan (`SANDBOX_HOOKS_UNKNOWN`, `:34-35`) rather than the missing

@@ -9,6 +9,7 @@ shared_with: []
 use_when:
   - writing the endpoint that records a batch as claimed
   - a handoff can be re-sent, retried, or replayed from a stale selection
+  - a worker whose lease lapsed may still report back
 ---
 
 # Handoff tenancy and idempotence
@@ -36,11 +37,20 @@ are required and neither substitutes for the other:
    predicate implemented twice is an ownership predicate that will disagree
    with itself the first time someone adds a nesting level.
 
-The refusal shape matters as much as the check. **A foreign identifier fails
-the whole request**, with no per-identifier detail — never "we processed four
-of five". A partial success is an oracle: a caller can binary-search which
-identifiers exist in someone else's tenant by observing which batches
-succeed. Refuse wholesale and say only that one or more items do not belong.
+The refusal shape matters as much as the check, and the property that
+matters is **indistinguishability: a foreign identifier is answered exactly
+as a nonexistent one is** — same status, same body — so that no answer
+confirms an identifier exists somewhere else
+([the standard guidance](https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html)
+maps both cases to one public response). That is what closes the existence
+oracle, not the granularity of the reply. A whole-request refusal is an
+oracle too if an unknown identifier is skipped while a foreign one fails the
+batch; a per-identifier reply is safe if "not yours" and "no such item" read
+the same. Choose the granularity for the caller. A person handing off a batch
+they are about to paste wants all or nothing, because a partial claim
+disagrees with the artifact in their clipboard. A machine draining a queue
+wants per-item answers, because claiming what is available is the point of
+pulling.
 
 Two further refusals belong at this door. A **shared or public demonstration
 container** must be refused outright: tracking work implies ownership of the
@@ -71,14 +81,50 @@ result: what was marked, what was skipped and why. That report is what lets a
 client that has been holding a selection for ten minutes correct itself
 without a full reload.
 
-## The claim is a record, not a lock
+## The claim is a record, not a lock — until a worker pulls
 
-Nothing of yours is blocked by a claim. It does not reserve the item, does
-not prevent a second operator from handing off the same finding, and does not
-expire on its own — expiry comes from the codebase, through the closing
-rules. Resist the pull toward locking semantics: a lock needs an owner, a
-timeout, a reaper and a release path, and buys you nothing, because the work
-it would protect happens in a process you neither start nor observe.
+For a human hand-off, nothing of yours is blocked by a claim. It does not
+reserve the item, does not prevent a second operator from handing off the same
+finding, and does not expire on its own — expiry comes from the codebase,
+through the closing rules. Resist the pull toward locking semantics: a lock
+needs an owner, a timeout, a reaper and a release path, and buys you nothing,
+because the work it would protect happens in a process you neither start nor
+observe.
+
+That holds while the executor is a person who pasted an artifact. It stops
+holding once a **machine executor pulls from the queue** (an agent over an API,
+a local loop): two pullers racing for one row is a real conflict, and a crashed
+puller leaves a row invisible to everyone. Then the claim gains the three
+things a lock needs, and no more:
+
+- **One arbiter.** Every path, the human hand-off included, goes through one
+  compare-and-set whose WHERE carries the expected state; the database decides
+  who won. Two implementations of "who holds this row" is the defect.
+- **A lease with a clamp**, expiring lazily at the next claim or read rather
+  than on a scheduler (a claim path that needs a cron to be correct is wrong
+  wherever the cron is down). A human's claim carries *no* lease, and a null
+  lease must never be read as expired, or the sweep pulls work from under a
+  person.
+- **No verb that closes.** Claiming, releasing and reporting an attempt write
+  events and clear leases; only the rescan can mark done
+  ([evidence-based-auto-close](./evidence-based-auto-close.md)).
+- **A fencing token on every later write.** Expiry does not stop the old
+  holder. A paused or slow worker does not know its lease lapsed, and
+  checking the clock just before writing cannot fix that
+  ([Kleppmann 2016](https://martin.kleppmann.com/2016/02/08/how-to-do-distributed-locking.html)).
+  So the claim mints a generation (the lease value itself will do), the
+  worker carries it, and every write it makes afterwards — an attempt
+  report, a release, an event — matches it in the same compare-and-set.
+  Holder identity is no substitute: the same executor identity claiming
+  again (a second session on one credential, a retry after its own lease
+  lapsed, several local lanes sharing one actor name) looks exactly like the
+  stale holder. Refuse a stale write loudly instead of accepting it as a
+  quiet no-op. The codebase cannot be fenced — a stale worker's branch still
+  lands — so its late report is evidence about the item, never its status.
+
+The same door is also where an executor is authorized *to claim at all* (an
+unproven or opted-out repository refuses a machine puller; unknown is not
+permission), which is the human-gate subject's question asked at claim time.
 
 Do include the claimed items in a regenerated artifact rather than filtering
 them out. An operator regenerating a prompt for work already in flight wants
@@ -96,8 +142,12 @@ accepts anything else has already broken the loop's other half.
 
 ## Decision rules
 
-- **When any identifier fails the ownership check, return a single
-  whole-request refusal** and touch nothing.
+- **When any identifier fails the ownership check, answer it exactly as an
+  identifier that does not exist.** Refuse the whole request and touch
+  nothing when a person is handing off a batch; answer per item when a
+  machine is pulling from a queue.
+- **When a machine executor writes after claiming, match the claim's
+  generation, not only its holder's name**, and refuse a stale write audibly.
 - **When the batch exceeds the cap, refuse with the cap stated**, rather than
   truncating — a truncated claim disagrees with the artifact the user is
   about to paste.

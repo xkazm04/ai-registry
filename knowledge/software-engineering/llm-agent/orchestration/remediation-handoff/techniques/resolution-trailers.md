@@ -45,6 +45,14 @@ language model reading a rule in a prompt.
   is not is the whole art of parsing a convention.
 - **Anchored at line start, tolerant of leading whitespace**, so a mention of
   the key inside prose does not register as a claim.
+- **Know which grammar you chose.** A line anchored anywhere in the message
+  is looser than version control's own trailer grammar, which reads trailers
+  only from the message's final paragraph, allows no whitespace before the
+  key, and treats an indented line as a continuation of the previous
+  trailer (the `interpret-trailers` manual).
+  Either parser is defensible, but anything else that reads the history with
+  the native one will count fewer markers than you do. Tell the agent to put
+  the line in the final block, where both find it.
 
 The key is a closed vocabulary with exactly one definition, shared by the
 artifact builder that instructs the agent and the parser that reads history
@@ -71,7 +79,7 @@ unresolved, and a system that reads it that way will hold items open forever
 after they were fixed by anyone who did not know the convention — a human, a
 different agent, a merge from another branch.
 
-Two consequences follow.
+Three consequences follow.
 
 First, **the parse must distinguish "no markers found" from "could not read
 the history"** ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
@@ -84,7 +92,18 @@ that the sample was taken before interpreting its emptiness.
 Second, **a second closing rule is structurally required**, because the
 trailer alone leaves a permanent class of invisible completions. That rule is
 [evidence-based-auto-close](./evidence-based-auto-close.md), and the trailer is
-its high-confidence half rather than its whole.
+its named, attributable half rather than its whole — and, when the executor
+under test wrote it, a claim the rescan must confirm.
+
+Third, **presence outlives the fix.** A revert is a new commit whose default
+message names only the commit it reverts
+(the `revert` manual); the original message,
+marker included, stays in history, and cherry-picks and rebases copy it onto
+new commits. So a marker counts only on a commit reachable from the
+authoritative branch, and a later reachable commit that reverts the marked
+one withdraws it. Where a marker may close an item on its own — one no
+rescan can witness — this is the difference between a counter that rises on
+kept fixes and one that rises on fixes nobody kept.
 
 ## The sample window
 
@@ -113,8 +132,11 @@ and it belongs in the artifact so the operator expects it.
   prompt from a neighbouring system all produce this and none of them is an
   error worth failing on.
 - **When a trailer names an item that is not claimed, treat it as a claim
-  anyway** if the item is open — an executor that resolved something nobody
-  handed to it did useful work.
+  anyway** if the item is open and belongs to the codebase whose history
+  carried the line — an executor that resolved something nobody handed to it
+  did useful work — and record the claim as unsolicited.
+- **When the marked commit was reverted, or is not reachable from the
+  authoritative branch, the claim is withdrawn.**
 - **Never treat the absence of a trailer as evidence of anything.**
 
 ## When not to use this
@@ -125,7 +147,10 @@ and it belongs in the artifact so the operator expects it.
 - **When commit messages are rewritten by policy** — squash flows that
   discard bodies, or automation that regenerates messages — because the
   signal is destroyed after being written, which is worse than never having
-  been written: the agent complied and you still see nothing.
+  been written: the agent complied and you still see nothing. Check the
+  host's squash setting rather than assuming: some hosts' default squash
+  template keeps only the title, and others keep bodies only under one of
+  several merge-message options.
 - **When the identifier would leak something.** Trailers are permanent and
   public to anyone with the codebase; the identifier must be an opaque
   handle, never a customer name, a vulnerability description, or a token.

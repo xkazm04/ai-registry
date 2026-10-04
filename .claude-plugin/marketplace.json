@@ -76,7 +76,7 @@
       "name": "conform",
       "source": "./skills/conform",
       "description": "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / no",
-      "version": "1.8.2",
+      "version": "1.8.3",
       "category": "ai-native",
       "tags": [
         "conformance",
@@ -334,8 +334,8 @@
     {
       "name": "perfect",
       "source": "./skills/perfect",
-      "description": "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Fable 5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Opus-class builder subagents on ON",
-      "version": "2.7.0",
+      "description": "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Sonnet 5.5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Sonnet-class builder subagents ",
+      "version": "2.7.1",
       "category": "workflow",
       "tags": [
         "loop",
@@ -371,7 +371,7 @@
       "name": "scan-sweep",
       "source": "./skills/scan-sweep",
       "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept eve",
-      "version": "4.3.0",
+      "version": "4.4.0",
       "category": "workflow",
       "tags": [
         "sweep",
@@ -404,7 +404,7 @@
       "name": "spark",
       "source": "./skills/spark",
       "description": "Turn a vague product idea (a \"sparkle\") into a complete, grounded design through waves of select/multi-select questions - then orchestrate the build. Targets exactly which contexts/files the idea touches, scouts them before asking anything, converges the design across four perspectives (functional, UX, UI, performance/architecture), and executes via builder subagents in a worktree under Director r",
-      "version": "1.7.0",
+      "version": "1.7.1",
       "category": "workflow"
     },
     {

@@ -92,6 +92,16 @@ separately, because a span found only in the join of two passages was
 quoted from neither. And an answer with no quotations is unscored on this
 check, not perfect and not failed.
 
+One more boundary belongs to normalization itself: **a normalizer must never reduce a
+non-empty span to nothing.** Stripping articles, punctuation and stop words from a
+span that consists only of those leaves an empty string, and an empty string is a
+substring of every source, so the quote "verifies" against anything. The same defect
+scores a one-letter gold answer (an option label such as A, which is also an article)
+as correct against every prediction under containment matching. Keep the unstripped
+form when stripping would consume the whole span, and test the normalizer on the
+shortest legal answers, because the fixtures that find this are single letters and
+bare articles, which ordinary evaluation data never contains.
+
 ## When not to use it
 
 When the answer is a single short fact, a mechanical comparison or one

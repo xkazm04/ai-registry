@@ -76,7 +76,8 @@
           "subjects": [
             "adaptive-music-authoring",
             "motion-quality-gating",
-            "spatial-audio-scene-authoring"
+            "spatial-audio-scene-authoring",
+            "game-dialogue-voice-pipeline"
           ]
         },
         {

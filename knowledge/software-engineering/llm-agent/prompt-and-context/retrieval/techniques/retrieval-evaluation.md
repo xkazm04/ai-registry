@@ -46,6 +46,16 @@ it trustworthy is not size but construction:
   corpus state; corpus drift silently invalidates them, and a decaying gold
   set fails in the worst direction — it keeps producing numbers.
 
+- **Judgments travel as whole records, never as columns.** A labeled set is often
+  loaded as parallel lists (queries here, gold answers there) that downstream steps
+  pair by position. Filter each list on its own key and a record missing one field
+  leaves the other lists one entry longer: query two is then scored against query
+  three's gold, the shortest list silently truncates the pairing, and every metric
+  is computed over a misaligned set with no error. Drop a record whole when any
+  required field is absent, report how many were dropped and of how many, and
+  assert every column has the same length before anything is scored. The same rule
+  covers shuffling: permute records, never columns.
+
 Tens of well-chosen queries beat thousands of scraped ones; the set earns
 extension whenever a live retrieval failure is diagnosed — every incident
 becomes a permanent regression case.

@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
   "techniques": 126,
-  "applications": 78,
+  "applications": 79,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -955,9 +955,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/grounded-answer-scoring.md",
-   "digest": "sha256-b2:76c8528599824d35",
-   "revision": 1,
-   "changedAt": "2026-09-15",
+   "digest": "sha256-b2:9de247df0b7199eb",
+   "revision": 2,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "bidirectional-claim-matching",
@@ -2107,9 +2107,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
-   "digest": "sha256-b2:ec7bfd40bd0cf6b1",
-   "revision": 7,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:2fa1e4fd027c9e92",
+   "revision": 8,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "baseline-carries-its-conditions",
@@ -2220,6 +2220,13 @@
      "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/node--unverified-vs-regressed-exit-states.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "python",
+     "technique": "paired-per-case-testing",
+     "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/python--paired-per-case-testing--ultrarag.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "python@3.11"
     },
     {
      "stack": "rust",

@@ -101,6 +101,23 @@ be closed by writing a real entry, not as an acceptable steady state.
 - **The threshold for coverage is the healthy band, not the failure band.**
   Covering only catastrophic dimensions leaves the amber middle unmentioned,
   and amber-with-no-mention is read as green.
+- **Below the band means measured below it.** The guarantee is a statement
+  about a dimension the run *observed* and scored low. A dimension the run
+  could not see at all (a worktree scan with no platform evidence to fold in)
+  sits at its floor for want of evidence, and a coverage item manufactured for
+  it is a gap invented from a blind spot. Worse, it recurs: the next scan is
+  just as blind, so the same item returns every cycle, and a loop that arms on
+  open items spends its runs on work that cannot move the score. Pass the
+  unobservable set into the coverage pass and suppress only the *synthesized*
+  entry. A gap the generator raised from evidence it could actually read is
+  real judgment and passes through untouched. Report the suppressed set in the
+  artifact, because an unmentioned unobserved dimension is the same silence
+  this technique forbids, now attributed to the right cause.
+- **Only a gap discharges a gap.** If the list also carries entries that make
+  an already-strong dimension exemplary, those must not count as naming a
+  weak one. A generator that writes an improvement note on a below-band
+  dimension is contradicting its own finding, and letting that note stand in
+  for coverage suppresses the deterministic follow-up the dimension is owed.
 - **Coverage is per dimension, not per point of weakness.** One item naming a
   dimension discharges the obligation for it; piling on three does not
   improve the reader's understanding and pushes real opportunities down.

@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1821,
-  "applications": 1217,
+  "techniques": 1822,
+  "applications": 1220,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1821/1821",
+  "use_when_coverage": "1822/1822",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -24134,9 +24134,9 @@
    "subcategory": "measurement-method",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/peer-benchmarking.md",
-   "digest": "sha256-b2:3ff7a39dbfa9a12e",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:a3239df32fc1070b",
+   "revision": 3,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "basis-disclosure",
@@ -24214,19 +24214,21 @@
      "stack": "node",
      "technique": "comparability-filters",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--comparability-filters.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "population-vs-scalar-ranking",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/node--population-vs-scalar-ranking.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "sql",
      "technique": "corpus-tenancy-boundary",
      "file": "knowledge/software-engineering/engineering-assessment/measurement-method/peer-benchmarking/applications/sql--corpus-tenancy-boundary.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01"
     }
    ]
   },
@@ -27655,9 +27657,9 @@
    "subcategory": "maturity-and-conformance",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/readiness-passports.md",
-   "digest": "sha256-b2:588ec936ab3e51d0",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:c63a7575b1e57d96",
+   "revision": 3,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "blocker-rollups",
@@ -27738,13 +27740,21 @@
      "stack": "node",
      "technique": "declined-by-choice",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--declined-by-choice.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "two-axis-readiness",
+     "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--two-axis-readiness--held-rungs.md",
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "two-axis-readiness",
      "file": "knowledge/software-engineering/engineering-assessment/maturity-and-conformance/readiness-passports/applications/node--two-axis-readiness.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01"
     },
     {
      "stack": "process",
@@ -28253,9 +28263,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
-   "digest": "sha256-b2:940036e1a6fcd893",
-   "revision": 3,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:ab4f0ae40c100d8e",
+   "revision": 6,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "batch-shaping-for-one-session",
@@ -28279,7 +28289,8 @@
      "shared_with": [],
      "use_when": [
       "matching last run's findings against this run's findings",
-      "an item someone claimed is neither marked resolved nor restated"
+      "an item someone claimed is neither marked resolved nor restated",
+      "a dismissed or closed finding reappears in a later run"
      ]
     },
     {
@@ -28293,7 +28304,8 @@
      "shared_with": [],
      "use_when": [
       "closing findings without a human confirming the work",
-      "deciding what counts as proof that remediation landed"
+      "deciding what counts as proof that remediation landed",
+      "a producer reports only its top few findings per source"
      ]
     },
     {
@@ -28321,7 +28333,8 @@
      "shared_with": [],
      "use_when": [
       "writing the endpoint that records a batch as claimed",
-      "a handoff can be re-sent, retried, or replayed from a stale selection"
+      "a handoff can be re-sent, retried, or replayed from a stale selection",
+      "a worker whose lease lapsed may still report back"
      ]
     },
     {
@@ -28357,19 +28370,28 @@
      "stack": "node",
      "technique": "claim-carry-forward-rules",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--claim-carry-forward-rules.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
      "technique": "handoff-tenancy-and-idempotence",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/node--handoff-tenancy-and-idempotence.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "single-artifact-prompt-construction",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/process--single-artifact-prompt-construction.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "react",
+     "technique": "evidence-based-auto-close",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/react--evidence-based-auto-close--personas.md",
+     "verified_on": "2026-10-01",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -28378,9 +28400,9 @@
    "subcategory": "reporting-and-remediation",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/remediation-roadmaps.md",
-   "digest": "sha256-b2:c1c22f2efa9f9a74",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:7b3d5bbfe7560a46",
+   "revision": 2,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "cheapest-path-projection",
@@ -28467,13 +28489,14 @@
      "stack": "node",
      "technique": "weighted-upside-ranking",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/applications/node--weighted-upside-ranking.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-30",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
      "technique": "invitational-framing",
      "file": "knowledge/software-engineering/engineering-assessment/reporting-and-remediation/remediation-roadmaps/applications/process--invitational-framing.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-09-30"
     },
     {
      "stack": "react",
@@ -29059,9 +29082,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256-b2:8cfc2c346bb4e161",
-   "revision": 16,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:9f05c1f381f9d83f",
+   "revision": 17,
+   "changedAt": "2026-09-30",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -29109,6 +29132,21 @@
       "fusing a lane whose input is another lane's output",
       "a retired or superseded item still reaches the slice",
       "another subsystem claims its column already gates retrieval"
+     ]
+    },
+    {
+     "slug": "padded-slots-are-misses",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an index is asked for more neighbours than it holds",
+      "a nearest-neighbour library returns a fixed-width result with filler slots",
+      "duplicated passages appear in a retrieved slice on a small corpus",
+      "resolving result identifiers through a positional list"
      ]
     },
     {
@@ -29269,6 +29307,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/node--relevance-floors.md",
      "verified_on": "2026-09-07",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "python",
+     "technique": "padded-slots-are-misses",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/python--padded-slots-are-misses--ultrarag.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "python@3.11"
     },
     {
      "stack": "python",
@@ -35440,9 +35485,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/toasts-notifications/toasts-notifications.md",
-   "digest": "sha256-b2:00266562e54f6f86",
-   "revision": 3,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:81b073072d283dda",
+   "revision": 4,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "actionable-toasts",
@@ -38748,6 +38793,7 @@
     "repository-landing-document/evidence-linked-badges",
     "repository-landing-document/style-rule-ships-its-detector",
     "retrieval/embedding-lifecycle",
+    "retrieval/padded-slots-are-misses",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",
     "retrieval/second-pass-rescoring",
@@ -39326,6 +39372,7 @@
     "repo-manifest-standard/pointers-not-embeds",
     "repo-manifest-standard/version-gate-precedes-schema-gate",
     "retrieval/embedding-lifecycle",
+    "retrieval/padded-slots-are-misses",
     "retrieval/relationship-proximity-lane",
     "retrieval/relevance-floors",
     "retrieval/retrieval-evaluation",

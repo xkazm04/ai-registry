@@ -25,9 +25,18 @@ diff you cannot see.
 ## The sizing rule
 
 Size the batch to a session, not to a quarter and not to an item. In
-practice, for findings drawn from a repository-level assessment, that is
-**roughly five to fifteen items in a single codebase**, and the ceiling is
-lower when the items are exploratory rather than mechanical. The bound worth
+practice, for findings drawn from a repository-level assessment, that has
+meant **roughly five to fifteen items in a single codebase**, with a lower
+ceiling when the items are exploratory rather than mechanical. Treat the
+count as a habit, not a measurement: nothing external measures it, and
+vendors' scoping guidance for unattended agents is written in effort ("a task
+of an hour or a few hours", "one feature at a time"), never in items. The
+measurable form is **summed estimated human effort against the agent's
+high-reliability horizon** — the task length it completes most of the time,
+which runs several times shorter than the length it completes half the time,
+and which has been doubling on the order of months
+([Kwa et al. 2025](https://arxiv.org/abs/2503.14499)). Any fixed count
+therefore dates; an effort budget re-reads the horizon. The bound worth
 enforcing in code is a hard maximum on identifiers per handoff — a few dozen
 — because it is the difference between a stale multi-select and a request
 that ties up the write path.
@@ -47,8 +56,16 @@ batch:
 3. **Descending value.** Within the artifact, codebases are ordered by the
    total projected value of their items and items by impact then cost, so
    that a session which runs out of budget runs out at the bottom, where it
-   costs least. This is the only defence you have against partial completion,
-   because you cannot intervene once the session starts.
+   costs least. Ordering is necessary and not sufficient. Sessions rarely
+   stop cleanly at a budget line; they degrade along the list, and later work
+   breaks earlier work: on chains of dependent issues in one codebase,
+   success fell by up to 70% as the chain grew, and breaking previously
+   working code was the commonest way a later fix failed
+   ([Jin et al. 2026](https://arxiv.org/abs/2607.02606)). The second defence
+   is **one commit per item (or per shared fix), each with that
+   item's own check run before the next begins**, so a late failure cannot
+   quietly undo an early, higher-value fix, and the partial state is legible
+   from the history instead of from a diff you cannot see.
 
 ## Value numbers must carry their predicate
 
@@ -90,6 +107,12 @@ handed off as a practice decision with per-codebase applications underneath.
   already does it well as the reference.
 - **When items in a batch share a fix, keep them together** and rely on
   multi-identifier markers rather than forcing artificial commit splits.
+- **When sizing, budget effort, not items.** Sum the items' estimated effort
+  and keep it inside the executing agent's high-reliability horizon; re-read
+  that horizon when the agent or its model changes.
+- **Ask for one commit per item or per shared fix, each checked before the
+  next**, so a session that degrades late leaves the earlier fixes intact and
+  its partial state readable from history.
 - **When the batch would exceed the hard identifier cap, refuse the request**
   rather than silently truncating; a truncated batch produces an artifact
   that disagrees with the claim you recorded.

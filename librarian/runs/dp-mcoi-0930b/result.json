@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-mcoi-0930b",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-09-30T12:00:00Z",
+  "ended_at": "2026-09-30T12:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/model-call-outcome-integrity",
+      "at": "2026-09-30",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Ranking finding stale: dp-mcoi-0930 swept this subject today (e5127a23). No clock expired, no event named; nothing researched. Owed from that run: Propagate (rules, map, impact). Return on a consumer deviation or the earliest application clock."
+}

@@ -3,7 +3,7 @@ name: conform
 description: "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / not-applicable with file:line evidence - so the map becomes a standing, incrementally-completed deviation backlog instead of a one-off audit. Use to answer 'where does this repo fall short of the standard', before a hardening pass, after a bundle changes, or when a context is about to be rewritten. Invoke with /conform [context-or-path] [--subject <slug>] [--stale] [--budget <n>]."
 category: ai-native
 memory: project
-version: 1.8.2
+version: 1.8.3
 tags: conformance, deviations, registry, audit, backlog
 argument-hint: "[context-or-path] [--subject <slug>] [--stale] [--budget <n>]"
 ---
@@ -33,6 +33,20 @@ Everything project-specific is already on disk; this skill declares no config of
 | the join map | `.ai/registry-map.json` | **only when the file does not exist**: run `node <registry>/scripts/build-registry-map.mjs --project <slug>` once, then judge. A map that exists is never rebuilt inside a run |
 | the registry root | `.ai/manifest.yaml` -> `registry.local` (default `../ai-registry`) | stop and say so - a verdict against a corpus you could not read is worthless |
 | the gap register | wherever this repo already tracks defects (its backlog, findings doc, or issue tracker) | report in-session only, and say that nothing was persisted outside the map |
+
+## Invocation
+
+```
+/conform                           # no argument: step 1's order past "Named" - stale, arrived, then strong unknowns - capped at the budget
+/conform <context-or-path>         # judge the pairs of one named context or path
+/conform --subject <slug>          # judge one subject's pairs wherever the map lists it
+/conform --stale                   # pairs the generator marked stale: true, the registry's landings arriving here
+/conform ... --budget <n>          # override the 3-6 pairs per run; combines with any form above
+```
+
+There is no whole-repo form: a bare `/conform` is bounded by the budget and never sweeps
+every pair, and there is no flag for arrived contexts - they are chosen by the bare order.
+Rebuilding the map is not a mode here (step 1); it is `build-registry-map.mjs`, run outside the skill.
 
 ## Procedure
 

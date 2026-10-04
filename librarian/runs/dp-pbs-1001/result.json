@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-pbs-1001",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-10-01T09:00:00Z",
+  "ended_at": "2026-10-01T09:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/peer-benchmarking",
+      "at": "2026-10-01",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Ranking finding (never swept) was stale: deepened 2026-09-30 in dp-pbs-0930 (47c14ca4). No expired or at-risk claims in check-currency, no consumer deviation or new event since. Idled; no clock or event to point at."
+}

@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 52,
-  "techniques": 333,
-  "applications": 143,
+  "subjects": 53,
+  "techniques": 338,
+  "applications": 146,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -17,7 +17,7 @@
    "production-governance"
   ],
   "layout": "nested",
-  "use_when_coverage": "333/333",
+  "use_when_coverage": "338/338",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2264,6 +2264,114 @@
      "technique": "incident-entry-shape",
      "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/process--incident-entry-shape.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "game-dialogue-voice-pipeline": {
+   "category": "asset-production",
+   "subcategory": "motion-and-audio",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/game-dialogue-voice-pipeline.md",
+   "digest": "sha256-b2:2b9fce8d0d8cbaed",
+   "revision": 1,
+   "changedAt": "2026-09-30",
+   "techniques": [
+    {
+     "slug": "bake-versus-runtime-speech",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which spoken lines are pre-rendered and which are generated in play",
+      "an NPC must answer text that did not exist at build time",
+      "a streamed line arrives late"
+     ]
+    },
+    {
+     "slug": "cast-ledger-with-consent",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "creating or importing a synthesized or cloned voice for a game role",
+      "a legal or platform review asks whose voice this is",
+      "a provider cannot serve the speech modality the pipeline declares"
+     ]
+    },
+    {
+     "slug": "line-id-catalog-and-revision-diff",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a script changed and only the affected recordings should be redone",
+      "building the list of every voiced unit in a game",
+      "finding which lines were made by an older model or voice"
+     ]
+    },
+    {
+     "slug": "localized-voice-timing-budget",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a spoken line is tied to a fixed-length animation or cutscene beat",
+      "a translated line overruns its clip",
+      "choosing between re-wording and speeding up a render"
+     ]
+    },
+    {
+     "slug": "re-cast-gate",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a speech-model release is available and the cast is shipped or in production",
+      "a provider retires or replaces a model identifier",
+      "deciding whether one voice may move to a new generation"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "cast-ledger-with-consent",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/node--cast-ledger-with-consent.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "line-id-catalog-and-revision-diff",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/node--line-id-catalog-and-revision-diff.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "localized-voice-timing-budget",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/game-dialogue-voice-pipeline/applications/node--localized-voice-timing-budget.md",
+     "verified_on": "2026-09-30",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -6467,6 +6575,7 @@
     "branching-narrative-graph-validation/false-choice-and-convergence-audit",
     "design-canon-as-executable-law/archetype-aware-envelopes",
     "design-doc-compliance-scoring/severity-weighted-scale-free-damping",
+    "game-dialogue-voice-pipeline/localized-voice-timing-budget",
     "generated-mesh-acceptance/stage-declared-grading",
     "generative-provider-auditing/arena-benchmark-protocol",
     "image-to-3d-input-gating/canonical-pose-rule",
@@ -6547,6 +6656,10 @@
     "engine-integration-safety/transport-failure-taxonomy",
     "engine-pitfall-corpus/domain-scoped-injection-with-a-safe-superset",
     "engine-pitfall-corpus/introspect-before-you-call",
+    "game-dialogue-voice-pipeline/bake-versus-runtime-speech",
+    "game-dialogue-voice-pipeline/cast-ledger-with-consent",
+    "game-dialogue-voice-pipeline/line-id-catalog-and-revision-diff",
+    "game-dialogue-voice-pipeline/re-cast-gate",
     "game-economy-tuning/faucet-sink-balance-band",
     "game-economy-tuning/feedback-loop-topology-and-polarity",
     "game-economy-tuning/intransitive-equilibrium-solving",
@@ -6705,6 +6818,7 @@
     "engine-integration-safety/pid-scoped-teardown",
     "engine-integration-safety/single-instance-lease-and-drain",
     "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
+    "game-dialogue-voice-pipeline/line-id-catalog-and-revision-diff",
     "game-economy-tuning/cost-curve-object-audit",
     "game-economy-tuning/economy-philosophy-multipliers",
     "game-economy-tuning/source-drain-converter-trader-vocabulary",
@@ -6832,6 +6946,7 @@
     "engine-integration-safety/editor-thread-timeout-budgeting",
     "engine-pitfall-corpus/incident-entry-shape",
     "engine-pitfall-corpus/provenance-on-every-entry",
+    "game-dialogue-voice-pipeline/localized-voice-timing-budget",
     "game-economy-tuning/cost-curve-object-audit",
     "game-economy-tuning/faucet-sink-balance-band",
     "game-economy-tuning/intransitive-equilibrium-solving",
@@ -6939,6 +7054,7 @@
     "crash-forensics-attribution/root-cause-to-fix-prompt",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "game-dialogue-voice-pipeline/re-cast-gate",
     "generative-artifact-gating/auto-picked-vs-human-chosen-provenance",
     "generative-artifact-gating/gate-before-every-credit-spend",
     "generative-artifact-gating/grade-the-selected-candidate",
@@ -7129,6 +7245,8 @@
     "encounter-balance-simulation/per-cell-seed-derivation-for-order-independence",
     "engine-integration-safety/transport-failure-taxonomy",
     "engine-pitfall-corpus/provenance-on-every-entry",
+    "game-dialogue-voice-pipeline/line-id-catalog-and-revision-diff",
+    "game-dialogue-voice-pipeline/re-cast-gate",
     "generated-mesh-acceptance/stage-declared-grading",
     "generative-artifact-gating/cite-evidence-not-descriptions",
     "generative-artifact-gating/generation-history-as-artifact",
@@ -7194,6 +7312,7 @@
    "techniques": [
     "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
     "catalog-pipeline-authoring/producer-facts-are-observed-not-declared",
+    "game-dialogue-voice-pipeline/cast-ledger-with-consent",
     "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
     "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
     "procedural-level-planning/declare-what-each-engine-ignores"
@@ -7215,6 +7334,7 @@
     "engine-integration-safety/refuse-dont-kill-a-live-editor",
     "engine-integration-safety/single-instance-lease-and-drain",
     "engine-pitfall-corpus/binary-content-wall",
+    "game-dialogue-voice-pipeline/cast-ledger-with-consent",
     "generative-provider-auditing/refuse-with-reason-not-greyed-out",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
@@ -7244,6 +7364,8 @@
     "content-drift-and-revision/batch-lease-on-a-non-reentrant-resource",
     "design-canon-as-executable-law/self-declared-budget-enforcement",
     "engine-integration-safety/editor-thread-timeout-budgeting",
+    "game-dialogue-voice-pipeline/bake-versus-runtime-speech",
+    "game-dialogue-voice-pipeline/localized-voice-timing-budget",
     "gameplay-runtime-patterns/allocation-discipline-in-the-hot-path",
     "gameplay-runtime-patterns/pattern-selection-by-force-present",
     "generative-provider-auditing/arena-benchmark-protocol",
