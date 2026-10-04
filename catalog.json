@@ -1091,11 +1091,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 22,
-      "techniques": 153,
-      "applications": 84,
-      "files": 264,
-      "contentHash": "sha256-b2:cc424eac394b3d12"
+      "subjects": 24,
+      "techniques": 176,
+      "applications": 91,
+      "files": 296,
+      "contentHash": "sha256-b2:a2a34545e18ac1f7"
     },
     {
       "name": "recruiting",

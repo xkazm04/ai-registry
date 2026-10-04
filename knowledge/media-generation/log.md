@@ -258,3 +258,125 @@ every revealing cut as incompetence would mis-diagnose every campaign that made
 the trade knowingly.
 
 Gate green (`check-bundles`) — 16 subjects · 98 techniques · 37 applications.
+
+## 2026-10-03 — new subject: `data-video-virality` joins `narrative-craft`
+
+The bundle had rules for how a factual video holds attention once it is
+playing, and for how its opening seconds are shaped (`hook-shape-selection`).
+It had nothing on **which narration-free data video to make at all**. In that
+format the topic choice does most of the work, because no narration can rescue
+an unrecognized cast or a flooded slot.
+
+Five techniques, all draft: **precedent-evidence-gate** (no pass without a
+comparable that has counted views: `unmeasured-is-not-pass` applied to the
+backlog); **saturation-check** (counter-evidence from recent flops, kept
+alongside the precedent); **recognizable-cast** (universality is scored from
+the entities on screen, not from the topic label); **topic-duplicate-screen**
+(near-duplicates are failed visibly, because they inflate the very count the
+loop optimizes); **series-repeatability** (a small tie-breaking bonus for
+templates; build order follows the template).
+
+Two process applications record the first realization: a 302-idea loop with
+202 passes against a computed precedent and story gate, a rescore of 106
+existing ideas (19 pass), and the saturated clusters that were closed. View
+numbers live only in the applications. The upper layers state the shape, not
+the counts, because counts age.
+
+## 2026-10-03 — data-video-virality round 2: the path has to hold the viewer
+
+The owner reviewed 27 passes from the first loop and rejected the
+premise that topic precedent is enough. A famous topic with yearly data or
+a single record holder ("the biggest plane", "how old is the president")
+gives a viewer nothing to watch after the first jump. The golden path now
+leads with **why someone keeps watching this chart second by second**.
+
+Four new draft techniques: **continuity-gate** (enough real steps and
+entities that the screen changes at every step; ladders, winners lists,
+single seasons, documentaries and conclusion-only reveals fail);
+**path-over-conclusion** (a concrete keep-watching rationale with names
+and dates; prefer comparative many-entity views); **accelerator-events**
+(5 to 15 dated events with on-screen effects, the teaching layer of a
+narration-free format); **speculative-grounding** (what-if and
+projection cases need a real baseline, a stated model, a bounded horizon,
+both worlds visible and a permanent label, and stay a minority).
+**precedent-evidence-gate** is demoted from a gate to a bounded score: it
+ranks ideas that pass, and never passes one by itself. The golden path
+gains an anti-pattern list.
+
+One process application records the calibration: the owner's 27
+verdicts plus 9 negative controls are all reproduced (36 of 36), and the
+re-run produced 201 passes (29% speculative). As before, counts live
+only in the application.
+
+## 2026-10-03 — new subject: `data-video-art-direction` joins `visual-generation`
+
+`data-video-virality` decides **which** narration-free data video to make;
+nothing said **how its frame should look**. Two rounds of still-frame
+triage (5 cases, 25 stills) answered that. The owner rejected round 1 as
+"an infographic post". Round 2 boosted each winner with layered motion
+graphics, a background that follows the current leader's world, and real
+photo evidence cards, and the owner accepted it. He named a unique theme
+per case as the pattern that lifts the look above the competition.
+
+Seven draft techniques: **leader-adaptive-theme** (the far plane belongs
+to whoever leads, and a lead change is the motion moment);
+**case-native-chart-form** (the form follows the story's move; one identity
+colour per entity); **evidence-card-popup** (one dated card, from the same
+event or captioned as context); **motion-cue-budget** (2 cues + 1 card);
+**legibility-floor** (26 px story text, safe box, tilt of 15° or less on
+data); **photo-rights-ledger** (credit twice, licence classes, tiers A/B/C);
+**photo-to-poster-portrait** (real people only from freely licensed photos,
+segmented and treated deterministically, never generated). The golden
+path carries an anti-pattern list.
+
+Three process applications: the per-case visual breakdowns of the five
+winners (palette, background logic, chart form, event device, motion cues,
+typography, what makes each unique); the critique observations behind the
+budget and floors; and a portrait experiment (a title-holder succession
+with treated public-domain photos), which found that the scaling risk is
+photo licensing per person, not code.
+
+## 2026-10-03 - data-video-art-direction round 5: from stills to motion
+
+The first motion renders (search-box-wars v1-v3) exposed what stills could
+not: a constant calendar clock flickers in busy years and drags in quiet
+ones, evidence cards tied to data months vanish before they are read, and
+titles that state the outcome remove the reason to watch. Six draft
+techniques were added: **timing-plan-first** (change density per period ->
+time warp with event dwell, saved as JSON + note before render; flicker is
+calmed by a labelled smoothed order with hysteresis, not by extra time);
+**event-card-stack** (card lifespans in frames, readable + ~2 s, dated;
+overlapping cards pile newest-on-top and each exits on its own clock;
+transitions vary by card type); **curiosity-title-thumbnail** (one-line
+topic title, question hook, thumbnail with the players but not the answer);
+**top-n-with-logos** (top 10 from real data, logged trademark logos, a
+true-scale treatment for a dominant #1); **ending-sequence** (winner
+spotlight, like & subscribe, Powered by StatReel with the owner-chosen
+Frame Stat logo); **champion-split-wipe** (the boxing t2 diagonal seam as
+the preferred change-of-champion transition). evidence-card-popup now
+allows one stack as "one card"; the golden path gained principles,
+anti-patterns (spoiler title, calendar clock, blink card) and two
+composition steps.
+
+## 2026-10-03 - data-video-art-direction round 6: concept seats win triage
+
+In image-triage round 3 the owner first picked data-chart winners (a fan
+chart, a vital-signs monitor, a share dial, a number line). Then the owner
+replaced all four with concept/landing challengers briefed from the
+`contest` skill's landing mode: a cut-paper skyline, a candle chapel, a
+balance scale, and a ghost car on a drawn circuit. One draft technique was
+added: **concept-landing-proposals**.
+- Every triage case gets four seats: two concept/landing and two
+  data-chart.
+- A concept seat bets on one non-obvious metaphor, with per-item artwork
+  drawn in code, nested back/mid/front layers, an overview -> zoom lens ->
+  detail path, and a headline-size claim.
+- Two known risks have fixes: squeezed small entries (a legend strip or a
+  zoom lens) and metaphors that hide change over time (a time trace or a
+  burned/ghost memory device).
+- A pattern ledger of past winners' ideas is given as the floor of the next
+  brief, with the instruction not to copy them.
+
+A process application records the four winners, their costs and the
+ledger. The golden path gained one principle and a triage step.
+
