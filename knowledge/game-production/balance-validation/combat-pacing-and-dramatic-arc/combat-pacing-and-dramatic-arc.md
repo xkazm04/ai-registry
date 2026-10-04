@@ -10,6 +10,9 @@ techniques:
   - difficulty-band-classification
   - encounter-duration-envelopes
   - plain-language-fight-report
+  - lead-car-wreck-before-lap-one-rate
+  - division-wide-damage-multiplier
+  - proxy-driver-limit-declaration
 ---
 
 # Combat pacing and dramatic arc
@@ -182,6 +185,21 @@ card calls a fight a slog at thirty seconds while the alert that gates it fires 
 the tool contradicts itself in front of the person it was built to convince, and it only takes
 one such contradiction for a team to stop trusting the whole readout.
 
+## The opening is a gate of its own
+
+Everything above reads an encounter the player is still inside. One outcome removes the
+player from all of it: elimination in the opening seconds, before a single beat has had time
+to occur. In a multi-entrant race with combat that outcome gets its own named rate — the
+share of events in which the player's own vehicle is wrecked before the first lap ends,
+started at under five percent — because a pooled win rate or a healthy mean time-to-kill can
+sit beside an opening that ends sessions on the grid (lead-car-wreck-before-lap-one-rate).
+The repair that keeps the rest of the balance intact is one damage scalar per tier of the
+campaign, applied identically to every entrant and searched stepwise with the failed
+coefficients kept in the log (division-wide-damage-multiplier). And because the lead in that
+measurement is a stand-in, the figure ships with a declaration that it describes the stand-in
+and that no human sample exists (proxy-driver-limit-declaration): the gate is evidence of a
+passing simulation, one tier below *felt*, and it is reported at that tier.
+
 ## Failure modes of the naive reading
 
 - **Tuning the peak instead of the shape.** Raising maximum tension is easy and usually makes
@@ -208,7 +226,9 @@ searches over stats and lints an encounter against its peers is a neighbouring c
 subject consumes whatever timeline that produces, and works equally well on a timeline
 captured from real play. The semantics of the individual attacks — telegraph windows,
 escapability, cancel rules — are another neighbour, upstream of the curve rather than part of
-it.
+it. The damage scalar named above is a tuning input that the simulation harness's single
+resolution kernel applies once; this subject owns the choice to share it per tier and to log
+its trials, not the kernel that multiplies.
 
 So is the design-side model this instrument reports against. What difficulty is made of, which
 of its terms a designer can actually set, who is allowed to choose the setting, and what a

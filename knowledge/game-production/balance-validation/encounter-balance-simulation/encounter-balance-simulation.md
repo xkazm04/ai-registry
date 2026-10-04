@@ -11,6 +11,9 @@ techniques:
   - one-shot-rate-and-ehp-floor-checks
   - goal-seek-on-a-seeded-monotonic-lever
   - tier-band-peer-outlier-linting
+  - entry-vs-winner-share-threshold-check
+  - rotation-confound-cross-check
+  - distinct-hash-seed-diversity-alarm
 ---
 
 # Encounter balance simulation
@@ -205,6 +208,26 @@ mean worth comparing against, and a linter that speaks anyway trains designers t
 it. Below the population floor the correct output is "not enough peers to judge", which
 is a different value from "fine".
 
+## Reviewing the instrument before the result
+
+A reproducible harness can still be uninformative, and the review that catches it is aimed at
+the instrument rather than the game. Three questions, asked before any rate is read. Can the
+dominance threshold fire at all: a limit of fifty-five percent on a per-entry rate is
+unreachable when each class fills a third of the field, so the check passes by construction, and
+the gate must be stated over a metric such as winner share whose range contains the limit, with
+its maximum computed and a planted defect shown to trip it
+(entry-vs-winner-share-threshold-check). Does the schedule cross its factors: a class and a
+course both derived from one run index by the same modulus tie each class to one course, and
+the table reads as roster balance while measuring pairings (rotation-confound-cross-check); the
+same review requires that scenarios use only purchases the game would sell. Are the runs
+distinct: an alarm comparing distinct end-state fingerprints to the run count stops repeated
+seeds posing as sample size, because widening seed coverage has moved win rates by more than a
+dozen points (distinct-hash-seed-diversity-alarm). In each case the discarded first sweep is kept
+as a labelled summary, and a clean alarm summary says only that no declared alarm fired. The
+seams: roster-level winner share over a declared course mix belongs to the vehicle archetype
+balance work, and economy sensitivity sweeps to economy tuning; this section owns only whether
+the balance instrument was able to say no.
+
 ## The failure modes of the naive reading
 
 - **A second damage model.** Covered above, and it remains the most expensive mistake in
@@ -251,3 +274,5 @@ trustworthiness.
    as a first-class value.
 5. Sweep to learn the shape; solve only where the shape permits it.
 6. Lint every new combatant against its tier band before anyone simulates anything.
+7. Review the instrument: prove each threshold can fire, each cross of factors is populated, and
+   each run count is backed by distinct runs, before the result is read.
