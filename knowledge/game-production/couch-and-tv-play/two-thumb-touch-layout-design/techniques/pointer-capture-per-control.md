@@ -61,7 +61,7 @@ neighbour never sees the touch.
   matching clear is a stuck control.
 - **When a control that is held is hidden by a layout change, its slot is cleared with the
   rest**, not left owning a touch on an element nobody can see
-  ([the neutralising technique](neutralise-on-sheet-open-or-layout-change.md)).
+  ([the neutralising technique](./neutralise-on-sheet-open-or-layout-change.md)).
 - **When the same behaviour is wired to several controls, the handlers share a shape, not a
   slot.** Factor the claim-and-release into one routine parametrised by the slot, so a fix
   for one control cannot miss the others.

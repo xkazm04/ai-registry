@@ -32,7 +32,7 @@ the first player to open it with a thumb on a pedal finds a car driving itself.
    control.
 2. **In the same routine, forget every touch slot.** A later lift for a touch the control
    no longer owns is then ignored by the identifier check, and cannot toggle anything
-   ([ownership technique](pointer-capture-per-control.md)).
+   ([ownership technique](./pointer-capture-per-control.md)).
 3. **Send the neutral state immediately** instead of waiting for the next periodic update,
    so the game stops accepting the old values at once.
 4. **Call it first in every handler that opens a sheet**, and in the layout and handedness

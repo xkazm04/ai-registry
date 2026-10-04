@@ -28,7 +28,7 @@ contact point is zero.
 ## Procedure
 
 1. **At first contact, record the vertical position as the throttle anchor** in the same
-   step as the horizontal anchor ([relative anchor steering](relative-anchor-steering.md)),
+   step as the horizontal anchor ([relative anchor steering](./relative-anchor-steering.md)),
    and emit zero throttle.
 2. **Throttle is the upward distance from the anchor** divided by the authored throttle
    travel, clamped from zero to one. Downward movement is zero, never reverse and never

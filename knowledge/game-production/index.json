@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 54,
-  "techniques": 344,
-  "applications": 150,
+  "subjects": 78,
+  "techniques": 507,
+  "applications": 203,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -14,10 +14,13 @@
    "asset-production",
    "engine-integration",
    "craft-judgment",
-   "production-governance"
+   "production-governance",
+   "racing-vehicles",
+   "couch-and-tv-play",
+   "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "344/344",
+  "use_when_coverage": "507/507",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -552,10 +555,40 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/agent-behaviour-authoring/agent-behaviour-authoring.md",
-   "digest": "sha256-b2:f2ba85850af6cc06",
-   "revision": 2,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:b39a982c7a2e1077",
+   "revision": 3,
+   "changedAt": "2026-10-01",
    "techniques": [
+    {
+     "slug": "ai-corner-speed-from-grip-limit",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring how a computer-driven vehicle chooses its speed through a bend",
+      "an opponent car is faster than the player's identical car on the same corner",
+      "a rival looks like it follows different physics from the player",
+      "setting how hard a racing opponent drives"
+     ]
+    },
+    {
+     "slug": "ai-distances-from-car-size",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring when a driven opponent starts a pass and how wide it swings",
+      "adding a car class that is bigger or smaller than the existing ones",
+      "rescaling a roster or a track",
+      "a rival that passes fine in one car and rams or hangs back in another"
+     ]
+    },
     {
      "slug": "behaviour-model-selection",
      "status": "forged",
@@ -632,6 +665,22 @@
      ]
     },
     {
+     "slug": "no-double-grip-penalty",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an opponent car cannot finish a race on one surface class while finishing on the others",
+      "adding a new surface or a new car class to a game with driven opponents",
+      "a grip or friction value is read in more than one place in the opponent code",
+      "an opponent is slower than its stated skill predicts"
+     ]
+    },
+    {
      "slug": "perception-before-decision",
      "status": "forged",
      "laws": [
@@ -656,9 +705,206 @@
     },
     {
      "stack": "process",
+     "technique": "no-double-grip-penalty",
+     "file": "knowledge/game-production/systems-canon/agent-behaviour-authoring/applications/process--no-double-grip-penalty.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
      "technique": "perception-before-decision",
      "file": "knowledge/game-production/systems-canon/agent-behaviour-authoring/applications/process--perception-before-decision.md",
      "verified_on": "2026-09-02"
+    }
+   ]
+  },
+  "ally-bond-and-found-family-systems": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "cast-and-relationships",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/ally-bond-and-found-family-systems.md",
+   "digest": "sha256-b2:6320894f65cc44f3",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "ally-never-costs-the-player",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "an ally the writers love tests as resented",
+      "adding a companion who travels or fights beside the player",
+      "reviewing an escort",
+      "protect or carry sequence"
+     ]
+    },
+    {
+     "slug": "bond-pays-in-play-not-vending",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing what a deeper bond with an ally changes",
+      "an approval or affinity meter players grind with gifts",
+      "a relationship value that rises for hours and changes nothing"
+     ]
+    },
+    {
+     "slug": "design-the-finale-need-first",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning a crew or roster of allies before writing recruitment",
+      "a finale where half the allies have nothing to do",
+      "deciding how allies are called on in the last confrontation"
+     ]
+    },
+    {
+     "slug": "one-ally-wavers",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "putting a crew under pressure in the middle act",
+      "deciding which ally doubts or leaves",
+      "writing the scene that brings a wavering ally back"
+     ]
+    },
+    {
+     "slug": "pay-in-their-own-currency",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding what kind of help each ally gives",
+      "a roster whose allies all grant the same kind of bonus",
+      "writing the payout an ally delivers in play"
+     ]
+    },
+    {
+     "slug": "the-institution-betrays-not-the-friend",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "the plot needs a betrayal inside the player's circle",
+      "deciding who turns on the player and why",
+      "writing a found family that outlives the structure around it"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "design-the-finale-need-first",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/applications/process--design-the-finale-need-first.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "the-institution-betrays-not-the-friend",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/applications/process--the-institution-betrays-not-the-friend.md",
+     "verified_on": "2026-10-04"
+    }
+   ]
+  },
+  "antagonist-fair-grievance-craft": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "cast-and-relationships",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/antagonist-fair-grievance-craft.md",
+   "digest": "sha256-b2:dc97a2cec6cdf2ba",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "fair-grievance-wrong-means",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "writing what the antagonist wants and why",
+      "a reader sides fully with the villain or not at all",
+      "planning how the protagonist beats an antagonist who is right"
+     ]
+    },
+    {
+     "slug": "one-protected-thing",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what the climax costs the antagonist",
+      "the villain feels inhuman or the ending feels cheap",
+      "choosing which attachment to plant early"
+     ]
+    },
+    {
+     "slug": "presence-between-encounters",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "the antagonist appears only at act breaks",
+      "scheduling the villain's screen time across a long game",
+      "choosing what carries the antagonist's control in the player's routine"
+     ]
+    },
+    {
+     "slug": "rationed-necessity-in-public",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "giving the antagonist's control a concrete object",
+      "tying the villain to the game economy",
+      "staging debt or credit as a leash"
+     ]
+    },
+    {
+     "slug": "reasonable-menace",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "the villain reads as parody",
+      "the villain reads as harmless",
+      "deciding what the antagonist does on screen before he speaks calmly"
+     ]
+    },
+    {
+     "slug": "the-leash-bites-another-first",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "establishing what the antagonist's control costs before it reaches the player",
+      "choosing who suffers the first demonstration",
+      "the player's danger feels hypothetical"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "fair-grievance-wrong-means",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/applications/process--fair-grievance-wrong-means.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "rationed-necessity-in-public",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/applications/process--rationed-necessity-in-public.md",
+     "verified_on": "2026-10-04"
     }
    ]
   },
@@ -1147,9 +1393,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/combat-pacing-and-dramatic-arc.md",
-   "digest": "sha256-b2:5bf3cf5f168c2ff3",
-   "revision": 4,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:3d4a9be63146f2ed",
+   "revision": 5,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "beat-taxonomy-climax-comeback-deadzone",
@@ -1176,6 +1422,21 @@
       "turning a survival or win-rate figure into a verdict a designer can act on",
       "naming difficulty tiers",
       "deciding where band boundaries sit"
+     ]
+    },
+    {
+     "slug": "division-wide-damage-multiplier",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an opening is too lethal and per-weapon retuning would break relative balance",
+      "setting how dangerous each tier of a campaign is",
+      "recording which tuning coefficients were tried and why they failed"
      ]
     },
     {
@@ -1206,6 +1467,21 @@
      ]
     },
     {
+     "slug": "lead-car-wreck-before-lap-one-rate",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a combat race or arena match can end a player's session in its opening seconds",
+      "deciding whether the first act is fair before anyone plays it",
+      "naming an acceptance metric for early elimination"
+     ]
+    },
+    {
      "slug": "plain-language-fight-report",
      "status": "forged",
      "laws": [
@@ -1217,6 +1493,21 @@
       "simulation output is being ignored by the people it was built for",
       "writing the metric glossary that ships with a balance tool",
       "deciding which numbers reach a designer at all"
+     ]
+    },
+    {
+     "slug": "proxy-driver-limit-declaration",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a fairness or pacing verdict was produced by a scripted or AI stand-in for the player",
+      "writing the report line that says what a simulated pass does not prove",
+      "deciding when a simulated result may be called felt"
      ]
     }
    ],
@@ -1230,9 +1521,122 @@
     },
     {
      "stack": "process",
+     "technique": "lead-car-wreck-before-lap-one-rate",
+     "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/applications/process--lead-car-wreck-before-lap-one-rate.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
      "technique": "plain-language-fight-report",
      "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/applications/process--plain-language-fight-report.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "condition-tagged-line-tables": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "line-craft",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/condition-tagged-line-tables.md",
+   "digest": "sha256-b2:bacf5ecbaf2a00a9",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "line-table-schema",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "law-and-check-share-one-source",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the data format writers fill with reactive lines",
+      "a generator will author rows for the table",
+      "a line was written and recorded and nobody can say whether it ever plays"
+     ]
+    },
+    {
+     "slug": "losing-yields-new-story",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where a reactive table's content budget goes",
+      "players quit after a run of defeats",
+      "a retry plays exactly like the last attempt"
+     ]
+    },
+    {
+     "slug": "most-specific-match-wins",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which of several matching lines plays",
+      "adding a special case without editing the general one",
+      "a well-written line never seems to play"
+     ]
+    },
+    {
+     "slug": "react-to-what-the-player-caused",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "characters comment on play but it feels generic",
+      "deciding which facts an event must carry for dialogue",
+      "a character blamed the player for something they did not do"
+     ]
+    },
+    {
+     "slug": "repeat-avoidance-by-recency-and-cooldown",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "players quote a line back as a joke",
+      "sizing how many lines a row needs",
+      "a character talks too often or not at all"
+     ]
+    },
+    {
+     "slug": "signals-stand-in-for-lines",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a character's feeling changes faster than lines can be written for it",
+      "a pool cannot be filled affordably",
+      "players cannot tell why a character's lines differ"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "line-table-schema",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/applications/process--line-table-schema.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "repeat-avoidance-by-recency-and-cooldown",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/applications/process--repeat-avoidance-by-recency-and-cooldown.md",
+     "verified_on": "2026-10-04"
     }
    ]
   },
@@ -1475,6 +1879,117 @@
     }
    ]
   },
+  "controller-latency-instrumentation": {
+   "category": "couch-and-tv-play",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/couch-and-tv-play/controller-latency-instrumentation/controller-latency-instrumentation.md",
+   "digest": "sha256-b2:696388c329fbf2f6",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "best-rtt-sample-selection",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "many probe samples exist and one offset must be chosen",
+      "an offset looks unstable between probes",
+      "deciding when an old sample must be replaced"
+     ]
+    },
+    {
+     "slug": "consumption-age-versus-photon-age-labelling",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a latency figure into a report or dashboard",
+      "two latency numbers disagree",
+      "a budget is about to be compared to a measured number"
+     ]
+    },
+    {
+     "slug": "exact-window-plus-histogram-quantiles",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a live service must report latency percentiles without unbounded memory",
+      "choosing histogram resolution and cap",
+      "a tail value must not be hidden by bucketing"
+     ]
+    },
+    {
+     "slug": "optical-flash-frame-count-protocol",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a real input-to-photon figure is required",
+      "a consumption-age figure is about to be quoted as screen latency",
+      "planning a hardware gate on a television"
+     ]
+    },
+    {
+     "slug": "ping-pong-midpoint-clock-offset",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a controller-side timestamp into the screen device's clock",
+      "estimating one-way age without synchronised clocks",
+      "a fresh connection has no offset yet"
+     ]
+    },
+    {
+     "slug": "window-percentiles-are-not-poolable",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "summarising a long soak made of many reported windows",
+      "combining percentile readings across clients or sessions",
+      "an overall percentile is about to be the mean of window percentiles"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "ping-pong-midpoint-clock-offset",
+     "file": "knowledge/game-production/couch-and-tv-play/controller-latency-instrumentation/applications/node--ping-pong-midpoint-clock-offset.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
+     "technique": "consumption-age-versus-photon-age-labelling",
+     "file": "knowledge/game-production/couch-and-tv-play/controller-latency-instrumentation/applications/process--consumption-age-versus-photon-age-labelling.md",
+     "verified_on": "2026-10-01"
+    }
+   ]
+  },
   "crash-forensics-attribution": {
    "category": "engine-integration",
    "subcategory": null,
@@ -1590,6 +2105,108 @@
      "technique": "root-cause-to-fix-prompt",
      "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/process--root-cause-to-fix-prompt.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "debt-and-loss-stakes-staging": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "story-structure",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/debt-and-loss-stakes-staging.md",
+   "digest": "sha256-b2:2248d929afd0154d",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "foreshadow-the-loss-on-the-ledger",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "planting a scripted loss so it reads as inevitable rather than arbitrary",
+      "deciding how early and how loudly to warn the player",
+      "a twist that players call unfair"
+     ]
+    },
+    {
+     "slug": "ledger-after-every-event",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the screen a player sees after each race",
+      "fight or job",
+      "a story's stakes are forgotten between scenes",
+      "deciding where a debt is shown"
+     ]
+    },
+    {
+     "slug": "survive-the-lean-stretch",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the events right after a scripted loss",
+      "a player quits after a big story setback",
+      "tuning a deliberate power dip"
+     ]
+    },
+    {
+     "slug": "take-it-after-a-win",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "staging a scripted loss of a car",
+      "base",
+      "ally or item the player built",
+      "deciding when in the arc a seizure happens",
+      "a scripted loss reads as the game being unfair"
+     ]
+    },
+    {
+     "slug": "the-last-act-is-the-players",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "designing the climax of a story built on a debt or a loss",
+      "an ending resolved by a cutscene",
+      "an ally or the antagonist's own mistake",
+      "deciding what the final event asks of the player"
+     ]
+    },
+    {
+     "slug": "the-leash-can-be-rewritten",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a debt or contract the antagonist holds over the player",
+      "deciding when and how a creditor changes the deal",
+      "a debt that reads as a progress bar"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "ledger-after-every-event",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/process--ledger-after-every-event.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "take-it-after-a-win",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/process--take-it-after-a-win.md",
+     "verified_on": "2026-10-04"
     }
    ]
   },
@@ -1834,10 +2451,26 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/difficulty-design-and-adaptation.md",
-   "digest": "sha256-b2:4658757dfa509b44",
-   "revision": 4,
-   "changedAt": "2026-09-07",
+   "digest": "sha256-b2:d760d5742a4fa29e",
+   "revision": 5,
+   "changedAt": "2026-10-01",
    "techniques": [
+    {
+     "slug": "equal-skill-straight-time-loss",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a design promises that a capped-speed competitor pays for the cap",
+      "a lighter or nimbler competitor keeps winning where its numbers say it should lose",
+      "separating a skill result from a stat result",
+      "confirming that a trade-off in the specification survives contact with the simulation"
+     ]
+    },
     {
      "slug": "four-term-difficulty-decomposition",
      "status": "forged",
@@ -1912,6 +2545,38 @@
       "deciding what a new difficulty level should change",
       "an opponent has become unbeatably fast or accurate"
      ]
+    },
+    {
+     "slug": "skill-swap-cross-tier-test",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "an-instrument-proves-it-had-input",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a game claims skill beats equipment or class",
+      "adding opponent skill tiers to a contest with asymmetric competitors",
+      "a tier ladder exists in data but nobody has shown it changes who wins",
+      "deciding whether a weak result means broken skill axes or broken competitors"
+     ]
+    },
+    {
+     "slug": "tier-changes-decisions-not-specs-test",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "law-and-check-share-one-source",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "shipping difficulty tiers for opponents that share the player's rules",
+      "a tier is described as smarter rather than stronger",
+      "auditing a game for hidden catch-up or opponent bonuses",
+      "proving that a difficulty tier changes behaviour and nothing else"
+     ]
     }
    ],
    "applications": [
@@ -1921,6 +2586,12 @@
      "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/applications/node--four-term-difficulty-decomposition.md",
      "verified_on": "2026-09-07",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "tier-changes-decisions-not-specs-test",
+     "file": "knowledge/game-production/balance-validation/difficulty-design-and-adaptation/applications/process--tier-changes-decisions-not-specs-test.md",
+     "verified_on": "2026-10-01"
     }
    ]
   },
@@ -1929,10 +2600,38 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/encounter-balance-simulation.md",
-   "digest": "sha256-b2:1042c51b92209278",
-   "revision": 3,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:1d9eeaeeb9b0b485",
+   "revision": 4,
+   "changedAt": "2026-10-01",
    "techniques": [
+    {
+     "slug": "distinct-hash-seed-diversity-alarm",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a sweep has a large run count but few distinct starting conditions",
+      "win rates move when more seeds are added",
+      "a change removed a source of variation from the controllers"
+     ]
+    },
+    {
+     "slug": "entry-vs-winner-share-threshold-check",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a dominance or outlier threshold for a roster sweep",
+      "a dominance check has never failed",
+      "reviewing the balance instrument before accepting its pass"
+     ]
+    },
     {
      "slug": "goal-seek-on-a-seeded-monotonic-lever",
      "status": "forged",
@@ -2004,6 +2703,21 @@
      ]
     },
     {
+     "slug": "rotation-confound-cross-check",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning classes",
+      "courses and slots from one run index",
+      "a class-by-course table looks suspiciously clean or empty in places",
+      "accepting a mixed sweep result"
+     ]
+    },
+    {
      "slug": "tier-band-peer-outlier-linting",
      "status": "forged",
      "laws": [
@@ -2038,6 +2752,118 @@
      "technique": "monte-carlo-scenario-presets",
      "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/process--monte-carlo-scenario-presets.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "rotation-confound-cross-check",
+     "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/applications/process--rotation-confound-cross-check.md",
+     "verified_on": "2026-10-01"
+    }
+   ]
+  },
+  "ending-first-narrative-structure": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "story-structure",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/ending-first-narrative-structure.md",
+   "digest": "sha256-b2:f3910bd1b25dbf3c",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "back-planned-beat-sheet",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a locked ending into a unit-by-unit plan",
+      "handing a campaign plan to several writers or a generator",
+      "re-planning after the ending changed"
+     ]
+    },
+    {
+     "slug": "cut-the-thread-that-cannot-pay-off",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a plan accumulating subplots",
+      "deciding what to hold for a sequel or second season",
+      "a draft with setups nobody has assigned a payoff"
+     ]
+    },
+    {
+     "slug": "lock-the-final-card-first",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "starting a campaign or season plan",
+      "a writers' room that disagrees about where the story goes",
+      "a finale being rewritten for the third time"
+     ]
+    },
+    {
+     "slug": "one-major-reveal-per-unit",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "distributing reveals across chapters",
+      "episodes",
+      "missions or events",
+      "a unit that feels crowded or empty",
+      "a campaign whose twists keep escalating"
+     ]
+    },
+    {
+     "slug": "plant-the-betrayal-in-every-earlier-scene",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a campaign turns on a betrayal or a hidden allegiance",
+      "a late reveal reviews as coming from nowhere",
+      "choosing between a twist",
+      "a corrosion and a fair suspicion"
+     ]
+    },
+    {
+     "slug": "theme-carried-by-structure",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a draft whose meaning is explained in dialogue",
+      "choosing opening and closing images",
+      "deciding whether a subplot belongs in the campaign"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "back-planned-beat-sheet",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/process--back-planned-beat-sheet.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "lock-the-final-card-first",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/process--lock-the-final-card-first.md",
+     "verified_on": "2026-10-04"
     }
    ]
   },
@@ -2287,6 +3113,114 @@
      "technique": "incident-entry-shape",
      "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/process--incident-entry-shape.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "fire-tv-device-realities": {
+   "category": "couch-and-tv-play",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/fire-tv-device-realities.md",
+   "digest": "sha256-b2:cd9ae1e0366f54a0",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "abi-inspect-the-apk",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a package installs and then dies on the first native library load",
+      "choosing which processor architectures to build for a TV device",
+      "a build configuration lists architectures and nobody has looked at what shipped"
+     ]
+    },
+    {
+     "slug": "dhcp-scan-for-device",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a debug connection that worked yesterday is refused today",
+      "scripting a connect to a streaming stick on a home network",
+      "a remembered device address is about to be trusted"
+     ]
+    },
+    {
+     "slug": "keep-screen-on-flag",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an unattended or scripted session outlasts the platform's idle timer",
+      "a recording or soak test goes dark mid-run",
+      "deciding whether to change a device setting or an application flag to stop the screensaver"
+     ]
+    },
+    {
+     "slug": "server-socket-portability-hedge",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a design depends on the device listening on a network socket",
+      "a platform generation is changing the runtime under the game",
+      "a capability the whole control scheme depends on is undocumented"
+     ]
+    },
+    {
+     "slug": "unhandled-bind-failure-kills-process",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "compiling-is-not-wiring"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a game hosts a network server on a device and vanishes to the launcher at start",
+      "a worker thread opens a socket",
+      "a convenience service must never be able to end the game"
+     ]
+    },
+    {
+     "slug": "wake-before-launch",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a launch command returned success and the screen is black",
+      "scripting a repeatable install-and-run on a streaming stick",
+      "a tester reports the game does not start on a device that was idle"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "unhandled-bind-failure-kills-process",
+     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/process--unhandled-bind-failure-kills-process.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
+     "technique": "wake-before-launch",
+     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/process--wake-before-launch.md",
+     "verified_on": "2026-10-01"
     }
    ]
   },
@@ -2924,9 +3858,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/generative-artifact-gating.md",
-   "digest": "sha256-b2:4544d39d7c46caf3",
-   "revision": 5,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:94bed6e82c154b00",
+   "revision": 6,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "acquired-is-not-generated",
@@ -3003,6 +3937,22 @@
      ]
     },
     {
+     "slug": "generator-failure-deterministic-gates",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated image fails in a way a person spots instantly and a model grader misses",
+      "adding a cheap automatic check ahead of a model grader",
+      "a model grader returned a value outside its own schema",
+      "deciding what an automated vision grader is allowed to decide"
+     ]
+    },
+    {
      "slug": "grade-the-selected-candidate",
      "status": "forged",
      "laws": [
@@ -3031,6 +3981,21 @@
       "auditing whether gates are sensitive to their own content",
       "an asset class is cheaper to construct than to generate"
      ]
+    },
+    {
+     "slug": "reserve-before-dispatch-stop-latch",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "wiring a local spend guard in front of a metered image generator",
+      "a quota or rate-limit error arrived mid-batch and the loop kept dispatching",
+      "deciding whether an interrupted generator call may be retried",
+      "a batch is about to run without a proof image"
+     ]
     }
    ],
    "applications": [
@@ -3053,6 +4018,12 @@
      "technique": "gate-before-every-credit-spend",
      "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/process--gate-before-every-credit-spend.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "generator-failure-deterministic-gates",
+     "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/applications/process--generator-failure-deterministic-gates.md",
+     "verified_on": "2026-10-01"
     }
    ]
   },
@@ -3570,6 +4541,107 @@
     }
    ]
   },
+  "lan-pairing-and-session-continuity": {
+   "category": "couch-and-tv-play",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/couch-and-tv-play/lan-pairing-and-session-continuity/lan-pairing-and-session-continuity.md",
+   "digest": "sha256-b2:1e0d780e8940b8b3",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "bounded-hello-timeout",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a socket handler waits for a first message from a phone",
+      "silent or half-open peers accumulate on the host",
+      "a timeout cancels a handler partway through admitting a seat"
+     ]
+    },
+    {
+     "slug": "capability-detect-insecure-origin",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a controller page served from a bare local address uses wake lock",
+      "sensors",
+      "fullscreen or clipboard",
+      "a feature works on a developer machine and is silently absent on a phone",
+      "deciding whether to upgrade the page to a trusted certificate"
+     ]
+    },
+    {
+     "slug": "listener-release-on-pause-rebind-on-resume",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the host app is backgrounded while phones are paired",
+      "two builds of the same game fight for one port",
+      "seats and the pairing secret must survive a pause"
+     ]
+    },
+    {
+     "slug": "pin-in-qr-url",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "designing how a phone first reaches a television game",
+      "a pairing code is typed by hand and people get it wrong",
+      "deciding what a pairing secret is allowed to protect"
+     ]
+    },
+    {
+     "slug": "port-preflight-with-reuseaddress",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a host app starts a listener on a fixed port and sometimes cannot",
+      "a restart reports a busy port that nothing is listening on",
+      "a bind failure kills the whole process instead of showing a message"
+     ]
+    },
+    {
+     "slug": "token-seat-reclaim-precedence",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a phone drops or reloads mid-session and must keep its seat",
+      "ordering the checks that admit a connection to a shared game",
+      "deciding what to tell a refused phone"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "port-preflight-with-reuseaddress",
+     "file": "knowledge/game-production/couch-and-tv-play/lan-pairing-and-session-continuity/applications/node--port-preflight-with-reuseaddress.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "node",
+     "technique": "token-seat-reclaim-precedence",
+     "file": "knowledge/game-production/couch-and-tv-play/lan-pairing-and-session-continuity/applications/node--token-seat-reclaim-precedence.md",
+     "verified_on": "2026-10-01"
+    }
+   ]
+  },
   "learning-curve-and-teaching-design": {
    "category": "balance-validation",
    "subcategory": null,
@@ -3676,6 +4748,229 @@
      "technique": "skill-atom-inventory",
      "file": "knowledge/game-production/balance-validation/learning-curve-and-teaching-design/applications/process--skill-atom-inventory.md",
      "verified_on": "2026-09-02"
+    }
+   ]
+  },
+  "llm-dialogue-quality-control": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "line-craft",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/llm-dialogue-quality-control.md",
+   "digest": "sha256-b2:197914ec795fc8e6",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "blind-rubric-scoring-by-another-family",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "a-verdict-is-bound-to-its-content",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "scoring generated dialogue candidates with a model judge",
+      "a model reviewer approves lines a person finds generic",
+      "choosing a judge and a rubric for a dialogue pipeline"
+     ]
+    },
+    {
+     "slug": "candidates-under-rotating-constraints",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how many candidates a dialogue slot gets",
+      "generated candidates all read as rewordings of one line",
+      "spending a generation budget across a script"
+     ]
+    },
+    {
+     "slug": "critique-and-revise-with-human-checkpoints",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sending a generated line back for revision",
+      "generated lines get smoother and blander with every pass",
+      "deciding where a person must look at a generated script"
+     ]
+    },
+    {
+     "slug": "measured-banned-pattern-list",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the filter that strikes stock phrasing from generated lines",
+      "a ban list has grown until nobody knows why an entry is on it",
+      "the generator model changed and the tells changed with it"
+     ]
+    },
+    {
+     "slug": "read-aloud-pass",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a shortlist of dialogue lines is about to be accepted",
+      "lines read well on the page and sound wrong performed",
+      "timing lines against the moment they play in"
+     ]
+    },
+    {
+     "slug": "voice-bible-in-every-prompt",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "one-authority-per-quantity",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assembling the prompt that generates a speaker's lines",
+      "generated characters drift toward one shared register",
+      "deciding what context a dialogue generator and its judge must receive"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "blind-rubric-scoring-by-another-family",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/process--blind-rubric-scoring-by-another-family.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "measured-banned-pattern-list",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/process--measured-banned-pattern-list.md",
+     "verified_on": "2026-10-04"
+    }
+   ]
+  },
+  "mass-based-arcade-collision": {
+   "category": "racing-vehicles",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/mass-based-arcade-collision.md",
+   "digest": "sha256-b2:9dea127f165eb8af",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "bounded-collision-spin",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a hit off the car's axis should turn it",
+      "cars spin out of control after a tap",
+      "deciding whether a vehicle needs a moment of inertia"
+     ]
+    },
+    {
+     "slug": "inverse-mass-impulse-split",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two cars of different mass touch",
+      "a heavy car must win a shove",
+      "cars sink into each other or jitter apart"
+     ]
+    },
+    {
+     "slug": "min-restitution-pairing",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "each vehicle carries its own bounciness",
+      "deciding a pair's rebound",
+      "a wall has no restitution of its own"
+     ]
+    },
+    {
+     "slug": "multi-circle-capsule-contact",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a long vehicle needs flank contact",
+      "one car can sit inside another's drawn body",
+      "choosing how many circles a silhouette needs"
+     ]
+    },
+    {
+     "slug": "ram-energy-accumulate-once-per-step",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "car-to-car contact must produce damage",
+      "the same collision is charged more than once",
+      "ordinary bumping must stay free"
+     ]
+    },
+    {
+     "slug": "wall-tangent-retention-versus-head-on-loss",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a car meets a track boundary",
+      "glancing and head-on hits must cost different amounts",
+      "wall damage must scale with impact"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "inverse-mass-impulse-split",
+     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/process--inverse-mass-impulse-split.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
+     "technique": "ram-energy-accumulate-once-per-step",
+     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/process--ram-energy-accumulate-once-per-step.md",
+     "verified_on": "2026-10-01"
     }
    ]
   },
@@ -3966,6 +5261,131 @@
     }
    ]
   },
+  "on-device-verification-harness": {
+   "category": "couch-and-tv-play",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/on-device-verification-harness.md",
+   "digest": "sha256-b2:416fc781f0c5e7d8",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "absolute-due-time-load-pump",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a scripted client must send input at a fixed rate to load a game",
+      "a soak reports a load rate nobody measured",
+      "the rate a test delivered is lower than the rate it asked for"
+     ]
+    },
+    {
+     "slug": "emulated-touch-is-not-physical-touch",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a controller page is exercised by a scripted browser with synthetic touch",
+      "a report says a touch layout was verified",
+      "an injected key or pointer event is offered as proof that real hands can play"
+     ]
+    },
+    {
+     "slug": "fresh-state-per-check",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check passes on a freshly flashed device and fails on a shelf device",
+      "a regression is blamed on the latest change and turns out to be inherited state",
+      "a recovery path needs proving after the process is killed"
+     ]
+    },
+    {
+     "slug": "keep-the-failed-baseline",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a run failed an assertion and a later run passed",
+      "a measurement method was changed mid-investigation",
+      "a report is about to say a result improved or that a limit holds"
+     ]
+    },
+    {
+     "slug": "meminfo-local-to-avoid-forced-gc",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a memory sample is taken from a running game on a device",
+      "a periodic frame spike shares a period with a polling interval",
+      "the measurement tool may be the cause of the stall it reports"
+     ]
+    },
+    {
+     "slug": "poll-ready-signal-not-fixed-delay",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a harness waits a fixed number of seconds after a launch or restart before it talks to the game",
+      "a check sometimes fails and sometimes passes on the same build",
+      "a screenshot was taken after an assertion and is being used to explain it"
+     ]
+    },
+    {
+     "slug": "separate-active-race-from-transition-windows",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a soak report has one frame-time or latency figure for a whole session",
+      "a worst frame happens at a menu or load boundary",
+      "a performance claim is about to be stated over all windows"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "poll-ready-signal-not-fixed-delay",
+     "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/applications/node--poll-ready-signal-not-fixed-delay.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
+     "technique": "keep-the-failed-baseline",
+     "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/applications/process--keep-the-failed-baseline.md",
+     "verified_on": "2026-10-01"
+    }
+   ]
+  },
   "perf-regression-gating": {
    "category": "engine-integration",
    "subcategory": null,
@@ -4074,6 +5494,118 @@
      "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/node--per-thread-budgets-not-one-frame-time.md",
      "verified_on": "2026-10-01",
      "verified_against": "node@24"
+    }
+   ]
+  },
+  "phone-controller-input-protocol": {
+   "category": "couch-and-tv-play",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/phone-controller-input-protocol.md",
+   "digest": "sha256-b2:beaa4beeb3b834b7",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "absolute-state-over-event-frames",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the message a handheld controller sends to a host",
+      "a held control is stuck after a dropped packet",
+      "choosing between press-release events and periodic snapshots"
+     ]
+    },
+    {
+     "slug": "indexed-not-toggled-commands",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a controller button selects a weapon",
+      "view or mode",
+      "a repeated packet changes a selection twice",
+      "the host and the phone disagree about which item is selected"
+     ]
+    },
+    {
+     "slug": "neutralise-on-every-loss-path",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "structural-proof-is-never-sufficient",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a held button or throttle survives the phone going away",
+      "enumerating how a controller can stop being trustworthy",
+      "a harness reports a latched control and nobody is sure whether the protocol or the harness is wrong"
+     ]
+    },
+    {
+     "slug": "reconnect-by-token-seat-recovery",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a controller reconnects after a radio blink or a page reload",
+      "a player loses their seat mid-session",
+      "a late close event from an old connection marks the new one dead"
+     ]
+    },
+    {
+     "slug": "sequence-gap-and-age-rejection",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "validating frames from an untrusted controller",
+      "a controller's clock is unrelated to the host's",
+      "deciding what to count when frames are lost",
+      "late or duplicated"
+     ]
+    },
+    {
+     "slug": "stale-hold-steer-drop-actions",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what the host feeds the simulation when a controller goes quiet",
+      "a vehicle keeps driving after the phone stopped",
+      "steering snaps to centre on every network hiccup"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "neutralise-on-every-loss-path",
+     "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/applications/node--neutralise-on-every-loss-path.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "node",
+     "technique": "stale-hold-steer-drop-actions",
+     "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/applications/node--stale-hold-steer-drop-actions.md",
+     "verified_on": "2026-10-01"
     }
    ]
   },
@@ -4996,14 +6528,343 @@
     }
    ]
   },
+  "race-event-as-story-beat": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "story-structure",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/race-event-as-story-beat.md",
+   "digest": "sha256-b2:da9b1f0224496176",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "few-fixed-beats-many-flexible",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which story events a race campaign must force in order",
+      "players get stuck behind one hard story event",
+      "writing beats that hold up in any order"
+     ]
+    },
+    {
+     "slug": "four-part-beat-delivery",
+     "status": "forged",
+     "laws": [
+      "compiling-is-not-wiring",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "specifying what an event must ship with to carry its beat",
+      "a beat is written but players do not remember it",
+      "reviewing an event for a missing card bark or outcome"
+     ]
+    },
+    {
+     "slug": "one-idea-per-event-then-retire",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning story to the events of a race campaign",
+      "an event's card tries to say two things",
+      "deciding whether a well-liked event type may come back"
+     ]
+    },
+    {
+     "slug": "rule-variants-carry-story",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a story idea into something the player does",
+      "building a starter library of rule variants for a race campaign",
+      "an event's stakes are told and never felt"
+     ]
+    },
+    {
+     "slug": "twenty-second-story-budget",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting how much story an event may carry before and after the race",
+      "cards and outcome screens are being skipped",
+      "briefing a writer or a generator on per-event text length"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "four-part-beat-delivery",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/process--four-part-beat-delivery.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "rule-variants-carry-story",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/process--rule-variants-carry-story.md",
+     "verified_on": "2026-10-04"
+    }
+   ]
+  },
+  "racing-career-economy": {
+   "category": "systems-canon",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/systems-canon/racing-career-economy/racing-career-economy.md",
+   "digest": "sha256-b2:f4f893df0441f1b4",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "finite-garage-end-state-honesty",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a career has a finite catalogue of cars and parts",
+      "a class is already at its stat limit",
+      "deciding what money is for once everything is owned"
+     ]
+    },
+    {
+     "slug": "idempotent-race-ticket-settlement",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a race result writes money to a save",
+      "a retry or a restore could pay a race twice",
+      "writing the receipt a player reads after a race"
+     ]
+    },
+    {
+     "slug": "participation-floor-no-dead-end",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a race career can strand a broke player",
+      "setting the lowest prize in a payout table",
+      "deciding what a player with zero cash and a wrecked car may do"
+     ]
+    },
+    {
+     "slug": "pr-ratio-boss-dip",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring where the player's car should stand against the field over a career",
+      "setting prices and prizes from a races-to-afford target",
+      "deciding whether a boss should be beatable on arrival"
+     ]
+    },
+    {
+     "slug": "qualified-wreck-advancement",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a combat racing career lets a wrecked or eliminated player still earn a result",
+      "a bounty is paid for wrecking opponents",
+      "deciding what counts as career progress when the player's car did not finish"
+     ]
+    },
+    {
+     "slug": "repair-share-prize-cap",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "pricing damage repair in a racing career",
+      "a bad race costs the player net money",
+      "repair feels either meaningless or ruinous"
+     ]
+    },
+    {
+     "slug": "rival-shopping-windows-no-player-read",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how opposing cars improve across a career",
+      "tempted to scale opponents to the player",
+      "wanting rivals that feel like they live in the same economy"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "repair-share-prize-cap",
+     "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/process--repair-share-prize-cap.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
+     "technique": "rival-shopping-windows-no-player-read",
+     "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/process--rival-shopping-windows-no-player-read.md",
+     "verified_on": "2026-10-01"
+    }
+   ]
+  },
+  "racing-track-authoring-and-lint": {
+   "category": "racing-vehicles",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/racing-track-authoring-and-lint.md",
+   "digest": "sha256-b2:5ac28f7a59c31056",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "corner-radius-in-longest-car-lengths",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the tightest corner a circuit may contain",
+      "a hairpin is smooth on the plan and impossible in the car",
+      "converting turn rate on a baked ribbon into a radius check"
+     ]
+    },
+    {
+     "slug": "mutate-good-track-to-prove-linter",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a track linter reports green on every shipped circuit and nobody has seen it fail",
+      "adding a new lint rule",
+      "reporting how many rules are proven"
+     ]
+    },
+    {
+     "slug": "oriented-capsule-grid-lint",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "checking that starting-grid slots do not overlap",
+      "a two-wide row is rejected as overlapping or a nose-to-tail overlap is accepted",
+      "the grid sits on a bend"
+     ]
+    },
+    {
+     "slug": "px-per-metre-scale-contract",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "cars read as grains on a television",
+      "choosing a follow-camera scale range for a top-down racer",
+      "adding a second camera mode such as a shared view or an overview"
+     ]
+    },
+    {
+     "slug": "straight-fraction-pacing-band",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rejecting a lap that is all corners or all straight",
+      "defining what counts as a straight on a baked ribbon",
+      "one threshold must drive both the linter and the drawn track markings"
+     ]
+    },
+    {
+     "slug": "width-in-widest-car-widths",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "law-and-check-share-one-source",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the minimum road width for a circuit",
+      "the roster of cars changes size",
+      "a corner feels like a funnel and nobody can say why"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "mutate-good-track-to-prove-linter",
+     "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/process--mutate-good-track-to-prove-linter.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
+     "technique": "px-per-metre-scale-contract",
+     "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/process--px-per-metre-scale-contract.md",
+     "verified_on": "2026-10-01"
+    }
+   ]
+  },
   "realtime-combat-semantics": {
    "category": "systems-canon",
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/realtime-combat-semantics.md",
-   "digest": "sha256-b2:c3d5b5cc058ea938",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:b013b1d1a2d640d7",
+   "revision": 3,
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "active-defense-two-axis-split",
@@ -5017,6 +6878,20 @@
       "designing a block parry or dodge",
       "diagnosing combat that feels flat",
       "deciding how gear should affect a defensive action"
+     ]
+    },
+    {
+     "slug": "armor-as-reduction-not-pool",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding armor or a defensive stat to a vehicular combat roster",
+      "a defensive upgrade makes cars feel unkillable or invisible",
+      "deciding whether protection is a multiplier or an extra bar"
      ]
     },
     {
@@ -5048,6 +6923,20 @@
      ]
     },
     {
+     "slug": "no-one-shot-ehp-floor-in-racing",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring the weapon roster of a vehicular combat game",
+      "deciding whether a heavy weapon may kill from full health",
+      "writing the rule a balance harness will later check"
+     ]
+    },
+    {
      "slug": "real-time-timers-with-an-escapable-window",
      "status": "forged",
      "laws": [
@@ -5073,6 +6962,21 @@
       "reviewing a combat subsystem for parallel bookkeeping",
       "adding a second system that writes health",
       "diagnosing an interface bar that disagrees with the fight"
+     ]
+    },
+    {
+     "slug": "start-protection-window",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a vehicular or arena match starts with every combatant in weapon range of another",
+      "first-minute deaths dominate playtest or simulation notes",
+      "deciding whether a spawn grace period should also freeze ammunition"
      ]
     },
     {
@@ -5102,6 +7006,12 @@
      "technique": "death-via-state-tag-not-input-disable",
      "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/applications/process--death-via-state-tag-not-input-disable.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "start-protection-window",
+     "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/applications/process--start-protection-window.md",
+     "verified_on": "2026-10-01"
     },
     {
      "stack": "process",
@@ -5341,6 +7251,203 @@
      "technique": "bounded-refine-iteration",
      "file": "knowledge/game-production/asset-production/sourcing-economics/regeneration-vs-repair-economics/applications/process--bounded-refine-iteration.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "regional-culture-worldbuilding": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "story-structure",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/regional-culture-worldbuilding.md",
+   "digest": "sha256-b2:3d3eedb9cc205f67",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "economy-institution-slang-code-per-region",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the bible entry for a campaign region",
+      "two regions feel interchangeable",
+      "a writer cannot predict how a region's people would react to something new"
+     ]
+    },
+    {
+     "slug": "follow-the-money-as-map-structure",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding the order a campaign visits its regions",
+      "regions ordered only by biome or difficulty",
+      "the economy the player handles contradicts the world's story"
+     ]
+    },
+    {
+     "slug": "political-economy-of-spectacle",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "building a world around a blood sport",
+      "league or arena",
+      "the crowd is scenery",
+      "the player's rise in the league means nothing beyond the score"
+     ]
+    },
+    {
+     "slug": "the-moral-code-has-a-dissenter",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a region's culture reads as a motto",
+      "giving a region a choice without branching the story",
+      "casting the supporting characters of a region"
+     ]
+    },
+    {
+     "slug": "what-the-local-power-wants-and-what-joining-costs",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "designing a region's boss or ruler",
+      "the player collects regions like trophies",
+      "building a late-campaign coalition that has weight"
+     ]
+    },
+    {
+     "slug": "world-by-implication",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the world needs explaining and the draft explains it",
+      "writing an opening without a lore crawl",
+      "deciding what lore to cut"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "economy-institution-slang-code-per-region",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/process--economy-institution-slang-code-per-region.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "follow-the-money-as-map-structure",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/process--follow-the-money-as-map-structure.md",
+     "verified_on": "2026-10-04"
+    }
+   ]
+  },
+  "rival-to-ally-turn": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "cast-and-relationships",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/rival-to-ally-turn.md",
+   "digest": "sha256-b2:6f8f7566cbec31de",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "earn-respect-before-the-turn",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the contest that precedes a rival's turn",
+      "writing the rival's reaction to losing",
+      "a rival's praise contradicts how the player actually won"
+     ]
+    },
+    {
+     "slug": "keep-the-rivals-own-culture",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a rival's first scenes after crossing",
+      "a recruited rival sounds like everyone else on the team",
+      "a former rival is weaker as an ally than as an opponent"
+     ]
+    },
+    {
+     "slug": "refuse-once-then-turn",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "writing the first offer to a beaten rival",
+      "a rival accepts too easily",
+      "the offer is a player choice that could skip the refusal"
+     ]
+    },
+    {
+     "slug": "style-plus-grudge-before-taunts",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "introducing a rival before the first contest",
+      "a rival reads as interchangeable trash talk",
+      "briefing behaviour authors on how a rival should drive or fight"
+     ]
+    },
+    {
+     "slug": "switching-sides-costs-something",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a rival loses by crossing",
+      "the old side does not react to a defection",
+      "a rival's past harm is forgiven by default"
+     ]
+    },
+    {
+     "slug": "turn-on-what-they-see",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "writing the moment the rival changes their mind",
+      "a turn scene is carried by the hero's speech",
+      "choosing the event that redirects a rival's grudge"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "style-plus-grudge-before-taunts",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/process--style-plus-grudge-before-taunts.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "turn-on-what-they-see",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/process--turn-on-what-they-see.md",
+     "verified_on": "2026-10-04"
     }
    ]
   },
@@ -5703,6 +7810,111 @@
     }
    ]
   },
+  "short-form-cards-and-barks": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "line-craft",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/short-form-cards-and-barks.md",
+   "digest": "sha256-b2:ad67b1491a2e4063",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "bark-carries-character-in-one-breath",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing reactive lines for a character",
+      "a cast's barks sound interchangeable",
+      "briefing a generator for a bark category"
+     ]
+    },
+    {
+     "slug": "barks-that-survive-repetition",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "sizing a bark pool for a common event",
+      "a pool is funny in the first session and grating by the third",
+      "assigning specific jokes to events"
+     ]
+    },
+    {
+     "slug": "callback-pays-a-seed",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planting a detail that a later card or bark will return to",
+      "a callback line falls flat in play",
+      "auditing which planted details ever pay off"
+     ]
+    },
+    {
+     "slug": "picture-carries-the-card",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "pairing card text with an illustration",
+      "briefing an image for a card",
+      "reviewing cards whose text was written before the picture existed"
+     ]
+    },
+    {
+     "slug": "television-read-budget",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting text limits for cards and subtitles shown on a television",
+      "a card that reads fine on a monitor is unreadable from the sofa",
+      "timing how long a card stays on screen"
+     ]
+    },
+    {
+     "slug": "three-line-card-image-trade-turn",
+     "status": "forged",
+     "laws": [
+      "law-and-check-share-one-source",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a story card shown at a seam of play",
+      "reviewing a batch of generated cards",
+      "a card reads smoothly and nobody remembers it"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "barks-that-survive-repetition",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/process--barks-that-survive-repetition.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "three-line-card-image-trade-turn",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/process--three-line-card-image-trade-turn.md",
+     "verified_on": "2026-10-04"
+    }
+   ]
+  },
   "spatial-audio-scene-authoring": {
    "category": "asset-production",
    "subcategory": "motion-and-audio",
@@ -5811,6 +8023,127 @@
      "technique": "event-priority-concurrency-cooldown",
      "file": "knowledge/game-production/asset-production/motion-and-audio/spatial-audio-scene-authoring/applications/process--event-priority-concurrency-cooldown.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "speech-synthesis-script-writing": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "line-craft",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/speech-synthesis-script-writing.md",
+   "digest": "sha256-b2:d288645c0b915230",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "change-the-text-before-the-settings",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a rendered line comes back wrong and must be fixed",
+      "deciding whether to re-roll",
+      "rewrite or retune",
+      "a settings change is proposed to fix one line"
+     ]
+    },
+    {
+     "slug": "hesitation-marks-can-silence-a-line",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "an-instrument-proves-it-had-input",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a line uses ellipses",
+      "fillers",
+      "stammers or pause tags",
+      "a rendered clip has long dead gaps or trailing silence",
+      "a clip is much longer than its words",
+      "writing a hesitant",
+      "nervous or grieving character for a synthetic voice"
+     ]
+    },
+    {
+     "slug": "length-and-breath-budget",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the length of lines a synthetic voice will speak",
+      "a long line renders rushed",
+      "flat or garbled",
+      "a one-word line renders differently on every take",
+      "a short line renders far longer than its words"
+     ]
+    },
+    {
+     "slug": "punctuation-as-direction",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing pauses",
+      "stress or interruption in a line for a synthetic voice",
+      "a line's question renders as uncertainty",
+      "a stressed word comes out flat"
+     ]
+    },
+    {
+     "slug": "tags-depend-on-the-model-generation",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a writer wants to add a bracketed delivery or sound tag to a line",
+      "a tag is read aloud or has no effect",
+      "moving a script to a newer speech-model generation",
+      "briefing a generator to draft voiced lines"
+     ]
+    },
+    {
+     "slug": "text-carries-the-emotion-not-the-settings",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a synthetic line must sound angry",
+      "frightened",
+      "grieving",
+      "nervous or warm",
+      "choosing voice stability or style settings for a cast",
+      "a voice is erratic or slow across lines"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "hesitation-marks-can-silence-a-line",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/process--hesitation-marks-can-silence-a-line.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "text-carries-the-emotion-not-the-settings",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/process--text-carries-the-emotion-not-the-settings.md",
+     "verified_on": "2026-10-04"
     }
    ]
   },
@@ -5936,6 +8269,116 @@
     }
    ]
   },
+  "steering-feel-profile-shaping": {
+   "category": "racing-vehicles",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/steering-feel-profile-shaping.md",
+   "digest": "sha256-b2:916a72ac11cfde2c",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "asymmetric-steer-slew-rise-return",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a steering target jumps faster than a thumb or a vehicle can follow",
+      "release of the touch snaps the vehicle straight",
+      "choosing separate build-up and return rates per feel profile"
+     ]
+    },
+    {
+     "slug": "baseline-preset-preserved",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "introducing a shared shaping pipeline over a vehicle that already has a feel",
+      "keeping scripted drivers calibrated while human profiles change",
+      "proving a refactor did not move the old behaviour"
+     ]
+    },
+    {
+     "slug": "brake-never-reverses",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a single brake control must not turn into reverse",
+      "resolving throttle and brake held together",
+      "a casual racer rolls backward or oscillates at standstill"
+     ]
+    },
+    {
+     "slug": "deadzone-exponent-remap",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a raw drag or stick axis into a steering target",
+      "choosing a dead zone and response exponent per feel profile",
+      "a thumb at small deflection does nothing or does too much"
+     ]
+    },
+    {
+     "slug": "five-profile-trace-bands",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient",
+      "law-and-check-share-one-source",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "comparing steering feel profiles",
+      "writing the acceptance test for a profile table",
+      "a profile change claims to be tighter or looser and needs evidence"
+     ]
+    },
+    {
+     "slug": "throttle-instant-release-progressive-rise",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a throttle is a held touch or a stuck-button risk",
+      "shaping launch feel without delaying lift-off",
+      "deciding what a stale or lost input does to propulsion"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "deadzone-exponent-remap",
+     "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/process--deadzone-exponent-remap.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
+     "technique": "five-profile-trace-bands",
+     "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/process--five-profile-trace-bands.md",
+     "verified_on": "2026-10-01"
+    }
+   ]
+  },
   "subsystem-review-doctrine": {
    "category": "craft-judgment",
    "subcategory": null,
@@ -6050,6 +8493,117 @@
      "technique": "trace-one-interaction-end-to-end",
      "file": "knowledge/game-production/craft-judgment/subsystem-review-doctrine/applications/process--trace-one-interaction-end-to-end.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "subtext-and-voice-differentiation": {
+   "category": "narrative-and-dialogue",
+   "subcategory": "line-craft",
+   "status": "forged",
+   "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/subtext-and-voice-differentiation.md",
+   "digest": "sha256-b2:f43019ed6d13a85e",
+   "revision": 1,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "dialogue-as-a-trade",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a scene is one character informing another",
+      "writing player dialogue options",
+      "a conversation ends where it started"
+     ]
+    },
+    {
+     "slug": "distinguish-by-rhythm-and-refusal",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two characters could swap lines unnoticed",
+      "a cast is differentiated only by accent or catchphrase",
+      "testing whether a generated cast sounds distinct"
+     ]
+    },
+    {
+     "slug": "exposition-inside-conflict",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a scene exists to explain the world",
+      "characters tell each other what both already know",
+      "deciding where a needed fact enters the story"
+     ]
+    },
+    {
+     "slug": "menace-without-parody",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a threatening line reads as cartoonish",
+      "writing an enforcer",
+      "rival or creditor who must frighten",
+      "a generator writes villains who monologue"
+     ]
+    },
+    {
+     "slug": "subtext-in-few-words",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a character states what they feel",
+      "a scene reads as explained",
+      "briefing a generator for an emotional exchange"
+     ]
+    },
+    {
+     "slug": "voice-bible-per-speaker",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "starting a cast that several writers or a generator will voice",
+      "characters drift between scenes or writers",
+      "building the reference a dialogue reviewer judges against"
+     ]
+    },
+    {
+     "slug": "warmth-in-a-grim-world",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a bleak setting has become monotonous",
+      "every hard beat is followed by a quip",
+      "deciding which characters carry humour and when"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "dialogue-as-a-trade",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/process--dialogue-as-a-trade.md",
+     "verified_on": "2026-10-04"
+    },
+    {
+     "stack": "process",
+     "technique": "voice-bible-per-speaker",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/process--voice-bible-per-speaker.md",
+     "verified_on": "2026-10-04"
     }
    ]
   },
@@ -6298,6 +8852,210 @@
     }
    ]
   },
+  "top-down-vehicle-handling-model": {
+   "category": "racing-vehicles",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/top-down-vehicle-handling-model.md",
+   "digest": "sha256-b2:7615fb2b0865d373",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "bounded-load-transfer-grip",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding trail-braking or power-oversteer to a point-mass car",
+      "a grip multiplier needs a slowly-following input",
+      "deciding whether weight transfer earns a suspension model"
+     ]
+    },
+    {
+     "slug": "drift-state-hysteresis",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a drift or slide indicator flickers",
+      "deciding what a drift flag should drive",
+      "adding a handbrake that holds a slide",
+      "choosing entry and exit slip thresholds"
+     ]
+    },
+    {
+     "slug": "kerb-verge-inside-hard-wall",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the penalty for running wide",
+      "a verge or kerb band exists in the table but players never feel it",
+      "a car must not leave the world but must be punished for approaching the edge"
+     ]
+    },
+    {
+     "slug": "slip-restoring-yaw-stability",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the car never straightens after a corner",
+      "the car feels on rails",
+      "tuning how forgiving a slide is",
+      "adding a lag between steering and rotation"
+     ]
+    },
+    {
+     "slug": "speed-attenuated-steering-authority",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the car spins in place at low speed or washes off the road at high speed",
+      "adding a per-car steering rate to a table",
+      "deciding what the steering input multiplies"
+     ]
+    },
+    {
+     "slug": "surface-grip-drag-ladder",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a surface to a driving model",
+      "leaving the road must always cost time",
+      "an opponent driver must not be slowed twice by the same surface",
+      "ordering surfaces by how bad they feel"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "kerb-verge-inside-hard-wall",
+     "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/process--kerb-verge-inside-hard-wall.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
+     "technique": "slip-restoring-yaw-stability",
+     "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/process--slip-restoring-yaw-stability.md",
+     "verified_on": "2026-10-01"
+    }
+   ]
+  },
+  "two-thumb-touch-layout-design": {
+   "category": "couch-and-tv-play",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/couch-and-tv-play/two-thumb-touch-layout-design/two-thumb-touch-layout-design.md",
+   "digest": "sha256-b2:d4d0980b068785d0",
+   "revision": 2,
+   "changedAt": "2026-10-04",
+   "techniques": [
+    {
+     "slug": "cruise-fire-drives-throttle",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the right thumb is overloaded by go plus fire",
+      "offering a layout where attacking also drives",
+      "deciding how brake interacts with a combined hold"
+     ]
+    },
+    {
+     "slug": "handedness-mirror",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "adding a left-handed mode",
+      "a control scheme assumes the left thumb steers",
+      "a layout setting multiplies the behaviour test matrix"
+     ]
+    },
+    {
+     "slug": "neutralise-on-sheet-open-or-layout-change",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a menu opens over a live controller",
+      "the layout or handedness changes while a thumb is down",
+      "a car is destroyed or the link drops while inputs are held"
+     ]
+    },
+    {
+     "slug": "pad-vertical-throttle-neutral-start",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one thumb should carry both steering and throttle",
+      "accidental acceleration from a resting thumb",
+      "designing the split layout"
+     ]
+    },
+    {
+     "slug": "pointer-capture-per-control",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two thumbs drive different controls at once",
+      "a thumb sliding off a button leaves it stuck or fires a neighbour",
+      "writing the multi-touch handling of a browser-based controller"
+     ]
+    },
+    {
+     "slug": "relative-anchor-steering",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the steering control of a touch controller",
+      "steering snaps or pulls when the thumb lands",
+      "deciding between an absolute pad and a drag from first contact"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "pointer-capture-per-control",
+     "file": "knowledge/game-production/couch-and-tv-play/two-thumb-touch-layout-design/applications/node--pointer-capture-per-control.md",
+     "verified_on": "2026-10-01"
+    }
+   ]
+  },
   "unattended-build-loop": {
    "category": "craft-judgment",
    "subcategory": null,
@@ -6476,6 +9234,119 @@
      "technique": "no-gate-self-certifies",
      "file": "knowledge/game-production/craft-judgment/unattended-build-loop/applications/process--no-gate-self-certifies.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "vehicle-archetype-balance": {
+   "category": "racing-vehicles",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/vehicle-archetype-balance.md",
+   "digest": "sha256-b2:a4e9b3ad5b0a9ddf",
+   "revision": 1,
+   "changedAt": "2026-10-01",
+   "techniques": [
+    {
+     "slug": "identity-pair-via-authored-band",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "every vehicle must be strong somewhere and weak somewhere",
+      "a peer-based outlier test cannot work on a two-vehicle tier",
+      "writing the lint that guards a roster's shape"
+     ]
+    },
+    {
+     "slug": "linear-stat-to-physics-mapping",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "declaring-an-input-is-not-consuming-it"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining the authoring surface of a vehicle roster",
+      "a stat bar and the handling disagree",
+      "adding a physical parameter that a stat should drive"
+     ]
+    },
+    {
+     "slug": "power-rating-single-function",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a roster needs one number for strength",
+      "the shop and the roster check disagree about a vehicle's rating",
+      "setting a tier budget"
+     ]
+    },
+    {
+     "slug": "sidegrade-two-per-tier",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "laying out a progression of vehicles",
+      "a tier ladder feels like a menu with one item",
+      "deciding how many vehicles a tier needs"
+     ]
+    },
+    {
+     "slug": "weights-fit-to-sim-with-published-residuals",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the weights of a rating",
+      "a rating says two vehicles are equal and a race says they are not",
+      "reporting how far a rating can be trusted"
+     ]
+    },
+    {
+     "slug": "winner-share-over-declared-course-mix",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether any vehicle class dominates",
+      "a dominance threshold never fires",
+      "publishing a roster balance report",
+      "a tier fails its gate and a fix is proposed"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "power-rating-single-function",
+     "file": "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/applications/process--power-rating-single-function.md",
+     "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "process",
+     "technique": "winner-share-over-declared-course-mix",
+     "file": "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/applications/process--winner-share-over-declared-course-mix.md",
+     "verified_on": "2026-10-01"
     }
    ]
   },
@@ -6715,6 +9586,8 @@
     "image-to-3d-input-gating/canonical-pose-rule",
     "judgeable-spec-authoring/execute-the-rules-against-the-worked-example",
     "judgeable-spec-authoring/register-discipline-in-a-spec",
+    "llm-dialogue-quality-control/candidates-under-rotating-constraints",
+    "llm-dialogue-quality-control/critique-and-revise-with-human-checkpoints",
     "motion-quality-gating/absolute-not-curved-judgment",
     "motion-quality-gating/six-dimension-motion-rubric",
     "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
@@ -6723,6 +9596,7 @@
     "prompt-fitness-and-evolution/exclude-synthetic-fixtures-from-fitness",
     "quality-verdict-integrity/sibling-context-projection",
     "reference-parity-gating/no-average-hides-a-failure",
+    "short-form-cards-and-barks/three-line-card-image-trade-turn",
     "sprite-and-atlas-production/palette-discipline-across-frames",
     "subsystem-review-doctrine/severity-by-consequence"
    ]
@@ -6747,6 +9621,7 @@
     "adaptive-music-authoring/transition-quantization-and-perceived-latency",
     "agent-behaviour-authoring/blackboard-as-declared-shared-state",
     "agent-behaviour-authoring/commitment-and-recovery-windows",
+    "agent-behaviour-authoring/no-double-grip-penalty",
     "agent-behaviour-authoring/perception-before-decision",
     "arpg-systems-canon/layered-defenses-and-the-ehp-floor",
     "asset-class-poly-budgeting/class-ceiling-vs-requested-budget",
@@ -6761,12 +9636,18 @@
     "catalog-pipeline-authoring/step-archetype-taxonomy",
     "catalog-pipeline-authoring/view-produce-accept-triad",
     "combat-pacing-and-dramatic-arc/beat-taxonomy-climax-comeback-deadzone",
+    "combat-pacing-and-dramatic-arc/lead-car-wreck-before-lap-one-rate",
     "combat-pacing-and-dramatic-arc/plain-language-fight-report",
+    "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
+    "condition-tagged-line-tables/most-specific-match-wins",
     "content-acceptance-tiering/deferred-as-honest-progress",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "content-acceptance-tiering/never-fail-silently-reason-strings",
     "content-acceptance-tiering/tier-ladder-design",
     "content-drift-and-revision/orphaned-artifact-visibility",
+    "controller-latency-instrumentation/consumption-age-versus-photon-age-labelling",
+    "controller-latency-instrumentation/optical-flash-frame-count-protocol",
+    "controller-latency-instrumentation/ping-pong-midpoint-clock-offset",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
@@ -6776,14 +9657,17 @@
     "design-doc-compliance-scoring/declared-mapping-is-terminal",
     "design-doc-compliance-scoring/evidence-age-envelope",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "difficulty-design-and-adaptation/equal-skill-straight-time-loss",
     "difficulty-design-and-adaptation/four-term-difficulty-decomposition",
     "difficulty-design-and-adaptation/player-chosen-challenge-and-adjustment-hazards",
     "difficulty-design-and-adaptation/reward-cadence-first-diagnosis",
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
+    "encounter-balance-simulation/distinct-hash-seed-diversity-alarm",
     "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
     "encounter-balance-simulation/kill-share-and-damage-share-attribution",
     "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
     "encounter-balance-simulation/tier-band-peer-outlier-linting",
+    "ending-first-narrative-structure/cut-the-thread-that-cannot-pay-off",
     "engine-integration-safety/crash-truncated-batch-resume",
     "engine-integration-safety/judge-by-log-markers-not-exit-code",
     "engine-integration-safety/refuse-dont-kill-a-live-editor",
@@ -6791,6 +9675,11 @@
     "engine-integration-safety/transport-failure-taxonomy",
     "engine-pitfall-corpus/domain-scoped-injection-with-a-safe-superset",
     "engine-pitfall-corpus/introspect-before-you-call",
+    "fire-tv-device-realities/abi-inspect-the-apk",
+    "fire-tv-device-realities/dhcp-scan-for-device",
+    "fire-tv-device-realities/keep-screen-on-flag",
+    "fire-tv-device-realities/server-socket-portability-hedge",
+    "fire-tv-device-realities/wake-before-launch",
     "game-dialogue-voice-pipeline/bake-versus-runtime-speech",
     "game-dialogue-voice-pipeline/cast-ledger-with-consent",
     "game-dialogue-voice-pipeline/line-id-catalog-and-revision-diff",
@@ -6827,10 +9716,14 @@
     "image-to-3d-input-gating/single-subject-plain-background",
     "imported-material-conformance/format-defaults-are-not-asset-properties",
     "judgeable-spec-authoring/register-discipline-in-a-spec",
+    "lan-pairing-and-session-continuity/capability-detect-insecure-origin",
     "learning-curve-and-teaching-design/flow-corridor-as-two-sided-envelope",
     "learning-curve-and-teaching-design/skill-atom-inventory",
     "learning-curve-and-teaching-design/time-to-competence-measurement",
     "learning-curve-and-teaching-design/unused-mechanic-detection",
+    "llm-dialogue-quality-control/critique-and-revise-with-human-checkpoints",
+    "llm-dialogue-quality-control/read-aloud-pass",
+    "mass-based-arcade-collision/ram-energy-accumulate-once-per-step",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
     "mesh-finishing-for-engine-readiness/high-to-low-bake-coverage",
@@ -6838,6 +9731,10 @@
     "motion-quality-gating/asset-reality-ledger",
     "motion-quality-gating/genre-response-latency-norms",
     "motion-quality-gating/six-dimension-motion-rubric",
+    "on-device-verification-harness/absolute-due-time-load-pump",
+    "on-device-verification-harness/emulated-touch-is-not-physical-touch",
+    "on-device-verification-harness/keep-the-failed-baseline",
+    "on-device-verification-harness/separate-active-race-from-transition-windows",
     "perf-regression-gating/noise-floor-before-the-threshold",
     "perf-regression-gating/per-thread-budgets-not-one-frame-time",
     "playtest-signal-to-defect/complaint-to-owning-subject-routing",
@@ -6866,6 +9763,13 @@
     "quality-verdict-integrity/calibration-against-confirmed-labels-only",
     "quality-verdict-integrity/condemn-vs-elevate-asymmetry",
     "quality-verdict-integrity/stale-superseded-unknown-classification",
+    "race-event-as-story-beat/few-fixed-beats-many-flexible",
+    "racing-career-economy/finite-garage-end-state-honesty",
+    "racing-career-economy/idempotent-race-ticket-settlement",
+    "racing-career-economy/participation-floor-no-dead-end",
+    "racing-career-economy/pr-ratio-boss-dip",
+    "racing-track-authoring-and-lint/mutate-good-track-to-prove-linter",
+    "realtime-combat-semantics/start-protection-window",
     "reference-parity-gating/findings-carry-the-correction",
     "regeneration-vs-repair-economics/bounded-refine-iteration",
     "regeneration-vs-repair-economics/defect-class-to-remedy-map",
@@ -6886,12 +9790,17 @@
     "ship-pipeline-gating/validator-log-classification",
     "spatial-audio-scene-authoring/event-priority-concurrency-cooldown",
     "spatial-audio-scene-authoring/room-type-to-acoustic-profile",
+    "speech-synthesis-script-writing/change-the-text-before-the-settings",
+    "speech-synthesis-script-writing/hesitation-marks-can-silence-a-line",
+    "speech-synthesis-script-writing/text-carries-the-emotion-not-the-settings",
     "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
     "sprite-and-atlas-production/autotile-rule-set-completeness",
     "sprite-and-atlas-production/lossy-compression-acceptance-for-flat-art",
     "sprite-and-atlas-production/palette-discipline-across-frames",
     "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
+    "steering-feel-profile-shaping/throttle-instant-release-progressive-rise",
     "subsystem-review-doctrine/regression-diff-new-persisting-resolved",
+    "subtext-and-voice-differentiation/distinguish-by-rhythm-and-refusal",
     "terrain-synthesis-acceptance/biome-mask-cross-consistency",
     "terrain-synthesis-acceptance/drainage-coherence-as-plausibility-gate",
     "terrain-synthesis-acceptance/playable-area-versus-backdrop-ratio",
@@ -6902,6 +9811,9 @@
     "tiling-texture-acceptance/seam-threshold-calibration",
     "tiling-texture-acceptance/texel-density-and-uv-tiling",
     "tiling-texture-acceptance/wrap-around-edge-diff",
+    "top-down-vehicle-handling-model/drift-state-hysteresis",
+    "two-thumb-touch-layout-design/cruise-fire-drives-throttle",
+    "two-thumb-touch-layout-design/pad-vertical-throttle-neutral-start",
     "unattended-build-loop/budget-reservation-and-drain-not-kill",
     "unattended-build-loop/completed-with-gaps-excluded-from-the-numerator",
     "unattended-build-loop/no-gate-self-certifies",
@@ -6909,6 +9821,8 @@
     "unattended-build-loop/unreachable-success-preflight",
     "unattended-build-loop/verified-vs-self-reported-pass-rate",
     "unattended-build-loop/verifier-coverage-review-agenda",
+    "vehicle-archetype-balance/identity-pair-via-authored-band",
+    "vehicle-archetype-balance/weights-fit-to-sim-with-published-residuals",
     "visual-script-to-code-transpilation/structural-round-trip-diff",
     "wiring-contract-doctrine/cross-catalog-link-resolution",
     "wiring-contract-doctrine/placeholder-rejection",
@@ -6927,8 +9841,12 @@
     "acceptance-verdict-spine/three-layer-merge-order",
     "adaptive-music-authoring/loop-boundary-and-tail-contract",
     "adaptive-music-authoring/stem-and-voice-budget-derivation",
+    "agent-behaviour-authoring/ai-corner-speed-from-grip-limit",
+    "agent-behaviour-authoring/ai-distances-from-car-size",
     "agent-behaviour-authoring/blackboard-as-declared-shared-state",
     "agent-behaviour-authoring/group-coordination-without-a-hive-mind",
+    "agent-behaviour-authoring/no-double-grip-penalty",
+    "antagonist-fair-grievance-craft/rationed-necessity-in-public",
     "arpg-systems-canon/added-increased-more-stacking",
     "arpg-systems-canon/ailments-scale-off-the-hit",
     "arpg-systems-canon/mitigation-order-and-soft-caps",
@@ -6939,22 +9857,31 @@
     "catalog-pipeline-authoring/archetype-view-coherence-ratchet",
     "catalog-pipeline-authoring/step-archetype-taxonomy",
     "catalog-pipeline-authoring/view-produce-accept-triad",
+    "combat-pacing-and-dramatic-arc/division-wide-damage-multiplier",
     "combat-pacing-and-dramatic-arc/intensity-and-threat-tension-curve",
+    "condition-tagged-line-tables/react-to-what-the-player-caused",
+    "condition-tagged-line-tables/signals-stand-in-for-lines",
     "content-drift-and-revision/content-hash-vs-status-drift",
     "content-drift-and-revision/typed-operator-inheritance",
+    "controller-latency-instrumentation/consumption-age-versus-photon-age-labelling",
     "crash-forensics-attribution/caller-chain-decay",
     "crash-forensics-attribution/crash-signature-over-id-equality",
     "crash-forensics-attribution/engine-crash-vocabulary",
     "crash-forensics-attribution/weighted-evidence-directory-file-symbol",
+    "debt-and-loss-stakes-staging/ledger-after-every-event",
+    "debt-and-loss-stakes-staging/the-leash-can-be-rewritten",
     "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
     "design-canon-as-executable-law/self-declared-budget-enforcement",
     "design-doc-compliance-scoring/declared-mapping-is-terminal",
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
     "encounter-balance-simulation/monte-carlo-scenario-presets",
+    "encounter-balance-simulation/rotation-confound-cross-check",
+    "ending-first-narrative-structure/lock-the-final-card-first",
     "engine-integration-safety/editor-thread-timeout-budgeting",
     "engine-integration-safety/pid-scoped-teardown",
     "engine-integration-safety/single-instance-lease-and-drain",
     "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
+    "fire-tv-device-realities/server-socket-portability-hedge",
     "game-dialogue-voice-pipeline/line-id-catalog-and-revision-diff",
     "game-economy-tuning/cost-curve-object-audit",
     "game-economy-tuning/economy-philosophy-multipliers",
@@ -6983,10 +9910,17 @@
     "judgeable-spec-authoring/one-field-one-question",
     "judgeable-spec-authoring/quantity-ownership-and-the-bindable-row",
     "learning-curve-and-teaching-design/skill-atom-inventory",
+    "llm-dialogue-quality-control/voice-bible-in-every-prompt",
+    "mass-based-arcade-collision/bounded-collision-spin",
+    "mass-based-arcade-collision/min-restitution-pairing",
+    "mass-based-arcade-collision/ram-energy-accumulate-once-per-step",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
     "motion-quality-gating/genre-response-latency-norms",
+    "phone-controller-input-protocol/absolute-state-over-event-frames",
+    "phone-controller-input-protocol/indexed-not-toggled-commands",
+    "phone-controller-input-protocol/reconnect-by-token-seat-recovery",
     "playtest-signal-to-defect/complaint-to-owning-subject-routing",
     "procedural-level-planning/seed-determinism-contract",
     "procedural-level-planning/zone-progression-linting",
@@ -7002,12 +9936,23 @@
     "quality-verdict-integrity/content-hash-binding",
     "quality-verdict-integrity/rubric-version-supersession",
     "quality-verdict-integrity/sibling-context-projection",
+    "race-event-as-story-beat/four-part-beat-delivery",
+    "race-event-as-story-beat/one-idea-per-event-then-retire",
+    "racing-career-economy/idempotent-race-ticket-settlement",
+    "racing-career-economy/repair-share-prize-cap",
+    "racing-career-economy/rival-shopping-windows-no-player-read",
+    "racing-track-authoring-and-lint/oriented-capsule-grid-lint",
+    "racing-track-authoring-and-lint/px-per-metre-scale-contract",
+    "racing-track-authoring-and-lint/width-in-widest-car-widths",
+    "realtime-combat-semantics/armor-as-reduction-not-pool",
     "realtime-combat-semantics/death-via-state-tag-not-input-disable",
     "realtime-combat-semantics/hit-dedup-per-swing",
     "realtime-combat-semantics/single-source-of-health-truth",
+    "realtime-combat-semantics/start-protection-window",
     "reference-parity-gating/defect-cap-bounded-to-its-reach",
     "reference-parity-gating/dual-anchor-scoring",
     "regeneration-vs-repair-economics/defect-class-to-remedy-map",
+    "regional-culture-worldbuilding/follow-the-money-as-map-structure",
     "runtime-observation-evidence/observation-spine-contract",
     "shader-budget-authoring/channel-packing",
     "shader-budget-authoring/hardware-tier-lighting-presets",
@@ -7018,16 +9963,28 @@
     "spatial-audio-scene-authoring/reverb-parameter-tables",
     "spatial-audio-scene-authoring/room-type-to-acoustic-profile",
     "spatial-audio-scene-authoring/two-d-vs-three-d-spatialization-choice",
+    "speech-synthesis-script-writing/text-carries-the-emotion-not-the-settings",
     "sprite-and-atlas-production/palette-discipline-across-frames",
     "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
+    "steering-feel-profile-shaping/asymmetric-steer-slew-rise-return",
+    "steering-feel-profile-shaping/baseline-preset-preserved",
+    "steering-feel-profile-shaping/brake-never-reverses",
+    "steering-feel-profile-shaping/deadzone-exponent-remap",
     "subsystem-review-doctrine/trace-one-interaction-end-to-end",
+    "subtext-and-voice-differentiation/voice-bible-per-speaker",
     "terrain-synthesis-acceptance/biome-mask-cross-consistency",
     "terrain-synthesis-acceptance/heightfield-resolution-and-vertical-basis",
     "terrain-synthesis-acceptance/terrain-to-room-graph-handoff",
     "tiling-texture-acceptance/biome-themed-tile-prompting",
     "tiling-texture-acceptance/texel-density-and-uv-tiling",
+    "top-down-vehicle-handling-model/bounded-load-transfer-grip",
+    "top-down-vehicle-handling-model/slip-restoring-yaw-stability",
+    "top-down-vehicle-handling-model/surface-grip-drag-ladder",
+    "two-thumb-touch-layout-design/relative-anchor-steering",
     "unattended-build-loop/confirmation-inherits-the-gates-limits",
     "unattended-build-loop/rollback-to-last-green",
+    "vehicle-archetype-balance/power-rating-single-function",
+    "vehicle-archetype-balance/sidegrade-two-per-tier",
     "visual-script-to-code-transpilation/structural-round-trip-diff",
     "wiring-contract-doctrine/cross-catalog-link-resolution"
    ]
@@ -7044,6 +10001,8 @@
     "adaptive-music-authoring/stem-and-voice-budget-derivation",
     "adaptive-music-authoring/transition-quantization-and-perceived-latency",
     "adaptive-music-authoring/vertical-layering-versus-horizontal-resequencing",
+    "agent-behaviour-authoring/ai-corner-speed-from-grip-limit",
+    "agent-behaviour-authoring/ai-distances-from-car-size",
     "agent-behaviour-authoring/blackboard-as-declared-shared-state",
     "agent-behaviour-authoring/commitment-and-recovery-windows",
     "agent-behaviour-authoring/perception-before-decision",
@@ -7060,23 +10019,37 @@
     "branching-narrative-graph-validation/state-variable-declaration-contract",
     "combat-pacing-and-dramatic-arc/beat-taxonomy-climax-comeback-deadzone",
     "combat-pacing-and-dramatic-arc/difficulty-band-classification",
+    "combat-pacing-and-dramatic-arc/division-wide-damage-multiplier",
     "combat-pacing-and-dramatic-arc/encounter-duration-envelopes",
     "combat-pacing-and-dramatic-arc/intensity-and-threat-tension-curve",
+    "combat-pacing-and-dramatic-arc/lead-car-wreck-before-lap-one-rate",
     "combat-pacing-and-dramatic-arc/plain-language-fight-report",
+    "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
+    "condition-tagged-line-tables/repeat-avoidance-by-recency-and-cooldown",
     "content-acceptance-tiering/never-fail-silently-reason-strings",
     "content-drift-and-revision/bounded-revision-history",
+    "controller-latency-instrumentation/best-rtt-sample-selection",
+    "controller-latency-instrumentation/consumption-age-versus-photon-age-labelling",
+    "controller-latency-instrumentation/exact-window-plus-histogram-quantiles",
+    "controller-latency-instrumentation/optical-flash-frame-count-protocol",
+    "controller-latency-instrumentation/ping-pong-midpoint-clock-offset",
+    "controller-latency-instrumentation/window-percentiles-are-not-poolable",
     "crash-forensics-attribution/caller-chain-decay",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "crash-forensics-attribution/weighted-evidence-directory-file-symbol",
+    "debt-and-loss-stakes-staging/ledger-after-every-event",
     "design-canon-as-executable-law/archetype-aware-envelopes",
     "design-canon-as-executable-law/parse-thresholds-from-prose",
     "design-doc-compliance-scoring/coverage-vs-conformance-split",
     "design-doc-compliance-scoring/evidence-age-envelope",
     "design-doc-compliance-scoring/severity-weighted-scale-free-damping",
+    "difficulty-design-and-adaptation/equal-skill-straight-time-loss",
     "difficulty-design-and-adaptation/four-term-difficulty-decomposition",
     "difficulty-design-and-adaptation/player-chosen-challenge-and-adjustment-hazards",
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
     "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
+    "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
+    "encounter-balance-simulation/entry-vs-winner-share-threshold-check",
     "encounter-balance-simulation/kill-share-and-damage-share-attribution",
     "encounter-balance-simulation/monte-carlo-scenario-presets",
     "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
@@ -7103,6 +10076,8 @@
     "generated-mesh-acceptance/stage-declared-grading",
     "generated-mesh-acceptance/structural-scorecard",
     "generated-mesh-acceptance/unmeasured-is-not-pass",
+    "generative-artifact-gating/generator-failure-deterministic-gates",
+    "generative-artifact-gating/reserve-before-dispatch-stop-latch",
     "generative-provider-auditing/record-negative-benchmarks-in-place",
     "image-to-3d-input-gating/reference-role-tagging",
     "imported-material-conformance/colour-space-is-per-texture-role",
@@ -7113,6 +10088,14 @@
     "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
     "learning-curve-and-teaching-design/flow-corridor-as-two-sided-envelope",
     "learning-curve-and-teaching-design/time-to-competence-measurement",
+    "llm-dialogue-quality-control/blind-rubric-scoring-by-another-family",
+    "llm-dialogue-quality-control/measured-banned-pattern-list",
+    "mass-based-arcade-collision/bounded-collision-spin",
+    "mass-based-arcade-collision/inverse-mass-impulse-split",
+    "mass-based-arcade-collision/min-restitution-pairing",
+    "mass-based-arcade-collision/multi-circle-capsule-contact",
+    "mass-based-arcade-collision/ram-energy-accumulate-once-per-step",
+    "mass-based-arcade-collision/wall-tangent-retention-versus-head-on-loss",
     "mesh-finishing-for-engine-readiness/high-to-low-bake-coverage",
     "mesh-finishing-for-engine-readiness/unwrap-only-the-low-poly",
     "motion-quality-gating/absolute-not-curved-judgment",
@@ -7120,10 +10103,16 @@
     "motion-quality-gating/genre-response-latency-norms",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
     "motion-quality-gating/six-dimension-motion-rubric",
+    "on-device-verification-harness/absolute-due-time-load-pump",
+    "on-device-verification-harness/meminfo-local-to-avoid-forced-gc",
+    "on-device-verification-harness/separate-active-race-from-transition-windows",
     "perf-regression-gating/baseline-bound-to-build-and-machine",
     "perf-regression-gating/noise-floor-before-the-threshold",
     "perf-regression-gating/per-thread-budgets-not-one-frame-time",
     "perf-regression-gating/percentile-and-hitch-gate",
+    "phone-controller-input-protocol/absolute-state-over-event-frames",
+    "phone-controller-input-protocol/sequence-gap-and-age-rejection",
+    "phone-controller-input-protocol/stale-hold-steer-drop-actions",
     "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
     "playtest-signal-to-defect/repro-minimization-protocol",
     "playtest-signal-to-defect/session-instrumentation-contract",
@@ -7143,8 +10132,20 @@
     "prompt-fitness-and-evolution/min-trials-and-confidence-banded-conclusion",
     "prompt-fitness-and-evolution/unjudged-is-null-not-zero",
     "quality-verdict-integrity/calibration-against-confirmed-labels-only",
+    "race-event-as-story-beat/twenty-second-story-budget",
+    "racing-career-economy/finite-garage-end-state-honesty",
+    "racing-career-economy/idempotent-race-ticket-settlement",
+    "racing-career-economy/pr-ratio-boss-dip",
+    "racing-career-economy/qualified-wreck-advancement",
+    "racing-career-economy/repair-share-prize-cap",
+    "racing-track-authoring-and-lint/corner-radius-in-longest-car-lengths",
+    "racing-track-authoring-and-lint/px-per-metre-scale-contract",
+    "racing-track-authoring-and-lint/width-in-widest-car-widths",
     "realtime-combat-semantics/active-defense-two-axis-split",
+    "realtime-combat-semantics/armor-as-reduction-not-pool",
+    "realtime-combat-semantics/no-one-shot-ehp-floor-in-racing",
     "realtime-combat-semantics/real-time-timers-with-an-escapable-window",
+    "realtime-combat-semantics/start-protection-window",
     "reference-parity-gating/findings-carry-the-correction",
     "reference-parity-gating/no-average-hides-a-failure",
     "reference-parity-gating/register-once-from-the-invariant",
@@ -7157,13 +10158,20 @@
     "shader-budget-authoring/feature-cost-with-a-cheaper-swap",
     "shader-budget-authoring/sampler-hard-and-soft-caps",
     "ship-pipeline-gating/size-budget-and-growth-baseline",
+    "short-form-cards-and-barks/barks-that-survive-repetition",
+    "short-form-cards-and-barks/television-read-budget",
     "spatial-audio-scene-authoring/attenuation-falloff-and-distance-filtering",
     "spatial-audio-scene-authoring/occlusion-to-volume-and-filter",
     "spatial-audio-scene-authoring/reverb-parameter-tables",
     "spatial-audio-scene-authoring/room-type-to-acoustic-profile",
+    "speech-synthesis-script-writing/hesitation-marks-can-silence-a-line",
+    "speech-synthesis-script-writing/length-and-breath-budget",
     "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
     "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
     "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
+    "steering-feel-profile-shaping/asymmetric-steer-slew-rise-return",
+    "steering-feel-profile-shaping/five-profile-trace-bands",
+    "steering-feel-profile-shaping/throttle-instant-release-progressive-rise",
     "subsystem-review-doctrine/severity-by-consequence",
     "terrain-synthesis-acceptance/heightfield-resolution-and-vertical-basis",
     "terrain-synthesis-acceptance/playable-area-versus-backdrop-ratio",
@@ -7172,8 +10180,17 @@
     "tiling-texture-acceptance/luminance-heightfield-normal-derivation",
     "tiling-texture-acceptance/seam-threshold-calibration",
     "tiling-texture-acceptance/texel-density-and-uv-tiling",
+    "top-down-vehicle-handling-model/bounded-load-transfer-grip",
+    "top-down-vehicle-handling-model/slip-restoring-yaw-stability",
+    "top-down-vehicle-handling-model/speed-attenuated-steering-authority",
+    "top-down-vehicle-handling-model/surface-grip-drag-ladder",
     "unattended-build-loop/completed-with-gaps-excluded-from-the-numerator",
     "unattended-build-loop/verified-vs-self-reported-pass-rate",
+    "vehicle-archetype-balance/linear-stat-to-physics-mapping",
+    "vehicle-archetype-balance/power-rating-single-function",
+    "vehicle-archetype-balance/sidegrade-two-per-tier",
+    "vehicle-archetype-balance/weights-fit-to-sim-with-published-residuals",
+    "vehicle-archetype-balance/winner-share-over-declared-course-mix",
     "visual-script-to-code-transpilation/plain-language-jargon-layer"
    ]
   },
@@ -7191,6 +10208,7 @@
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
     "catalog-pipeline-authoring/producer-facts-are-observed-not-declared",
     "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
+    "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
@@ -7198,11 +10216,16 @@
     "game-dialogue-voice-pipeline/re-cast-gate",
     "generative-artifact-gating/auto-picked-vs-human-chosen-provenance",
     "generative-artifact-gating/gate-before-every-credit-spend",
+    "generative-artifact-gating/generator-failure-deterministic-gates",
     "generative-artifact-gating/grade-the-selected-candidate",
     "generative-provider-auditing/arena-benchmark-protocol",
     "generative-provider-auditing/capability-is-not-registry-membership",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
     "learning-curve-and-teaching-design/teaching-escalation-ladder",
+    "llm-dialogue-quality-control/blind-rubric-scoring-by-another-family",
+    "llm-dialogue-quality-control/critique-and-revise-with-human-checkpoints",
+    "on-device-verification-harness/emulated-touch-is-not-physical-touch",
+    "on-device-verification-harness/keep-the-failed-baseline",
     "perf-regression-gating/baseline-bound-to-build-and-machine",
     "perf-regression-gating/bracketed-capture-window",
     "playtest-signal-to-defect/observation-before-interpretation",
@@ -7246,6 +10269,7 @@
     "acceptance-verdict-spine/three-layer-merge-order",
     "adaptive-music-authoring/music-acceptance-beyond-decode-checks",
     "agent-behaviour-authoring/decision-trace-as-evidence",
+    "agent-behaviour-authoring/no-double-grip-penalty",
     "arpg-systems-canon/layered-defenses-and-the-ehp-floor",
     "branching-narrative-graph-validation/dead-end-versus-authored-ending",
     "branching-narrative-graph-validation/false-choice-and-convergence-audit",
@@ -7254,15 +10278,23 @@
     "content-acceptance-tiering/config-complete-vs-runtime-verified",
     "content-acceptance-tiering/deferred-as-honest-progress",
     "content-acceptance-tiering/tier-ladder-design",
+    "controller-latency-instrumentation/optical-flash-frame-count-protocol",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "debt-and-loss-stakes-staging/survive-the-lean-stretch",
     "design-canon-as-executable-law/shape-check-vs-content-invariant",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "difficulty-design-and-adaptation/equal-skill-straight-time-loss",
     "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
+    "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
+    "difficulty-design-and-adaptation/tier-changes-decisions-not-specs-test",
     "encounter-balance-simulation/tier-band-peer-outlier-linting",
+    "ending-first-narrative-structure/back-planned-beat-sheet",
+    "ending-first-narrative-structure/plant-the-betrayal-in-every-earlier-scene",
     "engine-integration-safety/judge-by-log-markers-not-exit-code",
     "engine-pitfall-corpus/incident-entry-shape",
     "engine-pitfall-corpus/introspect-before-you-call",
     "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
+    "fire-tv-device-realities/abi-inspect-the-apk",
     "game-economy-tuning/feedback-loop-topology-and-polarity",
     "game-economy-tuning/progression-curve-shape-tests",
     "game-economy-tuning/structural-economy-simulation-before-numbers",
@@ -7272,17 +10304,28 @@
     "generated-mesh-acceptance/structural-scorecard",
     "generative-artifact-gating/acquired-is-not-generated",
     "generative-artifact-gating/gate-before-every-credit-spend",
+    "generative-artifact-gating/generator-failure-deterministic-gates",
     "generative-artifact-gating/placeholder-is-not-an-asset",
     "judgeable-spec-authoring/enumeration-closure-as-arithmetic",
     "judgeable-spec-authoring/execute-the-rules-against-the-worked-example",
     "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
     "learning-curve-and-teaching-design/introduce-practise-test-spacing",
+    "llm-dialogue-quality-control/read-aloud-pass",
+    "mass-based-arcade-collision/inverse-mass-impulse-split",
+    "mass-based-arcade-collision/multi-circle-capsule-contact",
+    "mass-based-arcade-collision/wall-tangent-retention-versus-head-on-loss",
     "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/asset-reality-ledger",
     "motion-quality-gating/filmstrip-sampling-discipline",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
+    "on-device-verification-harness/emulated-touch-is-not-physical-touch",
+    "on-device-verification-harness/fresh-state-per-check",
+    "on-device-verification-harness/poll-ready-signal-not-fixed-delay",
+    "phone-controller-input-protocol/neutralise-on-every-loss-path",
+    "phone-controller-input-protocol/reconnect-by-token-seat-recovery",
+    "phone-controller-input-protocol/stale-hold-steer-drop-actions",
     "procedural-level-planning/gate-and-key-solvability-proof",
     "procedural-level-planning/landmark-and-sightline-legibility",
     "procedural-level-planning/safe-room-and-boss-placement",
@@ -7290,6 +10333,11 @@
     "production-coverage-measurement/readiness-ladder",
     "production-prompt-architecture/wiring-requirements-section",
     "production-work-prioritization/vertical-slice-as-the-first-milestone",
+    "racing-career-economy/participation-floor-no-dead-end",
+    "racing-career-economy/pr-ratio-boss-dip",
+    "racing-career-economy/qualified-wreck-advancement",
+    "racing-track-authoring-and-lint/mutate-good-track-to-prove-linter",
+    "racing-track-authoring-and-lint/oriented-capsule-grid-lint",
     "realtime-combat-semantics/active-defense-two-axis-split",
     "realtime-combat-semantics/hit-dedup-per-swing",
     "realtime-combat-semantics/real-time-timers-with-an-escapable-window",
@@ -7300,8 +10348,11 @@
     "ship-pipeline-gating/editor-only-api-audit-for-shipping",
     "ship-pipeline-gating/post-cook-process-liveness-smoke",
     "ship-pipeline-gating/preflight-before-an-expensive-cook",
+    "short-form-cards-and-barks/picture-carries-the-card",
+    "speech-synthesis-script-writing/punctuation-as-direction",
     "sprite-and-atlas-production/lossy-compression-acceptance-for-flat-art",
     "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
+    "steering-feel-profile-shaping/five-profile-trace-bands",
     "subsystem-review-doctrine/four-pass-ordering",
     "subsystem-review-doctrine/per-subsystem-check-sets",
     "subsystem-review-doctrine/trace-one-interaction-end-to-end",
@@ -7309,8 +10360,12 @@
     "terrain-synthesis-acceptance/slope-traversability-envelope",
     "tiling-texture-acceptance/luminance-heightfield-normal-derivation",
     "tiling-texture-acceptance/wrap-around-edge-diff",
+    "top-down-vehicle-handling-model/kerb-verge-inside-hard-wall",
+    "two-thumb-touch-layout-design/pointer-capture-per-control",
     "unattended-build-loop/no-gate-self-certifies",
     "unattended-build-loop/verifier-coverage-review-agenda",
+    "vehicle-archetype-balance/weights-fit-to-sim-with-published-residuals",
+    "vehicle-archetype-balance/winner-share-over-declared-course-mix",
     "visual-script-to-code-transpilation/event-override-signature-resolution",
     "visual-script-to-code-transpilation/graph-type-to-code-type-mapping",
     "wiring-contract-doctrine/four-field-wiring-contract",
@@ -7329,10 +10384,12 @@
     "catalog-pipeline-authoring/archetype-view-coherence-ratchet",
     "catalog-pipeline-authoring/packaging-exempt-two-state-rule",
     "catalog-pipeline-authoring/view-produce-accept-triad",
+    "condition-tagged-line-tables/line-table-schema",
     "content-acceptance-tiering/never-fail-silently-reason-strings",
     "content-acceptance-tiering/plain-language-tier-glossary",
     "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
     "design-canon-as-executable-law/parse-thresholds-from-prose",
+    "difficulty-design-and-adaptation/tier-changes-decisions-not-specs-test",
     "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
     "engine-integration-safety/judge-by-log-markers-not-exit-code",
     "game-economy-tuning/economy-philosophy-multipliers",
@@ -7341,6 +10398,7 @@
     "generative-artifact-gating/generation-history-as-artifact",
     "imported-material-conformance/surface-conformance-swatch",
     "judgeable-spec-authoring/quantity-ownership-and-the-bindable-row",
+    "llm-dialogue-quality-control/measured-banned-pattern-list",
     "procedural-level-planning/algorithm-parameter-support-matrix",
     "procedural-level-planning/pacing-linter-rules",
     "production-coverage-measurement/audited-fact-drift-detection",
@@ -7349,11 +10407,18 @@
     "production-prompt-architecture/version-keyed-engine-facts",
     "production-work-prioritization/fixed-deadline-scope-triage",
     "quality-verdict-integrity/rubric-version-supersession",
+    "racing-track-authoring-and-lint/straight-fraction-pacing-band",
+    "racing-track-authoring-and-lint/width-in-widest-car-widths",
+    "realtime-combat-semantics/no-one-shot-ehp-floor-in-racing",
     "shader-budget-authoring/surface-to-shading-model-map",
     "ship-pipeline-gating/fail-closed-on-corrupt-gate-config",
+    "short-form-cards-and-barks/three-line-card-image-trade-turn",
     "sprite-and-atlas-production/autotile-rule-set-completeness",
+    "steering-feel-profile-shaping/five-profile-trace-bands",
     "subsystem-review-doctrine/per-subsystem-check-sets",
+    "subtext-and-voice-differentiation/voice-bible-per-speaker",
     "tiling-texture-acceptance/seam-threshold-calibration",
+    "vehicle-archetype-balance/power-rating-single-function",
     "visual-script-to-code-transpilation/declaration-definition-parity",
     "wiring-contract-doctrine/contract-injection-into-prompts"
    ]
@@ -7364,18 +10429,40 @@
     "aaa-craft-rubric-authoring/deliberately-overlapping-criteria",
     "adaptive-music-authoring/intensity-mapping-from-declared-game-state",
     "branching-narrative-graph-validation/reachability-and-orphan-detection",
+    "combat-pacing-and-dramatic-arc/division-wide-damage-multiplier",
+    "combat-pacing-and-dramatic-arc/lead-car-wreck-before-lap-one-rate",
+    "controller-latency-instrumentation/best-rtt-sample-selection",
+    "controller-latency-instrumentation/exact-window-plus-histogram-quantiles",
+    "controller-latency-instrumentation/window-percentiles-are-not-poolable",
+    "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
+    "encounter-balance-simulation/distinct-hash-seed-diversity-alarm",
+    "encounter-balance-simulation/entry-vs-winner-share-threshold-check",
+    "encounter-balance-simulation/rotation-confound-cross-check",
     "engine-integration-safety/crash-truncated-batch-resume",
+    "fire-tv-device-realities/dhcp-scan-for-device",
+    "fire-tv-device-realities/wake-before-launch",
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "imported-material-conformance/surface-conformance-swatch",
+    "llm-dialogue-quality-control/measured-banned-pattern-list",
+    "on-device-verification-harness/meminfo-local-to-avoid-forced-gc",
+    "on-device-verification-harness/poll-ready-signal-not-fixed-delay",
     "perf-regression-gating/bracketed-capture-window",
     "perf-regression-gating/noise-floor-before-the-threshold",
     "perf-regression-gating/percentile-and-hitch-gate",
+    "phone-controller-input-protocol/neutralise-on-every-loss-path",
+    "phone-controller-input-protocol/sequence-gap-and-age-rejection",
     "playtest-signal-to-defect/repro-minimization-protocol",
     "playtest-signal-to-defect/session-instrumentation-contract",
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
+    "racing-track-authoring-and-lint/corner-radius-in-longest-car-lengths",
+    "racing-track-authoring-and-lint/mutate-good-track-to-prove-linter",
+    "speech-synthesis-script-writing/hesitation-marks-can-silence-a-line",
     "sprite-and-atlas-production/autotile-rule-set-completeness",
+    "steering-feel-profile-shaping/five-profile-trace-bands",
     "terrain-synthesis-acceptance/biome-mask-cross-consistency",
-    "unattended-build-loop/confirmation-inherits-the-gates-limits"
+    "unattended-build-loop/confirmation-inherits-the-gates-limits",
+    "vehicle-archetype-balance/identity-pair-via-authored-band",
+    "vehicle-archetype-balance/winner-share-over-declared-course-mix"
    ]
   },
   "a-verdict-is-bound-to-its-content": {
@@ -7401,7 +10488,10 @@
     "image-to-3d-input-gating/multi-view-master-reference",
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "learning-curve-and-teaching-design/time-to-competence-measurement",
+    "llm-dialogue-quality-control/blind-rubric-scoring-by-another-family",
     "motion-quality-gating/filmstrip-sampling-discipline",
+    "on-device-verification-harness/fresh-state-per-check",
+    "on-device-verification-harness/keep-the-failed-baseline",
     "perf-regression-gating/baseline-bound-to-build-and-machine",
     "playtest-signal-to-defect/session-instrumentation-contract",
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
@@ -7417,6 +10507,8 @@
     "runtime-observation-evidence/bounded-evidence-with-provenance",
     "runtime-observation-evidence/unverifiable-is-not-fail",
     "ship-pipeline-gating/validator-log-classification",
+    "speech-synthesis-script-writing/change-the-text-before-the-settings",
+    "speech-synthesis-script-writing/tags-depend-on-the-model-generation",
     "subsystem-review-doctrine/regression-diff-new-persisting-resolved"
    ]
   },
@@ -7427,12 +10519,16 @@
     "ability-authoring-to-engine/server-derived-codegen-report",
     "acceptance-verdict-spine/hardcoded-pass-antipattern",
     "agent-behaviour-authoring/decision-trace-as-evidence",
+    "ally-bond-and-found-family-systems/design-the-finale-need-first",
     "arpg-systems-canon/rarity-is-an-affix-budget",
     "branching-narrative-graph-validation/reachability-and-orphan-detection",
     "catalog-pipeline-authoring/packaging-exempt-two-state-rule",
+    "condition-tagged-line-tables/line-table-schema",
+    "condition-tagged-line-tables/most-specific-match-wins",
     "content-acceptance-tiering/config-complete-vs-runtime-verified",
     "design-doc-compliance-scoring/bidirectional-gap-detection",
     "engine-pitfall-corpus/binary-content-wall",
+    "fire-tv-device-realities/unhandled-bind-failure-kills-process",
     "gameplay-runtime-patterns/event-dispatch-versus-direct-call",
     "generated-mesh-acceptance/face-rig-shell-readiness",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
@@ -7441,9 +10537,11 @@
     "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/asset-reality-ledger",
+    "phone-controller-input-protocol/neutralise-on-every-loss-path",
     "production-coverage-measurement/headless-operability-gate",
     "production-prompt-architecture/wiring-requirements-section",
     "production-work-prioritization/vertical-slice-as-the-first-milestone",
+    "race-event-as-story-beat/four-part-beat-delivery",
     "realtime-combat-semantics/death-via-state-tag-not-input-disable",
     "runtime-observation-evidence/observation-spine-contract",
     "subsystem-review-doctrine/trace-one-interaction-end-to-end",
@@ -7459,11 +10557,37 @@
    "statement": "A field a producer fills and no consumer ever reads is, from the producing side, indistinguishable from one that governs everything downstream: it validates, it round-trips, it appears in the schema, and the artifact carrying it looks configured. From the consuming side it does not exist. So the question a pipeline must be able to answer about every declared input is not whether something wrote it but whether something *reads* it — a census of readers, never of writers — and an input with no reader is reported as ignored at the moment it is declared, not discovered later by whoever trusted it. A generator states which of its declared parameters the selected algorithm actually consumes; an authored vocabulary is audited in both directions, for names referenced but never declared and for names declared but never referenced; and a constraint stored as prose in a field no checker parses is worse than an absent one, because absence is visible and prose reads as authored. This is the mirror of the rule that compiling is not wiring: that one governs a produced artifact nothing can reach, this one governs a declared input nothing consults, and they are the same disease at opposite ends of the pipe.",
    "techniques": [
     "ability-authoring-to-engine/declared-vs-referenced-tag-audit",
+    "ally-bond-and-found-family-systems/bond-pays-in-play-not-vending",
+    "antagonist-fair-grievance-craft/one-protected-thing",
     "catalog-pipeline-authoring/producer-facts-are-observed-not-declared",
+    "condition-tagged-line-tables/line-table-schema",
+    "difficulty-design-and-adaptation/tier-changes-decisions-not-specs-test",
+    "ending-first-narrative-structure/back-planned-beat-sheet",
+    "ending-first-narrative-structure/cut-the-thread-that-cannot-pay-off",
     "game-dialogue-voice-pipeline/cast-ledger-with-consent",
+    "llm-dialogue-quality-control/voice-bible-in-every-prompt",
     "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
     "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
-    "procedural-level-planning/declare-what-each-engine-ignores"
+    "phone-controller-input-protocol/indexed-not-toggled-commands",
+    "procedural-level-planning/declare-what-each-engine-ignores",
+    "race-event-as-story-beat/rule-variants-carry-story",
+    "racing-career-economy/rival-shopping-windows-no-player-read",
+    "racing-track-authoring-and-lint/px-per-metre-scale-contract",
+    "racing-track-authoring-and-lint/straight-fraction-pacing-band",
+    "regional-culture-worldbuilding/economy-institution-slang-code-per-region",
+    "regional-culture-worldbuilding/world-by-implication",
+    "rival-to-ally-turn/earn-respect-before-the-turn",
+    "rival-to-ally-turn/keep-the-rivals-own-culture",
+    "rival-to-ally-turn/style-plus-grudge-before-taunts",
+    "rival-to-ally-turn/switching-sides-costs-something",
+    "short-form-cards-and-barks/callback-pays-a-seed",
+    "speech-synthesis-script-writing/tags-depend-on-the-model-generation",
+    "steering-feel-profile-shaping/baseline-preset-preserved",
+    "steering-feel-profile-shaping/deadzone-exponent-remap",
+    "subtext-and-voice-differentiation/voice-bible-per-speaker",
+    "top-down-vehicle-handling-model/drift-state-hysteresis",
+    "top-down-vehicle-handling-model/kerb-verge-inside-hard-wall",
+    "vehicle-archetype-balance/linear-stat-to-physics-mapping"
    ]
   },
   "refuse-rather-than-destroy": {
@@ -7483,8 +10607,13 @@
     "engine-integration-safety/refuse-dont-kill-a-live-editor",
     "engine-integration-safety/single-instance-lease-and-drain",
     "engine-pitfall-corpus/binary-content-wall",
+    "fire-tv-device-realities/unhandled-bind-failure-kills-process",
     "game-dialogue-voice-pipeline/cast-ledger-with-consent",
+    "generative-artifact-gating/reserve-before-dispatch-stop-latch",
     "generative-provider-auditing/refuse-with-reason-not-greyed-out",
+    "lan-pairing-and-session-continuity/listener-release-on-pause-rebind-on-resume",
+    "lan-pairing-and-session-continuity/port-preflight-with-reuseaddress",
+    "lan-pairing-and-session-continuity/token-seat-reclaim-precedence",
     "mesh-finishing-for-engine-readiness/crease-angle-and-custom-normals",
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
     "mesh-finishing-for-engine-readiness/pack-existing-vs-smart-unwrap",
@@ -7510,8 +10639,11 @@
     "asset-class-poly-budgeting/budget-shapes-output-not-just-caps",
     "asset-class-poly-budgeting/part-split-budget-division",
     "branching-narrative-graph-validation/node-text-budget-and-localization-surface",
+    "condition-tagged-line-tables/losing-yields-new-story",
+    "condition-tagged-line-tables/repeat-avoidance-by-recency-and-cooldown",
     "content-drift-and-revision/batch-lease-on-a-non-reentrant-resource",
     "design-canon-as-executable-law/self-declared-budget-enforcement",
+    "ending-first-narrative-structure/one-major-reveal-per-unit",
     "engine-integration-safety/editor-thread-timeout-budgeting",
     "game-dialogue-voice-pipeline/bake-versus-runtime-speech",
     "game-dialogue-voice-pipeline/localized-voice-timing-budget",
@@ -7522,6 +10654,8 @@
     "image-to-3d-input-gating/part-cut-planning",
     "image-to-3d-input-gating/text-is-never-geometry",
     "learning-curve-and-teaching-design/teaching-escalation-ladder",
+    "llm-dialogue-quality-control/candidates-under-rotating-constraints",
+    "llm-dialogue-quality-control/voice-bible-in-every-prompt",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
     "perf-regression-gating/per-thread-budgets-not-one-frame-time",
     "procedural-level-planning/critical-path-to-optional-branch-ratio",
@@ -7529,6 +10663,7 @@
     "production-prompt-architecture/domain-scoped-knowledge-injection",
     "production-work-prioritization/declared-scope-as-a-shaping-budget",
     "production-work-prioritization/fixed-deadline-scope-triage",
+    "race-event-as-story-beat/twenty-second-story-budget",
     "regeneration-vs-repair-economics/best-of-n-parameter-sweep",
     "regeneration-vs-repair-economics/bounded-refine-iteration",
     "runtime-observation-evidence/bounded-evidence-with-provenance",
@@ -7536,9 +10671,13 @@
     "shader-budget-authoring/hardware-tier-lighting-presets",
     "shader-budget-authoring/sampler-hard-and-soft-caps",
     "ship-pipeline-gating/size-budget-and-growth-baseline",
+    "short-form-cards-and-barks/bark-carries-character-in-one-breath",
+    "short-form-cards-and-barks/television-read-budget",
     "spatial-audio-scene-authoring/event-priority-concurrency-cooldown",
+    "speech-synthesis-script-writing/length-and-breath-budget",
     "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
     "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
+    "subtext-and-voice-differentiation/subtext-in-few-words",
     "terrain-synthesis-acceptance/playable-area-versus-backdrop-ratio",
     "unattended-build-loop/budget-reservation-and-drain-not-kill",
     "unattended-build-loop/review-at-the-fan-out-point",
