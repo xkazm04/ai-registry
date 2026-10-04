@@ -36,7 +36,7 @@ as a flag over the column order, there is one behaviour and two presentations.
 4. **Mirror the labels and hints that mention a side.** A hint that says "right thumb" in a
    mirrored layout is wrong in the one place the player reads.
 5. **Apply a change of the flag as a layout change**: clear every held value and slot, then
-   re-render ([neutralising technique](neutralise-on-sheet-open-or-layout-change.md)). A
+   re-render ([neutralising technique](./neutralise-on-sheet-open-or-layout-change.md)). A
    thumb that was holding on the old side is not holding the new one.
 6. **Test each layout in both orientations of the flag**, by the ownership test, not by a
    screenshot of the arrangement.

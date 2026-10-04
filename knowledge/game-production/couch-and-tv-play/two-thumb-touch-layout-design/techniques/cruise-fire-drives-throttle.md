@@ -32,7 +32,7 @@ than helped by it.
    that fire drives. The layout data carries a flag; the combination reads it. Do not hard
    code the layout's name into the combination.
 2. **Leave the explicit go control in place or hide it, as the layout says**, but never let
-   a hidden control keep a live owner ([the ownership technique](pointer-capture-per-control.md)).
+   a hidden control keep a live owner ([the ownership technique](./pointer-capture-per-control.md)).
 3. **Let brake override**, not subtract. Brake and drive held together mean brake. State
    that on the control itself.
 4. **Relabel the fire control** to say it also drives, so the combined meaning is on the

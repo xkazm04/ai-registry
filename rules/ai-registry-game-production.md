@@ -1,6 +1,6 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 65 subjects, 429 techniques, 175 applications.
+`game-production` - 77 subjects, 501 techniques, 199 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### systems-canon
@@ -32,3 +32,8 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 
 ### couch-and-tv-play
 - controller-latency-instrumentation, fire-tv-device-realities, lan-pairing-and-session-continuity, on-device-verification-harness, phone-controller-input-protocol, two-thumb-touch-layout-design
+
+### narrative-and-dialogue
+- **cast-and-relationships** - ally-bond-and-found-family-systems, antagonist-fair-grievance-craft, rival-to-ally-turn
+- **line-craft** - condition-tagged-line-tables, llm-dialogue-quality-control, short-form-cards-and-barks, speech-synthesis-script-writing, subtext-and-voice-differentiation
+- **story-structure** - debt-and-loss-stakes-staging, ending-first-narrative-structure, race-event-as-story-beat, regional-culture-worldbuilding

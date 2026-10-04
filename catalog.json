@@ -1026,11 +1026,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 65,
-      "techniques": 429,
-      "applications": 175,
-      "files": 673,
-      "contentHash": "sha256-b2:26c3ee5558f00d31"
+      "subjects": 77,
+      "techniques": 501,
+      "applications": 199,
+      "files": 781,
+      "contentHash": "sha256-b2:6e7804c06a3811aa"
     },
     {
       "name": "grant-funding",

@@ -155,6 +155,43 @@
         "fire-tv-device-realities",
         "on-device-verification-harness"
       ]
+    },
+    {
+      "id": "narrative-and-dialogue",
+      "title": "Narrative and dialogue",
+      "order": 10,
+      "subcategories": [
+        {
+          "id": "story-structure",
+          "title": "Story structure and stakes",
+          "subjects": [
+            "ending-first-narrative-structure",
+            "race-event-as-story-beat",
+            "debt-and-loss-stakes-staging",
+            "regional-culture-worldbuilding"
+          ]
+        },
+        {
+          "id": "cast-and-relationships",
+          "title": "Cast and relationships",
+          "subjects": [
+            "antagonist-fair-grievance-craft",
+            "rival-to-ally-turn",
+            "ally-bond-and-found-family-systems"
+          ]
+        },
+        {
+          "id": "line-craft",
+          "title": "Line craft and delivery",
+          "subjects": [
+            "condition-tagged-line-tables",
+            "short-form-cards-and-barks",
+            "subtext-and-voice-differentiation",
+            "llm-dialogue-quality-control",
+            "speech-synthesis-script-writing"
+          ]
+        }
+      ]
     }
   ]
 }
