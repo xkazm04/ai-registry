@@ -12226,3 +12226,26 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
 
 - When the project with the only plausible seam carries foreign WIP and is diverged from `origin`, `code` mode is not safely reachable, but `experiment` mode still is: run the real tool (here, `docker compose config`) against a scratch copy of the tree's own real artifacts, read-only, never touching the project's working tree. This is a cheaper and more decisive instrument than falling straight to `simulation`.
 - A composite-identifier fragment condition is not self-sufficient when the orchestrator itself hard-references one of the composite's constituent services (here, `depends_on`): the active set must independently carry that constituent's own singleton handle, or a request that reads as complete to an operator is refused. Worth checking on the next apply run against any conjunction-activated-fragments-shaped mechanism built on a real orchestrator.
+
+## 2.15.0 - 2026-10-04 - video-edited-itself
+
+- **When a source's claim rests on a vendor capability, fetch the capability's own
+  reference even when the claim looks obviously true - because the cheapest error a
+  build-walkthrough makes is naming the wrong UNIT, and a unit error propagates into
+  every clause of whatever gets written.** This source said "every word comes back with a
+  timestamp". The contract returns per-**character** times, and returns **two** alignments
+  (authored text and normalised text) rather than one. A run that had accepted the
+  framing would have written a technique about word timings, inherited the error, and
+  been unable to see the real finding, which lives entirely in the gap between the two
+  index spaces. The class entry already says the proudest segment is where the boundary
+  is missing; this run says the sharper version - the proudest segment is where the
+  **vocabulary** is loosest, because that is the passage the creator compressed hardest
+  for the camera. Three of three fetches went to vendor references and two of the three
+  contradicted the source.
+- **A negative seam search has a shape, and reporting it well costs one read.** `unapplied`
+  is strongest when it says what the nearest project does *instead* of the seam. Here the
+  nearest project turned out to be already correct at its own coarser granularity - scene
+  times copied verbatim from a scene record, with its own code comment naming the
+  typed-literal defect it had fixed - which is corroboration for the landed technique's
+  parent principle even though it offers no arm to run. Read the nearest non-seam and
+  report it; a bare "no seam found" throws away the half that was evidence.
