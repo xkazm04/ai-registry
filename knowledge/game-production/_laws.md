@@ -170,3 +170,58 @@ is worse than an absent one, because absence is visible and prose reads as autho
 mirror of the rule that compiling is not wiring: that one governs a produced artifact nothing can
 reach, this one governs a declared input nothing consults, and they are the same disease at opposite
 ends of the pipe.
+
+---
+
+<a id="a-picker-never-places-a-climactic-beat"></a>
+## L14 — A run-time picker never places a climactic beat
+
+Where content is chosen at run time by a selector that matches state to authored pieces, the
+selector serves the flexible middle and never the beats the whole structure leans on. A
+climax, a reveal, a turn or a payoff is pinned and hand-placed, authored against what the
+player has by then seen, because a picker optimises for the most specific match available and
+cannot know what a moment is for. The pinned set is kept small enough that a person can read
+all of it in order, and the selector is built so that it has no path to a pinned slot at all,
+not merely a low priority for one: a rule that the picker should usually leave them alone is
+a bug waiting for the case where it does not.
+
+---
+
+<a id="every-effect-on-the-rules-is-visible"></a>
+## L15 — Every effect on the rules is visible to the player
+
+Anything that changes what the player can do, what an opponent can do, or what an outcome
+costs is shown, whether it helps or hurts. A handicap, a boost, a stake that drains, a
+rubber band, a hidden bias in who is targeted: if it alters the rules it is either disclosed
+where the player can see it or it is presentation only and demonstrably cannot reach the
+simulation. There is no third category. An invisible help is the same fault as an invisible
+penalty, because the player's model of the game is wrong either way and every later
+decision inherits the error. A presentation layer that merely looks as though it affects play
+is held to the same standard from the other side: it must never seem to.
+
+---
+
+<a id="a-judge-of-the-generators-family-is-not-independent"></a>
+## L16 — A judge from the generator's family is not independent evidence
+
+A grader built from the same family, training or habits as the thing it grades shares its
+blind spots and prefers its output, so two such graders count as one and one counts as
+little. Independence is a property of the evidence's origin, not of the number of passes: a
+second judge from the same family, the generator grading its own revision, and a reference
+set the producer wrote for itself all teach the producer its own average. The remedy is a
+judge of a different family, a person at the final step, or a deterministic check, and a
+verdict records which of these produced it so that a reader can tell how much weight it
+carries. A same-family pass remains useful as a filter and is never reported as confirmation.
+
+---
+
+<a id="a-prohibition-in-a-generative-prompt-plants-what-it-forbids"></a>
+## L17 — A prohibition in a generative prompt plants what it forbids
+
+Naming a thing a generator must not do places that thing in its context, and the output
+drifts toward it. A banned phrase listed in the brief returns, a forbidden trait is exhibited
+with a disclaimer, and an off-voice example included "to avoid" becomes a template. So the
+brief carries what is wanted, stated positively and flat, and the prohibitions live in the
+checker, which reads them from the same source as the rest of the standard and runs after
+generation. The prohibition is measured by its hit rate on real output, not assumed to work,
+and a person may override a hit with the reason written down.
