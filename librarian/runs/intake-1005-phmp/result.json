@@ -1,0 +1,64 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-1005-phmp",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-05T15:25:00Z",
+  "ended_at": "2026-10-05T16:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-10-05",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-memory",
+      "technique": "container-carries-decision-status",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/container-carries-decision-status.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--container-carries-decision-status.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
+    "librarian/sources/2026-10-05-posthog-multiplayer-ai-lessons.md",
+    "librarian/subjects/software-engineering/agent-memory.md",
+    "librarian/applied.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [
+    {
+      "sha": "f4b8a5c8",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/container-carries-decision-status.md",
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--container-carries-decision-status.md",
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
+        "librarian/sources/2026-10-05-posthog-multiplayer-ai-lessons.md",
+        "librarian/subjects/software-engineering/agent-memory.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 technique, 4 leads, 5 catches. Fleet probe before drafting: hedged sentences 0/30 hardened; pasted planning bullets 12/12 as shipped and under a sentence rule, 0/12 under a container rule, floor held. Shipped personas 50371454f, unpushed."
+}

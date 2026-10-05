@@ -12293,3 +12293,22 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
   fleet map said two consumers. Reading them said both had already decided the question
   the other way (marks go to vector), which turned a scored row into a predicted
   `unapplied` before any drafting.
+
+## 2.15.0 - 2026-10-05 - posthog-multiplayer-ai-lessons
+- The strip test can strip the mechanism along with the nouns. The source said its nightly
+  pass ignores "meeting notes or brainstorming docs" because reading them would make the
+  store misrepresent reality. Stripped, that became "ideas are not decisions", a modality
+  rule. Fixtures built from the paraphrase hardened 0 of 30 on the fleet prompt. A fixture
+  built from the source's nouns (pasted planning bullets) hardened 12 of 12. "Meeting notes"
+  is a common noun naming a container class, and the container was the finding. At
+  extraction, keep a stripped claim's container nouns ("notes", "draft", "minutes",
+  "agenda") as part of the claim. At apply, build arm A's first fixture from them.
+- A refuted obvious form is the most useful thing a falsifying seam returns. It did not
+  kill the candidate. It relocated it: the technique states the boundary (a hedge in the
+  sentence survives, a container's status does not), and the refuted arm is the evidence
+  for that boundary. Third run in a row where the falsifying seam returned the boundary
+  (2.7 rule).
+- A shared fleet build lock costs wall clock, not correctness. personas' target directory
+  was held by three other sessions' cargo runs, so the run waited about 20 minutes for its
+  own test. Start the project gate as soon as the edit lands, in the background, and write
+  the ledgers while it queues.

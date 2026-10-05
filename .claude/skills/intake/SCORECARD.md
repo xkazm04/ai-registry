@@ -5066,3 +5066,17 @@ discrimination region the run should have declared up front. Next run's declared
 face, a hand, a sign), declare the region and its crop in the manifest before the first
 render, and gate on the crop.** Declaring the metric beforehand is what keeps it from
 being a metric swap after a refusal (2026-09-15).
+| 2.15.0 | 2026-10-05 | `posthog-multiplayer-ai-lessons` (`web:newsletter.posthog.com/p/were-building-multiplayer-ai-heres`) - first-party practitioner account, a vendor product team's dogfooding notes on multi-human agent work; memory lane entered | 1 | 13 | 7 rows read against files (memory-governance, pending-beliefs-live-apart, consolidation's refusals, compression-hardens-deferred-decisions, declared-truth-boundary, judgment-guardbands, proposal-not-push) plus **a 4-arm A/B on the fleet seam before drafting** (28 headless calls, 3 fixtures); 0 of 3 fetches | 1 technique (`container-carries-decision-status`) + golden-path line + 1 fleet application; 4 leads, 5 catches, 5 untriaged | 1 row: 0c/**1e**/0s/0t/0r (`better`: container-borne hardening 12/12 -> 0/12, floor held; the per-sentence form refuted at 0/30) | **1 fleet commit** (personas 50371454f, not pushed) | **Declared focus (cinematic) did not apply**: nothing render-bound. The focus before it (mixar: name arm A's fleet line at Phase 5 and probe before drafting) **applied and moved the landing**. The probe's first two fixtures tested the strip test's paraphrase ("ideas are not decisions") and came back clean. The third tested the source's own nouns (meeting notes, brainstorm docs) and found the failure, so the technique was written about containers, not modality | 0/1/0/0/0 · routing=n/a (essay) · handoff=n/a · directions=n/a · auto=1/2/0 fp=0 · lexical post-check 23/24 |
+
+**2026-10-05 (posthog-multiplayer-ai-lessons) - weakest stage and next focus.** **Ship**
+is still losing most: six of the last ten rows made zero fleet commits, against seven
+before this run. The four that shipped share a shape. The seam was a few lines of text in
+a fleet tree (a prompt, an export call, a config), and arm A could be rebuilt outside the
+app in minutes and run before drafting. This run adds a refinement on the test stage that
+fed the ship: **the first fixture tested the strip test's paraphrase of the claim, and the
+paraphrase was the half the extractor already handled.** The source's own nouns ("meeting
+notes", "brainstorming docs") were the mechanism, not proper nouns. Next run's declared
+focus: **at Phase 5, build arm A's first fixture from the source's own named examples, not
+from the stripped claim, and keep the stripped form as the second arm.** A clean result on
+the paraphrase and a failure on the source's case is the boundary the technique has to
+state.
