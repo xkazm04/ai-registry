@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1828,
-  "applications": 1230,
+  "techniques": 1829,
+  "applications": 1231,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1828/1828",
+  "use_when_coverage": "1829/1829",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1912,9 +1912,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:0942d53ebe93cb4e",
-   "revision": 46,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:23599eae61aa7119",
+   "revision": 47,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -1978,6 +1978,23 @@
       "a short correction ranks below the long belief it fixes",
       "an import wants to bypass the judgment pass",
       "deciding whether a new fact closes an old one or coexists with it"
+     ]
+    },
+    {
+     "slug": "container-carries-decision-status",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a consolidation pass writes what the store will treat as current state",
+      "the evidence includes pasted notes or planning bullets or an agenda or a draft change",
+      "an ingest splits documents into chunks before extraction",
+      "a fact says something was decided and nobody can find where",
+      "deciding which upstream artifacts a nightly pass may read",
+      "adding a rule to an extraction prompt about ideas versus decisions"
      ]
     },
     {
@@ -2548,6 +2565,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--consolidation.md",
      "verified_on": "2026-08-30",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "container-carries-decision-status",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--container-carries-decision-status.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -40342,6 +40366,7 @@
     "agent-instruction-files/principal-tier-gating",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/addresses-not-atoms",
+    "agent-memory/container-carries-decision-status",
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
     "agent-memory/filter-at-the-id-door",
@@ -42523,6 +42548,7 @@
     "agent-instruction-files/inherited-default-ownership",
     "agent-instruction-files/restraint-amplifier-balance",
     "agent-instruction-files/rewrite-behavior-pinning",
+    "agent-memory/container-carries-decision-status",
     "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/owner-and-counterpart-scope",
     "agent-memory/pending-beliefs-live-apart",
