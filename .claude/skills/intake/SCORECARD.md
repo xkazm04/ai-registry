@@ -5080,3 +5080,16 @@ focus: **at Phase 5, build arm A's first fixture from the source's own named exa
 from the stripped claim, and keep the stripped form as the second arm.** A clean result on
 the paraphrase and a failure on the source's case is the boundary the technique has to
 state.
+| 2.15.0 | 2026-10-05 | `decision-model-fixed-line-calibration` (`youtube:ICtPrhMBUKA`) - first-party practitioner account, the sixth pass over the hosted typed-decision model; the author's own trained-model calibration experiment | 1 | 13 | 5 rows read against files (golden path, probability-calibration-is-not-agreement, stated-distribution-over-closed-labels, baseline-ladder, handicap-disclosure) plus **a 3-seed probe on the source's own dataset, baseline and split** (fetch 1 of 3) and a replay of pof's committed arena (267 answers) | 1 technique (`compare-gates-at-matched-coverage`) + golden-path paragraph + 1 fleet application + 1 currency re-resolution (6/8 anchors moved); 2 leads, 7 catches, 3 untriaged | 1 row: **1c**/0e/0s/0t/0r (`better`: outcomes naming whose line decided them 0/267 -> 267/267, 178 borrowed lines disclosed, floor verdict and refusal 267/267) | **1 fleet commit** (pof f6f1286a, not pushed) | **Declared focus (arm A from the source's own named examples) applied and decided the landing.** The source's fixture rebuilt from its own nouns showed what the paraphrase hides: the sign of a fixed-line error change follows the temperature, so the best calibration fit read as tripling errors. The prediction bound (<10%) missed at 15%; the falsifier did not fire. The ship came from the seam hunt: a card that knew its line, an outcome that dropped it. The project's own ledger was read first and kept a second change (a 12B row) unshipped under its 20-positive rule | 0/1/0/0/0 · routing=n/a (video) · handoff=n/a · directions=n/a · auto=1/1/0 fp=0 · anchors 6/6 new + 8 re-resolved |
+
+**2026-10-05 (decision-model-fixed-line-calibration) - weakest stage and next focus.**
+**Ship** is still losing most: five of the last ten rows made zero fleet commits. This
+run's paired proof needed no new instrument. The project had committed its arena's raw
+answers, and the replay that measured both arms was thirty lines run against data
+already in the tree. The run spent most of its apply budget on a probe that could not
+ship (a public dataset), and the shipping arm took a fraction of it. Next run's
+declared focus: **at Phase 7.5, before designing an arm, search the seam's project for
+committed raw measurements (an arena ledger, recorded sessions, fixture outputs) that
+already hold both arms' inputs, and replay those first.** A replay of committed rows
+is the cheapest paired proof a tree can offer, and it is the one most likely to end in
+a commit.
