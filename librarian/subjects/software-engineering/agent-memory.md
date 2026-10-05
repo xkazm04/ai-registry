@@ -861,3 +861,22 @@ build the arm on the memory-year harness first). Measured in the source and wort
 one-slot before-image is an undo/redo toggle, and any write after the pass, even one later deleted,
 makes undo refuse. A concurrent-loss window across scopes was reproduced with two projects sharing a
 storage root.
+
+## 2026-10-05 - intake multiplayer AI lessons ([[2026-10-05-posthog-multiplayer-ai-lessons]], run `intake-1005-phmp`)
+
+Landed `container-carries-decision-status`: what a consolidation pass may write as state.
+A hedge inside a sentence survives extraction (0 of 30 hardened on the shipped personas
+COMPRESS prompt). A planning bullet carries its status only in its container. Pasted
+bullets came out "as decided" 12 of 12 under the shipped prompt and under a sentence-level
+rule, and 0 of 12 under a container rule, with the floor held. Rule 1 (admit by lifecycle
+field, in code) is the source's own design. Rule 2 (state the container rule) is the
+measurement. Application `rust--container-carries-decision-status` (experiment, better).
+Shipped as rule 2c in personas, not pushed.
+
+Neighbour stated, not duplicated: `prompt-assembly/compression-hardens-deferred-decisions`
+finds the same direction on instructions and scopes fact layers out. Two runs now share the
+root, and a third sighting makes it a law candidate. The governance lanes read the
+evidence's author. This technique reads its commitment state, and the two compose.
+
+Open: the manual consolidation pass has its own rules block without the rule (unmeasured),
+and open items admitted with a status have no revisit date.
