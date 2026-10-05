@@ -332,3 +332,17 @@ because these close it.
 applications grow by use, so the guideline is read as a forging budget, not a ceiling, and the
 decision is recorded here rather than silently exceeded; `serialization-transport-safety` still
 has no application; the ratchet on identical values waits for the owner.
+
+### 2026-10-06 — prompt-context-contract measured in a second project (apply-1006-css)
+
+personas `62df24375`: the gap fan-out now attaches each key's `_comment_` note to its
+work chunk. Before that, 0 of the catalog's 358 notes reached a translator, though the
+project's contract calls them translator notes and this registry's translator skill
+lists the note as a request field. The paired proof was a fixture of 140 keys in two
+exports: notes delivered went from 0/65 to 65/65, and the strings and task set were
+byte-identical. Output effect: a blind judge preferred the noted renderings 16 to 8
+over 43 changed renderings from two local engines. That pays the instrument the
+personas-web row (2026-09-14) owed for this technique, in a different project.
+Verdict **better**
+(`applications/node--prompt-context-contract--personas.md`). Still open: the
+three-step extract flow keeps notes in a separate file from the strings.

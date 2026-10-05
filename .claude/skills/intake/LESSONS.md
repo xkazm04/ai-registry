@@ -12332,3 +12332,20 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
   `node_modules/`, an `out/`, a `__pycache__/`) turns the lane red for every run in the
   checkout. It is not a content verdict. Name the paths and move on; do not delete
   another session's files to get a green line.
+
+## 2.15.0 - 2026-10-06 - apply-1006-css (context-sufficiency-signals)
+
+- **A project's defect register is a committed label set.** personas'
+  `source-defects.md` held 26 keys that reviewers in 13 locales had filed as source
+  defects. That is the positive class the technique claims to detect, and it was
+  found after the run had already built a blind labeller. The replay took 52 calls
+  and gave the run's most independent number (AUROC 0.49). It is the declared focus
+  of 2026-10-05, applied late. Search the registers before building an instrument.
+- **Design the falsifier into the arms.** "Supply the missing input and divergence
+  must fall" was one extra arm (B), plus a placebo (C) to separate information from
+  perturbation. It refuted the mechanism directly. A precision number alone would
+  only have said "low".
+- **The seam hunt shipped again, not the technique.** The tested technique came back
+  not-better, and the shippable change came from reading the project's contract
+  against its pipeline: notes written for the translator and never sent. This is
+  the v2.8.1 rule (the seam hunt is a second source) holding on an apply-only run.

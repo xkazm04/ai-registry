@@ -5093,3 +5093,14 @@ committed raw measurements (an arena ledger, recorded sessions, fixture outputs)
 already hold both arms' inputs, and replay those first.** A replay of committed rows
 is the cheapest paired proof a tree can offer, and it is the one most likely to end in
 a commit.
+
+| 2.15.0 | 2026-10-06 | `apply context-sufficiency-signals` (operator dispatch, attention scan: "no application - never reconciled against real code") - apply-only | 0 | 0 | 1 technique read against personas' i18n pipeline, contract and catalog; **5 arms x 2 local engines (700 calls) + a blind labeller + a blind A/B judge + a replay of the project's committed source-defect register (26 keys)**; 0 of 3 fetches | technique amendment (`When the divergence is not about the source`) + 2 fleet applications + 1 skill patch (`i18n-translate` 1.6.2) | 2 rows: **1c/1e**/0s/0t/0r (`not-better`: divergence flags 1/24 vs a 4/70 base rate, own note moved divergence 0.002, register AUROC 0.49; `better`: translator notes delivered 0/65 -> 65/65, judge 16:8) | **2 fleet commits, pushed** (personas 62df24375, bad262c0c) | **Declared focus (replay committed raw measurements first) applied late, and it decided the strongest number**: the project's source-defect register was a label set from 13 locales' reviewers, and it was found only after a blind labeller had been built. The seam hunt again produced the shipping landing (notes written and never sent), not the technique under test. Registry main 50 ahead / 30 behind origin: committed locally, not pushed | 0/0/1/2/0 · routing=n/a (apply) · handoff=n/a · directions=n/a · auto=n/a · falsifier designed in (supply the input, divergence must fall) |
+
+**2026-10-06 (apply context-sufficiency-signals) - weakest stage and next focus.** Ship
+moved on this row: two fleet commits went out, and both were pushed. The stage losing
+most is still **test design**. The run built a labeller first and found the project's
+committed label set second. Next run's declared focus: **at Phase 7.5, list the
+project's committed registers (source defects, review findings, applied rows,
+decisions) before choosing an instrument, and name which one can serve as arm labels.**
+A not-better against labels the project wrote itself is the hardest verdict to argue
+with. A not-better against a labeller the run built is the easiest.

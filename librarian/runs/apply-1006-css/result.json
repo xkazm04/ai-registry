@@ -1,0 +1,65 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-1006-css",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "localization",
+  "started_at": "2026-10-05T22:35:00Z",
+  "ended_at": "2026-10-05T23:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "localization/translation-quality-measurement",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "localization/translation-pipeline-topology",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "translation-quality-measurement",
+      "technique": "context-sufficiency-signals",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "translation-pipeline-topology",
+      "technique": "prompt-context-contract",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/localization/craft/translation-quality-measurement/techniques/context-sufficiency-signals.md",
+    "knowledge/localization/craft/translation-quality-measurement/applications/node--context-sufficiency-signals--personas.md",
+    "knowledge/localization/craft/translation-pipeline-topology/applications/node--prompt-context-contract--personas.md",
+    "skills/i18n-translate/SKILL.md",
+    "librarian/subjects/localization/translation-quality-measurement.md",
+    "librarian/subjects/localization/translation-pipeline-topology.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "personas cs, 2 local engines, blind labeller+judge: divergence flags at base rate (1/24), own note did not move divergence -> not-better, technique amended. Seam: notes never reached translator; personas 62df24375 pushed. Registry main 50/30 diverged: committed locally."
+}

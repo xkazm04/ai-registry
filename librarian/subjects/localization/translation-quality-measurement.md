@@ -132,3 +132,29 @@ language subjects, including a settled answer on kashida; a worked break-even fo
 local estimator against a hosted judge; and still no application layer — personas-web
 has no reviewer-correction loop and no quality estimation, so this subject is the one
 the grounding tree could not reach.
+
+### 2026-10-06 — first application: the disagreement signal flagged at the base rate (apply-1006-css)
+
+The subject's first application, and its first measurement: personas, Czech, two local
+engines of different lineage, 70 noted and 70 note-less units, a blind sufficiency
+labeller and a blind A/B judge
+(`applications/node--context-sufficiency-signals--personas.md`).
+`context-sufficiency-signals` came back **not-better**. Flags at the default threshold
+were 1 true of 24 against a 4/70 base rate, and delivering the glossary left that
+unchanged. Supplying each unit's own note did not move divergence (0.423 to 0.421; a
+placebo note moved it to 0.411) even though the judge preferred the noted renderings
+16 to 8.
+
+The technique gained a section, "When the divergence is not about the source". It
+makes three points. Divergence decomposes into a source gap, a termbase choice and an
+engine error, so classify a flag before routing it. Agreement does not certify a source
+whose ambiguity has a strong default reading. Divergence fails the supply-the-input
+falsifier. The existing sentence "divergence in one target language still usually names
+a source gap" stands as written and is now bounded by that section. A rerun with the
+production engine as one arm is the return condition. The four labelled units are in
+the project's own source-defect register as unconfirmed questions.
+
+The seam hunt produced the run's landing: the catalog's translator notes never reached
+the translator. It is recorded under translation-pipeline-topology. The "no
+application layer" owed item above is closed. Still owed: the golden-path trim and the
+per-language exemption blocks.
