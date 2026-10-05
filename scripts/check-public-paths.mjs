@@ -30,8 +30,8 @@ import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
-const LANES = ['knowledge', 'librarian', 'recipes', 'practices', 'memory', 'docs', 'skills', '.claude/skills', 'rules', 'README.md', 'CONTRIBUTING.md', 'AGENTS.md'];
-const TEXT = /\.(md|json|jsonl|ya?ml|txt|mjs|js|ts|py|sh)$/i;
+const LANES = ['knowledge', 'librarian', 'recipes', 'practices', 'memory', 'docs', 'skills', '.claude/skills', 'rules', 'publications', 'README.md', 'CONTRIBUTING.md', 'AGENTS.md'];
+const TEXT = /\.(md|json|jsonl|ya?ml|txt|mjs|js|ts|py|sh|html|svg)$/i;
 const PLACEHOLDER = new Set(['me', 'you', 'x', 'y', 'u', 'user', 'username', 'name', 'example', 'someone', 'somebody', 'foo', 'jdoe', 'alice', 'bob']);
 const SHARED = new Set(['public', 'default', 'all users', 'default user', 'node_modules']);
 
