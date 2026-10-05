@@ -317,10 +317,10 @@
     },
     {
       "name": "i18n-translate",
-      "version": "1.6.1",
+      "version": "1.6.2",
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
-      "contentHash": "sha256-n1:d6375b2526b5786d",
+      "contentHash": "sha256-n1:7faccc3615497f44",
       "adopters": [
         "kp@plugin:1.1.0",
         "personas@plugin:1.1.0",
@@ -1057,7 +1057,7 @@
       "techniques": 508,
       "applications": 204,
       "files": 794,
-      "contentHash": "sha256-b2:68d683310c1832ec"
+      "contentHash": "sha256-b2:504a145a2714ffd7"
     },
     {
       "name": "grant-funding",
@@ -1080,10 +1080,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 18,
-      "techniques": 126,
-      "applications": 79,
-      "files": 228,
-      "contentHash": "sha256-b2:11b1b8e99f917ad0"
+      "techniques": 127,
+      "applications": 80,
+      "files": 230,
+      "contentHash": "sha256-b2:128fb15346978e94"
     },
     {
       "name": "localization",
@@ -1094,9 +1094,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 55,
-      "files": 195,
-      "contentHash": "sha256-b2:2d5cc79e474fe296"
+      "applications": 57,
+      "files": 197,
+      "contentHash": "sha256-b2:1bfdc25cbe6610cf"
     },
     {
       "name": "marketing",
