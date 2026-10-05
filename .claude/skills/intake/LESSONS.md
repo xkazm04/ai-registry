@@ -12194,3 +12194,8 @@ finish on the version it loaded.)
 ## 2.15.0 - 2026-10-05 - apply-collapse-patch-axes-that-share-hunks
 
 - **When the fleet holds no artifact with the technique's name, search for the mechanism's effect.** No tree had a patch set, and a search for tracked patch files found three files across sixteen projects. The stack that was there was a postinstall script and a bundler transform, both rewriting third-party bytes, and neither called itself a patch. For a technique named after an artifact (a patch set, a ledger, a queue), the seam search asks what performs the artifact's job: here, what writes into a dependency's files or rewrites them on the way through.
+
+## 2.15.0 - 2026-10-06 - apply-a-fixer-script-is-the-edge-in-the-wrong-place
+
+- **An `unapplied` row's return condition can fire without anyone noticing.** The 2026-09-07 row said "when a managed project grows an asset import path". pof grew one, and its registry map joined nine contexts to the subject. Nothing compared the two, so the subject sat at "no application" until the attention scan ranked it. Before trusting an old `unapplied` row, read the fleet's `subjectIndex[<subject>]` in each domain project's `.ai/registry-map.json`. A non-empty list means the seam hunt starts there.
+- **The corrector can be a person, and a warning is how you find them.** A generated step that detects a convention mismatch and only logs it hands the fix to whoever remembers. That is the technique's corrector without a script. Search for warn-and-continue branches next to the one table, as well as for fixer scripts.
