@@ -223,6 +223,24 @@ const PURITY_PROFILES = {
     [/\.(?:tsx?|rs|mjs|cjs|jsx|py)\b/, 'source-file extension'],
     [/\b(?:Claude|Anthropic|OpenAI|Codex|GPT-[0-9][\w.-]*|Gemini|Mistral|Llama|Qwen|DeepSeek|Grok|Copilot|Cursor|Windsurf|Devin|Aider|Opus|Sonnet|Haiku|Fable|Astra|Luna|Terra|Sol)\b/, 'vendor/model/agent-product identifier'],
   ],
+  // Technical-writing domains: the analogue of a repo path is the publishing pipeline's own
+  // tree; the analogue of a framework name is a publishing platform, a diagram or highlighting
+  // library, a browser driver or a model vendor. The craft of a technical post transplants to
+  // any blog, journal or documentation site, so the upper layers say "the target platform", "a
+  // highlighting library", "a drafting model". Capitalised `Medium` is listed because one
+  // subject is about fidelity to the publication medium and sits one sentence away from naming
+  // the platform the bundle was first written for; the ordinary lowercase word stays legal.
+  // Named craft authorities (a style guide, a paper on figures, an essayist) are NOT banned: a
+  // technique rests on them the way a law is cited, and a rule that hid its authority would be
+  // taste again. The denylist is a floor, not the whole rule.
+  writing: [
+    [/\b(?:src|app|lib|scripts|docs|publications|knowledge)\//, 'repo path'],
+    // `.md` and `.html` are deliberately absent: every technique links its laws file by
+    // relative path, and the craft sources a golden path cites are web pages whose URLs end
+    // in `.html`. Both are legitimate in this domain's upper layers.
+    [/\.(?:tsx?|jsx?|mjs|cjs|py|css|json)\b/, 'source-file extension'],
+    [/\b(?:Gravitone|Medium|Substack|WordPress|Hashnode|Grammarly|ChatGPT|Claude|Anthropic|OpenAI|GPT-[0-9][\w.-]*|Gemini|Llama|Qwen|DeepSeek|Mermaid|Shiki|highlight\.js|Playwright|Puppeteer|Chromium)\b/, 'platform/tool/model identifier'],
+  ],
   // Applied when a bundle declares no profile: the domain-independent core only.
   generic: [
     [/\b(?:src|src-tauri|scripts)\//, 'repo path'],
@@ -248,6 +266,7 @@ const REQUIRED_PURITY = {
   'media-generation': 'media',
   recruiting: 'recruiting',
   'software-engineering': 'software',
+  'technical-writing': 'writing',
 };
 
 let conceptFiles = 0;

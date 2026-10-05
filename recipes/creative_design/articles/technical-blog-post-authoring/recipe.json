@@ -1,0 +1,181 @@
+{
+  "id": "033071f5-0b59-41ca-a84a-aee89f8c4e09",
+  "slug": "technical-blog-post-authoring",
+  "title": "Technical blog post authoring and publication",
+  "version": "0.1.0",
+  "status": "seed",
+  "path": "creative_design/articles",
+  "domain": "creative_design",
+  "description": {
+    "need": "A technical post drafted from a topic string comes out flat, sourced from whatever the model remembers, written in the first person, and laid out as walls of text that read well only in the tool that produced it. Experts leave in the first section, the numbers cannot be traced or are a generation out of date, and nobody notices until the post is public under someone's name.",
+    "input": "A topic, either a subject already held in a knowledge registry or a free-text idea, plus the audience it is for, the house style sheet, and the publishing platform the post is headed to.",
+    "core_action": "Research the topic live with counter-evidence and dated sources, find the one concrete scene that carries the thesis, outline the argument as promises the close will settle, draft it at depth for an expert while explaining terms in a clause for everyone else, move structured material into figures and designed tables, and check the result deterministically before a person decides.",
+    "output": "One post that a person has approved, carrying a content preview with a computed read time, numbered in-page citations to dated sources, figures that abstract rather than restate, a closing chapter that settles what the opening promised, and a package that renders correctly on the target platform in both colour schemes at phone and desktop widths."
+  },
+  "activities": [
+    {
+      "id": "research",
+      "label": "Research the topic live, collecting dated sources, counter-evidence and any measurement the post can run itself",
+      "kind": "observe"
+    },
+    {
+      "id": "outline",
+      "label": "Settle the opening scene, the preview's outcomes, the claim of each section and the close's recap numbers",
+      "kind": "decide"
+    },
+    {
+      "id": "draft",
+      "label": "Draft the post with its figures, tables, citations and sources list",
+      "kind": "act"
+    },
+    {
+      "id": "check",
+      "label": "Run the deterministic quality checks and repair only the flagged spans",
+      "kind": "act"
+    },
+    {
+      "id": "gate",
+      "label": "Put the post, the check report, the sources and any proposed knowledge corrections in front of a person",
+      "kind": "decide"
+    },
+    {
+      "id": "publish",
+      "label": "Record the approved post and package it for the target platform",
+      "kind": "deliver"
+    }
+  ],
+  "outcomes": [
+    {
+      "id": "structure",
+      "statement": "The post is an argument with a shape a scanning reader can follow, not a survey of the topic in the order it was researched.",
+      "success_criteria": [
+        "A content preview sits directly after the opening, with what the post is, a read time computed from the final text including figure and table text, a linked outline built from the section headings, and two or three outcomes phrased as things the reader will be able to do.",
+        "Every section heading states the section's claim rather than naming its topic.",
+        "The closing chapter restates the result in numbers already established in the body, returns to the opening scene, and names concrete changed actions that settle the preview's outcomes."
+      ]
+    },
+    {
+      "id": "storytelling",
+      "statement": "The reader has a reason to continue at every section break.",
+      "success_criteria": [
+        "The opening is one concrete object with a surprising, sourced number in its first three sentences, not an announcement of the topic.",
+        "The opening's object is followed through every section as a through-line, and its final account is stated in the close.",
+        "No sustained analogy stands in for the mechanism."
+      ]
+    },
+    {
+      "id": "depth",
+      "statement": "An expert finds something they did not know, and a newcomer can follow it.",
+      "success_criteria": [
+        "Terms of art are explained in a clause where they first appear, not in paragraph-length definitions.",
+        "The post climbs from mechanism to production consequence to limits to a position it has earned, and no section stays at describing the behaviour.",
+        "Each section carries at least one specific, sourced or measured detail an expert would not have derived.",
+        "When a revision goes deeper, prose length is held or reduced and the depth replaces flat material."
+      ]
+    },
+    {
+      "id": "figures",
+      "statement": "Structured material is visual and reasoning stays in prose.",
+      "success_criteria": [
+        "Wherever three or more paragraphs carried a comparison, a sequence, a mechanism or a set of numbers, they are a figure or a designed table.",
+        "Text inside figures is labels and short annotations; no box holds a sentence.",
+        "Every caption opens with the figure's message and ends with its source numbers, and illustrations are labelled as illustrations.",
+        "Every figure has a text alternative carrying its message, and data figures make their values available as text."
+      ]
+    },
+    {
+      "id": "voice",
+      "statement": "The prose reports the topic in a consistent register without the habits readers discount as generated.",
+      "success_criteria": [
+        "No first-person narration of the author's work; results have the system, data or measurement as their subject, without falling back on agentless passives.",
+        "New information lands at the end of sentences and sentence length varies within paragraphs.",
+        "Each generated-prose finding names a rule and a span, repairs touch only flagged spans, and no repair swaps a flagged word for its synonym.",
+        "House rules on person, punctuation, numbers and headings are applied to the body, captions, alternatives and the sources list alike."
+      ]
+    },
+    {
+      "id": "medium-fidelity",
+      "statement": "The post reads as intended on the surfaces it actually reaches.",
+      "success_criteria": [
+        "Body text sits in a reading column of roughly 45 to 80 characters per line with line spacing of at least one and a half.",
+        "Every colour, including figure strokes, table tints and code highlighting, is defined and checked in both light and dark schemes.",
+        "Every code block is highlighted, labelled with its language and scrolls inside its own box.",
+        "The page is checked at a phone width and a desktop width in both schemes, with no page-level horizontal scroll.",
+        "The platform package is built from a dated capability map of the target platform and checked in that platform's own preview."
+      ]
+    },
+    {
+      "id": "truth",
+      "statement": "Every claim a reader might act on can be checked from the page and is true of the systems in use today.",
+      "success_criteria": [
+        "Every number in the text, every table cell and every plotted value traces to a numbered source with a date.",
+        "Comparisons use current systems, with older ones present only as labelled history.",
+        "Counter-evidence and limits appear beside the claims they qualify, and what the evidence does not settle is said.",
+        "The post's own measurements are a numbered source with their commands, versions, inputs and date logged, and are stated impersonally in the page.",
+        "Derived numbers show their formula, reasoned claims carry a marker, and every link in the sources list was opened before the gate."
+      ]
+    }
+  ],
+  "guidance": "Hold the length and spend it on depth: a clause per term, then mechanism, consequence, limits and a position the evidence earns. Find the one concrete scene before outlining; it becomes the through-line and the close. Research against the thesis as hard as for it, and date everything. When a passage compares or sequences, draw it; when it reasons, write it. Check on the surface the reader uses, never only in the authoring tool. The check finds spans; a person decides.",
+  "use_cases": [
+    "An engineering team that wants to publish what it learned building a system, whose drafts read as internal notes because nobody owns the step from findings to an argument a stranger will finish.",
+    "A practitioner turning a body of curated knowledge into public posts, who needs each post to cite current dated sources rather than whatever a drafting model remembers from an older generation of systems.",
+    "An editor reviewing model-drafted technical posts who keeps writing the same notes about first-person narration, walls of text and figures full of sentences, and wants those notes to become checks that run before the review.",
+    "A writer whose posts look right in the authoring tool and break on the publishing platform, with collapsed tables, unhighlighted code and figures that vanish in a dark colour scheme.",
+    "A team publishing in a field that moves by product generation, where a post's comparison table goes stale within months and the decision to refresh it needs every number's source and date."
+  ],
+  "connector_types": [
+    "research",
+    "source_control"
+  ],
+  "recommended_trigger": {
+    "kind": "self_paced",
+    "rationale": "A post is worth writing when there is something true and non-obvious to say about a topic, which no calendar knows. A publishing cadence is a promise the adopter makes to readers on the charter; a recipe that owes a clock a post will eventually publish a flat one."
+  },
+  "personalization_needs": [
+    "Who the posts are for, named as both readers, the expert and the newcomer, so the drafter does not sacrifice one to the other.",
+    "The house style sheet: person, restricted punctuation, number formatting, heading case and citation style, because these are conventions a run cannot infer and a reviewer will otherwise correct post after post.",
+    "The target publishing platform and its current capabilities, since the package step translates the authored page into what that platform can render.",
+    "Where approved posts are recorded and who approves them, since the gate is the step that turns a draft into something published under a name.",
+    "Which knowledge sources the adopter trusts as the starting point for a topic, and whether the run may propose corrections to them."
+  ],
+  "dependencies": [
+    "live web access for research, because a post built only from a model's training data cannot meet the currency standard",
+    "a headless browser able to render the authored page at two widths and in both colour schemes",
+    "a person available at the gate, because the outward step of publishing under someone's name happens only after approval"
+  ],
+  "input_schema": [
+    {
+      "name": "target_read_minutes",
+      "type": "number",
+      "default": 14,
+      "min": 5,
+      "max": 25,
+      "description": "Target read time including figure and table text. A ceiling for the draft, not a quota: depth is bought by replacing flat material, not by reaching the number."
+    },
+    {
+      "name": "min_sources",
+      "type": "number",
+      "default": 12,
+      "min": 3,
+      "max": 40,
+      "description": "Floor on numbered, dated sources in the sources list, the post's own measurement counting as one. A floor is a research prompt, never a reason to cite a page that was not read."
+    }
+  ],
+  "knowledge_refs": [
+    { "dimension": "structure", "bundle": "technical-writing", "subjects": ["article-structure"] },
+    { "dimension": "storytelling", "bundle": "technical-writing", "subjects": ["article-structure"] },
+    { "dimension": "depth", "bundle": "technical-writing", "subjects": ["depth-and-audience"] },
+    { "dimension": "figures", "bundle": "technical-writing", "subjects": ["figures-and-tables"] },
+    { "dimension": "voice", "bundle": "technical-writing", "subjects": ["voice-and-register"] },
+    { "dimension": "medium-fidelity", "bundle": "technical-writing", "subjects": ["medium-format-fidelity"] },
+    { "dimension": "truth", "bundle": "technical-writing", "subjects": ["evidence-and-sources"] }
+  ],
+  "examples": [],
+  "lessons": [],
+  "provenance": {
+    "from_recipes": [],
+    "from_templates": [],
+    "source_template_id": ""
+  }
+}

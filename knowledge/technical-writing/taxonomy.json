@@ -1,0 +1,42 @@
+{
+  "$comment": "AUTHORITY on where every subject lives. The folder tree is DERIVED from this file; moves go through scripts/apply-taxonomy.mjs and nothing else. Grouped by the question an editor is asking when they open the bundle: what shape the argument takes, how the sentences sound, what the claims rest on, and how the page reaches the reader.",
+  "schema": "rkb-taxonomy/1",
+  "bundle": "technical-writing",
+  "layout": "nested",
+  "categories": [
+    {
+      "id": "composition",
+      "title": "Composition",
+      "order": 1,
+      "subjects": [
+        "article-structure",
+        "depth-and-audience"
+      ]
+    },
+    {
+      "id": "prose",
+      "title": "Prose",
+      "order": 2,
+      "subjects": [
+        "voice-and-register"
+      ]
+    },
+    {
+      "id": "grounding",
+      "title": "Grounding",
+      "order": 3,
+      "subjects": [
+        "evidence-and-sources"
+      ]
+    },
+    {
+      "id": "presentation",
+      "title": "Presentation",
+      "order": 4,
+      "subjects": [
+        "figures-and-tables",
+        "medium-format-fidelity"
+      ]
+    }
+  ]
+}
