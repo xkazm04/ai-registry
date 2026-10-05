@@ -11,7 +11,10 @@
  * standard forbids, a page that phones home, or a `[TODO]` that survived the edit.
  *
  * Mechanical rules, nothing else (quality is the human's, by design):
- *   shape          the fixed per-publication file set, and nothing outside it
+ *   shape          the fixed per-publication file set, and nothing outside it; every
+ *                  medium/story.html image is `figures/NN-<name>.png`, the render of a
+ *                  listed `figures/NN-<name>.svg`. The lane is text-only: the PNG renders
+ *                  are derived, regenerated from the SVGs, and never required here
  *   schema         publication.json is `publication/1`: closed keys, types, no null
  *   slug           the `slug` field equals its directory name, kebab-case
  *   citations      every `[n]` in post.md, post.html and medium/story.html - and every
@@ -58,7 +61,10 @@ export const MIN_PRIMARY = 3;
 export const MIN_COUNTER = 1;
 export const MAX_TAGS = 5;
 
-/** Files every publication carries. figures/ is required only when figures are listed. */
+/**
+ * Files every publication carries. figures/ is required only when figures are listed;
+ * medium/figures/ (PNG renders) is never required - the registry is text-only.
+ */
 export const REQUIRED_FILES = [
   'publication.json', 'post.html', 'post.md', 'SOURCES.md',
   'medium/story.html', 'medium/tags.txt', 'medium/README.md',
@@ -73,7 +79,9 @@ export const LANE_ROOT_FILES = new Set(['index.json', 'README.md']);
 
 export const FIGURE_FILE_RE = /^figures\/\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\.svg$/;
 const FIGURE_NAME_RE = /^\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\.svg$/;
-const MEDIUM_FIGURE_RE = /^\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*\.png$/;
+const MEDIUM_FIGURE_RE = /^(\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*)\.png$/;
+// The one image reference medium/story.html may carry: a relative PNG render, by name.
+const STORY_IMAGE_RE = /^figures\/(\d{2}-[a-z0-9]+(?:-[a-z0-9]+)*)\.png$/;
 const SLUG_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const SEMVER_RE = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
 const CHECK_KEY_RE = /^[a-z][a-zA-Z0-9]*(?:-[a-z0-9]+)*$/;
@@ -249,6 +257,33 @@ export function networkRefs(html, { svg = false } = {}) {
     for (const m of html.matchAll(/<script\b/gi)) add('a script in an SVG figure', m);
   }
   return hits;
+}
+
+/**
+ * The images of medium/story.html. The lane is text-only: figures are canonical as SVG
+ * under figures/, and Medium needs PNG, so the story names a PNG render of a listed
+ * figure - `figures/NN-<name>.png` for a listed `figures/NN-<name>.svg` - whether or not
+ * that render sits in the registry (it is derived, and regenerated from the SVG when the
+ * story is pasted). Every other src is a finding: another relative path, an absolute path,
+ * a data: URI, or a render of a figure nobody listed. A network src (anything with `//`)
+ * is skipped here because networkRefs already reports it under `self-contained`, and one
+ * defect is reported once. `listed` is the set of listed `figures/NN-<name>.svg` paths.
+ * Returns [{src, line, message}].
+ */
+export function storyImageProblems(story, listed) {
+  const out = [];
+  const IMG_SRC = /<img\b[^>]*?(?<![\w-])src\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/gi;
+  for (const m of story.matchAll(IMG_SRC)) {
+    const src = m[1] ?? m[2] ?? m[3];
+    if (src.includes('//')) continue;
+    let rel = src.trim();
+    try { rel = decodeURI(rel); } catch { /* keep the raw src */ }
+    const line = lineOf(story, m.index);
+    const png = STORY_IMAGE_RE.exec(rel);
+    if (!png) out.push({ src, line, message: `image ${src} is not figures/NN-<name>.png, the relative PNG render of a listed figure` });
+    else if (!listed.has(`figures/${png[1]}.svg`)) out.push({ src, line, message: `image ${src} renders figures/${png[1]}.svg, which publication.json figures does not list` });
+  }
+  return out;
 }
 
 // Same shape as check-public-paths.mjs (which cannot be imported without running it):
@@ -495,6 +530,10 @@ export function selfTest() {
   expect('network src', networkRefs('<img src="https://x.example/a.png">').length === 1);
   expect('network stylesheet', networkRefs('<link rel="stylesheet" href="https://x.example/a.css">').length === 1);
   expect('network skips anchors', networkRefs('<a href="https://x.example/">x</a>').length === 0);
+  const listedSvg = new Set(['figures/01-a-chart.svg']);
+  expect('story image: a render of a listed figure', storyImageProblems('<img src="figures/01-a-chart.png">', listedSvg).length === 0);
+  expect('story image: a render of an unlisted figure', storyImageProblems('<img src="figures/02-other.png">', listedSvg).length === 1);
+  expect('story image: any other relative src', storyImageProblems('<img src="figures/01-a-chart.svg">', listedSvg).length === 1);
   expect('machine path', machinePathHits('saved under C:\\Users\\kazda\\notes\\x.md').length === 1);
   expect('source date', isSourceDate('2025-11') && isSourceDate('2026-10-05') && !isSourceDate('Oct 2025'));
   expect('web url', isWebUrl('https://arxiv.org/abs/2305.13707') && !isWebUrl('SOURCES.md'));
@@ -565,13 +604,23 @@ export function validatePublication(dir, name = path.basename(dir)) {
       else fail('shape', `figures/${e.name}`, 'figures/ holds only NN-<name>.svg files');
     }
   }
+  const mediumPngs = [];
   const medEntries = listDir(path.join(dir, 'medium'));
   if (medEntries) {
     for (const e of medEntries) {
       if (!MEDIUM_ENTRIES.has(e.name)) fail('shape', `medium/${e.name}`, 'not part of the Medium package shape');
     }
+    // medium/figures/ is optional and never required: the PNG renders are derived from
+    // figures/*.svg and live in the pipeline's run directory. When present it holds only
+    // renders of listed figures (the stem check runs once publication.json is read).
     const mfig = listDir(path.join(dir, 'medium', 'figures'));
-    if (mfig) for (const e of mfig) if (!(e.isFile() && MEDIUM_FIGURE_RE.test(e.name))) fail('shape', `medium/figures/${e.name}`, 'medium/figures/ holds only NN-<name>.png renders');
+    if (mfig) {
+      for (const e of mfig) {
+        const png = e.isFile() ? MEDIUM_FIGURE_RE.exec(e.name) : null;
+        if (png) mediumPngs.push(png[1]);
+        else fail('shape', `medium/figures/${e.name}`, 'medium/figures/ holds only NN-<name>.png renders');
+      }
+    }
   }
   // critique/ is optional and closed: exactly reviews.json and dispositions.json.
   const critEntries = fs.existsSync(path.join(dir, 'critique')) && fs.statSync(path.join(dir, 'critique')).isDirectory()
@@ -604,6 +653,7 @@ export function validatePublication(dir, name = path.basename(dir)) {
   const P = 'publication.json';
   if (pub !== null && !isObj(pub)) { fail('schema', P, 'must be a JSON object'); pub = null; }
   const sourceNs = new Set();
+  const listedFigures = new Set();
   if (pub) {
     const nulls = [];
     findNulls(pub, '', nulls);
@@ -688,7 +738,6 @@ export function validatePublication(dir, name = path.basename(dir)) {
       });
     }
 
-    const listedFigures = new Set();
     if ('figures' in pub) {
       if (!Array.isArray(pub.figures)) fail('schema', P, 'figures must be an array');
       else pub.figures.forEach((fg, i) => {
@@ -710,6 +759,11 @@ export function validatePublication(dir, name = path.basename(dir)) {
       });
     }
     for (const f of svgOnDisk) if (!listedFigures.has(f)) fail('figures', f, 'is not listed in publication.json figures, so it has no caption or source list');
+    if (Array.isArray(pub.figures)) {
+      for (const stem of mediumPngs) {
+        if (!listedFigures.has(`figures/${stem}.svg`)) fail('shape', `medium/figures/${stem}.png`, `renders figures/${stem}.svg, which publication.json figures does not list`);
+      }
+    }
 
     if ('check' in pub) {
       const c = pub.check;
@@ -780,12 +834,9 @@ export function validatePublication(dir, name = path.basename(dir)) {
   if (story !== null) {
     for (const m of story.matchAll(/<script\b/gi)) fail('self-contained', `medium/story.html:${lineOf(story, m.index)}`, 'the Medium story carries no scripts');
     for (const h of networkRefs(story)) fail('self-contained', `medium/story.html:${h.line}`, `${h.what}: ${h.text}`);
-    for (const m of story.matchAll(/<img\b[^>]*\bsrc\s*=\s*(["'])([^"']*)\1/gi)) {
-      const src = m[2];
-      if (/^data:/i.test(src) || new RegExp(`^${NET}`, 'i').test(src)) continue;
-      let rel = src;
-      try { rel = decodeURI(src); } catch { /* keep the raw src */ }
-      if (!fs.existsSync(path.join(dir, 'medium', rel))) fail('shape', `medium/story.html:${lineOf(story, m.index)}`, `image ${src} does not exist`);
+    // Without a readable figures list there is nothing to resolve against; schema failed.
+    if (pub && Array.isArray(pub.figures)) {
+      for (const h of storyImageProblems(story, listedFigures)) fail('shape', `medium/story.html:${h.line}`, h.message);
     }
   }
 

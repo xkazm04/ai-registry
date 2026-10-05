@@ -75,6 +75,65 @@ test('shape: more than five Medium tags fails', (t) => {
   failsOnly(t, 'shape', (d) => fs.writeFileSync(path.join(d, 'medium/tags.txt'), 'a\nb\nc\nd\ne\nf\n'));
 });
 
+// ---- the Medium figures: the lane is text-only. Figures are canonical as SVG; the PNG
+// renders story.html names are derived and live outside the registry. The fixtures carry
+// no PNG, so the clean-fixture tests above already prove a render is never required.
+const PNG_BYTES = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+const putRender = (d, name) => {
+  fs.mkdirSync(path.join(d, 'medium/figures'), { recursive: true });
+  fs.writeFileSync(path.join(d, 'medium/figures', name), PNG_BYTES);
+};
+test('medium figures: a story PNG reference whose SVG is listed passes with no PNG present', (t) => {
+  const r = run(t, (d) => {
+    assert.match(fs.readFileSync(path.join(d, 'medium/story.html'), 'utf8'), /<img src="figures\/01-example-chart\.png"/);
+    assert.equal(fs.existsSync(path.join(d, 'medium/figures/01-example-chart.png')), false);
+  });
+  assert.deepEqual(r.findings, []);
+});
+test('medium figures: a publication with no medium/figures/ directory at all passes', (t) => {
+  for (const fixture of ['fixture-post', 'fixture-critique']) {
+    const src = fixture === 'fixture-post' ? FIXTURE : CRITIQUE_FIXTURE;
+    const dir = path.join(scratch(t), fixture);
+    fs.cpSync(src, dir, { recursive: true });
+    fs.rmSync(path.join(dir, 'medium/figures'), { recursive: true, force: true });
+    assert.equal(fs.existsSync(path.join(dir, 'medium/figures')), false);
+    assert.deepEqual(validatePublication(dir, fixture).findings, [], fixture);
+  }
+});
+test('medium figures: a present render of a listed figure passes', (t) => {
+  const r = run(t, (d) => putRender(d, '01-example-chart.png'));
+  assert.deepEqual(r.findings, []);
+});
+test('medium figures: a story PNG reference whose SVG is not listed fails', (t) => {
+  const r = failsOnly(t, 'shape', (d) => edit(d, 'medium/story.html', (s) => s.replace('src="figures/01-example-chart.png"', 'src="figures/02-unlisted-chart.png"')));
+  assert.match(r.findings[0].message, /does not list/);
+});
+test('medium figures: a story PNG reference fails even when its unlisted render is present', (t) => {
+  failsOnly(t, 'shape', (d) => {
+    putRender(d, '01-example-chart.png');
+    edit(d, 'medium/story.html', (s) => s.replace('src="figures/01-example-chart.png"', 'src="figures/02-unlisted-chart.png"'));
+    putRender(d, '02-unlisted-chart.png');
+  });
+});
+test('medium figures: any other relative or absolute img src fails', (t) => {
+  for (const src of ['figures/01-example-chart.svg', '../figures/01-example-chart.svg', 'img/01-example-chart.png',
+    '/figures/01-example-chart.png', 'data:image/png;base64,iVBORw0KGgo=']) {
+    failsOnly(t, 'shape', (d) => edit(d, 'medium/story.html', (s) => s.replace('src="figures/01-example-chart.png"', `src="${src}"`)));
+  }
+});
+test('medium figures: a network img src in the story still fails', (t) => {
+  for (const src of ['https://cdn.example.org/01-example-chart.png', '//cdn.example.org/01-example-chart.png']) {
+    failsOnly(t, 'self-contained', (d) => edit(d, 'medium/story.html', (s) => s.replace('src="figures/01-example-chart.png"', `src="${src}"`)));
+  }
+});
+test('medium figures: a medium/figures/ PNG whose SVG is not listed fails', (t) => {
+  const r = failsOnly(t, 'shape', (d) => putRender(d, '02-unlisted-chart.png'));
+  assert.equal(r.findings[0].file, 'medium/figures/02-unlisted-chart.png');
+});
+test('medium figures: a misnamed file in medium/figures/ fails', (t) => {
+  failsOnly(t, 'shape', (d) => putRender(d, 'Example Chart.png'));
+});
+
 // ---- schema
 test('schema: a wrong schema id fails', (t) => {
   failsOnly(t, 'schema', (d) => editJson(d, (o) => { o.schema = 'publication/2'; }));

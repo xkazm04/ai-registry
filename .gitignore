@@ -69,3 +69,6 @@ fleet-*.proposals.json
 
 # contest arenas: entries are large and belong to no commit
 /.contest/
+
+# Medium paste renders are derived from the figures/*.svg and never committed (the registry is text-only)
+/publications/*/medium/figures/

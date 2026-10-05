@@ -175,7 +175,10 @@ lanes:
       directory per post, with its sources, figures and a paste-ready Medium package.
     spec: docs/publications-lane.md
     format: publication.json (schema `publication/1`) + post.html + post.md + SOURCES.md
-      + figures/NN-<name>.svg + medium/{story.html,tags.txt,README.md}; optional
+      + figures/NN-<name>.svg + medium/{story.html,tags.txt,README.md}. Text-only: the
+      SVGs are canonical; the PNG renders Medium needs are derived (regenerated from the
+      SVGs, kept in the pipeline's run directory) and never required, and story.html may
+      reference them by name as figures/NN-<name>.png for a listed NN-<name>.svg; optional
       `critique` block in publication.json (reviewers, rounds, finding counts, decision)
       with an optional critique/{reviews.json,dispositions.json} that requires it
     gate: scripts/check-publications.mjs
