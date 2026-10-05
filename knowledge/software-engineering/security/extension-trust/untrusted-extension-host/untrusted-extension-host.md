@@ -15,6 +15,7 @@ techniques:
   - capability-subtraction-sandbox
   - safe-mode-registration
   - host-api-import-budget
+  - derived-capability-inventory
 ---
 
 # Untrusted extension hosting
@@ -197,6 +198,17 @@ actually updates through.
 [Grant-change-consent](./techniques/grant-change-consent.md) owns the diff, its
 polarity rules, the re-consent gate it drives, and the wiring rule that keeps
 the whole thing from being decoration.
+
+The declaration says what the author asked for. What the code will actually
+reach is a second question, and a host that owns the extension language can
+answer it by derivation instead of by trust: refuse at load every spelling of
+the host interface that a static reader cannot follow, and the list of calls
+read from the module is total.
+[Derived-capability-inventory](./techniques/derived-capability-inventory.md)
+owns the three conditions that make it total, and the rule for reading it. The
+rule is that an inventory is read by its strongest grant, because a brokered
+request that starts a host process satisfies "every request is checked" for
+itself and for nothing the process then reaches.
 
 ## Persistence without handing over the schema
 

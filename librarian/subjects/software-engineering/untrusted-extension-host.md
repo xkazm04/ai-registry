@@ -125,3 +125,28 @@ the escape clause firing: zero runtime dependencies at the entry point, so the
 substitution is correctly declined and the tree confirms the preference. No fleet
 project hosts foreign code under an execution limit, so the technique reached its
 seam from the library side rather than the host side.
+
+## 2026-10-05 - derived-capability-inventory (intake run intake-1005-xayu)
+
+Source: a second-hand review of a coding harness's in-process plugin release
+([2026-10-05-claude-mods-validate](../../sources/2026-10-05-claude-mods-validate.md)). It
+told viewers to read the validator's list of a plugin's calls before installing it, and to
+ask whether it makes network calls.
+
+The subject modelled privilege as declared. The harness derives it: its validator refuses
+at load every spelling of the host interface it cannot follow, and the runtime has no
+ambient reach, so the list read from the module is total. That is the inverse of
+`supply-chain/permission-manifest-scoping`, whose extractor chases a codebase's spellings
+because it cannot refuse them. It is available only where the host owns the language, which
+is the discriminator between the two subjects for this mechanism.
+
+The reading rule is the half the review got wrong. The inventory is noun-granular, and a
+brokered process spawn satisfies the golden path's "every request is checked against a
+declared grant" for itself and for nothing the process then reaches. The vendor's own types
+say so, and the organization's fetch policy does not bind it. The golden path gained one
+paragraph naming this. The technique ties it to `canonicalizable-privilege-declaration`'s
+wildcard rule as its cross-category form.
+
+Applied `experiment`/`better` on the operator's harness. No fleet project hosts foreign code
+with a derived inventory. Personas' capability contract is the nearest relative and is a
+readiness list, correctly empty for a script tool.

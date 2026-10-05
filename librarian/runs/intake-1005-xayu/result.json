@@ -1,0 +1,48 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-1005-xayu",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-05T08:00:00Z",
+  "ended_at": "2026-10-05T10:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/untrusted-extension-host",
+      "at": "2026-10-05",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/untrusted-extension-host",
+      "technique": "derived-capability-inventory",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/techniques/derived-capability-inventory.md",
+    "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/applications/claude-code--derived-capability-inventory.md",
+    "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/untrusted-extension-host.md",
+    "librarian/sources/2026-10-05-claude-mods-validate.md",
+    "librarian/subjects/software-engineering/untrusted-extension-host.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Harness plugin review, second of the release. derived-capability-inventory: validator list is total because the host refuses unreadable spellings (13 probes); read by strongest grant - spawn escapes fetch policy. Applied experiment/better. 4 leads, 3 catches."
+}

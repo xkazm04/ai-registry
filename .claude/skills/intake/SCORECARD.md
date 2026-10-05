@@ -5025,3 +5025,17 @@ apply mode in the triage row.** A bundle with one partial consumer should either
 finding to a bundle the fleet can exercise, or declare `unapplied` as the predicted
 outcome up front - which is calibration, and reads nothing like the same number
 discovered late and reported as a miss.
+| 2.15.0 | 2026-10-05 | `claude-mods-validate` (`youtube:XaYubuLtW8M`) - second-hand review of a harness plugin release, thin operating half; **the second review of the same release** (the first: 2026-10-02, a different author) | 1 | 12 | 3 rows read against files (the landing against two techniques and the golden path; the reload row's promoting read; two catches) plus **13 probe plugins and three in-use plugins run through the harness's own validator and test kit**; 0 of 3 fetches - the harness build was the opened tree | 1 technique (`derived-capability-inventory`, untrusted-extension-host, with the strongest-grant correction folded in) + 1 harness application + 1 golden-path paragraph; 0 amendments, 0 subjects | 1 row: 0c/1e/0s/0t/0r (`better`: an in-use plugin's spawn replaced by brokered reads; target - process execution left its derived inventory; floor 6/6 against git's own answer, tests 2/2) | **0 fleet commits** | Ship zero reason: no fleet project hosts foreign code with a derived inventory; the nearest relative (personas' capability contract) is a readiness list correctly empty for a script tool, and nothing in personas shows it as reach, so changing it would have been a direction, not coverage. The applied change landed in the operator's harness, which has no repository. Focus from the last row (fleet-consumer check before Phase 5 for a media-generation home) **did not apply** - no media-generation candidate; the same check run for this home found six map consumers and one real relative before the score | 0/1/0/1/0 · routing=n/a (video) · handoff=n/a · directions=n/a · auto=1/3/0 fp=0 · the falsifying seam (probe the validator's completeness) returned "held", and the correction came from the vendor's types beside it |
+
+**2026-10-05 (claude-mods-validate) - weakest stage and next focus.** The second review of a
+release already mined still produced a technique, and it came from the cheapest move
+available: treating the harness itself as an opened tree instead of fetching about it. The
+seam picked to falsify the review's strongest claim confirmed it, and the reason it held is
+the landing. Over the last ten rows **ship is the weakest stage**: seven read 0 fleet commits,
+and this run is one of them. The cause is no longer the budget. Three of the recent zeros
+(10-02, 10-04, this one) found their best seam outside any fleet repository - the operator's
+harness, or no tree at all - so they were applied but could not ship. Next run's declared
+focus: **when Phase 7.5's best seam is the operator's harness, also name the nearest fleet
+relative and the one-commit change it would take, and either make it or say in the row
+whether it is coverage or a direction.** A ship of 0 should name the fleet diff that was
+considered, not just report the absence.

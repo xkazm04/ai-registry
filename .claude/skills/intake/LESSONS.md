@@ -12249,3 +12249,21 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
   typed-literal defect it had fixed - which is corroboration for the landed technique's
   parent principle even though it offers no arm to run. Read the nearest non-seam and
   report it; a bare "no seam found" throws away the half that was evidence.
+
+## 2.15.0 - 2026-10-05 - claude-mods-validate
+
+- **When a source reviews the harness this session runs on, the harness is an opened tree.**
+  The release's validator and test kit were on this machine, so 13 probe plugins answered
+  in minutes what no fetch about the release could: whether its call list is total. 0 of 3
+  fetches were spent and the yield was a technique. The class entry says a review's fetch
+  *is* the extraction. For a review of a local tool, running the tool beats fetching about
+  it.
+- **Test a "lists every X" claim with an evasion set and two controls before trusting or
+  refuting it.** One module with a literal call (must appear), one empty module (must list
+  nothing), then one probe per way of hiding the call: bound to a variable, computed,
+  reflected, compiled from a string, wrapped, spread, dynamically imported, reached through a
+  global. A static reader is ordinarily a lower bound, so this is the seam most likely to
+  falsify. Here it held, and *why* it held (refusal at load) was the landing.
+- **A second review of an already-mined release is not a re-run.** Read the first note's
+  declines and leads before extracting. Here they removed three candidates at once (catches
+  and a currency row) and pointed the run at the one claim the first review had not tested.
