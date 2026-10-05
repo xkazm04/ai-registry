@@ -1,0 +1,48 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-fgad-1005b",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-05T20:11:00Z",
+  "ended_at": "2026-10-05T20:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/native-document-format",
+      "at": "2026-10-05",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "native-document-format",
+      "technique": "format-generations-are-declared",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/applications/rust--format-generations-are-declared.md",
+    "librarian/subjects/software-engineering/native-document-format.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only (Phase 7.5). Resumed abandoned apply-fgad-1005: diff and both arms re-run. personas code A/B: newer bundles refused by version 0/4 -> 4/4, floor 55/55. Fleet commit 48f47dd4d, not pushed (sibling WIP)."
+}
