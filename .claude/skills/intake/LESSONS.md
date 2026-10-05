@@ -12312,3 +12312,23 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
   was held by three other sessions' cargo runs, so the run waited about 20 minutes for its
   own test. Start the project gate as soon as the edit lands, in the background, and write
   the ledgers while it queues.
+
+## 2.15.0 - 2026-10-05 - decision-model-fixed-line-calibration
+
+- Second run in a row where building arm A from the source's own named examples moved
+  the landing. The paraphrase ("calibration makes confidence honest") is the half the
+  corpus already states. The source's own method (errors at one line, before and after a
+  temperature), run on its own dataset and baseline, was the half that was wrong. Only
+  that fixture could show the sign flip: the fit that most improved calibration read as
+  tripling errors. One more confirmation and this belongs in Phase 5 as a rule.
+- Declare the prediction and the falsifier as two different numbers. The prediction
+  (under 10%) missed at 15% while the falsifier (50%) never fired. With one number
+  declared, the run could not have said whether the claim fell or only its precision did.
+  The technique carries both, and the miss.
+- A probe on public data cannot ship. This run's ship came from a project that had
+  already committed its raw arena answers, replayed in thirty lines. That is the next
+  run's declared focus.
+- `check-skills.mjs` reads the disk, not the index. Ignored debris under `skills/` (a
+  `node_modules/`, an `out/`, a `__pycache__/`) turns the lane red for every run in the
+  checkout. It is not a content verdict. Name the paths and move on; do not delete
+  another session's files to get a green line.
