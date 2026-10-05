@@ -1122,6 +1122,19 @@
       "applications": 1220,
       "files": 3280,
       "contentHash": "sha256-b2:3be3f8ba7a9fd42d"
+    },
+    {
+      "name": "technical-writing",
+      "title": "Technical writing",
+      "path": "knowledge/technical-writing",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "writing",
+      "subjects": 6,
+      "techniques": 28,
+      "applications": 7,
+      "files": 45,
+      "contentHash": "sha256-b2:11e77681f0ce2365"
     }
   ],
   "usageEvidence": {
