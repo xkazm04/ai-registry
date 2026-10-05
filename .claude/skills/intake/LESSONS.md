@@ -12280,3 +12280,16 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
   132-byte empty export. Running its claims through the fleet's own install, with the
   consumer's exact calls, before scoring turned one probe into both the corroboration
   and arm A of the apply step.
+
+## 2.15.0 - 2026-10-05 - cinematic-commercial-one-pass
+
+- The discrimination gate measures the whole frame, so a variable confined to a small
+  region (a label, a mark, a hand) is refused by construction: here 0.73x, with between
+  16.86 against a seed floor of 23.14 set by product geometry. That is not a reason to
+  swap the metric after the refusal (2026-09-15). It is a reason to declare the region
+  and gate on its crop before the first render. Proposed for render-proof.md once a
+  second run confirms it: a manifest `region` field that `render-triage.mjs` gates on.
+- The fleet-consumer check pays at the subject level only when you open the trees. The
+  fleet map said two consumers. Reading them said both had already decided the question
+  the other way (marks go to vector), which turned a scored row into a predicted
+  `unapplied` before any drafting.

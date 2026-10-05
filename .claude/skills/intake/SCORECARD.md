@@ -5053,3 +5053,16 @@ apply cost one harness, not two. Next run's declared focus: **at Phase 5, write 
 against that line before drafting.** A row whose arm A cannot be named in a fleet tree is
 predicted `ship 0` in the triage table, where the prediction is calibration rather than
 a late miss.
+| 2.15.0 | 2026-10-05 | `cinematic-commercial-one-pass` (`youtube:K_gL-wxA944`) - second-hand practitioner review, sponsored build-walkthrough (a 30 s ad generated in one pass from nine references) | 1 | 15 | 6 rows read against files (sheet, scene-grammar, performance-direction, trial matrix, verbatim-text-locking, image-prompt-composition golden path) + **1 render proof** (10 Flux 2 renders, positive control first, gate refused 0.73x); 0 of 3 fetches | 0 upper-layer; 2 leads, 12 catches, 1 untriaged | 0 rows: 0c/0e/0s/0t/0r (render pair recorded as `unmeasurable`, operator pick pending, cannot amend) | **0 fleet commits** | Apply/ship zero reason: nothing landed, and the one landable row was predicted unapplied before scoring. **Declared focus (fleet-consumer check before Phase 5) applied**: `image-prompt-composition` has two consumers and both route brand marks to vector or code, so the row carried `exp. apply: render only, fleet unapplied` in the triage table. The 2026-10-05 sibling focus (name arm A's fleet line at Phase 5) agrees: no fleet line exists for a model-drawn mark | 0/0/0/0/0 · routing=n/a (video, no design record) · handoff=n/a · directions=n/a · auto=0/2/0 fp=0 · Phase 6b ran: `between` 16.86, `within` 23.14 |
+
+**2026-10-05 (cinematic-commercial-one-pass) - weakest stage and next focus.** The
+class predicted the yield, and the yield came in on prediction. The stage worth naming is
+**test, at its instrument**: the render proof spent ~15 minutes to learn that a
+whole-frame distance cannot see a variable confined to a label. That was knowable before
+the first render. The gate correctly refused a landing, and the comparison still went to
+the operator. But the return condition the run wrote (measure on the crop) is the
+discrimination region the run should have declared up front. Next run's declared focus:
+**when a render-bound row's variable occupies a known region of the frame (a label, a
+face, a hand, a sign), declare the region and its crop in the manifest before the first
+render, and gate on the crop.** Declaring the metric beforehand is what keeps it from
+being a metric swap after a refusal (2026-09-15).
