@@ -4159,9 +4159,9 @@
    "subcategory": "sourcing-economics",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/image-to-3d-input-gating.md",
-   "digest": "sha256-b2:add56c13658b01bd",
-   "revision": 4,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:665c480cdb829d21",
+   "revision": 5,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "canonical-pose-rule",
@@ -4304,7 +4304,7 @@
      "stack": "node",
      "technique": "single-subject-plain-background",
      "file": "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--single-subject-plain-background.md",
-     "verified_on": "2026-08-30",
+     "verified_on": "2026-10-05",
      "verified_against": "node@24"
     },
     {
