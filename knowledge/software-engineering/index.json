@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1822,
-  "applications": 1221,
+  "applications": 1222,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -37021,9 +37021,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
-   "digest": "sha256-b2:9e3d241f02d95329",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:9bb039229d852897",
+   "revision": 2,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "collapse-patch-axes-that-share-hunks",
@@ -37102,7 +37102,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "collapse-patch-axes-that-share-hunks",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/applications/node--collapse-patch-axes-that-share-hunks.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "node@22"
+    }
+   ]
   },
   "versioning-snapshots": {
    "category": "operations",
