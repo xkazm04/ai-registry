@@ -5039,3 +5039,17 @@ focus: **when Phase 7.5's best seam is the operator's harness, also name the nea
 relative and the one-commit change it would take, and either make it or say in the row
 whether it is coverage or a direction.** A ship of 0 should name the fleet diff that was
 considered, not just report the absence.
+| 2.15.0 | 2026-10-05 | `mixar-ai-first-blender-fork` (`youtube:Z8xhELifAVs`) - second-hand practitioner review, the eleventh from this channel; the fetch was the extraction: the reviewed tool's open client (`github:Mixar-AI/mixar-app` @ `edaeb32f`, about 27,500 in-tree words, agent backend closed) | 1 video + 1 cloned tree | 18 (12 claims + 6 design) | 4 rows read against files (the golden path's enumeration, two neighbours for the checkpoint row's promoting read, the engine-edge technique) plus **a falsifying Blender probe before scoring** (3 cases on 4.2.1: two failed silently, one did not reproduce) | 1 technique (`export-proven-by-read-back`) + 1 golden-path section + 1 node application; 0 amendments, 0 subjects | 1 row: **1c**/0e/0s/0t/0r (`better`, ab-paired: A receipted 3 wrong files, B 0; floor held; read-back isolated by a third arm) | **1 fleet commit** (pof 65974e1e, not pushed) | Focus moved: the fleet-consumer check ran at Phase 4 (pof, the one `game-production` consumer, holds a live agent export seam), predicted `code`, achieved `code`. auto=1/1/0, fp=0 | S0/T1/A0/Asrc0/task-lines 0; routing count 2 NONE in one system (no handoff); directions=0/0; gate=n/a |
+
+**2026-10-05 (mixar-ai-first-blender-fork) - weakest stage and next focus.** Across the
+last ten rows, **ship** is the stage losing most: seven made zero fleet commits. Their
+reasons differ in wording and agree in shape: no landing, no seam, a seam in the
+operator's harness rather than a project, or a project tree carrying another session's
+WIP. This run shipped, and the cause can be named. The declared focus (fleet-consumer
+check before Phase 5) found the one consumer and its seam *before* the technique was
+drafted. The probe that decided the score was also arm A of the apply step, so test and
+apply cost one harness, not two. Next run's declared focus: **at Phase 5, write the fleet
+`file:line` that arm A will run beside every row you expect to accept, and run the probe
+against that line before drafting.** A row whose arm A cannot be named in a fleet tree is
+predicted `ship 0` in the triage table, where the prediction is calibration rather than
+a late miss.

@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 78,
-  "techniques": 507,
-  "applications": 203,
+  "techniques": 508,
+  "applications": 204,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "507/507",
+  "use_when_coverage": "508/508",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4979,9 +4979,9 @@
    "subcategory": "geometry",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
-   "digest": "sha256-b2:3c732aa8444e83a9",
-   "revision": 3,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:17c31fab45fb59f0",
+   "revision": 4,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "conform-target-is-not-a-remap-row",
@@ -5012,6 +5012,23 @@
       "a reduced mesh shades faceted or blotchy",
       "deciding whether to re-smooth generated geometry",
       "a smoothing pass appears to do nothing"
+     ]
+    },
+    {
+     "slug": "export-proven-by-read-back",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "an-instrument-proves-it-had-input",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an automated stage writes the finished asset to an interchange file",
+      "a script reports an export as done because the exporter returned success",
+      "an agent exports from a document that holds more than one scene or a side workspace",
+      "deciding what an export receipt may claim",
+      "an exported file arrives downstream missing an object or a clip or holding one it should not"
      ]
     },
     {
@@ -5109,6 +5126,13 @@
      "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--conform-target-is-not-a-remap-row.md",
      "verified_on": "2026-09-20",
      "verified_against": "node@24.14.0"
+    },
+    {
+     "stack": "node",
+     "technique": "export-proven-by-read-back",
+     "file": "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--export-proven-by-read-back.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -10224,6 +10248,7 @@
     "learning-curve-and-teaching-design/teaching-escalation-ladder",
     "llm-dialogue-quality-control/blind-rubric-scoring-by-another-family",
     "llm-dialogue-quality-control/critique-and-revise-with-human-checkpoints",
+    "mesh-finishing-for-engine-readiness/export-proven-by-read-back",
     "on-device-verification-harness/emulated-touch-is-not-physical-touch",
     "on-device-verification-harness/keep-the-failed-baseline",
     "perf-regression-gating/baseline-bound-to-build-and-machine",
@@ -10315,6 +10340,7 @@
     "mass-based-arcade-collision/multi-circle-capsule-contact",
     "mass-based-arcade-collision/wall-tangent-retention-versus-head-on-loss",
     "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
+    "mesh-finishing-for-engine-readiness/export-proven-by-read-back",
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
     "mesh-finishing-for-engine-readiness/rig-preset-and-bone-remap-binding",
     "motion-quality-gating/asset-reality-ledger",
@@ -10444,6 +10470,7 @@
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "imported-material-conformance/surface-conformance-swatch",
     "llm-dialogue-quality-control/measured-banned-pattern-list",
+    "mesh-finishing-for-engine-readiness/export-proven-by-read-back",
     "on-device-verification-harness/meminfo-local-to-avoid-forced-gc",
     "on-device-verification-harness/poll-ready-signal-not-fixed-delay",
     "perf-regression-gating/bracketed-capture-window",
