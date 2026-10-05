@@ -1,6 +1,6 @@
 # Media generation - the subjects this registry carries
 
-`media-generation` - 23 subjects, 158 techniques, 87 applications.
+`media-generation` - 23 subjects, 159 techniques, 88 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### narrative-craft

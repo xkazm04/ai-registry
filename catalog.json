@@ -808,10 +808,10 @@
     },
     {
       "name": "uat",
-      "version": "1.11.1",
+      "version": "1.11.0",
       "category": "testing",
       "path": "skills/uat/SKILL.md",
-      "contentHash": "sha256-n1:ce7a645ce7d89a23",
+      "contentHash": "sha256-n1:13d4425539cfd1ea",
       "adopters": [
         "ascent@plugin:1.7.0",
         "kp@plugin:1.7.0",
@@ -820,9 +820,9 @@
       ],
       "invokes30d": 2,
       "reportedInvokes": 2,
-      "lessons": 16,
+      "lessons": 15,
       "lessonsPath": "skills/uat/LESSONS.md",
-      "lessonsHash": "sha256-n1:d8a10db02cfb595d",
+      "lessonsHash": "sha256-n1:0fdd175af7f8ba15",
       "usageContributors": [
         "wolf"
       ],
@@ -1017,7 +1017,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 9,
-    "lessons": 299
+    "lessons": 298
   },
   "bundles": [
     {
@@ -1145,10 +1145,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 233,
-      "techniques": 1827,
-      "applications": 1229,
-      "files": 3294,
-      "contentHash": "sha256-b2:4bc05e174dc1b8fe"
+      "techniques": 1828,
+      "applications": 1230,
+      "files": 3296,
+      "contentHash": "sha256-b2:85b68a4199a203bc"
     }
   ],
   "usageEvidence": {

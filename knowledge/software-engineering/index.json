@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1827,
-  "applications": 1229,
+  "techniques": 1828,
+  "applications": 1230,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1827/1827",
+  "use_when_coverage": "1828/1828",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -36498,9 +36498,9 @@
    "subcategory": "extension-trust",
    "status": "forged",
    "file": "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/untrusted-extension-host.md",
-   "digest": "sha256-b2:e829cbd80e70c8d0",
-   "revision": 5,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:a23407994bc4b9db",
+   "revision": 6,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "canonicalizable-privilege-declaration",
@@ -36546,6 +36546,24 @@
       "an extension needs persistence and must not be given schema authority",
       "designing the query surface exposed to untrusted extension code",
       "uninstall leaves data nobody owns"
+     ]
+    },
+    {
+     "slug": "derived-capability-inventory",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the host owns the language or interface its extensions are written against",
+      "deciding whether an extension's capability list is computed from its code or declared by its author",
+      "an operator is told to read what an extension calls before installing it",
+      "an inventory lists process execution beside other capabilities",
+      "an extension spawns a host command to answer a question a brokered call could answer"
      ]
     },
     {
@@ -36657,6 +36675,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "derived-capability-inventory",
+     "file": "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/applications/claude-code--derived-capability-inventory.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "claude-code@2.1.289"
+    },
     {
      "stack": "cpp",
      "technique": "capability-subtraction-sandbox",
@@ -39058,6 +39083,7 @@
     "ui-controls/call-site-ownership",
     "ui-controls/control-inventory-and-discovery",
     "untrusted-extension-host/capability-subtraction-sandbox",
+    "untrusted-extension-host/derived-capability-inventory",
     "untrusted-extension-host/grant-change-consent",
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/coverage-from-registries",
@@ -39663,6 +39689,7 @@
     "triage-queues/verdict-writeback",
     "ui-controls/adoption-enforcement",
     "untrusted-extension-host/declared-schema-extension-storage",
+    "untrusted-extension-host/derived-capability-inventory",
     "untrusted-extension-host/isolation-tier-independent-extension-api",
     "untrusted-extension-host/per-callback-failure-policy",
     "untrusted-extension-host/safe-mode-registration",
@@ -40278,6 +40305,7 @@
     "triage-queues/bulk-triage",
     "ui-controls/adoption-enforcement",
     "ui-controls/call-site-ownership",
+    "untrusted-extension-host/derived-capability-inventory",
     "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/safe-mode-registration",
     "usage-aggregation-semantics/level-valued-time-integral",
@@ -41801,6 +41829,7 @@
     "ui-controls/call-site-ownership",
     "ui-controls/variant-discipline",
     "untrusted-extension-host/canonicalizable-privilege-declaration",
+    "untrusted-extension-host/derived-capability-inventory",
     "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/isolation-tier-independent-extension-api",
     "usage-aggregation-semantics/seeded-recurring-aggregate",
