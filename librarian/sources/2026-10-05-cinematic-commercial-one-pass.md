@@ -64,7 +64,7 @@ which neither consumer does.
 | 1 | K | technique | S | Character sheet: front, back, face on neutral grey, flat light, rest expression | `character-identity-continuity/reference-shows-only-invariants`, `visual-style-locking/approved-reference-sheet` | none | - | likely catch | - | already covered, **stricter**: the corpus says the face appears exactly once at maximum scale; the source's full-front panel keeps a second, small face, which the corpus predicts reads as drift |
 | 2 | K | technique | S | A photo locks the face; wardrobe is described fresh | `reference-shows-only-invariants` ("only the wardrobe that is genuinely invariant"), `image-prompt-composition/identity-split-from-state` | none | - | likely catch | - | already covered |
 | 3 | K | technique | S | Background extras in one distinct colour each, kept plain | `assigned-colour-roles`, `frame-direction/one-function-per-visual` | none | - | likely catch | - | already covered |
-| 4 | K | amendment | M | A non-text mark is minted once and attached by image, never re-described | `image-prompt-composition/verbatim-text-locking` (strings only), `cinematic-language/scene-grammar-progression` ("annotate the image instead of describing it") | corrects-claim | 2/2/2 | **partial -> real gap** | render; fleet unapplied | **lead**. Render-bound; Phase 6b ran; gate refused at 0.73x; sheet shown; operator verdict pending (below) |
+| 4 | K | amendment | M | A non-text mark is minted once and attached by image, never re-described | `image-prompt-composition/verbatim-text-locking` (strings only), `cinematic-language/scene-grammar-progression` ("annotate the image instead of describing it") | corrects-claim | 2/2/2 | **partial -> real gap** | render; fleet unapplied | **lead**. Render-bound; Phase 6b ran; gate refused at 0.73x; sheet shown; operator: tie on both pairs (below) |
 | 5 | K | technique | S | Product sheet panels chosen by the closest framing and the generator's known failure spot | `approved-reference-sheet` ("the angles the shots will need; a view the sheet never demonstrated is a view the first generation will improvise") | none | - | likely catch | - | already covered |
 | 6 | K | technique | S | Light the set with named sources and name the even-light default as banned | `generated-output-grading/process--trial-matrix-design` (motivated lighting: keeper, biggest lift), `lighting-as-dramatic-instrument` | none | - | likely catch | - | already covered |
 | 7 | K | technique | S | An occluder's size is built into its asset, not requested at video time | `scene-grammar-progression` § "When prose cannot hold the geography" (sizes as ratios to a person, on a schematic attached to every take) | none | - | likely catch | - | already covered |
@@ -133,21 +133,32 @@ ground and asked to sit on a cream label. That points at the source's
 reversed-version panel (cream mark on the brand colour) as the half of a logo
 sheet that answers figure-ground. n=2, unverified.
 
-**Verdict:** pending the operator's blind pick on
-`<scratch>/intake-1005-kgl/rt/triage/index.html`. Whatever the pick, it
-cannot amend the technique from this pair (refused ratio; one pair never
-amends). It decides whether the lead below names the right next instrument.
+**Verdict (operator, blind, 2026-10-05): tie on both pairs**, "not
+significant change between variants". The sealed key put B on Y at seed 7 and
+on X at seed 8, so the tie is not a position preference. Read it at its
+strength: **the operator did not see the source's claim at this scale.** The
+director's pre-read (A never agrees across products, B agrees once) was not
+borne out at the operator's viewing scale, and per this pipeline the
+operator's pick is the verdict. What can be said is narrower. At product-shot
+framing, with an identical restated identity block, prose already carries the
+mark close enough that the reference adds nothing a viewer notices. Any
+residual difference sits in details (a disc, a typeface width) below what a
+viewer of a product shot reads as "a different logo". `unmeasurable` for
+quality at n=2 by the verdict-to-shape table; no upper-layer change.
 
 ## Leads
 
 - **Row 4, a non-text mark is carried by an image, not by prose.** Proposed
   home: a boundary section in `image-prompt-composition/verbatim-text-locking`
   ("what a quote cannot carry"), scoped to pipelines where a mark has to ride
-  a generated object because no compositor can track it. **Return condition:**
-  a render pair whose distance is measured on the **label crop**, declared
-  *before* rendering rather than substituted after a refusal, at ≥3 seeds per
-  arm, and clearing 1.5x there. Or a fleet project that generates branded
-  product motion. Neither consumer does today; both route marks to vector.
+  a generated object because no compositor can track it. **Demoted by the
+  operator's tie**: at product-shot framing the difference was not visible, so
+  the lead now has to argue a regime where it would be. **Return condition:**
+  a framing where the mark is the subject (a label close-up or insert), or a
+  motion pass where the mark has to survive a turn of the object; measured on
+  the label crop declared *before* rendering, at ≥3 seeds per arm. Or a fleet
+  project that generates branded product motion. Neither consumer does today;
+  both route marks to vector.
 - **Row 11, scene invariants as their own block above a multi-cut timeline.**
   The four-block anatomy has no scope between *project* and *image*, and a
   single pass that holds several cuts creates one: positions, orientations
@@ -185,7 +196,7 @@ sentence:
 
 `applied: 0`, `shipped: 0`. Nothing landed in an upper layer, so Phase 7.5
 owes no row. The render proof is recorded here and in `result.json` as a
-`render`-mode verdict, pending. Fleet seam check: gravitone
+`render`-mode verdict: `unmeasurable` (operator tie, both pairs). Fleet seam check: gravitone
 (its constraint block bans logos from every plate; its own wordmark is drawn
 in code) and systedo-case (asset producer routes logos and
 wordmarks to vector). Both are on the compositor side, so there is no seam
@@ -193,7 +204,8 @@ for a model-drawn mark. **Directions:** n/a (video, no design record).
 
 ## Cleanup
 
-Renders, strips and the sheet stay under the run's scratch directory until
-the operator's verdict, per the 2026-09-20 rule. Then `render-triage.mjs
-clean` by run id, including `ComfyUI/output/intake-1005-kgl` and the staged
-`ComfyUI/input/intake-1005-kgl-*` inputs, with the byte count recorded here.
+Renders were kept until the operator's verdict (2026-09-20 rule), then
+removed with `render-triage.mjs clean` by run id: the run directory, the
+ComfyUI output folder and the two staged `intake-1005-kgl-*` inputs. 21 paths,
+**23.1 MB**. Unrelated ComfyUI inputs survived (positive control). The verdict
+is kept above; the transcript and metadata were deleted by source id.

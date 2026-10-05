@@ -40,5 +40,5 @@
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "Sponsored build-walkthrough: 12 catches, 2 leads, 1 untriaged, 0 landed. Mark-by-reference render pair refused at 0.73x (whole-frame metric, label-sized variable); sheet shown to operator. Both fleet consumers route marks to vector."
+  "notes": "Sponsored build-walkthrough: 12 catches, 2 leads, 1 untriaged, 0 landed. Mark-by-reference render pair refused at 0.73x (whole-frame metric, label-sized variable); operator blind pick: tie on both pairs. Both fleet consumers route marks to vector."
 }
