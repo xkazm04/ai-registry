@@ -1,9 +1,9 @@
 ---
 name: contest
-description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|status <id> to drive one step."
+description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.8.0
+version: 1.9.0
 tags: contest, prototyping, ui, landing, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|status <id>"
 ---
@@ -27,7 +27,9 @@ resumes by re-running the same command.
   seats, does the visual pass, recommends, writes the vault. The host never builds an entry
   and never scores one it can identify.
 - **Participants** - CLI agent seats named as `engine:model@effort[#label]` (`claude:opus@xhigh`,
-  `grok:grok-4.6@high`, `codex:gpt-5.6-sol@high`). Each gets its own workspace holding only
+  `grok:grok-4.6@high`, `codex:gpt-5.6-sol@high`, `agy:gemini-3.8-flash@medium`). `agy` is the
+  Antigravity CLI that replaced the Gemini CLI; its model slugs carry the effort, so the engine
+  completes `gemini-3.8-flash` + `@medium` to `gemini-3.8-flash-medium` (see `agy models`). Each gets its own workspace holding only
   `PARTICIPANT.md` and `data/`, runs headless with the operator's user configuration excluded,
   and must leave exactly N variant directories behind.
 - **Judges** - CLI seats reading the blinded copies with the rubric in

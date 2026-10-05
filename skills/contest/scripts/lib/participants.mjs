@@ -7,7 +7,7 @@
 // personal rules, plugins or memory).
 
 export const EFFORTS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
-export const ENGINES = new Set(['claude', 'codex', 'grok']);
+export const ENGINES = new Set(['claude', 'codex', 'grok', 'agy']);
 
 /**
  * `engine:model@effort[#label]` -> { engine, model, effort, label, id }.
@@ -45,6 +45,21 @@ export function parseParticipants(list) {
  */
 export function engineCommand(p, bin, prompt, { workspace = '.' } = {}) {
   const head = Array.isArray(bin) ? bin : [bin];
+  if (p.engine === 'agy') {
+    // Antigravity CLI, the successor of the Gemini CLI. Its model slugs carry the effort
+    // (`gemini-3.8-flash-medium`, see `agy models`), so a spec naming `gemini-3.8-flash@medium`
+    // is completed here and no --effort flag is sent. There is no cwd flag (the runner sets the
+    // process cwd), and it blocks on an open stdin pipe on Windows, so the prompt rides as the
+    // -p argument and stdin is closed empty.
+    const tier = p.effort === 'xhigh' || p.effort === 'max' ? 'high' : p.effort;
+    const model = /-(low|medium|high)$/.test(p.model) ? p.model : `${p.model}-${tier}`;
+    return {
+      argv: [...head, '-p', prompt, '--model', model, '--output-format', 'json',
+        '--dangerously-skip-permissions', '--print-timeout', '3h'],
+      stdin: '',
+      env: {},
+    };
+  }
   if (p.engine === 'grok') {
     return {
       argv: [...head, '-p', prompt, '-m', p.model, '--effort', p.effort, '--output-format', 'json',
@@ -108,6 +123,18 @@ export function parseGrok(stdout) {
   };
 }
 
+// agy prints one JSON object: { status: SUCCESS|ERROR|..., response, error, num_turns, usage }.
+// On Windows a non-TTY run can exit 0 with nothing on stdout; that surfaces as "no JSON envelope".
+export function parseAgy(stdout) {
+  const v = lastJsonObject(stdout);
+  if (!v) return { final: '', errors: ['no JSON envelope on stdout'], usage: {}, turns: 0, cost_usd: null };
+  const errors = v.status && v.status !== 'SUCCESS' ? [`${v.status}: ${String(v.error ?? v.response ?? '').slice(0, 300)}`] : [];
+  return {
+    final: String(v.response ?? ''), errors, usage: v.usage ?? {}, turns: v.num_turns ?? 0,
+    cost_usd: null, duration_ms: v.duration_seconds != null ? Math.round(v.duration_seconds * 1000) : null, model_usage: {},
+  };
+}
+
 export function parseCodex(stdout) {
   let final = '';
   let usage = {};
@@ -134,6 +161,7 @@ export function parseCodex(stdout) {
 export function parseEnvelope(engine, stdout) {
   if (engine === 'codex') return parseCodex(stdout);
   if (engine === 'grok') return parseGrok(stdout);
+  if (engine === 'agy') return parseAgy(stdout);
   return parseClaude(stdout);
 }
 

@@ -174,16 +174,16 @@
     },
     {
       "name": "contest",
-      "version": "1.8.0",
+      "version": "1.9.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:3db345097428fe79",
+      "contentHash": "sha256-n1:d59271fe40f1b89b",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 13,
+      "lessons": 14,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:ffe43cda21d6105e",
+      "lessonsHash": "sha256-n1:1ed01da7a45cb36e",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -990,7 +990,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 6,
-    "lessons": 298
+    "lessons": 299
   },
   "bundles": [
     {

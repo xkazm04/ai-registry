@@ -9,7 +9,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseParticipant, parseParticipants, engineCommand, parseClaude, parseGrok, parseCodex, classifyOutcome } from '../scripts/lib/participants.mjs';
+import { parseParticipant, parseParticipants, engineCommand, parseClaude, parseGrok, parseCodex, parseAgy, classifyOutcome } from '../scripts/lib/participants.mjs';
 import { blindMap, scrubIdentity, materialPhrases, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown } from '../scripts/lib/judging.mjs';
 import { upsertPatterns, readPatterns, upsertIndex, renderContestNote } from '../scripts/lib/vault.mjs';
 
@@ -18,7 +18,7 @@ test('participant spec parses to a stable filesystem-safe id', () => {
   assert.equal(p.id, 'claude-opus_xhigh');
   assert.deepEqual([p.engine, p.model, p.effort, p.label], ['claude', 'opus', 'xhigh', null]);
   assert.equal(parseParticipant('codex:gpt-5.6-sol@high#b').id, 'codex-gpt-5.6-sol_high-b');
-  assert.throws(() => parseParticipant('gemini:pro@high'), /unknown engine/);
+  assert.throws(() => parseParticipant('gemma:pro@high'), /unknown engine/);
   assert.throws(() => parseParticipant('claude:opus@ultra'), /unknown effort/);
   assert.throws(() => parseParticipants('claude:opus@high,claude:opus@high'), /#label/);
 });
@@ -33,6 +33,20 @@ test('engine commands: grok takes the prompt as an argument, the others on stdin
   const codex = engineCommand(parseParticipant('codex:gpt-5.6-sol@high'), ['node', 'codex.js'], 'READ ME');
   assert.deepEqual(codex.argv.slice(0, 3), ['node', 'codex.js', 'exec']);
   assert.ok(codex.argv.includes('model_reasoning_effort="high"'));
+});
+
+test('agy: prompt as argument, stdin closed, effort clamped, status is the verdict', () => {
+  const a = engineCommand(parseParticipant('agy:gemini-3.8-flash@xhigh'), 'agy.exe', 'READ ME');
+  assert.ok(a.argv.includes('READ ME') && a.stdin === '');
+  assert.equal(a.argv[a.argv.indexOf('--model') + 1], 'gemini-3.8-flash-high');
+  assert.ok(!a.argv.includes('--effort'));
+  assert.equal(engineCommand(parseParticipant('agy:gemini-3.8-flash-medium@medium'), 'agy', 'x').argv[4], 'gemini-3.8-flash-medium');
+  assert.ok(a.argv.includes('--dangerously-skip-permissions'));
+  const ok = parseAgy('{"status":"SUCCESS","response":"done","num_turns":4,"usage":{"total_tokens":9}}');
+  assert.deepEqual([ok.final, ok.errors, ok.turns], ['done', [], 4]);
+  const bad = parseAgy('{"status":"ERROR","error":"RESOURCE_EXHAUSTED 429 quota"}');
+  assert.equal(classifyOutcome(bad, { exit: 0, timedOut: false }), 'seat-limit');
+  assert.match(parseAgy('').errors[0], /no JSON envelope/);
 });
 
 test('envelopes: a refusal or a bad stop reason is an error, not a result', () => {
