@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1822,
-  "applications": 1220,
+  "applications": 1221,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -22516,9 +22516,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/native-document-format.md",
-   "digest": "sha256-b2:b6e8c7cf7888676f",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:a8dfcdf0eabecaff",
+   "revision": 2,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "format-generations-are-declared",
@@ -22610,7 +22610,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "format-generations-are-declared",
+     "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/applications/rust--format-generations-are-declared.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "rust@1.96.1"
+    }
+   ]
   },
   "native-guest-interop": {
    "category": "backend-platform",
