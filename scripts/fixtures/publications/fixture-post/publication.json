@@ -1,0 +1,129 @@
+{
+  "schema": "publication/1",
+  "slug": "fixture-post",
+  "title": "A fixture post",
+  "subtitle": "The smallest publication the lane gate accepts.",
+  "topic": {
+    "kind": "free",
+    "text": "A neutral fixture topic used by the gate tests."
+  },
+  "date": "2026-10-05",
+  "readMinutes": 2,
+  "status": "approved",
+  "standard": {
+    "recipe": "technical-blog-post-authoring",
+    "version": "0.1.0",
+    "bundle": "technical-writing"
+  },
+  "sources": [
+    {
+      "n": 1,
+      "url": "https://example.org/fixture/source-1",
+      "title": "Fixture source 1",
+      "publisher": "Example Publisher",
+      "date": "2026-01-15",
+      "primary": true,
+      "counter": false,
+      "took": "Fixture fact number 1."
+    },
+    {
+      "n": 2,
+      "url": "https://example.org/fixture/source-2",
+      "title": "Fixture source 2",
+      "publisher": "Example Publisher",
+      "date": "2025-11",
+      "primary": true,
+      "counter": false,
+      "took": "Fixture fact number 2."
+    },
+    {
+      "n": 3,
+      "url": "https://example.org/fixture/source-3",
+      "title": "Fixture source 3",
+      "publisher": "Example Publisher",
+      "date": "2024",
+      "primary": true,
+      "counter": false,
+      "took": "Fixture fact number 3."
+    },
+    {
+      "n": 4,
+      "url": "https://example.org/fixture/source-4",
+      "title": "Fixture source 4",
+      "publisher": "Example Publisher",
+      "date": "2026-03-02",
+      "primary": true,
+      "counter": false,
+      "took": "Fixture fact number 4."
+    },
+    {
+      "n": 5,
+      "url": "https://example.org/fixture/source-5",
+      "title": "Fixture source 5",
+      "publisher": "Example Publisher",
+      "date": "2025-07-30",
+      "primary": false,
+      "counter": false,
+      "took": "Fixture fact number 5."
+    },
+    {
+      "n": 6,
+      "url": "https://example.org/fixture/source-6",
+      "title": "Fixture source 6",
+      "publisher": "Example Publisher",
+      "date": "2026-02",
+      "primary": false,
+      "counter": false,
+      "took": "Fixture fact number 6."
+    },
+    {
+      "n": 7,
+      "url": "https://example.org/fixture/source-7",
+      "title": "Fixture source 7",
+      "publisher": "Example Publisher",
+      "date": "2023-05-23",
+      "primary": false,
+      "counter": false,
+      "took": "Fixture fact number 7."
+    },
+    {
+      "n": 8,
+      "url": "https://example.org/fixture/source-8",
+      "title": "Fixture source 8",
+      "publisher": "Example Publisher",
+      "date": "2026-09-01",
+      "primary": false,
+      "counter": true,
+      "took": "Fixture fact number 8."
+    }
+  ],
+  "claims": [
+    {
+      "text": "The fixture makes a claim anchored by the first source.",
+      "source": 1
+    },
+    {
+      "text": "A second claim rests on the counter source.",
+      "source": 8
+    }
+  ],
+  "figures": [
+    {
+      "file": "figures/01-example-chart.svg",
+      "caption": "Figure 1. A two-bar example chart.",
+      "sources": [
+        1,
+        2
+      ]
+    }
+  ],
+  "check": {
+    "citations": "pass",
+    "first-person": "pass"
+  },
+  "run": {
+    "id": "fixture-run",
+    "model": "fixture-model",
+    "effort": "medium"
+  }
+}

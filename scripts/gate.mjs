@@ -32,6 +32,11 @@ const MARKETPLACE = step('build-marketplace.mjs', { check: ['--check'], write: [
 const CHECK_RECIPES = step('check-recipes.mjs', { check: ['--shape-only'] });
 const RECIPE_VIEWS = step('render-recipes.mjs', { check: ['--check'], write: [] });
 const RECIPES_INDEX = step('build-recipes-index.mjs', { check: ['--check'], write: [] });
+// The publications lane (docs/publications-lane.md): the mechanical gate first, then the
+// index it presupposes, exactly as the recipes row orders its pair. publications/ is not
+// one of build-catalog's hashed lanes, so its row stops before the catalog tail.
+const CHECK_PUBLICATIONS = step('check-publications.mjs');
+const PUBLICATIONS_INDEX = step('build-publications-index.mjs', { check: ['--check'], write: [] });
 const CHECK_BUNDLES = step('check-bundles.mjs');
 // No machine's home directory in a published lane (AGENTS.md: absolute roots live only in
 // .machine.local.json). Self-test first, so a green run is a detector that can see, not silence.
@@ -82,6 +87,9 @@ const LANES = {
   // failed its shape check describes a tree nobody has. recipes/ is NOT one of
   // build-catalog's five hashed lanes, so this row correctly stops before the tail.
   recipes: [CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX],   // public paths: registry.yml runs --all on every PR
+  // Written by the article pipeline's approved write-back and by hand; posts leave the
+  // registry, so the gate runs before the index and a red gate never reaches a PR.
+  publications: [CHECK_PUBLICATIONS, PUBLICATIONS_INDEX],
   usage: [CHECK_USAGE, CHECK_RUNS, ...CATALOG_TAIL],
   signals: [CHECK_SIGNALS],
   practices: [SIMPLE_LANES, ...PUBLIC, ...CATALOG_TAIL],
@@ -97,7 +105,7 @@ const LANES = {
 const ALL = [
   CHECK_SKILLS, CLAUSES, MARKETPLACE,
   CHECK_BUNDLES, ...PUBLIC, INDEX, KNOWLEDGE_RULES, REVIEW_COVERAGE, COVERAGE_AGE,
-  CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, SIMPLE_LANES,
+  CHECK_RECIPES, RECIPE_VIEWS, RECIPES_INDEX, CHECK_PUBLICATIONS, PUBLICATIONS_INDEX, SIMPLE_LANES,
   CHECK_USAGE, CHECK_RUNS, CHECK_SIGNALS,
   PROJECTS, EXIT_CONTRACT, WEIGHTS, TOOL_TESTS,
   HASH_STABILITY, CATALOG,

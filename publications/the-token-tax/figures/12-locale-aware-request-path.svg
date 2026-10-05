@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="214" viewBox="0 0 1000 214" role="img" aria-label="Figure 8: measure, budget, assemble, route, evaluate">
+<rect width="1000" height="214" fill="#ffffff"/>
+<text x="32.0" y="52.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="22" font-weight="700" fill="#242424">A locale-aware request path</text>
+<rect x="32.0" y="78.0" width="156.8" height="104.0" fill="#ffffff" rx="4" stroke="#e6e6e6" stroke-width="1"/>
+<rect x="32.0" y="78.0" width="156.8" height="3.0" fill="#1d4ed8"/>
+<text x="42.0" y="104.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="700" fill="#242424">Measure</text>
+<text x="42.0" y="124.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">premium per model ×</text>
+<text x="42.0" y="142.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">locale, on real prompts</text>
+<text x="207.8" y="137.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="20" font-weight="400" fill="#6b6b6b" text-anchor="middle">→</text>
+<rect x="226.8" y="78.0" width="156.8" height="104.0" fill="#ffffff" rx="4" stroke="#e6e6e6" stroke-width="1"/>
+<rect x="226.8" y="78.0" width="156.8" height="3.0" fill="#1d4ed8"/>
+<text x="236.8" y="104.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="700" fill="#242424">Budget</text>
+<text x="236.8" y="124.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">count or coefficient;</text>
+<text x="236.8" y="142.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">log estimate vs actual</text>
+<text x="402.6" y="137.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="20" font-weight="400" fill="#6b6b6b" text-anchor="middle">→</text>
+<rect x="421.6" y="78.0" width="156.8" height="104.0" fill="#ffffff" rx="4" stroke="#e6e6e6" stroke-width="1"/>
+<rect x="421.6" y="78.0" width="156.8" height="3.0" fill="#1d4ed8"/>
+<text x="431.6" y="104.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="700" fill="#242424">Assemble</text>
+<text x="431.6" y="124.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">NFC · shared cached</text>
+<text x="431.6" y="142.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">prefix · locale block</text>
+<text x="597.4" y="137.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="20" font-weight="400" fill="#6b6b6b" text-anchor="middle">→</text>
+<rect x="616.4" y="78.0" width="156.8" height="104.0" fill="#ffffff" rx="4" stroke="#e6e6e6" stroke-width="1"/>
+<rect x="616.4" y="78.0" width="156.8" height="3.0" fill="#1d4ed8"/>
+<text x="626.4" y="104.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="700" fill="#242424">Route</text>
+<text x="626.4" y="124.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">cheapest vocabulary</text>
+<text x="626.4" y="142.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">that passes this</text>
+<text x="626.4" y="160.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">locale’s eval</text>
+<text x="792.2" y="137.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="20" font-weight="400" fill="#6b6b6b" text-anchor="middle">→</text>
+<rect x="811.2" y="78.0" width="156.8" height="104.0" fill="#ffffff" rx="4" stroke="#e6e6e6" stroke-width="1"/>
+<rect x="811.2" y="78.0" width="156.8" height="3.0" fill="#c2410c"/>
+<text x="821.2" y="104.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="700" fill="#242424">Evaluate</text>
+<text x="821.2" y="124.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">native review; accuracy</text>
+<text x="821.2" y="142.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">and fluency scored</text>
+<text x="821.2" y="160.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="400" fill="#6b6b6b">apart</text>
+</svg>

@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="398" viewBox="0 0 1000 398" role="img" aria-label="Table 1: vocabulary entries per script for seven tokenizers">
+<rect width="1000" height="398" fill="#ffffff"/>
+<text x="32.0" y="52.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="22" font-weight="700" fill="#242424">Table 1. Vocabulary entries per script</text>
+<text x="32.0" y="84.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="400" fill="#6b6b6b">Entries containing at least one character of the script. Shading grows with the count (log scale).</text>
+<text x="40.0" y="118.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b">Vocabulary</text>
+<text x="329.1" y="118.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b" text-anchor="end">Size</text>
+<text x="434.3" y="118.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b" text-anchor="end">CJK</text>
+<text x="539.4" y="118.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b" text-anchor="end">Arabic</text>
+<text x="644.6" y="118.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b" text-anchor="end">Devanagari</text>
+<text x="749.7" y="118.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b" text-anchor="end">Thai</text>
+<text x="854.9" y="118.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b" text-anchor="end">Tamil</text>
+<text x="960.0" y="118.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b" text-anchor="end">Ethiopic</text>
+<line x1="32.0" y1="128.0" x2="968.0" y2="128.0" stroke="#242424" stroke-width="1"/>
+<text x="40.0" y="150.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#6b6b6b">cl100k_base (2023)</text>
+<text x="329.1" y="150.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#6b6b6b" text-anchor="end">100,256</text>
+<rect x="337.1" y="128.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.44"/>
+<text x="434.3" y="150.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#6b6b6b" text-anchor="end">1,002</text>
+<rect x="442.3" y="128.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.30"/>
+<text x="539.4" y="150.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#6b6b6b" text-anchor="end">103</text>
+<rect x="547.4" y="128.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.20"/>
+<text x="644.6" y="150.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#6b6b6b" text-anchor="end">23</text>
+<rect x="652.6" y="128.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.26"/>
+<text x="749.7" y="150.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#6b6b6b" text-anchor="end">58</text>
+<rect x="757.7" y="128.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.09"/>
+<text x="854.9" y="150.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#6b6b6b" text-anchor="end">3</text>
+<text x="960.0" y="150.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#6b6b6b" text-anchor="end">0</text>
+<line x1="32.0" y1="162.0" x2="968.0" y2="162.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="184.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">o200k_base</text>
+<text x="329.1" y="184.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">199,998</text>
+<rect x="337.1" y="162.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.57"/>
+<text x="434.3" y="184.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">8,232</text>
+<rect x="442.3" y="162.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.57"/>
+<text x="539.4" y="184.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">8,043</text>
+<rect x="547.4" y="162.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.53"/>
+<text x="644.6" y="184.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">3,963</text>
+<rect x="652.6" y="162.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.47"/>
+<text x="749.7" y="184.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">1,545</text>
+<rect x="757.7" y="162.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.44"/>
+<text x="854.9" y="184.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">962</text>
+<text x="960.0" y="184.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">0</text>
+<line x1="32.0" y1="196.0" x2="968.0" y2="196.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="218.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Qwen3</text>
+<text x="329.1" y="218.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">151,669</text>
+<rect x="337.1" y="196.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.65"/>
+<text x="434.3" y="218.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">27,031</text>
+<rect x="442.3" y="196.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.52"/>
+<text x="539.4" y="218.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">3,634</text>
+<rect x="547.4" y="196.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.27"/>
+<text x="644.6" y="218.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">67</text>
+<rect x="652.6" y="196.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.50"/>
+<text x="749.7" y="218.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">2,570</text>
+<rect x="757.7" y="196.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.21"/>
+<text x="854.9" y="218.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">28</text>
+<rect x="862.9" y="196.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.30"/>
+<text x="960.0" y="218.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">116</text>
+<line x1="32.0" y1="230.0" x2="968.0" y2="230.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="252.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Qwen3.5</text>
+<text x="329.1" y="252.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">248,070</text>
+<rect x="337.1" y="230.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.70"/>
+<text x="434.3" y="252.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">58,888</text>
+<rect x="442.3" y="230.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.58"/>
+<text x="539.4" y="252.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">8,816</text>
+<rect x="547.4" y="230.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.44"/>
+<text x="644.6" y="252.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">959</text>
+<rect x="652.6" y="230.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.55"/>
+<text x="749.7" y="252.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">5,741</text>
+<rect x="757.7" y="230.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.36"/>
+<text x="854.9" y="252.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">268</text>
+<rect x="862.9" y="230.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.21"/>
+<text x="960.0" y="252.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">25</text>
+<line x1="32.0" y1="264.0" x2="968.0" y2="264.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="286.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">DeepSeek-V3.1</text>
+<text x="329.1" y="286.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">128,815</text>
+<rect x="337.1" y="264.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.67"/>
+<text x="434.3" y="286.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">36,064</text>
+<rect x="442.3" y="264.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.51"/>
+<text x="539.4" y="286.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">3,187</text>
+<rect x="547.4" y="264.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.36"/>
+<text x="644.6" y="286.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">297</text>
+<rect x="652.6" y="264.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.45"/>
+<text x="749.7" y="286.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">1,247</text>
+<rect x="757.7" y="264.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.32"/>
+<text x="854.9" y="286.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">156</text>
+<text x="960.0" y="286.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">0</text>
+<line x1="32.0" y1="298.0" x2="968.0" y2="298.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="320.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Llama 4</text>
+<text x="329.1" y="320.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">201,135</text>
+<rect x="337.1" y="298.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.61"/>
+<text x="434.3" y="320.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">14,312</text>
+<rect x="442.3" y="298.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.53"/>
+<text x="539.4" y="320.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">4,483</text>
+<rect x="547.4" y="298.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.50"/>
+<text x="644.6" y="320.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">2,677</text>
+<rect x="652.6" y="298.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.48"/>
+<text x="749.7" y="320.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">1,972</text>
+<rect x="757.7" y="298.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.28"/>
+<text x="854.9" y="320.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">75</text>
+<rect x="862.9" y="298.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.35"/>
+<text x="960.0" y="320.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">261</text>
+<line x1="32.0" y1="332.0" x2="968.0" y2="332.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="354.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Gemma 4</text>
+<text x="329.1" y="354.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">262,144</text>
+<rect x="337.1" y="332.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.64"/>
+<text x="434.3" y="354.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">23,796</text>
+<rect x="442.3" y="332.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.57"/>
+<text x="539.4" y="354.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">8,300</text>
+<rect x="547.4" y="332.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.61"/>
+<text x="644.6" y="354.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">13,754</text>
+<rect x="652.6" y="332.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.49"/>
+<text x="749.7" y="354.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">2,177</text>
+<rect x="757.7" y="332.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.53"/>
+<text x="854.9" y="354.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#ffffff" text-anchor="end">3,850</text>
+<rect x="862.9" y="332.0" width="105.1" height="34.0" fill="#1d4ed8" fill-opacity="0.43"/>
+<text x="960.0" y="354.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424" text-anchor="end">862</text>
+<line x1="32.0" y1="366.0" x2="968.0" y2="366.0" stroke="#e6e6e6" stroke-width="1"/>
+</svg>
