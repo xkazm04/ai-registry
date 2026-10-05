@@ -12267,3 +12267,16 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
 - **A second review of an already-mined release is not a re-run.** Read the first note's
   declines and leads before extracting. Here they removed three candidates at once (catches
   and a currency row) and pointed the run at the one claim the first review had not tested.
+
+## 2.15.0 - 2026-10-05 - mixar-ai-first-blender-fork
+
+- A review of an open-source tool is a repository run in disguise. The video's
+  load-bearing claims (routing, sub-agents, token savings) sat in the vendor's closed
+  backend and stayed leads. The published client held the landing, so one search and one
+  read of its contributor guide decided the run. Check what the review's subject publishes
+  before extracting from the transcript.
+- A tree's own verification code is a falsifier that is already built, and its
+  thresholds are where it is likeliest to be wrong. Its 64-byte emptiness floor passed a
+  132-byte empty export. Running its claims through the fleet's own install, with the
+  consumer's exact calls, before scoring turned one probe into both the corroboration
+  and arm A of the apply step.
