@@ -175,7 +175,9 @@ lanes:
       directory per post, with its sources, figures and a paste-ready Medium package.
     spec: docs/publications-lane.md
     format: publication.json (schema `publication/1`) + post.html + post.md + SOURCES.md
-      + figures/NN-<name>.svg + medium/{story.html,tags.txt,README.md}
+      + figures/NN-<name>.svg + medium/{story.html,tags.txt,README.md}; optional
+      `critique` block in publication.json (reviewers, rounds, finding counts, decision)
+      with an optional critique/{reviews.json,dispositions.json} that requires it
     gate: scripts/check-publications.mjs
     # publications/<slug>/publication.json - exactly 3 path segments, one level of
     # directories. A consumer selects through the generated index, but the article
@@ -186,7 +188,8 @@ lanes:
       path: publications/index.json
       generator: scripts/build-publications-index.mjs
       holds: slug -> path, title, subtitle, date, readMinutes, status, topic address,
-        standard, source/primary/counter/figure counts
+        standard, source/primary/counter/figure counts, and critique {reviewers
+        (completed), rounds, decision} when the post has one
     # A post leaves the registry (pasted into Medium, served as a page) and cannot be
     # recalled, so only an approved post lands, and the gate checks what a machine can
     # check without judgement: shape, schema, citations that resolve, dated sources and
@@ -198,7 +201,10 @@ lanes:
       (`standard: {recipe, version, bundle}`), never copied into the post
     note: Declared 2026-10-05 with its spec, gate, index builder, a test fixture and one
       imported publication (the technical-writing contest winner). Not one of
-      build-catalog's hashed lanes; the index is its selector.
+      build-catalog's hashed lanes; the index is its selector. The critique record
+      (multi-model review of the first draft, a disposition with a reason for every
+      finding) was added the same day; the pipeline always writes it, the imported
+      winner predates it, and the gate checks its mechanics, never a reason's merit.
   practices:
     path: practices/
     spec: docs/simple-lanes.md

@@ -7,7 +7,7 @@
   "by_status": {
    "approved": 1
   },
-  "excludes": "topic text, sources, claims, figures, check, run - open the publication"
+  "excludes": "topic text, sources, claims, figures, check, run, critique reviewers and findings, critique/ - open the publication"
  },
  "publications": {
   "the-token-tax": {

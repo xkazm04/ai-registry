@@ -5,7 +5,9 @@
  * Why it exists: a consumer (the article pipeline that writes this lane, a site that
  * lists posts, an agent asking "has this subject been written up already?") should
  * select a publication without opening every directory. The index is that selector:
- * slug -> path, title, date, topic address, the standard it was held to, and counts.
+ * slug -> path, title, date, topic address, the standard it was held to, counts, and -
+ * when the post went through the critique step - how many reviewers completed, how many
+ * rounds ran and what the writer decided.
  * The body, the sources and the figures stay in the publication - a mirror here would
  * be a second copy that goes stale.
  *
@@ -52,6 +54,12 @@ const slugs = fs.readdirSync(LANE, { withFileTypes: true })
   .map((e) => e.name)
   .sort();
 
+function critiqueEntry(c) {
+  if (c === null || typeof c !== 'object' || Array.isArray(c)) return undefined;
+  const reviewers = Array.isArray(c.reviewers) ? c.reviewers.filter((r) => r && r.outcome === 'completed').length : 0;
+  return { reviewers, rounds: c.rounds, decision: c.decision };
+}
+
 const publications = {};
 const problems = [];
 for (const slug of slugs) {
@@ -81,6 +89,10 @@ for (const slug of slugs) {
     primary: sources.filter((s) => s && s.primary === true).length,
     counter: sources.filter((s) => s && s.counter === true).length,
     figures: Array.isArray(p.figures) ? p.figures.length : 0,
+    // The critique's selector fields only: how many reviewers actually reviewed, how
+    // many rounds, what the writer decided. Who they were and what they found stay in
+    // the publication. Omitted for a post that predates the critique step.
+    critique: critiqueEntry(p.critique),
   };
   // Absent-value convention, same as the publication: omit the key, never write null.
   for (const k of Object.keys(entry)) if (entry[k] === undefined || entry[k] === null) delete entry[k];
@@ -110,7 +122,7 @@ const index = {
     publications: slugs.length,
     by_status: byStatus,
     // Stated in-band so nobody builds a feature on a field this index does not carry.
-    excludes: 'topic text, sources, claims, figures, check, run - open the publication',
+    excludes: 'topic text, sources, claims, figures, check, run, critique reviewers and findings, critique/ - open the publication',
   },
   publications,
 };

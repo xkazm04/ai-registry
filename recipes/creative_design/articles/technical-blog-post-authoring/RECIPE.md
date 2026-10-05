@@ -14,18 +14,19 @@ path: creative_design/articles
 
 **Input.** A topic, either a subject already held in a knowledge registry or a free-text idea, plus the audience it is for, the house style sheet, and the publishing platform the post is headed to.
 
-**Core action.** Research the topic live with counter-evidence and dated sources, find the one concrete scene that carries the thesis, outline the argument as promises the close will settle, draft it at depth for an expert while explaining terms in a clause for everyone else, move structured material into figures and designed tables, and check the result deterministically before a person decides.
+**Core action.** Research the topic live with counter-evidence and dated sources, find the one concrete scene that carries the thesis, outline the argument as promises the close will settle, draft it at depth for an expert while explaining terms in a clause for everyone else, move structured material into figures and designed tables, have reviewer models from other providers critique the draft blind to each other and answer every finding, and check the result deterministically before a person decides.
 
-**Output.** One post that a person has approved, carrying a content preview with a computed read time, numbered in-page citations to dated sources, figures that abstract rather than restate, a closing chapter that settles what the opening promised, and a package that renders correctly on the target platform in both colour schemes at phone and desktop widths.
+**Output.** One post that a person has approved, carrying a content preview with a computed read time, numbered in-page citations to dated sources, figures that abstract rather than restate, a closing chapter that settles what the opening promised, a package that renders correctly on the target platform in both colour schemes at phone and desktop widths, and a published record of who reviewed the draft, what they found and what was decided about each finding.
 
 ## Activities
 
 1. Research the topic live, collecting dated sources, counter-evidence and any measurement the post can run itself *(observe; research)*
 2. Settle the opening scene, the preview's outcomes, the claim of each section and the close's recap numbers *(decide; outline)*
 3. Draft the post with its figures, tables, citations and sources list *(act; draft)*
-4. Run the deterministic quality checks and repair only the flagged spans *(act; check)*
-5. Put the post, the check report, the sources and any proposed knowledge corrections in front of a person *(decide; gate)*
-6. Record the approved post and package it for the target platform *(deliver; publish)*
+4. Have reviewer models from other providers critique the draft blind to each other, then answer every finding and keep, rewrite or research *(decide; critique)*
+5. Run the deterministic quality checks and repair only the flagged spans *(act; check)*
+6. Put the post, the critique record, the check report, the sources and any proposed knowledge corrections in front of a person *(decide; gate)*
+7. Record the approved post with its critique record and package it for the target platform *(deliver; publish)*
 
 ## Outcomes
 
@@ -92,9 +93,19 @@ Every claim a reader might act on can be checked from the page and is true of th
 - The post's own measurements are a numbered source with their commands, versions, inputs and date logged, and are stated impersonally in the page.
 - Derived numbers show their formula, reasoned claims carry a marker, and every link in the sources list was opened before the gate.
 
+### critique
+
+The draft has been read by reviewers that did not write it, and every point they raised has a recorded answer.
+
+- Up to four reviewer models, each from a different provider and at high thinking effort, review the first draft blind to each other's reviews.
+- Each finding names its kind (factual, format, engagement, insight or voice), its severity (blocker, major or minor), the span it concerns, the claim, any evidence as URLs and a suggestion.
+- Every finding receives exactly one disposition, accepted, rejected or deferred, with a non-empty reason, and the writer decides to keep the draft, rewrite it or return to research, over at most two review rounds.
+- A reviewer that is unavailable, times out, errors or hits a seat limit is recorded with that outcome rather than dropped, and the step proceeds only when at least two reviewers completed.
+- The approved post carries the critique record: the reviewers with their engines, models, efforts and outcomes, the rounds, the finding counts by disposition and the decision, with the reviews and dispositions beside it.
+
 ## Guidance
 
-Hold the length and spend it on depth: a clause per term, then mechanism, consequence, limits and a position the evidence earns. Find the one concrete scene before outlining; it becomes the through-line and the close. Research against the thesis as hard as for it, and date everything. When a passage compares or sequences, draw it; when it reasons, write it. Check on the surface the reader uses, never only in the authoring tool. The check finds spans; a person decides.
+Hold the length and spend it on depth: a clause per term, then mechanism, consequence, limits and a position the evidence earns. Find the one concrete scene before outlining; it becomes the through-line and the close. Research against the thesis as hard as for it, and date everything. When a passage compares or sequences, draw it; when it reasons, write it. Let other models attack the draft, and answer each finding with a reason. Check on the surface the reader uses. The check finds spans; a person decides.
 
 ## Where this is worth adopting
 
@@ -103,11 +114,13 @@ Hold the length and spend it on depth: a clause per term, then mechanism, conseq
 - An editor reviewing model-drafted technical posts who keeps writing the same notes about first-person narration, walls of text and figures full of sentences, and wants those notes to become checks that run before the review.
 - A writer whose posts look right in the authoring tool and break on the publishing platform, with collapsed tables, unhighlighted code and figures that vanish in a dark colour scheme.
 - A team publishing in a field that moves by product generation, where a post's comparison table goes stale within months and the decision to refresh it needs every number's source and date.
+- A publisher whose single drafting model keeps approving its own blind spots, who wants models from other providers to attack each draft before a person spends review time, and wants what they found and what was done about it published with the post.
 
 ## Connector types
 
 - research
 - source_control
+- ai
 
 ## Recommended trigger
 
@@ -128,10 +141,12 @@ Hold the length and spend it on depth: a clause per term, then mechanism, conseq
     "The house style sheet: person, restricted punctuation, number formatting, heading case and citation style, because these are conventions a run cannot infer and a reviewer will otherwise correct post after post.",
     "The target publishing platform and its current capabilities, since the package step translates the authored page into what that platform can render.",
     "Where approved posts are recorded and who approves them, since the gate is the step that turns a draft into something published under a name.",
-    "Which knowledge sources the adopter trusts as the starting point for a topic, and whether the run may propose corrections to them."
+    "Which knowledge sources the adopter trusts as the starting point for a topic, and whether the run may propose corrections to them.",
+    "Which reviewer models from which providers the adopter can run and pay for, since the critique step needs at least two of them to complete and a provider out of balance is recorded, not hidden."
   ],
   "dependencies": [
     "live web access for research, because a post built only from a model's training data cannot meet the currency standard",
+    "access to reviewer models from at least two providers besides the drafter's own model, because the critique step proceeds only when two reviewers complete",
     "a headless browser able to render the authored page at two widths and in both colour schemes",
     "a person available at the gate, because the outward step of publishing under someone's name happens only after approval"
   ],
@@ -151,6 +166,35 @@ Hold the length and spend it on depth: a clause per term, then mechanism, conseq
       "min": 3,
       "max": 40,
       "description": "Floor on numbered, dated sources in the sources list, the post's own measurement counting as one. A floor is a research prompt, never a reason to cite a page that was not read."
+    },
+    {
+      "name": "critique_reviewers",
+      "type": "number",
+      "default": 4,
+      "min": 2,
+      "max": 4,
+      "description": "Reviewer models asked to critique the first draft, each from a different provider. The step proceeds when at least two complete; an unavailable reviewer is recorded with its outcome, not silently replaced."
+    },
+    {
+      "name": "critique_max_rounds",
+      "type": "number",
+      "default": 2,
+      "min": 1,
+      "max": 2,
+      "description": "Most review rounds before the writer's decision stands. A second round reviews the rewrite the first round's findings produced; the published record allows at most two."
+    },
+    {
+      "name": "reviewer_effort",
+      "type": "enum",
+      "options": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default": "high",
+      "description": "Thinking effort requested from each reviewer. The record keeps the effort each reviewer actually ran, so a reviewer whose engine lacks the requested level is recorded at the level it used."
     }
   ],
   "knowledge_refs": [

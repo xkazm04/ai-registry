@@ -1707,7 +1707,8 @@
    "title": "Technical blog post authoring and publication",
    "connector_types": [
     "research",
-    "source_control"
+    "source_control",
+    "ai"
    ],
    "recommended_trigger_kind": "self_paced"
   },

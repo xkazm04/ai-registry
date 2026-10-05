@@ -1,0 +1,24 @@
+[
+  {
+    "reviewer": "reviewer-claude",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The caption convention puts the message first.",
+    "action": "Rewrote the Figure 1 caption to open with the comparison."
+  },
+  {
+    "reviewer": "reviewer-claude",
+    "round": 1,
+    "findingId": "f2",
+    "disposition": "rejected",
+    "reason": "The sixth source's page states the month only, and the record carries that month."
+  },
+  {
+    "reviewer": "reviewer-codex",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "deferred",
+    "reason": "Moving the counter source changes the post's structure; recorded for the next revision."
+  }
+]

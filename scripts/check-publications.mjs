@@ -25,6 +25,12 @@
  *                  no http(s) src, no external stylesheet or script, no CSS url()/@import
  *   placeholders   no lorem ipsum, no `[TODO]`-style bracket placeholders, no `{{holes}}`
  *   privacy        no machine home path in any file (AGENTS.md: roots stay local)
+ *   critique       the optional `critique` block (who reviewed the draft, what was decided)
+ *                  is well-formed and its counts add up; when the optional critique/
+ *                  directory is present, every review finding has exactly one disposition
+ *                  with a reason, every disposition names a finding that exists, and the
+ *                  block's counts match the dispositions. Mechanics only: whether a
+ *                  disposition's reason is a GOOD reason is the approving human's call.
  *
  * Asserts its own detectors on planted positives before reading the lane: a scan for
  * things that must NOT match reports the same "clean" whether the lane is clean or the
@@ -57,8 +63,11 @@ export const REQUIRED_FILES = [
   'publication.json', 'post.html', 'post.md', 'SOURCES.md',
   'medium/story.html', 'medium/tags.txt', 'medium/README.md',
 ];
-const TOP_ENTRIES = new Set(['publication.json', 'post.html', 'post.md', 'SOURCES.md', 'figures', 'medium']);
+const TOP_ENTRIES = new Set(['publication.json', 'post.html', 'post.md', 'SOURCES.md', 'figures', 'medium', 'critique']);
+const TOP_DIRS = new Set(['figures', 'medium', 'critique']);
 const MEDIUM_ENTRIES = new Set(['story.html', 'tags.txt', 'README.md', 'figures']);
+/** The optional critique/ directory holds exactly these two files, both required when it exists. */
+export const CRITIQUE_FILES = ['reviews.json', 'dispositions.json'];
 // Lane-root files that are not publications: the generated index and an optional readme.
 export const LANE_ROOT_FILES = new Set(['index.json', 'README.md']);
 
@@ -76,6 +85,31 @@ const SOURCE_KEYS = ['n', 'url', 'title', 'publisher', 'date', 'primary', 'count
 const CLAIM_KEYS = ['text', 'source'];
 const FIGURE_KEYS = ['file', 'caption', 'sources'];
 const RUN_KEYS = new Set(['id', 'model', 'effort', 'costUsd']);
+// Optional top-level keys: present only when the producing run had them. `critique` is
+// written by every pipeline run since the critique step landed; an imported post that
+// predates the step carries none.
+const OPTIONAL_TOP_KEYS = ['critique'];
+
+// ---- the critique contract (docs/publications-lane.md, "The critique record")
+export const CRITIQUE = {
+  maxRounds: 2,
+  minReviewers: 1,
+  maxReviewers: 8,
+  engines: ['claude', 'codex', 'grok', 'agy'],
+  efforts: ['low', 'medium', 'high', 'xhigh', 'max'],
+  outcomes: ['completed', 'unavailable', 'timed-out', 'errored', 'seat-limit'],
+  decisions: ['keep', 'rewrite', 'research'],
+  verdicts: ['publish', 'revise', 'rework'],
+  kinds: ['factual', 'format', 'engagement', 'insight', 'voice'],
+  severities: ['blocker', 'major', 'minor'],
+  dispositions: ['accepted', 'rejected', 'deferred'],
+};
+const CRITIQUE_KEYS = ['rounds', 'reviewers', 'findings', 'decision'];
+const REVIEWER_KEYS = new Set(['id', 'engine', 'model', 'effort', 'outcome', 'costUsd']);
+const COUNT_KEYS = ['total', 'accepted', 'rejected', 'deferred'];
+const REVIEW_KEYS = ['reviewer', 'round', 'model', 'effort', 'verdict', 'summary', 'findings'];
+const FINDING_KEYS = ['id', 'kind', 'severity', 'location', 'claim', 'evidence', 'suggestion'];
+const DISPOSITION_KEYS = new Set(['reviewer', 'round', 'findingId', 'disposition', 'reason', 'action']);
 
 // ------------------------------------------------------------------ text extraction
 // Every removal keeps the newlines it removes, so a line number reported against the
@@ -257,6 +291,189 @@ export const isWebUrl = (s) => {
   } catch { return false; }
 };
 
+// ------------------------------------------------------------------ the critique record
+
+const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
+const nonEmpty = (v) => typeof v === 'string' && v.trim().length > 0;
+const isCount = (v) => Number.isInteger(v) && v >= 0;
+
+/**
+ * The critique record, checked mechanically. `block` is publication.json's `critique`
+ * (undefined when absent). `files` is undefined when there is no critique/ directory,
+ * otherwise `{ reviews, dispositions }` as parsed - a file that is missing or did not
+ * parse is passed as undefined (the caller reports it) and the cross-checks that need it
+ * are skipped rather than reported twice. Returns [{rule, file, message}].
+ *
+ * The block is the record; the directory is its optional detail. So the block may stand
+ * alone, but the directory never may: a directory with no block is review evidence for a
+ * decision nobody recorded.
+ */
+export function critiqueFindings(block, files) {
+  const out = [];
+  const P = 'publication.json';
+  const RV = 'critique/reviews.json';
+  const DS = 'critique/dispositions.json';
+  const fail = (file, message) => out.push({ rule: 'critique', file, message });
+  const enumFail = (file, at, v, set) => fail(file, `${at} must be one of ${set.join(' | ')}, got ${JSON.stringify(v)}`);
+  const hasDir = files !== undefined;
+
+  if (block === undefined) {
+    if (hasDir) fail('critique', 'critique/ exists but publication.json carries no `critique` block - the directory details a record that is not there');
+    return out;
+  }
+  if (!isObj(block)) { fail(P, 'critique must be an object'); return out; }
+  for (const k of Object.keys(block)) if (!CRITIQUE_KEYS.includes(k)) fail(P, `critique: unknown key "${k}"`);
+  for (const k of CRITIQUE_KEYS) if (!(k in block)) fail(P, `critique: missing required key "${k}"`);
+
+  const roundsOk = Number.isInteger(block.rounds) && block.rounds >= 1 && block.rounds <= CRITIQUE.maxRounds;
+  if ('rounds' in block && !roundsOk) fail(P, `critique.rounds must be an integer from 1 to ${CRITIQUE.maxRounds}, got ${JSON.stringify(block.rounds)}`);
+  const maxRound = roundsOk ? block.rounds : CRITIQUE.maxRounds;
+
+  const declared = new Map();
+  if ('reviewers' in block) {
+    const rs = block.reviewers;
+    if (!Array.isArray(rs)) fail(P, 'critique.reviewers must be an array');
+    else {
+      if (rs.length < CRITIQUE.minReviewers || rs.length > CRITIQUE.maxReviewers) {
+        fail(P, `critique.reviewers holds ${rs.length} reviewer(s); ${CRITIQUE.minReviewers} to ${CRITIQUE.maxReviewers} allowed`);
+      }
+      rs.forEach((r, i) => {
+        const at = `critique.reviewers[${i}]`;
+        if (!isObj(r)) { fail(P, `${at} must be an object`); return; }
+        for (const k of Object.keys(r)) if (!REVIEWER_KEYS.has(k)) fail(P, `${at}: unknown key "${k}"`);
+        if (!(typeof r.id === 'string' && SLUG_RE.test(r.id))) fail(P, `${at}.id must be a kebab-case slug, got ${JSON.stringify(r.id)}`);
+        else if (declared.has(r.id)) fail(P, `${at}.id "${r.id}" is declared twice - reviewer ids are unique`);
+        else declared.set(r.id, r);
+        if (!CRITIQUE.engines.includes(r.engine)) enumFail(P, `${at}.engine`, r.engine, CRITIQUE.engines);
+        if (!nonEmpty(r.model)) fail(P, `${at}.model must be a non-empty model id`);
+        if (!CRITIQUE.efforts.includes(r.effort)) enumFail(P, `${at}.effort`, r.effort, CRITIQUE.efforts);
+        if (!CRITIQUE.outcomes.includes(r.outcome)) enumFail(P, `${at}.outcome`, r.outcome, CRITIQUE.outcomes);
+        if ('costUsd' in r && !(typeof r.costUsd === 'number' && Number.isFinite(r.costUsd) && r.costUsd >= 0)) {
+          fail(P, `${at}.costUsd, when present, must be a non-negative number (omit it when the CLI reports none)`);
+        }
+      });
+    }
+  }
+
+  let counts = null;
+  if ('findings' in block) {
+    const f = block.findings;
+    if (!isObj(f)) fail(P, 'critique.findings must be an object of counts');
+    else {
+      for (const k of Object.keys(f)) if (!COUNT_KEYS.includes(k)) fail(P, `critique.findings: unknown key "${k}"`);
+      const bad = COUNT_KEYS.filter((k) => !isCount(f[k]));
+      for (const k of bad) fail(P, `critique.findings.${k} must be a non-negative integer, got ${JSON.stringify(f[k])}`);
+      if (bad.length === 0) {
+        counts = f;
+        if (f.total !== f.accepted + f.rejected + f.deferred) {
+          fail(P, `critique.findings.total is ${f.total} but accepted + rejected + deferred is ${f.accepted + f.rejected + f.deferred}`);
+        }
+      }
+    }
+  }
+  if ('decision' in block && !CRITIQUE.decisions.includes(block.decision)) enumFail(P, 'critique.decision', block.decision, CRITIQUE.decisions);
+
+  if (!hasDir) return out;
+  const { reviews, dispositions } = files;
+
+  // ---- reviews.json: one object per (reviewer, round), findings keyed reviewer#round#id
+  const findingDisposed = new Map();
+  if (reviews !== undefined) {
+    if (!Array.isArray(reviews)) fail(RV, 'must be a JSON array of review objects');
+    else {
+      const reviewed = new Set();
+      const seenReview = new Set();
+      reviews.forEach((rv, i) => {
+        const at = `[${i}]`;
+        if (!isObj(rv)) { fail(RV, `${at} must be an object`); return; }
+        for (const k of Object.keys(rv)) if (!REVIEW_KEYS.includes(k)) fail(RV, `${at}: unknown key "${k}"`);
+        for (const k of REVIEW_KEYS) if (!(k in rv)) fail(RV, `${at}: missing "${k}"`);
+        const who = typeof rv.reviewer === 'string' ? rv.reviewer : null;
+        if (who === null) fail(RV, `${at}.reviewer must be a reviewer id`);
+        else if (!declared.has(who)) fail(RV, `${at}.reviewer "${who}" is not declared in publication.json critique.reviewers`);
+        else reviewed.add(who);
+        const roundOk = Number.isInteger(rv.round) && rv.round >= 1 && rv.round <= maxRound;
+        if (!roundOk) fail(RV, `${at}.round must be an integer from 1 to ${maxRound} (critique.rounds), got ${JSON.stringify(rv.round)}`);
+        if (who !== null && roundOk) {
+          const key = `${who}#${rv.round}`;
+          if (seenReview.has(key)) fail(RV, `${at}: a second review by "${who}" in round ${rv.round} - one review per reviewer per round`);
+          seenReview.add(key);
+        }
+        if ('model' in rv && !nonEmpty(rv.model)) fail(RV, `${at}.model must be a non-empty model id`);
+        if ('effort' in rv && !CRITIQUE.efforts.includes(rv.effort)) enumFail(RV, `${at}.effort`, rv.effort, CRITIQUE.efforts);
+        if ('verdict' in rv && !CRITIQUE.verdicts.includes(rv.verdict)) enumFail(RV, `${at}.verdict`, rv.verdict, CRITIQUE.verdicts);
+        if ('summary' in rv && !nonEmpty(rv.summary)) fail(RV, `${at}.summary must be a non-empty string`);
+        if (!('findings' in rv)) return;
+        if (!Array.isArray(rv.findings)) { fail(RV, `${at}.findings must be an array (empty when the reviewer found nothing)`); return; }
+        const ids = new Set();
+        rv.findings.forEach((fd, j) => {
+          const fat = `${at}.findings[${j}]`;
+          if (!isObj(fd)) { fail(RV, `${fat} must be an object`); return; }
+          for (const k of Object.keys(fd)) if (!FINDING_KEYS.includes(k)) fail(RV, `${fat}: unknown key "${k}"`);
+          for (const k of FINDING_KEYS) if (!(k in fd)) fail(RV, `${fat}: missing "${k}"`);
+          if (!nonEmpty(fd.id)) fail(RV, `${fat}.id must be a non-empty string`);
+          else if (ids.has(fd.id)) fail(RV, `${fat}.id "${fd.id}" repeats within one review`);
+          else {
+            ids.add(fd.id);
+            if (who !== null && roundOk) findingDisposed.set(JSON.stringify([who, rv.round, fd.id]), { who, round: rv.round, id: fd.id, n: 0 });
+          }
+          if ('kind' in fd && !CRITIQUE.kinds.includes(fd.kind)) enumFail(RV, `${fat}.kind`, fd.kind, CRITIQUE.kinds);
+          if ('severity' in fd && !CRITIQUE.severities.includes(fd.severity)) enumFail(RV, `${fat}.severity`, fd.severity, CRITIQUE.severities);
+          for (const k of ['location', 'claim', 'suggestion']) if (k in fd && !nonEmpty(fd[k])) fail(RV, `${fat}.${k} must be a non-empty string`);
+          if ('evidence' in fd) {
+            if (!Array.isArray(fd.evidence)) fail(RV, `${fat}.evidence must be an array of URLs (empty when the finding cites none)`);
+            else fd.evidence.forEach((u, k) => {
+              if (!isWebUrl(u)) fail(RV, `${fat}.evidence[${k}] ${JSON.stringify(u)} is not a well-formed http(s) URL`);
+            });
+          }
+        });
+      });
+      for (const [id, r] of declared) {
+        if (r.outcome === 'completed' && !reviewed.has(id)) fail(RV, `reviewer "${id}" is recorded as completed but has no review`);
+      }
+    }
+  }
+
+  // ---- dispositions.json: exactly one per finding, each with a reason
+  if (dispositions !== undefined) {
+    if (!Array.isArray(dispositions)) fail(DS, 'must be a JSON array of disposition objects');
+    else {
+      const tally = { accepted: 0, rejected: 0, deferred: 0 };
+      const canResolve = Array.isArray(reviews);
+      dispositions.forEach((d, i) => {
+        const at = `[${i}]`;
+        if (!isObj(d)) { fail(DS, `${at} must be an object`); return; }
+        for (const k of Object.keys(d)) if (!DISPOSITION_KEYS.has(k)) fail(DS, `${at}: unknown key "${k}"`);
+        for (const k of ['reviewer', 'round', 'findingId', 'disposition', 'reason']) if (!(k in d)) fail(DS, `${at}: missing "${k}"`);
+        if (CRITIQUE.dispositions.includes(d.disposition)) tally[d.disposition] += 1;
+        else if ('disposition' in d) enumFail(DS, `${at}.disposition`, d.disposition, CRITIQUE.dispositions);
+        if ('reason' in d && !nonEmpty(d.reason)) fail(DS, `${at}.reason is empty - every disposition says why`);
+        if ('action' in d && !nonEmpty(d.action)) fail(DS, `${at}.action, when present, must be a non-empty string (omit it when nothing was done)`);
+        if (!canResolve) return;
+        const hit = findingDisposed.get(JSON.stringify([d.reviewer, d.round, d.findingId]));
+        if (!hit) {
+          fail(DS, `${at} disposes of finding ${JSON.stringify(d.findingId)} by ${JSON.stringify(d.reviewer)} in round ${JSON.stringify(d.round)}, which is not in reviews.json`);
+        } else hit.n += 1;
+      });
+      if (canResolve) {
+        for (const { who, round, id, n } of findingDisposed.values()) {
+          if (n === 1) continue;
+          fail(DS, n === 0
+            ? `finding "${id}" by "${who}" in round ${round} has no disposition - every finding is accepted, rejected or deferred`
+            : `finding "${id}" by "${who}" in round ${round} has ${n} dispositions - exactly one`);
+        }
+      }
+      if (counts) {
+        if (counts.total !== dispositions.length) fail(P, `critique.findings.total is ${counts.total} but dispositions.json records ${dispositions.length}`);
+        for (const k of CRITIQUE.dispositions) {
+          if (counts[k] !== tally[k]) fail(P, `critique.findings.${k} is ${counts[k]} but dispositions.json records ${tally[k]} ${k}`);
+        }
+      }
+    }
+  }
+  return out;
+}
+
 // ------------------------------------------------------------------ self-assertion
 /**
  * Plant one positive per detector and require it to fire, and one negative per
@@ -281,13 +498,24 @@ export function selfTest() {
   expect('machine path', machinePathHits('saved under C:\\Users\\kazda\\notes\\x.md').length === 1);
   expect('source date', isSourceDate('2025-11') && isSourceDate('2026-10-05') && !isSourceDate('Oct 2025'));
   expect('web url', isWebUrl('https://arxiv.org/abs/2305.13707') && !isWebUrl('SOURCES.md'));
+  // The critique cross-check: a clean planted record stays quiet, and the same record
+  // with its one disposition pointed at a finding that does not exist must fire.
+  const block = {
+    rounds: 1, decision: 'keep',
+    reviewers: [{ id: 'r1', engine: 'claude', model: 'm', effort: 'high', outcome: 'completed' }],
+    findings: { total: 1, accepted: 1, rejected: 0, deferred: 0 },
+  };
+  const reviews = [{
+    reviewer: 'r1', round: 1, model: 'm', effort: 'high', verdict: 'revise', summary: 's',
+    findings: [{ id: 'f1', kind: 'factual', severity: 'minor', location: 'l', claim: 'c', evidence: [], suggestion: 's' }],
+  }];
+  const disposition = (findingId) => [{ reviewer: 'r1', round: 1, findingId, disposition: 'accepted', reason: 'r' }];
+  expect('critique clean record', critiqueFindings(block, { reviews, dispositions: disposition('f1') }).length === 0);
+  expect('critique unknown finding', critiqueFindings(block, { reviews, dispositions: disposition('f9') }).length >= 1);
   return broken;
 }
 
 // ------------------------------------------------------------------ one publication
-
-const isObj = (v) => v !== null && typeof v === 'object' && !Array.isArray(v);
-const nonEmpty = (v) => typeof v === 'string' && v.trim().length > 0;
 
 function findNulls(v, at, out) {
   if (v === null) { out.push(at); return; }
@@ -326,7 +554,7 @@ export function validatePublication(dir, name = path.basename(dir)) {
   if (!top) { fail('shape', '', 'not a readable directory'); return { findings, warnings }; }
   for (const e of top) {
     if (!TOP_ENTRIES.has(e.name)) fail('shape', e.name, 'not part of the fixed publication shape (docs/publications-lane.md)');
-    else if ((e.name === 'figures' || e.name === 'medium') !== e.isDirectory()) fail('shape', e.name, e.isDirectory() ? 'must be a file' : 'must be a directory');
+    else if (TOP_DIRS.has(e.name) !== e.isDirectory()) fail('shape', e.name, e.isDirectory() ? 'must be a file' : 'must be a directory');
   }
   for (const f of REQUIRED_FILES) if (!fs.existsSync(path.join(dir, f))) fail('shape', f, 'required file is missing');
   const svgOnDisk = [];
@@ -345,6 +573,27 @@ export function validatePublication(dir, name = path.basename(dir)) {
     const mfig = listDir(path.join(dir, 'medium', 'figures'));
     if (mfig) for (const e of mfig) if (!(e.isFile() && MEDIUM_FIGURE_RE.test(e.name))) fail('shape', `medium/figures/${e.name}`, 'medium/figures/ holds only NN-<name>.png renders');
   }
+  // critique/ is optional and closed: exactly reviews.json and dispositions.json.
+  const critEntries = fs.existsSync(path.join(dir, 'critique')) && fs.statSync(path.join(dir, 'critique')).isDirectory()
+    ? listDir(path.join(dir, 'critique')) : null;
+  let critiqueFiles;
+  if (critEntries) {
+    for (const e of critEntries) {
+      if (!(e.isFile() && CRITIQUE_FILES.includes(e.name))) fail('shape', `critique/${e.name}`, `critique/ holds exactly ${CRITIQUE_FILES.join(' and ')}`);
+    }
+    critiqueFiles = {};
+    for (const f of CRITIQUE_FILES) {
+      const rel = `critique/${f}`;
+      const text = read(path.join(dir, 'critique', f));
+      if (text === null) { fail('shape', rel, 'required when critique/ exists'); continue; }
+      let value;
+      try { value = JSON.parse(text); } catch (e) { fail('critique', rel, `does not parse (${e.message})`); continue; }
+      const nulls = [];
+      findNulls(value, '', nulls);
+      for (const at of nulls) fail('critique', rel, `${at || '(root)'} is null - omit an absent value, never write null`);
+      critiqueFiles[f === 'reviews.json' ? 'reviews' : 'dispositions'] = value;
+    }
+  }
 
   // ---- schema
   const raw = read(path.join(dir, 'publication.json'));
@@ -359,7 +608,7 @@ export function validatePublication(dir, name = path.basename(dir)) {
     const nulls = [];
     findNulls(pub, '', nulls);
     for (const at of nulls) fail('schema', P, `${at} is null - omit an absent value, never write null`);
-    for (const k of Object.keys(pub)) if (!TOP_KEYS.includes(k)) fail('schema', P, `unknown key "${k}"`);
+    for (const k of Object.keys(pub)) if (!TOP_KEYS.includes(k) && !OPTIONAL_TOP_KEYS.includes(k)) fail('schema', P, `unknown key "${k}"`);
     for (const k of TOP_KEYS) if (!(k in pub)) fail('schema', P, `missing required key "${k}"`);
     if ('schema' in pub && pub.schema !== SCHEMA) fail('schema', P, `schema must be "${SCHEMA}", got ${JSON.stringify(pub.schema)}`);
     if ('slug' in pub) {
@@ -485,6 +734,10 @@ export function validatePublication(dir, name = path.basename(dir)) {
 
     for (const s of stringsIn(pub)) for (const h of placeholderHits(s)) fail('placeholders', P, `${h.what}: ${JSON.stringify(h.text)}`);
   }
+
+  // ---- critique: the block and its optional directory. Without a readable
+  // publication.json there is no block to hold the directory to; schema already failed.
+  if (pub) for (const f of critiqueFindings(pub.critique, critiqueFiles)) findings.push(f);
   const haveSources = pub && Array.isArray(pub.sources);
 
   // ---- the post, in its three renderings
@@ -552,7 +805,8 @@ export function validatePublication(dir, name = path.basename(dir)) {
   }
 
   // ---- privacy, over every text file in the publication
-  const texts = ['publication.json', 'post.html', 'post.md', 'SOURCES.md', 'medium/story.html', 'medium/tags.txt', 'medium/README.md', ...svgOnDisk];
+  const texts = ['publication.json', 'post.html', 'post.md', 'SOURCES.md', 'medium/story.html', 'medium/tags.txt', 'medium/README.md', ...svgOnDisk,
+    ...(critEntries ? CRITIQUE_FILES.map((f) => `critique/${f}`) : [])];
   for (const f of texts) {
     const t = read(path.join(dir, f));
     if (t === null) continue;

@@ -1,7 +1,9 @@
 // The publications lane gate: one positive (the fixture is clean) and at least one
 // negative per mechanical rule, each built by mutating a copy of the known-good fixture
-// so a failure names exactly one cause. Plus the CLI contract: exit codes, the lane
-// row in gate.mjs, and the index builder's freshness check.
+// so a failure names exactly one cause. The critique rules mutate a second fixture
+// (fixture-critique) that carries the optional block and critique/ directory; both
+// fixtures must stay clean. Plus the CLI contract: exit codes, the lane row in gate.mjs,
+// and the index builder's freshness check and critique selector.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -15,6 +17,7 @@ import {
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const FIXTURE = path.join(root, 'scripts/fixtures/publications/fixture-post');
+const CRITIQUE_FIXTURE = path.join(root, 'scripts/fixtures/publications/fixture-critique');
 const temp = fs.realpathSync(os.tmpdir());
 
 function scratch(t) {
@@ -218,6 +221,104 @@ test('privacy: a machine home path fails', (t) => {
   failsOnly(t, 'privacy', (d) => edit(d, 'SOURCES.md', (s) => `${s}\nRun from C:\\Users\\somebodyreal\\scratch\\m1.py\n`));
 });
 
+// ---- critique: the optional block and its optional critique/ directory. Every case
+// mutates a copy of the second fixture, which carries both.
+const runCritique = (t, mutate = () => {}) => {
+  const lane = scratch(t);
+  const dir = path.join(lane, 'fixture-critique');
+  fs.cpSync(CRITIQUE_FIXTURE, dir, { recursive: true });
+  mutate(dir);
+  return validatePublication(dir, 'fixture-critique');
+};
+const critiqueFailsOnly = (t, rule, mutate) => {
+  const r = runCritique(t, mutate);
+  assert.deepEqual(rulesOf(r), [rule], JSON.stringify(r.findings, null, 1));
+  return r;
+};
+const editCritiqueFile = (dir, file, fn) => edit(dir, `critique/${file}`, (s) => {
+  const o = JSON.parse(s);
+  fn(o);
+  return JSON.stringify(o, null, 2);
+});
+
+test('critique: the fixture with a critique block and directory is clean', (t) => {
+  const r = runCritique(t);
+  assert.deepEqual(r.findings, []);
+  assert.deepEqual(r.warnings, []);
+});
+test('critique: the block may stand without the directory', (t) => {
+  const r = runCritique(t, (d) => fs.rmSync(path.join(d, 'critique'), { recursive: true }));
+  assert.deepEqual(r.findings, []);
+});
+test('critique: a publication with neither block nor directory is clean (the imported winner predates the step)', (t) => {
+  const r = runCritique(t, (d) => {
+    fs.rmSync(path.join(d, 'critique'), { recursive: true });
+    editJson(d, (o) => { delete o.critique; });
+  });
+  assert.deepEqual(r.findings, []);
+});
+test('critique: counts that do not match the dispositions fail', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editJson(d, (o) => { o.critique.findings.accepted = 2; o.critique.findings.total = 4; }));
+});
+test('critique: a total that is not accepted + rejected + deferred fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => {
+    fs.rmSync(path.join(d, 'critique'), { recursive: true });
+    editJson(d, (o) => { o.critique.findings.total = 5; });
+  });
+});
+test('critique: a duplicate reviewer id fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editJson(d, (o) => { o.critique.reviewers[2].id = 'reviewer-claude'; }));
+});
+test('critique: an unknown reviewer outcome fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editJson(d, (o) => { o.critique.reviewers[2].outcome = 'out-of-balance'; }));
+});
+test('critique: more than two rounds fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editJson(d, (o) => { o.critique.rounds = 3; }));
+});
+test('critique: an unknown engine or decision fails', (t) => {
+  const r = critiqueFailsOnly(t, 'critique', (d) => editJson(d, (o) => { o.critique.reviewers[0].engine = 'gemini'; o.critique.decision = 'ship'; }));
+  assert.equal(r.findings.length, 2);
+});
+test('critique: a disposition for an unknown finding fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editCritiqueFile(d, 'dispositions.json', (o) => {
+    o.push({ reviewer: 'reviewer-codex', round: 1, findingId: 'f7', disposition: 'rejected', reason: 'No such finding was made.' });
+  }));
+});
+test('critique: a finding without a disposition fails', (t) => {
+  const r = critiqueFailsOnly(t, 'critique', (d) => editCritiqueFile(d, 'dispositions.json', (o) => { o.pop(); }));
+  assert.ok(r.findings.some((f) => /has no disposition/.test(f.message)), JSON.stringify(r.findings));
+});
+test('critique: a finding disposed of twice fails', (t) => {
+  const r = critiqueFailsOnly(t, 'critique', (d) => editCritiqueFile(d, 'dispositions.json', (o) => { o.push({ ...o[0] }); }));
+  assert.ok(r.findings.some((f) => /2 dispositions/.test(f.message)), JSON.stringify(r.findings));
+});
+test('critique: an empty reason fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editCritiqueFile(d, 'dispositions.json', (o) => { o[1].reason = '  '; }));
+});
+test('critique: a completed reviewer with no review fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editJson(d, (o) => { o.critique.reviewers[2].outcome = 'completed'; }));
+});
+test('critique: the directory without the block fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editJson(d, (o) => { delete o.critique; }));
+});
+test('critique: a machine home path inside reviews.json fails', (t) => {
+  critiqueFailsOnly(t, 'privacy', (d) => editCritiqueFile(d, 'reviews.json', (o) => {
+    o[0].findings[0].location = 'C:\\Users\\somebodyreal\\runs\\draft.md line 4';
+  }));
+});
+test('critique: a malformed evidence URL fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editCritiqueFile(d, 'reviews.json', (o) => { o[0].findings[1].evidence = ['example.org/no-scheme']; }));
+});
+test('critique: an extra file inside critique/ fails', (t) => {
+  critiqueFailsOnly(t, 'shape', (d) => fs.writeFileSync(path.join(d, 'critique', 'raw-transcript.txt'), 'stray\n'));
+});
+test('critique: a missing reviews.json inside critique/ fails', (t) => {
+  critiqueFailsOnly(t, 'shape', (d) => fs.rmSync(path.join(d, 'critique', 'reviews.json')));
+});
+test('critique: null in a critique file fails', (t) => {
+  critiqueFailsOnly(t, 'critique', (d) => editCritiqueFile(d, 'dispositions.json', (o) => { o[0].action = null; }));
+});
+
 // ---- CLI contract
 const node = (args, cwd = root) => spawnSync(process.execPath, args, { cwd, encoding: 'utf8' });
 
@@ -242,10 +343,19 @@ test('CLI: the index builder writes, then --check is fresh, then stale after an 
   const idx = JSON.parse(fs.readFileSync(path.join(lane, 'index.json'), 'utf8'));
   assert.equal(idx.publications['fixture-post'].sources, 8);
   assert.equal(idx.publications['fixture-post'].path, 'publications/fixture-post');
+  assert.equal('critique' in idx.publications['fixture-post'], false, 'a post without a critique carries no critique key');
   // The index sits beside the publications; the gate must still accept the lane.
   assert.equal(node(['scripts/check-publications.mjs', '--root', lane]).status, 0);
   editJson(path.join(lane, 'fixture-post'), (o) => { o.title = 'A renamed fixture post'; });
   assert.equal(node(['scripts/build-publications-index.mjs', '--root', lane, '--check']).status, 1);
+});
+
+test('CLI: the index carries the critique selector - completed reviewers, rounds, decision', (t) => {
+  const lane = scratch(t);
+  fs.cpSync(CRITIQUE_FIXTURE, path.join(lane, 'fixture-critique'), { recursive: true });
+  assert.equal(node(['scripts/build-publications-index.mjs', '--root', lane]).status, 0);
+  const idx = JSON.parse(fs.readFileSync(path.join(lane, 'index.json'), 'utf8'));
+  assert.deepEqual(idx.publications['fixture-critique'].critique, { reviewers: 2, rounds: 1, decision: 'keep' });
 });
 
 test('gate.mjs declares a publications lane, and --all runs both steps', () => {
