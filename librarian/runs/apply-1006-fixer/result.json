@@ -1,0 +1,47 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-1006-fixer",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-05T22:20:00Z",
+  "ended_at": "2026-10-05T23:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/imported-material-conformance",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "imported-material-conformance",
+      "technique": "a-fixer-script-is-the-edge-in-the-wrong-place",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/applications/node--a-fixer-script-is-the-edge-in-the-wrong-place.md",
+    "librarian/subjects/game-production/imported-material-conformance.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only (Phase 7.5). pof code A/B on the generated engine MI script: wrong-colour-space textures over 3 deliveries 9/15 -> 0/15 (stub engine, import defaults); floor visual-gen suite green. Fleet commit 79216de8 local: pof master carries 14 unpushed sibling commits."
+}
