@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--r
 category: workflow
 contexts: tracked
 memory: project
-version: 4.3.0
+version: 4.4.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -762,6 +762,16 @@ first, then this round's, highest-reward first - one finding at a time:
 
    The shape that holds: run each gate in its own invocation, `&&`-chained so a
    non-zero status stops everything, and let the commit be the last link.
+
+   **This binds the COORDINATOR as hard as the builders, and the coordinator is
+   where it was actually defeated.** Measured on lighttrack 2026-10-05: the first
+   command of a whole challenge run was `cargo build --workspace 2>&1 | tail -15;
+   echo "BUILD_EXIT=$?"`, and it printed `BUILD_EXIT=0` over a build that had failed
+   on a locked output file. The baseline that twelve cards were about to be judged
+   against read green only because the pipe ate the status. A coordinator runs more
+   gates than any single builder - the baseline, one integration gate per wave, the
+   final one - so this rule belongs in its own checklist and not only in the builder
+   brief it hands out.
 
    **Under a concurrent session, a whole-tree gate says nothing about your
    change.** `tsc --noEmit` covers every file in the repository, so a sibling

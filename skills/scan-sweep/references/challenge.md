@@ -202,6 +202,20 @@ signature other cards call runs ALONE in its wave, first (LESSONS 2.8.0 lighttra
   each commit green;
 - the demotion rule: past the write set, past L, or a gate it cannot turn green in
   two attempts -> revert its own uncommitted work and return `demoted` with why;
+- **which artefacts are GENERATED, and by what.** A builder told to hand-edit a
+  generated file either breaks its guard or is stopped by it, and both outcomes cost
+  a wave. Measured on lighttrack 2026-10-05: the brief listed a backend parity doc
+  among the `shared_surfaces`, but that file is generated from the backends' own
+  manifests and pinned by a guard test, so a hand-written note in it goes red unless
+  the change actually adds a declared surface. The builder read the guard, refused
+  the instruction and used the changelog instead - the right call, and one the brief
+  should not have cost it. Two more of the same class in the same run: a published
+  client baseline, which snapshots the WHOLE surface and would have baked three
+  siblings' half-finished schemas into a release artefact (two builders declined it
+  independently and left it to the coordinator), and a route matrix that is safe to
+  touch only through its generator's env var. So the brief classifies every file in
+  the write set and every shared surface as one of: hand-edited, generated-by-X (and
+  how to regenerate), or release-artefact-the-coordinator-owns;
 - the return shape: `{card, status: landed|demoted|partial, shas[], tests_added,
   cases_red_before, cases_green_after, gates:{name: exit}, files_changed,
   lines_changed, deviations_from_card, notes}` - written to the run directory
@@ -231,6 +245,24 @@ each one stood in; the combined tree is a different tree). Red on the combined t
 one fix-forward attempt by the coordinator or a single finisher agent; still red ->
 revert that builder's series (`git revert --no-edit <shas>`), mark it `reverted`,
 and continue. Never start wave n+1 on a red tree.
+
+**Do not write the attribution until the control has run.** A red combined tree has a
+third possible owner besides this wave and combined growth (section 8): a test that was
+already flaky before the run started. Telling those apart is a MEASUREMENT, not a
+reading of the diff. So before blaming or absolving any builder: **(a)** check whether
+the failing test, and the code path it exercises, appear in ANY of the run's write
+sets - if neither does, no builder can own it; and **(b)** run the failing gate N times
+at the BASE sha in a worktree OUTSIDE the repo, and N times on the merged tree,
+sequentially and never in parallel (a parallel run changes the timing the flake depends
+on), then compare the rates and the exact assertion.
+
+Measured on lighttrack 2026-10-05: a soak lane failed its own planted-red self-check on
+the merged tree. A first control of 5 runs at base came back clean, and the disposition
+had already been written as "pre-existing flaky instrument" off 3 merged samples - which
+that clean control had just contradicted. The honest figure needed 8 against 8: base 1
+in 13, merged 2 in 11, same assertion, and no causal path from any landed change. The
+conclusion survived, but the write-up had to be retracted first, in front of the
+operator. Take the numbers, then write the verdict - never the other way round.
 
 ## 8. The scorecard - the run measures the model
 
