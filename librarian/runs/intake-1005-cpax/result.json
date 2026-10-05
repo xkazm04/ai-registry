@@ -1,0 +1,48 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-1005-cpax",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-05T20:20:00Z",
+  "ended_at": "2026-10-05T21:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/vendored-patch-stack",
+      "at": "2026-10-05",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "vendored-patch-stack",
+      "technique": "collapse-patch-axes-that-share-hunks",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/applications/node--collapse-patch-axes-that-share-hunks.md",
+    "librarian/subjects/software-engineering/vendored-patch-stack.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only (Phase 7.5). personas code A/B on the xterm frozen-intrinsics carriers: carriers per hunk 2 -> 1, dev/prod divergence with postinstall skipped 2 -> 0, floor held (27/27). Fleet commit 318f24730, not pushed (34 sibling commits)."
+}
