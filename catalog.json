@@ -317,10 +317,10 @@
     },
     {
       "name": "i18n-translate",
-      "version": "1.6.2",
+      "version": "1.6.1",
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
-      "contentHash": "sha256-n1:7faccc3615497f44",
+      "contentHash": "sha256-n1:d6375b2526b5786d",
       "adopters": [
         "kp@plugin:1.1.0",
         "personas@plugin:1.1.0",
@@ -808,10 +808,10 @@
     },
     {
       "name": "uat",
-      "version": "1.11.0",
+      "version": "1.11.1",
       "category": "testing",
       "path": "skills/uat/SKILL.md",
-      "contentHash": "sha256-n1:13d4425539cfd1ea",
+      "contentHash": "sha256-n1:ce7a645ce7d89a23",
       "adopters": [
         "ascent@plugin:1.7.0",
         "kp@plugin:1.7.0",
@@ -820,9 +820,9 @@
       ],
       "invokes30d": 2,
       "reportedInvokes": 2,
-      "lessons": 15,
+      "lessons": 16,
       "lessonsPath": "skills/uat/LESSONS.md",
-      "lessonsHash": "sha256-n1:0fdd175af7f8ba15",
+      "lessonsHash": "sha256-n1:d8a10db02cfb595d",
       "usageContributors": [
         "wolf"
       ],
@@ -1017,7 +1017,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 9,
-    "lessons": 299
+    "lessons": 300
   },
   "bundles": [
     {
@@ -1094,9 +1094,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 57,
-      "files": 197,
-      "contentHash": "sha256-b2:1bfdc25cbe6610cf"
+      "applications": 55,
+      "files": 195,
+      "contentHash": "sha256-b2:2d5cc79e474fe296"
     },
     {
       "name": "marketing",
@@ -1118,11 +1118,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 23,
-      "techniques": 159,
-      "applications": 88,
-      "files": 275,
-      "contentHash": "sha256-b2:eb96e5bb5a212fb7"
+      "subjects": 24,
+      "techniques": 165,
+      "applications": 89,
+      "files": 283,
+      "contentHash": "sha256-b2:566b7fed4af37bc8"
     },
     {
       "name": "recruiting",
