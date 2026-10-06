@@ -1545,9 +1545,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/condition-tagged-line-tables.md",
-   "digest": "sha256-b2:bacf5ecbaf2a00a9",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:8d46aaf947003b3c",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "line-table-schema",
@@ -2607,9 +2607,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/encounter-balance-simulation.md",
-   "digest": "sha256-b2:1d9eeaeeb9b0b485",
-   "revision": 4,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:78f678997e50b919",
+   "revision": 5,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "distinct-hash-seed-diversity-alarm",
@@ -2773,9 +2773,9 @@
    "subcategory": "story-structure",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/ending-first-narrative-structure.md",
-   "digest": "sha256-b2:f3910bd1b25dbf3c",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:aef3c574c7237404",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "back-planned-beat-sheet",
@@ -3128,9 +3128,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/fire-tv-device-realities.md",
-   "digest": "sha256-b2:cd9ae1e0366f54a0",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:fb7ecb43f8cde36c",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "abi-inspect-the-apk",
@@ -3865,9 +3865,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/generative-artifact-gating.md",
-   "digest": "sha256-b2:94bed6e82c154b00",
-   "revision": 6,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:e538545a02318806",
+   "revision": 7,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "acquired-is-not-generated",
@@ -4561,9 +4561,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/lan-pairing-and-session-continuity/lan-pairing-and-session-continuity.md",
-   "digest": "sha256-b2:1e0d780e8940b8b3",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:648c67aa242aa3da",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "bounded-hello-timeout",
@@ -4771,9 +4771,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/llm-dialogue-quality-control.md",
-   "digest": "sha256-b2:197914ec795fc8e6",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:1a2b772683b8a970",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "blind-rubric-scoring-by-another-family",
@@ -5305,9 +5305,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/on-device-verification-harness.md",
-   "digest": "sha256-b2:416fc781f0c5e7d8",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:cd229f3b4c58d564",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "absolute-due-time-load-pump",
@@ -5541,9 +5541,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/phone-controller-input-protocol.md",
-   "digest": "sha256-b2:beaa4beeb3b834b7",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:90c39521eed41473",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "absolute-state-over-event-frames",
@@ -6664,9 +6664,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/racing-career-economy/racing-career-economy.md",
-   "digest": "sha256-b2:f4f893df0441f1b4",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:1d1a000f35bc31a9",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "finite-garage-end-state-honesty",
@@ -6901,9 +6901,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/realtime-combat-semantics.md",
-   "digest": "sha256-b2:b013b1d1a2d640d7",
-   "revision": 3,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:aa744914205e9faf",
+   "revision": 4,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "active-defense-two-axis-split",
@@ -8313,9 +8313,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/steering-feel-profile-shaping.md",
-   "digest": "sha256-b2:916a72ac11cfde2c",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:75522784bdcb5c62",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "asymmetric-steer-slew-rise-return",
@@ -8540,9 +8540,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/subtext-and-voice-differentiation.md",
-   "digest": "sha256-b2:f43019ed6d13a85e",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:de85383e8fb56e09",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "dialogue-as-a-trade",
@@ -8896,9 +8896,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/top-down-vehicle-handling-model.md",
-   "digest": "sha256-b2:7615fb2b0865d373",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:ef72f6244d8e231a",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "bounded-load-transfer-grip",
@@ -9007,9 +9007,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/two-thumb-touch-layout-design/two-thumb-touch-layout-design.md",
-   "digest": "sha256-b2:d4d0980b068785d0",
-   "revision": 2,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:9567b92e8aee1efe",
+   "revision": 3,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "cruise-fire-drives-throttle",
@@ -9281,9 +9281,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/vehicle-archetype-balance.md",
-   "digest": "sha256-b2:a4e9b3ad5b0a9ddf",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:ac4ce5ffc63b7270",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "identity-pair-via-authored-band",
