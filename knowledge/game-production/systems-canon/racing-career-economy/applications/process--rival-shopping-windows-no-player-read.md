@@ -10,8 +10,8 @@ verified_on: 2026-10-01
 
 # Rival garages on a fixed schedule: three documents, one transitive question
 
-Source trees: `C:\Users\kazda\kiro\firetv-deathride` (tip `9793226`) for the progression and campaign
-design, and the content tree `C:\Users\kazda\kiro\firetv-deathride-content` for the rival-garage design.
+Source trees: `firetv-deathride` (tip `9793226`) for the progression and campaign
+design, and the content tree `firetv-deathride-content` for the rival-garage design.
 **Status of every claim here: design intent.** The progression document is a plan; the rival-garage design
 is untracked and uncommitted in the content tree; no rival shopping window exists as running code that
 this application read. Nothing in it was played by a person. Numbers are targets or simulation outputs of

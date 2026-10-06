@@ -10,7 +10,7 @@ verified_on: 2026-10-01
 
 # A latest-state mailbox that holds the steer, zeroes the actions and refuses late frames
 
-Read against the racing game's source tree at `C:\Users\kazda\kiro\firetv-deathride` as it
+Read against the racing game's source tree at `firetv-deathride` as it
 stood on 2026-10-01. The host is a JVM program on a TV box and the controller is a single
 browser page served by it; neither is a Node runtime, and `node` is the nearest member of
 the closed stack set for a socket host with a browser page, so no `verified_against` is

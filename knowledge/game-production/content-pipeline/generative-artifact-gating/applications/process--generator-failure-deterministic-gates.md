@@ -10,7 +10,7 @@ verified_on: 2026-10-01
 
 # Process — deterministic gates ahead of local vision graders in a racer's art line
 
-Read in the sibling art worktree of the racer project (`C:\Users\kazda\kiro\firetv-deathride-art`,
+Read in the sibling art worktree of the racer project (`firetv-deathride-art`,
 branch `deathride/art`, working tree partly uncommitted at read time, so the line numbers
 below describe the working tree, not a commit). Paths are relative to that root. Nothing
 here was felt by a human: every number is a measurement on a handful of test images, and the

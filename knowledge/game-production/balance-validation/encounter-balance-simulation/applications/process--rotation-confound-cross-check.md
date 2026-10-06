@@ -10,8 +10,8 @@ verified_on: 2026-10-01
 
 # Three instrument reviews on one arcade racing balance harness
 
-Source: the arcade racer in `C:\Users\kazda\kiro\firetv-deathride` at commit `9793226`, plus its
-content worktree `C:\Users\kazda\kiro\firetv-deathride-content`. Every figure is **simulated**:
+Source: the arcade racer in `firetv-deathride` at commit `9793226`, plus its
+content worktree `firetv-deathride-content`. Every figure is **simulated**:
 seeded races under the shipping fixed-step rules, driven by a proxy controller per class. No human
 has played these races, and none of the rates is a felt result.
 

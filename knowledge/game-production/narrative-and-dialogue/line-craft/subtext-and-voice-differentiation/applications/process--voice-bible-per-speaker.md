@@ -14,7 +14,7 @@ This application reads the voice bible discipline against the dialogue research 
 written for Death Ride, a top-down vehicular combat racer for a television set-top device,
 whose campaign is a debt owed to a league boss. The dossier is
 `docs/narrative/research/R3-dialogue-craft.md` in the tree at
-`C:\Users\kazda\kiro\firetv-deathride` (written 2026-10-04; paths below are relative to that
+`firetv-deathride` (written 2026-10-04; paths below are relative to that
 root). It is research, not field experience: no player has played the campaign, no line in it
 has been heard by a player, and nothing below is a result observed in play. The cast it
 serves is a league boss (Marrow) who owns the player's debt, five region bosses who change

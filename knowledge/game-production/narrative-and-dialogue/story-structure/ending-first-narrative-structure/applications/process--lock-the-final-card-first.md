@@ -16,7 +16,7 @@ seized, turns regional bosses into allies, and ends in a fight to the death agai
 in a rig built by the young Mechanic). Its narrative lead commissioned four research
 dossiers on 2026-10-04, held in the `firetv-deathride` tree under
 `docs/narrative/research/`; every anchor below is root-relative to that tree
-(`C:\Users\kazda\kiro\firetv-deathride`). The game has not been played by anyone. What
+(`firetv-deathride`). The game has not been played by anyone. What
 follows is a plan derived from research, not a practice proven in play, and nothing here
 claims the card works.
 

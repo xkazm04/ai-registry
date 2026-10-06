@@ -13,7 +13,7 @@ verified_on: 2026-10-01
 The source is a two-player racing game whose television host (a JVM server with a CIO
 engine and WebSockets, so the `node` slot is the nearest registry fit, not the runtime)
 pairs two phones through one browser controller page. Citations resolve against the working
-tree at `C:\Users\kazda\kiro\firetv-deathride`, checked 2026-10-01. The seat logic is one
+tree at `firetv-deathride`, checked 2026-10-01. The seat logic is one
 synchronized function; the phone's reconnect behaviour is one line of the controller page.
 Verified by scripted socket clients and a scripted browser, never by a person with a phone.
 

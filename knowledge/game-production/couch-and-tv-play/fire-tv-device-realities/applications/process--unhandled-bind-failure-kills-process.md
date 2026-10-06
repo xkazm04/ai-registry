@@ -10,8 +10,8 @@ verified_on: 2026-10-01
 
 # A bind failure that took the process, and the three fixes that followed
 
-Source trees: `C:\Users\kazda\kiro\firetv-deathride` (root for the paths below) and, where
-stated, the earlier proof-of-concept repo `C:\Users\kazda\kiro\firetv`. The stack is
+Source trees: `firetv-deathride` (root for the paths below) and, where
+stated, the earlier proof-of-concept repo `firetv`. The stack is
 `process` because the realization is a fix history kept in findings and pitfall logs, with
 the code as its last step. Everything here was observed on one streaming stick (a 4K model,
 1.7 GB reported, 32-bit userland only); no result was felt by a human player, and no other

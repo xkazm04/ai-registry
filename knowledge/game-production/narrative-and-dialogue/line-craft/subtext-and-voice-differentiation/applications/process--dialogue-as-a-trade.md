@@ -15,7 +15,7 @@ against two research dossiers written for Death Ride, a top-down vehicular comba
 television set-top device in which the player races to pay off a debt. The dossiers are
 `docs/narrative/research/R1-prestige-series-craft.md` and
 `docs/narrative/research/R3-dialogue-craft.md` in the tree at
-`C:\Users\kazda\kiro\firetv-deathride` (both written 2026-10-04; paths below are relative to
+`firetv-deathride` (both written 2026-10-04; paths below are relative to
 that root). They are research distilled from interviews, memos and on-screen readings; the
 game has not been played, so nothing here is a result seen in play. The exchanges in scope are
 the dossier's

@@ -12,7 +12,7 @@ verified_on: 2026-10-04
 
 This application reconciles blind rubric scoring by another family, and the revision loop it
 feeds, against the dialogue research for Death Ride, an arcade combat racer for a
-television-class device, in the `firetv-deathride` tree at `C:\Users\kazda\kiro\firetv-deathride`.
+television-class device, in the `firetv-deathride` tree at `firetv-deathride`.
 The research sets out a blind comparison protocol (section B5), a ten-dimension rubric (C1) and
 an eleven-step revision protocol (C5). None of it is implemented: no judge prompt, rubric file or
 score record exists in the game folder, so this is a reading of a design on paper. Nobody has

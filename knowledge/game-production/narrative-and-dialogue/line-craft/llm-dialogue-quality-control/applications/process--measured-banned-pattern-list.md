@@ -12,7 +12,7 @@ verified_on: 2026-10-04
 
 This application reconciles the measured banned-pattern list against the dialogue research for
 Death Ride, an arcade combat racer for a television-class device, in the `firetv-deathride`
-tree at `C:\Users\kazda\kiro\firetv-deathride`. The research proposes a twenty-row banned-pattern
+tree at `firetv-deathride`. The research proposes a twenty-row banned-pattern
 table (section B2) and a grep-able blacklist (section C4) for every generated line. Neither
 exists as a file a filter reads: a search of the game folder for the list's entries finds them
 only in the dossier, so this is a reading of a design on paper. Nobody has played the game, and

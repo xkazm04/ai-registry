@@ -11,7 +11,7 @@ verified_on: 2026-10-01
 # One integrator holds four of the laws: yaw lag, slip restoration, load transfer, drift flag
 
 Read against the `firetv-deathride` tree (a top-down racer for a living-room television, 60 Hz
-fixed step, six cars), source root `C:\Users\kazda\kiro\firetv-deathride`, at the head of its
+fixed step, six cars), source root `firetv-deathride`, at the head of its
 main branch on 2026-10-01 (commit not pinned; the tree carried uncommitted work). Everything
 below is **simulated or authored**: the handling was checked by deterministic unit tests and
 seeded rival races on a desktop JVM and installed on a stick, and no person has reported how it

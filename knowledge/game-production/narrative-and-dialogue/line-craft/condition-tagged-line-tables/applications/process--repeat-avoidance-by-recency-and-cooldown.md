@@ -12,7 +12,7 @@ verified_on: 2026-10-04
 
 This application runs the repeat-avoidance arithmetic over the pool sizes proposed in the
 narrative research for Death Ride, an arcade combat racer of about thirty-five races, in the
-`firetv-deathride` tree at `C:\Users\kazda\kiro\firetv-deathride`. It is a process
+`firetv-deathride` tree at `firetv-deathride`. It is a process
 realization: a worked sizing pass a narrative lead runs before commissioning lines. The
 dossiers are research and design proposals; the game has not been played, no row exists in
 code, and every figure below is an estimate stated with its assumption.

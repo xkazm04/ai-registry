@@ -10,7 +10,7 @@ verified_on: 2026-10-01
 
 # One shaping pipeline in a couch racer: the remap, the slew, the throttle cliff and the brake floor
 
-Read against a libGDX-class couch racer's simulation core at commit-free working tree `C:\Users\kazda\kiro\firetv-deathride` (source root for every path below), where a phone is the wheel and a television shows the race. Honesty first: the handling, and every profile in it, was exercised only by simulated traces and automated clients. Nobody has felt it, and the owner chose the profiles by hand afterwards. The stack is filed as `process` because the bundle has no JVM stack slot; the code is Kotlin on the JVM.
+Read against a libGDX-class couch racer's simulation core at commit-free working tree `firetv-deathride` (source root for every path below), where a phone is the wheel and a television shows the race. Honesty first: the handling, and every profile in it, was exercised only by simulated traces and automated clients. Nobody has felt it, and the owner chose the profiles by hand afterwards. The stack is filed as `process` because the bundle has no JVM stack slot; the code is Kotlin on the JVM.
 
 ## The remap, and the power function
 
