@@ -1,0 +1,77 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-deer-flow-1006-v3",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-06T12:00:00Z",
+  "ended_at": "2026-10-06T16:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 5,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/fleet-orchestration",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/data-access",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/job-coordination",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "llm-observability/llm-call-telemetry-model",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/techniques/completion-claim-verification.md",
+    "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/python--completion-claim-verification.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--operator-tier-code-loading.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--semantic-hook-placement.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--checkpoint-mode-custody.md",
+    "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/python--layering-rules.md",
+    "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/python--lease-renewal.md",
+    "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/python--server-owned-fields.md",
+    "librarian/sources/2026-10-06-deer-flow-v3.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Delta 08b27aef..53df22bd (cloud). 1 amendment (lost exit marker is UNVERIFIED); 7 source-tree applications re-pinned, 1 claim withdrawn, 1 figure corrected. Custody split escalated. 12 untriaged, 4 leads. Unapplied: no fleet in cloud."
+}

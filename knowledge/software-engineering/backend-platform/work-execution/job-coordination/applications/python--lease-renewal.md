@@ -4,25 +4,25 @@ type: application
 subject: job-coordination
 technique: lease-renewal
 stack: python
-verified_on: 2026-09-02
+verified_on: 2026-10-06
 verified_against: python@3.12
 ---
 
 # Every thread mutation is an operation kind under one lease, and a lost lease fences the writer (deer-flow gateway runtime)
 
-Verified against the deer-flow source tree at commit `08b27aef` (2026-09-02); every line cited below was opened in that clone.
+Verified against the deer-flow source tree at commit `08b27aef` (2026-09-02) and re-verified at `53df22bd` (2026-10-06); every line cited below was re-opened in the newer clone and the line numbers are its own.
 
 The record is the run. The gateway's run manager and run store admit a run -
 and, through the same `create_thread_operation_atomic()`, a checkpoint
 write, an artifact write, an archive, a branch or a delete - under one
-durable active-thread uniqueness constraint (`backend/app/gateway/AGENTS.md:126`,
+durable active-thread uniqueness constraint (`backend/app/gateway/AGENTS.md:198`,
 `runs.operation_kind`). The guide forbids the alternative in so many words:
 no "another lock or metadata marker" per new operation kind.
 
 ## The lease, as the technique describes it
 
 `RunRecord.lease_expires_at` is "the last durably confirmed ownership
-deadline" (`backend/app/gateway/AGENTS.md:124`). Renewal is bounded by it, and
+deadline" (`backend/app/gateway/AGENTS.md:196`). Renewal is bounded by it, and
 an attempt that reaches expiry sets a process-local `ownership_lost` fence,
 raises the abort event and cancels the run task. A fenced worker performs
 none of the terminal writes - journal, receipt, status, checkpoint, thread
@@ -32,31 +32,37 @@ an owner that can no longer confirm its lease": the technique's stance that
 an expired lease is evidence, stated as policy rather than as a comment.
 
 Takeover uses an atomic `claim_for_takeover()` that re-checks status and
-expiry (`:125`), so a renewal that lands between the scan and the write keeps
+expiry (`:197`), so a renewal that lands between the scan and the write keeps
 the run active and only one reconciler reports recovery. Cancel and owner
 finalization are competing compare-and-swap operations on the active row
-(`:123`), and `update_run_completion()` refuses to replace a different
+(`:195`), and `update_run_completion()` refuses to replace a different
 terminal status - which closes the late-finalization race the technique
 warns about, from the store side.
 
 ## Where the corpus's amendment is honoured
 
 The "absent is not lost" amendment applies on the scheduler side: an expired
-launch claim returns to the durable queue rather than failing the occurrence
-(`backend/AGENTS.md:22`), and a multi-instance scheduler is supported only
-with a shared relational store, heartbeats and database events (`:19`) - the
-condition under which the two facts can differ at all.
+launch claim is not read as a failed occurrence. Recovery first looks for the
+run the claim may already have launched, and only then decides - no run found
+returns the row to `queued`, a live run re-associates it as `running`, a
+finished run is finalized from that run's own outcome
+(`recover_expired_launch_claims`,
+`backend/packages/harness/deerflow/persistence/scheduled_task_runs/sql.py:658-699`;
+the guide's summary is `backend/AGENTS.md:24`). A multi-instance scheduler is
+supported only with a shared relational store, heartbeats and database events
+(`backend/AGENTS.md:20`) - the condition under which the two facts can differ
+at all.
 
 ## What the tree adds
 
 Two things the technique does not say. First, the closed `CancelOutcome`
-vocabulary (`backend/app/gateway/AGENTS.md:121`) - seven values naming *why*
+vocabulary (`backend/app/gateway/AGENTS.md:193`) - seven values naming *why*
 a cancel did or did not land locally (cancelled, requested, taken over, lease
 valid elsewhere, not active locally, not cancellable, unknown) - is the
 cancel-side counterpart of the technique's terminal verdicts. Second, a
 lease-less active row is treated as fail-closed, because "the store cannot
 distinguish a stale row from a live writer in another heartbeat-disabled
-worker" (`:126`): heartbeat-disabled multi-worker deployment is declared
+worker" (`:198`): heartbeat-disabled multi-worker deployment is declared
 unsupported rather than silently tolerated.
 
 ## What this realization cannot do

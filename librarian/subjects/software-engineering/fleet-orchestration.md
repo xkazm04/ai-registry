@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-09-23
+last_touched: 2026-10-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -759,3 +759,7 @@ fleet backend files belong to no context in the project's map.
 Lead drain (run lib-0923). L285 AMEND to `parallel-dispatch`: a promoted queued entry keeps its id and a spawn never lands on a live entry. **L271 COVERED** by `concurrent-vcs/isolated-index-commits`; its private-repo application declined.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 14, personas-web 1.
+
+## 2026-10-06 - /intake deer-flow --delta (run `intake-deer-flow-1006-v3`, cloud dispatch)
+
+Source [[../../sources/2026-10-06-deer-flow-v3]], `08b27aef..53df22bd`. **One amendment** to `completion-claim-verification`: "That fallback may refuse a pass; it may never grant one". The technique said a shell result with no exit marker falls back to the tool's meta status, and that status is success for any call that returned text. Twice in one month the tree's own Fixed list recorded a stage after execution that dropped the marker: an output budget swapping a long result for a preview (#6354), and an audit layer appending its warning after the last line (#6307). Each time the checker fell back to success and a failed test run satisfied `tests_passed`. The tree fixed both rewriters and kept the fallback. The amendment fixes it at the checker: a lost marker is UNVERIFIED, and keeping the marker becomes a coverage property of every post-execution stage. Scored 2/0/1 as an append; the rewrite reading (3/2, untriaged) is recorded in the source note for audit. The source application was re-pinned, gained the fallback section, and had its paragraph-size figure corrected (about 1,500 words, never 4,800). The judge layer has still not landed. Unapplied (cloud session; handoff in the dispatch result).

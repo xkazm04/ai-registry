@@ -1421,7 +1421,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/llm-call-telemetry-model.md",
-   "digest": "sha256-b2:834b798969457037",
+   "digest": "sha256-b2:9f199f8ff9e7a925",
    "revision": 6,
    "changedAt": "2026-09-18",
    "techniques": [
@@ -1540,7 +1540,7 @@
      "stack": "python",
      "technique": "server-owned-fields",
      "file": "knowledge/llm-observability/telemetry-and-data/llm-call-telemetry-model/applications/python--server-owned-fields.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-10-06",
      "verified_against": "python@3.12"
     },
     {
