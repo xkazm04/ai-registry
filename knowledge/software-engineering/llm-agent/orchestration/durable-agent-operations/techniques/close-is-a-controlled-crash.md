@@ -131,6 +131,26 @@ write close makes is a verdict it invented. Write that discriminator down in
 both places — a reader who meets these two techniques a month apart will
 otherwise conclude one of them is stale.
 
+## Boundary: a clean-shutdown marker is a label, not a gate
+
+The neighbouring
+[session-continuation discipline](../../session-continuation/techniques/stuck-loop-detection.md)
+records a clean shutdown with a marker and skips its resume sweep when the
+marker is present. That is not the second recovery path this technique forbids,
+as long as the sweep it gates is keyed on **recency** — sessions touched lately,
+where a deliberate restart really is indistinguishable from an interrupted one.
+Moved onto a sweep keyed on **durable in-flight state**, the same marker is that
+path exactly: a close that drained leaves the sweep nothing to find, and a close
+that did not drain leaves what a crash leaves, so the skip can only hide work.
+
+The discriminator is **what the sweep's predicate reads.** A recency heuristic
+needs the marker; a state predicate needs nothing and runs on every start.
+Record the marker for the log line — "the previous exit was graceful and still
+left three rows running" is the most useful sentence a boot can write about a
+shutdown path — and never let it skip reconciliation of rows that still say in
+flight. The failure is quiet in a specific way: a crash test still passes,
+because the crash path is untouched, and only the everyday exit is wrong.
+
 ## Decision rules
 
 - Make close seal, drain and stop. Write no cancellation, no terminal state, no
@@ -148,6 +168,8 @@ otherwise conclude one of them is stale.
   it, rather than running it in the dying process.
 - Keep local resource cleanup — closing handles, signalling cooperative work —
   strictly separate from durable writes, so it cannot grow into a write.
+- A clean-shutdown marker may label the exit; it may not skip a sweep keyed on
+  rows that still say in flight.
 
 ## When not to use it
 

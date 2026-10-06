@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: session-continuation
-last_touched: 2026-09-23
+last_touched: 2026-10-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -204,3 +204,15 @@ Source [[../../sources/2026-09-15-qwenpaw]]: an agent runtime whose loop evaluat
 Lead drain (run lib-0923): **L132 COVERED** by `subprocess-lifecycle/termination-and-reaping`. Proposal from L369 (declined at `durable-agent-operations`): `stuck-loop-detection` could carry "a stagnation or saturation counter is recomputed from the loop's recorded outcomes; a field only an initialiser writes cannot fire" - the registry itself was the sighting and was fixed the same run (librarian-scan computes `dryStreak` from run results).
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): none recorded.
+
+## 2026-10-06 - boundary from /intake apply close-is-a-controlled-crash (run `ap-cicc-1006`)
+
+`stuck-loop-detection` gained a paragraph and a decision rule: **the clean-shutdown
+marker may skip a sweep keyed on recency, never one keyed on in-flight state.**
+It is code-read corroboration, not a source. personas had copied the marker onto
+its state-keyed execution sweep. Its exit drain did not cover agent runs, so a quit
+mid-run skipped the resume a crash would have given. The fix is in
+[[durable-agent-operations]]'s application. The technique's own rule stands for
+the recency-keyed sweep it describes. The amendment names the condition under which
+"after the drain completes" is false: the drain must cover the population the sweep
+reads.
