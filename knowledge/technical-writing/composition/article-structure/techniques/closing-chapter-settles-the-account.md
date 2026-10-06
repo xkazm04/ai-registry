@@ -18,7 +18,7 @@ serves neither and is the section most often quoted back as evidence a post was 
 **The closing chapter restates what was established in concrete numbers, returns to the
 opening scene, and names what the reader should now do differently.**
 
-## The three moves
+## The four moves
 
 1. **The recap in numbers.** Three to five lines, each a finding the body established,
    each with its number, each traceable to the same source the body used
@@ -28,7 +28,11 @@ opening scene, and names what the reader should now do differently.**
    scene's object: what the message, the request or the invoice turned out to show. This is
    where the through-line pays off, and it settles the question the opening raised
    ([the opening promises, the close settles](../../../_laws.md#the-opening-promises-the-close-settles)).
-3. **The changed action.** Two or three specific things a reader would do differently, each
+3. **The summary table.** Where the body compared things, the close carries one compact
+   comparison table of them against the dimensions the body used: short cells, a source
+   number wherever a figure appears, nothing new. Readers who read only the opening and
+   the ending decide on this table; it is the part of the close they quote.
+4. **The changed action.** Two or three specific things a reader would do differently, each
    concrete enough to start on: measure X per locale before a model upgrade, key the cache
    on normalized text, price quotas in messages rather than tokens. Each should correspond
    to an outcome the content preview promised.
@@ -36,7 +40,8 @@ opening scene, and names what the reader should now do differently.**
 ## Procedure
 
 - Draft the close from the preview's outcomes and the through-line's per-section numbers,
-  not from memory of the body. Tick each outcome off as a line in the close settles it.
+  not from memory of the body. Tick each outcome off as a line in the close settles it. The opening plus the close must
+  be strong enough to be the whole post for the reader who reads nothing else.
 - Keep a summarizing figure here only if it is the post's integrating figure (a request
   path that shows every mechanism at once); a figure repeated from the body adds length,
   not closure.

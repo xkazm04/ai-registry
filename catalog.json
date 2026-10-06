@@ -1131,10 +1131,10 @@
       "profile": "rkb/0.1",
       "purity": "writing",
       "subjects": 6,
-      "techniques": 28,
+      "techniques": 29,
       "applications": 7,
-      "files": 45,
-      "contentHash": "sha256-b2:11e77681f0ce2365"
+      "files": 46,
+      "contentHash": "sha256-b2:b0dbb3edba41ea7e"
     }
   ],
   "usageEvidence": {

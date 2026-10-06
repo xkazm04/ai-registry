@@ -45,6 +45,15 @@ post explains, with its numbers, so the opening is already evidence.**
   first and go stale first: a model, a price or a version changes during drafting, and the
   opening is the one place a stale number is read by everyone.
 
+## Tell the situation, show the sequence
+
+An opening scene that unfolds over time is told in two short paragraphs: what happened, what
+it cost, and the number that makes an expert stop. The sequence itself (launch, silence,
+recovery) goes into a small timeline figure, because a clock-by-clock walk in prose reads as
+the author's diary and makes a reader who has not lived it wade through timestamps
+(owner review, 2026-10-06: "we cannot break down what happened each hour and minute").
+Introducing the situation is the right move; narrating the afternoon is not.
+
 ## Decision rules
 
 - **When the scene needs a paragraph of setup before its number, it is the wrong scene.**

@@ -1700,7 +1700,7 @@
   },
   "technical-blog-post-authoring": {
    "path": "recipes/creative_design/articles/technical-blog-post-authoring",
-   "version": "0.1.0",
+   "version": "0.2.0",
    "status": "seed",
    "domain": "creative_design",
    "topic": "articles",

@@ -10,6 +10,7 @@ techniques:
   - designed-comparison-tables
   - captions-name-their-sources
   - text-alternative-for-figures
+  - visual-cadence
 ---
 
 # Figures and tables

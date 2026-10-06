@@ -1,6 +1,6 @@
 ---
 name: technical-blog-post-authoring
-version: 0.1.0
+version: 0.2.0
 status: seed
 domain: creative_design
 path: creative_design/articles
@@ -16,7 +16,7 @@ path: creative_design/articles
 
 **Core action.** Research the topic live with counter-evidence and dated sources, find the one concrete scene that carries the thesis, outline the argument as promises the close will settle, draft it at depth for an expert while explaining terms in a clause for everyone else, move structured material into figures and designed tables, have reviewer models from other providers critique the draft blind to each other and answer every finding, and check the result deterministically before a person decides.
 
-**Output.** One post that a person has approved, carrying a content preview with a computed read time, numbered in-page citations to dated sources, figures that abstract rather than restate, a closing chapter that settles what the opening promised, a package that renders correctly on the target platform in both colour schemes at phone and desktop widths, and a published record of who reviewed the draft, what they found and what was decided about each finding.
+**Output.** One post that a person has approved, carrying a content preview that states no read time (the platform shows its own), numbered in-page citations to dated sources, figures that abstract rather than restate, a closing chapter that settles what the opening promised, a package that renders correctly on the target platform in both colour schemes at phone and desktop widths, and a published record of who reviewed the draft, what they found and what was decided about each finding.
 
 ## Activities
 
@@ -34,15 +34,16 @@ path: creative_design/articles
 
 The post is an argument with a shape a scanning reader can follow, not a survey of the topic in the order it was researched.
 
-- A content preview sits directly after the opening, with what the post is, a read time computed from the final text including figure and table text, a linked outline built from the section headings, and two or three outcomes phrased as things the reader will be able to do.
+- A content preview sits directly after the opening, with what the post is, a linked outline built from the section headings, and two or three outcomes phrased as things the reader will be able to do.
 - Every section heading states the section's claim rather than naming its topic.
-- The closing chapter restates the result in numbers already established in the body, returns to the opening scene, and names concrete changed actions that settle the preview's outcomes.
+- The closing chapter restates the result in numbers already established in the body, returns to the opening scene, carries a summary or comparison table of what the body compared, and names concrete changed actions that settle the preview's outcomes; the opening and the close together are enough for a reader who reads nothing else.
 
 ### storytelling
 
 The reader has a reason to continue at every section break.
 
 - The opening is one concrete object with a surprising, sourced number in its first three sentences, not an announcement of the topic.
+- The opening tells the situation briefly and shows any sequence of events as a timeline figure; it is never a clock-by-clock chronicle of one experience.
 - The opening's object is followed through every section as a through-line, and its final account is stated in the close.
 - No sustained analogy stands in for the mechanism.
 
@@ -60,6 +61,7 @@ An expert finds something they did not know, and a newcomer can follow it.
 Structured material is visual and reasoning stays in prose.
 
 - Wherever three or more paragraphs carried a comparison, a sequence, a mechanism or a set of numbers, they are a figure or a designed table.
+- No run of more than two consecutive prose paragraphs lacks a visual element (a figure, a table, a code block, a compact diagram strip or a callout); a small visual counts, and where it carries what a paragraph said, the paragraph is shortened.
 - Text inside figures is labels and short annotations; no box holds a sentence.
 - Every caption opens with the figure's message and ends with its source numbers, and illustrations are labelled as illustrations.
 - Every figure has a text alternative carrying its message, and data figures make their values available as text.
@@ -157,7 +159,7 @@ Hold the length and spend it on depth: a clause per term, then mechanism, conseq
       "default": 14,
       "min": 5,
       "max": 25,
-      "description": "Target read time including figure and table text. A ceiling for the draft, not a quota: depth is bought by replacing flat material, not by reaching the number."
+      "description": "Length budget for the draft, in minutes of reading including figure and table text. A ceiling for the draft, never a quota and never stated in the post: the platform shows its own read time. Depth is bought by replacing flat material, not by reaching the number."
     },
     {
       "name": "min_sources",

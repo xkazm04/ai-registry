@@ -26,6 +26,8 @@ Choices that are conventions rather than craft, each stated as a rule a check ca
   impersonal-results-reporting); where exceptions are allowed (preview outcomes, the close's
   changed actions).
 - **Punctuation marks the house restricts**, for example dashes, with the reason recorded.
+  This house bans the em dash and the en dash as sentence punctuation (owner rule,
+  2026-10-06: it is the first visible sign a model wrote the page); ranges use "to".
   If the reason is "a drafting model overuses it", say so; the restriction is then a house
   rule, and a later editor can lift it without arguing about grammar.
 - **Numbers.** Numerals for measured quantities always; the multiplication sign or "times"

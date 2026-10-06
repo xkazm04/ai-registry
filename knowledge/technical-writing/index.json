@@ -4,7 +4,7 @@
   "bundle": "technical-writing",
   "source": "knowledge/technical-writing/ (frontmatter only)",
   "subjects": 6,
-  "techniques": 28,
+  "techniques": 29,
   "applications": 7,
   "laws": 9,
   "categories": [
@@ -14,7 +14,7 @@
    "presentation"
   ],
   "layout": "nested",
-  "use_when_coverage": "28/28",
+  "use_when_coverage": "29/29",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/technical-writing/composition/article-structure/article-structure.md",
-   "digest": "sha256-b2:80ad23c8257231ba",
-   "revision": 1,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:e5b9771914182ba9",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "closing-chapter-settles-the-account",
@@ -49,8 +49,7 @@
      ],
      "shared_with": [],
      "use_when": [
-      "adding a preview after an article's opening",
-      "computing an honest read time",
+      "adding a preview before an article's first section",
       "reviewing a post whose reader cannot tell what to expect"
      ]
     },
@@ -270,9 +269,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/technical-writing/presentation/figures-and-tables/figures-and-tables.md",
-   "digest": "sha256-b2:05e1af3ba41f084f",
-   "revision": 1,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:ee6a938542f4e2d5",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "captions-name-their-sources",
@@ -337,6 +336,20 @@
       "publishing figures or images of tables",
       "preparing an article for a platform that strips or rasterizes content",
       "reviewing alt text"
+     ]
+    },
+    {
+     "slug": "visual-cadence",
+     "status": "forged",
+     "laws": [
+      "figures-abstract-prose-explains",
+      "depth-by-replacement-not-addition"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing a well-researched draft whose paragraphs have grown chunky",
+      "deciding where a figure or table belongs",
+      "shortening a section without losing content"
      ]
     }
    ],
@@ -447,9 +460,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/technical-writing/prose/voice-and-register/voice-and-register.md",
-   "digest": "sha256-b2:74b376d4c6a75965",
-   "revision": 1,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:8f4e0fccda5412e1",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "house-style-consistency",
@@ -544,7 +557,8 @@
    "techniques": [
     "depth-and-audience/depth-by-replacement",
     "depth-and-audience/four-layer-depth",
-    "depth-and-audience/term-in-a-clause"
+    "depth-and-audience/term-in-a-clause",
+    "figures-and-tables/visual-cadence"
    ]
   },
   "figures-abstract-prose-explains": {
@@ -553,7 +567,8 @@
     "depth-and-audience/depth-by-replacement",
     "figures-and-tables/designed-comparison-tables",
     "figures-and-tables/label-length-figure-text",
-    "figures-and-tables/one-message-per-figure"
+    "figures-and-tables/one-message-per-figure",
+    "figures-and-tables/visual-cadence"
    ]
   },
   "a-claim-travels-with-its-counter-evidence": {
