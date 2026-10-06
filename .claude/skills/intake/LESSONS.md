@@ -12363,3 +12363,16 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
 
 - **An `unapplied` row's return condition can fire without anyone noticing.** The 2026-09-07 row said "when a managed project grows an asset import path". pof grew one, and its registry map joined nine contexts to the subject. Nothing compared the two, so the subject sat at "no application" until the attention scan ranked it. Before trusting an old `unapplied` row, read the fleet's `subjectIndex[<subject>]` in each domain project's `.ai/registry-map.json`. A non-empty list means the seam hunt starts there.
 - **The corrector can be a person, and a warning is how you find them.** A generated step that detects a convention mismatch and only logs it hands the fix to whoever remembers. That is the technique's corrector without a script. Search for warn-and-continue branches next to the one table, as well as for fixer scripts.
+
+## 2.15.0 - 2026-10-06 - apply close-is-a-controlled-crash
+
+- **The falsifying seam for an apply run can be found through the corpus.** Fleet code
+  that cites registry techniques in its comments shows which rule it adopted. A tree
+  that adopted the *opposing* technique is the seam most able to refute the one being
+  applied. Here personas cited `stuck-loop-detection` beside the marker skip, and that
+  citation located the seam, which a grep for the decision itself would have missed.
+  The result was a boundary written into both techniques rather than a verdict on one.
+- **A reaped-row count is not a cost until the other reapers are excluded.** 31 rows
+  matched the failure's end state. A heartbeat column cut that to 10, an upper bound,
+  and the cut came after the personas commit message had already said 31. Read the
+  separating column before any commit message cites the number.
