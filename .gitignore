@@ -72,3 +72,7 @@ fleet-*.proposals.json
 
 # Medium paste renders are derived from the figures/*.svg and never committed (the registry is text-only)
 /publications/*/medium/figures/
+
+# cloud-dispatch: machine-local ledger, queue and prompt files
+/.ai/cloud-dispatch.local.jsonl
+/.ai/cloud-queue/
