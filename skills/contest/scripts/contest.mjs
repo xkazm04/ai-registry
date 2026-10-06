@@ -22,6 +22,9 @@
  *   node contest.mjs reveal  --id <slug> [--timeout-min 60] [--force]   (each seat keeps and masters one of its variants)
  *   node contest.mjs router  --id <slug>                                  (rebuild the contest and vault routers)
  *   node contest.mjs status  --id <slug>
+ *   node contest.mjs wrap    --id <slug> [--apply] [--close "<owner's reason>"] [--release-winner] [--lessons <file|text>]
+ *                            (after the decision: archive notes and screenshots, keep the winner's source,
+ *                             remove the rest; a dry run unless --apply; an undecided family is left alone)
  *
  * A participant spec is engine:model@effort[#label] - claude:opus@xhigh, grok:grok-4.6@high,
  * codex:gpt-5.6-sol@high. Every step is idempotent and file-backed, so a killed session resumes
@@ -37,6 +40,7 @@ import { blindMap, unblind, scrubIdentity, materialPhrases, validateVerdict, agg
 import { renderRouter, fileHref } from './lib/router.mjs';
 import { renderContestNote, upsertIndex, upsertPatterns, readPatterns, slugify } from './lib/vault.mjs';
 import { resolveInit, reviewLines } from './lib/presets.mjs';
+import { familyState, shotsFor, renderedTextFor, extractById, pageText, duplicateShots, upsertSection, human, treeBytes, removeTree, findRebuildable, listFiles, label } from './lib/wrap.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const REFERENCES = path.join(HERE, '..', 'references');
@@ -66,12 +70,15 @@ const cwd = process.cwd();
 // ---------------------------------------------------------------- layout
 const arenaRoot = () => path.resolve(cwd, opts.arena ?? '.contest/arena');
 const contestDir = (id) => path.join(arenaRoot(), id);
+// A wrapped contest has no implementations left to run, collect, judge or seed a round from.
+const AFTER_WRAP = new Set(['status', 'router', 'wrap', 'aggregate']);
 const load = () => {
   const id = need('id');
   const dir = contestDir(id);
   const file = path.join(dir, 'contest.json');
   if (!fs.existsSync(file)) die(`no contest "${id}" under ${arenaRoot()} - run init first`);
   const c = readJson(file);
+  if (c.wrapped && !AFTER_WRAP.has(cmd)) die(`"${id}" was wrapped on ${c.wrapped.at.slice(0, 10)} - its variants are screenshots now; ${cmd} needs the implementations`);
   if (opts.arena === undefined && c.arena) return { c, dir: path.join(c.arena, id) };
   return { c, dir };
 };
@@ -332,11 +339,22 @@ function revealBlind(c, dir) {
   return out;
 }
 
+/** Where a variant opens: its blinded copy, or after a wrap its kept source, its screenshot, its archived notes. */
+function variantLinks(dir, c, letter, seatId, n) {
+  const blinded = path.join(dir, 'judging', 'entries', letter, `variant-${n}`);
+  if (!c.wrapped || fs.existsSync(path.join(blinded, 'index.html'))) return { href: fileHref(path.join(blinded, 'index.html')), notesHref: fileHref(path.join(blinded, 'NOTES.md')) };
+  const src = path.join(dir, 'entries', seatId, `variant-${n}`, 'index.html');
+  const adir = path.join(dir, 'archive', `${letter}-${n}`);
+  const shots = fs.existsSync(path.join(adir, 'shots')) ? fs.readdirSync(path.join(adir, 'shots')).sort() : [];
+  const shot = shots.find((x) => /load/i.test(x)) ?? shots[0];
+  return { href: fileHref(fs.existsSync(src) ? src : shot ? path.join(adir, 'shots', shot) : path.join(dir, 'gallery.html')), notesHref: fileHref(path.join(adir, 'NOTES.md')) };
+}
+
 /** One router row for a first-round contest, with its reveal overlaid when one exists. */
 function routerContest(dir) {
   const c = readJson(path.join(dir, 'contest.json'));
   const mfFile = path.join(dir, 'manifest.json');
-  const row = { id: c.id, title: c.title, project: c.project, collected: fs.existsSync(mfFile), closed: !!c.winner || !!c.combined?.length,
+  const row = { id: c.id, title: c.title, project: c.project, collected: fs.existsSync(mfFile), closed: !!c.winner || !!c.combined?.length || !!c.closed,
     reveal: 'none', briefHref: fileHref(path.join(dir, 'BRIEF.md')),
     materialHref: fs.existsSync(path.join(dir, 'data', 'SCHEMA.md')) ? fileHref(path.join(dir, 'data', 'SCHEMA.md')) : null, entries: [] };
   if (!row.collected) return row;
@@ -364,19 +382,17 @@ function routerContest(dir) {
     const rmf = readIf(path.join(revealDir, 'manifest.json'));
     if (rmf) {
       row.reveal = 'collected';
-      for (const e of Object.values(JSON.parse(rmf).entries)) {
+      const rc = readJson(path.join(revealDir, 'contest.json'));
+      for (const [seatId, e] of Object.entries(JSON.parse(rmf).entries)) {
         const v = e.variants.find((x) => x.present);
         if (!v) continue;
-        const vdir = path.join(revealDir, 'judging', 'entries', e.letter, `variant-${v.n}`);
-        kept[e.letter] = { n: v.n, concept: v.concept, bytes: v.bytes, href: fileHref(path.join(vdir, 'index.html')), notesHref: fileHref(path.join(vdir, 'NOTES.md')) };
+        kept[e.letter] = { n: v.n, concept: v.concept, bytes: v.bytes, ...variantLinks(revealDir, rc, e.letter, seatId, v.n) };
       }
     }
   }
-  const label = (x) => (typeof x === 'string' ? x : x?.label);
-  for (const e of Object.values(mf.entries).sort((a, b) => a.letter.localeCompare(b.letter))) {
+  for (const [seatId, e] of Object.entries(mf.entries).sort(([, a], [, b]) => a.letter.localeCompare(b.letter))) {
     row.entries.push({ letter: e.letter, variants: e.variants.map((v) => {
       const key = `${e.letter}/${v.n}`;
-      const vdir = path.join(dir, 'judging', 'entries', e.letter, `variant-${v.n}`);
       let state = 'open';
       // A seat whose reveal delivered nothing keeps all its variants open rather than losing them.
       if (row.reveal === 'collected' && v.present && kept[e.letter]) state = kept[e.letter].n === v.n ? 'kept' : 'eliminated';
@@ -384,7 +400,7 @@ function routerContest(dir) {
       else if (c.combined?.some((x) => label(x) === key)) state = 'combined';
       else if (!c.winner && c.shortlist?.some((x) => label(x) === key)) state = 'shortlisted';
       return { n: v.n, present: v.present, concept: v.concept || v.title, bytes: v.bytes, state, score: scores[key] ?? null,
-        href: fileHref(path.join(vdir, 'index.html')), notesHref: fileHref(path.join(vdir, 'NOTES.md')),
+        ...variantLinks(dir, c, e.letter, seatId, v.n),
         mastered: kept[e.letter]?.n === v.n ? kept[e.letter] : null };
     }) });
   }
@@ -784,6 +800,262 @@ function reveal() {
   writeRouters(child, childDir);
 }
 
+// ---------------------------------------------------------------- wrap
+// The hygiene step after the owner decides. It works on the whole family (the first round, its
+// reveal and every refinement or fuse round) and is a dry run unless --apply. It keeps the
+// decision, the verdicts, the run records, each variant's notes and screenshots (moved to
+// archive/<letter>-<n>/), and the source of every winner and combined variant (for the
+// promotion); it removes every other implementation, the blinded and seeded copies, the staged
+// data (its SCHEMA.md stays) and rebuildable trees. A variant with no screenshot keeps its source:
+// run the visual pass, then wrap again. An undecided family is reported and left untouched.
+const MEMBER_FILES = new Set(['contest.json', 'BRIEF.md', 'manifest.json', 'gallery.html', 'router.html', 'WRAP.md', 'entries', 'judging', 'runs', 'seed', 'data', 'archive']);
+
+function familyMembers(arena, rootId) {
+  const all = fs.readdirSync(arena).filter((d) => fs.existsSync(path.join(arena, d, 'contest.json')))
+    .map((d) => ({ dir: path.join(arena, d), c: readJson(path.join(arena, d, 'contest.json')) }));
+  const ids = new Set([rootId]);
+  for (let grew = true; grew;) {
+    grew = false;
+    for (const m of all) if (m.c.parent && ids.has(m.c.parent) && !ids.has(m.c.id)) { ids.add(m.c.id); grew = true; }
+  }
+  return all.filter((m) => ids.has(m.c.id));
+}
+
+function wrap() {
+  const apply = !!opts.apply;
+  const { dir: selfDir } = load();
+  const arena = path.dirname(selfDir);
+  let rootDir = selfDir;
+  let root = readJson(path.join(rootDir, 'contest.json'));
+  while (root.parent && fs.existsSync(path.join(arena, root.parent, 'contest.json'))) {
+    rootDir = path.join(arena, root.parent);
+    root = readJson(path.join(rootDir, 'contest.json'));
+  }
+  // The owner may end a contest with no winner; that is a decision, and it is recorded on the first round.
+  if (opts.close !== undefined) {
+    if (opts.close === true) die('--close needs the owner\'s reason, in their words');
+    root.closed = { reason: String(opts.close), at: new Date().toISOString() };
+    if (apply) save(rootDir, root);
+  }
+  const members = familyMembers(arena, root.id).map((m) => (m.c.id === root.id ? { ...m, c: root } : m));
+  const fam = familyState(members);
+  const say = (s) => console.log(`${apply ? '' : '[dry run] '}${s}`);
+  if (!fam.decided) {
+    console.log(`${root.id}: undecided - ${fam.open.join(', ')} ${fam.open.length > 1 ? 'have' : 'has'} no verdict. Nothing removed.`);
+    console.log('  record the owner\'s verdict (verdict --winner | --combine), or wrap --close "<the owner\'s reason>" when they ended it with no winner');
+    process.exitCode = 3;
+    return;
+  }
+  const releaseWinner = !!opts['release-winner'];
+  // The seats a kept variant descends from, through each round's lineage. A refinement round
+  // builds on its parent seat's scratch (habit-garden's round-3 winner ran on round 2's Unity
+  // spike), so that scratch stays with only its rebuildable trees pruned.
+  const lineageSeats = new Map();
+  const blindOf = (dir) => (fs.existsSync(path.join(dir, 'runs', 'blind-map.json')) ? readJson(path.join(dir, 'runs', 'blind-map.json')) : {});
+  for (const k of fam.keep) {
+    let m = members.find((x) => x.c.id === k.id);
+    let seat = blindOf(m.dir)[k.key.split('/')[0]];
+    while (m && seat && m.c.lineage?.[seat]?.parent && m.c.parent) {
+      const up = members.find((x) => x.c.id === m.c.parent);
+      if (!up) break;
+      seat = m.c.lineage[seat].parent;
+      if (!lineageSeats.has(up.c.id)) lineageSeats.set(up.c.id, new Set());
+      lineageSeats.get(up.c.id).add(seat);
+      m = up;
+    }
+  }
+  const lessons = opts.lessons && opts.lessons !== true
+    ? (fs.existsSync(path.resolve(cwd, opts.lessons)) ? read(path.resolve(cwd, opts.lessons)) : String(opts.lessons)) : '';
+  const report = [];
+  let familyBefore = 0;
+  let familyAfter = 0;
+  for (const { c, dir } of members) {
+    const before = treeBytes(dir);
+    const original = Math.max(before, c.wrapped?.bytes_before ?? 0);  // a second wrap reports against the size before the first
+    const removals = [];     // [path, why]
+    const missing = [];
+    const keptSrc = [];
+    const archived = [];
+    const remove = (p, why) => { if (fs.existsSync(p) || fs.lstatSync(p, { throwIfNoEntry: false })) removals.push([p, why]); };
+    const mfFile = path.join(dir, 'manifest.json');
+    if (!fs.existsSync(mfFile)) {
+      say(`${c.id}: never collected - left as it is (collect it, or delete the directory by hand once you have looked)`);
+      report.push({ c, dir, before, after: before, skipped: 'not collected' });
+      familyBefore += before; familyAfter += before;
+      continue;
+    }
+    const mf = readJson(mfFile);
+    const blind = readIf(path.join(dir, 'runs', 'blind-map.json')) ? readJson(path.join(dir, 'runs', 'blind-map.json')) : {};
+    const letterOf = Object.fromEntries(Object.entries(blind).map(([l, id]) => [id, l]));
+    const runsDir = path.join(dir, 'runs');
+    const runFiles = fs.existsSync(runsDir) ? listFiles(runsDir) : [];
+    const runImages = runFiles.filter((f) => /\.(png|jpe?g|webp|gif)$/i.test(f));
+    const archive = path.join(dir, 'archive');
+    const dataSeat = new Set();    // holds a variant that must still open, so it keeps the ../data it loads
+    const winnerSeat = new Set();  // built a kept variant, so its scratch stays too
+    for (const [seatId, e] of Object.entries(mf.entries)) {
+      const letter = e.letter ?? letterOf[seatId];
+      for (const v of e.variants.filter((x) => x.present)) {
+        const key = `${letter}/${v.n}`;
+        const src = path.join(dir, 'entries', seatId, `variant-${v.n}`);
+        const blinded = path.join(dir, 'judging', 'entries', letter, `variant-${v.n}`);
+        const from = fs.existsSync(src) ? src : fs.existsSync(blinded) ? blinded : null;
+        const adir = path.join(archive, `${letter}-${v.n}`);
+        const isKept = !releaseWinner && fam.keep.some((k) => k.id === c.id && k.key === key);
+        const state = fam.keep.find((k) => k.id === c.id && k.key === key)?.why
+          ?? (label(c.runner_up) === key ? 'runner-up' : c.shortlist?.some((x) => label(x) === key) ? 'shortlisted' : '');
+        const toMove = shotsFor(runImages, letter, v.n);
+        const already = fs.existsSync(path.join(adir, 'shots')) ? fs.readdirSync(path.join(adir, 'shots')) : [];
+        const files = from ? listFiles(from) : [];
+        const notes = files.filter((f) => /\.md$/i.test(f));
+        // Every page's words, as page-text.md (index.html) or page-text-<path>.md: a report's argument outlives its source.
+        const pages = files.filter((f) => /\.html?$/i.test(f)).map((f) => [f, /^index\.html?$/i.test(f) ? 'page-text.md' : `page-text-${f.replace(/[\\/]/g, '_').replace(/\.html?$/i, '')}.md`]);
+        if (apply) {
+          fs.mkdirSync(path.join(adir, 'shots'), { recursive: true });
+          for (const f of notes) {
+            const t = path.join(adir, f);
+            if (!fs.existsSync(t)) { fs.mkdirSync(path.dirname(t), { recursive: true }); fs.copyFileSync(path.join(from, f), t); }
+          }
+          for (const [f, name] of pages) {
+            const t = path.join(adir, name);
+            const text = !fs.existsSync(t) && fs.statSync(path.join(from, f)).size < 20_000_000 ? pageText(read(path.join(from, f))) : null;
+            if (text) fs.writeFileSync(t, `${text.slice(0, 1_000_000)}\n`);
+          }
+          const index = from && path.join(from, 'index.html');
+          if (c.kind === 'reveal' && index && fs.existsSync(index) && !fs.existsSync(path.join(adir, 'why-this-design.md'))) {
+            const why = extractById(read(index), 'reveal');
+            if (why) fs.writeFileSync(path.join(adir, 'why-this-design.md'), `# Why this design - ${key}\n\n${why}\n`);
+          }
+          for (const f of toMove) {
+            const t = path.join(adir, 'shots', path.basename(f));
+            if (!fs.existsSync(t)) fs.renameSync(path.join(runsDir, f), t); else fs.unlinkSync(path.join(runsDir, f));
+          }
+          for (const d of duplicateShots(path.join(adir, 'shots'))) fs.unlinkSync(d);
+          // A page that renders its words from script leaves page-text.md nearly empty; the visual pass read them live.
+          for (const f of renderedTextFor(runFiles, letter, v.n)) {
+            const t = path.join(adir, 'rendered-text.md');
+            if (!fs.existsSync(t)) fs.writeFileSync(t, `# Rendered text - ${key}\n\n${read(path.join(runsDir, f)).trim()}\n`);
+            fs.unlinkSync(path.join(runsDir, f));
+          }
+        }
+        const shots = apply ? fs.readdirSync(path.join(adir, 'shots')).sort() : [...new Set([...already, ...toMove.map((f) => path.basename(f))])].sort();
+        archived.push({ key, seat: c.participants.find((p) => p.id === seatId)?.spec ?? seatId, concept: v.concept || v.title || 'untitled', state, shots, kept: isKept,
+          notes: fs.existsSync(adir) ? listFiles(adir).filter((f) => /\.md$/i.test(f)) : [...notes, ...pages.map(([, n]) => n)] });
+        if (isKept) { keptSrc.push({ key, path: src }); dataSeat.add(seatId); winnerSeat.add(seatId); }
+        else if (!shots.length) { missing.push(key); dataSeat.add(seatId); }
+        else remove(src, 'variant source (archived)');
+        if (isKept || shots.length) remove(blinded, 'blinded copy');
+      }
+    }
+    // Seat workspaces: the brief each seat read stays; copies, strays and scratch trees go.
+    const entriesDir = path.join(dir, 'entries');
+    for (const seatId of fs.existsSync(entriesDir) ? fs.readdirSync(entriesDir) : []) {
+      const ws = path.join(entriesDir, seatId);
+      if (!fs.statSync(ws).isDirectory()) continue;
+      const stillHere = new Set([...keptSrc.map((k) => k.path), ...missing.map((key) => {
+        const [l, n] = key.split('/');
+        return path.join(entriesDir, blind[l] ?? '', `variant-${n}`);
+      })].map((p) => path.resolve(p)));
+      for (const name of fs.readdirSync(ws)) {
+        const full = path.join(ws, name);
+        if (name === 'PARTICIPANT.md' || stillHere.has(path.resolve(full))) continue;
+        if (/^variant-\d+$/.test(name)) { if (!removals.some(([p]) => p === full) && !stillHere.has(path.resolve(full))) remove(full, 'variant not in the manifest'); continue; }
+        if (name === 'data' && dataSeat.has(seatId)) continue;
+        if ((winnerSeat.has(seatId) || lineageSeats.get(c.id)?.has(seatId)) && !['reference', 'own', 'others', 'data'].includes(name)) continue;  // rebuildables inside it go below
+        remove(full, ['reference', 'own', 'others', 'data'].includes(name) ? `${name}/ copy in a seat workspace` : 'stray in a seat workspace');
+      }
+    }
+    const judgingEntries = path.join(dir, 'judging', 'entries');
+    if (!missing.length) remove(judgingEntries, 'blinded copy');
+    remove(path.join(dir, 'seed'), 'seed copy');
+    if (fs.existsSync(path.join(dir, 'data'))) {
+      for (const f of fs.readdirSync(path.join(dir, 'data'))) if (!/\.md$/i.test(f)) remove(path.join(dir, 'data', f), 'staged material (SCHEMA.md stays)');
+    }
+    for (const ws of Object.values(c.judge_workspaces ?? {})) remove(ws, 'judge workspace left behind');
+    // Seat logs: record.json and final.md are the cost and the seat's own summary; a large stream log is neither.
+    for (const f of fs.existsSync(runsDir) ? listFiles(runsDir) : []) {
+      const full = path.join(runsDir, f);
+      if (/\.(log|jsonl|txt)$/i.test(f) && fs.statSync(full).size > 1 << 20) remove(full, 'stream log over 1 MB');
+    }
+    // A kept variant must still open, so nothing inside one is pruned, rebuildable or not.
+    const keepTrees = keptSrc.map((k) => k.path).concat(missing.flatMap((key) => {
+      const [l, n] = key.split('/');
+      return [path.join(entriesDir, blind[l] ?? '', `variant-${n}`), path.join(judgingEntries, l, `variant-${n}`)];
+    }));
+    const under = (p, r) => p === r || p.startsWith(r + path.sep);
+    for (const p of findRebuildable(dir, keepTrees)) if (!removals.some(([r]) => under(p, r))) remove(p, 'rebuildable tree');
+    const extras = fs.readdirSync(dir).filter((n) => !MEMBER_FILES.has(n)).map((n) => `${n} (${human(treeBytes(path.join(dir, n)))})`);
+
+    const removeBytes = removals.reduce((s, [p]) => s + (removals.some(([o]) => o !== p && under(p, o)) ? 0 : treeBytes(p)), 0);
+    if (apply) {
+      for (const [p] of removals) {
+        if (!path.resolve(p).startsWith(path.resolve(dir) + path.sep) && !Object.values(c.judge_workspaces ?? {}).includes(p)) die(`refusing to delete ${p}: outside ${dir}`);
+        removeTree(p);
+      }
+      if (fs.existsSync(judgingEntries) && !fs.readdirSync(judgingEntries).some((l) => fs.readdirSync(path.join(judgingEntries, l)).some((n) => /^variant-/.test(n)))) removeTree(judgingEntries);
+      if (c.judge_workspaces) c.judge_workspaces = {};
+    }
+    const after = apply ? treeBytes(dir) : before - removeBytes;
+    report.push({ c, dir, before: original, after, archived, keptSrc, missing, extras, removals });
+    familyBefore += original; familyAfter += after;
+    say(`${c.id}: ${human(original)} -> ${human(after)}; ${archived.length} variant(s) archived, source kept for ${keptSrc.map((k) => k.key).join(', ') || 'none'}${missing.length ? `; NO SCREENSHOT, source kept: ${missing.join(', ')}` : ''}`);
+    const grouped = {};
+    for (const [p, why] of removals) (grouped[why] ??= []).push(p);
+    for (const [why, ps] of Object.entries(grouped)) say(`  remove ${ps.length} x ${why}`);
+    if (extras.length) say(`  host files left as they are: ${extras.join(', ')}`);
+
+    if (apply) {
+      fs.writeFileSync(path.join(dir, 'gallery.html'), archiveGallery(c, archived));
+      fs.writeFileSync(path.join(dir, 'WRAP.md'), wrapNote(c, { before: original, after, archived, keptSrc, missing, extras, removals, lessons: c.id === root.id ? lessons : '' }));
+      c.wrapped = { at: new Date().toISOString(), bytes_before: original, bytes_after: after, archived: archived.length, kept: keptSrc.map((k) => k.key), missing_shots: missing };
+      save(dir, c);
+    }
+  }
+  say(`family ${root.id}: ${human(familyBefore)} -> ${human(familyAfter)}`);
+  const missingAll = report.filter((r) => r.missing?.length);
+  if (missingAll.length) {
+    console.log(`\nscreenshots missing - run the visual pass on these, then wrap again:\n${missingAll.map((r) => `  python <skill>/scripts/visual-pass.py ${r.dir} --widths 1280x800,1920x1080   (or node <skill>/scripts/visual-pass.mjs)`).join('\n')}`);
+  }
+  if (!apply) { console.log('\nnothing changed; re-run with --apply'); return; }
+  // The vault note carries the outcome, so the arena can be read as an archive from Obsidian.
+  const vaultDir = path.join(root.vault, root.vault_subdir);
+  for (const r of report) {
+    const note = path.join(vaultDir, 'contests', `${r.c.id}.md`);
+    if (!fs.existsSync(note)) continue;
+    const body = [
+      `Wrapped ${today()}: ${human(r.before)} -> ${human(r.after)}.`,
+      r.skipped ? `Not collected; left as it was.` : `${r.archived.length} variant(s) archived as notes and screenshots: [archive](${fileHref(path.join(r.dir, 'gallery.html'))}).`,
+      ...(r.keptSrc ?? []).map((k) => `- Source kept for ${k.key}: \`${k.path}\``),
+      ...(r.missing?.length ? [`- No screenshot yet, source kept: ${r.missing.join(', ')}`] : []),
+      ...(r.c.id === root.id && root.closed ? [`- Closed: ${root.closed.reason}`] : []),
+      ...(r.c.id === root.id && lessons ? ['', lessons.trim()] : []),
+    ].join('\n');
+    fs.writeFileSync(note, upsertSection(read(note), 'Wrapped', body));
+  }
+  writeRouters(root, rootDir);
+}
+
+function archiveGallery(c, archived) {
+  const cards = archived.map((v) => {
+    const base = `archive/${v.key.replace('/', '-')}`;
+    const img = v.shots.find((s) => /load/i.test(s)) ?? v.shots[0];
+    const open = v.kept ? `<a href="entries/${esc(c.participants.find((p) => p.spec === v.seat)?.id ?? '')}/variant-${v.key.split('/')[1]}/index.html" target="_blank">open source</a>` : '';
+    return `<div class="card"><b>${esc(v.key)}${v.state ? ` <em>${esc(v.state)}</em>` : ''}</b><span>${esc(v.concept)}</span><small>${esc(v.seat)}</small>${img ? `<a href="${base}/shots/${encodeURIComponent(img)}" target="_blank"><img src="${base}/shots/${encodeURIComponent(img)}" loading="lazy" alt=""></a>` : '<p class="none">no screenshot - source kept</p>'}<p>${v.shots.map((s) => `<a href="${base}/shots/${encodeURIComponent(s)}" target="_blank">${esc(s)}</a>`).join(' ')}</p><p>${v.notes.map((n) => `<a href="${base}/${n.split(path.sep).map(encodeURIComponent).join('/')}" target="_blank">${esc(n)}</a>`).join(' ')} ${open}</p></div>`;
+  }).join('');
+  return `<!doctype html><meta charset="utf-8"><title>${esc(c.title)} - archive</title><style>body{font:15px/1.5 system-ui;margin:2rem auto;max-width:72rem;padding:0 1rem;background:#0f1115;color:#e6e6e6}a{color:#6ea8fe}.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(20rem,1fr));gap:.8rem}.card{padding:.8rem 1rem;border:1px solid #2a2f3a;border-radius:.6rem;background:#171a21}.card b{display:block;color:#6ea8fe}.card em{color:#f5c26b;font-style:normal}.card span,.card small{display:block}.card small{color:#8a8f98}.card img{width:100%;margin:.5rem 0;border-radius:.3rem}.card p{font-size:12px;word-break:break-all;margin:.3rem 0}.none{color:#f08a8a}</style><h1>${esc(c.title)}</h1><p>Wrapped contest, unblinded. Implementations were removed after the decision; what remains is each variant's own notes and the screenshots it was judged from, and the source of the winning variant.</p><div class="cards">${cards}</div>`;
+}
+
+function wrapNote(c, r) {
+  const decision = c.winner ? `winner ${label(c.winner)}` : c.combined?.length ? `combined ${c.combined.map(label).join(', ')}` : c.closed ? `closed with no winner - ${c.closed.reason}` : c.kind === 'reveal' ? 'reveal round (its parent carries the verdict)' : c.shortlist?.length ? `shortlist ${c.shortlist.map(label).join(', ')} (decided in a later round)` : 'decided in a later round';
+  return [`# Wrapped - ${c.title}`, '', `${today()}. ${decision.replace(/\.+$/, '')}. ${human(r.before)} -> ${human(r.after)}.`, '',
+    'Kept: contest.json, BRIEF.md, manifest.json, the verdicts and scoreboard in judging/, the run records and final messages in runs/, each seat\'s PARTICIPANT.md, data/*.md, and per variant its notes, its page text and its screenshots under archive/<letter>-<n>/. `gallery.html` is the archive page.', '',
+    '| Variant | Seat | Concept | State | Shots | Source |', '|---|---|---|---|--:|---|',
+    ...r.archived.map((v) => `| ${v.key} | ${v.seat} | ${v.concept.replace(/\|/g, '/')} | ${v.state || '-'} | ${v.shots.length} | ${v.kept ? 'kept' : r.missing.includes(v.key) ? 'kept - no screenshot' : 'removed'} |`),
+    '', '## Removed', '', ...Object.entries(r.removals.reduce((a, [p, why]) => { (a[why] ??= []).push(p); return a; }, {})).map(([why, ps]) => `- ${ps.length} x ${why}`),
+    ...(r.extras.length ? ['', '## Left as they are', '', `Host files this step does not own: ${r.extras.join(', ')}.`] : []),
+    ...(r.lessons ? ['', '## Lessons', '', r.lessons.trim()] : []), ''].join('\n');
+}
+
 // ---------------------------------------------------------------- status
 function status() {
   const { c, dir } = load();
@@ -796,7 +1068,7 @@ function status() {
   }
   const judging = path.join(dir, 'judging');
   const verdicts = fs.existsSync(judging) ? fs.readdirSync(judging).filter((x) => /^verdict-.*\.json$/.test(x)) : [];
-  console.log(`  collected: ${fs.existsSync(path.join(dir, 'manifest.json')) ? 'yes' : 'no'}; verdicts: ${verdicts.length ? verdicts.join(', ') : 'none'}; decided: ${c.winner ? `${c.winner.label} (${c.winner.spec})` : 'no'}`);
+  console.log(`  collected: ${fs.existsSync(path.join(dir, 'manifest.json')) ? 'yes' : 'no'}; verdicts: ${verdicts.length ? verdicts.join(', ') : 'none'}; decided: ${c.winner ? `${c.winner.label} (${c.winner.spec})` : c.combined?.length ? `combined ${c.combined.map(label).join(', ')}` : c.closed ? `closed - ${c.closed.reason}` : c.kind === 'reveal' ? `by the parent's verdict (${c.parent})` : 'no'}${c.wrapped ? `; wrapped ${c.wrapped.at.slice(0, 10)} (${human(c.wrapped.bytes_before)} -> ${human(c.wrapped.bytes_after)})` : ''}`);
 }
 
 // ---------------------------------------------------------------- plan
@@ -828,6 +1100,6 @@ function plan() {
 }
 
 // ---------------------------------------------------------------- dispatch
-const commands = { init, run, plan, collect, judge, aggregate: aggregateVerdicts, verdict, refine, reveal, router, status };
+const commands = { init, run, plan, collect, judge, aggregate: aggregateVerdicts, verdict, refine, reveal, router, status, wrap };
 if (!commands[cmd]) die(`usage: contest.mjs <${Object.keys(commands).join('|')}> --id <slug> ...`);
 Promise.resolve(commands[cmd]()).catch((e) => die(e.stack ?? String(e), 1));
