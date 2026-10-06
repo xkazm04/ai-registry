@@ -2650,8 +2650,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
    "digest": "sha256-b2:9036e979656a8dc5",
-   "revision": 26,
-   "changedAt": "2026-09-25",
+   "revision": 27,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -8803,8 +8803,8 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
    "digest": "sha256-b2:b67182492821d592",
-   "revision": 17,
-   "changedAt": "2026-09-17",
+   "revision": 18,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -15255,8 +15255,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
    "digest": "sha256-b2:4fc5c1fbe75c52d2",
-   "revision": 24,
-   "changedAt": "2026-09-23",
+   "revision": 25,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -17853,8 +17853,8 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
    "digest": "sha256-b2:68f09609d1498e88",
-   "revision": 16,
-   "changedAt": "2026-09-17",
+   "revision": 17,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "in-flight-is-a-position",
@@ -19402,8 +19402,8 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
    "digest": "sha256-b2:afba7a2b8c938ae1",
-   "revision": 30,
-   "changedAt": "2026-09-25",
+   "revision": 31,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -26734,8 +26734,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "digest": "sha256-b2:6e635d76a310aa4b",
-   "revision": 52,
-   "changedAt": "2026-09-25",
+   "revision": 53,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -34839,8 +34839,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
    "digest": "sha256-b2:5521806124d93882",
-   "revision": 25,
-   "changedAt": "2026-10-02",
+   "revision": 26,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
