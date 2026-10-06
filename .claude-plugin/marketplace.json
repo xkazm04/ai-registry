@@ -73,6 +73,20 @@
       ]
     },
     {
+      "name": "cloud-dispatch",
+      "source": "./skills/cloud-dispatch",
+      "description": "Spend the Claude Code cloud-session credit as a parallel engine beside local agents. Ships a self-contained brief to a `claude --cloud` session that clones the GitHub origin, works on branch claude/cloud-<id> and returns one pull request with a RESULT.md for local review. Two ways in: explicit dispatch (a plan by default, --go to launch) and overflow - fan-out skills queue cloud_ok briefs before d",
+      "version": "1.0.0",
+      "category": "workflow",
+      "tags": [
+        "cloud",
+        "dispatch",
+        "overflow",
+        "parallel",
+        "credits"
+      ]
+    },
+    {
       "name": "conform",
       "source": "./skills/conform",
       "description": "Evaluate this repository against the registry standards that govern it, one context at a time, and keep the verdicts. Reads .ai/registry-map.json (the generated join between this repo's contexts and the registry's subjects), picks the highest-value unevaluated or stale pairs, reads the governing golden path and techniques against the context's real code, and writes back conformant / deviation / no",

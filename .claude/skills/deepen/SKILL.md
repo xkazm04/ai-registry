@@ -3,7 +3,7 @@ name: deepen
 description: "Review and widen an existing knowledge-bundle topic via deep web research + training data: scan a domain for undercooked subjects, research the chosen ones in mandatory-counter-evidence lanes, and land gate-clean corrections, techniques and dated field applications. Runs interactively (finding-level triage), in batch (worker-per-subject under Director diff-review), or as a long-running loop with a saturation ledger. Use when a bundle's subjects should rise above the repo they were forged from, or stay current as the field moves."
 category: ai-native
 memory: project
-version: 1.4.0
+version: 1.5.0
 tags: knowledge, rkb, research, saturation, loop
 ---
 
@@ -158,6 +158,17 @@ That review is the quality gate that replaces per-finding triage; it is not
 delegable, and it is the batch-size ceiling (~8 per sitting). Workers never run
 step 4; the Director runs it once over the whole batch, because the map
 regeneration is one fleet-wide pass and the apply workers need a quiet tree.
+
+### Cloud overflow
+
+A seat limit kills every local worker at once, so the overflow is prepared before it is
+needed. Before dispatching local workers, the Director writes each worker brief with
+`cloud_ok: true` from `skills/cloud-dispatch/briefs/deepen-research.md` and queues it with
+`queue.mjs --add`; it marks the item `--done` when that local worker returns. If the seat
+hits its limit, the `StopFailure` hook ships the still-queued briefs to cloud sessions, and
+their pull requests come back for the same Director diff review as a local worker's tree.
+Explicit dispatch of a research worker straight to the cloud is also allowed when the
+operator wants the work off the local seat. The method is `skills/cloud-dispatch/SKILL.md`.
 
 ## Loop mode
 
