@@ -117,7 +117,16 @@ feel about, not as something to manage.
 
 The claim that an ally must be cheated in the player's favour rests on a primary source: a
 studio's published account of its companion AI, which makes the companion undetectable to
-enemies outside combat and has her hand over supplies. The account of a companion redesigned
+enemies outside combat and has her hand over supplies. It was re-read verbatim on 2026-10-06
+as a chapter in a game-AI practitioner anthology. It gives the reason as the team's belief
+that one sighting giving away the player would fracture the bond. That supports the
+single-sabotage rule as a design judgement, not a measurement. The same chapter records that
+rescuing the companion every time quickly became tedious, and that the team kept a rescue
+requirement "intentionally and infrequently". That is the story-beat allowance above. A
+second studio lead said in a preview that his game's companion never needs protecting because
+that is not fun. A remake co-director of a game built around an escorted objective said the
+opposite for that design: a dependent who takes care of themselves no longer feels protected.
+That supports this technique's burden-mechanic exclusion rather than refuting it. The account of a companion redesigned
 from leading and hurrying the player to following them, after playtesters disliked being nagged,
 reaches the dossier only through a fan-wiki summary of developer commentary and is medium
 confidence at best. That a single sabotage moment outweighs accumulated help is the dossier's

@@ -69,7 +69,11 @@ approval points, cross threshold, receive perk. The loop is legible and players 
 which is exactly the problem — once a bond is a price, the player is shopping, and the person
 behind the counter stops being a person. The tell is that the optimal play pattern involves no
 attention to who the ally is: the same item, given repeatedly, at the same moment, by a player
-skipping the dialogue. See [bond-pays-in-play-not-vending](./techniques/bond-pays-in-play-not-vending.md).
+skipping the dialogue. The fault is the cheap, repeatable input, not the perk. A rank that
+pays a perk survives when it can only be reached through an authored scene with that ally,
+bought with something scarce such as time, a run or a won race. Long-running series built that
+way are loved even though their perks would fail a "could anyone else grant this" test. See
+[bond-pays-in-play-not-vending](./techniques/bond-pays-in-play-not-vending.md).
 
 Both poles fail the same test from opposite sides. The burden costs the player and gives
 nothing back in character; the vending machine gives the player something and takes the
@@ -102,7 +106,10 @@ spectacle, or forgets them, which tells the player their investment was decorati
 **Design what the finale needs from each ally first, then recruit for it.** List the
 irreducible tasks the final confrontation contains — the lock nobody else can open, the line
 nobody else can hold, the voice nobody else can speak with — and give each ally exactly one of
-them. Then work backwards: each ally's recruitment establishes the capability, the middle of the
+them. When the finale is instead a casting decision, where the player assigns allies to roles
+and the result turns on who they chose, a qualified pool per role is what makes the assignment
+a choice. The roles stay distinct in kind, and every ally left uncast still feeds a shared
+outcome, so nobody is a passenger. Then work backwards: each ally's recruitment establishes the capability, the middle of the
 game deepens it, and the finale calls on it. An ally recruited with no finale task is a
 character without a payoff, and the recruitment scene is spent on someone the story will not
 cash in — the narrative form of an artifact that compiles and is never wired
@@ -118,10 +125,13 @@ about when. The strongest finales make the outcome depend on how the player prep
 traceable, ally by ally, to what the player did with each one.
 
 One limit binds every call-on: **the allies prepare, contribute and hold the line; the player
-performs the decisive act**, with the game's core verb. An ally who lands the final blow, makes
-the merciful choice or solves the last problem in a cutscene has taken the ending away from
-the person the whole game trained for it, and players read it as stolen agency however well
-the ally earned it. And a contribution that changes the finale's rules is disclosed before it
+makes the decisive choice**, and by default performs the decisive act with the game's core
+verb. An ally who lands the final blow, makes the merciful choice or solves the last problem in
+a cutscene the player did not choose has taken the ending away from the person the whole game
+trained for it. Players read that as stolen agency however well the ally earned it. Handing the
+act to an ally is a different thing when the player decides it, in play and knowing the cost,
+such as the ally who strikes the last blow and pays for it. The decision is then the player's
+act. And a contribution that changes the finale's rules is disclosed before it
 is used — announced, named, visible — because an ally's help that arrives as an invisible
 modifier is indistinguishable from the game cheating, in either direction. See
 [design-the-finale-need-first](./techniques/design-the-finale-need-first.md).
@@ -173,8 +183,9 @@ could read as betrayal, planted fairly, resolved as loyalty once the institution
 revealed. It is resolved well before the finale, because suspicion left standing into the last
 act becomes the distrust it was only meant to imitate. The tragic exception is
 real and rare — a friend's betrayal as the story's central point — and it is telegraphed, it is
-the whole design rather than a twist, and it is never paid for out of the player's mechanical
-investment. See
+the whole design rather than a twist, or a twist whose clues were planted fairly enough that the
+reveal makes the earlier scenes read differently. Either way it is never paid for out of the
+player's mechanical investment. See
 [the-institution-betrays-not-the-friend](./techniques/the-institution-betrays-not-the-friend.md).
 
 ## The bond is state, and the state must be read
@@ -203,13 +214,19 @@ right; the shape is wrong. The bond should change what the ally does, not unlock
 **"More allies, more attachment."** Attachment scales with how much each ally matters, not with
 how many there are. A crew larger than the finale has tasks for is a crew with passengers.
 
-**"The twist is the friend."** The friend's betrayal is the cheapest shock available and the
-most expensive one to pay for, because it retroactively taxes every hour the player spent on the
-bond and makes them guarded with every ally after it.
+**"The twist is the friend."** The unplanted betrayal by a friend is the cheapest shock
+available and the most expensive one to pay for. It retroactively taxes every hour the player
+spent on the bond and, plausibly though unmeasured, makes them guarded with every ally after
+it. Betrayals whose clues were planted fairly are another matter, and they have produced some
+of the medium's best-loved companions.
 
-**"Everyone gets a crisis."** Serial personal crises, one per ally, make the group a queue of
-problems. Depth comes from one waver the group holds through, and from the others showing who
-they are by how they respond to it.
+**"Everyone gets a crisis."** Serial crises that the main plot imposes, one per ally, make the
+group a queue of problems. Depth comes from one waver the group holds through, and from the
+others showing who they are by how they respond to it. A personal mission per ally is a
+different structure. When it is optional, scheduled by the player and feeds the finale, it is
+a story ask, and a whole roster of them can run in series without becoming a queue. The
+scarcity rule binds crises *inside* the group, the ones where allies turn on each other or on
+the player.
 
 **"The finale is the boss."** A finale that is a fight against the antagonist and nothing else
 leaves the crew standing at the edge of the screen. The finale is where the bonds are cashed;
@@ -218,7 +235,8 @@ the antagonist is the occasion.
 ## The path, in order
 
 1. **Write the finale's needs first**: the irreducible tasks of the last confrontation, one per
-   ally, each one something only that ally can answer.
+   ally, each one something only that ally can answer. If the finale is a casting decision,
+   write one qualified pool per role instead.
 2. **Recruit for the needs**, establishing each ally's capability at recruitment so the finale
    call-on is a promise kept rather than a surprise.
 3. **Give each ally their own currency** of help, stated in prose with its kind, its timing and
@@ -235,8 +253,8 @@ the antagonist is the occasion.
 8. **Route the betrayal through the institution**, and let it test a friend whose answer is the
    bond's climax.
 9. **Call on each ally once in the finale**, visibly, by the player's choice, disclosed before
-   it changes any rule, with the decisive act left to the player and the outcome traceable to
-   how each bond was tended.
+   it changes any rule, with the decisive choice left to the player and the outcome traceable
+   to how each bond was tended.
 
 ## Where this subject stops
 

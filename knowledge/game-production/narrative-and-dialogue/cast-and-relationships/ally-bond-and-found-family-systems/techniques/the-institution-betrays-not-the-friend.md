@@ -86,6 +86,19 @@ and a legitimate one. It is the exception, it is telegraphed rather than twisted
 mechanical investment in the friend is not confiscated by it: what the player built with the
 friend stays theirs, or is replaced, because the betrayal is a story event and not a fine.
 
+The exception is wider than "telegraphed", and the evidence says so. Several of the most
+loved companions in the medium betray the party: a mentor whose manipulation is the plot, a
+confidant revealed as an assassin, a party member revealed as the series' antagonist. Players
+voted them favourites afterwards, not in spite of the betrayal but partly for it. They share
+two things with the telegraphed case. **The clues were fair**: once the betrayal is revealed,
+the earlier scenes make more sense, and the player can re-read details they had already seen.
+**The betrayal is the character's own design, not a device spent on them**, and it is often
+pressed through an institution after all, as with the confidant acting on a politician's
+orders. So a twist is admissible when every clue was planted and honest. What fails is the
+unplanted turn, a friend who betrays because the plot needed a shock. The claim that a friend's
+betrayal makes players guarded with later allies stays unmeasured. These cases suggest it does
+not hold when the clues were fair.
+
 ## Decision rules
 
 - **When the plot needs a betrayal, ask which institution could commit it** before asking which
@@ -94,8 +107,10 @@ friend stays theirs, or is replaced, because the betrayal is a story event and n
   player the scene to answer it.
 - **When the institution has no face, give it one** before it betrays; a faceless betrayer is
   weather, not a character.
-- **When a friend's betrayal is the design, telegraph it from the start and protect the player's
-  mechanical investment** in that friend.
+- **When a friend's betrayal is the design, telegraph it from the start, or plant every clue so
+  the reveal re-reads the earlier scenes, and protect the player's mechanical investment** in
+  that friend. Before shipping a twist, list each clue and the scene it re-reads; a betrayal
+  with no such list is the unplanted turn.
 - **When the betrayal and the waver are separate beats, check whether they should be one**,
   because the institution testing the friend is the cleanest cause a waver can have.
 - **When the story plants suspicion on a friend, write the honest explanation of every clue
@@ -115,7 +130,13 @@ audience keeps loving the people while hating the machine — is rated high in t
 its examples are a sports film in which a corporation's order falls on the friend who must pass
 it on, and a car-combat game whose host grants wishes as written; both are checkable on screen
 and neither is a statement of the rule. The claim that a friend's betrayal makes players guarded
-with every later ally is inference, plausible and unmeasured. Fair suspicion that resolves as
+with every later ally is inference, plausible and unmeasured. The closest measurement found on
+2026-10-06 is a lab study, reported by a trade publication. After an in-game betrayal by a
+non-player character, participants entrusted a real stranger with somewhat less money. That
+concerns strangers, not later allies, and it is weakly consistent at most. The fair-clue
+widening of the exception comes from two independent research lanes. Both listed betraying
+companions whom critics and fan polls rank among the medium's best (encyclopaedia and press
+sources, not developer statements). Fair suspicion that resolves as
 loyalty is a design proposal from the dossier with a stated risk of lingering distrust; the
 planted-betrayal craft it borrows from rests on a series creator's primary statements. None of
 it has been tested in a played game, and the game the dossiers serve has not been played by

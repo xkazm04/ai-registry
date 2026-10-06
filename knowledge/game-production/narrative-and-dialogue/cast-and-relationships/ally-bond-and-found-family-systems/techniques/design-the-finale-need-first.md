@@ -41,6 +41,15 @@ fire. Each task is something the player cannot do alone and no generic helper co
 extra ally is a passenger and an extra task is an obstacle nobody was prepared for. Where a
 task fits two allies equally, one of them is not needed or the task is not irreducible.
 
+**Unless the finale is a casting decision.** Some finales hand the player the roster and a
+set of roles, and the outcome turns on who they put where. The best-sourced finale of this
+kind gives several roles a pool of three or so qualified allies. There, one ally per role
+would remove the decision the finale is built on. The pool is the design. Keep the roles
+distinct in kind, so casting is a judgement about who each ally is. Make the wrong cast a
+consequence the player could have foreseen from what they saw of each ally. Wire every ally
+left uncast into a shared outcome, such as the group that holds the line while the cast
+roles act, so nobody recruited is a passenger.
+
 **Plant the capability at recruitment, then prove it in a trust beat.** Two beats per ally
 before the finale, at minimum: the acquisition beat that brings them in and shows what they
 can do, and a later trust beat where they do it for the player when it costs them something.
@@ -58,11 +67,15 @@ scarcity — a call-on usable twice is a tool, used once it is a scene. Before t
 same scarcity works per event: an ally who may be called once per encounter stays a decision
 about when, while an ally who can be summoned at will is an ability with a portrait.
 
-**Leave the decisive act to the player.** The allies prepare the ground, hold the line, open
+**Leave the decisive choice to the player.** The allies prepare the ground, hold the line, open
 the lock, cut the lights; the player, with the game's core verb, does the thing the finale is
-about. An ally who lands the final blow or makes the final choice — however earned — has taken
-the ending from the person the game trained for it, and players name that precisely as stolen
-agency. Design each finale task so that it enables the player's act rather than replacing it.
+about. An ally who lands the final blow or makes the final choice — however earned — in a
+scene the player did not choose has taken the ending from the person the game trained for it,
+and players name that precisely as stolen agency. Design each finale task so that it enables
+the player's act rather than replacing it. The exception is the ally the player *chooses* to
+hand the act to, in play and knowing the cost, such as the companion who strikes the last
+blow and dies of it because the player let them. That handover is the player's decisive act,
+and it is one of the strongest endings an ally system can produce.
 
 **Disclose any rule an ally changes.** Where a finale contribution alters the arena — a hazard
 removed, a weakness exposed, a modifier applied — announce it before it takes effect, by name
@@ -90,7 +103,9 @@ underwritten.
 
 - **When adding an ally, name their finale task first.** No task, no ally — or a minor character
   who is not presented as part of the crew.
-- **When two allies share a finale task, cut one or split the task** into two irreducible needs.
+- **When two allies share a finale task, cut one or split the task** into two irreducible needs,
+  unless the finale is a casting decision; then the shared task is a role with a pool, and
+  every uncast ally needs a place in the shared outcome.
 - **When a finale capability first appears at the finale, move its first appearance to
   recruitment.**
 - **When an ally can be called on repeatedly, make the call scarce** — once in the finale, once
@@ -98,7 +113,8 @@ underwritten.
 - **When the finale outcome depends on bond state, state the dependency to the player in-world
   before the finale**, through an ally's own worry, a planning scene or a warning.
 - **When a finale task would have the ally perform the decisive act, rewrite it as the act that
-  makes the player's decisive act possible.**
+  makes the player's decisive act possible**, or make the handover itself a choice the player
+  makes in play, with its cost stated.
 - **When an ally's contribution changes a rule of the finale, disclose it before it applies**;
   when it cannot be disclosed cleanly, make it presentation only.
 - **When an ally's death is wanted for weight, put it on screen and tie it to a task**, or cut
@@ -106,13 +122,21 @@ underwritten.
 
 ## Evidence status
 
-Finale-first recruitment is the best-sourced claim in this subject: a lead writer's own
-statement that a whole game was built around its final mission, with the team recruited and
-made loyal for it and survival decided by that preparation, is a primary source rated high in
-two separate dossiers, and an encyclopaedia summary of the same game confirms that survival
-turns on loyalty, upgrades and role assignment. That the decisive act must stay with the
-protagonist rests on a primary interview about an ending revised after players objected that
-another character had made the crucial choice. The disclosure rule for rule-changing
+Finale-first recruitment is the best-sourced claim in this subject. One of the game's writers
+(credited as a writer, not the lead) said in a primary interview that the whole game was built
+around its final mission, with the team recruited and made loyal for it and survival decided
+by that preparation. It is rated high in two separate dossiers, and an encyclopaedia summary
+of the same game confirms that survival turns on loyalty, upgrades and role assignment.
+Re-checked on 2026-10-06, the same finale refutes the one-ally-per-task rule as a universal.
+Its roles are filled from pools of two or three qualified allies, and the uncast allies count
+toward the group that holds the line. That is the source of the casting-decision condition.
+That the decisive act must stay with the protagonist leans on an interview about an ending
+revised after player feedback. The counter-evidence pass found that the objection itself, that
+another character had made the crucial choice, is the journalist's account of player
+reaction. The developer's own quoted words confirm only that the change answered feedback, and
+the disputed act was a choice of mercy, not a blow. The chosen-handover exception rests on a
+widely played party RPG whose final blow can go to a companion, at the cost of the
+companion's life, by the player's decision. Two independent research lanes reached it. The disclosure rule for rule-changing
 contributions and the once-per-encounter scale are the dossiers' own design proposals, not
 findings; the acquisition-and-trust-beat minimum is the dossier's rule, sourced to the same
 primary statement. Nothing here has been tested in a played game, and the game the dossiers

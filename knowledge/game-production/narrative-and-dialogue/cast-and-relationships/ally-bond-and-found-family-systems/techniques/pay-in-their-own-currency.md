@@ -62,6 +62,20 @@ annotated in five hands. The found family is then on screen in every frame that 
 the finale recalls each ally without a word of recap, and losing or keeping the object becomes
 a stake that belongs to the whole group.
 
+## When the kind is locked
+
+Sometimes this technique does not get to choose the kind. The owner or the economy may fix
+one reward menu for the whole roster, such as money, a vehicle or a part, so the swap test
+fails on kind and the first decision rule cannot fire. The currency then has to live in the
+three parts the lock leaves open. **Voice per reward:** each choice gets a line from each ally
+that says what the thing was to them before they handed it over. One ally's money is
+collected fees, another's is a levy returned, and the kind is the same while the cost to the
+giver is not. **Condition:** when and how readily each ally offers. **A story-only gift that
+adds to one shared object,** with no stat attached, so it carries character and no hidden
+power. Rerun the swap test on the lines and gifts, not on the menu. A locked menu whose rewards
+are announced only by a generic confirmation, or read out by the ally as a price list, is the
+vending machine however distinct the allies are elsewhere.
+
 ## Why distinct currencies matter beyond characterisation
 
 Allies paying in different kinds do not compete for one slot in the player's evaluation, so no
@@ -82,7 +96,9 @@ tables within a milestone.
 
 ## Decision rules
 
-- **When two allies' payouts survive a swap test, give one of them a different kind.**
+- **When two allies' payouts survive a swap test, give one of them a different kind.** When
+  the kind is locked, write each ally's line for each reward and a story-only gift instead,
+  and run the swap test on those.
 - **When a payout's timing is "whenever the player asks", look for a timing that says more** —
   a currency that arrives on its own schedule carries a person; one on demand is a button.
 - **When the bond deepens, loosen the condition rather than raising the magnitude**, so the
@@ -112,5 +128,9 @@ paying in play rather than sourced itself. The payment that costs the giver, and
 accumulate into one object the player carries, are likewise proposals inferred from a
 high-confidence pattern about found families costing their members something, which rests on
 creators' statements about prestige animated series, not on games. The swap test and the
-four-part anatomy of a currency are practitioner synthesis. No claim here has been tested in a
-played game; the game the dossiers serve has not been played by anyone.
+four-part anatomy of a currency are practitioner synthesis. The locked-kind case comes from
+reading one game's runtime code against its own story bible (four allies; the swap test fails
+on the runtime's reward menu and passes on the authored lines). It shows the authoring can
+follow the rule under the lock. It does not show that players feel the difference, because
+those lines are not yet wired into the game. No claim here has been tested in a played game;
+the game the dossiers serve has not been played by anyone.

@@ -30,6 +30,18 @@ visible meters reassure; perks reward. The failure is their combination into a c
 transaction loop whose output is detachable from the ally: if the perk could be sold by any
 shopkeeper, the ally is a shopkeeper.
 
+**The input is what closes the loop, more than the perk.** Some of the best-loved bond systems
+in the medium pay a perk at every rank, and many of those perks would fail the shopkeeper test:
+a combat bonus, a discount, a fusion boost. They hold because each rank can only be reached
+through an authored scene with that ally, and the scene costs something scarce: a day of
+in-game time the player could have spent elsewhere, a gift earned once a run, a won race. The
+player optimises them and stays attached anyway, because the optimal path still goes through
+the person. The machine forms when the input is cheap and repeatable, so a rank can be bought
+without meeting the ally: the same item handed over again and again, a dialogue choice known to
+please. So test the input first. A cheap, repeatable input makes any perk vending. A scarce
+input that buys a scene makes even a generic perk tolerable, and the own-currency perk remains
+the better one.
+
 The overcorrection fails too. A team that fears the vending machine strips the dividend out and
 leaves the relationship as optional conversation, and players skip it, correctly, because the
 game has told them it does not matter. The naive failure has two forms — all effect, which is
@@ -84,8 +96,11 @@ arithmetic; a state invites attention.
 
 ## Decision rules
 
-- **When a bond threshold grants a perk, test whether any other character could grant it.** If
-  yes, the perk is vending; replace it with a change in how this ally helps.
+- **When a bond threshold grants a perk, test the input before the perk.** If the rank can be
+  reached by a cheap, repeatable input, the perk is vending whatever it is, so make the input
+  scarce or put a scene in front of it. If the rank is reached only through an authored scene
+  bought with something scarce, test whether any other character could grant the perk. If one
+  could, prefer a change in how this ally helps; the generic perk is tolerable, not ideal.
 - **When trust can be raised by an item or a menu action alone, add a play requirement or
   remove the path**, because an input that bypasses play is the grind the player will find.
 - **When a bond is declared, list its readers before the bond is built.** No readers, no bond.
@@ -116,5 +131,14 @@ optional, take-it-or-leave-it companion conversation delivered while moving rest
 developer interview. The once-per-encounter summon of a former opponent is documented only on a
 fan wiki and is low confidence as a description of any shipped mechanic, though the shape is
 sound on its own terms. The hidden-meter and coarse-state preference, and the rule that every
-bond lists its readers, are practitioner judgement, not sourced findings. None has been tested
-in a played game; the game the dossier serves has not been played by anyone.
+bond lists its readers, are practitioner judgement, not sourced findings. The input-first test
+was added on 2026-10-06, after two independent research lanes found perk-per-rank systems
+loved despite generic perks. Each gated its ranks behind authored scenes bought with scarce
+time or a gift earned once a run. One series' director said in a primary interview that
+players need those ranks to power up even while caring about the story. A lead writer of
+another series said, also primary, that its follower content had moved from gating by approval
+to events whose conversation the approval only shapes. That supports the "change behaviour,
+not inventory" rule. A practitioner talk at a major developer conference names the coin loop
+"seducing a vending machine" and concedes it is the easier one to build. No source was found
+showing that grinding such a system lowered attachment. None has been tested in a played game;
+the game the dossier serves has not been played by anyone.

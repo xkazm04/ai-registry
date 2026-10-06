@@ -28,6 +28,17 @@ arc could. One waver tests the whole family; many wavers test only the individua
 Two wavers in sequence also teach the player that the group is brittle, which retroactively
 cheapens every bond, and two wavers at once compete for the same scene.
 
+**A waver is not a personal mission.** One ally per personal mission is a different structure
+and does not break this arithmetic: each ally brings a problem from their own life, the player
+chooses whether and when to take it on, and solving it earns the loyalty the finale reads. A
+whole roster of those can run in series, because each is a story ask the player schedules, not
+a crack in the group the plot imposes. The best-known series of them is also one of the
+best-loved ally structures in the medium, and the critical cost it does carry is a main plot
+thinned by so much side content, not a brittle-looking crew. What stays scarce is the crisis
+*inside* the group, where an ally doubts the player or turns on another ally. In the same game
+those were reportedly held to two, with a third cut because it would have made the crew feel
+unbalanced.
+
 None is not safe either. A family that cannot come apart is a reward screen: the player has
 been handed belonging rather than shown it held. The waver is also the strongest evidence the
 game can offer that its bonds are not transactions — a vending machine cannot refuse, so an
@@ -102,6 +113,8 @@ ally's task.
   before the removal sticks.**
 - **When the player fails to bring the ally back, the finale task must still resolve** in a way
   the player can read as the cost of that failure.
+- **When every ally is to get a personal mission, make each one optional, player-scheduled and
+  read by the finale**, and keep the in-group crises to one waver (two at most) on top of them.
 
 ## When not to use this
 
@@ -118,5 +131,10 @@ is a design proposal in the dossiers, not a sourced pattern. Its supports are a
 high-confidence pattern from prestige animated series that a found family must be able to come
 apart, resting on creators' own statements, and a medium-high pattern about loyalty corroding
 in witnessed steps drawn from a game's long arc via an encyclopaedia entry and a critical essay.
-The "exactly one" arithmetic is practitioner judgement. Nothing has been tested in a played
+The "exactly one" arithmetic is practitioner judgement. The 2026-10-06 counter-evidence pass
+refuted its earlier, wider form, "every ally gets a crisis is a queue". Two independent lanes
+both raised a widely acclaimed game built on one personal mission per ally. That is why
+personal missions are now separated from in-group crises. The reported two-crisis cap in that
+game comes from a press interview, and whether the remark is the writer's or the journalist's
+could not be told from the page. Nothing has been tested in a played
 game, and the game the dossiers serve has not been played by anyone.
