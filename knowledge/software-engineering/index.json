@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1822,
-  "applications": 1220,
+  "techniques": 1830,
+  "applications": 1236,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1822/1822",
+  "use_when_coverage": "1830/1830",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1246,9 +1246,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/agent-cli-transport.md",
-   "digest": "sha256-b2:5b7a2130a983e39f",
-   "revision": 8,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:5791230ffb7d9fad",
+   "revision": 9,
+   "changedAt": "2026-10-02",
    "techniques": [
     {
      "slug": "availability-probe",
@@ -1395,6 +1395,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "antigravity-cli",
+     "technique": "permission-stance-enforcement",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/antigravity-cli--permission-stance-enforcement.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "antigravity-cli@1.2.15"
+    },
+    {
+     "stack": "antigravity-cli",
+     "technique": "subscription-auth-selection",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-cli-transport/applications/antigravity-cli--subscription-auth-selection.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "antigravity-cli@1.2.15"
+    },
     {
      "stack": "claude-code",
      "technique": "child-observed-posture",
@@ -1898,9 +1912,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:0942d53ebe93cb4e",
-   "revision": 46,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:23599eae61aa7119",
+   "revision": 47,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -1964,6 +1978,23 @@
       "a short correction ranks below the long belief it fixes",
       "an import wants to bypass the judgment pass",
       "deciding whether a new fact closes an old one or coexists with it"
+     ]
+    },
+    {
+     "slug": "container-carries-decision-status",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a consolidation pass writes what the store will treat as current state",
+      "the evidence includes pasted notes or planning bullets or an agenda or a draft change",
+      "an ingest splits documents into chunks before extraction",
+      "a fact says something was decided and nobody can find where",
+      "deciding which upstream artifacts a nightly pass may read",
+      "adding a rule to an extraction prompt about ideas versus decisions"
      ]
     },
     {
@@ -2534,6 +2565,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--consolidation.md",
      "verified_on": "2026-08-30",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "container-carries-decision-status",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--container-carries-decision-status.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "rust@1.96.1"
     },
     {
      "stack": "rust",
@@ -7146,9 +7184,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
-   "digest": "sha256-b2:07eff75ad030716d",
-   "revision": 2,
-   "changedAt": "2026-09-07",
+   "digest": "sha256-b2:4501f7f3299769cc",
+   "revision": 4,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "conjunction-activated-fragments",
@@ -7185,6 +7223,24 @@
      "stage": "multi-service"
     },
     {
+     "slug": "requirement-closure-before-selection",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operator requests a service and it is silently absent from the resolved topology",
+      "a fragment's identifier names a handle only because the service cannot run without it",
+      "the engine refuses a request that reads as complete because a dependency was not requested",
+      "an integration fragment does not activate for a service that arrived as a dependency",
+      "deciding whether the composition layer should add what a requested service needs or refuse the request"
+     ],
+     "stage": "multi-service"
+    },
+    {
      "slug": "specificity-ordered-layering",
      "status": "forged",
      "laws": [
@@ -7202,7 +7258,22 @@
      "stage": "multi-service"
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "docker-compose",
+     "technique": "conjunction-activated-fragments",
+     "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/applications/docker-compose--conjunction-activated-fragments.md",
+     "verified_on": "2026-10-03",
+     "verified_against": "docker-compose@2.40.3"
+    },
+    {
+     "stack": "docker-compose",
+     "technique": "requirement-closure-before-selection",
+     "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/applications/docker-compose--requirement-closure-before-selection.md",
+     "verified_on": "2026-10-06",
+     "verified_against": "docker-compose@2.40.3"
+    }
+   ]
   },
   "conformance-checking": {
    "category": "engineering-assessment",
@@ -12344,9 +12415,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
-   "digest": "sha256-b2:be1f2436c2c026ed",
-   "revision": 3,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:19065e70c3b1b5a2",
+   "revision": 4,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "close-is-a-controlled-crash",
@@ -12440,7 +12511,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "close-is-a-controlled-crash",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/applications/rust--close-is-a-controlled-crash.md",
+     "verified_on": "2026-10-06",
+     "verified_against": "rust@1.96.1"
+    }
+   ]
   },
   "dynamic-secret-lifecycle": {
    "category": "secret-custody-and-issuance",
@@ -21538,9 +21617,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256-b2:96e286af9f57c45e",
-   "revision": 15,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:0df7877b42b82b92",
+   "revision": 16,
+   "changedAt": "2026-10-02",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -21596,6 +21675,24 @@
       "moving a generator or its callers across a package boundary",
       "a generated body names a library or a sibling generator or a standard type by its bare name",
       "deciding which of a generator's names the caller should be able to see"
+     ]
+    },
+    {
+     "slug": "host-primitive-facade",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "absent-guard-is-loud",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one library must run on two execution hosts and its own logic spawns work",
+      "sleeps or times out",
+      "a call compiles on every target and fails or hangs only on one",
+      "a portable build is green and the artifact misbehaves under the other host",
+      "deciding whether a lint can enforce a portability rule",
+      "an extension trait must be implementable by values that cannot cross threads on one host"
      ]
     },
     {
@@ -21785,6 +21882,13 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--emitted-code-names-from-a-root.md",
      "verified_on": "2026-09-25",
      "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "host-primitive-facade",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/rust--host-primitive-facade--yoagent.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "rust@1.86"
     },
     {
      "stack": "rust",
@@ -22516,9 +22620,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/native-document-format.md",
-   "digest": "sha256-b2:b6e8c7cf7888676f",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:a8dfcdf0eabecaff",
+   "revision": 2,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "format-generations-are-declared",
@@ -22610,7 +22714,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "format-generations-are-declared",
+     "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/applications/rust--format-generations-are-declared.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "rust@1.96.1"
+    }
+   ]
   },
   "native-guest-interop": {
    "category": "backend-platform",
@@ -25437,9 +25549,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256-b2:821309b17c3f0f28",
-   "revision": 41,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:7436fd55a7cb2500",
+   "revision": 43,
+   "changedAt": "2026-10-02",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -25455,6 +25567,24 @@
       "deciding how often to rewrite history against a provider cache discount",
       "a summarizer paraphrased a standing instruction the operator gave",
       "judging whether continuous compaction is paying for itself"
+     ]
+    },
+    {
+     "slug": "cache-affinity-key-from-the-unrewritable-layer",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a provider accepts a routing or cache-affinity key and the client must derive one",
+      "a derived request key changes mid-session after compaction",
+      "every session sharing a standing prompt lands on one key",
+      "a blank key would be sent and route every caller together",
+      "one key carries more traffic than the provider's guidance allows",
+      "deciding whether a session identity can be recovered from a single request"
      ]
     },
     {
@@ -25499,7 +25629,44 @@
       "choosing the denominator for a compaction's break-even",
       "a second compaction is proposed before the first one has repaid its rewrite",
       "a compaction policy needs a cache write/read ratio it cannot look up",
-      "the provider reprices the whole request above a prompt-length threshold below the window"
+      "the provider reprices the whole request above a prompt-length threshold below the window",
+      "an interactive session is about to sit idle longer than its prompt cache lives"
+     ]
+    },
+    {
+     "slug": "compaction-is-a-fixed-point",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cache hit rate falls after compaction was made cheaper",
+      "the second compaction pass over an already compacted history changes bytes",
+      "a truncation marker reports a different count each time it is re-applied",
+      "a summary or marker carries a clock or a counter that moves every pass",
+      "capping tool output at a different time than it arrives",
+      "a replay shows more history rewrites than compactions needed"
+     ]
+    },
+    {
+     "slug": "compaction-target-is-an-aim",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "count-carries-predicate",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a compaction leaves the session without its opening task",
+      "a derived compaction target falls below the size of what the cut must keep",
+      "the compactor falls back to a budget-fitting pass after the middle is already gone",
+      "a model asks again for something it was told one turn ago",
+      "choosing a floor for a headroom-derived target",
+      "a protected tail is configured in messages while the target is a fraction of a budget"
      ]
     },
     {
@@ -25899,6 +26066,13 @@
    "applications": [
     {
      "stack": "claude-code",
+     "technique": "compaction-horizon-breakeven",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/claude-code--compaction-horizon-breakeven.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "claude-code@2.1.287"
+    },
+    {
+     "stack": "claude-code",
      "technique": "elision-to-a-refetch-pointer",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/claude-code--elision-to-a-refetch-pointer.md",
      "verified_on": "2026-09-08",
@@ -26016,6 +26190,27 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/python--summary-evidence-gate.md",
      "verified_on": "2026-09-15",
      "verified_against": "python@3.11"
+    },
+    {
+     "stack": "rust",
+     "technique": "cache-affinity-key-from-the-unrewritable-layer",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--cache-affinity-key-from-the-unrewritable-layer--yoagent.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "rust@1.86"
+    },
+    {
+     "stack": "rust",
+     "technique": "compaction-is-a-fixed-point",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--compaction-is-a-fixed-point--yoagent.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "rust@1.86"
+    },
+    {
+     "stack": "rust",
+     "technique": "compaction-target-is-an-aim",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/rust--compaction-target-is-an-aim--yoagent.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "rust@1.86"
     },
     {
      "stack": "rust",
@@ -31081,9 +31276,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256-b2:89e82a9f790ac3fb",
-   "revision": 6,
-   "changedAt": "2026-09-15",
+   "digest": "sha256-b2:019398a8c028cc2f",
+   "revision": 7,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "advisory-guard-fail-mode",
@@ -34629,9 +34824,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:a9235b11f7a38d4d",
-   "revision": 24,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:ed2a102243f795c1",
+   "revision": 25,
+   "changedAt": "2026-10-02",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -34876,6 +35071,24 @@
      ]
     },
     {
+     "slug": "mutation-lane-with-a-triaged-baseline",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "failure-not-empty-success",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "code runs under test but nothing checks what it does",
+      "deciding whether to add mutation testing and where it belongs in a pipeline",
+      "a mutation run is too long to run per change",
+      "a sharded run loses the same shards twice",
+      "a surviving mutant must be sorted into a missing assertion or an equivalent change",
+      "a mutation tool version bump changes the missed count"
+     ]
+    },
+    {
      "slug": "negative-control-tests",
      "status": "forged",
      "laws": [
@@ -35101,6 +35314,20 @@
      "technique": "fixture-economics",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--fixture-economics.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "mutation-lane-with-a-triaged-baseline",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--mutation-lane-with-a-triaged-baseline--yoagent.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "rust@1.86"
+    },
+    {
+     "stack": "rust",
+     "technique": "mutation-lane-with-a-triaged-baseline",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/rust--mutation-lane-with-a-triaged-baseline.md",
+     "verified_on": "2026-10-02",
+     "verified_against": "rust@1.97"
     },
     {
      "stack": "rust",
@@ -36346,9 +36573,9 @@
    "subcategory": "extension-trust",
    "status": "forged",
    "file": "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/untrusted-extension-host.md",
-   "digest": "sha256-b2:e829cbd80e70c8d0",
-   "revision": 5,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:a23407994bc4b9db",
+   "revision": 6,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "canonicalizable-privilege-declaration",
@@ -36394,6 +36621,24 @@
       "an extension needs persistence and must not be given schema authority",
       "designing the query surface exposed to untrusted extension code",
       "uninstall leaves data nobody owns"
+     ]
+    },
+    {
+     "slug": "derived-capability-inventory",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "one-authority-per-vocabulary",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the host owns the language or interface its extensions are written against",
+      "deciding whether an extension's capability list is computed from its code or declared by its author",
+      "an operator is told to read what an extension calls before installing it",
+      "an inventory lists process execution beside other capabilities",
+      "an extension spawns a host command to answer a question a brokered call could answer"
      ]
     },
     {
@@ -36505,6 +36750,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "derived-capability-inventory",
+     "file": "knowledge/software-engineering/security/extension-trust/untrusted-extension-host/applications/claude-code--derived-capability-inventory.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "claude-code@2.1.289"
+    },
     {
      "stack": "cpp",
      "technique": "capability-subtraction-sandbox",
@@ -37013,9 +37265,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
-   "digest": "sha256-b2:9e3d241f02d95329",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:9bb039229d852897",
+   "revision": 2,
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "collapse-patch-axes-that-share-hunks",
@@ -37094,7 +37346,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "collapse-patch-axes-that-share-hunks",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/applications/node--collapse-patch-axes-that-share-hunks.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "node@22"
+    }
+   ]
   },
   "versioning-snapshots": {
    "category": "operations",
@@ -38685,6 +38945,7 @@
     "model-routing/policy-governance",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
     "module-design/emitted-code-names-from-a-root",
+    "module-design/host-primitive-facade",
     "module-design/io-free-core",
     "module-design/mirror-type-at-the-edge",
     "module-design/scoreable-designs-are-built-not-argued",
@@ -38733,6 +38994,7 @@
     "priced-authority/single-use-cubbyhole-wrap",
     "priced-authority/write-ahead-revocation-marker",
     "proactive-nudges/quiet-windows",
+    "prompt-assembly/compaction-is-a-fixed-point",
     "prompt-assembly/compression-hardens-deferred-decisions",
     "prompt-assembly/consumer-coupled-decoration",
     "prompt-assembly/contributed-document-admission",
@@ -38878,6 +39140,7 @@
     "test-harness/far-side-oracle",
     "test-harness/isolation-lanes",
     "test-harness/live-app-harness",
+    "test-harness/mutation-lane-with-a-triaged-baseline",
     "test-harness/negative-control-tests",
     "test-harness/out-of-graph-artifacts",
     "test-harness/pin-the-call-not-the-name",
@@ -38903,6 +39166,7 @@
     "ui-controls/call-site-ownership",
     "ui-controls/control-inventory-and-discovery",
     "untrusted-extension-host/capability-subtraction-sandbox",
+    "untrusted-extension-host/derived-capability-inventory",
     "untrusted-extension-host/grant-change-consent",
     "usage-analytics/activation-and-funnel-honesty",
     "usage-analytics/coverage-from-registries",
@@ -39039,6 +39303,7 @@
     "concurrent-vcs/shared-resource-arbitration",
     "conditional-service-composition/conjunction-activated-fragments",
     "conditional-service-composition/intent-and-environment-in-one-namespace",
+    "conditional-service-composition/requirement-closure-before-selection",
     "conformance-checking/derived-expectation-needs-an-evidence-floor",
     "conformance-checking/finding-severity-ladder",
     "conformance-checking/fixture-repo-testing",
@@ -39481,6 +39746,7 @@
     "test-harness/gate-scope-is-not-report-scope",
     "test-harness/live-app-harness",
     "test-harness/long-lane-certification",
+    "test-harness/mutation-lane-with-a-triaged-baseline",
     "test-harness/negative-control-tests",
     "test-harness/pin-the-call-not-the-name",
     "test-harness/platform-quirk-absorption",
@@ -39507,6 +39773,7 @@
     "triage-queues/verdict-writeback",
     "ui-controls/adoption-enforcement",
     "untrusted-extension-host/declared-schema-extension-storage",
+    "untrusted-extension-host/derived-capability-inventory",
     "untrusted-extension-host/isolation-tier-independent-extension-api",
     "untrusted-extension-host/per-callback-failure-policy",
     "untrusted-extension-host/safe-mode-registration",
@@ -39979,6 +40246,8 @@
     "prompt-assembly/amortized-compaction-cadence",
     "prompt-assembly/cache-breakpoint-allocation",
     "prompt-assembly/compaction-horizon-breakeven",
+    "prompt-assembly/compaction-is-a-fixed-point",
+    "prompt-assembly/compaction-target-is-an-aim",
     "prompt-assembly/consumer-coupled-decoration",
     "prompt-assembly/context-budgeting",
     "prompt-assembly/context-reachability",
@@ -40094,6 +40363,7 @@
     "test-harness/gate-scope-is-not-report-scope",
     "test-harness/history-driven-partitioning",
     "test-harness/long-lane-certification",
+    "test-harness/mutation-lane-with-a-triaged-baseline",
     "test-harness/out-of-graph-artifacts",
     "test-harness/pin-the-call-not-the-name",
     "test-harness/recorded-interaction-fixtures",
@@ -40119,6 +40389,7 @@
     "triage-queues/bulk-triage",
     "ui-controls/adoption-enforcement",
     "ui-controls/call-site-ownership",
+    "untrusted-extension-host/derived-capability-inventory",
     "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/safe-mode-registration",
     "usage-aggregation-semantics/level-valued-time-integral",
@@ -40155,6 +40426,7 @@
     "agent-instruction-files/principal-tier-gating",
     "agent-instruction-files/substrate-coupled-expiry",
     "agent-memory/addresses-not-atoms",
+    "agent-memory/container-carries-decision-status",
     "agent-memory/decay-and-forgetting",
     "agent-memory/durable-store-failure-posture",
     "agent-memory/filter-at-the-id-door",
@@ -40187,6 +40459,7 @@
     "companion-runtime/operative-working-set",
     "concurrency-guards/cache-value-not-handle",
     "conditional-service-composition/intent-and-environment-in-one-namespace",
+    "conditional-service-composition/requirement-closure-before-selection",
     "conformance-checking/edition-stratified-conformance",
     "contested-acquisition/holder-reconstructed-binding",
     "contested-acquisition/rung-trust-does-not-promote",
@@ -40313,6 +40586,8 @@
     "plan-entitlements/subtractive-entitlement",
     "plan-review/informational-fold-in",
     "priced-authority/write-ahead-revocation-marker",
+    "prompt-assembly/cache-affinity-key-from-the-unrewritable-layer",
+    "prompt-assembly/compaction-target-is-an-aim",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/endpoint-sealed-continuation-metadata",
     "prompt-assembly/fold-only-acknowledged-evidence",
@@ -40839,6 +41114,7 @@
     "priced-authority/approver-not-requester",
     "priced-authority/single-use-cubbyhole-wrap",
     "proactive-nudges/nudge-identity-dedup",
+    "prompt-assembly/cache-affinity-key-from-the-unrewritable-layer",
     "prompt-assembly/continuation-prompts",
     "prompt-assembly/endpoint-sealed-continuation-metadata",
     "prompt-assembly/foreign-harness-history-folding",
@@ -41313,6 +41589,7 @@
     "concurrency-guards/race-catalog-with-two-histories",
     "conditional-service-composition/conjunction-activated-fragments",
     "conditional-service-composition/intent-and-environment-in-one-namespace",
+    "conditional-service-composition/requirement-closure-before-selection",
     "conditional-service-composition/specificity-ordered-layering",
     "conformance-checking/declared-deviation-register",
     "conformance-checking/declared-then-proven",
@@ -41483,6 +41760,7 @@
     "model-routing/failover-horizon",
     "model-routing/model-identity",
     "model-routing/turn-classification",
+    "module-design/host-primitive-facade",
     "module-design/module-depth",
     "motion/loop-pause-governance",
     "motion/preset-vocabulary",
@@ -41638,6 +41916,7 @@
     "ui-controls/call-site-ownership",
     "ui-controls/variant-discipline",
     "untrusted-extension-host/canonicalizable-privilege-declaration",
+    "untrusted-extension-host/derived-capability-inventory",
     "untrusted-extension-host/host-api-import-budget",
     "untrusted-extension-host/isolation-tier-independent-extension-api",
     "usage-aggregation-semantics/seeded-recurring-aggregate",
@@ -41835,8 +42114,10 @@
     "plan-entitlements/tier-model-single-source",
     "proactive-nudges/attention-budgets",
     "prompt-assembly/amortized-compaction-cadence",
+    "prompt-assembly/cache-affinity-key-from-the-unrewritable-layer",
     "prompt-assembly/cache-breakpoint-allocation",
     "prompt-assembly/compaction-horizon-breakeven",
+    "prompt-assembly/compaction-is-a-fixed-point",
     "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/fingerprinting-and-cache-keys",
@@ -41984,6 +42265,7 @@
     "paged-block-cache/one-page-size-bought-with-padding",
     "paged-block-cache/release-order-is-the-eviction-policy",
     "prompt-assembly/compaction-horizon-breakeven",
+    "prompt-assembly/compaction-target-is-an-aim",
     "prompt-assembly/context-ownership-regimes",
     "prompt-assembly/elision-to-a-refetch-pointer",
     "prompt-assembly/response-reservation-sizing",
@@ -42239,6 +42521,7 @@
     "model-call-outcome-integrity/credential-posture-at-the-call-door",
     "model-routing/failover-path-liveness",
     "module-design/borrowed-surface",
+    "module-design/host-primitive-facade",
     "multi-provider-gateway-plane/caller-scoped-normalization-strictness",
     "native-document-format/ignorable-extensions-must-be-declared",
     "native-document-format/serialization-is-locale-free",
@@ -42327,6 +42610,7 @@
     "agent-instruction-files/inherited-default-ownership",
     "agent-instruction-files/restraint-amplifier-balance",
     "agent-instruction-files/rewrite-behavior-pinning",
+    "agent-memory/container-carries-decision-status",
     "agent-memory/diagnosis-withheld-from-the-executor",
     "agent-memory/owner-and-counterpart-scope",
     "agent-memory/pending-beliefs-live-apart",

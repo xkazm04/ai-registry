@@ -3,6 +3,67 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets. Merged from every copy of this skill on 2026-08-22 when it moved into the registry lane.
 
+## 4.3.0 - 2026-10-05 - lighttrack (LightTrack)
+
+First `--challenge` run in this repo, and the first anywhere with a rider cohort.
+Cohort of 6 hosts + 9 riders over 48 contexts / ~2000 tests of Rust. 12 cards, 0 void,
+0 false premises, 5 revised, 12 approved, 12 landed over 6 waves, 0 demoted, 0 reverted,
+0 coordinator fixes. `execution_score` 12/12, `idea_score` 4.33 / 4.58 / 4.58, cases
+72/101 red before and 101/101 green after, suite 1931 -> 2075.
+
+- **The critic earned the stage on its own.** It caught a card whose FRAMING was wrong
+  while its defect was real: the scout called a scope-membership divergence a *gate*
+  defect, and the reference backend's admission path was already correct - only the
+  ledger and reporting sides diverged. Graded `grounding 3/5`, re-pointed with one
+  concrete edit, and the builder later confirmed the warning was "accurate, arguably
+  understated". It also found the run's only cross-card hazard: two cards added HTTP
+  routes that a *third* card's new access layer would answer 500 to unless they
+  declared contract rows. Both corrections were one edit each at card stage and would
+  have been a dead wave at build stage. On a 12-card run the critic changed 5 cards and
+  voided none - that ratio is the argument for keeping it.
+- **A brief that does not say which artefacts are GENERATED will hand a builder a red
+  gate.** Three instances in one run (a guarded parity doc the coordinator wrongly
+  listed as a lockable shared surface, a published client baseline that snapshots the
+  whole surface, a generated route matrix). One builder refused the coordinator's
+  instruction, cited the guard test, and used the changelog instead. Now in section 7.
+- **Section 7.2's "assert the exit code" clause is a COORDINATOR rule too.** The run's
+  very first command piped a build into `tail` and reported `BUILD_EXIT=0` over a
+  failure - the baseline for twelve cards. The clause was written for builders and the
+  coordinator runs more gates than any of them. Now stated in 7.2.
+- **Never write a red-gate attribution before the control has run.** A flaky
+  pre-existing test is a third owner the method did not name. A 5-run control at base
+  came back clean *after* the disposition had already been written off 3 merged samples;
+  the honest answer needed 8 against 8 (base 1/13, merged 2/11, same assertion). The
+  verdict survived; the write-up had to be retracted in front of the operator. Now in
+  section 7 as a two-step procedure.
+- **Riders are not a courtesy, they are where the severity was.** 3 of the 4
+  high-severity backlog findings came from rider files - a Postgres-only type error
+  (`pass IS TRUE` against a `BIGINT`), an FX `converted` flag the cap path never reads
+  (a revenue-share cap reading ~150x too generous), and a reaper that strands cancelled
+  rows. The >= 10-file host floor would have left all three unread indefinitely.
+- **Builders corrected their own cards downward on claims far more than expected, and
+  the defects survived every time.** One argued its impact was UNDER-rated and proved it
+  with a stored `cost_usd`; one found its own acceptance case had the wrong expected
+  value and that discovery was the card's real payoff (2 of 3 production refusals remove
+  zero routes, so a renderer promised a 501 no route ever returned); one refused to let
+  two guards pass vacuously and folded liveness preconditions into them; one reported
+  two of its own cases as weak red cases because a default-returning stub satisfied
+  them; one reported a case as vacuously green rather than claim it. None of these
+  changed whether the defect was real. The `flawless` / `flawless_strict` split (12 vs
+  10) is what keeps that honesty cheap - a builder that declares a guard green-before
+  loses nothing, so declaring it is the dominant strategy.
+- **Serializing code files beats locking them.** Five cards wanted one `main.rs` and
+  three wanted one MCP `schemas.rs`. Locking a doc is cheap; locking a code file in a
+  shared checkout is not. One card per wave per contended code file cost two extra waves
+  and produced zero merge conflicts. Note clippy's `items_after_test_module` can forbid
+  the append-at-the-end rule the shared-surface lock assumes, turning a union into a
+  3-way merge.
+- **One wave's work can improve the next wave's card.** Wave 2 made judge counters real,
+  which made wave 5's aggregation meaningful rather than cosmetic; wave 3 landed an
+  `until` parameter whose doc comment said it existed "because a replay of a past instant
+  needs one", which was wave 6's substrate. Ordering by write-set disjointness happened
+  to order by dependency too - worth checking deliberately rather than by luck.
+
 ## 1.0 - 2026-08-20 - kp (CandiDate / KP studio)
 
 Run shape: `--lenses bounty-hunter`, all-contexts coverage, resolve mode. 285

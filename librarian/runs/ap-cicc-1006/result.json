@@ -1,0 +1,83 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ap-cicc-1006",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-06T10:46:00Z",
+  "ended_at": "2026-10-06T11:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/durable-agent-operations",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/session-continuation",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/durable-agent-operations",
+      "technique": "close-is-a-controlled-crash",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/applications/rust--close-is-a-controlled-crash.md",
+    "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/techniques/close-is-a-controlled-crash.md",
+    "knowledge/software-engineering/llm-agent/orchestration/session-continuation/techniques/stuck-loop-detection.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/durable-agent-operations.md",
+    "librarian/subjects/software-engineering/session-continuation.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "108f7742",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/applications/rust--close-is-a-controlled-crash.md",
+        "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/techniques/close-is-a-controlled-crash.md",
+        "knowledge/software-engineering/llm-agent/orchestration/session-continuation/techniques/stuck-loop-detection.md",
+        "librarian/applied.md",
+        "librarian/subjects/software-engineering/durable-agent-operations.md",
+        "librarian/subjects/software-engineering/session-continuation.md"
+      ]
+    },
+    {
+      "sha": "81a2fa99",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "catalog.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. personas code A/B better: clean-shutdown marker skipped the restart classifier; fix committed locally (sibling unpushed commits). Boundary in both techniques. Field cost <=10 rows. Base gate red upstream: check-public-paths, game-production."
+}

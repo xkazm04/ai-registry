@@ -10,6 +10,7 @@ techniques:
   - drift-correction
   - gap-and-refusal-honesty
   - derived-turn-markers
+  - alignment-names-its-text
   - generated-shot-sourcing
   - motion-plate-library
   - storyboard-grid-conditioning

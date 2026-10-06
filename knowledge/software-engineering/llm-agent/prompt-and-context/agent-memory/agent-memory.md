@@ -33,6 +33,7 @@ techniques:
   - observation-clock
   - stale-served-versus-stale-answered
   - filter-at-the-id-door
+  - container-carries-decision-status
 ---
 
 # Agent memory
@@ -575,3 +576,7 @@ comparison a stated result instead of an unexamined premise.
   the store's items: at a read budget a finer cut buys reach across the items
   that hold an answer, where the cut falls buys nothing measurable, and the reach
   is paid for in abstention - above an always-loaded index none of it happens.
+- [container-carries-decision-status](./techniques/container-carries-decision-status.md) -
+  what a consolidation pass may write as state: a hedge inside a sentence survives
+  extraction, but a planning bullet carries its status only in its container, so admit
+  by a lifecycle field where one exists and state the container rule where none does.

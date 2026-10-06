@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.14.1
+version: 2.15.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1325,6 +1325,21 @@ what it said. Two specifics that make it pay:
 - **A closed question can still be reopened - but only on a stated difference.** Name
   what is different about your arm (a different route, a different scale, a since-changed
   model), or you are paying to re-derive a `not-better` somebody already has.
+
+**A harness-shaped finding is replayed, never simulated (v2.15).** When the finding is
+a decision over tool calls, prompts, cache use or compaction, the agent harness's own
+session transcripts (`~/.claude/projects/**/*.jsonl`) are an instrument with the arms
+already recorded. Every tool input, tool result, usage block and compaction boundary is
+there. Four runs used them (2026-09-02, 09-08, and twice on 10-02), and each returned a
+measurement no simulation could have. Two rules came out of those runs:
+- **Read the matched rows, never only the count.** A guard drafted from the incident
+  memory was replayed over 39,940 commands before enabling. Its first draft denied
+  pathspec-scoped staging, read heredoc bodies as commands and took "prints usage" for
+  "handles --help"; reading the rows moved three rules by 30-40%. The same reading also
+  confirmed 48 real aborts the count alone could not tell from noise.
+- **A priced counterfactual measures the target, not the floor.** A replay that prices
+  arm B without running it files as `unmeasurable` until the floor arm runs, however
+  large the target moved.
 
 **Where two seams are available, choose the one that could FALSIFY the finding
 (v2.7).** The instinct is to pick the seam that shows the technique working, and that

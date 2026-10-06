@@ -1,8 +1,8 @@
 ---
 subject: imported-material-conformance
 domain: game-production
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-10-06
+touched_by: intake-apply
 dry_streak: 0
 ---
 
@@ -310,3 +310,33 @@ applications, so nothing here rests on a consumer witness.
   }
 }
 ```
+
+## 2026-10-06 - first application (apply-1006-fixer)
+
+Dispatched by the registry's attention scan for carrying no application. The 2026-09-07
+`unapplied` row said no managed project had an asset import edge. That is no longer true:
+the game-production project in the fleet has since mapped nine contexts to this subject,
+and its material lab now crosses into a game engine through a generated script.
+
+- **Seam.** The generated engine script compared each bound texture's sRGB flag with the
+  role's flag from the project's one channel table, then only warned. The project never
+  imports textures itself, so the fix was a manual untick after every delivery: the
+  technique's corrector, kept in a person's memory.
+- **Chosen to falsify.** The technique places the edge before the import, and this
+  project does not own the import. A catch would have shown the rule cannot move here
+  without becoming a second corrector.
+- **Verdict `better`, code, ab-paired** on a stub engine module that carries the import
+  defaults. Over three deliveries, A left 9 of 15 bound textures sampling wrong and B left
+  0. B wrote exactly the three wrong flags each time. One asset bound into two roles of
+  opposite colour space is now refused and named. Floor: the project's visual-generation
+  suite stayed green. The engine was not run.
+- **Boundary case, banked rather than amended.** When the project does not own the
+  import, the earliest crossing it owns is the edge, even after the import. What made the
+  old path a corrector was memory, not timing. It scored GAIN 1 / RISK 0 as an amendment,
+  under the +2 bar, so it lives in the application. **Return condition:** a second
+  project whose edge also sits after an import it does not own.
+- **Dormant second authority.** An uncalled Blender texture script still decides colour
+  space with its own literal instead of reading the table. It agrees today. Lead: retire it
+  or route it through the table when anything calls it again.
+- **Fleet commit** local only: the project's default branch carries 14 unpushed commits
+  from other sessions, and pushing would publish them.

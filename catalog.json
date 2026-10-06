@@ -174,16 +174,16 @@
     },
     {
       "name": "contest",
-      "version": "1.9.0",
+      "version": "1.8.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:d59271fe40f1b89b",
+      "contentHash": "sha256-n1:3db345097428fe79",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
       "lessons": 14,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:1ed01da7a45cb36e",
+      "lessonsHash": "sha256-n1:4890b3d3232e4129",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -317,10 +317,10 @@
     },
     {
       "name": "i18n-translate",
-      "version": "1.6.1",
+      "version": "1.6.2",
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
-      "contentHash": "sha256-n1:d6375b2526b5786d",
+      "contentHash": "sha256-n1:7faccc3615497f44",
       "adopters": [
         "kp@plugin:1.1.0",
         "personas@plugin:1.1.0",
@@ -665,10 +665,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.4.0",
+      "version": "4.5.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:39f99e89edc7eb83",
+      "contentHash": "sha256-n1:b406a31421eeb8fb",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -677,9 +677,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 59,
+      "lessons": 60,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:3b0eed803f71a9fc",
+      "lessonsHash": "sha256-n1:4c6f0ab60659b3b6",
       "usageContributors": [
         "wolf"
       ],
@@ -960,6 +960,33 @@
     },
     {
       "kind": "semantic",
+      "slug": "google-ai-ultra-for-agentic-production",
+      "path": "memory/semantic/google-ai-ultra-for-agentic-production.md",
+      "contentHash": "sha256-n1:fda09d3a6d645abc",
+      "confidence": 0.6,
+      "namespace": "engineering",
+      "source": "vendor-research-and-probe"
+    },
+    {
+      "kind": "semantic",
+      "slug": "mage-arena-channels-and-shared-canon",
+      "path": "memory/semantic/mage-arena-channels-and-shared-canon.md",
+      "contentHash": "sha256-n1:4c94baa548e573d8",
+      "confidence": 1,
+      "namespace": "mage-arena",
+      "source": "decision-record"
+    },
+    {
+      "kind": "semantic",
+      "slug": "mage-arena-mechanic-channel-matrix",
+      "path": "memory/semantic/mage-arena-mechanic-channel-matrix.md",
+      "contentHash": "sha256-n1:c69012f6a19f6caf",
+      "confidence": 0.6,
+      "namespace": "mage-arena",
+      "source": "decision-record"
+    },
+    {
+      "kind": "semantic",
       "slug": "model-choice-fable-vs-opus",
       "path": "memory/semantic/model-choice-fable-vs-opus.md",
       "contentHash": "sha256-n1:9a594ca377c2be58",
@@ -989,8 +1016,8 @@
   "counts": {
     "skills": 38,
     "practices": 8,
-    "memory": 6,
-    "lessons": 299
+    "memory": 9,
+    "lessons": 300
   },
   "bundles": [
     {
@@ -1026,11 +1053,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 53,
-      "techniques": 338,
-      "applications": 146,
-      "files": 541,
-      "contentHash": "sha256-b2:f79344de9fcb1f1a"
+      "subjects": 78,
+      "techniques": 508,
+      "applications": 206,
+      "files": 796,
+      "contentHash": "sha256-b2:8d2e5b93891ff097"
     },
     {
       "name": "grant-funding",
@@ -1053,10 +1080,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 18,
-      "techniques": 126,
-      "applications": 79,
-      "files": 228,
-      "contentHash": "sha256-b2:64fb04d1e6e15412"
+      "techniques": 127,
+      "applications": 80,
+      "files": 230,
+      "contentHash": "sha256-b2:128fb15346978e94"
     },
     {
       "name": "localization",
@@ -1067,9 +1094,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 55,
-      "files": 195,
-      "contentHash": "sha256-b2:2d5cc79e474fe296"
+      "applications": 57,
+      "files": 197,
+      "contentHash": "sha256-b2:1bfdc25cbe6610cf"
     },
     {
       "name": "marketing",
@@ -1091,11 +1118,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 25,
-      "techniques": 181,
-      "applications": 94,
-      "files": 305,
-      "contentHash": "sha256-b2:2c0f1f588c95f232"
+      "subjects": 26,
+      "techniques": 188,
+      "applications": 96,
+      "files": 315,
+      "contentHash": "sha256-b2:02537408b91defd5"
     },
     {
       "name": "recruiting",
@@ -1118,23 +1145,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 233,
-      "techniques": 1822,
-      "applications": 1220,
-      "files": 3280,
-      "contentHash": "sha256-b2:3be3f8ba7a9fd42d"
-    },
-    {
-      "name": "technical-writing",
-      "title": "Technical writing",
-      "path": "knowledge/technical-writing",
-      "okfVersion": "0.1",
-      "profile": "rkb/0.1",
-      "purity": "writing",
-      "subjects": 6,
-      "techniques": 29,
-      "applications": 7,
-      "files": 46,
-      "contentHash": "sha256-b2:b0dbb3edba41ea7e"
+      "techniques": 1830,
+      "applications": 1236,
+      "files": 3304,
+      "contentHash": "sha256-b2:2e249be728d26f1f"
     }
   ],
   "usageEvidence": {

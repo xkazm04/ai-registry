@@ -1,0 +1,60 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-1005-ictp",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "llm-observability",
+  "started_at": "2026-10-05T20:28:00Z",
+  "ended_at": "2026-10-05T21:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "llm-observability/generator-uncertainty-scoring",
+      "at": "2026-10-05",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/image-to-3d-input-gating",
+      "at": "2026-10-05",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "generator-uncertainty-scoring",
+      "technique": "compare-gates-at-matched-coverage",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/techniques/compare-gates-at-matched-coverage.md",
+    "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/applications/node--compare-gates-at-matched-coverage--pof.md",
+    "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/generator-uncertainty-scoring.md",
+    "knowledge/game-production/asset-production/sourcing-economics/image-to-3d-input-gating/applications/node--single-subject-plain-background.md",
+    "librarian/sources/2026-10-05-decision-model-fixed-line-calibration.md",
+    "librarian/subjects/llm-observability/generator-uncertainty-scoring.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Sixth pass over the hosted decision model. New compare-gates-at-matched-coverage: fixed line credited recalibration with 124 errors of change, matched coverage 19 (3 seeds). pof gate outcome names its line 0/267 -> 267/267 (f6f1286a, not pushed)."
+}

@@ -43,24 +43,44 @@ activating, with no dangling row to clean up.
 The condition is an AND over the named handles, and the temptation to extend it
 should be resisted for a reason worth stating rather than asserted as taste.
 
-Conjunction over a set is the only predicate that keeps the assembler ignorant.
-It is evaluable by subset test, it is order-free, it is closed under nothing —
-there is no expression tree to parse, no operator precedence to document, no
-short-circuit semantics to get wrong. More importantly it is **decidable in
+Conjunction over a set is evaluable by subset test, it is order-free, and it
+needs no grammar — there is no expression tree to parse, no operator precedence
+to document, no short-circuit semantics to get wrong. It is also **decidable in
 reverse**: given a fragment's condition you can name, exactly, the minimal
 active set that would activate it, which is what makes the reachability check in
-the last section possible at all. Add disjunction and negation and you have a
-small boolean language; the reverse question becomes satisfiability, the
-diagnostic "why did this fragment not activate" stops having a one-line answer,
-and every reader of a fragment identifier now has to know the language.
+the last section possible at all.
 
-Where a genuine disjunction exists — this material applies with either of two
-alternative backends — write two fragments. The duplication is real and it is
-cheap, and the alternative is a language. If the duplication becomes large
-enough to hurt, that is a signal that the two alternatives should share a handle
-rather than that the condition needs an operator: introduce a handle meaning
-*some backend of this class is active*, activate it from either, and the
-conjunction rule is intact.
+Be precise about what would cost that property, because the obvious answer is
+wrong. It is **negation**, not disjunction. A condition that is an OR of
+AND-groups, with no NOT anywhere, is still monotone — adding a handle can only
+add fragments — and its minimal activating sets are simply its groups; real
+engines ship exactly that (a per-service list of activation tags, any one of
+which suffices) and stay reverse-checkable. Negation is what breaks it: a
+fragment that activates when a handle is *absent* can be deactivated by adding a
+handle, the reverse question becomes satisfiability, and "why did this fragment
+not activate" stops having a one-line answer. Mutual-exclusion declarations,
+which the reachability gate below must already honour, are negation by another
+name and carry the same cost.
+
+So conjunction-only in the identifier is a choice about **readability**, not
+decidability: one identifier names one minimal activating set, visible in one
+file name. Where a genuine disjunction exists — this material applies with
+either of two alternative backends — write two fragments. That *is* the
+disjunction, spelled out so each half is reviewable alone, and the duplication is
+cheap. If it becomes large enough to hurt, the two alternatives should share a
+handle rather than the identifier growing an operator: introduce a handle meaning
+*some backend of this class is active*, activate it from either, and the rule is
+intact. The hazard of an engine whose native tag list is an OR is that it reads
+like an AND: a fragment that truly needs two handles, given two tags, activates
+on either one alone.
+
+**A condition is not a requirement.** The identifier says when material applies.
+It must not be used to say what a service needs in order to run — writing the
+dashboard's fragment as `database+dashboard` because the dashboard cannot start
+without the database makes a request for the dashboard select nothing, silently.
+Requirements belong on the handle and are closed over before selection;
+[requirement-closure-before-selection](./requirement-closure-before-selection.md)
+owns that stage and measures the difference.
 
 ## The identifier is the condition, and that is a vocabulary
 
@@ -125,7 +145,13 @@ than a report. Concretely, for each fragment: parse its identifier into a handle
 set; assert every member is a declared handle or a capability token some probe
 can emit; and assert the resulting active set is one an operator could actually
 request — a fragment requiring two handles that are declared mutually exclusive
-is unreachable even though every handle in it exists.
+is unreachable even though every handle in it exists. A request an operator
+*could* type is not enough on its own: the engine may still refuse it when a
+selected fragment hard-references a service the request never selected, so the
+pass also closes each handle under its declared requirements and asserts those
+references resolve inside the selection — the assertion
+[requirement-closure-before-selection](./requirement-closure-before-selection.md)
+defines.
 
 Two rules keep the pass honest. It must **fail the build**, not warn: a warning
 in a build log about a document that does nothing is the definition of a message
@@ -139,9 +165,13 @@ nothing is the same lie one level up.
 ## Decision rules
 
 - One fragment, one condition, expressed as the set of handles in its
-  identifier. The condition is a conjunction; there is no operator vocabulary.
+  identifier. The condition is a conjunction; there is no operator vocabulary,
+  and above all no negation.
 - A genuine alternative is two fragments, or a shared handle activated from
   either alternative. It is never a disjunction operator.
+- The identifier carries participation conditions only. A handle that is there
+  because the service cannot run without it is a requirement, declared on the
+  handle and closed over before selection.
 - Handles are a closed, singly-authoritative vocabulary. The separator is
   reserved and enforced where handles are declared.
 - The assembler holds no mapping from combinations to fragments and no knowledge

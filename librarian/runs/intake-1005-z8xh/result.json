@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-1005-z8xh",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-10-05T07:00:00Z",
+  "ended_at": "2026-10-05T09:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/mesh-finishing-for-engine-readiness",
+      "at": "2026-10-05",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "game-production/mesh-finishing-for-engine-readiness",
+      "technique": "export-proven-by-read-back",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/techniques/export-proven-by-read-back.md",
+    "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/applications/node--export-proven-by-read-back.md",
+    "knowledge/game-production/asset-production/geometry/mesh-finishing-for-engine-readiness/mesh-finishing-for-engine-readiness.md",
+    "knowledge/game-production/index.json",
+    "librarian/sources/2026-10-05-mixar-ai-first-blender-fork.md",
+    "librarian/subjects/game-production/mesh-finishing-for-engine-readiness.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Review of an AI-first DCC fork; its open client held the landing. export-proven-by-read-back: FINISHED is self-certification; on Blender 4.2.1 a side scene leaked into glTF and an empty scene exported a valid zero-mesh file. pof code/better, ab-paired. 4 leads, 5 catches."
+}

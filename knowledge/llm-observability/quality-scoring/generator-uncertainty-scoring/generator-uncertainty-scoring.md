@@ -11,6 +11,7 @@ techniques:
   - generator-vs-itself
   - score-source-ensembling
   - stated-distribution-over-closed-labels
+  - compare-gates-at-matched-coverage
 ---
 
 # Generator uncertainty scoring
@@ -180,6 +181,12 @@ asserts that 0.7 means something stable; the calibration evidence says it
 does not, until fitted. Where the fit does not exist, the honest form is a
 percentile against a rolling window of the same population.
 
+A threshold also fixes how much traffic the gate admits, and that is the
+half a before-and-after reading forgets. A refitted calibration, a swapped
+scorer or a richer input each move the share admitted at an unchanged
+number, so two gates are compared at matched coverage or not at all
+([compare-gates-at-matched-coverage](./techniques/compare-gates-at-matched-coverage.md)).
+
 And a caution the cost ladder creates rather than removes: an in-path
 score is quality apparatus whose cost has been folded into product cost,
 the exact arrangement
@@ -255,3 +262,7 @@ question available is how surely the model said it.
   probability per label of a closed set, a confidence from the distribution's
   shape, the one kind here that has a prompt, and the measured seam where it
   is pure cost beside the one where it pays.
+- [compare-gates-at-matched-coverage](./techniques/compare-gates-at-matched-coverage.md)
+  — a gate is a point on a risk-coverage curve; why recalibration at a fixed
+  line reports a change of coverage as a change of errors, with a sign set by
+  the temperature, and why a line belongs to the scorer it was fitted on.

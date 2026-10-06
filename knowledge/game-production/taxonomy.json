@@ -13,7 +13,8 @@
         "arpg-systems-canon",
         "design-canon-as-executable-law",
         "game-economy-tuning",
-        "realtime-combat-semantics"
+        "realtime-combat-semantics",
+        "racing-career-economy"
       ]
     },
     {
@@ -101,7 +102,8 @@
         "gameplay-runtime-patterns",
         "runtime-observation-evidence",
         "ship-pipeline-gating",
-        "visual-script-to-code-transpilation"
+        "visual-script-to-code-transpilation",
+        "perf-regression-gating"
       ]
     },
     {
@@ -128,6 +130,68 @@
         "production-prompt-architecture",
         "production-work-prioritization",
         "prompt-fitness-and-evolution"
+      ]
+    },
+    {
+      "id": "racing-vehicles",
+      "title": "Racing vehicles",
+      "order": 8,
+      "subjects": [
+        "top-down-vehicle-handling-model",
+        "steering-feel-profile-shaping",
+        "mass-based-arcade-collision",
+        "racing-track-authoring-and-lint",
+        "vehicle-archetype-balance"
+      ]
+    },
+    {
+      "id": "couch-and-tv-play",
+      "title": "Couch and TV play",
+      "order": 9,
+      "subjects": [
+        "phone-controller-input-protocol",
+        "controller-latency-instrumentation",
+        "two-thumb-touch-layout-design",
+        "lan-pairing-and-session-continuity",
+        "fire-tv-device-realities",
+        "on-device-verification-harness"
+      ]
+    },
+    {
+      "id": "narrative-and-dialogue",
+      "title": "Narrative and dialogue",
+      "order": 10,
+      "subcategories": [
+        {
+          "id": "story-structure",
+          "title": "Story structure and stakes",
+          "subjects": [
+            "ending-first-narrative-structure",
+            "race-event-as-story-beat",
+            "debt-and-loss-stakes-staging",
+            "regional-culture-worldbuilding"
+          ]
+        },
+        {
+          "id": "cast-and-relationships",
+          "title": "Cast and relationships",
+          "subjects": [
+            "antagonist-fair-grievance-craft",
+            "rival-to-ally-turn",
+            "ally-bond-and-found-family-systems"
+          ]
+        },
+        {
+          "id": "line-craft",
+          "title": "Line craft and delivery",
+          "subjects": [
+            "condition-tagged-line-tables",
+            "short-form-cards-and-barks",
+            "subtext-and-voice-differentiation",
+            "llm-dialogue-quality-control",
+            "speech-synthesis-script-writing"
+          ]
+        }
       ]
     }
   ]

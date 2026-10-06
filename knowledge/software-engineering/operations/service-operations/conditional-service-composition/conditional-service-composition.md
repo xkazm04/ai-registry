@@ -3,11 +3,12 @@ layer: golden-path
 type: golden-path
 subject: conditional-service-composition
 status: forged
-use_when: [deciding which fragments of a service topology take part in a particular run, an integration between two services belongs to neither service's own description, a topology behaves differently on two machines with the same request, a startup selects an accelerator path the host does not actually have, the list of overlays that apply to a combination has outgrown anyone's ability to maintain it]
+use_when: [deciding which fragments of a service topology take part in a particular run, an integration between two services belongs to neither service's own description, a topology behaves differently on two machines with the same request, a startup selects an accelerator path the host does not actually have, the list of overlays that apply to a combination has outgrown anyone's ability to maintain it, an operator requests a service and it is silently absent from the resolved topology]
 techniques:
   - conjunction-activated-fragments
   - specificity-ordered-layering
   - intent-and-environment-in-one-namespace
+  - requirement-closure-before-selection
 ---
 
 # Conditional service composition
@@ -43,12 +44,16 @@ list of "which overlays apply to which combinations" can be maintained by hand,
 and no reviewer can check one. The composition layer must be able to answer the
 question **without anyone having enumerated the answers**.
 
-This subject holds three commitments, and they share one stance: **participation
+This subject holds four commitments, and they share one stance: **participation
 is declared by the participant, and the assembler knows nothing.**
 
 - A fragment states its own condition for taking part, in a form the assembler
   can evaluate against a set — so adding an integration is adding one document
   and editing nothing.
+- What a service needs in order to run is not a participation condition. It is a
+  **requirement** declared on the service's handle, and the active set is closed
+  under requirements before any fragment is selected — or the request is refused
+  by name. It is never silently served without the thing it asked for.
 - The order fragments land in is a **function of their identifiers**, computed
   and published, because a discovered set has no author-declared order and the
   merge is order-dependent.
@@ -59,7 +64,7 @@ is declared by the participant, and the assembler knows nothing.**
 
 ## The pipeline, and which stage each technique owns
 
-Five stages, in order, all of them before the first process starts:
+Six stages, in order, all of them before the first process starts:
 
 1. **Resolve the active set.** Take the handles the operator named, expand any
    group or wildcard among them, and union the result with the capability tokens
@@ -67,22 +72,29 @@ Five stages, in order, all of them before the first process starts:
    [intent-and-environment-in-one-namespace](./techniques/intent-and-environment-in-one-namespace.md)
    owns this stage: what may be in the set, what each kind means, and which
    operations may range over which kinds.
-2. **Select the participating fragments.** Enumerate every available fragment,
+2. **Close it under requirements.** Add, transitively, every handle a member
+   requires; check, never add, every capability a member requires; refuse the
+   request when a required capability is absent.
+   [requirement-closure-before-selection](./techniques/requirement-closure-before-selection.md)
+   owns this stage: why a requirement is not a condition, what the closure may
+   add, and the gate that keeps the declared requirements and the fragments'
+   own hard references in agreement.
+3. **Select the participating fragments.** Enumerate every available fragment,
    read the condition each declares, and keep the ones the active set satisfies.
    [conjunction-activated-fragments](./techniques/conjunction-activated-fragments.md)
    owns this stage: the conjunction rule, why the condition lives in the
    fragment's own identifier, and how a fragment that can never activate is
    detected — which nothing else in the design can do.
-3. **Order them.** Sort the selected fragments by a total order derived from
+4. **Order them.** Sort the selected fragments by a total order derived from
    their identifiers.
    [specificity-ordered-layering](./techniques/specificity-ordered-layering.md)
    owns this stage: the ordering function, the determinism guarantee, and the
    obligations a derived order takes on in exchange for not being a list.
-4. **Merge.** Hand the ordered fragments to whatever performs the merge, with
+5. **Merge.** Hand the ordered fragments to whatever performs the merge, with
    later winning over earlier. This subject does not own the merge.
-5. **Emit the resolved artifact and hand it to the engine.**
+6. **Emit the resolved artifact and hand it to the engine.**
 
-Stage five is short but not trivial, and it is worth stating here rather than
+Stage six is short but not trivial, and it is worth stating here rather than
 inventing a technique for it. The composition layer's output should be **a value
 the engine could have been handed by a human**: a single, standalone topology
 description with no residual references to the fragments it came from. Two
@@ -102,9 +114,14 @@ artifact against the fragments and see exactly what happened.
 
 The one that must be said out loud is that **flattening changes the artifact's
 security class**. Fragments carry references — an environment value that was a
-lookup, a credential that was a mount — and a resolved artifact inlines them.
-The result is a file that looks like configuration and is in fact a materialized
-secret. This subject does not own that; a secrets discipline does. But the
+lookup, a set of values read from a side file — and a resolved artifact inlines
+them. The result is a file that looks like configuration and is in fact a
+materialized secret. A credential mounted from a file is the exception worth
+knowing precisely: it stays a reference, but the reference becomes an absolute
+path on the machine that resolved it, which discloses that machine instead of
+the secret. Engines that resolve commonly offer a mode that leaves lookups and
+side files unresolved; when the artifact is going anywhere but straight into the
+engine, that mode is the one to emit in. This subject does not own that; a secrets discipline does. But the
 composition layer is where the materialization happens, so this is where it must
 be noticed: the emitted artifact is not a build product to be committed, cached,
 or attached to a bug report by default, and the layer that emits it says so at
@@ -137,7 +154,7 @@ directly —
 The division is clean once stated: **this subject decides which documents are in
 the merge; that subject decides what a key resolves to within it.** Both stages
 are order-sensitive and both are called precedence in casual speech, which is
-exactly why the split has to be written down. The seam is stage four above:
+exactly why the split has to be written down. The seam is stage five above:
 selection and ordering are here, the per-key outcome is there.
 
 That technique's rule is that the order must be "declared, named, and singular",
@@ -187,7 +204,7 @@ composition layer that starts scheduling is two subjects wearing one name.
 
 ## The failure modes of the naive reading
 
-Three, and each is silent, which is what makes the subject worth having.
+Four, and each is silent, which is what makes the subject worth having.
 
 **The unreachable fragment.** A fragment whose condition can never be satisfied
 — because it names a handle that was renamed, or a capability token that no
@@ -223,6 +240,18 @@ capability has been rendered as a definite yes
 are expandable; observations are not, and a namespace that cannot tell them
 apart cannot enforce the difference.
 
+**The requirement written as a condition.** A dashboard cannot run without the
+database it reads, so its fragment is given the identifier naming both — and the
+conjunction rule now guarantees the opposite of what was meant. A request for the
+dashboard alone selects nothing, because no fragment is conditioned on the
+dashboard alone, and the resolved topology exits clean without the service the
+operator asked for. Measured against a real three-service topology, two of eight
+requests lost a requested service this way, with no error. The other natural
+design — leave the dependency to the engine — refuses the same two requests
+loudly, which is better and still not a topology. A requirement is a property of
+the handle, closed over before selection, and the composition either serves the
+request with everything it needs or refuses it by name.
+
 ## What "done" looks like for this subject
 
 A composition layer meets the bar when: every fragment states its own
@@ -230,15 +259,22 @@ participation condition in a form the assembler evaluates without knowing what
 any fragment is for, so that adding an integration is adding one document and
 editing nothing; an enumeration pass proves every fragment's condition is
 reachable and fails the build on one that is not, because absence is otherwise
-indistinguishable from correctness; the merge order is a documented total
+indistinguishable from correctness; requirements are declared on handles, the active
+set is closed under them before selection with implied handles reported as
+implied, and a build gate fails on any fragment's hard reference that falls
+outside its own handle's closed selection; the merge order is a documented total
 function of the identifiers, stable across hosts, with a first-class command that
-prints the resolved order and the fragments it selected for a given request; the
+prints the resolved order and the fragments it selected for a given request, and
+two co-activatable fragments that neither contain the other never decide a value
+by spelling; the
 active set distinguishes requested handles from observed capabilities by declared
 kind, and every wildcard, group and "all" operation states which kinds it ranges
-over; a probe that could not run yields *unknown* rather than *absent*; and the
+over; a probe that could not run yields *unknown* rather than *absent*, and
+refuses the run when the capability is required rather than an optimisation; and the
 resolved artifact is a standalone topology description the engine could have been
 handed directly, emitted with a stated warning that it now contains, inlined,
-everything the fragments only referenced.
+everything the fragments only referenced — or emitted with references left
+unresolved when it is going anywhere but the engine.
 
 ## The techniques
 
@@ -246,10 +282,16 @@ everything the fragments only referenced.
   — participation declared in the fragment's own identifier, the conjunction
   rule over the active set, why the assembler must stay ignorant, and the
   enumeration pass that makes an unreachable fragment visible.
+- [requirement-closure-before-selection](./techniques/requirement-closure-before-selection.md)
+  — why a requirement is not a participation condition, the transitive closure
+  that adds requests and never observations, close-or-refuse as the only honest
+  outcomes, and the gate that keeps declared requirements and hard references in
+  agreement.
 - [specificity-ordered-layering](./techniques/specificity-ordered-layering.md)
   — the total order derived from identifier structure, the determinism guarantee
-  a discovered set requires, and the two obligations a derived order takes on in
-  place of a declared list.
+  a discovered set requires, the two obligations a derived order takes on in
+  place of a declared list, and the gate for incomparable fragments the order
+  can only rank by spelling.
 - [intent-and-environment-in-one-namespace](./techniques/intent-and-environment-in-one-namespace.md)
   — requests and observations sharing one token space, the declared kind that
   keeps them apart, and the rule that every quantifier over the space names the

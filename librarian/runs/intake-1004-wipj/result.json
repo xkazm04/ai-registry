@@ -1,0 +1,41 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-1004-wipj",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-10-04T19:35:00Z",
+  "ended_at": "2026-10-04T21:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-10-04",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/media-generation/production-ops/video-assembly/techniques/alignment-names-its-text.md",
+    "knowledge/media-generation/production-ops/video-assembly/applications/process--alignment-names-its-text.md",
+    "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
+    "librarian/sources/2026-10-04-video-edited-itself.md",
+    "librarian/subjects/media-generation/video-assembly.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One technique + one process application from a 496-word walkthrough. The headline claim was a catch; the landing is the unit the source got wrong, corroborated by two vendor references (per-character alignment; two index spaces). Unapplied: no fleet seam. 2 leads, 8 catches."
+}

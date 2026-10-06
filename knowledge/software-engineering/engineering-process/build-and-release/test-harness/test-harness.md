@@ -27,6 +27,7 @@ techniques:
   - unreached-decisions-pin-nothing
   - pin-the-call-not-the-name
   - assert-through-the-reader
+  - mutation-lane-with-a-triaged-baseline
 ---
 
 # Test harness architecture
@@ -385,3 +386,8 @@ a soak run misunderstands both; the design of these lanes is
   another: the cell as the result unit, why two one-axis jobs are not a
   two-axis matrix, the missing cell no in-cell instrument can see, and the
   coherence rule that stops the product from becoming the cell set.
+- [mutation-lane-with-a-triaged-baseline](./techniques/mutation-lane-with-a-triaged-baseline.md)
+  - the scheduled, non-blocking lane for code that runs under test while nothing
+  checks it: survivors as a report, build cost fixed before frequency, a sampled
+  baseline that says which sample, a repeated shard loss read as a defect in the
+  work, and a four-bin triage kept in a document instead of line-keyed exclusions.

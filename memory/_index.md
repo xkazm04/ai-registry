@@ -17,6 +17,15 @@ the registry; edit the notes, not the counts.
 - [When to run a lane skill on Fable 5.1 and when on Opus 5](semantic/model-choice-fable-vs-opus.md) - `engineering`,
   confidence 0.6. Fable ships more and deeper into the data layer; Opus audits gates, contracts and its own scope. Per-skill guidance table.
 
+- [Google AI Ultra in an agent-orchestrated production](semantic/google-ai-ultra-for-agentic-production.md) - `engineering`,
+  confidence 0.6. What the subscription covers, what an agent can reach headlessly (agy: code + images), what it cannot (music, video, 3D, the API).
+
+- [Mage Arena is one game shipped through several channels](semantic/mage-arena-channels-and-shared-canon.md) - `mage-arena`,
+  confidence 1.0. Desktop/TV, VR and a future PC build share one design; data has one owner; a mechanic is solved once.
+
+- [Mage Arena: which channel has solved which mechanic](semantic/mage-arena-mechanic-channel-matrix.md) - `mage-arena`,
+  confidence 0.6. Living matrix of mechanics x channels with the evidence for each cell.
+
 ### Procedural - what worked: a workflow, a runbook, a tool sequence
 
 - [Rolling back a bad release](procedural/rolling-back-a-bad-release.md) - `platform`,
@@ -39,7 +48,8 @@ the registry; edit the notes, not the counts.
 ## By namespace
 
 - `platform` - service naming and ownership, rolling back a bad release
-- `engineering` - required checks decision, 2026 H1 delivery guardrails, model choice Fable vs Opus, the 2026-09-01 skill bake-off
+- `engineering` - Google AI Ultra for agentic production, required checks decision, 2026 H1 delivery guardrails, model choice Fable vs Opus, the 2026-09-01 skill bake-off
+- `mage-arena` - channels and shared canon, mechanic-by-channel matrix
 
 ## Conventions for a new note
 

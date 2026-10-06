@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 55,
+  "applications": 57,
   "laws": 8,
   "categories": [
    "european",
@@ -1735,9 +1735,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/localization/craft/translation-pipeline-topology/translation-pipeline-topology.md",
-   "digest": "sha256-b2:3fb3a6ad451d2d36",
-   "revision": 11,
-   "changedAt": "2026-09-14",
+   "digest": "sha256-b2:678c2208c5b0dfc0",
+   "revision": 12,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "canonical-and-derived-split",
@@ -1930,6 +1930,13 @@
    ],
    "applications": [
     {
+     "stack": "node",
+     "technique": "prompt-context-contract",
+     "file": "knowledge/localization/craft/translation-pipeline-topology/applications/node--prompt-context-contract--personas.md",
+     "verified_on": "2026-10-06",
+     "verified_against": "node@22"
+    },
+    {
      "stack": "process",
      "technique": "canonical-and-derived-split",
      "file": "knowledge/localization/craft/translation-pipeline-topology/applications/process--canonical-and-derived-split.md",
@@ -1966,9 +1973,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
-   "digest": "sha256-b2:2a515e16ccd50e78",
-   "revision": 3,
-   "changedAt": "2026-09-14",
+   "digest": "sha256-b2:cfe21e4fea74ddc1",
+   "revision": 4,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "context-sufficiency-signals",
@@ -2124,7 +2131,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "context-sufficiency-signals",
+     "file": "knowledge/localization/craft/translation-quality-measurement/applications/node--context-sufficiency-signals--personas.md",
+     "verified_on": "2026-10-06",
+     "verified_against": "node@22"
+    }
+   ]
   },
   "vietnamese": {
    "category": "south-and-southeast-asian",

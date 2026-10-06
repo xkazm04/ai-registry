@@ -6,7 +6,7 @@ technique: compaction-horizon-breakeven
 status: forged
 laws: [limits-are-derived, count-carries-predicate, derivation-names-recomputation]
 shared_with: []
-use_when: [deciding at runtime whether a completed step is worth compacting away now, a compaction fires at the window threshold and nowhere else, choosing the denominator for a compaction's break-even, a second compaction is proposed before the first one has repaid its rewrite, a compaction policy needs a cache write/read ratio it cannot look up, the provider reprices the whole request above a prompt-length threshold below the window]
+use_when: [deciding at runtime whether a completed step is worth compacting away now, a compaction fires at the window threshold and nowhere else, choosing the denominator for a compaction's break-even, a second compaction is proposed before the first one has repaid its rewrite, a compaction policy needs a cache write/read ratio it cannot look up, the provider reprices the whole request above a prompt-length threshold below the window, an interactive session is about to sit idle longer than its prompt cache lives]
 ---
 # Compaction horizon break-even
 
@@ -132,6 +132,63 @@ priced input by a third, through prefix reads alone. The window is not where
 the economics put the threshold on either book. It is where the harness puts
 it, and the fidelity cost of moving it is still unmeasured.
 
+## When the clock moves the wall
+
+Everything above assumes the cache is still there when the next request
+arrives: `ratio − 1` prices a rewrite as a premium over a read, because the
+prefix "would have been re-read anyway". A prefix cache has a lifetime, and an
+interactive session spends much of its life idle. Once a gap outlives the
+cache, the next request does not re-read the prefix. It rewrites all of it at
+the write price, and that cost lands whether anything compacts or not. The
+premise inverts: at an expired cache the long transcript is the expensive
+branch, and a compaction's rewrite is no longer a premium over a read but a
+discount on a rewrite that was coming anyway.
+
+For a gap the session is expected to outlive, price both branches in base
+input units:
+
+> keep = `context × write` (the whole prefix, rewritten after the gap)
+> compact while warm = `context × read` (the fold reads the prefix from cache)
+> + `summary × output` + `memo × write` (after the gap)
+> **compact before the gap when the second is smaller**
+
+With writes priced above base input and reads at a small fraction of it, the
+second branch wins for any context more than a small multiple of the memo.
+**The order matters as much as the decision.** A compaction run *after* the
+cache expired pays the full prefix once to fold it and then writes the memo,
+which is worse than either branch. The window to act on an expected gap
+closes when the cache does, so the decision needs the cache's remaining life
+where the person deciding can see it, not in a log read afterwards.
+
+A replay of 14 days of one operator's coding-agent sessions (1,557 sessions,
+52,274 main-loop requests, a one-hour cache) puts a size on it. 247 idle gaps
+outlived the cache; the first request after each rewrote a median of 344
+thousand tokens (90th percentile 792 thousand), and those cold rewrites were
+34% of every cache-write token the period spent. Priced both ways at the
+provider's published rates, compacting while warm was cheaper at 233–235 of
+the 247 gaps and cut the post-gap cost by 86–91% across summary sizes from
+four to twelve thousand output tokens. What the replay cannot see is the
+other side. The gaps it priced are the ones the operator came back from; a
+compaction before a gap that ends the session is pure cost (the median
+session ended carrying 53 thousand tokens), and the fidelity cost of the
+extra lossy folds is unmeasured, as at the price step above.
+
+- **The trigger is the operator's, not the arithmetic's.** A harness cannot
+  know a gap is coming; the person stepping away usually can. Show the
+  remaining cache life and the size of the cold rewrite beside a one-action
+  compaction in the last minutes, rather than compacting on a timer that
+  folds sessions nobody returns to.
+- **Run the clock from the request's start.** One provider documents the
+  lifetime as running from the start of the request that last read or wrote
+  the entry, so a long streamed answer spends it. A clock started when the
+  response ends overstates what is left by the generation time.
+- **Read both prices per model, beside the ratio.** The branches need the
+  write price over base input and the read price, not only their ratio, and
+  the read price is no longer one number: in October 2026 one provider read
+  most models at a tenth of input, one at a twentieth and two at a fortieth.
+  Fix them for the session with the date checked, for the reason the ratio
+  is fixed ([limits-are-derived](../../../../_laws.md#limits-are-derived)).
+
 ## What the test governs, and what it cannot
 
 A replay of the rule over real coding-agent sessions draws the boundary
@@ -170,6 +227,9 @@ post-compaction reminder to rebuild the plan is what re-arms the next boundary.
   the step per model at session start, never from a constant.
 - Treat the ratio as a dated, session-fixed policy value, and treat a
   non-positive saving as no candidate at all.
+- Before an idle gap expected to outlive the cache, price keep against
+  compact-while-warm and compact first when it is cheaper; never compact
+  after the cache has expired to save the rewrite it already cost.
 
 ## When not to use this
 

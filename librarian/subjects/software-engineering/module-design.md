@@ -250,3 +250,16 @@ One new technique, applied and shipped, from
 - The tree amended the draft: the shim keeps one guard deciding *whether to
   touch the host*, because reading cookies opts a route out of prerendering.
   "No branches" was wrong; "no verdict branch" is the rule.
+
+## 2026-10-02 - /intake run (open Rust agent-loop crate), one technique
+
+Source: [[2026-10-02-yoagent]]. Gained `host-primitive-facade` (14 to 15 techniques); one source-tree application.
+
+- `io-free-core` is the answer for logic over events. A component whose job is to drive work (spawn, race a deadline,
+  sleep, stream) on two execution hosts cannot lose those verbs: one facade module, a marker bound for thread-safety, a
+  reasoned lint denylist loaded only in the portable job, and the suite run on the real host with a job timeout, because
+  the raw calls compile everywhere and fail only on one.
+- **Unapplied.** No fleet crate builds for a second execution host; the engine multiplexer hosts guest plugins, the
+  opposite direction. Return condition: a fleet Rust crate must build for a script host.
+- Neighbour cluster left as leads, not a new subject (the obvious home category, language-runtime, holds ten subjects):
+  public API growth, library CI pins, global-state test isolation.

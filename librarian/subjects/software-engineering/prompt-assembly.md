@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: prompt-assembly
-last_touched: 2026-09-29
+last_touched: 2026-10-02
 touched_by: deepen, intake
 dry_streak: 0
 ---
@@ -540,3 +540,38 @@ second-tree documents because the stack--technique names were taken:
 emergency truncation never persisted, so resume is larger than live; the only diagnostic dropped) and
 `node--summary-evidence-gate--pilotdeck` (a summary admitted on its finish reason, from input capped
 with no re-fetch pointer). Banked untriaged: emergency truncation not persisted as its own amendment.
+
+## 2026-10-02 - intake claude-mods ([[2026-10-02-claude-mods]], run `in-cccustom-1002`)
+
+Amended `compaction-horizon-breakeven` with "When the clock moves the wall": the rewrite premium
+assumes a warm cache, and an idle gap longer than the cache lifetime inverts it, because the next
+request rewrites the whole prefix anyway. Priced keep against compact-while-warm, said to never compact
+after expiry, and to run the clock from the request start. Evidence: a 14-day replay of one machine's
+sessions (247 gaps, median cold rewrite 344k, 34% of all cache writes, warm compaction cheaper at
+233-235 of 247). The application `claude-code--compaction-horizon-breakeven` (experiment,
+unmeasurable: the fidelity floor was never run) records a cache-clock plugin as the realization.
+Open: the paired continuation eval that would measure the floor.
+
+## 2026-10-02 - /intake run (open Rust agent-loop crate), three techniques
+
+Source: [[2026-10-02-yoagent]]. Gained `compaction-target-is-an-aim`, `compaction-is-a-fixed-point` and
+`cache-affinity-key-from-the-unrewritable-layer` (29 to 32 techniques); three source-tree applications.
+
+- **Target against window.** `history-compaction` states pairing, resume and size invariants but treats the size a cut
+  reaches as one number. A headroom-derived target is an aim the compactor chose; the window is the limit. The last rung
+  falls back against the target, drops the head first and, when the newest turn exceeds it, leaves only the marker.
+  Reproduced by running the source's own deterministic sweep at its HEAD: default budget task lost 0%, latest request
+  2%; a quarter of that budget still loses the task in every tool-heavy compaction (43 marker-only passes per 100).
+- **Fixed point.** The corpus prices a rewrite (cache-breakpoint-allocation, amortized-compaction-cadence) and takes it as
+  given. The rewrites nobody decided to pay for come from a compactor that is not idempotent and deterministic: a marker
+  not charged to its cap, a counter in marker text, a cap applied late. Replay numbers are the source's (rewrites 415 to
+  70, input spend down 21 to 23%) and were not re-run; the mechanics were opened in code. Also carries the hit-rate
+  length ceiling and the "not cached is input plus cache writes" accounting rule.
+- **Affinity key.** Distinct from `fingerprinting-and-cache-keys` (session staleness stamp). A key derived from the first
+  message breaks under compaction and collapses across sessions; derive it from the standing layer. Provider's own guide
+  fetched (key routes, does not pin; 15 requests per minute on one cached state can overflow; automatic on its newest
+  models, so the value is model-dependent).
+- **Unapplied.** Nine fleet trees searched with a positive control; no transcript compaction and no cache key. Return
+  condition: a fleet project owns a transcript spend-down or sends a provider cache key.
+- **Open (untriaged, one neighbour read each):** tool source consulted once per run and sorted by name for the cached
+  prefix (against `cache-breakpoint-allocation`'s variability rule); a rate-limit-before-overflow classification.

@@ -113,11 +113,27 @@ benchmark archaeology.
 
 So the probe has three outcomes, not two: **present**, **absent**, and **could
 not determine**; the third emits no token *and* surfaces itself where the
-operator will see it, at the same volume as any other startup problem. The
-composition proceeds — refusing to start because a probe failed is worse than
-running on the fallback — but it proceeds having said so. The observable
-difference between the two is the whole point, and a design that only has "the
-token is there or it is not" cannot express it.
+operator will see it, at the same volume as any other startup problem. Where an
+acceptable fallback exists, the composition proceeds — refusing to start because
+a probe failed is worse than running on a path that works — but it proceeds
+having said so. The observable difference between the two is the whole point,
+and a design that only has "the token is there or it is not" cannot express it.
+
+That proceed-on-fallback rule carries a condition, and it is the capability's,
+not the probe's. It holds for a capability that is an **optimisation** — the
+service has a slower path and the slower path is within its contract. For a
+capability that is a **requirement** — the service has no path without it, or
+its fallback breaks a latency or cost commitment someone depends on — running
+without it is not a fallback, it is a different service under the same name.
+Schedulers that place work by declared resources take this side on purpose: a
+workload asking for a device no node has stays pending rather than starting
+somewhere it cannot run. So the capability's kind of dependency is declared with
+the requirement that names it, and *could not determine* on a required
+capability refuses the run, naming the probe that failed, exactly as an absent
+one does. This is the same check-not-force rule that
+[requirement-closure-before-selection](./requirement-closure-before-selection.md)
+applies when a closure reaches an observation: a closure, like a wildcard, ranges
+over requests and never asserts a measurement.
 
 ## Decision rules
 
@@ -131,7 +147,9 @@ token is there or it is not" cannot express it.
   name a capability. A group that could would let a request assert a
   measurement.
 - Probes return three outcomes. *Could not determine* emits no token and reports
-  itself as loudly as a failed startup step.
+  itself as loudly as a failed startup step. It proceeds on a fallback only for a
+  capability that is an optimisation; for a required capability it refuses the
+  run, as an absent capability does.
 - A capability token is never settable by an operator as an ordinary request. If
   a forced override is genuinely needed — testing a fragment on a host that lacks
   the hardware — it is a separate, named, announcing mechanism, because it is a

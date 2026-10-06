@@ -442,3 +442,57 @@ Owner asked for no LLM judges. 9/9 delivered, 0 leaks, 0 page errors, 0 network 
   gpt-6-sol@high 25.9 min / 1 turn / no price reported; grok-4.7@high 66.8 min / 88 turns / $2.39.
 - **The one-turn seat again brought one information architecture three times** (three skins on a
   shared layout), while the other two seats brought three structurally different bets each.
+
+## 1.8.0 - 2026-10-01 - ai-registry (business design round, 3 seats x 3 variants, no panel)
+
+A design contest whose variants are business-design reports. Seats: `claude:claude-sonnet-5-5@high`,
+`codex:gpt-6-astra@high`, `grok:grok-4.7@high`; the brief gave one operator's situation and stack
+preferences and no menu of ideas, and appended the design-report bar. Owner review, no judge panel.
+9/9 delivered, 0 page errors, 35 identity leaks redacted (all one seat). The round ran from the intake
+skill's source note; the outcome is recorded there.
+
+- **The rubric's structure saturated; only the claim check separated the seats.** The brief's table of
+  what a 10 looks like by part (buyer, money, reach, proof, exposure, evidence) gave all nine reports the
+  same skeleton, a numeric pass and kill line, and no invented evidence. A reader scoring the skeleton
+  would have scored a nine-way tie. What differed was whether the claims held on the live page, which
+  needs fetching. Schedule the claim check as a step of a business-design contest, not an optional extra.
+- **Blinding and source URLs collide (proposal, not applied).** The seat was told not to name its vendor;
+  one seat read that as "withhold the URL of the vendor's price page" and wrote "URL withheld to keep the
+  review blind", and `collect` rewrote the vendor's host inside another seat's URL. For six of the nine
+  reports the model-price claim then has no followable primary source in the blinded copy. Proposal: tell
+  design-contest seats that a source URL is not identity and must stay, and keep URL hosts through
+  redaction the way compound identifiers the staged data holds are already kept.
+- **A claim check chosen by the checker is not a census (host procedure).** Three verifiers took about six
+  claims per report and the reports differ in how many outside claims they make, so confirmed-over-checked
+  partly measures how much a report asserts. To compare seats, check every `S`-marked claim in each
+  report, and report recalled (`R`) claims as a separate count.
+- **Name seats only after the owner has opened the router, unless the owner asked for a seat
+  comparison.** Here they had asked for one, and the host still named seats beside findings in chat
+  before the router was opened; the blind was gone at seat level. Decide at the opening line which review
+  this is and keep to it.
+- **A tile component can hide the honesty device on the first screen.** All three variants of one seat
+  rendered the `S`/`R`/`A` pills as wide bars with the letter unreadable; the type-size measure and the
+  page-error count were both clean. Only reading the screenshots caught it.
+- **Cost and wall, as the CLIs reported them**: claude-sonnet-5-5@high 14.1 min / 38 turns / $2.59;
+  grok-4.7@high 25.0 min / 22 turns / $1.16; gpt-6-astra@high 28.7 min / 1 turn / no price reported.
+- **Turn counts do not compare across engines.** The codex CLI reports one turn for a 28.7-minute run,
+  the longest wall of the three. Compare wall and deliverables, not turns.
+- **The owner closed it with no winner, and the reason was grounding, not execution (2026-10-01).**
+  Their review: the ideas were not well thought out or grounded in real life, the topic was not
+  researched deeply, the business cases were naive. The round had delivered nine complete reports
+  with honest evidence marks and no invented evidence, so every rubric part was present; it still
+  failed on the one thing the rubric did not ask for. A design contest on a topic that needs outside
+  knowledge (a market, a buyer) is only as good as the research the brief demands before design.
+- **A claim check measures truth, not groundedness - do not report it as evidence of realism.** The
+  host's live-page check confirmed 40 of 52 sampled claims, all prices and policies, and the host's
+  first summary called the businesses realistic on the strength of it. The owner's verdict shows the
+  two are different. Report a tally as "the cited prices were right", never as "the business holds".
+- **The brief's own premise set the ceiling.** One operator, no audience, no domain, 14 days, $500 and
+  a 60-minute seat select for the cheapest micro-product a model can cost out; all nine landed at $6 to
+  $199 with a $10 to $300 test. If the aim is a business worth the owner's time, give the operator an
+  edge or a chosen domain, state the ceiling wanted, and stage research before design (proposal, not
+  applied).
+- **The instrument cannot close a contest with no winner (proposal, not applied).** `verdict` needs a
+  winner, a combined design or a shortlist, so a close like this one is a hand-written vault note and a
+  `contest.json` that still reads undecided. A `verdict --close <note>` that writes the note and index
+  row, credits no pattern and sets `decided` would cover it.

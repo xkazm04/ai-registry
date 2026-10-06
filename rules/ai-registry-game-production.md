@@ -1,10 +1,10 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 53 subjects, 338 techniques, 146 applications.
+`game-production` - 78 subjects, 508 techniques, 206 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### systems-canon
-- agent-behaviour-authoring, arpg-systems-canon, design-canon-as-executable-law, game-economy-tuning, realtime-combat-semantics
+- agent-behaviour-authoring, arpg-systems-canon, design-canon-as-executable-law, game-economy-tuning, racing-career-economy, realtime-combat-semantics
 
 ### balance-validation
 - combat-pacing-and-dramatic-arc, difficulty-design-and-adaptation, encounter-balance-simulation, learning-curve-and-teaching-design, procedural-level-planning, terrain-synthesis-acceptance
@@ -19,10 +19,21 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **surface-and-imagery** - imported-material-conformance, shader-budget-authoring, sprite-and-atlas-production, tiling-texture-acceptance
 
 ### engine-integration
-- crash-forensics-attribution, engine-integration-safety, engine-pitfall-corpus, gameplay-runtime-patterns, runtime-observation-evidence, ship-pipeline-gating, visual-script-to-code-transpilation
+- crash-forensics-attribution, engine-integration-safety, engine-pitfall-corpus, gameplay-runtime-patterns, perf-regression-gating, runtime-observation-evidence, ship-pipeline-gating, visual-script-to-code-transpilation
 
 ### craft-judgment
 - aaa-craft-rubric-authoring, design-doc-compliance-scoring, playtest-signal-to-defect, quality-verdict-integrity, subsystem-review-doctrine, unattended-build-loop
 
 ### production-governance
 - ability-authoring-to-engine, generative-provider-auditing, production-coverage-measurement, production-prompt-architecture, production-work-prioritization, prompt-fitness-and-evolution
+
+### racing-vehicles
+- mass-based-arcade-collision, racing-track-authoring-and-lint, steering-feel-profile-shaping, top-down-vehicle-handling-model, vehicle-archetype-balance
+
+### couch-and-tv-play
+- controller-latency-instrumentation, fire-tv-device-realities, lan-pairing-and-session-continuity, on-device-verification-harness, phone-controller-input-protocol, two-thumb-touch-layout-design
+
+### narrative-and-dialogue
+- **cast-and-relationships** - ally-bond-and-found-family-systems, antagonist-fair-grievance-craft, rival-to-ally-turn
+- **line-craft** - condition-tagged-line-tables, llm-dialogue-quality-control, short-form-cards-and-barks, speech-synthesis-script-writing, subtext-and-voice-differentiation
+- **story-structure** - debt-and-loss-stakes-staging, ending-first-narrative-structure, race-event-as-story-beat, regional-culture-worldbuilding

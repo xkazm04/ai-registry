@@ -12,6 +12,8 @@ techniques:
   - auto-picked-vs-human-chosen-provenance
   - gate-before-every-credit-spend
   - cite-evidence-not-descriptions
+  - reserve-before-dispatch-stop-latch
+  - generator-failure-deterministic-gates
 ---
 
 # Generative artifact gating
@@ -228,6 +230,23 @@ without inventing the target**: name the axis, name the evidence, leave the valu
 rubric or canon that owns it. A correction that ships an unauthorised number has quietly
 become the source of the design.
 
+## The guard on the spend, and the gate on the known failures
+
+Two more joints belong here, one on each side of a generator call. Before the call, the
+question is not whether this input is worth paying for but whether the line may pay at
+all, and the only honest answer comes from a **local ledger**: a reservation taken under a
+lock before dispatch, a cap per window and per slot, and a durable latch that the first
+quota or rate-limit error sets and only the owner clears. The ledger is a local guard, not
+a claim about the provider's real allowance, and a call whose outcome is unknown stays
+charged and is never retried by the machine
+([reserve-before-dispatch-stop-latch](./techniques/reserve-before-dispatch-stop-latch.md)).
+After the call, generators fail in a few repeatable geometric ways, and each has a
+measurement cheaper than any model: a subject cropped at the raw frame edge, a slanted
+axis, a tile that repeats. Those gates run first, and a model grader that runs after them
+may reject or route to a person but never accept; a schema violation fails closed, and two
+graders of one family count as one
+([generator-failure-deterministic-gates](./techniques/generator-failure-deterministic-gates.md)).
+
 ## Failure modes worth naming
 
 - **Green by default.** A step that has never run reports the same colour as a step that
@@ -244,6 +263,10 @@ become the source of the design.
 - **Structural completeness mistaken for readiness.** Every field is populated, every
   record parses, and no pixel was ever generated. Structural proof is necessary and never
   sufficient.
+- **The loop that finds the ceiling by hitting it.** A quota error is logged and the next
+  worker dispatches anyway, because nothing durable says stop.
+- **The grader that agrees with itself.** Two models of one family concur, the pair is
+  counted as independent evidence, and a defect both are blind to ships.
 
 ## What is next door
 
@@ -253,3 +276,15 @@ generated mesh or a source image on its own merits is owned elsewhere. The ladde
 evidence rungs and the statuses a verdict may take is owned elsewhere. This subject owns
 only the joint: the gate that stands between an artifact and the next stage of spend, and
 the honesty of the state it reports.
+
+Two neighbours share the ground the newer techniques touch. The sprite-and-atlas subject
+owns what a renderer needs from a sprite: the grid, the pivot, the margin it needs when
+packed. This subject owns only the *raw-frame* margin and axis checks as generator-failure
+detectors that run before any trimming or packing; when the question is "did the generator
+crop or tilt its subject", read here, and when it is "will this sprite draw cleanly beside
+its neighbours", read there. The tiling-texture subject owns whether a tile is continuous
+with itself and how its cutoffs are calibrated; this subject owns only the use of a
+repetition measure as one more cheap gate ahead of a model grader, and the rule that the
+model may reject but not accept. The rule for a reader choosing between them is whether
+the measurement is being used to define the asset's contract or to catch a known way the
+generator fails to meet it.

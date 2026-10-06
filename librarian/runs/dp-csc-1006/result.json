@@ -1,0 +1,88 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-csc-1006",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-10-06T10:22:44Z",
+  "ended_at": "2026-10-06T10:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/conditional-service-composition",
+      "at": "2026-10-06",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/conditional-service-composition",
+      "technique": "requirement-closure-before-selection",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/conditional-service-composition",
+      "technique": "conjunction-activated-fragments",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "software-engineering/conditional-service-composition",
+      "technique": null,
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
+    "knowledge/software-engineering/operations/service-operations/conditional-service-composition/techniques/requirement-closure-before-selection.md",
+    "knowledge/software-engineering/operations/service-operations/conditional-service-composition/techniques/conjunction-activated-fragments.md",
+    "knowledge/software-engineering/operations/service-operations/conditional-service-composition/techniques/specificity-ordered-layering.md",
+    "knowledge/software-engineering/operations/service-operations/conditional-service-composition/techniques/intent-and-environment-in-one-namespace.md",
+    "knowledge/software-engineering/operations/service-operations/conditional-service-composition/applications/docker-compose--requirement-closure-before-selection.md",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/conditional-service-composition.md"
+  ],
+  "commits": [
+    {
+      "sha": "eb2e1b8c",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering/operations/service-operations/conditional-service-composition"
+    },
+    {
+      "sha": "d2492d86",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "catalog.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    },
+    {
+      "sha": "a6034fa4",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/software-engineering.md",
+        "librarian/subjects/software-engineering/conditional-service-composition.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 technique (requirement-closure-before-selection, 3-lane convergence) + 4 corrections. Project commits local only (systedo-case, tracklight: sibling unpushed work). Map pairs subject with 0 contexts. Base gate red upstream: check-public-paths, 36 hits in game-production."
+}

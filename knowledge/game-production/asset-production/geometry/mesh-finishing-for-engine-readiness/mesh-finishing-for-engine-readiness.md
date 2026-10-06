@@ -13,6 +13,7 @@ techniques:
   - conform-target-is-not-a-remap-row
   - headless-dcc-capability-limits
   - texture-pass-must-consume-the-bake
+  - export-proven-by-read-back
 ---
 
 # Mesh finishing for engine readiness
@@ -169,6 +170,18 @@ list with one mapping field and the empty table means "not authored yet" on one 
 Structural success is not the end of the ladder here. A rig that imports, resolves and
 binds can still deform incorrectly, and only played animation shows it — a rig test is not
 complete until real motion data has run on it and been looked at.
+
+## The write is an arrow too
+
+The order above stops at binding, and every arrow in it has a rule about what the step
+may claim. The export that hands the asset on has had none, so the bench has trusted the
+exporter's own success status at the one point where the asset leaves its control. That
+status says the operator finished. It does not say what the file holds. A scene-graph
+exporter that walks every scene by default will report success over a file carrying a
+side workspace's objects, and an empty scene exports as a well-formed file with nothing
+in it. The write is proven by reading the file back inside the process that wrote it and
+comparing it with the content the stage resolved before the write. See
+[export-proven-by-read-back](./techniques/export-proven-by-read-back.md).
 
 ## The automation surface will tell you a call exists, never that it works
 

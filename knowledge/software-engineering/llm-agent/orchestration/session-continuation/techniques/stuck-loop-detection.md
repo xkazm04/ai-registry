@@ -140,6 +140,24 @@ rather than inside the loop that died.
   resume. Absence of the marker is the crash signal, so it is written last,
   after the drain completes, and never optimistically.
 
+**The marker may skip a sweep keyed on recency, never one keyed on state.**
+The skip is right for the sweep above because its predicate is *touched
+recently*: after a deliberate restart every session the operator was using
+matches it, and nothing in the row says which ones were mid-turn. A sweep keyed
+on durable in-flight state - rows that still say running - has no such
+ambiguity, and there the marker can only subtract. A quit that drained leaves
+that sweep nothing to find; a quit that did not drain left work exactly where a
+crash would, and skipping the sweep gives the most common exit a worse recovery
+than the rare one. "After the drain completes" is carrying the weight: the
+drain has to cover the population the sweep reads, not only the resources the
+shutdown handler happens to own. A desktop agent runtime adopted this marker
+over its state-keyed execution sweep; its exit handler closed preview servers
+and warm CLI sessions but not agent runs, so a run in flight at quit skipped the
+resume a power loss would have given it and waited for the stall reaper
+instead. The durable-operations side states the general rule
+([close is a controlled crash](../../durable-agent-operations/techniques/close-is-a-controlled-crash.md)):
+close leaves what a crash leaves, and a marker only labels the exit.
+
 The two keys do not merge into one counter. Failure identity halts a lane that
 is *doing the wrong thing*; the restart counter halts a lane that *cannot be
 run at all*. A design carrying only the first will run the second forever
@@ -163,6 +181,9 @@ nothing left to notice.
 - Record clean shutdowns explicitly, and skip the resume sweep when the marker
   is present; a restart that cannot be distinguished from a crash resumes work
   nobody interrupted.
+- Skip only a sweep whose predicate is recency. A sweep keyed on rows still
+  marked in flight runs on every start; the marker labels the exit and gates
+  nothing.
 
 ## When not to use this
 

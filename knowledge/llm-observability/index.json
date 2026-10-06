@@ -4,8 +4,8 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
-  "techniques": 126,
-  "applications": 79,
+  "techniques": 127,
+  "applications": 80,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "126/126",
+  "use_when_coverage": "127/127",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -838,10 +838,27 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/generator-uncertainty-scoring.md",
-   "digest": "sha256-b2:a5dce184a577b2fc",
-   "revision": 2,
-   "changedAt": "2026-09-18",
+   "digest": "sha256-b2:a449ca2b8da79c6e",
+   "revision": 3,
+   "changedAt": "2026-10-05",
    "techniques": [
+    {
+     "slug": "compare-gates-at-matched-coverage",
+     "status": "forged",
+     "laws": [
+      "statistical-verdicts-or-no-verdict",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a recalibration is credited with fewer errors at an unchanged threshold",
+      "two scorers or models are compared at one nominal confidence threshold",
+      "a scorer behind a gate is swapped or its input is enriched and the threshold is kept",
+      "choosing where to put an escalation threshold",
+      "a gate's line was fitted on a different scorer than the one now answering"
+     ],
+     "stage": "team"
+    },
     {
      "slug": "generator-vs-itself",
      "status": "forged",
@@ -941,6 +958,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "compare-gates-at-matched-coverage",
+     "file": "knowledge/llm-observability/quality-scoring/generator-uncertainty-scoring/applications/node--compare-gates-at-matched-coverage--pof.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "node@24"
+    },
     {
      "stack": "python",
      "technique": "stated-distribution-over-closed-labels",
@@ -1532,9 +1556,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/llm-price-book-operations/llm-price-book-operations.md",
-   "digest": "sha256-b2:dd1f7799ad2cb3b4",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:1f43aefeff056ea5",
+   "revision": 2,
+   "changedAt": "2026-10-02",
    "techniques": [
     {
      "slug": "embedded-seed-fallback",
@@ -2626,6 +2650,7 @@
     "cross-provider-benchmark-operations/self-hosted-residency-is-part-of-the-target",
     "federated-benchmark-sharing/bounded-contributor-influence",
     "federated-benchmark-sharing/cost-bucketing-side-channels",
+    "generator-uncertainty-scoring/compare-gates-at-matched-coverage",
     "generator-uncertainty-scoring/generator-vs-itself",
     "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
     "generator-uncertainty-scoring/score-source-ensembling",
@@ -2728,6 +2753,7 @@
     "cross-provider-benchmark-operations/budget-preflight-and-ceiling",
     "cross-provider-benchmark-operations/cheapest-sufficient-configuration",
     "cross-provider-benchmark-operations/graded-case-difficulty",
+    "generator-uncertainty-scoring/compare-gates-at-matched-coverage",
     "generator-uncertainty-scoring/generator-vs-itself",
     "generator-uncertainty-scoring/probability-calibration-is-not-agreement",
     "generator-uncertainty-scoring/score-source-ensembling",

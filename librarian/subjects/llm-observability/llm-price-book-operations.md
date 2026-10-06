@@ -1,8 +1,8 @@
 ---
 domain: llm-observability
 subject: llm-price-book-operations
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-10-02
+touched_by: architecture-review, intake
 dry_streak: 0
 ---
 
@@ -218,3 +218,10 @@ storage line. The LightTrack tree was not cloned, no test was rerun, and no
   }
 }
 ```
+
+## 2026-10-02 - intake claude-mods ([[2026-10-02-claude-mods]], run `in-cccustom-1002`)
+
+Currency only: "a tenth is typical" for cache reads now carries a per-model caveat (one provider
+read its newest models at a twentieth and a fortieth in October 2026, verified on its caching
+page). The sentence stays true, and a price book that keys the read rate per provider rather
+than per model now under-reads the discount on exactly the newest models.

@@ -5,7 +5,7 @@ subject: image-to-3d-input-gating
 technique: single-subject-plain-background
 stack: node
 status: forged
-verified_on: 2026-08-30
+verified_on: 2026-10-05
 verified_against: node@24
 ---
 
@@ -28,7 +28,7 @@ carries a **WHERE IT RUNS** clause naming the route by path rather than a claim 
 
 ## The enforcement point
 
-`POST /api/visual-gen/generate` (`src/app/api/visual-gen/generate/route.ts:104-119`) runs the
+`POST /api/visual-gen/generate` (`src/app/api/visual-gen/generate/route.ts:136-149`) runs the
 gate for every `image-to-3d` submit **before** any provider job starts:
 
 ```ts
@@ -39,22 +39,25 @@ const refusal = inputGateRefusal(inputGate);
 ```
 
 On a refusal the route returns 400; otherwise the outcome rides on the 202 as `inputGate`
-(`route.ts:155`, `:176`) so the caller sees the verdict either way. Line 168 carries a
+(`route.ts:147`, `:167`) so the caller sees the verdict either way. Line 165 carries a
 deliberate absence: a `text-to-3d` submit has no input image, so it reports no gate rather
 than a passing one.
 
 ## Three states, one refusal function
 
-`InputGateOutcome` (`input-gate.ts:105`) is a union of exactly the three honest states:
+`InputGateOutcome` (`input-gate.ts:148`) is a union of exactly the three honest states:
 
-- `{ ran: true, verdict, score, reasons, overridden?, note }`
+- `{ ran: true, verdict, score, reasons, overridden?, note, model?, thresholdsFrom? }` - the
+  last two since 2026-10-05: the verdict is read on a per-grader line, so the outcome names
+  the grader and whose line decided it, and the note says when that line was not fitted to
+  the grader that answered
 - `inputGateUnavailable(reason)` → `"input gate unavailable: <reason> — image submitted ungated"`
 - `inputGateSkipped()` → `"input gate skipped: the caller sent gateInput: false — image submitted ungated"`
 
 Skipped is *stated, never inferred from a missing field*. Both non-running states stamp the
 artifact "submitted ungated" in the note that travels with the job.
 
-`inputGateRefusal` (`:142`) is one pure line — `if (!outcome.ran || outcome.verdict !== 'fail')
+`inputGateRefusal` (`:207`) is one pure line — `if (!outcome.ran || outcome.verdict !== 'fail')
 return null` — carrying the comment that makes the asymmetry explicit: *"Only a verdict the
 gate actually PRODUCED can refuse: an unavailable gate has measured nothing and therefore
 cannot condemn an image."* Keeping "which states cost money" in a single pure function is what
@@ -65,7 +68,7 @@ makes the rule testable instead of re-derived at each call site.
 The refusal text names the fix in the isolation criterion's own vocabulary — *"Fix the concept
 image (one subject, plain background, near-canonical uncropped pose) or resubmit with
 `overrideInputGate: true` to generate anyway."* Taking the override runs
-`inputGateOverridden` (`:152`), which appends `— OVERRIDDEN by the caller; generation ran
+`inputGateOverridden` (`:217`), which appends `— OVERRIDDEN by the caller; generation ran
 anyway` to the note. The escape hatch exists, it is a named request parameter rather than a
 default or a config value, and using it is permanently visible on the artifact.
 

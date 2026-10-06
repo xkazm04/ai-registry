@@ -6,7 +6,7 @@ argument-hint: <mode> [locale] [scope]
 memory: project
 contexts: tracked
 listing: on
-version: 1.6.1
+version: 1.6.2
 ---
 
 # i18n-translate — copywriting-grade, context-aware localization
@@ -129,8 +129,10 @@ repo under `docs/i18n/` — they are project truth, not skill-internal state:
    pseudo-locale) is a source row listing the failing check per locale — file it
    before fixing any target. A two-model divergence
    (`translation-quality-measurement/context-sufficiency-signals`) is the
-   model-based cousin, pointed at what that leaves. A run that reports zero
-   source defects over thousands of keys did not look.
+   model-based cousin, pointed at what that leaves; classify each flag as a
+   source gap, a termbase choice or an engine error before filing it, because on
+   one measured catalog three flags in four were not the source's. A run that
+   reports zero source defects over thousands of keys did not look.
 5. **`exemplars-<locale>.md`** — the gold pairs. *Register by demonstration.*
    ~8 source→locale pairs harvested from the locale's best already-reviewed
    strings, one per string class: button/CTA, heading, tooltip, error/status,

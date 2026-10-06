@@ -330,3 +330,29 @@ render-bound, and no local instrument on this machine can arm it.
 in the golden path ("a bake requested on an unwrapped mesh is not a bake") is still
 present at current bytes. This run did not touch it - it is a `clarify` row already
 recorded, not an intake finding.
+
+## Intake 2026-10-05 - the write is an arrow too
+
+Source: [2026-10-05-mixar-ai-first-blender-fork](../../sources/2026-10-05-mixar-ai-first-blender-fork.md),
+run `intake-1005-z8xh`. A review video was the occasion. The open-source client it reviewed
+carried the mechanism: export verification by reading the written file back.
+
+**Landed:** technique `export-proven-by-read-back`, plus a golden-path section ("The write
+is an arrow too") placed before the automation-surface section. The golden path's
+enumeration (reduce, unwrap, bake, bind) gave every arrow a claim rule except the export
+that hands the asset on, which trusted the exporter's own status. Existing sentences stay
+true. This is an append.
+
+**Measured, not quoted:** on Blender 4.2.1 a glTF export of a document with a side scene
+wrote both scenes, and an empty scene wrote a valid zero-mesh file. Both returned
+FINISHED. The source tree's 64-byte emptiness floor passes that 132-byte empty file, so
+the technique counts content instead of bytes. The tree's muted-clip failure did not
+reproduce under default options, so the technique is written against intended content,
+not against known exporter bugs.
+
+**Applied:** pof `code`, `better`, `ab-paired` (3 wrong files receipted in A, 0 in B;
+floor held; the read-back alone catches the leak). Application `node--export-proven-by-read-back`.
+pof `65974e1e`, not pushed.
+
+**Boundary stated, not linked:** import-side acceptance (`generated-asset-world-scale`,
+`generated-mesh-acceptance`) checks what arrived. This technique proves what was sent.

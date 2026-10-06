@@ -11,6 +11,9 @@ techniques:
   - commitment-and-recovery-windows
   - group-coordination-without-a-hive-mind
   - decision-trace-as-evidence
+  - ai-corner-speed-from-grip-limit
+  - no-double-grip-penalty
+  - ai-distances-from-car-size
 ---
 
 # Agent behaviour authoring
@@ -81,7 +84,7 @@ The canonical failure here is an agent whose whole decision apparatus is present
 and which stands motionless in the level — hard to find precisely because every check that ran
 was a check on the first rung.
 
-Read the six techniques as six obligations across those four links, not as six features.
+Read the first six techniques as six obligations across those four links, not as six features.
 
 ## What a machine needs that a human author did not
 
@@ -124,6 +127,16 @@ raises them or grants a new intent — is a difficulty decision, owned next door
 here is the insistence that the dial exists at all, that it is a named quantity per agent class
 with a unit, and that leaving it undialled ships whatever competence the implementation
 happened to be capable of, which is a number nobody chose.
+
+A driven opponent in a racing game is the same rule in its physical form. Its knowledge is
+the road ahead, and its competence dial is the share of the car's own grip limit it is willing
+to use: the opponent derives its corner speed from the limit the player's car obeys, so it has
+no physics of its own to cheat with, and a duplicate of that limit anywhere in its speed chain
+is a defect that only a completion test across every surface will find. Its distances to other
+cars are written in car sizes so they survive a roster rescale. Those three concerns are
+`ai-corner-speed-from-grip-limit`, `no-double-grip-penalty` and `ai-distances-from-car-size`;
+the vehicle model they read from belongs to the handling subject, and the decision of how hard
+the opposition should be belongs to the difficulty subject.
 
 ## Coordination is a resource problem, not a command problem
 

@@ -1,0 +1,68 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-cccustom-1002",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-02T16:48:45Z",
+  "ended_at": "2026-10-02T17:12:39Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/prompt-assembly",
+      "at": "2026-10-02",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "llm-observability/llm-price-book-operations",
+      "at": "2026-10-02",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "prompt-assembly",
+      "technique": "compaction-horizon-breakeven",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/techniques/compaction-horizon-breakeven.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/claude-code--compaction-horizon-breakeven.md",
+    "knowledge/llm-observability/economics-and-governance/llm-price-book-operations/llm-price-book-operations.md",
+    "librarian/sources/2026-10-02-claude-mods.md"
+  ],
+  "commits": [
+    {
+      "sha": "2d3d2a14",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly",
+        "knowledge/llm-observability/economics-and-governance/llm-price-book-operations",
+        "knowledge/software-engineering/index.json",
+        "knowledge/llm-observability/index.json",
+        "librarian/subjects",
+        "librarian/sources/2026-10-02-claude-mods.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One amendment (idle gap past the cache lifetime), one per-model cache-read currency edit, one application (unmeasurable: floor never run). Three harness plugins built and tested in the operator harness, not committed."
+}

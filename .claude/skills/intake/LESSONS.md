@@ -12185,3 +12185,194 @@ finish on the version it loaded.)
 - The primary for a harness fact is the maintainer's changelog fetched verbatim, and the version's date comes from the package registry's publish time. Both were one command each and settled a claim the video made in a garbled sentence. The changelog's per-model prices were also the only citable source for a cost weighting; a price it did not carry (the small tier) had to be labelled an assumption in the record.
 - When an experiment pins a tier to stand in for one the session is not running, the record names it as a stand-in. A verdict measured on one brief class is scoped to that class: `better` for enumeration and `unmeasurable` for the tracing brief the skills actually send, two applied rows and not one.
 - Working directory drift: a `cd` inside a compound Bash command persists, and the harness moved the primary directory into a knowledge subfolder for three calls. Start each call with an absolute `cd` to the repo root.
+
+## 2.14.1 - 2026-10-01 - build-me-a-business
+
+- A build-walkthrough's recommended practice (here: a skill that holds the owner's choices and pointers, not a procedure) was already owned by the corpus, in three techniques of one subject, and said more exactly. Map the recommendation before extracting it as a candidate; the recommendation is the part of such a video most likely to be a catch.
+- A title promises a noun the demo may never deliver ("a business", answered by an application). Name what the noun requires (buyer, price test, unit cost, channel) and check whether the source shows any of it; the missing part is the source's boundary, and it is a testable claim, not a decline.
+- A control string that asserts a word the control file does not contain fails for the control, not for the instrument: the first skills-lane search returned 0 hits and "control failed". Redo it with a control that is known to be present (a heading) before reading the zero.
+
+### Redesign proposal
+
+Phase 5's promotion read covers a row whose only blocker is the +1 for an unchecked worker report. It does not cover a row whose only blocker is the +2 for source prose alone when one fetched primary would take RISK to 0. This run banked two such rows (a service's agent setup path; a secret kept out of the agent's context) at 0 of 3 fetches, because the method says to bank at +2. Proposal, not applied: extend the promotion read so that a row blocked only by source prose may spend one fetch, re-score, and land if the re-score clears the threshold. Evidence is one run; the scorecard's next row says whether it recurs.
+
+## 2.14.1 - 2026-10-01 - aura-documentation
+
+- Run arm A before writing arm B and read what it prints. The first measurement here reported zero mislabelled tests on the OLD behaviour, the very thing the fix was meant to remove, because the label pattern matched one wording and the code wrote another. With the pattern corrected the same run counted four. A metric defined by a regular expression needs its positive control on the old arm; a clean zero on the arm that should be dirty is the instrument, not the result.
+- A corpus technique derived from a connected tree's incident can be AHEAD of that tree. Its single-test path already treated a fatal marker as a failure; its batch path never read it. The correction to the corpus (an enumeration line cannot separate "nothing matched" from "cut short") came from executing the project's own function on the input the source described, not from the source. This is the v2.8.1 seam-hunt rule seen again; the new part is that the run's only surprise came from running code on one input, before triage, and the source never mentioned that function.
+- Do not dispatch a forge worker over a tree while direction workers are merging into it. The spec said the capture stage was unmerged; it merged while the worker drafted, so the worker rewrote its applications against the merged tree and had to say each is an application built for the subject, not independent corroboration. Either merge the directions first and then forge, or pin the forge worker to a commit.
+- A worktree gate can be red for a gitignored fixture. A mesh-split route test names a real file under a gitignored directory; it fails in every worktree and passes in the main checkout. Re-run any red test on the main checkout, or the pre-change commit in a throwaway worktree, before attributing it to the branch. The comparison against the pre-change commit was the cheap, decisive one for the five other failures.
+- Positive-control a brace glob. A purity grep with `glob: "{a.md,techniques/*.md}"` returned no matches with no error, and the control (a word known to be present) returned none either, so the first clean sheet was an artefact. The same pattern with no glob found 89 hits, all in the applications where names are allowed, and none in the upper layers.
+- A peer comparison study corrects its director: seven of the director's seed points were wrong against the tree, including the premise that justified one of the four features (a "0 of 77" record belonged to a different gate). The four direction workers were briefed from the corrected study, not from the seeds. Plan the correction pass; it is the point of dispatching the study.
+
+## 2.14.1 - 2026-10-02 - claude-mods
+
+- **Transcript replay is now a rule (2.15.0), at its fourth sighting.** Two replays in one run: idle gaps past the cache lifetime (52,274 requests) produced the landing, and a shell guard drafted from the incident memory was replayed over 39,940 commands before it was enabled. The guard's first draft was wrong in three classes the replay exposed only when its rows were read: pathspec-scoped staging, heredoc and commit-message bodies judged as commands, and "prints usage" taken for "handles --help". A count alone would have shipped all three.
+- **A review that shows a device often points at a limit, and the limit is the finding.** The creator's cache clock was a UI toy; what it was pointing at (a compaction premium that inverts once the cache expires) was missing from a subject that had already priced two other walls. When a demo shows a gauge, ask what quantity it gauges and whether the corpus models that quantity running out.
+- **A summarizing fetch produced the one number the landing depended on (a per-model cache-read price), so the page was re-read verbatim before it was cited.** It held, and the source's "95%" turned out right for exactly one model. Re-reading verbatim costs one fetch; a summarizer has already dropped a condition and inverted a finding in an earlier run.
+- Mid-flight runs on 2.14.1: finish on the version you loaded; the 2.15.0 paragraph only changes how a harness-shaped finding is applied.
+
+## 2.15.0 - 2026-10-02 - yoagent
+
+- A repository's eval document and its shipped code can disagree on purpose: here the document proposes a structural fix, the changelog ships an interim constant, and the code at HEAD still carries the hazard. Run the source's own instrument at HEAD (2.8 s, deterministic) and read the line it names; a quote-only read of the changelog would have called the problem fixed. The re-run matched the changelog's numbers at the default budget and showed the small budget still collapsing.
+- Choose the apply seam from the source's *tooling*, not only its subject. No fleet tree owned a compaction path (nine searched, positive control carried), but the tree documents a mutation lane; running it on a fleet module found 7 survivors, two real, one under a test named for its rule and answered by a stored row before the rule was consulted. Paired proof: both mutants caught after two tests, 296 tests green, committed, not pushed.
+- A mutation run's detection rate is a property of the test scope. Two of seven survivors were caught only when the workspace's tests ran, and the tool's auto-derived timeout, calibrated on the narrow baseline, turned a wider run's slow tests into TIMEOUT outcomes, which count as detected. Name the scope beside the rate and set the timeout by hand when widening it.
+- `grep -E` with `\|` alternation returned nothing for six probes in one call, which read as six clean absences; the call also held a plain pattern that did match. Use the Grep tool or one `-e` per term, and carry a known positive per term.
+- A summarizing fetch put a number and a sentence together that the page does not pair (the 15-requests-per-minute figure is about cached state on a machine, not about the key). Ask for verbatim sentences before a figure enters a technique, and write the claim the sentence supports.
+- A background `&` inside a tool call is killed when the call returns on this platform; start long commands with the tool's own background option.
+- The category check (V1) mattered even when no spec was written: the obvious home for a Rust-library cluster, language-runtime, already held ten subjects. The cluster was tested for a new subject and stayed techniques because two neighbours existed; say so in the routing count.
+
+## 2.15.0 - 2026-10-03 - apply-conjunction-activated-fragments
+
+- When the project with the only plausible seam carries foreign WIP and is diverged from `origin`, `code` mode is not safely reachable, but `experiment` mode still is: run the real tool (here, `docker compose config`) against a scratch copy of the tree's own real artifacts, read-only, never touching the project's working tree. This is a cheaper and more decisive instrument than falling straight to `simulation`.
+- A composite-identifier fragment condition is not self-sufficient when the orchestrator itself hard-references one of the composite's constituent services (here, `depends_on`): the active set must independently carry that constituent's own singleton handle, or a request that reads as complete to an operator is refused. Worth checking on the next apply run against any conjunction-activated-fragments-shaped mechanism built on a real orchestrator.
+
+## 2.15.0 - 2026-10-04 - video-edited-itself
+
+- **When a source's claim rests on a vendor capability, fetch the capability's own
+  reference even when the claim looks obviously true - because the cheapest error a
+  build-walkthrough makes is naming the wrong UNIT, and a unit error propagates into
+  every clause of whatever gets written.** This source said "every word comes back with a
+  timestamp". The contract returns per-**character** times, and returns **two** alignments
+  (authored text and normalised text) rather than one. A run that had accepted the
+  framing would have written a technique about word timings, inherited the error, and
+  been unable to see the real finding, which lives entirely in the gap between the two
+  index spaces. The class entry already says the proudest segment is where the boundary
+  is missing; this run says the sharper version - the proudest segment is where the
+  **vocabulary** is loosest, because that is the passage the creator compressed hardest
+  for the camera. Three of three fetches went to vendor references and two of the three
+  contradicted the source.
+- **A negative seam search has a shape, and reporting it well costs one read.** `unapplied`
+  is strongest when it says what the nearest project does *instead* of the seam. Here the
+  nearest project turned out to be already correct at its own coarser granularity - scene
+  times copied verbatim from a scene record, with its own code comment naming the
+  typed-literal defect it had fixed - which is corroboration for the landed technique's
+  parent principle even though it offers no arm to run. Read the nearest non-seam and
+  report it; a bare "no seam found" throws away the half that was evidence.
+
+## 2.15.0 - 2026-10-05 - claude-mods-validate
+
+- **When a source reviews the harness this session runs on, the harness is an opened tree.**
+  The release's validator and test kit were on this machine, so 13 probe plugins answered
+  in minutes what no fetch about the release could: whether its call list is total. 0 of 3
+  fetches were spent and the yield was a technique. The class entry says a review's fetch
+  *is* the extraction. For a review of a local tool, running the tool beats fetching about
+  it.
+- **Test a "lists every X" claim with an evasion set and two controls before trusting or
+  refuting it.** One module with a literal call (must appear), one empty module (must list
+  nothing), then one probe per way of hiding the call: bound to a variable, computed,
+  reflected, compiled from a string, wrapped, spread, dynamically imported, reached through a
+  global. A static reader is ordinarily a lower bound, so this is the seam most likely to
+  falsify. Here it held, and *why* it held (refusal at load) was the landing.
+- **A second review of an already-mined release is not a re-run.** Read the first note's
+  declines and leads before extracting. Here they removed three candidates at once (catches
+  and a currency row) and pointed the run at the one claim the first review had not tested.
+
+## 2.15.0 - 2026-10-05 - mixar-ai-first-blender-fork
+
+- A review of an open-source tool is a repository run in disguise. The video's
+  load-bearing claims (routing, sub-agents, token savings) sat in the vendor's closed
+  backend and stayed leads. The published client held the landing, so one search and one
+  read of its contributor guide decided the run. Check what the review's subject publishes
+  before extracting from the transcript.
+- A tree's own verification code is a falsifier that is already built, and its
+  thresholds are where it is likeliest to be wrong. Its 64-byte emptiness floor passed a
+  132-byte empty export. Running its claims through the fleet's own install, with the
+  consumer's exact calls, before scoring turned one probe into both the corroboration
+  and arm A of the apply step.
+
+## 2.15.0 - 2026-10-05 - cinematic-commercial-one-pass
+
+- The discrimination gate measures the whole frame, so a variable confined to a small
+  region (a label, a mark, a hand) is refused by construction: here 0.73x, with between
+  16.86 against a seed floor of 23.14 set by product geometry. That is not a reason to
+  swap the metric after the refusal (2026-09-15). It is a reason to declare the region
+  and gate on its crop before the first render. Proposed for render-proof.md once a
+  second run confirms it: a manifest `region` field that `render-triage.mjs` gates on.
+- The fleet-consumer check pays at the subject level only when you open the trees. The
+  fleet map said two consumers. Reading them said both had already decided the question
+  the other way (marks go to vector), which turned a scored row into a predicted
+  `unapplied` before any drafting.
+
+## 2.15.0 - 2026-10-05 - posthog-multiplayer-ai-lessons
+- The strip test can strip the mechanism along with the nouns. The source said its nightly
+  pass ignores "meeting notes or brainstorming docs" because reading them would make the
+  store misrepresent reality. Stripped, that became "ideas are not decisions", a modality
+  rule. Fixtures built from the paraphrase hardened 0 of 30 on the fleet prompt. A fixture
+  built from the source's nouns (pasted planning bullets) hardened 12 of 12. "Meeting notes"
+  is a common noun naming a container class, and the container was the finding. At
+  extraction, keep a stripped claim's container nouns ("notes", "draft", "minutes",
+  "agenda") as part of the claim. At apply, build arm A's first fixture from them.
+- A refuted obvious form is the most useful thing a falsifying seam returns. It did not
+  kill the candidate. It relocated it: the technique states the boundary (a hedge in the
+  sentence survives, a container's status does not), and the refuted arm is the evidence
+  for that boundary. Third run in a row where the falsifying seam returned the boundary
+  (2.7 rule).
+- A shared fleet build lock costs wall clock, not correctness. personas' target directory
+  was held by three other sessions' cargo runs, so the run waited about 20 minutes for its
+  own test. Start the project gate as soon as the edit lands, in the background, and write
+  the ledgers while it queues.
+
+## 2.15.0 - 2026-10-05 - decision-model-fixed-line-calibration
+
+- Second run in a row where building arm A from the source's own named examples moved
+  the landing. The paraphrase ("calibration makes confidence honest") is the half the
+  corpus already states. The source's own method (errors at one line, before and after a
+  temperature), run on its own dataset and baseline, was the half that was wrong. Only
+  that fixture could show the sign flip: the fit that most improved calibration read as
+  tripling errors. One more confirmation and this belongs in Phase 5 as a rule.
+- Declare the prediction and the falsifier as two different numbers. The prediction
+  (under 10%) missed at 15% while the falsifier (50%) never fired. With one number
+  declared, the run could not have said whether the claim fell or only its precision did.
+  The technique carries both, and the miss.
+- A probe on public data cannot ship. This run's ship came from a project that had
+  already committed its raw arena answers, replayed in thirty lines. That is the next
+  run's declared focus.
+- `check-skills.mjs` reads the disk, not the index. Ignored debris under `skills/` (a
+  `node_modules/`, an `out/`, a `__pycache__/`) turns the lane red for every run in the
+  checkout. It is not a content verdict. Name the paths and move on; do not delete
+  another session's files to get a green line.
+
+## 2.15.0 - 2026-10-05 - apply-format-generations-are-declared
+
+- **A dispatched run can die after its measurement and before its first commit, and then nothing records it.** The board reaps the claim at 45 minutes. The ledgers never received a row. What survives is a project worktree with an uncommitted diff, a scratch log directory and an untracked application in the shared registry tree. A re-dispatch that starts from the attention scan cannot see it. Look for a worktree named for the technique's slug and for untracked files under the subject. Then verify the diff and re-run both arms yourself before finishing it. Do not trust the dead run's logs. Here they matched exactly.
+- **A version gate after the typed parse can only see the documents that did not need it.** This holds for any format whose contract says a version bump is a shape change. Its tests all pass, because every fixture is a version it accepts, so only a fixture from a newer version can tell the two orders apart. This goes in the application, not the technique, until a second tree shows it.
+
+## 2.15.0 - 2026-10-05 - apply-collapse-patch-axes-that-share-hunks
+
+- **When the fleet holds no artifact with the technique's name, search for the mechanism's effect.** No tree had a patch set, and a search for tracked patch files found three files across sixteen projects. The stack that was there was a postinstall script and a bundler transform, both rewriting third-party bytes, and neither called itself a patch. For a technique named after an artifact (a patch set, a ledger, a queue), the seam search asks what performs the artifact's job: here, what writes into a dependency's files or rewrites them on the way through.
+
+## 2.15.0 - 2026-10-06 - apply-1006-css (context-sufficiency-signals)
+
+- **A project's defect register is a committed label set.** personas'
+  `source-defects.md` held 26 keys that reviewers in 13 locales had filed as source
+  defects. That is the positive class the technique claims to detect, and it was
+  found after the run had already built a blind labeller. The replay took 52 calls
+  and gave the run's most independent number (AUROC 0.49). It is the declared focus
+  of 2026-10-05, applied late. Search the registers before building an instrument.
+- **Design the falsifier into the arms.** "Supply the missing input and divergence
+  must fall" was one extra arm (B), plus a placebo (C) to separate information from
+  perturbation. It refuted the mechanism directly. A precision number alone would
+  only have said "low".
+- **The seam hunt shipped again, not the technique.** The tested technique came back
+  not-better, and the shippable change came from reading the project's contract
+  against its pipeline: notes written for the translator and never sent. This is
+  the v2.8.1 rule (the seam hunt is a second source) holding on an apply-only run.
+
+## 2.15.0 - 2026-10-06 - apply-a-fixer-script-is-the-edge-in-the-wrong-place
+
+- **An `unapplied` row's return condition can fire without anyone noticing.** The 2026-09-07 row said "when a managed project grows an asset import path". pof grew one, and its registry map joined nine contexts to the subject. Nothing compared the two, so the subject sat at "no application" until the attention scan ranked it. Before trusting an old `unapplied` row, read the fleet's `subjectIndex[<subject>]` in each domain project's `.ai/registry-map.json`. A non-empty list means the seam hunt starts there.
+- **The corrector can be a person, and a warning is how you find them.** A generated step that detects a convention mismatch and only logs it hands the fix to whoever remembers. That is the technique's corrector without a script. Search for warn-and-continue branches next to the one table, as well as for fixer scripts.
+
+## 2.15.0 - 2026-10-06 - apply close-is-a-controlled-crash
+
+- **The falsifying seam for an apply run can be found through the corpus.** Fleet code
+  that cites registry techniques in its comments shows which rule it adopted. A tree
+  that adopted the *opposing* technique is the seam most able to refute the one being
+  applied. Here personas cited `stuck-loop-detection` beside the marker skip, and that
+  citation located the seam, which a grep for the decision itself would have missed.
+  The result was a boundary written into both techniques rather than a verdict on one.
+- **A reaped-row count is not a cost until the other reapers are excluded.** 31 rows
+  matched the failure's end state. A heartbeat column cut that to 10, an upper bound,
+  and the cut came after the personas commit message had already said 31. Read the
+  separating column before any commit message cites the number.

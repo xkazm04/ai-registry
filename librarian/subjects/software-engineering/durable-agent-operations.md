@@ -1,7 +1,7 @@
 ---
 subject: durable-agent-operations
 domain: software-engineering
-last_touched: 2026-09-09
+last_touched: 2026-10-06
 dry_streak: 0
 ---
 
@@ -153,3 +153,34 @@ assumptions and counterexamples explicit.
   }
 }
 ```
+
+## 2026-10-06 - /intake apply close-is-a-controlled-crash (run `ap-cicc-1006`, intake 2.15.0)
+
+Dispatched by the attention scan for carrying no application. The subject now has
+its first application document, and it is a `code` / `better` row.
+
+- **The seam was chosen to falsify.** personas had adopted a clean-shutdown marker
+  from [[session-continuation]]'s `stuck-loop-detection`, which tells a boot that
+  finds the marker to skip the resume sweep. If that skip had been safe there, this
+  technique's ban on an ownership-loss recovery path would have been overreaching.
+  It was not safe. The exit handler wrote the marker after draining preview servers
+  and warm CLI sessions, not agent runs, so a quit mid-run left the row `running`
+  and the boot skipped the classifier for it. A crash got a resume; a quit got the
+  stall reaper.
+- **ab-paired in the tree.** One fixture went through both arms: the retired gate
+  vs consume-the-marker-then-classify. Target 0/1 to 1/1 resume-pending. Floor held:
+  a drained quit changes nothing and the crash path is unchanged. Shipped as
+  personas `5429ab2d5`, committed and not pushed (sibling commits on master).
+- **The field count came down after a second read.** 31 reaped `running` rows
+  became 10 once heartbeats were read: 21 were still beating at the reap, which
+  makes them sleep/wake reaps and not restarts. The 10 are an upper bound, because
+  marker, follower deferral and a hung runner cannot be separated from rotated
+  logs. The personas fix commit message states 31; the project's applied row and
+  the application supersede it.
+- **Boundary written on both sides.** Both techniques now state that a marker may
+  skip a sweep keyed on recency, never one keyed on in-flight state. That reconciles
+  the two techniques, which read as a contradiction. It is the same shape as the
+  ordered-teardown boundary this technique already carried: one discriminator,
+  stated where each reader will meet it.
+- **Not touched:** `total-restart-point-by-reference` still owes the opaque-host
+  boundary, and the second sighting has still not arrived.

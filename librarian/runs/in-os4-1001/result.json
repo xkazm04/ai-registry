@@ -1,0 +1,53 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "in-os4-1001",
+  "skill": "intake",
+  "skill_version": "2.14.1",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-10-01T12:36:12Z",
+  "ended_at": "2026-10-01T13:26:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly",
+      "at": "2026-10-01",
+      "engine": "intake",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-10-01-build-me-a-business.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md",
+    "skills/contest/LESSONS.md",
+    "librarian/runs/in-os4-1001/result.json"
+  ],
+  "commits": [
+    {
+      "sha": "43a5d748",
+      "branch": "main",
+      "pathspec": [
+        "librarian/sources/2026-10-01-build-me-a-business.md",
+        "librarian/sources/index.md",
+        ".claude/skills/intake/SCORECARD.md",
+        ".claude/skills/intake/LESSONS.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Build-walkthrough video, no fetches. 9 candidates: 1 catch, 3 leads, 3 untriaged, 2 nothing; nothing landed. Operator dispatch: a 3-seat business-design contest (9 variants, 3 live-web fact-checks); outcome in the source note, no verdict written."
+}

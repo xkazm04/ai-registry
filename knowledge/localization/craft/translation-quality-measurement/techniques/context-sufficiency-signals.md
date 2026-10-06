@@ -84,6 +84,46 @@ model (see the copy-quality-gates subject,
 [deterministic-checks-before-estimates](./deterministic-checks-before-estimates.md)
 orders every lane, the two-model comparison is pointed at what that leaves.
 
+## When the divergence is not about the source
+
+One catalog has measured the cheap implementation end to end
+([application](../applications/node--context-sufficiency-signals--personas.md)).
+It used two mid-size models of different lineage and a target language that marks
+gender and aspect. Seventy units were labelled for sufficiency by a reader who never
+saw a score. The flags scored no better than the base rate, at every threshold
+tried. The catalog's own source-defect register had been filed by reviewers in
+thirteen languages, and its keys diverged no more than random units did. Three
+findings from that run bound what the signal measures:
+
+- **Divergence has three causes, and only one is the finding.** The first is a
+  source gap. The second is a termbase choice: two correct near-synonyms that the
+  glossary never decided. The third is an engine error, where one rendering is
+  simply wrong. On a pair below ceiling in the target, the second and third causes
+  made up about three flags in four, and delivering the glossary did not shift that
+  share. Classify each flag before routing it. A termbase choice goes to whoever
+  owns the glossary. An engine error goes nowhere. Only what is left goes to the
+  source owner, and raw flags would spend that owner's attention on decisions that
+  are not theirs.
+- **Agreement does not certify the source.** Two of the four under-specified units
+  drew identical renderings, because both models took the same default reading.
+  For a label that could be a verb or an adjective, both chose the imperative. For
+  a participle with no referent, both chose a default gender. Divergence finds
+  ambiguities whose readings are close to balanced in the models' priors. It is
+  blind to ambiguities with a strong default, and those are the ones a translator
+  also resolves silently.
+- **Supplying the missing input is the falsifier, and divergence failed it.** When
+  the author's own context note was delivered to both models, about a third of the
+  renderings changed. A blind judge preferred the arm with the note two to one, yet
+  mean divergence did not move. A placebo note taken from another unit moved it
+  just as much. The note repaired meaning without making the models agree, so a
+  drop in divergence is not evidence that a gap was filled. A correctness read is.
+
+Until someone measures a precision with two models near ceiling in the target,
+there is a cheaper first check for a catalog that already carries context notes:
+count how many notes actually reach the engine. In that catalog the count was
+zero (the request-field rule is `prompt-context-contract`, in the
+translation-pipeline-topology subject).
+
 ## When not to use it
 
 - **On units whose divergence is the point.** Transcreated marketing lines,

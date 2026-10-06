@@ -1,0 +1,44 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-1005-kgl",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-10-05T07:05:00Z",
+  "ended_at": "2026-10-05T07:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/image-prompt-composition",
+      "at": "2026-10-05",
+      "engine": "intake",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "image-prompt-composition",
+      "technique": "verbatim-text-locking",
+      "verdict": "unmeasurable",
+      "mode": "render"
+    }
+  ],
+  "files": [
+    "librarian/sources/2026-10-05-cinematic-commercial-one-pass.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Sponsored build-walkthrough: 12 catches, 2 leads, 1 untriaged, 0 landed. Mark-by-reference render pair refused at 0.73x (whole-frame metric, label-sized variable); operator blind pick: tie on both pairs. Both fleet consumers route marks to vector."
+}

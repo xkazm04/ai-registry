@@ -213,3 +213,12 @@ reproduced, which would make the repair upstream of this corpus.
   }
 }
 ```
+
+## Touch log
+
+### 2026-10-01 - `/intake` (run `in-aura-1001`)
+
+One pointer added to `deterministic-headless-timestep` "When not to use": a fixed step hides pacing, hitching and
+thermal behaviour, but the per-frame *cost* of identical work is measurable on one provided the step is stated in the
+number's basis. The discipline for that is the new subject `perf-regression-gating`, which borrows this subject's
+three outcomes and ladder unchanged. The review block above predates the edit and is not a verdict on it.
