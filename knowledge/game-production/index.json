@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 78,
   "techniques": 508,
-  "applications": 205,
+  "applications": 206,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -722,9 +722,9 @@
    "subcategory": "cast-and-relationships",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/ally-bond-and-found-family-systems.md",
-   "digest": "sha256-b2:6320894f65cc44f3",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:58fed9080e6ae5ab",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "ally-never-costs-the-player",
@@ -799,6 +799,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "pay-in-their-own-currency",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/applications/kotlin--pay-in-their-own-currency.md",
+     "verified_on": "2026-10-06",
+     "verified_against": "kotlin@2.0.21"
+    },
     {
      "stack": "process",
      "technique": "design-the-finale-need-first",
