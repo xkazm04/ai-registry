@@ -4,26 +4,33 @@ type: application
 subject: test-harness
 technique: recorded-interaction-fixtures
 stack: dotnet
-verified_on: 2026-09-03
-verified_against: dotnet@10.0.400
+verified_on: 2026-10-06
+verified_against: dotnet@10.0.401
 ---
 
 # Test-proxy recordings in the Microsoft MCP monorepo
 
-`microsoft/mcp` at commit `bc2a3b4eeceb2281cdf944920b7fdb2ccc73f5df` — Microsoft's
-official MCP server monorepo, a shared `core/Microsoft.Mcp.Core` framework over ~50 tool
+`microsoft/mcp` at commit `b7533190a98d989469dce9d61b0d4752943bceaa` — Microsoft's
+official MCP server monorepo, a shared `core/Microsoft.Mcp.Core` framework over 66 tool
 areas under `tools/`. The stack version is witnessed by `global.json`, which pins the SDK
-to `10.0.400` with `rollForward: latestFeature`; `Directory.Build.props:4` sets
-`net10.0`. Forty-two of the tool test projects carry an `assets.json`, so this is the
-technique at a scale where every dial the technique warns about has been turned by
-somebody.
+to `10.0.401` with `rollForward: latestFeature`; `Directory.Build.props:4` sets
+`net10.0`. Forty-four of the tool test projects carry an `assets.json` (forty-five files
+counting the one under `core/`), so this is the technique at a scale where every dial the
+technique warns about has been turned by somebody.
+
+Re-pinned on 2026-10-06 from the first reading at `bc2a3b4eeceb2281cdf944920b7fdb2ccc73f5df`
+(2026-09-03), 194 commits earlier. Every citation was re-opened at the new commit. The
+handler, the sanitizer base class, the environment helpers and `docs/recorded-tests.md`
+are byte-identical across the window. The configurator gained one using line and one
+playback-timeout block, so its anchors moved, and the delta added the second half of the
+timing rule. That half is under "Timing neutralization" below.
 
 ## The seam is in the production transport factory, and compiled out of release
 
-`Services/Http/HttpClientFactoryConfigurator.cs:30-39` is the whole wiring:
+`Services/Http/HttpClientFactoryConfigurator.cs:31-40` is the whole wiring:
 `ConfigureDefaultHttpClient(this IServiceCollection services, Func<Uri?>? recordingProxyResolver = null)`
 calls `services.ConfigureHttpClientDefaults(...)`, so the seam applies to *every*
-`HttpClient` the container hands out — not to a client the tests construct. `:52` is
+`HttpClient` the container hands out — not to a client the tests construct. `:59` is
 `ConfigurePrimaryHttpMessageHandler`, which places the hook below every delegating
 handler a library may have stacked, closest to the wire. The technique's contract
 inversion is therefore literal here: a component that news up its own `HttpClient` gets
@@ -31,16 +38,16 @@ no redirection and silently reaches the network, and `docs/recorded-tests.md:46`
 the obligation as a migration step — "Commands must obtain `HttpClient` instances via
 `IHttpClientFactory.CreateClient()` to benefit from playback redirection."
 
-The hook is conditionally compiled, not runtime-gated: `:67-76` is the whole injection
+The hook is conditionally compiled, not runtime-gated: `:74-83` is the whole injection
 block inside `#if DEBUG`, returning a `RecordingRedirectHandler` wrapping the real
-`HttpClientHandler`; and the resolver that feeds it (`:81-116`) is itself inside
-`#if DEBUG`, with the comment at `:82-86` saying so — "This function will only ever run
+`HttpClientHandler`; and the resolver that feeds it (`:88-123`) is itself inside
+`#if DEBUG`, with the comment at `:89-93` saying so — "This function will only ever run
 in debug mode." A shipped release binary contains no code path that can redirect an
 outbound request to an address named in an environment variable.
 
 The resolver is worth a paragraph because its *shape* is a lesson. It takes an optional
 `Func<Uri?>` first and falls back to the `TEST_PROXY_URL` environment variable only when
-the function is absent or returns null (`:88-113`), and `:84-85` says why the function
+the function is absent or returns null (`:103-119`), and `:91-92` says why the function
 exists: "this is necessary for livetest scenarios that directly invoke a service rather
 than going through `CallToolAsync()`, as scenarios like this require that the proxy be
 set up at the ClientFactory level, where globally set environment variables would break
@@ -93,6 +100,24 @@ reduction accepted to buy diffable stored recordings — the request the service
 recording is provably not the request production sends — and unlike `StripRetryAfter` it
 runs in *every* mode, recording included.
 
+**The delta added the other direction.** #3824 (ead33545, 2026-10-02, "Extend network
+timeout for playback tests") deals with the client's own clock rather than the
+recording's. Under playback, `HttpClientFactoryConfigurator.cs:47-53` sets every
+container-issued client's `Timeout` to eleven minutes, and
+`core/Azure.Mcp.Core/src/Services/Azure/Helpers/AzureHelper.cs:192-199` sets the SDK's
+per-attempt `NetworkTimeout` to ten, inside it. The comment states the failure the change
+pays for: "The default timeout is not long enough to eliminate the possibility of
+retried requests. When that happens, the playback system returns an error due to request
+mismatch and will very likely fail the test, leading to transient failures." A timeout
+that fires on a slow runner makes the client send a request the recording does not
+contain. Strict sequence matching then fails it, so the test fails intermittently for a
+reason that has nothing to do with the code under test. So playback timing is
+neutralized in both directions. A directive from the recording that only costs elapsed
+time is rewritten to zero, so the retry branch still runs instantly. The client's own
+timeout, which would *cause* a retry, is pushed out of reach, so no extra request is
+sent. Both blocks sit outside `#if DEBUG`, but both are gated on `IsPlaybackTesting()`,
+which is hard-false in a release build (`EnvironmentHelpers.cs:27-37`).
+
 ## Both dials, with the sharp edge documented
 
 Sanitizers and matchers live on one base class,
@@ -126,9 +151,9 @@ shape it must parse. Sanitization has to preserve the grammar the code depends o
 the only way to learn which grammar that is, is to break it once.
 
 Mode selection is a lane property and deliberately not in the repository:
-`Client/Helpers/LiveTestSettings.cs:13` names the file `.testsettings.json`, `:31`
+`Client/Helpers/LiveTestSettings.cs:13` names the file `.testsettings.json`, `:32`
 declares `TestMode TestMode { get; set; } = TestMode.Live` (live is the *default* when
-the file says nothing), and `:36-54` walks up from `AppContext.BaseDirectory` to find it.
+the file says nothing), and `:37-55` walks up from `AppContext.BaseDirectory` to find it.
 The file is gitignored (`.gitignore:6`) and generated by resource deployment. The mode
 then crosses a process boundary explicitly: `Client/CommandTestsBase.cs:113` sets
 `TEST_PROXY_URL` into the child server process's environment, and `:117-120` sets both
@@ -170,7 +195,7 @@ Four fields: which repository, which path prefix, which tag namespace, which tag
 service version. No API revision. No schema hash. **No capture date** — not even the
 fallback the technique offers when the remote side publishes no identity. The tag's
 suffix is a content hash of the recordings themselves, so it identifies *what was
-recorded* with perfect precision and *what was recorded from* not at all. Forty-two of
+recorded* with perfect precision and *what was recorded from* not at all. Forty-five of
 these files exist and all four fields are the same four. The technique's central claim —
 "a recording carries no fingerprint of the service it recorded" — is confirmed here in
 its strongest form: the identity the pointer carries is a self-reference, and by
@@ -178,7 +203,7 @@ construction a re-record is indistinguishable from a no-op except by the hash ch
 
 The freshness obligation's second half fares better but not well. A live lane exists —
 `eng/pipelines/templates/jobs/live-test.yml`, invoked from
-`eng/pipelines/templates/common.yml:106-119` under
+`eng/pipelines/templates/common.yml:149-162` under
 `and(eq(variables['System.TeamProject'], 'internal'), eq(parameters.RunLiveTests, 'true'))`,
 with `pullrequest.yml:14` setting `RunLiveTests` true for the internal project. So live
 certification runs, and it runs on pull requests. There is no `schedules:` or cron

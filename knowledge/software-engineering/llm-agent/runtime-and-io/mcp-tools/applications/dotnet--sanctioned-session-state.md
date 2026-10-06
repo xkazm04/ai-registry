@@ -4,19 +4,26 @@ type: application
 subject: mcp-tools
 technique: sanctioned-session-state
 stack: dotnet
-verified_on: 2026-09-03
-verified_against: dotnet@10.0.400
+verified_on: 2026-10-06
+verified_against: dotnet@10.0.401
 ---
 
 # `HttpServer.Distributed` — affinity shipped arguing against itself, gated on a display string
 
-`microsoft/mcp` at commit `bc2a3b4eeceb2281cdf944920b7fdb2ccc73f5df` is Microsoft's
-official MCP server monorepo — a shared `core/Microsoft.Mcp.Core` framework, ~50 tool
+`microsoft/mcp` at commit `b7533190a98d989469dce9d61b0d4752943bceaa` is Microsoft's
+official MCP server monorepo — a shared `core/Microsoft.Mcp.Core` framework, 66 tool
 areas, three servers, and one small package that is the whole subject here:
-`core/Microsoft.ModelContextProtocol.HttpServer.Distributed`, eleven source files
+`core/Microsoft.ModelContextProtocol.HttpServer.Distributed`, fifteen source files
 implementing session affinity for a protocol revision that deliberately removed sessions.
-The stack version is witnessed by `global.json`, which pins the SDK to `10.0.400` with
-`rollForward: latestFeature`; `Directory.Build.props:4` sets `net10.0`.
+The stack version is witnessed by `global.json`, which pins the SDK to `10.0.401` with
+`rollForward: latestFeature`; `Directory.Build.props:4` sets `net10.0`. Re-pinned on
+2026-10-06 from the first reading at `bc2a3b4eeceb2281cdf944920b7fdb2ccc73f5df`: the
+package has no commits in the 194 between the two pins, and every citation below holds
+at the same line. Three citations were wrong at the first pin, and this re-pin corrects
+them: the source-file count, the line of `AddReverseProxy()`, and the claim that every
+test constructs the same display string. At the re-pin, still no server in the tree
+calls `AddMcpHttpSessionAffinity` or `WithSessionAffinity`. The package ships and is
+referenced only from the solution file.
 
 It is an unusually clean realization: the counter-argument, the double opt-in, the
 ephemeral owner identity, and the 404 channel are all present and all deliberate, with
@@ -45,7 +52,7 @@ and it is cheap enough that its absence elsewhere is never a resource problem.
 Registration is `AddMcpHttpSessionAffinity` (`ServiceCollectionExtensions.cs:25-75`); it
 registers the options validator, a `HybridCache` with a source-generated serializer, the
 `ISessionStore`, the listening-endpoint resolver, YARP's reverse proxy, and the endpoint
-filter — and every registration but the cache and the proxy uses `TryAdd*`, so a consumer
+filter — and every service registration but the cache and the proxy uses `TryAdd*`, so a consumer
 that has already supplied its own store, resolver or filter keeps it. Application is
 `WithSessionAffinity` (`MapSessionAffinityExtensions.cs:22-35`), an
 `IEndpointConventionBuilder` extension whose doc says plainly: "Use this on the return
@@ -144,7 +151,8 @@ covers the behaviour thoroughly across four quadrants — 404 from an MCP endpoi
 (`:213`), 404 from an SSE endpoint evicts (`:277`), 404 from a non-MCP endpoint does not
 (`:336`), 200 from an MCP endpoint does not (`:395`) — plus 404 with no session id
 (`:451`) and the full restart-reclaim path (`:661`). Every one of those constructs its
-endpoint the same way:
+endpoint the same shape — empty metadata and a display string (`"POST /mcp"` in three,
+`"GET /sse"`, `"GET /health"` and `"POST /mcp/v1/sse"` in the others):
 
 ```
 var endpoint = new Endpoint(requestDelegate: null,
@@ -174,12 +182,13 @@ It does not degrade to nothing at one replica, quite. The technique asks that a 
 instance need no shared infrastructure, and the local path is genuinely free — a request
 whose owner is `_localOwnerId` returns `await next(context)` at `:129` with no
 forwarding — but `AddMcpHttpSessionAffinity` unconditionally registers `HybridCache` and
-`AddReverseProxy()` (`:49-51`, `:70`). With no L2 distributed cache configured,
+`AddReverseProxy()` (`:49-51`, `:69`). With no L2 distributed cache configured,
 `HybridCache`'s in-memory tier alone is correct for one instance, so the behaviour is
 right; the dependency footprint is not conditional on replica count.
 
 And nothing here touches authorization, which is correct and worth stating: the affinity
-key is read from a header (`ExtractSessionId`, `:189`) and used only to choose a
+key is read from the session header, falling back to a `sessionId` query parameter for
+the legacy SSE endpoint (`ExtractSessionId`, `:189-204`), and used only to choose a
 destination address. The filter authenticates nobody, and forwards the original request
 for the downstream to authorize as it would any other. Affinity is a placement decision
 made before authorization, exactly as the boundary requires — the package's silence on

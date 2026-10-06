@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1830,
-  "applications": 1236,
+  "applications": 1238,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -19401,7 +19401,7 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256-b2:fac6fd7fb360c72c",
+   "digest": "sha256-b2:afba7a2b8c938ae1",
    "revision": 30,
    "changedAt": "2026-09-25",
    "techniques": [
@@ -19772,22 +19772,29 @@
      "stack": "dotnet",
      "technique": "catalog-projection-modes",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--catalog-projection-modes.md",
-     "verified_on": "2026-09-03",
-     "verified_against": "dotnet@10.0.400"
+     "verified_on": "2026-10-06",
+     "verified_against": "dotnet@10.0.401"
     },
     {
      "stack": "dotnet",
      "technique": "sanctioned-session-state",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--sanctioned-session-state.md",
-     "verified_on": "2026-09-03",
-     "verified_against": "dotnet@10.0.400"
+     "verified_on": "2026-10-06",
+     "verified_against": "dotnet@10.0.401"
     },
     {
      "stack": "dotnet",
      "technique": "tool-identity-vs-tool-name",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--tool-identity-vs-tool-name.md",
-     "verified_on": "2026-09-03",
-     "verified_against": "dotnet@10.0.400"
+     "verified_on": "2026-10-06",
+     "verified_against": "dotnet@10.0.401"
+    },
+    {
+     "stack": "dotnet",
+     "technique": "tool-schema-design",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--tool-schema-design--microsoft-mcp.md",
+     "verified_on": "2026-10-06",
+     "verified_against": "dotnet@10.0.401"
     },
     {
      "stack": "dotnet",
@@ -26726,7 +26733,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256-b2:75f3f7dd88cf3601",
+   "digest": "sha256-b2:6e635d76a310aa4b",
    "revision": 52,
    "changedAt": "2026-09-25",
    "techniques": [
@@ -27200,6 +27207,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/cpp--enforcement-binding.md",
      "verified_on": "2026-09-03",
      "verified_against": "cpp@23"
+    },
+    {
+     "stack": "dotnet",
+     "technique": "gate-liveness",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/dotnet--gate-liveness.md",
+     "verified_on": "2026-10-06",
+     "verified_against": "dotnet@10.0.401"
     },
     {
      "stack": "next",
@@ -34824,7 +34838,7 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:ed2a102243f795c1",
+   "digest": "sha256-b2:5521806124d93882",
    "revision": 25,
    "changedAt": "2026-10-02",
    "techniques": [
@@ -35230,8 +35244,8 @@
      "stack": "dotnet",
      "technique": "recorded-interaction-fixtures",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/dotnet--recorded-interaction-fixtures.md",
-     "verified_on": "2026-09-03",
-     "verified_against": "dotnet@10.0.400"
+     "verified_on": "2026-10-06",
+     "verified_against": "dotnet@10.0.401"
     },
     {
      "stack": "node",
