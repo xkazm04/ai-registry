@@ -1,9 +1,9 @@
 ---
 subject: agent-runtime-assembly
 domain: software-engineering
-last_touched: 2026-09-23
+last_touched: 2026-10-06
 dry_streak: 0
-touched_by: deepen
+touched_by: intake
 ---
 
 # agent-runtime-assembly
@@ -487,3 +487,12 @@ Source [[../../sources/2026-09-21-claude-code-from-source]]: an architecture boo
 Banked lead (proposal): once-per-failure log suppression should keep a count of suppressed repeats, or a constraining middleware failing on every call reads as one event per process. Return condition: next pass over the technique.
 
 Impact: no judged verdict moved.
+
+## 2026-10-06 - /intake deer-flow --delta (run `intake-deer-flow-1006-v3`, cloud dispatch)
+
+Source [[../../sources/2026-10-06-deer-flow-v3]], `08b27aef..53df22bd`, 740 commits. **No technique changed.** Three source-tree applications were re-pinned, 91 anchors in all, and the cited code was byte-identical. Corrections:
+- `python--operator-tier-code-loading`: the claim that the service-writable model "has no such field" is **withdrawn**. `ExtensionsConfig.middlewares` names code from the API-writable file at both commits, guarded only by the absence of an API write path ("adding an API write path requires explicit trust-boundary review"). It is now a deviation. This is the case the 2026-09-21 widening's mechanical test was written to catch.
+- `python--semantic-hook-placement`: three quotations rewritten after the middleware guide was compressed; the claims hold.
+- `python--checkpoint-mode-custody`: the deviation (the degraded path reads underivable `next` as none) still holds. Added the metadata-only accessor door and the retention contract.
+
+**The forge worker's Q1 fired in substance.** Three further custody decisions now sit beside the mode gate and the linearized resume: retention protects the parent chain (#5255, a draft contract with no production trigger); a fork clears references into the out-of-checkpoint archive; and lineage never changes its agent binding. Escalated (E2 + E4), not executed. The proposed subject shape is in the source note. Untriaged: release-follows-the-work (D10, for concurrency-guards) and operator code in the browser (an operator-tier boundary sentence).

@@ -1,7 +1,7 @@
 ---
 subject: data-access
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-10-06
 dry_streak: 0
 ---
 
@@ -114,3 +114,7 @@ the join; negative control fires and names the defect (kp `3f253853`).
 ### 2026-09-17 - `/harvest backlog` wave 2, one technique
 
 `existence-authority-written-last`, from [[2026-08-31-tigerbeetle-blog]] and [[2026-09-03-rowboat]]. Two stores with no shared transaction: the store readers treat as proof that a thing exists is written last and removed first, and a payload is staged outside it. The rule reconciles two orders the corpus already held from opposite sides - agent-memory's `lane-reconciliation` (name the survivable half-state and make it the only reachable one) and priced-authority's `secondary-index-before-primary` (index before record) - by asking which store the readers treat as the authority; both now point here. The source slogan 'referent before reference' was refuted as a general rule by the very seam that confirmed authority-last: gravitone's ingest wrote the file a row points at first, and leaked 4 phantom voices, because readers find voices by listing files. Also owned here, beside `record-precedes-effect`: a rollback ledger only sees half-states it was told about.
+
+## 2026-10-06 - /intake deer-flow --delta (run `intake-deer-flow-1006-v3`, cloud dispatch)
+
+Source [[../../sources/2026-10-06-deer-flow-v3]]. `python--layering-rules` re-pinned `08b27aef -> 53df22bd`. Three anchors, content unchanged (the dependency rule now at `backend/AGENTS.md:201`). No claim moved.

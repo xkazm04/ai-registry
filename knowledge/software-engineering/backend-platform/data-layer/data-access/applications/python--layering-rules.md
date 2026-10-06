@@ -4,13 +4,13 @@ type: application
 subject: data-access
 technique: layering-rules
 stack: python
-verified_on: 2026-09-02
+verified_on: 2026-10-06
 verified_against: python@3.12
 ---
 
 # A publishable agent harness under an unpublished gateway, with the direction gated in CI (deer-flow)
 
-Verified against the deer-flow source tree at commit `08b27aef` (2026-09-02); every line cited below was opened in that clone.
+Verified against the deer-flow source tree at commit `08b27aef` (2026-09-02) and re-verified at `53df22bd` (2026-10-06); every line cited below was re-opened in the newer clone and the line numbers are its own.
 
 The technique's two boundary properties appear one layer up from where the
 corpus wrote them: not a data layer under application logic, but a framework
@@ -21,11 +21,11 @@ channels), with a third, dependency-free contract package
 
 ## The rule, stated where it can be read and gated where it can be enforced
 
-`backend/AGENTS.md:179` states the rule in the technique's own shape - "App
+`backend/AGENTS.md:201` states the rule in the technique's own shape - "App
 imports deerflow, but deerflow never imports app" - and names the gate on the
 same line: `tests/test_harness_boundary.py` runs in CI. The guide then shows
 the forbidden direction as a code example labelled `FORBIDDEN - enforced by
-test_harness_boundary.py` (`backend/AGENTS.md:194`), so a contributor reads
+test_harness_boundary.py` (`backend/AGENTS.md:216`), so a contributor reads
 the rule and the failure it produces in one screen.
 
 ## The forces are the technique's
@@ -37,7 +37,7 @@ the rule and the failure it produces in one screen.
   app could not be embedded, and could not be tested without the app's
   fixtures.
 - **Importing the framework must stay cheap.** The package roots expose
-  heavy entry points lazily (`backend/AGENTS.md:198-206`), because the
+  heavy entry points lazily (`backend/AGENTS.md:220-228`), because the
   graph server resolves factories from the module dictionary and an eager
   import tree would pay the whole runtime's start-up on every lookup.
 - **Upward signals are hooks, not imports.** The memory subsystem must stay

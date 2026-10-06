@@ -2649,9 +2649,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
-   "digest": "sha256-b2:b508c99562d1b81d",
-   "revision": 26,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:9036e979656a8dc5",
+   "revision": 27,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "activation-is-a-separate-mutation",
@@ -2978,7 +2978,7 @@
      "stack": "python",
      "technique": "checkpoint-mode-custody",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--checkpoint-mode-custody.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-10-06",
      "verified_against": "python@3.12"
     },
     {
@@ -2992,7 +2992,7 @@
      "stack": "python",
      "technique": "operator-tier-code-loading",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--operator-tier-code-loading.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-10-06",
      "verified_against": "python@3.12"
     },
     {
@@ -3007,7 +3007,7 @@
      "stack": "python",
      "technique": "semantic-hook-placement",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/python--semantic-hook-placement.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-10-06",
      "verified_against": "python@3.12"
     },
     {
@@ -8802,9 +8802,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256-b2:7bc5f1ebaf276655",
-   "revision": 17,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:b67182492821d592",
+   "revision": 18,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -9050,7 +9050,7 @@
      "stack": "python",
      "technique": "layering-rules",
      "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/python--layering-rules.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-10-06",
      "verified_against": "python@3.12"
     },
     {
@@ -15254,9 +15254,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256-b2:e63d5473ea2636c8",
-   "revision": 24,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:4fc5c1fbe75c52d2",
+   "revision": 25,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -15588,7 +15588,7 @@
      "stack": "python",
      "technique": "completion-claim-verification",
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/python--completion-claim-verification.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-10-06",
      "verified_against": "python@3.12"
     },
     {
@@ -17852,9 +17852,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/job-coordination.md",
-   "digest": "sha256-b2:2bd472ebca7609ca",
-   "revision": 16,
-   "changedAt": "2026-09-17",
+   "digest": "sha256-b2:68f09609d1498e88",
+   "revision": 17,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "in-flight-is-a-position",
@@ -18042,7 +18042,7 @@
      "stack": "python",
      "technique": "lease-renewal",
      "file": "knowledge/software-engineering/backend-platform/work-execution/job-coordination/applications/python--lease-renewal.md",
-     "verified_on": "2026-09-02",
+     "verified_on": "2026-10-06",
      "verified_against": "python@3.12"
     },
     {
@@ -19402,8 +19402,8 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
    "digest": "sha256-b2:afba7a2b8c938ae1",
-   "revision": 30,
-   "changedAt": "2026-09-25",
+   "revision": 31,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -26734,8 +26734,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
    "digest": "sha256-b2:6e635d76a310aa4b",
-   "revision": 52,
-   "changedAt": "2026-09-25",
+   "revision": 53,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -34839,8 +34839,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
    "digest": "sha256-b2:5521806124d93882",
-   "revision": 25,
-   "changedAt": "2026-10-02",
+   "revision": 26,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
