@@ -1,0 +1,88 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-abf-1006",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-06T10:55:00Z",
+  "ended_at": "2026-10-06T11:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/ally-bond-and-found-family-systems",
+      "at": "2026-10-06",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "game-production/ally-bond-and-found-family-systems",
+      "technique": "pay-in-their-own-currency",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "game-production/ally-bond-and-found-family-systems",
+      "technique": "bond-pays-in-play-not-vending",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/index.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/ally-bond-and-found-family-systems.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/applications/kotlin--pay-in-their-own-currency.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/techniques/ally-never-costs-the-player.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/techniques/bond-pays-in-play-not-vending.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/techniques/design-the-finale-need-first.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/techniques/one-ally-wavers.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/techniques/pay-in-their-own-currency.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems/techniques/the-institution-betrays-not-the-friend.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md",
+    "librarian/subjects/game-production/ally-bond-and-found-family-systems.md"
+  ],
+  "commits": [
+    {
+      "sha": "487ef9a7",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/ally-bond-and-found-family-systems",
+        "knowledge/game-production/index.md"
+      ]
+    },
+    {
+      "sha": "88132ac4",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/index.json",
+        "catalog.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "20e15ed8",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/ally-bond-and-found-family-systems.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "First kotlin application (firetv runtime) + 5 two-lane corrections, 0 techniques; 4 rows unapplied. No project tree changed. Map: 0 contexts (firetv unregistered at HEAD). check-public-paths red upstream (36 pre-existing hits)."
+}
