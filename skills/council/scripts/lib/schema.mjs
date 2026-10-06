@@ -13,7 +13,7 @@
 import {
   OUTCOMES, DIMENSION_STATES, DIMENSION_KINDS, TRUST_STATES, CONFIDENCES, SEVERITIES,
   HARD_FAILURE_CODES, PROOFS, SUBJECT_KINDS, SCORING_STATES,
-  SCENARIO_STATES, SCENARIO_PROOFS,
+  SCENARIO_STATES, SCENARIO_PROOFS, MODES, LITE_SCOPES,
 } from './aggregate.mjs';
 
 export const SCHEMA_VERSION = 1;
@@ -21,6 +21,8 @@ export const RUBRIC_VERSIONS = ['feature-v1', 'architecture-v1'];
 export const EVIDENCE_KINDS = ['file', 'url', 'screenshot', 'video', 'metric'];
 
 const isStr = (v) => typeof v === 'string' && v.length > 0;
+/** Non-empty after trimming: a summary of spaces is the empty summary wearing a coat. */
+const isText = (v) => typeof v === 'string' && v.trim().length > 0;
 const isNum01 = (v) => typeof v === 'number' && v >= 0 && v <= 1;
 
 /**
@@ -36,16 +38,28 @@ const isNum01 = (v) => typeof v === 'number' && v >= 0 && v <= 1;
  * here cannot fail the result contract on the fields it owns.
  *
  * @param {object} doc         the parsed verdict
- * @param {object} [opts]      { dimension } - the dimension this file is supposed to be
+ * @param {object} [opts]      { dimension, mode, rubricVersion } - the dimension this file
+ *                             is supposed to be; with mode `lite`, the rubric whose lite
+ *                             scope it must sit inside (default feature-v1)
  */
 export function validateVerdict(doc, opts = {}) {
   const p = [];
   const fail = (m) => p.push(m);
   if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return ['verdict: not a JSON object'];
 
+  if (opts.mode !== undefined && opts.mode !== null && !MODES.includes(opts.mode)) {
+    fail(`mode must be one of ${MODES.join(', ')}`);
+  }
   if (!isStr(doc.dimension)) fail('dimension is required');
   else if (isStr(opts.dimension) && doc.dimension !== opts.dimension) {
     fail(`dimension is ${JSON.stringify(doc.dimension)} but this file is the ${opts.dimension} verdict - a verdict filed under the wrong dimension is scored under the wrong rubric row`);
+  } else if (opts.mode === 'lite') {
+    const rv = opts.rubricVersion ?? 'feature-v1';
+    const scope = LITE_SCOPES[rv];
+    if (!scope) fail(`rubric ${rv} has no lite scope - a redesign goes to the full council`);
+    else if (!scope.judged.includes(doc.dimension)) {
+      fail(`a lite pass does not judge ${doc.dimension} - it scores ${scope.judged.join(', ')} only, and aggregate records the rest as skipped`);
+    }
   }
   if (!DIMENSION_STATES.includes(doc.state)) fail(`state must be one of ${DIMENSION_STATES.join(', ')}`);
   if (SCORING_STATES.has(doc.state)) {
@@ -107,6 +121,10 @@ export function validateResult(doc) {
   if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return ['result: not a JSON object'];
 
   if (doc.schema_version !== SCHEMA_VERSION) fail(`schema_version must be ${SCHEMA_VERSION}, found ${JSON.stringify(doc.schema_version)}`);
+  // `mode` is additive: absent means the result was written before modes existed, and it
+  // reads as `full`. Present, it is a closed set like every other token here.
+  if (doc.mode !== undefined && !MODES.includes(doc.mode)) fail(`mode must be one of ${MODES.join(', ')} (absent reads as full), found ${JSON.stringify(doc.mode)}`);
+  const mode = doc.mode ?? 'full';
   if (!isStr(doc.run_id)) fail('run_id is required');
   if (!doc.subject || typeof doc.subject !== 'object') fail('subject is required');
   else {
@@ -216,16 +234,50 @@ export function validateResult(doc) {
     }
   }
 
+  // Lite: a fixed subset of the rubric, judged in one pass. The door requires EVERY rubric
+  // row, so a lite result carries all of them - the judged ones as scored, the skipped ones
+  // as `unmeasured` - and names the skipped ones, so a reader never has to infer the scope
+  // of the review from which rows happen to be empty.
+  if (mode === 'lite') {
+    const scope = LITE_SCOPES[doc.rubric_version];
+    if (doc.subject?.kind !== 'use_case') fail('mode lite: only a use_case subject may be reviewed in lite - a redesign goes to the full council');
+    if (!scope) fail(`mode lite: rubric ${JSON.stringify(doc.rubric_version)} has no lite scope (${Object.keys(LITE_SCOPES).join(', ')} only)`);
+    else {
+      const sk = doc.skipped_dimensions;
+      if (!Array.isArray(sk) || sk.some((x) => !isStr(x))) fail('mode lite: skipped_dimensions must be an array of dimension names');
+      else if (sk.length !== scope.skipped.length || new Set(sk).size !== sk.length || sk.some((x) => !scope.skipped.includes(x))) {
+        fail(`mode lite: skipped_dimensions must be exactly ${scope.skipped.join(', ')} for ${doc.rubric_version}, found ${JSON.stringify(sk)}`);
+      }
+      const byName = new Map((Array.isArray(doc.dimensions) ? doc.dimensions : []).map((d) => [d?.dimension, d]));
+      for (const name of [...scope.judged, ...scope.skipped]) {
+        if (!byName.has(name)) fail(`mode lite: dimensions must carry ${name} - every rubric row, the skipped ones as unmeasured`);
+      }
+      for (const name of byName.keys()) {
+        if (!scope.judged.includes(name) && !scope.skipped.includes(name)) fail(`mode lite: ${name} is not a row of ${doc.rubric_version}`);
+      }
+      for (const name of scope.skipped) {
+        const d = byName.get(name);
+        if (d && (d.state !== 'unmeasured' || d.score !== null)) {
+          fail(`mode lite: ${name} is skipped in lite and must be unmeasured with score null, found state ${JSON.stringify(d.state)} - lite does not judge it, so nothing in the result may say it did`);
+        }
+      }
+    }
+  } else if (doc.skipped_dimensions !== undefined) {
+    fail('skipped_dimensions belongs to a lite result only - the full council skips nothing by design, and a member it could not reach is unmeasured with its own reason');
+  }
+
   if (doc.overall !== null && !isNum01(doc.overall)) fail('overall must be a number in 0..1 or null');
   if (!isNum01(doc.coverage)) fail('coverage must be a number in 0..1');
   if (!OUTCOMES.includes(doc.outcome)) fail(`outcome must be one of ${OUTCOMES.join(', ')} - the set holds no admitting value, because the skill does not admit`);
-  if (!Array.isArray(doc.must_address) || doc.must_address.some((m) => !isStr(m))) fail('must_address must be an array of strings');
+  // Required in every mode, possibly empty. It is the work list an implementer reworks
+  // from, so its absence is not "nothing to do" - it is a result nobody can act on.
+  if (!Array.isArray(doc.must_address) || doc.must_address.some((m) => !isStr(m))) fail('must_address is required: an array of strings, possibly empty');
   // Required, and not merely a string. An empty summary validated for as long as the
   // contract asked only for a type, and every run that followed the documented command
   // line shipped one - while the consuming door quietly substituted the SUBJECT's own
   // description, so the row a person read was the thing describing itself, labelled as
-  // what the council concluded.
-  if (!isStr(doc.summary)) fail('summary is required and may not be empty - the synthesis in a paragraph, not a blank a consuming door will fill in for you');
+  // what the council concluded. Whitespace is empty too.
+  if (!isText(doc.summary)) fail('summary is required and may not be empty - the synthesis in a paragraph, not a blank a consuming door will fill in for you');
 
   return p;
 }

@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "mode": "full",
   "run_id": "2026-09-20-council-example-r2",
   "subject": {
     "kind": "use_case",

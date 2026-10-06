@@ -54,8 +54,37 @@ export const DEFAULT_SCENARIO_FLOOR = 0.5;
 
 /** A dimension in one of these states carries a real score into the mean. */
 export const SCORING_STATES = new Set(['measured', 'carried']);
-/** The method refuses a fourth round; three is the cap. */
+/** The method refuses a fourth round; three is the cap. It applies PER MODE. */
 export const ROUND_CAP = 3;
+
+// -------------------------------------------------------------------- modes
+//
+// `full` is the council: one bounded, blind member per dimension. `lite` is ONE pass by the
+// running session over a fixed subset of the same rubric, so its feedback speaks the
+// council's vocabulary (same rows, same anchors, same result document, same door) at a
+// fraction of the cost. A result with no `mode` key was written before modes existed and
+// reads as `full`.
+//
+// The lite scope is declared per rubric version and lists BOTH halves explicitly, because
+// the validator has no rubric file in hand and must still know which dimensions a lite
+// result is required to carry as skipped. A test pins `judged + skipped` to the rubric's
+// own dimension list, so the two cannot drift; a rubric file never changes after it ships.
+//
+// What lite skips is recorded `unmeasured`, never `not_applicable`: the dimension exists for
+// this subject and nobody looked. It therefore stays in the coverage denominator, so a
+// complete lite pass over feature-v1 reads coverage 0.70 - "this rests on 70% of the
+// rubric" - which is also what keeps a lite `ready` from passing for a full one in a
+// consumer that ignores `mode`. It leaves the mean like any unmeasured dimension, and it
+// contributes NO `must_address` line: lite's scope is not work an implementer can do.
+export const MODES = ['full', 'lite'];
+export const LITE_SCOPES = Object.freeze({
+  'feature-v1': Object.freeze({
+    judged: Object.freeze(['value', 'craft', 'robustness']),
+    skipped: Object.freeze(['rivalry', 'economics']),
+  }),
+});
+export const liteSkipReason = (dimension) =>
+  `Not judged in lite mode: ${dimension} is scored only by the full council. This lowers coverage and is not work for the implementer.`;
 
 const round4 = (n) => Math.round(n * 10000) / 10000;
 
@@ -304,21 +333,50 @@ export function aggregateScenarios(declared, reported, opts = {}) {
 }
 
 /**
+ * The lite scope for a rubric, checked against the rubric's own dimensions, or a thrown
+ * error. Lite exists only where a scope was declared: an architecture redesign always goes
+ * to the full council.
+ */
+export function liteScopeFor(rubric) {
+  const scope = LITE_SCOPES[rubric?.version];
+  if (!scope) {
+    throw new Error(`rubric ${rubric?.version} has no lite scope - lite judges ${Object.keys(LITE_SCOPES).join(', ')} subjects only; a redesign goes to the full council`);
+  }
+  const names = (rubric.dimensions ?? []).map((d) => d.dimension);
+  const declared = [...scope.judged, ...scope.skipped];
+  if (names.length !== declared.length || names.some((n) => !declared.includes(n))) {
+    throw new Error(`the lite scope for ${rubric.version} (${declared.join(', ')}) does not match the rubric's dimensions (${names.join(', ')})`);
+  }
+  return scope;
+}
+
+/**
  * The pass rule, in one place.
  *
  * @param {object}   rubric
  * @param {object}   verdicts       dimension name -> the member's verdict JSON
  * @param {object}   opts           { trustState, roundNo, hardFailures, mustAddress,
- *                                    scenarios (declared), reportedScenarios }
+ *                                    scenarios (declared), reportedScenarios, mode }
  */
 export function aggregate(rubric, verdicts, opts = {}) {
   const trustState = TRUST_STATES.includes(opts.trustState) ? opts.trustState : 'uncalibrated';
   const roundNo = Number.isInteger(opts.roundNo) ? opts.roundNo : 1;
   const hardFailures = Array.isArray(opts.hardFailures) ? opts.hardFailures : [];
+  const mode = opts.mode ?? 'full';
+  if (!MODES.includes(mode)) throw new Error(`mode must be one of ${MODES.join(', ')}, not ${JSON.stringify(mode)}`);
+  const skipped = mode === 'lite' ? [...liteScopeFor(rubric).skipped] : [];
   const problems = [];
 
   const dimensions = rubric.dimensions.map((rd) => {
-    const n = normalizeDimension(rd, (verdicts ?? {})[rd.dimension], trustState);
+    let verdict = (verdicts ?? {})[rd.dimension];
+    if (skipped.includes(rd.dimension)) {
+      // Whatever was passed in, a lite run did not judge this dimension. A verdict file
+      // for it is somebody else's opinion (a stale member, a copied run) and is ignored
+      // loudly rather than scored.
+      if (verdict) problems.push(`${rd.dimension}: a lite run does not judge this dimension - the verdict passed for it was ignored`);
+      verdict = { state: 'unmeasured', score: null, confidence: 'low', unmeasured_reason: liteSkipReason(rd.dimension) };
+    }
+    const n = normalizeDimension(rd, verdict, trustState);
     problems.push(...n.problems);
     delete n.problems;
     return n;
@@ -377,15 +435,18 @@ export function aggregate(rubric, verdicts, opts = {}) {
   if (sc) generated.push(...sc.must_address);
   for (const d of dimensions) {
     // The first SENTENCE of the reason. The whole reason is already on the dimension, and
-    // a work list is a list of work, not the argument behind it.
-    if (d.state === 'unmeasured') generated.push(`${d.dimension} is unmeasured: ${firstSentence(d.unmeasured_reason ?? 'no reason given')}`);
+    // a work list is a list of work, not the argument behind it. A dimension lite skipped
+    // by design adds nothing: no implementer can fix the scope of the review.
+    if (d.state === 'unmeasured' && !skipped.includes(d.dimension)) generated.push(`${d.dimension} is unmeasured: ${firstSentence(d.unmeasured_reason ?? 'no reason given')}`);
     // A high finding contributes its TITLE. Its `detail` stays in the verdict.
     for (const f of d.findings) if (f?.severity === 'high') generated.push(`${d.dimension}: ${f.title ?? f.id ?? 'high-severity finding'}`);
   }
   mustAddress.push(...generated.map((line) => clampLine(line)));
 
   return {
+    mode,
     dimensions,
+    ...(mode === 'lite' ? { skipped_dimensions: skipped } : {}),
     ...(sc ? { scenarios: sc.scenarios, envelope: sc.envelope } : {}),
     overall,
     coverage,
@@ -399,8 +460,16 @@ export function aggregate(rubric, verdicts, opts = {}) {
 
 /** Compose the full result document from an aggregate plus the run's identity. */
 export function buildResult(meta, agg) {
+  if (meta.mode && agg.mode && meta.mode !== agg.mode) {
+    throw new Error(`the run says mode ${meta.mode} but the aggregate was computed as ${agg.mode}`);
+  }
+  const mode = agg.mode ?? meta.mode ?? 'full';
   return {
     schema_version: 1,
+    // Additive, so schema_version stays 1: the consuming door ignores a key it does not
+    // know, and a result with no `mode` reads as `full`. Written on EVERY result from here
+    // on, full included, so a reader never has to infer the mode from an absence.
+    mode,
     run_id: meta.run_id,
     subject: meta.subject,
     rubric_version: meta.rubric_version,
@@ -410,6 +479,9 @@ export function buildResult(meta, agg) {
     receipt: meta.receipt,
     hard_failures: meta.hard_failures ?? [],
     dimensions: agg.dimensions,
+    // Lite only: the rubric rows this pass did not judge, by design. Each is ALSO in
+    // `dimensions` as `unmeasured` with a reason, because the door requires every row.
+    ...(mode === 'lite' ? { skipped_dimensions: agg.skipped_dimensions ?? [] } : {}),
     // Optional and paired: both keys or neither. A result with no scenarios is byte for
     // byte the document this contract produced before scenarios existed.
     ...(agg.scenarios ? { scenarios: agg.scenarios, envelope: agg.envelope } : {}),

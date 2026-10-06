@@ -21,7 +21,8 @@ measure", and those lead to opposite actions.
 ```jsonc
 {
   "schema_version": 1,                  // refused by the consumer on any other value
-  "run_id": "<stable, unique, self-identifying>",
+  "mode": "full" | "lite",              // written on every result since 0.4.0; ABSENT reads as "full"
+  "run_id": "<stable, unique, self-identifying>",   // = the run directory's name
   "subject": {
     "kind": "use_case" | "architecture",
     "slug": "<stable slug within the project>",
@@ -29,8 +30,8 @@ measure", and those lead to opposite actions.
     "summary": "<one or two sentences: what it is>"
   },
   "rubric_version": "feature-v1" | "architecture-v1",
-  "round_no": 1,                        // integer >= 1; the method refuses a 4th
-  "supersedes_run_id": "<run_id>" | null,
+  "round_no": 1,                        // integer >= 1, counted PER MODE; the method refuses a 4th
+  "supersedes_run_id": "<run_id>" | null,   // the previous round of the SAME mode, or null
   "trust_state": "uncalibrated" | "untrusted" | "trusted",
 
   "receipt": {
@@ -62,6 +63,10 @@ measure", and those lead to opposite actions.
     }
   ],
 
+  // LITE ONLY, and required there: the rubric rows a lite pass does not judge, by design.
+  // Each is ALSO in "dimensions" as unmeasured with score null. Refused on a full result.
+  "skipped_dimensions": ["rivalry", "economics"],
+
   // OPTIONAL, and optional TOGETHER with "envelope". Only a use_case subject may carry
   // them. Absent = no scenarios were measured; an EMPTY envelope would be a claim.
   "scenarios": [
@@ -88,10 +93,59 @@ measure", and those lead to opposite actions.
   "overall": 0.0 | null,                // null when nothing was measured
   "coverage": 0.0,
   "outcome": "ready" | "fail" | "incomplete" | "stalled",
-  "must_address": ["<one line of work per entry, <= 200 chars when generated>"],
-  "summary": "<the synthesis in a paragraph - required, never empty>"
+  "must_address": ["<one line of work per entry, <= 200 chars when generated>"],   // required, possibly []
+  "summary": "<the synthesis in a paragraph - required, never empty or whitespace>"
 }
 ```
+
+## Mode - `full` and `lite`
+
+`full` is the council: one bounded, blind member per rubric row. `lite` is ONE pass by the
+running session over a fixed subset of the same rubric, written in this same document so it
+reaches the same consuming door. The lite scope is declared per rubric version in
+`scripts/lib/aggregate.mjs` (`LITE_SCOPES`); today only `feature-v1` has one:
+
+| Rubric | Judged in lite | Skipped in lite |
+| --- | --- | --- |
+| `feature-v1` | `value`, `craft`, `robustness` | `rivalry`, `economics` |
+| `architecture-v1` | - | - (no lite: a redesign always goes to the full council) |
+
+What a lite result must be, and why each rule is the one it is:
+
+1. **`mode: "lite"`**, a `use_case` subject, a rubric with a lite scope.
+2. **Every rubric row is present**, the skipped ones as `state: "unmeasured"`, `score:
+   null`, with the instrument's fixed reason. The consuming door requires every row of the
+   named rubric exactly once and refuses a result that omits one ("a run that simply omitted
+   the member it could not reach would shrink its own denominator"), so the skipped rows are
+   carried rather than dropped.
+3. **`skipped_dimensions`** names exactly the skipped rows, so the scope of the review is
+   stated rather than inferred from which rows happen to be empty.
+4. **Skipped is `unmeasured`, never `not_applicable`.** The row exists for this subject and
+   nobody looked. It therefore stays in the coverage denominator: a complete lite pass over
+   `feature-v1` has **coverage 0.70**, and `overall` is the mean over the rows actually
+   scored. Writing them `not_applicable` would report coverage 1.0 - a lite pass
+   indistinguishable from a full council to any consumer that ignores `mode`, and a breach
+   of the invariant that `not_applicable` is never a substitute for `unmeasured`.
+5. **A skipped row adds no `must_address` line.** Every other row follows the normal rules:
+   a judged row the pass could not measure is `unmeasured` with its own reason and does add
+   a line, and lands the run `incomplete` when coverage falls under 0.60 (craft unmeasured
+   in lite: 0.45).
+6. The arithmetic, the floors, the hard failures and the outcome order below are
+   **unchanged**. Lite owns no rule of its own past this section.
+
+**Rounds are counted per mode.** A lite run lives in `<YYYY-MM-DD>-<slug>-lite-r<n>`, a full
+one in `<YYYY-MM-DD>-<slug>-r<n>`; `round_no` is the round within the run's mode, the round
+cap of three applies to each mode separately, and `supersedes_run_id` chains within the
+mode. The reason is cost: a lite pass is a fraction of a council round, and a lite pass that
+burned one of the council's three rounds would let cheap rework exhaust the expensive verdict
+before it ever ran. `council.mjs round` computes the count; where a name is ambiguous (a full
+run of slug `foo-lite` and a lite run of `foo` share a name), the run's own `started.json`
+decides.
+
+> **A consumer that counts rounds per subject must count them per mode too.** A door that
+> requires `round_no == the subject's last round + 1` over ALL its runs will refuse the first
+> full round after a lite one, and the first lite round after a full one. Mirror the rule:
+> the last round of the same `mode` (absent = `full`), and the cap per mode.
 
 ## The arithmetic
 
@@ -157,16 +211,20 @@ finding, which is where a reader who wants the argument goes. An entry **carried
 human rejection is exempt and stays verbatim: a person's own words are the highest-value
 input the method receives and the instrument has no standing to edit them.
 
+**`must_address` is required in every mode, possibly empty.** It is the list an implementer
+reworks from, so its absence is a result nobody can act on, not "nothing to do".
+
 **`summary` is required and may not be empty.** `aggregate` resolves it from `--summary`,
 else `started.summary`, else the first paragraph of `<run>/report.md`, and refuses to write
-a result without one; the validator refuses an empty string. An empty summary is not a
+a result without one; the validator refuses an empty or whitespace-only string, in every
+mode. An empty summary is not a
 harmless blank - a consuming door that substitutes the subject's own description for it
 shows a person the subject's blurb labelled as what the council concluded.
 
 ## The outcome, in order
 
 1. `round_no > 3` -> **`stalled`**. The round cap is a refusal to run, read before anything
-   the round produced.
+   the round produced. `round_no` is counted within the result's `mode`.
 2. any `hard_failures` -> **`fail`**.
 3. any dimension floor hit with `advisory: false` -> **`fail`**.
 4. any **scenario** floor hit with `advisory: false` -> **`fail`**. A perfect mean over a
