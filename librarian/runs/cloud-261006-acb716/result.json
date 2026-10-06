@@ -1,0 +1,62 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "cloud-261006-acb716",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-06T20:50:35Z",
+  "ended_at": "2026-10-06T21:06:35Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/mcp-tools",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/test-harness",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-10-06",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--catalog-projection-modes.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--tool-identity-vs-tool-name.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--sanctioned-session-state.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/dotnet--tool-schema-design--microsoft-mcp.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/applications/dotnet--recorded-interaction-fixtures.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/dotnet--gate-liveness.md",
+    "librarian/sources/2026-10-06-microsoft-mcp-v2.md",
+    "librarian/subjects/software-engineering/mcp-tools.md",
+    "librarian/subjects/software-engineering/test-harness.md",
+    "librarian/subjects/software-engineering/quality-gates.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Delta re-scan microsoft/mcp bc2a3b4e..b7533190. 0 techniques; 4 applications re-pinned (167/147/20 citations), 2 new. 6 untriaged, 7 covered. No fleet apply (cloud). Branch claude/cloud-261006-acb716, not main."
+}
