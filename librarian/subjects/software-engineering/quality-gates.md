@@ -1,8 +1,8 @@
 ---
 subject: quality-gates
 domain: software-engineering
-last_touched: 2026-09-23
-touched_by: deepen
+last_touched: 2026-10-06
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -1092,3 +1092,14 @@ The precondition is ownership, and it is the boundary rather than a caveat: a ba
 Lead drain (run lib-0923). L283 (filed under metric-gates) AMEND to `refusal-names-a-reachable-remedy`: the rule's own documented remedy did not clear its pattern in 3 of 5 importing files. L324 AMEND + APPLICATION to `self-reported-gate-inputs`: the ingest door recomputes and refuses on disagreement.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): gravitone 1, personas 1.
+
+
+## 2026-10-06 - [[2026-10-06-microsoft-mcp-v2]]
+
+New application `dotnet--gate-liveness` (first dotnet witness for the technique). A
+performance lane whose changelog says "gated against a baseline" four times, while the
+gate step is removed at template expansion: the `BaselinePath` parameter is commented
+out and no baseline is committed. The checker itself is strict. No technique change:
+"a gate whose scope is empty unless a flag is passed" already owns it. The tree adds one
+detail: deactivation at template expansion leaves no skipped-step marker for an operator
+to find.

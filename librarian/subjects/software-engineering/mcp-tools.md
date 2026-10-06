@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-09-23
+last_touched: 2026-10-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -623,3 +623,32 @@ immediately before the write. 0 of 3 fetches.
 Lead drain (run lib-0923). L114 AMEND + APPLICATION (`tool-schema-design`: how a publisher verifies its behaviour annotations, and where that check stops), L115 AMEND (`catalog-projection-modes`: group hiding is the one capability-losing projection - full surface by default, discovery never hidden, a hidden call refused by naming its group), L152 AMEND + APPLICATION (`authentication-and-scoping`: token identity is the minted id, never the label; a transitional dual-match names its own end). **L163 DECLINE here** - covered by `connector-catalog/catalog-as-data` (roles are for machines, categories for humans); a connector-catalog application from the personas measurement is a candidate.
 
 **Impact** (stale verdicts before this landing, from the map rebuilt at the run start): personas 1.
+
+## 2026-10-06 - [[2026-10-06-microsoft-mcp-v2]]
+
+Upstream delta re-scan of the source this subject's projection, identity and session-state
+techniques were written from (`bc2a3b4e..b7533190`, 194 commits, 33 days). **No technique
+or golden-path change.** The delta moved toward four rules this subject already states,
+and the evidence went into applications:
+
+- `dotnet--catalog-projection-modes` re-pinned. The single-mode fail-open finding was
+  **withdrawn as current** (closed upstream by #3466) and kept as history. Added: the
+  per-loader `--tool` substring match (#3837) and namespace-filter gap (#3749), and the
+  annotation-equality rule forcing #3202's destructive query tools into a new curated
+  group. The equality assertion now gates CI through a test; completeness is still
+  DEBUG-only.
+- `dotnet--tool-identity-vs-tool-name` re-pinned. "Nothing checks uniqueness"
+  **withdrawn**: #3614 added a constructed-surface, non-empty uniqueness test. Recorded:
+  six malformed ids grandfathered (identity over format), a whole-area rename keeping
+  30/30 ids, and #3202 keeping ids across a read-only-to-destructive change (the
+  predicted lapse, against the tree's own checklist).
+- `dotnet--sanctioned-session-state` re-pinned; the package had no commits. Three
+  citations that were already wrong at the first pin were corrected.
+- New second witness `dotnet--tool-schema-design--microsoft-mcp`: one month of a
+  publisher correcting its behaviour hints (#3614, #3818, #3202, #3772, eight
+  unread-parameter retirements).
+
+Untriaged in this subject, with anchors in the source note (rows 8-11): the idempotent
+axis carrying two meanings, one predicate per policy across loaders,
+a wrong operation name answered with names only, and create-only with preserve-on-omit
+(contested with `write-freshness-gate`).
