@@ -12,7 +12,8 @@
         "creator-voice-and-tone",
         "narrative-engine-selection",
         "short-form-narrative-structure",
-        "trailer-structure"
+        "trailer-structure",
+        "data-video-virality"
       ]
     },
     {
@@ -35,7 +36,8 @@
         "generated-output-grading",
         "generative-provider-routing",
         "image-prompt-composition",
-        "visual-style-locking"
+        "visual-style-locking",
+        "data-video-art-direction"
       ]
     },
     {

@@ -82,6 +82,42 @@ unattended. `local` and `human` executors are not gated by tier.
 `FollowupsPromptModal` still includes already-handed-off items in the
 regenerated prompt and does not re-mark them.
 
+## Worker writes are fenced by holder, not by claim (read 2026-10-01)
+
+The module already uses the lease value as a version in one place.
+`sweepExpiredLeases` re-checks each stale row with
+`{ id, status: "in_progress", leaseUntil: row.leaseUntil }`, so that "a sweep
+never un-claims a row that moved on". The holder's own later writes do not
+carry it. `reportAttempt` matches `{ id, status: "in_progress", claimActor: {
+in: actors } }`, both in its pre-read and inside the transaction, and
+`releaseFollowups` matches `{ id, status: "in_progress", claimActor: actor }`.
+No `leaseUntil`, no generation, and no expiry check.
+
+A different holder is refused, and a test pins it: `agent:other` gets `null`
+back. The module has also already met the identity half of the problem. Holders
+were `agent:<token name>`, and names are not unique, "so the old form made two
+live tokens named `ci` one holder". That is why the holder became the token
+id (`holderActors`, which keeps a transitional legacy arm).
+
+One id still covers several sessions, though. The cases are two sessions on
+one token, an agent re-claiming its own lapsed row, and the local lanes, which
+all write as `LANE_ACTOR = "autopilot"` (`src/lib/local/lane-exit.ts`). If any
+of them claims again, the first holder's late `report_attempt` lands on the
+second claim. `resolved` and `needs_human` write `leaseUntil: null`, and the
+sweep only reclaims `leaseUntil: { not: null, lt: now }`. So if the live holder
+then dies, the row never returns to the queue.
+
+The technique's fencing rule closes this: the claim returns its lease value or
+a generation, and every worker write matches it. `simulation`, three cases, in
+`librarian/applied.md`.
+
+The machine door answers ownership per item. Without `allOrNothingTenancy`,
+an id the org does not own is refused `unknown`, the same word a nonexistent
+id gets, and the rest of the batch is claimed. That conforms to the
+technique's reason for the rule, that foreign and nonexistent must read the
+same. It does not conform to the rule's older wording, "a foreign identifier
+fails the whole request", which this pass replaced for that reason.
+
 ## Batch shape upstream
 
 The batch this route receives is shaped by

@@ -49,6 +49,18 @@ leaves no trace anywhere ([the gate must see its
 target](../../../../_laws.md#gate-sees-target): the producer never observes its own
 precision).
 
+**Already done is not premise false**, and the two write back opposite
+things. *Already satisfied* — by other work, a neighbouring fix, a commit the
+brief predates — is a completion the brief did not know about: it carries the
+commit that satisfied it, closes on the rescan like any completion, and says
+nothing against the producer's precision. *The premise does not hold* — the
+defect is not a defect at this site — suppresses re-raising that finding
+there and counts against the producer. One "refuted" outcome conflates them;
+one tracker was booking delivered work as refusals until it split them.
+*Partly held* needs its own word too: agents told to verify before acting
+over-abstain on items that are partly fixed and still need a narrower change
+([Gloaguen et al. 2026](https://arxiv.org/abs/2605.07769)).
+
 ## The rates are the point
 
 Refutation rates measured across one campaign's specialist lanes, all of them
@@ -84,13 +96,24 @@ attached to it did not.
    mechanism: a worker that is penalized for refuting will complete the work
    instead, and the completion of work resting on a false premise is the most
    expensive outcome in this whole subject — it is a change nobody needed,
-   reviewed as if it were needed.
+   reviewed as if it were needed. This is measured outside this campaign
+   too: giving agents a way to abort a task they could not solve
+   legitimately cut one model's test-gaming several-fold
+   ([Zhong et al. 2025](https://arxiv.org/abs/2510.20270)), and agents
+   handed stale reports change code that needs nothing unless inaction is
+   framed as success ([Gloaguen et al. 2026](https://arxiv.org/abs/2605.07769)).
 4. **Track the refutation rate per producer, and treat a rate of zero as an
    instrument alarm.** A lane refusing nothing is a lane not re-measuring
    ([failure must be spelled differently from empty
-   success](../../../../_laws.md#failure-not-empty-success)). Somewhere between a
-   tenth and a third of items refuted is the healthy band for briefs written
-   from aggregates; sustained zero means the check is not running.
+   success](../../../../_laws.md#failure-not-empty-success)). The healthy rate
+   is the producer's own imprecision, not a universal band: between a tenth
+   and a third held for the aggregate-written briefs above, while measured
+   invalid-finding rates for automated producers run from under a tenth (a
+   production analysis platform's design ceiling) to well over half for
+   alarm-heavy or model-written findings. Calibrate it from a hand-checked
+   sample of the producer's output and alarm on **both** sides: sustained
+   zero means the check is not running; a rate far above the sample's means
+   the worker is refusing work.
 5. **Refutation is bounded by the brief, not by taste.** The worker refutes
    claims the brief makes. It does not get to refuse work because it prefers
    a different approach — that is a different conversation and belongs in the

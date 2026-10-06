@@ -9,6 +9,7 @@ shared_with: []
 use_when:
   - closing findings without a human confirming the work
   - deciding what counts as proof that remediation landed
+  - a producer reports only its top few findings per source
 ---
 
 # Evidence-based auto-close
@@ -43,9 +44,18 @@ This is inference, and it is *good* inference for a specific structural
 reason: the assessment is regenerated from scratch each run, so its output is
 a statement about the codebase as it is now, not a mutated copy of last run's
 list. If the current codebase no longer produces the finding, the condition
-that produced it is gone. Whether it is gone because someone fixed it or
-because the code was deleted is a distinction the finding itself cannot make,
-and mostly should not.
+that produced it is gone. For a finding about the codebase as a whole,
+whether it is gone because someone fixed it or because the code was deleted
+is a distinction the finding cannot make, and mostly need not. For a finding
+bound to a location it can and should: a finding whose file was deleted,
+renamed or excluded, or whose rule was changed or disabled, is **removed**,
+not fixed. Scanners split on this —
+[one records exactly that split](https://docs.semgrep.dev/semgrep-ci/findings-ci),
+another separates only the rule change and calls a deleted file fixed, a
+third has no removed state and leaves alerts from a configuration that
+stopped running open indefinitely. Record removed separately: it earns no
+credit, and a renamed file's findings are the same findings at a new
+address, not a fix plus a stranger.
 
 There is no admissible third signal. In particular, elapsed time is not
 evidence, an executor's self-report is not evidence, and an operator's
@@ -54,7 +64,7 @@ memory is not evidence — though a manual control for all three is necessary
 
 ## The preconditions the naive version skips
 
-Signal 2 is safe only when three things hold, and each is a real trap.
+Signal 2 is safe only when four things hold, and each is a real trap.
 
 - **The assessment must actually have run.** An analysis that failed, timed
   out, hit a rate limit, or ran over an empty checkout produces zero
@@ -63,13 +73,29 @@ Signal 2 is safe only when three things hold, and each is a real trap.
   ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)):
   assert the instrument before interpreting the result, and refuse to apply
   any close rule to a run that did not complete its analysis of that
-  codebase.
+  codebase. Assert it **per producer**, not per run: where one run gathers
+  several instruments, a failed one freezes only its own findings, and one
+  that did not run reads as unknown, never as empty.
 - **The comparison must be over the same scope.** A fresh run restricted to a
   subdirectory, a branch, or a subset of categories does not produce the
   findings outside its scope, and treating that silence as resolution closes
   everything the run did not look at. Only a run whose scope matches the
   ledger's scope may close by absence — which in practice means only
-  authoritative full runs of the assessed branch write resolutions at all.
+  authoritative full runs of the assessed branch write resolutions at all,
+  enforced by a scope key recorded on each run rather than by convention.
+  Scope includes the producer's **own output cap**. A producer that emits
+  only its top N per source narrows its scope every run: a finding pushed
+  below the cap by louder ones is absent without being gone. Absence counts
+  only against an enumeration that is exhaustive for the finding's key — the
+  uncapped list, or a direct probe of that key — never against the list
+  trimmed for display or dispatch.
+- **The resolving change must not have edited the instrument.** An absence
+  whose commits touched the instrument's own inputs — its suppression or
+  ignore lists, its rule configuration, the tests a finding cites — is not
+  evidence of repair; route it to a person. The artifact's rule against
+  editing files to satisfy a checker is weak on its own, because agents told
+  not to game a check largely still do, and the closing side is the half of
+  the loop that can enforce it.
 - **Matching must be strict enough.** Deciding that a finding was "not
   raised again" is a matching problem, and a loose matcher will pair the old
   finding with an unrelated new one and conclude, wrongly, that it is still
@@ -84,8 +110,12 @@ writes the marker, the closer believes the agent. The reading that survived
 contact with a running loop is that **a marker is an honoured claim only when
 the rescan agrees.** A row still raised by the fresh assessment stays open
 however many markers name it, and the record says the claim was made and not
-confirmed. The marker still has work to do: it is the only signal for an item
-the rescan cannot witness (below), and it is what explains a close the rescan
+confirmed. And *agrees* means the whole bar below, not merely "not raised": a
+self-written marker beside a category that stood still is the agent's word
+plus a possible rewording, two weak signals that do not sum to a strong one.
+So for an ordinary finding the marker changes the recorded reason, never the
+outcome. It still has work to do: it is the only signal for an item the
+rescan cannot witness (below), and it is what explains a close the rescan
 confirms.
 
 "No longer raised" is weak on its own for the mirror-image reason. A model
@@ -139,7 +169,9 @@ assessor will ever get about its own precision.
 ## Decision rules
 
 - **When a marker names the item and the finding is no longer raised, close
-  it as resolved by marker.** When the finding is still raised, keep it open
+  it as resolved by marker** — if the movement rule below would close it
+  without the marker; a category that stood still keeps it open with the
+  claim recorded. When the finding is still raised, keep it open
   and record that the claim was made: an executor's claim does not outrank
   the instrument that is checking it. (This replaced "close even if still
   restated", which let an unattended agent close its own work; the exception
@@ -151,7 +183,14 @@ assessor will ever get about its own precision.
   all** and leave the ledger untouched.
 - **When the run's scope is narrower than the ledger's, apply no close rules
   by absence**; markers may still be read, since a marker is a positive
-  statement about a specific item.
+  statement about a specific item. A producer that caps its own output is a
+  narrower scope for every key below the cap: verify against the uncapped
+  enumeration.
+- **When the finding's subject is gone or no longer analysed** — file
+  deleted, renamed or excluded, rule changed or disabled — retire it as
+  removed, never as resolved.
+- **When the resolving commits edited the instrument's own inputs, do not
+  close by absence**; hold the item for a person and say why.
 - **When the finding is no longer raised and no marker exists, close it as
   no-longer-raised** only if its category's measured movement is attributable
   (or unmeasured on one side), and say so in the record; otherwise keep it

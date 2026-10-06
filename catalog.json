@@ -665,10 +665,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.4.0",
+      "version": "4.5.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:b32b2b1448cf348d",
+      "contentHash": "sha256-n1:b406a31421eeb8fb",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -677,9 +677,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 59,
+      "lessons": 60,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:0557a9283348762c",
+      "lessonsHash": "sha256-n1:4c6f0ab60659b3b6",
       "usageContributors": [
         "wolf"
       ],
@@ -1017,7 +1017,7 @@
     "skills": 38,
     "practices": 8,
     "memory": 9,
-    "lessons": 299
+    "lessons": 300
   },
   "bundles": [
     {
@@ -1055,9 +1055,9 @@
       "purity": "game",
       "subjects": 78,
       "techniques": 508,
-      "applications": 204,
-      "files": 794,
-      "contentHash": "sha256-b2:504a145a2714ffd7"
+      "applications": 205,
+      "files": 795,
+      "contentHash": "sha256-b2:9eefaef9f9d30bbf"
     },
     {
       "name": "grant-funding",
@@ -1118,11 +1118,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 23,
-      "techniques": 159,
-      "applications": 88,
-      "files": 275,
-      "contentHash": "sha256-b2:eb96e5bb5a212fb7"
+      "subjects": 25,
+      "techniques": 182,
+      "applications": 95,
+      "files": 307,
+      "contentHash": "sha256-b2:03e63517bf4fd3ef"
     },
     {
       "name": "recruiting",
@@ -1146,9 +1146,9 @@
       "purity": "software",
       "subjects": 233,
       "techniques": 1829,
-      "applications": 1231,
-      "files": 3298,
-      "contentHash": "sha256-b2:292ca2d2b58889a3"
+      "applications": 1234,
+      "files": 3301,
+      "contentHash": "sha256-b2:bb9ae827c90cfc7d"
     }
   ],
   "usageEvidence": {

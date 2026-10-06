@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1829,
-  "applications": 1231,
+  "applications": 1234,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -22587,9 +22587,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/native-document-format.md",
-   "digest": "sha256-b2:b6e8c7cf7888676f",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:a8dfcdf0eabecaff",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "format-generations-are-declared",
@@ -22681,7 +22681,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "format-generations-are-declared",
+     "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/applications/rust--format-generations-are-declared.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "rust@1.96.1"
+    }
+   ]
   },
   "native-guest-interop": {
    "category": "backend-platform",
@@ -28417,9 +28425,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
-   "digest": "sha256-b2:eaf82a0c7f870145",
-   "revision": 5,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:ab4f0ae40c100d8e",
+   "revision": 6,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "batch-shaping-for-one-session",
@@ -28443,7 +28451,8 @@
      "shared_with": [],
      "use_when": [
       "matching last run's findings against this run's findings",
-      "an item someone claimed is neither marked resolved nor restated"
+      "an item someone claimed is neither marked resolved nor restated",
+      "a dismissed or closed finding reappears in a later run"
      ]
     },
     {
@@ -28457,7 +28466,8 @@
      "shared_with": [],
      "use_when": [
       "closing findings without a human confirming the work",
-      "deciding what counts as proof that remediation landed"
+      "deciding what counts as proof that remediation landed",
+      "a producer reports only its top few findings per source"
      ]
     },
     {
@@ -28485,7 +28495,8 @@
      "shared_with": [],
      "use_when": [
       "writing the endpoint that records a batch as claimed",
-      "a handoff can be re-sent, retried, or replayed from a stale selection"
+      "a handoff can be re-sent, retried, or replayed from a stale selection",
+      "a worker whose lease lapsed may still report back"
      ]
     },
     {
@@ -28536,6 +28547,13 @@
      "technique": "single-artifact-prompt-construction",
      "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/process--single-artifact-prompt-construction.md",
      "verified_on": "2026-10-01"
+    },
+    {
+     "stack": "react",
+     "technique": "evidence-based-auto-close",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/applications/react--evidence-based-auto-close--personas.md",
+     "verified_on": "2026-10-01",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -37214,9 +37232,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
-   "digest": "sha256-b2:9e3d241f02d95329",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:9bb039229d852897",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "collapse-patch-axes-that-share-hunks",
@@ -37295,7 +37313,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "collapse-patch-axes-that-share-hunks",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/applications/node--collapse-patch-axes-that-share-hunks.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "node@22"
+    }
+   ]
   },
   "versioning-snapshots": {
    "category": "operations",

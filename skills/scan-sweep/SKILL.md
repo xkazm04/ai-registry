@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--r
 category: workflow
 contexts: tracked
 memory: project
-version: 4.4.0
+version: 4.5.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -655,6 +655,22 @@ split on exactly this, in both directions.
 builds, Lane B dispatches if `--ab` was given, Lane C waits for the deck. Nothing
 asks.
 
+**Without `--ab`, Lane B is a queue that only grows - say its size every round.**
+The default loop does not dispatch the wave, so every round adds its B cards to
+a pile no step of the run drains. Measured 2026-10-04 (one `--stabilize` loop,
+23 contexts, 20 rounds): 208 built, 112 Lane B left open - more than half as
+many as were built, and nothing in the per-round reports added them up. So:
+
+- Every round's close-out (§8) carries the running total: `Lane B open: <n>
+  (this round +<k>) - drain with /scan-sweep --ab-only`.
+- When the run's open Lane B count passes **half its Lane A built count**, or
+  **25** items, say so in the next round's header, once, as a choice for the
+  operator: drain now (`--ab-only`), or keep sweeping. When attended, ask.
+  When unattended, keep going and repeat the line.
+- The loop's closing report leads with the pile, not the built count, and the
+  register row's `note` (§9) names the drain command. A B card with no
+  `instrument` field cannot be drained - the round that wrote it owes it one.
+
 **What the backlog is FOR — and what never goes in it.** The Personas idea backlog
 (the memory outbox → `dev_ideas` → the triage deck) is where a HUMAN decides. It
 holds Lane C and nothing else: the escalations, the operator-only acts, and what
@@ -681,6 +697,11 @@ lens, `registry-conformance`, budgeted like every other one.
   take the subject's `file` **verbatim** from the index. Never construct a path
   from a slug - bundles are nested and depth is dynamic, so a built path points
   at a folder nobody walks.
+- **The map's `paths` are a twelve-path sample, not the context.** Take the
+  round's file list from the context map (`contextMap`) and use the registry
+  map only for its subjects. A file missing from the map row is not
+  "ungoverned", and a lead claiming the map drops files is wrong
+  (`check-context-coverage.mjs` measures real reach).
 - Without a map, resolve through `<registry>/knowledge/<domain>/index.json`.
 - Without either, say so in the header (`registry: declared, unmapped`) and judge
   on the repo's own conventions. Degrade honestly; never invent a standard.
@@ -821,6 +842,17 @@ first, then this round's, highest-reward first - one finding at a time:
    then match, and let the fail-before be what tells you — it is the only step
    that catches this, and it caught it both times.
 
+9. **Run each overlay gate once before the first round, and check what it
+   loaded.** A gate copied from an overlay can run without the config its
+   directory depends on. Measured 2026-10-04: `uv run --project <pkg> pytest`,
+   run from the repo root, picked up no pytest config. Its `live` marker was
+   not deselected, so the gate made a real network ingest against a data
+   source in the first round. Read the gate's header (rootdir/configfile, the
+   tsconfig, the selected tests) before you trust it. A gate that can reach the
+   network or spend money must refuse that from inside the test tree (a
+   conftest or setup hook), not only through an ini file that a different
+   working directory skips.
+
 **Parallel-session rules** — several sweeps may share this repo, one context each:
 
 - Edit ONLY inside your context's paths, plus their tests and any generated
@@ -833,6 +865,43 @@ first, then this round's, highest-reward first - one finding at a time:
   generated types, checksum manifests): make the edit and its regen, commit
   IMMEDIATELY, and keep that commit minimal. Shared files must never sit
   uncommitted while you work on the next finding.
+
+**Director-run fan-out**: one session runs the loop and hands rounds to
+round-agents, all working in one checkout. The rules above cover each agent. The
+director has its own job, and every rule below was paid for once (measured
+2026-10-04: 20 rounds over 23 contexts, in 5 waves of 4 agents, 256 commits,
+no cross-agent contamination):
+
+- **The director owns every shared file**: the snapshot ledger (§10), the
+  open-backlog register and outbox (§9), the consult and lead files (§6), and
+  any ratchet baseline. Round-agents never write them. They return their
+  snapshot row, consult line and lead lines in the final reply, and the
+  director appends them. Each agent writes its own findings file, one per
+  context or merged round (`<findingsDir>/<slug>.jsonl`), so no two agents share a
+  findings file.
+- **A wave is ≤ 4 contexts that share no write paths.** Hold a context whose
+  paths another session has reserved, and run it in a later wave once that
+  session releases them. Pair the small contexts (§1) inside the wave. Each
+  pair is one round with one agent.
+- **One brief, written once, pins the gates verbatim** from the overlay. It
+  states the asserted-exit-code rule (§7.2), the "a red whole-tree gate is
+  probably not yours" rule, the pathspec commit including the form for an
+  untracked file (`git add <file>` then `git commit -m … -- <paths>`), the
+  never-touch list, and the reply shape. Correct the brief when a round finds
+  a gate wrong. A rule told to one agent only applies to that agent.
+- **Integrate after every wave, before the next starts.** Run the full
+  offline gate on the combined tree. Then commit the wave's ledger rows in one
+  `chore(scan-sweep): wave <n> ledger` commit, and lower any ratchet baseline
+  only after that combined run. A ratchet that drifted up during the wave
+  goes back to the agents whose files caused it, with the files named. The
+  director never formats the whole tree.
+- **A stalled agent is resumed, not replaced.** Its committed work and its
+  transcript survive. Send it a message that says what it already committed
+  and what is left. A second agent spawned on the same context will rebuild
+  committed fixes and fight the first for the same files.
+- **Slow gates stay with the director.** Agents must not run the end-to-end
+  suite, dev servers, or anything that hits the network. The director runs
+  these once, when the loop closes.
 
 ## 8. Report each round
 
@@ -854,8 +923,9 @@ backlogged card, **the escalation or the failed rung** that put it there.
 Close each round with: X built (of which carries), Y rejected, Z backlogged
 (escalated / unmeasurable / vetoed / carry), lenses evaluated **and how many had
 no surface** (§4.9 - the two numbers are reported separately), `auto=` and
-`fp=`, leads filed, the trend for this context (`12 -> 7 -> 5 findings`), and
-**the next context the loop will take**.
+`fp=`, leads filed, the trend for this context (`12 -> 7 -> 5 findings`), the
+running **Lane B open** total when `--ab` was not given (§5), and **the next
+context the loop will take**.
 
 ## 9. Emit to the memory outbox
 
@@ -953,7 +1023,10 @@ tally and `ab` the wave's verdicts - the numbers §5's self-correction reads.
 tracked, the snapshot rides in the round's **last fix commit**; if the round
 built nothing, it goes in a closing `chore(<context>): scan-sweep round <n>
 ledger` commit of its own. A round that ends with an uncommitted ledger row has
-not recorded its coverage - the next picker reads the file from HEAD.
+not recorded its coverage - the next picker reads the file from HEAD. Under a
+director-run fan-out (§7), the director commits the wave's rows together right
+after the wave's combined gate, so no row sits uncommitted while the next wave
+runs.
 
 ## Project overlay
 

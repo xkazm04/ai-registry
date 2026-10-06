@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 78,
   "techniques": 508,
-  "applications": 204,
+  "applications": 205,
   "laws": 13,
   "categories": [
    "systems-canon",
@@ -4320,9 +4320,9 @@
    "subcategory": "surface-and-imagery",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/imported-material-conformance.md",
-   "digest": "sha256-b2:a23f3e2ae617eab7",
-   "revision": 1,
-   "changedAt": "2026-09-07",
+   "digest": "sha256-b2:ed5263112ac176f3",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "a-fixer-script-is-the-edge-in-the-wrong-place",
@@ -4414,7 +4414,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "a-fixer-script-is-the-edge-in-the-wrong-place",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/applications/node--a-fixer-script-is-the-edge-in-the-wrong-place.md",
+     "verified_on": "2026-10-06",
+     "verified_against": "node@24"
+    }
+   ]
   },
   "judgeable-spec-authoring": {
    "category": "content-pipeline",

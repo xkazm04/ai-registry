@@ -12333,6 +12333,15 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
   checkout. It is not a content verdict. Name the paths and move on; do not delete
   another session's files to get a green line.
 
+## 2.15.0 - 2026-10-05 - apply-format-generations-are-declared
+
+- **A dispatched run can die after its measurement and before its first commit, and then nothing records it.** The board reaps the claim at 45 minutes. The ledgers never received a row. What survives is a project worktree with an uncommitted diff, a scratch log directory and an untracked application in the shared registry tree. A re-dispatch that starts from the attention scan cannot see it. Look for a worktree named for the technique's slug and for untracked files under the subject. Then verify the diff and re-run both arms yourself before finishing it. Do not trust the dead run's logs. Here they matched exactly.
+- **A version gate after the typed parse can only see the documents that did not need it.** This holds for any format whose contract says a version bump is a shape change. Its tests all pass, because every fixture is a version it accepts, so only a fixture from a newer version can tell the two orders apart. This goes in the application, not the technique, until a second tree shows it.
+
+## 2.15.0 - 2026-10-05 - apply-collapse-patch-axes-that-share-hunks
+
+- **When the fleet holds no artifact with the technique's name, search for the mechanism's effect.** No tree had a patch set, and a search for tracked patch files found three files across sixteen projects. The stack that was there was a postinstall script and a bundler transform, both rewriting third-party bytes, and neither called itself a patch. For a technique named after an artifact (a patch set, a ledger, a queue), the seam search asks what performs the artifact's job: here, what writes into a dependency's files or rewrites them on the way through.
+
 ## 2.15.0 - 2026-10-06 - apply-1006-css (context-sufficiency-signals)
 
 - **A project's defect register is a committed label set.** personas'
@@ -12349,3 +12358,8 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
   not-better, and the shippable change came from reading the project's contract
   against its pipeline: notes written for the translator and never sent. This is
   the v2.8.1 rule (the seam hunt is a second source) holding on an apply-only run.
+
+## 2.15.0 - 2026-10-06 - apply-a-fixer-script-is-the-edge-in-the-wrong-place
+
+- **An `unapplied` row's return condition can fire without anyone noticing.** The 2026-09-07 row said "when a managed project grows an asset import path". pof grew one, and its registry map joined nine contexts to the subject. Nothing compared the two, so the subject sat at "no application" until the attention scan ranked it. Before trusting an old `unapplied` row, read the fleet's `subjectIndex[<subject>]` in each domain project's `.ai/registry-map.json`. A non-empty list means the seam hunt starts there.
+- **The corrector can be a person, and a warning is how you find them.** A generated step that detects a convention mismatch and only logs it hands the fix to whoever remembers. That is the technique's corrector without a script. Search for warn-and-continue branches next to the one table, as well as for fixer scripts.

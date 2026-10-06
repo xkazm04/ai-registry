@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 23,
-  "techniques": 159,
-  "applications": 88,
+  "subjects": 25,
+  "techniques": 182,
+  "applications": 95,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "159/159",
+  "use_when_coverage": "182/182",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -497,6 +497,395 @@
      "technique": "voice-profile-from-accepted-work",
      "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/applications/process--voice-profile-from-accepted-work.md",
      "verified_on": "2026-08-19"
+    }
+   ]
+  },
+  "data-video-art-direction": {
+   "category": "visual-generation",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/media-generation/visual-generation/data-video-art-direction/data-video-art-direction.md",
+   "digest": "sha256-b2:10a9cce44446d777",
+   "revision": 1,
+   "changedAt": "2026-10-06",
+   "techniques": [
+    {
+     "slug": "case-native-chart-form",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "picking the chart form for a data-video case",
+      "deciding between a bar race and another form",
+      "redesigning a case whose frame reads as generic"
+     ]
+    },
+    {
+     "slug": "champion-split-wipe",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "showing a change of champion or leader",
+      "title-holder successions",
+      "an upset that flips the whole frame's palette"
+     ]
+    },
+    {
+     "slug": "concept-landing-proposals",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning an image-triage round for a data-video case",
+      "briefing whoever makes the prototype stills",
+      "a case whose frames read as competent but generic",
+      "choosing between an illustrative metaphor and a data chart",
+      "reviewing a metaphor frame for squeezed entries or lost time"
+     ]
+    },
+    {
+     "slug": "curiosity-title-thumbnail",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the hook",
+      "on-screen title or thumbnail of a data video",
+      "deciding what to reveal in the first two seconds"
+     ]
+    },
+    {
+     "slug": "ending-sequence",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "finishing a data video",
+      "revealing the winner",
+      "adding a call to action and the studio's end card",
+      "choosing the StatReel logo treatment"
+     ]
+    },
+    {
+     "slug": "event-card-stack",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing several evidence cards in one timeline",
+      "events that fall close together",
+      "cards that vanish before they can be read",
+      "choosing card enter and exit transitions"
+     ]
+    },
+    {
+     "slug": "evidence-card-popup",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the event beat of a data video",
+      "choosing a photo or document to show at an event",
+      "styling callouts so they read as news"
+     ]
+    },
+    {
+     "slug": "leader-adaptive-theme",
+     "status": "draft",
+     "laws": [
+      "style-is-restated-not-remembered",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a background and palette for a data video",
+      "designing what happens visually at a lead change",
+      "giving each case a distinct look while keeping a house identity"
+     ]
+    },
+    {
+     "slug": "legibility-floor",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "laying out a vertical data-video frame",
+      "checking text sizes and safe zones",
+      "deciding whether to tilt a chart or map"
+     ]
+    },
+    {
+     "slug": "motion-cue-budget",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding motion effects to a data-video frame",
+      "reviewing a frame that feels busy",
+      "deciding which beats get sparks",
+      "smears or rolling digits"
+     ]
+    },
+    {
+     "slug": "photo-rights-ledger",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding any photo",
+      "screenshot or scan to a data video",
+      "preparing a video for publication",
+      "choosing between candidate photos"
+     ]
+    },
+    {
+     "slug": "photo-to-poster-portrait",
+     "status": "draft",
+     "laws": [
+      "checkability-routes-the-pixel",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "showing a real person (a champion",
+      "a leader",
+      "a founder) as a boosted illustrative portrait",
+      "building a succession or title-holder video",
+      "styling a cut-out photo to match an era"
+     ]
+    },
+    {
+     "slug": "timing-plan-first",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "starting any data-video render",
+      "deciding how fast a timeline runs",
+      "fixing flicker or dead stretches in a race chart",
+      "planning a Short and a long-form cut from the same data"
+     ]
+    },
+    {
+     "slug": "top-n-with-logos",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how many entities a race shows",
+      "labelling bars with brand logos",
+      "a market with one dominant player"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "concept-landing-proposals",
+     "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/process--concept-landing-proposals.md",
+     "verified_on": "2026-10-03"
+    },
+    {
+     "stack": "process",
+     "technique": "leader-adaptive-theme",
+     "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/process--leader-adaptive-theme.md",
+     "verified_on": "2026-10-03"
+    },
+    {
+     "stack": "process",
+     "technique": "motion-cue-budget",
+     "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/process--motion-cue-budget.md",
+     "verified_on": "2026-10-03"
+    },
+    {
+     "stack": "process",
+     "technique": "photo-to-poster-portrait",
+     "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/process--photo-to-poster-portrait.md",
+     "verified_on": "2026-10-03"
+    }
+   ]
+  },
+  "data-video-virality": {
+   "category": "narrative-craft",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/media-generation/narrative-craft/data-video-virality/data-video-virality.md",
+   "digest": "sha256-b2:7cd972794167be0f",
+   "revision": 1,
+   "changedAt": "2026-10-06",
+   "techniques": [
+    {
+     "slug": "accelerator-events",
+     "status": "draft",
+     "laws": [
+      "causality-over-sequence",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the on-screen annotation layer of a narration-free data video",
+      "scoring whether an idea can teach without narration",
+      "writing beats for a ranked race or map evolution"
+     ]
+    },
+    {
+     "slug": "continuity-gate",
+     "status": "draft",
+     "laws": [
+      "causality-over-sequence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "triaging data-video ideas for a narration-free format",
+      "deciding whether a dataset can carry one to three minutes of motion",
+      "rejecting record ladders and winners lists that test well on topic alone"
+     ]
+    },
+    {
+     "slug": "path-over-conclusion",
+     "status": "draft",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the keep-watching rationale for a data-video idea",
+      "deciding between two framings of the same dataset",
+      "auditing why a chart with a strong final frame lost viewers early"
+     ]
+    },
+    {
+     "slug": "precedent-evidence-gate",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "triaging a backlog of data-video ideas",
+      "defining a pass threshold for content ideas",
+      "auditing why an accepted idea underperformed"
+     ]
+    },
+    {
+     "slug": "recognizable-cast",
+     "status": "draft",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which entities appear in a chart race",
+      "scoring universality",
+      "deciding between a broad and a niche dataset"
+     ]
+    },
+    {
+     "slug": "saturation-check",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an idea's best comparable is old or singular",
+      "a topic cluster feels obvious",
+      "scoring bar-race or ranking ideas"
+     ]
+    },
+    {
+     "slug": "series-repeatability",
+     "status": "draft",
+     "laws": [
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ranking ideas that score similarly",
+      "planning a content calendar",
+      "choosing which visual component to build first"
+     ]
+    },
+    {
+     "slug": "speculative-grounding",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding what-if or projection videos to a fact-driven data channel",
+      "deciding whether a counterfactual is honest enough to publish",
+      "choosing a model for a projected race"
+     ]
+    },
+    {
+     "slug": "topic-duplicate-screen",
+     "status": "draft",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generating ideas in batches against an existing backlog",
+      "reporting how many ideas passed",
+      "merging idea lists from several sessions"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "continuity-gate",
+     "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--continuity-gate.md",
+     "verified_on": "2026-10-03"
+    },
+    {
+     "stack": "process",
+     "technique": "precedent-evidence-gate",
+     "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--precedent-evidence-gate.md",
+     "verified_on": "2026-10-03"
+    },
+    {
+     "stack": "process",
+     "technique": "saturation-check",
+     "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--saturation-check.md",
+     "verified_on": "2026-10-03"
     }
    ]
   },
@@ -3187,6 +3576,15 @@
     "creator-voice-and-tone/dial-vs-subject-property",
     "creator-voice-and-tone/spoken-delivery-direction",
     "creator-voice-and-tone/voice-profile-from-accepted-work",
+    "data-video-art-direction/event-card-stack",
+    "data-video-art-direction/legibility-floor",
+    "data-video-art-direction/motion-cue-budget",
+    "data-video-art-direction/photo-rights-ledger",
+    "data-video-art-direction/timing-plan-first",
+    "data-video-virality/continuity-gate",
+    "data-video-virality/precedent-evidence-gate",
+    "data-video-virality/saturation-check",
+    "data-video-virality/speculative-grounding",
     "evidence-bound-visuals/anchor-removal-ablation",
     "evidence-bound-visuals/figure-must-cite-a-fact",
     "frame-direction/per-beat-rejection",
@@ -3277,6 +3675,7 @@
     "character-identity-continuity/reference-admitted-late",
     "cinematic-language/genre-visual-contracts",
     "cinematic-language/lighting-as-dramatic-instrument",
+    "data-video-art-direction/leader-adaptive-theme",
     "evidence-bound-visuals/epistemic-draw-routing",
     "generated-output-grading/trial-matrix-design",
     "image-prompt-composition/assigned-colour-roles",
@@ -3324,6 +3723,10 @@
     "content-research-grounding/pre-linked-causal-mechanisms",
     "content-research-grounding/tension-finding-taxonomy",
     "creator-voice-and-tone/engine-tone-separation",
+    "data-video-virality/accelerator-events",
+    "data-video-virality/continuity-gate",
+    "data-video-virality/path-over-conclusion",
+    "data-video-virality/recognizable-cast",
     "evidence-bound-visuals/causal-arrow-discipline",
     "evidence-bound-visuals/generous-strawman-rendering",
     "frame-direction/motif-establish-vary-payoff",
@@ -3355,6 +3758,23 @@
     "content-research-grounding/unknowns-as-constraints",
     "creator-voice-and-tone/delivery-rate-budgeting",
     "creator-voice-and-tone/dial-vs-subject-property",
+    "data-video-art-direction/case-native-chart-form",
+    "data-video-art-direction/champion-split-wipe",
+    "data-video-art-direction/concept-landing-proposals",
+    "data-video-art-direction/curiosity-title-thumbnail",
+    "data-video-art-direction/ending-sequence",
+    "data-video-art-direction/event-card-stack",
+    "data-video-art-direction/evidence-card-popup",
+    "data-video-art-direction/leader-adaptive-theme",
+    "data-video-art-direction/photo-rights-ledger",
+    "data-video-art-direction/photo-to-poster-portrait",
+    "data-video-art-direction/timing-plan-first",
+    "data-video-art-direction/top-n-with-logos",
+    "data-video-virality/accelerator-events",
+    "data-video-virality/precedent-evidence-gate",
+    "data-video-virality/saturation-check",
+    "data-video-virality/speculative-grounding",
+    "data-video-virality/topic-duplicate-screen",
     "evidence-bound-visuals/anchor-removal-ablation",
     "evidence-bound-visuals/causal-arrow-discipline",
     "evidence-bound-visuals/epistemic-draw-routing",
@@ -3423,6 +3843,10 @@
   "checkability-routes-the-pixel": {
    "statement": "If a viewer could check an element against a fact, deterministic code must draw it. If it only has to feel right, a model may. Charts, exact values, and labels are drawn and composited; atmosphere and illustrative scenes are generated. A generated glyph is not a nicer glyph — it is an unusable one.",
    "techniques": [
+    "data-video-art-direction/case-native-chart-form",
+    "data-video-art-direction/concept-landing-proposals",
+    "data-video-art-direction/photo-to-poster-portrait",
+    "data-video-art-direction/top-n-with-logos",
     "evidence-bound-visuals/anchor-removal-ablation",
     "evidence-bound-visuals/epistemic-draw-routing",
     "frame-direction/motion-intent-authoring",
@@ -3445,6 +3869,7 @@
   "cost-per-usable-output": {
    "statement": "Generation economics are computed over usable outputs, not renders. A cheaper render that fails the brief more often is the more expensive plate; price per usable unit inverts price per call often enough that the naive metric misroutes real money.",
    "techniques": [
+    "data-video-virality/series-repeatability",
     "generated-music-acceptance/brief-conformance-listen",
     "generated-music-acceptance/generated-audio-defect-taxonomy",
     "generated-output-grading/cross-provider-flip-analysis",
