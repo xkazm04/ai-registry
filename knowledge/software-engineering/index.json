@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1829,
-  "applications": 1234,
+  "techniques": 1830,
+  "applications": 1235,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1829/1829",
+  "use_when_coverage": "1830/1830",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -7184,9 +7184,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
-   "digest": "sha256-b2:3f5c1678dbe89ca6",
-   "revision": 3,
-   "changedAt": "2026-10-03",
+   "digest": "sha256-b2:4501f7f3299769cc",
+   "revision": 4,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "conjunction-activated-fragments",
@@ -7223,6 +7223,24 @@
      "stage": "multi-service"
     },
     {
+     "slug": "requirement-closure-before-selection",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an operator requests a service and it is silently absent from the resolved topology",
+      "a fragment's identifier names a handle only because the service cannot run without it",
+      "the engine refuses a request that reads as complete because a dependency was not requested",
+      "an integration fragment does not activate for a service that arrived as a dependency",
+      "deciding whether the composition layer should add what a requested service needs or refuse the request"
+     ],
+     "stage": "multi-service"
+    },
+    {
      "slug": "specificity-ordered-layering",
      "status": "forged",
      "laws": [
@@ -7246,6 +7264,13 @@
      "technique": "conjunction-activated-fragments",
      "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/applications/docker-compose--conjunction-activated-fragments.md",
      "verified_on": "2026-10-03",
+     "verified_against": "docker-compose@2.40.3"
+    },
+    {
+     "stack": "docker-compose",
+     "technique": "requirement-closure-before-selection",
+     "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/applications/docker-compose--requirement-closure-before-selection.md",
+     "verified_on": "2026-10-06",
      "verified_against": "docker-compose@2.40.3"
     }
    ]
@@ -39270,6 +39295,7 @@
     "concurrent-vcs/shared-resource-arbitration",
     "conditional-service-composition/conjunction-activated-fragments",
     "conditional-service-composition/intent-and-environment-in-one-namespace",
+    "conditional-service-composition/requirement-closure-before-selection",
     "conformance-checking/derived-expectation-needs-an-evidence-floor",
     "conformance-checking/finding-severity-ladder",
     "conformance-checking/fixture-repo-testing",
@@ -40425,6 +40451,7 @@
     "companion-runtime/operative-working-set",
     "concurrency-guards/cache-value-not-handle",
     "conditional-service-composition/intent-and-environment-in-one-namespace",
+    "conditional-service-composition/requirement-closure-before-selection",
     "conformance-checking/edition-stratified-conformance",
     "contested-acquisition/holder-reconstructed-binding",
     "contested-acquisition/rung-trust-does-not-promote",
@@ -41554,6 +41581,7 @@
     "concurrency-guards/race-catalog-with-two-histories",
     "conditional-service-composition/conjunction-activated-fragments",
     "conditional-service-composition/intent-and-environment-in-one-namespace",
+    "conditional-service-composition/requirement-closure-before-selection",
     "conditional-service-composition/specificity-ordered-layering",
     "conformance-checking/declared-deviation-register",
     "conformance-checking/declared-then-proven",
