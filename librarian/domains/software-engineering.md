@@ -1200,3 +1200,43 @@ Source-class tally (post-hoc, this run):
   reaches for first was the one that disagreed with the text.
 - A docs fetch for another engine's window bounds returned nothing usable, so that claim
   was not landed.
+
+## Run dp-csc-1006 - conditional-service-composition, the requirement that was written as a condition
+
+A Curator dispatch on the structural floor (3 techniques, design floor 4), with a real
+event behind it: the 2026-10-03 application had named a gap the technique did not carry.
+Never deepened since the forge.
+
+The fourth technique, `requirement-closure-before-selection`, converged from three
+directions: the blind training-data lane named the closure fixpoint without being shown
+it, the prior-art lane found the same rule verbatim in four engines, and a real-resolver
+experiment on one project's service definitions measured it. Writing "the dashboard needs
+the database" as a participation condition silently dropped a requested service on 2 of 8
+requests, with exit 0. Leaving it to the engine refused the same 2 loudly. Closing the
+active set before selection served all 8.
+
+Four corrections came from the counter-evidence lane, each re-checked before landing:
+- Negation, not disjunction, is what costs reverse decidability.
+- Arity is one linear extension of containment, not a restatement of it. Incomparable
+  fragments now get a swap-order gate, validated with controls.
+- Fallback on an undetermined probe holds only for an optimisation.
+- File-mounted secrets are not inlined; side files are.
+
+The source project's own sort uses locale-aware compare, which a Czech-locale probe showed
+reorders names.
+
+One correction shipped as code in a project: a setup walk now parses its compose shape with
+references unresolved, 7 inlined env entries -> 0. It is a local commit only, because the
+branch carried 78 unpushed sibling commits.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| conditional-service-composition | L3 | 1 technique, 4 corrections, 1 application | 0 stale (the map pairs it with 0 contexts; seams found by direct inventory) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Raw spec and man-page source (fetched as text and grepped) carried every quote that
+  landed. The counter lane's one claim that would not reproduce came from its own
+  experiment design, not from a source: `required: false` omits silently only when the
+  dependency is defined but excluded.
+- An engine's own resolver was the cheapest ground truth: it ran 24 configurations in
+  seconds and settled two disagreements between lanes.
