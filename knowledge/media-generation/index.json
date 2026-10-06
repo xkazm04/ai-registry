@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 25,
-  "techniques": 182,
-  "applications": 95,
+  "subjects": 26,
+  "techniques": 188,
+  "applications": 96,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "182/182",
+  "use_when_coverage": "188/188",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -507,7 +507,7 @@
    "file": "knowledge/media-generation/visual-generation/data-video-art-direction/data-video-art-direction.md",
    "digest": "sha256-b2:10a9cce44446d777",
    "revision": 1,
-   "changedAt": "2026-10-06",
+   "changedAt": "2026-10-04",
    "techniques": [
     {
      "slug": "case-native-chart-form",
@@ -743,7 +743,7 @@
    "file": "knowledge/media-generation/narrative-craft/data-video-virality/data-video-virality.md",
    "digest": "sha256-b2:7cd972794167be0f",
    "revision": 1,
-   "changedAt": "2026-10-06",
+   "changedAt": "2026-10-04",
    "techniques": [
     {
      "slug": "accelerator-events",
@@ -2320,6 +2320,109 @@
     }
    ]
   },
+  "music-video-production": {
+   "category": "production-ops",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/production-ops/music-video-production/music-video-production.md",
+   "digest": "sha256-b2:350f07f5a93301ce",
+   "revision": 1,
+   "changedAt": "2026-10-06",
+   "techniques": [
+    {
+     "slug": "coverage-across-the-phrase",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning how many angles a phrase needs",
+      "a generator was asked to cut between its own angles",
+      "the edit has no in-sync alternative at the cut point it wants",
+      "deciding whether chorus footage can serve every chorus"
+     ]
+    },
+    {
+     "slug": "cut-rate-follows-the-section",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding how fast to cut each section of a song",
+      "a fast-cut chorus reads as noise",
+      "cuts land on every drum hit and the video feels frantic",
+      "choosing where in the frame to keep the performer across a run of cuts"
+     ]
+    },
+    {
+     "slug": "form-follows-what-the-track-gives",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing what kind of video a track gets",
+      "a treatment asks for a performance the pipeline cannot sync",
+      "deciding how much of each section goes to performance and how much to story",
+      "an instrumental track needs a video"
+     ]
+    },
+    {
+     "slug": "performer-stem-conditioning",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated performer must sing part of a finished track",
+      "a generated face mouths backing vocals or an instrumental passage",
+      "several performers share one song",
+      "a sung shot will be slowed down in the edit"
+     ]
+    },
+    {
+     "slug": "segment-on-the-master-clock",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a song is longer than a video generator's clip cap",
+      "generated segments drift against the song as the video goes on",
+      "choosing where one generated segment ends and the next begins",
+      "reassembling generated pieces against a fixed track"
+     ]
+    },
+    {
+     "slug": "track-map-before-treatment",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "starting a video for a finished track",
+      "writing a treatment or shot list against a song",
+      "a cut lands near the beat but not on it",
+      "deciding which shots need a singing performer"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "next",
+     "technique": "track-map-before-treatment",
+     "file": "knowledge/media-generation/production-ops/music-video-production/applications/next--track-map-before-treatment.md",
+     "verified_on": "2026-10-05",
+     "verified_against": "next@16.3.3"
+    }
+   ]
+  },
   "narrative-engine-selection": {
    "category": "narrative-craft",
    "subcategory": null,
@@ -3619,6 +3722,8 @@
     "multi-speaker-speech-production/voice-asset-model-generation-binding",
     "multi-speaker-speech-production/world-lexicon-as-pronunciation-dictionary",
     "music-prompt-composition/duration-and-tempo-locking",
+    "music-video-production/segment-on-the-master-clock",
+    "music-video-production/track-map-before-treatment",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/no-engine-means-no-video",
     "platform-format-adaptation/format-as-measured-template",
@@ -3710,6 +3815,8 @@
     "generated-output-grading/input-channel-parity",
     "image-prompt-composition/reference-role-map",
     "live-system-demo-film/audio-first-beat-pacing",
+    "music-video-production/performer-stem-conditioning",
+    "music-video-production/track-map-before-treatment",
     "sound-effect-generation/picture-as-timing-brief",
     "video-assembly/alignment-names-its-text"
    ]
@@ -3886,6 +3993,8 @@
     "live-system-demo-film/retake-without-an-edit-session",
     "multi-speaker-speech-production/line-addressed-re-render",
     "multi-speaker-speech-production/voice-asset-model-generation-binding",
+    "music-video-production/coverage-across-the-phrase",
+    "music-video-production/form-follows-what-the-track-gives",
     "narrative-engine-selection/fit-vs-hazard-axes",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/delivery-promise-lock",

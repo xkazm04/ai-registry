@@ -22589,7 +22589,7 @@
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/native-document-format.md",
    "digest": "sha256-b2:a8dfcdf0eabecaff",
    "revision": 2,
-   "changedAt": "2026-10-06",
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "format-generations-are-declared",
@@ -28427,7 +28427,7 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/remediation-handoff/remediation-handoff.md",
    "digest": "sha256-b2:ab4f0ae40c100d8e",
    "revision": 6,
-   "changedAt": "2026-10-06",
+   "changedAt": "2026-10-01",
    "techniques": [
     {
      "slug": "batch-shaping-for-one-session",
@@ -37234,7 +37234,7 @@
    "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
    "digest": "sha256-b2:9bb039229d852897",
    "revision": 2,
-   "changedAt": "2026-10-06",
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "collapse-patch-axes-that-share-hunks",
