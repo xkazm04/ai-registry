@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1830,
-  "applications": 1235,
+  "applications": 1236,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -12415,9 +12415,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
-   "digest": "sha256-b2:be1f2436c2c026ed",
-   "revision": 3,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:19065e70c3b1b5a2",
+   "revision": 4,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "close-is-a-controlled-crash",
@@ -12511,7 +12511,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "close-is-a-controlled-crash",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/applications/rust--close-is-a-controlled-crash.md",
+     "verified_on": "2026-10-06",
+     "verified_against": "rust@1.96.1"
+    }
+   ]
   },
   "dynamic-secret-lifecycle": {
    "category": "secret-custody-and-issuance",
@@ -31268,9 +31276,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256-b2:89e82a9f790ac3fb",
-   "revision": 6,
-   "changedAt": "2026-09-15",
+   "digest": "sha256-b2:019398a8c028cc2f",
+   "revision": 7,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "advisory-guard-fail-mode",
