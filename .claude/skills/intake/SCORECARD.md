@@ -5135,3 +5135,7 @@ unpushed commits, so the code commit is local. The new loss this run nearly took
 technique's cost, name every other cause that writes the same row and read the column that
 separates them (here the heartbeat). Report the count that survives, as an upper bound if
 the causes cannot be fully split.**
+
+| 2.15.0 | 2026-10-06 | `claude-javascript-video` (youtube:rscb1DgJtNg) | 1 | 10 | 0 (7 catches, 1 render-bound partial, 1 thin, 1 untriaged) | 0 (2 leads) | 0c/0e/0s/0t/0r | 0 | apply 0: the one partial is render-bound and Phase 6b forbids landing it on corroboration; its render proof is the consumer plan the operator asked for (gravitone docs/code-rendered-strips-plan.md, committed, not built). ship 0: no technique landed to ship. Declared focus (field counts) did not apply; the 2026-10-05 fleet-consumer check ran before scoring | 0/0/0/0/0; routing n/a (video); directions=n/a; auto=0/1/0 fp=0 |
+
+**2026-10-06 (claude-javascript-video) - weakest stage.** **apply**, by construction: a render-bound partial waits on a render proof, and this run routed that proof into a consumer plan instead of a throwaway pair - the 40-strip triage answers the lead with more n than a two-arm sheet would. Next media-generation run's declared focus: **when a render-bound row's proof can ride a consumer's own triage, name that triage as the return condition and the consumer seam in the lead, so the verdict lands without a second render.**
