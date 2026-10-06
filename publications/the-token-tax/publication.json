@@ -1,0 +1,467 @@
+{
+  "schema": "publication/1",
+  "slug": "the-token-tax",
+  "title": "The Token Tax",
+  "subtitle": "One refund message, six languages, and a meter calibrated in English. Why the same sentence costs more, fits less and sometimes understands worse when it is not English, measured on the tokenizers in service in October 2026.",
+  "topic": {
+    "kind": "free",
+    "text": "The token tax: why the same text costs more, fits less and may be understood worse in languages other than English, measured on current tokenizers.",
+    "angle": "Follow one refund message through tokenizer, invoice, context window, cache and quality."
+  },
+  "date": "2026-10-05",
+  "readMinutes": 14,
+  "status": "approved",
+  "standard": {
+    "recipe": "technical-blog-post-authoring",
+    "version": "0.1.0",
+    "bundle": "technical-writing"
+  },
+  "sources": [
+    {
+      "n": 1,
+      "url": "https://github.com/xkazm04/ai-registry/blob/main/publications/the-token-tax/SOURCES.md#experiments",
+      "title": "Measurements for this article (experiments E1-E8)",
+      "publisher": "The Token Tax research log",
+      "date": "2026-10-05",
+      "primary": true,
+      "counter": false,
+      "took": "Every token count, premium, vocabulary census, vocabulary position, window capacity and estimator ratio in the post, measured with tiktoken 0.14.0 and Hugging Face tokenizers 0.23.1; commands logged in SOURCES.md."
+    },
+    {
+      "n": 2,
+      "url": "https://www.rfc-editor.org/rfc/rfc3629",
+      "title": "RFC 3629: UTF-8, a transformation format of ISO 10646 (F. Yergeau)",
+      "publisher": "IETF / RFC Editor",
+      "date": "2003-11",
+      "primary": true,
+      "counter": false,
+      "took": "U+0800 to U+FFFF take 3 bytes in UTF-8."
+    },
+    {
+      "n": 3,
+      "url": "https://github.com/openai/tiktoken",
+      "title": "tiktoken README and model-to-encoding map (v0.14.0)",
+      "publisher": "OpenAI, GitHub",
+      "date": "2026-10-05",
+      "primary": true,
+      "counter": false,
+      "took": "Byte-level BPE \"works on arbitrary text\"; a token is \"about 4 bytes\"; the gpt-5 model prefix maps to o200k_base. Read date; the repository page carries no publication date."
+    },
+    {
+      "n": 4,
+      "url": "https://arxiv.org/abs/2503.19786",
+      "title": "Gemma 3 Technical Report",
+      "publisher": "Gemma Team, Google DeepMind (arXiv:2503.19786)",
+      "date": "2025-03-25",
+      "primary": true,
+      "counter": false,
+      "took": "Gemma 3 uses \"the same tokenizer as Gemini 2.0\", a SentencePiece tokenizer with byte-level encodings and a 262k vocabulary."
+    },
+    {
+      "n": 5,
+      "url": "https://arxiv.org/abs/2309.16609",
+      "title": "Qwen Technical Report (Bai et al.)",
+      "publisher": "Alibaba Qwen team (arXiv:2309.16609)",
+      "date": "2023-09-28",
+      "primary": true,
+      "counter": false,
+      "took": "Qwen took cl100k_base \"as our starting point\" and augmented it with Chinese characters and words."
+    },
+    {
+      "n": 6,
+      "url": "https://arxiv.org/abs/2511.03237",
+      "title": "IndicSuperTokenizer: An Optimized Tokenizer for Indic Multilingual LLMs",
+      "publisher": "arXiv:2511.03237",
+      "date": "2025-11",
+      "primary": true,
+      "counter": false,
+      "took": "Hindi fertility of 1.72 against 1.33 for English on the GPT-OSS tokenizer."
+    },
+    {
+      "n": 7,
+      "url": "https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz",
+      "title": "FLORES-200 evaluation benchmark (NLLB release)",
+      "publisher": "Meta AI",
+      "date": "2026-10-05",
+      "primary": true,
+      "counter": false,
+      "took": "The 1,012 parallel devtest sentences behind Table 2, Figure 5 and Figure 6. Download date; the tarball carries no page date."
+    },
+    {
+      "n": 8,
+      "url": "https://arxiv.org/abs/2606.24460",
+      "title": "The African Language Tax (Somide)",
+      "publisher": "arXiv:2606.24460",
+      "date": "2026-06-23",
+      "primary": true,
+      "counter": true,
+      "took": "Median premium 1.88x on o200k_base across 20 African languages, N'Ko 8.92x, Amharic 7.36x, \"no tokenizer eliminates the penalty\", and premium vs accuracy r = 0.039, p = 0.891 on GPT-4o: the counter-evidence on quality."
+    },
+    {
+      "n": 9,
+      "url": "https://arxiv.org/abs/2305.15425",
+      "title": "Language Model Tokenizers Introduce Unfairness Between Languages (Petrov, La Malfa, Torr, Bibi)",
+      "publisher": "NeurIPS 2023 (arXiv:2305.15425)",
+      "date": "2023-10",
+      "primary": true,
+      "counter": false,
+      "took": "Gaps \"up to 15 times\" on 2023 tokenizers, cited as history."
+    },
+    {
+      "n": 10,
+      "url": "https://arxiv.org/abs/2305.13707",
+      "title": "Do All Languages Cost the Same? Tokenization in the Era of Commercial Language Models (Ahia et al.)",
+      "publisher": "arXiv:2305.13707",
+      "date": "2023-05-23",
+      "primary": true,
+      "counter": false,
+      "took": "Speakers of many languages \"are overcharged while obtaining poorer results\" and come from regions where APIs are less affordable."
+    },
+    {
+      "n": 11,
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "title": "Pricing",
+      "publisher": "Anthropic, Claude Platform docs",
+      "date": "2026-10-05",
+      "primary": true,
+      "counter": true,
+      "took": "Opus 4.7 and later use a tokenizer that \"produces approximately 30% more tokens for the same text\" at an unchanged price; one token is \"approximately 4 characters or 0.75 words in English\"; cache reads refresh the lifetime. Counter-evidence: a tokenizer change can also make English more expensive. Read date; the page carries none."
+    },
+    {
+      "n": 12,
+      "url": "https://www.anthropic.com/news/claude-opus-4-7",
+      "title": "Introducing Claude Opus 4.7",
+      "publisher": "Anthropic",
+      "date": "2026-04-16",
+      "primary": true,
+      "counter": false,
+      "took": "Updated tokenizer, roughly 1.0 to 1.35x the tokens, price unchanged."
+    },
+    {
+      "n": 13,
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "title": "API pricing",
+      "publisher": "OpenAI developer docs",
+      "date": "2026-10-05",
+      "primary": true,
+      "counter": false,
+      "took": "gpt-5.4 at $2.50 input, $0.25 cached input and $15 output per million tokens; gpt-5.4-nano at $1.25 output. Read date; the page is undated."
+    },
+    {
+      "n": 14,
+      "url": "https://ai.google.dev/gemini-api/docs/tokens",
+      "title": "Understand and count tokens",
+      "publisher": "Google, Gemini API docs",
+      "date": "2026-09-23",
+      "primary": true,
+      "counter": false,
+      "took": "A Gemini token \"is equivalent to about 4 characters\"; tokens are counted through the countTokens API."
+    },
+    {
+      "n": 15,
+      "url": "https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching",
+      "title": "Prompt caching",
+      "publisher": "Anthropic, Claude Platform docs",
+      "date": "2026-10-05",
+      "primary": true,
+      "counter": false,
+      "took": "Cache reads at 0.1x the base input price, a five-minute default lifetime, and \"100% identical prompt segments\". Read date; the page carries none."
+    },
+    {
+      "n": 16,
+      "url": "https://www.unicode.org/reports/tr15/",
+      "title": "UAX #15: Unicode Normalization Forms, revision 58",
+      "publisher": "Unicode Consortium (Unicode 18.0.0)",
+      "date": "2026-08-12",
+      "primary": true,
+      "counter": false,
+      "took": "Devanagari nukta letters are composition exclusions, so NFC decomposes U+095E."
+    },
+    {
+      "n": 17,
+      "url": "https://arxiv.org/abs/2509.05486",
+      "title": "The Token Tax: Systematic Bias in Multilingual Tokenization (Lundin et al.)",
+      "publisher": "AfricaNLP 2026 (arXiv:2509.05486)",
+      "date": "2025-09-05",
+      "primary": true,
+      "counter": false,
+      "took": "\"higher fertility consistently predicts lower accuracy\" across 10 models on AfriMMLU in 16 languages."
+    },
+    {
+      "n": 18,
+      "url": "https://arxiv.org/abs/2503.10497",
+      "title": "MMLU-ProX: A Multilingual Benchmark for Advanced LLM Evaluation (Xuan et al.)",
+      "publisher": "arXiv:2503.10497",
+      "date": "2025-05-26",
+      "primary": true,
+      "counter": false,
+      "took": "36 models, 29 languages, 11,829 questions; gaps up to 24.3% on identical questions."
+    },
+    {
+      "n": 19,
+      "url": "https://arxiv.org/abs/2308.01223",
+      "title": "Do Multilingual Language Models Think Better in English? (Etxaniz et al.)",
+      "publisher": "arXiv:2308.01223",
+      "date": "2023-08-02",
+      "primary": true,
+      "counter": false,
+      "took": "Self-translate prompting beats direct inference."
+    },
+    {
+      "n": 20,
+      "url": "https://arxiv.org/abs/2402.18376",
+      "title": "Tokenization Is More Than Compression (Schmidt et al.)",
+      "publisher": "EMNLP 2024 (arXiv:2402.18376)",
+      "date": "2024-10",
+      "primary": true,
+      "counter": true,
+      "took": "Tokenizers trained to compress more did not by themselves give better models: counter-evidence to \"fewer tokens, better answers\"."
+    },
+    {
+      "n": 21,
+      "url": "https://arxiv.org/abs/2505.05408",
+      "title": "Crosslingual Reasoning through Test-Time Scaling (Yong et al.)",
+      "publisher": "arXiv:2505.05408",
+      "date": "2025-05-08",
+      "primary": true,
+      "counter": true,
+      "took": "Reasoning chains of thought run \"predominantly English\" and quote the input: a limit on where the premium is billed."
+    },
+    {
+      "n": 22,
+      "url": "https://tajhindi.unc.edu/2-1-personal-pronouns/",
+      "title": "2.1 Personal Pronouns",
+      "publisher": "Taj Hindi, University of North Carolina",
+      "date": "2026-10-05",
+      "primary": false,
+      "counter": false,
+      "took": "The polite pronoun aap is always grammatically plural. Read date; the course page is undated."
+    },
+    {
+      "n": 23,
+      "url": "https://arxiv.org/abs/2403.10691",
+      "title": "MYTE: Morphology-Driven Byte Encoding for Better and Fairer Multilingual Language Modeling (Limisiewicz et al.)",
+      "publisher": "ACL 2024 (arXiv:2403.10691)",
+      "date": "2024-03-15",
+      "primary": true,
+      "counter": false,
+      "took": "Shorter and more even byte encodings across 99 languages."
+    }
+  ],
+  "claims": [
+    {
+      "text": "The English refund sentence is 17 tokens on o200k_base; its Hindi translation is 30, and 85 on Qwen3, 42 of them shards of a character; Qwen3.5 takes 39 and Gemma 4 takes 23.",
+      "source": 1
+    },
+    {
+      "text": "A basic Latin letter takes one UTF-8 byte; Devanagari, Thai, Tamil, Japanese and Ethiopic characters take three.",
+      "source": 2
+    },
+    {
+      "text": "Byte-level BPE \"works on arbitrary text\", and a token is \"about 4 bytes\"; the gpt-5 model prefix maps to o200k_base.",
+      "source": 3
+    },
+    {
+      "text": "Gemma 3 uses the same tokenizer as Gemini 2.0, with byte-level encodings and a 262k vocabulary.",
+      "source": 4
+    },
+    {
+      "text": "Qwen took cl100k_base as its starting point, and its first two-character Devanagari entry sits at 85,033 against 86,133 in cl100k.",
+      "source": 5
+    },
+    {
+      "text": "Gemma 4 spends 13,754 vocabulary entries on Devanagari, more than three times o200k_base and 205 times Qwen3.",
+      "source": 1
+    },
+    {
+      "text": "Hindi fertility is 1.72 against 1.33 for English on the GPT-OSS tokenizer.",
+      "source": 6
+    },
+    {
+      "text": "Over 1,012 FLORES-200 devtest sentences, Hindi fell from 4.76x on cl100k to 1.57x on o200k_base, and Amharic still costs 1.94x to 5.97x depending on the vocabulary.",
+      "source": 1
+    },
+    {
+      "text": "FLORES-200 devtest is 1,012 professionally translated parallel sentences.",
+      "source": 7
+    },
+    {
+      "text": "Across 20 African languages the median premium on o200k_base is 1.88x, up to 8.92x for N'Ko, and Amharic is 7.36x.",
+      "source": 8
+    },
+    {
+      "text": "2023 papers found tokenizer gaps \"up to 15 times\".",
+      "source": 9
+    },
+    {
+      "text": "Speakers of many languages \"are overcharged while obtaining poorer results\".",
+      "source": 10
+    },
+    {
+      "text": "Claude models from Opus 4.7 onward use a tokenizer that produces approximately 30% more tokens for the same text.",
+      "source": 11
+    },
+    {
+      "text": "Opus 4.7 kept its predecessor's per-token price.",
+      "source": 12
+    },
+    {
+      "text": "A million Hindi refund replies cost $450 in gpt-5.4 output tokens against $255 for English, and $37.50 on gpt-5.4-nano.",
+      "source": 13
+    },
+    {
+      "text": "Google's documentation puts a Gemini token at about 4 characters and counts tokens through an API call.",
+      "source": 14
+    },
+    {
+      "text": "Prompt cache reads cost 0.1x the base input price, with a five-minute default lifetime and a requirement of identical prompt segments.",
+      "source": 15
+    },
+    {
+      "text": "NFC decomposes the Devanagari letter U+095E because it is a composition exclusion.",
+      "source": 16
+    },
+    {
+      "text": "Higher fertility consistently predicts lower accuracy across 10 models on AfriMMLU.",
+      "source": 17
+    },
+    {
+      "text": "MMLU-ProX finds gaps of up to 24.3% across 29 languages on identical questions.",
+      "source": 18
+    },
+    {
+      "text": "Translating to English first beats answering directly.",
+      "source": 19
+    },
+    {
+      "text": "Tokenizers trained to compress more did not by themselves give better models.",
+      "source": 20
+    },
+    {
+      "text": "Reasoning models think predominantly in English and quote the input.",
+      "source": 21
+    },
+    {
+      "text": "The Hindi polite pronoun aap is always grammatically plural.",
+      "source": 22
+    },
+    {
+      "text": "MYTE gives shorter, more even byte encodings across 99 languages.",
+      "source": 23
+    }
+  ],
+  "figures": [
+    {
+      "file": "figures/01-one-word-four-vocabularies.svg",
+      "caption": "Figure 1. How text becomes tokens. The English “approved” is one token in all four vocabularies. In Hindi, Qwen3 has no merge for two of the characters and falls back to raw bytes; Gemma 4 has learned the whole word. ␣ marks the leading space folded into a token.",
+      "sources": [
+        1,
+        2
+      ]
+    },
+    {
+      "file": "figures/02-where-a-script-enters-the-vocabulary.svg",
+      "caption": "Figure 2. The vocabulary records the corpus. Latin pairs enter almost immediately (position 258 to 261 in the byte-level vocabularies, right after the 256 single bytes). Devanagari enters at 0.3% of the way into Gemma 4’s list and at 86% of the way into cl100k’s. Position is the token’s index in the published vocabulary, which for BPE follows merge order.",
+      "sources": [
+        1,
+        5
+      ]
+    },
+    {
+      "file": "figures/03-vocabulary-entries-per-script.svg",
+      "caption": "Table 1. Gemma 4 spends 13,754 entries on Devanagari, more than three times o200k_base and 205 times Qwen3. Nothing in the 2023 vocabulary or in o200k_base covers Ethiopic, the script of Amharic. CJK counts Han plus kana.",
+      "sources": [
+        1
+      ]
+    },
+    {
+      "file": "figures/04-running-example-in-tokens.svg",
+      "caption": "Figure 3. The same sentence in six languages on three current vocabularies. English is 17 everywhere; no other language is stable. The cheapest tokenizer for Hindi (Gemma 4) is not the cheapest for Thai (Qwen3.5, where Thai beats English by one token).",
+      "sources": [
+        1
+      ]
+    },
+    {
+      "file": "figures/05-token-viewer-hindi-on-qwen3.svg",
+      "caption": "Figure 4. The running example in Hindi on Qwen3, one box per token: 85 tokens, 42 of them a shard of a character. The web version of this post lets a reader switch between six languages and four vocabularies.",
+      "sources": [
+        1
+      ]
+    },
+    {
+      "file": "figures/06-token-premium-over-english.svg",
+      "caption": "Table 2. The gap closed for large languages and stayed open for small ones. On a related corpus, Somide (June 2026) reports Amharic at 7.36× on o200k_base against 5.78× here: the text set moves these numbers, so read any premium as a range.",
+      "sources": [
+        1,
+        7,
+        8
+      ]
+    },
+    {
+      "file": "figures/07-four-places-the-premium-is-paid.svg",
+      "caption": "Table 3. The bill is only the visible collection point. The 1.76× is the running example’s Hindi premium on o200k_base.",
+      "sources": [
+        1
+      ]
+    },
+    {
+      "file": "figures/08-window-and-receipt.svg",
+      "caption": "Figure 5. Left: an Amharic reader gets about a sixth of the parallel text an English reader gets on o200k_base, and about half on Gemma 4. Right: output tokens only, priced from OpenAI’s page as read on Oct 5, 2026; tiktoken maps the gpt-5 model prefix to o200k_base. The last line is a limit on the thesis: choosing the smaller model moves the bill twelvefold, the language 1.76-fold.",
+      "sources": [
+        1,
+        13,
+        3
+      ]
+    },
+    {
+      "file": "figures/09-estimator-error-by-language.svg",
+      "caption": "Figure 6. The two heuristics fail in opposite directions. Characters ÷ 4 thinks Japanese and Chinese cost a third of what they do; bytes ÷ 4 thinks Hindi and Tamil cost twice what they do; both undercount Amharic.",
+      "sources": [
+        14,
+        3,
+        1
+      ]
+    },
+    {
+      "file": "figures/10-cache-timeline.svg",
+      "caption": "Figure 7. Illustration with assumed Thai arrival times, not a measurement. Reads refresh the lifetime, so English stays warm while four of five Thai requests pay full price. The locale with the least traffic, already paying a higher premium, also pays the uncached rate most often. Black bar: cache breakpoint.",
+      "sources": [
+        15,
+        11
+      ]
+    },
+    {
+      "file": "figures/11-quality-evidence.svg",
+      "caption": "Table 4. Three findings for the link, two against, one that changes what is billed. Sources in row order: Lundin et al., MMLU-ProX, Etxaniz et al., Somide, Schmidt et al., Yong et al.",
+      "sources": [
+        17,
+        18,
+        19,
+        8,
+        20,
+        21
+      ]
+    },
+    {
+      "file": "figures/12-locale-aware-request-path.svg",
+      "caption": "Figure 8. Where each finding lands in a request path. Illustration. Routing pays most where vocabularies disagree most: Hindi ranges from 1.31× to 2.80× and Amharic from 1.94× to 5.97× across Table 2.",
+      "sources": [
+        1
+      ]
+    }
+  ],
+  "check": {
+    "content-preview": "pass",
+    "figures": "pass",
+    "sources": "pass",
+    "citations": "pass",
+    "first-person": "pass",
+    "code-highlighting": "pass"
+  },
+  "run": {
+    "id": "token-tax-blog-r2/claude-claude-opus-5-5_medium-v1",
+    "model": "claude-opus-5-5",
+    "effort": "medium",
+    "costUsd": 5.73
+  }
+}

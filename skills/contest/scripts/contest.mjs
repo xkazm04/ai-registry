@@ -90,6 +90,7 @@ function resolveBin(engine) {
     claude: [path.join(home, '.local', 'bin', 'claude.exe'), path.join(home, '.local', 'bin', 'claude')],
     grok: [path.join(home, '.grok', 'bin', 'grok.exe'), path.join(home, '.grok', 'bin', 'grok')],
     codex: [],
+    agy: [path.join(process.env.LOCALAPPDATA ?? path.join(home, 'AppData', 'Local'), 'agy', 'bin', 'agy.exe'), path.join(home, '.local', 'bin', 'agy')],
   };
   const candidates = [];
   for (const d of dirs) for (const e of exts) candidates.push(path.join(d, engine + e));
@@ -102,6 +103,9 @@ function resolveBin(engine) {
         codex: 'node_modules/@openai/codex/bin/codex.js',
         claude: 'node_modules/@anthropic-ai/claude-code/cli.js',
       }[engine];
+      // Current claude npm packages ship a native binary, not cli.js (lessons 1.2.0, 1.7.0).
+      const native = engine === 'claude' && path.join(path.dirname(c), 'node_modules/@anthropic-ai/claude-code/bin/claude.exe');
+      if (native && fs.existsSync(native)) return native;
       const script = entry && path.join(path.dirname(c), entry);
       if (script && fs.existsSync(script)) return [process.execPath, script];
       if (WIN) continue;

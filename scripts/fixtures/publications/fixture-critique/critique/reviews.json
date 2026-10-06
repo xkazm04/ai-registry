@@ -1,0 +1,51 @@
+[
+  {
+    "reviewer": "reviewer-claude",
+    "round": 1,
+    "model": "fixture-model-a",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The fixture's facts trace to its sources; the chart caption could state its message first.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Figure 1 caption",
+        "claim": "The caption names the chart before it states what the chart shows.",
+        "evidence": [],
+        "suggestion": "Open the caption with the comparison the two bars make."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening paragraph, second sentence",
+        "claim": "The date attributed to the sixth source is older than the source's own page states.",
+        "evidence": [
+          "https://example.org/fixture/source-6"
+        ],
+        "suggestion": "Use the page date the sixth source states."
+      }
+    ]
+  },
+  {
+    "reviewer": "reviewer-codex",
+    "round": 1,
+    "model": "fixture-model-b",
+    "effort": "xhigh",
+    "verdict": "publish",
+    "summary": "Nothing blocks publication; the counter source could be named earlier.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Opening paragraph, last sentence",
+        "claim": "The disagreeing source arrives last, after the reader has accepted the thesis.",
+        "evidence": [],
+        "suggestion": "Name the disagreement beside the claim it qualifies."
+      }
+    ]
+  }
+]

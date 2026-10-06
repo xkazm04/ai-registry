@@ -66,3 +66,9 @@ fleet-*.proposals.json
 # skill that runs on this repo. Regenerable working memory, not registry content - the
 # same rule as .explorer/ and .perfect/, and the checkout hosts concurrent sessions.
 .spark/
+
+# contest arenas: entries are large and belong to no commit
+/.contest/
+
+# Medium paste renders are derived from the figures/*.svg and never committed (the registry is text-only)
+/publications/*/medium/figures/

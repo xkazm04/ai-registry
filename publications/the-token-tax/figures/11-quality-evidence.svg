@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="378" viewBox="0 0 1000 378" role="img" aria-label="Table 4: six studies for, against and limiting the link between token count and answer quality">
+<rect width="1000" height="378" fill="#ffffff"/>
+<text x="32.0" y="52.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="22" font-weight="700" fill="#242424">Table 4. Does a higher token count predict worse answers?</text>
+<text x="40.0" y="92.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b">Study</text>
+<text x="270.0" y="92.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b">Scope</text>
+<text x="540.0" y="92.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b">Finding</text>
+<text x="900.0" y="92.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b"></text>
+<line x1="32.0" y1="102.0" x2="968.0" y2="102.0" stroke="#242424" stroke-width="1"/>
+<text x="40.0" y="128.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">Lundin et al., Sep 2025</text>
+<text x="270.0" y="128.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">10 models, AfriMMLU, 16 languages</text>
+<text x="540.0" y="128.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">“higher fertility consistently predicts lower accuracy”</text>
+<rect x="900.0" y="111.0" width="36.1" height="22.0" fill="#f6d9cc" rx="11"/>
+<text x="918.1" y="127.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="700" fill="#c2410c" text-anchor="middle">for</text>
+<line x1="32.0" y1="136.0" x2="968.0" y2="136.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="162.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">MMLU-ProX, May 2025</text>
+<text x="270.0" y="162.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">36 models, 29 languages, 11,829</text>
+<text x="270.0" y="182.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">questions</text>
+<text x="540.0" y="162.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">gaps up to 24.3% on identical questions</text>
+<rect x="900.0" y="145.0" width="36.1" height="22.0" fill="#f6d9cc" rx="11"/>
+<text x="918.1" y="161.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="700" fill="#c2410c" text-anchor="middle">for</text>
+<line x1="32.0" y1="190.0" x2="968.0" y2="190.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="216.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">Etxaniz et al., Aug 2023</text>
+<text x="270.0" y="216.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">self-translate prompting</text>
+<text x="540.0" y="216.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">translating to English first beats answering directly</text>
+<rect x="900.0" y="199.0" width="36.1" height="22.0" fill="#f6d9cc" rx="11"/>
+<text x="918.1" y="215.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="700" fill="#c2410c" text-anchor="middle">for</text>
+<line x1="32.0" y1="224.0" x2="968.0" y2="224.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="250.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">Somide, Jun 2026</text>
+<text x="270.0" y="250.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">20 African languages, GPT-4o</text>
+<text x="540.0" y="250.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">premium vs accuracy r = 0.039, p = 0.891</text>
+<rect x="900.0" y="233.0" width="62.4" height="22.0" fill="#d2dcf7" rx="11"/>
+<text x="931.2" y="249.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle">against</text>
+<line x1="32.0" y1="258.0" x2="968.0" y2="258.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="284.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">Schmidt et al., EMNLP 2024</text>
+<text x="270.0" y="284.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">tokenizers trained to compress more</text>
+<text x="540.0" y="284.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">fewer tokens did not by itself give better models</text>
+<rect x="900.0" y="267.0" width="62.4" height="22.0" fill="#d2dcf7" rx="11"/>
+<text x="931.2" y="283.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="700" fill="#1d4ed8" text-anchor="middle">against</text>
+<line x1="32.0" y1="292.0" x2="968.0" y2="292.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="318.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">Yong et al., May 2025</text>
+<text x="270.0" y="318.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">reasoning models, multilingual math</text>
+<text x="540.0" y="318.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">chains of thought run “predominantly English”,</text>
+<text x="540.0" y="338.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">quoting the input</text>
+<rect x="900.0" y="301.0" width="46.1" height="22.0" fill="#e2e2e2" rx="11"/>
+<text x="923.0" y="317.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="700" fill="#242424" text-anchor="middle">limit</text>
+<line x1="32.0" y1="346.0" x2="968.0" y2="346.0" stroke="#e6e6e6" stroke-width="1"/>
+</svg>

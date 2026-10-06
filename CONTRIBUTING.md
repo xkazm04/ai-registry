@@ -3,8 +3,8 @@
 This registry is maintained by one person plus agents; issues and pull requests are
 triaged weekly. An honest SLA beats a fast one.
 
-The library contains knowledge bundles, skills, recipes, practices, memory notes, and
-per-contributor usage/signals files. It also contains executable generators, validators,
+The library contains knowledge bundles, skills, recipes, practices, memory notes,
+approved publications, and per-contributor usage/signals files. It also contains executable generators, validators,
 and operator tools. Registry gates use dependency-free Node scripts; individual skills
 and provider-backed tools may require their own dependencies and credentials.
 
@@ -23,7 +23,8 @@ and provider-backed tools may require their own dependencies and credentials.
    views, and CI fails when they are stale. The `signals/` row is the exception:
    `build-catalog.mjs` hashes five lanes (knowledge, skills, practices, memory,
    usage) and does not read `signals/`, so a signals-only change cannot make the
-   catalog stale.
+   catalog stale. The same holds for `publications/`, whose generated view is its own
+   `publications/index.json`.
 4. Open a pull request - one focused change, pathspec-scoped commits (never
    `git add -A`), docs updated in the same PR as what they describe.
 5. A [`CODEOWNERS`](CODEOWNERS) owner reviews and merges. **Merging is adopting** - the
@@ -49,6 +50,7 @@ The table below is the same thing spelled out - it is the explanation, and
 | `skills/` | `node scripts/check-skills.mjs && node scripts/apply-skill-clauses.mjs --check && node scripts/build-marketplace.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `knowledge/` | `node scripts/check-bundles.mjs && node scripts/build-index.mjs && node scripts/build-knowledge-rules.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `recipes/` | `node scripts/gate.mjs --lane recipes --write`, then `node scripts/gate.mjs --lane recipes` |
+| `publications/` | `node scripts/gate.mjs --lane publications --write`, then `node scripts/gate.mjs --lane publications` (spec: [`docs/publications-lane.md`](docs/publications-lane.md)) |
 | `practices/` or `memory/` | `node scripts/check-simple-lanes.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `usage/` | `node scripts/check-usage.mjs && node scripts/check-hash-stability.mjs && node scripts/build-catalog.mjs` |
 | `signals/` | `node scripts/check-signals.mjs` |

@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="590" viewBox="0 0 1000 590" role="img" aria-label="Figure 3: the refund sentence in six languages on o200k_base, Gemma 4 and Qwen3.5">
+<rect width="1000" height="590" fill="#ffffff"/>
+<text x="32.0" y="52.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="22" font-weight="700" fill="#242424">The running example, in tokens</text>
+<text x="32.0" y="84.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="400" fill="#6b6b6b">“Your refund has been approved. The money will reach your account within five business days.”</text>
+<rect x="32.0" y="105.0" width="12.0" height="12.0" fill="#1d4ed8" rx="2"/>
+<text x="50.0" y="116.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14" font-weight="400" fill="#6b6b6b">o200k_base (GPT-5 family)</text>
+<rect x="235.4" y="105.0" width="12.0" height="12.0" fill="#0f766e" rx="2"/>
+<text x="253.4" y="116.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14" font-weight="400" fill="#6b6b6b">Gemma 4</text>
+<rect x="334.9" y="105.0" width="12.0" height="12.0" fill="#c2410c" rx="2"/>
+<text x="352.9" y="116.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14" font-weight="400" fill="#6b6b6b">Qwen3.5</text>
+<text x="32.0" y="164.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="600" fill="#242424">English</text>
+<text x="32.0" y="181.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#6b6b6b">17 tokens</text>
+<rect x="202.0" y="141.0" width="301.8" height="15.0" fill="#1d4ed8" rx="2"/>
+<text x="509.8" y="153.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">17</text>
+<rect x="202.0" y="160.0" width="301.8" height="15.0" fill="#0f766e" rx="2"/>
+<text x="509.8" y="172.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">17</text>
+<rect x="202.0" y="179.0" width="301.8" height="15.0" fill="#c2410c" rx="2"/>
+<text x="509.8" y="191.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">17</text>
+<line x1="32.0" y1="203.0" x2="968.0" y2="203.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="32.0" y="235.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="600" fill="#242424">German</text>
+<text x="32.0" y="252.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#6b6b6b">24–26 tokens</text>
+<rect x="202.0" y="212.0" width="426.0" height="15.0" fill="#1d4ed8" rx="2"/>
+<text x="634.0" y="224.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">24</text>
+<rect x="202.0" y="231.0" width="461.5" height="15.0" fill="#0f766e" rx="2"/>
+<text x="669.5" y="243.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">26</text>
+<rect x="202.0" y="250.0" width="426.0" height="15.0" fill="#c2410c" rx="2"/>
+<text x="634.0" y="262.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">24</text>
+<line x1="32.0" y1="274.0" x2="968.0" y2="274.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="32.0" y="306.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="600" fill="#242424">Japanese</text>
+<text x="32.0" y="323.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#6b6b6b">17–24 tokens</text>
+<rect x="202.0" y="283.0" width="426.0" height="15.0" fill="#1d4ed8" rx="2"/>
+<text x="634.0" y="295.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">24</text>
+<rect x="202.0" y="302.0" width="319.5" height="15.0" fill="#0f766e" rx="2"/>
+<text x="527.5" y="314.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">18</text>
+<rect x="202.0" y="321.0" width="301.8" height="15.0" fill="#c2410c" rx="2"/>
+<text x="509.8" y="333.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">17</text>
+<line x1="32.0" y1="345.0" x2="968.0" y2="345.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="32.0" y="377.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="600" fill="#242424">Arabic</text>
+<text x="32.0" y="394.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#6b6b6b">21–26 tokens</text>
+<rect x="202.0" y="354.0" width="408.3" height="15.0" fill="#1d4ed8" rx="2"/>
+<text x="616.3" y="366.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">23</text>
+<rect x="202.0" y="373.0" width="461.5" height="15.0" fill="#0f766e" rx="2"/>
+<text x="669.5" y="385.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">26</text>
+<rect x="202.0" y="392.0" width="372.8" height="15.0" fill="#c2410c" rx="2"/>
+<text x="580.8" y="404.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">21</text>
+<line x1="32.0" y1="416.0" x2="968.0" y2="416.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="32.0" y="448.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="600" fill="#242424">Hindi</text>
+<text x="32.0" y="465.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#6b6b6b">23–39 tokens</text>
+<rect x="202.0" y="425.0" width="532.5" height="15.0" fill="#1d4ed8" rx="2"/>
+<text x="740.5" y="437.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">30</text>
+<rect x="202.0" y="444.0" width="408.3" height="15.0" fill="#0f766e" rx="2"/>
+<text x="616.3" y="456.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">23</text>
+<rect x="202.0" y="463.0" width="692.3" height="15.0" fill="#c2410c" rx="2"/>
+<text x="900.3" y="475.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">39</text>
+<line x1="32.0" y1="487.0" x2="968.0" y2="487.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="32.0" y="519.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="600" fill="#242424">Thai</text>
+<text x="32.0" y="536.5" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#6b6b6b">16–27 tokens</text>
+<rect x="202.0" y="496.0" width="479.3" height="15.0" fill="#1d4ed8" rx="2"/>
+<text x="687.3" y="508.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">27</text>
+<rect x="202.0" y="515.0" width="355.0" height="15.0" fill="#0f766e" rx="2"/>
+<text x="563.0" y="527.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">20</text>
+<rect x="202.0" y="534.0" width="284.0" height="15.0" fill="#c2410c" rx="2"/>
+<text x="492.0" y="546.2" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13" font-weight="400" fill="#242424">16</text>
+</svg>

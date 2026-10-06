@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="412" viewBox="0 0 1000 412" role="img" aria-label="One word, four vocabularies: the Hindi word for approved split by Qwen3, Qwen3.5, o200k_base and Gemma 4">
+<rect width="1000" height="412" fill="#ffffff"/>
+<text x="32.0" y="52.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="22" font-weight="700" fill="#242424">One word, four vocabularies</text>
+<text x="32.0" y="84.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="400" fill="#6b6b6b">“approved” in Hindi, स्वीकृत (svīkṛt): 7 characters, 21 bytes. Dashed boxes hold part of one character’s bytes.</text>
+<text x="32.0" y="132.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="16" font-weight="700" fill="#242424">Qwen3</text>
+<text x="32.0" y="152.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14" font-weight="400" fill="#6b6b6b">8 tokens · 4 shards</text>
+<rect x="232.0" y="112.0" width="38.7" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="241.0" y="136.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">␣स</text>
+<rect x="276.7" y="112.0" width="72.1" height="34.0" fill="#fde2d5" rx="3" stroke="#c2410c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="285.7" y="136.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="400" fill="#242424">् + ⅔ व</text>
+<rect x="354.9" y="112.0" width="44.8" height="34.0" fill="#fde2d5" rx="3" stroke="#c2410c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="363.9" y="136.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="400" fill="#242424">⅓ व</text>
+<rect x="405.6" y="112.0" width="35.1" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="414.6" y="136.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">ी</text>
+<rect x="446.7" y="112.0" width="35.3" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="455.7" y="136.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">क</text>
+<rect x="488.0" y="112.0" width="44.9" height="34.0" fill="#fde2d5" rx="3" stroke="#c2410c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="497.0" y="136.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="400" fill="#242424">⅔ ृ</text>
+<rect x="538.8" y="112.0" width="44.9" height="34.0" fill="#fde2d5" rx="3" stroke="#c2410c" stroke-width="1" stroke-dasharray="4 3"/>
+<text x="547.8" y="136.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="15" font-weight="400" fill="#242424">⅓ ृ</text>
+<rect x="589.7" y="112.0" width="30.2" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="598.7" y="136.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">त</text>
+<text x="232.0" y="170.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="17" font-weight="600" fill="#242424">स</text>
+<text x="250.6" y="170.0" font-family="Consolas, 'SF Mono', Menlo, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="#6b6b6b">E0 A4 B8</text>
+<text x="323.7" y="170.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="17" font-weight="600" fill="#242424">्</text>
+<text x="338.8" y="170.0" font-family="Consolas, 'SF Mono', Menlo, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="#6b6b6b">E0 A5 8D</text>
+<text x="412.0" y="170.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="17" font-weight="600" fill="#242424">व</text>
+<text x="427.8" y="170.0" font-family="Consolas, 'SF Mono', Menlo, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="#6b6b6b">E0 A4 B5</text>
+<text x="501.0" y="170.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="17" font-weight="600" fill="#242424">ी</text>
+<text x="521.4" y="170.0" font-family="Consolas, 'SF Mono', Menlo, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="#6b6b6b">E0 A5 80</text>
+<text x="594.5" y="170.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="17" font-weight="600" fill="#242424">क</text>
+<text x="614.9" y="170.0" font-family="Consolas, 'SF Mono', Menlo, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="#6b6b6b">E0 A4 95</text>
+<text x="688.1" y="170.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="17" font-weight="600" fill="#242424">ृ</text>
+<text x="703.2" y="170.0" font-family="Consolas, 'SF Mono', Menlo, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="#6b6b6b">E0 A5 83</text>
+<text x="776.4" y="170.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="17" font-weight="600" fill="#242424">त</text>
+<text x="792.5" y="170.0" font-family="Consolas, 'SF Mono', Menlo, 'Liberation Mono', monospace" font-size="13" font-weight="400" fill="#6b6b6b">E0 A4 A4</text>
+<line x1="32.0" y1="200.0" x2="968.0" y2="200.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="32.0" y="224.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="16" font-weight="700" fill="#242424">Qwen3.5</text>
+<text x="32.0" y="244.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14" font-weight="400" fill="#6b6b6b">4 tokens</text>
+<rect x="232.0" y="204.0" width="38.7" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="241.0" y="228.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">␣स्</text>
+<rect x="276.7" y="204.0" width="35.0" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="285.7" y="228.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">वी</text>
+<rect x="317.7" y="204.0" width="35.3" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="326.7" y="228.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">क</text>
+<rect x="359.0" y="204.0" width="42.1" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="368.0" y="228.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">ृत</text>
+<line x1="32.0" y1="266.0" x2="968.0" y2="266.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="32.0" y="290.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="16" font-weight="700" fill="#242424">o200k_base</text>
+<text x="32.0" y="310.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14" font-weight="400" fill="#6b6b6b">GPT-5 family · 3 tokens</text>
+<rect x="232.0" y="270.0" width="44.6" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="241.0" y="294.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">␣स्व</text>
+<rect x="282.6" y="270.0" width="52.3" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="291.6" y="294.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">ीक</text>
+<rect x="340.9" y="270.0" width="42.1" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="349.9" y="294.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">ृत</text>
+<line x1="32.0" y1="332.0" x2="968.0" y2="332.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="32.0" y="356.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="16" font-weight="700" fill="#242424">Gemma 4</text>
+<text x="32.0" y="376.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14" font-weight="400" fill="#6b6b6b">1 token</text>
+<rect x="232.0" y="336.0" width="79.3" height="34.0" fill="#eef2ff" rx="3" stroke="#c7d2fe" stroke-width="1"/>
+<text x="241.0" y="360.0" font-family="'Nirmala UI', 'Noto Sans Devanagari', 'Segoe UI', sans-serif" font-size="20" font-weight="400" fill="#242424">␣स्वीकृत</text>
+</svg>
