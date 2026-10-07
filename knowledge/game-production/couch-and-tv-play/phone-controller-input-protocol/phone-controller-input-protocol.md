@@ -11,6 +11,8 @@ techniques:
   - neutralise-on-every-loss-path
   - reconnect-by-token-seat-recovery
   - indexed-not-toggled-commands
+  - link-rate-follows-the-phase
+  - send-on-change-with-a-heartbeat-floor
 ---
 
 # Phone controller input protocol
@@ -113,6 +115,20 @@ It is also the encoding that fails under duplication, because a repeated "next" 
 twice and the host has no way to tell a repeat from a second press. The cure is to send the
 *index* the player selected, so the host's response to a repeat is to do nothing new.
 `indexed-not-toggled-commands` makes this a rule and shows where the toggle may live.
+
+## The cadence is a budget, and the phase spends it
+
+Everything above makes the link safe; none of it makes it cheap, and on a couch the link is
+idle far more than it is racing. The snapshot cadence that the staleness rules depend on is
+needed only while the host consumes continuous input or a control is held; in a menu it keeps
+a phone's radio awake and a weak host acknowledging frames it discards. So the cadence follows
+the phase, the host's quiet-link limits change with it from the same table, and a hidden page
+stops the link from both ends without giving up its seat
+(`link-rate-follows-the-phase`). The stream the host sends back is a snapshot too, and resending
+an unchanged one costs the host, the radio and the phone's page each time; it is sent when it
+changes, with a slow heartbeat as the floor that keeps silence distinguishable from death
+(`send-on-change-with-a-heartbeat-floor`). Neither rule touches a held control: its cadence is
+the protocol's heartbeat and stays fixed.
 
 ## Where this subject ends
 
