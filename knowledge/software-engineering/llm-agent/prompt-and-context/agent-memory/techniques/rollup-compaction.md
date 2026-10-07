@@ -155,6 +155,13 @@ decision at read time, not a storage decision at write time. A system that keeps
 episodes and consults only its summaries has paid for the detail twice and retrieves it
 never.
 
+Public benchmarks have since shown the same split, and it was not the measurement this
+section was written from. On one long-horizon chat benchmark, distilled facts or
+summaries used *in place of* the raw rounds lost question-answering accuracy, and the
+same distillations used as extra keys over the raw rounds gained it. That result did not
+measure a rollup as specified here. It measured what happens when the compiled layer
+replaces the record, and it points the same way.
+
 ## Routing-grade and assertion-grade are different bars
 
 Every rule above is written for a summary the consumer may **cite** — the

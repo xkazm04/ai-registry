@@ -196,6 +196,20 @@ incumbent and the pipeline as the challenger; the argument here says the
 challenger wins *eventually and for structural reasons*, which is exactly the
 claim a short benchmark cannot settle in either direction.
 
+A third thing it is not, and this one bounds the altitude bullet above: it is
+not licence to answer from the claims alone. Where the two have been compared
+on one benchmark, storing distilled facts or summaries *in place of* the raw
+rounds lost the answers that lived in what the distillation dropped, while
+adding the same distillations as extra retrieval keys over the raw rounds beat
+both; later diagnostic work on several memory systems put the larger loss at
+the write step rather than at retrieval. So the altitude argument holds for
+what the agent *asserts* and fails for what it *retrieves*. The claim layer is
+where supersedence, correction and provenance live, and it works as an index
+into the record, not a replacement for it. "Archived" above means out of
+default reads, never out of reach: the same rule
+[rollup-compaction](./techniques/rollup-compaction.md) states for summaries,
+which must never become the only thing recall can see.
+
 ## Provenance is the trust anchor
 
 A consolidated belief is a derived value: derived from episodes, by a
@@ -221,6 +235,22 @@ Provenance is what makes every other operation safe:
 
 The rule is absolute at the consolidated layer: **a belief without provenance
 is not stored knowledge, it is a rumor with a database row.**
+
+The converse does not hold, and both of the ways it fails are published.
+Provenance is necessary, not sufficient. A pointer that resolves is not a
+derivation that holds: generated text routinely cites sources that do not
+support the sentence, and readers extend trust to a citation they never open,
+a random one included. So the read-back in
+[consolidation](./techniques/consolidation.md) is part of the anchor, and audit
+is a check the system runs, not a property it assumes the operator exercises.
+And provenance is only as honest as **whoever writes it**. A row stamped by the
+same model-driven step the input can steer, the summarizer or the extractor,
+records what the input wanted recorded. An attacker who only ever sends
+queries, and never touches the store, produces episodes whose provenance is
+genuine and useless. The field that carries trust is the **author of the
+evidence**: stamped by the harness at capture, from the channel the material
+arrived through, outside the model, and inherited by everything derived from it
+([memory-governance](./techniques/memory-governance.md)).
 
 "When it was distilled" is the writer's clock, and one input the distillation
 consumed is not on that list: the clock its episodes were *observed* at. A pass
@@ -272,6 +302,19 @@ The standard is one shared, explicitly-argued value model
 trust, per-kind age decay, and a sub-linear bonus for repeated retrieval —
 compose so that no single property can order the store alone, and its
 consequences reach further than ranking.
+
+"One" is about value, not relevance, and the strongest argument for two
+policies is about the second. What is easy to reach right now and what is worth
+keeping are different quantities: the first depends on the query and the second
+must not. The split this standard uses already grants that. Relevance to the
+present call chooses the candidates; the value model, which is query-independent
+by construction, orders them and on its own gates retirement. The objection
+argues against a ranking score doing a retention score's job, and that is the
+same defect stated from the other side. The one clause it does win is the item
+that is rarely recalled because it is rarely *needed*, not because it is
+worthless. That clause is why the forgetting gate is a conjunction with kind
+exemptions rather than a threshold on the score
+([decay-and-forgetting](./techniques/decay-and-forgetting.md)).
 
 Name the third axis for what it counts. Unless something flows back from the
 consumer, it counts *deliveries*: an item packed into fifty contexts and
@@ -401,7 +444,18 @@ separate:
   supersedence with validity, the governance tiering over identity and
   standing rules, the audit answer every belief owes. A learned reader does
   not turn a rumor with a database row into knowledge — it only makes the
-  rumor harder to spot.
+  rumor harder to spot. This row has a scope condition: **the learned policy
+  writes to a store it does not contain.** Every learned-write system in the
+  published record is of that shape, a reward-trained manager choosing to add,
+  update, delete or leave entries in an external bank, and there the row holds
+  as stated. It fails where the memory itself persists in weights, as knowledge
+  finetuned into sparse memory slots or a continually trained adapter. There is
+  then no entry to cite, supersede or erase. Provenance is not relocated but
+  lost below the granularity of the update, and erasure becomes unlearning,
+  which is an open problem rather than a delete. What survives is the
+  **update as the unit**: each weight change is a write. It passes the same
+  lanes, is versioned, names the material it was trained on, and can only be
+  removed whole.
 - **Stayed designed.** The budget *partition* does not move, and the systems
   built to learn everything are the evidence. In one reference implementation
   of the learned architecture, the always-include tier and the selective tier's
