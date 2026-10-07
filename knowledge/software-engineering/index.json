@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1830,
-  "applications": 1238,
+  "techniques": 1832,
+  "applications": 1239,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1830/1830",
+  "use_when_coverage": "1832/1832",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -21624,9 +21624,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256-b2:0df7877b42b82b92",
-   "revision": 16,
-   "changedAt": "2026-10-02",
+   "digest": "sha256-b2:a33adfb4a8edc0eb",
+   "revision": 17,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -21641,6 +21641,23 @@
       "an extension assumes two upstream categories stay disjoint",
       "deciding whether a delegating wrapper still earns its name",
       "a dependency upgrade changed a type's surface without changing your code"
+     ]
+    },
+    {
+     "slug": "change-class-is-the-workload",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a proposed split is worth its cost",
+      "a structural argument turns on how easily each candidate extends",
+      "pricing structural debt in something a budget holder recognises",
+      "an agent's spend on a codebase is being read as a fact about the agent",
+      "a benchmark comparing two codebase structures is being quoted"
      ]
     },
     {
@@ -21869,6 +21886,12 @@
      "technique": "seams-and-adapters",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/node--seams-and-adapters.md",
      "verified_on": "2026-08-22"
+    },
+    {
+     "stack": "process",
+     "technique": "change-class-is-the-workload",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/process--change-class-is-the-workload.md",
+     "verified_on": "2026-10-07"
     },
     {
      "stack": "process",
@@ -29173,9 +29196,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
-   "digest": "sha256-b2:275a789501dfda1a",
-   "revision": 1,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:ebdfd4e4b02f4d12",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "caption-carrying-figures",
@@ -29202,6 +29225,20 @@
       "adding a badge to a front page",
       "auditing a badge row nobody has looked at in a year",
       "a badge asserts a property no automated check enforces"
+     ]
+    },
+    {
+     "slug": "host-metadata-is-a-second-document",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing a repository for the first time",
+      "a repository has carried a blank description or zero topics for longer than anyone can remember",
+      "deciding what belongs in the landing document versus the host's own settings panel"
      ]
     },
     {
@@ -38958,6 +38995,7 @@
     "model-routing/failover-path-liveness",
     "model-routing/policy-governance",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
+    "module-design/change-class-is-the-workload",
     "module-design/emitted-code-names-from-a-root",
     "module-design/host-primitive-facade",
     "module-design/io-free-core",
@@ -40214,6 +40252,7 @@
     "model-routing/policy-governance",
     "model-routing/quality-axis-separation",
     "modelled-performance-estimates/provenance-travels-with-the-value",
+    "module-design/change-class-is-the-workload",
     "module-design/locality-and-leverage",
     "module-design/module-depth",
     "module-design/scoreable-designs-are-built-not-argued",
@@ -42270,6 +42309,7 @@
     "metric-gates/deterministic-proxy-gate",
     "model-call-outcome-integrity/one-deadline-across-attempts",
     "modelled-performance-estimates/one-ratio-then-a-capability-cap",
+    "module-design/change-class-is-the-workload",
     "narrative-scroll-surface/scroll-bound-progression",
     "native-guest-interop/aligned-native-data-cell",
     "native-shell-integration/native-owned-stream",
@@ -42387,6 +42427,7 @@
     "read-serving-replicas/forward-on-storage-error",
     "remote-capability-probing/degraded-rung-refusal-ceiling",
     "render-mount-pipeline/preempt-and-continue-shared-computation",
+    "repository-landing-document/host-metadata-is-a-second-document",
     "repository-landing-document/input-channel-distinction",
     "repository-landing-document/multi-surface-degradation",
     "retry-backoff/client-retry-and-redirect-conventions",
@@ -42578,6 +42619,7 @@
     "remote-capability-probing/assertion-permission-and-bypass-are-three-switches",
     "render-mount-pipeline/mount-references-across-features",
     "render-mount-pipeline/recycle-by-content-type",
+    "repository-landing-document/host-metadata-is-a-second-document",
     "repository-landing-document/style-rule-ships-its-detector",
     "reversible-transform-pipelines/identity-check-with-graceful-fallback",
     "scale-investment-timing/ceiling-as-deadline-not-trigger",

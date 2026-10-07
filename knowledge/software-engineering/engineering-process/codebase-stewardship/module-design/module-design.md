@@ -14,6 +14,7 @@ techniques:
   - structural-improvement-loop
   - structure-is-not-delegable
   - scoreable-designs-are-built-not-argued
+  - change-class-is-the-workload
   - declarative-or-sequential
   - marked-unverifiable-region
   - mirror-type-at-the-edge
@@ -309,6 +310,22 @@ expensive of the two, because it does not look like an opinion.
 owns the harness contract, the undelegable residue, and the cases where
 measurement is the wrong instrument.
 
+That technique excluded extensibility from what a harness can see, and the
+exclusion has expired for a reason worth separating from the rest: **the long
+lag belonged to the probe, not to the property.** Extensibility was slow to
+observe because the only instrument was a maintainer performing the extension
+over a quarter. The instrument is now an agent performing it in an afternoon, so
+the workload for a structural comparison can be the **change class itself** —
+replay the same class of change against each candidate and meter what the
+execution costs, in tokens and turns rather than in locations touched. The two
+published measurements agree on the direction and not on the size, which is the
+whole of the discipline: correctness is the floor both arms are expected to
+clear and not the result, the identity of the change dominates the variance, and
+the arm count has to be derived from a band somebody measured.
+[change-class-is-the-workload](./techniques/change-class-is-the-workload.md)
+owns the instrument, the four disciplines, and the pairing with change scatter
+at the other end of the clock.
+
 ## The same questions inside one expression
 
 Everything above places boundaries between modules. Two of this subject's
@@ -408,6 +425,11 @@ manners.
   candidates, the workload choice that stays with the human, the hazard of
   cheap numbers on unscoreable decisions, and when measurement is the wrong
   instrument.
+- [change-class-is-the-workload](./techniques/change-class-is-the-workload.md)
+  — pricing extensibility by replaying a change class under an agent: process
+  cost as the target and correctness as the floor, the four disciplines that
+  make the ratio attributable, fan-out as a cost symptom, and the two long-lag
+  properties this still does not reach.
 - [declarative-or-sequential](./techniques/declarative-or-sequential.md) — the
   stated boundary between declarative composition and explicit sequential
   code, the three conditions that invert it, the state machine as the sharpest

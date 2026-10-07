@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-09-04
+last_touched: 2026-10-07
 touched_by: intake
 dry_streak: 0
 ---
@@ -11,6 +11,52 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-10-07 - `/intake`, a two-arm structural experiment measured by its creator
+
+One technique and one narrowing, from
+[[../../sources/2026-10-07-code-quality-measured]]. The source is a first-party
+account (876 words) of an experiment this subject already prescribes without
+knowing it was performed: one API specified once, built twice - hand-written
+against a shared kit - and two successive feature releases executed against each
+arm by two coding agents.
+
+- **`change-class-is-the-workload`** (new). The subject drew a partition twice
+  and left a third of one side empty.
+  `scoreable-designs-are-built-not-argued` named three long-lag properties and
+  declined all three; the first of them, *how easily this extends*, has moved,
+  and the discriminator is that **the lag belonged to the probe rather than to
+  the property**. The only instrument for extensibility used to be a maintainer
+  performing the extension over a quarter. It is now an agent performing it in
+  an afternoon, so the workload for a structural comparison can be the change
+  class itself, metered in tokens and turns.
+- **Paired with `locality-and-leverage` at the other end of the clock**, and
+  that pairing is the half worth remembering. Change scatter is retrospective,
+  counted in locations, and its hardest term - distinct decisions restated - is
+  the one nobody counts reliably. The replay is prospective and denominated in
+  money and minutes, which trades the counting argument for a sampling
+  argument. Scatter finds the candidate from history; the replay prices it
+  before committing. A high scatter count with a flat replay cost is a
+  cross-cutting concern, not a misplaced boundary.
+- **`scoreable-designs-are-built-not-argued` narrowed** from three long-lag
+  properties to two, with a pointer. Who can maintain it and what it forecloses
+  keep the denial in full; no harness observes a person.
+- **The source was corroborated and corrected by the same primary.** A
+  controlled study of 2,000 trajectories reaches the same rule in another
+  variable - substrate cost at matched success - and then prices the source's
+  protocol out: task identity explains 73-97% of token-cost variance, and the
+  source reports its ratio from one task and one trajectory per arm. Both
+  measurements in this lane run one trajectory per cell, so **neither carries a
+  within-cell variance estimate**. That absence is now the lane's named missing
+  instrument.
+- **Applied, and the apply changed the technique.** An `experiment` row over 292
+  recorded agent sessions measured the within-workspace band (geometric SD
+  5.91x) and then scored the one-per-arm protocol against bootstrapped ground
+  truth. No pair with an established ordering had a true effect below 3x, and
+  the one pair in the published range was itself unsettled; but above 3x, one
+  replay per arm recovers the direction 84% of the time. That boundary was not
+  in the draft and is now in the technique - the instrument corrected the rule
+  before the rule was committed.
 
 ### 2026-09-04 - `/intake`, cargo-make read for language craft
 

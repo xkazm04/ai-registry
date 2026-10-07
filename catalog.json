@@ -1162,10 +1162,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 233,
-      "techniques": 1830,
-      "applications": 1238,
-      "files": 3306,
-      "contentHash": "sha256-b2:c932eaa4e433106f"
+      "techniques": 1832,
+      "applications": 1239,
+      "files": 3309,
+      "contentHash": "sha256-b2:03ae0fa1df8fb2c0"
     },
     {
       "name": "technical-writing",

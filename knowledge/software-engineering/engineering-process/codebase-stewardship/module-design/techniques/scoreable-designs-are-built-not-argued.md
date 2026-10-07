@@ -136,9 +136,15 @@ provided nobody rounds it into a winner.
 only be evaluated at a data volume, a cache state or a traffic mix the
 experiment cannot reproduce, the harness is measuring the fixture.
 
-**When the alternatives differ in a property with a long lag** — how easily this
-extends, who on the team can maintain it, what it forecloses next year. No
-harness observes those, and reaching for one here is the hazard above.
+**When the alternatives differ in a property with a long lag** — who on the team
+can maintain it, what it forecloses next year. No harness observes those, and
+reaching for one here is the hazard above. The third member of that list — how
+easily this extends — has since left it: the lag was the probe's, not the
+property's, and
+[change-class-is-the-workload](./change-class-is-the-workload.md) owns the
+instrument that replaced the maintainer, the four disciplines that make its
+number attributable, and the sampling argument it trades the counting argument
+for.
 
 **When only one candidate can really be built.** A migration already half
 committed, a dependency already adopted, a schema already live — the second

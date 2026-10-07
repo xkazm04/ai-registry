@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-er1rn",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-07T09:00:00Z",
+  "ended_at": "2026-10-07T13:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 3,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/module-design",
+      "at": "2026-10-07",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "module-design",
+      "technique": "change-class-is-the-workload",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/techniques/change-class-is-the-workload.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/techniques/scoreable-designs-are-built-not-argued.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/applications/process--change-class-is-the-workload.md",
+    "scripts/agent-cost-band.mjs",
+    "librarian/sources/2026-10-07-code-quality-measured.md",
+    "librarian/subjects/software-engineering/module-design.md",
+    "librarian/applied.md",
+    "librarian/sources/index.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One technique, one sibling narrowing, one tooling instrument, one application. The primary that corroborated the source also priced out its protocol: one task, one trajectory per arm. Applied experiment/better over 292 recorded sessions. ship 0: no project makes this decision."
+}
