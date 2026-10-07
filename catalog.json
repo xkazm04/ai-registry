@@ -129,14 +129,16 @@
     },
     {
       "name": "cloud-dispatch",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "path": "skills/cloud-dispatch/SKILL.md",
-      "contentHash": "sha256-n1:5f9e3c3ee23e5959",
+      "contentHash": "sha256-n1:9d797d0d7d23fafd",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/cloud-dispatch/LESSONS.md",
+      "lessonsHash": "sha256-n1:32b4f5134eb9e59a",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1034,7 +1036,7 @@
     "skills": 39,
     "practices": 8,
     "memory": 9,
-    "lessons": 302
+    "lessons": 303
   },
   "bundles": [
     {

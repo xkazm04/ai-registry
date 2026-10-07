@@ -305,12 +305,15 @@ function loadRepos() {
       applied: leadingCount(fm.applied),
       subjects: subjectSlugs,
       betterProjects: [...betterProjects],
+      // what this note says it supersedes - the tie-break when two notes share a date
+      cites: [fm.prior_note, fm.prior_notes, fm.prior_scan]
+        .map((v) => (Array.isArray(v) ? v.join(' ') : String(v || ''))).join(' '),
     };
 
     const prev = byRepo.get(key);
     if (!prev) { byRepo.set(key, rec); continue; }
     // one repo, several notes: keep the newest, but OR the evidence across all of them
-    const [keep, drop] = rec.minedOn >= prev.minedOn ? [rec, prev] : [prev, rec];
+    const [keep, drop] = newerNote(rec, prev);
     keep.peer = keep.peer || drop.peer;
     keep.handoff = keep.handoff || drop.handoff;
     keep.condition = keep.condition || drop.condition;
@@ -351,6 +354,29 @@ function loadRepos() {
  * citation risk that was really a parse failure, on 3 of 3 rows it flagged (2026-09-23).
  * The pin is the FIRST standalone hex run of 7-40 characters; the rest is kept as a note.
  */
+/**
+ * Which of two notes on one repository is the newer, as [newer, older].
+ *
+ * The date alone decided this until 2026-10-06, and it ties whenever a tree is mined
+ * twice in a day - deer-flow carries three notes dated 2026-09-02, one commit apart. On a
+ * tie the last note `readdir` returned won, and `2026-09-02-deer-flow.md` sorts AFTER both
+ * `-v2…` names ('.' is 0x2e, '-' is 0x2d), so the FIRST mine's pin was reported as the
+ * base and a delta would have re-read commits a later note already covered. A note that
+ * cites the other in prior_note / prior_notes / prior_scan supersedes it; failing that,
+ * the higher `-vN`; failing that, the old behaviour. The slug match is bounded so
+ * `…-deer-flow` does not match inside `…-deer-flow-v2`.
+ */
+function newerNote(a, b) {
+  if (a.minedOn !== b.minedOn) return a.minedOn > b.minedOn ? [a, b] : [b, a];
+  const cites = (x, y) => new RegExp(`(^|[^\\w-])${y.note.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}(\\.md|[^\\w-]|$)`).test(x.cites || '');
+  const ab = cites(a, b);
+  const ba = cites(b, a);
+  if (ab !== ba) return ab ? [a, b] : [b, a];
+  const v = (x) => Number((x.note.match(/-v(\d+)(?:-|$)/) || [])[1] || 1);
+  if (v(a) !== v(b)) return v(a) > v(b) ? [a, b] : [b, a];
+  return [a, b];
+}
+
 function parsePin(raw) {
   const text = String(raw ?? '').trim();
   if (!text) return { pin: null, pinNote: null };
@@ -574,6 +600,28 @@ async function selfTest() {
     console.log(`${ok ? 'ok  ' : 'FAIL'}  parse ${JSON.stringify(raw.slice(0, 40))} -> ${got} (expected ${want})`);
     if (!ok) failed++;
   }
+
+  // Same-day notes: the three deer-flow notes of 2026-09-02, as their frontmatter reads.
+  // Every arrival order must keep the v2 back half (it cites both others), and the
+  // replication must beat the first mine (it cites it) - including the order readdir
+  // produced, where the first mine arrived last and used to win.
+  const sameDay = [
+    { note: '2026-09-02-deer-flow', minedOn: '2026-09-02', cites: '', pin: 'a5ec7f28' },
+    { note: '2026-09-02-deer-flow-v2-replication', minedOn: '2026-09-02', cites: 'librarian/sources/2026-09-02-deer-flow.md', pin: 'bbcfd368' },
+    { note: '2026-09-02-deer-flow-v2', minedOn: '2026-09-02', cites: 'librarian/sources/2026-09-02-deer-flow.md (1.6.0 claim run), librarian/sources/2026-09-02-deer-flow-v2-replication.md', pin: '08b27aef' },
+  ];
+  const orders = [[0, 1, 2], [0, 2, 1], [1, 0, 2], [1, 2, 0], [2, 0, 1], [2, 1, 0]];
+  for (const o of orders) {
+    let keep = null;
+    for (const i of o) keep = keep ? newerNote(sameDay[i], keep)[0] : sameDay[i];
+    const ok = keep.pin === '08b27aef';
+    console.log(`${ok ? 'ok  ' : 'FAIL'}  same-day notes in order ${o.join('')} keep ${keep.note} (expected 2026-09-02-deer-flow-v2)`);
+    if (!ok) failed++;
+  }
+  const pair = newerNote(sameDay[0], sameDay[1])[0].note;
+  const pairOk = pair === '2026-09-02-deer-flow-v2-replication';
+  console.log(`${pairOk ? 'ok  ' : 'FAIL'}  a note citing the other wins the tie (kept ${pair})`);
+  if (!pairOk) failed++;
 
   // End to end through probe(), the path the ledger uses: an ANNOTATED pin must read as
   // reachable, and a hash the repository never had must still read as unreachable -

@@ -3,7 +3,7 @@ name: cloud-dispatch
 description: "Spend the Claude Code cloud-session credit as a parallel engine beside local agents. Ships a self-contained brief to a `claude --cloud` session that clones the GitHub origin, works on branch claude/cloud-<id> and returns one pull request with a RESULT.md for local review. Two ways in: explicit dispatch (a plan by default, --go to launch) and overflow - fan-out skills queue cloud_ok briefs before dispatching local workers, and a StopFailure hook ships the still-queued ones when the seat hits its rate limit (capped 6 a day). Ships three ai-registry workload briefs: upstream delta re-scan, lead corroboration, deepen research. Not for a repo ahead of origin or work that needs local GPU, vault, sibling checkouts or fleet application. Invoke with /cloud-dispatch <brief.md> --repo <path> [--go], /cloud-dispatch status, or /cloud-dispatch queue --add|--done|--list."
 category: workflow
 memory: none
-version: 1.0.0
+version: 1.1.0
 tags: cloud, dispatch, overflow, parallel, credits
 argument-hint: "<brief.md> --repo <path> [--go] | status | queue ..."
 ---
@@ -111,6 +111,17 @@ PR - never both halves of a choice. On a generated-file conflict (index, rules, 
 marketplace) regenerate with the generator; never hand-merge generated content. The
 Handoff section is local work owed now: run it, or bank it with a return condition.
 
+- **Two cloud PRs on one bundle conflict on its generated files.** Merge the first; on the
+  second's branch merge the default branch in, commit the merge (taking either side of the
+  generated file), THEN regenerate index, rules and catalog and commit them - the index
+  stamps `changedAt` from history, so a regeneration before the merge commit is stale.
+  Run `build-index --check` on the default branch after the last merge.
+- **Re-read the PR head before merging a branch you just pushed.** GitHub kept PR #16's old
+  head for about a minute after the push and refused the merge as conflicting against it;
+  `gh api repos/<o>/<r>/pulls/<n> --jq .head.sha` must equal the sha you pushed.
+- **Ledger rows in RESULT.md are appended verbatim** by the Director after the merge (a
+  script that lifts each fenced row beats retyping), then `upstream-check.mjs --ledger`.
+
 ## 5. Queue and overflow
 
 A seat limit blocks every session on the seat at once, so overflow cannot be a decision a
@@ -190,9 +201,13 @@ delete the slot hints, and dispatch or queue the copy.
 - **The ledger is the spend record.** One row per launch, `mode: explicit|overflow`.
   `dispatch.mjs --status` is the count; explicit dispatches have no script cap, so count them
   against what remains.
-- **The per-run cost is not known yet.** After the first three Opus runs, read claude.ai
-  Usage, divide, and record the per-run cost as a LESSON against the version used. Until
-  then, assume a long Opus research run is the expensive case and prefer fewer, larger briefs.
+- **Measured cost: about $16-17 per Opus upstream-delta run** (2026-10-06: two runs of
+  ~18-19 minutes each, 194 and 740 upstream commits, each fanning out four read-only workers
+  inside the session, cost $33 together; a one-minute smoke run did not visibly charge).
+  Size of the delta barely moved the price - the method's reading budget did. $250 is about
+  fifteen such runs; the upstream lane's 6-a-month cap cannot spend it alone, so give the
+  remainder to lead-corroboration and deepen-research briefs. Re-measure when a brief type
+  or model changes, and record it in LESSONS.md.
 - **The credit expires 2026-11-04 23:59 PT.** After that, cloud sessions draw the plan like
   any other session, so overflow no longer adds capacity. From 2026-11-05 say so, remove or
   disable the hook, and recommend neither overflow nor explicit dispatch unless the operator
