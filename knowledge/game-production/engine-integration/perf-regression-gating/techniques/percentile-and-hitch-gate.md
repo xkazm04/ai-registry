@@ -91,6 +91,12 @@ different things they are.
 - When the worst frame is the only thing that changed, record it as a locator finding with
   its index. If it recurs in the same phase across replicates it is a real event and the
   event count will show it; if it does not recur it was the machine.
+- When a bar is written as "no window over the limit" on rolling windows read more often
+  than their length, count the frames over the limit and their events, not the windows. One
+  slow frame sits in every window that contains it, so the count of failed windows follows
+  the polling rate and the spacing of events rather than their number, and it can stay flat while the
+  worst frame falls tenfold. The window bar may stay as the policy statement; the gate reads
+  events.
 
 ## When not to use
 
