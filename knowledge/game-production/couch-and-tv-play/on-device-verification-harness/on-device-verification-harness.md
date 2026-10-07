@@ -12,6 +12,7 @@ techniques:
   - separate-active-race-from-transition-windows
   - keep-the-failed-baseline
   - emulated-touch-is-not-physical-touch
+  - attribute-every-stall-before-judging-it
 ---
 
 # On-device verification harness
@@ -45,6 +46,16 @@ and its effects belong in the analysis. The rule that follows is to know the cos
 probe, to put the expensive ones outside the timed window or on the other side of the
 asynchronous boundary, and to look first at the instrument whenever a number is
 periodic at the harness's own period.
+
+The same rule decides who owns a stall. A late input, a slow frame or a failed window had three
+possible authors — the host driving the load, the link, the game — and a verdict written before
+the stall is attributed blames the game by default. An independent heartbeat on the host, sharing
+nothing with the load pump, says whether the host could run on time; timers on each unit of work
+the device's render thread runs say which request a slow frame belonged to; and a slow frame that
+neither names is reported as unattributed, a gap in the instrument rather than a fault of either
+side. An interface that is asynchronous does not prove the loop that calls it is spared — the
+result is handled there, and part of the start-up may be — so a probe written to sample
+asynchronously stays a suspect until the heartbeat clears it. `attribute-every-stall-before-judging-it`.
 
 ## Wait for the fact, not the clock
 
