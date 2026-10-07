@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 79,
   "techniques": 525,
-  "applications": 221,
+  "applications": 223,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -3022,9 +3022,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
-   "digest": "sha256-b2:85a1ed1dbfd42e73",
-   "revision": 3,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:ea5acd91fd795bd3",
+   "revision": 5,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -3108,6 +3108,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "incident-entry-shape",
+     "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/cpp--incident-entry-shape.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "provenance-on-every-entry",
+     "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/cpp--provenance-on-every-entry.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "cpp@20"
+    },
     {
      "stack": "node",
      "technique": "domain-scoped-injection-with-a-safe-superset",
