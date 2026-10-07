@@ -428,6 +428,170 @@ This file is the only change. The forge step, run by the owner or by a `/forge` 
    - **Generic class nouns must stay legal.** "Headset", "hand tracking", "VR" and "XR" are class nouns. N5's slug and every scope above use them.
 4. **Registration.** Register the mage-arena-vr project in `projects.json` and `librarian/projects.md`. The checkout path must be relative; absolute roots live only in `.machine.local.json`. The registry's main checkout has uncommitted work in `projects.json`, so this edit belongs on a clean base.
 
+## Second consumer: a seated, non-combat app pair
+
+**Who.** The garden-vr project builds two seated habit apps for the same class of
+standalone headset as the first consumer: a **breathing app** (an evening ritual in which a
+held pinch is an inhale and a plant grows with it) and a **day-dial app** (a drawn dial on
+the table whose shadow is the real clock, and habits tended by a glance and a pinch). Neither
+has an opponent, a fail state or a score. The two names are labels for this section; the
+products are named under [Provenance](#provenance-and-vendor-vocabulary).
+
+**What was read.** garden-vr commit `8670dd1`, read-only: the agent guide's rules 2
+("seated, two-foot radius, under ten minutes to a complete, satisfying moment; fast start,
+clean pause/resume") and 3 ("honest habits"); the two game-design conformance reads, one per
+app, added in commit `00c2e4c` and read against this registry at `10e643f`; the programme
+plan's gate and Phase 2 headset sessions; the milestone-4 budgets document, its two per-app
+budget files and the texture-memory reading. Row ids below (`NC2`, `SB5`) are the
+conformance reads' own.
+
+**What kind of evidence it is.** All of it is desk evidence. The labels used below:
+- **desk: code**, read from source;
+- **desk: unit test**, the engine-free core tests;
+- **desk: scripted**, engine-side scripted playback tests, cited for what they assert. The engine has no licence on the consumer's machine, so none of them ran for these reads;
+- **desk: arithmetic**, a budget derived from published platform limits and the consumer's plan, or a census over source images.
+
+No headset session has run. Under the [rules that bind every
+row](#evidence-each-subject-needs-before-it-may-land-from-93) none of it is landing
+evidence: it is not a measurement on the device and it is not **felt**. It says where the
+consumer's rules meet the proposed techniques, and where they meet nothing.
+
+### Where the evidence bears on the proposed subjects
+
+It bears on N3, N4 and N5, and lightly on N6. It does not bear on N1, N2 or N7-N9.
+
+**N3 `seated-immersive-arena-design`.**
+
+| Proposed technique | Consumer's rule or row | Verdict there | Label |
+|---|---|---|---|
+| `yaw-comfort-band-threat-placement` | Rule 2; `NC1`, `NC2` in both reads | The hero object of each app sits straight ahead and below the eye. The breathing app: 0.40 m ahead, 0.30 m below, **meets**. The day-dial app: 0.26 m ahead in the desktop scene against its own 0.55 m anchor, **deviation** (`NC2`). The desktop stand-in clamps look to 40° yaw and 25° pitch with a recentre key. That is a mouse clamp, not a measured head band. | desk: code |
+| `relocation-instead-of-locomotion` | Rule 2; `NC1` in both | **Meets**, in a stricter form than the technique: the view only rotates, and nothing relocates the viewpoint at all. | desk: code |
+| `focus-loss-pause-and-resume` | Rule 2; `NC5` in both; plan gate S4 | **Meets.** A waiting action is saved on pause and on quit. A ritual cut off is offered back and never restarts on its own. Scripted pause tests sit at five points per ritual. One recorded drift: in the day-dial app a ritual cut off by quitting returns only through the normal daily offer. | desk: scripted, desk: code |
+| `short-complete-session` | Rule 2; `NC3`, `NC4` in both; plan gates U1, U2 | **Meets (scripted).** The first complete moment arrives by 180 s of app time on the scripted run, and the day-dial's first tend by 60 s. For the breathing app, a core test asserts a cold start to the first answer in under 10 minutes. The day-dial's timed draw-in steps total 5.3 s, and 0 s under reduced motion. The human witness (U2: a first-time person with a stopwatch, on the desktop build) has not run. | desk: scripted, desk: unit test |
+| (none) | `NC6` in both: comfort settings for motion | The breathing app **meets**: reduced motion shows end states, and a test asserts breath timing survives it. The day-dial app is a **deviation**: a 10 fps hand-drawn line boil, which its plan lists as a flicker risk in stereo, stops only when all motion is turned off. No N3 technique owns motion-comfort settings. See open question 7. | desk: code, desk: scripted |
+
+**N4 `field-of-view-aware-signalling`.**
+
+| Proposed technique | Consumer's rule or row | Verdict there | Label |
+|---|---|---|---|
+| `body-anchored-status-display`, `narrowest-view-as-the-design-bound` | `SB5` in both, where the consumer applied `television-read-budget@short-form-cards-and-barks` as the nearest rule | **Deviation** in both. World-placed words have no minimum glyph height in degrees and no words-per-line cap at the 0.40 m and 0.55 m placements. Sizes are set by hand per call; a contrast floor of 4.5 exists. Reaching for the television rule confirms N4's "partial precedent" note: a head-worn read budget is the same kind of rule for another medium. | desk: code |
+| `narrowest-view-as-the-design-bound` | The budgets' binding rule: a budget holds on both target headsets, and where they differ the lower binds | **Consistent**, with one refinement for the forger. For fill the consumer binds the opposite way: the headset with the larger per-eye display binds, because the same GPU shades more pixels. The general rule is "the most demanding device binds, per quantity", and "narrowest" is its field-of-view case. | desk: arithmetic |
+| `cue-before-the-view-cone`, `audio-as-the-off-view-threat-channel` | No row | **Not exercised.** All content sits ahead inside a small envelope and nothing starts out of view. The nearest concern is the reverse: a missed day plays no cue at all (`NC8`). | - |
+
+**N5 `standalone-headset-frame-budgets`.** Every value in the consumer's budget files carries
+`measuredOnDevice: false`.
+
+| Proposed technique | Consumer's rule or row | Verdict there | Label |
+|---|---|---|---|
+| `per-content-class-frame-budget` | Frame time per refresh rate, as 1000 / Hz: 13.9 ms at the default 72 Hz to 8.3 ms at 120 Hz. The split between CPU and GPU is left `null`, with its reason, until the first headset reading | **Partial.** One frame time per rate, and no budget per content class. The consumer leaves the missing split null rather than inventing it. | desk: arithmetic |
+| `overdraw-and-transparency-ceiling` | The breathing app: a mean of 1.5 transparent layers over the hero object (soft 1.2). The day-dial app: no cap, `null` because its plan sets none | **Partial.** A ceiling exists for one app only. | desk: arithmetic |
+| `forward-path-feature-allowance` | Post-processing not allowed, in both apps | **Consistent**, as a plan rule; never costed on the device. | desk: arithmetic |
+| `stereo-draw-call-budget` | 40 draws and 60k triangles, and 30 draws and 30k triangles, per scene, with soft caps at 80%. The plan counts them in a desktop capture step. Desktop frame time is reported and never gated | **Open.** The caps do not say whether a draw counts once or once per eye, and that is the question this technique answers. | desk: arithmetic |
+| `thermal-headroom-reserve` | No row. Soft caps at 80% of every hard cap are a general headroom rule, not tied to sustained-play clock drops | **Not covered.** | - |
+
+Two N5 neighbours already own what the consumer did beyond these rows, so N5 cites them and
+mints nothing for it:
+- `residency-budget-checked-before-decode@render-submission-economy` owns the texture-memory budget. The consumer gives textures a quarter of the platform's per-app memory ceiling (5.75 GiB of proportional set size, so 1472 MiB). A census over source images passes both apps, at 21.75 MiB and 11.57 MiB counted. That census is arithmetic, not a device reading.
+- `host-independent-work-counts@perf-regression-gating` owns what a desk figure may claim about a device that is not on hand. Both consumers are in that state today.
+
+**N6 `tracked-input-record-and-replay`, lightly.**
+- Every interaction goes through named intents (pinch, pinch-hold, release, poke, look, palm open). Scripted playback replays intents by stable target id against the app.
+- This is `headless-replay-against-the-rules` one level above raw tracking. It is evidence that intent-level replay works on the desk, and nothing about tracked hands.
+- Keyboard and mouse are the proxy for hands until the first headset session. The consumer keeps no `proxy-corpus-miss-ledger` yet.
+
+**The device evidence the consumer plans, as its plan states it.**
+- Phase 2 runs from 24 October to 11 November, only for an app that passes the consumer's gate on 23 October.
+- The headset sessions are the owner's only:
+  - H1, 27 October: hands, passthrough and the first ritual on the device;
+  - H2, 3 November: art in real passthrough, performance with the vendor's metrics overlay, and comfort;
+  - H3, 10 November: the release candidate and video capture;
+  - H4, 16 November: a clean install from the competition channel's invite.
+- If both apps pass, H1-H3 cover both in one sitting of about 60 minutes. An app given the one-week extension moves H1 to 2 November.
+- The budgets document names H2 as the first headset reading.
+
+Two consequences for the evidence table, stated as inferences:
+- As planned, comfort is named at H2 only. That yields **felt (owner, 1 session)** per app for N3 and N4, against the two owner sessions and one outside tester the table asks for at V3. The plan's first-time witness (U2) is on the desktop build.
+- H2 on 3 November falls a day before N5's V1 date. If it records n, date, device, build hash and command, it could be a second N5 source beside the game's captures.
+
+### Scope feedback for the forger
+
+Where N3 and N4 frame a rule with combat words and the calm consumer needs the same rule, a
+neutral wording is proposed below. The tables above are not edited; the forger owns final
+naming.
+
+| Proposed technique | Combat framing today | The same rule in calm content | Proposed neutral wording |
+|---|---|---|---|
+| `yaw-comfort-band-threat-placement` (and N3's scope line "bounds where threats come from") | "enemies or projectiles", "an attack arrives", "wave count" | The yaw band bounds where any content the player must attend to sits. | Slug `yaw-comfort-band-content-placement`. Use_when: placing anything the player must attend to around a seated player; content asks for a turn beyond the comfortable band; a session's head-turn demand grows as content accumulates. Scope: "a yaw comfort band that bounds where content sits". |
+| `relocation-instead-of-locomotion` | "deciding how a dodge moves the viewpoint" | No action moves the viewpoint; the view only rotates. | Third phrase: "deciding whether any action moves the viewpoint". |
+| `focus-loss-pause-and-resume` | "mid-fight", "a resumed fight punishes the pause" | Pause and resume lose nothing; an activity cut off is offered back and never restarts on its own. | Use_when: the player removes the device or the system takes focus mid-activity; timers keep running while the player cannot see; a resumed activity punishes the pause or restarts without being asked. The "offered back, never auto-restarted" clause is a candidate upward lesson from this consumer. |
+| `short-complete-session` | none | A session ends complete in under ten minutes. | No change. The ten minutes is a number and belongs in an application. |
+| N4's scope and `cue-before-the-view-cone`, `audio-as-the-off-view-threat-channel` | "threat readability", "an attack can begin", "hit by something never seen", "which threats" | Not exercised by this consumer (see above). | Scope: "readability of anything the player must notice". Use_when: an event that needs attention can begin outside the view; a player misses something that happened out of view; deciding which events must be heard before they are seen. Slug `audio-as-the-off-view-channel`. This consumer gives no evidence for the two techniques, so the change widens their reach on wording alone. The forger may keep the combat framing until a calm case exists. |
+| `body-anchored-status-display` | "health, timers or charges" | Progress and status placed in the world at a fixed distance. | "health, progress, timers or charges". |
+
+### Concerns no N subject covers
+
+Both are measured over the `use_when` triggers in `game-production/index.json`, on this
+branch at `10e643fd`: 79 subjects, 525 techniques, 1,685 triggers. The conformance reads
+counted "525 technique triggers"; 525 is the technique count, and the zero they report holds
+over all 1,685 triggers. The command:
+
+```sh
+node -e 'const j=require("./knowledge/game-production/index.json"),re=new RegExp(process.argv[1],"i"),t=Object.values(j.subjects).flatMap(s=>s.techniques.flatMap(x=>x.use_when));console.log(t.length,t.filter(u=>re.test(u)).length)' '<pattern>'
+```
+
+**1. Honest habits.** The consumer's rule 3 holds that growth only rises; a missed day is
+quiet and recoverable; nothing wilts to death or turns red; nothing shames; and there are
+no streak counters. Rows `NC7` to `NC12` in both reads:
+- **Growth only rises.** The breathing app meets it, with a property test and a negative control. The day-dial app is a deviation: the core proves the rule over 1,000 random lives, but the shipped drawing path is not the proven one, so a clock set back plus a restart can shrink a plant.
+- **The other five rules meet in both apps.** A missed day plays no cue and shows no count. One ritual restores full glow, or yesterday can be logged once, marked late. There is no wilt state. Nothing is red, read from code and not from a render. No user-facing streak or failure string exists.
+- **The enforcement is weaker than the rules.** The banned-word lists are copied, and they differ, across scripted tests that no unit test reads. The plan's gate is a grep that also matches shader identifiers, so it can never come back empty.
+- Labels: desk: code, desk: unit test, desk: scripted.
+
+| Pattern | Triggers matched | What matched |
+|---|---|---|
+| `\b(habits?\|streaks?\|shame\|shaming\|guilt\|wilt(s\|ed\|ing)?\|missed (day\|days\|session)\|lapsed?\|daily\|every day)\b` | **0** | - |
+| the same plus `\|punish(es\|ed\|ing\|ment)?` (positive control) | 2 | "an agent cannot be punished for a mistake"; "a car ... must be punished for approaching the edge". Neither is about habits. |
+
+Across every bundle's `index.json`, a wider probe,
+`\b(habits?|streaks?|shame|shaming|guilt|dark patterns?|retention|engagement loops?|wellbeing|well-being)\b`,
+matches 18 of 12,426 triggers. All 18 were read: data and candidate retention windows, a
+short-form video's viewer retention, focus retention in a user interface, an alert's
+"sustain streak", and "branches ... by habit". None is about honest habits. The nearest owned
+ground, found by reading, is loss without a dead end inside a game's own systems:
+`participation-floor-no-dead-end@racing-career-economy` ("a race career can strand a broke
+player") and `survive-the-lean-stretch@debt-and-loss-stakes-staging`. Neither covers a
+missed real-world day.
+
+**Where it might belong (a proposal, not a decision).** **Not** in the immersive ring.
+Nothing in it depends on a head-worn display, and a phone habit app needs the same rules.
+The candidate home is a new subject in `systems-canon` (6 subjects today) beside
+`racing-career-economy` and `game-economy-tuning`: progression that only rises, absence that
+is quiet, and recovery without a dead end. Its enforcement techniques would cite
+`canon-as-single-source-of-thresholds` and `shape-check-vs-content-invariant` rather than
+restate them. Another bundle is the alternative if the owner reads a habit app as outside
+game production; no bundle today owns product-ethics or wellbeing design. Only one consumer
+raises this concern, so it may be held as a lead until a second consumer appears. See open
+question 8.
+
+**2. The seated reach envelope.** The consumer's rule 2 sets a two-foot radius. Row `NC2`:
+- the breathing app's hero object at 0.40 m **meets** it;
+- the day-dial app's dial at 0.26 m is a **deviation**. It was moved closer to fill the desktop frame, and on a headset that sits nearer than comfortable focus. The fix the read proposes is to frame the stand-in view with the camera's field of view and never by moving content. That is a stand-in distorting a design, close in kind to `emulated-touch-is-not-physical-touch@on-device-verification-harness`.
+- `SB5` ties the read budget to the same two distances.
+- Label: desk: code.
+
+| Pattern | Triggers matched | What matched |
+|---|---|---|
+| `\b(arm.s length\|within reach\|reachable by hand\|seated\|sitting\|ergonomic\|near[- ]field\|comfort(able)?\|posture\|neck\|head[- ]turn)\b` | **0** | - |
+| the same plus `\|reach(es\|ed\|able)?\|radius` (positive control) | 9 | Rubric and medium ceilings, an antagonist's cost reaching the player, numbers reaching a designer, reach inside a coverage percentage, conversation and zone reachability, a phone reaching a television, a corner radius. None is about bodily reach. |
+
+**Where it might belong (a proposal, not a decision).** **Inside** the immersive ring, as a
+fifth N3 technique, because N3's scope is already "the seated play envelope" and its
+techniques cover yaw, locomotion, pause and length but not distance. A draft for the forger:
+`seated-reach-and-focus-envelope`. Use_when: placing an object a seated player touches or
+reads; content placed to fill a desktop frame sits nearer than comfortable focus; setting
+the nearest and farthest distance interactive content may sit. The ring stays at six
+subjects. The read-distance part could go to N4 instead, beside the read budget.
+
 ## Open questions
 
 1. **Placement: DECIDED.** B, by the owner on 2026-10-07: a ring `immersive-interaction` inside `couch-and-tv-play`.
@@ -446,6 +610,14 @@ This file is the only change. The forge step, run by the owner or by a `/forge` 
    The forger settles each before drafting, not after.
 5. **Purity scope.** `fire-tv-device-realities` already carries a platform product name in its subject slug, and the purity check reads bodies, not slugs. Should the vendor extension also cover slugs, and if so, what happens to that subject?
 6. **Slots after B.** The host category reaches 12 subjects in two rings of 6. A seventh immersive subject later is legal (ring cap 10). A third ring would need its own reason.
+7. **Second consumer: N3 and N4 wording, and what has no technique.** The calm consumer needs the same rules as N3 and N4 for content that is not a threat (see [Scope feedback](#scope-feedback-for-the-forger)). There are four choices:
+   - Word N3 and N4 neutrally, using the proposed names or the forger's own, or keep the combat framing and land the calm case as an application only.
+   - Does a read budget in degrees for a head-worn display become an N4 technique, or an EXTENDS of `television-read-budget@short-form-cards-and-barks`? The consumer reached for the latter.
+   - Do motion-comfort settings (line boil, reduced motion) belong to N3 or to no subject yet?
+   - The consumer plans comfort at one headset session per app, which is short of N3's and N4's two-session bar. Does a second consumer's single session count toward that bar?
+8. **Second consumer: honest habits and the seated reach envelope.** Two decisions:
+   - Is the reach envelope a fifth N3 technique (`seated-reach-and-focus-envelope`, proposed above) or part of N4?
+   - Honest habits: is the home a new `systems-canon` subject, another bundle, or nothing until a second consumer raises it? If it lands as a subject, registering the garden-vr project in `projects.json` is a separate owner decision. This change does not make it.
 
 ## Provenance and vendor vocabulary
 
@@ -469,6 +641,23 @@ statuses. They become evidence for N1, N2 and N7 only through the gates in the t
 The editor-only-API incident in the `engine-pitfall-corpus` row comes from the PoF project,
 an AI companion for building Unreal Engine 5 C++ games and the tree `game-production` was
 first forged from.
+
+**The second consumer.** garden-vr is two Unity 6.6 (URP) apps. **Terrarium** is the
+breathing app: an evening six-breath ritual, with a pinch-hold inhale, that grows a fern in a
+cork-topped jar. **Sundial** is the day-dial app: a drawn dial whose shadow is the real clock.
+Their core rules are pure C# with .NET unit tests. Both target Meta Quest 3 and Quest 3S,
+both on the Snapdragon XR2 Gen 2, and they are entered in the Meta VR Start Developer
+Competition 2026, Productivity track. The consumer's gate is on 2026-10-23 and entries close
+on 2026-11-18. Until its gate, the project works on Windows, with keyboard and mouse standing
+in for hands. Unity has no licence on its machine, so no Unity build or play-mode test ran
+for the evidence above. Its headset performance reading (H2) is planned with OVR Metrics.
+Its budget limits come from Meta Horizon developer pages read on 2026-10-07. The documents
+cited, all at garden-vr commit `8670dd1`, are:
+- "Terrarium - game-design conformance read" and "Sundial - game-design conformance read", added in `00c2e4c`;
+- "Budgets: milestone 4, Quest 3 and Quest 3S";
+- "Texture memory against the milestone 4 budgets";
+- "Garden VR - the programme";
+- "Agent guide - Garden VR", rules 2 and 3.
 
 **Vendor vocabulary probe, for forge step 3.** Each candidate name was counted
 case-sensitively and word-bounded in the upper layers of `game-production`, with
