@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-10-06
+last_touched: 2026-10-07
 dry_streak: 0
 ---
 
@@ -287,3 +287,10 @@ application: #3824 stretches the client's own timeouts in playback (HttpClient 1
 SDK per-try 10 min), because a timeout that fires sends a request the recording lacks.
 Technique unchanged. The "two clocks" boundary (zero the recording's wait, push the
 client's timeout out of reach) is banked untriaged at GAIN 1 in the source note.
+
+## 2026-10-07 - lead ruled by cloud run 261007-9865da
+
+- **L160 COVERED.** "A regression test for a plan-dependent ordering bug must be falsifiable
+  against the fix, not against a repeated read" is already the first bullet of
+  `negative-control-tests` under "A regression test's control is its own fix", including the
+  no-op-repair case. The lead is the incident that bullet was written from. No edit.

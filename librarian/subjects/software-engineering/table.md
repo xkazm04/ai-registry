@@ -1,7 +1,7 @@
 ---
 subject: table
 domain: software-engineering
-last_touched: 2026-09-23
+last_touched: 2026-10-07
 dry_streak: 0
 ---
 
@@ -62,3 +62,41 @@ Sources for the upper-layer claims (house style keeps URLs out of techniques): t
 Proposals placed for a later run: `file-browsing/selection-model` could add the page-vs-predicate boundary; `async-ui-states/placeholder-design` could name the two-layer fallback case.
 
 **Impact** (verdicts stale before this landing; the landing moves the digest again, so the post-merge map rebuild owes these re-judged): personas 2, kp 2, personas-web 3, systedo-case 2, ascent 4, one private project 3.
+
+## 2026-10-07 - ordering cluster, cloud run 261007-9865da
+
+Seven leads on one theme (deterministic order, tiebreakers, which tier runs a sort or
+filter). Three ruled, four left open. **No edit to any technique.** The run's web egress
+denied every documentation host (postgresql.org, MDN, tc39.es, sqlite.org, ag-grid.com), so
+no primary source was fetched and nothing was landed that would need one. The mechanisms
+were reproduced locally (SQLite 3.45.1, Node 22) as supporting evidence. That evidence does
+not authorize a technique on its own.
+
+- **L159 COVERED.** `sorting` requires a total order ending in identity, and
+  `versioning-snapshots/version-identity` already says a non-unique "latest" returns
+  "whichever row the query plan prefers". Reproduced: two same-instant rows, `ORDER BY
+  started_at DESC LIMIT 1` returned id 1 under a table scan and id 2 after an index on
+  `(bench, started_at)` was added; `, id DESC` pinned it. The lead's caveat, that the
+  tiebreak is not a claim that one run was later, is the same point L330 makes (see below).
+- **L335 COVERED.** `client-server-split` step 4 already forbids "sort or filter on the
+  client below a server-truncated window; counts computed on a tier that cannot see the
+  whole predicate's extent". L332 was declined on the same grounds. The facet-count tell
+  ("All 50") is a detection aid, not a rule, and its citations need the personas-web tree.
+- **L330, L334 open (undecidable: egress).** Both leads point at one corrected premise.
+  A rank is a function of the sort key, not of the tiebreaker: peers share a rank (SQL
+  `RANK()`/`DENSE_RANK()`), and only a *position* is minted from the total order
+  (`ROW_NUMBER()`). Under peer ranks, L334's badge-versus-position disagreement cannot
+  occur inside a tie, and the shared rank number discloses the tie, which is what L330
+  asks for. Reproduced: `rank()` gave 1,1 and `row_number()` gave 1,2 over a tie. The
+  amendment text is drafted in the run's RESULT.md. It owes a fetched primary
+  (the PostgreSQL window-functions page) before it lands.
+- **L336 open (undecidable: egress + tree).** "In an all-client table, export the derived
+  rows" is plausible and strictly stronger than the predicate object, but the boundary is
+  the window: the tbody maps the *page* wherever the client paginates, so the export takes
+  the filtered and sorted array before windowing. Needs a vendor grid's export
+  documentation fetched and the systedo-case tree opened.
+- **L353 open (undecidable: egress + tree).** Reproduced the mechanism: a stable sort
+  carried a pre-sorted population order through equal tiers, and appending `id` replaced
+  it. The rule ("name any implicit order a stable sort was carrying before appending
+  identity") owes the ECMAScript/MDN stability text, and the politicas commits
+  `26d695a`/`22f03d6` are unverified.
