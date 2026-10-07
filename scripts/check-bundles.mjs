@@ -181,7 +181,7 @@ const PURITY_PROFILES = {
   game: [
     [/\b(?:src|app|lib|components|features|scripts|Content|Source|Config)\//, 'repo or engine content path'],
     [/\.(?:tsx?|mjs|cjs|jsx|cpp|uasset|umap|fbx|glb|blend|wav|png)\b/, 'source or asset file extension'],
-    [/\b(?:Unreal|UE5|Unity|Godot|Blender|Maya|Houdini|Substance|Mixamo|Blueprints?|Gameplay Ability System|Next\.js|React|TypeScript|SQLite|Zustand|Leonardo|Tripo|TripoSR|Hunyuan|Qwen|Midjourney|LayoutLab|PoF)\b/, 'engine/tool/model product identifier'],
+    [/\b(?:Unreal|UE5|Unity|Godot|Blender|Maya|Houdini|Substance|Mixamo|Blueprints?|Gameplay Ability System|Next\.js|React|TypeScript|SQLite|Zustand|Leonardo|Tripo|TripoSR|Hunyuan|Qwen|Midjourney|LayoutLab|PoF|Oculus|OpenXR|SteamVR|WebXR|Vision Pro|visionOS|Pico|Vive|HTC|Valve|PSVR|PlayStation|Horizon OS|Android XR|Varjo|Snapdragon|Qualcomm|Adreno|Android|Apple|Amazon|Fire TV|Meta Quest|Quest [0-9]|Quest Pro|Meta Horizon|MetaXR)\b/, 'engine/tool/model product identifier'],
   ],
   // Localization domains: the analogue of a repo path is a message-catalog path; the
   // analogue of a framework name is an i18n library, a TMS/CAT product or a machine-
