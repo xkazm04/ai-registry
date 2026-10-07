@@ -1,8 +1,8 @@
 ---
 domain: game-production
 subject: perf-regression-gating
-last_touched: 2026-10-01
-touched_by: intake
+last_touched: 2026-10-07
+touched_by: forge
 dry_streak: 0
 depth: L1
 ---
@@ -39,3 +39,21 @@ the standard, not corroboration of it. The gate was exercised only on simulated 
 **Boundary kept with the neighbours.** `runtime-observation-evidence` owns the three outcomes and the fixed-step rule;
 this subject adds only what changes when the quantity is different every time it is measured. One pointer was added to
 that subject's timestep technique (the boundary is the claim, not the mode).
+
+### 2026-10-07 - `/forge`, extension (run `forge-dro-1007`, branch `autopilot/technical-decision-capture-6e0ab333`)
+
+Three techniques from the Death Ride optimize wave of 2026-10-06: `equivalence-before-the-saving` (goldens and
+oracles before a speedup counts; the four measured not-better candidates kept as the alternatives that lost),
+`allocation-gate-on-the-shipped-configuration` (the step gate runs what ships, with the host's escape analysis off)
+and `host-independent-work-counts` (what a desktop host may say about a device). Two kotlin applications and one
+process application, all against `firetv-deathride` at `86cb512d`. The golden path gained one section and one
+boundary sentence pointing at the new `render-submission-economy` subject; nothing was rewritten.
+
+**Deviations recorded in the applications.** A kept change inside the wave's own ±2 µs noise; the simulation
+golden printed rather than asserted; the allocation gate running with escape analysis on by default and passing
+when its counter is unsupported; a post-wave probe whose device field is blank. **Outside hardening:** HotSpot
+escape analysis and the flag (Oracle docs) and ART's load-store elimination (AOSP) — the device runtime removes
+some non-escaping allocations too, just not the same set, so the claim is stated that way.
+
+**Open.** No stick measurement of the 10-06 step or render changes; the allocation gate's default task does not
+apply `-XX:-DoEscapeAnalysis`. **Return:** a stick arm, and a project change to the core test task.

@@ -1,8 +1,8 @@
 ---
 domain: game-production
 subject: ship-pipeline-gating
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-10-07
+touched_by: forge
 dry_streak: 0
 ---
 
@@ -199,3 +199,15 @@ filing "this could be tighter" as a finding.
   }
 }
 ```
+
+## 2026-10-07 - `/forge`, extension (run `forge-dro-1007`, branch `autopilot/technical-decision-capture-6e0ab333`)
+
+One technique, `ship-only-what-the-runtime-reads`, and one kotlin application from the Death Ride optimize wave of
+2026-10-06 (build context B: audit-only art bundles excluded, release-only R8 and resource shrinking with a launch on
+the Fire TV stick as proof, the emulator ABI behind a build switch). The golden path gained one paragraph after the
+ratchet paragraph; nothing was rewritten, so the architecture-review record above is now stale by digest, as
+expected. Deviations recorded: the shrink figure is release against debug (a cross-configuration number, which this
+subject's own size technique calls fabricated), the keep rules are broad with `-dontoptimize`, and the shrunk package
+was launch-verified only. Outside hardening: Android's R8 and ABI guidance, and Amazon's two architecture pages,
+which disagree with each other by date (2026-02 says bundle only `armeabi-v7a`; 2026-05 says never drop 32-bit and add
+64-bit).
