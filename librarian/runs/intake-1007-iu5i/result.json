@@ -1,0 +1,53 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-1007-iu5i",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "run",
+  "domain": "game-production",
+  "started_at": "2026-10-07T17:40:00Z",
+  "ended_at": "2026-10-07T19:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/production-prompt-architecture",
+      "at": "2026-10-07",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "production-prompt-architecture",
+      "technique": "platform-shell-conventions-in-the-baseline",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/production-governance/production-prompt-architecture/techniques/platform-shell-conventions-in-the-baseline.md",
+    "knowledge/game-production/production-governance/production-prompt-architecture/applications/process--platform-shell-conventions-in-the-baseline--garden-vr.md",
+    "knowledge/game-production/production-governance/production-prompt-architecture/production-prompt-architecture.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "librarian/sources/2026-10-07-unity-spark-announcement.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/production-prompt-architecture.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Video review; captions 429, transcribed locally. Product cannot help garden-vr (closed beta, no export). Its demo games could not be quit, nor could garden-vr PC player. New technique platform-shell-conventions-in-the-baseline; garden-vr AGENTS.md rule 2 amended."
+}

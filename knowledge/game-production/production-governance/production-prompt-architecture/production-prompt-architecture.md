@@ -11,6 +11,7 @@ techniques:
   - acceptance-criteria-appended-not-replaced
   - version-keyed-engine-facts
   - domain-scoped-knowledge-injection
+  - platform-shell-conventions-in-the-baseline
 ---
 
 # Production prompt architecture
@@ -157,6 +158,14 @@ skeleton** — that every production prompt carries a wiring requirements sectio
 the output is granted, how it is activated, what it depends on, and one observable
 verification that is not "it compiles" (wiring-requirements-section). A producer told only
 what to build builds only that.
+
+The same rule holds one level up, when the producer authors the whole playable program
+rather than one artifact inside it. Then the frame around the content - quit, pause when
+focus leaves, nothing lost on close, resume - is something no task will ever describe, and
+an agent-built program honours exactly the shell behaviours its standing rules name and no
+others. So the baseline carries a short shell inventory **per platform the build runs on**,
+and a desktop stand-in for a headset or console target inherits the duties the target's
+system menu would otherwise discharge (platform-shell-conventions-in-the-baseline).
 
 ## Knowledge is routed by scope, and the unknown scope gets the superset
 

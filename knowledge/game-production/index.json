@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 79,
-  "techniques": 525,
-  "applications": 223,
+  "techniques": 526,
+  "applications": 224,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "525/525",
+  "use_when_coverage": "526/526",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -6272,9 +6272,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/production-prompt-architecture/production-prompt-architecture.md",
-   "digest": "sha256-b2:2c20c4624092b51a",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:eb3b409f7965c5b5",
+   "revision": 3,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "acceptance-criteria-appended-not-replaced",
@@ -6316,6 +6316,21 @@
       "defining the skeleton every production prompt must follow",
       "prompts for adjacent tasks have diverged in structure",
       "you cannot tell which prompt change caused a quality change"
+     ]
+    },
+    {
+     "slug": "platform-shell-conventions-in-the-baseline",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "law-and-check-share-one-source"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an automated producer builds a whole playable program rather than one artifact inside it",
+      "a generated game cannot be quit paused or resumed the way its platform expects",
+      "a stand-in build on one platform substitutes for a target on another",
+      "deciding what the standing baseline of a game-producing prompt must carry that no task will ever ask for"
      ]
     },
     {
@@ -6374,6 +6389,12 @@
      "technique": "acceptance-criteria-appended-not-replaced",
      "file": "knowledge/game-production/production-governance/production-prompt-architecture/applications/process--acceptance-criteria-appended-not-replaced.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "platform-shell-conventions-in-the-baseline",
+     "file": "knowledge/game-production/production-governance/production-prompt-architecture/applications/process--platform-shell-conventions-in-the-baseline--garden-vr.md",
+     "verified_on": "2026-10-07"
     }
    ]
   },
@@ -10180,6 +10201,7 @@
     "production-coverage-measurement/headless-operability-gate",
     "production-coverage-measurement/readiness-ladder",
     "production-prompt-architecture/domain-scoped-knowledge-injection",
+    "production-prompt-architecture/platform-shell-conventions-in-the-baseline",
     "production-prompt-architecture/scanned-project-state-do-not-recreate",
     "production-work-prioritization/blocked-if-any-produced-feature-is-blocked",
     "production-work-prioritization/five-factor-weighted-scoring",
@@ -10860,6 +10882,7 @@
     "production-coverage-measurement/audited-fact-drift-detection",
     "production-prompt-architecture/acceptance-criteria-appended-not-replaced",
     "production-prompt-architecture/fixed-section-order",
+    "production-prompt-architecture/platform-shell-conventions-in-the-baseline",
     "production-prompt-architecture/version-keyed-engine-facts",
     "production-work-prioritization/fixed-deadline-scope-triage",
     "quality-verdict-integrity/rubric-version-supersession",

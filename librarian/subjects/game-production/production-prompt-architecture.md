@@ -218,3 +218,15 @@ deviations are correct as stated.
   }
 }
 ```
+
+## Intake - 2026-10-07 (intake-1007-iu5i)
+
+Landed `techniques/platform-shell-conventions-in-the-baseline.md` (draft) and
+`applications/process--platform-shell-conventions-in-the-baseline--garden-vr.md`
+(experiment, unmeasurable), plus one golden-path paragraph after the wiring paragraph.
+Source: [2026-10-07-unity-spark-announcement](../../sources/2026-10-07-unity-spark-announcement.md).
+The stage it fills: what the standing baseline must contain when the producer authors the
+whole program, which the wiring section (one artifact's reachability) does not reach.
+Boundary: the proposed `focus-loss-pause-and-resume` (immersive-interaction N3) owns the
+behaviour; this technique owns naming it to the producer and the per-platform ownership
+split. No architecture review of the new files yet; the next review owes them a disposition.
