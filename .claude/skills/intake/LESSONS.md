@@ -12376,3 +12376,8 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
   matched the failure's end state. A heartbeat column cut that to 10, an upper bound,
   and the cut came after the personas commit message had already said 31. Read the
   separating column before any commit message cites the number.
+
+## 2.15.0 - 2026-10-07 - music-video-suno-seedance
+- **A render-bound draft must not wait in `knowledge/` for its verdict.** The forge worker wrote the held technique where it would land, the render took ~15 hours of wall clock across a memory-pressure kill, and a sibling committed and pushed the whole subject as found (`a9c6b31e`) to make an `origin/main` merge fast-forward. The verdict then withdrew the technique, so the remote carried an unverified rule for a day. Park any row that is held for a render verdict outside the bundle (`librarian/handoffs/`) until the verdict arrives, and keep the golden path's sentence about it as an open question from the start.
+- **Budget the seed control before the probe, by the machine, not the method.** On this box the reference-to-video model took 40-60 min per 5 s clip and memory pressure killed the session's background shells once. Two arms x two seeds did not fit; the operator chose to stop after one seed, so a pair whose direction they confirmed cannot author a landing. A 3 s fixture at both seeds would have fit.
+- **The fixture built from the source's own case split the claim.** The instrumental intro (half of the source's failure report) was not mouthed with either input; the second voice was. A paraphrased fixture ("full mix vs stem") would have read as one claim, weakly supported.
