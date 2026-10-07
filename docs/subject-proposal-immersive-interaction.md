@@ -1,10 +1,11 @@
 # Subject proposal: `immersive-interaction`
 
 **Status:** proposed, 2026-10-07. This is a forge input, not knowledge. Nothing under
-`knowledge/` changes with this file, and the placement decision below is **OPEN** for the
-owner.
+`knowledge/` changes with this file. The placement is **decided**: B, on 2026-10-07, by the
+owner. See [Decided](#decided).
 **Bundle:** `game-production`
-**Category:** undecided. The plan's "one appended category" no longer fits under the cap;
+**Category:** `couch-and-tv-play`, with rings `couch-and-tv` and `immersive-interaction`.
+The plan's "one appended category" no longer fits under the cap;
 see [The placement decision](#the-placement-decision).
 **Raised by:** step W0 of the harvest plan in the mage-arena-vr plan, section 9 (9.1 to 9.3),
 written in the game repo. Filed late: W0 was due 3-4 October.
@@ -107,7 +108,7 @@ Folding an existing category to free a slot was also considered and rejected. Ca
 are append-only, and the fold would move subjects that belong to other projects for no
 gain over B.
 
-### Recommendation (the choice stays OPEN)
+### Recommendation (now decided: see Decided)
 
 **Recommended: B**, a ring `immersive-interaction` inside `couch-and-tv-play`, with the
 category retitled to cover both rings. Five reasons:
@@ -128,6 +129,28 @@ category retitled to cover both rings. Five reasons:
 **The decision is on the critical path.** The plan's D1 step (11 October) lands N1 and N2
 Phase-1 drafts. A draft needs a folder, and `taxonomy.json` assigns it. The choice is
 needed before then.
+
+### Decided
+
+On 2026-10-07 the owner chose **B**. Record: "Operator, 2026-10-07 morning: chose B (ring
+inside couch-and-tv-play)."
+
+**The names.**
+- The category id `couch-and-tv-play` stays. It is retitled "Couch, TV and immersive play".
+- Its six existing subjects move into a ring `couch-and-tv`: `controller-latency-instrumentation`, `fire-tv-device-realities`, `lan-pairing-and-session-continuity`, `on-device-verification-harness`, `phone-controller-input-protocol` and `two-thumb-touch-layout-design`.
+- N1-N6 go into a ring `immersive-interaction`.
+
+**The alternatives that lost.**
+- A, an eleventh category: it needs a cap change or a new grouping level, and either one also binds `software-engineering`.
+- C, spreading the subjects: the immersive seam has no visible home.
+- D, a separate bundle: it fails the split test.
+
+**The constraint found while carrying it out.** `scripts/lib/taxonomy.mjs` (lines 175-177)
+rejects an empty subcategory. So the `immersive-interaction` ring cannot be declared before
+its first subject exists. The retitle, the `apply-taxonomy.mjs` move of the six subjects
+into `couch-and-tv` and the `immersive-interaction` ring therefore land in **one** forge,
+together with the first immersive subject (the N1 and N2 D1 drafts), never before. The
+move touches subjects another project is still forging, so it is made only once.
 
 ## Proposed subjects
 
@@ -398,17 +421,17 @@ with 2-4 searches, before opening the game repo. Status runs `draft`, then `forg
 This file is the only change. The forge step, run by the owner or by a `/forge` or
 `/deepen` session in the registry, makes the following, each with its own gate run:
 
-1. **Taxonomy, per the owner's placement choice.** Edit `knowledge/game-production/taxonomy.json` and move subjects only through `scripts/apply-taxonomy.mjs`, never `git mv`. Then regenerate the index, rules and catalog with their generators.
-2. **Stacks.** Add `cpp` to the frontmatter of `knowledge/game-production/index.md`. The plan says that file declares no `stacks:`, but it now declares `stacks: [kotlin]`, added with the racing and TV forge, so the change is `stacks: [kotlin, cpp]`. Without `cpp`, a C++ application fails as `unknown stack`. `node` is in the default set (`STACKS` in `scripts/check-bundles.mjs`: react, rust, sql, node, process) and needs nothing.
-3. **Purity.** Extend the `game` profile's product-identifier regex in `scripts/check-bundles.mjs` with headset, runtime and platform vendor names. Two constraints were measured for this proposal:
+1. **Taxonomy, per the owner's placement choice (B, decided; see [Decided](#decided)).** Order: the retitle of `couch-and-tv-play`, the `apply-taxonomy.mjs` move of the six subjects into `couch-and-tv` and the new `immersive-interaction` ring land in one forge, together with the first immersive subject (the N1 and N2 D1 drafts). Edit `knowledge/game-production/taxonomy.json` and move subjects only through `scripts/apply-taxonomy.mjs`, never `git mv`. Then regenerate the index, rules and catalog with their generators.
+2. **Stacks. DONE** in commit `5da5108c` (catalog regenerated in `cebf85ff`). Add `cpp` to the frontmatter of `knowledge/game-production/index.md`. The plan says that file declares no `stacks:`, but it now declares `stacks: [kotlin]`, added with the racing and TV forge, so the change is `stacks: [kotlin, cpp]`. Without `cpp`, a C++ application fails as `unknown stack`. `node` is in the default set (`STACKS` in `scripts/check-bundles.mjs`: react, rust, sql, node, process) and needs nothing.
+3. **Purity. DONE** in commit `bd008bf8`. Extend the `game` profile's product-identifier regex in `scripts/check-bundles.mjs` with headset, runtime and platform vendor names. Two constraints were measured for this proposal:
    - **Bare forms collide.** The regex is case-sensitive and word-bounded. Two of the headset vendor's names, written bare, already occur as ordinary English in two forged upper-layer techniques, so adding them bare turns the gate red at once. Use qualified product forms. The candidate list, the probe and the two colliding lines are under [Provenance](#provenance-and-vendor-vocabulary).
    - **Generic class nouns must stay legal.** "Headset", "hand tracking", "VR" and "XR" are class nouns. N5's slug and every scope above use them.
 4. **Registration.** Register the mage-arena-vr project in `projects.json` and `librarian/projects.md`. The checkout path must be relative; absolute roots live only in `.machine.local.json`. The registry's main checkout has uncommitted work in `projects.json`, so this edit belongs on a clean base.
 
 ## Open questions
 
-1. **Placement: OPEN, for the owner.** A, B, C or D above. Recommended: B. Needed before D1 (11 October).
-2. **If B: the names.** The host category's new title, and the id and title of the ring that holds its existing six subjects. A category *title* change keeps every path; an *id* change is a move. The harvest brief forbids renaming a category during a harvest, so this is an owner decision made before the harvest starts.
+1. **Placement: DECIDED.** B, by the owner on 2026-10-07: a ring `immersive-interaction` inside `couch-and-tv-play`.
+2. **If B: the names. DECIDED.** The category id `couch-and-tv-play` stays, retitled "Couch, TV and immersive play". The ring for the existing six is `couch-and-tv`; the new ring is `immersive-interaction`. Asked: the host category's new title, and the id and title of the ring that holds its existing six subjects. A category *title* change keeps every path; an *id* change is a move. The harvest brief forbids renaming a category during a harvest, so this is an owner decision made before the harvest starts.
 3. **Folds.**
    - N8 into `production-work-prioritization`: recommended.
    - N9 into `production-coverage-measurement`: likely; decide after the ledger.
