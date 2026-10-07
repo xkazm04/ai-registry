@@ -58,6 +58,10 @@ looked for the one built for the architecture it can use.
 - **When the package lists an architecture the device does not support, that is not
   waste in isolation, but it is a signal**: either the build target was wrong or the device
   class changed. Report it as a finding and do not strip it silently.
+- **When the device's answer is in hand and the package is being trimmed, trim openly.** Drop an
+  architecture only for a stated reason, keep the one an emulator needs behind an explicit build
+  switch rather than deleting it, and read the archive afterwards; the shipping-gates subject owns
+  the trimming itself, this check owns the reading.
 - **When the device's supported list is 32-bit only, a 64-bit-only build is a blocker,
   not a warning.** It will not run, and no later fix in game code changes that.
 - **When one device reports a list, the claim is about that device.** A different model of

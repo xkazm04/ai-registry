@@ -11,6 +11,8 @@ techniques:
   - unhandled-bind-failure-kills-process
   - dhcp-scan-for-device
   - server-socket-portability-hedge
+  - startup-work-belongs-at-first-use
+  - read-the-priority-before-requesting-one
 ---
 
 # Streaming-stick device realities
@@ -49,7 +51,7 @@ port. The principle is the one the bundle's laws state in general form - a struc
 necessary and never sufficient - applied to a platform where the structural pass is
 especially cheap and especially misleading.
 
-## The six realities
+## The eight realities
 
 **The display is asleep when the game launches.** A stick that has been idle goes to a
 sleeping display, and starting a program in that state succeeds in every sense the tooling
@@ -99,6 +101,21 @@ is a design with an undisclosed risk. The remedy is a hedge: move the listening 
 somewhere the platform cannot restrict, and make the device a client. 
 `server-socket-portability-hedge`.
 
+**Startup work that is instant on a desktop is a black screen on the stick.** Content built
+eagerly at class load — every level, every spatial index, every catalogue — costs a desktop
+virtual machine a fraction of a second and holds the stick's slower cores, loading classes
+from a cold process, on the path to the first frame for far longer. The launch succeeded and
+the process is alive; it is busy building content the player will choose one item of. The
+remedy is to build each item at first use and to find every caller that quietly iterates the
+whole collection and so builds it anyway. `startup-work-belongs-at-first-use`.
+
+**A requested priority can be a demotion.** The platform already raises the foreground
+application's main and rendering threads, and an explicit request for a named display
+priority on such a thread lowers it. The call returns normally and the experiment that was
+meant to test a boost tests a lower-priority control. Read the priorities the device gave
+before requesting any, and prefer lowering the threads that compete with the render thread.
+`read-the-priority-before-requesting-one`.
+
 ## What the real device actually tells you
 
 These checks are cheap, and the discipline is only that they are made against the device and
@@ -120,7 +137,7 @@ every number as a property of a unit.
 
 The corpus of engine pitfalls owns the routing of hard-won folklore about a large
 third-party system to the task that needs it; this subject is a body of such folklore for one
-class of target, and its six entries are the kind of content that corpus would carry, not a
+class of target, and its entries are the kind of content that corpus would carry, not a
 competing way of carrying it. When the question is how an incident becomes a routed, scoped,
 provenanced entry, that corpus answers it; when the question is what a streaming stick does
 to a game that built and installed, this subject does. The integration-safety subject owns
@@ -139,7 +156,7 @@ connection, read here first.
 
 - **Treating the emulator as the device.** The emulator has a wide userland, an unlimited
   display and no lease expiry. It is a good place to find logic errors and a bad place to
-  find any of these six.
+  find any of these.
 - **Reading the successful launch as a running game.** The launch reports acceptance. The
   screen, the process and the render are three further facts.
 - **Trusting the build configuration for the architecture.** The package is the artifact;
