@@ -82,8 +82,9 @@ It is drawn from isolated stems where the rights holder can supply them (the
 cleanest source), from source separation of the mix where they cannot, and is
 checked by ear at every boundary, because separation leaks and a breath or a
 reverb tail reads as a voice to a threshold. It is the input
-performer-stem-conditioning consumes: a sung shot's conditioning slice is cut from
-the stem this map names, over the interval this map gives.
+every later stage reads for a voice: where segment seams may fall, which shots
+need a readable mouth, and, in a pipeline that drives the face from audio, which
+voice and interval that audio is cut from.
 
 It also marks the unsafe regions before any money is spent: an instrumental intro
 (no mouth), an ad-lib over the lead (two voices, one face on screen), a backing

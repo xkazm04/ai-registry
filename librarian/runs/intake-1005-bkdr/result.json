@@ -1,0 +1,63 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-1005-bkdr",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "full",
+  "domain": "media-generation",
+  "started_at": "2026-10-05T20:25:00Z",
+  "ended_at": "2026-10-06T23:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/music-video-production",
+      "at": "2026-10-07",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "music-video-production",
+      "technique": "golden-path:master-delivered-untouched",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "music-video-production",
+      "technique": "performer-stem-conditioning",
+      "verdict": "unmeasurable",
+      "mode": "render"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/production-ops/music-video-production/music-video-production.md",
+    "knowledge/media-generation/production-ops/music-video-production/techniques/track-map-before-treatment.md",
+    "knowledge/media-generation/production-ops/music-video-production/techniques/coverage-across-the-phrase.md",
+    "knowledge/media-generation/production-ops/music-video-production/techniques/performer-stem-conditioning.md",
+    "knowledge/media-generation/production-ops/music-video-production/applications/next--track-map-before-treatment.md",
+    "knowledge/media-generation/index.json",
+    "rules/ai-registry-media-generation.md",
+    "librarian/sources/2026-10-05-music-video-suno-seedance.md",
+    "librarian/specs/2026-10-05-music-video-production.md",
+    "librarian/subjects/media-generation/music-video-production.md",
+    "librarian/handoffs/2026-10-07-performer-stem-conditioning-draft.md",
+    "librarian/applied.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "XL subject forged (golden path + 5 techniques). Stem technique withdrawn to a lead after a render pair (n=1, no seed control). Sibling pushed this WIP pre-verdict (a9c6b31e). gravitone loudness fix on a branch (970252f), not pushed."
+}

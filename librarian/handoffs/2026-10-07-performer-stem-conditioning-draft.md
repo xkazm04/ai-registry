@@ -1,3 +1,24 @@
+# Banked draft - `performer-stem-conditioning` (music-video-production)
+
+- **Run:** `intake-1005-bkdr`. **Status:** LEAD, not a technique. Withdrawn from the subject on 2026-10-07
+  after the render proof; it had reached `origin/main` in a sibling's as-found WIP commit `a9c6b31e` before
+  any verdict existed.
+- **Render proof (n=1 per arm, seed 770425, no second-seed control):** reference-conditioned video model,
+  one original reference face, one synthetic 5.2 s fixture (instrumental 0-1.3 s, female lead 1.3-2.8 s,
+  male ad-lib 2.9-3.7 s, female lead 3.8-4.9 s). Arm A = full mix as the audio reference, arm B = isolated
+  lead stem. Pre-declared mouth-openness metric (dark-pixel fraction in a face-detected mouth ROI):
+  intro A 0.039 / B 0.041, lead1 0.065 / 0.062, ad-lib **0.064 / 0.036**, lead2 0.132 / 0.138. Operator,
+  blind: full clip -> B (stem); slowed mouth crop -> tie; mouth tiles -> tie.
+- **What it says:** the instrumental bed did not make the face mouth on this model (half of the source's
+  claim refuted here); a second VOICE in the mix did open the mouth late in the ad-lib. Direction favours
+  the stem, size is small, n=1, no discrimination ratio.
+- **Return condition:** a second-seed render of both arms (discrimination ratio >= 1.5 on the ad-lib
+  interval) and an operator pick of B on a pair that passes it; or a second model rendered the same way.
+  Then restore the file below to `techniques/`, re-add it to the golden path's `techniques:` list, and
+  replace the golden path's "open question" paragraph.
+
+---
+
 ---
 layer: technique
 type: technique

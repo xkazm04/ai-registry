@@ -8,7 +8,7 @@
   primaries fetched by the drafter, from the connected tree named below, or from training-data convergence
   with the boundary stated. The source's own operating half (what happened to them, not what the tool does)
   is anchored in the source note `librarian/sources/2026-10-05-music-video-suno-seedance.md`.
-- **Status:** EXECUTED 2026-10-05 (one forge worker). Overrides accepted: stack `next` for the gravitone application (Web Audio offline render); seek-stable-composition-authoring cited for frame-index determinism only; technique 5 cites generated-shot-sourcing for the scouting counter-case; technique 3 narrowed to shots with a readable mouth (the primary says accompaniment drives head, expression and eyes). Director addition: the delivery section gained the peak-capped linear gain rule from a paired experiment in gravitone.
+- **Status:** EXECUTED 2026-10-05 (one forge worker). Technique 3 (`performer-stem-conditioning`) WITHDRAWN 2026-10-07 after the render proof (n=1, no seed control; operator: stem on the full clip, tie on both close-ups) - banked as `librarian/handoffs/2026-10-07-performer-stem-conditioning-draft.md`. Overrides accepted: stack `next` for the gravitone application (Web Audio offline render); seek-stable-composition-authoring cited for frame-index determinism only; technique 5 cites generated-shot-sourcing for the scouting counter-case; technique 3 narrowed to shots with a readable mouth (the primary says accompaniment drives head, expression and eyes). Director addition: the delivery section gained the peak-capped linear gain rule from a paired experiment in gravitone.
 
 ## Why XL
 

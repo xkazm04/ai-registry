@@ -31,8 +31,8 @@ Generated production keeps that property only if it is built in on purpose:
   bars the planner expects to use. The value of coverage is that the cut is free to
   move; a setup that only covers the moment someone predicted forecloses the
   choice the edit exists to make.
-- **Every setup gets the same slice.** Same master in-point, same stem, same
-  handles. That is what makes setups interchangeable at a cut. A setup generated
+- **Every setup gets the same slice.** Same master in-point, same conditioning
+  audio, same handles. That is what makes setups interchangeable at a cut. A setup generated
   against a slice shifted by half a beat is not coverage; it is a different take
   that will have to be slid into place, and sliding is where sync is lost.
 - **Setups differ in what the camera does, not in what the performer sings.** The
