@@ -13,6 +13,7 @@ techniques:
   - server-socket-portability-hedge
   - startup-work-belongs-at-first-use
   - read-the-priority-before-requesting-one
+  - price-the-durable-save-on-the-device
 ---
 
 # Streaming-stick device realities
@@ -51,7 +52,7 @@ port. The principle is the one the bundle's laws state in general form - a struc
 necessary and never sufficient - applied to a platform where the structural pass is
 especially cheap and especially misleading.
 
-## The eight realities
+## The nine realities
 
 **The display is asleep when the game launches.** A stick that has been idle goes to a
 sleeping display, and starting a program in that state succeeds in every sense the tooling
@@ -115,6 +116,14 @@ priority on such a thread lowers it. The call returns normally and the experimen
 meant to test a boost tests a lower-priority control. Read the priorities the device gave
 before requesting any, and prefer lowering the threads that compete with the render thread.
 `read-the-priority-before-requesting-one`.
+
+**A durable save costs frames on the stick's flash.** A save meant to survive a power cut —
+encode, verify, temporary file, flush to storage, backup, atomic rename — passes unnoticed on a
+desktop drive and cost one stick's flash fifty to a hundred and fifty milliseconds per save (four
+profiled runs, 2026-10-07), so on the render thread it drops frames exactly when something happened:
+a purchase, a race won. The cost is measured per step on the device and set beside the alternatives, each with
+what it risks, before anyone moves it; where the save carries money or progress, choosing between a
+visible hitch and an invisible loss window is the owner's decision. `price-the-durable-save-on-the-device`.
 
 ## What the real device actually tells you
 

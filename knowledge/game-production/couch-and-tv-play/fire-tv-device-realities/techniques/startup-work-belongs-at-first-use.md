@@ -43,7 +43,10 @@ initialise an object the first time it is needed, not when its class loads.
    Replace each with an index lookup or an iteration over metadata.
 5. **Move the remaining first-use cost off the render thread.** When the player picks a level, build it
    on a worker thread and hand the render thread a finished object to swap in, so the pick costs a
-   frame, not a stall.
+   frame, not a stall. Every lazy structure inside the level counts: a level built off the render
+   thread whose spatial index is still lazy has moved the cheap half and left the expensive half for
+   the first frame that queries it. How to prepare, hand over and order that work is
+   `prepare-off-the-render-thread-commit-on-it` in the render-submission subject.
 6. **Measure startup phases on the device.** Timestamps around class initialisation, the first content
    build and the first frame, taken on the stick from a cold process. Desktop figures rank the
    candidates; they do not estimate the device by a factor
@@ -77,5 +80,9 @@ a title screen that previews every level — build them off the main thread inst
 
 Observed on one stick: an eager bake of every level's spatial index at class load stalled startup on
 the device, and making the bake lazy removed the stall; the stall's duration was reported, not timed.
-The per-element laziness, the aggregate-accessor trap and the relocation finding are measured on a
-desktop host only.
+The per-element laziness and the aggregate-accessor trap are measured on a desktop host only. The
+relocation finding was later timed on the same stick, in profiled runs on 2026-10-07: the lazy index
+built on its first query on the render thread cost one to two and a quarter seconds per first visit
+to a level (five first visits, one diagnostic run), and the first answer to an aggregate request that
+builds every playable level took about twelve to twenty seconds end to end (four runs), long enough to
+time out the harness that asked for it.
