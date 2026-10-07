@@ -103,7 +103,8 @@
         "runtime-observation-evidence",
         "ship-pipeline-gating",
         "visual-script-to-code-transpilation",
-        "perf-regression-gating"
+        "perf-regression-gating",
+        "render-submission-economy"
       ]
     },
     {
