@@ -12376,3 +12376,52 @@ Phase 5's promotion read covers a row whose only blocker is the +1 for an unchec
   matched the failure's end state. A heartbeat column cut that to 10, an upper bound,
   and the cut came after the personas commit message had already said 31. Read the
   separating column before any commit message cites the number.
+
+## 2.15.0 - 2026-10-07 - code-quality-measured
+
+- **An instrument that scores its own formula is cheap, and it corrected the
+  landing before the landing was committed.** The technique's first discipline
+  derived an arm count from a measured band; the draft's rule read as "a thousand
+  replays per arm", which is true at a 1.21x effect and absurd at 10x. Adding a
+  `--validate` mode that replayed the one-per-arm protocol against a bootstrapped
+  ground truth found the boundary - above a 3x true effect, one replay per arm
+  recovers the direction 84% of the time - and that boundary is what keeps the
+  technique usable. The general form: when a landing contains a formula, the apply
+  step should score the formula, not demonstrate it.
+- **A `ship: 0` has at least two causes and the scorecard column cannot tell them
+  apart.** Four consecutive rows now read `ship 0`: three because the only
+  seam-holding project was ahead of origin, and this one because the finding is a
+  measurement method with no project seam at all. Those call for opposite
+  responses, and the funnel reading "ship is weakest" is now averaging them. The
+  scorecard asks for "the reason for any zero" in prose; prose is not a category.
+  Proposed as this run's declared focus rather than applied as a method edit,
+  because one run is one sighting.
+- **The declared-focus check paid by failing fast, which is a result worth
+  naming.** Phase 7.5's focus was to list the project's committed registers before
+  choosing an instrument. The most attractive register - the slash-command label
+  the harness writes into each session - returned n=3 on this machine, because this
+  is the secondary box. Establishing that before building an instrument on it cost
+  one histogram; establishing it after would have cost the run's measurement. The
+  lesson is not about this register: it is that a register's *coverage on this
+  machine* is part of listing it, and the fleet's history is not uniformly
+  available.
+- **The corroborating primary was also the correcting one, for the fifth time in
+  this ledger.** The source's protocol (one task, one trajectory per arm) was
+  priced out by the very paper that confirmed its direction. Worth stating as a
+  prior: when a first-party account reports a ratio, the primary fetched to
+  corroborate it will more often arrive carrying the variance estimate the account
+  lacks than a contradiction of its direction. Budget the fetch for the protocol,
+  not for the claim.
+
+### Redesign proposal
+
+**A consistency edit forced by an accepted row should not be separately scored.**
+Row 2 of this run - narrowing a sibling technique's denial that the accepted row
+contradicts - scored +1 against a +2 threshold, purely because of the rewrite
+surcharge, and landed anyway as the bidirectional half of row 1. That was the right
+outcome and the gate had no way to express it. The method already requires
+bidirectional links for a technique ("bidirectional or it does not exist"); the same
+reasoning covers a standing sentence that an accepted landing makes false. Proposed:
+Phase 5 Step 3 gains a sentence saying that an edit required for internal consistency
+with an already-accepted row is part of that row's cost, not a row of its own. Not
+applied here - one sighting, and the honest record is in the source note.

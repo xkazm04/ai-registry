@@ -5135,3 +5135,18 @@ unpushed commits, so the code commit is local. The new loss this run nearly took
 technique's cost, name every other cause that writes the same row and read the column that
 separates them (here the heartbeat). Report the count that survives, as an upper bound if
 the causes cannot be fully split.**
+
+| 2.15.0 | 2026-10-07 | `youtube:ER1rnHwelbo` - a two-arm structural experiment measured by its creator (first-party practitioner account, 876 words, second-thinnest mined) | 1 | 11 | 3 verified (1 technique, 1 narrowing, 1 instrument) + 4 catches + 1 partial promoted-and-folded | 1 row: 0c/**1e**/0s/0t/0r (`better`, the arms were PROTOCOLS: one-observation-per-arm vs band-derived arm count, over 292 recorded agent sessions; band gSD 5.91x, one-per-arm at chance ~55% at the published-range effect and 84% above 3x; floor = bootstrap-stable ground truth, held, 2 unstable pairs excluded) | **0** - the finding is a measurement method and no managed project holds code that makes the decision it governs; the instrument's home is the registry's own tooling lane, and the run says so rather than manufacturing a project commit | **Declared focus applied and it paid by failing cheaply**: the harness slash-command register (a genuinely committed label) returned n=3 on this box - this is the secondary machine - and was abandoned before an instrument was built on it; the register that worked was the harness's usage blocks keyed by workspace, also harness-written. Source corroborated AND corrected by one primary (arXiv 2607.22807, 2,000 trajectories): same rule in another variable at matched success, but task identity explains 73-97% of token-cost variance against the source's one task and one trajectory per arm. Neither measurement in the lane has a within-cell variance estimate - named as the lane's missing instrument. The instrument's own `--validate` corrected the technique before commit: the draft would have demanded ~1000 replays in every case, and the 3x boundary above which one replay per arm suffices was not in it. Row 2 (narrowing the sibling's denial) scored +1, below threshold, and landed as row 1's link discipline rather than as an independent admission - said plainly in the note | S=0/T=1/A=1/Asrc=0/tl=0; routing=n/a (not a repository); handoff=n/a; directions=n/a; auto=3/0/0 fp=0 |
+
+**2026-10-07 (code-quality-measured) - weakest stage.** Read across the last ten
+rows, **ship** is still the stage the funnel loses most at, and this run's zero is
+the honest kind rather than the blocked kind: the finding is a measurement method,
+not a seam-level rule, so no project tree was the right place for it. That is a
+different failure from the previous four apply runs, whose zeros were all "the only
+seam-holding project is ahead of origin". Two distinct causes are now wearing one
+column, which makes the column unreadable. Next run's declared focus: **when `ship`
+is 0, classify the zero in the row itself - `no-seam` (no managed project makes this
+decision), `blocked` (a seam exists and something outside the run prevents the
+commit), or `declined` - and when it is `no-seam`, say in one line what a project
+would have to grow for the seam to exist.** Four consecutive rows reading `ship 0`
+for two unrelated reasons is a measurement that has stopped measuring.
