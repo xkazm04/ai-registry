@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 79,
-  "techniques": 522,
-  "applications": 217,
+  "techniques": 525,
+  "applications": 221,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "522/522",
+  "use_when_coverage": "525/525",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3128,8 +3128,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/fire-tv-device-realities.md",
-   "digest": "sha256-b2:f2999d0d5eb47623",
-   "revision": 3,
+   "digest": "sha256-b2:00913548d21fda2d",
+   "revision": 4,
    "changedAt": "2026-10-07",
    "techniques": [
     {
@@ -3171,6 +3171,20 @@
       "an unattended or scripted session outlasts the platform's idle timer",
       "a recording or soak test goes dark mid-run",
       "deciding whether to change a device setting or an application flag to stop the screensaver"
+     ]
+    },
+    {
+     "slug": "price-the-durable-save-on-the-device",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a save that must survive power loss runs on the thread that draws frames",
+      "slow frames line up with a purchase a race result or a settings change",
+      "someone proposes moving a save that holds money or progress to a background thread"
      ]
     },
     {
@@ -3245,6 +3259,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "price-the-durable-save-on-the-device",
+     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/kotlin--price-the-durable-save-on-the-device.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
     {
      "stack": "kotlin",
      "technique": "startup-work-belongs-at-first-use",
@@ -5346,8 +5367,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/on-device-verification-harness.md",
-   "digest": "sha256-b2:cd229f3b4c58d564",
-   "revision": 2,
+   "digest": "sha256-b2:68c81dddbe806faa",
+   "revision": 3,
    "changedAt": "2026-10-07",
    "techniques": [
     {
@@ -5362,6 +5383,21 @@
       "a scripted client must send input at a fixed rate to load a game",
       "a soak reports a load rate nobody measured",
       "the rate a test delivered is lower than the rate it asked for"
+     ]
+    },
+    {
+     "slug": "attribute-every-stall-before-judging-it",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a soak reports input stalls or slow frames and nobody knows which machine produced them",
+      "the harness samples the device from the same process that drives the load",
+      "a bar failed and the fix is about to be chosen from the failing figure alone"
      ]
     },
     {
@@ -5460,6 +5496,12 @@
     },
     {
      "stack": "process",
+     "technique": "attribute-every-stall-before-judging-it",
+     "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/applications/process--attribute-every-stall-before-judging-it.md",
+     "verified_on": "2026-10-07"
+    },
+    {
+     "stack": "process",
      "technique": "keep-the-failed-baseline",
      "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/applications/process--keep-the-failed-baseline.md",
      "verified_on": "2026-10-01"
@@ -5471,8 +5513,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/perf-regression-gating/perf-regression-gating.md",
-   "digest": "sha256-b2:0c6dc6f04daa8cab",
-   "revision": 2,
+   "digest": "sha256-b2:219857d97967cd85",
+   "revision": 3,
    "changedAt": "2026-10-07",
    "techniques": [
     {
@@ -5639,6 +5681,12 @@
      "stack": "process",
      "technique": "host-independent-work-counts",
      "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/process--host-independent-work-counts.md",
+     "verified_on": "2026-10-07"
+    },
+    {
+     "stack": "process",
+     "technique": "percentile-and-hitch-gate",
+     "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/process--percentile-and-hitch-gate.md",
      "verified_on": "2026-10-07"
     }
    ]
@@ -7546,8 +7594,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/render-submission-economy/render-submission-economy.md",
-   "digest": "sha256-b2:b327672e835f2338",
-   "revision": 1,
+   "digest": "sha256-b2:13326c64907cedb4",
+   "revision": 2,
    "changedAt": "2026-10-07",
    "techniques": [
     {
@@ -7593,6 +7641,21 @@
       "the renderer submits every object in the level although the camera shows a fraction of it",
       "long static geometry is resubmitted whole every frame",
       "objects pop in or vanish at the edge of the screen after a culling change"
+     ]
+    },
+    {
+     "slug": "prepare-off-the-render-thread-commit-on-it",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one long frame recurs at the start of a level or a race while steady play is smooth",
+      "a lazily built structure or a decoded image is first touched by the render thread",
+      "work is being moved off the render thread and the destination thread has not been chosen"
      ]
     },
     {
@@ -7652,6 +7715,13 @@
      "stack": "kotlin",
      "technique": "cost-per-effect-before-effect-count",
      "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/kotlin--cost-per-effect-before-effect-count.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "prepare-off-the-render-thread-commit-on-it",
+     "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/kotlin--prepare-off-the-render-thread-commit-on-it.md",
      "verified_on": "2026-10-07",
      "verified_against": "kotlin@2.0.21"
     },
@@ -10013,6 +10083,7 @@
     "fire-tv-device-realities/abi-inspect-the-apk",
     "fire-tv-device-realities/dhcp-scan-for-device",
     "fire-tv-device-realities/keep-screen-on-flag",
+    "fire-tv-device-realities/price-the-durable-save-on-the-device",
     "fire-tv-device-realities/read-the-priority-before-requesting-one",
     "fire-tv-device-realities/server-socket-portability-hedge",
     "fire-tv-device-realities/startup-work-belongs-at-first-use",
@@ -10069,6 +10140,7 @@
     "motion-quality-gating/genre-response-latency-norms",
     "motion-quality-gating/six-dimension-motion-rubric",
     "on-device-verification-harness/absolute-due-time-load-pump",
+    "on-device-verification-harness/attribute-every-stall-before-judging-it",
     "on-device-verification-harness/emulated-touch-is-not-physical-touch",
     "on-device-verification-harness/keep-the-failed-baseline",
     "on-device-verification-harness/separate-active-race-from-transition-windows",
@@ -10297,6 +10369,7 @@
     "reference-parity-gating/dual-anchor-scoring",
     "regeneration-vs-repair-economics/defect-class-to-remedy-map",
     "regional-culture-worldbuilding/follow-the-money-as-map-structure",
+    "render-submission-economy/prepare-off-the-render-thread-commit-on-it",
     "render-submission-economy/retain-what-did-not-change",
     "render-submission-economy/spread-periodic-render-thread-bursts",
     "runtime-observation-evidence/observation-spine-contract",
@@ -10402,6 +10475,7 @@
     "engine-integration-safety/editor-thread-timeout-budgeting",
     "engine-pitfall-corpus/incident-entry-shape",
     "engine-pitfall-corpus/provenance-on-every-entry",
+    "fire-tv-device-realities/price-the-durable-save-on-the-device",
     "fire-tv-device-realities/startup-work-belongs-at-first-use",
     "game-dialogue-voice-pipeline/localized-voice-timing-budget",
     "game-economy-tuning/cost-curve-object-audit",
@@ -10504,6 +10578,7 @@
     "regeneration-vs-repair-economics/score-basis-must-be-stated",
     "render-submission-economy/batch-by-page-where-order-is-invisible",
     "render-submission-economy/cost-per-effect-before-effect-count",
+    "render-submission-economy/prepare-off-the-render-thread-commit-on-it",
     "render-submission-economy/residency-budget-checked-before-decode",
     "render-submission-economy/retain-what-did-not-change",
     "render-submission-economy/spread-periodic-render-thread-bursts",
@@ -10582,6 +10657,7 @@
     "llm-dialogue-quality-control/blind-rubric-scoring-by-another-family",
     "llm-dialogue-quality-control/critique-and-revise-with-human-checkpoints",
     "mesh-finishing-for-engine-readiness/export-proven-by-read-back",
+    "on-device-verification-harness/attribute-every-stall-before-judging-it",
     "on-device-verification-harness/emulated-touch-is-not-physical-touch",
     "on-device-verification-harness/keep-the-failed-baseline",
     "perf-regression-gating/baseline-bound-to-build-and-machine",
@@ -10707,6 +10783,7 @@
     "reference-parity-gating/instrument-blindness-register",
     "render-submission-economy/batch-by-page-where-order-is-invisible",
     "render-submission-economy/cull-before-submission",
+    "render-submission-economy/prepare-off-the-render-thread-commit-on-it",
     "render-submission-economy/retain-what-did-not-change",
     "runtime-observation-evidence/tiers-of-truth",
     "ship-pipeline-gating/editor-only-api-audit-for-shipping",
@@ -10811,6 +10888,7 @@
     "imported-material-conformance/surface-conformance-swatch",
     "llm-dialogue-quality-control/measured-banned-pattern-list",
     "mesh-finishing-for-engine-readiness/export-proven-by-read-back",
+    "on-device-verification-harness/attribute-every-stall-before-judging-it",
     "on-device-verification-harness/meminfo-local-to-avoid-forced-gc",
     "on-device-verification-harness/poll-ready-signal-not-fixed-delay",
     "perf-regression-gating/allocation-gate-on-the-shipped-configuration",
