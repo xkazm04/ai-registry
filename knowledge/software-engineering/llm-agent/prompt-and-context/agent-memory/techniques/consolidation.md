@@ -201,13 +201,20 @@ The discipline:
   against a move — they are the history of the state. Reading them as
   weight is the measured failure of this class: on a 2026 consolidation
   benchmark every published memory system lost most of the questions where
-  a later statement should have overridden an earlier one, and the
-  strongest reported fix moved the newest-wins comparison *out of the
-  model* into deterministic code over the candidates' order, because a
-  model asked to compare timestamps drifts as the candidate set grows and
-  lets its training prior override an explicit newer value. Type the claim,
-  and where it is a state whose authority spoke again, the pass compares
-  instants and never weighs. The comparison presupposes a **code-owned key**:
+  a later statement should have overridden an earlier one. The strongest
+  reported fix restructures the decision: one step extracts *every*
+  candidate that matches the state, keeps its version and picks no winner,
+  and a separate step runs newest-wins over that set. Its own ablation
+  places the gain in that separation, not in moving the comparison into
+  code. Swapping the final executor between a model and a deterministic
+  maximum moved the result by about two points on average and by none at
+  the longest context. A check on conversational knowledge updates without
+  explicit version metadata was a null result. Deterministic execution
+  still earns its place, on systems grounds: the rule becomes exact,
+  inspectable and testable. So type the claim, and where it is a state whose
+  authority spoke again, collect the candidates first and decide second.
+  The pass compares instants and never weighs, and the instants are ones
+  the store recorded, not ones a model inferred. The comparison presupposes a **code-owned key**:
   two rows can only be ordered by instant if the store knows they are the
   same state, and a distiller that mints its own keys per episode does not -
   one measured store minted 3.6 keys per state on average (max 9), so the
@@ -232,6 +239,11 @@ The discipline:
   belief strengthens it (confidence, freshness) rather than minting a
   duplicate. Duplicated beliefs drift independently — the classic
   two-copies race, one adjudication away from contradicting themselves.
+  What strengthens is **independent authorship, not episode count**. Ten
+  episodes that all repeat one source are one source. Corroboration that
+  counts episodes is the cheapest thing in the store to manufacture: plant
+  the same claim in several places and the pass does the rest
+  ([memory-governance](./memory-governance.md)).
 
 ## One door, enumerable writers
 

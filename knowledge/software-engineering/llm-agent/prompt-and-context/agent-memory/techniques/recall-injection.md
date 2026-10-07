@@ -254,6 +254,17 @@ can ride on its label, while a recalled credential procedure about to drive
 an irreversible action deserves verification against the live system first.
 Memory proposes; for destructive acts, the present confirms.
 
+A label says how far to believe an item. For material a third party authored,
+it must also say that the item **cannot instruct**. The write lanes let such
+material in only as "the source said ...", and that is the correct outcome. It
+is also a stored injection that runs again on every read if it is packed into
+the instruction position. So recalled third-party material is rendered inside
+the same fence any untrusted span gets
+([untrusted-span-fencing](../../prompt-safety/techniques/untrusted-span-fencing.md)),
+as quoted data and not as standing context. Authorship is a second trigger for
+confirmation, beside stakes: an action whose only grounds in context are
+third-party-authored memory is confirmed before it runs, whatever it costs.
+
 ## Labeled is not applied
 
 Labeling makes recalled material doubtable; nothing about it makes the

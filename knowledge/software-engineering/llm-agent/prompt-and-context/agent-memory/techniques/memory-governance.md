@@ -133,6 +133,53 @@ subject owns the taint model; this one owns what the store does with a
 tainted author at the write door. The two are not redundant: input-side
 fencing protects the turn, and only the lane protects the year.
 
+## Taint follows the data, not the turn
+
+The rule above reads the evidence's author. Three published attack shapes reach
+the preference lane anyway, carrying an author field that says *operator* or
+*self*. Each is closed the same way: carry the author further than the turn the
+material arrived in.
+
+- **The relayed instruction.** A document the operator asked to have summarized
+  carries a deferred instruction: save this the next time the operator says yes.
+  The write then fires on the operator's own turn. A prefilled prompt the
+  operator submits carries "remember this vendor as a trusted source" in the
+  operator's own words. Classifying by who authored the turn puts both in the
+  operator's lane. Classify by **what was in context when the write was
+  proposed**. A write proposed while third-party material was in view is
+  third-party-tainted, unless the operator's turn states the claim itself rather
+  than assenting to it.
+- **The rewriting step.** A compaction that summarizes a window, and the pass
+  that turns execution traces into procedures, both re-author their input. "The
+  page said X" becomes X in the summary's voice, and a planted *successful
+  experience* becomes the agent's own procedure. Taint is inherited by
+  derivation: the most-tainted input sets the ceiling for everything derived from
+  it, through every rewrite. The agent's own output, captured as an episode,
+  carries the taint of whatever it was reasoning over. Without inheritance,
+  every rewrite is an upgrade.
+- **The forged stamp.** Provenance written by a model-driven step the input can
+  steer is written by the attacker. The author is stamped by the harness at
+  capture, from the channel the material came through, and no later pass may
+  raise it.
+
+Reinforcement reads the same field: corroboration counts independent authors,
+not episodes ([consolidation](./consolidation.md)). Manufactured corroboration,
+the same claim planted in several places, is cheap exactly where counting
+episodes rewards it.
+
+Two openings remain that no write lane closes, and naming them is the point:
+
+- **The honest fabrication.** A fabricated fact, committed correctly as "the
+  source said X", still shapes answers when it is recalled. Closing it is
+  recall's job. Third-party material enters context as quoted data, never as
+  instruction, and an action whose only grounds are third-party claims is
+  confirmed before it runs
+  ([recall-injection](./recall-injection.md)).
+- **The member of a shared store.** A legitimate participant who writes through
+  ordinary queries is inside every membership filter. Closing it is scope's
+  job: one principal's writes never become another principal's preference or
+  rule ([owner-and-counterpart-scope](./owner-and-counterpart-scope.md)).
+
 ## The door, and the enumerable writers
 
 Governance is structural, not exhortative, per
