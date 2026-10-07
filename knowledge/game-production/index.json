@@ -3,10 +3,10 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 78,
-  "techniques": 508,
-  "applications": 206,
-  "laws": 13,
+  "subjects": 79,
+  "techniques": 522,
+  "applications": 217,
+  "laws": 14,
   "categories": [
    "systems-canon",
    "balance-validation",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "508/508",
+  "use_when_coverage": "522/522",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3128,8 +3128,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/fire-tv-device-realities.md",
-   "digest": "sha256-b2:fb7ecb43f8cde36c",
-   "revision": 2,
+   "digest": "sha256-b2:f2999d0d5eb47623",
+   "revision": 3,
    "changedAt": "2026-10-07",
    "techniques": [
     {
@@ -3174,6 +3174,20 @@
      ]
     },
     {
+     "slug": "read-the-priority-before-requesting-one",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a render or input thread is given an explicit priority to steady frame pacing",
+      "network or worker threads compete with the render thread on a few weak cores",
+      "a scheduling change verified on a desktop is about to ship to the stick"
+     ]
+    },
+    {
      "slug": "server-socket-portability-hedge",
      "status": "forged",
      "laws": [
@@ -3185,6 +3199,20 @@
       "a design depends on the device listening on a network socket",
       "a platform generation is changing the runtime under the game",
       "a capability the whole control scheme depends on is undocumented"
+     ]
+    },
+    {
+     "slug": "startup-work-belongs-at-first-use",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a game starts quickly on a desktop and sits on a black screen on the stick",
+      "content tables are built in a static initialiser or at class load",
+      "a lazy content list is about to be iterated by a lookup or a menu"
      ]
     },
     {
@@ -3217,6 +3245,19 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "startup-work-belongs-at-first-use",
+     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/kotlin--startup-work-belongs-at-first-use.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "process",
+     "technique": "read-the-priority-before-requesting-one",
+     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/process--read-the-priority-before-requesting-one.md",
+     "verified_on": "2026-10-07"
+    },
     {
      "stack": "process",
      "technique": "unhandled-bind-failure-kills-process",
@@ -5430,10 +5471,25 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/perf-regression-gating/perf-regression-gating.md",
-   "digest": "sha256-b2:68ba78f2a478ee89",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:0c6dc6f04daa8cab",
+   "revision": 2,
+   "changedAt": "2026-10-07",
    "techniques": [
+    {
+     "slug": "allocation-gate-on-the-shipped-configuration",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "holding a fixed simulation step allocation-free as optimisations land",
+      "an allocation test passes and the device still collects garbage during play",
+      "deciding what scenario a per-step allocation test runs"
+     ]
+    },
     {
      "slug": "baseline-bound-to-build-and-machine",
      "status": "forged",
@@ -5463,6 +5519,37 @@
       "a symptom lasts a second inside a long session",
       "a capture is started and stopped by hand or by an automated agent",
       "a warm-up cost is polluting a steady-state number"
+     ]
+    },
+    {
+     "slug": "equivalence-before-the-saving",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "landing an optimisation of a deterministic simulation or parser",
+      "deciding whether a measured speedup may be claimed",
+      "an optimisation measured within noise and somebody wants to keep it anyway",
+      "recording the alternatives an optimisation wave tried and rejected"
+     ]
+    },
+    {
+     "slug": "host-independent-work-counts",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "optimising for a target device that is not on hand",
+      "a performance wave measured on a desktop host is about to be reported",
+      "deciding which figures from a stand-in run may be stated about the device"
      ]
     },
     {
@@ -5514,6 +5601,20 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "allocation-gate-on-the-shipped-configuration",
+     "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/kotlin--allocation-gate-on-the-shipped-configuration.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "equivalence-before-the-saving",
+     "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/kotlin--equivalence-before-the-saving.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "node",
      "technique": "baseline-bound-to-build-and-machine",
      "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/node--baseline-bound-to-build-and-machine.md",
@@ -5533,6 +5634,12 @@
      "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/node--per-thread-budgets-not-one-frame-time.md",
      "verified_on": "2026-10-01",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "host-independent-work-counts",
+     "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/process--host-independent-work-counts.md",
+     "verified_on": "2026-10-07"
     }
    ]
   },
@@ -5541,8 +5648,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/phone-controller-input-protocol.md",
-   "digest": "sha256-b2:90c39521eed41473",
-   "revision": 2,
+   "digest": "sha256-b2:7154281060804b03",
+   "revision": 3,
    "changedAt": "2026-10-07",
    "techniques": [
     {
@@ -5575,6 +5682,21 @@
      ]
     },
     {
+     "slug": "link-rate-follows-the-phase",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a phone sends controller frames at race rate while the player sits in a menu",
+      "choosing the heartbeat rate and the host's liveness thresholds together",
+      "a controller keeps retrying a host that is off or asleep"
+     ]
+    },
+    {
      "slug": "neutralise-on-every-loss-path",
      "status": "forged",
      "laws": [
@@ -5601,6 +5723,21 @@
       "a controller reconnects after a radio blink or a page reload",
       "a player loses their seat mid-session",
       "a late close event from an old connection marks the new one dead"
+     ]
+    },
+    {
+     "slug": "send-on-change-with-a-heartbeat-floor",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the host resends an identical display snapshot to every phone many times a second",
+      "a large catalogue is re-sent on a timer over a reliable socket",
+      "a controller page rewrites its interface on every message whether or not anything changed"
      ]
     },
     {
@@ -5634,6 +5771,19 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "send-on-change-with-a-heartbeat-floor",
+     "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/applications/kotlin--send-on-change-with-a-heartbeat-floor.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "node",
+     "technique": "link-rate-follows-the-phase",
+     "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/applications/node--link-rate-follows-the-phase.md",
+     "verified_on": "2026-10-07"
+    },
     {
      "stack": "node",
      "technique": "neutralise-on-every-loss-path",
@@ -7391,6 +7541,129 @@
     }
    ]
   },
+  "render-submission-economy": {
+   "category": "engine-integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/engine-integration/render-submission-economy/render-submission-economy.md",
+   "digest": "sha256-b2:b327672e835f2338",
+   "revision": 1,
+   "changedAt": "2026-10-07",
+   "techniques": [
+    {
+     "slug": "batch-by-page-where-order-is-invisible",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a sprite renderer flushes several times per object because consecutive draws use different textures",
+      "sorting draws by texture page to cut draw calls and binds",
+      "a separate small texture for overlays or flat shapes keeps breaking batches"
+     ]
+    },
+    {
+     "slug": "cost-per-effect-before-effect-count",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a frame misses its budget and the proposed fix removes effects or lowers render scale",
+      "ordering a performance wave on a constrained device",
+      "deciding whether removing a visual layer is an optimisation or a design change"
+     ]
+    },
+    {
+     "slug": "cull-before-submission",
+     "status": "forged",
+     "laws": [
+      "every-effect-on-the-rules-is-visible",
+      "an-instrument-proves-it-had-input",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the renderer submits every object in the level although the camera shows a fraction of it",
+      "long static geometry is resubmitted whole every frame",
+      "objects pop in or vanish at the edge of the screen after a culling change"
+     ]
+    },
+    {
+     "slug": "residency-budget-checked-before-decode",
+     "status": "forged",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "law-and-check-share-one-source",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "declaring how much texture memory a game may hold on a small device",
+      "an art drop could replace a page with a larger image",
+      "an over-budget or malformed asset must not take a visual system down with it"
+     ]
+    },
+    {
+     "slug": "retain-what-did-not-change",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "static geometry is rebuilt from thousands of immediate-mode vertices every frame",
+      "a text layer is laid out again on every refresh although most strings did not change",
+      "deciding what a retained buffer or layout cache is keyed on"
+     ]
+    },
+    {
+     "slug": "spread-periodic-render-thread-bursts",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a job that runs every few frames sits exactly on the frame-time high percentile",
+      "the render thread builds data that only a diagnostic or remote reader consumes",
+      "a periodic refresh allocates a burst that later triggers a collection"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "batch-by-page-where-order-is-invisible",
+     "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/kotlin--batch-by-page-where-order-is-invisible.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "cost-per-effect-before-effect-count",
+     "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/kotlin--cost-per-effect-before-effect-count.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "residency-budget-checked-before-decode",
+     "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/kotlin--residency-budget-checked-before-decode.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    }
+   ]
+  },
   "rival-to-ally-turn": {
    "category": "narrative-and-dialogue",
    "subcategory": "cast-and-relationships",
@@ -7733,9 +8006,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/ship-pipeline-gating.md",
-   "digest": "sha256-b2:3926d3443e6e5479",
-   "revision": 2,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:2004f3c48240f9a6",
+   "revision": 3,
+   "changedAt": "2026-10-07",
    "techniques": [
     {
      "slug": "editor-only-api-audit-for-shipping",
@@ -7796,6 +8069,22 @@
      ]
     },
     {
+     "slug": "ship-only-what-the-runtime-reads",
+     "status": "forged",
+     "laws": [
+      "declaring-an-input-is-not-consuming-it",
+      "structural-proof-is-never-sufficient",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a distributable is over its size budget or growing",
+      "audit or test material lives beside runtime content in the asset tree",
+      "turning on code and resource shrinking for a shipping build",
+      "the package carries native code for architectures the target device cannot run"
+     ]
+    },
+    {
      "slug": "size-budget-and-growth-baseline",
      "status": "forged",
      "laws": [
@@ -7827,6 +8116,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "ship-only-what-the-runtime-reads",
+     "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/kotlin--ship-only-what-the-runtime-reads.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
     {
      "stack": "node",
      "technique": "post-cook-process-liveness-smoke",
@@ -9717,7 +10013,9 @@
     "fire-tv-device-realities/abi-inspect-the-apk",
     "fire-tv-device-realities/dhcp-scan-for-device",
     "fire-tv-device-realities/keep-screen-on-flag",
+    "fire-tv-device-realities/read-the-priority-before-requesting-one",
     "fire-tv-device-realities/server-socket-portability-hedge",
+    "fire-tv-device-realities/startup-work-belongs-at-first-use",
     "fire-tv-device-realities/wake-before-launch",
     "game-dialogue-voice-pipeline/bake-versus-runtime-speech",
     "game-dialogue-voice-pipeline/cast-ledger-with-consent",
@@ -9774,8 +10072,12 @@
     "on-device-verification-harness/emulated-touch-is-not-physical-touch",
     "on-device-verification-harness/keep-the-failed-baseline",
     "on-device-verification-harness/separate-active-race-from-transition-windows",
+    "perf-regression-gating/allocation-gate-on-the-shipped-configuration",
+    "perf-regression-gating/equivalence-before-the-saving",
+    "perf-regression-gating/host-independent-work-counts",
     "perf-regression-gating/noise-floor-before-the-threshold",
     "perf-regression-gating/per-thread-budgets-not-one-frame-time",
+    "phone-controller-input-protocol/link-rate-follows-the-phase",
     "playtest-signal-to-defect/complaint-to-owning-subject-routing",
     "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
     "playtest-signal-to-defect/observation-before-interpretation",
@@ -9815,6 +10117,7 @@
     "regeneration-vs-repair-economics/refuse-the-fix-that-cannot-help",
     "regeneration-vs-repair-economics/reroll-economics-per-credit",
     "regeneration-vs-repair-economics/score-basis-must-be-stated",
+    "render-submission-economy/cost-per-effect-before-effect-count",
     "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
     "runtime-observation-evidence/deterministic-headless-timestep",
     "runtime-observation-evidence/tiers-of-truth",
@@ -9959,7 +10262,9 @@
     "motion-quality-gating/genre-response-latency-norms",
     "phone-controller-input-protocol/absolute-state-over-event-frames",
     "phone-controller-input-protocol/indexed-not-toggled-commands",
+    "phone-controller-input-protocol/link-rate-follows-the-phase",
     "phone-controller-input-protocol/reconnect-by-token-seat-recovery",
+    "phone-controller-input-protocol/send-on-change-with-a-heartbeat-floor",
     "playtest-signal-to-defect/complaint-to-owning-subject-routing",
     "procedural-level-planning/seed-determinism-contract",
     "procedural-level-planning/zone-progression-linting",
@@ -9992,6 +10297,8 @@
     "reference-parity-gating/dual-anchor-scoring",
     "regeneration-vs-repair-economics/defect-class-to-remedy-map",
     "regional-culture-worldbuilding/follow-the-money-as-map-structure",
+    "render-submission-economy/retain-what-did-not-change",
+    "render-submission-economy/spread-periodic-render-thread-bursts",
     "runtime-observation-evidence/observation-spine-contract",
     "shader-budget-authoring/channel-packing",
     "shader-budget-authoring/hardware-tier-lighting-presets",
@@ -10095,6 +10402,7 @@
     "engine-integration-safety/editor-thread-timeout-budgeting",
     "engine-pitfall-corpus/incident-entry-shape",
     "engine-pitfall-corpus/provenance-on-every-entry",
+    "fire-tv-device-realities/startup-work-belongs-at-first-use",
     "game-dialogue-voice-pipeline/localized-voice-timing-budget",
     "game-economy-tuning/cost-curve-object-audit",
     "game-economy-tuning/faucet-sink-balance-band",
@@ -10146,10 +10454,14 @@
     "on-device-verification-harness/meminfo-local-to-avoid-forced-gc",
     "on-device-verification-harness/separate-active-race-from-transition-windows",
     "perf-regression-gating/baseline-bound-to-build-and-machine",
+    "perf-regression-gating/equivalence-before-the-saving",
+    "perf-regression-gating/host-independent-work-counts",
     "perf-regression-gating/noise-floor-before-the-threshold",
     "perf-regression-gating/per-thread-budgets-not-one-frame-time",
     "perf-regression-gating/percentile-and-hitch-gate",
     "phone-controller-input-protocol/absolute-state-over-event-frames",
+    "phone-controller-input-protocol/link-rate-follows-the-phase",
+    "phone-controller-input-protocol/send-on-change-with-a-heartbeat-floor",
     "phone-controller-input-protocol/sequence-gap-and-age-rejection",
     "phone-controller-input-protocol/stale-hold-steer-drop-actions",
     "playtest-signal-to-defect/frequency-and-severity-as-separate-axes",
@@ -10190,12 +10502,18 @@
     "reference-parity-gating/register-once-from-the-invariant",
     "regeneration-vs-repair-economics/reroll-economics-per-credit",
     "regeneration-vs-repair-economics/score-basis-must-be-stated",
+    "render-submission-economy/batch-by-page-where-order-is-invisible",
+    "render-submission-economy/cost-per-effect-before-effect-count",
+    "render-submission-economy/residency-budget-checked-before-decode",
+    "render-submission-economy/retain-what-did-not-change",
+    "render-submission-economy/spread-periodic-render-thread-bursts",
     "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
     "runtime-observation-evidence/bounded-evidence-with-provenance",
     "runtime-observation-evidence/deterministic-headless-timestep",
     "shader-budget-authoring/channel-packing",
     "shader-budget-authoring/feature-cost-with-a-cheaper-swap",
     "shader-budget-authoring/sampler-hard-and-soft-caps",
+    "ship-pipeline-gating/ship-only-what-the-runtime-reads",
     "ship-pipeline-gating/size-budget-and-growth-baseline",
     "short-form-cards-and-barks/barks-that-survive-repetition",
     "short-form-cards-and-barks/television-read-budget",
@@ -10268,6 +10586,7 @@
     "on-device-verification-harness/keep-the-failed-baseline",
     "perf-regression-gating/baseline-bound-to-build-and-machine",
     "perf-regression-gating/bracketed-capture-window",
+    "perf-regression-gating/equivalence-before-the-saving",
     "playtest-signal-to-defect/observation-before-interpretation",
     "procedural-level-planning/declare-what-each-engine-ignores",
     "procedural-level-planning/gate-and-key-solvability-proof",
@@ -10335,6 +10654,7 @@
     "engine-pitfall-corpus/introspect-before-you-call",
     "engine-pitfall-corpus/known-asset-paths-over-invented-ones",
     "fire-tv-device-realities/abi-inspect-the-apk",
+    "fire-tv-device-realities/read-the-priority-before-requesting-one",
     "game-economy-tuning/feedback-loop-topology-and-polarity",
     "game-economy-tuning/progression-curve-shape-tests",
     "game-economy-tuning/structural-economy-simulation-before-numbers",
@@ -10385,10 +10705,14 @@
     "realtime-combat-semantics/single-source-of-health-truth",
     "realtime-combat-semantics/telegraph-or-homing-for-area-effects",
     "reference-parity-gating/instrument-blindness-register",
+    "render-submission-economy/batch-by-page-where-order-is-invisible",
+    "render-submission-economy/cull-before-submission",
+    "render-submission-economy/retain-what-did-not-change",
     "runtime-observation-evidence/tiers-of-truth",
     "ship-pipeline-gating/editor-only-api-audit-for-shipping",
     "ship-pipeline-gating/post-cook-process-liveness-smoke",
     "ship-pipeline-gating/preflight-before-an-expensive-cook",
+    "ship-pipeline-gating/ship-only-what-the-runtime-reads",
     "short-form-cards-and-barks/picture-carries-the-card",
     "speech-synthesis-script-writing/punctuation-as-direction",
     "sprite-and-atlas-production/lossy-compression-acceptance-for-flat-art",
@@ -10451,6 +10775,7 @@
     "racing-track-authoring-and-lint/straight-fraction-pacing-band",
     "racing-track-authoring-and-lint/width-in-widest-car-widths",
     "realtime-combat-semantics/no-one-shot-ehp-floor-in-racing",
+    "render-submission-economy/residency-budget-checked-before-decode",
     "shader-budget-authoring/surface-to-shading-model-map",
     "ship-pipeline-gating/fail-closed-on-corrupt-gate-config",
     "short-form-cards-and-barks/three-line-card-image-trade-turn",
@@ -10488,6 +10813,7 @@
     "mesh-finishing-for-engine-readiness/export-proven-by-read-back",
     "on-device-verification-harness/meminfo-local-to-avoid-forced-gc",
     "on-device-verification-harness/poll-ready-signal-not-fixed-delay",
+    "perf-regression-gating/allocation-gate-on-the-shipped-configuration",
     "perf-regression-gating/bracketed-capture-window",
     "perf-regression-gating/noise-floor-before-the-threshold",
     "perf-regression-gating/percentile-and-hitch-gate",
@@ -10498,6 +10824,8 @@
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
     "racing-track-authoring-and-lint/corner-radius-in-longest-car-lengths",
     "racing-track-authoring-and-lint/mutate-good-track-to-prove-linter",
+    "render-submission-economy/batch-by-page-where-order-is-invisible",
+    "render-submission-economy/cull-before-submission",
     "speech-synthesis-script-writing/hesitation-marks-can-silence-a-line",
     "sprite-and-atlas-production/autotile-rule-set-completeness",
     "steering-feel-profile-shaping/five-profile-trace-bands",
@@ -10535,6 +10863,7 @@
     "on-device-verification-harness/fresh-state-per-check",
     "on-device-verification-harness/keep-the-failed-baseline",
     "perf-regression-gating/baseline-bound-to-build-and-machine",
+    "perf-regression-gating/host-independent-work-counts",
     "playtest-signal-to-defect/session-instrumentation-contract",
     "playtest-signal-to-defect/unreproducible-is-a-state-not-a-dismissal",
     "production-coverage-measurement/audited-fact-drift-detection",
@@ -10611,6 +10940,7 @@
     "mesh-finishing-for-engine-readiness/conform-target-is-not-a-remap-row",
     "mesh-finishing-for-engine-readiness/texture-pass-must-consume-the-bake",
     "phone-controller-input-protocol/indexed-not-toggled-commands",
+    "phone-controller-input-protocol/send-on-change-with-a-heartbeat-floor",
     "procedural-level-planning/declare-what-each-engine-ignores",
     "race-event-as-story-beat/rule-variants-carry-story",
     "racing-career-economy/rival-shopping-windows-no-player-read",
@@ -10622,6 +10952,7 @@
     "rival-to-ally-turn/keep-the-rivals-own-culture",
     "rival-to-ally-turn/style-plus-grudge-before-taunts",
     "rival-to-ally-turn/switching-sides-costs-something",
+    "ship-pipeline-gating/ship-only-what-the-runtime-reads",
     "short-form-cards-and-barks/callback-pays-a-seed",
     "speech-synthesis-script-writing/tags-depend-on-the-model-generation",
     "steering-feel-profile-shaping/baseline-preset-preserved",
@@ -10699,6 +11030,7 @@
     "llm-dialogue-quality-control/candidates-under-rotating-constraints",
     "llm-dialogue-quality-control/voice-bible-in-every-prompt",
     "motion-quality-gating/montage-budget-and-root-motion-lint",
+    "perf-regression-gating/allocation-gate-on-the-shipped-configuration",
     "perf-regression-gating/per-thread-budgets-not-one-frame-time",
     "procedural-level-planning/critical-path-to-optional-branch-ratio",
     "production-prompt-architecture/acceptance-criteria-appended-not-replaced",
@@ -10708,6 +11040,8 @@
     "race-event-as-story-beat/twenty-second-story-budget",
     "regeneration-vs-repair-economics/best-of-n-parameter-sweep",
     "regeneration-vs-repair-economics/bounded-refine-iteration",
+    "render-submission-economy/cost-per-effect-before-effect-count",
+    "render-submission-economy/residency-budget-checked-before-decode",
     "runtime-observation-evidence/bounded-evidence-with-provenance",
     "shader-budget-authoring/feature-cost-with-a-cheaper-swap",
     "shader-budget-authoring/hardware-tier-lighting-presets",
@@ -10725,6 +11059,12 @@
     "unattended-build-loop/review-at-the-fan-out-point",
     "unattended-build-loop/unreachable-success-preflight",
     "wiring-contract-doctrine/contract-injection-into-prompts"
+   ]
+  },
+  "every-effect-on-the-rules-is-visible": {
+   "statement": "Anything that changes what the player can do, what an opponent can do, or what an outcome costs is shown, whether it helps or hurts. A handicap, a boost, a stake that drains, a rubber band, a hidden bias in who is targeted: if it alters the rules it is either disclosed where the player can see it or it is presentation only and demonstrably cannot reach the simulation. There is no third category. An invisible help is the same fault as an invisible penalty, because the player's model of the game is wrong either way and every later decision inherits the error. A presentation layer that merely looks as though it affects play is held to the same standard from the other side: it must never seem to.",
+   "techniques": [
+    "render-submission-economy/cull-before-submission"
    ]
   }
  }
