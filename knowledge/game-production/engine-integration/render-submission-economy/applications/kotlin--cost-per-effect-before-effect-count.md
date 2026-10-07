@@ -11,8 +11,8 @@ verified_against: kotlin@2.0.21
 
 # Death Ride: ten render changes under a ruling that no effect may go
 
-Source tree: `firetv-deathride` on branch `deathride/main` at `86cb512d`, read 2026-10-07; paths
-below are relative to its root. The game is Kotlin 2.0.21 on libGDX 1.13.5, rendering through
+Source tree: `firetv-deathride` on branch `deathride/main`, first read at `86cb512d` and re-resolved at
+`4bbae5d2` on 2026-10-07; paths below are relative to its root. The game is Kotlin 2.0.21 on libGDX 1.13.5, rendering through
 OpenGL ES on a Fire TV stick (model AFTKM, 32-bit userland) whose profile shows the PowerVR driver.
 The wave is the render context R of `/scan-sweep --optimize` on 2026-10-06, with its findings in
 `.claude/scan-sweep/runs/optimize-2026-10-06-deathride/findings-R.jsonl`. Three kinds of figure
@@ -66,7 +66,7 @@ with the first 300 skipped, 50–60 s per arm, 2026-10-06.
    `telemetryMs` p50 0.006 ms against p95 2.13 ms.
 6. **Move reader-only work off the render thread** (`d47205a0`, R9): five stats strings became
    suppliers evaluated by `/stats`; render-thread allocation 5,766 → 3,055 B per frame mean over 45 s.
-   `deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:93 "never per frame on the render thread"`.
+   `deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:116 "never per frame on the render thread"`.
 7. **Lookups and hidden allocation** (`ae8b4b87`, `36250bff`, `49a6fd68`, `81a2f692`; R5, R6, R14,
    R13): a shape cache, an atlas-key cache, memoised atlas resolution (hash lookups 194 → 90 per frame)
    and precomputed unit rings (about 174 trig calls per frame removed, raw-bit identical). These are the
@@ -84,15 +84,26 @@ not on the file. It is not an A/B against P5 — P5's since-start p95 was 18.7 m
 360 s arm with a different scenario mix — so no device delta for the wave is claimed here. The finding
 that would have measured one, R7, stayed pending: `.claude/scan-sweep/runs/optimize-2026-10-06-deathride/findings-R.jsonl:7 "unmeasured (no Stick access in this round)"`.
 
+The P9 session (2026-10-07) then soaked the build that contains the wave on the stick, one **profiled**
+900 s run: `docs/concepts/deathride/P9-stick-validation.md:60 "Pooled active profile: interval p95 18.813 ms; work p50/p95 8.326/17.124 ms; CPU"`,
+with a mean of 18.4 draws per frame over 48,960 frames. That is the post-wave level on the device, not the
+wave's effect: P5's arm was 360 s on the old courses with a different scenario mix and older code, so P5's
+`workMs` p95 of 12.77 ms and P9's 17.124 ms are not a pair and no delta in either direction is claimed.
+R7 stays open for that reason. P9's grading against the I2 budget is the perf-regression-gating subject's
+application of `percentile-and-hitch-gate`.
+
 ## Deviations
 
-- **The wave's device cost is unmeasured.** Every render change is evidenced by host counts; the
-  stick's frame percentile after the wave has no matched before.
+- **The wave's device delta is unmeasured.** Every render change is evidenced by host counts; P9 gives the
+  stick's level after the wave, and there is still no matched before.
 - **A device figure without its device.** The probe file does not record what it ran on.
-- **The opaque layers are still blended.** R8 (draw the scenery and road with blending off, for the
-  PowerVR's hidden-surface removal) stayed in the backlog, so the fill-side saving is unmeasured.
-- **The 1.1 s race-start frame** (S17) is unchanged by the wave and undiagnosed; it is a transition
-  cost, not a submission cost, and belongs to the startup and transition work, not to this order.
+- **The opaque layers were measured and the cut declined.** R8 ran in P9 as a stick A/B of the road and
+  shortcut tiles with blending off; it was not better and was reverted, and the scenery quad could not be
+  made eligible without changing edge pixels. The batching application in this subject records it.
+- **The 1.1 s race-start frame** (S17) was unchanged by the wave. P9 attributed it to a lazy per-course
+  structure built on its first use on the render thread, and P10 moved that build to a worker; it was a
+  first-use cost, not a per-frame submission cost, and the application of
+  `prepare-off-the-render-thread-commit-on-it` in this subject records it.
 
 ## Outside corroboration
 

@@ -76,6 +76,15 @@ binds with the scenario, window and number of frames they were averaged over
   then blended. Verify that the layer's art really is opaque, compare its edges, and measure the
   change on the device: the size of the saving depends on the processor, and a host cannot
   show it.
+- **When the opaque layer sits on a layer that must stay blended, expect nothing.** Rejection
+  removes hidden work only if the hidden layer is eligible to be rejected; a full-screen layer
+  that keeps translucent edge texels is shaded before the opaque layer covers it, so turning
+  blending off above it removes nothing. Making the lower layer eligible means writing it fully
+  opaque, which changes its edge pixels and is a visual change judged as one. One device A/B of
+  exactly this cut — two profiled fifteen-minute runs on one streaming stick, one per build,
+  2026-10-07 — measured no gain while a host proved the picture identical: a proven-identical
+  picture is the precondition for keeping a change, not a reason to keep it, and the change was
+  reverted.
 - **When art that is always drawn together lives on different pages, fix the page plan.** The
   renderer can only reorder what the overlap test allows; the atlas plan decides how many pages
   a pass needs at all.

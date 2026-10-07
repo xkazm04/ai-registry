@@ -11,6 +11,7 @@ techniques:
   - retain-what-did-not-change
   - spread-periodic-render-thread-bursts
   - residency-budget-checked-before-decode
+  - prepare-off-the-render-thread-commit-on-it
 ---
 
 # Render submission economy
@@ -58,6 +59,9 @@ testing take that proof away on every design of this kind; blending forfeits it 
 costs bandwidth on all, which is why the order vendors give is opaque first, then
 alpha-tested, then blended. Fill is lowered by shading cheaper (the shader-budget subject's
 ground), by drawing opaque layers as opaque, and by not covering the same pixel many times.
+The opaque rule pays only where the layer underneath can be rejected too: an opaque layer
+drawn over a full-screen layer that must stay blended leaves the hardware nothing hidden to
+drop, and a device run is what says whether the rule paid at all.
 
 **Residency** is memory: every texture page, render target and font atlas the game keeps on
 the device, in a memory pool that the graphics processor shares with everything else the
@@ -99,6 +103,10 @@ Stop rebuilding what did not change
 ([retain-what-did-not-change](./techniques/retain-what-did-not-change.md)). Stop letting a
 periodic job land its whole cost on one frame
 ([spread-periodic-render-thread-bursts](./techniques/spread-periodic-render-thread-bursts.md)).
+Keep one-off work — the first use of a level's derived data, the decode and check of a new
+image — off the frame entirely: prepare it on one worker below the render thread before it is
+needed, and let the render thread do only the upload and the swap
+([prepare-off-the-render-thread-commit-on-it](./techniques/prepare-off-the-render-thread-commit-on-it.md)).
 Only after those, and with the figure that shows they were not enough, does an effect, a
 particle budget or a render scale become a candidate — and then it is a design decision
 taken by whoever owns the look, not an optimisation taken by whoever owns the frame.
@@ -177,6 +185,9 @@ rules.
   scene changes, or a text cache keyed on less than what changes the output.
 - **The burst averaged away.** A job that runs every sixth frame is judged by its mean cost
   and lands whole on the frames that set the high percentile.
+- **Laziness mistaken for removal.** A build deferred from startup to first use lands on the
+  first frame that touches it, which is usually the first frame of play; moved to a network or
+  input thread instead, it stalls that thread's own deadline.
 - **A residency budget checked after the decode.** The oversized image is already in memory
   by the time the check refuses it.
 - **A refusal with no fallback.** An over-budget or malformed asset disables a visual that the
