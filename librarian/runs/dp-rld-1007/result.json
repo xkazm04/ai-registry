@@ -1,0 +1,39 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rld-1007",
+  "skill": "deepen",
+  "skill_version": "1.4.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-10-07T00:00:00Z",
+  "ended_at": "2026-10-07T01:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/repository-landing-document",
+      "at": "2026-10-07",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/techniques/host-metadata-is-a-second-document.md",
+    "librarian/subjects/software-engineering/repository-landing-document.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Landed host-metadata-is-a-second-document (8th technique): GitHub description/topics/homepage/preview, distinct from multi-surface-degradation's render-tier clause. Propagated to 8 reachable project maps, committed per-project, not pushed. No apply seam; recorded unapplied."
+}

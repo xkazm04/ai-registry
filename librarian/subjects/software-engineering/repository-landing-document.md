@@ -1,7 +1,7 @@
 ---
 subject: repository-landing-document
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-10-07
 dry_streak: 0
 ---
 
@@ -62,6 +62,40 @@ inspired would be evidence the rules had been fitted to it.
 instrument (words 2,089 -> 581, routed 0 -> 7, prose run 90 -> 8). Capped at
 `experiment` rather than `code` by foreign WIP in that tree's README, not by
 authorization.
+
+## 2026-10-07 — widened: host metadata
+
+Caller named the subject directly for a gap it had never claimed: the
+repository host's own description, topics, homepage field and social
+preview image — fields a package registry, a topic page or a social unfurl
+reads directly and that are never derived from the landing document at all.
+Checked first against `multi-surface-degradation`'s existing "fill the
+field" clause and found it insufficient on inspection: that technique
+governs *degraded rendering of the landing document's own content* across
+render tiers, where the About-box fields have no fallback relationship to
+the README — they are blank by default and stay blank, which is
+`absent-guard-is-loud` rather than a degradation.
+
+Landed **host-metadata-is-a-second-document** (8th technique). Golden path's
+`techniques:` list, "the seven walls" (now eight), and the technique index
+all updated in the same change. `verified_on: 2026-10-07`. No corpus claim
+was corrected — this is new-technique growth, not a repair.
+
+Propagated: `build-knowledge-rules.mjs` + `build-registry-map.mjs` run;
+8 project `.ai/registry-map.json` already joined to this subject
+re-digested and committed on their own active branches (none pushed):
+gravitone-gcloud `d013b6e`, goat `612f393`, politicas `e92d861`, personas
+`8ee7677`, kp `fc4a24f`, personas-web `e339279`, ascent `f36116c`,
+athena-everywhere `f748990`. pof, systedo-case and gigs are Wolf-only
+checkouts, unreachable from this machine — their maps are stale until a
+Wolf-side pass regenerates them.
+
+No apply row: this technique's claim (keep host metadata in sync with the
+README) has no code seam to exercise in any connected project — it is a
+settings-panel discipline, not a behavior a test can observe. Recorded as
+`unapplied`; return condition: the next time any connected project's
+landing document is rewritten, check its host metadata in the same pass
+rather than opening a separate finding.
 
 ## Open leads (banked, with return conditions)
 

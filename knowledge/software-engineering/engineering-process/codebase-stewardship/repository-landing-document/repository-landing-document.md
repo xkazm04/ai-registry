@@ -12,6 +12,7 @@ techniques:
   - caption-carrying-figures
   - visual-text-cadence
   - style-rule-ships-its-detector
+  - host-metadata-is-a-second-document
 ---
 
 # The repository landing document
@@ -159,7 +160,7 @@ different artifact with a different clock: a changelog is append-only history
 and rides the release pipeline, where a landing document is a standing claim
 about the present that is rewritten in place.
 
-## The seven walls
+## The eight walls
 
 ### 1. The document routes; it does not answer
 
@@ -251,6 +252,21 @@ converts every run of the detector into a discussion, and detectors that
 provoke discussions stop being run.
 [style-rule-ships-its-detector](./techniques/style-rule-ships-its-detector.md).
 
+### 8. The host keeps a second description, and nothing reconciles it
+
+A repository host's own description field, topics and homepage URL are not
+rendered from the landing document and not checked against it — they are a
+second, hand-authored document, usually written once at creation and never
+revisited, and empty by default. A blank description or a repository with
+zero topics produces no error anywhere, which is exactly why it survives
+indefinitely: there is no renderer whose degradation makes the absence
+visible, only a search result, a topic page or a social unfurl that nobody
+on the project ever looks at from the outside. The rule is that this surface
+is maintained on the same change that maintains the landing document's
+opening claim, and that none of its fields may assert something the landing
+document does not.
+[host-metadata-is-a-second-document](./techniques/host-metadata-is-a-second-document.md).
+
 ## The absent landing document
 
 One of the seven working repositories in the survey above has no landing
@@ -300,3 +316,7 @@ question is whether anything chose what it says.
 - [style-rule-ships-its-detector](./techniques/style-rule-ships-its-detector.md)
   — the admission test for a house rule; the carve-out inside the detector;
   what to do with the rule that cannot be detected.
+- [host-metadata-is-a-second-document](./techniques/host-metadata-is-a-second-document.md)
+  — the description, topics and homepage field as a second, hand-authored
+  document; why this is not a tier of multi-surface-degradation; the claims
+  audited together across fields rather than within one.
