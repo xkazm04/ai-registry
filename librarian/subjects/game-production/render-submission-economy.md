@@ -59,3 +59,43 @@ load; nothing from them is cited.
 `sprite-and-atlas-production` owns page packing; `perf-regression-gating` owns how the figures are judged;
 `gameplay-runtime-patterns` already owns lookup and allocation discipline, which the render-side lookups
 (R5, R6, R13, R14) apply rather than extend.
+
+### 2026-10-07 - `/forge`, extension (run `forge-p9p10-1007`, branch `autopilot/technical-decision-capture-4b08c178`)
+
+From the Death Ride P9 and P10 stick sessions (2026-10-07, all runs **profiled**), reconciled against
+`firetv-deathride` at `4bbae5d2`. One technique added, `prepare-off-the-render-thread-commit-on-it` (7 techniques
+now): one-off first-use work — a lazy per-course projection index, a region tile's manifest, hash, header check and
+decode — prepared on one worker below the render thread for the course about to be used only, behind a synchronized
+lazy, with the render thread yielding whole frames until ready and committing only the upload or the swap. Decision
+rules from the source: a pick made asynchronous holds later commands (the dropped-pick regression, `59f5605e`) and
+the in-flight flag is read before the result; never prepare on a receive loop (a 1–2 s bake would have held a phone's
+inputs past the stale-input limit — a design decision, not an incident); checks travel with the work; preparing
+ahead raises the held peak. One kotlin application, 40 anchors held. Stick figures: render-thread first projection
+1,138.5–2,268.3 ms (P9 diagnostic, n = 5 first visits) → 0.034–0.389 ms (P10, n = 20 first visits), bin wait 0 in 24
+of 24 bakes; `selectRegion` 61.4–117.1 → 5.8–16.5 ms; transition max 2,376.9 → 245.8–374.4 ms.
+
+`batch-by-page-where-order-is-invisible` gained one decision rule from R8's stick A/B: an opaque layer over a layer
+that must stay blended gives hidden-surface removal nothing to drop; the road/shortcut cut was desktop-proven
+pixel-identical (0 of 136,857,600) and not better on the stick (worst active-window p95 21.964 → 25.398 ms, two
+profiled 900 s runs, one per APK), so it was reverted (`6af138c5`); making the scenery quad eligible needs alpha 1,
+which changes edge texels. The golden path gained one sentence on the opaque rule's precondition, one paragraph in the
+order of moves and one failure mode. The batching and cost-per-effect applications were re-pinned to `4bbae5d2` (one
+moved anchor each) and their R7/R8/S17 deviations rewritten with what P9 and P10 measured.
+
+**Outside hardening.** Imagination (blending disables visibility hardware; overdraw matters when already
+rendering-limited; blending is done in on-chip tile memory — quotes re-fetched 2026-10-07), Unity's async upload
+pipeline, Unreal's PSO precaching (skip the draw until ready; 75% of hardware threads contend), Android's thread-priority
+guidance, Meta's scene-loading hitch note, asset-streaming guidance, missed-frame and compositor-layer pages, and the
+OpenXR Android thread-type hints. **A contradiction kept:** Meta accepts a synchronous load behind a compositor loading
+layer or fade, and VRC.Quest.Performance.1 exempts loading screens, so the technique's headset section says the rule is
+required for first-use work inside a live scene and optional behind such a layer.
+
+**Open, with return conditions.**
+- **R7, the render chain's stick delta.** P9 gives the post-wave level (pooled active interval p95 18.813 ms, work
+  p95 17.124 ms), not a matched before. **Return:** a same-arm run of the wave's parent.
+- **The unbounded bin wait and the uncancellable superseded bake** (application deviations). **Return:** a timeout
+  with a named outcome in the scene path; a generation check before the bake starts.
+- **Prepared-path texture equality.** Not re-checked on a desktop GL context. **Return:** a real-GL pixel compare of
+  the prepared and synchronous region paths.
+- **Bins retention** (~10.2 MiB for five courses, desktop estimate) against P9's unattributed +47.7 MiB PSS.
+- **A second tree; no headset.** Unchanged.

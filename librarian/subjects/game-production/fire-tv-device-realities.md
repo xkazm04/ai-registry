@@ -33,3 +33,38 @@ first frame < 2.0 s, foreground PSS < 300 MB at 1080p).
 the link pool's `NORM_PRIORITY-2` lands at nice 13, in the background band, and its input-latency effect on the stick
 is unmeasured. **Open:** a cold-start trace on the stick against the 2.0 s target, and a stick run with the link pool's
 actual nice values in its receipt.
+
+### 2026-10-07 - `/forge`, extension (run `forge-p9p10-1007`, branch `autopilot/technical-decision-capture-4b08c178`)
+
+One reality added from the Death Ride P10 session: `price-the-durable-save-on-the-device` — a synchronous durable
+profile save (encode, verify, temp file, `fsync`, verify-then-backup, atomic move) costs 49.5–156.1 ms per save on
+the stick's flash, on the render thread, at every car pick and twice per race start and finish (four profiled 360 s
+runs, 2026-10-07). Forged as a **measured constraint with alternatives, no fix claimed**: the save gates the race
+ticket and the settled cash, and moving it is an open owner decision on the money path (finding S18, backlog). Five
+alternatives, each with what it risks; the draft's fifth (a worker write while the transition waits) came from
+reconciling with the source's save-gates-the-change contract. One kotlin application against `firetv-deathride` at
+`4bbae5d2`, anchors held. Golden path: realities heading eight → nine, one paragraph. `startup-work-belongs-at-first-use`
+gained one sentence in step 5 (every lazy structure inside a level counts) and an evidence update (the first-use bake
+and the aggregate routes request were later timed on the stick, profiled); its kotlin application was re-pinned from
+`86cb512d` to `4bbae5d2` (seven anchors moved or rewritten; S17 now diagnosed and removed; the routes endpoint's first
+GET timed at 11.7–20.1 s, n = 4).
+
+**Upward lessons from the source.** Verify the old save before it becomes the backup and set a corrupt one aside;
+name whether the save gates its change before weighing any alternative; a save inside the simulation step is charged
+to the simulation phase.
+
+**Outside hardening (research worker, quotes re-fetched).** One `fsync()` on UFS phone storage is ~1.2 ms median,
+33 ms at p99.99 (Won et al., arXiv 1711.02258, Table 1) — so the draft's "a flush costs tens to hundreds" became "the
+multi-step save on the cheapest flash"; Android `StrictMode` Javadoc (disk access usually fast, occasionally
+dramatically slower); `AtomicFile` keeps no backup (the backup is a choice to price); `SharedPreferences.apply()`
+silent failures and the pending-`fsync` wait at pause (Android Developers blog 2020-09); SQLite's process-crash vs
+power-loss distinction (pragma docs). Headsets: Meta's Unity lifecycle (unmount → pause after Auto Sleep), low-memory
+kills of paused apps, stale frames on a missed refresh. **Headset reach:** holds with qualification — the mechanism and
+the write-behind risk transfer; no headset storage timing was found or taken.
+
+**Open, with return conditions.**
+- **Per-step save timing on the stick.** The source times the whole save only. **Return:** a diagnostic run with one
+  timer per storage step.
+- **The owner decision on S18.** **Return:** the owner picks an alternative; then a stick A/B and a kill/power-cut
+  recovery test.
+- **Cold-start trace** (carried from the previous entry).

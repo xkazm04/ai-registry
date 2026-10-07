@@ -38,3 +38,16 @@ techniques and 3 kotlin applications; 8 techniques and 8 applications on four ex
 `86cb512d`. Evidence class: nearly every 10-06 figure is a desktop count; stick figures come from the P0/P5/I2/P8
 waves and one post-wave probe whose device field is blank. No headset was measured; the headset transfer rests on
 platform guidance. Single-stack debt grows by one subject (kotlin only).
+
+## 2026-10-07 - forge Death Ride P9/P10 stick results (forge-p9p10-1007)
+
+The Death Ride P9 (stick validation of the 10-06 wave, blending A/B, hitch attribution) and P10 (race-start hitch
+fix) sessions, all runs **profiled** on one AFTKM stick, forged into four existing subjects; no new subject. Three
+techniques added — `prepare-off-the-render-thread-commit-on-it` (render-submission-economy, 7),
+`price-the-durable-save-on-the-device` (fire-tv-device-realities, 9; a measured constraint, no fix claimed, owner
+decision open), `attribute-every-stall-before-judging-it` (on-device-verification-harness, 8) — and one decision rule
+each on `batch-by-page-where-order-is-invisible` (the opaque A/B: not better, reverted) and `percentile-and-hitch-gate`
+(rolling-window bars). Four new applications (two kotlin, two process) and three re-pinned from `86cb512d` to
+`4bbae5d2`; every anchor in all seven held under `check-anchors`. Each new technique carries a headset-reach section
+backed by cited platform sources in its application; the prepare technique keeps Meta's contrary guidance (blocking
+loads behind a compositor loading layer are acceptable). No Death Ride VR/XR evidence exists.
