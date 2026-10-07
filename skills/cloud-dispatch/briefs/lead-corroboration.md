@@ -88,9 +88,12 @@ Also in RESULT.md:
 
 - **Never run any registry script with `--help`.** Most have no argument handling and
   execute. Read a script's `argv` handling in its source instead.
-- **Never hand-edit generated content.** After your source edits, regenerate:
+- **Never hand-edit generated content, and regenerate AFTER you commit.** The index stamps
+  each subject's `revision` and `changedAt` from git history, so a regeneration before your
+  content commit reads history without it and lands stale (witnessed 2026-10-06: main failed
+  `build-index --check` after such a merge). Commit your source edits first, then run
   `node scripts/build-index.mjs`, `node scripts/build-knowledge-rules.mjs`,
-  `node scripts/build-catalog.mjs`.
+  `node scripts/build-catalog.mjs`, and commit the generated files as a separate commit.
 - **Run `node scripts/gate.mjs --lane knowledge`** and put the output tail in RESULT.md. On
   origin/main as of 2026-10-06 it stops at `check-public-paths.mjs` on violations inherited
   under `knowledge/game-production/`. If it stops at a step whose violations name no file you

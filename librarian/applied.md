@@ -1479,3 +1479,5 @@ owed. Rows in the table above are minted from deviations, one project per techni
 | 2026-10-06 | one-ally-wavers (optional, player-scheduled personal missions are not the queue; scarcity binds in-group crises) | ally-bond-and-found-family-systems | - | - | unapplied | No fleet project gives its allies personal missions. Return: when a project writes one mission per ally. |
 
 | 2026-10-06 | the-institution-betrays-not-the-friend (the exception admits a twist whose clues were planted fairly) | ally-bond-and-found-family-systems | - | - | unapplied | firetv already routes its betrayal through the league, and no fleet project plans a friend's betrayal. Return: when a project's script turns a companion. |
+
+| 2026-10-06 | completion-claim-verification (amendment: a lost exit marker is UNVERIFIED, never the success flag) | fleet-orchestration | - | - | unapplied | Cloud dispatch: no fleet checkout. Seam to test: any fleet checker that reads a command's exit from transcript or tool text and falls back to a tool success flag when the marker is absent (personas' bridge was the 2026-09-02 simulation seam). Return: the next local apply run over fleet-orchestration. |
