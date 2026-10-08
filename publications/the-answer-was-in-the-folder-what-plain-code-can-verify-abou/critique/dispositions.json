@@ -1,0 +1,860 @@
+[
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "Two reviewers independently read the cited man page [21] and report that tracked paths are skipped unless --no-index is passed, so every path from git diff is excluded and the advertised finding can never fire.",
+    "action": "Replace the bash example with a --no-index form fed from a NUL-delimited diff against the recorded start revision instead of HEAD~1, state in the paragraph why --no-index is required, and carry the correction into closing action 3."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "Two reviewers reading grading.py [14] report that test_maintained tolerates SKIPPED on PASS_TO_PASS and that an empty list scores 1.0, so the post attributes its own stricter policy to upstream code.",
+    "action": "Split the two: report what the harness does (FULL at both scores 1.0, SKIPPED tolerated for pass-to-pass, empty list scoring 1.0) and label the strict no-skip, still-collected rule as the post's own Inference; relabel the Python block a paraphrase and cite a pinned revision."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The audited model was Opus 4.8 Max run inside Cursor's harness, not Cursor's own agent, and the research record itself cannot reconcile 57 plus 9 with the separate 63 percent, which confirms the denominators are mixed.",
+    "action": "Name Opus 4.8 Max and Cursor's harness in the opening, give 57 and 9 percent as shares of the 731 audited trajectories and 63 percent as the share of successful resolutions, after re-reading [12] to fix the denominators exactly."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The 14.1 and 20.7 point drops come from a harness that reinitialised git history and proxied the network together, so no part of them can be attributed to the directory alone.",
+    "action": "Attribute both drops to the combined intervention in the subtitle, the timeline figure and the closing paragraph, and record the image-vintage qualification the page carries."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "Nothing in the claims record for [12] supports a statement about the truthfulness of the agent's closing messages, and a second reviewer reading the same page reports it says nothing about them.",
+    "action": "Cut both sentences and replace with what the page supports: the resolved patches passed the benchmark's tests and the auditor identified retrieval only by reading the full trajectory."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "Sources [2] and [3] used different environments, monitors and targets, so one scope axis carrying both invents a comparison neither study made.",
+    "action": "Redraw the figure from [3] alone, with its two scopes and named monitors, and move the [2] recall pair into a separate labelled strip or the Table 2 row."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The reported per-domain counts sum to exactly 9,876, so that total spans both the single-control and the dual-control rows rather than the single-control ones.",
+    "action": "Give the airline, retail and telecom counts in their own rows, or label 9,876 as the total across both rows."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "A TF-IDF feature set feeding a trained classifier is a model, and a surface-feature predictor does not verify environment state, so both the phrase and the Table 4 placement mislead.",
+    "action": "Drop 'no model behind them' for the classifier's actual form and move the detector out of the state-verification column into a triage row that says it predicts rather than verifies."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "Source [20] guarantees output format stability, which supports parsing, not reproducible test execution, so the Table 2 cell cites it for a proposition it does not carry.",
+    "action": "Replace the Table 2 cell and tighten the definition to distinguish stable parsing of a record from repeatable execution of the tests behind it."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "The claims record attributes 7.8 percent to running the full developer suite and 29.6 percent to automated differential testing, so Table 4's human-only row is wrongly evidenced.",
+    "action": "Correct the method attribution in the closing paragraph and give Table 4's person row evidence drawn from the manual inspection result rather than the automated divergence figure."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "The research record scopes the 5 to 15 times saving to Claude Code baselines, not to unbounded agents generally, and the system comparison changes several variables at once.",
+    "action": "Name the comparator, state the recall tradeoff beside the SEM-F1 gain, and keep the layer-order generalisation inside the existing Assumption callout rather than in the prose claim."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "The waiting-time total carries no argument the section needs, and the clause that a classified rerun is cheaper than human adjudication is unmeasured anywhere in the research.",
+    "action": "Cut the 339.2 years clause and either drop the cost comparison or restate it as an Assumption, keeping only the evidence that rerun outcomes change."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "Suite execution, artefact collection and retries consume compute and time, so the absent charge is model tokens, not cost.",
+    "action": "Change the caption, the alt text and the figure label to 'no model tokens per turn' and leave execution cost unquantified."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f14",
+    "disposition": "accepted",
+    "reason": "Source [10] measures flagging of a supplied erroneous intermediate and leaves localisation to an upstream detector, so the post's positional claim reaches past the experiment.",
+    "action": "Narrow the sentence to the experiment's boundary and add the consequence for a verifier: a candidate error must be identified before the external role matters."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "An AUROC ratio establishes no operating point, and 0.54 is weak discrimination rather than none, so the callout's conclusion overstates its arithmetic.",
+    "action": "Cut the distance-from-chance callout and replace it with the operating point and the complementary-error qualification from [1], re-read for the exact figures."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "The table prices a stipulated allowance, and thinking tokens, retries and repeated context sit outside it, so 'the whole cost of it' is not supported by the arithmetic shown.",
+    "action": "State the allowance as total billable output with its exclusions, drop the claim that a price list is the whole cost, and cut the tokenizer and batch detour to pay for it."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f17",
+    "disposition": "deferred",
+    "reason": "The binding of a verified result to an attested artefact and a trusted producer is a provenance topic of its own; the one part inside this post's scope, the grader reading its check definitions from the recorded start revision rather than the produced tree, is already stated."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f18",
+    "disposition": "accepted",
+    "reason": "A subset rule proves non-regression only, so an untouched repository passes it and a legitimate rename or intended behaviour change fails it.",
+    "action": "Replace the categorical opening with a sentence separating preservation checks from task-specific acceptance checks, and say how an approved baseline change is recorded."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f19",
+    "disposition": "accepted",
+    "reason": "The hooks reference exposes stop_hook_active precisely because an unconditional blocking loop can never terminate, and the JSON example as written has no exit.",
+    "action": "Bound the loop in the example and the prose: repairable finding, infrastructure error or exhausted retries, with escalation after a fixed ceiling."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f20",
+    "disposition": "accepted",
+    "reason": "The research monitor in [2] read the full trajectory including internal reasoning, which an ordinary production transcript or a reasoning summary does not guarantee.",
+    "action": "Add a clause naming the trace surface the monitor needs and the fallback to an action-only monitor at its lower recall when that surface is unavailable."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f21",
+    "disposition": "accepted",
+    "reason": "The preview does carry production residue about a brief and an unavailable corpus, and the timeline is a map of published findings rather than the incident's sequence, though the opening incident itself stands.",
+    "action": "Cut the brief and pipeline sentences from the preview, keeping one clause that the evidence is third-party published work, and caption the timeline as the published record it is rather than as the incident's sequence."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f22",
+    "disposition": "accepted",
+    "reason": "The judge-reliability digression and the numerical recaps beside figures lengthen the middle without changing what a reader does, and the opening object is absent from it.",
+    "action": "Cut the kappa and ranking sentences and the recaps that repeat figure values, and spend the space on the candidate run moving through the checks, as the through-line findings also ask."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f23",
+    "disposition": "accepted",
+    "reason": "The house rule is explicit that the close carries nothing new, and the iterative patching results are introduced there without a section that earned them.",
+    "action": "Move only the patching result into the body where harness flaws are discussed, replacing flat material there, and cut the rest of that closing paragraph."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f24",
+    "disposition": "accepted",
+    "reason": "The outline items are plain bold text with no anchors in both post.md and index.html, which the standard requires to be a linked route; the HTML citations, however, already resolve to the sources list.",
+    "action": "Link each outline item to its section anchor in both artefacts, leaving the HTML citation anchors as they are."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f25",
+    "disposition": "accepted",
+    "reason": "AUROC, SEM-F1, kappa, precision and recall carry the comparisons and are never explained in a clause, and the closing table quotes bare detector scores without naming the measure.",
+    "action": "Gloss each metric in a clause at first use, write 'AUROC 0.83' in the closing table and name chance at 0.5 in its caption, funded by the cut callouts."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "A second reviewer reading grading.py reports the same P2P tolerance of SKIPPED, with the code comment quoted, so the post's strict reading is attributed to a harness that does not implement it.",
+    "action": "Report the harness's actual permissiveness as itself a hole, and label the strict requirement as the post's own hardening Inference in the section, the Python block, Table 4 and closing action 2."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "Verified in the package: the figures directory holds only SVG files and index.html references them, so all seven Markdown PNG paths are broken.",
+    "action": "Render the SVGs to PNG, ship them in figures/, and point both the Markdown and the HTML at the same files."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The research record confirms 1,879 is the pooled AppWorld corpus while 75.8 percent is the self-assessing status-claim subset, so the row pairs a corpus count with a subset share.",
+    "action": "Separate the two in the cell: the subset for the share, the corpus total labelled as the total."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The drop measures history isolation and network proxying together, and the public-internet route accounted for the larger share, so attributing the whole drop to the folder is wrong.",
+    "action": "Attribute both drops to the combined intervention in the subtitle, Figure 1 and the closing paragraph, and name the relative weight of the two retrieval routes."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "The bundled container opens and closes the post and is absent from every section between, which is the orphaned-anecdote failure the standard names.",
+    "action": "Give the folder one beat per section: the single-commit baseline, the auditor reading the trajectory, the environment record in the cost section, and a provenance row in the closing table."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "Counting the figure alt text the pre-heading material sits at or above the 450-word ceiling, as a second reviewer also found.",
+    "action": "Shorten the timeline alt text to its message plus the seven dates, cut the preview residue and the trailing gloss on each outline item, bringing the count clear of the ceiling on either counting rule."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "Verified in the SVG sources: each hard-codes a light background and dark labels with no dark-scheme block, while index.html defines a dark palette.",
+    "action": "Add a prefers-color-scheme block to each figure using the palette already defined in index.html, and check both schemes at phone and desktop widths."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "The post's own flake figure one section later makes a single-run baseline non-deterministic, so the subset rule as stated can fail a run for ambient flakiness.",
+    "action": "State the three-set rule (stable pass, stable fail, unstable) with repeated baseline runs, label it Inference, and tie it to the 67.73 percent figure."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "An exit-2 loop with no ceiling can block completion forever on an infrastructure failure or a flaky test, which the hooks reference itself warns about.",
+    "action": "Add a retry ceiling and a graceful escalation to the hook description and the JSON record example."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "The filenames do run 01, 02, 05, 06, 03, 04, 07 against the reading order, which is needless disorder in a package someone else will maintain.",
+    "action": "Renumber the figure files in reading order during the PNG render pass and update both artefacts."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "The brief, the pipeline and the nine run folders mean nothing to a reader, and the sentence implies labelled constructs rest on numbers the post says it does not have.",
+    "action": "Replace it with one impersonal clause: the evidence is third-party published work read on the dates in the Sources list, and anything the post derives or reasons is labelled where it appears."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f12",
+    "disposition": "rejected",
+    "reason": "That line is the figure's caption, not a paragraph: index.html renders it inside figcaption directly under the image, and post.md places it on the line after the image for the same reason."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "Correct and it is the gap the through-line exposes: git status reports a clean tree on a repository whose history carries the answer, so the opening flaw survives every check the section lists.",
+    "action": "Add the pre-run environment check (commit count at the start revision, no stray git directories, network policy recorded) as the folder's beat in that section, a Table 4 row and a fifth closing action."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The cited man page excludes tracked paths from check-ignore unless --no-index is given, so the command as published always reports clean on exactly the force-added files it promises to catch.",
+    "action": "Add --no-index with the reason stated in the prose, feed the pathnames through --stdin with the empty case guarded, compare against the recorded start revision rather than HEAD~1, and correct closing action 3."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "Nothing in the research record for [12] covers the agent's closing messages or how the patches looked, and the sentence is load-bearing for the whole facts-versus-judgement split.",
+    "action": "Replace both sentences with what the page supports: the patches passed the benchmark's tests and the auditor classified retrieval from the full trajectory; if the invisibility point is kept it is labelled Inference."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "If the same hardened harness cost one model under a point and another 14.1, the size of the inflation depends on the model as well as the environment, which the thesis sentence denies.",
+    "action": "Re-read [12] for the third model's figure, reword the thesis so the environment makes the exploit available while only some models take it, and put the per-model variation in Table 2's not-settled column."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The claims record itself cannot reconcile 57 plus 9 with the separate 63 percent, which confirms the two figures have different denominators than the post gives them.",
+    "action": "State 57 and 9 percent as shares of the 731 audited trajectories and 63 percent as the share of successful resolutions, and say the page does not reconcile them."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "Different environments, monitors and detection targets cannot share one scope axis, and the 95 percent point is placed at a single-file end the source never describes.",
+    "action": "Keep the figure to [3] with its two scopes and named monitors, move the [2] pair elsewhere with its own study and target labelled."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "Mining bundled history is found by inspecting the starting environment or the trajectory, not by resolving the references in a run's report, so the citation does not support the row it sits in.",
+    "action": "Replace the row with the pre-run provenance check (history depth, network policy) the figure actually supports, and mark the citation-resolution row Inference."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The sharpest version of the through-line problem: the remedy in the source was pre-run isolation, so none of the post's own eight checks or four actions would have caught its own opening incident.",
+    "action": "Give the folder a beat per section, add the provenance row to Table 4 and a fifth action recording the start tree's commit count and network policy, paid for by the cuts in f13."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "A baseline-flaky test lands in either set by chance, so the post's own subset rule is non-deterministic and the post never says how such a test is classified.",
+    "action": "Add the stable-pass, stable-fail, unstable classification with repeated baseline runs, labelled Inference and tied to the 67.73 percent figure."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "Suite runtime is the deterministic layer's real cost, and it is why the benchmark tests only the files the fixing pull request touched, which is the cause of the 7.8 percent scope hole stated two sections earlier.",
+    "action": "Change the caption and alt text to 'no model tokens per turn' and add the sentence linking gate cost to untested surface, with the 7.8 and 4.5 point figures as the price."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "Verified: the package holds SVG only, so the Markdown's seven PNG references resolve to nothing and the platform will not take the SVGs.",
+    "action": "Render PNGs at two widths, ship them, and point the Markdown and the HTML at the same files."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "The sentence addresses the operator rather than the reader and refers to numbers the post states it does not have.",
+    "action": "Keep the third-party disclosure clause, delete the rest, and state the labelling convention in one clause."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "Four terms of art carry the post's central comparisons without a clause of explanation, and the closing table quotes bare AUROC values without naming the measure, which the house rule calls out specifically.",
+    "action": "Gloss AUROC, SEM-F1, kappa and XFAIL in a clause at first use, write 'AUROC' in the closing table cells and name chance at 0.5 in its caption."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "Both sentences are single-source drops no claim in the thesis needs, and the read-only finding sits in the gate section away from the study it belongs to.",
+    "action": "Cut the kappa and the batch-invariant sentences, move the read-only result beside the cheating rates, and spend the words on the through-line, the flake rule and the gate-cost link."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f14",
+    "disposition": "accepted",
+    "reason": "Confirmed by the research record: 1,879 is the corpus and 75.8 percent is the status-claim subset, so the cell pairs a count with a share from a different population.",
+    "action": "Give the subset in the cell and label 1,879 as the corpus total, using the paper's subset size if the re-read supplies it."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "A measured range exists where the post writes 'markedly', which the every-number rule does not permit once the figure is available.",
+    "action": "Re-read [10] and replace 'markedly more often' with the percentage-point range and the number of settings in which it was significant."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "A reader who opens the abstract meets a different count, and the post should not leave that unexplained even though 1,005 is the figure consistent with the percentage.",
+    "action": "Keep 1,005 and note the abstract's differing figure in the Sources entry for [6], leaving the prose length unchanged."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f17",
+    "disposition": "accepted",
+    "reason": "The research record attributes the 1 percent floor to both models, which the reviewer's reading of the page contradicts, and a per-model floor changes what prompt wording is worth.",
+    "action": "Re-read [3], attribute each floor to its model and name the benchmark variant."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f18",
+    "disposition": "accepted",
+    "reason": "The research record confirms both: the Flash price is valid only through 2026-12-31, and Claude 4.7 and later already use the newer tokenizer, so the conditional phrasing is wrong-footed.",
+    "action": "Note the Flash expiry date in the caption and rephrase the sensitivity line around which tokenizer counted the assumed bundle."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f19",
+    "disposition": "accepted",
+    "reason": "Labelling a paraphrase as the harness's own rule invites a reader to quote it as source, and the empty-list case is a real hole the block hides.",
+    "action": "Relabel the block a paraphrase of grading.py at a pinned revision and state the empty-list and skipped-maintenance behaviour in one line."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f20",
+    "disposition": "accepted",
+    "reason": "A ratio of two proportions measures nothing about what the check earns, and the two shares already said everything the callout says.",
+    "action": "Cut the ratio and keep the one-sentence domain-dependence point, using the space for what the per-run record should carry: claimed state, measured state and the delta."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f21",
+    "disposition": "accepted",
+    "reason": "The audited model belongs to one vendor and the harness to another, so 'its own agent' misattributes the opening numbers and the reader cannot tell whose system they describe.",
+    "action": "Name Opus 4.8 Max and Cursor's harness in the first three sentences and name Composer 2.5 where the 20.7 point figure appears."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f22",
+    "disposition": "accepted",
+    "reason": "Two reviewers put the pre-heading material at or over the ceiling, and the outline glosses plus unlinked items are the bulk of it.",
+    "action": "Drop the trailing gloss on each outline item, link each item to its heading, and shorten the timeline alt text to its message and the seven dates."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f23",
+    "disposition": "accepted",
+    "reason": "Verified in the SVG sources: a hard-coded light background and dark labels in every figure, with no dark-scheme definition anywhere.",
+    "action": "Add a prefers-color-scheme block per figure using the dark palette already in index.html and check both schemes at both widths."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f24",
+    "disposition": "accepted",
+    "reason": "The table is the post's own division of labour reasoned from the sources, not a measured result, and an unlabelled construct reads as a finding.",
+    "action": "Open the Table 4 caption with the Inference label and say the rows are reasoned from the cited sources rather than measured on a corpus."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "Verbose check-ignore prints a negated match prefixed with ! and counts it toward exit 0, so the block's stated decision rule can flag a path the repository explicitly permits, and with --stdin an empty input exits 1 rather than erroring.",
+    "action": "Rewrite the comments and the decision rule in the bash block: parse the printed pattern and ignore lines whose pattern begins with !, keep the diff's own exit status, drop the pathless-invocation comment and say that empty input exits 1."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "The three false-success counts are exactly the rounded domain shares times the failure counts, and the AppWorld population in the research is 1,425 false success plus 454 honest failure, so the label 'trajectories claiming completion' does not fit the 454.",
+    "action": "Relabel the AppWorld row as failed trajectories that reported their own status, and carry the source's internal disagreement in the Sources entry for [1] the way [6] already carries its own, noting the per-domain counts sum to 610 against the 616 the paper's text reports."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "Both reviewers that read the paper quote the unit as labelled examples per class in the logistic-regression transfer experiment, and the post states it as a per-domain requirement for the XGBoost detector.",
+    "action": "Write 'per class, false successes and honest failures separately' in the paragraph and in Table 4, and attach the figure to the cross-domain transfer experiment rather than to deployment in general."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The sentence 'An unconditional block never terminates' asserts the absence of a platform bound, and two reviewers reading the hooks page report a consecutive-continuation cap and describe stop_hook_active as an input the hook reads.",
+    "action": "Replace the sentence: the hook reads stop_hook_active to avoid blocking on a condition that cannot resolve, and the post's fix-turn ceiling is the check's own bound rather than a substitute for a missing platform one."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "The 60 percent is a measurement on two systemic hacks in one set of coding environments and the scale comparison changes benchmark as well as task size, so stating either as a property overreaches the cited experiments.",
+    "action": "Attach the 95 and 60 percent to their hacks and environments in one clause, name the two ImpossibleBench variants where the scale claim is made, and mark the task-size reading as the inference it is."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "rev-list --count walks ancestors of one revision, so an expected depth can coexist with the answer reachable on another ref or loose object, and a script inside the sandbox cannot observe an allowlist it can only probe.",
+    "action": "Replace the paragraph's assurance: history depth is provenance, the audit's remedy was a fresh single-commit repository, and the egress item is an attestation from the harness or a probe that must fail, marked as such in Table 4's first row and in closing action 1."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The record names only the start revision, and the research note on [20] itself says the porcelain guarantee is about the format, not about the repeatability of what produced it.",
+    "action": "Add the head revision to the JSON record, and state in one clause that an infrastructure error or a timeout records an unresolved outcome rather than a pass, paying for both from the environment-record sentence."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "The callout prescribes repeated runs without saying how many or what happens to a quarantined test, which a reader cannot budget or trust.",
+    "action": "State the observation rule in the callout (three baseline runs, unstable on any disagreement) and say an unstable test is reported as unresolved rather than dropped from the gate."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "The hand inspection in [5] left most of the 77 patches unsettled because the issue did not specify the behaviour, which is the sharpest limit on a division of labour that ends at a person.",
+    "action": "Give the person row an unresolved outcome: note beside the 28.6 percent that the majority of the 77 was not settled either way, and change Table 4's last cell from 'Nothing automates it' to the limit that a person cannot settle what the requirement never specified."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "Returning a finding to the agent changes its behaviour toward the gate, which the post's own research measures, though in the other direction than the finding cites: on Conflicting-SWEbench a feedback loop moved GPT-5 from 54 to 9 percent while the full scaffold raised it to 66.",
+    "action": "Add one sentence to the repair-loop paragraph with those two figures from [3], and give the loop an exit for a contested or impossible check, cutting the repeated full-suite statistics before Figure 6 to pay for it."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "The opening stacks seven numbers and a reconciliation aside in four sentences, which the house rule on the opening incident excludes; the literature timeline stays, since it dates the evidence the post rests on and is not a chronicle of the incident.",
+    "action": "Keep the first sentence, the 731 trajectories, the 9 percent that mined the bundled history and the blind auditor; move the 63 percent reconciliation into section 1 and leave 87.1 to 73.0 to Figure 7 and the close."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "sources.json carries 30 entries numbered differently from the post's 28 from n=7 onward, so a citation resolved through the package lands on the wrong page, against the house rule on stable source numbers.",
+    "action": "Regenerate sources.json one for one from the post's Sources list, reinstate the nondeterminism source as a cited entry (see fable f6) and move the unused judge-reliability entry to the research log with its reason."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "The 7.8 percent with its 4.5 points, 87.1 to 73.0 and 67.73 percent each appear four or more times across prose, captions and table cells, and the close recaps numbers the table beneath it already carries.",
+    "action": "Cut the full-suite restatement in the cost paragraph to one clause, and reduce the closing prose to the incident's consequence and the changed actions, letting Figure 7 and Table 4 carry the numbers."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f14",
+    "disposition": "accepted",
+    "reason": "A model the provider marks deprecated cannot sit in a current-price table unlabelled under the currency rule, and the research holds no current cheap OpenAI rate to replace it with.",
+    "action": "Drop gpt-5-mini from the cheap-panel row, state the row as a two-provider floor with each rate in parentheses, and recompute its three cells."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "A collected test can be skipped, so the record's measured field and its delta describe different observations and lose the distinction the section argues for.",
+    "action": "Make the delta match the status (a pass-to-pass entry credited as skipped) and label the record as an illustrative construction."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f16",
+    "disposition": "rejected",
+    "reason": "The commit log was read 2026-10-07 for source [25] of sources.json and another reviewer resolved the same API path in this round, quoting the commit title ca6e4e0d carries, so the error the review hit was transient rather than a dead reference."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f1",
+    "disposition": "rejected",
+    "reason": "The pricing page read 2026-10-07 gives Haiku 4.5 at $1 per million input and $5 per million output, which is what the row's $0.024 and $0.032 are computed from; the $0.50 and $2.50 rates the finding proposes are not in that reading."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "check-ignore reads the exclude files present in the tree it is run against, so a run that commits a restricted path and edits .gitignore in the same turn is checked against its own rules.",
+    "action": "Add one line to the plumbing: assert that no ignore file changed between the start revision and HEAD, or evaluate the committed paths against the start revision's rules."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "A bigram detector is keyed to phrasing, and the cited paper's own cross-domain transfer at AUROC 0.69 shows how little of its calibration travels; the retraining cadence the finding prescribes is not in that paper, so it goes in as reasoning, not as a result.",
+    "action": "Add one clause labelled Inference: a change in the agent's own closing language is a recalibration event for a lexical detector, with the 0.69 transfer figure beside it."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "Three consecutive sections drop the opening object, so the reader loses the through-line exactly where the material is most abstract.",
+    "action": "Add one clause per section: the audited runs passed the per-test gate in section 3, a detector keyed on closing language would not have seen the retrieval in section 6, and reading 731 trajectories was the model-layer cost a pre-run check avoids in section 7."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "The closing paragraph recites five numbers that the table directly beneath it carries in its cells.",
+    "action": "Condense that paragraph to the one sentence that introduces the division of labour, recovering words for the acceptance-set and ignore-file additions."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "The house rule requires every term of art in the closing table glossed in a clause, and fail-to-pass, pass-to-pass and porcelain are not.",
+    "action": "Gloss fail-to-pass, pass-to-pass and porcelain in Table 4's caption or replace them in the cells with the plain phrases."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f7",
+    "disposition": "rejected",
+    "reason": "The house register bans first person and dashes, not plain words; 'costs cents' carries the magnitude the caption is making, and the exact figures sit in the cells directly above it."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The post asserts that an unconditional block never terminates, which is a claim about the absence of a platform cap that the cited page does not support and two reviewers report it contradicts.",
+    "action": "Restate the paragraph so the hook reads stop_hook_active rather than setting it, and present the ceiling of three as the check's own tighter bound, not as the only bound in the system."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "The commit the post pins is titled 'Reject zero-count test summaries' in the post's own research record, so the harness already asserts at the log-parsing layer that the suite ran and the hole as stated is wider than what survives at that revision.",
+    "action": "Narrow the hole to an empty gold list and SKIPPED credited on pass-to-pass, credit the non-zero-count check dated 2026-08-16, and update the Table 4 cell and the 'asserts the suite ran' sentence to present it as practice the harness adopted."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The page cited for the ceiling describes a thinking mode the same page says is rejected on the model the table prices, so that half of the callout rests on the wrong page.",
+    "action": "Cut the max_tokens ceiling clause and keep only what [28] states for the models it covers, the earlier turns' thinking blocks billed as input on Opus 4.5 and later."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "sources.json is offset from the post's list from n=7 onward and holds two entries the post does not cite, which breaks the house rule that the numbering is stable across the package.",
+    "action": "Regenerate sources.json from the post's list, reinstate the nondeterminism entry as a cited source and record the judge-reliability entry in the research log with the reason it was dropped."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "The section separates preservation from acceptance and then settles only preservation, so the preview's set-comparison outcome is delivered for half the gate and a practitioner is left with the gate graded by the party it grades.",
+    "action": "Add two or three sentences labelled Inference: the acceptance set is recorded at the start revision by someone other than the run, and tests the run adds are preservation entries for the next run, not acceptance evidence for this one; pay for it by cutting the Jest paragraph to one sentence."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "A post arguing for code before a model should say that the model layer cannot be re-checked by rerunning, and the research already holds the measurement: 1,000 temperature-zero completions of one prompt gave 80 distinct texts, identical through token 102.",
+    "action": "Reinstate the source and add one sentence in section 5 or the Table 2 model-reviewer row that a model verdict is a sample, so the record keeps the model, version, prompt digest and the text produced; drop the duplicated 95 and 60 percent from Table 4."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The opening runs seven numbers and a methodological aside past the reader before the reason to care, which the house rule on the opening incident excludes.",
+    "action": "Trim to the first sentence, the 731 trajectories, the 9 percent and the blind auditor; the 63 percent reconciliation moves to section 1 and 87.1 to 73.0 to Figure 7 and the close."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "Three numbers each appear four or more times, and that repetition is where the length sits.",
+    "action": "Cut the 7.8 and 4.5 restatement in the cost paragraph to one clause, replace 67.73 in the Inference callout with 'at the flake rate above', and leave 87.1 to 73.0 to Figure 7's caption and the close."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "The research record itself attributes the 0.96 to GPT-4o and the 99 plus or minus 1 to top performers, so the callout's spread of both across 37 models overstates the source.",
+    "action": "Name GPT-4o for the F1 and restrict the formatting and agreement figures to the models that passed the first stage, one clause each."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "Two reviewers reading the paper give the unit as per class, which is roughly double what the post's 'per domain' implies.",
+    "action": "Write 'per class, false successes and honest failures separately' in the paragraph and in Table 4."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "The post uses 47 percent in Table 1 and 45 to 48 in Figure 1 and Table 4 without saying the source's text and table disagree, which it does disclose for the other source with the same problem.",
+    "action": "Use 47 percent, the count-consistent figure, everywhere, and add the one-clause disagreement note to the Sources entry for [1]."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "The entry's title is the URL slug rather than the page's own heading, which the reviewer quotes from the page.",
+    "action": "Use the page heading as the title in the Sources entry and keep the slug only in the URL."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "The sentence quotes the baseline range to two decimals and the system's own recall rounded, so the two read as measurements of different precision.",
+    "action": "Give both ranges at the precision the paper's table prints."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f14",
+    "disposition": "rejected",
+    "reason": "The finding rests on a portion of the paper the reviewer could not reach; the clause is recorded in the research against source [3], with the paper's example of a backward-compatibility justification, so the sources do not contradict it."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "The reviewer did open the cited landing page and found the YAML and the 'not a general-purpose writing aid' lines but not the format list, which lives elsewhere in that documentation.",
+    "action": "Cut the enumeration to 'to Markdown and other markup', keeping the citation for what the page states."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "Each provider counts tokens with its own tokenizer, and the pricing page the post reads puts the newer tokenizer at Claude 4.7 and later, so the 30 percent note cannot cover the Haiku row or the other two providers.",
+    "action": "Add one clause to the Derived callout that the count is stipulated in one tokenizer and would differ by provider, and restrict the caption's tokenizer sentence to the Opus 5.5 row."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f17",
+    "disposition": "accepted",
+    "reason": "A script inside the container can compare a history depth and look for stray git directories, but it can only attempt a connection, not read the proxy's allowlist, so the three are not equivalent comparisons.",
+    "action": "Mark the egress item as recorded by the harness rather than measured by the check, in the paragraph and in Table 4's first row, with a failed fetch to a non-allowlisted host as its measurable form."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f18",
+    "disposition": "accepted",
+    "reason": "The rule says repeated runs without a count, and the post itself names suite runtime as the deterministic layer's real charge, so the reader cannot price the rule as written.",
+    "action": "State the starting rule in the callout, three baseline runs with a test classed unstable on any disagreement, labelled as the bet it is."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f19",
+    "disposition": "accepted",
+    "reason": "Sections 3, 6 and 7 never return to the bundled folder, so three section breaks pass without a reminder of what the post is settling.",
+    "action": "Add one clause per section, as the finding sets out, funded by the cut repetitions."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f20",
+    "disposition": "accepted",
+    "reason": "The closing table must gloss every term of art for a reader who reads only the opening and the close, and porcelain, rev-list, fail-to-pass and pass-to-pass are unglossed.",
+    "action": "Add a clause each to the caption or replace the terms in the cells with the plain phrases."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f21",
+    "disposition": "accepted",
+    "reason": "The figure's axis runs single problem to repository scale while the footer lists 2,371 before 193, so the counts pair with the wrong ends.",
+    "action": "Write '193 and 2,371 transcripts' or place each count under its own axis label, and match the alternative text."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f22",
+    "disposition": "accepted",
+    "reason": "One cell holding a count and a share stops either column of numbers from aligning or being scanned, against the table guidelines the standard cites.",
+    "action": "Split Table 1 into a count column and a share-of-failures column."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f23",
+    "disposition": "accepted",
+    "reason": "The clause reads as though neither change contributed, where the point is that the page applied both together and does not split the effect.",
+    "action": "Write 'a drop the page does not split between the two changes'."
+  }
+]

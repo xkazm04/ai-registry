@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" width="680" height="400" role="img" aria-label="Start revision failing t3 t7 t9, passing t1 t2 t4 t5; after the run failing t3 t7 t4 with t5 no longer collected, so the count check passes and the set check fails.">
+  <style>
+    .bg{fill:#faf8f4;stroke:#e2ded6;stroke-width:1}
+    .pan{fill:#ffffff;stroke:#bdb8ad;stroke-width:1.5}
+    .ph{font:600 16px Helvetica,Arial,sans-serif;fill:#17171a}
+    .setf{fill:#f4ebe6;stroke:#9e2f24;stroke-width:1.5}
+    .setp{fill:#eef5ee;stroke:#2e7d4f;stroke-width:1.5}
+    .sl{font:600 14px Helvetica,Arial,sans-serif;fill:#444038}
+    .mem{font:600 17px "Courier New",monospace;fill:#17171a}
+    .memx{font:600 17px "Courier New",monospace;fill:#9e2f24}
+    .memg{font:600 17px "Courier New",monospace;fill:#8a8579}
+    .tag{font:13px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    .tagx{font:600 13px Helvetica,Arial,sans-serif;fill:#9e2f24}
+    .verd{font:600 14px Helvetica,Arial,sans-serif;fill:#17171a}
+    .ok{fill:#eef5ee;stroke:#2e7d4f;stroke-width:1.5}
+    .bad{fill:#f4ebe6;stroke:#9e2f24;stroke-width:1.5}
+    .bt{font:600 14px Helvetica,Arial,sans-serif;fill:#17171a}
+    .strike{stroke:#9e2f24;stroke-width:2}
+    .foot{font:13px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1b1b1f;stroke:#2e2e33}
+      .pan{fill:#121214;stroke:#56565e}
+      .ph{fill:#e9e5dd}
+      .setf{fill:#2a1d1b;stroke:#e8897c}
+      .setp{fill:#16241c;stroke:#86c79a}
+      .sl{fill:#c9c5bd}
+      .mem{fill:#e9e5dd}
+      .memx{fill:#e8897c}
+      .memg{fill:#8a8a92}
+      .tag{fill:#a8a49c}
+      .tagx{fill:#e8897c}
+      .verd{fill:#e9e5dd}
+      .ok{fill:#16241c;stroke:#86c79a}
+      .bad{fill:#2a1d1b;stroke:#e8897c}
+      .bt{fill:#e9e5dd}
+      .strike{stroke:#e8897c}
+      .foot{fill:#a8a49c}
+    }
+  </style>
+  <rect class="bg" x="0.5" y="0.5" width="679" height="399"/>
+
+  <text class="ph" x="20" y="26">start revision</text>
+  <text class="ph" x="350" y="26">after the run</text>
+
+  <rect class="pan" x="20" y="36" width="310" height="290" rx="8"/>
+  <rect class="setf" x="36" y="56" width="278" height="92" rx="6"/>
+  <text class="sl" x="50" y="80">F0: failing</text>
+  <text class="mem" x="50" y="118">t3   t7   t9</text>
+  <rect class="setp" x="36" y="164" width="278" height="116" rx="6"/>
+  <text class="sl" x="50" y="188">P0: passing</text>
+  <text class="mem" x="50" y="226">t1   t2   t4   t5</text>
+  <text class="verd" x="50" y="306">count unchanged: 3 then 3</text>
+
+  <rect class="pan" x="350" y="36" width="310" height="290" rx="8"/>
+  <rect class="setf" x="366" y="56" width="278" height="92" rx="6"/>
+  <text class="sl" x="380" y="80">F1: failing</text>
+  <text class="mem" x="380" y="118">t3   t7   <tspan class="memx">t4</tspan></text>
+  <text class="tagx" x="470" y="138">t4 is new</text>
+  <rect class="setp" x="366" y="164" width="278" height="116" rx="6"/>
+  <text class="sl" x="380" y="188">P0: still passing</text>
+  <text class="mem" x="380" y="226">t1   t2   <tspan class="memg">t5</tspan></text>
+  <line class="strike" x1="466" y1="220" x2="494" y2="220"/>
+  <text class="tagx" x="380" y="250">t5 collected: no</text>
+  <text class="tag" x="380" y="270">t4 moved to failing</text>
+  <text class="verd" x="380" y="306">set changed, one test vanished</text>
+
+  <rect class="ok" x="36" y="340" width="190" height="30" rx="15"/>
+  <text class="bt" x="131" y="360" text-anchor="middle">count check: pass</text>
+  <rect class="bad" x="366" y="340" width="190" height="30" rx="15"/>
+  <text class="bt" x="461" y="360" text-anchor="middle">set check: fail</text>
+
+  <text class="foot" x="20" y="390">Illustration. Test names invented; the comparison rule is the point.</text>
+</svg>

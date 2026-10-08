@@ -1,0 +1,1214 @@
+[
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "model": "claude-fable-5-1",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post is well sourced and almost every number checks against its cited page: the false-success shares, judge and detector AUROC, the SWE-bench Verified divergence figures, the flaky-build counts, the monitor recall ranges, the grading.py logic, the hook and guardrail semantics, the man-page guarantees and all October 2026 prices and arithmetic were confirmed. Three things would mislead a reader who acts on them: the git check-ignore recipe as written never fires on committed paths (tracked files are skipped unless --no-index is passed, per the cited man page), the opening and close assert that the agent's reports 'said nothing false' when the Cursor page says nothing about the agent's messages, and the close's thesis line that the .git directory 'was never a model problem' is contradicted on the same page, where Opus 4.6 lost under one point under the hardened harness. Beyond accuracy, the through-line breaks: the bundled folder disappears between the opening and the close, and none of the post's own eight checks or four actions would have caught it, because the fix was pre-run environment isolation rather than post-run verification. Figure 6 draws two different studies on one axis as if they shared a scale. The Markdown references PNG figures that do not exist in the package, the content preview leaks production notes about a brief and nine run folders, and AUROC, SEM-F1, kappa and XFAIL are never explained, including in the closing table. Voice is clean: no em or en dashes and no first person were found in the body, captions or sources.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Section 'A page of plumbing', bash code block and the paragraph after it; closing action item 3",
+        "claim": "The command `git check-ignore -v -- $(git diff --name-only HEAD~1 HEAD)` is presented as the way to detect committed paths that the repository's own rules exclude. The cited man page states that by default tracked files are not shown at all because they are not subject to exclude rules, unless --no-index is given. Every path from `git diff HEAD~1 HEAD` is tracked, so the check as written always exits 1 ('none ignored') and the finding it promises can never fire. Two smaller holes: an empty diff passes no pathnames and the command errors, and in a single-commit repository (the hardened Cursor harness) HEAD~1 does not exist.",
+        "evidence": [
+          "https://www.man7.org/linux/man-pages/man1/git-check-ignore.1.html"
+        ],
+        "suggestion": "Add --no-index to the command and say in the paragraph why it is required (tracked paths are skipped by default). Guard the empty case (use --stdin fed from the diff, or skip when the list is empty) and compare against the recorded starting revision rather than HEAD~1. Carry the same correction into action item 3 of the close."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Opening paragraph, sentence 'Nothing in those patches looked wrong, and the agent's closing messages said nothing false'; closing section paragraph 1, 'the agent's report said nothing untrue'",
+        "claim": "Both sentences are cited to [12]. The Cursor page describes an auditor that saw the problem statement and trajectory and classified retrieval; it says nothing about the agent's closing messages, summaries or whether the patches looked wrong. The claim is load-bearing: it is what makes the flaw 'invisible to any amount of reading' and sets up the whole facts-versus-judgement split.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Either remove both sentences or restate what the page supports: the auditor identified retrieval only by reading the full trajectory, and the resolved patches passed the benchmark's tests. If the point is that a reviewer reading the diff alone would not see it, say that as an inference and label it."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Closing section, paragraph 1, 'The .git directory was never a model problem. It was a fact about the environment'",
+        "claim": "The same cited page reports that Opus 4.6 dropped under one point on SWE-bench Pro under the identical hardened harness, against 14.1 and 20.7 points for the two models the post names. The size of the inflation therefore depends on the model's propensity to exploit the environment, which the post's thesis sentence denies. This counter-evidence from the primary source appears nowhere in the post.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Add the Opus 4.6 figure beside the two drops in the opening or the closing figure and reword the thesis: the environment made the exploit available and only some models took it, so the environmental check is necessary and the model-specific audit remains. Table 2's 'Not settled' column is the natural home for this."
+      },
+      {
+        "id": "f4",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening paragraph, '9 percent of resolved tasks were resolved by mining ... and 57 percent by finding the fix'; closing paragraph 1, '63 percent of the successes it inflated were retrieval'",
+        "claim": "The page gives 57 percent and 9 percent as shares of the 731 trajectories the auditor examined, not of resolved tasks, and separately gives 63 percent of successful resolutions on SWE-bench Pro as retrieved. The post's denominators do not match the page, and 57 plus 9 does not equal 63, which a careful reader will notice. 'The successes it inflated' is also garbled relative to the page's 'successful resolutions'.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "State the two numbers as shares of the 731 audited trajectories and the 63 percent as the share of successful SWE-bench Pro resolutions, and note that the page does not reconcile the two."
+      },
+      {
+        "id": "f5",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Figure 6 (monitor recall by scale) and its caption",
+        "claim": "The figure places the 95 percent chain-of-thought monitor and the 60 percent action-only monitor from source [2] on the same task-scope axis as the 86 to 89 and 42 to 50 percent ranges from source [3]. The two studies use different environments (OpenAI's internal agentic coding environments versus ImpossibleBench variants of LiveCodeBench and SWE-bench), different monitors (GPT-4o versus Claude Sonnet 4 and Opus 4) and different targets (systemic reward hacks versus specification-violating passes). Drawing them on one axis invents a comparison no source made, and the 95 percent point sits at 'single file' although the OpenAI tasks are not described as single-file.",
+        "evidence": [
+          "https://arxiv.org/html/2503.11926v1",
+          "https://arxiv.org/html/2510.20270v1"
+        ],
+        "suggestion": "Keep the figure to source [3] (two scopes, two monitors) and move the [2] numbers into a separate strip or the Table 2 row, each labelled with its own study, monitor and target. Name Claude Sonnet 4 as the 42 to 50 percent monitor, which the page specifies."
+      },
+      {
+        "id": "f6",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Table 4, row 'Citations in the run's report resolve in the tree it produced', column 'Published evidence'",
+        "claim": "The row's evidence is '9 percent of successes mined the bundled git history [12]'. Mining bundled history is detected by inspecting the starting environment or by reading the trajectory, not by resolving the file, line and commit references in a run's report. The citation does not support the check it is attached to.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Either give this row honest evidence (the post has none measured, so mark it Inference) or replace the row with one the [12] figure actually supports: 'Starting environment carries no leaked answer (git history depth, network policy)' settled by a script before the run."
+      },
+      {
+        "id": "f7",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Through-line across sections 2 to 7 and the closing checklist",
+        "claim": "The bundled folder opens and closes the post but is absent from every section between. More seriously, none of the eight rows of Table 4 or the four closing actions would have caught it: the Cursor remedy was pre-run isolation (reinitialising the repository to a single commit and denying network by default), not a post-run check. The close claims the folder was 'sitting in plain sight of the cheapest tool available' without ever naming that tool's one-line check or placing it in the division of labour.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Give the folder one beat per section (the single-commit baseline in section 3, the auditor reading the trace in section 5, the environment record in section 7) and add a provenance row to Table 4 and a fifth action: record the starting tree's commit count and the network policy before the run. Pay for it by cutting the [7] and [13] sentences in section 6 (see f13)."
+      },
+      {
+        "id": "f8",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 'Against a repository that is not green' and the Inference callout that closes it",
+        "claim": "The post's own rule (the run's failing set must be a subset of the starting revision's failing set) is undermined by the flake data the post cites one section later: a test that is flaky at the baseline lands in the failing or passing set by chance, so a single baseline run makes the set comparison itself non-deterministic. The post never says how a baseline-flaky test is classified, which is the first question a practitioner shipping this hits.",
+        "evidence": [
+          "https://arxiv.org/html/2602.02307v1"
+        ],
+        "suggestion": "State the rule for unstable tests: run the baseline more than once, keep three sets (stable pass, stable fail, unstable) and exclude the unstable set from the presence check while recording it. Label the rule Inference and connect it explicitly to the 67.73 percent figure in the next section."
+      },
+      {
+        "id": "f9",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Figure 4 caption 'costs nothing per turn' and the alt text 'deterministic layer at zero cost per turn'; section 'Putting code first'",
+        "claim": "The deterministic layer is not free: its dominant cost is test-suite runtime, which the flaky-build paper quantifies at over 31.6 years of compute for reruns alone, and the 7.8 percent scope hole in source [5] exists precisely because SWE-bench runs only the test files the fixing pull request touched to keep the gate cheap. The post presents the scope hole and the cost argument in separate sections without stating that one causes the other, which is the production consequence a practitioner needs when choosing how much of the suite the gate runs.",
+        "evidence": [
+          "https://arxiv.org/html/2503.15223v2",
+          "https://arxiv.org/html/2602.02307v1"
+        ],
+        "suggestion": "Replace 'costs nothing per turn' with 'no model tokens per turn' and add two sentences in section 7 tying suite runtime to the scope hole: the cheaper the gate, the larger the untested surface, with the 7.8 and 4.5 point figures as the price of the shortcut."
+      },
+      {
+        "id": "f10",
+        "kind": "format",
+        "severity": "major",
+        "location": "All seven figure references in the Markdown (figures/01-harness-flaw-timeline.png and the rest)",
+        "claim": "The Markdown references PNG files; the package contains only SVG files and index.html references the SVGs. The PNG paths do not exist, so the Markdown as delivered has seven broken images, and the publishing platform does not accept SVG uploads, so neither artefact is ready to paste.",
+        "evidence": [],
+        "suggestion": "Render the SVGs to PNG at two widths, include them in figures/, and make the Markdown and HTML reference the same files."
+      },
+      {
+        "id": "f11",
+        "kind": "voice",
+        "severity": "major",
+        "location": "Content preview, sentences 'A measurement of this pipeline's own nine run folders was promised by the brief and is not reported, because that corpus was unavailable to the research phase; constructs built on those numbers are labelled Derived, Inference or Assumption'",
+        "claim": "This is a production note addressed to the operator, not a reader: 'the brief', 'this pipeline', 'the research phase' and 'nine run folders' mean nothing to a Medium reader, and 'constructs built on those numbers' refers to numbers the post just said it does not have. It also breaks the register of the preview, which otherwise reports the topic.",
+        "evidence": [],
+        "suggestion": "Keep the first clause (the evidence is third-party published work, read on the dates in the Sources list; the post ran no measurement of its own) and delete the rest. State the labelling convention in one clause: 'anything the post derives or reasons is labelled Derived, Inference or Assumption where it appears'."
+      },
+      {
+        "id": "f12",
+        "kind": "format",
+        "severity": "major",
+        "location": "Section 'On the question judges were hired for', first paragraph ('AUROC 0.65'); section 'Putting code first' ('SEM-F1'); section 6 paragraph 2 ('Cohen's kappa', 'kappa deflation'); Python block ('XFAIL'); Table 4 rows 'Claim matched to state' and 'Intent in the trace'",
+        "claim": "AUROC, SEM-F1, kappa and XFAIL are terms of art that are never explained in a clause, and the closing table quotes raw AUROC values (0.83, 0.95, 0.65, 0.54) without naming the measure or what 0.5 means. The brief flags unexplained terms in the closing table specifically. TF-IDF, by contrast, is explained well.",
+        "evidence": [],
+        "suggestion": "Add a clause at first use for each: AUROC as the probability the detector ranks a real false success above a true one, 0.5 being chance; SEM-F1 as a semantic-match F1 against the human review comments; kappa as agreement corrected for chance; XFAIL as an expected failure. In Table 4 write 'AUROC 0.83' and add '0.5 is chance' to the caption."
+      },
+      {
+        "id": "f13",
+        "kind": "format",
+        "severity": "major",
+        "location": "Section 'On the question judges were hired for', paragraph 2 last sentence ([7]) and Counter-evidence callout last sentence ([13]); section 'Passing the gate', paragraph 2 first sentence ('Hardening helps unevenly')",
+        "claim": "The kappa deflation and ranking-shift figures from [7] and the batch-invariant kernel result from [13] are each one-sentence drops that no claim in the thesis needs; they lengthen the judge section without changing what a reader should do. The read-only test-file sentence from [3] sits in the gate section between two gate attacks but is about the model-monitoring study and belongs with section 5 or 3.",
+        "evidence": [
+          "https://arxiv.org/abs/2606.19544",
+          "https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/"
+        ],
+        "suggestion": "Cut the [7] and [13] sentences (or keep one of them inside Table 2's 'Evidence against' cell for the model-reviewer row) and move the read-only finding next to the ImpossibleBench cheating rates in section 5. Spend the saved length on f7, f8 and f9."
+      },
+      {
+        "id": "f14",
+        "kind": "format",
+        "severity": "major",
+        "location": "Table 1, row 'AppWorld, runs carrying a status claim', column 'Trajectories measured'",
+        "claim": "The cell gives 1,879, which the source reports as the whole AppWorld corpus, while the 75.8 percent in the same row is the share among the self-assessing subset that carried a status claim. The row therefore pairs a corpus count with a subset share, a population mix-up the brief asks reviewers to flag; the caption half-acknowledges it but the cell does not.",
+        "evidence": [
+          "https://arxiv.org/abs/2606.09863"
+        ],
+        "suggestion": "Change the cell to 'subset of 1,879 (size not stated in the abstract)' or, if the paper body gives the subset size, use that number."
+      },
+      {
+        "id": "f15",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 'A model check earns its cost', paragraph 3, 'agents flagged the same wrong claim markedly more often'",
+        "claim": "The cited abstract gives a number: relabeling the claim from the agent's own thought to an external role raised the explicit-correction rate by 23 to 93 percentage points, significant in 10 of 12 settings. The post uses 'markedly' where a measured range exists, against the every-number-has-a-source rule in spirit.",
+        "evidence": [
+          "https://arxiv.org/abs/2606.05976"
+        ],
+        "suggestion": "Replace 'markedly more often' with the 23 to 93 percentage point range and '10 of 12 settings'."
+      },
+      {
+        "id": "f16",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 'Passing the gate', paragraph 3 and Table 2 context, '1,005 of the 1,960 projects, 51.28 percent'",
+        "claim": "The source is internally inconsistent: its results section says 1,005 projects and its abstract says 1,055, both at 51.28 percent. Only 1,005 is consistent with the percentage, so the post's number is the defensible one, but a reader who opens the abstract will see a different figure.",
+        "evidence": [
+          "https://arxiv.org/html/2602.02307v1"
+        ],
+        "suggestion": "Keep 1,005 and add a parenthesis-free clause: the paper's abstract prints 1,055, which does not match its own percentage."
+      },
+      {
+        "id": "f17",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 'A model check earns its cost', paragraph 2, 'Prompt wording alone moved cheating rates from above 85 percent under the loosest variants to 1 percent under the strictest'",
+        "claim": "The page gives the 1 percent floor for GPT-5 only; o3 fell to 33 percent under the same strict prompt, on Conflicting-LiveCodeBench. Generalising to 'cheating rates' overstates how far wording alone goes.",
+        "evidence": [
+          "https://arxiv.org/html/2510.20270v1"
+        ],
+        "suggestion": "Write 'for GPT-5, from above 85 percent to 1 percent; for o3, to 33 percent' and name the benchmark variant."
+      },
+      {
+        "id": "f18",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Table 3, 'Cheap panel' row and the Derived callout below it",
+        "claim": "Gemini 3.8 Flash's $0.75 and $3.75 prices are listed on the pricing page as valid through 2026-12-31, doubling on 2027-01-01, so the cheap-panel line goes stale on a known date. Separately, the Anthropic page says Claude 4.7 and later models already use the newer tokenizer, so Opus 5.5 is not 'if the newer tokenizer applies'; the question is only whether the assumed 12,000-token bundle was counted in the old or new tokenizer.",
+        "evidence": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://platform.claude.com/docs/en/about-claude/pricing"
+        ],
+        "suggestion": "Footnote the Gemini 3.8 Flash expiry date in the caption, and rephrase the Opus sensitivity line as 'if the 12,000-token bundle was counted with the older tokenizer, Opus 5.5's count rises about 30 percent and the line to $0.140'."
+      },
+      {
+        "id": "f19",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Python code block in section 'Against a repository that is not green', comment 'the harness's own rule'",
+        "claim": "The block is a paraphrase, not the harness's code: grading.py returns 1 when a list is empty (an empty PASS_TO_PASS scores a perfect 1.0), and credits PASSED and XFAIL via a status map lookup. Labelling a paraphrase as 'the harness's own rule' invites a reader to quote it as source.",
+        "evidence": [
+          "https://raw.githubusercontent.com/SWE-bench/SWE-bench/main/swebench/harness/grading.py"
+        ],
+        "suggestion": "Change the comment to 'paraphrase of grading.py' and mention the empty-list case in one line, since it is a small hole worth knowing."
+      },
+      {
+        "id": "f20",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Derived callout at the end of section 1, 'a factor of 45/3 = 15 to 48/3 = 16'",
+        "claim": "Dividing one domain's share of failures by another's gives a ratio of proportions, not a measure of how much the claim-to-state check 'earns'; the number is trivial and adds nothing the two shares did not already say.",
+        "evidence": [],
+        "suggestion": "Cut the ratio and keep the one-sentence point that the check's yield is domain-dependent. Use the space to say what the record should carry per run (claimed state, measured state, delta) so the honesty signal can be tracked per model over time, which is the production consequence this section gestures at but never states."
+      },
+      {
+        "id": "f21",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Opening paragraph, 'A vendor audit of 731 of its own agent's trajectories' and 'the same model'",
+        "claim": "The model is never named until the closing figure's alt text. 'Its own agent' is ambiguous because the audited model is Anthropic's Opus 4.8 Max run inside Cursor's harness, and Cursor's own model, Composer 2.5, is the one with the 20.7 point drop. A reader cannot tell whose system the opening numbers describe.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Name Opus 4.8 Max and Cursor's harness in the first three sentences, and mention Composer 2.5 when the 20.7 figure first appears in the close."
+      },
+      {
+        "id": "f22",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Front matter before the first section heading: opening paragraph, timeline alt text, preview with its eight-item outline and outcomes sentence",
+        "claim": "Counting the figure alt text, the material before the first heading sits at about the 450-word ceiling, and the eight-item outline with a trailing gloss on each item is the bulk of it. The outline items are also plain bold text in both the Markdown and the HTML, not links to the headings as the standard requires.",
+        "evidence": [],
+        "suggestion": "Drop the trailing gloss after each outline item (the headings already carry the claims), link each item to its heading, and shorten the timeline alt text to the message plus the seven dates."
+      },
+      {
+        "id": "f23",
+        "kind": "format",
+        "severity": "minor",
+        "location": "All seven SVG figures, their style blocks",
+        "claim": "Every figure hard-codes a light palette (fill #fbfaf8 background, #1a1a1a labels) with an opaque background rectangle. In the dark scheme they render as light cards, legible but visibly not designed for the page, and the standard asks for colours defined and checked in both schemes.",
+        "evidence": [],
+        "suggestion": "Either accept the light-card look deliberately and say so in the package notes, or add a prefers-color-scheme block inside each SVG for the dark palette already defined in index.html."
+      },
+      {
+        "id": "f24",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Table 4 and its caption",
+        "claim": "The table is the post's own construct (a division of labour the post assembled) but carries no Derived, Inference or Assumption label, so it reads as a finding. Figure 2, which shows the same split, is correctly labelled Illustration.",
+        "evidence": [],
+        "suggestion": "Open the caption with 'Inference.' or add a 'Status' note that the rows are reasoned from the cited sources and not measured on a corpus."
+      }
+    ]
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "model": "gemini-3.8-flash",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post establishes a compelling argument for deterministic verification layers and supports its core claims with rigorous, dated citations from current literature and platform documentation. However, revision is required: two blockers must be resolved (SWE-bench harness grading semantics misrepresent the cited source regarding skipped maintenance tests, and all figure links point to nonexistent .png files instead of .svg assets), while several major issues demand attention (a population mix-up in Table 1, conflating the network proxy drop with git isolation alone, an opening word count exceeding the 450-word ceiling, missing dark-mode figure styles, and an orphaned opening anecdote that fails to thread through Sections 1 to 7). All lenses are represented across the findings.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Section 3, paragraph 2, Python code block, Table 4 row 3, and Section 8 list item 2",
+        "claim": "The post misrepresents the SWE-bench evaluation harness source code [14] by asserting that its grading statuses keep SKIPPED distinct from FAILED so a skipped test cannot be read as passed. In fact, test_maintained in swebench/harness/grading.py explicitly treats a SKIPPED status on a PASS_TO_PASS test as a success ('P2P semantics: a skipped test is not a regression, unlike for F2P.'). Furthermore, the post presents pseudocode with a fictitious passed() function claiming that SKIPPED fails it, obscuring how SWE-bench actually scores maintenance tests.",
+        "evidence": [
+          "https://raw.githubusercontent.com/SWE-bench/SWE-bench/main/swebench/harness/grading.py"
+        ],
+        "suggestion": "Acknowledge that SWE-bench's native harness tolerates SKIPPED tests in PASS_TO_PASS as non-regressions, explain that this permissiveness is itself a vulnerability in naive harness grading, and clarify that the strict requirement to fail skipped or uncollected tests is a necessary hardening step rather than default SWE-bench behavior."
+      },
+      {
+        "id": "f2",
+        "kind": "format",
+        "severity": "blocker",
+        "location": "Post body, all seven figure embeds",
+        "claim": "All seven figure embed links in post.md specify a .png file extension (e.g., figures/01-harness-flaw-timeline.png), but only .svg files exist in the figures directory. Any Markdown renderer or platform ingesting post.md fails to load and display every image in the article.",
+        "evidence": [],
+        "suggestion": "Update all figure image paths in post.md from .png to .svg to match the existing assets in post/figures/ and align with index.html."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section 1, Table 1, row 3",
+        "claim": "Table 1 lists 1,879 trajectories under 'Trajectories measured' for the row 'AppWorld, runs carrying a status claim'. In the cited paper (Advani [1]), 1,879 is the pooled total number of AppWorld trajectories across four model families, whereas the 75.8 percent false success rate applies specifically to the subset of self-assessing coding-agent trajectories that carried an explicit status claim. Conflating the total sample size with the subset is a population mix-up.",
+        "evidence": [
+          "https://arxiv.org/abs/2606.09863"
+        ],
+        "suggestion": "Correct the row label or trajectory count to clearly distinguish between the total 1,879 AppWorld evaluation trajectories and the specific self-assessing status-claim subset evaluated for false success."
+      },
+      {
+        "id": "f4",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Subtitle, Figure 1 timeline, and Section 8, paragraph 1",
+        "claim": "The post repeatedly attributes the entire 14.1-point SWE-bench Pro score drop (from 87.1 to 73.0 percent) solely to the bundled .git folder. In Cursor's published audit [12], the 14.1-point drop resulted from a stricter harness combining both history isolation and network egress proxying; upstream lookup on the public internet accounted for 57 percent of trajectories, while git history mining accounted for only 9 percent.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Attribute the 14.1-point drop to the combined isolation of git history and network egress, noting that web search accounted for the majority (57 percent) of answer retrieval while git mining accounted for 9 percent."
+      },
+      {
+        "id": "f5",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Sections 1 through 7",
+        "claim": "The opening scene introduces a concrete object (the SWE-bench Pro task container with bundled .git history that enabled answer retrieval), but this object completely disappears across Sections 1 through 7 before reappearing in Section 8. This breaks the required through-line device and turns the middle sections into a disconnected survey of independent benchmark papers.",
+        "evidence": [],
+        "suggestion": "Follow the opening container through each section as a unifying thread: in Section 1, examine how its completion message concealed the git exploit; in Section 2, trace how porcelain status and check-ignore detect left-behind files in that container; in Section 3, show how set-based grading exposes changes to gold test files; in Section 5, evaluate whether chain-of-thought monitoring would have caught the git-log inspection; and in Section 7, contrast the cost of code checks with model reviews on that trace."
+      },
+      {
+        "id": "f6",
+        "kind": "format",
+        "severity": "major",
+        "location": "Opening and Content Preview (prose before first section heading)",
+        "claim": "The text before the first section heading contains 526 words, exceeding the strict recipe limit of at most 450 words before the first section, preview included.",
+        "evidence": [],
+        "suggestion": "Trim roughly 80 to 90 words from the opening prose and content preview outline items, tightening the lead paragraph and consolidating list descriptions to bring the pre-heading section under 450 words."
+      },
+      {
+        "id": "f7",
+        "kind": "format",
+        "severity": "major",
+        "location": "Figures 1 through 7 (post/figures/*.svg)",
+        "claim": "All seven SVG figures hardcode light-mode styling (such as #fbfaf8 backgrounds, #1a1a1a text, and light borders) without defining CSS variables or @media (prefers-color-scheme: dark) styles, violating the requirement that every visual element and color must be defined and checked in both light and dark schemes.",
+        "evidence": [],
+        "suggestion": "Add responsive CSS styles or dark-scheme media queries to the SVGs matching the CSS variable palette used in index.html, ensuring legible contrast on dark backgrounds."
+      },
+      {
+        "id": "f8",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 3, paragraph 1 and Figure 5",
+        "claim": "The proposal to enforce relative set comparison (failing tests must be a subset of the start revision, and all passing tests must still be collected) fails to address the impact of flaky tests on the baseline. With Section 4 showing that 67.73 percent of developer reruns exhibit flakiness, a non-deterministic baseline test that was green at the start revision but fails after the run triggers a false failure under strict set comparison.",
+        "evidence": [
+          "https://arxiv.org/html/2602.02307v1"
+        ],
+        "suggestion": "Provide the operational mechanism to handle baseline flakiness: specify that the harness must run the baseline suite multiple times or rerun failing tests that were previously passing to distinguish genuine agent regressions from ambient CI flakiness."
+      },
+      {
+        "id": "f9",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 7, paragraph 3 and Figure 4",
+        "claim": "The discussion of Claude Code Stop hooks exiting with code 2 to inject verification feedback overlooks the production failure mode of unconstrained rejection loops. Without an explicit iteration budget, agents caught in a deterministic check failure enter thrashing loops that consume context windows without resolving the underlying error.",
+        "evidence": [
+          "https://code.claude.com/docs/en/hooks"
+        ],
+        "suggestion": "Explain the necessity of capping automated turn rejections with a retry ceiling (such as 3 attempts) before converting the failure into a graceful escalation or halting the session."
+      },
+      {
+        "id": "f10",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Post body, figure references and filenames",
+        "claim": "Figure filenames appear out of numerical order in the post flow: 01, 02, 05, 06, 03, 04, 07. Specifically, figure 05 appears in Section 3, 06 in Section 5, 03 in Section 6, and 04 in Section 7.",
+        "evidence": [],
+        "suggestion": "Renumber the figure filenames sequentially from 01 through 07 in the order they are introduced in the text."
+      },
+      {
+        "id": "f11",
+        "kind": "voice",
+        "severity": "minor",
+        "location": "Content Preview, lead paragraph",
+        "claim": "The sentence 'A measurement of this pipeline's own nine run folders was promised by the brief and is not reported, because that corpus was unavailable to the research phase; constructs built on those numbers are labelled Derived, Inference or Assumption' breaks register by exposing internal brief prompt instructions and incorrectly implying that the Derived/Inference callouts were built on unavailable data.",
+        "evidence": [],
+        "suggestion": "Replace the sentence with a direct, impersonal statement that the post rests entirely on third-party published empirical literature and documented tool contracts."
+      },
+      {
+        "id": "f12",
+        "kind": "voice",
+        "severity": "minor",
+        "location": "Opening, paragraph following Figure 1",
+        "claim": "The single sentence 'Every published check since 2025 found something the run's report did not say. [1] [2] [3] [4] [5] [6] [12]' functions as an isolated one-line padding paragraph between Figure 1 and the preview block.",
+        "evidence": [],
+        "suggestion": "Fold this sentence into the caption of Figure 1 or integrate it smoothly into the opening narrative paragraph."
+      },
+      {
+        "id": "f13",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section 2, paragraph 1 and bash snippet",
+        "claim": "The git plumbing checks focus on git status and git check-ignore, but do not address the specific mechanism of the opening vulnerability: inspecting commit history, reflogs, or git submodules. Running git status on a clean repository with bundled history will report a clean tree and miss the historical leak entirely.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Include the concrete verification commands for checking repository history sanitization, such as verifying commit depth (`git rev-list --count HEAD` equals 1) and ensuring `.git` directories do not exist in submodules or workspace subdirectories."
+      }
+    ]
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post has a strong central example, substantial primary-source research, and useful comparisons, but its implementation advice contains two blocking errors. Several conclusions also exceed the evidence, particularly the monitor scaling figure, the division between automated testing and human inspection, and the claim that verification costs nothing. All 23 cited pages opened. The existing research supports a tighter, more accurate revision with clearer production boundaries. No first-person or prohibited-dash violations were found in the supplied Markdown. Local reads were blocked, so rendered layout, highlighting, and image assets remain unverified.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "A page of plumbing settles most of what a reviewer would otherwise adjudicate: Bash example and explanation of committed ignored paths",
+        "claim": "The advertised check does not detect committed paths covered by ignore rules. The opened git-check-ignore manual explicitly excludes tracked files by default. Consequently, the example can report clean for precisely the force-added files it is supposed to catch. HEAD~1 also covers only the last commit, and unquoted command substitution does not preserve arbitrary filenames.",
+        "evidence": [
+          "https://www.man7.org/linux/man-pages/man1/git-check-ignore.1.html"
+        ],
+        "suggestion": "Correct the example using --no-index, NUL-delimited pathname handling, and the recorded run-start/run-end revisions. Explicitly scope which exclusion sources count as repository policy. Replace the existing example rather than adding another."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Against a repository that is not green: paragraph beginning 'The failing set is half the problem', Python example, and corresponding closing recommendations",
+        "claim": "The cited current harness does not implement the rule attributed to it. test_maintained accepts SKIPPED for PASS_TO_PASS; FAIL_ONLY evaluation credits absent cases; and empty score denominators return 1 rather than dividing by zero. The claim that skipped or absent tests always fail the harness is false.",
+        "evidence": [
+          "https://raw.githubusercontent.com/SWE-bench/SWE-bench/main/swebench/harness/grading.py"
+        ],
+        "suggestion": "Separate the proposed stricter policy from SWE-bench's actual behavior. Correct the example and explanatory claims, specify the evaluation mode, handle empty sets, and cite an immutable source revision. Preserve the useful FULL/PARTIAL/NO comparison without presenting the stricter policy as upstream code."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening paragraph: '731 of its own agent's trajectories' and the 9 percent and 57 percent claims",
+        "claim": "The opened Cursor audit examined Opus 4.8 Max, while Cursor identifies Composer as its own model. Its 9 percent and 57 percent figures describe trajectories, not shares of resolved tasks. The separate 63 percent statistic uses successful resolutions.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Correct the model attribution and retain each statistic's actual denominator."
+      },
+      {
+        "id": "f4",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening timeline alternative and closing paragraph: attributing the score reductions to the bundled directory",
+        "claim": "The score differences measure combined history isolation and network restrictions, not the directory's independent effect. The source also says its ingested images predated upstream fixes, a qualification absent from the post.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Attribute the reductions to the combined intervention and identify the affected images as historical. Replace the directory-only causal language."
+      },
+      {
+        "id": "f5",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening and closing: claims that the agents' closing messages said nothing false",
+        "claim": "Could not verify the claims about truthful closing messages from the cited Cursor page; it supplies tool-call examples, not evidence establishing those messages' truthfulness.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Remove these assertions or support them with identifiable published transcripts."
+      },
+      {
+        "id": "f6",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Monitor-recall figure, its text alternative, and 'That advantage has an axis along which it decays'",
+        "claim": "The figure presents separate experiments as a common scaling curve. Source [2] does not establish a flat action-monitor baseline across repository sizes or place its 95 percent result at a single-file endpoint. Its optimization experiment varies training pressure, not task size. Source [3] compares different benchmarks and scaffolds, which does not isolate size as the causal variable.",
+        "evidence": [
+          "https://arxiv.org/html/2503.11926v1",
+          "https://arxiv.org/html/2510.20270v1"
+        ],
+        "suggestion": "Replace the combined curve with separate experimental panels showing population, monitor, and intervention. Retain the observed scope association while qualifying causal claims about size."
+      },
+      {
+        "id": "f7",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Table 1: tau2-bench trajectory counts",
+        "claim": "The table assigns the pooled 9,876 trajectories to single-control domains. The opened paper reports 1,797 airline, 4,029 retail, and 4,050 telecom trajectories.",
+        "evidence": [
+          "https://arxiv.org/html/2606.09863v1"
+        ],
+        "suggestion": "Use domain-specific counts or explicitly label 9,876 as the total spanning both rows."
+      },
+      {
+        "id": "f8",
+        "kind": "factual",
+        "severity": "major",
+        "location": "On the question judges were hired for: 'no model behind them'; Table 4, claim-matched-to-state row",
+        "claim": "These detectors are trained models: TF-IDF features feed logistic regression or XGBoost. They predict false success from surface features rather than verify environment state. Placing them among mechanisms that settle claim-to-state consistency conflates probabilistic triage with direct verification.",
+        "evidence": [
+          "https://arxiv.org/html/2606.09863v1"
+        ],
+        "suggestion": "Name the classifier and distinguish prediction from state verification in the prose and closing table."
+      },
+      {
+        "id": "f9",
+        "kind": "factual",
+        "severity": "major",
+        "location": "A page of plumbing: definition of deterministic; Table 2, evidence for a failing gate",
+        "claim": "A documented input contract does not make a computation deterministic. The Git manual guarantees a stable output format, not reproducible test execution or proof that a failure was introduced by this run. Table 2 cites that formatting guarantee as evidence for a different proposition.",
+        "evidence": [
+          "https://man.archlinux.org/man/git-status.1.en"
+        ],
+        "suggestion": "Distinguish stable parsing, repeatable evaluation of a fixed record, and repeatable execution of the underlying tests. Replace the misleading Table 2 cell and the current definition."
+      },
+      {
+        "id": "f10",
+        "kind": "factual",
+        "severity": "major",
+        "location": "What the bundled folder settled: second prose paragraph and Table 4's final row",
+        "claim": "The conclusion misattributes automated findings to inspection. The 7.8 percent result came from executing the full developer suite; the 29.6 percent result came from automated PatchDiff testing. Human inspection assessed a sample afterward. Moreover, 51 of 77 inspected suspicious patches remained uncertain, so inspection did not reliably settle correctness either.",
+        "evidence": [
+          "https://arxiv.org/html/2503.15223v2"
+        ],
+        "suggestion": "Correct the method attribution and distinguish behavioral difference, demonstrated incorrectness, and unresolved specification ambiguity. Replace the table's misleading evidence for the human-only category."
+      },
+      {
+        "id": "f11",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Putting code first: opening paragraph about OpenCodeReview",
+        "claim": "The 5 to 15 times token reduction applies to Claude Code comparisons, not every unbounded baseline: the GPT-5.5 comparison is 422K versus 525K tokens. The headline F1 improvement also accompanies recall falling from 28.90 to 20.00 percent. Finally, the experiment changes dispatch, tools, parallelism, context isolation, and reflection; it does not isolate the effect of putting a verification layer first.",
+        "evidence": [
+          "https://arxiv.org/html/2608.09290v1"
+        ],
+        "suggestion": "Scope the savings to the relevant comparator, disclose the recall tradeoff, and label the layer-order recommendation as an inference. Replace the broad causal claim with the actual system comparison."
+      },
+      {
+        "id": "f12",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Passing the gate: Counter-evidence callout reporting 339.2 years of waiting time",
+        "claim": "Could not verify an internally consistent waiting-time total. The opened paper reports 2.97 million hours across 52,610 rerun builds, but also a 19-hour mean; those quantities imply approximately 56.5 hours instead. Its corpus totals also differ between sections. The draft repeats the dramatic total without acknowledging this inconsistency, then asserts an unmeasured cost advantage over human adjudication.",
+        "evidence": [
+          "https://arxiv.org/html/2602.02307v1"
+        ],
+        "suggestion": "Remove the waiting-time total pending clarification and remove or label the cost comparison as an assumption. Keep the directly relevant evidence that rerun outcomes can change."
+      },
+      {
+        "id": "f13",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Post-turn pipeline figure, text alternative, and caption: 'costs nothing per turn'",
+        "claim": "Running scripts, collecting artifacts, executing suites, and retrying failures consume compute and time. Avoiding a model API call does not make the deterministic layer free, especially when the proposed layer includes full test execution.",
+        "evidence": [],
+        "suggestion": "State which marginal charge is absent and leave execution cost unmeasured unless it is actually measured. Correct the figure and caption in place."
+      },
+      {
+        "id": "f14",
+        "kind": "insight",
+        "severity": "major",
+        "location": "A model check earns its cost: role-relabeling paragraph",
+        "claim": "The claim that role placement explains why an external check works generalizes beyond the experiment. The study measures explicit identification of a supplied erroneous intermediate, distinguishes that from final-answer correctness, and explicitly leaves error localization to an upstream detector. This missing distinction is directly relevant to designing the proposed verifier.",
+        "evidence": [
+          "https://arxiv.org/pdf/2606.05976"
+        ],
+        "suggestion": "Replace the universal mechanism claim with the experiment's narrower boundary and explain that a verifier must first identify a candidate error. Use the existing paragraph's space."
+      },
+      {
+        "id": "f15",
+        "kind": "insight",
+        "severity": "major",
+        "location": "On the question judges were hired for: Derived distance-from-chance callout",
+        "claim": "The AUROC ratios do not establish operational value, and 0.54 does not mean no discrimination. The paper supplies stronger counter-evidence: 50 percent precision at a 10 percent flag rate and complementary errors between detector and judge.",
+        "evidence": [
+          "https://arxiv.org/html/2606.09863v1"
+        ],
+        "suggestion": "Replace the ratio callout with the operating-point tradeoff and ensemble qualification. State the resulting review burden."
+      },
+      {
+        "id": "f16",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Table 3 and the claim that a second provider's price list is the whole cost",
+        "claim": "The arithmetic prices a stipulated token allowance, not a demonstrated review turn. '3,000 tokens of findings' does not specify billable thinking tokens; Google's pricing explicitly includes them. Tool calls, repeated context, retries, and adjudicating findings are also outside the estimate. Therefore the table cannot establish that money is immaterial.",
+        "evidence": [
+          "https://ai.google.dev/gemini-api/docs/pricing",
+          "https://platform.claude.com/docs/en/about-claude/pricing"
+        ],
+        "suggestion": "Define the allowance as total billable output or state its exclusions, and distinguish request cost from review cost. Replace the tokenizer/batch detour with this accounting boundary."
+      },
+      {
+        "id": "f17",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Relative-gate section, JSON finding, and closing action 1",
+        "claim": "The proposed verification record identifies revisions but does not establish that the tested tree is the artifact later accepted, or that the runner, configuration, dependencies, and reported results are outside the agent's control. Keeping a separate copy of test definitions alone does not establish that trust boundary.",
+        "evidence": [
+          "https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches"
+        ],
+        "suggestion": "Replace part of the generic inventory with a compact Derived acceptance contract binding results to the candidate artifact, verifier configuration, environment, and trusted producer. Explain when any subsequent mutation invalidates the result."
+      },
+      {
+        "id": "f18",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Against a repository that is not green: proposed subset rule and concluding Inference callout",
+        "claim": "The relative gate demonstrates non-regression, not task completion: an unchanged repository passes it. It also needs an explicit policy for legitimate test renames, intentional behavior changes, and baseline failures that the assigned task must fix. Without these distinctions, the recommendation can accept no work or reject correct work.",
+        "evidence": [],
+        "suggestion": "Separate preservation checks from task-specific acceptance checks and state how approved baseline changes are represented. Replace the categorical opening about all real repositories being red with these boundaries."
+      },
+      {
+        "id": "f19",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Putting code first: Stop-hook description and JSON action 'exit 2, continue the turn'",
+        "claim": "The repair loop has no termination or escalation policy. A persistent infrastructure failure, flaky test, or unfixable requirement can keep blocking completion. The opened hooks reference specifically exposes stop_hook_active and warns against repeatedly blocking on an irresolvable condition.",
+        "evidence": [
+          "https://code.claude.com/docs/en/hooks"
+        ],
+        "suggestion": "Replace the unconditional action with an explicitly illustrative policy distinguishing repairable findings, infrastructure errors, and exhausted retries. Include a bounded escalation path using the existing example's space."
+      },
+      {
+        "id": "f20",
+        "kind": "insight",
+        "severity": "major",
+        "location": "A model check earns its cost: recommendation to reserve the model for intent in the trace",
+        "claim": "The proposed production layer assumes access to the same evidence as the research monitor. Source [2]'s monitor saw the full trajectory including internal chain of thought; an ordinary transcript or reasoning summary is not automatically equivalent. The paper also qualifies reasoning faithfulness. The post does not establish what trace its proposed deployment can actually supply.",
+        "evidence": [
+          "https://arxiv.org/html/2503.11926v1"
+        ],
+        "suggestion": "State the required trace surface and the fallback when it is unavailable. Replace the categorical sentence about reading intent with this deployment limitation."
+      },
+      {
+        "id": "f21",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Opening paragraph, seven-study timeline, and content preview",
+        "claim": "The folder is an effective object, but the opening quickly becomes an aggregate literature summary rather than one identifiable incident. The timeline catalogs unrelated studies instead of showing the incident's sequence. The preview then interrupts the reader with production-process residue about an unavailable corpus and a promise made by an unseen brief.",
+        "evidence": [],
+        "suggestion": "Anchor the opening in one documented run or artifact already present in the audit, make its sequence the opening figure, and cut the internal-brief explanation. Keep a concise disclosure that the article synthesizes third-party evidence."
+      },
+      {
+        "id": "f22",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Sections on trace monitoring, judge comparisons, and pricing",
+        "claim": "The middle loses the opening object and becomes a sequence of benchmark abstracts. Kappa deflation, parameter-size thresholds, self-preference, batch-invariant generation, and multiple pricing adjustments compete with the promised post-run verification mechanism. Several paragraphs repeat numbers already carried by figures and tables.",
+        "evidence": [],
+        "suggestion": "Cut the kappa/ranking digression, shorten the general judge-reliability comparison, and remove repeated numerical recaps beside figures. Spend that space on how the same candidate run progresses through checks, uncertainty, and escalation."
+      },
+      {
+        "id": "f23",
+        "kind": "format",
+        "severity": "major",
+        "location": "What the bundled folder settled: paragraph beginning 'Benchmarks are fixable'",
+        "claim": "The closing introduces substantive evidence not developed in the body: the iterative BenchJack repair results, below-10-percent outcome, and complete repairs within three iterations. This starts a new argument where the required closing should settle the existing one.",
+        "evidence": [
+          "https://arxiv.org/abs/2605.12673"
+        ],
+        "suggestion": "Move only the necessary repair result into the earlier harness discussion, replacing repetitive material there, or cut it. Keep the closing focused on the established comparison and concrete actions."
+      },
+      {
+        "id": "f24",
+        "kind": "format",
+        "severity": "major",
+        "location": "Content-preview outline and numbered citations throughout the supplied Markdown",
+        "claim": "The eight-item outline repeats headings but contains no links. Inline references such as [12] are also plain text without link targets or reference definitions. The supplied Markdown therefore does not provide the required linked route or navigable in-page citations.",
+        "evidence": [],
+        "suggestion": "Link preview entries to section anchors and citation numbers to dated source entries. Verify those links in the publication package; replace the existing text markers without adding prose."
+      },
+      {
+        "id": "f25",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Judge-comparison and pricing sections; closing comparison table",
+        "claim": "AUROC, F1, SEM-F1, precision, recall, and Cohen's kappa appear without concise explanations. These are central to interpreting the comparisons, while less consequential details receive more space. The closing table also presents bare detector scores without identifying their metric.",
+        "evidence": [],
+        "suggestion": "Explain retained metrics briefly at first use and label the closing scores as AUROC. Fund those clauses by removing the distance-from-chance calculation and the judge-ranking digression."
+      }
+    ]
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "model": "claude-fable-5-1",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "Round 2 is close: every headline number checked against its page holds (Cursor's 731, 9, 57, 63 percent and 87.1 to 73.0; the 7.8, 29.6, 28.6 of 77, 11.0 and 6.4 figures; 4,861,768 builds and 67.73 percent; 0.640, 0.537, 0.825, 0.953; 23 to 93 points in 10 of 12; the grading.py SKIPPED and empty-list behaviour; all three price pages and the arithmetic in Table 3). The format rules are met: no dashes, no first person, seven abstract figures, callouts labelled, a closing table, cadence never exceeding two prose paragraphs. What stands between it and publication: the hooks paragraph claims an unconditional Stop block never terminates while the cited page documents an eight-continuation cap and describes stop_hook_active as an input the hook reads, not a flag it sets; the grading.py hole is overstated because the very commit the post pins adds a non-zero-count check that the suite ran; the extended-thinking page cited for the cost derivation says it does not apply to the model priced; sources.json is numbered differently from the post's list and carries two researched sources the post dropped, one of which (temperature-zero nondeterminism) is the strongest unused argument for a post about deterministic verification. On insight, the post never says who authors the acceptance half of the gate outside a benchmark, which is the production gap a practitioner hits first. On engagement, the opening paragraph stacks seven numbers after a strong first sentence, and the through-line thins in sections 3, 6 and 7. Length should be held by cutting the third and fourth restatements of 7.8 percent, 87.1 to 73.0 and 67.73 percent.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Section 7, paragraph beginning 'An unconditional block never terminates'",
+        "claim": "The sentence says an unconditional Stop block never terminates and that 'setting' stop_hook_active while refusing to continue can loop forever, cited to the hooks reference. The page says the opposite on both points: stop_hook_active is an input field Claude Code sets to true when it is already continuing because of a stop hook (the hook reads it, it does not set it), and Claude Code applies an eight-consecutive-continuation cap after which it overrides the next block and ends the turn, adjustable with CLAUDE_CODE_STOP_HOOK_BLOCK_CAP. A reader building the fix_turn_ceiling in the JSON record would do so believing no platform cap exists.",
+        "evidence": [
+          "https://code.claude.com/docs/en/hooks"
+        ],
+        "suggestion": "Restate: the hook reads stop_hook_active to avoid blocking on a condition that will never resolve, and Claude Code itself caps consecutive continuations at eight; the post's ceiling of three is a tighter, finding-aware bound layered under that cap, not a substitute for a missing one."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section 3, paragraph 'What the harness credits is looser than the rule above' and the sentence 'The permissiveness is the hole: credit for a test nobody ran'; Section 7 'A harness therefore asserts that the suite ran'; Table 4 row 'Test still present and collected'",
+        "claim": "The score functions do return 1 on an empty list, but the pinned commit ca6e4e0d, whose log the post cites as [23], is titled 'Reject zero-count test summaries' and changes the SUITE_RAN patterns to require non-zero counts ('Executed [1-9]\\d* of \\d+', '[1-9]\\d* passing'), with a new test that 'Executed 0 of 0' is not evidence the suite ran. The harness therefore already asserts the suite ran at the log-parsing layer; the remaining hole is an empty gold FAIL_TO_PASS or PASS_TO_PASS list, which is a dataset property, not a run that skipped its tests. The preceding commit 'Treat a clean jasmine run as evidence the suite ran' is on the same point.",
+        "evidence": [
+          "https://api.github.com/repos/SWE-bench/SWE-bench/commits/ca6e4e0d252f32f8762625b73575d5dee49d0a5a",
+          "https://api.github.com/repos/SWE-bench/SWE-bench/commits?path=swebench/harness/grading.py&per_page=3"
+        ],
+        "suggestion": "Narrow the hole to what survives at ca6e4e0d: an empty gold list scores 1.0, and SKIPPED is credited on pass-to-pass. Credit the harness for the non-zero-count SUITE_RAN check and present 'assert the suite ran' as practice the harness already adopted on 2026-08-16, which strengthens the recommendation. Update the Table 4 'Where it stops' cell accordingly."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section 7, Derived callout under Table 3, last sentence citing [28]",
+        "claim": "The callout cites the extended-thinking page for 'max_tokens the only hard ceiling' and thinking billed as output, in support of a turn priced on Claude Opus 5.5. That page opens with a warning that extended thinking (type enabled with budget_tokens) is deprecated on 4.6 and rejected with a 400 error on Claude 4.7 and later, and names Opus 5.5 among the models that must migrate to adaptive thinking. The billing facts may still hold under adaptive thinking, but the cited page says it does not describe the model in the table.",
+        "evidence": [
+          "https://platform.claude.com/docs/en/build-with-claude/extended-thinking",
+          "https://platform.claude.com/docs/en/about-claude/pricing"
+        ],
+        "suggestion": "Cite the adaptive thinking or thinking pricing page for Opus 5.5's output-token billing and ceiling, or state that the extended-thinking page is being used for the Opus 4.5 era behaviour only. Keep the 'Opus 4.5 and models numbered 4.6 and higher' wording for the thinking-blocks-billed-as-input point, which that page does state."
+      },
+      {
+        "id": "f4",
+        "kind": "format",
+        "severity": "major",
+        "location": "Sources list (28 entries) against sources.json (30 entries)",
+        "claim": "The package's sources.json numbers its entries differently from the post: sources.json n=7 is Norman et al. 'Reliability without Validity' and n=13 is Thinking Machines 'Defeating Nondeterminism in LLM Inference', neither of which appears in the post; from n=7 onward every sources.json number is offset by one or two from the post's [n] (post [7] Biskupski is sources.json 8, post [11] Cursor is sources.json 12, post [12] grading.py main is sources.json 14, post [28] extended thinking is sources.json 30). Any deterministic check or critique record that resolves citations through sources.json will map them to the wrong page.",
+        "evidence": [],
+        "suggestion": "Regenerate sources.json from the post's Sources list so numbering matches one for one, and either cite the two dropped sources (see f6) or move them to the research log with a reason."
+      },
+      {
+        "id": "f5",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 3, first paragraph ('A preservation check asks... an acceptance check asks...') and the Inference callout closing the section",
+        "claim": "The post separates preservation from acceptance, then settles only preservation. In SWE-bench the acceptance set (FAIL_TO_PASS) is authored by the benchmark from the gold patch; outside a benchmark nobody is named as its author. A practitioner shipping this hits that first: if the agent writes its own acceptance tests, the gate is graded by the party it grades, which is the test-modification route ImpossibleBench measured; if a person writes them before the run, the gate is a test-first specification and the post should say so. Neither case is stated, so the 'set comparison against the recorded start revision' outcome in the preview is delivered for half the gate.",
+        "evidence": [
+          "https://arxiv.org/html/2510.20270v1"
+        ],
+        "suggestion": "Add two or three sentences in Section 3 stating that the acceptance set must be recorded at the start revision by someone other than the run (a person, or a spec committed before the turn), that tests the run adds are admissible as preservation entries for the next run but not as acceptance evidence for this one, and label the rule as Inference. Pay for it by cutting the Jest paragraph to one sentence."
+      },
+      {
+        "id": "f6",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 4 heading 'the gate is not deterministic either' and Section 5 on the model check; the dropped sources.json entry 13",
+        "claim": "The topic is deterministic run verification and the post argues for putting code before a model, yet it never states that the model layer itself is not reproducible: the research already collected in sources.json (Thinking Machines, 2025-09-10) records 1,000 temperature-zero completions of one prompt yielding 80 distinct texts, identical through token 102. That is the direct reason a model finding cannot be re-checked by rerunning, the way a git exit code can, and it makes the post's 'record, not verdict' construction necessary for the model layer, not only convenient. The post dropped the source in revision.",
+        "evidence": [],
+        "suggestion": "Reinstate the source with one sentence in Section 5 or in the Table 2 'A model reviewer catches what the script misses' row: a model verdict is a sample, so the record keeps the model, version, prompt digest and the text it produced, since the same inputs do not reproduce the output. Remove the second restatement of 95 and 60 percent in Table 4 to hold length."
+      },
+      {
+        "id": "f7",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Opening paragraph, sentences two through five",
+        "claim": "The first sentence is a strong hook, then the paragraph stacks 731, 9 percent, 57 percent, 63 percent, 73.0 and 87.1 in four sentences, with a methodological aside ('a share the page does not reconcile with the other two') before the reader knows why the folder matters. The standard asks for one incident with a surprising sourced number in the first three sentences, not a run of statistics; 87.1 to 73.0 reappears in Figure 1, Table 2, Figure 7 and the closing paragraph anyway.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Keep sentence one, the 731 trajectories, the 9 percent that mined the bundled history and the blind auditor; move the 63 percent reconciliation note to Section 1 where the audit is discussed and leave 87.1 to 73.0 to Figure 7 and the close, where it lands as the settlement of the opening rather than its summary."
+      },
+      {
+        "id": "f8",
+        "kind": "format",
+        "severity": "major",
+        "location": "Section 7, paragraph 'Nothing in the deterministic layer is free'; closing paragraph two; Table 2 rows 1 and 2; Section 4 Inference callout",
+        "claim": "Three numbers are each stated four or more times in prose and table cells: 7.8 percent with 4.5 points (Section 3 paragraph, Table 2, Section 7 paragraph, closing paragraph, Table 4), 87.1 to 73.0 (opening, Table 2, Figure 7 caption, closing paragraph, Table 4 as 14.1), and 67.73 percent (Section 4 paragraph, Table 2, Inference callout, closing paragraph, Figure 1). The post is at or over a 14-minute budget and the repeats are where the length sits.",
+        "evidence": [],
+        "suggestion": "Cut the 7.8 and 4.5 restatement from the Section 7 paragraph (one clause, 'which is why a benchmark runs only the touched test files [5]' suffices), drop 67.73 from the Inference callout's first clause (say 'at the flake rate above'), and let the closing paragraph carry each number once, with Figure 7's caption as the only other place for 87.1 to 73.0."
+      },
+      {
+        "id": "f9",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 6, Counter-evidence callout citing [7]",
+        "claim": "The callout attributes 'formatting reliability of 99 percent plus or minus 1 and agreement above 95.54 percent across five repetitions' to the 37-model study. The paper says 'most of the 12 models achieve 99%±1% correctly formatted outputs' and repeats judging five times for the 12 models that advanced past the first filter, not for all 37. The F1 0.96 is GPT-4o on the CoT prompt.",
+        "evidence": [
+          "https://arxiv.org/html/2603.22214v1"
+        ],
+        "suggestion": "Say the 0.96 is GPT-4o's and that the formatting and agreement figures are over the 12 models that passed the first stage; one clause each."
+      },
+      {
+        "id": "f10",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 6, paragraph 'The judges were reading the wrong surface'; Table 4 row 'Claim against state, as triage'",
+        "claim": "The post says a new domain needs '50 to 100 labelled examples' and Table 4 says 'per domain'. The paper's wording is '50–100 labeled examples per class raises LR AUROC to 0.79–0.83', meaning that many false successes and that many honest failures, so roughly double what the sentence implies.",
+        "evidence": [
+          "https://arxiv.org/html/2606.09863v1"
+        ],
+        "suggestion": "Write 'per class, false successes and honest failures separately' in both places."
+      },
+      {
+        "id": "f11",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Table 1 retail row (47 percent) against Figure 1 and Table 4 ('45 to 48 percent')",
+        "claim": "The paper's prose says false success is 45 and 48 percent of failures in airline and retail, while its Table 1 and the post's 420 of 895 give 47 percent. The post uses 47 in Table 1 and 48 in Figure 1 and Table 4 without saying the source disagrees with itself, which it did for the flaky-build 1,005 versus 1,055.",
+        "evidence": [
+          "https://arxiv.org/html/2606.09863v1",
+          "https://arxiv.org/abs/2606.09863"
+        ],
+        "suggestion": "Pick 47 (the count-consistent figure) everywhere, and add the same one-clause note to source [1] that source [6] carries."
+      },
+      {
+        "id": "f12",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Sources list, entry 11",
+        "claim": "The entry titles the Cursor page 'Reward hacking in coding benchmarks'. The page heading is 'Reward hacking is swamping model intelligence gains'; the post's title is the URL slug.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Use the page's heading as the title and keep the slug only in the URL."
+      },
+      {
+        "id": "f13",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 7, first paragraph, 'at 12 to 20 percent recall'",
+        "claim": "The paper's Table 3 gives OpenCodeReview recall as 11.70 to 20.00 percent; the baseline range is quoted to two decimals in the same sentence, so the rounding reads as a different number.",
+        "evidence": [
+          "https://arxiv.org/html/2608.09290v1"
+        ],
+        "suggestion": "Write 11.70 to 20.00 percent, matching the precision used for the baseline."
+      },
+      {
+        "id": "f14",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 5, paragraph 'The advantage decays along one axis', clause 'where agents justified shortcuts with reasoning a monitor accepts'",
+        "claim": "Could not verify: the ImpossibleBench HTML section on monitors was not reachable in the portion fetched (https://arxiv.org/html/2510.20270v1 beyond offset 100000 returned unrelated content), so the explanation attributed to the paper for why repository-scale detection falls is unconfirmed. The detection rates themselves were confirmed.",
+        "evidence": [
+          "https://arxiv.org/html/2510.20270v1"
+        ],
+        "suggestion": "Quote or closely paraphrase the paper's own explanation with its section, or drop the clause and let the numbers stand."
+      },
+      {
+        "id": "f15",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 2, paragraph 'Prose has the same shape', citing [20]",
+        "claim": "Could not verify on the cited page: the docs.vale.sh landing page confirms YAML rules and the 'not a general-purpose writing aid' line, but does not list Markdown, HTML, reStructuredText and AsciiDoc as supported formats; that list lives on a different documentation page.",
+        "evidence": [
+          "https://docs.vale.sh/"
+        ],
+        "suggestion": "Cite the Vale formats or scoping page for the format list, or cut the list to 'to Markdown and other markup'."
+      },
+      {
+        "id": "f16",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Table 3 caption and the Derived callout, 'a stipulated 12,000-token bundle'",
+        "claim": "The bundle is counted once in the Claude 4.7 tokenizer and charged at three providers' rates, but each provider counts tokens with its own tokenizer, so the OpenAI and Gemini rows price a token count that is not theirs; the cheap-panel row also includes Haiku 4.5, which the pricing page says uses the previous tokenizer, so the 30 percent note does not apply to it.",
+        "evidence": [
+          "https://platform.claude.com/docs/en/about-claude/pricing"
+        ],
+        "suggestion": "Add one clause to the Derived callout: counts are stipulated in one tokenizer and would differ by provider, so the panel total is an order-of-magnitude figure. Drop the tokenizer sentence from the caption or restrict it to the Opus 5.5 row."
+      },
+      {
+        "id": "f17",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section 2, paragraph 'The cheapest check in the set runs before the turn', and closing action 1",
+        "claim": "History depth and stray git directories are checkable from inside the container, but 'a recorded egress policy' is not: a script inside the sandbox cannot observe the proxy allowlist, only attempt connections. The post lists the three as equivalent pre-run comparisons without saying the egress one is an attestation from the harness, not a measurement the check makes.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Mark the egress item as 'recorded by the harness, not measured by the check' in the paragraph and in Table 4's first row, or add a probe (an attempted fetch to a non-allowlisted host that must fail) as the measurable form."
+      },
+      {
+        "id": "f18",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section 4, Inference callout 'three sets from repeated runs'",
+        "claim": "The rule says 'repeated runs' without a count, and a practitioner needs one to budget suite runtime, which the post itself names as the deterministic layer's real charge. The flaky-build study's rerun data would support at least a stated minimum and the cost of each additional run.",
+        "evidence": [
+          "https://arxiv.org/html/2602.02307v1"
+        ],
+        "suggestion": "State a starting rule (for instance three baseline runs, with a test classed unstable on any disagreement) labelled Assumption, and say what one extra run costs in suite minutes so the reader can trade it against the flake rate."
+      },
+      {
+        "id": "f19",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Sections 3, 6 and 7",
+        "claim": "The bundled folder is the through-line in sections 1, 2, 4, 5 and the close, but sections 3 (set comparison), 6 (detector) and 7 (cost) never return to it, so three consecutive section breaks offer the reader no reminder of why this matters to the opening incident.",
+        "evidence": [],
+        "suggestion": "One clause per section is enough: in 3, that the audited runs passed the per-test gate; in 6, that a detector keyed on closing language would not have seen the retrieval the auditor saw; in 7, that the 731-trajectory read was the model-layer cost the pre-run check would have avoided."
+      },
+      {
+        "id": "f20",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Table 4 (closing) cells 'Porcelain v1', 'rev-list', 'fail-to-pass', 'pass-to-pass', 'check-ignore needs --no-index'",
+        "claim": "The caption explains Script, detector and AUROC but leaves porcelain, rev-list, fail-to-pass and pass-to-pass unexplained for the reader who reads only the opening and the close.",
+        "evidence": [],
+        "suggestion": "Add a clause each to the caption ('porcelain: git's script-stable status format; fail-to-pass and pass-to-pass: the tests a fix must turn green and the tests it must keep green') or replace the terms in the cells with those plain phrases."
+      },
+      {
+        "id": "f21",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Figure 4 footer 'recall of verified cheating attempts' and '2,371 and 193 transcripts [3]'",
+        "claim": "The axis runs single problem (left) to repository scale (right), but the transcript counts are listed repository-first (2,371 is Impossible-SWEbench, 193 is Impossible-LiveCodeBench), so a reader pairs them the wrong way round.",
+        "evidence": [
+          "https://arxiv.org/html/2510.20270v1"
+        ],
+        "suggestion": "Write '193 and 2,371 transcripts' or place each count under its own x-axis label."
+      },
+      {
+        "id": "f22",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Table 1, 'False success' column cells such as '177, 45 percent'",
+        "claim": "Each cell carries a count and a share in one right-aligned field, so neither column of numbers aligns and the share cannot be scanned down the column; the table guidelines the standard cites ask for one quantity per column.",
+        "evidence": [],
+        "suggestion": "Split into 'False success' (count) and 'Share of failures' (percent) columns."
+      },
+      {
+        "id": "f23",
+        "kind": "voice",
+        "severity": "minor",
+        "location": "Opening paragraph, last clause 'a drop no part of which belongs to either change alone'",
+        "claim": "The clause reads as if neither intervention contributed to the drop; the intended meaning is that the page applied both together and does not split the effect.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Write 'a drop the page does not split between the two changes'."
+      }
+    ]
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "model": "gemini-3.8-flash",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post presents a rigorous, well-grounded architecture for deterministic run verification, supported by verified dated citations and high-fidelity visual diagrams in both light and dark schemes. It successfully eliminates em and en dash tells and first-person narration while maintaining strict visual cadence across all sections. However, revision is required to correct a pricing calculation in the cheap review panel where an illustrative documentation callout was used instead of active catalog rates, close a production blind spot where an agent modifies ignore files to bypass exclusion checks, sustain the opening incident as an unbroken through-line across sections 3, 6, and 7, and eliminate closing redundancy where prose repeats numbers immediately presented in Table 4.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section 7, Table 3, row \"Cheap panel\"",
+        "claim": "The Cheap panel row omits the per-model token pricing in parentheses that the preceding rows provide, and its calculated turn costs ($0.024 input, $0.032 output, $0.056 turn) reflect an illustrative figure ($1.00 input / $5.00 output) from a documentation callout rather than the active model catalog pricing in the cited Claude platform documentation. Under the active rates ($0.50 input / $2.50 output for Claude Haiku 4.5, $0.25 input / $2.00 output for gpt-5-mini, and $0.75 input / $3.75 output for Gemini 3.8 Flash), a 12,000-token input costs $0.018 and a 3,000-token output costs $0.025, yielding a turn total of $0.043.",
+        "evidence": [
+          "https://platform.claude.com/docs/en/about-claude/pricing",
+          "https://developers.openai.com/api/docs/pricing",
+          "https://ai.google.dev/gemini-api/docs/pricing"
+        ],
+        "suggestion": "Update the Cheap panel label to state the per-million rates in parentheses (Haiku 4.5 at $0.50 / $2.50, gpt-5-mini at $0.25 / $2, Gemini 3.8 Flash at $0.75 / $3.75) and recalculate the row values to $0.018 input, $0.025 output, and $0.043 per turn, adjusting the summary text and closing recap accordingly."
+      },
+      {
+        "id": "f2",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 2, paragraph 3 and bash code block",
+        "claim": "The exclusion check pipeline (git diff -z --name-only \"$START_REV\" HEAD | git check-ignore --no-index --stdin -z -v) evaluates paths against ignore rules in the post-run working tree. If an agent commits restricted files while concurrently modifying .gitignore or adding a directory-level .gitignore, git check-ignore evaluates against the agent-modified rules rather than the repository baseline contract, creating a bypass where forbidden files pass verification.",
+        "evidence": [
+          "https://www.man7.org/linux/man-pages/man1/git-check-ignore.1.html"
+        ],
+        "suggestion": "Add an explicit rule to the plumbing verification: assert that no ignore files (.gitignore, .git/info/exclude) were modified or introduced between $START_REV and HEAD, or specify checking committed paths against the checkout of .gitignore at $START_REV."
+      },
+      {
+        "id": "f3",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section 6, paragraph 3",
+        "claim": "While the post correctly highlights that the TF-IDF and XGBoost detector outperforms LLM judges on static benchmarks (AUROC 0.825 and 0.953 vs 0.640 and 0.537), it omits the primary operational failure mode of lexical triage in live production: susceptibility to agent prompt drift and lexical overfitting. Because bigram features key on specific closing phrases, an agent updating its phrasing or using alternative status wrappers causes rapid calibration decay.",
+        "evidence": [
+          "https://arxiv.org/abs/2606.09863"
+        ],
+        "suggestion": "Add a qualifying sentence in paragraph 3 noting that because TF-IDF triage relies on lexical closure patterns, production monitoring requires active-learning retraining loops (50 to 100 fresh labeled trajectories per domain shift) to prevent evasion as model prompts and behaviors evolve."
+      },
+      {
+        "id": "f4",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Sections 3, 6, and 7",
+        "claim": "The opening sets up the Cursor SWE-bench Pro audit (a leaked repository history and network lookup container) as the post concrete through-line object, but Sections 3, 6, and 7 allow this object to drop out of sight entirely in favor of abstract benchmark analysis and token accounting.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Maintain the through-line across all sections by adding brief anchor clauses: in Section 3, note that an agent exploiting repository history can alter baseline expectations unless tests are pinned to the start revision; in Section 6, connect false-success triage back to the audit 63 percent retrieved-fix claim; in Section 7, frame the deterministic pre-run check as intercepting the bundled .git folder before token generation begins."
+      },
+      {
+        "id": "f5",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Section 8, paragraph 2",
+        "claim": "Paragraph 2 of the closing section recites five statistical findings in prose (7.8 percent full-suite failure, 29.6 percent differential divergence, 28.6 percent of 77 confirmed incorrect, 67.73 percent flaky reruns, and 0.825/0.953 vs 0.640/0.537 AUROC) that were already established in earlier chapters and are immediately displayed in the cells of Table 4 directly below.",
+        "evidence": [
+          "https://arxiv.org/html/2503.15223v2",
+          "https://arxiv.org/html/2602.02307v1",
+          "https://arxiv.org/abs/2606.09863"
+        ],
+        "suggestion": "Condense paragraph 2 into a single sentence introducing Table 4, removing the verbatim recital of the five numbers. This tightens closing density and recovers roughly 75 words to pay for the .gitignore tamper check in Section 2."
+      },
+      {
+        "id": "f6",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Section 8, Table 4 and caption",
+        "claim": "Table 4 includes terms of art (fail-to-pass, pass-to-pass, rev-list, porcelain) that are left unexplained in the table or caption, leaving a reader who reads only the opening and closing chapters without the context needed to interpret rows 1, 3, 4, and 5.",
+        "evidence": [
+          "https://raw.githubusercontent.com/SWE-bench/SWE-bench/ca6e4e0d252f32f8762625b73575d5dee49d0a5a/swebench/harness/grading.py",
+          "https://man.archlinux.org/man/git-status.1.en"
+        ],
+        "suggestion": "Expand the caption notes of Table 4 to define fail-to-pass and pass-to-pass (tests fixing known bugs vs tests ensuring existing functionality does not regress) and gloss porcelain (machine-readable, backwards-compatible script output)."
+      },
+      {
+        "id": "f7",
+        "kind": "voice",
+        "severity": "minor",
+        "location": "Section 7, paragraph 3",
+        "claim": "The colloquial phrase \"costs cents\" in paragraph 3 (\"One cross-provider review turn costs cents at rates read 2026-10-07\") slips from the objective, analytical register maintained throughout the technical report.",
+        "evidence": [
+          "https://platform.claude.com/docs/en/about-claude/pricing"
+        ],
+        "suggestion": "Replace \"costs cents\" with an exact numeric span based on Table 3 (\"costs between $0.04 and $0.22 per turn\")."
+      }
+    ]
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post has a useful argument, substantial primary sourcing, and meaningful counter-evidence, but its practical verification guidance still needs correction. The Git example can produce false findings, history depth cannot establish isolation, and the retry and escalation policies leave important uncertainty unresolved. Some reported counts and calibration requirements also misstate their sources. The opening should follow one documented retrieval incident, and repeated statistics should give way to operational limits. No voice violations were found in the supplied Markdown. Local reads were blocked, so rendered HTML, SVG legibility, highlighting, and theme behaviour remain unverified.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "A page of plumbing settles most of what a reviewer would otherwise adjudicate: Bash block and following exit-code paragraph",
+        "claim": "The displayed command uses verbose check-ignore, which also reports negated patterns that explicitly permit a path. Git's implementation counts those matches toward exit 0 in verbose mode, so the stated interpretation can reject an allowed file. The empty-input comment is also wrong for this invocation: empty stdin with --stdin returns 1, rather than the pathless-command error. Furthermore, the pipeline does not separately check whether git diff failed.",
+        "evidence": [
+          "https://www.man7.org/linux/man-pages/man1/git-check-ignore.1.html",
+          "https://raw.githubusercontent.com/git/git/master/builtin/check-ignore.c"
+        ],
+        "suggestion": "Correct the example's decision logic to distinguish negative patterns from exclusions and preserve both commands' failure statuses. Correct the empty-stdin explanation. Validate allowed exceptions, ignored paths, empty input, and an invalid start revision before presenting this as an automated gate."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Table 1: false-success counts and AppWorld population label",
+        "claim": "Could not verify the exact tau2 counts 177, 420 and 13 in the opened full paper. Its domain table gives rounded percentages; these article counts sum to 610, whereas section 3.3 reports 616 false successes. AppWorld's 1,879 cases include 454 explicit failure reports, so describing all of them as trajectories claiming completion misidentifies the denominator.",
+        "evidence": [
+          "https://arxiv.org/html/2606.09863v1"
+        ],
+        "suggestion": "Remove unsupported exact counts or trace them to underlying data. Identify AppWorld's population as failed, self-assessing trajectories with explicit status reports."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "major",
+        "location": "On the question judges were hired for: calibration paragraph; Table 4 detector row",
+        "claim": "The source reports 50 to 100 labelled examples per class, not per domain. That transfer experiment concerns logistic regression between airline and retail, not a demonstrated universal calibration requirement for the XGBoost detector.",
+        "evidence": [
+          "https://arxiv.org/html/2606.09863v1"
+        ],
+        "suggestion": "Correct the unit and identify the classifier and transfer setting. Replace the categorical deployment requirement with the experiment's bounded result."
+      },
+      {
+        "id": "f4",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Putting code first is a priced decision: paragraph beginning 'An unconditional block never terminates'",
+        "claim": "The current cited documentation describes an eight-consecutive-continuation cap that overrides the next block. Tool calls reset that counter, so it is not a complete bound on a repair loop, but unconditional nontermination is not the documented default. stop_hook_active is supplied as hook input; the hook does not control continuation by setting it.",
+        "evidence": [
+          "https://code.claude.com/docs/en/hooks"
+        ],
+        "suggestion": "Replace the outdated explanation with the documented cap, its tool-call reset condition, and the input field's actual meaning. Retain the independent repair budget, explaining why it still matters."
+      },
+      {
+        "id": "f5",
+        "kind": "factual",
+        "severity": "major",
+        "location": "A model check earns its cost reading the trace: first paragraph and paragraph beginning 'The advantage decays'",
+        "claim": "The prose turns experimental measurements into general properties: removing reasoning does not guarantee 60 percent recall on another transcript population, and the two ImpossibleBench datasets do not isolate task size as the sole causal variable. The 95/60 comparison measured two systemic hacks; the repository comparison changes benchmark and task characteristics.",
+        "evidence": [
+          "https://arxiv.org/html/2503.11926v1",
+          "https://arxiv.org/html/2510.20270v1"
+        ],
+        "suggestion": "Keep the measured comparisons explicitly attached to their experiments. Label task size as an interpretation, and remove the implication that splitting production traces into smaller units preserves the reported recall."
+      },
+      {
+        "id": "f6",
+        "kind": "insight",
+        "severity": "major",
+        "location": "A page of plumbing: history-depth paragraph; closing action 1",
+        "claim": "The proposed preflight misses the opening incident's crucial boundary. rev-list START_REV follows parent links from that revision; it does not inventory future commits on other refs or objects elsewhere in the same Git database. An expected ancestor count can therefore coexist with an accessible answer. Recording an egress policy likewise does not verify its enforcement.",
+        "evidence": [
+          "https://man.archlinux.org/man/git-rev-list.1.en",
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Distinguish provenance metadata from isolation assurance. Explain the fresh repository construction used by the cited remedy and the need to validate enforced network restrictions. Replace the paragraph's broad assurance rather than adding another checklist."
+      },
+      {
+        "id": "f7",
+        "kind": "insight",
+        "severity": "major",
+        "location": "A page of plumbing: opening definition of determinism; Putting code first: infrastructure-error policy and JSON record",
+        "claim": "A stable input format does not itself make a verification result reproducible. The concrete record names only the start revision, leaving the tested candidate and checker policy unidentified. The instruction to pass infrastructure errors and timeouts through also leaves unspecified whether ending the turn means acceptance or an unresolved verification result.",
+        "evidence": [
+          "https://man.archlinux.org/man/git-status.1.en",
+          "https://reproducible-builds.org/docs/definition/",
+          "https://code.claude.com/docs/en/hooks"
+        ],
+        "suggestion": "Define determinism over frozen evidence and a versioned decision policy. Bind the record to the candidate contents and distinguish turn termination from acceptance, with errors producing an explicit unknown outcome. Fund this detail by shortening the claim that an environment record costs only a few strings."
+      },
+      {
+        "id": "f8",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Passing the gate is not being correct: three-set inference callout; closing action 2",
+        "claim": "Repeated observations can reveal instability but cannot establish permanent stable-pass or stable-fail status without a sampling rule and uncertainty boundary. The cited 67.73 percent concerns selected, developer-rerun builds, not individual-test flake probabilities. Quarantining every unstable test without a retained obligation can also remove protection precisely where a regression becomes intermittent.",
+        "evidence": [
+          "https://arxiv.org/html/2602.02307v1"
+        ],
+        "suggestion": "Specify a bounded observation policy, retain uncertain tests as unresolved evidence, and explain how baseline instability differs from new instability after the patch. Replace the current inference callout with this operational boundary."
+      },
+      {
+        "id": "f9",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Passing the gate is not being correct: manual-inspection paragraph; Table 4 final row",
+        "claim": "The human-review layer is presented as the final settlement, but the cited inspection left 51 of 77 patches, 66.2 percent, of uncertain correctness because requirements were underspecified. That is the most relevant limit on the proposed division of labour: adding a person does not supply a missing specification.",
+        "evidence": [
+          "https://arxiv.org/html/2503.15223v2"
+        ],
+        "suggestion": "Include the unresolved majority beside the confirmed-incorrect fraction and give human review an explicit unresolved outcome requiring requirement clarification. Replace one repeated differential-testing statistic in the close to make room."
+      },
+      {
+        "id": "f10",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Putting code first: repair-loop policy and Figure 6",
+        "claim": "The repair loop is bounded only as a termination problem. The already-cited ImpossibleBench paper also reports that repeated submissions increased cheating from 33 to 38 percent, and that an explicit human-intervention exit reduced it for some models. Returning failures to the agent can change its behaviour toward the gate, not merely consume another turn.",
+        "evidence": [
+          "https://arxiv.org/html/2510.20270v1"
+        ],
+        "suggestion": "Give the loop an early route for contested or impossible checks and explain this behavioural tradeoff. Replace the repeated full-suite cost statistics immediately before Figure 6 with the directly relevant feedback-loop evidence."
+      },
+      {
+        "id": "f11",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Opening paragraph and Figure 1",
+        "claim": "The first sentence offers a concrete object, but the paragraph immediately becomes a dense audit summary with several denominators, percentages and methodological qualifications. Figure 1 then follows seven publications rather than the incident. The opening therefore becomes the statistical survey the brief explicitly excludes.",
+        "evidence": [
+          "https://cursor.com/blog/reward-hacking-coding-benchmarks"
+        ],
+        "suggestion": "Anchor the opening in one documented retrieval example from the audit and carry that object through the verification layers. Replace the literature timeline with the incident's mechanism or sequence, moving prevalence details to the existing later comparison."
+      },
+      {
+        "id": "f12",
+        "kind": "format",
+        "severity": "major",
+        "location": "Sources entries 7 through 28 and their corresponding citations",
+        "claim": "The article bibliography and accompanying source registry use conflicting identifiers. For example, article [11] is Cursor while registry entry 11 is OpenCodeReview; article [12] is grading.py while registry entry 12 is Cursor. The registry retains two unused sources and has 30 entries against the article's 28. Citation numbers cannot reliably identify the same evidence across the package.",
+        "evidence": [],
+        "suggestion": "Reconcile bibliography and registry identifiers, explicitly separate unused research sources, and check every body, table and figure reference against the resulting mapping."
+      },
+      {
+        "id": "f13",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Putting code first: paragraph beginning 'Nothing in the deterministic layer is free'; What the bundled folder settled: first two prose paragraphs",
+        "claim": "The full-suite failure percentage and resolution-rate drop repeat earlier prose and Table 2. The closing hardening paragraph restates Figure 7's values immediately beneath it, followed by another catalogue of statistics before Table 4 repeats the evidence again. The ending satisfies the recap requirement several times over.",
+        "evidence": [],
+        "suggestion": "Cut the repeated full-suite numbers from the cost section. Shorten the closing prose to the incident's consequence and changed actions, letting Figure 7 and Table 4 carry the numeric recap."
+      },
+      {
+        "id": "f14",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Table 3: cheap-panel row",
+        "claim": "The official GPT-5 Mini model page marks the model deprecated. The row presents it as an ordinary current panel choice without that status, despite the article's date and currency requirement. Its quoted token rates are supported, so this is a model-status problem rather than an arithmetic error.",
+        "evidence": [
+          "https://developers.openai.com/api/docs/models/gpt-5-mini",
+          "https://developers.openai.com/api/docs/pricing"
+        ],
+        "suggestion": "Use a supported current model and recalculate the row, or identify the deprecated status and justify retaining that example. Keep the table's existing size."
+      },
+      {
+        "id": "f15",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Putting code first: JSON example, measured and delta fields",
+        "claim": "The measured field reports a named test as SKIPPED, while the delta says it left the collected set. Those are different observations: a collected test can be skipped. The example collapses the exact distinction the article asks the verifier to preserve.",
+        "evidence": [],
+        "suggestion": "Make the recorded delta match the observed status, or change the example's evidence to an actually absent test. Label the invented record as an illustrative construction where it appears."
+      },
+      {
+        "id": "f16",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Source 23: newest grading.py commit and date",
+        "claim": "Could not verify the claim that ca6e4e0d was the newest relevant commit dated 2026-08-16: the cited GitHub API URL returned an internal error, as did the registry's per_page=3 variant. The pinned source file itself opened successfully.",
+        "evidence": [
+          "https://api.github.com/repos/SWE-bench/SWE-bench/commits?path=swebench/harness/grading.py",
+          "https://api.github.com/repos/SWE-bench/SWE-bench/commits?path=swebench/harness/grading.py&per_page=3",
+          "https://raw.githubusercontent.com/SWE-bench/SWE-bench/ca6e4e0d252f32f8762625b73575d5dee49d0a5a/swebench/harness/grading.py"
+        ],
+        "suggestion": "Provide an accessible commit-history reference or remove the unnecessary newest-commit claim while retaining the reproducible pinned revision."
+      }
+    ]
+  }
+]
