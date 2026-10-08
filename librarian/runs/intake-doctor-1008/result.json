@@ -1,0 +1,45 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-doctor-1008",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-08T21:10:00Z",
+  "ended_at": "2026-10-08T23:59:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/session-continuation",
+      "at": "2026-10-08",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "session-continuation",
+      "technique": "advisory-guard-fail-mode",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/orchestration/session-continuation/applications/claude-code--advisory-guard-fail-mode.md",
+    "librarian/sources/2026-10-08-claude-code-doctor.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "/doctor exercised on 12 fleet projects + controls; placement proposed in the source note. One application (experiment, better): the reviewer fix was falsified by A/B and corrected before shipping. 4 leads, 6 untriaged, 3 catches. 1 personas commit, unpushed."
+}

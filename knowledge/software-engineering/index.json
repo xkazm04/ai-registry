@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
   "techniques": 1834,
-  "applications": 1241,
+  "applications": 1242,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -31327,9 +31327,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
-   "digest": "sha256-b2:019398a8c028cc2f",
-   "revision": 7,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:b0eabf78abd856a4",
+   "revision": 8,
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "advisory-guard-fail-mode",
@@ -31484,6 +31484,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "claude-code",
+     "technique": "advisory-guard-fail-mode",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/applications/claude-code--advisory-guard-fail-mode.md",
+     "verified_on": "2026-10-08",
+     "verified_against": "claude-code@2.1.295"
+    },
     {
      "stack": "node",
      "technique": "advisory-guard-fail-mode",

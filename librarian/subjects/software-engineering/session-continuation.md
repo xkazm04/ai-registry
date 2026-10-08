@@ -216,3 +216,13 @@ mid-run skipped the resume a crash would have given. The fix is in
 the recency-keyed sweep it describes. The amendment names the condition under which
 "after the drain completes" is false: the drain must cover the population the sweep
 reads.
+
+## 2026-10-08 - intake (claude-code-doctor)
+
+New application `claude-code--advisory-guard-fail-mode` (applied: experiment,
+ab_verdict: better, proof ab-paired). A host-side spawn filter in front of a
+blocking guard intersects the guard's accept grammar: the obvious filter missed
+timeout-wrapped commands, a third of the project's real inputs, and the guard could
+not report it because it never started. The general rule is untriaged at GAIN 1 in
+the source note; a second sighting on another hook or harness promotes it into the
+technique as a boundary case of "unlisted syntax passes".

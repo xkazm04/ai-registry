@@ -5151,3 +5151,14 @@ decision), `blocked` (a seam exists and something outside the run prevents the
 commit), or `declined` - and when it is `no-seam`, say in one line what a project
 would have to grow for the seam to exist.** Four consecutive rows reading `ship 0`
 for two unrelated reasons is a measurement that has stopped measuring.
+
+| 2.15.0 | 2026-10-08 | `operator-dispatch:claude-code-doctor` - the harness's own `/doctor` checkup and `claude doctor` CLI, exercised on all 12 fleet projects + two planted-fault controls, and placed in our process (operator dispatch over a vendor instrument) | 1 (24 reports + 2 controls + docs) | 14 | 8 headline claims checked against trees/transcripts/a planted probe: 5 verified, 1 refuted (unquoted-colon skill header "breaks loading" - harness loaded it verbatim), 1 overclaimed (hook "blocks every Bash call": 2 timeouts in 19,122 calls), 1 recommendation falsified by A/B | 1 application (+0 techniques; the general rule untriaged at GAIN 1) | 0c/**1e**/0s/0t/0r (`better`, ab-paired through the real harness: the reviewer's own fix `if: Bash(cargo *)` missed timeout-wrapped cargo, a third of real heavy calls; shipped arm kept 9/9 cargo shapes, spawns projected 19,122 -> ~810/30d) | **1** (personas `faae46313c` on master + ledger row `9d81d48a62`; unpushed) | Focus (classify a ship 0) did not bind - ship is 1. The ship came from the seam hunt, not the source: the instrument named the waste, the A/B corrected its fix | 0/0/0/1/2-lines; routing n/a (not a repository); directions=n/a |
+
+**2026-10-08 (claude-code-doctor) - weakest stage.** Across the last ten rows **ship**
+is still where the funnel loses most, and this row is evidence for what moves it: a
+seam found by measuring the fleet's own transcripts (denominator first, then the
+falsifying arm) shipped in-session, while the source's own recommendation would have
+shipped a silent fail-open. Next run's declared focus: **when an automated reviewer
+(an LLM checkup, a linter's autofix, a doctor) proposes a project change, run its fix
+as one arm of the A/B rather than as the treatment - the reviewer's fix is a candidate,
+and the arm that could falsify it is the one worth paying for.**
