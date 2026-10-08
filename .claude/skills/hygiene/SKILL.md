@@ -1,9 +1,9 @@
 ---
 name: hygiene
-description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot). Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, or when branches, PRs and alerts have piled up across the fleet."
+description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot), plus invalid Claude Code project settings via `claude doctor`. Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, or when branches, PRs and alerts have piled up across the fleet."
 category: ai-native
 memory: project
-version: 1.0.6
+version: 1.1.0
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -113,6 +113,21 @@ Read `plan.md`. Then **spot-check before trusting it** (a plausible count is not
 assertion): for one `mechanical` row and one `hands-off` row, verify the claim straight
 from git (`git rev-list --count origin/<default>..<sha>`, `git -C <wt> log -1 --format=%cr`,
 `git -C <wt> reflog -1 --date=relative`). If either disagrees, stop and fix the script.
+
+**Harness settings (Tier 1).** The same scan runs `claude doctor` in every checkout - a
+read-only, model-free validation of `.claude/settings*.json` and `.mcp.json` - and files
+any finding as an `operator` row, `harness-settings` (settings are the trust surface:
+permissions, hooks, MCP servers, so a human decides). The `harness` column reads `clean`,
+a finding count, or `not-run`, and `not-run` is also a PROBLEM line: the tool exits 0
+even when it reports invalid settings, so the instrument reads the "Invalid settings"
+block and never the exit code, and a run that produced no report is not a clean one.
+Know what it cannot see: it is a schema check, so unknown keys, unknown tool names,
+allow rules made unreachable by a deny, and a missing MCP binary all pass it, and
+malformed JSON hides every other error in that file - fix the JSON and re-scan. The
+judgment tier (`claude -p "/doctor" --permission-mode plan`, per project, weekly or after
+a harness upgrade) is NOT part of this sweep: its findings are a source to verify, per
+`librarian/sources/2026-10-08-claude-code-doctor.md`, never cleanups to apply.
+`--no-harness` skips Tier 1 on a machine without `claude` on PATH.
 
 `/hygiene scan` ends here: print the table and the operator list.
 

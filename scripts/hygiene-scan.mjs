@@ -40,7 +40,7 @@
  * ## Usage
  *
  *   node scripts/hygiene-scan.mjs [--only kp,ascent] [--live-minutes 120]
- *                                 [--idle-hours 24] [--no-fetch] [--json] [--out <dir>]
+ *                                 [--idle-hours 24] [--no-fetch] [--no-harness] [--json] [--out <dir>]
  *   node scripts/hygiene-scan.mjs --apply [--out <dir>] [--only kp]
  *   node scripts/hygiene-scan.mjs --brief <slug> [--out <dir>]   # one worker's full prompt
  *
@@ -51,7 +51,8 @@
  *
  * Exit codes: 0 scan (or apply) completed; 1 the instrument failed.
  *
- * Zero dependencies. Needs `git` and an authenticated `gh` on PATH.
+ * Zero dependencies. Needs `git` and an authenticated `gh` on PATH, and `claude` for the
+ * harness-settings check (`--no-harness` skips it; a failed run is a PROBLEM, not clean).
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -69,6 +70,7 @@ const opt = (name, dflt) => {
 
 const LIVE_MIN = Number(opt('live-minutes', 120));
 const IDLE_H = Number(opt('idle-hours', 24));
+const NO_HARNESS = flag('no-harness');
 const ONLY = opt('only', '') ? new Set(opt('only', '').split(',').map((s) => s.trim())) : null;
 const NOW = Date.now();
 const TODAY = new Date().toISOString().slice(0, 10);
@@ -466,8 +468,41 @@ async function scanProject(slug, proj) {
   };
   for (const s of Object.values(P.security)) s.bySeverity = bySeverity(s.alerts);
 
+  // ---- harness settings
+  P.harness = NO_HARNESS ? { status: 'skipped', findings: [] } : await harnessSettings(proj.path);
+  if (P.harness.status === 'not-run') P.problems.push(`claude doctor did not run: ${P.harness.reason}`);
+
   P.actions = planActions(P);
   return P;
+}
+
+/**
+ * Harness settings: `claude doctor` in the checkout, which validates the project's
+ * `.claude/settings*.json` and `.mcp.json` without starting a session. Its exit code is 0
+ * even when it lists invalid settings, so the verdict is read from the "Invalid settings"
+ * block, and a run that did not print its own banner is `not-run`, never `clean`.
+ * It is a schema check only: unknown keys, unknown tool names, unreachable rules and a
+ * missing MCP binary all pass it (measured 2026-10-08 against planted faults), and
+ * malformed JSON hides every other error in the same file.
+ */
+export async function harnessSettings(cwd) {
+  const r = process.platform === 'win32'
+    ? await run('cmd.exe', ['/d', '/s', '/c', 'claude doctor'], { cwd, timeout: 90_000 })
+    : await run('claude', ['doctor'], { cwd, timeout: 90_000 });
+  const out = r.stdout.replace(/\x1b\[[0-9;?]*[a-zA-Z]/g, '').replace(/\r/g, '');
+  if (!/Claude Code doctor/.test(out)) {
+    return { status: 'not-run', findings: [], reason: (r.stderr || String(r.err?.message ?? 'no output')).split('\n')[0].trim() };
+  }
+  const findings = [];
+  const lines = out.split('\n');
+  const at = lines.findIndex((l) => l.trim() === 'Invalid settings');
+  for (let i = at + 1; at >= 0 && i < lines.length; i++) {
+    const l = lines[i];
+    if (l.startsWith('- ')) findings.push(l.slice(2).trim().split(path.resolve(cwd) + path.sep).join(''));
+    else if (/^\s+\S/.test(l) && findings.length) findings[findings.length - 1] += ` ${l.trim()}`;
+    else break;
+  }
+  return { status: findings.length ? 'invalid' : 'clean', findings };
 }
 
 // ---------------------------------------------------------------------------- plan
@@ -617,6 +652,8 @@ function planActions(P) {
   if (ss.alerts.length) add('operator', 'secret-scanning', `${ss.alerts.length} open`, `${ss.alerts.map((a) => `#${a.number} ${a.type}`).join(', ')} - rotation is a human action; a worker may only remove the secret from HEAD`);
   const posture = Object.entries(P.security).filter(([, s]) => s.posture !== 'enabled').map(([k, s]) => `${k}:${s.posture}`);
   if (posture.length) add('operator', 'security-posture', P.repo, posture.join(', '));
+  // Settings are the trust surface (permissions, hooks, MCP servers): a human decides.
+  if (P.harness?.status === 'invalid') add('operator', 'harness-settings', `${P.harness.findings.length} invalid`, P.harness.findings.join(' | '));
 
   // Push-denied repos: only server-side actions stay with a worker. Everything that needs
   // a branch or default-branch push (including remote deletes) goes to the operator.
@@ -636,15 +673,15 @@ function renderMarkdown(fleet, projects) {
   const L = [];
   L.push(`# Fleet hygiene plan - ${TODAY}`, '');
   L.push(`machine ${fleet.machine} | live window ${LIVE_MIN} min | worktree idle floor ${IDLE_H} h`, '');
-  L.push('| project | default | CI | open PRs | local br | remote br | worktrees | code scan | secrets | dependabot | mech | worker | operator | hands-off |');
-  L.push('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
+  L.push('| project | default | CI | open PRs | local br | remote br | worktrees | code scan | secrets | dependabot | harness | mech | worker | operator | hands-off |');
+  L.push('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
   for (const P of projects) {
-    if (!P.actions) { L.push(`| ${P.slug} | - | - | - | - | - | - | - | - | - | - | - | - | ${P.problems.join('; ')} |`); continue; }
+    if (!P.actions) { L.push(`| ${P.slug} | - | - | - | - | - | - | - | - | - | - | - | - | - | ${P.problems.join('; ')} |`); continue; }
     const n = (c) => P.actions.filter((a) => a.class === c).length;
     const red = splitRed(P.defaultCi);
     const ci = red.gate.length ? 'RED' : red.signal.length ? 'green (signals red)' : P.defaultCi.length ? 'green' : 'none';
     const sec = (s) => (s.posture === 'enabled' ? String(s.alerts.length) : s.posture);
-    L.push(`| ${P.slug} | ${P.defaultBranch} | ${ci} | ${P.openPrs.length} | ${P.localBranches.length} | ${P.remoteBranches.length} | ${P.worktrees.length} | ${sec(P.security.codeScanning)} | ${sec(P.security.secretScanning)} | ${sec(P.security.dependabot)} | ${n('mechanical')} | ${n('worker')} | ${n('operator')} | ${n('hands-off')} |`);
+    L.push(`| ${P.slug} | ${P.defaultBranch} | ${ci} | ${P.openPrs.length} | ${P.localBranches.length} | ${P.remoteBranches.length} | ${P.worktrees.length} | ${sec(P.security.codeScanning)} | ${sec(P.security.secretScanning)} | ${sec(P.security.dependabot)} | ${P.harness?.status === 'invalid' ? P.harness.findings.length : P.harness?.status ?? '-'} | ${n('mechanical')} | ${n('worker')} | ${n('operator')} | ${n('hands-off')} |`);
   }
   for (const P of projects) {
     if (!P.actions?.length && !P.problems?.length) continue;
