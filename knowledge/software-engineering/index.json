@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 233,
-  "techniques": 1832,
-  "applications": 1239,
+  "techniques": 1834,
+  "applications": 1241,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1832/1832",
+  "use_when_coverage": "1834/1834",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -32716,9 +32716,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/stream-proxy-hop.md",
-   "digest": "sha256-b2:938b7cdbd09bbf28",
-   "revision": 6,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:35d2934ae538833a",
+   "revision": 7,
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "abort-versus-unreachable",
@@ -32794,6 +32794,22 @@
      ]
     },
     {
+     "slug": "progress-lease-not-wall-clock",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a long transfer is killed by an absolute timeout while still moving bytes",
+      "a keep-alive answered by the peer is keeping a stalled write alive",
+      "choosing what a liveness deadline measures",
+      "a slow uplink makes healthy sessions reconnect"
+     ],
+     "stage": "multi-service"
+    },
+    {
      "slug": "reconnect-storm-hygiene",
      "status": "forged",
      "laws": [
@@ -32849,6 +32865,13 @@
      "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/applications/node--upstream-status-normalization.md",
      "verified_on": "2026-09-05",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "rust",
+     "technique": "progress-lease-not-wall-clock",
+     "file": "knowledge/software-engineering/backend-platform/resilience/stream-proxy-hop/applications/rust--progress-lease-not-wall-clock.md",
+     "verified_on": "2026-10-08",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -33974,9 +33997,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/sync-replication.md",
-   "digest": "sha256-b2:97c171272d09fb00",
-   "revision": 9,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:2d5b609198b79d34",
+   "revision": 10,
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "change-tracking-and-cursors",
@@ -34006,6 +34029,22 @@
       "choosing a resolution policy for a stream",
       "the conflict lane cries wolf"
      ]
+    },
+    {
+     "slug": "in-flight-is-per-connection",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "every new edit resends all previously unacknowledged batches",
+      "sync traffic grows with round-trip time rather than with edits",
+      "deciding what state a retransmit queue keeps per connection",
+      "a reconnect must replay without duplicating"
+     ],
+     "stage": "multi-service"
     },
     {
      "slug": "projection-security",
@@ -34083,6 +34122,13 @@
      "technique": "conflict-detection-and-policy",
      "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/rust--conflict-detection-and-policy.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "in-flight-is-per-connection",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/sync-replication/applications/rust--in-flight-is-per-connection.md",
+     "verified_on": "2026-10-08",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
@@ -39752,6 +39798,7 @@
     "stream-proxy-hop/abort-versus-unreachable",
     "stream-proxy-hop/idle-heartbeat-injection",
     "stream-proxy-hop/lifetime-cap-rotation",
+    "stream-proxy-hop/progress-lease-not-wall-clock",
     "stream-proxy-hop/upstream-status-normalization",
     "streaming-output/cancellation-and-finalization",
     "streaming-output/mid-turn-steering",
@@ -40401,6 +40448,7 @@
     "supply-chain/one-version-decays-to-a-floor",
     "supply-chain/review-attestation-ledger",
     "supply-chain/toolchain-floor-drift",
+    "sync-replication/in-flight-is-per-connection",
     "sync-replication/sync-observability",
     "table/client-server-split",
     "table/filtering",
@@ -42334,6 +42382,7 @@
     "self-healing/consume-once-mode-handoff",
     "serving-process-topology/cache-residency-sets-the-balancing-unit",
     "serving-process-topology/process-count-as-a-formula",
+    "stream-proxy-hop/progress-lease-not-wall-clock",
     "streaming-output/emit-behind-the-revision-window",
     "structured-output/constrained-decoding-is-a-shared-budget",
     "structured-output/enumerable-domain-decoding",
@@ -42748,6 +42797,7 @@
     "streaming-output/emit-behind-the-revision-window",
     "streaming-output/sink-reversibility-decides-the-commit",
     "subscription-proration/upgrade-immediate-downgrade-deferred",
+    "sync-replication/in-flight-is-per-connection",
     "usage-aggregation-semantics/high-water-mark-advance-billing",
     "usage-event-ingestion/thin-ingest-deferred-validation",
     "voice-io/unattended-caller-attribution"

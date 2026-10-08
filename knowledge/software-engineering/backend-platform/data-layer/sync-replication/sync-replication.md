@@ -10,6 +10,7 @@ techniques:
   - conflict-detection-and-policy
   - projection-security
   - sync-observability
+  - in-flight-is-per-connection
 ---
 
 # Sync, replication & conflict resolution
@@ -202,3 +203,6 @@ the surface.
 - [sync-observability](./techniques/sync-observability.md) — per-stream
   status snapshots, fault isolation, staged inbound changes, lag with a
   predicate.
+- [in-flight-is-per-connection](./techniques/in-flight-is-per-connection.md) —
+  pending is durable, in flight is per socket and never persisted, so a push
+  sends the difference and a reconnect replays the whole outbox.

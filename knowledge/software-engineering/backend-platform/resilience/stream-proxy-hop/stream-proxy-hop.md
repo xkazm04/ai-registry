@@ -12,6 +12,7 @@ techniques:
   - origin-non-disclosure
   - credential-attachment-at-the-hop
   - reconnect-storm-hygiene
+  - progress-lease-not-wall-clock
 ---
 
 # Stream proxy hop
@@ -279,3 +280,7 @@ client can act on — that gap is this subject.
 - [reconnect-storm-hygiene](./techniques/reconnect-storm-hygiene.md) — the
   single-socket guard, the cleared timer, capped jittered backoff, and polling
   alongside reconnection rather than in place of it.
+- [progress-lease-not-wall-clock](./techniques/progress-lease-not-wall-clock.md) —
+  the endpoint-side counterpart to the heartbeat: a liveness deadline that
+  renews on byte movement, not on elapsed time or on replies, so a slow healthy
+  transfer survives and a stalled write is not kept alive by keep-alives.
