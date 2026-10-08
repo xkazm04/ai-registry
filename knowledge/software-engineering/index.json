@@ -31329,7 +31329,7 @@
    "file": "knowledge/software-engineering/llm-agent/orchestration/session-continuation/session-continuation.md",
    "digest": "sha256-b2:b0eabf78abd856a4",
    "revision": 8,
-   "changedAt": "2026-10-08",
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "advisory-guard-fail-mode",

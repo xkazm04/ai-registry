@@ -1547,7 +1547,7 @@
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/condition-tagged-line-tables.md",
    "digest": "sha256-b2:8d46aaf947003b3c",
    "revision": 2,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "line-table-schema",
@@ -2609,7 +2609,7 @@
    "file": "knowledge/game-production/balance-validation/encounter-balance-simulation/encounter-balance-simulation.md",
    "digest": "sha256-b2:78f678997e50b919",
    "revision": 5,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "distinct-hash-seed-diversity-alarm",
@@ -2775,7 +2775,7 @@
    "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/ending-first-narrative-structure.md",
    "digest": "sha256-b2:aef3c574c7237404",
    "revision": 2,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "back-planned-beat-sheet",
@@ -3023,8 +3023,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
    "digest": "sha256-b2:ea5acd91fd795bd3",
-   "revision": 5,
-   "changedAt": "2026-10-07",
+   "revision": 4,
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -3143,8 +3143,8 @@
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/fire-tv-device-realities.md",
    "digest": "sha256-b2:00913548d21fda2d",
-   "revision": 4,
-   "changedAt": "2026-10-07",
+   "revision": 2,
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "abi-inspect-the-apk",
@@ -3943,7 +3943,7 @@
    "file": "knowledge/game-production/content-pipeline/generative-artifact-gating/generative-artifact-gating.md",
    "digest": "sha256-b2:e538545a02318806",
    "revision": 7,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "acquired-is-not-generated",
@@ -4639,7 +4639,7 @@
    "file": "knowledge/game-production/couch-and-tv-play/lan-pairing-and-session-continuity/lan-pairing-and-session-continuity.md",
    "digest": "sha256-b2:648c67aa242aa3da",
    "revision": 2,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "bounded-hello-timeout",
@@ -4849,7 +4849,7 @@
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/llm-dialogue-quality-control.md",
    "digest": "sha256-b2:1a2b772683b8a970",
    "revision": 2,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "blind-rubric-scoring-by-another-family",
@@ -5382,8 +5382,8 @@
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/on-device-verification-harness.md",
    "digest": "sha256-b2:68c81dddbe806faa",
-   "revision": 3,
-   "changedAt": "2026-10-07",
+   "revision": 2,
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "absolute-due-time-load-pump",
@@ -5528,8 +5528,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/perf-regression-gating/perf-regression-gating.md",
    "digest": "sha256-b2:219857d97967cd85",
-   "revision": 3,
-   "changedAt": "2026-10-07",
+   "revision": 2,
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "allocation-gate-on-the-shipped-configuration",
@@ -5711,8 +5711,8 @@
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/phone-controller-input-protocol.md",
    "digest": "sha256-b2:7154281060804b03",
-   "revision": 3,
-   "changedAt": "2026-10-07",
+   "revision": 2,
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "absolute-state-over-event-frames",
@@ -6274,7 +6274,7 @@
    "file": "knowledge/game-production/production-governance/production-prompt-architecture/production-prompt-architecture.md",
    "digest": "sha256-b2:eb3b409f7965c5b5",
    "revision": 3,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "acceptance-criteria-appended-not-replaced",
@@ -6899,7 +6899,7 @@
    "file": "knowledge/game-production/systems-canon/racing-career-economy/racing-career-economy.md",
    "digest": "sha256-b2:1d1a000f35bc31a9",
    "revision": 2,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "finite-garage-end-state-honesty",
@@ -7136,7 +7136,7 @@
    "file": "knowledge/game-production/systems-canon/realtime-combat-semantics/realtime-combat-semantics.md",
    "digest": "sha256-b2:aa744914205e9faf",
    "revision": 4,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "active-defense-two-axis-split",
@@ -7630,8 +7630,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/render-submission-economy/render-submission-economy.md",
    "digest": "sha256-b2:13326c64907cedb4",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "revision": 1,
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "batch-by-page-where-order-is-invisible",
@@ -8113,7 +8113,7 @@
    "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/ship-pipeline-gating.md",
    "digest": "sha256-b2:2004f3c48240f9a6",
    "revision": 3,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "editor-only-api-audit-for-shipping",
@@ -8716,7 +8716,7 @@
    "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/steering-feel-profile-shaping.md",
    "digest": "sha256-b2:75522784bdcb5c62",
    "revision": 2,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "asymmetric-steer-slew-rise-return",
@@ -8943,7 +8943,7 @@
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/subtext-and-voice-differentiation.md",
    "digest": "sha256-b2:de85383e8fb56e09",
    "revision": 2,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "dialogue-as-a-trade",
@@ -9299,7 +9299,7 @@
    "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/top-down-vehicle-handling-model.md",
    "digest": "sha256-b2:ef72f6244d8e231a",
    "revision": 2,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "bounded-load-transfer-grip",
@@ -9410,7 +9410,7 @@
    "file": "knowledge/game-production/couch-and-tv-play/two-thumb-touch-layout-design/two-thumb-touch-layout-design.md",
    "digest": "sha256-b2:9567b92e8aee1efe",
    "revision": 3,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "cruise-fire-drives-throttle",
@@ -9684,7 +9684,7 @@
    "file": "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/vehicle-archetype-balance.md",
    "digest": "sha256-b2:ac4ce5ffc63b7270",
    "revision": 2,
-   "changedAt": "2026-10-07",
+   "changedAt": "2026-10-08",
    "techniques": [
     {
      "slug": "identity-pair-via-authored-band",
