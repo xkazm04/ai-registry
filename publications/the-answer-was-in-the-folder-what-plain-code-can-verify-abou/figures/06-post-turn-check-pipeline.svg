@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 320" width="680" height="320" role="img" aria-label="Pipeline: turn ends, deterministic layer spending no model tokens per turn, findings, model layer priced per million tokens, person, with two return arrows into the turn.">
+  <style>
+    .bg{fill:#faf8f4;stroke:#e2ded6;stroke-width:1}
+    .ttl{font:600 17px Helvetica,Arial,sans-serif;fill:#17171a}
+    .box{fill:#ffffff;stroke:#444038;stroke-width:1.5}
+    .boxd{fill:#eaf0fa;stroke:#24508f;stroke-width:2}
+    .boxm{fill:#f4ebe6;stroke:#9e2f24;stroke-width:2}
+    .bt{font:600 14px Helvetica,Arial,sans-serif;fill:#17171a}
+    .fl{stroke:#444038;stroke-width:2;fill:none}
+    .rt{stroke:#24508f;stroke-width:2;fill:none;stroke-dasharray:6 4}
+    .rt2{stroke:#9e2f24;stroke-width:2;fill:none;stroke-dasharray:6 4}
+    .an{font:14px Helvetica,Arial,sans-serif;fill:#24508f}
+    .an2{font:14px Helvetica,Arial,sans-serif;fill:#9e2f24}
+    .chip{font:600 14px Helvetica,Arial,sans-serif;fill:#17171a}
+    .note{font:13px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    .mk1{fill:#444038}
+    .mk2{fill:#24508f}
+    .mk3{fill:#9e2f24}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1b1b1f;stroke:#2e2e33}
+      .ttl{fill:#e9e5dd}
+      .box{fill:#121214;stroke:#9a968e}
+      .boxd{fill:#15223a;stroke:#8fb4ee}
+      .boxm{fill:#2a1d1b;stroke:#e8897c}
+      .bt{fill:#e9e5dd}
+      .fl{stroke:#9a968e}
+      .rt{stroke:#8fb4ee}
+      .rt2{stroke:#e8897c}
+      .an{fill:#8fb4ee}
+      .an2{fill:#e8897c}
+      .chip{fill:#e9e5dd}
+      .note{fill:#a8a49c}
+      .mk1{fill:#9a968e}
+      .mk2{fill:#8fb4ee}
+      .mk3{fill:#e8897c}
+    }
+  </style>
+  <defs>
+    <marker id="m1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path class="mk1" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+    <marker id="m2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path class="mk2" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+    <marker id="m3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path class="mk3" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0.5" y="0.5" width="679" height="319"/>
+  <text class="ttl" x="20" y="32">Where each layer attaches after a turn</text>
+
+  <path class="rt" d="M207,130 L207,80 L74,80 L74,128" marker-end="url(#m2)"/>
+  <text class="an" x="140" y="70" text-anchor="middle">exit 2, fix turn, ceiling 3</text>
+
+  <rect class="box" x="20" y="130" width="108" height="50" rx="6"/>
+  <text class="bt" x="74" y="160" text-anchor="middle">turn ends</text>
+
+  <rect class="boxd" x="153" y="130" width="108" height="50" rx="6"/>
+  <text class="bt" x="207" y="152" text-anchor="middle">deterministic</text>
+  <text class="bt" x="207" y="170" text-anchor="middle">layer</text>
+
+  <rect class="box" x="286" y="130" width="108" height="50" rx="6"/>
+  <text class="bt" x="340" y="160" text-anchor="middle">findings</text>
+
+  <rect class="boxm" x="419" y="130" width="108" height="50" rx="6"/>
+  <text class="bt" x="473" y="152" text-anchor="middle">model</text>
+  <text class="bt" x="473" y="170" text-anchor="middle">layer</text>
+
+  <rect class="box" x="552" y="130" width="108" height="50" rx="6"/>
+  <text class="bt" x="606" y="160" text-anchor="middle">person</text>
+
+  <path class="fl" d="M128,155 L149,155" marker-end="url(#m1)"/>
+  <path class="fl" d="M261,155 L282,155" marker-end="url(#m1)"/>
+  <path class="fl" d="M394,155 L415,155" marker-end="url(#m1)"/>
+  <path class="fl" d="M527,155 L548,155" marker-end="url(#m1)"/>
+
+  <text class="chip" x="207" y="204" text-anchor="middle">no model tokens per turn</text>
+  <text class="note" x="207" y="224" text-anchor="middle">pays suite runtime and retries</text>
+  <text class="chip" x="473" y="204" text-anchor="middle">priced per million tokens</text>
+
+  <path class="rt2" d="M473,180 L473,252 L74,252 L74,182" marker-end="url(#m3)"/>
+  <text class="an2" x="300" y="272" text-anchor="middle">additionalContext, an external role</text>
+
+  <text class="note" x="20" y="304">Illustration. Charges per layer, not per finding.</text>
+</svg>

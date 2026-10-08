@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 350" width="680" height="350" role="img" aria-label="AUROC at detecting false success: tau2-bench judge 0.640 against detector 0.825, AppWorld judge 0.537 against detector 0.953, with 0.50 marked as a coin flip.">
+  <style>
+    .bg{fill:#faf8f4;stroke:#e2ded6;stroke-width:1}
+    .ttl{font:600 17px Helvetica,Arial,sans-serif;fill:#17171a}
+    .lg{font:14px Helvetica,Arial,sans-serif;fill:#17171a}
+    .grp{font:600 15px Helvetica,Arial,sans-serif;fill:#17171a}
+    .val{font:600 15px Helvetica,Arial,sans-serif;fill:#17171a}
+    .ax{stroke:#8a8579;stroke-width:1.5}
+    .tick{font:13px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    .judge{fill:#c9c3b4;stroke:#7a7465;stroke-width:1}
+    .det{fill:#24508f;stroke:#1f3f7a;stroke-width:1}
+    .zero{stroke:#9e2f24;stroke-width:1.5;stroke-dasharray:4 4}
+    .note{font:600 14px Helvetica,Arial,sans-serif;fill:#9e2f24}
+    .foot{font:13px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1b1b1f;stroke:#2e2e33}
+      .ttl{fill:#e9e5dd}
+      .lg{fill:#e9e5dd}
+      .grp{fill:#e9e5dd}
+      .val{fill:#e9e5dd}
+      .ax{stroke:#6a6a72}
+      .tick{fill:#a8a49c}
+      .judge{fill:#4a4740;stroke:#8d887c}
+      .det{fill:#3a6cbf;stroke:#8fb4ee}
+      .zero{stroke:#e8897c}
+      .note{fill:#e8897c}
+      .foot{fill:#a8a49c}
+    }
+  </style>
+  <rect class="bg" x="0.5" y="0.5" width="679" height="349"/>
+  <text class="ttl" x="20" y="32">Spotting a false completion claim: AUROC [1]</text>
+
+  <rect class="judge" x="20" y="48" width="14" height="14"/>
+  <text class="lg" x="42" y="60">best LLM judge</text>
+  <rect class="det" x="180" y="48" width="14" height="14"/>
+  <text class="lg" x="202" y="60">TF-IDF detector</text>
+
+  <text class="grp" x="172" y="112" text-anchor="end">tau2-bench</text>
+  <rect class="judge" x="180" y="84" width="129" height="26"/>
+  <text class="val" x="317" y="103">0.640</text>
+  <rect class="det" x="180" y="118" width="299" height="26"/>
+  <text class="val" x="487" y="137">0.825</text>
+
+  <text class="grp" x="172" y="212" text-anchor="end">AppWorld</text>
+  <rect class="judge" x="180" y="184" width="34" height="26"/>
+  <text class="val" x="222" y="203">0.537</text>
+  <rect class="det" x="180" y="218" width="417" height="26"/>
+  <text class="val" x="605" y="237">0.953</text>
+
+  <text class="note" x="660" y="266" text-anchor="end">1.19 ms against about 4,000 ms [1]</text>
+
+  <line class="ax" x1="180" y1="282" x2="640" y2="282"/>
+  <line class="zero" x1="180" y1="76" x2="180" y2="290"/>
+  <g class="tick">
+    <text x="180" y="302" text-anchor="middle">0.50</text>
+    <text x="272" y="302" text-anchor="middle">0.60</text>
+    <text x="364" y="302" text-anchor="middle">0.70</text>
+    <text x="456" y="302" text-anchor="middle">0.80</text>
+    <text x="548" y="302" text-anchor="middle">0.90</text>
+    <text x="640" y="302" text-anchor="middle">1.00</text>
+  </g>
+  <text class="foot" x="180" y="324" text-anchor="middle">coin flip</text>
+  <text class="foot" x="660" y="324" text-anchor="end">AUROC, higher is better</text>
+</svg>

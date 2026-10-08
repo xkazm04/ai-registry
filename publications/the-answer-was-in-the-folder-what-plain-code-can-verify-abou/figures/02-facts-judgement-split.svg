@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 510" width="680" height="510" role="img" aria-label="Two columns: eight items settled by a script, four owed to a reader, and the run's final message blocked from crossing left.">
+  <style>
+    .bg{fill:#faf8f4;stroke:#e2ded6;stroke-width:1}
+    .hd{font:600 16px Helvetica,Arial,sans-serif;fill:#17171a}
+    .chip{fill:#ffffff;stroke:#24508f;stroke-width:1.5}
+    .chipr{fill:#ffffff;stroke:#7a6a46;stroke-width:1.5}
+    .chipd{fill:#f4ebe6;stroke:#9e2f24;stroke-width:1.5;stroke-dasharray:5 4}
+    .ct{font:15px Helvetica,Arial,sans-serif;fill:#17171a}
+    .div{stroke:#bdb8ad;stroke-width:2;stroke-dasharray:6 5}
+    .ar{stroke:#24508f;stroke-width:2.5;fill:none}
+    .arx{stroke:#9e2f24;stroke-width:2.5;fill:none}
+    .an{font:14px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    .anx{font:600 14px Helvetica,Arial,sans-serif;fill:#9e2f24}
+    .tag{font:13px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1b1b1f;stroke:#2e2e33}
+      .hd{fill:#e9e5dd}
+      .ct{fill:#e9e5dd}
+      .chip{fill:#121214;stroke:#8fb4ee}
+      .chipr{fill:#121214;stroke:#b9a878}
+      .chipd{fill:#241b1b;stroke:#e8897c}
+      .div{stroke:#56565e}
+      .ar{stroke:#8fb4ee}
+      .arx{stroke:#e8897c}
+      .an{fill:#a8a49c}
+      .anx{fill:#e8897c}
+      .tag{fill:#a8a49c}
+      .mk1{fill:#8fb4ee}
+    }
+  </style>
+  <defs>
+    <marker id="a1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path class="mk1" d="M0,0 L10,5 L0,10 z" fill="#24508f"/>
+    </marker>
+  </defs>
+  <rect class="bg" x="0.5" y="0.5" width="679" height="509"/>
+
+  <text class="hd" x="24" y="40">settled by a script</text>
+  <text class="hd" x="366" y="40">owed to a reader</text>
+  <line class="div" x1="348" y1="22" x2="348" y2="420"/>
+
+  <g>
+    <rect class="chip" x="24" y="58" width="290" height="32" rx="16"/><text class="ct" x="40" y="79">start tree recorded</text>
+    <rect class="chip" x="24" y="100" width="290" height="32" rx="16"/><text class="ct" x="40" y="121">process finished</text>
+    <rect class="chip" x="24" y="142" width="290" height="32" rx="16"/><text class="ct" x="40" y="163">gate output, parsed</text>
+    <rect class="chip" x="24" y="184" width="290" height="32" rx="16"/><text class="ct" x="40" y="205">artefacts present</text>
+    <rect class="chip" x="24" y="226" width="290" height="32" rx="16"/><text class="ct" x="40" y="247">working tree clean</text>
+    <rect class="chip" x="24" y="268" width="290" height="32" rx="16"/><text class="ct" x="40" y="289">exclusion rules honoured</text>
+    <rect class="chip" x="24" y="310" width="290" height="32" rx="16"/><text class="ct" x="40" y="331">citations resolve</text>
+    <rect class="chip" x="24" y="352" width="290" height="32" rx="16"/><text class="ct" x="40" y="373">test set still collected</text>
+  </g>
+
+  <g>
+    <rect class="chipr" x="366" y="58" width="290" height="32" rx="16"/><text class="ct" x="382" y="79">was it worth doing</text>
+    <rect class="chipr" x="366" y="100" width="290" height="32" rx="16"/><text class="ct" x="382" y="121">test asserts the right thing</text>
+    <rect class="chipr" x="366" y="142" width="290" height="32" rx="16"/><text class="ct" x="382" y="163">behaviour preserved</text>
+    <rect class="chipr" x="366" y="184" width="290" height="32" rx="16"/><text class="ct" x="382" y="205">a maintainer would keep it</text>
+  </g>
+
+  <rect class="chipd" x="366" y="268" width="290" height="32" rx="16"/>
+  <text class="ct" x="382" y="289">run&#39;s final message</text>
+  <path class="arx" d="M362,284 L300,284"/>
+  <line class="arx" x1="324" y1="274" x2="340" y2="294"/>
+  <line class="arx" x1="340" y1="274" x2="324" y2="294"/>
+  <text class="anx" x="300" y="314" text-anchor="end">not evidence about the tree</text>
+
+  <path class="ar" d="M240,444 L440,444" marker-end="url(#a1)"/>
+  <text class="an" x="340" y="432" text-anchor="middle">verified list, handed over</text>
+
+  <text class="tag" x="24" y="488">Illustration. Chips are the check classes named in the body.</text>
+</svg>

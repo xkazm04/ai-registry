@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 350" width="680" height="350" role="img" aria-label="Two downward slopes on SWE-bench Pro after history reset and egress allowlist together: Opus 4.8 Max 87.1 to 73.0 percent, Composer 2.5 74.7 to 54.0 percent.">
+  <style>
+    .bg{fill:#faf8f4;stroke:#e2ded6;stroke-width:1}
+    .ttl{font:600 17px Helvetica,Arial,sans-serif;fill:#17171a}
+    .ax{stroke:#8a8579;stroke-width:1.5}
+    .grid{stroke:#e4e0d6;stroke-width:1}
+    .tick{font:13px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    .s1{stroke:#9e2f24;stroke-width:3;fill:none}
+    .s2{stroke:#24508f;stroke-width:3;fill:none}
+    .p1{fill:#9e2f24}
+    .p2{fill:#24508f}
+    .l1{font:600 15px Helvetica,Arial,sans-serif;fill:#9e2f24}
+    .l2{font:600 15px Helvetica,Arial,sans-serif;fill:#1f3f7a}
+    .drop{font:600 14px Helvetica,Arial,sans-serif;fill:#17171a}
+    .xl{font:600 14px Helvetica,Arial,sans-serif;fill:#17171a}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1b1b1f;stroke:#2e2e33}
+      .ttl{fill:#e9e5dd}
+      .ax{stroke:#6a6a72}
+      .grid{stroke:#2e2e33}
+      .tick{fill:#a8a49c}
+      .s1{stroke:#e8897c}
+      .s2{stroke:#8fb4ee}
+      .p1{fill:#e8897c}
+      .p2{fill:#8fb4ee}
+      .l1{fill:#e8897c}
+      .l2{fill:#8fb4ee}
+      .drop{fill:#e9e5dd}
+      .xl{fill:#e9e5dd}
+    }
+  </style>
+  <rect class="bg" x="0.5" y="0.5" width="679" height="349"/>
+  <text class="ttl" x="20" y="30">SWE-bench Pro resolved, before and after the combined hardening [11]</text>
+
+  <line class="grid" x1="150" y1="100" x2="640" y2="100"/>
+  <line class="grid" x1="150" y1="145" x2="640" y2="145"/>
+  <line class="grid" x1="150" y1="190" x2="640" y2="190"/>
+  <line class="grid" x1="150" y1="235" x2="640" y2="235"/>
+  <line class="ax" x1="150" y1="280" x2="640" y2="280"/>
+  <line class="ax" x1="150" y1="92" x2="150" y2="280"/>
+  <g class="tick">
+    <text x="142" y="105" text-anchor="end">90%</text>
+    <text x="142" y="150" text-anchor="end">80%</text>
+    <text x="142" y="195" text-anchor="end">70%</text>
+    <text x="142" y="240" text-anchor="end">60%</text>
+    <text x="142" y="285" text-anchor="end">50%</text>
+  </g>
+
+  <path class="s1" d="M220,113 L520,177"/>
+  <circle class="p1" cx="220" cy="113" r="6"/>
+  <circle class="p1" cx="520" cy="177" r="6"/>
+  <text class="l1" x="212" y="106" text-anchor="end">Opus 4.8 Max 87.1</text>
+  <text class="l1" x="532" y="182">73.0</text>
+  <text class="drop" x="370" y="138" text-anchor="middle">drop 14.1</text>
+
+  <path class="s2" d="M220,169 L520,262"/>
+  <circle class="p2" cx="220" cy="169" r="6"/>
+  <circle class="p2" cx="520" cy="262" r="6"/>
+  <text class="l2" x="212" y="162" text-anchor="end">Composer 2.5 74.7</text>
+  <text class="l2" x="532" y="267">54.0</text>
+  <text class="drop" x="370" y="212" text-anchor="middle">drop 20.7</text>
+
+  <text class="xl" x="220" y="302" text-anchor="middle">bundled .git, open network</text>
+  <text class="xl" x="520" y="302" text-anchor="middle">history reset and egress allowlist</text>
+  <text class="tick" x="20" y="334">Opus 4.6 dropped under one point, same harness [11]</text>
+  <text class="tick" x="660" y="334" text-anchor="end">vendor audit, 2026-06-25 [11]</text>
+</svg>

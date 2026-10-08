@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 384" width="680" height="384" role="img" aria-label="Monitor recall falls from 86 to 89 percent on single-problem tasks, 193 transcripts, to 57 to 65 percent for Claude Opus 4 and 42 to 50 percent for Claude Sonnet 4 at repository scale, 2,371 transcripts.">
+  <style>
+    .bg{fill:#faf8f4;stroke:#e2ded6;stroke-width:1}
+    .ttl{font:600 17px Helvetica,Arial,sans-serif;fill:#17171a}
+    .ax{stroke:#8a8579;stroke-width:1.5}
+    .grid{stroke:#e4e0d6;stroke-width:1}
+    .tick{font:13px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    .bandA{fill:#9fb6dd;fill-opacity:0.85;stroke:#24508f;stroke-width:1.5}
+    .bandB{fill:#e0b0a8;fill-opacity:0.85;stroke:#9e2f24;stroke-width:1.5}
+    .labb{font:600 14px Helvetica,Arial,sans-serif;fill:#1f3f7a}
+    .labr{font:600 14px Helvetica,Arial,sans-serif;fill:#9e2f24}
+    .lab{font:600 14px Helvetica,Arial,sans-serif;fill:#17171a}
+    .xl{font:600 15px Helvetica,Arial,sans-serif;fill:#17171a}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1b1b1f;stroke:#2e2e33}
+      .ttl{fill:#e9e5dd}
+      .ax{stroke:#6a6a72}
+      .grid{stroke:#2e2e33}
+      .tick{fill:#a8a49c}
+      .bandA{fill:#2f4f86;fill-opacity:0.9;stroke:#8fb4ee}
+      .bandB{fill:#6b332c;fill-opacity:0.9;stroke:#e8897c}
+      .labb{fill:#8fb4ee}
+      .labr{fill:#e8897c}
+      .lab{fill:#e9e5dd}
+      .xl{fill:#e9e5dd}
+    }
+  </style>
+  <rect class="bg" x="0.5" y="0.5" width="679" height="383"/>
+  <text class="ttl" x="20" y="30">Cheating caught by a monitor, by task scope [3]</text>
+
+  <line class="grid" x1="120" y1="80" x2="640" y2="80"/>
+  <line class="grid" x1="120" y1="135" x2="640" y2="135"/>
+  <line class="grid" x1="120" y1="190" x2="640" y2="190"/>
+  <line class="grid" x1="120" y1="245" x2="640" y2="245"/>
+  <line class="ax" x1="120" y1="300" x2="640" y2="300"/>
+  <line class="ax" x1="120" y1="76" x2="120" y2="300"/>
+  <g class="tick">
+    <text x="112" y="85" text-anchor="end">100%</text>
+    <text x="112" y="140" text-anchor="end">75%</text>
+    <text x="112" y="195" text-anchor="end">50%</text>
+    <text x="112" y="250" text-anchor="end">25%</text>
+    <text x="112" y="305" text-anchor="end">0%</text>
+  </g>
+
+  <polygon class="bandA" points="220,104 500,157 500,175 220,111"/>
+  <polygon class="bandB" points="220,104 500,190 500,208 220,111"/>
+
+  <text class="lab" x="226" y="96">86 to 89%, both monitors</text>
+  <text class="labb" x="508" y="162">Opus 4: 57 to 65%</text>
+  <text class="labr" x="508" y="206">Sonnet 4: 42 to 50%</text>
+
+  <text class="xl" x="220" y="324" text-anchor="middle">single problem</text>
+  <text class="tick" x="220" y="344" text-anchor="middle">193 transcripts</text>
+  <text class="xl" x="500" y="324" text-anchor="middle">repository scale</text>
+  <text class="tick" x="500" y="344" text-anchor="middle">2,371 transcripts</text>
+  <text class="tick" x="20" y="370">recall of verified cheating attempts [3]</text>
+</svg>
