@@ -1100,7 +1100,7 @@
       "techniques": 127,
       "applications": 80,
       "files": 230,
-      "contentHash": "sha256-b2:59769634d3f13643"
+      "contentHash": "sha256-b2:1fb324c32867598b"
     },
     {
       "name": "localization",
@@ -1165,7 +1165,7 @@
       "techniques": 1830,
       "applications": 1238,
       "files": 3306,
-      "contentHash": "sha256-b2:4ce8fbe6d8d1c176"
+      "contentHash": "sha256-b2:c932eaa4e433106f"
     },
     {
       "name": "technical-writing",
@@ -1178,7 +1178,7 @@
       "techniques": 29,
       "applications": 7,
       "files": 46,
-      "contentHash": "sha256-b2:2d62b5240f32c7ad"
+      "contentHash": "sha256-b2:b0dbb3edba41ea7e"
     }
   ],
   "usageEvidence": {

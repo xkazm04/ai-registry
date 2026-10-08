@@ -24,8 +24,8 @@
    "status": "forged",
    "file": "knowledge/technical-writing/composition/article-structure/article-structure.md",
    "digest": "sha256-b2:e5b9771914182ba9",
-   "revision": 1,
-   "changedAt": "2026-10-08",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "closing-chapter-settles-the-account",
@@ -110,7 +110,7 @@
    "file": "knowledge/technical-writing/composition/depth-and-audience/depth-and-audience.md",
    "digest": "sha256-b2:95856d83d4559cb4",
    "revision": 1,
-   "changedAt": "2026-10-08",
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "depth-by-replacement",
@@ -184,7 +184,7 @@
    "file": "knowledge/technical-writing/grounding/evidence-and-sources/evidence-and-sources.md",
    "digest": "sha256-b2:5b6b2b07c435fd74",
    "revision": 1,
-   "changedAt": "2026-10-08",
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "counter-evidence-alongside-the-thesis",
@@ -270,8 +270,8 @@
    "status": "forged",
    "file": "knowledge/technical-writing/presentation/figures-and-tables/figures-and-tables.md",
    "digest": "sha256-b2:ee6a938542f4e2d5",
-   "revision": 1,
-   "changedAt": "2026-10-08",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "captions-name-their-sources",
@@ -369,7 +369,7 @@
    "file": "knowledge/technical-writing/presentation/medium-format-fidelity/medium-format-fidelity.md",
    "digest": "sha256-b2:2c5e505f786d6585",
    "revision": 1,
-   "changedAt": "2026-10-08",
+   "changedAt": "2026-10-05",
    "techniques": [
     {
      "slug": "highlighted-code-blocks",
@@ -461,8 +461,8 @@
    "status": "forged",
    "file": "knowledge/technical-writing/prose/voice-and-register/voice-and-register.md",
    "digest": "sha256-b2:8f4e0fccda5412e1",
-   "revision": 1,
-   "changedAt": "2026-10-08",
+   "revision": 2,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "house-style-consistency",
