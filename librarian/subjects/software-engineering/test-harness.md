@@ -1,7 +1,7 @@
 ---
 subject: test-harness
 domain: software-engineering
-last_touched: 2026-09-06
+last_touched: 2026-10-06
 dry_streak: 0
 ---
 
@@ -276,3 +276,14 @@ source-tree application and one fleet application.
   (7a56d61, not pushed), both mutants caught, 296 tests green. Detection depends on test scope (two survivors caught only
   under workspace tests).
 - Open: a second module run that finds a comparable gap would justify a scheduled lane in a fleet project.
+
+
+## 2026-10-06 - [[2026-10-06-microsoft-mcp-v2]]
+
+Upstream delta re-scan. `dotnet--recorded-interaction-fixtures` re-pinned to
+`b7533190` (SDK `10.0.401`; the configurator's anchors moved; `assets.json` count 42 -> 45).
+The handler and sanitizer base class are byte-identical across the window. Added to the
+application: #3824 stretches the client's own timeouts in playback (HttpClient 11 min,
+SDK per-try 10 min), because a timeout that fires sends a request the recording lacks.
+Technique unchanged. The "two clocks" boundary (zero the recording's wait, push the
+client's timeout out of reach) is banked untriaged at GAIN 1 in the source note.

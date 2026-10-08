@@ -3,6 +3,45 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 
+## 1.8.0 - 2026-10-05 - ai-registry (token-tax-blog, the first technical-writing contest, 8 seats x 1 article, owner-only review)
+
+Run shape: Sonnet 5.5, Opus 5.5, `gpt-6.1-sol` and Gemini 3.8 Flash (via `agy`), two seats each at
+`medium`, one article per seat, then a refinement round on four shortlisted articles (one seat per
+article, same model and effort). Owner decided; no panel. 8/8 and 4/4 delivered, 0 page errors.
+
+- **The Gemini CLI is gone; `agy` is its successor and now an engine.** Headless is
+  `agy -p <prompt> --model <slug> --output-format json --dangerously-skip-permissions`, with no cwd flag
+  (the runner's process cwd is the workspace). The slug carries the effort (`gemini-3.8-flash-medium`), so
+  the engine completes spec + effort and sends no `--effort`. A public report says a Windows non-TTY run
+  can hang on an open stdin pipe or print nothing; here, with stdin closed and the prompt as an argument,
+  both probes returned the JSON envelope (`status`, `response`, `num_turns`, `usage`) and 8 of 8 production
+  runs completed. Probe a new engine with one write plus one web search before a contest, as before.
+- **Blinding by name corrupts a brief whose subject is vendors.** Collect replaced vendor and model words
+  inside the articles' own cited facts ("the tokenizer behind [redacted]"), 5 to 55 times per article. No
+  article signed itself, so the host replaced the blinded copies with the originals after checking for
+  bylines and "written by" strings. Same family as the 1.2.0 finding about data identifiers; the
+  instrument still scrubs bare vendor words. Proposal, not applied: `collect --no-redact` for a brief
+  whose subject names vendors, with the self-signature scan built in.
+- **`resolveBin` now finds the native `claude.exe` behind the npm shim.** Third recorded sighting
+  (1.2.0, 1.7.0); fixed here.
+- **The participant template's tail is UI-shaped and was replaced by hand, identically in every
+  `PARTICIPANT.md`** (deliverable list, rubric, working notes). The refine template's bar ("14 px body, levels
+  not one layer, heavy content gets its own surface") is UI-shaped too and was replaced the same way. Proposal:
+  `init --kind article` and `refine --bar <file>`.
+- **A prose deliverable needs its research log as part of the entry.** Requiring `SOURCES.md` (sources table,
+  claims, craft research, experiments, registry leads) made the entries auditable and produced 14 to 23 logged
+  sources per article. The honesty rules (no invented statistics, date every figure) held; one seat
+  installed a tokenizer package and measured, which the brief allowed with the command logged.
+- **The owner's review changed his own brief.** After round 1 he withdrew the beginner-first emphasis
+  ("led into flat content") and asked for depth, philosophy and current data. A host should expect the
+  first brief's audience line to be the thing a review corrects.
+- **One-turn seats again:** the GPT and Gemini seats ran 1 turn each (9 to 18 min); the Claude seats ran
+  40 to 97 turns. The Claude seats' articles carried more sourced figures and tables.
+- **Cost and wall, as the CLIs reported them** (round 1): Sonnet 7.8 min / $1.50 and 10 min / $2.38; Opus
+  17.5 min / $4.50 and 22.4 min / $5.47; GPT 17.4 and 15.4 min, no price; Gemini 9.3 and 9.4 min, no price.
+  Round 2: Sonnet 13 min / $2.61; Opus 20.9 min / $5.73; GPT 17.7 min; Gemini 9.5 min. Whole arc under
+  $20 reported.
+
 ## 1.7.0 - 2026-09-29 - dollar (cinema-portfolio, the first landing contest)
 
 - **Two same-family seats at different tiers made a full field.** claude-sonnet-5-5@max and claude-opus-5-5@xhigh ran with no judge panel: 6 of 6 variants delivered, zero page errors in 18 browser runs. The owner took five forward: a fusion of both successors, two alternative views and one port into another app. Sonnet cost 66 min / $28.24 / 219 turns against Opus's 46 min / $19.35 / 121 turns, and held level. This became the UI roster and the `--landing` preset in 1.8.0.

@@ -1,7 +1,7 @@
 ---
 subject: job-coordination
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-10-06
 touched_by: intake
 dry_streak: 0
 ---
@@ -290,3 +290,7 @@ sighting promotes them on convergence at no fetch cost.
 ### 2026-09-17 - `/harvest backlog` wave 4, one technique + one application
 
 `terms-travel-permission-does-not`. The subject already carried the record and the envelope; what it never separated is the two KINDS of thing a worker reads at execution time. A term the work will be judged by - threshold, class, route, parameters, the instrument and its version - belongs to the submission and must travel frozen. A term that can stop or narrow the work - a cancellation, a revoked permission, a lowered ceiling - must be read live, because a frozen permission is a permission that outlives its revocation. The discriminator the measurement forced, and the reusable one: **reading the current configuration to decide whether to run is correct; reading it to decide what a finished run meant is attribution of a result to conditions that never produced it.** A gate that does the second reports a verdict nobody can reproduce, and it reports it confidently. Measured on a benchmark gate that argued in its own prose for the live read and enumerated 'the one condition it can actually read off the run' - an enumeration that denied too much. 2 mis-attributed verdicts -> 0, eight existing cases unchanged. Spine item 7 states it; `delivery-guarantees` shares the technique.
+
+## 2026-10-06 - /intake deer-flow --delta (run `intake-deer-flow-1006-v3`, cloud dispatch)
+
+Source [[../../sources/2026-10-06-deer-flow-v3]]. `python--lease-renewal` re-pinned `08b27aef -> 53df22bd`. The gateway lease lines are unchanged. The scheduler sentence ("an expired launch claim returns to the durable queue") was re-cited from a guide line that never said it in those words to the code that does: `recover_expired_launch_claims` looks for the launched run before choosing queued, running or finalized. That is a stronger instance of the "absent is not lost" amendment. Untriaged for this subject: keep renewing until the durable terminal write is attempted (#6263; renewal keyed on an in-memory terminal status let a peer reclaim a successful run), which extends "a teardown is a held state" to finalization.

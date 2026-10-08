@@ -128,6 +128,23 @@
       "tokensBasis30d": null
     },
     {
+      "name": "cloud-dispatch",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/cloud-dispatch/SKILL.md",
+      "contentHash": "sha256-n1:5f9e3c3ee23e5959",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 0,
+      "usageContributors": [],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
+    },
+    {
       "name": "conform",
       "version": "1.8.3",
       "category": "ai-native",
@@ -174,16 +191,16 @@
     },
     {
       "name": "contest",
-      "version": "1.9.0",
+      "version": "1.9.1",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:d58afe0cc16821de",
+      "contentHash": "sha256-n1:b54351bba54400c3",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 15,
+      "lessons": 16,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:1b7ee8493d4c8e4a",
+      "lessonsHash": "sha256-n1:30190820650fd4f8",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -724,9 +741,9 @@
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 30,
+      "lessons": 31,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:ab1bf241fbcef9cd",
+      "lessonsHash": "sha256-n1:8b76401b3dc854da",
       "usageContributors": [
         "wolf"
       ],
@@ -1014,10 +1031,10 @@
     }
   ],
   "counts": {
-    "skills": 38,
+    "skills": 39,
     "practices": 8,
     "memory": 9,
-    "lessons": 302
+    "lessons": 304
   },
   "bundles": [
     {
@@ -1083,7 +1100,7 @@
       "techniques": 127,
       "applications": 80,
       "files": 230,
-      "contentHash": "sha256-b2:128fb15346978e94"
+      "contentHash": "sha256-b2:59769634d3f13643"
     },
     {
       "name": "localization",
@@ -1146,9 +1163,22 @@
       "purity": "software",
       "subjects": 233,
       "techniques": 1830,
-      "applications": 1236,
-      "files": 3304,
-      "contentHash": "sha256-b2:2e249be728d26f1f"
+      "applications": 1238,
+      "files": 3306,
+      "contentHash": "sha256-b2:4ce8fbe6d8d1c176"
+    },
+    {
+      "name": "technical-writing",
+      "title": "Technical writing",
+      "path": "knowledge/technical-writing",
+      "okfVersion": "0.1",
+      "profile": "rkb/0.1",
+      "purity": "writing",
+      "subjects": 6,
+      "techniques": 29,
+      "applications": 7,
+      "files": 46,
+      "contentHash": "sha256-b2:2d62b5240f32c7ad"
     }
   ],
   "usageEvidence": {

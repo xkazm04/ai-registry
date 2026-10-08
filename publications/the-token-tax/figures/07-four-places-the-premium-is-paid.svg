@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="350" viewBox="0 0 1000 350" role="img" aria-label="Table 3: invoice, window, clock and output cap, the four places a token premium is paid">
+<rect width="1000" height="350" fill="#ffffff"/>
+<text x="32.0" y="52.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="22" font-weight="700" fill="#242424">Table 3. Four places a 1.5× premium is paid</text>
+<text x="40.0" y="92.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b">Where</text>
+<text x="190.0" y="92.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b">Mechanism</text>
+<text x="710.0" y="92.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="13.5" font-weight="600" fill="#6b6b6b">Who notices</text>
+<line x1="32.0" y1="102.0" x2="968.0" y2="102.0" stroke="#242424" stroke-width="1"/>
+<text x="40.0" y="128.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">Invoice</text>
+<text x="190.0" y="128.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Every input and output token is billed; the multiplier hits what is re-sent each</text>
+<text x="190.0" y="148.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">turn: system prompt, retrieved documents, chat history.</text>
+<text x="710.0" y="128.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Finance, per region</text>
+<line x1="32.0" y1="156.0" x2="968.0" y2="156.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="182.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">Window</text>
+<text x="190.0" y="182.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Context limits are in tokens. “Top 20 chunks” of Hindi ground the answer in</text>
+<text x="190.0" y="202.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">less of the manual.</text>
+<text x="710.0" y="182.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Nobody, until answers lose facts</text>
+<line x1="32.0" y1="210.0" x2="968.0" y2="210.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="236.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">Clock</text>
+<text x="190.0" y="236.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Output streams one token at a time: 1.76× the tokens is about 1.76× the time</text>
+<text x="190.0" y="256.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">to finish.</text>
+<text x="710.0" y="236.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">Users on slow locales</text>
+<line x1="32.0" y1="264.0" x2="968.0" y2="264.0" stroke="#e6e6e6" stroke-width="1"/>
+<text x="40.0" y="290.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="700" fill="#242424">Output cap</text>
+<text x="190.0" y="290.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">max_tokens tuned on English cuts Thai or Hindi replies off sooner,</text>
+<text x="190.0" y="310.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">mid-sentence.</text>
+<text x="710.0" y="290.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">A native reader filing “answers</text>
+<text x="710.0" y="310.0" font-family="'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Nirmala UI', 'Leelawadee UI', 'Yu Gothic', sans-serif" font-size="14.5" font-weight="400" fill="#242424">truncated”</text>
+<line x1="32.0" y1="318.0" x2="968.0" y2="318.0" stroke="#e6e6e6" stroke-width="1"/>
+</svg>

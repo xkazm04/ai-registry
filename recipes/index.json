@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-recipes-index.mjs",
   "lane": "recipes",
   "source": "recipes/<domain>/<topic>/<slug>/recipe.json",
-  "recipes": 143,
+  "recipes": 144,
   "by_status": {
-   "seed": 143
+   "seed": 144
   },
   "by_domain": {
    "legal_compliance": 9,
@@ -13,7 +13,7 @@
    "finance_accounting": 12,
    "data_ai": 9,
    "software_engineering": 46,
-   "creative_design": 13,
+   "creative_design": 14,
    "general_professional": 18,
    "customer_support": 8,
    "sales_marketing": 19,
@@ -1695,6 +1695,20 @@
    "title": "Survey response theme and sentiment analysis",
    "connector_types": [
     "database"
+   ],
+   "recommended_trigger_kind": "self_paced"
+  },
+  "technical-blog-post-authoring": {
+   "path": "recipes/creative_design/articles/technical-blog-post-authoring",
+   "version": "0.2.0",
+   "status": "seed",
+   "domain": "creative_design",
+   "topic": "articles",
+   "title": "Technical blog post authoring and publication",
+   "connector_types": [
+    "research",
+    "source_control",
+    "ai"
    ],
    "recommended_trigger_kind": "self_paced"
   },

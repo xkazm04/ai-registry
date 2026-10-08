@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Token Tax: one refund message, six languages, and a meter calibrated in English</title>
+<meta name="description" content="Why the same sentence costs more, fits less and sometimes understands worse when it is not English, measured on the tokenizers in use in October 2026.">
+<style>
+:root{
+  --bg:#ffffff; --fg:#242424; --muted:#6b6b6b; --rule:#e6e6e6; --soft:#f8f8f6; --accent:#1a8917;
+  --s1:#c2410c; --s2:#1d4ed8; --s3:#0f766e; --s4:#8a8a8a; --frag:#fde2d5; --fragb:#c2410c; --chip:#eef2ff; --chipb:#c7d2fe;
+  --heat:#c2410c; --cool:#1d4ed8; --code:#f5f5f3;
+  --hl-k:#a626a4; --hl-s:#50a14f; --hl-f:#4078f2; --hl-n:#986801; --hl-c:#8a8a8a; --hl-b:#c18401;
+  --serif: Charter, "Bitstream Charter", "Sitka Text", Cambria, Georgia, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme=light]){
+    --bg:#121212; --fg:#e6e6e6; --muted:#a3a3a3; --rule:#2e2e2e; --soft:#1a1a1a; --accent:#4ade80;
+    --s1:#fb923c; --s2:#7aa2ff; --s3:#2dd4bf; --s4:#9a9a9a; --frag:#3b2416; --fragb:#fb923c; --chip:#1e2540; --chipb:#3b4a80;
+    --heat:#f97316; --cool:#7aa2ff; --code:#1b1d22;
+    --hl-k:#c678dd; --hl-s:#98c379; --hl-f:#61afef; --hl-n:#d19a66; --hl-c:#7f848e; --hl-b:#e5c07b;
+  }
+}
+:root[data-theme=dark]{
+  --bg:#121212; --fg:#e6e6e6; --muted:#a3a3a3; --rule:#2e2e2e; --soft:#1a1a1a; --accent:#4ade80;
+  --s1:#fb923c; --s2:#7aa2ff; --s3:#2dd4bf; --s4:#9a9a9a; --frag:#3b2416; --fragb:#fb923c; --chip:#1e2540; --chipb:#3b4a80;
+  --heat:#f97316; --cool:#7aa2ff; --code:#1b1d22;
+  --hl-k:#c678dd; --hl-s:#98c379; --hl-f:#61afef; --hl-n:#d19a66; --hl-c:#7f848e; --hl-b:#e5c07b;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--serif);font-variant-numeric:lining-nums}
+sup{line-height:0}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--rule);font-family:var(--sans)}
+.top-in{max-width:1192px;margin:0 auto;padding:0 24px;height:57px;display:flex;align-items:center;gap:16px}
+.top .sp{flex:1}
+.meta-line{font-family:var(--sans);font-size:14px;color:var(--muted);margin:0 0 38px;padding-bottom:18px;border-bottom:1px solid var(--rule)}
+.top button{font:inherit;font-size:14px;color:var(--muted);background:none;border:1px solid var(--rule);border-radius:99px;padding:6px 12px;cursor:pointer}
+.top button:hover{color:var(--fg)}
+main{max-width:728px;margin:0 auto;padding:0 24px}
+.col{max-width:680px;margin:0 auto}
+h1{font-family:var(--serif);font-weight:700;font-size:46px;line-height:1.15;letter-spacing:-.015em;margin:52px 0 12px}
+.dek{font-family:var(--serif);font-size:23px;line-height:1.4;color:var(--muted);margin:0 0 30px;font-weight:400}
+article p, article li{font-size:20px;line-height:1.6;letter-spacing:-.003em;margin:0 0 30px}
+article li{margin:0 0 12px}
+article h2{font-family:var(--sans);font-size:26px;line-height:1.25;font-weight:700;margin:56px 0 12px;letter-spacing:-.01em;scroll-margin-top:72px}
+.lead::first-letter{float:left;font-size:74px;line-height:.85;padding:6px 8px 0 0;font-weight:700}
+.sample{font-size:23px;line-height:1.5;border-left:3px solid var(--fg);padding:2px 0 2px 20px;margin:0 0 30px;font-style:italic}
+[lang=hi]{font-family:"Nirmala UI","Noto Sans Devanagari","Kohinoor Devanagari",Mangal,var(--sans);font-style:normal}
+[lang=th]{font-family:"Leelawadee UI","Noto Sans Thai",Thonburi,var(--sans);font-style:normal}
+[lang=ja]{font-family:"Yu Gothic","Hiragino Sans","Noto Sans JP",var(--sans);font-style:normal}
+[lang=ar]{font-family:"Segoe UI","Noto Naskh Arabic","Geeza Pro",var(--sans);font-style:normal}
+code{font-family:var(--mono);font-size:.8em;background:var(--code);padding:2px 5px;border-radius:3px}
+pre{background:var(--code);border:1px solid var(--rule);padding:18px 20px;border-radius:6px;overflow-x:auto;font-family:var(--mono);font-size:15px;line-height:1.6;margin:0 0 30px;color:var(--fg)}
+pre code{background:none;padding:0;font-size:inherit}
+pre .lang{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin:-4px 0 8px}
+.k{color:var(--hl-k)}.s{color:var(--hl-s)}.f{color:var(--hl-f)}.n{color:var(--hl-n)}.c{color:var(--hl-c);font-style:italic}.b{color:var(--hl-b)}
+blockquote.pull{margin:46px 0;padding:0 0 0 22px;border-left:3px solid var(--fg);font-size:27px;line-height:1.4;font-style:italic}
+sup a{font-family:var(--sans);font-size:13px;text-decoration:none;color:var(--accent);padding:0 1px;font-weight:600}
+sup a:hover{text-decoration:underline}
+/* preview */
+.preview{font-family:var(--sans);background:var(--soft);border:1px solid var(--rule);border-radius:8px;padding:22px 24px;margin:8px 0 40px}
+.preview .ph{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin:0 0 12px;text-transform:uppercase;letter-spacing:.06em}
+.preview ol{margin:0 0 16px;padding-left:22px;counter-reset:none}
+article .preview li{font-family:var(--sans);font-size:16px;line-height:1.45;margin:0 0 6px}
+.preview li a{font-weight:600;text-decoration:none;border-bottom:1px solid var(--rule)}
+.preview li span{color:var(--muted)}
+.preview .gain{border-top:1px solid var(--rule);padding-top:12px}
+.preview .gain b{display:block;font-size:14px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-bottom:8px}
+.preview .gain ul{margin:0;padding-left:20px}
+/* figures */
+figure{margin:46px 0}
+figure.wide{margin-left:calc(50% - min(50vw - 12px, 500px));margin-right:calc(50% - min(50vw - 12px, 500px))}
+.fig{background:var(--soft);border:1px solid var(--rule);border-radius:6px;padding:22px 22px 16px;font-family:var(--sans);font-size:15px;line-height:1.4}
+.fig h4{margin:0 0 4px;font-size:17px;font-weight:700}
+.fig .sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+figcaption{font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--muted);margin-top:12px;padding:0 4px}
+figcaption b{color:var(--fg);font-weight:600}
+figcaption .src{color:var(--fg)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:14px;margin:0 0 14px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.k1{background:var(--s1)}.k2{background:var(--s2)}.k3{background:var(--s3)}.k4{background:var(--s4)}
+.brow{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center;padding:7px 0;border-top:1px solid var(--rule)}
+.brow:first-of-type{border-top:0}
+.blab{font-weight:600;font-size:15px}
+.blab small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.btrack{display:flex;flex-direction:column;gap:3px;padding-right:44px}
+.bar{height:15px;border-radius:2px;position:relative;min-width:2px}
+.bar span{position:absolute;left:100%;top:50%;transform:translateY(-50%);padding-left:6px;font-size:13px;color:var(--fg);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bar.s1{background:var(--s1)}.bar.s2{background:var(--s2)}.bar.s3{background:var(--s3)}.bar.s4{background:var(--s4)}
+.drow{display:grid;grid-template-columns:130px 1fr 112px;gap:12px;align-items:center;height:34px;border-top:1px solid var(--rule)}
+.drow.axis{border-top:0;height:26px}
+.dlab{font-weight:600;font-size:15px}
+.dtrack{position:relative;height:100%}
+.dot{position:absolute;top:50%;width:13px;height:13px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid var(--soft)}
+.dot.sq{border-radius:2px;width:12px;height:12px}
+.dot.s2{background:var(--s2)}
+.dot.ring{background:var(--soft);border:3px solid var(--s1);width:16px;height:16px}
+.legend i.ring{background:transparent;border:2.5px solid var(--s1);border-radius:50%}
+.one{position:absolute;top:0;bottom:0;border-left:2px dashed var(--fg);opacity:.5}
+.ticks span{position:absolute;top:4px;transform:translateX(-50%);font-size:13px;color:var(--muted)}
+.dval{font-size:13px;font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.t1{color:var(--s1)}.t2{color:var(--s2)}
+.tokrow{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--rule)}
+.tokrow:first-of-type{border-top:0}
+.tokrow .lab{font-weight:600;font-size:14px}
+.tokrow .lab small{display:block;color:var(--muted);font-weight:400;font-size:13px}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{display:inline-block;padding:3px 6px;border:1px solid var(--chipb);background:var(--chip);border-radius:3px;font-size:17px;line-height:1.3;white-space:pre}
+.chip.frag{background:var(--frag);border:1px dashed var(--fragb);font-family:var(--sans);font-size:14px;padding:4px 6px}
+.bytes{font-family:var(--mono);font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:10px}
+.bytes b{color:var(--fg);font-family:"Nirmala UI","Noto Sans Devanagari",var(--sans);font-weight:600;font-size:16px;margin-right:4px}
+.toybar{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.toybar button{font:inherit;font-size:14px;border:1px solid var(--rule);background:var(--bg);color:var(--fg);border-radius:99px;padding:5px 12px;cursor:pointer}
+.toybar button[aria-pressed=true]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.toyout{min-height:90px;margin-top:6px}
+.toystat{font-size:14px;color:var(--muted);margin-top:12px}
+.nojs-hide{display:none}
+.js .nojs-hide{display:flex}
+/* flow */
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr auto 1fr;align-items:stretch;gap:8px;margin:4px 0 22px}
+.flow .node{background:var(--bg);border:1px solid var(--rule);border-top:3px solid var(--s2);border-radius:4px;padding:10px 10px 9px;font-size:14px;line-height:1.35}
+.flow .node b{display:block;font-size:15px;margin-bottom:3px}
+.flow .node span{color:var(--muted);font-size:13px}
+.flow .arr{align-self:center;color:var(--muted);font-size:20px}
+.flow.five{grid-template-columns:1fr auto 1fr auto 1fr auto 1fr auto 1fr}
+.flow .node.hot{border-top-color:var(--s1)}
+.ladder .lrow{display:grid;grid-template-columns:150px 1fr 104px;gap:12px;align-items:center;min-height:44px;padding:4px 0;border-top:1px solid var(--rule)}
+.ladder .lrow:first-of-type{border-top:0}
+.ltrack{position:relative;height:10px;background:var(--rule);border-radius:5px}
+.lfill{position:absolute;left:0;top:0;bottom:0;background:color-mix(in srgb,var(--s2) 22%,transparent);border-radius:5px}
+.lmark{position:absolute;top:50%;width:4px;height:22px;background:var(--s1);border-radius:2px;transform:translate(-50%,-50%)}
+.lval{font-size:13px;font-variant-numeric:tabular-nums;text-align:right}
+.ltitle{font-weight:700;font-size:14px;margin:0 0 6px}
+/* tables */
+.tbl-wrap{overflow-x:auto;margin:0 -2px}
+table.dt{border-collapse:collapse;width:100%;font-family:var(--sans);font-size:14px;font-variant-numeric:tabular-nums}
+table.dt th{font-size:13px;font-weight:600;color:var(--muted);text-align:right;padding:6px 8px;border-bottom:1px solid var(--fg);vertical-align:bottom;line-height:1.25}
+table.dt th:first-child,table.dt td:first-child{text-align:left}
+table.dt td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--rule)}
+table.dt td.h{background:color-mix(in srgb,var(--heat) calc(var(--h)*100%),transparent)}
+table.dt td.cool{background:color-mix(in srgb,var(--cool) calc(var(--h)*100%),transparent)}
+table.dt tr.hist td{color:var(--muted)}
+table.dt th small{display:block;font-weight:400;font-size:13px}
+table.dt td small{color:var(--muted);font-size:13px}
+table.wordy td{text-align:left;vertical-align:top;line-height:1.4}
+table.wordy td:first-child{font-weight:700;white-space:nowrap}
+table.wordy th{text-align:left}
+.dir{display:inline-block;font-size:13px;font-weight:700;padding:1px 8px;border-radius:99px;white-space:nowrap}
+.dir.for{background:color-mix(in srgb,var(--s1) 20%,transparent);color:var(--s1)}
+.dir.against{background:color-mix(in srgb,var(--s2) 20%,transparent);color:var(--s2)}
+.dir.limit{background:color-mix(in srgb,var(--s4) 25%,transparent)}
+.scale{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin:10px 0 0}
+.scale i{display:inline-block;width:120px;height:10px;border-radius:2px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--heat) 80%,transparent));border:1px solid var(--rule)}
+/* window + receipt */
+.split{display:grid;grid-template-columns:1.3fr 1fr;gap:24px}
+.one-bar{height:9px}
+.receipt{font-family:var(--mono);font-size:14px;background:var(--bg);border:1px solid var(--rule);padding:16px 18px;border-radius:4px}
+.receipt .r{display:flex;justify-content:space-between;padding:3px 0}
+.receipt .r.tot{border-top:1px dashed var(--muted);margin-top:6px;padding-top:8px;font-weight:700}
+.receipt .r.alt{color:var(--muted)}
+.receipt h5{font-family:var(--sans);margin:0 0 10px;font-size:14px}
+/* timeline */
+.tl{position:relative;margin:6px 0 4px}
+.tlrow{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center;height:54px;border-top:1px solid var(--rule)}
+.tlrow:first-child{border-top:0}
+.tltrack{position:relative;height:30px}
+.tlbase{position:absolute;left:0;right:0;top:50%;height:2px;background:var(--rule)}
+.ttl-win{position:absolute;top:6px;height:18px;background:color-mix(in srgb,var(--s2) 18%,transparent);border-left:2px solid var(--s2)}
+.ev{position:absolute;top:50%;width:14px;height:14px;border-radius:50%;transform:translate(-50%,-50%);border:2px solid var(--soft)}
+.ev.hit{background:var(--s2)}
+.ev.miss{background:var(--s1)}
+.dense{position:absolute;left:0;right:0;top:9px;height:12px;background:repeating-linear-gradient(90deg,var(--s2) 0 2px,transparent 2px 7px);opacity:.85}
+.tlaxis{position:relative;height:20px;margin-left:122px}
+.tlaxis span{position:absolute;transform:translateX(-50%);font-size:13px;color:var(--muted)}
+.lane{margin:18px 0 0}
+.lane .ttl{font-weight:700;font-size:14px;margin:0 0 6px}
+.seg{display:flex;gap:4px;margin:4px 0;align-items:stretch}
+.seg div{padding:7px 9px;border-radius:3px;font-size:13.5px;line-height:1.3}
+.seg .loc{background:var(--frag);border:1px solid var(--fragb)}
+.seg .shared{background:var(--chip);border:1px solid var(--chipb)}
+.seg .usr{background:var(--bg);border:1px dashed var(--muted)}
+.seg .bp{flex:none;width:5px;padding:0;background:var(--fg);border-radius:2px}
+.seg .tag{flex:none;width:34px;text-align:center;font-weight:700;color:var(--muted);padding:7px 0}
+/* recap */
+.recap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0 0 30px;font-family:var(--sans)}
+.recap div{border:1px solid var(--rule);border-radius:6px;padding:12px;background:var(--soft)}
+.recap b{display:block;font-size:26px;line-height:1.1;font-family:var(--serif)}
+.recap span{font-size:13px;color:var(--muted);line-height:1.35;display:block;margin-top:4px}
+/* refs */
+.refs{font-family:var(--sans);border-top:1px solid var(--rule);padding-top:24px;margin-top:48px}
+.refs h2{margin-top:0}
+.refs ol{padding-left:28px}
+article .refs li{font-family:var(--sans);font-size:14px;line-height:1.5;margin:0 0 10px;color:var(--muted)}
+article .refs li:target{background:color-mix(in srgb,var(--accent) 15%,transparent);border-radius:3px}
+.refs li b{color:var(--fg);font-weight:600}
+.refs li a{color:var(--s2);word-break:break-all}
+article .refs p{font-size:14px;line-height:1.5;color:var(--muted)}
+@media (max-width:600px){
+  main{padding:0 16px}
+  .top-in{padding:0 16px}
+  h1{font-size:34px;margin-top:32px}
+  .dek{font-size:19px}
+  article p, article li{font-size:18px;line-height:1.58}
+  .sample{font-size:19px}
+  article h2{font-size:23px}
+  blockquote.pull{font-size:22px}
+  .lead::first-letter{font-size:62px}
+  figure.wide{margin-left:-8px;margin-right:-8px}
+  .fig{padding:16px 12px 12px}
+  .preview{padding:18px 16px}
+  .brow{grid-template-columns:92px 1fr;gap:8px}
+  .blab{font-size:14px}
+  .drow{grid-template-columns:76px 1fr 76px;gap:6px}
+  .dlab{font-size:13px}
+  .tokrow{grid-template-columns:1fr;gap:6px}
+  .split{grid-template-columns:1fr}
+  .flow,.flow.five{grid-template-columns:1fr}
+  .flow .arr{justify-self:center;transform:rotate(90deg);line-height:1}
+  .ladder .lrow{grid-template-columns:96px 1fr 62px;gap:8px}
+  .ladder .lval{white-space:normal}
+  .ladder .lrow .blab{font-size:13px}
+  .tlrow{grid-template-columns:64px 1fr;gap:8px}
+  .tlaxis{margin-left:72px}
+  .recap{grid-template-columns:1fr 1fr}
+  .seg .tag{width:24px}
+  .seg div{padding:6px 5px;font-size:13px}
+  pre{font-size:13.5px;padding:14px}
+  table.dt{font-size:13px}
+  table.dt th,table.dt td{padding:5px 5px}
+}
+</style>
+</head>
+<body>
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('tt-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<header class="top"><div class="top-in"><span class="sp"></span>
+  <button id="theme" type="button" aria-label="Switch between light and dark theme">Light / Dark</button>
+</div></header>
+
+<main>
+<div class="col">
+<h1>The Token Tax</h1>
+<p class="dek">One refund message, six languages, and a meter calibrated in English. Why the same sentence costs more, fits less and sometimes understands worse when it is not English, measured on the tokenizers in service in October 2026.</p>
+
+<p class="meta-line">14 min read · Oct 5, 2026</p>
+
+<article>
+<p class="sample">“Your refund has been approved. The money will reach your account within five business days.”</p>
+
+<p class="lead">To the tokenizer behind the GPT-5 models, that sentence is 17 tokens. Translated into Hindi, it is 30. Fed to the open-weight Qwen3 tokenizer, the same Hindi sentence becomes 85 tokens, and 42 of them cannot be printed on their own, because each one holds part of a letter’s bytes. The model must glue those shards back into characters before it can start reading.<sup><a href="#r1">[1]</a></sup></p>
+
+<p>Qwen3.5 brings the Hindi sentence down to 39. Gemma 4 does it in 23. Same meaning, same customer, and a token count that swings almost fourfold depending on which vocabulary reads it. English is 17 on every one of them.</p>
+
+<p>This is the token tax. Engineers meet it as an invoice line that grows faster than traffic in one region. Localization teams meet it as a quality gap nobody can explain, in a language the product officially supports. It is one problem seen from two desks, and this post carries the refund message past both: into the place where text gets cut, onto the bill, into the context window and the cache, and finally to the question of whether a model that reads more pieces understands less. The answer to that last question is messier than the usual headline. The mess is the useful part.</p>
+
+<nav class="preview" aria-label="What this post covers">
+<div class="ph"><span>In this post</span><span>14 min read · 8 figures · 4 tables · 23 sources</span></div>
+<ol>
+<li><a href="#census">A vocabulary is a census</a> <span>· how merges, corpus mix and byte fallback set the price</span></li>
+<li><a href="#bills">Six bills for one sentence</a> <span>· the running example on current tokenizers</span></li>
+<li><a href="#twelve">Twelve languages, six vocabularies</a> <span>· where the gap closed, and where it did not</span></li>
+<li><a href="#collected">Where the tax is collected</a> <span>· bill, window, clock, output cap</span></li>
+<li><a href="#estimator">The estimator speaks English</a> and <a href="#cache">the cache sees bytes</a> <span>· two production traps</span></li>
+<li><a href="#quality">More tokens, less understanding?</a> <span>· the evidence on both sides</span></li>
+<li><a href="#rate">Who sets the rate</a> and <a href="#showed">what the refund message showed</a></li>
+</ol>
+<div class="gain"><b>After reading, you will be able to</b>
+<ul>
+<li>measure the premium your own locales pay on the model you actually call, and key budgets to it;</li>
+<li>lay out prompts so that thin locales stop paying the uncached price;</li>
+<li>tell a tokenizer problem from a training-data problem before choosing a fix.</li>
+</ul></div>
+</nav>
+
+<h2 id="census">A vocabulary is a census</h2>
+
+<p>A tokenizer turns text into integers from a fixed vocabulary, and those integers are all the model ever sees. The common kind, <b>byte-pair encoding</b> (BPE), starts from the 256 possible byte values and learns <i>merges</i>: across a training corpus it finds the most frequent adjacent pair, fuses it into a new vocabulary entry, and repeats until the vocabulary is full. Each merge is a bet that a chunk will be common. The corpus decides which bets get placed, so a finished vocabulary is a census of who wrote that corpus.</p>
+
+<p>The writing system decides how much is at stake when a bet is missing. UTF-8 stores a basic Latin letter in one byte and every character in the block holding Devanagari, Thai, Tamil, Japanese and Ethiopic in three.<sup><a href="#r2">[2]</a></sup> A byte-level tokenizer never fails (it “works on arbitrary text”, as the tiktoken README puts it), but text it has no merges for is billed at close to byte rate.<sup><a href="#r3">[3]</a></sup> SentencePiece tokenizers such as Gemma’s reach the same safety net through “byte-level encodings” for characters outside the vocabulary.<sup><a href="#r4">[4]</a></sup></p>
+
+<figure class="wide">
+<div class="fig">
+<h4>One word, four vocabularies</h4>
+<p class="sub">“approved” in Hindi, स्वीकृत (svīkṛt): 7 characters, 21 bytes. Dashed boxes hold part of one character’s bytes.</p>
+<div class="tokrow"><div class="lab">Qwen3<small>8 tokens · 4 shards</small></div><div><div class="chips"><span class="chip" lang="hi">&#9251;स</span><span class="chip frag" title="the virama plus 2 of the 3 bytes of व">् + ⅔ व</span><span class="chip frag" title="the last byte of व">⅓ व</span><span class="chip" lang="hi">ी</span><span class="chip" lang="hi">क</span><span class="chip frag" title="2 of the 3 bytes of ृ">⅔ ृ</span><span class="chip frag" title="the last byte of ृ">⅓ ृ</span><span class="chip" lang="hi">त</span></div>
+<div class="bytes"><span><b>स</b>E0 A4 B8</span><span><b>्</b>E0 A5 8D</span><span><b>व</b>E0 A4 B5</span><span><b>ी</b>E0 A5 80</span><span><b>क</b>E0 A4 95</span><span><b>ृ</b>E0 A5 83</span><span><b>त</b>E0 A4 A4</span></div></div></div>
+<div class="tokrow"><div class="lab">Qwen3.5<small>4 tokens</small></div><div class="chips"><span class="chip" lang="hi">&#9251;स्</span><span class="chip" lang="hi">वी</span><span class="chip" lang="hi">क</span><span class="chip" lang="hi">ृत</span></div></div>
+<div class="tokrow"><div class="lab">o200k_base<small>GPT-5 family · 3 tokens</small></div><div class="chips"><span class="chip" lang="hi">&#9251;स्व</span><span class="chip" lang="hi">ीक</span><span class="chip" lang="hi">ृत</span></div></div>
+<div class="tokrow"><div class="lab">Gemma 4<small>1 token</small></div><div class="chips"><span class="chip" lang="hi">&#9251;स्वीकृत</span></div></div>
+</div>
+<figcaption><b>Figure 1.</b> How text becomes tokens. The English “approved” is one token in all four. In Hindi, Qwen3 has no merge for two of the characters and falls back to raw bytes; Gemma 4 has learned the whole word. ␣ marks the leading space folded into a token. <span class="src">Sources: <a href="#r1">[1]</a> (tiktoken 0.14.0, Hugging Face tokenizer files), byte values per <a href="#r2">[2]</a>.</span></figcaption>
+</figure>
+
+<p>Two details in the vocabularies themselves explain most of what follows. First, a vocabulary has ancestors. Qwen’s technical report says its tokenizer took OpenAI’s <code>cl100k_base</code> “as our starting point” and added Chinese and other entries.<sup><a href="#r5">[5]</a></sup> The inheritance is visible: the first two-character Devanagari entry sits at position 85,033 in Qwen3 and 86,133 in cl100k, deep in the list where only rare chunks live. Second, a bigger vocabulary is not automatically a fairer one. Qwen3.5 grew to 248,070 entries, yet its first two-character Devanagari entry sits at position 148,465, appended after everything inherited, and its Ethiopic entries fell from 116 to 25.</p>
+
+<figure class="wide">
+<div class="fig">
+<h4>Where a script enters the vocabulary</h4>
+<div class="flow" aria-label="How a BPE vocabulary is built">
+<div class="node"><b>Corpus</b><span>whatever mix of languages the builders collected</span></div><div class="arr" aria-hidden="true">→</div>
+<div class="node"><b>Count pairs</b><span>adjacent bytes or chunks, by frequency</span></div><div class="arr" aria-hidden="true">→</div>
+<div class="node"><b>Merge the top pair</b><span>add it to the list, repeat 100k–260k times</span></div><div class="arr" aria-hidden="true">→</div>
+<div class="node hot"><b>Ranked vocabulary</b><span>early entries = frequent in the corpus</span></div>
+</div>
+<p class="ltitle">Position of the first two-character Devanagari entry, as a share of the vocabulary</p>
+<div class="ladder">
+<div class="lrow"><div class="blab">Gemma 4<small>262,144 entries</small></div><div class="ltrack"><div class="lfill" style="width:100%"></div><i class="lmark" style="left:0.31%" title="position 820"></i></div><div class="lval">820 · 0.3%</div></div>
+<div class="lrow"><div class="blab">o200k_base<small>199,998 entries</small></div><div class="ltrack"><div class="lfill" style="width:100%"></div><i class="lmark" style="left:1.01%" title="position 2,026"></i></div><div class="lval">2,026 · 1.0%</div></div>
+<div class="lrow"><div class="blab">Llama 4<small>201,135 entries</small></div><div class="ltrack"><div class="lfill" style="width:100%"></div><i class="lmark" style="left:1.27%" title="position 2,545"></i></div><div class="lval">2,545 · 1.3%</div></div>
+<div class="lrow"><div class="blab">DeepSeek-V3.1<small>128,815 entries</small></div><div class="ltrack"><div class="lfill" style="width:100%"></div><i class="lmark" style="left:8.60%" title="position 11,072"></i></div><div class="lval">11,072 · 8.6%</div></div>
+<div class="lrow"><div class="blab">Qwen3<small>151,669 entries</small></div><div class="ltrack"><div class="lfill" style="width:100%"></div><i class="lmark" style="left:56.06%" title="position 85,033"></i></div><div class="lval">85,033 · 56.1%</div></div>
+<div class="lrow"><div class="blab">cl100k_base (2023)<small>100,256 entries</small></div><div class="ltrack"><div class="lfill" style="width:100%"></div><i class="lmark" style="left:85.91%" title="position 86,133"></i></div><div class="lval">86,133 · 85.9%</div></div>
+<div class="lrow"><div class="blab">Qwen3.5<small>248,070 entries</small></div><div class="ltrack"><div class="lfill" style="width:100%"></div><i class="lmark" style="left:59.85%" title="position 148,465"></i></div><div class="lval">148,465 · 59.8%</div></div>
+</div>
+</div>
+<figcaption><b>Figure 2.</b> The vocabulary records the corpus. Latin pairs enter almost immediately (position 258 to 261 in the byte-level vocabularies, right after the 256 single bytes). Devanagari enters at 0.3% of the way into Gemma 4’s list and at 86% of the way into cl100k’s. Position is the token’s index in the published vocabulary, which for BPE follows merge order. <span class="src">Sources: <a href="#r1">[1]</a>; Qwen’s cl100k ancestry per <a href="#r5">[5]</a>.</span></figcaption>
+</figure>
+
+<p>Count every entry by script and the census is explicit. Table 1 shows how many vocabulary entries each tokenizer spends on six scripts.</p>
+
+<figure class="wide">
+<div class="fig">
+<h4>Table 1. Vocabulary entries per script</h4>
+<p class="sub">Entries containing at least one character of the script. Shading grows with the count (log scale).</p>
+<div class="tbl-wrap">
+<table class="dt"><thead><tr><th>Vocabulary</th><th>Size</th><th>CJK</th><th>Arabic</th><th>Devanagari</th><th>Thai</th><th>Tamil</th><th>Ethiopic</th></tr></thead><tbody>
+<tr class=hist><td>cl100k_base (2023)</td><td>100,256</td><td class="h cool" style="--h:0.44">1,002</td><td class="h cool" style="--h:0.30">103</td><td class="h cool" style="--h:0.20">23</td><td class="h cool" style="--h:0.26">58</td><td class="h cool" style="--h:0.09">3</td><td class="h cool" style="--h:0.00">0</td></tr>
+<tr><td>o200k_base</td><td>199,998</td><td class="h cool" style="--h:0.57">8,232</td><td class="h cool" style="--h:0.57">8,043</td><td class="h cool" style="--h:0.53">3,963</td><td class="h cool" style="--h:0.47">1,545</td><td class="h cool" style="--h:0.44">962</td><td class="h cool" style="--h:0.00">0</td></tr>
+<tr><td>Qwen3</td><td>151,669</td><td class="h cool" style="--h:0.65">27,031</td><td class="h cool" style="--h:0.52">3,634</td><td class="h cool" style="--h:0.27">67</td><td class="h cool" style="--h:0.50">2,570</td><td class="h cool" style="--h:0.21">28</td><td class="h cool" style="--h:0.30">116</td></tr>
+<tr><td>Qwen3.5</td><td>248,070</td><td class="h cool" style="--h:0.70">58,888</td><td class="h cool" style="--h:0.58">8,816</td><td class="h cool" style="--h:0.44">959</td><td class="h cool" style="--h:0.55">5,741</td><td class="h cool" style="--h:0.36">268</td><td class="h cool" style="--h:0.21">25</td></tr>
+<tr><td>DeepSeek-V3.1</td><td>128,815</td><td class="h cool" style="--h:0.67">36,064</td><td class="h cool" style="--h:0.51">3,187</td><td class="h cool" style="--h:0.36">297</td><td class="h cool" style="--h:0.45">1,247</td><td class="h cool" style="--h:0.32">156</td><td class="h cool" style="--h:0.00">0</td></tr>
+<tr><td>Llama 4</td><td>201,135</td><td class="h cool" style="--h:0.61">14,312</td><td class="h cool" style="--h:0.53">4,483</td><td class="h cool" style="--h:0.50">2,677</td><td class="h cool" style="--h:0.48">1,972</td><td class="h cool" style="--h:0.28">75</td><td class="h cool" style="--h:0.35">261</td></tr>
+<tr><td>Gemma 4</td><td>262,144</td><td class="h cool" style="--h:0.64">23,796</td><td class="h cool" style="--h:0.57">8,300</td><td class="h cool" style="--h:0.61">13,754</td><td class="h cool" style="--h:0.49">2,177</td><td class="h cool" style="--h:0.53">3,850</td><td class="h cool" style="--h:0.43">862</td></tr>
+</tbody></table>
+</div>
+</div>
+<figcaption><b>Table 1.</b> Gemma 4 spends 13,754 entries on Devanagari, more than three times o200k_base and 205 times Qwen3. Nothing in the 2023 vocabulary or in o200k_base covers Ethiopic, the script of Amharic, which is why Amharic keeps reappearing below. CJK counts Han plus kana. <span class="src">Source: <a href="#r1">[1]</a>, census over each published vocabulary.</span></figcaption>
+</figure>
+
+<h2 id="bills">Six bills for one sentence</h2>
+
+<p>Two terms first. <b>Fertility</b> is tokens per word; <b>premium</b> is tokens for a language divided by tokens for the same content in English. Fertility misleads across languages: a November 2025 paper reports Hindi fertility of 1.72 against 1.33 for English on the GPT-OSS tokenizer, which reads like a 30% gap,<sup><a href="#r6">[6]</a></sup> yet a Hindi word is not an English word, and Japanese and Chinese do not separate words with spaces. Premium compares meanings, so this post uses it throughout. The translations below were made for this article in plain customer-service register; a professional translator would make different choices, and some would move the count.</p>
+
+<figure class="wide">
+<div class="fig">
+<h4>The running example, in tokens</h4>
+<p class="sub">“Your refund has been approved. The money will reach your account within five business days.”</p>
+<div class="legend"><span><i class="k2"></i>o200k_base (GPT-5 family)</span><span><i class="k3"></i>Gemma 4</span><span><i class="k1"></i>Qwen3.5</span></div>
+<div class="brow"><div class="blab">English<small>17 tokens</small></div><div class="btrack"><div class="bar s2" style="width:42.5%"><span>17</span></div><div class="bar s3" style="width:42.5%"><span>17</span></div><div class="bar s1" style="width:42.5%"><span>17</span></div></div></div>
+<div class="brow"><div class="blab">German<small>24–26 tokens</small></div><div class="btrack"><div class="bar s2" style="width:60.0%"><span>24</span></div><div class="bar s3" style="width:65.0%"><span>26</span></div><div class="bar s1" style="width:60.0%"><span>24</span></div></div></div>
+<div class="brow"><div class="blab">Japanese<small>17–24 tokens</small></div><div class="btrack"><div class="bar s2" style="width:60.0%"><span>24</span></div><div class="bar s3" style="width:45.0%"><span>18</span></div><div class="bar s1" style="width:42.5%"><span>17</span></div></div></div>
+<div class="brow"><div class="blab">Arabic<small>21–26 tokens</small></div><div class="btrack"><div class="bar s2" style="width:57.5%"><span>23</span></div><div class="bar s3" style="width:65.0%"><span>26</span></div><div class="bar s1" style="width:52.5%"><span>21</span></div></div></div>
+<div class="brow"><div class="blab">Hindi<small>23–39 tokens</small></div><div class="btrack"><div class="bar s2" style="width:75.0%"><span>30</span></div><div class="bar s3" style="width:57.5%"><span>23</span></div><div class="bar s1" style="width:97.5%"><span>39</span></div></div></div>
+<div class="brow"><div class="blab">Thai<small>16–27 tokens</small></div><div class="btrack"><div class="bar s2" style="width:67.5%"><span>27</span></div><div class="bar s3" style="width:50.0%"><span>20</span></div><div class="bar s1" style="width:40.0%"><span>16</span></div></div></div>
+</div>
+<figcaption><b>Figure 3.</b> The same sentence in six languages on three current vocabularies. English is 17 everywhere; no other language is stable. The cheapest tokenizer for Hindi (Gemma 4) is not the cheapest for Thai (Qwen3.5, where Thai beats English by one token). <span class="src">Source: <a href="#r1">[1]</a>.</span></figcaption>
+</figure>
+
+<p>The cuts themselves are worth looking at. Pick a language and a vocabulary.</p>
+
+<figure>
+<div class="fig">
+<div class="toybar nojs-hide" role="group" aria-label="Language">
+  <button type="button" data-l="en" aria-pressed="false">English</button><button type="button" data-l="de" aria-pressed="false">German</button><button type="button" data-l="ja" aria-pressed="false">Japanese</button><button type="button" data-l="ar" aria-pressed="false">Arabic</button><button type="button" data-l="hi" aria-pressed="true">Hindi</button><button type="button" data-l="th" aria-pressed="false">Thai</button>
+</div>
+<div class="toybar nojs-hide" role="group" aria-label="Tokenizer">
+  <button type="button" data-t="qwen3" aria-pressed="true">Qwen3</button><button type="button" data-t="qwen35" aria-pressed="false">Qwen3.5</button><button type="button" data-t="o200k" aria-pressed="false">o200k_base</button><button type="button" data-t="gemma4" aria-pressed="false">Gemma 4</button>
+</div>
+<div class="toyout chips" id="toyout" lang="hi"><span class="chip">आ</span><span class="chip">प</span><span class="chip">क</span><span class="chip">ा</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">ं</span><span class="chip">ड</span><span class="chip">&#9251;स</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">ी</span><span class="chip">क</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">त</span><span class="chip">&#9251;ह</span><span class="chip">ो</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">य</span><span class="chip">ा</span><span class="chip">&#9251;ह</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">।</span><span class="chip">&#9251;प</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">स</span><span class="chip">े</span><span class="chip">&#9251;प</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">च</span><span class="chip">&#9251;क</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">द</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">स</span><span class="chip">ो</span><span class="chip">ं</span><span class="chip">&#9251;क</span><span class="chip">े</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">ी</span><span class="chip">त</span><span class="chip">र</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">प</span><span class="chip">क</span><span class="chip">े</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">े</span><span class="chip">&#9251;म</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">&#9251;प</span><span class="chip">ह</span><span class="chip">ु</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">च</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip frag" title="part of a character">·</span><span class="chip">ग</span><span class="chip">े</span><span class="chip">।</span></div>
+<div class="toystat" id="toystat" aria-live="polite">Hindi on Qwen3: 85 tokens (5.00× English), 42 of them a shard of a character (shown as ·).</div>
+</div>
+<figcaption><b>Figure 4.</b> A token viewer for the running example. Every box is a token the model reads and the customer pays for; a · box is a shard of a character. Pieces were exported from each tokenizer and are embedded in the page, so nothing is fetched. Without scripting, the Hindi split on Qwen3 is shown. <span class="src">Source: <a href="#r1">[1]</a>.</span></figcaption>
+</figure>
+
+<h2 id="twelve">Twelve languages, six vocabularies</h2>
+
+<p>One sentence can flatter or punish a language by accident. Table 2 counts all 1,012 sentences of the FLORES-200 <i>devtest</i> split, Wikipedia-style English professionally translated into some two hundred languages, so every column carries the same meaning line for line.<sup><a href="#r7">[7]</a></sup></p>
+
+<figure class="wide">
+<div class="fig">
+<h4>Table 2. Token premium over English, 1,012 parallel sentences</h4>
+<p class="sub">Tokens for the language ÷ tokens for the English original. 1.00 is parity; darker is more expensive. The grey column is the 2023 vocabulary, kept for history.</p>
+<div class="tbl-wrap">
+<table class="dt"><thead><tr><th>Language</th><th>o200k<small>GPT-5</small></th><th>Gemma 4</th><th>Qwen3.5</th><th>Llama 4</th><th>DeepSeek<small>V3.1</small></th><th>cl100k<small>2023</small></th></tr></thead><tbody>
+<tr><td>English</td><td class="h" style="--h:0.00">1.00</td><td class="h" style="--h:0.00">1.00</td><td class="h" style="--h:0.00">1.00</td><td class="h" style="--h:0.00">1.00</td><td class="h" style="--h:0.00">1.00</td><td style="color:var(--muted)">1.00</td></tr>
+<tr><td>Spanish</td><td class="h" style="--h:0.06">1.32</td><td class="h" style="--h:0.06">1.30</td><td class="h" style="--h:0.06">1.32</td><td class="h" style="--h:0.06">1.30</td><td class="h" style="--h:0.10">1.50</td><td style="color:var(--muted)">1.54</td></tr>
+<tr><td>German</td><td class="h" style="--h:0.06">1.31</td><td class="h" style="--h:0.07">1.33</td><td class="h" style="--h:0.06">1.31</td><td class="h" style="--h:0.06">1.30</td><td class="h" style="--h:0.10">1.51</td><td style="color:var(--muted)">1.59</td></tr>
+<tr><td>Chinese (Simpl.)</td><td class="h" style="--h:0.05">1.25</td><td class="h" style="--h:0.02">1.08</td><td class="h" style="--h:0.00">0.91</td><td class="h" style="--h:0.01">1.06</td><td class="h" style="--h:0.00">0.94</td><td style="color:var(--muted)">1.87</td></tr>
+<tr><td>Japanese</td><td class="h" style="--h:0.13">1.66</td><td class="h" style="--h:0.04">1.21</td><td class="h" style="--h:0.03">1.16</td><td class="h" style="--h:0.06">1.31</td><td class="h" style="--h:0.08">1.42</td><td style="color:var(--muted)">2.27</td></tr>
+<tr><td>Arabic</td><td class="h" style="--h:0.08">1.38</td><td class="h" style="--h:0.09">1.47</td><td class="h" style="--h:0.06">1.31</td><td class="h" style="--h:0.12">1.59</td><td class="h" style="--h:0.12">1.62</td><td style="color:var(--muted)">3.03</td></tr>
+<tr><td>Swahili</td><td class="h" style="--h:0.10">1.49</td><td class="h" style="--h:0.13">1.64</td><td class="h" style="--h:0.16">1.82</td><td class="h" style="--h:0.13">1.67</td><td class="h" style="--h:0.19">1.94</td><td style="color:var(--muted)">1.95</td></tr>
+<tr><td>Hindi</td><td class="h" style="--h:0.11">1.57</td><td class="h" style="--h:0.06">1.31</td><td class="h" style="--h:0.20">2.01</td><td class="h" style="--h:0.13">1.65</td><td class="h" style="--h:0.36">2.80</td><td style="color:var(--muted)">4.76</td></tr>
+<tr><td>Thai</td><td class="h" style="--h:0.19">1.96</td><td class="h" style="--h:0.12">1.61</td><td class="h" style="--h:0.04">1.21</td><td class="h" style="--h:0.11">1.56</td><td class="h" style="--h:0.16">1.78</td><td style="color:var(--muted)">4.35</td></tr>
+<tr><td>Tamil</td><td class="h" style="--h:0.20">1.98</td><td class="h" style="--h:0.09">1.47</td><td class="h" style="--h:0.32">2.59</td><td class="h" style="--h:0.55">3.75</td><td class="h" style="--h:0.41">3.07</td><td style="color:var(--muted)">7.64</td></tr>
+<tr><td>Yoruba</td><td class="h" style="--h:0.23">2.17</td><td class="h" style="--h:0.28">2.41</td><td class="h" style="--h:0.32">2.60</td><td class="h" style="--h:0.30">2.50</td><td class="h" style="--h:0.37">2.83</td><td style="color:var(--muted)">2.95</td></tr>
+<tr><td>Amharic</td><td class="h" style="--h:0.80">5.78</td><td class="h" style="--h:0.19">1.94</td><td class="h" style="--h:0.68">4.38</td><td class="h" style="--h:0.28">2.39</td><td class="h" style="--h:0.80">5.97</td><td style="color:var(--muted)">7.59</td></tr>
+</tbody></table>
+</div>
+</div>
+<figcaption><b>Table 2.</b> The gap closed for large languages and stayed open for small ones. On a related corpus, Somide (June 2026) reports Amharic at 7.36× on o200k_base against 5.78× here: the text set moves these numbers, so read any premium as a range. <span class="src">Sources: <a href="#r1">[1]</a> on <a href="#r7">[7]</a>; comparison figure from <a href="#r8">[8]</a>.</span></figcaption>
+</figure>
+
+<p>Three readings. <b>The cut was real.</b> Between the 2023 vocabulary and o200k_base, Hindi fell from 4.76× to 1.57×, and Qwen’s own step from 3 to 3.5 took Thai from 2.55× to 1.21×. The 2023 papers that found gaps “up to 15 times” describe tokenizers that are mostly retired, and that is the strongest argument against the premise of this post.<sup><a href="#r9">[9]</a><a href="#r10">[10]</a></sup></p>
+
+<p><b>The cut was not shared.</b> Amharic still costs between 1.94× and 5.97× depending on the vocabulary, and it got slightly worse from Qwen3 to Qwen3.5 (4.05× to 4.38×). A June 2026 study of 20 African languages found a median premium of 1.88× on o200k_base, up to 8.92× for N’Ko, and concluded that “no tokenizer eliminates the penalty”.<sup><a href="#r8">[8]</a></sup></p>
+
+<p><b>Script is not the cause; the corpus is.</b> Yoruba and Swahili are written in the Latin alphabet, and Yoruba still pays 2.17× to 2.83× on every current vocabulary measured. Yoruba marks tone with diacritics on its vowels, and too little Yoruba was in the corpora for those marked syllables to earn merges.</p>
+
+<blockquote class="pull">The tax is not levied by a language. It is levied by a pair: your language, and somebody else’s corpus.</blockquote>
+
+<p>The pair also changes under a fixed price. Anthropic’s pricing page states that its models from Claude Opus 4.7 onward use a newer tokenizer that “produces approximately 30% more tokens for the same text”, while the per-token price of Opus 4.7 matches its predecessor’s.<sup><a href="#r11">[11]</a><a href="#r12">[12]</a></sup> Price per token is published. Tokens per sentence, in a given language, has to be measured.</p>
+
+<h2 id="collected">Where the tax is collected</h2>
+
+<figure class="wide">
+<div class="fig">
+<h4>Table 3. Four places a 1.5× premium is paid</h4>
+<div class="tbl-wrap">
+<table class="dt wordy">
+<thead><tr><th>Where</th><th>Mechanism</th><th>Who notices</th></tr></thead>
+<tbody>
+<tr><td>Invoice</td><td>Every input and output token is billed; the multiplier hits what is re-sent each turn: system prompt, retrieved documents, chat history.</td><td>Finance, per region</td></tr>
+<tr><td>Window</td><td>Context limits are in tokens. “Top 20 chunks” of Hindi ground the answer in less of the manual.</td><td>Nobody, until answers lose facts</td></tr>
+<tr><td>Clock</td><td>Output streams one token at a time: 1.76× the tokens is about 1.76× the time to finish.</td><td>Users on slow locales</td></tr>
+<tr><td>Output cap</td><td><code>max_tokens</code> tuned on English cuts Thai or Hindi replies off sooner, mid-sentence.</td><td>A native reader filing “answers truncated”</td></tr>
+</tbody></table>
+</div>
+</div>
+<figcaption><b>Table 3.</b> The bill is only the visible collection point. The 1.76× is the running example’s Hindi premium on o200k_base. <span class="src">Source: <a href="#r1">[1]</a>.</span></figcaption>
+</figure>
+
+<figure class="wide">
+<div class="fig">
+<h4>The same window, and the same million replies</h4>
+<div class="split">
+<div>
+<p class="sub">FLORES sentences that fit in a 128,000-token window</p>
+<div class="legend"><span><i class="k2"></i>o200k_base</span><span><i class="k3"></i>Gemma 4</span></div>
+<div class="brow"><div class="blab">English</div><div class="btrack"><div class="bar s2 one-bar" style="width:99.8%"><span>4,820</span></div><div class="bar s3 one-bar" style="width:98.9%"><span>4,777</span></div></div></div>
+<div class="brow"><div class="blab">German</div><div class="btrack"><div class="bar s2 one-bar" style="width:76.1%"><span>3,677</span></div><div class="bar s3 one-bar" style="width:74.5%"><span>3,596</span></div></div></div>
+<div class="brow"><div class="blab">Chinese</div><div class="btrack"><div class="bar s2 one-bar" style="width:79.9%"><span>3,860</span></div><div class="bar s3 one-bar" style="width:91.7%"><span>4,430</span></div></div></div>
+<div class="brow"><div class="blab">Arabic</div><div class="btrack"><div class="bar s2 one-bar" style="width:72.3%"><span>3,490</span></div><div class="bar s3 one-bar" style="width:67.2%"><span>3,248</span></div></div></div>
+<div class="brow"><div class="blab">Hindi</div><div class="btrack"><div class="bar s2 one-bar" style="width:63.4%"><span>3,063</span></div><div class="bar s3 one-bar" style="width:75.5%"><span>3,645</span></div></div></div>
+<div class="brow"><div class="blab">Japanese</div><div class="btrack"><div class="bar s2 one-bar" style="width:60.2%"><span>2,907</span></div><div class="bar s3 one-bar" style="width:81.5%"><span>3,938</span></div></div></div>
+<div class="brow"><div class="blab">Thai</div><div class="btrack"><div class="bar s2 one-bar" style="width:50.8%"><span>2,454</span></div><div class="bar s3 one-bar" style="width:61.4%"><span>2,968</span></div></div></div>
+<div class="brow"><div class="blab">Tamil</div><div class="btrack"><div class="bar s2 one-bar" style="width:50.4%"><span>2,435</span></div><div class="bar s3 one-bar" style="width:67.3%"><span>3,252</span></div></div></div>
+<div class="brow"><div class="blab">Yoruba</div><div class="btrack"><div class="bar s2 one-bar" style="width:46.0%"><span>2,224</span></div><div class="bar s3 one-bar" style="width:41.1%"><span>1,986</span></div></div></div>
+<div class="brow"><div class="blab">Amharic</div><div class="btrack"><div class="bar s2 one-bar" style="width:17.3%"><span>834</span></div><div class="bar s3 one-bar" style="width:51.0%"><span>2,465</span></div></div></div>
+</div>
+<div>
+<div class="receipt" role="group" aria-label="Cost of one million refund replies">
+<h5>1,000,000 refund replies, gpt-5.4 output at $15 per million tokens</h5>
+<div class="r"><span>English · 17 tok</span><span>$255</span></div>
+<div class="r"><span>Arabic · 23 tok</span><span>$345</span></div>
+<div class="r"><span>German · 24 tok</span><span>$360</span></div>
+<div class="r"><span>Japanese · 24 tok</span><span>$360</span></div>
+<div class="r"><span>Thai · 27 tok</span><span>$405</span></div>
+<div class="r tot"><span>Hindi · 30 tok</span><span>$450</span></div>
+<div class="r alt"><span>Hindi on gpt-5.4-nano</span><span>$37.50</span></div>
+</div>
+</div>
+</div>
+</div>
+<figcaption><b>Figure 5.</b> Left: an Amharic reader gets about a sixth of the parallel text an English reader gets on o200k_base, and about half on Gemma 4. Right: output tokens only, priced from OpenAI’s page as read on Oct 5, 2026; tiktoken maps the gpt-5 model prefix to o200k_base. The last line is a limit on the thesis: choosing the smaller model moves the bill twelvefold, the language 1.76-fold. <span class="src">Sources: <a href="#r1">[1]</a>, <a href="#r13">[13]</a>, <a href="#r3">[3]</a>.</span></figcaption>
+</figure>
+
+<p>Two of the three large vendors do not publish the tokenizer behind their current models. Gemini’s documentation counts tokens through a <code>countTokens</code> API call and offers a rule of thumb; Anthropic points to a token-counting endpoint.<sup><a href="#r14">[14]</a><a href="#r11">[11]</a></sup> Gemma 4 is the nearest public proxy for Google: the Gemma 3 report says it uses “the same tokenizer as Gemini 2.0”, and Gemma 4 counted identically to Gemma 3 on all twelve languages here.<sup><a href="#r4">[4]</a><a href="#r1">[1]</a></sup> Whether Gemini 3.x still uses it is not published. A team that wants a premium for its own model has to ask the meter, per locale.</p>
+
+<h2 id="estimator">The estimator speaks English</h2>
+
+<p>Cost-aware systems check a budget <i>before</i> calling the model, and exact counts need the tokenizer, so plenty of code estimates. Google’s documentation says a Gemini token “is equivalent to about 4 characters”; Anthropic’s says one token is “approximately 4 characters or 0.75 words in English”; tiktoken’s README says “about 4 bytes”.<sup><a href="#r14">[14]</a><a href="#r11">[11]</a><a href="#r3">[3]</a></sup> All three are fair for English. Figure 6 applies the two common rules to o200k_base counts on FLORES.</p>
+
+<figure class="wide">
+<div class="fig">
+<h4>How wrong the rules of thumb are, by language</h4>
+<p class="sub">Estimated tokens ÷ actual tokens on o200k_base. Dashed line: a perfect estimate. Left of it, the estimator thinks the call is cheaper than it is.</p>
+<div class="legend"><span><i class="ring"></i>characters ÷ 4</span><span><i class="k2"></i>UTF-8 bytes ÷ 4</span></div>
+<div class="drow"><div class="dlab">English</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:55.80%" title="chars/4 1.23"></i><i class="dot s2 sq" style="left:55.86%" title="bytes/4 1.23"></i></div><div class="dval"><span class="t1">1.23</span> <span class="t2">1.23</span></div></div>
+<div class="drow"><div class="dlab">Spanish</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:50.39%" title="chars/4 1.11"></i><i class="dot s2 sq" style="left:51.32%" title="bytes/4 1.13"></i></div><div class="dval"><span class="t1">1.11</span> <span class="t2">1.13</span></div></div>
+<div class="drow"><div class="dlab">German</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:49.62%" title="chars/4 1.09"></i><i class="dot s2 sq" style="left:50.44%" title="bytes/4 1.11"></i></div><div class="dval"><span class="t1">1.09</span> <span class="t2">1.11</span></div></div>
+<div class="drow"><div class="dlab">Chinese</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:14.65%" title="chars/4 0.32"></i><i class="dot s2 sq" style="left:40.91%" title="bytes/4 0.90"></i></div><div class="dval"><span class="t1">0.32</span> <span class="t2">0.90</span></div></div>
+<div class="drow"><div class="dlab">Arabic</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:35.61%" title="chars/4 0.78"></i><i class="dot s2 sq" style="left:64.68%" title="bytes/4 1.42"></i></div><div class="dval"><span class="t1">0.78</span> <span class="t2">1.42</span></div></div>
+<div class="drow"><div class="dlab">Japanese</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:14.52%" title="chars/4 0.32"></i><i class="dot s2 sq" style="left:42.62%" title="bytes/4 0.94"></i></div><div class="dval"><span class="t1">0.32</span> <span class="t2">0.94</span></div></div>
+<div class="drow"><div class="dlab">Hindi</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:35.22%" title="chars/4 0.77"></i><i class="dot s2 sq" style="left:90.58%" title="bytes/4 1.99"></i></div><div class="dval"><span class="t1">0.77</span> <span class="t2">1.99</span></div></div>
+<div class="drow"><div class="dlab">Thai</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:27.21%" title="chars/4 0.60"></i><i class="dot s2 sq" style="left:78.61%" title="bytes/4 1.73"></i></div><div class="dval"><span class="t1">0.60</span> <span class="t2">1.73</span></div></div>
+<div class="drow"><div class="dlab">Tamil</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:32.92%" title="chars/4 0.72"></i><i class="dot s2 sq" style="left:90.07%" title="bytes/4 1.98"></i></div><div class="dval"><span class="t1">0.72</span> <span class="t2">1.98</span></div></div>
+<div class="drow"><div class="dlab">Amharic</div><div class="dtrack"><div class="one" style="left:45.45%"></div><i class="dot ring" style="left:6.38%" title="chars/4 0.14"></i><i class="dot s2 sq" style="left:16.50%" title="bytes/4 0.36"></i></div><div class="dval"><span class="t1">0.14</span> <span class="t2">0.36</span></div></div>
+<div class="drow axis"><div class="dlab"></div><div class="dtrack ticks"><span style="left:0.00%">0×</span><span style="left:22.73%">0.5×</span><span style="left:45.45%">1×</span><span style="left:68.18%">1.5×</span><span style="left:90.91%">2×</span></div><div class="dval"></div></div>
+</div>
+<figcaption><b>Figure 6.</b> The two heuristics fail in opposite directions. Characters ÷ 4 thinks Japanese and Chinese cost a third of what they do; bytes ÷ 4 thinks Hindi and Tamil cost twice what they do; both undercount Amharic. Google’s rule describes Gemini’s own tokenizer; the point is what happens when a rule like it is applied elsewhere. <span class="src">Sources: rules from <a href="#r14">[14]</a>, <a href="#r3">[3]</a>; measurements <a href="#r1">[1]</a>.</span></figcaption>
+</figure>
+
+<p>Underestimating is the dangerous direction: a budget gate that believes Japanese is three times cheaper waves through calls that overrun, and the dashboard reports the difference as unexplained spend in one region. The repair is a coefficient per model and locale, measured on real prompts rather than on encyclopedia prose, with the estimate logged beside the actual.</p>
+
+<pre><code><span class="lang">python · measure once per model, then budget with it</span><span class="k">import</span> tiktoken
+enc <span class="k">=</span> tiktoken.<span class="f">get_encoding</span>(<span class="s">"o200k_base"</span>)   <span class="c"># what gpt-5.x maps to</span>
+
+<span class="k">def</span> <span class="f">premium</span>(samples, base<span class="k">=</span><span class="s">"en"</span>):
+    <span class="c"># samples: {locale: [the same prompts, translated]}</span>
+    n <span class="k">=</span> {loc: <span class="b">sum</span>(<span class="b">len</span>(enc.<span class="f">encode</span>(s)) <span class="k">for</span> s <span class="k">in</span> texts)
+         <span class="k">for</span> loc, texts <span class="k">in</span> samples.<span class="f">items</span>()}
+    <span class="k">return</span> {loc: <span class="b">round</span>(v <span class="k">/</span> n[base], <span class="n">2</span>) <span class="k">for</span> loc, v <span class="k">in</span> n.<span class="f">items</span>()}
+
+<span class="k">def</span> <span class="f">preflight</span>(english_estimate, model, locale, budget):
+    est <span class="k">=</span> english_estimate <span class="k">*</span> PREMIUM[(model, locale)]
+    <span class="f">log</span>(<span class="s">"tokens.estimate"</span>, est, model<span class="k">=</span>model, locale<span class="k">=</span>locale)
+    <span class="k">return</span> est <span class="k">&lt;=</span> budget</code></pre>
+
+<h2 id="cache">The cache sees bytes, not meaning</h2>
+
+<p><b>Prompt caching</b> lets a provider reuse the work of reading an unchanged prompt prefix and bill it at a discount. Anthropic’s documentation puts cache reads at 0.1× the base input price on most models, with a five-minute default lifetime, and requires “100% identical prompt segments”; OpenAI lists gpt-5.4 cached input at $0.25 per million tokens against $2.50 uncached.<sup><a href="#r15">[15]</a><a href="#r13">[13]</a></sup> Teams that translate the whole system prompt into each locale create one cache entry per locale, and each must be kept warm by its own traffic.</p>
+
+<figure class="wide">
+<div class="fig">
+<h4>Thirty minutes of traffic against a five-minute cache</h4>
+<div class="tl">
+<div class="tlrow"><div class="blab">English<small>prefix A</small></div><div class="tltrack"><div class="tlbase"></div><div class="dense" title="a request every few seconds"></div></div></div>
+<div class="tlrow"><div class="blab">Thai<small>prefix C</small></div><div class="tltrack"><div class="tlbase"></div>
+<div class="ttl-win" style="left:0%;width:16.67%"></div><div class="ttl-win" style="left:23.33%;width:16.67%"></div><div class="ttl-win" style="left:43.33%;width:16.67%"></div><div class="ttl-win" style="left:53.33%;width:16.67%"></div><div class="ttl-win" style="left:80%;width:16.67%"></div>
+<i class="ev miss" style="left:0%" title="0 min: miss"></i><i class="ev miss" style="left:23.33%" title="7 min: miss"></i><i class="ev miss" style="left:43.33%" title="13 min: miss"></i><i class="ev hit" style="left:53.33%" title="16 min: hit"></i><i class="ev miss" style="left:80%" title="24 min: miss"></i>
+</div></div>
+</div>
+<div class="tlaxis"><span style="left:0%">0</span><span style="left:33.33%">10 min</span><span style="left:66.67%">20 min</span><span style="left:100%">30</span></div>
+<div class="legend" style="margin-top:6px"><span><i class="k2"></i>cache hit / live entry</span><span><i class="k1" style="border-radius:50%"></i>miss, full price</span></div>
+<div class="lane"><p class="ttl">The fix: one shared prefix, then a short locale block</p>
+<div class="seg"><div class="tag">en</div><div class="shared" style="flex:5">Shared instructions · one entry</div><div class="bp"></div><div class="loc" style="flex:1.4">en block</div><div class="usr" style="flex:1.6">User</div></div>
+<div class="seg"><div class="tag">th</div><div class="shared" style="flex:5">Same bytes · same entry · warm</div><div class="bp"></div><div class="loc" style="flex:1.4">th block</div><div class="usr" style="flex:1.6">User</div></div>
+</div>
+</div>
+<figcaption><b>Figure 7.</b> Illustration with assumed Thai arrival times, not a measurement. Reads refresh the lifetime, so English stays warm while four of five Thai requests pay full price. The locale with the least traffic, already paying a higher premium, also pays the uncached rate most often. Black bar: cache breakpoint. <span class="src">Cache rules from <a href="#r15">[15]</a> and <a href="#r11">[11]</a>.</span></figcaption>
+</figure>
+
+<p>Identical-looking prefixes also need identical bytes. The Hindi loanword for refund, रिफ़ंड, contains फ़, which Unicode can store as one code point (U+095E) or as फ plus a combining dot. Here is the trap an expert would repeat: normalizing to NFC, the usual “canonical composed” form, does not compose this letter. It is a composition exclusion, so NFC <i>decomposes</i> it.<sup><a href="#r16">[16]</a></sup> The two spellings tokenize differently too: 3 and 4 tokens on Gemma 4, 5 and 4 on Llama 4.<sup><a href="#r1">[1]</a></sup> Pick one normalization form, apply it to every string before assembly, and include it in whatever computes the cache key.</p>
+
+<pre><code><span class="lang">python · assemble a cache-friendly prompt</span><span class="k">from</span> unicodedata <span class="k">import</span> normalize
+
+<span class="k">def</span> <span class="f">build</span>(locale, user_text):
+    nfc <span class="k">=</span> <span class="k">lambda</span> s: <span class="f">normalize</span>(<span class="s">"NFC"</span>, s)   <span class="c"># U+095E becomes 2 code points</span>
+    <span class="k">return</span> [
+        {<span class="s">"type"</span>: <span class="s">"text"</span>, <span class="s">"text"</span>: <span class="f">nfc</span>(SHARED),  <span class="c"># same bytes, all locales</span>
+         <span class="s">"cache_control"</span>: {<span class="s">"type"</span>: <span class="s">"ephemeral"</span>}},
+        {<span class="s">"type"</span>: <span class="s">"text"</span>, <span class="s">"text"</span>: <span class="f">nfc</span>(LOCALE_BLOCK[locale])},  <span class="c"># after the breakpoint</span>
+        {<span class="s">"type"</span>: <span class="s">"text"</span>, <span class="s">"text"</span>: <span class="f">nfc</span>(user_text)},
+    ]</code></pre>
+
+<h2 id="quality">More tokens, less understanding?</h2>
+
+<p>This is where the story usually overreaches. Table 4 lines up the evidence.</p>
+
+<figure class="wide">
+<div class="fig">
+<h4>Table 4. Does a higher token count predict worse answers?</h4>
+<div class="tbl-wrap">
+<table class="dt wordy">
+<thead><tr><th>Study</th><th>Scope</th><th>Finding</th><th></th></tr></thead>
+<tbody>
+<tr><td>Lundin et al., Sep 2025</td><td>10 models, AfriMMLU, 16 languages</td><td>“higher fertility consistently predicts lower accuracy”</td><td><span class="dir for">for</span></td></tr>
+<tr><td>MMLU-ProX, May 2025</td><td>36 models, 29 languages, 11,829 questions</td><td>gaps up to 24.3% on identical questions</td><td><span class="dir for">for</span></td></tr>
+<tr><td>Etxaniz et al., Aug 2023</td><td>self-translate prompting</td><td>translating to English first beats answering directly</td><td><span class="dir for">for</span></td></tr>
+<tr><td>Somide, Jun 2026</td><td>20 African languages, GPT-4o</td><td>premium vs accuracy r = 0.039, p = 0.891</td><td><span class="dir against">against</span></td></tr>
+<tr><td>Schmidt et al., EMNLP 2024</td><td>tokenizers trained to compress more</td><td>fewer tokens did not by itself give better models</td><td><span class="dir against">against</span></td></tr>
+<tr><td>Yong et al., May 2025</td><td>reasoning models, multilingual math</td><td>chains of thought run “predominantly English”, quoting the input</td><td><span class="dir limit">limit</span></td></tr>
+</tbody></table>
+</div>
+</div>
+<figcaption><b>Table 4.</b> Three findings for the link, two against, one that changes what is billed. <span class="src">Sources, in row order: <a href="#r17">[17]</a>, <a href="#r18">[18]</a>, <a href="#r19">[19]</a>, <a href="#r8">[8]</a>, <a href="#r20">[20]</a>, <a href="#r21">[21]</a>.</span></figcaption>
+</figure>
+
+<p>The reading offered here is that both camps measure symptoms of one cause. A language fragments because little of it was in the tokenizer’s corpus, and the model trained alongside usually saw little of it too. Token count and accuracy travel together because they share a parent. Fix the vocabulary and the bill, the window and the clock improve; the model has not thereby learned Amharic. The last row adds a twist for reasoning models: if the hidden chain of thought runs in English, the reasoning tokens billed as output are English-priced, and the premium falls on the quoted input and the visible answer. That is an inference from the paper, not a measurement.</p>
+
+<blockquote class="pull">Token count is a thermometer, not the fever.</blockquote>
+
+<p>Benchmarks also miss what a native reader notices. In Hindi the polite pronoun आप is always grammatically plural, even for one person, so its verb agrees in the plural;<sup><a href="#r22">[22]</a></sup> a reply that drifts into singular agreement is a fluency error no multiple-choice test catches. Vocabulary is a register decision as well: the loanword रिफ़ंड and the formal प्रतिदाय both mean refund, and on o200k_base the formal word is cheaper, 3 tokens against 4.<sup><a href="#r1">[1]</a></sup> Token count must never choose the term. Score accuracy errors (wrong facts) apart from fluency errors (right facts, wrong voice); they have opposite fixes, and one averaged score hides which kind a locale has.</p>
+
+<h2 id="rate">Who sets the rate</h2>
+
+<p>A tokenizer is fitted once, frozen, and then rented to every speaker on Earth at a per-token price. Whoever assembled its corpus decided, mostly without meaning to, which languages would be cheap for the life of the model. Ahia and colleagues put the consequence plainly in 2023: speakers of many languages “are overcharged while obtaining poorer results”, and they “tend to also come from regions where the APIs are less affordable to begin with”.<sup><a href="#r10">[10]</a></sup> The vendors have since cut the gap for large languages; Table 2 shows they have not cut it for everyone, and Qwen3.5’s Amharic shows a new vocabulary can quietly raise it.</p>
+
+<p>The engineering responsibility is narrower and more concrete than fairness in the abstract. Per-token pricing defines a unit the customer cannot audit for most closed models; a team that bills its own users in tokens, or caps a free tier at a token quota, passes the same tax down a level, so a Hindi user gets fewer answers than an English user for the same plan. Quotas in messages or characters, per-locale budgets and published premiums are all available choices. Byte-level research such as MYTE reports shorter and more even encodings across 99 languages, but nothing of that kind is a drop-in fix for a model rented through an API.<sup><a href="#r23">[23]</a></sup></p>
+
+<h2 id="showed">What the refund message showed</h2>
+
+<div class="recap">
+<div><b>23–85</b><span>Hindi tokens for the 17-token English reply, across six vocabularies</span></div>
+<div><b>834</b><span>Amharic sentences per 128k window on o200k_base, against 4,820 English</span></div>
+<div><b>3×</b><span>how far characters ÷ 4 undercounts Japanese</span></div>
+<div><b>r = 0.039</b><span>premium vs accuracy in 20 African languages</span></div>
+</div>
+
+<p>The refund message that opened this post costs 17 tokens in English everywhere and anywhere from 23 to 85 in Hindi, depending on whose corpus built the vocabulary. That premium is paid four times, on the bill, in the window, on the clock and at the output cap; it is underestimated by English rules of thumb and compounded by caches that go cold in quiet locales. It does not, on current evidence, explain the quality gap by itself: the gap comes from the same thin training data that made the vocabulary expensive, and closing it is a translation-quality problem measured by native reviewers.</p>
+
+<figure class="wide">
+<div class="fig">
+<h4>A locale-aware request path</h4>
+<div class="flow five">
+<div class="node"><b>Measure</b><span>premium per model × locale, on real prompts</span></div><div class="arr" aria-hidden="true">→</div>
+<div class="node"><b>Budget</b><span>count or coefficient; log estimate vs actual</span></div><div class="arr" aria-hidden="true">→</div>
+<div class="node"><b>Assemble</b><span>NFC · shared cached prefix · locale block</span></div><div class="arr" aria-hidden="true">→</div>
+<div class="node"><b>Route</b><span>cheapest vocabulary that passes this locale’s eval</span></div><div class="arr" aria-hidden="true">→</div>
+<div class="node hot"><b>Evaluate</b><span>native review; accuracy and fluency scored apart</span></div>
+</div>
+</div>
+<figcaption><b>Figure 8.</b> Where each finding lands in a request path. Illustration. Routing pays most where vocabularies disagree most: Hindi ranges from 1.31× to 2.80× and Amharic from 1.94× to 5.97× across Table 2. <span class="src">Source: <a href="#r1">[1]</a>.</span></figcaption>
+</figure>
+
+<p>So the change for Monday is three lines of work, not a research project. Count a hundred real prompts and their production translations on the tokenizer actually being called, and store the ratio per model and locale; re-run it on every model upgrade, because the vocabulary can change under an unchanged price. Move the long instructions into one normalized, byte-identical prefix and put the locale block after the cache breakpoint. And send a native reviewer a sample from the locale with the highest premium, asking two separate questions: is it right, and does it sound like the product. The token tax is set by a corpus somebody else chose. It is still a number a team can own.</p>
+
+<section class="refs" id="refs" aria-label="Sources">
+<h2>Sources</h2>
+<ol>
+<li id="r1"><b>Measurements for this article.</b> FLORES-200 devtest and the running example, counted with tiktoken 0.14.0 (cl100k_base, o200k_base) and Hugging Face tokenizers 0.23.1 on the published tokenizer.json of Qwen3-8B, Qwen3.5-9B, Gemma 3 4B, Gemma 4 E4B, DeepSeek-V3.1 and Llama 4 Scout. Oct 5, 2026. <a href="SOURCES.md">SOURCES.md</a></li>
+<li id="r2"><b>RFC 3629: UTF-8, a transformation format of ISO 10646 (F. Yergeau).</b> IETF / RFC Editor. Nov 2003. <a href="https://www.rfc-editor.org/rfc/rfc3629">https://www.rfc-editor.org/rfc/rfc3629</a></li>
+<li id="r3"><b>tiktoken README and model-to-encoding map.</b> OpenAI, GitHub. read Oct 5, 2026 (v0.14.0). <a href="https://github.com/openai/tiktoken">https://github.com/openai/tiktoken</a></li>
+<li id="r4"><b>Gemma 3 Technical Report.</b> Gemma Team, Google DeepMind, arXiv:2503.19786. Mar 25, 2025. <a href="https://arxiv.org/abs/2503.19786">https://arxiv.org/abs/2503.19786</a></li>
+<li id="r5"><b>Qwen Technical Report (Bai et al.).</b> Alibaba Qwen team, arXiv:2309.16609. Sep 28, 2023. <a href="https://arxiv.org/abs/2309.16609">https://arxiv.org/abs/2309.16609</a></li>
+<li id="r6"><b>IndicSuperTokenizer: An Optimized Tokenizer for Indic Multilingual LLMs.</b> arXiv:2511.03237. Nov 2025. <a href="https://arxiv.org/abs/2511.03237">https://arxiv.org/abs/2511.03237</a></li>
+<li id="r7"><b>FLORES-200 evaluation benchmark (NLLB release).</b> Meta AI. dataset release, downloaded Oct 5, 2026. <a href="https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz">https://dl.fbaipublicfiles.com/nllb/flores200_dataset.tar.gz</a></li>
+<li id="r8"><b>The African Language Tax (Somide).</b> arXiv:2606.24460. Jun 23, 2026. <a href="https://arxiv.org/abs/2606.24460">https://arxiv.org/abs/2606.24460</a></li>
+<li id="r9"><b>Language Model Tokenizers Introduce Unfairness Between Languages (Petrov, La Malfa, Torr, Bibi).</b> NeurIPS 2023, arXiv:2305.15425. May 2023, rev. Oct 2023. <a href="https://arxiv.org/abs/2305.15425">https://arxiv.org/abs/2305.15425</a></li>
+<li id="r10"><b>Do All Languages Cost the Same? Tokenization in the Era of Commercial Language Models (Ahia et al.).</b> arXiv:2305.13707. May 23, 2023. <a href="https://arxiv.org/abs/2305.13707">https://arxiv.org/abs/2305.13707</a></li>
+<li id="r11"><b>Pricing.</b> Anthropic, Claude Platform docs. read Oct 5, 2026. <a href="https://platform.claude.com/docs/en/about-claude/pricing">https://platform.claude.com/docs/en/about-claude/pricing</a></li>
+<li id="r12"><b>Introducing Claude Opus 4.7.</b> Anthropic. Apr 16, 2026. <a href="https://www.anthropic.com/news/claude-opus-4-7">https://www.anthropic.com/news/claude-opus-4-7</a></li>
+<li id="r13"><b>API pricing.</b> OpenAI developer docs. read Oct 5, 2026. <a href="https://developers.openai.com/api/docs/pricing">https://developers.openai.com/api/docs/pricing</a></li>
+<li id="r14"><b>Understand and count tokens.</b> Google, Gemini API docs. updated Sep 23, 2026. <a href="https://ai.google.dev/gemini-api/docs/tokens">https://ai.google.dev/gemini-api/docs/tokens</a></li>
+<li id="r15"><b>Prompt caching.</b> Anthropic, Claude Platform docs. read Oct 5, 2026. <a href="https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching">https://platform.claude.com/docs/en/docs/build-with-claude/prompt-caching</a></li>
+<li id="r16"><b>UAX #15: Unicode Normalization Forms, revision 58.</b> Unicode Consortium (Unicode 18.0.0). Aug 12, 2026. <a href="https://www.unicode.org/reports/tr15/">https://www.unicode.org/reports/tr15/</a></li>
+<li id="r17"><b>The Token Tax: Systematic Bias in Multilingual Tokenization (Lundin et al.).</b> AfricaNLP 2026, arXiv:2509.05486. Sep 5, 2025. <a href="https://arxiv.org/abs/2509.05486">https://arxiv.org/abs/2509.05486</a></li>
+<li id="r18"><b>MMLU-ProX: A Multilingual Benchmark for Advanced LLM Evaluation (Xuan et al.).</b> arXiv:2503.10497. Mar 13, 2025, rev. May 26, 2025. <a href="https://arxiv.org/abs/2503.10497">https://arxiv.org/abs/2503.10497</a></li>
+<li id="r19"><b>Do Multilingual Language Models Think Better in English? (Etxaniz et al.).</b> arXiv:2308.01223. Aug 2, 2023. <a href="https://arxiv.org/abs/2308.01223">https://arxiv.org/abs/2308.01223</a></li>
+<li id="r20"><b>Tokenization Is More Than Compression (Schmidt et al.).</b> EMNLP 2024, arXiv:2402.18376. Feb 2024, rev. Oct 2024. <a href="https://arxiv.org/abs/2402.18376">https://arxiv.org/abs/2402.18376</a></li>
+<li id="r21"><b>Crosslingual Reasoning through Test-Time Scaling (Yong et al.).</b> arXiv:2505.05408. May 8, 2025. <a href="https://arxiv.org/abs/2505.05408">https://arxiv.org/abs/2505.05408</a></li>
+<li id="r22"><b>2.1 Personal Pronouns.</b> Taj Hindi, University of North Carolina. undated course page, read Oct 5, 2026. <a href="https://tajhindi.unc.edu/2-1-personal-pronouns/">https://tajhindi.unc.edu/2-1-personal-pronouns/</a></li>
+<li id="r23"><b>MYTE: Morphology-Driven Byte Encoding for Better and Fairer Multilingual Language Modeling (Limisiewicz et al.).</b> ACL 2024, arXiv:2403.10691. Mar 15, 2024. <a href="https://arxiv.org/abs/2403.10691">https://arxiv.org/abs/2403.10691</a></li>
+</ol>
+<p>Prices and model facts change; each entry carries the date of the page or the date it was read. Measurement commands are recorded in the accompanying SOURCES.md.</p>
+</section>
+</article>
+
+</div>
+</main>
+
+
+<script>
+(function(){
+  var btn=document.getElementById('theme');
+  btn.addEventListener('click',function(){
+    var cur=document.documentElement.getAttribute('data-theme');
+    if(!cur){cur=window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
+    var nxt=cur==='dark'?'light':'dark';
+    document.documentElement.setAttribute('data-theme',nxt);
+    try{localStorage.setItem('tt-theme',nxt)}catch(e){}
+  });
+  var P={"o200k":{"en":["Your"," refund"," has"," been"," approved","."," The"," money"," will"," reach"," your"," account"," within"," five"," business"," days","."],"de":["Ihre"," Rück","erst","attung"," wurde"," gene","hm","igt","."," Das"," Geld"," wird"," innerhalb"," von"," fünf"," Wer","kt","agen"," auf"," Ihrem"," Konto"," einge","hen","."],"ja":["返","金","が","承","認","され","ました","。","5","営業","日","以内","に","お","客様","の","口","座","に","入","金","され","ます","。"],"ar":["تم","ت"," الموا","فقة"," على"," است","رد","اد"," أ","مو","الك","."," ست","صل"," الأموال"," إلى"," حساب","ك"," خلال"," خمسة"," أيام"," عمل","."],"hi":["आप","का"," र","िफ","़","ंड"," स्व","ीक","ृत"," हो"," गया"," है","।"," पैसे"," पाँच"," कार्य","द","िव","स","ों"," के"," भीतर"," आपके"," खाते"," में"," पहुँच"," जाए","ँ","गे","।"],"th":["การ","คืน","เงิน","ของ","คุณ","ได้รับ","การ","อน","ุ","มั","ติ","แล้ว"," เงิน","จะ","เข้","าบ","ัญ","ชี","ของ","คุณ","ภ","ายใน","ห","้าว","ัน","ทำ","การ"]},"gemma4":{"en":["Your"," refund"," has"," been"," approved","."," The"," money"," will"," reach"," your"," account"," within"," five"," business"," days","."],"de":["I","hre"," Rück","erst","att","ung"," wurde"," gene","hm","igt","."," Das"," Geld"," wird"," innerhalb"," von"," fünf"," Wer","kt","agen"," auf"," Ihrem"," Konto"," einge","hen","."],"ja":["返","金","が","承認","されました","。","5","営業","日","以内","にお","客様","の","口座","に入","金","されます","。"],"ar":["تم","ت"," الموا","ف","قة"," على"," است","رد","اد"," أم","وال","ك","."," ست","صل"," الأم","وال"," إلى"," حساب","ك"," خلال"," خمس","ة"," أيام"," عمل","."],"hi":["आपका"," रि","फ़","ंड"," स्वीकृत"," हो"," गया"," है","।"," पैसे"," पाँच"," कार्य","दिव","सों"," के"," भीतर"," आपके"," खाते"," में"," पहुँच"," जाएँ","गे","।"],"th":["การ","คืน","เงิน","ของคุณ","ได้รับการ","อน","ุม","ัติ","แล้ว"," เงิน","จะ","เข้า","บัญ","ชี","ของคุณ","ภายใน","ห","้า","วัน","ทำการ"]},"qwen35":{"en":["Your"," refund"," has"," been"," approved","."," The"," money"," will"," reach"," your"," account"," within"," five"," business"," days","."],"de":["I","hre"," Rü","cker","stattung"," wurde"," gene","hm","igt","."," Das"," Geld"," wird"," innerhalb"," von"," fünf"," Werk","tagen"," auf"," Ihrem"," Konto"," eing","ehen","."],"ja":["返","金が","承認","されました","。","5","営業","日","以内","にお","客様","の","口座","に入","金","されます","。"],"ar":["تم","ت"," المواف","قة"," على"," است","رداد"," أموال","ك","."," ست","صل"," الأموال"," إلى"," حساب","ك"," خلال"," خمسة"," أيام"," عمل","."],"hi":["आ","प","का"," रि","फ","़","ंड"," स्","वी","क","ृत"," हो"," गया"," है","।"," प","ैसे"," पा","ँ","च"," कार्य","द","िव","स","ों"," के"," भी","तर"," आपके"," खा","ते"," में"," पहु","ँ","च"," जाए","ँ","गे","।"],"th":["การ","คืน","เงิน","ของคุณ","ได้รับการ","อนุมัติ","แล้ว"," เงิน","จะ","เข้า","บัญชี","ของคุณ","ภายใน","ห้า","วัน","ทำการ"]},"qwen3":{"en":["Your"," refund"," has"," been"," approved","."," The"," money"," will"," reach"," your"," account"," within"," five"," business"," days","."],"de":["I","h","re"," R","ü","cker","statt","ung"," wurde"," gene","hm","igt","."," Das"," Geld"," wird"," inner","halb"," von"," fünf"," Werk","tag","en"," auf"," Ihrem"," K","onto"," eing","ehen","."],"ja":["返","金","が","承","認","されました","。","5",null,null,"業","日","以内","にお","客","様","の","口","座","に入","金","されます","。"],"ar":["تم","ت"," المو","اف","قة"," على"," است","ر","داد"," أ","مو","ال","ك","."," ست","صل"," الأ","مو","ال"," إلى"," ح","ساب","ك"," خلال"," خ","مس","ة"," أيام"," عمل","."],"hi":["आ","प","क","ा",null,null,null,null,null,null,"ं","ड"," स",null,null,"ी","क",null,null,"त"," ह","ो",null,null,"य","ा"," ह",null,null,"।"," प",null,null,"स","े"," प",null,null,"च"," क",null,null,null,null,"द",null,null,"स","ो","ं"," क","े",null,null,"ी","त","र",null,null,"प","क","े",null,null,null,null,"े"," म",null,null," प","ह","ु",null,null,"च",null,null,null,null,null,null,"ग","े","।"],"th":["การ","ค","ืน","เง","ิน","ของ","ค","ุ","ณ","ได","้","ร","ับ","การ","อน","ุม","ั","ต","ิ","แล","้ว"," เ","ง","ิน","จะ","เข","้า","บ","ัญ","ช","ี","ของ","ค","ุ","ณ","ภายใน","ห","้า","ว","ัน","ทำการ"]}};
+  var NAMES={en:'English',de:'German',ja:'Japanese',ar:'Arabic',hi:'Hindi',th:'Thai'};
+  var TN={qwen3:'Qwen3',qwen35:'Qwen3.5',o200k:'o200k_base',gemma4:'Gemma 4'};
+  var state={l:'hi',t:'qwen3'};
+  var out=document.getElementById('toyout'), stat=document.getElementById('toystat');
+  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+  function render(){
+    var ps=P[state.t][state.l], h='', frag=0;
+    for(var i=0;i<ps.length;i++){
+      var p=ps[i];
+      if(p===null){frag++;h+='<span class="chip frag" title="part of a character">·</span>'}
+      else h+='<span class="chip">'+esc(p).replace(/ /g,'&#9251;')+'</span>';
+    }
+    out.innerHTML=h; out.setAttribute('lang',state.l);
+    if(state.l==='ar'){out.setAttribute('dir','rtl')}else{out.removeAttribute('dir')}
+    var en=P[state.t].en.length;
+    stat.textContent=NAMES[state.l]+' on '+TN[state.t]+': '+ps.length+' tokens'+(state.l==='en'?'':' ('+(ps.length/en).toFixed(2)+'× English)')+(frag?', '+frag+' of them a shard of a character (shown as ·).':'.');
+  }
+  function wire(sel,key){
+    var bs=document.querySelectorAll(sel);
+    for(var i=0;i<bs.length;i++){(function(b){
+      b.addEventListener('click',function(){
+        state[key]=b.getAttribute(key==='l'?'data-l':'data-t');
+        for(var j=0;j<bs.length;j++){bs[j].setAttribute('aria-pressed',bs[j]===b?'true':'false')}
+        render();
+      });
+    })(bs[i])}
+  }
+  wire('[data-l]','l'); wire('[data-t]','t');
+})();
+</script>
+</body>
+</html>

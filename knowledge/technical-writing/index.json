@@ -1,0 +1,617 @@
+{
+ "meta": {
+  "generated_by": "scripts/build-index.mjs",
+  "bundle": "technical-writing",
+  "source": "knowledge/technical-writing/ (frontmatter only)",
+  "subjects": 6,
+  "techniques": 29,
+  "applications": 7,
+  "laws": 9,
+  "categories": [
+   "composition",
+   "prose",
+   "grounding",
+   "presentation"
+  ],
+  "layout": "nested",
+  "use_when_coverage": "29/29",
+  "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
+ },
+ "subjects": {
+  "article-structure": {
+   "category": "composition",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/technical-writing/composition/article-structure/article-structure.md",
+   "digest": "sha256-b2:e5b9771914182ba9",
+   "revision": 1,
+   "changedAt": "2026-10-08",
+   "techniques": [
+    {
+     "slug": "closing-chapter-settles-the-account",
+     "status": "forged",
+     "laws": [
+      "the-opening-promises-the-close-settles",
+      "every-number-has-a-source-and-a-date"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the last section of a technical article",
+      "reviewing a conclusion that summarizes without concluding",
+      "checking that a post settles what its opening and preview promised"
+     ]
+    },
+    {
+     "slug": "content-preview-block",
+     "status": "forged",
+     "laws": [
+      "the-opening-promises-the-close-settles"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a preview before an article's first section",
+      "reviewing a post whose reader cannot tell what to expect"
+     ]
+    },
+    {
+     "slug": "information-carrying-headings",
+     "status": "forged",
+     "laws": [
+      "the-opening-promises-the-close-settles"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing section headings for a long post",
+      "building the outline a content preview links to",
+      "reviewing a post that a scanning reader cannot navigate"
+     ]
+    },
+    {
+     "slug": "opening-scene-hook",
+     "status": "forged",
+     "laws": [
+      "the-opening-promises-the-close-settles",
+      "every-number-has-a-source-and-a-date"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the first lines of a technical article",
+      "choosing between several candidate openings",
+      "reviewing an opening that announces a topic instead of showing one"
+     ]
+    },
+    {
+     "slug": "through-line-device",
+     "status": "forged",
+     "laws": [
+      "the-opening-promises-the-close-settles"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a topic survey into an argument",
+      "planning which example recurs across sections",
+      "reviewing a post whose sections could be reordered without loss"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "content-preview-block",
+     "file": "knowledge/technical-writing/composition/article-structure/applications/process--content-preview-block.md",
+     "verified_on": "2026-10-05"
+    }
+   ]
+  },
+  "depth-and-audience": {
+   "category": "composition",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/technical-writing/composition/depth-and-audience/depth-and-audience.md",
+   "digest": "sha256-b2:95856d83d4559cb4",
+   "revision": 1,
+   "changedAt": "2026-10-08",
+   "techniques": [
+    {
+     "slug": "depth-by-replacement",
+     "status": "forged",
+     "laws": [
+      "depth-by-replacement-not-addition",
+      "figures-abstract-prose-explains"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "revising a draft that must get deeper without getting longer",
+      "responding to a review that asks for both more depth and the same length",
+      "cutting a post to a word budget"
+     ]
+    },
+    {
+     "slug": "four-layer-depth",
+     "status": "forged",
+     "laws": [
+      "a-claim-travels-with-its-counter-evidence",
+      "depth-by-replacement-not-addition"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning what a section of a technical article must cover",
+      "diagnosing why a correct section reads as flat",
+      "briefing a drafting agent to go deeper"
+     ]
+    },
+    {
+     "slug": "non-obvious-detail-selection",
+     "status": "forged",
+     "laws": [
+      "every-number-has-a-source-and-a-date",
+      "current-data-or-labelled-history"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which facts an expert-facing post leads with",
+      "researching a topic for details beyond the common summary",
+      "reviewing a post that experts call shallow"
+     ]
+    },
+    {
+     "slug": "term-in-a-clause",
+     "status": "forged",
+     "laws": [
+      "depth-by-replacement-not-addition"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "introducing a term of art in a post read by experts and newcomers together",
+      "cutting a paragraph-length definition",
+      "reviewing a draft that reads like a glossary"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "depth-by-replacement",
+     "file": "knowledge/technical-writing/composition/depth-and-audience/applications/process--depth-by-replacement.md",
+     "verified_on": "2026-10-05"
+    }
+   ]
+  },
+  "evidence-and-sources": {
+   "category": "grounding",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/technical-writing/grounding/evidence-and-sources/evidence-and-sources.md",
+   "digest": "sha256-b2:5b6b2b07c435fd74",
+   "revision": 1,
+   "changedAt": "2026-10-08",
+   "techniques": [
+    {
+     "slug": "counter-evidence-alongside-the-thesis",
+     "status": "forged",
+     "laws": [
+      "a-claim-travels-with-its-counter-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "researching a thesis for a technical article",
+      "presenting contested evidence",
+      "reviewing a draft whose sources all agree"
+     ]
+    },
+    {
+     "slug": "dated-current-data",
+     "status": "forged",
+     "laws": [
+      "current-data-or-labelled-history",
+      "every-number-has-a-source-and-a-date"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which systems and figures a technical comparison uses",
+      "refreshing a draft whose data has aged",
+      "reviewing tables for stale generations"
+     ]
+    },
+    {
+     "slug": "inference-labelled-as-inference",
+     "status": "forged",
+     "laws": [
+      "every-number-has-a-source-and-a-date",
+      "a-claim-travels-with-its-counter-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "presenting a derived number or a likely explanation in a technical article",
+      "drawing an explanatory illustration rather than a data figure",
+      "reviewing a draft that states reasoning with the confidence of measurement"
+     ]
+    },
+    {
+     "slug": "numbered-in-page-citations",
+     "status": "forged",
+     "laws": [
+      "every-number-has-a-source-and-a-date"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building the sources list of a technical article",
+      "adding citations to figures and tables",
+      "checking that every number in a draft is traceable"
+     ]
+    },
+    {
+     "slug": "own-measurement-disclosure",
+     "status": "forged",
+     "laws": [
+      "every-number-has-a-source-and-a-date",
+      "report-the-topic-not-the-author"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reporting numbers an article measured itself",
+      "logging the method behind a measurement",
+      "deciding how much method belongs in the page versus the log"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "numbered-in-page-citations",
+     "file": "knowledge/technical-writing/grounding/evidence-and-sources/applications/process--numbered-in-page-citations.md",
+     "verified_on": "2026-10-05"
+    }
+   ]
+  },
+  "figures-and-tables": {
+   "category": "presentation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/technical-writing/presentation/figures-and-tables/figures-and-tables.md",
+   "digest": "sha256-b2:ee6a938542f4e2d5",
+   "revision": 1,
+   "changedAt": "2026-10-08",
+   "techniques": [
+    {
+     "slug": "captions-name-their-sources",
+     "status": "forged",
+     "laws": [
+      "every-number-has-a-source-and-a-date"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing figure and table captions",
+      "checking that every plotted value is traceable",
+      "labelling an explanatory illustration"
+     ]
+    },
+    {
+     "slug": "designed-comparison-tables",
+     "status": "forged",
+     "laws": [
+      "figures-abstract-prose-explains"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning a multi-paragraph comparison into a table",
+      "designing a table of measurements or evidence for an article",
+      "reviewing a table that is a raw grid"
+     ]
+    },
+    {
+     "slug": "label-length-figure-text",
+     "status": "forged",
+     "laws": [
+      "figures-abstract-prose-explains"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "drawing a diagram or flow figure for an article",
+      "reviewing a figure that contains sentences",
+      "redrawing a text-heavy diagram"
+     ]
+    },
+    {
+     "slug": "one-message-per-figure",
+     "status": "forged",
+     "laws": [
+      "figures-abstract-prose-explains"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning the figures of a technical article",
+      "writing a figure's caption",
+      "reviewing a figure that tries to show everything"
+     ]
+    },
+    {
+     "slug": "text-alternative-for-figures",
+     "status": "forged",
+     "laws": [
+      "check-the-page-where-it-is-read"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "publishing figures or images of tables",
+      "preparing an article for a platform that strips or rasterizes content",
+      "reviewing alt text"
+     ]
+    },
+    {
+     "slug": "visual-cadence",
+     "status": "forged",
+     "laws": [
+      "figures-abstract-prose-explains",
+      "depth-by-replacement-not-addition"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing a well-researched draft whose paragraphs have grown chunky",
+      "deciding where a figure or table belongs",
+      "shortening a section without losing content"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "label-length-figure-text",
+     "file": "knowledge/technical-writing/presentation/figures-and-tables/applications/process--label-length-figure-text.md",
+     "verified_on": "2026-10-05"
+    }
+   ]
+  },
+  "medium-format-fidelity": {
+   "category": "presentation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/technical-writing/presentation/medium-format-fidelity/medium-format-fidelity.md",
+   "digest": "sha256-b2:2c5e505f786d6585",
+   "revision": 1,
+   "changedAt": "2026-10-08",
+   "techniques": [
+    {
+     "slug": "highlighted-code-blocks",
+     "status": "forged",
+     "laws": [
+      "check-the-page-where-it-is-read"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding code samples to a technical article",
+      "styling code blocks for both colour schemes",
+      "packaging code for a platform with its own highlighter"
+     ]
+    },
+    {
+     "slug": "light-and-dark-rendering",
+     "status": "forged",
+     "laws": [
+      "check-the-page-where-it-is-read"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "defining an article page's colours",
+      "drawing figures that must work on light and dark backgrounds",
+      "choosing a code highlighting theme",
+      "reviewing a page in a dark system scheme"
+     ]
+    },
+    {
+     "slug": "reading-column-and-type-scale",
+     "status": "forged",
+     "laws": [
+      "check-the-page-where-it-is-read"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting the column width and body type of an article page",
+      "reviewing a page that is tiring to read",
+      "sizing captions",
+      "tables and code relative to body text"
+     ]
+    },
+    {
+     "slug": "target-platform-capability-map",
+     "status": "forged",
+     "laws": [
+      "check-the-page-where-it-is-read"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "preparing an authored article for a hosted publishing platform",
+      "building a paste-ready or importable package",
+      "deciding how tables",
+      "figures and code survive a platform's editor"
+     ]
+    },
+    {
+     "slug": "two-viewport-verification",
+     "status": "forged",
+     "laws": [
+      "check-the-page-where-it-is-read"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "verifying an article page before publication",
+      "automating screenshot checks in an article pipeline",
+      "diagnosing a page that scrolls sideways on a phone"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "target-platform-capability-map",
+     "file": "knowledge/technical-writing/presentation/medium-format-fidelity/applications/process--target-platform-capability-map.md",
+     "verified_on": "2026-10-05"
+    },
+    {
+     "stack": "process",
+     "technique": "two-viewport-verification",
+     "file": "knowledge/technical-writing/presentation/medium-format-fidelity/applications/process--two-viewport-verification.md",
+     "verified_on": "2026-10-05"
+    }
+   ]
+  },
+  "voice-and-register": {
+   "category": "prose",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/technical-writing/prose/voice-and-register/voice-and-register.md",
+   "digest": "sha256-b2:8f4e0fccda5412e1",
+   "revision": 1,
+   "changedAt": "2026-10-08",
+   "techniques": [
+    {
+     "slug": "house-style-consistency",
+     "status": "forged",
+     "laws": [
+      "a-check-names-a-property-and-a-span"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting up the style rules a drafting agent and a checker share",
+      "resolving a register choice that has no single right answer",
+      "reviewing a post that mixes conventions"
+     ]
+    },
+    {
+     "slug": "impersonal-results-reporting",
+     "status": "forged",
+     "laws": [
+      "report-the-topic-not-the-author",
+      "a-check-names-a-property-and-a-span"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rewriting first-person narration in a technical post",
+      "reporting the article's own measurements",
+      "writing a voice check for a drafting pipeline"
+     ]
+    },
+    {
+     "slug": "machine-prose-tell-removal",
+     "status": "forged",
+     "laws": [
+      "a-check-names-a-property-and-a-span"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "editing a model-drafted technical article",
+      "writing deterministic prose checks for a drafting pipeline",
+      "deciding whether a flagged pattern is a real finding in long-form text"
+     ]
+    },
+    {
+     "slug": "sentence-rhythm-and-stress",
+     "status": "forged",
+     "laws": [
+      "report-the-topic-not-the-author"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "editing sentences so findings land with emphasis",
+      "revising prose that reads as monotonous or machine-uniform",
+      "placing numbers inside sentences"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "impersonal-results-reporting",
+     "file": "knowledge/technical-writing/prose/voice-and-register/applications/process--impersonal-results-reporting.md",
+     "verified_on": "2026-10-05"
+    }
+   ]
+  }
+ },
+ "laws": {
+  "the-opening-promises-the-close-settles": {
+   "statement": "The opening scene and the content preview make promises: a question, a cost, a set of things the reader will be able to do. The closing chapter pays each one back in concrete terms and returns to the scene. A promise the close does not settle is a debt the reader notices; a close that settles nothing the opening raised is a summary.",
+   "techniques": [
+    "article-structure/closing-chapter-settles-the-account",
+    "article-structure/content-preview-block",
+    "article-structure/information-carrying-headings",
+    "article-structure/opening-scene-hook",
+    "article-structure/through-line-device"
+   ]
+  },
+  "every-number-has-a-source-and-a-date": {
+   "statement": "A number in the text, a cell in a table and a bar in a figure each trace to one numbered source, and that source carries the date the page was read or the measurement was run. A number without both is an assertion in a number's clothing: a reader cannot check it, and the author cannot tell, six months later, whether it is still true.",
+   "techniques": [
+    "article-structure/closing-chapter-settles-the-account",
+    "article-structure/opening-scene-hook",
+    "depth-and-audience/non-obvious-detail-selection",
+    "evidence-and-sources/dated-current-data",
+    "evidence-and-sources/inference-labelled-as-inference",
+    "evidence-and-sources/numbered-in-page-citations",
+    "evidence-and-sources/own-measurement-disclosure",
+    "figures-and-tables/captions-name-their-sources"
+   ]
+  },
+  "depth-by-replacement-not-addition": {
+   "statement": "When a post must go deeper, the length stays and the flat material goes: the analogy, the definition an expert skips, the paragraph that repeats the figure. Depth bought by adding pages is paid for by the reader who stops halfway.",
+   "techniques": [
+    "depth-and-audience/depth-by-replacement",
+    "depth-and-audience/four-layer-depth",
+    "depth-and-audience/term-in-a-clause",
+    "figures-and-tables/visual-cadence"
+   ]
+  },
+  "figures-abstract-prose-explains": {
+   "statement": "A figure turns a mechanism, a comparison or a sequence into shapes, positions and labels. A paragraph carries reasoning, qualification and story. Each fails at the other's job: a figure full of sentences is a paragraph in a box, and three paragraphs carrying a comparison are a table nobody drew.",
+   "techniques": [
+    "depth-and-audience/depth-by-replacement",
+    "figures-and-tables/designed-comparison-tables",
+    "figures-and-tables/label-length-figure-text",
+    "figures-and-tables/one-message-per-figure",
+    "figures-and-tables/visual-cadence"
+   ]
+  },
+  "a-claim-travels-with-its-counter-evidence": {
+   "statement": "The thesis is stated together with where it fails, what contradicts it and what the evidence does not settle. A post that presents only the supporting half is persuasion, and an expert reader discounts the whole page the moment they recall the half that was left out.",
+   "techniques": [
+    "depth-and-audience/four-layer-depth",
+    "evidence-and-sources/counter-evidence-alongside-the-thesis",
+    "evidence-and-sources/inference-labelled-as-inference"
+   ]
+  },
+  "current-data-or-labelled-history": {
+   "statement": "The comparison a post draws is between the things a reader can use today. Older systems, older prices and older benchmarks appear only as history, labelled as history and given no more room than the line they earn. A table built on last generation's figures is not a weaker argument; it is an argument about a world the reader no longer lives in.",
+   "techniques": [
+    "depth-and-audience/non-obvious-detail-selection",
+    "evidence-and-sources/dated-current-data"
+   ]
+  },
+  "report-the-topic-not-the-author": {
+   "statement": "The subject of the sentences is the mechanism, the system or the measurement, never the writer's afternoon. Results are stated about the thing measured; how they were obtained is stated impersonally and logged in full where a reader can repeat it.",
+   "techniques": [
+    "evidence-and-sources/own-measurement-disclosure",
+    "voice-and-register/impersonal-results-reporting",
+    "voice-and-register/sentence-rhythm-and-stress"
+   ]
+  },
+  "check-the-page-where-it-is-read": {
+   "statement": "A post is verified on the surface its reader will use, in both colour schemes and at the narrow and the wide viewport, after it has been translated to the target platform's capabilities. A source that renders well in the authoring tool proves nothing about the page a reader opens.",
+   "techniques": [
+    "figures-and-tables/text-alternative-for-figures",
+    "medium-format-fidelity/highlighted-code-blocks",
+    "medium-format-fidelity/light-and-dark-rendering",
+    "medium-format-fidelity/reading-column-and-type-scale",
+    "medium-format-fidelity/target-platform-capability-map",
+    "medium-format-fidelity/two-viewport-verification"
+   ]
+  },
+  "a-check-names-a-property-and-a-span": {
+   "statement": "A quality finding about a draft names a text property and the span that shows it: a first-person sentence, an undated number, a figure with four lines of prose inside it. It never rests on a detector score or on a judgment that the text \"sounds generated\". A finding that cannot point at a span cannot be fixed, and a fix that cannot be checked again was not one.",
+   "techniques": [
+    "voice-and-register/house-style-consistency",
+    "voice-and-register/impersonal-results-reporting",
+    "voice-and-register/machine-prose-tell-removal"
+   ]
+  }
+ }
+}

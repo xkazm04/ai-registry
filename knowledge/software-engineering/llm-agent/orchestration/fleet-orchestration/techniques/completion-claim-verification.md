@@ -117,6 +117,25 @@ tool reports the call as successful whenever it returned text, and a
 non-zero exit is text. Where no marker exists, the meta status is the
 fallback and the verdict says which it used.
 
+**That fallback may refuse a pass; it may never grant one.** A meta status
+that is set to success whenever text came back carries no information about
+the exit, so on a shell result whose marker is missing it can only ever say
+success - and the field shows how a marker goes missing on a command that
+failed: every stage that rewrites the output after the command ran. A size
+budget that swaps a long result for a preview, an audit layer that appends
+its warning after the last line, a wrapper that rebuilds the message from a
+few fields - each moved or dropped the marker, the checker fell back to the
+success flag, and a failed test run whose output still printed a passing
+count satisfied the criterion. One harness paid for this twice in a month and
+fixed it at each rewriter in turn, which leaves the hole open for the next
+one. Fix it at the checker instead: a missing marker on a tool whose meta
+status cannot report failure is UNVERIFIED, exactly like a truncated tail
+([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+Marker preservation is then still worth doing - it is what keeps long
+commands verifiable - but it becomes a coverage property of every stage that
+touches the output after execution, not of the length cap alone, and a stage
+that forgets it costs a verdict instead of manufacturing one.
+
 ## Layer three: provenance — a run inside the worker's session proves nothing
 
 The subtlest leaf is `the tests passed`. The parent finds a matching
@@ -219,6 +238,9 @@ made from the sentence rather than from the word "done"
   execution leaf.
 - Bound every read and every stored piece of evidence, and make truncation
   degrade the verdict rather than certify a prefix.
+- Read a lost exit marker as UNVERIFIED, never as the tool's success flag;
+  every stage that rewrites output after execution must keep the marker or
+  cost the verdict.
 - Carry criteria in the untrusted channel and verdicts as server-owned
   fields; strip both from any external source.
 

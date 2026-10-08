@@ -5,14 +5,15 @@ subject: agent-runtime-assembly
 technique: semantic-hook-placement
 stack: python
 status: forged
-verified_on: 2026-09-02
+verified_on: 2026-10-06
 verified_against: python@3.12
 ---
 
 # Semantic hook placement in the deer-flow harness
 
 How a LangChain/LangGraph agent harness — ByteDance's deer-flow, at commit
-`08b27aef`, read from its own clone — realizes placement classes, one
+`08b27aef`, read from its own clone, and re-verified at `53df22bd`
+(2026-10-06; every line number below is the newer commit's) — realizes placement classes, one
 composition point, and compose-time ordering invariants over a middleware
 chain that wraps the model call and the tool call. Every path below is under
 `backend/`; the module guides (`AGENTS.md`) are the tree's own source of
@@ -20,28 +21,28 @@ truth for agent guidance and are cited as such.
 
 ## The chain, and why order is a contract
 
-The lead agent's middleware list is assembled "in strict order across three
-functions": a shared runtime base, then lead-only middlewares appended
-after it (`packages/harness/deerflow/agents/middlewares/AGENTS.md:5`).
+The lead agent's middleware list is assembled in a fixed order: a shared
+runtime base, then lead-only middlewares appended after it - "then
+`../lead_agent/agent.py::build_middlewares` appends lead-only entries"
+(`packages/harness/deerflow/agents/middlewares/AGENTS.md:25`).
 LangChain's composition rule makes the first list item the outermost
 wrapper (`packages/harness/deerflow/extensions/stack.py:10`), so list order
 is nesting order. The guide states the technique's headline invariant in the
 tree's own words: `ToolReceiptMiddleware` "is the **outermost `wrap_tool_call`
-layer** — registered ahead of entries 9-12 — because
-Guardrail/SandboxAudit/ReadBeforeWrite/ToolProgress can short-circuit a call
-with their own ToolMessage ...; an inner receipt layer would silently gap the
-ledger on those results" (`middlewares/AGENTS.md:70`). The other two
-invariants the technique names are there too: the write-freshness gate "sits
-outside ToolProgressMiddleware and ToolErrorHandlingMiddleware so a blocked
-write returns immediately without consuming a ToolProgress slot"
-(`middlewares/AGENTS.md:68`), and `InputSanitizationMiddleware` is "first,
+layer** — registered ahead of authorization, audit, write and progress gates —
+because Guardrail/SandboxAudit/ReadBeforeWrite/ToolProgress can short-circuit a
+call with their own ToolMessage ...; an inner receipt layer would silently gap
+the ledger on those results" (`middlewares/AGENTS.md:86`). The other two
+invariants the technique names are there too: the write-freshness gate "Sits
+outside ToolProgress/ToolErrorHandling (a block consumes no ToolProgress
+slot)" (`middlewares/AGENTS.md:84`), and `InputSanitizationMiddleware` is "first,
 so it is the outermost `wrap_model_call` wrapper; every inner middleware
-(including LLM retries) sees sanitized messages" (`middlewares/AGENTS.md:39`).
+(including LLM retries) sees sanitized messages" (`middlewares/AGENTS.md:50`).
 
 ## Placement classes instead of indices
 
 The public extension contract (`packages/extension-api/`, which "must never
-import `deerflow`", `extensions/AGENTS.md:138`) defines the class vocabulary
+import `deerflow`", `extensions/AGENTS.md:146`) defines the class vocabulary
 as a string enum: `MODEL_LOGICAL`, `MODEL_PHYSICAL`, `TOOL_VISIBLE`,
 `TOOL_RAW`, `STANDARD`
 (`packages/extension-api/deerflow_extension_api/placement.py:20-38`). A
@@ -49,7 +50,7 @@ contribution is a `MiddlewarePlacement` carrying `scope` (lead, subagent,
 both) and an integer `order` beside the class (`placement.py:53, 69-70`).
 The guide's framing is the technique's: contributions "declare lead/subagent
 scope, stable order, and a semantic placement ... rather than a fragile list
-index" (`extensions/AGENTS.md:142-144`).
+index" (`extensions/AGENTS.md:150-152`).
 
 Classes resolve to positions through an **anchor table** keyed on host
 middleware classes: `MODEL_LOGICAL` is `outer_of(LLMErrorHandlingMiddleware)`
@@ -86,7 +87,7 @@ in" (`stack.py:180-186`).
 ## One composition point
 
 `compose_with_extensions()` is "the single final composition point"
-(`extensions/AGENTS.md:144-145`): "Call this once, at the end of the
+(`extensions/AGENTS.md:153-154`): "Call this once, at the end of the
 outermost builder. Calling it inside the base builder would place
 MODEL_PHYSICAL contributions above the ~18 lead-specific middlewares
 appended afterwards" (`stack.py:134-145`). It merges contributions via
@@ -117,7 +118,7 @@ because they read the meta it stamps, and `ToolReceiptMiddleware` outer of
 every short-circuiter — `GuardrailMiddleware`, `SandboxAuditMiddleware`,
 `ReadBeforeWriteMiddleware`, `ToolProgressMiddleware` — with the reason
 "those results never get a receipt and the ledger silently gaps"
-(`ordering.py:86-110`).
+(`ordering.py:89-127`).
 
 ## The deferred-call rule, kept in one file and broken in the next
 
@@ -125,7 +126,7 @@ The guide's rule for the import cycle between `extensions/` and
 `agents.middlewares` is precise: both tables "resolve on first use", and
 "Defer by deferring the *call*; do not fake a resolved value with a lazy
 container subclass, which reports one answer when iterated and another when
-measured" (`extensions/AGENTS.md:148-155`). `core_ordering_constraints()`
+measured" (`extensions/AGENTS.md:157-164`). `core_ordering_constraints()`
 follows it — a `@cache`d function whose docstring records the predecessor
 defect: a `tuple` subclass overriding only `__iter__` "reported an empty
 sequence while iteration yielded the real constraints"
