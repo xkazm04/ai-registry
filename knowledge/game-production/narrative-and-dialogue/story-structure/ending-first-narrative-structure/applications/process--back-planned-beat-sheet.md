@@ -16,7 +16,7 @@ cards, a ledger of debt to the league boss Marrow, a car seizure, regional bosse
 into allies, and a finale fought to the death in a rig the young Mechanic builds. The
 material is three of the four research dossiers written for its narrative lead on
 2026-10-04, in the `firetv-deathride` tree under `docs/narrative/research/`; every anchor is
-root-relative to that tree (`C:\Users\kazda\kiro\firetv-deathride`). No sheet has been
+root-relative to that tree (`firetv-deathride`). No sheet has been
 written yet. What follows is the sheet's content as the dossiers already supply it, the
 checks they pass and fail, and what nobody has tested — which is all of it, in play.
 

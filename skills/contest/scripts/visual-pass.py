@@ -68,6 +68,10 @@ def main():
                     page.wait_for_timeout(a.settle * 1000)
                     tag = f"{letter}-{variant}-{w}x{h}"
                     page.screenshot(path=str(out / f"{tag}-load.png"))
+                    # The words the page renders, once per variant: `wrap` archives them after the source is gone.
+                    text_file = out / f"{letter}-{variant}-text.txt"
+                    if not text_file.exists():
+                        text_file.write_text(page.evaluate("() => document.body ? document.body.innerText : ''"), encoding="utf-8")
                     counts = page.evaluate("""() => ({
                         text: document.body.innerText.length,
                         canvas: document.querySelectorAll('canvas').length,

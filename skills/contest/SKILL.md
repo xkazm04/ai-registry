@@ -1,11 +1,11 @@
 ---
 name: contest
-description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|status <id> to drive one step."
+description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief; a wrap step then keeps every variant as notes and screenshots and the winner's source. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.9.0
+version: 1.9.1
 tags: contest, prototyping, ui, landing, multi-model, blind-judging, vault
-argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|status <id>"
+argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id>"
 ---
 
 # Contest - three seats, three ideas each, one blind panel
@@ -45,7 +45,7 @@ resumes by re-running the same command.
 /contest "<idea>" --participants claude:opus@xhigh,grok:grok-4.6@high,codex:gpt-5.6-sol@high
 /contest "<idea>"                      # UI roster: claude:claude-sonnet-5-5@max,claude:claude-opus-5-5@xhigh
 /contest --landing "<idea>"            # landing / representative page preset (see Landing contests)
-/contest init|run|collect|judge|aggregate|reveal|router|verdict|refine|status <id>
+/contest init|run|collect|judge|aggregate|reveal|router|verdict|refine|wrap|status <id>
 ```
 
 **The UI roster.** When a call names no participants (and the overlay sets none), `init` seats
@@ -54,7 +54,7 @@ first landing contest Sonnet at max effort held level with Opus at xhigh - the o
 its three variants forward - at about 1.4x the wall time and cost. Name participants explicitly for
 a design (backend) contest or a cross-family field.
 
-The full form runs steps 1 to 8 below with a pause before the verdict. The step form drives one
+The full form runs steps 1 to 8 below with a pause before the verdict, and ends with step 10 (wrap). The step form drives one
 step and is what a resumed session uses. Under the hood every step is:
 
 ```
@@ -385,6 +385,28 @@ procedure, and the drifts it has already caught, are in **`references/promotion.
 When the owner names an existing product surface as the style reference, extract it into shared
 components, migrate that surface onto them, and prove the migration with the same instrument.
 Report the before/after deviation counts; "it compiles and the tests pass" is not a promotion.
+
+## 10. Wrap - archive the field, keep the winner
+
+**A decided contest is an audit record, not a gallery.** The first fleet survey found 18 GB of
+arenas behind 84 contests. One losing seat's stray Unity project took 9 GB, and an 800 MB
+`node_modules` sat beside a 15 MB variant. Every contest ends with this step, right after the
+verdict:
+
+```
+node <skill>/scripts/contest.mjs wrap --id <slug>            # dry run: what goes, what stays, bytes
+node <skill>/scripts/contest.mjs wrap --id <slug> --apply [--lessons <file|text>]
+```
+
+It works on the whole family (first round, reveal, refinement and fuse rounds), and only when
+every last round is decided. A pending round leaves everything untouched (exit 3). An owner who
+ended a contest with no winner is recorded with `--close "<their reason>"`. Per variant it keeps
+the seat's Markdown, the page's text, the reveal's **Why this design** and the screenshots, under
+`archive/<letter>-<n>/`. It also keeps the decision, verdicts, run records and briefs, plus the
+**winner's source** for the promotion (`--release-winner` after it). It removes every other
+implementation, the copies, staged data, losing seats' strays and rebuildable trees. It never
+enters a link. **No screenshot, no deletion:** a variant without one keeps its source until the
+visual pass has run and `wrap` runs again. The full contract is in **`references/wrap.md`**.
 
 ## Project overlay
 

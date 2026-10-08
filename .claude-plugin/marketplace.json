@@ -118,7 +118,7 @@
       "name": "contest",
       "source": "./skills/contest",
       "description": "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual ",
-      "version": "1.9.0",
+      "version": "1.9.1",
       "category": "workflow",
       "tags": [
         "contest",
@@ -134,7 +134,7 @@
       "name": "council",
       "source": "./skills/council",
       "description": "Strict, evidence-first triage of ONE already-built feature or ONE architecture redesign, ending at a human gate the method itself may never pass. Bounded members each answer a single question - worth to the user, workmanship, prior art, resilience, running cost, undo cost - reading only an evidence pack built from the tree, never the implementer's own account and never another member's answer. Mec",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "category": "workflow",
       "tags": [
         "triage",
@@ -143,7 +143,8 @@
         "floors",
         "rounds",
         "receipt",
-        "supersede"
+        "supersede",
+        "lite"
       ]
     },
     {

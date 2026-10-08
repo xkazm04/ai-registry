@@ -7,7 +7,6 @@ use_when: [making a video for a song that already exists and will not change, a 
 techniques:
   - track-map-before-treatment
   - form-follows-what-the-track-gives
-  - performer-stem-conditioning
   - segment-on-the-master-clock
   - coverage-across-the-phrase
   - cut-rate-follows-the-section
@@ -30,18 +29,16 @@ that look good, drop the song underneath, and slide the clips around by ear unti
 the cuts feel right. Three things break at once. The cuts land near the beat rather
 than on it, because a cut placed by eye against a waveform is a guess, and a guess
 repeated across two hundred cuts is a film that feels slightly drunk. The performer
-sings to whatever audio the generator was handed. Given the full mix, the face
-mouths the backing vocals, the ad-libs and the instrumental intro, because nothing
-told it which voice was its own. And the song is longer than any generator will
+sings to whatever audio the generator was handed, and a mix carries voices that
+are not hers. And the song is longer than any generator will
 emit in one request, so it arrives in pieces whose seams were chosen by the clip
 cap, each piece on its own little clock, drifting against the master by an amount
 nobody measured until a lip visibly misses a word in the second chorus.
 
-Three inversions replace it, and they are the whole subject:
+Two inversions replace it, and a third question is still open:
 
 > **The track is analysed once into a map, and every shot is addressed in the map's
-> units. A sung shot is conditioned on the voice the face owns, never on the mix.
-> Every piece of picture carries its offset on the master clock as data, and the
+> units. Every piece of picture carries its offset on the master clock as data, and the
 > cut is placed by that offset, never by eye.**
 
 ## The track is given, so the film starts with a map
@@ -70,12 +67,19 @@ expensive moment available.
 A mouth on screen singing a word is the one element of a music video every viewer
 can verify against the soundtrack, and the tolerance is small: sound running ahead
 of picture is noticed within a few tens of milliseconds. So a sung shot is a
-precision instrument, and it is conditioned like one. The conditioning audio holds
-exactly the voice the performer on screen owns, for exactly the interval the shot
-covers ([performer-stem-conditioning](./techniques/performer-stem-conditioning.md)).
-That technique is the least verified in the subject and is marked as such: what a
-given generator does with a stem, with silence in a stem, and with time-stretched
-audio is a render question, and its rules are held until renders answer it.
+precision instrument. Where the generator is driven by audio, the open question is
+what that audio should hold: the full mix, or only the voice the face on screen
+owns, over only the shot's interval. The singing-face literature reports that a
+model trained on the plain mix keeps the mouth open through silences, and one
+practitioner reports a face mouthing ad-libs and an instrumental intro until it was
+handed the isolated lead. This bundle has rendered the comparison once, on one
+reference-conditioned model, at one seed and without a seed control. The face did
+not mouth the instrumental bed with either input. Under the full mix it opened late
+in a second voice's ad-lib, where the stem-conditioned face stayed closed. A
+reviewer preferred the stem-conditioned clip at full length and could not separate
+the two in mouth close-ups. That is a direction, not a rule, so the corpus does not
+yet carry a technique for it. Until it does, keep the per-voice activity map anyway,
+because the seams and the cut points read it whatever the generator is handed.
 
 The film arrives in segments because the song is longer than the clip cap. The
 segments are cut on phrase boundaries from the map, with handles, and each carries
@@ -196,8 +200,8 @@ proportionally produces exactly the failure that subject exists to prevent.
 - The form is decided by what the track gives and what the pipeline can keep in
   sync. A performance the pipeline cannot hold is a performance that will be cut
   around in the edit.
-- A sung shot is conditioned on its performer's own voice for its own interval.
-  The full mix is the instruction to sing everyone's part.
+- Where a generator is driven by audio, what it hears is what it may mouth. Whether
+  it should hear only the owned voice has been measured once and is still open.
 - A segment that does not carry its master offset as data will be placed by eye,
   and the error will show on the first held word.
 - Coverage is in sync by construction or not at all. The editor owns the cut
@@ -215,9 +219,6 @@ proportionally produces exactly the failure that subject exists to prevent.
 - [form-follows-what-the-track-gives](./techniques/form-follows-what-the-track-gives.md)
   — the ladder of forms, chosen by the track's content and the pipeline's sync
   capacity, cheapest rung first.
-- [performer-stem-conditioning](./techniques/performer-stem-conditioning.md) —
-  each sung shot conditioned on its performer's isolated voice for its interval;
-  render-bound and held for a render verdict.
 - [segment-on-the-master-clock](./techniques/segment-on-the-master-clock.md) —
   phrase-boundary segments with handles, master offsets carried as data, and the
   drift arithmetic that checks them.

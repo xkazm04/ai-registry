@@ -1,11 +1,11 @@
 ---
 name: council
-description: "Strict, evidence-first triage of ONE already-built feature or ONE architecture redesign, ending at a human gate the method itself may never pass. Bounded members each answer a single question - worth to the user, workmanship, prior art, resilience, running cost, undo cost - reading only an evidence pack built from the tree, never the implementer's own account and never another member's answer. Mechanical members go first and an early exit stops the round on a security hard-fail or a measured floor; the judged ones then run in parallel. The arithmetic renormalises over what was actually measured, so a gap lowers coverage instead of becoming a fake zero. Outcomes are ready, fail, incomplete or stalled, and not one of them admits anything. Rounds are capped at three, a content receipt decides what must be re-examined, and a superseded verdict is kept rather than rewritten. Reach for this when an autonomous builder reports that a major piece of work is finished and a person is about to be asked to accept it. Invoke with /council <feature-slug|adr-slug> [--kind use_case|architecture] [--round] [--members a,b]."
+description: "Strict, evidence-first triage of ONE already-built feature or ONE architecture redesign, ending at a human gate the method itself may never pass. Bounded members each answer a single question - worth to the user, workmanship, prior art, resilience, running cost, undo cost - reading only an evidence pack built from the tree, never the implementer's own account and never another member's answer. Mechanical members go first and an early exit stops the round on a security hard-fail or a measured floor; the judged ones then run in parallel. The arithmetic renormalises over what was actually measured, so a gap lowers coverage instead of becoming a fake zero. Outcomes are ready, fail, incomplete or stalled, and not one of them admits anything. Rounds are capped at three, a content receipt decides what must be re-examined, and a superseded verdict is kept rather than rewritten. Reach for this when an autonomous builder reports that a major piece of work is finished and a person is about to be asked to accept it. --lite is a headless pass of three rows per finished feature, never an approval. Invoke with /council <slug> [--lite] [--kind use_case|architecture] [--round <n>] [--members a,b]."
 category: workflow
 memory: vault
-version: 0.3.1
-tags: triage, evidence-pack, human-gate, floors, rounds, receipt, supersede
-argument-hint: "<feature-slug | adr-slug> [--kind use_case|architecture] [--round] [--members a,b]"
+version: 0.4.0
+tags: triage, evidence-pack, human-gate, floors, rounds, receipt, supersede, lite
+argument-hint: "<feature-slug | adr-slug> [--lite] [--kind use_case|architecture] [--round <n>] [--members a,b]"
 ---
 
 # Council - many bounded readers, one honest number, and a person who decides
@@ -31,7 +31,9 @@ a rescore is visible as a version change instead of as a number that moved on it
 ## Roles
 
 - **Director** - the session running this skill. Resolves the subject, builds the evidence
-  pack, runs the members, synthesises, writes the vault. Never scores a dimension itself.
+  pack, runs the members, synthesises, writes the vault. Never scores a dimension itself -
+  except in **lite mode**, where there are no members and this session is the one judge,
+  which is exactly why lite is never an approval.
   When the invocation is `council x implementation`, the Director also fixes `must_address`
   **between rounds** - as the implementer, never as a member, and its account of the fix
   never enters the next pack.
@@ -45,13 +47,16 @@ a rescore is visible as a version change instead of as a number that moved on it
 ## Invocation
 
 ```
-/council <feature-slug | adr-slug> [--kind use_case|architecture] [--round] [--members a,b]
+/council <feature-slug | adr-slug> [--kind use_case|architecture] [--round <n>] [--members a,b]
+/council <feature-slug> --lite [--round <n>]
 ```
 
 `--kind` defaults to `use_case`; an ADR-shaped slug the overlay's decision directory
-resolves defaults to `architecture`. `--round` forces the round number (normally derived
+resolves defaults to `architecture`. `--round <n>` forces the round number (normally derived
 from the run directory). `--members` restricts the round to named dimensions - for a
 re-judge after a targeted fix; the unnamed ones carry forward only when drift allows it.
+`--lite` is ONE pass by this session over three rows of `feature-v1` - see **Lite mode**
+below; it takes no `--kind` (a redesign always goes to the full council) and no `--members`.
 **The method runs with no overlay at all**; say in the opening line when defaults are in
 force and what was detected.
 
@@ -89,13 +94,18 @@ force and what was detected.
    absence**: a subject that declares no branches is judged exactly as it was before
    scenarios existed, and the report says so in a line rather than implying breadth.
 6. **Round** - count the existing run directories for this subject. A run directory is named
-   **`<YYYY-MM-DD>-<slug>-r<n>`**, and "for this subject" means the directories whose name
-   contains `-<slug>-r`; the round is the highest `<n>` found, plus one. The convention is
+   **`<YYYY-MM-DD>-<slug>-r<n>`**, and "for this subject" means the directories whose WHOLE
+   name is that pattern for this slug (a substring match also catches a subject whose slug
+   merely ends in this one); the round is the highest `<n>` found, plus one. The convention is
    written down because it is the only thing that makes the count reproducible - a Director
    that invents its own naming cannot collide-detect against the runs a previous Director
    left. **Round 4 is refused**:
    write a result with `outcome: "stalled"` and stop. Three rounds that did not converge is
    an honest end and a reason for a person to look, not a reason to try again.
+   **Rounds are counted per mode**: a lite pass lives in `<YYYY-MM-DD>-<slug>-lite-r<n>` and
+   never burns one of the council's three rounds. `council.mjs round --runs-dir <runs>
+   --slug <slug> [--mode lite]` does the count, prints the next `run_id` and the
+   `supersedes_run_id`, and says when the next round is past the cap.
 
 ## 1. Receipt and drift
 
@@ -127,8 +137,8 @@ detection heuristic in full) and `tests_outnumber_sources`. A span is inherited 
 repo's own feature map and that map can be wrong; the digest gives whatever it names the
 authority of a measurement, so the receipt says what it noticed and lets a person judge it.
 
-Write `started.json` now: `run_id`, `subject`, `summary`, `rubric_version`, `round_no`,
-`supersedes_run_id`, `trust_state`, `receipt`, and
+Write `started.json` now: `run_id`, `mode` (`full`, or `lite`), `subject`, `summary`,
+`rubric_version`, `round_no`, `supersedes_run_id`, `trust_state`, `receipt`, and
 `disclosures: { missing, orphan_tests, tests_outnumber_sources }` copied from the receipt.
 Repeat the disclosures in the pack index, where a member reads them.
 
@@ -339,6 +349,53 @@ Only when the invocation dispatched `council x implementation`:
    Director, because the Director is the one who would be believed.
 5. There is no round 4.
 
+## Lite mode - `--lite`
+
+> One pass, three rows, the council's own vocabulary. The one field run of the full council
+> cost ~882k cumulative tokens and ~26 minutes (`LESSONS.md`, 0.2.0) - a price for a major
+> subject, not for every finished feature. Lite is how every feature gets the council's
+> feedback. It is never how a feature gets the council's verdict.
+
+**When to use it.** Every feature an autonomous builder reports finished, before it goes
+anywhere near a person: the cheap first read whose `must_address` the builder reworks from.
+**The full council stays** for a subject its dispatcher tiers major, for every architecture
+subject, and for any subject a person asks to see judged in full. A lite `ready` on a major
+subject is the ticket to the full council, never a way past it. Run lite in a session that
+did not build the subject; a builder reviewing its own work is the failure the pack rule
+exists to prevent, and when no other session is available the summary says so in its first
+sentence.
+
+**What it does not judge** - and the report says so every time:
+
+- **`rivalry` and `economics`.** The instrument records them `unmeasured` with a fixed
+  reason ("Not judged in lite mode ..."); the session never writes them. They stay in the
+  coverage denominator, so a complete lite pass over `feature-v1` reads **coverage 0.70** -
+  "this rests on 70% of the rubric" - and they add **no** `must_address` line, because the
+  scope of a review is not work an implementer can do. Never `not_applicable`: both rows
+  exist for this subject, and nobody looked.
+- **Branches.** Lite is not required to score declared scenarios. When `--state` declares
+  them, the envelope shows the in-scope ones `unmeasured`, which is the truth.
+- **Independence.** One session judged all three rows, so value and craft are one opinion,
+  not two blind members. `trust_state` comes only from a `Calibration.md` entry that
+  measured the lite pass itself - a calibration of council members says nothing about a
+  single pass - so it is `uncalibrated` until one exists, and the judged floors are advisory.
+- **Architecture subjects.** Refused; a redesign goes to the full council.
+
+**What it does.** The phases above, in their order, over the same pack with the same
+exclusions - with lite rounds counted on their own (`round --mode lite`) and the session in
+place of the members. Robustness goes first and keeps the early exit; value then craft
+follow, each by its own member brief,
+with no web lookups and L1 only; each verdict is written and validated before the next row
+is read. **The order of work is `references/lite-mode.md` - read it before the first step.**
+It is headless by contract: it runs under `claude -p`, asks no question at any point (no
+`AskUserQuestion`), and records anything that would need an answer where a reader finds it.
+
+**Never an approval.** The outcome set is the council's - `ready`, `fail`, `incomplete`,
+`stalled` - and a lite `ready` means less than a council `ready`: clean enough for the next
+step the dispatcher chose, the full council for a major subject or the human gate for the
+rest. It is never shown to a person as the council's verdict; the report and the summary
+say `lite` in their first line, and the result carries `mode: "lite"`.
+
 ## Report (what the session says at the end)
 
 In this order: **the envelope in one sentence** - where the verdict holds, where it is
@@ -391,7 +448,9 @@ market_brief_days: 30                 # cache life of a prior-art read  [30]
 - **An approval is an envelope.** A mean that hides a failing must-hold branch is not a
   verdict, the product declares which branches must hold, and a member may propose a branch
   but never promote one.
-- Three rounds. Then `stalled`, and a person looks.
+- Three rounds. Then `stalled`, and a person looks. Counted per mode.
+- **Lite is feedback, never a verdict.** One pass over three rows; it never stands in for
+  the full council on a major subject and never reaches a person labelled as the council.
 - Supersede, never rewrite.
 - **The skill never admits.** There is no code path, no flag and no prose that makes it.
 

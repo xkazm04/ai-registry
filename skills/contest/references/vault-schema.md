@@ -50,3 +50,7 @@ its own (`<id>-r<round>`) and gets its own note when it is decided; link the two
 - Entry artefacts stay in the arena (`<arena>/<id>/entries/`), not in the vault; the note links
   the winner's path. Promote a winner into a product by copying it out of the arena in a
   separate, reviewed change.
+- After the decision, `contest.mjs wrap` archives every variant as its notes and screenshots under
+  `<arena>/<id>/archive/`, keeps the winner's source, and adds a `## Wrapped` section to the
+  contest note with the archive link and the bytes reclaimed. The archive stays in the arena:
+  screenshots would make the vault heavy, and the note is what Obsidian needs.

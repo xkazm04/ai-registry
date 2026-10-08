@@ -11,6 +11,7 @@ techniques:
   - post-cook-process-liveness-smoke
   - size-budget-and-growth-baseline
   - fail-closed-on-corrupt-gate-config
+  - ship-only-what-the-runtime-reads
 ---
 
 # Ship pipeline gating
@@ -167,6 +168,15 @@ The corollary at the other end: a growth allowance against a moving baseline rat
 Ten percent per build, accepted ten times, is a doubling that no single gate ever
 objected to. The absolute budget is what stops the ratchet, and it is the reason both
 comparisons must exist rather than either alone.
+
+A size gate that fires says how much, not what. The cut that is both largest and safest is
+rarely compression; it is whatever the shipped game never opens — audit and test material
+packaged because a rule included its directory, code only the development build reaches,
+native libraries for architectures the device cannot load. The question that finds it is a
+census of the runtime's readers, and the cuts it licenses are exclusion by packaging rule,
+shrinking in the shipping configuration only with a launch on the device as its proof, and
+architecture trimming once the device has answered
+(`ship-only-what-the-runtime-reads`).
 
 ## Failing closed is a design position, not an error path
 

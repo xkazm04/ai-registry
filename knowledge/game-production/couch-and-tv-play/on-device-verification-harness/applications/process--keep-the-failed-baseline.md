@@ -10,7 +10,7 @@ verified_on: 2026-10-01
 
 # A soak that failed, a probe that disturbed it, and the report that kept both
 
-Source tree `C:\Users\kazda\kiro\firetv-deathride` (root of every path below). The stack is `process`: the
+Source tree `firetv-deathride` (root of every path below). The stack is `process`: the
 realization is a measurement history across reports and pitfall logs, not a single module. One streaming stick, one
 controlling machine, scripted clients, emulated touch. Nothing was felt; the optical figures were never
 collected.

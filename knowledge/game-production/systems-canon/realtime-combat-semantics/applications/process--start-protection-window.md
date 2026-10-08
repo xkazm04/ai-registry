@@ -10,7 +10,7 @@ verified_on: 2026-10-01
 
 # A first-pass opening that failed, and the four seconds that fixed it
 
-Source tree: the combat-racing game's repository (`C:\Users\kazda\kiro\firetv-deathride`). The
+Source tree: the combat-racing game's repository (`firetv-deathride`). The
 claims below are read from its design note and its combat code. Everything about outcomes
 is a **seeded simulated sample of 20 races**; no person has played combat, and fairness,
 feel and comfort are not measured.

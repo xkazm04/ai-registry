@@ -191,16 +191,16 @@
     },
     {
       "name": "contest",
-      "version": "1.9.0",
+      "version": "1.9.1",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:d59271fe40f1b89b",
+      "contentHash": "sha256-n1:b54351bba54400c3",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 15,
+      "lessons": 16,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:c5bb039d6c4ccfee",
+      "lessonsHash": "sha256-n1:30190820650fd4f8",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -210,16 +210,16 @@
     },
     {
       "name": "council",
-      "version": "0.3.1",
+      "version": "0.4.0",
       "category": "workflow",
       "path": "skills/council/SKILL.md",
-      "contentHash": "sha256-n1:c882650f19533af4",
+      "contentHash": "sha256-n1:0f1363e1bdba6d99",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 3,
+      "lessons": 4,
       "lessonsPath": "skills/council/LESSONS.md",
-      "lessonsHash": "sha256-n1:e7022b100d971211",
+      "lessonsHash": "sha256-n1:bffc8b2a66658025",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1034,7 +1034,7 @@
     "skills": 39,
     "practices": 8,
     "memory": 9,
-    "lessons": 302
+    "lessons": 304
   },
   "bundles": [
     {
@@ -1070,11 +1070,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 78,
-      "techniques": 508,
-      "applications": 206,
-      "files": 796,
-      "contentHash": "sha256-b2:8d2e5b93891ff097"
+      "subjects": 79,
+      "techniques": 526,
+      "applications": 224,
+      "files": 833,
+      "contentHash": "sha256-b2:80421c7756faf51d"
     },
     {
       "name": "grant-funding",
@@ -1136,10 +1136,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 26,
-      "techniques": 188,
+      "techniques": 187,
       "applications": 96,
-      "files": 315,
-      "contentHash": "sha256-b2:02537408b91defd5"
+      "files": 314,
+      "contentHash": "sha256-b2:870564ecd8e46fc7"
     },
     {
       "name": "recruiting",
@@ -1165,7 +1165,7 @@
       "techniques": 1834,
       "applications": 1242,
       "files": 3314,
-      "contentHash": "sha256-b2:f6c94f3ff6d2f9c8"
+      "contentHash": "sha256-b2:baf7117251dc72d0"
     },
     {
       "name": "technical-writing",

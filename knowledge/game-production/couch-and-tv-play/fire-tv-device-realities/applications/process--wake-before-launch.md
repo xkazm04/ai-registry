@@ -10,8 +10,8 @@ verified_on: 2026-10-01
 
 # The sleeping display, written down once and never coded
 
-Source tree: `C:\Users\kazda\kiro\firetv-deathride` (root for the paths below); the
-proof-of-concept repo `C:\Users\kazda\kiro\firetv` is named where used. One streaming stick,
+Source tree: `firetv-deathride` (root for the paths below); the
+proof-of-concept repo `firetv` is named where used. One streaming stick,
 a 4K model reported at 1.7 GB, 32-bit userland only. The stack is `process`: the
 realization is a pitfall log and a written rule for the build agents, not a launcher.
 Nothing here was felt by a person, and every statement is about this single unit.

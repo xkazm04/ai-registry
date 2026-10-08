@@ -279,3 +279,139 @@ test('presets: --landing brings the UI seats, owner review and the landing bar; 
   assert.match(reviewLines('owner').review_line, /owner/);
   assert.match(reviewLines('panel').rubric_intro, /1 to 10/);
 });
+
+test('wrap: a family is decided only when its last round is, and the winner keeps its source', async () => {
+  const { familyState, shotsFor, isRebuildable, extractById, upsertSection } = await import('../scripts/lib/wrap.mjs');
+  const root = { id: 'x', shortlist: [{ label: 'A/1' }] };
+  const r2 = { id: 'x-r2', parent: 'x' };
+  const reveal = { id: 'x-reveal', parent: 'x', kind: 'reveal' };
+  assert.deepEqual(familyState([{ c: root }, { c: r2 }, { c: reveal }]).open, ['x-r2'], 'a refinement round waiting on the owner keeps the family open');
+  const won = familyState([{ c: root }, { c: { ...r2, winner: { label: 'B/1' } } }, { c: reveal }]);
+  assert.equal(won.decided, true, 'a reveal is covered by its parent; the last round decides');
+  assert.deepEqual(won.keep, [{ id: 'x-r2', key: 'B/1', why: 'winner' }]);
+  assert.deepEqual(familyState([{ c: { id: 'm', winner: { label: 'C/2' } } }, { c: { id: 'm-reveal', parent: 'm', kind: 'reveal' } }]).keep,
+    [{ id: 'm', key: 'C/2', why: 'winner' }, { id: 'm-reveal', key: 'C/2', why: 'winner (mastered)' }], 'the winner\'s mastered version keeps its source too');
+  assert.equal(familyState([{ c: { id: 'y', winner: 'A/2' } }, { c: { id: 'y-r2', parent: 'y' } }]).decided, false, 'a round opened after a winner is still pending');
+  assert.equal(familyState([{ c: { id: 'z', closed: { reason: 'not grounded' } } }]).decided, true, 'closed with no winner is a decision');
+  assert.deepEqual(familyState([{ c: { id: 'k', combined: ['A/2', { label: 'B/3' }] } }]).keep.map((k) => k.key), ['A/2', 'B/3']);
+
+  assert.deepEqual(shotsFor(['visual/A-1-1280x800-load.png', 'visual/A-10-1280x800-load.png', 'keyboard/A-1-2-help.png', 'visual/A-1-notes.md', 'B-1-load.png'], 'A', 1),
+    ['visual/A-1-1280x800-load.png', 'keyboard/A-1-2-help.png'], 'A/1 is not A/10, and only images count');
+  assert.ok(isRebuildable('node_modules', []));
+  assert.ok(!isRebuildable('build', ['index.html']), 'a variant\'s own build/ is content, not output');
+  assert.ok(isRebuildable('dist', ['package.json', 'src']));
+  assert.ok(isRebuildable('Library', ['Assets', 'ProjectSettings']) && !isRebuildable('Library', ['index.html']));
+
+  const html = '<main><section id="reveal"><h2>Why this design</h2><table><tr><th>Axis</th><th>Mine</th></tr><tr><td>Wow</td><td>Depth &amp; motion</td></tr></table><section><p>Nested</p></section><p>Cut B/2: too dense.</p></section><footer>not this</footer></main>';
+  const why = extractById(html, 'reveal');
+  assert.match(why, /### Why this design/);
+  assert.match(why, /\| Wow \| Depth & motion \|/);
+  assert.match(why, /Cut B\/2: too dense\./, 'the matcher counts nested sections');
+  assert.doesNotMatch(why, /not this/);
+  assert.equal(extractById('<p>none</p>', 'reveal'), null);
+  const { pageText } = await import('../scripts/lib/wrap.mjs');
+  const report = pageText('<html><head><title>Faultline</title><style>p{}</style></head><body><h1>The bet</h1><p>Three callers in 35 days.</p><svg><text>axis</text></svg><script>x()</script></body></html>');
+  assert.equal(report, '# Faultline\n\n## The bet\n\nThree callers in 35 days.', 'a report keeps its words and drops markup, script and drawing text');
+
+  const note = '# C\n\n## Decision\n\nB won.\n\n## Wrapped\n\nold\n\n## Patterns\n\np\n';
+  const once = upsertSection(note, 'Wrapped', 'new');
+  assert.match(once, /## Wrapped\n\nnew\n\n## Patterns/);
+  assert.doesNotMatch(once, /old/);
+  assert.equal(upsertSection(once, 'Wrapped', 'new'), once, 'idempotent');
+  assert.match(upsertSection('# C\n', 'Wrapped', 'x'), /# C\n\n## Wrapped\n\nx\n$/);
+});
+
+test('wrap archives notes and screenshots, keeps the winner, removes the rest, and never follows a junction', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'contest.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'contest-wrap-'));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'contest-wrap-outside-'));
+  const run = (...a) => spawnSync(process.execPath, [script, ...a, '--vault', path.join(root, 'vault')], { cwd: root, encoding: 'utf8' });
+  const cli = (...a) => { const r = run(...a); assert.equal(r.status, 0, `${a[0]} failed: ${r.stderr}`); return r.stdout; };
+  try {
+    fs.writeFileSync(path.join(root, 'BRIEF.md'), 'A small idea.\n');
+    fs.mkdirSync(path.join(root, 'stage'));
+    fs.writeFileSync(path.join(root, 'stage', 'SCHEMA.md'), '# schema\n');
+    fs.writeFileSync(path.join(root, 'stage', 'big.json'), '{}');
+    cli('init', '--id', 'w1', '--title', 'Wrap test', '--brief', 'BRIEF.md', '--participants', 'claude:opus@high,codex:gpt-x@high', '--variants', '2', '--data', 'stage');
+    const arena = path.join(root, '.contest', 'arena', 'w1');
+    fs.writeFileSync(path.join(outside, 'sentinel.txt'), 'must survive');
+    for (const s of JSON.parse(cli('plan', '--id', 'w1')).seats) {
+      for (const n of [1, 2]) {
+        const v = path.join(s.cwd, `variant-${n}`);
+        fs.mkdirSync(v, { recursive: true });
+        fs.writeFileSync(path.join(v, 'index.html'), `<title>V${n}</title><body><h2>Argument ${n}</h2><p>Why it holds.</p></body>`);
+        fs.writeFileSync(path.join(v, 'NOTES.md'), `# Concept ${n}\n`);
+        fs.symlinkSync(outside, path.join(v, 'node_modules'), 'junction');
+      }
+      fs.mkdirSync(path.join(s.cwd, 'spike', 'deep'), { recursive: true });
+      fs.writeFileSync(path.join(s.cwd, 'spike', 'deep', 'blob.bin'), Buffer.alloc(4096));
+      fs.mkdirSync(s.log_dir, { recursive: true });
+      fs.writeFileSync(path.join(s.log_dir, 'record.json'), JSON.stringify({ id: s.id, spec: s.spec, outcome: 'completed', wall_s: 60 }));
+      fs.writeFileSync(path.join(s.log_dir, 'final.md'), 'done');
+    }
+    cli('collect', '--id', 'w1');
+    const blind = JSON.parse(fs.readFileSync(path.join(arena, 'runs', 'blind-map.json'), 'utf8'));
+    const visual = path.join(arena, 'runs', 'visual');
+    fs.mkdirSync(visual, { recursive: true });
+    for (const l of Object.keys(blind)) for (const n of [1, 2]) if (!(l === 'B' && n === 2)) fs.writeFileSync(path.join(visual, `${l}-${n}-1280x800-load.png`), 'png');
+    fs.writeFileSync(path.join(visual, 'A-2-1280x800-probe.png'), 'png');   // the probe frame often is the load frame again
+    fs.writeFileSync(path.join(visual, 'A-2-1920x1080-load.png'), 'png-wide');
+    fs.writeFileSync(path.join(visual, 'A-2-text.txt'), 'Words the script rendered.');
+
+    const undecided = run('wrap', '--id', 'w1', '--apply');
+    assert.equal(undecided.status, 3, 'an undecided contest is left alone');
+    assert.match(undecided.stdout, /undecided/);
+
+    cli('verdict', '--id', 'w1', '--winner', 'A/1', '--note', 'owner picked A/1');
+    const dry = cli('wrap', '--id', 'w1');
+    assert.match(dry, /\[dry run\]/);
+    assert.ok(fs.existsSync(path.join(arena, 'entries', blind.A, 'variant-2', 'index.html')), 'a dry run changes nothing');
+
+    const out = cli('wrap', '--id', 'w1', '--apply', '--lessons', 'Depth beat density.');
+    assert.match(out, /NO SCREENSHOT, source kept: B\/2/);
+    const ws = (l, ...p) => path.join(arena, 'entries', blind[l], ...p);
+    assert.ok(fs.existsSync(ws('A', 'variant-1', 'index.html')), 'the winner keeps its source');
+    assert.ok(fs.existsSync(ws('A', 'data', 'SCHEMA.md')), 'the winner\'s seat keeps the data it loads');
+    assert.ok(!fs.existsSync(ws('A', 'variant-2')), 'a screenshotted loser goes');
+    assert.ok(fs.existsSync(ws('B', 'variant-2', 'index.html')), 'a variant with no screenshot keeps its source');
+    assert.ok(!fs.existsSync(ws('B', 'variant-1')) && !fs.existsSync(ws('B', 'spike')), 'a losing seat\'s variants and strays go');
+    assert.ok(fs.existsSync(ws('B', 'PARTICIPANT.md')), 'the brief each seat read stays');
+    assert.ok(fs.existsSync(path.join(outside, 'sentinel.txt')), 'a junction is unlinked, never entered');
+    assert.ok(fs.existsSync(path.join(arena, 'archive', 'A-2', 'NOTES.md')) && fs.existsSync(path.join(arena, 'archive', 'A-2', 'shots', 'A-2-1280x800-load.png')));
+    assert.ok(!fs.existsSync(path.join(visual, 'A-2-1280x800-load.png')), 'screenshots move into the archive');
+    assert.deepEqual(fs.readdirSync(path.join(arena, 'archive', 'A-2', 'shots')).sort(), ['A-2-1280x800-load.png', 'A-2-1920x1080-load.png'], 'a byte-identical probe frame is dropped, the load frame kept');
+    assert.match(fs.readFileSync(path.join(arena, 'archive', 'A-2', 'rendered-text.md'), 'utf8'), /Words the script rendered\./, 'the visual pass\'s live text is archived');
+    assert.ok(!fs.existsSync(path.join(visual, 'A-2-text.txt')));
+    assert.match(fs.readFileSync(path.join(arena, 'archive', 'A-2', 'page-text.md'), 'utf8'), /### Argument 2\n\nWhy it holds\./, 'the page\'s words outlive its source');
+    assert.match(fs.readFileSync(path.join(arena, 'gallery.html'), 'utf8'), /archive\/A-2\/page-text\.md/);
+    assert.ok(fs.existsSync(path.join(arena, 'data', 'SCHEMA.md')) && !fs.existsSync(path.join(arena, 'data', 'big.json')));
+    assert.ok(fs.existsSync(path.join(arena, 'runs', blind.A, 'record.json')) && fs.existsSync(path.join(arena, 'runs', blind.A, 'final.md')));
+    assert.ok(fs.existsSync(path.join(arena, 'judging', 'entries', 'B', 'variant-2')), 'the unscreenshotted blinded copy stays for the visual pass');
+    const c = JSON.parse(fs.readFileSync(path.join(arena, 'contest.json'), 'utf8'));
+    assert.deepEqual([c.wrapped.kept, c.wrapped.missing_shots, c.wrapped.archived], [['A/1'], ['B/2'], 4]);
+    const wrapMd = fs.readFileSync(path.join(arena, 'WRAP.md'), 'utf8');
+    assert.match(wrapMd, /## Lessons\n\nDepth beat density\./);
+    assert.match(wrapMd, /\d\. winner A\/1\. /, 'the decision line reads once, with one full stop');
+    assert.match(fs.readFileSync(path.join(arena, 'gallery.html'), 'utf8'), /archive\/A-2\/shots\/A-2-1280x800-load\.png/);
+    assert.match(fs.readFileSync(path.join(root, 'vault', 'Contest', 'contests', 'w1.md'), 'utf8'), /## Wrapped\n\nWrapped \d{4}-\d\d-\d\d/);
+    assert.match(fs.readFileSync(path.join(root, 'vault', 'Contest', 'router.html'), 'utf8'), /archive\/A-2\/shots/, 'the router links the screenshot once the source is gone');
+
+    const blocked = run('collect', '--id', 'w1');
+    assert.notEqual(blocked.status, 0, 'a wrapped contest refuses steps that need implementations');
+    assert.match(blocked.stderr, /wrapped/);
+
+    // The visual pass fills the gap; the second wrap finishes the job.
+    fs.writeFileSync(path.join(visual, 'B-2-1280x800-load.png'), 'png');
+    cli('wrap', '--id', 'w1', '--apply');
+    assert.ok(!fs.existsSync(ws('B', 'variant-2')) && !fs.existsSync(path.join(arena, 'judging', 'entries')));
+    assert.ok(fs.existsSync(path.join(arena, 'archive', 'A-2', 'NOTES.md')), 'a second wrap keeps what the first archived');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+    fs.rmSync(outside, { recursive: true, force: true });
+  }
+});

@@ -13,7 +13,7 @@ verified_on: 2026-10-04
 This application reconciles the line-table schema against one concrete design proposal: the
 "salience table for all short-form text" in the narrative research for Death Ride, an arcade
 combat racer for a television-class device, in the `firetv-deathride` tree at
-`C:\Users\kazda\kiro\firetv-deathride`. The proposal lives in a research dossier, not in code —
+`firetv-deathride`. The proposal lives in a research dossier, not in code —
 a search of the tree for its column names finds them only in that dossier — so everything below
 is a reading of a design on paper. Nobody has played the game, and nothing here is evidence that
 any row works in play.

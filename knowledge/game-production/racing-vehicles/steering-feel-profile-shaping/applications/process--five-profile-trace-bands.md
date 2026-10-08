@@ -10,7 +10,7 @@ verified_on: 2026-10-01
 
 # A five-row feel table, a pinned-speed trace test, and a baseline row
 
-Read against the same couch-racer working tree as the sibling application (`C:\Users\kazda\kiro\firetv-deathride`, root for every path). Everything below is simulated or authored: sixty headless traces on one Windows JVM at a fixed sixty hertz, a table the owner's later hand selection did not derive from, and a touch distance that is a design hypothesis. No one has driven these profiles on a phone with a thumb.
+Read against the same couch-racer working tree as the sibling application (`firetv-deathride`, root for every path). Everything below is simulated or authored: sixty headless traces on one Windows JVM at a fixed sixty hertz, a table the owner's later hand selection did not derive from, and a touch distance that is a design hypothesis. No one has driven these profiles on a phone with a thumb.
 
 ## The table, with its bands beside it
 

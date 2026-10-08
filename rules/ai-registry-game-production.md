@@ -1,6 +1,6 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 78 subjects, 508 techniques, 206 applications.
+`game-production` - 79 subjects, 526 techniques, 224 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### systems-canon
@@ -19,7 +19,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **surface-and-imagery** - imported-material-conformance, shader-budget-authoring, sprite-and-atlas-production, tiling-texture-acceptance
 
 ### engine-integration
-- crash-forensics-attribution, engine-integration-safety, engine-pitfall-corpus, gameplay-runtime-patterns, perf-regression-gating, runtime-observation-evidence, ship-pipeline-gating, visual-script-to-code-transpilation
+- crash-forensics-attribution, engine-integration-safety, engine-pitfall-corpus, gameplay-runtime-patterns, perf-regression-gating, render-submission-economy, runtime-observation-evidence, ship-pipeline-gating, visual-script-to-code-transpilation
 
 ### craft-judgment
 - aaa-craft-rubric-authoring, design-doc-compliance-scoring, playtest-signal-to-defect, quality-verdict-integrity, subsystem-review-doctrine, unattended-build-loop

@@ -496,3 +496,44 @@ skill's source note; the outcome is recorded there.
   winner, a combined design or a shortlist, so a close like this one is a hand-written vault note and a
   `contest.json` that still reads undecided. A `verdict --close <note>` that writes the note and index
   row, credits no pattern and sets `decided` would cover it.
+
+## 1.9.0 - 2026-10-06 - fleet backfill (wrap over 84 contests in 12 repos)
+
+- **Most arena bytes were never variants.** About 18 GB sat behind 84 contests. One losing seat's
+  stray Unity project took 9 GB, an 800 MB `node_modules` sat beside a 15 MB variant, and a host
+  build took 383 MB. The 35 decided families went from 2.08 GB to 1.21 GB. The 11 GB that remains is
+  one undecided family.
+- **Screenshots alone lost nine design reports.** The pilot wrap on biz-design-1001 (closed by the
+  owner with no winner) kept screenshots and NOTES.md, and the reports' full text went with the
+  source. `page-text.md` was added before any fleet worker applied. Static design reports keep 30 to
+  98 thousand characters each; JS-rendered prototypes keep almost nothing.
+- **Three workers independently flagged empty page text on JS-rendered prototypes** (style-kit,
+  agents-workforce, storymap and others, about 40 variants). Their sources are gone, and screenshots
+  plus notes are their record. The visual pass now writes the live `innerText`, and wrap archives it
+  as `rendered-text.md`, for the next contest.
+- **The probe frame was the load frame.** Every load/probe pair the backfill looked at was
+  byte-identical, which doubled archived screenshots. Wrap now keeps one of each identical set. The
+  probe in `visual-pass.*` changes nothing on these pages; that is a separate fix.
+- **A reveal's mastered winner was discarded on tracklight.** The parent's verdict named C/2, and
+  wrap kept the round-one C/2 but archived the reveal's mastered C/2. That report's text survives as
+  page text. Wrap now keeps the mastered version beside the winner.
+- **22 of 56 families are undecided in contest.json, though the repos show decisions for several.**
+  kp's port plans name channels-setup B/1 and orbit-overview B/1. personas shipped athena-chrome and
+  promoted manifest-editor. The owner said "stop there" on ascent landing-evolve. A successor contest
+  (`-2`, `-ui`) carries no `parent` link, so the first round never reads as decided.
+  Proposal, not applied: `verdict` or `init` could take `--supersedes <id>`.
+- **Shots named outside `<letter>-<n>-`** (the ascent fuse's `runs/measure/desk-1280.png`) are not
+  archived. The fail-closed rule held: no matching shot means the source is kept, and here the
+  source was the winner's anyway.
+- **Half the "undecided" families were decided last week; only the record was missing.** On review
+  the owner named 11 of 20: winners already shipped (athena-chrome, channels-setup, orbit-overview,
+  curator-blueprint C/2), fusions already implemented (manifest-editor, two-machines, landing-spark),
+  and both habit-garden finalists in implementation. Without a wrap step closing the run, the arena
+  read as open and kept 10 GB. Record the verdict in the session that makes it.
+- **A refinement round can build on its parent seat's scratch.** habit-garden's round-3 variants
+  cite the round-2 seat's Unity spike in their RUNBOOK. As a non-final round's stray it would have
+  been deleted whole. Wrap now keeps the scratch of every seat on a kept variant's lineage and
+  prunes only rebuildables (9.84 GB -> 1.74 GB).
+- **`verdict --force` rewrites the whole vault note.** Turning a shortlist into a winner would
+  have erased the owner's earlier review. The backfill saved each note and re-appended it as
+  `## Earlier record`. Proposal, not applied: verdict could keep the earlier body itself.

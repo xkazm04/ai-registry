@@ -10,6 +10,9 @@ techniques:
   - per-thread-budgets-not-one-frame-time
   - percentile-and-hitch-gate
   - baseline-bound-to-build-and-machine
+  - equivalence-before-the-saving
+  - allocation-gate-on-the-shipped-configuration
+  - host-independent-work-counts
 ---
 
 # Performance regression gating
@@ -130,6 +133,28 @@ mode, instrumentation and hardware class that produced it, and a new one is prom
 explicit approval, never by a pipeline step that records whatever it just measured
 ([baseline-bound-to-build-and-machine](./techniques/baseline-bound-to-build-and-machine.md)).
 
+## The same discipline, pointed the other way
+
+The pipeline above asks whether a change made the build slower. An optimisation wave asks
+the opposite question, and it fails in the mirror-image ways. A speedup claims two things —
+that it changed nothing observable, and that it costs less — and the second is not counted
+until the first is proven against a reference the change did not write: golden replays
+recorded on the parent, an oracle kept from the old implementation, a differential over
+random and mutated inputs. A candidate whose saving falls inside the benchmark's spread is
+not better; it is reverted and kept on record as the alternative that lost
+([equivalence-before-the-saving](./techniques/equivalence-before-the-saving.md)).
+
+Two quantities in a wave are counts rather than durations, and they need gates of their own.
+A simulation step's allocation is held at zero by a test that runs the configuration the game
+ships, not a reduced one, with the host compiler's allocation elimination switched off so that
+the test sees what the device's runtime will allocate
+([allocation-gate-on-the-shipped-configuration](./techniques/allocation-gate-on-the-shipped-configuration.md)).
+And when the target device is not on hand, what a desktop host may say about it is limited to
+counts of requested work — draws, binds, bytes sent, quads laid out — while its milliseconds
+remain a statement about the host and the device cost remains unmeasured until a device run
+takes it ([host-independent-work-counts](./techniques/host-independent-work-counts.md)). That
+last rule is the basis rule of this subject applied to a lane that has no device in it.
+
 ## What a performance verdict may say
 
 The three outcomes of the observation neighbour apply unchanged, and this subject does not
@@ -218,4 +243,6 @@ belongs with the observation neighbour's perceptual rung. Crashes and the attrib
 a fault to a build are another subject's. And the diagnosis of why a frame is expensive,
 the profile a person reads to find the hot system, is the investigation that follows a
 verdict and does not replace one: this subject decides whether cost rose, and stops where
-the question becomes which function made it rise.
+the question becomes which function made it rise. Lowering the cost once it is found — how a
+renderer on a constrained graphics processor batches, culls and retains what it submits — is
+the render-submission subject's; this one judges the figures that work reports.

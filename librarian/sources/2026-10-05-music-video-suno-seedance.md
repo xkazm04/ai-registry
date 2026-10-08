@@ -6,9 +6,9 @@ title: Suno v6 + Seedance 2.5 is NUTS at Making AI Music Videos
 author: Dan Kieft
 words: 4751
 extracted: 16
-accepted: 6
+accepted: 5
 declined: 0
-leads: 3
+leads: 4
 already_covered: 7
 untriaged: 0
 dispatched: 1
@@ -59,7 +59,7 @@ invocation itself).
 
 | # | Candidate | Anchor | Shape | Prior art | Read | G/R/C | Outcome |
 |---|---|---|---|---|---|---|---|
-| 1 | Condition the singer on the isolated stem of their own voice, not the mix | [00:21:49]-[00:22:40] | technique (render-bound) | none | real gap | 4/0/2 | landed in XL, held for render verdict |
+| 1 | Condition the singer on the isolated stem of their own voice, not the mix | [00:21:49]-[00:22:40] | technique (render-bound) | none | real gap | 4/0/2 | **lead** after the render proof (operator: B on full clip, tie on both close-ups; no seed control) - draft banked in `librarian/handoffs/2026-10-07-performer-stem-conditioning-draft.md` |
 | 2 | Pass the audio reference as video with a black picture, not audio-only | [00:21:49] | lead | none | thin | - | lead (vendor slot behaviour; strip leaves nothing) |
 | 3 | Song first, then picture | [00:02:10] | catch | cue-first-assembly, audio-first-beat-pacing | likely catch | - | already covered |
 | 4 | Beat first, then remix to genre with lyrics via audio reference | [00:03:01]-[00:04:44] | catch | music-prompt-composition/reference-track-anchoring | likely catch | - | already covered (and out of scope: track is final) |
@@ -88,15 +88,24 @@ dispatch asked for the same subject. Spec: `librarian/specs/2026-10-05-music-vid
 ## What landed
 
 `knowledge/media-generation/production-ops/music-video-production/`: golden path
-and six techniques (`track-map-before-treatment`, `form-follows-what-the-track-gives`,
-`performer-stem-conditioning`, `segment-on-the-master-clock`,
+and five techniques (`track-map-before-treatment`, `form-follows-what-the-track-gives`,
+`segment-on-the-master-clock`,
 `coverage-across-the-phrase`, `cut-rate-follows-the-section`) and one gravitone
 application. Worker overrides accepted: stack `next` not `node` (the envelope
 needs the browser's offline audio renderer); seek-stable-composition-authoring
 cited for frame-index determinism only; the scouting counter-case already owned
 by generated-shot-sourcing, so technique 5 adds only the music-video consequence;
 technique 3 narrowed to shots with a readable mouth (the primary says the
-accompaniment drives head, expression and eyes).
+accompaniment drives head, expression and eyes) - and then withdrawn after the
+render proof, below. The golden path carries the stem question as an open
+question with the measurement, not as a rule.
+
+**Collision, recorded so it is legible later.** On 2026-10-06 at 10:09 a sibling
+session committed this run's uncommitted files as found (`a9c6b31e`, "NOT written
+by this session") so an `origin/main` merge could fast-forward, and pushed them.
+The render-bound technique therefore reached `origin/main` about 15 hours before
+its verdict. This run's own commit removes it; it was on the remote, unverified,
+in between.
 
 Director's verification: the singing-face paper (arXiv 2303.14044) re-read in
 full, and its ablation sentence confirmed verbatim ("the generated mouth
@@ -143,4 +152,41 @@ The finding was written back into the golden path's delivery section.
 
 ## Render proof
 
-PENDING - written after the operator's verdict.
+Instruments proven before scoring: the reference-to-video model with its turbo
+LoRA (4 steps, 832x480, 124 frames at 24 fps), standalone `<Audio 1>` reference
+slot; reference face = an original character from gravitone's consistency lane.
+Fixture rebuilt from the source's own failure case (declared focus): instrumental
+0-1.3 s, female lead 1.3-2.8 s, a second MALE voice ad-libbing 2.9-3.7 s, female
+lead 3.8-4.9 s; synthetic beat, OS speech voices. One variable: arm A = the full
+mix as `<Audio 1>`, arm B = the isolated lead stem. Identical prompt both arms:
+
+> Use <Picture 1> as the reference for the woman's face, hair and clothing. She is
+> the singer of <Audio 1>. Static medium close-up: she faces the camera and sings
+> <Audio 1>, her lips forming its words in time with it; whenever <Audio 1> carries
+> no voice her lips stay closed. The camera holds. [setting clause] Photographic,
+> 35mm cinema, natural skin texture, no text, no watermark.
+
+- **Positive control (B alone, first):** mouth closed through the intro, moving on
+  both lead lines, closed through the ad-lib gap and the tail. The model does sync
+  to a reference audio track. 58.5 min.
+- **Arm A:** 39.1 min (second attempt; the first died with ComfyUI under memory
+  pressure, and the session's background shells were reaped by the harness).
+- **Metric, declared before arm A existed** (dark-pixel fraction in a
+  face-detected mouth ROI, mean per interval), A / B: intro 0.039 / 0.041, lead1
+  0.065 / 0.062, **ad-lib 0.064 / 0.036**, lead2 0.132 / 0.138.
+- **No second seed rendered** (operator chose to stop after arm A to spare the
+  machine), so there is no discrimination ratio, and the pair may not author a
+  landing. Sheet built with `--allow-indistinct`, the caveat printed on it.
+- **Operator, blind:** shot1 (full clip with the master mix) -> X = **B (stem)**;
+  shot2 (mouth crop, ad-lib window at half speed) -> tie; shot3 (mouth tiles every
+  4th frame) -> tie.
+- **Director's pre-read (opinion):** the mix arm opens late in the ad-lib (around
+  frame 84) where the stem arm stays closed; nothing else differs visibly.
+- **Verdict mapping:** `unmeasurable` at n=1 without a precheck. The direction
+  agrees with the stem rule; the size is small. One half of the source's claim is
+  **refuted on this model**: the instrumental intro did not make the face mouth with
+  either input. The other half - a second voice in the mix is mouthed - shows up,
+  weakly. Landed as a lead with the full draft; the golden path names the question.
+- **Cleanup:** `render-triage clean` removed 16 paths, 121.8 MB (ComfyUI output and
+  staged inputs by run id); the scratch directory goes at Phase 9. ComfyUI stopped
+  after the last render (operator instruction).

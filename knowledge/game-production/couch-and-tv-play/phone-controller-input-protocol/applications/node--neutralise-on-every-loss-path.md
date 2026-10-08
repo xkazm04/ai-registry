@@ -10,7 +10,7 @@ verified_on: 2026-10-01
 
 # A controller page and a host that both go neutral, and a seat that survives the loss
 
-Read against the racing game's source tree at `C:\Users\kazda\kiro\firetv-deathride` as it
+Read against the racing game's source tree at `firetv-deathride` as it
 stood on 2026-10-01. The host is a JVM socket server and the controller is a browser page it
 serves; `node` is the nearest member of the closed stack set, so no `verified_against` is
 given. This application covers the phone's neutralisation and failure detector, and the

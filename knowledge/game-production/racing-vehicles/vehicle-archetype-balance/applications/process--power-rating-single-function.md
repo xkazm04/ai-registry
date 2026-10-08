@@ -11,7 +11,7 @@ verified_on: 2026-10-01
 # One rating function, one table of weights, an identity check that reads the same data
 
 Source: a ten-class arcade racer on a fixed-step simulation core, read in the content
-worktree (`C:\Users\kazda\kiro\firetv-deathride-content`, commit `e1640f0`; the rating file
+worktree (`firetv-deathride-content`, commit `e1640f0`; the rating file
 itself is unmodified in the working tree). Everything below was verified only by a seeded
 harness; no person has driven these classes. The rating, budgets, tolerance and band are
 authored; the weights are a simulated fit.

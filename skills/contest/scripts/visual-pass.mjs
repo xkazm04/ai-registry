@@ -179,6 +179,9 @@ for (const { key, tag, index } of pages) {
       const loadS = Math.round((Date.now() - t0) / 10) / 100;
       await page.waitForTimeout(settle);
       await page.screenshot({ path: path.join(out, `${tag}-${size}-load.png`) });
+      // The words the page renders, once per variant: `wrap` archives them after the source is gone.
+      const textFile = path.join(out, `${tag}-text.txt`);
+      if (!fs.existsSync(textFile)) fs.writeFileSync(textFile, await page.evaluate(() => document.body?.innerText ?? ''));
       const counts = await page.evaluate(MEASURE);
       if (expectedTitles.length) counts.titles = await page.evaluate(TITLES, expectedTitles);
 

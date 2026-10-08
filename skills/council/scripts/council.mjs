@@ -2,12 +2,17 @@
 /**
  * council - the file-backed instrument behind the /council method.
  *
- * Four subcommands, all deterministic, all dependency-free, none of them a judge:
+ * Five subcommands, all deterministic, all dependency-free, none of them a judge:
  *
+ *   round     - the next round number for a subject in a mode (full | lite), from the run dirs
  *   receipt   - pin what this round looked at (head sha + a content digest over the span)
  *   drift     - compare two receipts: none | grown | changed | unknown
  *   aggregate - fold the members' verdict files into one result.json by the pass rule
  *   validate  - check a result.json, or one member's verdict, against the contract
+ *
+ * Modes: `full` is the council; `lite` is one pass over value, craft and robustness of
+ * feature-v1, written in the same result document with `mode: "lite"`. The mode lives in
+ * started.json and `aggregate` reads it from there.
  *
  * The instrument never scores, never calls a model, never writes a database and never
  * decides. It exists so the arithmetic of a council is the same every time and can be
@@ -16,9 +21,9 @@
  * Run directory (in the CONSUMING repo, never in the skill):
  *
  *   .personas/council/runs/<run_id>/
- *     started.json            run identity, written at phase 1
+ *     started.json            run identity, written at phase 1 (carries `mode`)
  *     receipt.json            this round's receipt
- *     verdict-<dimension>.json  one per member, written by that member and nobody else
+ *     verdict-<dimension>.json  one per member (in lite: one per judged dimension, written by the one pass)
  *     hard-failures.json      optional array of {code, detail}
  *     must-address.json       optional array of strings carried in from a human rejection
  *     result.json             written by `aggregate`
@@ -26,11 +31,12 @@
  *     evidence/               the evidence pack and any captures
  *
  * Usage:
+ *   node council.mjs round     --runs-dir <dir> --slug <slug> [--mode full|lite] [--date <YYYY-MM-DD>]
  *   node council.mjs receipt   --root <dir> --paths <a,b,...> [--head <sha>] [--out <file>]
  *   node council.mjs drift     --prior <receipt.json> --current <receipt.json>
- *   node council.mjs aggregate --run-dir <dir> --summary "<paragraph>" [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>]
+ *   node council.mjs aggregate --run-dir <dir> --summary "<paragraph>" [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>] [--mode full|lite]
  *   node council.mjs validate  --result <result.json>
- *   node council.mjs validate  --verdict <verdict-<dimension>.json> [--dimension <d>]
+ *   node council.mjs validate  --verdict <verdict-<dimension>.json> [--dimension <d>] [--mode full|lite]
  *
  * Every subcommand prints JSON on stdout and human notes on stderr, so it composes.
  */
@@ -39,8 +45,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildReceipt } from './lib/receipt.mjs';
 import { drift } from './lib/drift.mjs';
-import { aggregate, buildResult, validateRubric } from './lib/aggregate.mjs';
+import { aggregate, buildResult, validateRubric, liteScopeFor, MODES } from './lib/aggregate.mjs';
 import { validateResult, validateVerdict } from './lib/schema.mjs';
+import { nextRound, runDirName } from './lib/rounds.mjs';
 
 const SKILL_DIR = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -56,6 +63,34 @@ const readJson = (file) => {
   catch (e) { die(`cannot read ${file}: ${e.message}`); return null; }
 };
 const emit = (obj) => process.stdout.write(`${JSON.stringify(obj, null, 2)}\n`);
+
+// -------------------------------------------------------------------- round
+if (cmd === 'round') {
+  // Rounds are counted PER MODE (lib/rounds.mjs states why), from the run directories a
+  // previous Director left. A missing runs directory is round 1, not an error: a first run
+  // has nothing to count.
+  const runsDir = flag('runs-dir');
+  const slug = flag('slug');
+  const mode = flag('mode', 'full');
+  if (!runsDir || !slug) die('round needs --runs-dir <dir> --slug <slug> [--mode full|lite]');
+  if (!MODES.includes(mode)) die(`--mode must be one of ${MODES.join(', ')}`);
+  const dir = path.resolve(runsDir);
+  const entries = fs.existsSync(dir)
+    ? fs.readdirSync(dir, { withFileTypes: true }).filter((e) => e.isDirectory()).map((e) => {
+      const f = path.join(dir, e.name, 'started.json');
+      let started = null;
+      if (fs.existsSync(f)) { try { started = JSON.parse(fs.readFileSync(f, 'utf8')); } catch { started = null; } }
+      return { name: e.name, started };
+    })
+    : [];
+  let next;
+  try { next = nextRound(entries, slug, mode); } catch (e) { die(e.message); }
+  const date = flag('date') ?? new Date().toISOString().slice(0, 10);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) die('--date must be YYYY-MM-DD');
+  if (next.stalled) console.error(`  note: round ${next.round_no} of ${mode} is past the cap - write a result with outcome "stalled" and stop`);
+  emit({ ...next, run_id: runDirName(date, slug, mode, next.round_no) });
+  process.exit(0);
+}
 
 // ------------------------------------------------------------------ receipt
 if (cmd === 'receipt') {
@@ -112,14 +147,28 @@ if (cmd === 'aggregate') {
   if (rubricProblems.length) die(`the rubric is invalid:\n  - ${rubricProblems.join('\n  - ')}`);
   if (rubric.version !== started.rubric_version) die(`rubric version mismatch: run says ${started.rubric_version}, file says ${rubric.version}. A verdict points at the version that scored it; it is never re-pointed.`);
 
+  // The mode is part of the run's identity, so it is read from started.json. `--mode` is
+  // accepted for a run whose started.json predates the key, and refused when it contradicts
+  // what the run says it is.
+  const flagMode = flag('mode');
+  if (flagMode && started.mode && flagMode !== started.mode) die(`--mode ${flagMode} contradicts started.json, which says ${started.mode}. A run's mode is its identity; it is never re-pointed.`);
+  const mode = flagMode ?? started.mode ?? 'full';
+  if (!MODES.includes(mode)) die(`mode must be one of ${MODES.join(', ')}, found ${JSON.stringify(mode)}`);
+  let skipped = [];
+  if (mode === 'lite') {
+    try { skipped = [...liteScopeFor(rubric).skipped]; } catch (e) { die(e.message); }
+  }
+
   const verdicts = {};
   const missing = [];
   for (const d of rubric.dimensions) {
+    if (skipped.includes(d.dimension)) continue;   // lite does not judge it, and reads no file for it
     const f = path.join(dir, `verdict-${d.dimension}.json`);
     if (fs.existsSync(f)) verdicts[d.dimension] = readJson(f);
     else missing.push(d.dimension);
   }
   if (missing.length) console.error(`  note: no verdict file for ${missing.join(', ')} - recorded unmeasured, which lowers coverage and never scores zero`);
+  if (skipped.length) console.error(`  note: lite - ${skipped.join(', ')} not judged by design; recorded unmeasured with that reason, out of must_address`);
 
   const hfFile = path.join(dir, 'hard-failures.json');
   const maFile = path.join(dir, 'must-address.json');
@@ -171,11 +220,12 @@ if (cmd === 'aggregate') {
   }
 
   const agg = aggregate(rubric, verdicts, {
-    trustState, roundNo, hardFailures, mustAddress: carriedMustAddress, scenarios: declaredScenarios,
+    trustState, roundNo, hardFailures, mustAddress: carriedMustAddress, scenarios: declaredScenarios, mode,
   });
   for (const p of agg.problems) console.error(`  problem: ${p}`);
 
   const result = buildResult({
+    mode,
     run_id: started.run_id,
     subject: started.subject,
     rubric_version: rubric.version,
@@ -194,7 +244,8 @@ if (cmd === 'aggregate') {
   fs.writeFileSync(outFile, `${JSON.stringify(result, null, 2)}\n`);
   console.error(`  written ${outFile}`);
   emit({
-    outcome: result.outcome, overall: result.overall, coverage: result.coverage,
+    mode: result.mode, outcome: result.outcome, overall: result.overall, coverage: result.coverage,
+    ...(result.skipped_dimensions ? { skipped_dimensions: result.skipped_dimensions } : {}),
     ...(result.envelope ? { envelope: result.envelope } : {}),
     must_address: result.must_address, problems,
   });
@@ -210,23 +261,30 @@ if (cmd === 'validate') {
   if (verdictFile) {
     const named = flag('dimension');
     const inferred = /verdict-([A-Za-z0-9_-]+)\.json$/.exec(path.basename(verdictFile))?.[1] ?? null;
-    const problems = validateVerdict(readJson(verdictFile), { dimension: named ?? inferred });
-    emit({ valid: problems.length === 0, dimension: named ?? inferred, problems });
+    // In lite, a verdict for a dimension outside the lite scope is refused here, before
+    // aggregate would ignore it: the one pass should learn it wrote the wrong file while
+    // it can still not spend the time.
+    const mode = flag('mode');
+    if (mode && !MODES.includes(mode)) die(`--mode must be one of ${MODES.join(', ')}`);
+    const problems = validateVerdict(readJson(verdictFile), { dimension: named ?? inferred, mode, rubricVersion: flag('rubric-version') ?? undefined });
+    emit({ valid: problems.length === 0, dimension: named ?? inferred, ...(mode ? { mode } : {}), problems });
     process.exit(problems.length ? 1 : 0);
   }
   const file = flag('result') ?? argv[1];
   if (!file) die('validate needs --result <result.json> or --verdict <verdict-<dimension>.json>');
-  const problems = validateResult(readJson(file));
-  emit({ valid: problems.length === 0, problems });
+  const doc = readJson(file);
+  const problems = validateResult(doc);
+  emit({ valid: problems.length === 0, mode: doc?.mode ?? 'full', problems });
   process.exit(problems.length ? 1 : 0);
 }
 
 console.error(`council: unknown subcommand ${JSON.stringify(cmd ?? '')}
 
+  round     --runs-dir <dir> --slug <slug> [--mode full|lite] [--date <YYYY-MM-DD>]
   receipt   --root <dir> --paths <a,b,...> [--head <sha>] [--out <file>]
   drift     --prior <receipt.json> --current <receipt.json>
-  aggregate --run-dir <dir> --summary "<paragraph>" [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>]
+  aggregate --run-dir <dir> --summary "<paragraph>" [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>] [--mode full|lite]
   validate  --result <result.json>
-  validate  --verdict <verdict-<dimension>.json> [--dimension <d>]
+  validate  --verdict <verdict-<dimension>.json> [--dimension <d>] [--mode full|lite]
 `);
 process.exit(2);

@@ -3,6 +3,36 @@
 Append-only, newest first. One block per run, headed with the version the run **used** -
 not the bump it argues for - then the date and the project, then concise bullets.
 
+## 0.3.1 - 2026-10-07 - ai-registry
+
+**Authoring run, not a field run** - `--lite` (shipped as 0.4.0) was built and gated, never
+driven against a real subject; nothing here is evidence that it judges well.
+
+- **What changed and why: cost.** The one field run of the full council cost ~882k
+  cumulative tokens and ~26 minutes (the 0.2.0 entry below). A fleet that sends every
+  finished feature to a human gate cannot pay that per feature, so `--lite` is one pass by
+  the running session over `value`, `craft` and `robustness` of `feature-v1`, in the same
+  result document with `mode: "lite"`. Only subjects tiered major pay for the full council.
+  Lite's own cost is not measured yet; the first lite field run should record it here.
+- **The consuming door decided two choices before the brief did.** It requires every rubric
+  row exactly once and recomputes coverage over every row that is not `not_applicable`, and
+  it ignores keys it does not know. So the skipped rows are carried as `unmeasured` and
+  coverage is over the whole rubric (a complete lite reads 0.70), and `mode` /
+  `skipped_dimensions` could be added at `schema_version` 1. Writing the skipped rows
+  `not_applicable` would have ingested too - as coverage 1.0, indistinguishable from a full
+  council to a door that does not read `mode`. The arithmetic a consumer re-derives is the
+  contract; a scope rule that disagrees with it is a refused result, not a design choice.
+- **Rounds are counted per mode, and the door does not know that yet.** The same door
+  requires `round_no` to be the subject's last round plus one over ALL its runs, so the first
+  full round after a lite pass is refused until it counts per mode. The refusal leaves no
+  ingest marker, so the run re-ingests unchanged once the door mirrors the rule. Recorded in
+  `references/result-schema.md` as a consumer obligation, because the alternative - one
+  shared count - lets three cheap lite reworks exhaust the expensive verdict's three rounds.
+- **Counting rounds by prose was the weakest join, so it is now an instrument.** "Count the
+  directories whose name contains `-<slug>-r`" also matched another subject whose slug ends
+  in `<slug>`, and a lite directory name is ambiguous against a full one of slug
+  `<slug>-lite`. `council.mjs round` anchors the pattern and lets `started.json` decide.
+
 ## 0.2.0 - 2026-09-22 - kp
 
 **The first field run.** One subject (`developer-case-assessment`), round 1, `use_case`,

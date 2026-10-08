@@ -13,7 +13,7 @@ verified_on: 2026-10-01
 Read from the working tree of the Death Ride repository (no commit pinned; the tree was
 read as it stood on 2026-10-01). The controller is one static browser page served by the
 game host; the stack label `node` is the nearest allowed slot for browser-side JavaScript.
-Paths are relative to `C:\Users\kazda\kiro\firetv-deathride`. No physical phone has run it.
+Paths are relative to `firetv-deathride`. No physical phone has run it.
 
 ## Per-control capture (confirmed)
 

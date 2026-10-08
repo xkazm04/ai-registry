@@ -21,15 +21,19 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { spawnSync } from 'node:child_process';
+
 import {
   aggregate, buildResult, validateRubric, aggregateScenarios,
   OUTCOMES, ROUND_CAP, DEFAULT_SCENARIO_FLOOR, MUST_ADDRESS_MAX, clampLine, firstSentence,
+  MODES, LITE_SCOPES, liteScopeFor, liteSkipReason,
 } from '../scripts/lib/aggregate.mjs';
 import { validateResult, validateVerdict } from '../scripts/lib/schema.mjs';
 import {
   buildReceipt, spanDigest, sha256Hex, normalizeSpanPath, isTestFile, spanDisclosures,
 } from '../scripts/lib/receipt.mjs';
 import { drift, carryForward } from '../scripts/lib/drift.mjs';
+import { nextRound, runDirName } from '../scripts/lib/rounds.mjs';
 
 const SKILL_DIR = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const rubricOf = (name) => JSON.parse(fs.readFileSync(path.join(SKILL_DIR, 'rubric', `${name}.json`), 'utf8'));
@@ -441,9 +445,13 @@ test('a run that declares no scenarios produces the pre-scenario document, byte 
     summary: 'Ready for a decision.',
   }, agg);
 
+  // The fixture moved ONCE on purpose: 0.4.0 writes `"mode": "full"` on every result, so a
+  // reader never infers the mode from an absence. That key was asked for; scenarios were not.
   const fixture = path.join(SKILL_DIR, 'tests', 'fixtures', 'result-no-scenarios.json');
   assert.equal(`${JSON.stringify(result, null, 2)}\n`, fs.readFileSync(fixture, 'utf8'),
     'an additive field that changes a document nobody asked to change is not additive');
+  assert.equal(result.mode, 'full');
+  assert.ok(!('skipped_dimensions' in result), 'a full council skips nothing by design');
   assert.ok(!('scenarios' in result) && !('envelope' in result), 'absent, not empty: an empty envelope is a claim');
 });
 
@@ -690,4 +698,218 @@ test('the test-file heuristic recognises the conventions it documents, and nothi
   assert.deepEqual(spanDisclosures('.', []), {
     test_file_count: 0, source_file_count: 0, orphan_tests: [], tests_outnumber_sources: false,
   });
+});
+
+// ---------------------------------------------------------------- lite mode
+//
+// Lite is ONE pass over value, craft and robustness of feature-v1, written in the council's
+// own result document so it reaches the same door. What is pinned: the skipped rows are
+// unmeasured (never not_applicable, never zero), they lower coverage and add no work, the
+// mean is over what was scored, and the validator holds a lite result to its scope.
+
+const COUNCIL = path.join(SKILL_DIR, 'scripts', 'council.mjs');
+const liteVerdicts = (over = {}) => ({ value: v(0.8), craft: v(0.6), robustness: v(0.9), ...over });
+const liteMeta = (over = {}) => ({
+  mode: 'lite',
+  run_id: '2026-10-07-example-feature-lite-r1',
+  subject: { kind: 'use_case', slug: 'example-feature', title: 'Example feature', summary: 'What it does.' },
+  rubric_version: 'feature-v1',
+  round_no: 1,
+  supersedes_run_id: null,
+  trust_state: 'uncalibrated',
+  receipt: { head_sha: 'a'.repeat(40), spanned_paths: ['src/a.ts'], span_digest: '0'.repeat(64) },
+  hard_failures: [],
+  summary: 'Lite pass: value and robustness hold; craft has one unrecorded gap.',
+  ...over,
+});
+
+test('the lite scope is exactly the rubric, split in two, and only feature-v1 has one', () => {
+  assert.deepEqual(MODES, ['full', 'lite']);
+  const r = rubricOf('feature-v1');
+  const scope = liteScopeFor(r);
+  assert.deepEqual([...scope.judged], ['value', 'craft', 'robustness']);
+  assert.deepEqual([...scope.skipped], ['rivalry', 'economics']);
+  assert.deepEqual([...scope.judged, ...scope.skipped].sort(), r.dimensions.map((d) => d.dimension).sort(),
+    'judged + skipped must be the rubric, or the validator and the instrument disagree on what lite owes');
+  assert.deepEqual(Object.keys(LITE_SCOPES), ['feature-v1']);
+  assert.throws(() => liteScopeFor(rubricOf('architecture-v1')), /no lite scope/);
+  assert.throws(() => aggregate(rubricOf('architecture-v1'), {}, { mode: 'lite' }), /a redesign goes to the full council/);
+  assert.throws(() => aggregate(r, {}, { mode: 'quick' }), /mode must be one of/);
+});
+
+test('lite: skipped rows are unmeasured, lower coverage, leave the mean, and add no work', () => {
+  const r = rubricOf('feature-v1');
+  const a = aggregate(r, liteVerdicts(), { trustState: 'uncalibrated', mode: 'lite' });
+  assert.equal(a.mode, 'lite');
+  assert.deepEqual(a.skipped_dimensions, ['rivalry', 'economics']);
+  for (const name of ['rivalry', 'economics']) {
+    const d = a.dimensions.find((x) => x.dimension === name);
+    assert.equal(d.state, 'unmeasured', `${name} exists for this subject and nobody looked - never not_applicable`);
+    assert.equal(d.score, null, 'and never a zero');
+    assert.equal(d.unmeasured_reason, liteSkipReason(name));
+  }
+  // (.30*.8 + .25*.6 + .15*.9) / .70 - the mean is over what was scored
+  assert.equal(a.overall, Math.round(((0.3 * 0.8 + 0.25 * 0.6 + 0.15 * 0.9) / 0.7) * 10000) / 10000);
+  // coverage stays over the whole rubric: a complete lite rests on 70% of it, and says so
+  assert.equal(a.coverage, 0.7);
+  assert.equal(a.outcome, 'ready');
+  assert.ok(!a.must_address.some((m) => /rivalry|economics/.test(m)),
+    'the scope of the review is not work an implementer can do');
+  assert.deepEqual(a.must_address, []);
+});
+
+test('lite: a verdict for a skipped row is ignored loudly, and the pass rule is the council one', () => {
+  const r = rubricOf('feature-v1');
+  const a = aggregate(r, liteVerdicts({ rivalry: v(0.1), economics: v(0.1) }), { mode: 'lite' });
+  assert.equal(a.dimensions.find((d) => d.dimension === 'rivalry').state, 'unmeasured');
+  assert.equal(a.problems.filter((p) => /lite run does not judge/.test(p)).length, 2);
+
+  // The mechanical floor still binds; a missing judged row still adds work.
+  assert.equal(aggregate(r, liteVerdicts({ robustness: v(0.3) }), { mode: 'lite' }).outcome, 'fail');
+  const noCraft = aggregate(r, liteVerdicts({ craft: unmeasured('no governing pairs and no recognisable category of work') }), { mode: 'lite' });
+  assert.equal(noCraft.coverage, 0.45);
+  assert.equal(noCraft.outcome, 'incomplete', 'a lite pass that could not judge craft rests on 45% of the rubric');
+  assert.ok(noCraft.must_address.some((m) => m.startsWith('craft is unmeasured')));
+  // Lite rounds share the cap's NUMBER, counted in their own mode.
+  assert.equal(aggregate(r, liteVerdicts(), { mode: 'lite', roundNo: 4 }).outcome, 'stalled');
+});
+
+test('lite and full results both validate; a lite result is held to its scope', () => {
+  const r = rubricOf('feature-v1');
+  const lite = buildResult(liteMeta(), aggregate(r, liteVerdicts(), { mode: 'lite' }));
+  assert.deepEqual(validateResult(lite), []);
+  assert.equal(lite.mode, 'lite');
+  assert.deepEqual(lite.skipped_dimensions, ['rivalry', 'economics']);
+  assert.equal(lite.dimensions.length, 5, 'the door requires every rubric row, the skipped ones included');
+
+  const full = buildResult(liteMeta({ mode: undefined, run_id: '2026-10-07-example-feature-r1' }),
+    aggregate(r, { ...liteVerdicts(), rivalry: v(0.5), economics: na() }, {}));
+  assert.deepEqual(validateResult(full), []);
+  assert.equal(full.mode, 'full');
+  const { mode: _m, ...legacy } = full;
+  assert.deepEqual(validateResult(legacy), [], 'a result written before modes existed reads as full');
+
+  const refuses = (doc, re) => assert.ok(validateResult(doc).some((x) => re.test(x)), `expected ${re}`);
+  refuses({ ...lite, summary: '' }, /summary is required/);
+  refuses({ ...lite, summary: '   \n ' }, /summary is required/);
+  refuses({ ...lite, must_address: undefined }, /must_address is required/);
+  refuses({ ...lite, mode: 'quick' }, /mode must be one of full, lite/);
+  const { skipped_dimensions: _s, ...noSkipped } = lite;
+  refuses(noSkipped, /skipped_dimensions must be an array/);
+  refuses({ ...lite, skipped_dimensions: ['rivalry'] }, /must be exactly rivalry, economics/);
+  refuses({ ...lite, skipped_dimensions: ['rivalry', 'value'] }, /must be exactly rivalry, economics/);
+  refuses({ ...lite, dimensions: lite.dimensions.filter((d) => d.dimension !== 'economics') }, /must carry economics/);
+  refuses({ ...lite, dimensions: lite.dimensions.filter((d) => d.dimension !== 'craft') }, /must carry craft/);
+  refuses({
+    ...lite,
+    dimensions: lite.dimensions.map((d) => (d.dimension === 'rivalry' ? { ...d, state: 'measured', score: 0.9, unmeasured_reason: null } : d)),
+  }, /rivalry is skipped in lite and must be unmeasured/);
+  refuses({ ...lite, subject: { ...lite.subject, kind: 'architecture' }, rubric_version: 'architecture-v1' }, /only a use_case subject/);
+  refuses({ ...full, skipped_dimensions: ['rivalry', 'economics'] }, /belongs to a lite result only/);
+  assert.throws(() => buildResult(liteMeta(), aggregate(r, liteVerdicts(), {})), /run says mode lite/);
+});
+
+test('validate --verdict in lite refuses a row lite does not judge', () => {
+  const good = { dimension: 'craft', state: 'measured', score: 0.6, confidence: 'med', unmeasured_reason: null, findings: [], evidence: [], techniques: [], delta: null };
+  assert.deepEqual(validateVerdict(good, { dimension: 'craft', mode: 'lite' }), []);
+  assert.ok(validateVerdict({ ...good, dimension: 'rivalry' }, { dimension: 'rivalry', mode: 'lite' })
+    .some((x) => /lite pass does not judge rivalry/.test(x)));
+  assert.deepEqual(validateVerdict({ ...good, dimension: 'rivalry' }, { dimension: 'rivalry', mode: 'full' }), []);
+  assert.ok(validateVerdict(good, { mode: 'lite', rubricVersion: 'architecture-v1' }).some((x) => /no lite scope/.test(x)));
+});
+
+// ------------------------------------------------------------------- rounds
+
+test('rounds are counted per mode, capped per mode, and chained per mode', () => {
+  const dirs = [
+    '2026-10-01-checkout-r1', '2026-10-02-checkout-r2',
+    '2026-10-01-checkout-lite-r1', '2026-10-03-checkout-lite-r2', '2026-10-04-checkout-lite-r3',
+    '2026-10-01-other-checkout-r1', // a different subject whose slug ENDS in "checkout"
+    '2026-10-01-checkout-r1-notes', // not a run directory
+  ];
+  const full = nextRound(dirs, 'checkout', 'full');
+  assert.deepEqual([full.round_no, full.supersedes_run_id, full.stalled], [3, '2026-10-02-checkout-r2', false]);
+  const lite = nextRound(dirs, 'checkout', 'lite');
+  assert.deepEqual([lite.round_no, lite.supersedes_run_id, lite.stalled], [4, '2026-10-04-checkout-lite-r3', true],
+    'three lite passes did not converge - a person looks, and no full round was burned');
+  assert.deepEqual(nextRound([], 'checkout', 'lite'), { mode: 'lite', round_no: 1, supersedes_run_id: null, stalled: false, prior_rounds: [] });
+  assert.equal(runDirName('2026-10-07', 'checkout', 'lite', 2), '2026-10-07-checkout-lite-r2');
+  assert.equal(runDirName('2026-10-07', 'checkout', 'full', 2), '2026-10-07-checkout-r2');
+
+  // The one ambiguous name: a full run of slug `checkout-lite` looks like a lite run of
+  // `checkout`. The run's own started.json decides.
+  const ambiguous = [{ name: '2026-10-01-checkout-lite-r1', started: { subject: { slug: 'checkout-lite' }, mode: 'full' } }];
+  assert.equal(nextRound(ambiguous, 'checkout', 'lite').round_no, 1);
+  assert.equal(nextRound(ambiguous, 'checkout-lite', 'full').round_no, 2);
+  assert.throws(() => nextRound(dirs, 'checkout', 'quick'), /mode must be one of/);
+});
+
+// ---------------------------------------------------------- the CLI, end to end
+
+const runCli = (args) => {
+  const env = { ...process.env };
+  delete env.NODE_TEST_CONTEXT;
+  return spawnSync(process.execPath, [COUNCIL, ...args], { encoding: 'utf8', env });
+};
+
+test('CLI: a lite run aggregates from started.json, validates, and an empty summary is refused', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'council-lite-'));
+  try {
+    const runs = path.join(root, 'runs');
+    const round = runCli(['round', '--runs-dir', runs, '--slug', 'example-feature', '--mode', 'lite', '--date', '2026-10-07']);
+    assert.equal(round.status, 0, round.stderr);
+    const next = JSON.parse(round.stdout);
+    assert.equal(next.run_id, '2026-10-07-example-feature-lite-r1');
+
+    const dir = path.join(runs, next.run_id);
+    fs.mkdirSync(dir, { recursive: true });
+    const meta = liteMeta();
+    fs.writeFileSync(path.join(dir, 'started.json'), JSON.stringify({
+      run_id: next.run_id, mode: 'lite', subject: meta.subject, rubric_version: 'feature-v1',
+      round_no: next.round_no, supersedes_run_id: next.supersedes_run_id, trust_state: 'uncalibrated', receipt: meta.receipt,
+    }));
+    for (const [name, verdict] of Object.entries(liteVerdicts())) {
+      fs.writeFileSync(path.join(dir, `verdict-${name}.json`), JSON.stringify({ dimension: name, unmeasured_reason: null, delta: null, ...verdict }));
+      const vr = runCli(['validate', '--verdict', path.join(dir, `verdict-${name}.json`), '--mode', 'lite']);
+      assert.equal(vr.status, 0, vr.stdout);
+    }
+    // A stale rivalry verdict in the directory is not read in lite.
+    fs.writeFileSync(path.join(dir, 'verdict-rivalry.json'), JSON.stringify({ dimension: 'rivalry', ...v(0.1) }));
+
+    const noSummary = runCli(['aggregate', '--run-dir', dir]);
+    assert.equal(noSummary.status, 2, 'aggregate refuses to write a lite result with no summary');
+    assert.ok(!fs.existsSync(path.join(dir, 'result.json')));
+
+    const contradicted = runCli(['aggregate', '--run-dir', dir, '--summary', 's', '--mode', 'full']);
+    assert.equal(contradicted.status, 2);
+    assert.match(contradicted.stderr, /contradicts started\.json/);
+
+    const agg = runCli(['aggregate', '--run-dir', dir, '--summary', meta.summary]);
+    assert.equal(agg.status, 0, agg.stderr);
+    const out = JSON.parse(agg.stdout);
+    assert.deepEqual([out.mode, out.outcome, out.coverage, out.skipped_dimensions], ['lite', 'ready', 0.7, ['rivalry', 'economics']]);
+    assert.deepEqual(out.problems, []);
+
+    const resultFile = path.join(dir, 'result.json');
+    const ok = runCli(['validate', '--result', resultFile]);
+    assert.equal(ok.status, 0, ok.stdout);
+    assert.equal(JSON.parse(ok.stdout).mode, 'lite');
+
+    const written = JSON.parse(fs.readFileSync(resultFile, 'utf8'));
+    fs.writeFileSync(resultFile, JSON.stringify({ ...written, summary: '' }));
+    const refused = runCli(['validate', '--result', resultFile]);
+    assert.equal(refused.status, 1, 'validate refuses a lite result with an empty summary');
+    assert.match(refused.stdout, /summary is required/);
+
+    const rv = runCli(['validate', '--verdict', path.join(dir, 'verdict-rivalry.json'), '--mode', 'lite']);
+    assert.equal(rv.status, 1);
+
+    const second = JSON.parse(runCli(['round', '--runs-dir', runs, '--slug', 'example-feature', '--mode', 'lite', '--date', '2026-10-08']).stdout);
+    assert.deepEqual([second.round_no, second.supersedes_run_id], [2, next.run_id]);
+    const firstFull = JSON.parse(runCli(['round', '--runs-dir', runs, '--slug', 'example-feature', '--date', '2026-10-08']).stdout);
+    assert.deepEqual([firstFull.round_no, firstFull.supersedes_run_id, firstFull.run_id], [1, null, '2026-10-08-example-feature-r1'],
+      'a lite pass does not burn a full round');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
 });

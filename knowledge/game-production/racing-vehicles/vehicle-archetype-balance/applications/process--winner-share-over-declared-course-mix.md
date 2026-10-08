@@ -11,15 +11,15 @@ verified_on: 2026-10-01
 # Replacing an unreachable entry-rate gate with winner share over a declared mix
 
 Source: the same ten-class arcade racer, content worktree
-`C:\Users\kazda\kiro\firetv-deathride-content` at commit `e1640f0`, plus the design document in
-`C:\Users\kazda\kiro\firetv-deathride`. All results are seeded simulation of stock movement
+`firetv-deathride-content` at commit `e1640f0`, plus the design document in
+`firetv-deathride`. All results are seeded simulation of stock movement
 (2,000 races per scenario, six-car fields, twenty scenarios). Nobody has felt the classes, and
 combat fairness is outside this sweep.
 
 ## The brief's gate and why it could not fire
 
 The design set the gate per entry: `docs/concepts/DEATH-RIDE-PROGRESSION.md:43` "no class wins more than 55% of entries across the mixed track set"
-(source repo `C:\Users\kazda\kiro\firetv-deathride`), alongside the requirement that every class
+(source repo `firetv-deathride`), alongside the requirement that every class
 is "the best class (by mean finish time) on at least one track type and the worst on at least one".
 The first 40,000-race sweep followed it literally, and the review recorded the defect:
 `docs/concepts/deathride/C1-roster-v2.md:25` "Its maximum possible rate was 33.3%, so it was not an informative dominance check."

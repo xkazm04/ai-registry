@@ -10,8 +10,8 @@ verified_on: 2026-10-01
 
 # Node scripts polling a streaming stick: ready signals, restart drills and the load pump
 
-Verified 2026-10-01 against the racing game's tree (`C:\Users\kazda\kiro\firetv-deathride`, the root of
-every path below, except one anchor into the earlier proof-of-concept tree `C:\Users\kazda\kiro\firetv`).
+Verified 2026-10-01 against the racing game's tree (`firetv-deathride`, the root of
+every path below, except one anchor into the earlier proof-of-concept tree `firetv`).
 The stack is `node`: scripts drive one real streaming stick over a debug bridge, with an automation
 browser as the phone. Everything here was measured on that single stick with scripted clients and
 emulated touch; no person played and no physical phone was used.

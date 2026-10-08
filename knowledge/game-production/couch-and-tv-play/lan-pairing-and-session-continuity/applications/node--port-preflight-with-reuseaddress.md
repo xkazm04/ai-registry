@@ -12,7 +12,7 @@ verified_on: 2026-10-01
 
 The source is the same two-seat racing game, a JVM host with a CIO server engine, filed
 under the `node` slot as the nearest server stack. Citations resolve against
-`C:\Users\kazda\kiro\firetv-deathride`, checked 2026-10-01; the proof-of-concept findings
+`firetv-deathride`, checked 2026-10-01; the proof-of-concept findings
 document cited first exists identically in that tree. The history is two incidents about a
 month apart in the lineage, and the code carries both fixes.
 

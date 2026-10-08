@@ -10,9 +10,9 @@ verified_on: 2026-10-01
 
 # The insured repair share in a Fire TV combat racer's settlement
 
-Source tree: the Death Ride combat racer for Fire TV (source repo root `C:\Users\kazda\kiro\firetv-deathride`,
+Source tree: the Death Ride combat racer for Fire TV (source repo root `firetv-deathride`,
 tip `9793226`; the next phase's design notes live in the sibling content tree
-`C:\Users\kazda\kiro\firetv-deathride-content`, cited below with a "content tree" mark). The game is a
+`firetv-deathride-content`, cited below with a "content tree" mark). The game is a
 Kotlin core with data tables. This application reads the settlement path as a methodology, because the
 repair cap, the floor, the ticket, the wallet cap and the receipt identity are one function in this code.
 

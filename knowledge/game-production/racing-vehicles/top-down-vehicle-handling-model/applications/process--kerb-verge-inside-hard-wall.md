@@ -10,7 +10,7 @@ verified_on: 2026-10-01
 
 # The surface ladder is exercised; the verge band is probably unreachable
 
-Read against the `firetv-deathride` tree, source root `C:\Users\kazda\kiro\firetv-deathride`, at
+Read against the `firetv-deathride` tree, source root `firetv-deathride`, at
 the head of its main branch on 2026-10-01 (uncommitted work present, commit not pinned). The
 ladder's completion results are **simulated** (seeded computer-driven cars). The reachability
 finding below is a **derivation from cited lines**, not an instrumented run. Nothing here is
