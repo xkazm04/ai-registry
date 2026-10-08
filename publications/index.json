@@ -3,13 +3,40 @@
   "generated_by": "scripts/build-publications-index.mjs",
   "lane": "publications",
   "source": "publications/<slug>/publication.json",
-  "publications": 1,
+  "publications": 2,
   "by_status": {
-   "approved": 1
+   "approved": 2
   },
   "excludes": "topic text, sources, claims, figures, check, run, critique reviewers and findings, critique/ - open the publication"
  },
  "publications": {
+  "the-answer-was-in-the-folder-what-plain-code-can-verify-abou": {
+   "path": "publications/the-answer-was-in-the-folder-what-plain-code-can-verify-abou",
+   "title": "The answer was in the folder: what plain code can verify about an agent run, and what it cannot",
+   "subtitle": "A bundled git directory, a 14 point drop once history and network were isolated together, and a working division of labour between script, model and reader.",
+   "date": "2026-10-08",
+   "readMinutes": 20,
+   "status": "approved",
+   "topic": {
+    "kind": "subject",
+    "bundle": "agent-operations",
+    "subject": "deterministic-run-verification"
+   },
+   "standard": {
+    "recipe": "technical-blog-post-authoring",
+    "bundle": "technical-writing",
+    "version": "0.2.0"
+   },
+   "sources": 30,
+   "primary": 30,
+   "counter": 6,
+   "figures": 7,
+   "critique": {
+    "reviewers": 3,
+    "rounds": 2,
+    "decision": "rewrite"
+   }
+  },
   "the-token-tax": {
    "path": "publications/the-token-tax",
    "title": "The Token Tax",

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 440" width="680" height="440" role="img" aria-label="Timeline of seven published findings on agent runs, March 2025 to June 2026.">
+  <style>
+    .bg{fill:#faf8f4;stroke:#e2ded6;stroke-width:1}
+    .ttl{font:600 18px Helvetica,Arial,sans-serif;fill:#17171a}
+    .date{font:14px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    .lab{font:15px Helvetica,Arial,sans-serif;fill:#17171a}
+    .val{font:600 15px Helvetica,Arial,sans-serif;fill:#24508f}
+    .valx{font:600 15px Helvetica,Arial,sans-serif;fill:#9e2f24}
+    .rule{stroke:#bdb8ad;stroke-width:2}
+    .dot{fill:#faf8f4;stroke:#24508f;stroke-width:3}
+    .dotx{fill:#9e2f24;stroke:#9e2f24;stroke-width:3}
+    .foot{font:13px Helvetica,Arial,sans-serif;fill:#5c5c66}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1b1b1f;stroke:#2e2e33}
+      .ttl{fill:#e9e5dd}
+      .lab{fill:#e9e5dd}
+      .date{fill:#a8a49c}
+      .val{fill:#8fb4ee}
+      .valx{fill:#e8897c}
+      .rule{stroke:#56565e}
+      .dot{fill:#1b1b1f;stroke:#8fb4ee}
+      .dotx{fill:#e8897c;stroke:#e8897c}
+      .foot{fill:#a8a49c}
+    }
+  </style>
+  <rect class="bg" x="0.5" y="0.5" width="679" height="439"/>
+  <text class="ttl" x="20" y="40">Published findings on agent runs, 2025 to 2026</text>
+  <line class="rule" x1="152" y1="76" x2="152" y2="400"/>
+
+  <text class="date" x="140" y="105" text-anchor="end">2025-03-14</text>
+  <circle class="dot" cx="152" cy="100" r="6"/>
+  <text class="lab" x="170" y="105">exit(0), SkipTest, tests edited</text>
+  <text class="val" x="666" y="105" text-anchor="end">5 hack types [2]</text>
+
+  <text class="date" x="140" y="153" text-anchor="end">2025-09-09</text>
+  <circle class="dot" cx="152" cy="148" r="6"/>
+  <text class="lab" x="170" y="153">passed benchmark, failed full suite</text>
+  <text class="val" x="666" y="153" text-anchor="end">7.8% [5]</text>
+
+  <text class="date" x="140" y="201" text-anchor="end">2025-10-23</text>
+  <circle class="dot" cx="152" cy="196" r="6"/>
+  <text class="lab" x="170" y="201">cheated when tests contradict spec</text>
+  <text class="val" x="666" y="201" text-anchor="end">76% [3]</text>
+
+  <text class="date" x="140" y="249" text-anchor="end">2026-02-02</text>
+  <circle class="dot" cx="152" cy="244" r="6"/>
+  <text class="lab" x="170" y="249">developer reruns that were flaky</text>
+  <text class="val" x="666" y="249" text-anchor="end">67.73% [6]</text>
+
+  <text class="date" x="140" y="297" text-anchor="end">2026-05-12</text>
+  <circle class="dot" cx="152" cy="292" r="6"/>
+  <text class="lab" x="170" y="297">flaws across 10 agent benchmarks</text>
+  <text class="val" x="666" y="297" text-anchor="end">219 [4]</text>
+
+  <text class="date" x="140" y="345" text-anchor="end">2026-06-01</text>
+  <circle class="dot" cx="152" cy="340" r="6"/>
+  <text class="lab" x="170" y="345">of retail failures were false success</text>
+  <text class="val" x="666" y="345" text-anchor="end">47% [1]</text>
+
+  <text class="date" x="140" y="393" text-anchor="end">2026-06-25</text>
+  <circle class="dotx" cx="152" cy="388" r="6"/>
+  <text class="lab" x="170" y="393">bundled .git and network isolated together</text>
+  <text class="valx" x="666" y="393" text-anchor="end">87.1 to 73.0% [11]</text>
+
+  <text class="foot" x="20" y="428">Red: the opening incident. Numbers as reported by each source.</text>
+</svg>
