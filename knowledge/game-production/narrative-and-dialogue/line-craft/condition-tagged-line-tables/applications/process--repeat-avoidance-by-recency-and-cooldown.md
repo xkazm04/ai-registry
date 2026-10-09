@@ -5,7 +5,7 @@ subject: condition-tagged-line-tables
 technique: repeat-avoidance-by-recency-and-cooldown
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # Sizing Death Ride's bark and card pools from hearings
@@ -16,6 +16,12 @@ narrative research for Death Ride, an arcade combat racer of about thirty-five r
 realization: a worked sizing pass a narrative lead runs before commissioning lines. The
 dossiers are research and design proposals; the game has not been played, no row exists in
 code, and every figure below is an estimate stated with its assumption.
+
+Re-read on 2026-10-09 at `10974fa3`: every anchor below still holds. Rows now exist in code. The
+shipped runtime gates barks with a 6-second scene gap, a 25-second cooldown per speaker and
+trigger, and 14 barks a race. Its bark pools hold one to four rows each, and it ranks
+specificity ahead of recency ([kotlin application](kotlin--line-table-schema.md)). This
+sizing pass stays an estimate over the figures in the dossiers.
 
 Anchors are root-relative to that tree.
 

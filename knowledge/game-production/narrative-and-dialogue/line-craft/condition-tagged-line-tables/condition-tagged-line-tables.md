@@ -78,16 +78,22 @@ weather, the time of day — outrank one criterion that changes everything, such
 player just wrecked this speaker's brother*. A table that will carry story-critical rows
 therefore declares a tier above the count, so that consequence beats decoration by
 construction rather than by a writer remembering to pad the important row with filler
-criteria.
+criteria. Count is also not the only ranking that ships. Some systems rank by priority bands
+alone, with no count at all. Others sum per-criterion weights into a score. One widely used
+default ranks a line nobody has heard above a more specific line already heard. What every
+working form shares is a precedence a writer can predict from the row itself.
 
 Matching has one blind spot that no tier fixes: it chooses the best fit for the facts it can
 see, and a climactic beat depends on things a query cannot see — what the player has just been
 through, what was said a minute ago, what the next scene needs. A matched pick at a climax
 lands worse than a placed line, and it lands worse in exactly the moments that matter most. So
 the handful of beats that must arrive in order — the turn, the loss of something the player
-built, the ending — are placed by sequence and never left to the table. The table owns the
-many moments nobody can schedule and placement owns the few that must be scheduled; a design
-that lets the table pick its fixed beats has traded its best moments for its coverage.
+built, the ending — are guaranteed rather than matched. One way is to place them by sequence,
+outside the table. The other is to keep them inside it as must-play rows in a band above
+everything else, gated on the rows that must come first and exempt from cooldowns and the talk
+budget. What fails is leaving such a beat to compete on count or on chance. The table owns the
+many moments nobody can schedule and the guarantee owns the few that must be scheduled; a
+design that lets its fixed beats compete has traded its best moments for its coverage.
 
 ## The line must name the cause
 
@@ -103,13 +109,17 @@ Attribution carries a sharper failure than silence. A character who thanks the p
 something the player did not do, or blames them for a crash they had nothing to do with,
 has told the player the game is not watching — the opposite of what the line was for. So a
 cause line fires only on a confident attribution, and an uncertain one falls through to a
-neutral row; and a cause line has a freshness window, because a reaction that arrives after
-the moment has passed reads as a bug rather than as attention.
+neutral row. A cause line also has a freshness window, checked when the line is spoken rather
+than when it was queued, because a reaction that arrives after the moment has passed reads as a
+bug rather than as attention. The confidence gate binds the claims a player can check, above
+all claims about what the player did. A speaker announcing its own intention needs no such
+backing, and players credit a voiced intention with more than the game actually did.
 
 ## Repetition is the failure players actually notice
 
-Players forgive a character who says too little. They do not forgive one who says the same
-thing twice in a minute, and a reactive line that fires on a common event will be heard
+Players forgive a character who stays quiet through the unremarkable; silence at a salient
+moment is the different failure named at the top of this page. They do not forgive one who
+says the same thing twice in a minute, and a reactive line that fires on a common event will be heard
 hundreds of times across a game. Repetition control is not polish added at the end; it is
 half of the selection rule ([repeat-avoidance-by-recency-and-cooldown](./techniques/repeat-avoidance-by-recency-and-cooldown.md)).
 
@@ -159,9 +169,11 @@ story. The rule this subject holds is that **losing yields new story**: every lo
 has rows more specific than *you lost*, keyed to how and to whom and how many times, and some
 content — a rival's grudging respect, a confidence, a scene — is reachable only through
 defeat, so that a retry is never a rerun ([losing-yields-new-story](./techniques/losing-yields-new-story.md)).
-The companion rule is about gating: story advances on *finishing* an attempt, and winning gates
-rank and reward, so a difficulty wall can slow the player's progress without walling off the
-story.
+The companion rule is about gating: the story between attempts advances on *finishing* one,
+and winning gates rank and reward, so a difficulty wall can slow the player's progress without
+silencing the story. The arc's climax and ending may still wait on success, and the canonical
+failure-as-story design gates them exactly that way. There the release for a wall is an assist,
+not an ungated ending.
 Budget follows frequency, and the most frequent outcome for the player who most needs a
 reason to continue is the one the pool must be deepest for
 ([a-budget-shapes-the-output](../../../_laws.md#a-budget-shapes-the-output)).
@@ -175,7 +187,10 @@ the line and its budget, the repetition rule with its clock, the facts the line 
 it plays, and its production status. Facts are declared once in a dictionary with type,
 domain, owner and lifetime; a fact nobody has written is *unknown*, never false, and a
 criterion over an unknown fact fails rather than defaulting into a match
-([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)).
+([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)). Common tools do not
+hold this line. Some read an undeclared fact as zero, false or empty, and some let a negated
+test pass when the fact is missing. Where the tool cannot represent unknown, a lint over
+criteria that name facts nothing writes is the only guard.
 
 The schema is also where the table becomes checkable. Every criterion names a declared fact;
 every declared fact is read by some row, or it is reported as ignored
@@ -254,8 +269,9 @@ machine that chooses between them.
 1. **List the facts before the lines.** For each reactive moment, name what the game knows at
    that instant, who writes it, its type and its lifetime. A moment with no fact behind it is
    a request to another system, not a writing task.
-2. **Separate the placed beats from the matched moments.** The few beats that must land in
-   order are sequenced outside the table; everything else is declared as an event with a
+2. **Separate the guaranteed beats from the matched moments.** The few beats that must land in
+   order are sequenced outside the table or given a must-play band with their prerequisites;
+   everything else is declared as an event with a
    fallback row — the generic answer, or an authored silence — before any special case is
    written.
 3. **Write cause rows before state rows**, and gate each cause row on a confident attribution

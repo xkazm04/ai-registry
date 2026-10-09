@@ -22,8 +22,15 @@ what it forbids as much as by what it carries.
 **The fact dictionary** declares every fact a criterion may test. Each fact has a name, a type
 (flag, count, enumeration, number with its unit), a domain, an owner (the one system that writes
 it), and a lifetime (the event, the scene, the race, the session, the save). A fact that has not
-been written holds *unknown*, which is distinct from false and from zero. The dictionary is
+been written holds *unknown*, which is distinct from false and from zero. A count is written as
+zero by its owner when its scope opens, so zero is a value a first-occurrence row can test.
+Unknown is kept for facts no system has yet had the chance to establish. The dictionary is
 short, changes rarely, and is owned by the people who own the systems.
+
+Many tools have no unknown at all. One reads an undeclared variable as zero, false or empty;
+another lets a negated test pass when the fact is missing. In a table built on such a tool, the
+undeclared-fact check below is the only thing standing between a misspelt or never-written
+fact and a row that silently never plays, or silently always does.
 
 **The line table** holds the rows. It is long, changes daily, and is owned by writers. Keeping
 the two apart is what lets writers add a row without being able to add a fact — a row that
@@ -116,8 +123,16 @@ studio engineer's primary conference talk, rated high, and the dossier's propose
 — speaker, trigger, conditions, weight, once flag, cooldown — is a design proposal built from
 it, not a tested format. The key-phrase ledger comes from the dossier's own revision protocol.
 The two-table split, stable ids, the unread-fact census, max age, writes-back and the linter's
-single source are practitioner judgement. None of it has been tested in a played game for which
-this subject was written.
+single source are practitioner judgement. On 2026-10-09 the web lane confirmed the
+unknown-fails rule in the talk's own words. It also found the opposite behaviour in two shipped
+tools' code and documentation: one passes a negation on a missing fact, and one cannot represent
+a missing fact. No shipped tool was found that lints for shadowed rows or unread facts.
+
+The checks were run once on a shipped table
+([kotlin application](../applications/kotlin--line-table-schema.md)). A quarter of its usable
+rows were unreachable, on events nothing raises or on facts nothing writes. The project's own
+suite passed over all of them, because it asked only whether rows existed for what the code
+raised. None of it has been tested in a played game.
 
 ## When not to use this
 

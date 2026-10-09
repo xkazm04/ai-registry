@@ -51,6 +51,13 @@ generic), the highest eligible tier wins, and count breaks ties inside a tier. A
 weight is the finer alternative; it is more expressive and less predictable, and a table
 written by several writers is better served by four tiers anyone can reason about.
 
+Count is one shipped ranking among several. Even the engine this rule was first described for
+let a criterion be optional and weighted, so "every criterion must hold" and "count the
+criteria" were its defaults, not its laws. Other shipped systems rank by authored priority
+bands and never count at all. One widely used tool ranks an unheard line above a more specific
+line already heard. What every working form keeps is a precedence a writer can predict from the
+row itself, with a declared top band for what must win.
+
 Ties inside a tier and count are broken by an authored weight and then by a seeded random
 choice. The random choice is seeded so that a test run, a replay and a bug report reproduce
 the same line.
@@ -62,7 +69,12 @@ this session, or barred by the speaker's talk budget. The rule is that selection
 to the next most specific eligible row, not to silence and not to a repeat of the line just
 heard. This is how a running gag degrades gracefully — after its lines are spent, the
 situation is answered by the less special row beneath it — and it is why the fallback row is
-mandatory for every event. An event with no fallback row is an event that will eventually be
+mandatory for every event.
+
+Heard counts as used. A ranker that sorts by specificity first and consults what has been heard
+only to break ties never exhausts its special row. It plays that row's line every time the row
+is eligible, and the special case becomes the parrot. Whichever rule ranks them, a special line
+that has been heard yields to a general line that has not. An event with no fallback row is an event that will eventually be
 answered by nothing, in a moment nobody chose.
 
 Silence is sometimes the correct answer, and then it is a row: an eligible, authored row that
@@ -75,9 +87,12 @@ Matching chooses the best fit among the facts the snapshot carries, and that is 
 wrong instrument for a climactic beat, whose fitness depends on what the player has just felt,
 what was said a moment ago and what the next scene needs — none of which is a fact. A matched
 line at a climax lands worse than a placed one. The rule is that beats which must arrive in a
-stated order are placed by sequence, outside the table, and the table is told to stand down
-while they play. Where a placed beat wants reactive colour, it raises its own event and lets
-the table supply a line *inside* the slot the beat reserved, never the beat itself.
+stated order are guaranteed, not matched. One way is to place them by sequence, outside the
+table, and tell the table to stand down while they play. The other is to keep them inside the
+table as must-play rows, in a band above every other band. Such a row is gated on the rows that
+must precede it, played once, and exempt from cooldowns and the talk budget. What fails is a beat left to compete on count or on
+chance. Where a placed beat wants reactive colour, it raises its own event and lets the table
+supply a line *inside* the slot the beat reserved, never the beat itself.
 
 ## Checks the table owes before play
 
@@ -86,7 +101,8 @@ the table supply a line *inside* the slot the beat reserved, never the beat itse
 **Shadowed row.** A row is dead if, in every situation where it is eligible, some other row
 of a higher tier or greater count is eligible too and never exhausts. The common case is
 mechanical: a row whose criteria are a subset of another row's at the same tier can still win,
-but a row whose criteria are a superset of a higher-tier row's can never win. Dead rows have
+but a row whose criteria are a superset of a higher-tier row's can win only while that row is
+exhausted, and never if it cannot exhaust. Dead rows have
 been written, reviewed, translated and possibly recorded; they compiled and nothing reaches
 them ([compiling-is-not-wiring](../../../../_laws.md#compiling-is-not-wiring)).
 
@@ -112,8 +128,9 @@ is the backlog, not a quality figure.
 - **When a bug report says the wrong line played, answer it from a selection trace** — the
   eligible rows, their tiers and counts, and why the winner won — not from rereading the
   table.
-- **When a beat must land in order, place it**; never raise its priority until the table
-  happens to pick it.
+- **When a beat must land in order, guarantee it.** Place it, or give it a must-play band with
+  its prerequisites, exempt from cooldown and budget. Never leave it to count or chance.
+- **When a special row has been heard, let an unheard general row answer** before it repeats.
 
 ## Evidence status
 
@@ -121,9 +138,19 @@ The selection rule itself — facts matched against tagged rows, the most specif
 winning, general rows as fallbacks, special cases added without code — is described in a
 primary source, a studio engineer's conference talk on a shipped reactive-dialogue system, and
 in a respected practitioner's essay naming the approach and its main risk; the dossier rates
-both high, though it read the talk through its abstract and a summary rather than in full. The
-rule that salience must not pick climactic beats comes from that essay and is high-confidence
-as a claim of risk, not as a measured result. The tier-above-count refinement, the explicit
+both high. It read the talk only through its abstract and a summary. The slides with speaker
+notes were read in full on 2026-10-09: the engine they describe also had weighted and optional
+criteria, and it chose at random among equal matches. On the same date the web lane read
+shipped selection code from two other systems. Both rank by priority bands, and one puts an
+unheard line ahead of a more specific heard one. That lane and a blind training-data lane reached
+the bounds on count ranking and on placed beats independently.
+
+The rule that salience must not pick climactic beats comes from that essay and is
+high-confidence as a claim of risk, not as a measured result. The essay's own proposed remedy
+is to feed dramatic-arc state into the match. A shipped game delivers its ending through a
+top-priority, play-once row gated on an earlier meeting, so "never matched" was too strong. A
+field census of one shipped table found a ranker that sorts specificity before recency
+([kotlin application](../applications/kotlin--line-table-schema.md)). The tier-above-count refinement, the explicit
 unknown test, the seeded tie-break and the shadowed-row check are practitioner judgement, not
 sourced claims. None of it has been tested in a played game for which this subject was written.
 

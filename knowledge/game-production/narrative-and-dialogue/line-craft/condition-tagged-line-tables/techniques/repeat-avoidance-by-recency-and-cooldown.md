@@ -66,9 +66,12 @@ is not a rule until it says three of what
 ([a-number-carries-its-unit-and-basis](../../../../_laws.md#a-number-carries-its-unit-and-basis)).
 The clocks also differ in what survives a restart. Recency and once-only state that lives
 only in memory resets when the game is relaunched, so a player who plays in short sessions
-hears the same opening remark every evening. The rule is that any limit counted in sessions or
-saves is persisted with the save, and any limit counted in seconds or events is allowed to
-reset.
+hears the same opening remark every evening. The rule follows meaning, not unit. Any limit or
+count whose meaning outlives a relaunch is persisted with the save, whatever clock counts it.
+That covers an opening remark, an attempt count, and anything a player meets only a few times
+a session. Only limits that matter inside a session, such as seconds of play or a burst of a
+frequent event, may reset. Counting in events does not make a limit safe to lose: the opening
+remark is counted in events too.
 
 ## Size the pool from the fire rate
 
@@ -125,9 +128,11 @@ voice stop listening to all of it. Failure commentary goes first, since failure 
   the scene.**
 - **When a line would be absurd twice, make it once-only and name the scope.**
 - **When an act is likely to repeat, sequence the row** and let its last step notice.
-- **When a limit is counted in sessions or saves, persist it.**
+- **When a limit's meaning outlives a relaunch, persist it**, whatever clock counts it.
 - **When a row's arithmetic says it is too thin, reduce its fire rate or route its overflow**
-  before commissioning more lines.
+  before commissioning more lines. Loss rows are the exception: they take the commissioning
+  budget first ([losing-yields-new-story](./losing-yields-new-story.md)), and these options
+  cover what that budget cannot fill.
 - **When a pool has a standout, ration it** with a low weight and a long cooldown.
 - **When a new line is accepted, check it against the phrase ledger** for its speaker and every
   other pool.
@@ -143,7 +148,12 @@ standouts, distinct angles over synonyms, the phrase ledger and cut-off variants
 practitioner guide to barks and the dossier's own checklist, secondary in strength. The
 evidence that repetition costs the whole voice is a community report of players muting a
 racing game's commentator, rated low and used here as illustration only. The clocks, the
-persistence rule and the interruption rule are practitioner judgement. None of it has been
+persistence rule and the interruption rule are practitioner judgement. The persistence rule was
+first keyed to the clock's unit. It was rekeyed to meaning on 2026-10-09, when a blind lane
+found that it permitted its own named failure. A shipped table showed the same gap
+([kotlin application](../applications/kotlin--line-table-schema.md)): an attempt count in
+memory, which the old rule allowed to reset. A primary practitioner chapter on reactions, read
+the same day, states that specific lines are noticed soonest on a second hearing. None of it has been
 tested in a played game for which this subject was written.
 
 ## When not to use this

@@ -51,15 +51,20 @@ has gained something a perfect player never sees. This turns the retry from a re
 same attempt into a continuation, which is the difference between a player who tries once more
 and one who stops.
 
-The gating rule follows from it: story advances on *finishing* an attempt, and winning gates
-rank, money and standing. A beat that waits behind a victory is a beat a struggling player may
-never see, and a difficulty wall that also walls off the story turns a hard stretch into a reason
-to stop. When a beat genuinely depends on the result, it has two forms — the one a winner sees
-and the one a loser sees — and neither is the lesser.
+The gating rule follows from it: the story between attempts advances on *finishing* one, and
+winning gates rank, money and standing. A beat that waits behind a victory is a beat a
+struggling player may never see, and a difficulty wall that also silences the story turns a hard
+stretch into a reason to stop. When a beat genuinely depends on the result, it has two forms —
+the one a winner sees and the one a loser sees — and neither is the lesser. The bound is the
+arc's climax and ending. The canonical failure-as-story design gates those on success, and
+rightly, because an ending reached without the win is a different ending. There the release
+for a wall is an assist the player can turn on, not an ungated ending.
 
 The retry itself is an event and gets rows. The framing before a second attempt acknowledges the
 first, so the third retry reads differently from the first; a world that greets every attempt
-identically tells the player their attempts are not part of the story.
+identically tells the player their attempts are not part of the story. The attempt count lives
+with the save. Kept in memory, it resets when the game is relaunched, and the player who quit
+after a fourth attempt is greeted the next evening as if on the first.
 
 The tone of loss rows also moves with the count. Mockery that lands on the first defeat grinds
 on the fifth; the sequence should shift — from taunt, to grudging notice, to something the
@@ -87,7 +92,12 @@ many distinct lines were heard.
 - **When losses repeat, move the tone**: escalate the rival, then soften, then help, rather than
   repeating the same mockery with a counter.
 - **When the census shows new lines per retry dropping to zero, deepen the loss pools first.**
-- **When a story beat is gated, gate it on finishing**, and leave winning to gate rank and reward.
+  Loss pools take the budget ahead of win pools. Where even that budget cannot fill a loss row,
+  the thin-row options of repeat avoidance apply to it as to any row.
+- **When a between-attempt beat is gated, gate it on finishing**, and leave winning to gate rank
+  and reward. When the climax or ending waits on success, give the wall an assist rather than
+  ungating the ending.
+- **When a retry is counted, keep the count in the save.**
 - **When a retry begins, answer the previous attempt** before the next one starts.
 
 ## Evidence status
@@ -99,7 +109,12 @@ story comes from the same creative director. The retry acknowledgment rests on a
 account of one game and a primary account of another, medium overall. The counter-example of
 players rejecting a racing commentator's repetitive post-failure remarks is a low-confidence
 community report. The budget-by-hearings census, the defeat-only unlocks and the tone sequence
-are practitioner judgement. None of it has been tested in a played game for which this subject
+are practitioner judgement. On 2026-10-09 a web lane and a blind training-data lane
+independently bounded "story advances on finishing" at the climax and ending. The web lane read
+the shipped scripts of the game built around dying, copied in a third-party repository: its
+ending row requires a meeting reached only by clearing a run. A shipped table read the same day
+kept its attempt count in memory
+([kotlin application](../applications/kotlin--line-table-schema.md)). None of it has been tested in a played game for which this subject
 was written.
 
 ## When not to use this

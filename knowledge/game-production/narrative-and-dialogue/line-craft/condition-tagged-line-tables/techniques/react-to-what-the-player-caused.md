@@ -54,10 +54,18 @@ cause rows require the confident value; an ambiguous event falls through to a st
 to silence. When the resolver cannot give a confidence, treat every attribution as ambiguous
 until it can.
 
+The gate binds the claims a player can check, and the sharpest of those is what the player
+did. A speaker announcing its own intention, as in *flanking left* or *I'm going for the
+leader*, is not an attribution. It may run ahead of what the agent actually does, and players
+credit a voiced intention with more than the game performed. Holding such lines to the
+confidence gate silences the cheapest legibility the game has.
+
 Freshness is the second gate. A reaction is legible only while the act is still in the
 player's mind, which in fast play is a few seconds and in slow play may be a scene. Every
 cause row states the maximum age of the act it answers, in a named clock, and a stale event
-is not answered by that row. The usual failure is a line queued behind a talk budget or a
+is not answered by that row. Age is checked when the line is about to be spoken, not when it
+was chosen. A line that waited behind another re-queries its row, and a follow-up line is
+chosen when its cue arrives, not when the exchange began. The usual failure is a line queued behind a talk budget or a
 higher-priority speaker and delivered after the moment — a remark about an overtake that
 plays half a lap later reads as a malfunction.
 
@@ -83,8 +91,8 @@ and its lifetime must be declared, or it will quietly reset at a session boundar
 
 - **When a reactive moment is proposed, name the act and its author first.** If no system
   records who caused it, the proposal goes to that system's owner, not to a writer.
-- **When attribution is ambiguous, do not claim it.** Fall through to a row that does not
-  assign cause.
+- **When attribution about the player is ambiguous, do not claim it.** Fall through to a row
+  that does not assign cause. A speaker's own intention is exempt.
 - **When a cause line could be delayed, give it a maximum age** and let a stale event lapse
   rather than play late.
 - **When an act repeats, count it**, and give the row a sequence so the third occurrence is
@@ -102,8 +110,21 @@ dossier rates high. Memory-driven callbacks with a fallback line are a high-conf
 across two primary studio accounts. The sharp split between state lines and cause lines, the
 attribution owner, the confidence gate and the freshness window are practitioner judgement;
 the sourced examples mix the two kinds (arriving low on health is reacted to as if it were a
-cause), so the split is this document's standard rather than a sourced finding. None of it has
-been tested in a played game for which this subject was written.
+cause), so the split is this document's standard rather than a sourced finding.
+
+On 2026-10-09 a web lane over primary sources and a blind training-data lane bounded the
+confidence gate independently. Both put it on claims about the player, because voiced
+intention works on weak backing. The primary source for that is a shipped squad AI's own
+postmortem. The rule to check freshness at speaking time is stated in the conference talk this
+subject rests on. No source either way was found for the claim that a misattribution costs
+more than a silence.
+
+One field experiment measured the attribution rule
+([kotlin application](../applications/kotlin--react-to-what-the-player-caused.md)). A dialogue
+layer inferred who hit whom from per-frame damage totals, beside a resolver that recorded every
+hit's author. The inference named the wrong author for a small share of spoken lines, and the
+share grew with frame time. That is the rule's predicted failure, at a rate a hitch-prone
+device can reach. None of it has been tested in a played game.
 
 ## When not to use this
 

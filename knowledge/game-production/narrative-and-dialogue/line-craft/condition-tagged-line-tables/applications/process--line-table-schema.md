@@ -5,7 +5,7 @@ subject: condition-tagged-line-tables
 technique: line-table-schema
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # Death Ride's proposed salience table, read against the schema
@@ -17,6 +17,11 @@ combat racer for a television-class device, in the `firetv-deathride` tree at
 a search of the tree for its column names finds them only in that dossier — so everything below
 is a reading of a design on paper. Nobody has played the game, and nothing here is evidence that
 any row works in play.
+
+Re-read on 2026-10-09 at `10974fa3`: every anchor below still holds. The search result above no
+longer does. The game now ships a 518-row line table and a runtime that queries it, and the
+[kotlin application](kotlin--line-table-schema.md) reads that table against this schema. This page
+stays a reading of the proposal.
 
 Anchors are root-relative to that tree.
 
