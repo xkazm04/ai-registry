@@ -1,0 +1,84 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-dls-1009",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T19:45:00Z",
+  "ended_at": "2026-10-09T19:58:44Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/debt-and-loss-stakes-staging",
+      "at": "2026-10-09",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "debt-and-loss-stakes-staging",
+      "technique": "take-it-after-a-win",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "debt-and-loss-stakes-staging",
+      "technique": "ledger-after-every-event",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "debt-and-loss-stakes-staging",
+      "technique": "the-leash-can-be-rewritten",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/debt-and-loss-stakes-staging.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/techniques/ledger-after-every-event.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/techniques/take-it-after-a-win.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/techniques/the-last-act-is-the-players.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/techniques/the-leash-can-be-rewritten.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/kotlin--ledger-after-every-event.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/kotlin--take-it-after-a-win.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/kotlin--the-last-act-is-the-players.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/process--ledger-after-every-event.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/process--take-it-after-a-win.md",
+    "librarian/subjects/game-production/debt-and-loss-stakes-staging.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "05fbe656",
+      "branch": "main",
+      "pathspec": "knowledge/game-production"
+    },
+    {
+      "sha": "ebf5a819",
+      "branch": "main",
+      "pathspec": "catalog.json"
+    },
+    {
+      "sha": "7a2ddcf4",
+      "branch": "main",
+      "pathspec": "librarian"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Three kotlin apps at firetv 10974fa3 from seeded traces: take after a win 26.7-80.8% across builds (boss clears 1,188/1,188); debt zero median 21/35 events, bridge lines unwired. Two two-lane conditions, 0 techniques, map 0 contexts."
+}
