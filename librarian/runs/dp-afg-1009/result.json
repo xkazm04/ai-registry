@@ -1,0 +1,83 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-afg-1009",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T17:55:00Z",
+  "ended_at": "2026-10-09T19:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/antagonist-fair-grievance-craft",
+      "at": "2026-10-09",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "antagonist-fair-grievance-craft",
+      "technique": "one-protected-thing",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "antagonist-fair-grievance-craft",
+      "technique": "the-leash-bites-another-first",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/antagonist-fair-grievance-craft.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/techniques/fair-grievance-wrong-means.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/techniques/one-protected-thing.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/techniques/presence-between-encounters.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/techniques/the-leash-bites-another-first.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/techniques/reasonable-menace.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/techniques/rationed-necessity-in-public.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/applications/kotlin--rationed-necessity-in-public.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/applications/process--fair-grievance-wrong-means.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/applications/process--rationed-necessity-in-public.md",
+    "librarian/subjects/game-production/antagonist-fair-grievance-craft.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "8d7039e4",
+      "branch": "main",
+      "pathspec": "knowledge/game-production"
+    },
+    {
+      "sha": "b9f0ebc9",
+      "branch": "main",
+      "pathspec": "catalog.json"
+    },
+    {
+      "sha": "a505b19b",
+      "branch": "main",
+      "pathspec": "knowledge/game-production"
+    },
+    {
+      "sha": "adf50a6b",
+      "branch": "main",
+      "pathspec": "librarian"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single stack cleared: kotlin application at firetv 10974fa3 (constant terms; skim + late clause carry the leash; receipts unwired). Four two-lane bounds, 0 techniques, map 0 contexts. Librarian lane red only on coverage age (17 days)."
+}
