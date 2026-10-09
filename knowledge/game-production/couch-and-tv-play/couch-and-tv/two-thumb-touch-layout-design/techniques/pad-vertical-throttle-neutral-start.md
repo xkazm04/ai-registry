@@ -54,7 +54,7 @@ contact point is zero.
 - **When throttle and steering together tire the thumb, say so as an observation and not as
   a verdict.** One thumb that holds two displacements is the largest ergonomic risk in the
   layout, and nobody has measured it unless it has been run on a physical phone in a long
-  session ([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)).
+  session ([unmeasured-is-not-a-pass](../../../../_laws.md#unmeasured-is-not-a-pass)).
 - **When teaching is wanted, this is the layout that most needs it.** The upward drag is
   invisible and unlike anything the player has done to a button. Treat it as a teaching
   atom and hand it to whatever owns teaching, rather than hoping the hint is read.

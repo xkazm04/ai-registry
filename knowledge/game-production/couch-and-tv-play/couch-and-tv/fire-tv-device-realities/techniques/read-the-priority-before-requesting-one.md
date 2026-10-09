@@ -44,7 +44,7 @@ tried.
    threads actually had, read during the run — not the ones the code requested.
 6. **Verify on the device.** A desktop operating system maps thread priorities to its scheduler
    differently, so a change verified there proves the code runs, not that the device schedules it the way
-   intended ([structural-proof-is-never-sufficient](../../../_laws.md#structural-proof-is-never-sufficient)).
+   intended ([structural-proof-is-never-sufficient](../../../../_laws.md#structural-proof-is-never-sufficient)).
 
 ## Decision rules
 
@@ -52,7 +52,7 @@ tried.
   match or lower what it has.
 - **When a priority change's effect on frame pacing has not been measured on the device, it is
   unmeasured.** A desktop run that shows unchanged throughput says the change did no harm there, nothing
-  more ([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)).
+  more ([unmeasured-is-not-a-pass](../../../../_laws.md#unmeasured-is-not-a-pass)).
 - **When a scheduling arm fails its frame gate, report the priorities it actually ran at.** A conclusion
   about "priority" drawn from an arm that ran at a lower priority than the default is a conclusion about
   the wrong experiment.

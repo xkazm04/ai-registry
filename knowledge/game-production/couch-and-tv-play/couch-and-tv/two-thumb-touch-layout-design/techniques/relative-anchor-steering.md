@@ -39,7 +39,7 @@ straight", which on a surface you cannot see is a cost worth paying.
    physical units of the thumb's stroke, bounded by the pad width so a narrow pad on a small
    screen still reaches full lock. Dead zone, response exponent, slew and speed-dependent
    authority are applied downstream in one place
-   ([one-authority-per-quantity](../../../_laws.md#one-authority-per-quantity)); the glass
+   ([one-authority-per-quantity](../../../../_laws.md#one-authority-per-quantity)); the glass
    sends the normalised value and nothing else.
 5. **Give feedback that shows the anchor and the thumb offset**, because the pad has no
    fixed landmark: a marker that returns to centre on lift, so the player sees what the
@@ -69,7 +69,7 @@ that lift returns to zero and that the clamp holds. It cannot show that the stro
 comfortable, that it is long enough for a heavy thumb or short enough for a small one, or
 that a long session does not tire the muscle. Those are measured only on a physical phone
 with the person who plays, and until then the stroke length is an authored number
-([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass) applies: report it
+([unmeasured-is-not-a-pass](../../../../_laws.md#unmeasured-is-not-a-pass) applies: report it
 as unmeasured, not as adequate).
 
 ## When not to use this

@@ -35,7 +35,7 @@ usually the one that carries what the player earned or paid for.
 1. **Time every step of one save on the device.** Encode, verify, write, flush, backup, rename, each
    timed, per save, over a stated number of saves, in a stated phase of play. The flush and the
    rename are storage costs; the encode and the verify are processor costs; they move with different
-   remedies ([a-number-carries-its-unit-and-basis](../../../_laws.md#a-number-carries-its-unit-and-basis)).
+   remedies ([a-number-carries-its-unit-and-basis](../../../../_laws.md#a-number-carries-its-unit-and-basis)).
 2. **Name the thread, the moment and what waits on the save.** Which thread runs the save, which
    events trigger it — the end of a race, a purchase, a change of setting, a periodic autosave — and
    whether the change it records is applied only once the save has succeeded. A save that gates its
@@ -79,7 +79,7 @@ usually the one that carries what the player earned or paid for.
 ## Decision rules
 
 - **When only a desktop has timed the save, the device cost is unmeasured.** The desktop has priced
-  its own storage ([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)).
+  its own storage ([unmeasured-is-not-a-pass](../../../../_laws.md#unmeasured-is-not-a-pass)).
 - **When the save carries what the player paid for, durability outranks the frame.** A dropped frame
   is visible and recoverable; a purchase lost to a power cut is neither, and the player finds out a
   session later.

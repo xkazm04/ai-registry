@@ -49,10 +49,10 @@ as the device takes to answer, and the stall it then reports is its own.
    simulation catch-up the long interval triggers. Those neighbours are attributed to the same request,
    not counted as separate causes. The report carries the counts per class. An unattributed slow frame
    is a gap in the instrument, reported as such; it is not the game's fault by default and not the
-   harness's by convenience ([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)).
+   harness's by convenience ([unmeasured-is-not-a-pass](../../../../_laws.md#unmeasured-is-not-a-pass)).
 5. **Prove the attribution can fire.** Inject a known stall of each kind — a sleep in the pump, a
    sleep in a named render-thread request — and confirm that each is attributed to the right owner
-   before trusting a clean run ([an-instrument-proves-it-had-input](../../../_laws.md#an-instrument-proves-it-had-input)).
+   before trusting a clean run ([an-instrument-proves-it-had-input](../../../../_laws.md#an-instrument-proves-it-had-input)).
 6. **Fix by name, then measure again.** A change is chosen for a named request and judged by that
    request's time on the next run, beside the bar it was meant to restore.
 
@@ -73,7 +73,7 @@ as the device takes to answer, and the stall it then reports is its own.
   their causes beside the count.
 - **When the game's own timers are the only evidence, label them self-reported.** A request timer is
   the game measuring itself; the frame statistics the platform keeps, or a host-side heartbeat, are the
-  outside readings that corroborate it ([no-gate-self-certifies](../../../_laws.md#no-gate-self-certifies)).
+  outside readings that corroborate it ([no-gate-self-certifies](../../../../_laws.md#no-gate-self-certifies)).
 
 ## When not to use
 

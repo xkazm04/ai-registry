@@ -60,7 +60,7 @@ than helped by it.
   residual throttle.
 - **When someone proposes making cruise the default, require use before argument.** Whether
   one hold beats two for a given owner's thumb is an unmeasured claim
-  ([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)); the layout
+  ([unmeasured-is-not-a-pass](../../../../_laws.md#unmeasured-is-not-a-pass)); the layout
   is offered as an experiment with a stable name, and the default is a proposal.
 
 ## Evidence status

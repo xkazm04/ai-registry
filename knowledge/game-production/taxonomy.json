@@ -147,15 +147,28 @@
     },
     {
       "id": "couch-and-tv-play",
-      "title": "Couch and TV play",
+      "title": "Couch, TV and immersive play",
       "order": 9,
-      "subjects": [
-        "phone-controller-input-protocol",
-        "controller-latency-instrumentation",
-        "two-thumb-touch-layout-design",
-        "lan-pairing-and-session-continuity",
-        "fire-tv-device-realities",
-        "on-device-verification-harness"
+      "subcategories": [
+        {
+          "id": "couch-and-tv",
+          "title": "Couch and TV",
+          "subjects": [
+            "phone-controller-input-protocol",
+            "controller-latency-instrumentation",
+            "two-thumb-touch-layout-design",
+            "lan-pairing-and-session-continuity",
+            "fire-tv-device-realities",
+            "on-device-verification-harness"
+          ]
+        },
+        {
+          "id": "immersive-interaction",
+          "title": "Immersive interaction",
+          "subjects": [
+            "drawn-gesture-command-recognition"
+          ]
+        }
       ]
     },
     {

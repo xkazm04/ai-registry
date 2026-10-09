@@ -74,7 +74,7 @@ values remain is a real test of this technique, and it should be run for every l
 proves the ownership rules. It does not prove that a sweaty thumb on a real screen produces
 the events the script injected: touch panels reject, merge and reorder contacts in ways an
 injector does not reproduce. State the test as an emulated-client result, never as a
-felt one ([structural-proof-is-never-sufficient](../../../_laws.md#structural-proof-is-never-sufficient)).
+felt one ([structural-proof-is-never-sufficient](../../../../_laws.md#structural-proof-is-never-sufficient)).
 
 ## When not to use this
 

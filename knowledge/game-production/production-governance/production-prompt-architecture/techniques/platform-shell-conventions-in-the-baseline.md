@@ -45,7 +45,7 @@ exactly which conventions existed.
 
 That is the argument for putting them in the baseline rather than in a reviewer's memory:
 the baseline is the only part of the prompt every task carries
-([`acceptance criteria appended, not replaced`](acceptance-criteria-appended-not-replaced.md)),
+([`acceptance criteria appended, not replaced`](./acceptance-criteria-appended-not-replaced.md)),
 and a convention that rides on the baseline cannot be dropped by a task that never thought
 about it.
 

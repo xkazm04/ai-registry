@@ -50,12 +50,12 @@ initialise an object the first time it is needed, not when its class loads.
 6. **Measure startup phases on the device.** Timestamps around class initialisation, the first content
    build and the first frame, taken on the stick from a cold process. Desktop figures rank the
    candidates; they do not estimate the device by a factor
-   ([a-number-carries-its-unit-and-basis](../../../_laws.md#a-number-carries-its-unit-and-basis)).
+   ([a-number-carries-its-unit-and-basis](../../../../_laws.md#a-number-carries-its-unit-and-basis)).
 
 ## Decision rules
 
 - **When a desktop cold start is fast, the device cold start is still unmeasured.** Record it as such
-  until a device run times it ([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)).
+  until a device run times it ([unmeasured-is-not-a-pass](../../../../_laws.md#unmeasured-is-not-a-pass)).
 - **When content becomes lazy, audit every caller that iterates it.** The laziness is only as good as
   the least careful caller, and the careless caller is usually in another module.
 - **When a deferred cost is small and lands on every path anyway, deferring it buys nothing.** Laziness

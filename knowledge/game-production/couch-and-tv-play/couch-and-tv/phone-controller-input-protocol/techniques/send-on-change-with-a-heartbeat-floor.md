@@ -36,7 +36,7 @@ interval can be long — a minute, not seconds.
 **3. Send only what the consumer reads.** For each field in the live block, find the code on the phone
 that reads it. A field the page never reads is cost with no consumer, and the diagnostic readers who
 do want the full object get it from their own endpoint, built when they ask for it
-([declaring-an-input-is-not-consuming-it](../../../_laws.md#declaring-an-input-is-not-consuming-it)).
+([declaring-an-input-is-not-consuming-it](../../../../_laws.md#declaring-an-input-is-not-consuming-it)).
 Numbers go out at the resolution the consumer displays, in a fixed-point form, not as the longest
 decimal the language will print.
 
@@ -57,7 +57,7 @@ behaviour that holds everywhere.
 
 **6. Measure frames, bytes and page work, per phase.** Frames per second and bytes per second per
 phone, in a menu and in a race; the page's layouts, mutations and main-thread time per second. State
-where each was measured ([a-number-carries-its-unit-and-basis](../../../_laws.md#a-number-carries-its-unit-and-basis)).
+where each was measured ([a-number-carries-its-unit-and-basis](../../../../_laws.md#a-number-carries-its-unit-and-basis)).
 
 ## Decision rules
 
@@ -74,7 +74,7 @@ where each was measured ([a-number-carries-its-unit-and-basis](../../../_laws.md
   idle uplink, never to a held posture.
 - **When a field is removed from the live block, its readers move with it.** The diagnostic endpoint
   that used it builds it lazily from the same source, so there is still one producer of each value
-  ([one-authority-per-quantity](../../../_laws.md#one-authority-per-quantity)).
+  ([one-authority-per-quantity](../../../../_laws.md#one-authority-per-quantity)).
 - **When a page reconnects, it gets everything.** Change suppression is per seat and per connection; a
   new connection starts from an empty "last sent".
 

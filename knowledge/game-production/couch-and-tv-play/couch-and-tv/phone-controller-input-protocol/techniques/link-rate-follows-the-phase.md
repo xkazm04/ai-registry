@@ -41,7 +41,7 @@ and the host's quiet-link limit are both multiples of the send interval; at the 
 widen, at the fast rate they narrow, and a short grace period covers the switch so the first slow
 interval is not mistaken for a loss. The rate and its thresholds live in one place both ends read,
 because a host limit tuned for thirty frames a second will declare a four-frame-a-second phone dead
-([one-authority-per-quantity](../../../_laws.md#one-authority-per-quantity)).
+([one-authority-per-quantity](../../../../_laws.md#one-authority-per-quantity)).
 
 **5. Stop sending while the page is hidden, and tell the host.** A locked or backgrounded phone sends
 a visibility message; the host stops building and sending the display stream for that seat while
@@ -60,7 +60,7 @@ short retry interval opens a socket every second for as long as the television i
 
 **7. Measure each phase separately.** Frames per second, bytes per second and the page's main-thread
 time per second, in a menu and in a race, before and after, with the host and the browser they were
-measured on ([a-number-carries-its-unit-and-basis](../../../_laws.md#a-number-carries-its-unit-and-basis)).
+measured on ([a-number-carries-its-unit-and-basis](../../../../_laws.md#a-number-carries-its-unit-and-basis)).
 
 ## Decision rules
 
@@ -73,7 +73,7 @@ measured on ([a-number-carries-its-unit-and-basis](../../../_laws.md#a-number-ca
 - **When the saving is claimed for a phone's battery or radio, say whether a handset was measured.**
   Fewer frames and fewer main-thread milliseconds in a desktop browser are counts and host timings;
   battery life on a handset is a separate, unmeasured claim until a handset is measured
-  ([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)). Do not infer radio
+  ([unmeasured-is-not-a-pass](../../../../_laws.md#unmeasured-is-not-a-pass)). Do not infer radio
   savings from the rate: platform guidance for mobile radios notes that traffic as sparse as one
   request every fifteen seconds can hold a radio awake, so four frames a second saves bytes,
   acknowledgements and page work, and the radio rests only when the link goes quiet — a hidden

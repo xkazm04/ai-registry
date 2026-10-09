@@ -72,7 +72,7 @@ The travel that maps to full lock is a physical distance in the thumb's own unit
 fraction of whatever pad size the layout happened to use: the same thumb on a larger phone
 should not need a longer stroke. And it is one authored value consumed once, downstream,
 with dead zone, response curve and slew applied in a single place, never re-derived on the
-glass ([one-authority-per-quantity](../../_laws.md#one-authority-per-quantity)).
+glass ([one-authority-per-quantity](../../../_laws.md#one-authority-per-quantity)).
 
 ## Three layouts, because the real question is which thumb gives up what
 
@@ -151,7 +151,7 @@ neutralised.
 - **Counting a simulated touch as a felt one.** An emulated multi-touch client proves the
   ownership rules and the reachability of each target. It proves nothing about thumb reach,
   fatigue or accidental contact, and a report must keep the two apart
-  ([unmeasured-is-not-a-pass](../../_laws.md#unmeasured-is-not-a-pass)).
+  ([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)).
 
 ## The path, in order
 
