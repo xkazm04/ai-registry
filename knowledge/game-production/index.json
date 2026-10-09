@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 535,
-  "applications": 248,
+  "applications": 255,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -7218,9 +7218,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/systems-canon/racing-career-economy/racing-career-economy.md",
-   "digest": "sha256-b2:1d1a000f35bc31a9",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:f968f177447a2754",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "finite-garage-end-state-honesty",
@@ -7325,16 +7325,65 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "finite-garage-end-state-honesty",
+     "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--finite-garage-end-state-honesty.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "idempotent-race-ticket-settlement",
+     "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--idempotent-race-ticket-settlement.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "participation-floor-no-dead-end",
+     "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--participation-floor-no-dead-end.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "pr-ratio-boss-dip",
+     "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--pr-ratio-boss-dip.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "qualified-wreck-advancement",
+     "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--qualified-wreck-advancement.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "repair-share-prize-cap",
+     "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--repair-share-prize-cap.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "rival-shopping-windows-no-player-read",
+     "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--rival-shopping-windows-no-player-read.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "repair-share-prize-cap",
      "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/process--repair-share-prize-cap.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     },
     {
      "stack": "process",
      "technique": "rival-shopping-windows-no-player-read",
      "file": "knowledge/game-production/systems-canon/racing-career-economy/applications/process--rival-shopping-windows-no-player-read.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     }
    ]
   },
