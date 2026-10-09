@@ -121,3 +121,37 @@ Source-class note:
 - Creator interviews carried both endings-side bounds, re-read verbatim.
 - A journal page carried the spoiler-replication correction.
 - Trade reports that would not fetch stayed summary-only and are rated Medium.
+
+## 2026-10-09 - deepen lan-pairing-and-session-continuity (dp-lps-1009)
+
+A single subject, ranked by single stack (node). The rank was half a mislabel: both `node`
+applications read Death Ride's Kotlin host (Ktor 2.3.12 CIO). They were refiled as `kotlin`
+and re-resolved at firetv `d9990777`. One real `node` application joined them: kp's wizard
+and personas' gate daemon walk the port and advertise it.
+
+Measured with a control:
+- the host's own close puts the wait state on its listening port;
+- on Linux the next bind needs reuse on both the new socket and the old listener;
+- Windows binds over it either way.
+
+Four conditions were reached by two lanes:
+- walk the port only when nothing a client keeps is tied to it;
+- check the socket's page origin before admission (A/B in the project's suite: seated
+  before the check, refused after);
+- do not admit inside a deadline that can fire after its block;
+- refusal handling by cause.
+
+There were 6 evidence corrections, 0 new techniques, and 2 local, unpushed commits on
+firetv `deathride/main`. The map joins 0 contexts, because firetv is still unregistered at
+HEAD.
+
+Source-class notes:
+- Primary interface definitions (W3C IDL, browser-compat-data, engine IDL files) carried
+  every capability correction.
+- A shipping browser's release notes dated the local-network prompt.
+- Kernel and runtime source (tcp.h, OpenJDK Net.java, libuv) settled the socket defaults,
+  together with a local measurement. The measurement beat every secondary source and found
+  the dev-machine blind spot that none of them states.
+- The OWASP cheat sheet and the blind lane converged on the origin check.
+- A third-party pull request about process death was read but not used: single-source,
+  and about a native target.
