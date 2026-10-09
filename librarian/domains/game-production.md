@@ -155,3 +155,27 @@ Source-class notes:
 - The OWASP cheat sheet and the blind lane converged on the origin check.
 - A third-party pull request about process death was read but not used: single-source,
   and about a native target.
+
+## 2026-10-09 - deepen llm-dialogue-quality-control (dp-ldq-1009)
+
+A single subject, ranked by single stack (process). The protocol the forge read on paper had
+already been run. The field lane re-analysed that run's full score record at firetv
+`d9990777`: 456 candidates, two judges, and one revision round. It also read the Kotlin loader
+that consumes the record. Two kotlin applications came out of it, both at the experiment rung:
+- a model's auto-pick is ranked first at runtime, silencing 9 rows in 6 slots;
+- the ban-list lint is in no tracked file, and it would have struck 0.7% of the pool, not half.
+
+Re-scored originals moved a median of 0.30, and 5 of 18 crossed the ship bar. Two judges of one
+family leaned opposite ways on length. Nine two-lane corrections landed. Prompt-ban priming is
+model-dependent, and a vendor claim had been misattributed. Another family is necessary but not
+sufficient. Length lean is per judge. Scores compare only within a draw, and floor splits go to
+the person. Revision needs a margin. An unratified pick never outranks at runtime, and filler
+never gets neither reviewer. Two further corrections cover verbalized sampling's scope and
+constraint retirement, and decode-time backtracking was added as a third enforcement point.
+0 techniques. The map joins 0 contexts, because firetv is unregistered.
+
+Source-class note: arXiv abstracts fetched raw through the export API carried every web bound.
+The lane's own WebFetch quotes were re-checked against them, and its 2026 judge-bias papers
+held. The vendor's prompting page, read raw, contradicted what the subject had attributed to it.
+An executed run's own score record was the richest field source this domain has had: it
+answered questions on test-retest, agreement and length lean with no new spend.
