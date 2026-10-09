@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 535,
-  "applications": 238,
+  "applications": 240,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -5096,9 +5096,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/llm-dialogue-quality-control.md",
-   "digest": "sha256-b2:1a2b772683b8a970",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:65f5fbeafc4961fc",
+   "revision": 3,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "blind-rubric-scoring-by-another-family",
@@ -5191,16 +5191,30 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "critique-and-revise-with-human-checkpoints",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/kotlin--critique-and-revise-with-human-checkpoints.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "measured-banned-pattern-list",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/kotlin--measured-banned-pattern-list.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "blind-rubric-scoring-by-another-family",
      "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/process--blind-rubric-scoring-by-another-family.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     },
     {
      "stack": "process",
      "technique": "measured-banned-pattern-list",
      "file": "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/process--measured-banned-pattern-list.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     }
    ]
   },
