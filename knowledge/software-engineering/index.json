@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 233,
-  "techniques": 1834,
-  "applications": 1242,
+  "subjects": 234,
+  "techniques": 1840,
+  "applications": 1245,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1834/1834",
+  "use_when_coverage": "1840/1840",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -18566,6 +18566,130 @@
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/applications/react--scroll-to-hydrate-then-retry.md",
      "verified_on": "2026-08-22",
      "verified_against": "react@19"
+    }
+   ]
+  },
+  "live-defect-debugging": {
+   "category": "engineering-process",
+   "subcategory": "codebase-stewardship",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/live-defect-debugging/live-defect-debugging.md",
+   "digest": "sha256-b2:2c325bb425896e2c",
+   "revision": 1,
+   "changedAt": "2026-10-09",
+   "techniques": [
+    {
+     "slug": "evidence-gated-fix",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an explanation of a defect feels certain and a patch is ready",
+      "deciding whether a read of the code is enough to act on",
+      "verifying that a fix worked",
+      "a first fix did not work"
+     ]
+    },
+    {
+     "slug": "hypothesis-mapped-probes",
+     "status": "forged",
+     "laws": [
+      "silent-state-is-ungoverned",
+      "unknown-is-not-a-value",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "about to add instrumentation to a defect nobody can see",
+      "deciding how many probes are enough",
+      "a round of evidence rejected every explanation",
+      "a probe produced no output"
+     ]
+    },
+    {
+     "slug": "marked-temporary-probes",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding instrumentation by hand to a working tree",
+      "deciding when probes may be removed",
+      "cleaning up after a verified fix",
+      "a probe payload might contain a credential or personal data"
+     ]
+    },
+    {
+     "slug": "reproduction-ladder",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a defect is reported and nobody can say how to trigger it",
+      "choosing between writing a reproduction and asking a person to perform steps",
+      "a reproduction mutates real state"
+     ]
+    },
+    {
+     "slug": "revert-rejected-fixes",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "evidence just rejected a hypothesis that a code change was written for",
+      "starting a new round after a failed fix",
+      "a diff contains defensive guards nobody can justify",
+      "the defect moved instead of disappearing"
+     ]
+    },
+    {
+     "slug": "run-scoped-evidence",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reading instrumentation output after a reproduction",
+      "comparing a run before a fix with a run after it",
+      "more than one debugging session may share a machine",
+      "about to clear or delete a log"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "evidence-gated-fix",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/live-defect-debugging/applications/node--evidence-gated-fix.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "marked-temporary-probes",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/live-defect-debugging/applications/node--marked-temporary-probes.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "run-scoped-evidence",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/live-defect-debugging/applications/node--run-scoped-evidence.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "node@22"
     }
    ]
   },
@@ -38988,6 +39112,9 @@
     "knowledge-registry/lane-contracts",
     "lazy-section-addressability/anchor-coverage-guard",
     "lazy-section-addressability/ssr-gating-decision-tree",
+    "live-defect-debugging/evidence-gated-fix",
+    "live-defect-debugging/reproduction-ladder",
+    "live-defect-debugging/revert-rejected-fixes",
     "long-form-reading-surface/anchor-id-single-assigner",
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
     "machine-authored-documentation/packaged-surface-evaluation",
@@ -39580,6 +39707,9 @@
     "judgment-guardbands/deterministic-backbone",
     "knowledge-registry/deterministic-seeding",
     "lazy-section-addressability/scroll-to-hydrate-then-retry",
+    "live-defect-debugging/marked-temporary-probes",
+    "live-defect-debugging/reproduction-ladder",
+    "live-defect-debugging/run-scoped-evidence",
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "llm-extracted-entity-graph/recoverable-fan-out-write",
     "long-form-reading-surface/scroll-spy-reading-band",
@@ -40644,6 +40774,7 @@
     "job-coordination/no-wall-clock-in-the-advance-contract",
     "job-coordination/terms-travel-permission-does-not",
     "knowledge-registry/verification-is-contributed",
+    "live-defect-debugging/hypothesis-mapped-probes",
     "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
     "machine-authored-documentation/declared-truth-boundary",
     "machine-authored-documentation/evidence-without-verdict",
@@ -41173,6 +41304,8 @@
     "judgment-guardbands/judgment-integrity-record",
     "knowledge-registry/verification-is-contributed",
     "lazy-section-addressability/always-present-anchor-wrappers",
+    "live-defect-debugging/hypothesis-mapped-probes",
+    "live-defect-debugging/run-scoped-evidence",
     "llm-extracted-entity-graph/surface-form-identity-and-its-risk",
     "long-form-reading-surface/anchor-id-single-assigner",
     "long-form-reading-surface/focus-transfer-on-in-place-navigation",
@@ -41475,6 +41608,8 @@
     "job-coordination/lease-renewal",
     "job-coordination/liveness-proof-reclaim",
     "lazy-section-addressability/scroll-to-hydrate-then-retry",
+    "live-defect-debugging/marked-temporary-probes",
+    "live-defect-debugging/revert-rejected-fixes",
     "llm-extracted-entity-graph/recoverable-fan-out-write",
     "machine-authored-documentation/stale-artifact-on-failed-write",
     "machine-paced-delivery/scoped-delivery-access-for-agents",
@@ -42746,6 +42881,8 @@
     "hitl-approval/fixed-policy-amendable-plan",
     "index-free-random-access/sorted-data-as-a-read-only-index",
     "job-coordination/in-flight-is-a-position",
+    "live-defect-debugging/evidence-gated-fix",
+    "live-defect-debugging/hypothesis-mapped-probes",
     "llm-extracted-entity-graph/recall-passes-with-a-declared-cap",
     "machine-authored-documentation/preregistered-kill-criterion",
     "model-call-outcome-integrity/elimination-reasons-are-a-closed-vocabulary",

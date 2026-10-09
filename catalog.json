@@ -1161,11 +1161,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 233,
-      "techniques": 1834,
-      "applications": 1242,
-      "files": 3314,
-      "contentHash": "sha256-b2:baf7117251dc72d0"
+      "subjects": 234,
+      "techniques": 1840,
+      "applications": 1245,
+      "files": 3324,
+      "contentHash": "sha256-b2:1564a12f368a18fb"
     },
     {
       "name": "technical-writing",

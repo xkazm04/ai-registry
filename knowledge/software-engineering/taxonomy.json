@@ -451,7 +451,8 @@
             "concurrent-vcs",
             "machine-authored-documentation",
             "dependency-declaration",
-            "repository-landing-document"
+            "repository-landing-document",
+            "live-defect-debugging"
           ]
         },
         {
