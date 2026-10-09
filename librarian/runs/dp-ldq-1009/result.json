@@ -1,0 +1,97 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ldq-1009",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T20:40:00Z",
+  "ended_at": "2026-10-09T22:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/llm-dialogue-quality-control",
+      "at": "2026-10-09",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "llm-dialogue-quality-control",
+      "technique": "blind-rubric-scoring-by-another-family",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "llm-dialogue-quality-control",
+      "technique": "blind-rubric-scoring-by-another-family",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "llm-dialogue-quality-control",
+      "technique": "critique-and-revise-with-human-checkpoints",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "llm-dialogue-quality-control",
+      "technique": "critique-and-revise-with-human-checkpoints",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "llm-dialogue-quality-control",
+      "technique": "measured-banned-pattern-list",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/llm-dialogue-quality-control.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/techniques/blind-rubric-scoring-by-another-family.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/techniques/candidates-under-rotating-constraints.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/techniques/critique-and-revise-with-human-checkpoints.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/techniques/measured-banned-pattern-list.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/techniques/read-aloud-pass.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/techniques/voice-bible-in-every-prompt.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/kotlin--critique-and-revise-with-human-checkpoints.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/kotlin--measured-banned-pattern-list.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/process--blind-rubric-scoring-by-another-family.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/llm-dialogue-quality-control/applications/process--measured-banned-pattern-list.md",
+    "librarian/subjects/game-production/llm-dialogue-quality-control.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "1735da98",
+      "branch": "main",
+      "pathspec": "knowledge/game-production"
+    },
+    {
+      "sha": "5678a63f",
+      "branch": "main",
+      "pathspec": "catalog.json"
+    },
+    {
+      "sha": "64511211",
+      "branch": "main",
+      "pathspec": "librarian"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Two kotlin apps at firetv d9990777 (experiment): re-scored originals moved median 0.30; loader ranks a model auto-pick first (9 rows silenced); ban lint untracked, strikes 3/456. Nine two-lane bounds, 0 techniques, map 0 contexts."
+}
