@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 535,
-  "applications": 228,
+  "applications": 229,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -8294,9 +8294,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/ship-pipeline-gating.md",
-   "digest": "sha256-b2:2004f3c48240f9a6",
-   "revision": 3,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:9441126e96ce0ac9",
+   "revision": 4,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "editor-only-api-audit-for-shipping",
@@ -8404,6 +8404,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "preflight-before-an-expensive-cook",
+     "file": "knowledge/game-production/engine-integration/ship-pipeline-gating/applications/cpp--preflight-before-an-expensive-cook.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "cpp@20"
+    },
     {
      "stack": "kotlin",
      "technique": "ship-only-what-the-runtime-reads",

@@ -1,6 +1,6 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 81 subjects, 535 techniques, 228 applications.
+`game-production` - 81 subjects, 535 techniques, 229 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### systems-canon
