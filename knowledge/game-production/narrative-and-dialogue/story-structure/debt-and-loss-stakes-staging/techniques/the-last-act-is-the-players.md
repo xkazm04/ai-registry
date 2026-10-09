@@ -72,14 +72,19 @@ never names a winner.
 
 In a story whose point is that the player cannot beat the system — a tragedy by design — the rule
 inverts: the player's last act is the choice that makes the tragedy theirs, and the borrowed-ending
-failures still apply. In a game without a decisive confrontation, there is no last act to own, and
+failures still apply. A last stand the player cannot win still works when it is played, not
+watched, and the payoff later returns to the player's hands. In a game without a decisive confrontation, there is no last act to own, and
 inventing one to satisfy this technique is a different game.
 
 ## Evidence status
 
 The stolen-agency criticism of an ending decided by a supporting character, and the studio's
-revision so the protagonist makes the call, rest on a primary interview with the game's narrative
-lead (high in the source dossier). The ending that hands the player the last shot and waits rests
+revision so the protagonist makes the call, rest on an interview with the game's narrative lead.
+In it, the criticism and the account of the revision are the journalist's words; the lead's own
+quoted words say only that the studio answered player feedback quickly, so the agency reading is
+journalism reporting players, not the studio's stated reason (re-read verbatim 2026-10-09). The ending that hands the player the last shot and waits rests
 on critical essays about a shipped game (rated high in the dossier, though the sources are
 secondary). The rule against a timer or counter awarding the win is an upward lesson from one
-unplayed design's fight rules. None of this has been tested in a played game for this subject yet.
+unplayed design's fight rules, and that design's code now refuses the timer, the ally and the
+unlosable finale at the rule level. The unwinnable played last stand is a shipped exception both
+research lanes named independently. None of this has been tested in a played game for this subject yet.

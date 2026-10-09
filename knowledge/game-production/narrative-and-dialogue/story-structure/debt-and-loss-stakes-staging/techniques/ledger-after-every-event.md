@@ -85,7 +85,10 @@ hand.
 3. **Bind every figure** to the owning quantity, with its unit, and keep the components that
    move the balance as separate lines.
 4. **Write the threat line per event**, from state, so it can escalate. A threat line that is
-   the same string for twenty events is invisible by the third.
+   the same string for twenty events is invisible by the third. Where the ledger's voice lives in
+   a line table and the panel is built separately, check that the panel calls it: the authored
+   lines can be complete and unreachable while the screen prints a fixed sentence. A census of the
+   ledger's triggers against the screen that renders the account is the check.
 5. **Keep the history**: lifetime totals and the last account remain reachable, so the player
    can check the arithmetic — and catch the creditor cheating, if the story needs them to.
 6. **Reserve the ledger for the stake.** Unrelated rewards and unlocks go elsewhere, because
@@ -95,6 +98,9 @@ hand.
 
 - **When an event changes nothing on the stake, still show the ledger**, with the balance and
   threat lines only. Its absence after one event teaches the player it is optional.
+- **When the counted quantity reaches zero before the stake is called, switch the threat line
+  at that event** to the term that outlives it. A balance line reading zero beside a fixed
+  sentence is an account with nothing at risk, however correct its arithmetic.
 - **When the story needs a line the economy contradicts, change the story.** The economy's
   number is the one the player can check.
 - **When the ledger is about to carry a twist, leave its shape alone** and change one line. The
@@ -120,6 +126,7 @@ on a shipped game whose stakes are a household budget (rated high in the source 
 creditor's language of obligation rests on a primary anthropological text on debt; its
 application to games is inference. The ledger as the antagonist's voice, the debt bands and the
 separated balance lines are design proposals from the dossier and from one unplayed design,
-not observed results. The binding of story figures to economy figures is a law of this bundle.
-None of this has been tested in a played game for this subject yet; every claim about what a
+not observed results. The binding of story figures to economy figures is a law of this bundle,
+and one design's code holds it as a load-time reconciliation; the same code showed that the
+binding alone stakes nothing once the balance reaches zero. None of this has been tested in a played game for this subject yet; every claim about what a
 player will notice is design intent until someone has played it.

@@ -82,6 +82,19 @@ share the story names and the share the settlement takes are the same number —
 - **When the player is close to paying the debt off, that is the moment for the decisive
   rewrite.** A goal in view, moved under a visible basis, spends the instrument at full value;
   a rewrite at a random point spends it for less.
+- **When the debt can reach zero before the climax, spend the payoff.** A balance that clears
+  mid-story leaves the creditor with no hold and the ledger with nothing to stake, and the
+  stretch between the zero and the next hold is a stretch with no stake at all. Either make the
+  payoff itself the decisive rewrite — the creditor takes the last payment and keeps the title —
+  or move the leash, at the payoff event and on the ledger, to a term that outlives the money:
+  collateral that stays registered, a clause still in force. Check it on the reference path,
+  not the plan: a debt designed to be cleared by a mid-story reveal clears for nearly everyone,
+  and on the same event.
+- **An escalation announced as a schedule from the start is a term, not a rewrite.** Rising
+  instalments laid out when the deal is struck read as a challenge, and players accept them when
+  missing one is cheap or the debt was their own choice; they sharpen the creditor without giving
+  the leash its teeth. Even fully visible, benign terms get the creditor read as a villain. The
+  fairness test in this technique binds only terms changed mid-contract.
 - **Rewrite rarely**: once or twice in a story, at act turns. A creditor who rewrites every few
   events teaches the player that the numbers are meaningless, and a player who believes that
   stops reading the ledger.
@@ -110,4 +123,9 @@ with its transfer to games marked as inference). The company-town levers rest on
 sources whose generality economic historians dispute (high on the history, medium on how
 typical it was). The rule to show the leash bite someone else first is the dossier's own
 generalisation from screen works (medium). The exposed-fraud rewrite is an upward lesson from
-one unplayed design. None of this has been tested in a played game for this subject yet.
+one unplayed design. The spend-the-payoff rule was measured on that design's code, where the
+debt read zero for most of the campaign in every seeded reference career and the bridging lines
+were written but never reached the screen; a training-data lane reached the same rule
+independently. The schedule bound rests on two lanes' reading of shipped debt games and their
+reception (journalism and player forums, medium); no design writing found tests a mid-contract
+rewrite directly. None of this has been tested in a played game for this subject yet.

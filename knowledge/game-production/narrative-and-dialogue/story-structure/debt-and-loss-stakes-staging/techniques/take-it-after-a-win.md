@@ -17,8 +17,8 @@ player already knows, so that the player blames the agent and not the game.
 
 ## Why the built thing is the right thing to take
 
-Ownership raises value: what a person holds is worth markedly more to them than the same thing
-they could acquire. Building raises it again — what a person made themselves is valued above
+Ownership raises value: what a person holds is worth more to them than the same thing they
+could acquire. Building raises it again — what a person made themselves is valued above
 the same object handed to them — and the premium depends on completion: a half-built or failed
 thing carries little of it. A game manufactures exactly this object over hours: the car tuned
 across ten events, painted, named, carrying a win count. By the time the story needs a loss, the
@@ -54,7 +54,8 @@ took it, and the scene shows who. The contrast between the high and the take is 
 2. **Place the take late enough to sting and early enough to rebuild** — after ownership has
    accumulated for most of the arc, with room left for a lean stretch and a recovery before the
    final act.
-3. **Stage it right after a decisive win**, in the same flow, before the reward is spent.
+3. **Stage it right after a decisive win**, in the same flow, before the reward is spent — a
+   win the event structure guarantees, not one the field happened to allow.
 4. **Show what is being taken**: its name, its paint, its parts, its record, on screen as it goes.
    The player's investment is the content of the scene.
 5. **Show the taker**, in one line, with the motive the player was already shown, and let the
@@ -67,6 +68,13 @@ took it, and the scene shows who. The contrast between the high and the take is 
 
 ## Decision rules
 
+- **Anchor the take to an event that only a win clears.** If the event before the take advances
+  on any qualifying result, "after a win" is a statistic of the field, not a design, and an
+  ordinary balance pass will move it without anyone aiming at the story. A boss, a must-win story
+  race or a gate retried until won makes the timing hold by rule. When no such event sits where
+  the story needs the take, either make one or measure the share on the reference path and state
+  it; a take that lands straight after a last place is the piling-on the technique exists to
+  prevent, whatever the plan said.
 - **When the player could plausibly have prevented the loss by playing better, either let them
   prevent it or do not stage it there.** A loss that looks preventable and was not is the clearest
   possible message that agency is fake.
@@ -94,10 +102,17 @@ attribution the technique exists to avoid.
 
 The value premium of ownership and of self-built, completed objects comes from primary
 experimental work in behavioural economics and consumer psychology, read for this subject. The
-attribution of failure to self, game or circumstance, and the higher rating given by players who
-take failure as their own, comes from a game-studies paper on difficulty. The will-not-skill
+ownership gap survives replication, but its size depends on how value is elicited and its
+loss-aversion mechanism is now disputed, so it is a direction, not a multiplier. The self-built
+premium's loss on destruction was measured when people undid their own work; nobody else took it.
+The attribution of failure to self, game or circumstance, and the higher rating given by players
+who take failure as their own, comes from a game-studies paper on difficulty: an association in
+one online sample of 85 players who reported their own reason for failing, not a measured cause. The will-not-skill
 rule is the source dossier's own synthesis of sourced parts (medium); the shipped games it cites
 show a taken object as a campaign's spine and a defeat turned into a revenge goal, not the
 after-a-win timing itself. The staging details and the placement late in the arc are dossier
-proposals for one unplayed design. None of this has been tested in a played game for this
-subject yet.
+proposals for one unplayed design. The win-gated anchor was measured on that design's code: over
+seeded reference careers its qualifier-anchored take followed a win between a quarter and four
+in five of the time across four balance builds, while its win-gated events were wins every time;
+a training-data lane reached the same rule independently. Those are reference drivers, not
+players. None of this has been tested in a played game for this subject yet.

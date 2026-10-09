@@ -68,9 +68,14 @@ rewrite reads as the designer moving the goalposts, and the player's anger goes 
 wrong address. The craft is to give every rewrite a visible basis — a clause the player was
 shown, or an open breach by a creditor the player has already caught cheating — a motive
 the creditor owns, and an announcement on the ledger the moment it takes effect. Then the
-anger lands on the creditor, which is where the story needed it. A leash also has a floor it
+anger lands on the creditor, which is where the story needed it. Escalation laid out as a
+schedule when the deal is struck is not a rewrite; it is a term, read as a challenge, and the
+fairness test binds only terms changed mid-contract. A leash also has a floor it
 may never cross: it tightens on what the player is owed, sent to and allowed, never on the
-economy's guarantee that the next event can be started. See
+economy's guarantee that the next event can be started. And a leash made of money goes slack
+when the money is paid: a debt that can clear before the climax needs its payoff to be the
+rewrite, or a term that outlives the money named on the ledger at that event, or the story has
+no stake from the zero to the take. See
 [the-leash-can-be-rewritten](./techniques/the-leash-can-be-rewritten.md).
 
 ## The loss that lands is the one taken after a win
@@ -88,7 +93,10 @@ skill: lost in a race the player could have won, the thing is blamed on the game
 contract the player could never have beaten, it is blamed on the holder. And taken after a
 loss, the removal reads as the game piling on, the one attribution that poisons everything
 after it. Taken immediately after a win, at peak ownership, by a named agent with a motive
-the player has already been shown, the removal reads as theft, and theft has a thief.
+the player has already been shown, the removal reads as theft, and theft has a thief. The win
+has to be guaranteed by the event structure — a gate only a win clears — because a take placed
+after an event any finish clears follows a win only as often as the field allows, and a balance
+pass moves that share without anyone looking at the story.
 Players who blame themselves for a failure rate a game higher than players who blame the
 game; the scripted loss adds another address, the antagonist, and the craft is to make it
 the only plausible one. See [take-it-after-a-win](./techniques/take-it-after-a-win.md).
@@ -183,8 +191,9 @@ was never declared to the curve will be found by it as a defect — correctly.
    it, sharing every number with the economy.
 3. **Plant the loss on the ledger** at least an act before it happens, and escalate the plant
    once.
-4. **Script the rewrite and the take** at the peak of a win, by a named agent, under a clause
-   the player was shown.
+4. **Script the rewrite and the take** at the peak of a win that only a win could reach, by a
+   named agent, under a clause the player was shown — and if the debt can clear before then,
+   make the payoff the rewrite or carry the leash on a term that outlives it.
 5. **Tune the lean stretch** as a short, survivable, declared dip with a visible way back.
 6. **Hand the final act to the player** and close the debt on the ledger in the voice that
    opened it.

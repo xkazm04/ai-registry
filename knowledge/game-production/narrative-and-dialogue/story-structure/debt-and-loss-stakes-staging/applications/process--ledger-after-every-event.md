@@ -5,7 +5,7 @@ subject: debt-and-loss-stakes-staging
 technique: ledger-after-every-event
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # The nightly debt ledger in a vehicular combat racer's campaign design
@@ -18,7 +18,10 @@ death. Every anchor below is root-relative to the `firetv-deathride` worktree (b
 `docs/narrative/research/` were read from the working tree that day and may be uncommitted;
 the canon is `docs/concepts/deathride/Q0-ash-circuit-plot.md`. Nothing here was observed in
 play. The realization is a process, not code: a design document, a numbers file the document
-names as the authority, and the screen flow they imply.
+names as the authority, and the screen flow they imply. Re-resolved on 2026-10-09 at
+`10974fa3`: every anchor below holds there, and the dossiers are committed. The ledger the game
+shipped is read in the companion `kotlin` application, which found the shared source held as a
+load-time reconciliation and the balance at zero for most of the campaign.
 
 ## What the design does
 

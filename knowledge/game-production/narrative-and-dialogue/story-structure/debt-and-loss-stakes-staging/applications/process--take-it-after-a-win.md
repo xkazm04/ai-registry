@@ -5,7 +5,7 @@ subject: debt-and-loss-stakes-staging
 technique: take-it-after-a-win
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # The car seizure in a vehicular combat racer's campaign design
@@ -16,6 +16,8 @@ seizes the player's car before a final fight to the death. Anchors are root-rela
 `firetv-deathride` worktree (branch `deathride/main`, tip `6efb1dd` as read on 2026-10-04); the
 research dossiers were read from that working tree the same day and may be uncommitted. The
 canon is `docs/concepts/deathride/Q0-ash-circuit-plot.md`. Nothing here was observed in play.
+Re-resolved on 2026-10-09 at `10974fa3`: every anchor below holds there, and the dossiers are
+committed. The seizure as code is read in the companion `kotlin` application.
 
 ## What the canon does
 
@@ -84,7 +86,8 @@ proposed for this design as
 after event 34, and an ordinary event advances on a qualifying result
 (`docs/concepts/deathride/Q0-ash-circuit-plot.md:5 "An ordinary qualifying result advances"`), so
 the take may follow a modest finish. The dossier proposes the after-a-win timing; the canon has
-not adopted it.
+not adopted it. The `kotlin` application measures what that costs: across four builds' seeded
+reference careers, the take followed a win between 27% and 81% of the time.
 
 **There is no lean stretch.** The seizure is followed directly by the final fight in a supplied
 rig whose deficit is declared
