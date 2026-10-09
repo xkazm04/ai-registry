@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 535,
-  "applications": 235,
+  "applications": 237,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -2914,9 +2914,9 @@
    "subcategory": "story-structure",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/ending-first-narrative-structure.md",
-   "digest": "sha256-b2:aef3c574c7237404",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:abd85e9bfd25743f",
+   "revision": 3,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "back-planned-beat-sheet",
@@ -3002,16 +3002,30 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "back-planned-beat-sheet",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/kotlin--back-planned-beat-sheet.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "lock-the-final-card-first",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/kotlin--lock-the-final-card-first.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "back-planned-beat-sheet",
      "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/process--back-planned-beat-sheet.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     },
     {
      "stack": "process",
      "technique": "lock-the-final-card-first",
      "file": "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/process--lock-the-final-card-first.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     }
    ]
   },
