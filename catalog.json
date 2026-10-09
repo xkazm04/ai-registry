@@ -1071,10 +1071,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 81,
-      "techniques": 535,
-      "applications": 255,
-      "files": 875,
-      "contentHash": "sha256-b2:001046b9f504aa9c"
+      "techniques": 536,
+      "applications": 261,
+      "files": 882,
+      "contentHash": "sha256-b2:bcfbf9ed0eb7e712"
     },
     {
       "name": "grant-funding",

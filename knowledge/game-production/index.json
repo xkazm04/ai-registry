@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
-  "techniques": 535,
-  "applications": 255,
+  "techniques": 536,
+  "applications": 261,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "535/535",
+  "use_when_coverage": "536/536",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -7392,9 +7392,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/racing-track-authoring-and-lint.md",
-   "digest": "sha256-b2:5ac28f7a59c31056",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:6658c281f3688cc5",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "corner-radius-in-longest-car-lengths",
@@ -7455,6 +7455,23 @@
      ]
     },
     {
+     "slug": "shape-contract-above-the-linter",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "law-and-check-share-one-source",
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "every circuit passes the linter and the library still reads as a set of ovals",
+      "accepting new circuits into a library rather than loading one at run time",
+      "a pacing edit such as stretching a lap for duration",
+      "deciding what sits between not degenerate and a person liked it"
+     ]
+    },
+    {
      "slug": "straight-fraction-pacing-band",
      "status": "forged",
      "laws": [
@@ -7486,16 +7503,58 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "corner-radius-in-longest-car-lengths",
+     "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/kotlin--corner-radius-in-longest-car-lengths.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "mutate-good-track-to-prove-linter",
+     "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/kotlin--mutate-good-track-to-prove-linter.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "oriented-capsule-grid-lint",
+     "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/kotlin--oriented-capsule-grid-lint.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "px-per-metre-scale-contract",
+     "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/kotlin--px-per-metre-scale-contract.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "straight-fraction-pacing-band",
+     "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/kotlin--straight-fraction-pacing-band.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "width-in-widest-car-widths",
+     "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/kotlin--width-in-widest-car-widths.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "mutate-good-track-to-prove-linter",
      "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/process--mutate-good-track-to-prove-linter.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     },
     {
      "stack": "process",
      "technique": "px-per-metre-scale-contract",
      "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/process--px-per-metre-scale-contract.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     }
    ]
   },
@@ -10599,6 +10658,7 @@
     "racing-career-economy/participation-floor-no-dead-end",
     "racing-career-economy/pr-ratio-boss-dip",
     "racing-track-authoring-and-lint/mutate-good-track-to-prove-linter",
+    "racing-track-authoring-and-lint/shape-contract-above-the-linter",
     "realtime-combat-semantics/start-protection-window",
     "reference-parity-gating/findings-carry-the-correction",
     "regeneration-vs-repair-economics/bounded-refine-iteration",
@@ -11204,6 +11264,7 @@
     "racing-career-economy/qualified-wreck-advancement",
     "racing-track-authoring-and-lint/mutate-good-track-to-prove-linter",
     "racing-track-authoring-and-lint/oriented-capsule-grid-lint",
+    "racing-track-authoring-and-lint/shape-contract-above-the-linter",
     "realtime-combat-semantics/active-defense-two-axis-split",
     "realtime-combat-semantics/hit-dedup-per-swing",
     "realtime-combat-semantics/real-time-timers-with-an-escapable-window",
@@ -11280,6 +11341,7 @@
     "production-prompt-architecture/version-keyed-engine-facts",
     "production-work-prioritization/fixed-deadline-scope-triage",
     "quality-verdict-integrity/rubric-version-supersession",
+    "racing-track-authoring-and-lint/shape-contract-above-the-linter",
     "racing-track-authoring-and-lint/straight-fraction-pacing-band",
     "racing-track-authoring-and-lint/width-in-widest-car-widths",
     "realtime-combat-semantics/no-one-shot-ehp-floor-in-racing",
@@ -11386,6 +11448,7 @@
     "quality-verdict-integrity/content-hash-binding",
     "quality-verdict-integrity/rubric-version-supersession",
     "quality-verdict-integrity/stale-superseded-unknown-classification",
+    "racing-track-authoring-and-lint/shape-contract-above-the-linter",
     "reference-parity-gating/defect-cap-bounded-to-its-reach",
     "runtime-observation-evidence/bounded-evidence-with-provenance",
     "runtime-observation-evidence/unverifiable-is-not-fail",
