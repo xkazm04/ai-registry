@@ -63,3 +63,20 @@ techniques. The map joins the subject to 0 contexts, because firetv is still unr
 HEAD. Source-class note: creators' own interviews on news and press pages carried every
 accepted bound. An encyclopedia page was used only for plot facts, and a games-press listicle
 only as secondary support.
+
+## 2026-10-09 - deepen condition-tagged-line-tables (dp-ctl-1009)
+
+Single subject, ranked by single stack (process). Two kotlin applications read Death Ride's
+shipped line table and director at firetv `10974fa3`, both at the experiment rung. A headless
+probe against the combat resolver's ground truth found 2.0-6.0% of spoken hit barks naming the
+wrong author, rising as frame time grows. A census found 130 of 496 usable rows unreachable
+under a green suite. Five two-lane bounds landed: count ranking, guaranteed beats, the
+attribution gate, silence, and ending gating. Unknown-fails was confirmed. Four blind-lane
+internal contradictions were fixed. 0 new techniques; the map joins 0 contexts, because firetv
+is still unregistered at HEAD.
+
+Source-class note: shipped source code read directly (an engine SDK, a game's own scripts
+copied in a mod repository, a dialogue tool's default strategy) carried the ranking and gating
+bounds. Slides with speaker notes beat the talk's abstract. A games-press quote and a
+practitioner book chapter carried the repetition bounds. Forum posts and fan wikis stayed
+banked.
