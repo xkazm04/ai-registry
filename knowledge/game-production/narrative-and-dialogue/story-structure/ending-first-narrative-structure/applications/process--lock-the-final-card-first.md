@@ -5,7 +5,7 @@ subject: ending-first-narrative-structure
 technique: lock-the-final-card-first
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # Locking Death Ride's final card from three research dossiers
@@ -92,7 +92,10 @@ point at the post-climax frame; the plan should pick that one.
 **Three candidates were not written.** Each dossier proposes one finale direction (R4 offers
 several frame changes, but they elaborate one ending rather than competing with it). The
 technique's first step — three candidate cards, chosen by how far back their prerequisites
-reach — has not been run for Death Ride.
+reach — has not been run for Death Ride from these dossiers. The head writer's own pass the
+same day wrote at least seven candidate cards, but as wordings of one ending fixed by the
+brief, not as competing endings. The card locked there is read against the shipped game in
+the `kotlin--lock-the-final-card-first` companion (corrected 2026-10-09).
 
 ## What this does not prove
 

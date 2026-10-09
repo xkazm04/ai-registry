@@ -76,15 +76,28 @@ afterwards as the card's rhyme.
 - **When there are several endings, lock a card for each,** and treat the plants they share
   as critical-path plants and the plants unique to one ending as belonging to the branch
   that leads there. An ending without its own card is an ending the plan does not pay for.
-- **When the card follows a decisive act, the player's character performs it, with the
-  game's core verb.** A card whose climax was decided by an ally, in a cutscene, has taken
-  the ending away from the person who played toward it, and that is the kind of card that
-  gets rewritten after players say so.
+- **When the card follows a decisive act, the player's character makes the decision.** A card
+  whose climax was decided by an ally, in a cutscene, has taken the ending away from the
+  person who played toward it, and that is the kind of card that gets rewritten after
+  players say so. Usually the decision is performed with the game's core verb.
+  - **The decision can be refusing the verb.** It can be withholding the verb, or refusing
+    it, when the ending argues against what the verb has been doing. One shipped campaign
+    trained killing for its whole length and ended on its protagonist declining to kill.
+  - **What players objected to was who decided.** In the revised ending the rule's evidence
+    comes from, the act taken from the protagonist was a decision to show mercy, not a use of
+    the combat verb.
+  - **The ownership is the rule, and the verb is its usual form.**
 - **When writing reveals that the card is wrong, change the card through the procedure.**
   Discovery during writing is real, and the lock is not a vow; even a shipped ending has been
   revised when its decisive act was found to belong to the wrong character. What the lock
   forbids is the silent change. A lock described as absolute — the scene that may never
   change — is a lock that will be broken quietly the first time it must be.
+- **When the central relationship has moved since the card's date, re-open the card.** A
+  lock honoured after the material has grown away from it fails as surely as a drift. One
+  long-running series shot its closing scene eight years before its finale. It then wrote
+  the central relationship somewhere else, used the scene as shot, and much of its audience
+  rejected the ending as a betrayal of the story they had watched. The trigger for re-opening
+  is not time. It is a card whose prerequisites the written units no longer support.
 - **When a card names an object, the object is a plant.** Props in final images are the
   most efficient plants a campaign has, and the most often forgotten.
 
@@ -109,9 +122,28 @@ get written for it.
 
 The core practice — the final scene written first and held as a fixed reference for years —
 rests on primary statements by working showrunners of two prestige animated series, read
-directly (High in the source dossier). The rule that the decisive act belongs to the player
-character rests on a primary interview about a shipped game whose ending was revised for
-exactly that reason (High). The price-and-surviving-image properties rest on primary
+directly (High in the source dossier).
+
+**The early lock is not a predictor of success.** In a later interview, one of those showrunners
+says versions of the end scenes were written and that the last scene is "nearly the same",
+not unchanged (re-read verbatim 2026-10-09). Two independent research
+lanes both found celebrated finales written forward and locked finales that were panned. One
+acclaimed drama's creator said they knew "surprisingly little" about how its plants would
+pay off, and he also advised against working that way. So this is survivorship evidence for
+a discipline, not a measured effect.
+
+**The decisive-act rule rests on two cases.**
+- **A revised ending (Medium).** The studio revised the ending after release, and that is
+  reported in an interview. The "stolen agency" reading is the journalist's account of some
+  players. The revised act is a decision of mercy, re-read verbatim 2026-10-09.
+- **A primary interview on a shipped campaign (High).** Its ending was changed from the
+  protagonist killing to the protagonist refusing. Both research lanes named
+  verb-refusal endings independently.
+
+The re-open condition rests on one widely reported finale. Both lanes reached it
+independently. Its quote is from a summary, because the trade report would not fetch.
+
+The price-and-surviving-image properties rest on primary
 showrunner statements (High); the "return to the opening" property is the dossier's own
 synthesis across several works (Medium), and the change procedure and the
 three-candidates step are practitioner craft with no cited source. None of it has been

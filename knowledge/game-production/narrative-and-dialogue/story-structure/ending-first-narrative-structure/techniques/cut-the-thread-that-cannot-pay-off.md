@@ -52,6 +52,15 @@ When threads compete for the cut, cut the conceptual before the human. Threads a
 world's hidden machinery, its mythology or its politics in the abstract are forgiven when
 absent; threads about what two people owe each other are remembered when dropped.
 
+**Unless the property sold its mystery.** Sometimes the premise, the pitch or the marketing
+made the hidden machinery the promise: what the island is, who the infiltrators are, why the
+world ended. Then the core answer is a human-weight thread, and cutting it breaks the
+contract the audience signed. Serial finales that answered their relationships and dropped
+their central mystery drew exactly that complaint. One studio's post-release fix for a
+rejected ending added explanation of the lore, not less of it. The test is what the opening
+units promised, and the cut keeps that promise's core answer while it drops the rest of the
+machinery.
+
 A thread may legitimately cross into a later instalment under two conditions, both
 required: it is **declared** in the plan as deliberately open, and the current arc's
 **emotional ending does not depend on it**. A declared open thread is a hook; an undeclared
@@ -121,7 +130,10 @@ cut from a secondary summary (Medium) and the link between overloading and the s
 mixed reception an inference the dossier states without measurement. The dossier's claim
 that overstuffing is the most commonly reported failure of a final season has no source
 behind it and is not relied on here. The human-over-conceptual preference is the
-co-creator's own contrast (High as a quote). The high-rejection-rate rule leans on a quest
+co-creator's own contrast (High as a quote). Its sold-mystery condition was reached
+independently by a web counter-evidence lane and a training-data lane (2026-10-09), each
+naming the same serial finales. The reception claims are journalism and the studio's
+extended-cut statement, read from summaries (Medium). The high-rejection-rate rule leans on a quest
 director's statement read only through a journalist's summary (Medium). The setup-as-promise
 framing and the two-directional audit are long-standing screenwriting craft (the
 setup-and-payoff tradition, usually written in reverse from the payoff). None of it has been

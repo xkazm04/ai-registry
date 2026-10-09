@@ -63,9 +63,11 @@ character was being pressured and refused. It tests the audience's trust instead
 it, and it is the right shape when the character must remain someone the player relies on.
 Its cost is lingering distrust, so it resolves well before the finale.
 
-Choose the shape with the replay in mind. A friend revealed as a traitor poisons every warm
-scene they were in, retroactively and for good. When the campaign needs its friendships to
-survive the reveal, let an institution — the league, the employer, the paperwork — betray,
+Choose the shape by what the campaign needs its friendships to do after the reveal. A friend
+revealed as a traitor recolours every warm scene they were in, retroactively. Whether that
+spoils a replay or rewards one is untested: a second pass that re-reads a betrayer's lines
+is also the pass that makes a betrayal worth replaying. So do not choose by a replay penalty.
+When the campaign needs its friendships to survive the reveal, let an institution — the league, the employer, the paperwork — betray,
 and let the friend be the one tested by it; the audience keeps loving the people while
 hating the machine.
 
@@ -141,7 +143,12 @@ rearrangement rule for an audience that knows the source rest on a primary state
 creator of a prestige animated adaptation, read directly (High in the source dossier). The
 institution-betrays, friend-is-tested rule rests on a mix of primary creator statements and
 secondary script analysis (High in the dossier, though its generalisation is the dossier's
-own). The corrosion shape rests on a secondary character essay (Medium-High); the dread
+own). That a friend's betrayal damages replay has no measurement behind it. A web
+counter-evidence lane and a training-data lane both looked on 2026-10-09 and found none, and
+the training-data lane argued the opposite reading as plausible, so the rule now chooses by
+the campaign's need, not by replay. The same pass found the most-cited study claiming that
+spoilers increase enjoyment to be an outlier its later replications did not reproduce. It is
+not evidence that dense planting is free. The corrosion shape rests on a secondary character essay (Medium-High); the dread
 payoff rests on a design-risk note in a game-narrative dossier with no external source
 (the dossier's inference, Low); the fair-suspicion shape is a dossier proposal, not an
 observed practice. The procedure, the plant sources and the re-read step are practitioner

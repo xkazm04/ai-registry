@@ -99,6 +99,20 @@ script, every time the sheet changes:
   more than one channel where its line could be skipped;
 - the opening and the card share an image, an object or a pairing.
 
+**Run the checks against what the build can show, not against the sheet.** Once the sheet
+becomes a line table that a run-time director reads, a plant can be authored on the critical
+path and still never reach a screen, in two ways. Its line can sit on a trigger that no code
+raises, such as an idle line for a screen that was never wired. Or it can be a numbered
+sibling that the picker treats as a variant and never chooses. A plant like that is
+unplanted, however the sheet reads. In one shipped script that carried its own plant,
+payoff and reveal tags, a third of the tagged rows sat on triggers nothing called, among them
+every plant for the final card's price. The project's own suite was green over all of it,
+because it checked only that each card was scripted.
+
+So the census has three levels: rows written, rows whose trigger fires, and rows on the
+channel every player sees. A payoff that passes only the first level is paid for in a
+document.
+
 The second check is
 [declaring an input is not consuming it](../../../../_laws.md#declaring-an-input-is-not-consuming-it):
 a plant counts only when a payoff consumes it, and the census is of payoffs reading plants,
@@ -142,5 +156,8 @@ fractal interest curve (Medium); the warning against letting a run-time picker p
 climactic beat comes from a primary essay on salience-based narrative (High). The
 acquisition-and-trust pairing is a dossier's synthesis of that same finale-first source
 (High for the source, the pairing is inference). The six-field row, the check list and the
-fixed-or-free marking are practitioner craft; the mechanical checks have not been built as a
-script. None of it has been tested in a played game yet.
+fixed-or-free marking are practitioner craft. The mechanical checks were run once as a script,
+over a shipped game's tagged line table (2026-10-09, a code census with no player). That run
+is where the build-level condition comes from. A training-data lane reached the same
+reachability gap independently, for plants in content a player may never see. None of it has
+been tested in a played game yet.

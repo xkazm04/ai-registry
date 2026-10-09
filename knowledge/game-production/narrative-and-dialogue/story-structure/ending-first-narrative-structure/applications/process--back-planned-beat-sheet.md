@@ -5,7 +5,7 @@ subject: ending-first-narrative-structure
 technique: back-planned-beat-sheet
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # Death Ride's campaign, planned backwards from its finale
@@ -16,8 +16,10 @@ cards, a ledger of debt to the league boss Marrow, a car seizure, regional bosse
 into allies, and a finale fought to the death in a rig the young Mechanic builds. The
 material is three of the four research dossiers written for its narrative lead on
 2026-10-04, in the `firetv-deathride` tree under `docs/narrative/research/`; every anchor is
-root-relative to that tree (`firetv-deathride`). No sheet has been
-written yet. What follows is the sheet's content as the dossiers already supply it, the
+root-relative to that tree (`firetv-deathride`). This application read the dossiers alone. A
+sheet was in fact written the same day, in the head writer's story bible and in the script
+that carries the ledger as tags. The `kotlin--back-planned-beat-sheet` companion reads both,
+as the game ships them (corrected 2026-10-09). What follows is the sheet's content as the dossiers already supply it, the
 checks they pass and fail, and what nobody has tested — which is all of it, in play.
 
 ## The bottom row: a finale that grades the campaign
@@ -139,7 +141,7 @@ majors.
 
 ## What this does not prove
 
-The sheet, once written, will prove the campaign is paid for on paper. Whether the plants
+The sheet will prove the campaign is paid for on paper. Whether the plants
 register at TV distance, whether players predict the seizure and dread it, and whether the
 finale feels like the sum of the campaign are playtest questions, and Death Ride has no
 players yet.

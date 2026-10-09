@@ -117,6 +117,14 @@ its build and its aftermath — is what the budget of one buys.
 
 ## Evidence status
 
+The count is a pacing heuristic, not a measured threshold. A web counter-evidence lane and a
+training-data lane both searched on 2026-10-09 and found no study for "one per unit". The
+training-data lane named finales and midpoints where causally chained reveals land together.
+The escalation half has formal support. A peer-reviewed economic model of suspense and
+surprise finds that the suspense-maximising policy makes plot twists rarer and larger as the
+story nears its end. It adds that guaranteed twists would make an author's later books less
+surprising. That is theory with a rational audience, not an experiment.
+
 The budget itself — one major reveal per unit, with the cut of unpayable threads as its
 twin — is stated in a prestige-series dossier and supported there by a secondary production
 summary of one series that gave each episode one turning reveal (Medium), and by the

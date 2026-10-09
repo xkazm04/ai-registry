@@ -47,9 +47,10 @@ cab. A concrete final image generates its own prerequisites, and the prerequisit
 plan. The card that generates the most is the last moment of the campaign's central
 relationship, not its last plot event: it shows the price the victory cost, paid directly
 for that victory rather than by an unrelated tragedy, and one small image of what survived.
-In a game it adds a constraint a film does not have — the decisive act it follows belongs
-to the player's character and is performed with the verb the whole game has trained, because
-a finale whose key move is made by someone else reads as agency taken away.
+In a game it adds a constraint a film does not have. The decisive act it follows is a
+decision the player's character makes, because a finale whose key move is made by someone
+else reads as agency taken away. The decision is usually performed with the verb the whole
+game has trained. Refusing that verb can be the decision when the ending argues against it.
 
 Locking is what makes backwards planning cheap. The final card is the single authority the
 plan derives from, which is
@@ -57,7 +58,11 @@ plan derives from, which is
 an unofficial second ending in a writer's head is a second model, and the disagreement
 between the two stays invisible until a scene is written for the wrong one. The card may
 change — a lock is not a vow — but changing it is a formal re-plan that re-derives every
-plant, never a drift. See [lock-the-final-card-first](./techniques/lock-the-final-card-first.md).
+plant, never a drift. The opposite failure is as real. A card honoured after the written
+story has moved away from it, kept unchanged because it was locked, fails like a drift does,
+and the early lock predicts nothing about reception on its own. Re-open the card when the
+units no longer support its prerequisites. See
+[lock-the-final-card-first](./techniques/lock-the-final-card-first.md).
 
 ## Surprise forward, inevitability backward
 
@@ -85,9 +90,11 @@ clue in the second chapter reads at the reveal as a coincidence; a behaviour pre
 every scene the betrayer shares with the protagonist reads as character. So the rule is
 density, not cleverness: every earlier scene with the betrayer in it carries a line or an
 act that holds up under both readings. The same density has a price worth choosing
-deliberately: a friend revealed as a traitor poisons every warm scene they were in,
-retroactively and for good, which is why a campaign that needs its friendships intact on
-replay lets an institution do the betraying and lets the friend be tested by it. See
+deliberately. A friend revealed as a traitor recolours every warm scene they were in,
+retroactively, so a campaign that needs its friendships intact after the reveal lets an
+institution do the betraying and lets the friend be tested by it. That choice follows from
+what the friendships must still carry. It does not follow from a replay penalty, which
+nobody has measured. See
 [plant-the-betrayal-in-every-earlier-scene](./techniques/plant-the-betrayal-in-every-earlier-scene.md).
 
 ## Interactive play makes plants harder to place
@@ -137,7 +144,9 @@ what it can, trim what it cannot, and be received as rushed and overstuffed. Loc
 card and cutting the threads are two disciplines, not one, and the first gives no credit
 toward the second. When threads compete for the cut, the conceptual ones — lore,
 mythology, the system's hidden machinery — go before the human ones, because relationships
-are what an audience remembers and lore is what it forgives.
+are what an audience remembers and lore is what it forgives. The exception is a property
+that sold its mystery. When the opening promised an answer about the machinery, that core
+answer is a human-weight thread, and dropping it breaks the contract.
 
 The audit runs in both directions, and it is
 [declaring an input is not consuming it](../../../_laws.md#declaring-an-input-is-not-consuming-it)
@@ -175,7 +184,10 @@ run time, the fewer beats can be pinned, and the pinned ones are never left to t
 The sheet admits mechanical checks that a prose read cannot do reliably: every payoff has
 plants in at least two earlier units, one of them well before it; every plant has a payoff;
 every unit has exactly one major reveal; every critical-path payoff's plants sit on the
-critical path. Those checks prove the structure. They do not prove the ending moves anyone,
+critical path. When the sheet has become a line table that a run-time director reads, the
+checks run against what the build can show, not what the table holds. A plant on a trigger no
+code raises, or in a variant slot the picker never chooses, is unplanted. Those checks prove
+the structure. They do not prove the ending moves anyone,
 which is [structural proof is necessary and never sufficient](../../../_laws.md#structural-proof-is-never-sufficient)
 pointed at story: a sheet that passes every check is an ending that has been paid for on
 paper, and only a read, and finally a play, says whether the payment cleared. See
@@ -187,7 +199,8 @@ paper, and only a read, and finally a play, says whether the payment cleared. Se
   used as a check is a destination with a word count. Writing it is not locking it.
 - **Planting once.** One clue, early, that nobody remembers at the reveal.
 - **Planting where players are not.** A betrayal planted in an optional conversation pays
-  off for the fraction who had it and is a retcon for everyone else.
+  off for the fraction who had it and is a retcon for everyone else. A plant written onto a
+  trigger the build never raises pays off for nobody, and the script still shows it planted.
 - **Hoarding threads for later.** Every open thread costs the current arc attention and
   scenes, and later rarely arrives with the plan the thread needed.
 - **Reveal stacking.** Two majors in one unit, or a campaign of escalating twists, each one
