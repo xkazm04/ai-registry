@@ -5,96 +5,91 @@ subject: lan-pairing-and-session-continuity
 technique: port-preflight-with-reuseaddress
 stack: node
 status: forged
-verified_on: 2026-10-01
+verified_on: 2026-10-09
+verified_against: node@24
 ---
 
-# A television host's bind loop, and the preflight that was stricter than the bind
+# Two local node hosts that skip the probe and walk the port
 
-The source is the same two-seat racing game, a JVM host with a CIO server engine, filed
-under the `node` slot as the nearest server stack. Citations resolve against
-`firetv-deathride`, checked 2026-10-01; the proof-of-concept findings
-document cited first exists identically in that tree. The history is two incidents about a
-month apart in the lineage, and the code carries both fixes.
+This page shows the technique's alternative branch: no preflight, the real bind as the test,
+and a walk to the next free port. Two node programs in the fleet take that shape, written
+independently of each other and of the racing host in the kotlin applications.
 
-## Incident one: the bind failure that took the process
+Neither is a couch game. Both listen on the loopback address for a browser or a tool on the
+same machine, not on a room's network. They earn a place here because they show the
+condition under which the alternative is right, and that condition is exactly what a couch
+host does not meet. Citations resolve against `kp` at `a5eec1bfb` (branch `main`, node
+`>=24 <25` in its manifest) and `personas` at `142fdff211` (branch `master`, node 22 in its
+version file), read 2026-10-09.
 
-`docs/POC-FINDINGS.md:248 "The app died outright if port 8765 was taken."` and the lines
-that follow record that the exception never returned out of the start call, reached the
-uncaught handler and ended the process, which the device OS reported only as "Unable to
-start activity". The recorded fix, a bind probe, an owned parent coroutine context and ten
-retries, ends with
-`docs/POC-FINDINGS.md:256 "Verified by stealing the port on-device"`.
-It survives in the racing host. The engine is handed the host's own failure handler:
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:114 "parentCoroutineContext=errors"`,
-whose handler sets the link not running and a status string,
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:87 "Link error: ${e.javaClass.simpleName}"`.
-The retry cap is
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:111 "repeat(10)"`
-and the loop ends in a readable status,
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:133 "Port 8765 unavailable. Close the other race app, then reopen."`
-This incident was reproduced on a real television stick, so it is the best-evidenced claim
-in the subject.
+## The installer wizard: bind, walk, print what was bound
 
-## Incident two: the probe that disagreed with the bind
+The wizard's listener tries its base port and, on a busy port, the next one, up to ten
+times:
+`scripts/onboard-ui/server.mjs:463 "attempt < 10) return listen(port + 1, attempt + 1);"`.
+There is no probe. The `listen` call is the test, and its error event is the branch.
 
-`docs/concepts/deathride/PITFALLS.md:3 "The preflight disabled address reuse"` records a
-restart soon after a two-socket probe that reported the port busy while nothing listened.
-The fixed probe sets reuse before the bind and binds the interface and port the real
-listener uses:
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:112 "socket.reuseAddress=true; socket.bind(InetSocketAddress("`
-and the next line sets the visible status and waits:
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:113 "delay(300)"`.
-The occupied-port path has a real test that holds a bound listener and expects the host to
-reach an unavailable status without dying:
-`deathride/link/src/test/kotlin/dev/deathride/link/LinkTest.kt:15 "occupiedPortReportsFailureWithoutKillingTheHost"`.
-The reinstall-then-restart symptom was observed on a real device; the test runs on a
-development machine. Reuse semantics differ by operating system, so a pass there does not
-prove that a live listener still fails the probe on the device, and the source does not
-claim it does.
+Clients learn the port only from what the wizard prints and opens. The address is built from
+the port actually bound, together with a credential minted fresh for this process:
+`scripts/onboard-ui/server.mjs:468 "http://127.0.0.1:${port}/?t=${TOKEN}"`
+and `scripts/onboard-ui/server.mjs:59 "const TOKEN = randomBytes(24).toString("hex");"`.
+The server also reports its own bound port, so that a page never guesses it:
+`scripts/onboard-ui/server.mjs:152 "The port this process actually bound (the listener retries on EADDRINUSE)."`.
+The protocol document makes that a rule for every client:
+`scripts/onboard-ui/PROTOCOL.md:764 "EADDRINUSE"`, followed by "a face must not guess it".
 
-## The probe stays advisory, as the technique requires
+After the cap the process exits with the error on the terminal, at line 465. For a command
+someone has just typed and is watching, that is the readable terminal state. A television
+app cannot use it, which is why the technique says not to exit.
 
-The real start is wrapped in its own catch,
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:126 "candidate.start(false)"`,
-and a failed start tears down the half-built engine and loops,
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:131 "candidate.stop(0,0)"`,
-so a port taken between probe and bind is handled by the same retry. One subtlety the source
-leaves open: the engine's failure handler can clear the running flag after the success
-branch has set it, when a bind fails asynchronously, so the retry loop and the handler can
-both report. Read from the code, not reproduced.
+## The gate daemon: scan a fixed range, publish a handshake
 
-## Release on pause, rebind on resume
+The daemon scans a sixteen-port range and resolves with the port it bound. Busy and
+forbidden ports are both treated as "try the next":
+`scripts/gate/daemon.mjs:453 "if (e.code === 'EADDRINUSE' || e.code === 'EACCES') resolve(listenScan(port + 1));"`.
+Running out of the range is a stated error, not a crash:
+`scripts/gate/daemon.mjs:448 "no free port in ${PORT_RANGE[0]}..${PORT_RANGE[1]}"`.
 
-The lifecycle hooks are
-`deathride/game/src/main/kotlin/dev/deathride/game/RaceGame.kt:185 "server.paused=true; server.suspendLink()"`
-and
-`deathride/game/src/main/kotlin/dev/deathride/game/RaceGame.kt:186 "server.paused=false; server.start()"`.
-The release clears the running flag, cancels the network job, stops the engine with a short
-grace and bumps every seat's generation without clearing tokens:
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:221 "engine?.stop(100,500)"`.
-Start is idempotent:
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:107 "if(running || networkJob?.isActive==true)return"`.
-The secret is replaced only by the explicit reset, so the code on the screen survives a
-pause. The stated reason and the limit are
-`deathride/README.md:28 "Backgrounding the game stops its listener so another variant can use port 8765"`
-and, on the same line, that application process death resets the session.
+Clients find it through a handshake file that carries the bound port, a fresh token and the
+process id:
+`scripts/gate/daemon.mjs:498 "const port = await listenScan(PORT_RANGE[0]);"`,
+followed by `writeHandshake` at line 499. That file is written to a temporary name and
+renamed into place:
+`scripts/gate/handshake.mjs:32 "fs.renameSync(tmp, handshakePath());"`.
 
-## The address on the pairing code
+## Why the walk is right here and wrong for a couch host
 
-The address is re-polled on a slow timer:
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:128 "delay(10000); address=lanAddress()"`.
-The chooser keeps up, non-loopback, non-link-local IPv4 addresses and prefers a private
-range one:
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:233 "it.isSiteLocalAddress"`.
-The source falls short of the technique's rule on the final fallback:
-`deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:234 "127.0.0.1"`
-is the loopback fallback, so a network-less television would draw a code that can only reach itself. The chooser also takes the first
-private address of any interface, which a virtual or tethering interface can win. Both read
-from the code; no network-less or multi-interface run was made.
+Both programs meet the condition in the technique's decision rule:
+- clients learn the port only from the host's own advertisement;
+- the credential is minted per process;
+- nothing a client keeps outlives the process.
+
+A walk therefore costs nothing. The next run advertises a new port and a new credential
+together.
+
+The racing host in this subject's kotlin applications fails that condition. A phone keeps
+its seat token in browser storage keyed by the page's origin, and the origin includes the
+port. A walk at resume would orphan every seat. So the couch host keeps its probe and retry,
+and holds one port.
+
+## What the probe would add, measured
+
+On the Windows machine these programs run on, Node 24's `listen` refused a port held by a
+live listener (`EADDRINUSE`). It bound a port that carried a host-side wait state from a
+connection the server had closed first (measured 2026-10-09, one run per case, with the
+wait-state row confirmed by `netstat`). On that machine a probe could only ever repeat what
+the real `listen` already reports.
+
+Node exposes no reuse flag on its TCP listener. Its networking library sets the flag on
+every TCP bind on Unix-like systems. On Windows it sets neither the reuse nor the exclusive
+option, because there the reuse flag would let another process take a port in use. Both
+facts come from the library's source, read by this run's research lane on 2026-10-09; they
+are not quoted here and were not measured on Linux for Node.
 
 ## Evidence grade
 
-Real device: the port-theft crash and its fix, and the reinstall symptom. Scripted,
-development machine: the occupied-port test and the suspend-restart-rejoin test. Authored
-only: the retry count, the 300 ms interval, the ten-second re-poll, and the asynchronous
-status race above.
+- **Read from the code:** both walks and both advertisements.
+- **Measured on 2026-10-09 outside either project:** the Windows bind outcomes.
+- **Not done:** no run of either program was made with its base port taken. That the wizard
+  lands on the next port and prints it is read, not observed. Neither project has a test of
+  its walk.

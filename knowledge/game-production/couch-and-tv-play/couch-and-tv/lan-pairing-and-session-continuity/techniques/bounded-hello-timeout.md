@@ -57,9 +57,17 @@ cancellable scope, then a deadline that fires after the seat is claimed and befo
 welcome reply is sent leaves a seat owned by a connection that was never told. The seat
 then looks connected to the host and is dead to the phone, and the generation recorded for
 cleanup was never set, so the usual cleanup does not release it. The failure is rare, which
-is why it survives testing. The two sound shapes are: bound only the read, then admit
+is why it survives testing.
+
+It is also documented behaviour, not a theory. At least one widely used coroutine library
+states that its timeout may fire even after the block has finished executing, before the
+caller receives the result. The block can run its last statement, the claim, and still
+end in a timeout. So "the claim is the last line inside the deadline" is not one of the
+sound shapes in such a library; only taking the claim outside the deadline, or running it
+in a scope the deadline cannot cancel, is. The two sound shapes are: bound only the read, then admit
 outside the deadline; or make admission the last step in the scope, after which nothing can
-cancel it before the reply is queued. When neither is available, a periodic sweep that
+cancel it before the reply is queued. The second holds only where the runtime guarantees
+that a scope which has finished cannot still time out. When neither is available, a periodic sweep that
 releases seats whose connection never completed a greeting cleans up the residue.
 
 ## Decision rules
@@ -90,5 +98,10 @@ room.
 The bound, its parse requirement and the isolation of one peer's failure are authored in
 the host; a wrong secret in the greeting, and garbage text after admission, were exercised by a scripted client, a malformed first frame was not. The
 timeout path itself, a peer that never speaks, and the cancellation seam above were not
-exercised by any test; the seam is a reading of the code, not an observed failure. Whether
-the chosen value is comfortable for a real phone waking a radio is unmeasured.
+exercised by any test; the seam is a reading of the code, not an observed failure. It was
+re-read on 2026-10-09 and still holds in the shipped host. That host's handler swallows
+the timeout, and its cleanup compares against a generation set only after the deadline's
+scope. The library's documentation describes the late timeout in its own words, and a blind
+practitioner lane reached the same seam independently. Whether the chosen value is
+comfortable for a real phone waking a radio is unmeasured. Ten seconds was the source's
+choice; the blind lane proposed about five.

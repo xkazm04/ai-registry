@@ -95,7 +95,17 @@ first byte: each occupies a handler. The first message gets a deadline, long eno
 slow radio and short enough that a dead peer cannot accumulate, and the deadline applies
 only to the wait for that message. Side effects of admission, such as minting a token or
 marking a seat taken, must not sit inside the part the deadline can cancel, or a
-cancellation lands halfway through a claim and leaves a seat owned by nobody.
+cancellation lands halfway through a claim and leaves a seat owned by nobody. That
+includes the last line of the deadline's scope. At least one common runtime documents
+that its timeout can fire after the block has finished, so a claim placed last inside it
+is still exposed. Read the message under the deadline, and admit after it.
+
+Before any of that, the host should know which page is speaking. A phone's browser will
+open a socket to the host for any page it loads, and a page from another origin can
+present a guessed or photographed secret as well as the controller can. A browser declares
+the page's origin when it opens the socket. The host closes a socket whose declared origin
+is not its own address. A client that declares no origin is a tool, not a page, and goes
+on to the ordinary checks.
 
 ## The host's listener has a lifetime, and the operating system does not respect it
 
@@ -106,15 +116,29 @@ debugging time because they look like something else. A listener that fails to b
 take the whole process down in a way the platform reports with a generic activity-launch
 error, nothing about a port. A preflight that checks whether the port is free, but checks
 it more strictly than the real listener will bind, reports "busy" for a port nobody is
-listening on, because recently closed connections linger in a wait state for a minute or
-so. And a listener that stays bound while the application is in the background blocks
-every other variant of the same game, or the next launch of this one, from using the port.
+listening on. The cause is the connections the host itself closed: they linger in a wait
+state on its own port for a minute on the kernels these devices run. And a listener that
+stays bound while the application is in the background blocks every other variant of the
+same game, or the next launch of this one, from using the port.
 
 The remedies are one idea applied three times: treat the port as a resource with an
-owner and a lifetime. Probe it the way you will really bind it, retry a bounded number of
-times with a visible status, convert a failure into text on the screen rather than a dead
-process, and release the listener when the application is paused so that resuming is a
-fresh bind that preserves the seats rather than a fight with your own previous run.
+owner and a lifetime.
+- Bind the real listener with address reuse set explicitly. The wait states a pause leaves
+  behind block the next bind on those kernels unless the listener that accepted them
+  carried the flag. A probe that sets it cannot make up for a listener that did not.
+- Probe the port the way you will really bind it, retry a bounded number of times with a
+  visible status, and turn a failure into text on the screen rather than a dead process.
+- Release the listener when the application is paused, so that resuming is a fresh bind
+  that preserves the seats rather than a fight with your own previous run.
+
+Resume on the same port. A phone's stored seat and its page's socket address both belong
+to the page's origin, and the origin includes the port. A host that walks to the next free
+port, which is a sound habit for tools that advertise a fresh address and credential every
+run, orphans every seated phone.
+
+Development machines hide part of this. On one common desktop system a wait state does not
+block a bind at all, so the "busy" failure can only be reproduced on the device's own
+system family.
 
 ## The page is served from an origin that browsers distrust
 
@@ -135,6 +159,14 @@ certificate is usually not available on a bare local address, and it introduces 
 mixed-content constraint between page and socket; treat it as a separate decision with its
 own costs, not as the default cure.
 
+A page served by the host and talking back to the host stays outside the local-network
+permission prompts that browsers began shipping in 2025 and 2026. Those prompts govern
+public pages reaching into the room. Some optional features also fail on a phone for
+reasons unrelated to the origin, because the platform does not offer them; fullscreen and
+orientation lock on one major phone line are examples. Missing for want of a secure origin
+and missing on that phone are different causes. The design rule is the same for both:
+degrade, and say so.
+
 ## What has been shown, and what has not
 
 The honest summary of evidence for this subject matters, because it shapes how hard each
@@ -144,6 +176,14 @@ and the binding failure and its fix were reproduced on a real television stick b
 occupying the port deliberately. The claim that a particular browser exposes no wake lock
 on a plain local address was observed in a scripted desktop browser session and agrees
 with the specification's secure-context requirement; it was not seen on a physical phone.
+A 2026-10-09 pass added three measurements.
+- **Wait states:** outside any project, the operating-system difference behind the wait
+  states (one run per case, with a live listener as the control).
+- **Foreign page:** in the source host's own suite, an A/B in which a foreign page with
+  the right secret was seated before an origin check and refused after it.
+- **The source's engine:** its reuse default and start-path behaviour, read from the
+  engine's shipped artifacts.
+
 Nobody has watched a human walk the room, scan the code, lock their phone mid-race and
 come back. The seat-recovery timing, the comfort of the ten-second handshake bound and the
 clarity of the refusal wording are authored judgements, not measured human outcomes, and
@@ -165,6 +205,15 @@ each technique labels its own claims accordingly.
   is found, so the screen displays a code that can only ever reach the television itself.
 - A feature test is satisfied by the presence of a name rather than by a working
   capability, and the interface claims a state, such as awake, that was never achieved.
+- The socket accepts any page's connection, so a page from another origin with the right
+  short secret takes a seat.
+- The listener's reuse setting is left to the platform. The next start after a pause cannot
+  bind over the wait states the pause created, and a few seconds of retries cannot outlast
+  them.
+- The host walks to a free port on resume, and every stored seat belongs to the old
+  origin.
+- One refusal message serves every cause. The page then either replays a stale secret
+  forever, or forgets a good one that would have joined when the race ended.
 
 ## Techniques
 

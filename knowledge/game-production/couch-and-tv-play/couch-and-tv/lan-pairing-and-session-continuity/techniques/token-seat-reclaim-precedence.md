@@ -6,7 +6,7 @@ technique: token-seat-reclaim-precedence
 status: forged
 laws: [refuse-rather-than-destroy]
 shared_with: []
-use_when: [a phone drops or reloads mid-session and must keep its seat, ordering the checks that admit a connection to a shared game, deciding what to tell a refused phone]
+use_when: [a phone drops or reloads mid-session and must keep its seat, ordering the checks that admit a connection to a shared game, deciding what to tell a refused phone, deciding which connections may reach the admission checks at all]
 ---
 
 # Token seat reclaim precedence
@@ -34,6 +34,23 @@ profile already in use. A stranger who fails any of them is refused with a state
 4. **A free seat, fourth.** Seats are a fixed small number; none free means refuse.
 5. **A profile not already seated, last.** Two phones claiming the same persistent
    identity would corrupt that identity's saved progress, so the second is refused.
+
+One check comes before the list, because it is not about the person at all. A phone's
+browser will open a socket to the host for any page it loads, not only for the controller
+page. A page from another origin cannot read the controller's stored token, but it can
+present the short secret: it can guess it, since four digits is a small space, or carry it
+after reading it off a photographed screen. So before the token is looked up, a connection
+whose declared page origin is not the controller page's own is closed with a policy
+refusal and no message.
+
+A connection that declares no origin is not a browser page. It goes on to the ordinary
+checks, which is what keeps scripted clients and tools working. Comparing the declared
+origin's host and port with the host the request was addressed to is enough: the
+controller page is served by the same listener, so its origin is that address.
+
+A browser's own permission prompt for local-network access does not replace this check. It
+covers requests from public pages to the local network, not every browser, and not a page
+served from another address on the same network.
 
 Every refusal returns a result with a message, closes the connection, and changes nothing
 on the host. This is the refusal rule applied to seats: the host never clears the way for a
@@ -90,6 +107,8 @@ cannot guess.
   the person to guess which of four things to fix.
 - Compare tokens with a constant-time comparison if the host's network is not a private
   room; in a private room an ordinary comparison is acceptable.
+- When a socket declares a page origin, check it before anything else. When it declares
+  none, treat it as a tool and run the ordinary checks.
 
 ## When not to use it
 
@@ -102,7 +121,17 @@ authenticated session.
 
 The precedence, the refusal during a live session and the rejoin after a listener restart
 were exercised by scripted socket clients and checked by automated tests; the browser path
-was exercised by a scripted browser. No human locked a phone, waited, and came back. The
+was exercised by a scripted browser.
+
+The origin check was measured on 2026-10-09 by a scripted client in the source host's own
+test suite, as an A/B on the same tree.
+- **Without the check:** a socket declaring a foreign page origin and presenting the right
+  secret was seated and handed a token.
+- **With it:** that socket was closed and no seat was claimed, while the host's own origin
+  and an origin-less client still paired.
+
+Two independent lanes reached the rule: a published socket-security guide and a blind
+practitioner lane. No human locked a phone, waited, and came back. The
 interval a real radio takes to notice a dead connection, and therefore how often the
 half-open-socket case occurs in practice, is unmeasured, and the wording of the refusal
 messages is authored, not tested with people.

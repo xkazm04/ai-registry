@@ -24,9 +24,16 @@ keep a bound port while the user has moved on to another variant of the same gam
 sibling build, or a reinstalled copy of itself, and that second instance then fails to
 bind. Keeping the listener also keeps accepting phones into a game nobody is looking at, so
 a phone can sit "connected" to a frozen screen. Releasing the port at pause makes the
-background state honest: nobody is hosting. It also bounds the lingering-connection
-problem, because the close happens by choice at a known moment rather than as a side effect
-of the process being killed.
+background state honest: nobody is hosting. It also moves the close to a known moment,
+rather than leaving it as a side effect of the process being killed.
+
+That close has a price that is easy to miss. The side that closes a connection first keeps
+it in a wait state on its own port, and at pause the host is that side for every phone. So
+release-on-pause is precisely what leaves wait states on the host's listening port, and the
+resume that follows within the minute must bind over them. On a Linux kernel, that works
+only if the real listener, not just a preflight probe, binds with address reuse. Pair this
+technique with the preflight technique's rule on the listener's flag. Do not treat the
+release as a cure for lingering connections.
 
 ## What the pause does
 
@@ -45,7 +52,10 @@ of the process being killed.
 
 1. Clear the paused flag and start the listener through the same path as a first start,
    including the port preflight and its retries. Resume is the moment the port is most
-   likely to be still lingering, so it must not take a shortcut around that path.
+   likely to be still lingering, so it must not take a shortcut around that path. Come
+   back on the same port. A phone's stored seat token and its page's socket address both
+   belong to the page's origin, and the origin includes the port, so a resume on a
+   different port orphans every seated phone.
 2. Make start idempotent: if the listener is already running or a start is in progress, do
    nothing. Pause and resume events can arrive in bursts, and a second start must not
    produce a second engine.
@@ -62,7 +72,22 @@ token and retries, shows a "reconnecting" state rather than the pairing form, an
 any held input to neutral on the way down so a thumb that was down is not a stuck pedal
 after the return. If it is refused when the host comes back, it drops the stored token and
 shows the form. It must not retry a refusal on a tight loop; a client that was told no
-should back off, because the host is unlikely to change its mind in a second.
+should back off, because the host is unlikely to change its mind in a second. What the
+page keeps after a refusal depends on the cause.
+- **Wrong secret:** the page must drop that secret as well as its token. A page that drops
+  only the token presents the stale secret on every retry.
+- **Session running:** this is the one refusal worth retrying slowly. The session will
+  end, and a phone that kept its secret then joins without anyone typing.
+- **Room full:** a retry changes nothing until someone at the host acts. The page should
+  say how.
+
+A page can make that choice only when the host names the cause. One message for every
+refusal forces the page to pick a single behaviour for all of them, and each choice is
+wrong for one cause: retry and you replay stale secrets, or clear and you lose the
+automatic join. While the page is hidden
+it should not run its retry timer at all; it reconnects when it becomes visible again.
+Its timers are throttled while hidden anyway, and a phone in a pocket retrying against a
+paused television is only noise.
 
 ## Decision rules
 
@@ -91,7 +116,9 @@ Stop, restart and token-based rejoin were exercised by a scripted client against
 on a development machine, including that a reconnect after the restart is seated in the same
 seat and reported connected. The pause and resume hooks are wired in the shipped build and
 the behaviour is described as working on the reference television stick; the stated purpose,
-that another variant can then bind the port, was not separately measured. Nobody timed how
-long a real phone takes to reconnect after a long background, and whether a phone's
-browser throttles its retry timer while its screen is off is unmeasured and probably
-platform-dependent.
+that another variant can then bind the port, was not separately measured. That the host's
+close leaves wait states on its own port, and that a later bind over them is refused on a
+Linux kernel unless the listener had set reuse, was measured outside the project on
+2026-10-09, one run per case (see the preflight technique). Nobody timed how long a real
+phone takes to reconnect after a long background. How hard a phone's browser throttles or
+freezes a hidden page's timers and socket varies by browser.
