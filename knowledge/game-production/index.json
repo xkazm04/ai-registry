@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 79,
-  "techniques": 526,
-  "applications": 224,
+  "subjects": 81,
+  "techniques": 535,
+  "applications": 228,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "526/526",
+  "use_when_coverage": "535/535",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1888,12 +1888,12 @@
   },
   "controller-latency-instrumentation": {
    "category": "couch-and-tv-play",
-   "subcategory": null,
+   "subcategory": "couch-and-tv",
    "status": "forged",
-   "file": "knowledge/game-production/couch-and-tv-play/controller-latency-instrumentation/controller-latency-instrumentation.md",
+   "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/controller-latency-instrumentation.md",
    "digest": "sha256-b2:696388c329fbf2f6",
    "revision": 1,
-   "changedAt": "2026-10-01",
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "best-rtt-sample-selection",
@@ -1986,13 +1986,13 @@
     {
      "stack": "node",
      "technique": "ping-pong-midpoint-clock-offset",
-     "file": "knowledge/game-production/couch-and-tv-play/controller-latency-instrumentation/applications/node--ping-pong-midpoint-clock-offset.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/applications/node--ping-pong-midpoint-clock-offset.md",
      "verified_on": "2026-10-01"
     },
     {
      "stack": "process",
      "technique": "consumption-age-versus-photon-age-labelling",
-     "file": "knowledge/game-production/couch-and-tv-play/controller-latency-instrumentation/applications/process--consumption-age-versus-photon-age-labelling.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/applications/process--consumption-age-versus-photon-age-labelling.md",
      "verified_on": "2026-10-01"
     }
    ]
@@ -2602,6 +2602,105 @@
     }
    ]
   },
+  "drawn-gesture-command-recognition": {
+   "category": "couch-and-tv-play",
+   "subcategory": "immersive-interaction",
+   "status": "draft",
+   "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/drawn-gesture-command-recognition.md",
+   "digest": "sha256-b2:251e882cfd648700",
+   "revision": 1,
+   "changedAt": "2026-10-09",
+   "techniques": [
+    {
+     "slug": "held-out-cross-user-acceptance",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a recognizer is about to be called accurate",
+      "accuracy was measured on the author's own strokes",
+      "setting the accuracy and latency go/no-go numbers"
+     ]
+    },
+    {
+     "slug": "pen-down-stroke-segmentation",
+     "status": "draft",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a continuously tracked hand must be cut into discrete drawn strokes",
+      "a recognizer fires on the hand's return path",
+      "deciding what starts and ends a drawn command"
+     ]
+    },
+    {
+     "slug": "reject-class-recognition",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing a recognizer for a small command vocabulary",
+      "a stray motion triggers a command",
+      "every input is forced onto its nearest template"
+     ]
+    },
+    {
+     "slug": "stroke-plane-projection",
+     "status": "draft",
+     "laws": [
+      "one-authority-per-quantity",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an air-drawn stroke is compared with flat templates",
+      "the same shape reads differently when drawn at an angle",
+      "accuracy depends on which way the player faces"
+     ]
+    },
+    {
+     "slug": "vocabulary-distinctiveness-audit",
+     "status": "draft",
+     "laws": [
+      "law-and-check-share-one-source",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a command to an existing gesture vocabulary",
+      "two commands are confused with each other more often than with noise",
+      "a proposed shape differs from another only in size or direction"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "cpp",
+     "technique": "held-out-cross-user-acceptance",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/applications/cpp--held-out-cross-user-acceptance.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "reject-class-recognition",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/applications/cpp--reject-class-recognition.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "cpp@20"
+    }
+   ]
+  },
   "encounter-balance-simulation": {
    "category": "balance-validation",
    "subcategory": null,
@@ -3139,12 +3238,12 @@
   },
   "fire-tv-device-realities": {
    "category": "couch-and-tv-play",
-   "subcategory": null,
+   "subcategory": "couch-and-tv",
    "status": "forged",
-   "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/fire-tv-device-realities.md",
-   "digest": "sha256-b2:00913548d21fda2d",
-   "revision": 4,
-   "changedAt": "2026-10-07",
+   "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/fire-tv-device-realities.md",
+   "digest": "sha256-b2:48e890c1185a0247",
+   "revision": 1,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "abi-inspect-the-apk",
@@ -3276,33 +3375,33 @@
     {
      "stack": "kotlin",
      "technique": "price-the-durable-save-on-the-device",
-     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/kotlin--price-the-durable-save-on-the-device.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/applications/kotlin--price-the-durable-save-on-the-device.md",
      "verified_on": "2026-10-07",
      "verified_against": "kotlin@2.0.21"
     },
     {
      "stack": "kotlin",
      "technique": "startup-work-belongs-at-first-use",
-     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/kotlin--startup-work-belongs-at-first-use.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/applications/kotlin--startup-work-belongs-at-first-use.md",
      "verified_on": "2026-10-07",
      "verified_against": "kotlin@2.0.21"
     },
     {
      "stack": "process",
      "technique": "read-the-priority-before-requesting-one",
-     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/process--read-the-priority-before-requesting-one.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/applications/process--read-the-priority-before-requesting-one.md",
      "verified_on": "2026-10-07"
     },
     {
      "stack": "process",
      "technique": "unhandled-bind-failure-kills-process",
-     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/process--unhandled-bind-failure-kills-process.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/applications/process--unhandled-bind-failure-kills-process.md",
      "verified_on": "2026-10-01"
     },
     {
      "stack": "process",
      "technique": "wake-before-launch",
-     "file": "knowledge/game-production/couch-and-tv-play/fire-tv-device-realities/applications/process--wake-before-launch.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/applications/process--wake-before-launch.md",
      "verified_on": "2026-10-01"
     }
    ]
@@ -4237,6 +4336,90 @@
     }
    ]
   },
+  "hand-tracked-timing-windows": {
+   "category": "couch-and-tv-play",
+   "subcategory": "immersive-interaction",
+   "status": "draft",
+   "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/hand-tracked-timing-windows.md",
+   "digest": "sha256-b2:879171d0f623e847",
+   "revision": 1,
+   "changedAt": "2026-10-09",
+   "techniques": [
+    {
+     "slug": "confidence-gated-detection",
+     "status": "draft",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "tracking confidence drops during fast motion",
+      "a low-confidence pose earned a reward",
+      "deciding between rejecting and deferring a low-confidence sample"
+     ]
+    },
+    {
+     "slug": "onset-recovered-from-tracking-history",
+     "status": "draft",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a gesture is classified some frames after it began",
+      "a timed defence must be judged at the instant the hand started moving",
+      "a confidence threshold is delaying the timestamp"
+     ]
+    },
+    {
+     "slug": "sensor-latency-inside-the-window-budget",
+     "status": "draft",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting a reward window on an input channel with measurable sensor delay",
+      "one rule ships on a button channel and a tracked-hand channel",
+      "a runtime update changed the measured delay"
+     ]
+    },
+    {
+     "slug": "tracking-loss-as-a-game-state",
+     "status": "draft",
+     "laws": [
+      "every-effect-on-the-rules-is-visible",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the hands leave the sensor's view mid-action",
+      "a held defence persists after tracking is lost",
+      "deciding what the simulation receives while the hands are unseen"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "cpp",
+     "technique": "onset-recovered-from-tracking-history",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/applications/cpp--onset-recovered-from-tracking-history.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "sensor-latency-inside-the-window-budget",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/applications/cpp--sensor-latency-inside-the-window-budget.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "cpp@20"
+    }
+   ]
+  },
   "image-to-3d-input-gating": {
    "category": "asset-production",
    "subcategory": "sourcing-economics",
@@ -4634,12 +4817,12 @@
   },
   "lan-pairing-and-session-continuity": {
    "category": "couch-and-tv-play",
-   "subcategory": null,
+   "subcategory": "couch-and-tv",
    "status": "forged",
-   "file": "knowledge/game-production/couch-and-tv-play/lan-pairing-and-session-continuity/lan-pairing-and-session-continuity.md",
+   "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/lan-pairing-and-session-continuity.md",
    "digest": "sha256-b2:648c67aa242aa3da",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "revision": 1,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "bounded-hello-timeout",
@@ -4722,13 +4905,13 @@
     {
      "stack": "node",
      "technique": "port-preflight-with-reuseaddress",
-     "file": "knowledge/game-production/couch-and-tv-play/lan-pairing-and-session-continuity/applications/node--port-preflight-with-reuseaddress.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/applications/node--port-preflight-with-reuseaddress.md",
      "verified_on": "2026-10-01"
     },
     {
      "stack": "node",
      "technique": "token-seat-reclaim-precedence",
-     "file": "knowledge/game-production/couch-and-tv-play/lan-pairing-and-session-continuity/applications/node--token-seat-reclaim-precedence.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/applications/node--token-seat-reclaim-precedence.md",
      "verified_on": "2026-10-01"
     }
    ]
@@ -5378,12 +5561,12 @@
   },
   "on-device-verification-harness": {
    "category": "couch-and-tv-play",
-   "subcategory": null,
+   "subcategory": "couch-and-tv",
    "status": "forged",
-   "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/on-device-verification-harness.md",
-   "digest": "sha256-b2:68c81dddbe806faa",
-   "revision": 3,
-   "changedAt": "2026-10-07",
+   "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/on-device-verification-harness/on-device-verification-harness.md",
+   "digest": "sha256-b2:c93684a45025e912",
+   "revision": 1,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "absolute-due-time-load-pump",
@@ -5505,19 +5688,19 @@
     {
      "stack": "node",
      "technique": "poll-ready-signal-not-fixed-delay",
-     "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/applications/node--poll-ready-signal-not-fixed-delay.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/on-device-verification-harness/applications/node--poll-ready-signal-not-fixed-delay.md",
      "verified_on": "2026-10-01"
     },
     {
      "stack": "process",
      "technique": "attribute-every-stall-before-judging-it",
-     "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/applications/process--attribute-every-stall-before-judging-it.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/on-device-verification-harness/applications/process--attribute-every-stall-before-judging-it.md",
      "verified_on": "2026-10-07"
     },
     {
      "stack": "process",
      "technique": "keep-the-failed-baseline",
-     "file": "knowledge/game-production/couch-and-tv-play/on-device-verification-harness/applications/process--keep-the-failed-baseline.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/on-device-verification-harness/applications/process--keep-the-failed-baseline.md",
      "verified_on": "2026-10-01"
     }
    ]
@@ -5707,12 +5890,12 @@
   },
   "phone-controller-input-protocol": {
    "category": "couch-and-tv-play",
-   "subcategory": null,
+   "subcategory": "couch-and-tv",
    "status": "forged",
-   "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/phone-controller-input-protocol.md",
-   "digest": "sha256-b2:7154281060804b03",
-   "revision": 3,
-   "changedAt": "2026-10-07",
+   "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/phone-controller-input-protocol/phone-controller-input-protocol.md",
+   "digest": "sha256-b2:fd87c0b2445d94f9",
+   "revision": 1,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "absolute-state-over-event-frames",
@@ -5836,26 +6019,26 @@
     {
      "stack": "kotlin",
      "technique": "send-on-change-with-a-heartbeat-floor",
-     "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/applications/kotlin--send-on-change-with-a-heartbeat-floor.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/phone-controller-input-protocol/applications/kotlin--send-on-change-with-a-heartbeat-floor.md",
      "verified_on": "2026-10-07",
      "verified_against": "kotlin@2.0.21"
     },
     {
      "stack": "node",
      "technique": "link-rate-follows-the-phase",
-     "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/applications/node--link-rate-follows-the-phase.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/phone-controller-input-protocol/applications/node--link-rate-follows-the-phase.md",
      "verified_on": "2026-10-07"
     },
     {
      "stack": "node",
      "technique": "neutralise-on-every-loss-path",
-     "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/applications/node--neutralise-on-every-loss-path.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/phone-controller-input-protocol/applications/node--neutralise-on-every-loss-path.md",
      "verified_on": "2026-10-01"
     },
     {
      "stack": "node",
      "technique": "stale-hold-steer-drop-actions",
-     "file": "knowledge/game-production/couch-and-tv-play/phone-controller-input-protocol/applications/node--stale-hold-steer-drop-actions.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/phone-controller-input-protocol/applications/node--stale-hold-steer-drop-actions.md",
      "verified_on": "2026-10-01"
     }
    ]
@@ -6272,9 +6455,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/production-prompt-architecture/production-prompt-architecture.md",
-   "digest": "sha256-b2:eb3b409f7965c5b5",
-   "revision": 3,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:feb2460a10b6cf60",
+   "revision": 4,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "acceptance-criteria-appended-not-replaced",
@@ -9405,12 +9588,12 @@
   },
   "two-thumb-touch-layout-design": {
    "category": "couch-and-tv-play",
-   "subcategory": null,
+   "subcategory": "couch-and-tv",
    "status": "forged",
-   "file": "knowledge/game-production/couch-and-tv-play/two-thumb-touch-layout-design/two-thumb-touch-layout-design.md",
-   "digest": "sha256-b2:9567b92e8aee1efe",
-   "revision": 3,
-   "changedAt": "2026-10-07",
+   "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/two-thumb-touch-layout-design.md",
+   "digest": "sha256-b2:e5f84870764a9a65",
+   "revision": 1,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "cruise-fire-drives-throttle",
@@ -9491,7 +9674,7 @@
     {
      "stack": "node",
      "technique": "pointer-capture-per-control",
-     "file": "knowledge/game-production/couch-and-tv-play/two-thumb-touch-layout-design/applications/node--pointer-capture-per-control.md",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/applications/node--pointer-capture-per-control.md",
      "verified_on": "2026-10-01"
     }
    ]
@@ -10102,6 +10285,9 @@
     "difficulty-design-and-adaptation/player-chosen-challenge-and-adjustment-hazards",
     "difficulty-design-and-adaptation/reward-cadence-first-diagnosis",
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
+    "drawn-gesture-command-recognition/held-out-cross-user-acceptance",
+    "drawn-gesture-command-recognition/reject-class-recognition",
+    "drawn-gesture-command-recognition/vocabulary-distinctiveness-audit",
     "encounter-balance-simulation/distinct-hash-seed-diversity-alarm",
     "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
     "encounter-balance-simulation/kill-share-and-damage-share-attribution",
@@ -10153,6 +10339,7 @@
     "generative-provider-auditing/pin-a-model-per-asset-class",
     "generative-provider-auditing/record-negative-benchmarks-in-place",
     "generative-provider-auditing/refuse-with-reason-not-greyed-out",
+    "hand-tracked-timing-windows/sensor-latency-inside-the-window-budget",
     "image-to-3d-input-gating/canonical-pose-rule",
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "image-to-3d-input-gating/score-defect-verdict-protocol",
@@ -10324,6 +10511,7 @@
     "design-canon-as-executable-law/self-declared-budget-enforcement",
     "design-doc-compliance-scoring/declared-mapping-is-terminal",
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
+    "drawn-gesture-command-recognition/stroke-plane-projection",
     "encounter-balance-simulation/monte-carlo-scenario-presets",
     "encounter-balance-simulation/rotation-confound-cross-check",
     "ending-first-narrative-structure/lock-the-final-card-first",
@@ -10348,6 +10536,7 @@
     "generative-provider-auditing/capability-is-not-registry-membership",
     "generative-provider-auditing/never-the-account-default",
     "generative-provider-auditing/pin-a-model-per-asset-class",
+    "hand-tracked-timing-windows/sensor-latency-inside-the-window-budget",
     "image-to-3d-input-gating/multi-view-master-reference",
     "image-to-3d-input-gating/part-cut-planning",
     "image-to-3d-input-gating/reference-role-tagging",
@@ -10504,6 +10693,8 @@
     "difficulty-design-and-adaptation/setting-bounded-overlapping-bands",
     "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
     "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
+    "drawn-gesture-command-recognition/held-out-cross-user-acceptance",
+    "drawn-gesture-command-recognition/reject-class-recognition",
     "encounter-balance-simulation/entry-vs-winner-share-threshold-check",
     "encounter-balance-simulation/kill-share-and-damage-share-attribution",
     "encounter-balance-simulation/monte-carlo-scenario-presets",
@@ -10536,6 +10727,8 @@
     "generative-artifact-gating/generator-failure-deterministic-gates",
     "generative-artifact-gating/reserve-before-dispatch-stop-latch",
     "generative-provider-auditing/record-negative-benchmarks-in-place",
+    "hand-tracked-timing-windows/onset-recovered-from-tracking-history",
+    "hand-tracked-timing-windows/sensor-latency-inside-the-window-budget",
     "image-to-3d-input-gating/reference-role-tagging",
     "imported-material-conformance/colour-space-is-per-texture-role",
     "imported-material-conformance/format-defaults-are-not-asset-properties",
@@ -10681,6 +10874,7 @@
     "crash-forensics-attribution/root-cause-to-fix-prompt",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
+    "drawn-gesture-command-recognition/held-out-cross-user-acceptance",
     "game-dialogue-voice-pipeline/re-cast-gate",
     "generative-artifact-gating/auto-picked-vs-human-chosen-provenance",
     "generative-artifact-gating/gate-before-every-credit-spend",
@@ -10758,6 +10952,9 @@
     "difficulty-design-and-adaptation/skill-scaling-versus-power-scaling",
     "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
     "difficulty-design-and-adaptation/tier-changes-decisions-not-specs-test",
+    "drawn-gesture-command-recognition/pen-down-stroke-segmentation",
+    "drawn-gesture-command-recognition/reject-class-recognition",
+    "drawn-gesture-command-recognition/stroke-plane-projection",
     "encounter-balance-simulation/tier-band-peer-outlier-linting",
     "ending-first-narrative-structure/back-planned-beat-sheet",
     "ending-first-narrative-structure/plant-the-betrayal-in-every-earlier-scene",
@@ -10778,6 +10975,8 @@
     "generative-artifact-gating/gate-before-every-credit-spend",
     "generative-artifact-gating/generator-failure-deterministic-gates",
     "generative-artifact-gating/placeholder-is-not-an-asset",
+    "hand-tracked-timing-windows/confidence-gated-detection",
+    "hand-tracked-timing-windows/onset-recovered-from-tracking-history",
     "judgeable-spec-authoring/enumeration-closure-as-arithmetic",
     "judgeable-spec-authoring/execute-the-rules-against-the-worked-example",
     "judgeable-spec-authoring/simulate-the-mechanism-not-the-constant",
@@ -10868,6 +11067,7 @@
     "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
     "design-canon-as-executable-law/parse-thresholds-from-prose",
     "difficulty-design-and-adaptation/tier-changes-decisions-not-specs-test",
+    "drawn-gesture-command-recognition/vocabulary-distinctiveness-audit",
     "encounter-balance-simulation/one-shot-rate-and-ehp-floor-checks",
     "engine-integration-safety/judge-by-log-markers-not-exit-code",
     "game-economy-tuning/economy-philosophy-multipliers",
@@ -10915,12 +11115,15 @@
     "controller-latency-instrumentation/exact-window-plus-histogram-quantiles",
     "controller-latency-instrumentation/window-percentiles-are-not-poolable",
     "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
+    "drawn-gesture-command-recognition/pen-down-stroke-segmentation",
     "encounter-balance-simulation/distinct-hash-seed-diversity-alarm",
     "encounter-balance-simulation/entry-vs-winner-share-threshold-check",
     "encounter-balance-simulation/rotation-confound-cross-check",
     "engine-integration-safety/crash-truncated-batch-resume",
     "fire-tv-device-realities/dhcp-scan-for-device",
     "fire-tv-device-realities/wake-before-launch",
+    "hand-tracked-timing-windows/confidence-gated-detection",
+    "hand-tracked-timing-windows/tracking-loss-as-a-game-state",
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
     "imported-material-conformance/surface-conformance-swatch",
     "llm-dialogue-quality-control/measured-banned-pattern-list",
@@ -11179,6 +11382,7 @@
   "every-effect-on-the-rules-is-visible": {
    "statement": "Anything that changes what the player can do, what an opponent can do, or what an outcome costs is shown, whether it helps or hurts. A handicap, a boost, a stake that drains, a rubber band, a hidden bias in who is targeted: if it alters the rules it is either disclosed where the player can see it or it is presentation only and demonstrably cannot reach the simulation. There is no third category. An invisible help is the same fault as an invisible penalty, because the player's model of the game is wrong either way and every later decision inherits the error. A presentation layer that merely looks as though it affects play is held to the same standard from the other side: it must never seem to.",
    "techniques": [
+    "hand-tracked-timing-windows/tracking-loss-as-a-game-state",
     "render-submission-economy/cull-before-submission"
    ]
   }
