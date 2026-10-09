@@ -51,3 +51,15 @@ each on `batch-by-page-where-order-is-invisible` (the opaque A/B: not better, re
 `4bbae5d2`; every anchor in all seven held under `check-anchors`. Each new technique carries a headset-reach section
 backed by cited platform sources in its application; the prepare technique keeps Meta's contrary guidance (blocking
 loads behind a compositor loading layer are acceptable). No Death Ride VR/XR evidence exists.
+
+## 2026-10-09 - deepen antagonist-fair-grievance-craft (dp-afg-1009)
+
+Single subject, ranked by single stack (process). One kotlin application reads the Death Ride
+campaign ledger at firetv `10974fa3`. Constant terms make the arithmetic a loan; a posting
+skim and a late clause carry the leash. No necessity is rationed, and the signed receipts and
+protected-thing payoff are authored but unwired. Four two-lane corrections bound absolutes
+(secret liar, outside-the-system, proxy frequency, bite order). Two evidence upgrades, 0 new
+techniques. The map joins the subject to 0 contexts, because firetv is still unregistered at
+HEAD. Source-class note: creators' own interviews on news and press pages carried every
+accepted bound. An encyclopedia page was used only for plot facts, and a games-press listicle
+only as secondary support.
