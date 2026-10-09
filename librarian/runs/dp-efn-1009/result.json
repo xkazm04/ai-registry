@@ -1,0 +1,78 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-efn-1009",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T20:00:00Z",
+  "ended_at": "2026-10-09T20:36:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/ending-first-narrative-structure",
+      "at": "2026-10-09",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "ending-first-narrative-structure",
+      "technique": "back-planned-beat-sheet",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "ending-first-narrative-structure",
+      "technique": "lock-the-final-card-first",
+      "verdict": "unmeasurable",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/ending-first-narrative-structure.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/techniques/back-planned-beat-sheet.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/techniques/cut-the-thread-that-cannot-pay-off.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/techniques/lock-the-final-card-first.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/techniques/one-major-reveal-per-unit.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/techniques/plant-the-betrayal-in-every-earlier-scene.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/kotlin--back-planned-beat-sheet.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/kotlin--lock-the-final-card-first.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/process--back-planned-beat-sheet.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/ending-first-narrative-structure/applications/process--lock-the-final-card-first.md",
+    "librarian/subjects/game-production/ending-first-narrative-structure.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "630d70ff",
+      "branch": "main",
+      "pathspec": "knowledge/game-production"
+    },
+    {
+      "sha": "4eb9edec",
+      "branch": "main",
+      "pathspec": "catalog.json"
+    },
+    {
+      "sha": "7757f455",
+      "branch": "main",
+      "pathspec": "librarian"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Death Ride's script ships the back-planned sheet as tags (firetv 10974fa3): 33/96 ledger rows on unraised triggers; locked card's price planted only on unwired lines, 1 of 4 objects shown. Four two-lane conditions, five corrections, 0 techniques, map 0 contexts."
+}
