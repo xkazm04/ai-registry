@@ -17,10 +17,11 @@ techniques:
 A race-based campaign has a unit of play, and the unit is the event: a grid, a few laps or a
 fixed distance, a finishing order, a purse. Players come for that unit, replay it, and learn
 to skip everything around it. Story placed between events, as scenes the player watches,
-competes with the thing the player came for and loses; somewhere around the third event the
-skip input is pressed before the first line has landed, and from then on the campaign has a
-story that exists only in its script. Story placed *inside* the event is felt, because it
-changes what the player has to do in the next three minutes.
+competes with the thing the player came for and loses; within a few events the skip input is
+pressed before the first line has landed, and from then on the campaign has a story that
+exists only in its script. That is a direction developers report, not a rate anyone has
+published, and how fast the habit forms is unmeasured. Story placed *inside* the event is
+felt, because it changes what the player has to do in the next three minutes.
 
 This subject owns that move: making the event itself the carrier of a story beat. Each event
 carries one idea and then retires it. Each beat arrives in the same four parts, a card before
@@ -78,7 +79,10 @@ proves the world kept a record in a way the result screen cannot. The outcome al
 on how the event went, because a race can be won, lost or survived, and a loss that only
 offers a retry has removed the story from exactly the players who most needed it. A retry's
 card reads the previous attempt for the same reason: the third attempt that opens with the
-same words as the first tells the player the attempts are outside the story.
+same words as the first tells the player the attempts are outside the story. The
+acknowledgment changes for two or three attempts and then goes terse. A line that repeats on
+every attempt from then on is the line players learn to mute. A count stated in words goes
+wrong once the attempts outrun it.
 
 ## The story changes what the rules do, or it is not in the event
 
@@ -104,6 +108,13 @@ cannot see is an invisible boost that quietly devalues every result it touches.
 The converse holds as well. A beat that cannot be expressed as a rule does not belong on the
 track; it belongs in the hub between events, where a scene does not compete with a race. A
 card bolted to an unmodified race is the worst of both placements.
+
+What the event acts on includes its objective, not only its modifiers. A short scene before
+the grid is not the cutscene failure when the event then acts on what the scene set up. The
+scene names a rival, and the event's objective is to finish ahead of that rival. A
+between-race scene that hands the race ladder its motive can be watched and even praised. The
+failure is a scene whose setup the event never reads: a rival introduced before a race in
+which nothing depends on where that rival finishes.
 
 ## A few beats are pinned, the rest are free
 
@@ -172,7 +183,8 @@ under real stakes, never in the world winking that the stakes are not real.
 ## Failure modes of the naive reading
 
 **"The story lives in the cutscenes."** Then it lives where the skip input is. The event is
-the only surface every player is guaranteed to attend to.
+the only surface every player is guaranteed to attend to. A scene survives only when the race
+after it acts on what it set up.
 
 **"A good event type should come back."** A mode comes back; a beat retires. Reusing a variant
 for its idea a second time converts the story into a playlist.

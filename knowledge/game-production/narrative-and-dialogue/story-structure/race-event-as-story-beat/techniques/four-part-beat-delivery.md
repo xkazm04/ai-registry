@@ -50,7 +50,12 @@ the delayed echo is what proves the world kept the record.
 The card reads that state too, including the state of the attempt itself. A retry's card
 acknowledges the attempt before it: the third try at a beat opens differently from the
 first, which is the cheapest available proof that attempts are part of the story rather than
-outside it.
+outside it. The acknowledgment changes for two or three attempts and then goes terse or
+silent. A terminal line shown on every attempt after that is the post-failure repetition
+players mute. It must not state a count in words ("third try"): the count is right on one
+attempt and wrong on every later one. It can also disagree with another speaker's count in
+the same scene. A deliberate refrain whose content is sameness, a short line saying nothing
+has changed, is the exception, and it stays short.
 
 ## The failure signatures
 
@@ -108,5 +113,16 @@ muting an announcer's repetitive post-failure lines, comes from community source
 Delayed consequence is high for a primary interview and medium for the racing example of a
 car taken at the start and returned at the top of the rival list, which rests on an
 encyclopedia summary. Retry cards that read the last attempt are medium and high across two
-examples. The bark sizes, the phase-not-clock timing rule (rated low by the research) and the
-loss-reaction set are inference or proposal. None has been tested in a played race campaign.
+examples. The bark sizes and the loss-reaction set are inference or proposal. The
+phase-not-clock timing rule was rated low by the research. It now has medium support from a
+biometric analysis of shooters: play engages more than cutscenes, and story delivered by
+radio during lulls in play works. That is another genre, and the analysis dates from 2008. A blind lane reached the same rule
+from engineer radio in racing. One shipped race campaign realizes it in code, with state
+edges and race phase as triggers and the clock only as a gate (cooldown, gap, cap). That is
+structural evidence, not play. Branching on the result is supported from the other side by a
+review of a racing story mode whose scripted events play out the same however
+the races go, one critic's reading that others did not share. The retry cap rests on two lanes: players
+muting repetitive voiced lines in an open-world racer, community-sourced and low, and a blind
+lane's fade-after-a-few-retries rule. It was run as a simulation over one campaign's retry
+table (dated in its kotlin application). None of this has been tested in a played race
+campaign.

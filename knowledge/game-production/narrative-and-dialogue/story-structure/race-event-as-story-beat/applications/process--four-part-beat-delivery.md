@@ -5,7 +5,7 @@ subject: race-event-as-story-beat
 technique: four-part-beat-delivery
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-10
 ---
 
 # Death Ride's beat card, slot by slot, against the four-part standard
@@ -69,16 +69,19 @@ twenty-second budget is plausibly met and **unmeasured**, which is not the same 
 thirty of the thirty-five events are unmodified lap races, so their card is a trailer in the
 technique's vocabulary. Deviation.
 
-**Barks: absent.** No tracked data file in the tree is named for barks, taunts or a salience
-table, although the dossier proposes one. The mid-event slot is therefore empty for every event.
-Deviation; the standard stays.
+**Barks: absent at `6efb1dda`, realized since.** At that commit no tracked data file was
+named for barks, taunts or a salience table, although the dossier proposes one. On 2026-10-06
+the head writer's 518-line script was wired into the game, with in-race barks triggered by state
+and race phase. The kotlin application on this technique reads the slot as it ships at
+`d9990777`: realized, with long barks and almost none tied to a particular event.
 
 **Post-event state: realized for money, partly for story.** The ledger is designed as a
 persisted, itemised record:
 `docs/concepts/deathride/Q0-ash-circuit-plot.md:11 "The player sees payment, credited amount, diversion and interest separately."`
 That is the evaporated-beat failure avoided for the debt thread. Whether rival standing, ally
 attitude or a retry count persist and are read by a later card was not established by this
-reading.
+reading. The kotlin application settles it at `d9990777`. Grudges and ally standing persist and
+later lines read them. The retry count is held in memory only.
 
 ## A deviation between the dossier and the design
 
@@ -98,8 +101,14 @@ event to follow from forty seconds of story, and the dossier states no session l
 technique keeps the twenty seconds as a bet and drops the ratio as a finding. The fixed spine is
 `docs/narrative/research/R2-game-narrative-craft.md:308 "the hook (first race plus first ledger)"`
 and the rest, with the guard
-`docs/narrative/research/R2-game-narrative-craft.md:319 "Never let it pick the fixed beats."`,
+`docs/narrative/research/R2-game-narrative-craft.md:318 "Never let it pick the fixed beats."`,
 confirmed and carried into the few-fixed technique.
+
+## Re-resolved
+
+Every anchor above was re-resolved on 2026-10-10 against `d9990777`, a descendant of
+`6efb1dda`, with the anchor checker. One quote had moved by a line and is corrected. The dossier
+lines and the design quotes are unchanged.
 
 ## What this application does not show
 

@@ -103,7 +103,11 @@ race and delivers nothing during it.
 ## Decision rules
 
 - **When an event passes the deletion test only because of its track or opponents, it still
-  fails.** Scenery and a harder field are difficulty, not story.
+  fails.** Scenery and a harder field are difficulty, not story. A named opponent counts only
+  when the objective names them: *finish ahead of the rival the card set up* is pursuit, a
+  variant, and the event acts on the card. A field that merely contains that rival is not a
+  variant, and the event does not act on the card. The objective is shown on the display
+  during the race, not only on the screen before it.
 - **When two variants are needed to carry one event, check that both express the same idea**;
   if they express two, split the event.
 - **When a variant would change the meaning of an input, show the change on the display before
@@ -130,4 +134,8 @@ censored releases and on a film director's account of the satire in a car-combat
 the facts, with the generalisation the research's own. The starter library, the
 leave-the-track rule and the disclosure-of-help rule are design proposals; the last is
 consistent with a stated design rule against invisible boosts but was not observed in play.
-None has been tested in a played race campaign.
+The named-opponent clause was reached by two lanes on 2026-10-09. A racing game whose rivals
+must each be beaten to climb its ladder kept its cut-scenes between races, and they were
+praised by critics. That is an encyclopedia summary, medium. Separately, a blind lane reported that a racing story
+mode's finish-ahead-of-the-rival objectives carry story by changing only the goal. Neither
+lane measured players. None has been tested in a played race campaign.

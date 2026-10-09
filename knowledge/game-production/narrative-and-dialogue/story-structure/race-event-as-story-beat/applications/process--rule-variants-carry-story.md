@@ -5,7 +5,7 @@ subject: race-event-as-story-beat
 technique: rule-variants-carry-story
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-10
 ---
 
 # The deletion test run over Death Ride's 35-event campaign
@@ -99,6 +99,15 @@ rule already says.
 The disclosure rule is **confirmed** by the design, in stronger words than the draft had:
 `docs/concepts/deathride/Q0-ash-circuit-plot.md:17 "No invisible boost."`
 That sentence is why the technique now binds help as well as handicap.
+
+## Re-resolved
+
+Every anchor above was re-resolved on 2026-10-10 against `d9990777`, a descendant of
+`6efb1dda`, and all held. The counts were taken again: 34 lap races and one elimination, and
+the contract column at 30 optional, 3 delivery, 1 clean and 1 grudge. The only change to the
+event table is one course swap. The kotlin application on this technique reads the same
+campaign in code. It finds the contract column read only by a content test, and the objective
+the four boss gates add.
 
 ## What this application does not show
 

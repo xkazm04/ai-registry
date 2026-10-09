@@ -24,8 +24,9 @@ the session, depending on how much else the session contains. The figure is chos
 measured: nobody has established a ratio at which players stop reading, and a team that
 quotes one should say whose session it was computed over. What is established well enough to
 design against is the direction of the failure. Past some length the words compete with the
-race for the player's attention and the race wins; the skip habit forms within a few events
-and, once formed, it is applied to every later card, including the ones that mattered. The
+race for the player's attention and the race wins; the skip habit forms, how fast is
+unmeasured, and once formed it is applied to every later card, including the ones that
+mattered. The
 budget is therefore not a measure of how much story the campaign can afford; it is a bet on
 how much a player will actually receive per event, and anything beyond it is written for
 nobody.
@@ -50,7 +51,16 @@ and not the shorter.
 
 Converted to words, twenty seconds at a comfortable on-screen reading rate is a few dozen words,
 which is one image, a name, a stake and one rule; that conversion is a starting point to be
-checked against the shipped display, not a constant.
+checked against the shipped display, not a constant. Subtitle standards bound it from above.
+A streaming service's published timed-text guide allows adult programs up to twenty characters
+a second, which is at most about four hundred characters, sixty-five to seventy-five words, in twenty
+seconds. That rate assumes a viewer whose attention is wholly on the text. A player getting
+ready for the grid gives less, so the working figure sits below that ceiling, never at it.
+Voiced lines at about 150 words a minute put twenty seconds near fifty words.
+
+A target stated per line is not a budget until it is converted. A twelve-word target per card
+line says nothing about how long the card and the scene before the grid take together. Only
+seconds at a stated rate say whether the event is inside its twenty.
 
 ## Skipping and the budget
 
@@ -97,6 +107,15 @@ The supporting direction is better grounded: arcade games that keep story to bri
 between levels are described that way by their developers through an encyclopedia summary,
 medium confidence; players modding a racing game to silence its repetitive commentary comes
 from community sources, low. The basis rule, counting on the shipped display and taking the
-longer of text and voice, is inference. No card has been timed against a player, and none of
-this has been tested in a played race campaign; the figure is a starting bet to be measured,
-not a finding.
+longer of text and voice, is inference.
+
+No published cutscene skip rate was found in 2026-10-09's search. One director said his
+statistics showed many players stopped watching, and gave no figure. The direction is
+reported; the speed at which the habit forms is not. The subtitle ceiling is a
+published standard for viewers, high confidence as a ceiling and silent on players.
+
+One shipped campaign's script, measured 2026-10-09, holds a median of 38 words before the grid
+and 11 after. That is inside the budget, but it was counted rather than timed, and no budget
+was stated for it (see its kotlin application). No card has been timed against a player, and
+none of this has been tested in a played race campaign; the figure is a starting bet to be
+measured, not a finding.
