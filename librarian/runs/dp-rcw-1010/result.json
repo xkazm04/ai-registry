@@ -1,0 +1,96 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rcw-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T23:05:00Z",
+  "ended_at": "2026-10-10T00:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/regional-culture-worldbuilding",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "regional-culture-worldbuilding",
+      "technique": "what-the-local-power-wants-and-what-joining-costs",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "regional-culture-worldbuilding",
+      "technique": "world-by-implication",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "regional-culture-worldbuilding",
+      "technique": "economy-institution-slang-code-per-region",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/regional-culture-worldbuilding.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/techniques/economy-institution-slang-code-per-region.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/techniques/follow-the-money-as-map-structure.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/techniques/political-economy-of-spectacle.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/techniques/the-moral-code-has-a-dissenter.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/techniques/what-the-local-power-wants-and-what-joining-costs.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/techniques/world-by-implication.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/kotlin--follow-the-money-as-map-structure.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/kotlin--political-economy-of-spectacle.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/kotlin--what-the-local-power-wants-and-what-joining-costs.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/kotlin--world-by-implication.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/regional-culture-worldbuilding.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "f8cc9d5d",
+      "branch": "main",
+      "pathspec": "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding"
+    },
+    {
+      "sha": "a3409ad5",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "18440e48",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/regional-culture-worldbuilding.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "4 kotlin apps at firetv d9990777, 53 anchors held. 4 golden-path conditions, 1 evidence fix, 2 bounds, 0 techniques; 1 row unapplied. Impact 0 contexts. gate --all stops at check-coverage-age (pre-existing, 17 d); the 15 later steps green run singly."
+}
