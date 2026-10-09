@@ -417,6 +417,23 @@
       "tokensBasis30d": null
     },
     {
+      "name": "lens-scan",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/lens-scan/SKILL.md",
+      "contentHash": "sha256-n1:fc6c4373d5ebb607",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 0,
+      "usageContributors": [],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
+    },
+    {
       "name": "leonardo",
       "version": "1.5.2",
       "category": "other",
@@ -1031,7 +1048,7 @@
     }
   ],
   "counts": {
-    "skills": 39,
+    "skills": 40,
     "practices": 8,
     "memory": 9,
     "lessons": 305

@@ -258,6 +258,23 @@
       "category": "testing"
     },
     {
+      "name": "lens-scan",
+      "source": "./skills/lens-scan",
+      "description": "Measure a product feature by feature through one lens - development, security or design - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review UI. Use when a team needs the current state of a product me",
+      "version": "1.0.0",
+      "category": "workflow",
+      "tags": [
+        "measure",
+        "metrics",
+        "lens",
+        "backlog",
+        "approval",
+        "house-standards",
+        "propagation",
+        "sqlite"
+      ]
+    },
+    {
       "name": "leonardo",
       "source": "./skills/leonardo",
       "description": "Generate images with OpenAI GPT Image 2.5 (Sunburst for detail, Flare for speed) or Leonardo AI (fallback), remove backgrounds, analyze with Gemini vision, and write SVG. For brand assets, UI illustrations, backgrounds, and icons.",
