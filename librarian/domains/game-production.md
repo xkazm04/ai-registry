@@ -216,3 +216,32 @@ Source-class notes:
 - The richest field evidence was arithmetic over the project's own data tables (shapes,
   masses, inertia, tuning). It found two silent disagreements, design note against code and
   handling inertia against contact kick, that no source states.
+
+## 2026-10-09/10 - deepen race-event-as-story-beat (dp-resb-1009)
+
+A single subject, ranked by single stack (process). The rank was real: the subject had only
+`process` applications. Four kotlin applications now read Death Ride's shipped script and
+campaign code at firetv `d9990777`. The field lane found the gap had moved under the subject:
+the 518-line script was wired on 2026-10-06, so the `process` application's "Barks: absent" was
+stale. Barks are triggered by state and phase, with the clock only gating them, which is the
+technique's rule realized.
+
+Two conditions were reached by two lanes:
+- a retry's acknowledgment fades after two or three attempts and states no count in words;
+- a scene before the grid survives only when the event's objective reads what it set up, and a
+  named opponent counts only when the objective names them.
+
+Four evidence corrections landed: the third-event skip figure is unmeasured, the bark timing rule
+has a medium source, branching has a critic's support, and the budget has a subtitle ceiling. A
+selector mirror over the four boss gates gave one better and one unmeasurable simulation. There
+were 0 techniques and 0 project commits. The map joins 0 contexts, because firetv is still
+unregistered at HEAD.
+
+Source-class notes:
+- Re-fetching every outside quote before commit caught one bad claim. The lane's achievement
+  percentages for a racing story mode's chapters came from guide summaries, and the Steam page
+  names no chapter. The figure was removed from the technique before it landed. Achievement
+  pages give rates, not their meaning; a chapter mapping needs a primary page.
+- A selector mirror is worth running before trusting a line census. The field census counted
+  the announcer's retry rows as reachable by condition. The mirror showed the race-start pick
+  never selects them: most-specific first, then file order, and the act lines win.
