@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 535,
-  "applications": 244,
+  "applications": 248,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -7098,9 +7098,9 @@
    "subcategory": "story-structure",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/race-event-as-story-beat.md",
-   "digest": "sha256-b2:da9b1f0224496176",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:550ae1ca6f50fd61",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "few-fixed-beats-many-flexible",
@@ -7172,16 +7172,44 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "few-fixed-beats-many-flexible",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/kotlin--few-fixed-beats-many-flexible.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "four-part-beat-delivery",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/kotlin--four-part-beat-delivery.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "rule-variants-carry-story",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/kotlin--rule-variants-carry-story.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "twenty-second-story-budget",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/kotlin--twenty-second-story-budget.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "four-part-beat-delivery",
      "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/process--four-part-beat-delivery.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-10"
     },
     {
      "stack": "process",
      "technique": "rule-variants-carry-story",
      "file": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/process--rule-variants-carry-story.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-10"
     }
    ]
   },
