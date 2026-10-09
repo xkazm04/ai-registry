@@ -7,6 +7,8 @@ stack: kotlin
 status: forged
 verified_on: 2026-10-09
 verified_against: kotlin@2.0.21
+applied: simulation
+ab_verdict: not-better
 ---
 
 # A television host's bind loop, and the preflight that was stricter than the bind

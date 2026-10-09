@@ -7,6 +7,8 @@ stack: node
 status: forged
 verified_on: 2026-10-09
 verified_against: node@24
+applied: simulation
+ab_verdict: unmeasurable
 ---
 
 # Two local node hosts that skip the probe and walk the port

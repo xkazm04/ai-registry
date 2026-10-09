@@ -7,6 +7,8 @@ stack: kotlin
 status: forged
 verified_on: 2026-10-09
 verified_against: kotlin@2.0.21
+applied: code
+ab_verdict: better
 ---
 
 # A two-seat racing host: token first, then the stranger checks
