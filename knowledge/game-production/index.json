@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 535,
-  "applications": 240,
+  "applications": 244,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -5223,9 +5223,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/mass-based-arcade-collision.md",
-   "digest": "sha256-b2:9dea127f165eb8af",
-   "revision": 1,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:288cadaa1b332819",
+   "revision": 2,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "bounded-collision-spin",
@@ -5315,16 +5315,46 @@
    ],
    "applications": [
     {
-     "stack": "process",
-     "technique": "inverse-mass-impulse-split",
-     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/process--inverse-mass-impulse-split.md",
-     "verified_on": "2026-10-01"
+     "stack": "kotlin",
+     "technique": "bounded-collision-spin",
+     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--bounded-collision-spin.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
     },
     {
-     "stack": "process",
+     "stack": "kotlin",
+     "technique": "inverse-mass-impulse-split",
+     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--inverse-mass-impulse-split.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "min-restitution-pairing",
+     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--min-restitution-pairing.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "multi-circle-capsule-contact",
+     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--multi-circle-capsule-contact.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
      "technique": "ram-energy-accumulate-once-per-step",
-     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/process--ram-energy-accumulate-once-per-step.md",
-     "verified_on": "2026-10-01"
+     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--ram-energy-accumulate-once-per-step.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "wall-tangent-retention-versus-head-on-loss",
+     "file": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--wall-tangent-retention-versus-head-on-loss.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
     }
    ]
   },
