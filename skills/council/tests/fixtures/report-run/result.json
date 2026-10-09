@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "mode": "full",
+  "run_id": "2026-10-09-example-feature-r1",
+  "subject": {
+    "kind": "use_case",
+    "slug": "example-feature",
+    "title": "Example Feature Under Review",
+    "summary": "A fixture subject: one feature, five members, two of them with verdict files."
+  },
+  "rubric_version": "feature-v1",
+  "round_no": 1,
+  "supersedes_run_id": null,
+  "trust_state": "uncalibrated",
+  "receipt": {
+    "head_sha": "abcdef0123456789abcdef0123456789abcdef01",
+    "spanned_paths": ["src/example.ts", "src/example.test.ts"],
+    "span_digest": "1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "hard_failures": [],
+  "dimensions": [
+    { "dimension": "value", "kind": "judged", "state": "measured", "score": 0.6, "confidence": "med", "floor": 0.4, "floor_hit": false, "advisory": false, "unmeasured_reason": null },
+    { "dimension": "craft", "kind": "mixed", "state": "measured", "score": 0.55, "confidence": "low", "floor": null, "floor_hit": false, "advisory": false, "unmeasured_reason": null, "findings": [], "evidence": [], "techniques": [] },
+    { "dimension": "rivalry", "kind": "judged", "state": "measured", "score": 0.5, "confidence": "low", "floor": null, "floor_hit": false, "advisory": false, "unmeasured_reason": null, "findings": [], "evidence": [], "techniques": [] },
+    { "dimension": "robustness", "kind": "mechanical", "state": "measured", "score": 0.7, "confidence": "med", "floor": 0.5, "floor_hit": false, "advisory": false, "unmeasured_reason": null },
+    { "dimension": "economics", "kind": "mechanical", "state": "unmeasured", "score": null, "confidence": "high", "floor": null, "floor_hit": false, "advisory": false, "unmeasured_reason": "The pack carries no telemetry and no price book." }
+  ],
+  "overall": 0.6,
+  "coverage": 0.9,
+  "outcome": "ready",
+  "must_address": [
+    "value: The example door is unreachable from the declared character's start page",
+    "economics is unmeasured: The pack carries no telemetry and no price book."
+  ],
+  "summary": "Full council, round 1, on a fixture subject. Ready at 0.60 on coverage 0.90; a person decides."
+}

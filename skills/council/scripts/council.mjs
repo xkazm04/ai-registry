@@ -2,13 +2,14 @@
 /**
  * council - the file-backed instrument behind the /council method.
  *
- * Five subcommands, all deterministic, all dependency-free, none of them a judge:
+ * Six subcommands, all deterministic, all dependency-free, none of them a judge:
  *
  *   round     - the next round number for a subject in a mode (full | lite), from the run dirs
  *   receipt   - pin what this round looked at (head sha + a content digest over the span)
  *   drift     - compare two receipts: none | grown | changed | unknown
  *   aggregate - fold the members' verdict files into one result.json by the pass rule
  *   validate  - check a result.json, or one member's verdict, against the contract
+ *   report    - render result.json + report.md into one self-contained report.html to read
  *
  * Modes: `full` is the council; `lite` is one pass over value, craft and robustness of
  * feature-v1, written in the same result document with `mode: "lite"`. The mode lives in
@@ -28,6 +29,7 @@
  *     must-address.json       optional array of strings carried in from a human rejection
  *     result.json             written by `aggregate`
  *     report.md               written by the method
+ *     report.html             written by `report`, from result.json + report.md
  *     evidence/               the evidence pack and any captures
  *
  * Usage:
@@ -37,6 +39,7 @@
  *   node council.mjs aggregate --run-dir <dir> --summary "<paragraph>" [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>] [--mode full|lite]
  *   node council.mjs validate  --result <result.json>
  *   node council.mjs validate  --verdict <verdict-<dimension>.json> [--dimension <d>] [--mode full|lite]
+ *   node council.mjs report    --run-dir <dir>
  *
  * Every subcommand prints JSON on stdout and human notes on stderr, so it composes.
  */
@@ -48,6 +51,8 @@ import { drift } from './lib/drift.mjs';
 import { aggregate, buildResult, validateRubric, liteScopeFor, MODES } from './lib/aggregate.mjs';
 import { validateResult, validateVerdict } from './lib/schema.mjs';
 import { nextRound, runDirName } from './lib/rounds.mjs';
+import { cleanRunDir, loadRun } from './lib/report/model.mjs';
+import { renderPage } from './lib/report/template.mjs';
 
 const SKILL_DIR = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -278,6 +283,27 @@ if (cmd === 'validate') {
   process.exit(problems.length ? 1 : 0);
 }
 
+// ------------------------------------------------------------------- report
+if (cmd === 'report') {
+  // The reading surface a person opens: one self-contained report.html beside report.md -
+  // the verdict first, then each member, then the Director's prose - with inline CSS and
+  // JS and no network. It carries NO decision: approve and reject stay at the consumer's
+  // gate, bound to the run. Deterministic by construction (no clock, no machine path), so
+  // re-rendering a run is byte-identical and the file can be regenerated at any time.
+  const runDir = flag('run-dir');
+  if (!runDir) die('report needs --run-dir <dir>');
+  const dir = path.resolve(cleanRunDir(runDir));
+  for (const f of ['result.json', 'report.md']) {
+    if (!fs.existsSync(path.join(dir, f))) die(`no ${f} in ${dir} - phase 5 writes result.json with aggregate and then report.md, and the page renders both`);
+  }
+  const result = readJson(path.join(dir, 'result.json'));
+  if (!result || typeof result !== 'object' || Array.isArray(result)) die(`${path.join(dir, 'result.json')} is not a result document`);
+  const out = path.join(dir, 'report.html');
+  fs.writeFileSync(out, renderPage(loadRun(dir, { skillDir: SKILL_DIR })), 'utf8');
+  emit({ written: out });
+  process.exit(0);
+}
+
 console.error(`council: unknown subcommand ${JSON.stringify(cmd ?? '')}
 
   round     --runs-dir <dir> --slug <slug> [--mode full|lite] [--date <YYYY-MM-DD>]
@@ -286,5 +312,6 @@ console.error(`council: unknown subcommand ${JSON.stringify(cmd ?? '')}
   aggregate --run-dir <dir> --summary "<paragraph>" [--rubric <file>] [--trust-state <s>] [--round <n>] [--state <state.json>] [--mode full|lite]
   validate  --result <result.json>
   validate  --verdict <verdict-<dimension>.json> [--dimension <d>] [--mode full|lite]
+  report    --run-dir <dir>
 `);
 process.exit(2);

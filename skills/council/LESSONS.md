@@ -3,6 +3,30 @@
 Append-only, newest first. One block per run, headed with the version the run **used** -
 not the bump it argues for - then the date and the project, then concise bullets.
 
+## 0.5.0 - 2026-10-09 - personas
+
+**Authoring run, not a field run** - the `report` subcommand moved here from the consumer
+that built it; no council round was driven to produce this entry.
+
+- **The page was built and judged in a consumer, against the owner's own bar.** The
+  renderer was designed in personas over 90 real run directories and accepted against the
+  owner's /contest report bar (verdict first, members as designed claims, no decision
+  control on the page) before it moved. What moved is the approved look: on all 90 runs the
+  skill's page differs from the approved one only in five lines that named the consumer
+  product and the machine path of the run.
+- **It renders in the skill because the consumers cannot.** Every new run in every project
+  needs a page, and a consumer's ingest door may be Rust or Python with no Node, and an
+  installed app ships no scripts. The step that writes `report.md` is the only place that
+  is always running Node with the run directory in hand, so phase 5 renders it there.
+- **Dependency-free by necessity, and measured rather than assumed.** The consumer's
+  version parsed markdown with remark from its own node_modules; the skill runs in repos
+  that have none. `lib/report/mdparse.mjs` produces the same mdast as remark + remark-gfm
+  for all 90 real report.md files and for 10,000 fuzzed recombinations of them; the scope
+  it leaves out (reference links, footnotes) degrades to escaped literal text. One
+  measured trap: lazy-continuation checks done by re-parsing were cubic (62 s for 1,000
+  alternating lines); parsing optimistically and cutting at the first illegal lazy line is
+  linear (5 ms).
+
 ## 0.3.1 - 2026-10-07 - ai-registry
 
 **Authoring run, not a field run** - `--lite` (shipped as 0.4.0) was built and gated, never

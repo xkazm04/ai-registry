@@ -1,0 +1,29 @@
+{
+  "dimension": "value",
+  "state": "measured",
+  "score": 0.6,
+  "confidence": "med",
+  "unmeasured_reason": null,
+  "findings": [
+    {
+      "id": "value-1",
+      "severity": "high",
+      "recurrence": 1,
+      "title": "The example door is unreachable from the declared character's start page",
+      "detail": "No link reaches the door from `src/example.ts:12`.\n\nThe member checked the start page and the menu."
+    },
+    {
+      "id": "value-2",
+      "severity": "low",
+      "recurrence": 1,
+      "title": "The empty state names the next step",
+      "detail": "A reader with no data is told what to do first."
+    }
+  ],
+  "evidence": [
+    { "kind": "file", "ref": "src/example.ts:12", "caption": "the door, with no inbound link" }
+  ],
+  "techniques": [
+    { "subject": "empty-states", "technique": "name-the-next-step", "proof": "inspection" }
+  ]
+}

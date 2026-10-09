@@ -1,0 +1,20 @@
+{
+  "dimension": "robustness",
+  "state": "measured",
+  "score": 0.7,
+  "confidence": "med",
+  "unmeasured_reason": null,
+  "findings": [
+    {
+      "id": "robustness-1",
+      "severity": "med",
+      "recurrence": 1,
+      "title": "A failed save still answers success",
+      "detail": "The handler at `src/example.ts:40-48` discards the error and returns 200."
+    }
+  ],
+  "evidence": [
+    { "kind": "test", "ref": "src/example.test.ts", "caption": "no test injects a failed save" }
+  ],
+  "techniques": []
+}

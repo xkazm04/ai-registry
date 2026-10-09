@@ -1,0 +1,46 @@
+# Council report: `example-feature`, full council, round 1 of 3
+
+This subject declares no scenarios, so the verdict is about the feature as a whole and says nothing branch by branch.
+
+**Outcome: `ready`**, round 1 of 3. Overall **0.60** on coverage **0.90**. A person decides.
+
+## What was judged
+
+| | |
+| --- | --- |
+| Head | `abcdef0123456789abcdef0123456789abcdef01` |
+| Span | 2 files |
+| Drift | `unknown` |
+
+## Dimensions
+
+| Dimension | Score | Confidence | Floor hit |
+| --- | --- | --- | --- |
+| value | 0.60 | med | no |
+| robustness | 0.70 | med | no |
+| economics | **unmeasured** | high | - |
+
+## `must_address`, verbatim from `result.json`
+
+1. `value: The example door is unreachable from the declared character's start page`
+   - Source: `value-1`.
+   - The member offers two remedies: link the door, or declare it out of scope.
+2. `economics is unmeasured: The pack carries no telemetry and no price book.`
+
+## Untrusted text stays text
+
+A member quoted this markup, and the page must print it, not run it:
+
+<script>alert("council-fixture-injection")</script>
+
+An inline <img src=x onerror=alert(1)> tag, a [script link](javascript:alert(1)) and a [safe link](https://example.com/docs) - only the last keeps its href.
+
+> A quoted line with *emphasis* and ~~a retracted claim~~.
+
+```js
+const html = "<b>not markup</b>";
+```
+
+## Oracle
+
+Better than the email round trip it replaces; worse than the tool that already links the door.

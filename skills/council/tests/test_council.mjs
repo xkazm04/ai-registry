@@ -34,6 +34,7 @@ import {
 } from '../scripts/lib/receipt.mjs';
 import { drift, carryForward } from '../scripts/lib/drift.mjs';
 import { nextRound, runDirName } from '../scripts/lib/rounds.mjs';
+import { parseMarkdown } from '../scripts/lib/report/mdparse.mjs';
 
 const SKILL_DIR = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const rubricOf = (name) => JSON.parse(fs.readFileSync(path.join(SKILL_DIR, 'rubric', `${name}.json`), 'utf8'));
@@ -912,4 +913,115 @@ test('CLI: a lite run aggregates from started.json, validates, and an empty summ
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
+});
+
+// ------------------------------------------------------------------- report
+
+/**
+ * A run directory built from tests/fixtures/report-run in a temp dir, so rendering never
+ * writes into the tree. The fixture keeps its markdown as report-md.txt and this places
+ * it as report.md, the name a real run uses.
+ */
+function reportRun(root, { withReport = true, withResult = true } = {}) {
+  const src = path.join(SKILL_DIR, 'tests', 'fixtures', 'report-run');
+  const dir = path.join(root, 'runs', '2026-10-09-example-feature-r1');
+  fs.mkdirSync(dir, { recursive: true });
+  for (const f of ['verdict-value.json', 'verdict-robustness.json']) fs.copyFileSync(path.join(src, f), path.join(dir, f));
+  if (withResult) fs.copyFileSync(path.join(src, 'result.json'), path.join(dir, 'result.json'));
+  if (withReport) fs.copyFileSync(path.join(src, 'report-md.txt'), path.join(dir, 'report.md'));
+  return dir;
+}
+
+test('report writes one self-contained page: the verdict, every member, a contents landmark', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'council-report-'));
+  try {
+    const dir = reportRun(root);
+    const r = runCli(['report', '--run-dir', dir]);
+    assert.equal(r.status, 0, r.stderr);
+    const out = path.join(dir, 'report.html');
+    assert.deepEqual(JSON.parse(r.stdout), { written: out });
+    const html = fs.readFileSync(out, 'utf8');
+
+    assert.match(html, /^<!doctype html>/);
+    assert.ok(html.includes('Example Feature Under Review'), 'the subject title');
+    for (const name of ['value', 'craft', 'rivalry', 'robustness', 'economics']) {
+      assert.ok(html.includes(`id="m-${name}"`), `a section for ${name}`);
+      assert.ok(html.includes(`>${name[0].toUpperCase()}${name.slice(1)}</h2>`), `${name} named in its heading`);
+    }
+    assert.match(html, /<span class="k-n">0\.60<\/span>/, 'the overall, as the hero tile shows it');
+    assert.match(html, /<nav class="rail" aria-label="Contents">/, 'the contents rail is a nav landmark');
+    assert.ok(html.includes('id="f-value-1"'), 'a finding from a verdict file the result does not carry');
+    assert.ok(html.includes('href="#f-value-1"'), 'the must-address line links to the finding it came from');
+    // Self-contained: no network, and nothing names the machine it was rendered on.
+    assert.doesNotMatch(html, /<(?:link|img|iframe)\b|src="https?:/);
+    assert.ok(!html.includes(root) && !html.includes(dir), 'no machine path in the page');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('report prints markup from report.md as text: a <script> never runs, a javascript: link loses its href', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'council-report-'));
+  try {
+    const dir = reportRun(root);
+    assert.equal(runCli(['report', '--run-dir', dir]).status, 0);
+    const html = fs.readFileSync(path.join(dir, 'report.html'), 'utf8');
+    assert.ok(!html.includes('<script>alert('), 'the injected script is not a script');
+    assert.ok(html.includes('&lt;script&gt;alert(&quot;council-fixture-injection&quot;)&lt;/script&gt;'), 'it is printed, escaped');
+    assert.equal(html.match(/<script\b/g).length, 1, "the page's one script is its own");
+    assert.ok(!/<img\b/.test(html), 'an inline <img> is text');
+    assert.ok(!/href="javascript:/i.test(html), 'a javascript: link keeps its words and loses its href');
+    assert.ok(html.includes('href="https://example.com/docs"'), 'an https link survives');
+    assert.ok(html.includes('&lt;b&gt;not markup&lt;/b&gt;'), 'fenced code is escaped');
+    assert.ok(html.includes('<del>a retracted claim</del>') && html.includes('<blockquote class="quote">'));
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('report is deterministic: a re-render of the same run is byte-identical', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'council-report-'));
+  try {
+    const dir = reportRun(root);
+    assert.equal(runCli(['report', '--run-dir', dir]).status, 0);
+    const first = fs.readFileSync(path.join(dir, 'report.html'));
+    assert.equal(runCli(['report', '--run-dir', dir]).status, 0);
+    assert.ok(first.equals(fs.readFileSync(path.join(dir, 'report.html'))));
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('report refuses a run without report.md or result.json, with exit 2 and no file written', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'council-report-'));
+  try {
+    for (const [opts, missing] of [[{ withReport: false }, 'report.md'], [{ withResult: false }, 'result.json']]) {
+      const dir = reportRun(fs.mkdtempSync(path.join(root, 'r-')), opts);
+      const r = runCli(['report', '--run-dir', dir]);
+      assert.equal(r.status, 2, `missing ${missing}`);
+      assert.ok(r.stderr.includes(`no ${missing} in`), r.stderr);
+      assert.ok(!fs.existsSync(path.join(dir, 'report.html')));
+    }
+    assert.equal(runCli(['report']).status, 2, 'no --run-dir');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('the dependency-free markdown parser yields the shapes the page is designed over', () => {
+  const md = [
+    '| A | B |', '|:--|--:|', '| `x\\|y` | 2 |', '',
+    '1. one', '   - nested', '2. two', '', '   loose', '',
+    'tight **bold** and *em* <b>raw</b> https://example.com/x.',
+  ].join('\n');
+  const [table, list, para] = parseMarkdown(md).children;
+  assert.equal(table.type, 'table');
+  assert.deepEqual(table.align, ['left', 'right']);
+  assert.deepEqual(table.children[1].children[0].children, [{ type: 'inlineCode', value: 'x|y' }], 'an escaped pipe inside code');
+  assert.equal(list.type, 'list');
+  assert.equal(list.ordered, true);
+  assert.equal(list.children[0].children[1].type, 'list', 'nested list');
+  assert.deepEqual(list.children.map((i) => i.spread), [false, true], 'only the item with a blank line inside is loose');
+  assert.deepEqual(para.children.map((c) => c.type), ['text', 'strong', 'text', 'emphasis', 'text', 'html', 'text', 'html', 'text', 'link', 'text']);
+  assert.equal(para.children[9].url, 'https://example.com/x', 'a literal autolink, its trailing period left out');
 });

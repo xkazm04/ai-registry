@@ -44,7 +44,8 @@ that runs it. **Every phase of `SKILL.md` not named here runs as written.**
 8. **Report** per `references/synthesis.md`, opening with: *"Lite review - one pass over
    value, craft and robustness; rivalry and economics were not judged. This is not the
    council and not an approval."* Coverage is read aloud like any other: a complete lite
-   pass rests on 70% of `feature-v1`.
+   pass rests on 70% of `feature-v1`. Then render the page with
+   `council.mjs report --run-dir <run>`, as phase 5 does.
 9. **Vault**: the run note (`runs/<run_id>.md`, `mode: lite` in its frontmatter) and the
    `Council.md` row. Never `Bar.md` - a single pass clearing the bar would lower it - and
    never `Calibration.md` or a market brief.

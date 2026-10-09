@@ -3,7 +3,7 @@ name: council
 description: "Strict, evidence-first triage of ONE already-built feature or ONE architecture redesign, ending at a human gate the method itself may never pass. Bounded members each answer a single question - worth to the user, workmanship, prior art, resilience, running cost, undo cost - reading only an evidence pack built from the tree, never the implementer's own account and never another member's answer. Mechanical members go first and an early exit stops the round on a security hard-fail or a measured floor; the judged ones then run in parallel. The arithmetic renormalises over what was actually measured, so a gap lowers coverage instead of becoming a fake zero. Outcomes are ready, fail, incomplete or stalled, and not one of them admits anything. Rounds are capped at three, a content receipt decides what must be re-examined, and a superseded verdict is kept rather than rewritten. Reach for this when an autonomous builder reports that a major piece of work is finished and a person is about to be asked to accept it. --lite is a headless pass of three rows per finished feature, never an approval. Invoke with /council <slug> [--lite] [--kind use_case|architecture] [--round <n>] [--members a,b]."
 category: workflow
 memory: vault
-version: 0.4.0
+version: 0.5.0
 tags: triage, evidence-pack, human-gate, floors, rounds, receipt, supersede, lite
 argument-hint: "<feature-slug | adr-slug> [--lite] [--kind use_case|architecture] [--round <n>] [--members a,b]"
 ---
@@ -324,6 +324,19 @@ Then write `report.md` per `references/synthesis.md`. **The synthesis explains t
 aggregate and never overrides it**, never quotes the implementer, and never edits
 `result.json` by hand.
 
+Then render the page a person reads:
+
+```
+node <skill>/scripts/council.mjs report --run-dir <run>
+```
+
+It writes `<run>/report.html` - the verdict, each member's findings and evidence, then
+`report.md` - as one self-contained file with no network, and it carries **no decision
+control**: approve and reject stay at the consumer's gate, bound to the run id and head
+sha. It renders here because a consumer's ingest door may not run Node and an installed
+app ships no scripts; re-render it whenever `report.md` changes (the output is
+deterministic, so a re-render of an unchanged run is byte-identical).
+
 ## 6. Vault
 
 Per `references/vault-schema.md`: append the run note (`runs/<run_id>.md`, immutable),
@@ -386,7 +399,8 @@ exclusions - with lite rounds counted on their own (`round --mode lite`) and the
 place of the members. Robustness goes first and keeps the early exit; value then craft
 follow, each by its own member brief,
 with no web lookups and L1 only; each verdict is written and validated before the next row
-is read. **The order of work is `references/lite-mode.md` - read it before the first step.**
+is read. A lite pass writes `report.md` and renders `report.html` with `council.mjs report`
+exactly as phase 5 does; the page says `lite pass` in its first line. **The order of work is `references/lite-mode.md` - read it before the first step.**
 It is headless by contract: it runs under `claude -p`, asks no question at any point (no
 `AskUserQuestion`), and records anything that would need an answer where a reader finds it.
 
@@ -405,7 +419,8 @@ branch by branch); then the outcome and the round; what was judged (head sha, sp
 the dimension table with coverage read aloud; the trust banner while the judges are not
 calibrated; `must_address`; where members disagreed; and for `ready`, the oracle - the
 thing this is better or worse THAN, which is what a person needs in order to decide.
-Say plainly what was not measured and why. **Never recommend approval.**
+Say plainly what was not measured and why. **Never recommend approval.** End with the
+path of `<run>/report.html`, the page a person opens to read the whole verdict.
 
 ## Project overlay
 
