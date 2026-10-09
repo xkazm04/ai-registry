@@ -116,6 +116,13 @@ staging (high) and a secondary reading of its architecture (medium). Economy-as-
 the same work's on-screen world (high). The leash-versus-loan distinction rests on historical
 sources about company scrip and company stores (high on the history); economic historians
 dispute how universal the gouging was, so the claim used here is the institution's shape,
-not its typical severity (medium on generality). The four properties of a good necessity,
+not its typical severity (medium on generality). The benign side of the
+line is confirmed by a life-simulation director's own words about its landlord-creditor — "He's
+not like a loan shark", "He can wait as long as it takes for you to pay back" — a debt with no
+lever and no deadline that its players read as harmless (read on the page in a 2026-10-09
+pass; a blind lane reached the same case); it does not test the fixed-countdown claim. A
+field reading of one runtime added two levers the decision rules' list lacks — the creditor's control of
+how much of a payment is credited, and a clause added late — and found the countdown
+arithmetic kept as constants while those two carried the leash. The four properties of a good necessity,
 the complicity of the queue and the player-resource binding are practitioner judgement. None
 of it has been tested in a played game.

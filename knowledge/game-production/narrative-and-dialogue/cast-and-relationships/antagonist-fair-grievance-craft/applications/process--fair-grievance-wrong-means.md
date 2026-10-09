@@ -5,7 +5,7 @@ subject: antagonist-fair-grievance-craft
 technique: fair-grievance-wrong-means
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # Marrow: a grievance, a method and one protected thing, specified before a line is written
@@ -13,7 +13,7 @@ verified_on: 2026-10-04
 This application realizes the technique on Death Ride, a top-down vehicular combat racer for
 a television, whose campaign antagonist is Marrow, the league boss who holds the player's
 debt and runs the final speedway (the Crown). The tree is the `firetv-deathride` worktree as
-read on 2026-10-04; the material is the narrative research dossiers in
+read on 2026-10-04 and re-resolved at `10974fa3` on 2026-10-09; the material is the narrative research dossiers in
 `docs/narrative/research/` (R1 prestige-series craft, R3 dialogue craft, R4 wasteland, rivalry
 and debt craft). Those dossiers are research, not field experience: Death Ride's campaign has
 not been played by anyone, so nothing below claims a result in play. It is a `process`
@@ -87,6 +87,23 @@ which pass the test because they produce nothing for the league:
 `docs/narrative/research/R1-prestige-series-craft.md:273 "a driver he lost and still keeps a grid slot for;"`.
 The finale collection the dossier proposes stays compatible:
 `docs/narrative/research/R1-prestige-series-craft.md:305 "The death is his refusal to be owed."`.
+
+**The draft chose a fourth option, and the corrected test admits it.** The head writer's
+story bible, written the same day and still awaiting the owner, picked none of the dossiers'
+three: `docs/narrative/STORY-BIBLE-V2.md:204 "**One protected thing: the Voice (R1 P1, D4; R4 P11).**"`
+— the league's announcer, who co-founded it with Marrow and reads Marrow's book on air
+before every boss race. Under this subject's first test ("an attachment he also uses ... is an
+asset") the Voice fails: he is the league's broadcast, inside the system and working for it.
+Under the test as corrected on 2026-10-09 — pricing, not use — he passes, because the bible
+shows Marrow exempting him from the one rule he applies to everyone: the Voice is "the only
+person Marrow lets round a number" (`STORY-BIBLE-V2.md:204`). The four candidates read
+against both tests: the Crown fails both (Marrow books it); a car he never raced and a lost
+driver's grid slot pass both; the Voice flips. The draft's collection is the leash-reaches-it
+shape — reading the real book on air costs Marrow his secret, and the bible says so
+(`STORY-BIBLE-V2.md:208 "**The bond costs him the league:**"`). Whether the Voice is the right
+choice is the owner's call; the correction only stops this application calling it wrong. The
+finale lines that pay it off are scripted to a finale-phase event the runtime does not raise,
+which is recorded under the `kotlin` application.
 
 **No funding act is specified.** Neither dossier gives Marrow an early, witnessed
 follow-through that funds his later calm. The nearest is R4's lien on Rook's car in Act 1,

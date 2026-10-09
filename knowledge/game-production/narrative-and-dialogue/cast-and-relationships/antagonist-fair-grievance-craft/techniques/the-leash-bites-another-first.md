@@ -19,9 +19,22 @@ later danger is credible without the game having to punish the player to prove i
 ## Why another, and why first
 
 There are two ways to make a player believe a threat. Apply it to them, or apply it in front
-of them. Applying it to the player first has a structural problem in a game: a penalty the
-player receives before they understood it was coming reads as unfair design, not as villainy.
-The player blames the system, not the antagonist, and the emotional target is missed.
+of them. Applying it to the player first has a structural risk in a game: a penalty the
+player receives before they understood it was coming can read as unfair design, not as
+villainy. The player blames the system, not the antagonist, and the emotional target is
+missed.
+
+The risk is attribution, not order. A scripted opening duel that the hero loses by design, at
+the cost of an arm, to a swordsman the game then makes him hunt is widely accepted, because
+the loss is plainly that man's act and no amount of skill would have changed it; an opening
+fight lost to a superior thug because his statistics simply outclass the player's is called
+frustrating, because the loss reads as the numbers. A villain system that grows personal
+enemies out of the player's own encounters works for the same reason — its design director
+reports players "loved to hate their enemies". So the requirement on the first harm is that it
+reads as the antagonist's deliberate act within rules the fiction has stated, whoever it lands
+on. An economic leash is where biting another first earns its place: a loss the player takes
+from a debt reads as the economy's tuning by default, and watching it land on a friend is the
+cheapest way to make it read as his.
 
 Applied to another, the same mechanism produces the intended feeling cleanly. The player sees
 the terms, sees someone fail to meet them, and sees exactly what follows. The player now
@@ -62,8 +75,9 @@ player can pay the friend's debt, and paying it binds the player instead.
 
 ## Decision rules
 
-- **When the first demonstration of the antagonist's control lands on the player, move a
-  version of it to an ally before it.**
+- **When the first demonstration of the antagonist's control lands on the player and could
+  read as the system's tuning, move a version of it to an ally before it.** When it is a
+  scripted, unavoidable act that is plainly his, it may stay first.
 - **When the victim has no prior scene, give them one** or choose a victim who has.
 - **When the bite is violence and the leash is economic, change the bite** to a loss in the
   same currency as the leash.
@@ -95,5 +109,11 @@ return, a classic combat racer whose loan shark takes an upgrade when unpaid, a 
 which a private prison sells televised races with freedom offered as the prize — and rates
 the works themselves high but states that the general rule — show the leash on someone else
 first — is its own inference (low to medium). The named-victim, same-currency and
-priced-intervention rules are practitioner judgement. None of it has been tested in a played
-game.
+priced-intervention rules are practitioner judgement. A 2026-10-09 pass bounded the ordering
+rule: a web counter-evidence lane and a blind training-data lane independently named a shipped
+game that harms the player first and is celebrated for it (the personal-enemy system, whose
+director's postmortem was read on the page; the web lane added the scripted lost duel and a
+games-press piece on unwinnable openings, secondary), and both located the condition in
+attribution — the harm must read as the villain's act, not a fail state. The
+"door" and chosen captivity were searched for and found no source either way. None of it has
+been tested in a played game.

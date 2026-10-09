@@ -35,6 +35,15 @@ place that is also his treasury — is not protected, it is an asset, and losing
 business loss. The test is whether he would trade it to keep control. If he would, it is not
 the protected thing.
 
+The test is about pricing, not use. The protected thing may sit inside his system — even be
+used by it — so long as he does not see it as leverage. The sharpest case on record is a
+shooter's corporate tyrant who keeps his daughter locked up and draws on her power to charge
+the prize he is chasing, and calls it keeping her safe: she is inside his machine, and she is
+still the one thing he has never put on a ledger in his own mind. That is the possession
+refinement that follows, at its extreme, and it indicts him more than an attachment held apart could.
+What disqualifies a thing is that *he* books it as an asset — a place he values for what it
+yields, a person whose loss he would count as revenue.
+
 Outside the ledger is not outside his character. He never prices the protected thing, but
 he holds it the only way he knows how to hold anything: with rules, dependency and watchful
 possession. That is the refinement that keeps the attachment from softening him. The love
@@ -76,10 +85,13 @@ kept off the ledger was watching the ledger all along.
 The shape that fails is the protagonist taking the protected thing as a hostage. It makes the
 protagonist into the antagonist's method, ends the argument by conceding it, and the player
 feels it. The protagonist may stand next to the collection; the protagonist does not perform
-it. The second failing shape is redemption: the attachment softens him at the end, he
-renounces his method, and the threat the whole story built dissolves into reconciliation.
-The protected thing judges him by what he chooses when it is on the line; it does not
-absolve him.
+it. The second shape is redemption: the attachment softens him at the end, he renounces his
+method, and the threat the whole story built dissolves into reconciliation. That fails in a
+story built to judge him, and only there. A controller redeemed through his one attachment —
+the armoured father who turns on his master to save his son — is a different and celebrated
+shape, a tragedy or a homecoming rather than a reckoning, and it belongs under "When not to use this" below. In
+the reckoning this subject builds, the protected thing judges him by what he chooses when it
+is on the line; it does not absolve him.
 
 Where the antagonist is also the final opponent in play, the collection can be staged inside
 the encounter rather than after it: the fight turns on his refusal to give the thing up, and
@@ -115,4 +127,13 @@ scenes checkable on screen (high confidence in the research behind this subject)
 attachment-as-possession refinement rests on secondary analysis of one such series and a
 game writer's interview (medium-high). The outside-the-ledger test, the single-attachment
 limit and the rule against the protagonist performing the collection are practitioner
-judgement with no source behind them. None of it has been tested in a played game.
+judgement with no source behind them. Two bounds were reached independently by a web
+counter-evidence lane and a blind training-data lane in a 2026-10-09 pass: the shooter's
+tyrant and his captive daughter (an attachment inside the system that still works, read on an
+encyclopedia page, secondary), and redemption through the attachment as a legitimate
+different shape rather than a defect (the film father both lanes named; a game director's
+primary interview that "an antagonist is someone who opposes you" was read by the web lane
+alone). "Exactly one" against several was searched for and not tested by either lane. The
+same shooter's daughter dies at the player characters' hands, at her own request, which
+cuts against the no-protagonist-collection rule; only one lane reached it, so it is banked,
+not landed. None of it has been tested in a played game.

@@ -113,4 +113,11 @@ second-hand (medium). The language-of-obligation claim rests on an anthropologis
 text about debt; its application to game antagonists is inference. The funding act — one
 witnessed follow-through, then calm — is practitioner judgement, supported only indirectly
 by a showrunner's remark about rationing violence so that it means something, which was
-itself read through a search excerpt. None of this has been tested in a played game.
+itself read through a search excerpt. A 2026-10-09 pass confirmed the shape and left the rule
+standing: a crime drama's creator, read on the page, says of his controller's one witnessed
+killing that he is "more Michael Corleone than Joe Pesci", that the alternative is "screaming
+and ranting" which "defuses tensions", and that the scene "sends a very scary message"; a
+blind training-data lane independently named that scene and a war film's courteous opening
+interrogation as the funding pattern. Neither tests "one" or "early": one lane observed,
+unsourced, that the same controller's reputation funded his calm before the act, which is
+banked, not landed. None of this has been tested in a played game.

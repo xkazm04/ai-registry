@@ -30,6 +30,15 @@ The signature on a receipt is the purest form. Every transaction the player make
 territory carries his name, so his control is part of the routine rather than an event; the
 player does not decide to think about him, they simply cannot buy anything without him.
 
+Frequency is not what spends a proxy; repetition and impunity are. A villain who talks to the
+player over the radio for an entire long shooter was, in its lead writer's own account of the
+first draft, "a nonstop jokepocalypse" — "the same one-note joke played over and over for
+forty hours". The fix kept the channel and changed its rhythm: make the player laugh, "then do
+something that made you desperately wish to put a bullet between his eyes, then make you
+laugh again." A constant voice with nothing done behind it drifts into a companion the player
+is fond of. The channel stays a presence only while it varies and while something he does,
+every so often, stands behind what it says.
+
 ## Appearances are scarce and consequential
 
 The opposite failure is overexposure. An antagonist who appears in person every few minutes
@@ -84,6 +93,8 @@ mattered is attentive, and attention is a form of menace.
   the rest pass unremarked.
 - **When a proxy line is reused across many visits, rotate or evolve it**, because a proxy
   that the player can recite has stopped being a presence and become furniture.
+- **When a proxy channel has run for a stretch with nothing done behind it, cash it** — the
+  next broadcast or receipt is followed by a consequence the player sees land.
 - **When he suffers a loss, change his proxy register** in the next broadcast or receipt.
 - **When the final encounter would be the player's first time sharing play space with him,
   add one non-hostile appearance inside play**, with a stated reason he cannot be engaged.
@@ -102,7 +113,11 @@ not need a proxy schedule; the encounters themselves carry him.
 
 Keeping a villain present through a running channel, and giving that channel an arc when the
 villain suffers a loss, rests on a game lead writer's interviews read through journalist
-summaries (medium-high in the research behind this subject); that precedent's villain is
+summaries (medium-high in the research behind this subject); his own words on the
+one-note first draft and the laugh-then-act fix were read on the page in a 2026-10-09 pass,
+and that bound — repetition and impunity spend a channel, frequency does not — was reached
+independently by a blind training-data lane naming the same villain and a beloved
+voice-only antagonist as the companion drift; that precedent's villain is
 loud and enjoys his villainy, so only the channel transfers to this antagonist, not the
 register. Planting a detail in every appearance rests on a series creator's primary
 statements about a planted betrayal (high), applied here by analogy. The non-hostile

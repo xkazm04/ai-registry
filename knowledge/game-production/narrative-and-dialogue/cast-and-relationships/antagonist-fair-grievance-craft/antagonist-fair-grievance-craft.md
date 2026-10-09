@@ -44,7 +44,9 @@ earlier sympathy is retroactively declared a mistake. The second makes the griev
 total that the means look proportionate, and the story quietly endorses the villain while
 punishing him for it. Both destroy the antagonist as an argument. The rule is that the
 grievance stays true to the end, the means stay wrong to the end, and the protagonist wins
-by refusing the means rather than by disproving the grievance.
+by refusing the means rather than by disproving the grievance. The rule binds the antagonist
+who carries the argument: a pretext unmasked in a second figure works when a sincere one
+still stands beside him, or when the story's subject is deception itself.
 
 The symmetry that makes this two-sided is structural, not tonal: he is right about the
 problem and wrong about the solution, and the protagonist's side is right about the method
@@ -60,7 +62,8 @@ he values. Defeat, death or arrest are prices the plot charges; they are not pri
 feels. So a reasonable antagonist holds exactly one thing outside his own system of control
 — a person, a place, a promise — and the climax is built so that his means cost him that
 thing. The audience watches the logic of the leash reach the one neck he never meant it to
-reach. Outside his ledger is not outside his character: he holds even the thing he loves
+reach. Outside his ledger is not outside his use — he may even exploit it, so long as he
+never prices it — and it is not outside his character: he holds even the thing he loves
 with rules and possession, and that is what keeps the attachment from softening him — the
 audience pities him and fears him more at once. The attachment judges him by what he
 chooses; it never redeems him. See [one-protected-thing](./techniques/one-protected-thing.md).
@@ -120,7 +123,9 @@ on every receipt, his rules posted where the player works, his prices, his lieut
 quoting him, people who flinch when his name comes up. Each proxy is cheap to produce and
 is encountered many times, so his control accumulates in the player's routine. The opposite
 failure is overexposure: an antagonist who appears constantly in person becomes a familiar,
-and familiarity spends menace. The rule is proxies frequent, appearances scarce, and every
+and familiarity spends menace. So does a proxy that repeats with nothing done behind it; a
+frequent channel stays a presence only while it varies and an act periodically backs it. The
+rule is proxies frequent, appearances scarce, and every
 personal appearance changes something the player will have to live with and plants one
 detail that reads differently in hindsight. The proxies carry an arc of their own: when he
 loses something, his broadcast voice changes, and the player hears the man behind the
@@ -139,7 +144,9 @@ game punishing the player to prove it.
 
 The naive versions are a stranger killed to show he is serious, which shows nothing because
 nobody cared, and a mechanical penalty applied to the player first, which reads as unfair
-design rather than as villainy. The bite must land on a character with a name, a scene and
+design rather than as villainy. The fault there is attribution, not order: a scripted,
+unavoidable harm that is plainly his may land on the player first; a loss that could read as
+the economy's tuning should be watched on a friend before it is felt. The bite must land on a character with a name, a scene and
 a relationship to the player, in the same currency as the leash, and the player must have
 been able to see it coming. Its companion is the open door: having shown what the leash
 does, he reminds the player, courteously, that they are free to go — and chosen captivity
@@ -148,15 +155,17 @@ frightens more than any rule that forbids leaving. See
 
 ## Failure modes of the naive reading
 
-- **The secret liar.** The grievance is revealed as a lie or a pretext. The twist feels
-  clever and empties the story of its argument; nothing the protagonist did needed doing.
+- **The secret liar.** The grievance the story has been weighing is revealed as a lie or a
+  pretext. The twist feels clever and empties the story of its argument; nothing the
+  protagonist did needed doing.
 - **The vindicated villain.** The grievance is so complete that his means read as
   proportionate. The ending then punishes a character the story agreed with, and the
   player feels the dissonance as cheapness.
 - **The confession before the fight.** The grievance or the attachment narrated as a sad
   history just before the final encounter. Pity without a price reads as manipulation.
-- **The redeemed controller.** The attachment softens him at the end and the threat the
-  story built dissolves into reconciliation.
+- **The redeemed controller.** In a story built to judge him, the attachment softens him at
+  the end and the threat the story built dissolves into reconciliation. A redemption story is
+  a different, legitimate shape, not this defect.
 - **The payable debt.** A fixed figure the player can count down. The arithmetic ends the
   menace before the story does.
 - **Monologue menace.** Threat carried by volume, explanation and display. It reads as
@@ -168,7 +177,8 @@ frightens more than any rule that forbids leaving. See
 - **The cutscene villain.** Present at act breaks only. His control is told, never felt.
 - **Many attachments, or none.** Several soft spots dilute each into decoration; no soft spot
   leaves the climax nothing to take from him but his life.
-- **The anonymous victim.** The leash bites a stranger, or bites the player first.
+- **The anonymous victim.** The leash bites a stranger, or bites the player first in a way
+  that reads as the system's tuning rather than his act.
 
 ## The path, in order
 
@@ -189,8 +199,10 @@ frightens more than any rule that forbids leaving. See
 The evidence behind these techniques is uneven and is stated in each: the fair grievance,
 the protected relationship and the reasonable controller rest on working writers' own
 statements and on scenes that can be checked; the bite-another-first ordering is the
-weakest, a generalisation the research made itself; and nothing here has yet been proven
-in a played game.
+weakest, a generalisation the research made itself, now bounded to attribution by shipped
+counter-examples; a 2026-10-09 pass bounded the secret-liar, redeemed-controller and
+outside-the-system rules on two independent lanes, and read one runtime's ledger in code;
+and nothing here has yet been proven in a played game.
 
 ## Where this subject stops
 

@@ -5,7 +5,7 @@ subject: antagonist-fair-grievance-craft
 technique: rationed-necessity-in-public
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # The ledger as the leash: Marrow's control staged through the player's own economy
@@ -13,7 +13,7 @@ verified_on: 2026-10-04
 This application realizes the rationed necessity, and the presence and first-bite techniques
 that hang off it, on Death Ride, a top-down vehicular combat racer for a television whose
 campaign runs on a debt to the league boss Marrow and ends with the seizure of the player's
-car. The tree is the `firetv-deathride` worktree as read on 2026-10-04; the material is the
+car. The tree is the `firetv-deathride` worktree as read on 2026-10-04 and re-resolved at `10974fa3` on 2026-10-09; the material is the
 research dossiers in `docs/narrative/research/` (R1, R3, R4). The campaign has not been
 played, so this is a staging plan reconciled against research, never a result. It is a
 `process` application: it specifies which screens and cards carry the antagonist, not code.

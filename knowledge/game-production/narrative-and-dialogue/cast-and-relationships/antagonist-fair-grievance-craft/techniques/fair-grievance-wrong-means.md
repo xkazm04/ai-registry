@@ -67,6 +67,17 @@ the wrong never happened, or that he caused it himself — empties the story: ev
 player felt about the grievance is retroactively declared a mistake, and the antagonist
 becomes a liar rather than an argument.
 
+The rule binds the antagonist who carries the argument, not every villain in the cast. A
+pretext reveal works when the argument survives it: a celebrated first-person shooter splits
+the two jobs between two men — a sincere ideologue whose belief is complete, and a con man
+who wore a revolutionary's grievance as a costume — and its writer calls the con man "the
+only real monster in the game, because he has no ideals at all". The liar is unmasked; the
+ideologue's argument is still standing beside him, and the twist turns on the player's own
+credulity rather than on erasing the debate. The same holds for a story whose subject is
+deception itself, and for the heist villain whose politics were only ever a cover, where
+there was no argument to empty. What fails is exposing as a pretext the one grievance the
+story has spent its hours weighing.
+
 The protagonist wins by **accepting the premise and refusing the conclusion**: yes, the wrong
 was real; no, it does not license this. In play that refusal must be enacted, not stated.
 The protagonist's path to victory should demonstrate an alternative answer to the same
@@ -91,8 +102,10 @@ confirmed by other people, never only asserted by him.
 
 ## Decision rules
 
-- **When a draft introduces a reveal that the grievance was false, cut the reveal.** The
-  twist is buying surprise with the whole story's argument.
+- **When a draft introduces a reveal that the grievance was false, cut the reveal** — unless
+  a sincere antagonist still carries the argument beside the liar, or the story is about
+  being deceived. Exposing the grievance the story has been weighing buys surprise with the
+  whole story's argument.
 - **When a neutral reader calls the means proportionate, sharpen who pays.** Put a person
   the player likes on the bill, and make that person as powerless as he once was.
 - **When the antagonist explains the grievance himself, have someone else confirm it.** His
@@ -125,5 +138,8 @@ confidence by the research behind this subject; the reading of a setting reshape
 geography supports the grievance rests partly on a critic's secondary essay (medium). The
 grievance-as-leverage delivery is a scene checkable on screen. The neutral-stranger test,
 the who-pays rule and the what-runs-after obligation are practitioner judgement, the last
-reinforced by a design inference in the research rather than by any source. None of this
-has been tested in a played game.
+reinforced by a design inference in the research rather than by any source. The bound on the
+secret-liar rule was reached independently by a web counter-evidence lane and a blind
+training-data lane in a 2026-10-09 pass, both naming the same shooter's paired ideologue and
+con man and the same heist film; the writer's line is his own, in an interview read on the
+page. None of this has been tested in a played game.
