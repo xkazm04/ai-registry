@@ -1,0 +1,115 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-lps-1009",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T20:40:00Z",
+  "ended_at": "2026-10-09T21:08:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/lan-pairing-and-session-continuity",
+      "at": "2026-10-09",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "lan-pairing-and-session-continuity",
+      "technique": "token-seat-reclaim-precedence",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "lan-pairing-and-session-continuity",
+      "technique": "bounded-hello-timeout",
+      "verdict": "unmeasurable",
+      "mode": "code"
+    },
+    {
+      "subject": "lan-pairing-and-session-continuity",
+      "technique": "port-preflight-with-reuseaddress",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "lan-pairing-and-session-continuity",
+      "technique": "port-preflight-with-reuseaddress",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "lan-pairing-and-session-continuity",
+      "technique": "listener-release-on-pause-rebind-on-resume",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/lan-pairing-and-session-continuity.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/techniques/bounded-hello-timeout.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/techniques/capability-detect-insecure-origin.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/techniques/listener-release-on-pause-rebind-on-resume.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/techniques/port-preflight-with-reuseaddress.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/techniques/token-seat-reclaim-precedence.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/applications/kotlin--port-preflight-with-reuseaddress.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/applications/kotlin--token-seat-reclaim-precedence.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/lan-pairing-and-session-continuity/applications/node--port-preflight-with-reuseaddress.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/lan-pairing-and-session-continuity.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "0649b2c2",
+      "branch": "main",
+      "pathspec": "knowledge/game-production"
+    },
+    {
+      "sha": "46003d13",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "e318f759",
+      "branch": "main",
+      "pathspec": "knowledge/game-production"
+    },
+    {
+      "sha": "6d43372d",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json"
+      ]
+    },
+    {
+      "sha": "2543a5c6",
+      "branch": "main",
+      "pathspec": "librarian"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Node rank was a mislabel: Kotlin host, refiled at firetv d9990777; node app added (kp, personas). TIME_WAIT measured: Linux rebind needs reuse on the old listener. 4 two-lane conditions, 6 corrections, 0 techniques. firetv and registry commits unpushed (sibling commits under)."
+}
