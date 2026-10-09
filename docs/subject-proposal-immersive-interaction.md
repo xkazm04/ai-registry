@@ -421,7 +421,13 @@ with 2-4 searches, before opening the game repo. Status runs `draft`, then `forg
 This file is the only change. The forge step, run by the owner or by a `/forge` or
 `/deepen` session in the registry, makes the following, each with its own gate run:
 
-1. **Taxonomy, per the owner's placement choice (B, decided; see [Decided](#decided)).** Order: the retitle of `couch-and-tv-play`, the `apply-taxonomy.mjs` move of the six subjects into `couch-and-tv` and the new `immersive-interaction` ring land in one forge, together with the first immersive subject (the N1 and N2 D1 drafts). Edit `knowledge/game-production/taxonomy.json` and move subjects only through `scripts/apply-taxonomy.mjs`, never `git mv`. Then regenerate the index, rules and catalog with their generators.
+1. **Taxonomy, per the owner's placement choice (B, decided; see [Decided](#decided)). DONE** on 2026-10-09:
+   - the retitle and the `apply-taxonomy.mjs` move of the six subjects into `couch-and-tv` (6 moves, 23 link rewrites) in `956fe701`;
+   - N1 `drawn-gesture-command-recognition` in `13d39368`;
+   - N2 `hand-tracked-timing-windows` in `f1c273eb`, which also adds it to the ring;
+   - index, rules and catalog regenerated in `740715d8`.
+
+   Both N1 and N2 are Phase-1 drafts with status `draft`. Their numbers are labelled synthetic or model, never hands. The original instruction follows. Order: the retitle of `couch-and-tv-play`, the `apply-taxonomy.mjs` move of the six subjects into `couch-and-tv` and the new `immersive-interaction` ring land in one forge, together with the first immersive subject (the N1 and N2 D1 drafts). Edit `knowledge/game-production/taxonomy.json` and move subjects only through `scripts/apply-taxonomy.mjs`, never `git mv`. Then regenerate the index, rules and catalog with their generators.
 2. **Stacks. DONE** in commit `5da5108c` (catalog regenerated in `cebf85ff`). Add `cpp` to the frontmatter of `knowledge/game-production/index.md`. The plan says that file declares no `stacks:`, but it now declares `stacks: [kotlin]`, added with the racing and TV forge, so the change is `stacks: [kotlin, cpp]`. Without `cpp`, a C++ application fails as `unknown stack`. `node` is in the default set (`STACKS` in `scripts/check-bundles.mjs`: react, rust, sql, node, process) and needs nothing.
 3. **Purity. DONE** in commit `bd008bf8`. Extend the `game` profile's product-identifier regex in `scripts/check-bundles.mjs` with headset, runtime and platform vendor names. Two constraints were measured for this proposal:
    - **Bare forms collide.** The regex is case-sensitive and word-bounded. Two of the headset vendor's names, written bare, already occur as ordinary English in two forged upper-layer techniques, so adding them bare turns the gate red at once. Use qualified product forms. The candidate list, the probe and the two colliding lines are under [Provenance](#provenance-and-vendor-vocabulary).
