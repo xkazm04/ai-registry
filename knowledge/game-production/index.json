@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 536,
-  "applications": 261,
+  "applications": 266,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -7392,8 +7392,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/racing-track-authoring-and-lint.md",
-   "digest": "sha256-b2:6658c281f3688cc5",
-   "revision": 2,
+   "digest": "sha256-b2:dc9d1089b4052681",
+   "revision": 3,
    "changedAt": "2026-10-10",
    "techniques": [
     {
@@ -7527,6 +7527,13 @@
      "stack": "kotlin",
      "technique": "px-per-metre-scale-contract",
      "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/kotlin--px-per-metre-scale-contract.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "shape-contract-above-the-linter",
+     "file": "knowledge/game-production/racing-vehicles/racing-track-authoring-and-lint/applications/kotlin--shape-contract-above-the-linter.md",
      "verified_on": "2026-10-10",
      "verified_against": "kotlin@2.0.21"
     },
@@ -7960,9 +7967,9 @@
    "subcategory": "story-structure",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/regional-culture-worldbuilding.md",
-   "digest": "sha256-b2:3d3eedb9cc205f67",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:16c0d7b272928521",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "economy-institution-slang-code-per-region",
@@ -8039,6 +8046,34 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "follow-the-money-as-map-structure",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/kotlin--follow-the-money-as-map-structure.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "political-economy-of-spectacle",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/kotlin--political-economy-of-spectacle.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "what-the-local-power-wants-and-what-joining-costs",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/kotlin--what-the-local-power-wants-and-what-joining-costs.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "world-by-implication",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/regional-culture-worldbuilding/applications/kotlin--world-by-implication.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
     {
      "stack": "process",
      "technique": "economy-institution-slang-code-per-region",
