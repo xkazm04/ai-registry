@@ -52,7 +52,12 @@ Road width in car widths already ties the track to the car. With the scale contr
 to pixels too: a road that is three and a half widest-car widths wide at a floor of about thirteen
 pixels per metre is a known number of pixels, and so is the visible look-ahead at the viewport's
 extent. Publishing those derived figures beside the contract lets a designer judge a corner's
-visibility from the numbers.
+visibility from the numbers. Derive look-ahead from the **safe area**, not the full frame. Television
+platform guidance keeps focused content inside roughly the inner 90% of the picture, and overscan
+can crop the edge on some sets. A corner visible only in the outer band is not reliably visible.
+Platforms publish minimum text sizes for ten-foot viewing, not minimum game-object sizes, so the
+on-screen car minimum stays an authored number. Comparing it with the platform's body-text minimum
+at the same resolution is a sanity check, not a derivation.
 
 ## Every camera mode honours the contract
 
@@ -67,8 +72,16 @@ camera is not, even when two players are far apart.
 
 A shared view that cannot satisfy the floor with both cars on screen has a design decision to make, and
 the options are to let the trailing car leave the view with an indicator, to let it run off-screen with
-a marker, or to accept a floor breach and state it. Silently breaching is the one thing the
-contract forbids.
+a marker, to make separation a rule of the game, or to accept a floor breach and state it. The
+shared-screen elimination racer is the classic case of the rule option: a car that falls off the
+screen loses the round and the leader scores. The camera never has to widen past the floor. A
+dynamic split, dividing the screen once zoom-out reaches the floor, is the other way to keep it.
+Silently breaching is the one thing the contract forbids.
+
+A factor applied after the clamp is a breach of the same kind, even when it comes from a felt
+request. A decision to pull every camera back is a legitimate reason to change the floor. It
+belongs in the table, where the data assertion reads it, and not as a divisor in camera code that
+the assertion never runs.
 
 ## Test it on the data, not the picture
 

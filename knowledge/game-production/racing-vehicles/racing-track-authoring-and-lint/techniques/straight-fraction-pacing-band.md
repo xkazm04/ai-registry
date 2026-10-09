@@ -44,13 +44,31 @@ right shape.
 
 Both ends fail. A pacing band that only checks the low end ships the drag strip.
 
+The ceiling has to admit a fast circuit. A classic high-speed circuit is run at full throttle for
+roughly four fifths of its distance. A geometric fraction below the threshold reads lower than
+that, because a flat-out sweeper may still curve above it. The geometric fraction and the flat-out
+fraction are different measures. A tight street circuit is run flat out over more than half its
+distance. Only a speed profile under a simulated driver measures the flat-out share. If the game
+has an opponent driver, record that profile beside the fraction.
+
+## Cap the longest straight too
+
+Motorsport regulation caps the **length** of a straight, not its share of the lap. Research that
+evolves tracks wants at least one stretch where very high speed is possible. Both are about one
+straight, and the fraction cannot see either. Record the longest straight in car lengths beside
+the fraction. Give it a ceiling where a long straight is a degenerate case for the game, and a floor
+where top speed is a mechanic that has to pay out somewhere. In one measured library the band never
+bound: fractions ran from 0.37 to 0.73 inside a band of 0.12 to 0.85. The longest straights ran
+from 130 to 527 m, a fourfold spread that no fraction would show.
+
 ## What it does not say
 
 The fraction does not say **where** the straights are. Three short straights and one long one
 produce the same fraction and play entirely differently, and a long straight placed after a hairpin
 is a different lap from the same straight before one. It does not say how many corners there are, how
 they link, or whether the sequence teaches anything. Those are authored by a designer and judged by a
-person. The band is a floor on rhythm, and a lap that passes it must be reported as *not degenerate*,
+person, and the next rung, placed straight-brake pairs and corner families, belongs to
+shape-contract-above-the-linter. The band is a floor on rhythm, and a lap that passes it must be reported as *not degenerate*,
 never as *well paced*. This is the same stance the room-graph pacing rules take about a level whose
 rhythm is not obviously broken: the rule removes the obvious failure.
 

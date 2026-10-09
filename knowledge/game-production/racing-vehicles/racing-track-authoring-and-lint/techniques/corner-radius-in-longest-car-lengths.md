@@ -25,6 +25,17 @@ for the same reason the width rule uses the widest: the extreme that stresses th
 is the one that must be satisfied. A roster whose longest car is a slim wedge and whose widest is a
 squat wagon has two different extremes, and borrowing one for both rules makes one of them wrong.
 
+**The body is a proxy for the wheelbase.** The geometric turning radius is set by wheelbase and
+steering lock: in the bicycle model it is the wheelbase over the tangent of full lock. Overhang
+widens the swept path but does not tighten the turn. Body length stands in for wheelbase only
+where wheelbase is a fixed share of length. Where the handling model carries a wheelbase per car,
+resolve the reference as the car with the longest wheelbase, or better, the largest wheelbase
+over the tangent of its lock, and keep the body length for the swept-path margin. In one measured
+roster the longest body (9.3 m, wheelbase 6.1 m) and the longest wheelbase (7.1 m on a 9.15 m
+body) were different cars. The body-length rule was 30% more conservative than a wheelbase rule
+at the same multiple, and it named the wrong car as the hardest to turn. A short-bodied car on a
+long wheelbase makes the proxy lenient instead.
+
 The unit also makes the rule transplant across scales. Two circuits built at different world scales
 carry the same number if their cars are the same proportion, which a metre figure would hide.
 
@@ -56,7 +67,11 @@ how many vertices were examined beside the verdict, and fail if the count is zer
 
 **Lint the bake, not the control points.** Interpolating splines can overshoot between unevenly
 spaced control points and produce a tight kink the designer never placed; the control polygon looks
-gentle and the curve is not. Only the baked ribbon contains what the cars will drive on.
+gentle and the curve is not. Only the baked ribbon contains what the cars will drive on. The
+loss is large enough to plan for. In one measured pipeline, corners authored as arcs of 2.7
+car lengths baked to 1.68 where a straight met the arc. Corners authored at 3.6 baked to 2.23.
+In both cases the authored radius was about 1.6 times the baked minimum. Author with stated
+headroom over the floor, and check the baked minimum on every export, not the authored radius.
 
 ## What the minimum radius protects
 
@@ -70,7 +85,8 @@ rules table is wrong, not the track.
 
 ## Procedure
 
-1. Resolve the longest car from the roster's dimension table at check time.
+1. Resolve the longest car from the roster's dimension table at check time, or the longest
+   wheelbase where the handling model has one.
 2. Read the minimum radius multiple from the canonical rules table; a missing key fails.
 3. Compute curvature per vertex on the baked ribbon with wrapped heading differences.
 4. Compare the maximum to the limit and, on failure, report the **position along the lap** of the
@@ -85,7 +101,10 @@ The curvature is computed, exactly, on the baked data. The multiple of around tw
 a roster of opponents steered by a simple follower can finish every circuit is a simulation, and it
 says that the geometry is traversable at lap speed by those opponents, not that a human at the wheel
 finds the hairpin fair. A radius rule is a geometric floor and says nothing about the speed a car
-can hold through the corner; that is the handling model's question.
+can hold through the corner; that is the handling model's question. At racing speed grip binds
+first, because the radius a car can hold grows with the square of its speed. So the geometric
+floor binds only in slow hairpins and in recovery from a spin. A corner-speed check asks the
+handling model for the speed it allows at the measured radius.
 
 ## When not to use this
 

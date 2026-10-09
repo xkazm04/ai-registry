@@ -66,6 +66,14 @@ agree is cheap and prevents the quiet divergence that lets the lint pass a grid 
 collide at the start. This is
 [one authority per quantity](../../../_laws.md#one-authority-per-quantity) applied to a shape.
 
+**Match the shape collision uses, which is not always a capsule.** A capsule rounds off the four
+corners of a boxy body. Each corner sticks out past the capsule by about a fifth of the car's
+half-width (the square root of two, minus one, times the half-width). Staggered slots on a bend
+can meet corner to corner, and that is where the capsule under-reports. When collision is built
+from circles or capsules, the capsule is the right lint shape. When collision or the drawn body is
+an oriented box, use an oriented box with a separating-axis test, which costs about the same. If
+the capsule is kept anyway, the margin must cover both corners' overhang.
+
 ## Margin
 
 The margin is authored, a fraction of a metre in a game where cars are several metres long, so that
@@ -80,6 +88,14 @@ inside the road with the widest car's half-width to spare after the verge, which
 `|lateral offset| + half-width <= road half-width at that position - verge`. The road half-width is
 interpolated at the site's arc position, so a site that sits in a narrowing is caught where a
 check against the nominal width would not.
+
+## Author the grid on a straight
+
+Motorsport builds a grid by construction: a stated length of road per car, a stated width held
+through the first corner, on the start straight. Authoring tools can do the same. Find a straight
+long enough for the whole field, and when a bend grid overlaps, move the start onto the straight
+rather than loosening the margin. The capsule check still runs, as the guard for the case where
+authoring did not avoid the bend.
 
 ## Procedure
 

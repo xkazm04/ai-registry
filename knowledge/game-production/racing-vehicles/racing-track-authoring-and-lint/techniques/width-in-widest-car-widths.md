@@ -48,6 +48,20 @@ not tuned on human play**. A game whose design is about contact and close quarte
 end; a game about clean lines and time attack can go lower, and the technique does not choose
 between them. It makes the choice a stated number in one place.
 
+## A floor is not the whole width rule
+
+The minimum says the road fits racing. It does not say cars can pass. Width is also wanted where
+passing happens, at braking zones and corner entries. Practitioner design guidance widens the
+road at a corner for margin, and wider still for more players. Motorsport regulation keeps the
+grid width through the first corner and ties a circuit's permitted field size to its minimum
+width. So state a second number in the same unit: a **passing width** held over a stated length
+after a braking point, with a minimum count of such zones per lap. Pair it with a **compression
+limit**, the share of the lap allowed to sit below a technical width. In one measured library the
+floor was 3.6 widest-car widths. The circuits were tuned to 3.7 technical road, with 5.15 passing
+areas and at least two passing zones of 5 widths over 4 car lengths per lap. Measured compression
+failures forced some technical releases up to 4.15. The floor alone would have accepted every one
+of those roads. Treat the passing width as a review gate on content, not a load-time lint failure.
+
 ## Procedure
 
 1. **Name the reference.** Compute the widest car as the maximum body width across the whole
@@ -69,7 +83,8 @@ between them. It makes the choice a stated number in one place.
 5. **Say how wide the road is in the finding.** "Road narrower than minimum" is a nag. "Narrowest
    point is 2.9 widest-car widths, minimum 3.6, at 41% of the lap" names the number and the place.
 6. **Keep the width needed for the corner separate.** A road can pass the straight-line minimum and
-   still be a funnel at a corner; the corner radius rule, not this one, owns that.
+   still be a funnel at a corner. The radius rule does not measure width, so the passing width
+   above owns that, not the floor.
 
 ## Decision rules
 
