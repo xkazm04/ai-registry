@@ -1,0 +1,112 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-mbac-1009",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T21:05:00Z",
+  "ended_at": "2026-10-09T21:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/mass-based-arcade-collision",
+      "at": "2026-10-09",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "mass-based-arcade-collision",
+      "technique": "multi-circle-capsule-contact",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "mass-based-arcade-collision",
+      "technique": "bounded-collision-spin",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "mass-based-arcade-collision",
+      "technique": "ram-energy-accumulate-once-per-step",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "mass-based-arcade-collision",
+      "technique": "wall-tangent-retention-versus-head-on-loss",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "mass-based-arcade-collision",
+      "technique": "inverse-mass-impulse-split",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/mass-based-arcade-collision.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/techniques/bounded-collision-spin.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/techniques/inverse-mass-impulse-split.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/techniques/min-restitution-pairing.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/techniques/multi-circle-capsule-contact.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/techniques/ram-energy-accumulate-once-per-step.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/techniques/wall-tangent-retention-versus-head-on-loss.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--inverse-mass-impulse-split.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--ram-energy-accumulate-once-per-step.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--bounded-collision-spin.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--multi-circle-capsule-contact.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--wall-tangent-retention-versus-head-on-loss.md",
+    "knowledge/game-production/racing-vehicles/mass-based-arcade-collision/applications/kotlin--min-restitution-pairing.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    ".claude-plugin/marketplace.json",
+    "librarian/subjects/game-production/mass-based-arcade-collision.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "edb1fa11",
+      "branch": "main",
+      "pathspec": "knowledge/game-production/racing-vehicles/mass-based-arcade-collision"
+    },
+    {
+      "sha": "542c7272",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "93de9a43",
+      "branch": "main",
+      "pathspec": ".claude-plugin/marketplace.json"
+    },
+    {
+      "sha": "76c870de",
+      "branch": "main",
+      "pathspec": "librarian"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Process rank was a mislabel: Kotlin solver, refiled at firetv d9990777; 4 new kotlin apps; no second fleet stack. 7 two-lane bounds (pairing, waist depth, spin damping, mass perception, closing test, readers, wall e). 0 techniques. Marketplace drift regenerated."
+}
