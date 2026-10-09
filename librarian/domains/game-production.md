@@ -245,3 +245,45 @@ Source-class notes:
 - A selector mirror is worth running before trusting a line census. The field census counted
   the announcer's retry rows as reachable by condition. The mirror showed the race-start pick
   never selects them: most-specific first, then file order, and the act lines win.
+
+## 2026-10-10 - deepen racing-career-economy (dp-rce-1010)
+
+A single subject, ranked by single stack (process). The rank was real, and the subject had moved
+under it: 446 firetv commits since the `process` applications' tip added a loan, a compulsory
+story debt, a car seizure with a supplied rig and persistent rival garages. Seven kotlin
+applications now read the economy at `d9990777` and its committed seeded careers (2,000 proxy
+careers per buying policy).
+
+Five conditions were reached by two lanes:
+- a debt, chosen or imposed, takes a share of net after the cap, stops at a stated take-home and
+  covers an event's interest on the worst result;
+- a consequence that takes the car supplies one;
+- every take from net is a receipt line;
+- a bill that prices wear or car value charges careful driving;
+- the wallet cap sits above the dearest useful offer.
+
+The first replaced a clause that no debt could meet on a worst race.
+
+Six bounds and evidence corrections landed:
+- a deliberate stakes race may lose money when a rescue carries the dead-end duty;
+- banding resentment attaches to a visible equipment boost;
+- the last stretch stays contestable;
+- dropping repair altogether is honest;
+- a public double-pay case backs the two-entry-point rule;
+- no shipped precedent was found for the share cap or same-shop rivals.
+
+Applied rows: 2 better, 2 unmeasurable and 3 unapplied, all simulations or seam-absent. There
+were 0 techniques and 0 project commits. The map joins 0 contexts, because firetv is still
+unregistered at HEAD.
+
+Source-class notes:
+- **Committed seeded traces are a field instrument, but they carry their commit.** The traces
+  predate two progress-rule changes and no money-rule change, so the money figures stand and
+  the attempt counts do not. Diff the rule files between the trace commit and HEAD before
+  quoting any trace number.
+- **Re-counting a lane's trace figures caught a misreading.** The lane's count held, but its
+  sentence ("the spread gathers where the field steps a tier") did not. Event 7 is a tier step
+  with no spread. Re-count before paraphrasing a distribution.
+- **Peer-reviewed abstracts are fetchable as text.** OpenAlex rebuilt two of them, and a
+  publisher page gave the third verbatim when OpenAlex returned none. Game AI Pro's PDF yields
+  its text to pdftotext and not to a raw stream read.
