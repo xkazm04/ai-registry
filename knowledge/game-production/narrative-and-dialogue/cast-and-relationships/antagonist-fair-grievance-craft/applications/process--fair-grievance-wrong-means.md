@@ -6,6 +6,8 @@ technique: fair-grievance-wrong-means
 stack: process
 status: forged
 verified_on: 2026-10-09
+applied: simulation
+ab_verdict: unmeasurable
 ---
 
 # Marrow: a grievance, a method and one protected thing, specified before a line is written
