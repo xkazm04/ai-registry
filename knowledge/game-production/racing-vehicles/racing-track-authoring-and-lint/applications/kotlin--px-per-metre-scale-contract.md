@@ -7,6 +7,8 @@ stack: kotlin
 status: forged
 verified_on: 2026-10-10
 verified_against: kotlin@2.0.21
+applied: simulation
+ab_verdict: better
 ---
 
 # Death Ride's scale contract: green in the suite, breached on every race camera

@@ -7,6 +7,8 @@ stack: kotlin
 status: forged
 verified_on: 2026-10-10
 verified_against: kotlin@2.0.21
+applied: simulation
+ab_verdict: unmeasurable
 ---
 
 # Death Ride's grid lint: the capsule is unchanged, and the grid became a protected zone

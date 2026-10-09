@@ -7,6 +7,8 @@ stack: kotlin
 status: forged
 verified_on: 2026-10-10
 verified_against: kotlin@2.0.21
+applied: simulation
+ab_verdict: better
 ---
 
 # Death Ride's track linter: the base ledger is closed, the route rules are not
