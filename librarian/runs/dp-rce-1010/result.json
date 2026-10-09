@@ -1,0 +1,107 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rce-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T22:05:00Z",
+  "ended_at": "2026-10-09T22:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/racing-career-economy",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "racing-career-economy",
+      "technique": "participation-floor-no-dead-end",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "racing-career-economy",
+      "technique": "idempotent-race-ticket-settlement",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "racing-career-economy",
+      "technique": "finite-garage-end-state-honesty",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "racing-career-economy",
+      "technique": "pr-ratio-boss-dip",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/systems-canon/racing-career-economy/racing-career-economy.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/techniques/participation-floor-no-dead-end.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/techniques/idempotent-race-ticket-settlement.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/techniques/repair-share-prize-cap.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/techniques/rival-shopping-windows-no-player-read.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/techniques/pr-ratio-boss-dip.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/techniques/finite-garage-end-state-honesty.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/applications/process--repair-share-prize-cap.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/applications/process--rival-shopping-windows-no-player-read.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--participation-floor-no-dead-end.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--idempotent-race-ticket-settlement.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--repair-share-prize-cap.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--rival-shopping-windows-no-player-read.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--pr-ratio-boss-dip.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--finite-garage-end-state-honesty.md",
+    "knowledge/game-production/systems-canon/racing-career-economy/applications/kotlin--qualified-wreck-advancement.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/racing-career-economy.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "4b16e244",
+      "branch": "main",
+      "pathspec": "knowledge/game-production/systems-canon/racing-career-economy"
+    },
+    {
+      "sha": "9028ef07",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "1bc45852",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/racing-career-economy.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "7 kotlin apps at firetv d9990777 + seeded traces. 5 two-lane conditions, 6 bounds, 0 techniques; 3 rows unapplied (no seam). gate --all stops at check-coverage-age (pre-existing, 17 d); knowledge lane 8/8 green; run-tests not run."
+}
