@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 535,
-  "applications": 232,
+  "applications": 235,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -2141,9 +2141,9 @@
    "subcategory": "story-structure",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/debt-and-loss-stakes-staging.md",
-   "digest": "sha256-b2:2248d929afd0154d",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:276e13fe3f381844",
+   "revision": 2,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "foreshadow-the-loss-on-the-ledger",
@@ -2225,16 +2225,37 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "ledger-after-every-event",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/kotlin--ledger-after-every-event.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "take-it-after-a-win",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/kotlin--take-it-after-a-win.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "the-last-act-is-the-players",
+     "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/kotlin--the-last-act-is-the-players.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "ledger-after-every-event",
      "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/process--ledger-after-every-event.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     },
     {
      "stack": "process",
      "technique": "take-it-after-a-win",
      "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/process--take-it-after-a-win.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     }
    ]
   },
