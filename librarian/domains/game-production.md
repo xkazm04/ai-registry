@@ -287,3 +287,36 @@ Source-class notes:
 - **Peer-reviewed abstracts are fetchable as text.** OpenAlex rebuilt two of them, and a
   publisher page gave the third verbatim when OpenAlex returned none. Game AI Pro's PDF yields
   its text to pdftotext and not to a raw stream read.
+
+## 2026-10-10 - deepen regional-culture-worldbuilding (dp-rcw-1010)
+
+A single subject, ranked by single stack (process). The rank was real. Four kotlin applications
+now read Death Ride's campaign economy, ledger, ally promotion, career screen and script at
+firetv `deathride/main` `d9990777`, with 53 anchors held. The economy argues for the route only
+on the income side. Joining costs a region nothing in code. The receipt contradicts its own
+story card.
+
+No new technique. Four golden-path rules were conditioned, each by two lanes or by a lane plus
+the field:
+- derivation is the order of checking, not of invention;
+- residue carries optional history, and a plot fact gets several channels and one plain
+  statement, with a receipt line split into number and label;
+- defend-the-order holds only for fixed routes;
+- a price of joining is measured against the region that did not join.
+
+One evidence correction: the purchase reading of the ancient arena is contested. Two technique
+bounds: a menace faction needs no dissenter, and when ally power is forbidden the price goes on
+the region's side.
+
+Applied: 2 better, 1 unmeasurable, 1 unapplied, all on firetv (unregistered). Impact: 0 contexts.
+firetv's manifest on `main` declares no game-production domain.
+
+Source-class notes:
+- **Makers' own letters and design notes refute an absolute faster than criticism does.** A
+  novelist's letter and a game director's design-works notes undid "mood board reads as
+  costume" in one lane each.
+- **Historiography needs the revisionist as well as the classic.** The encyclopedia page
+  quotes the older pacification school; the counter-reading came from an essay on the
+  revisionist historian.
+- **Search summaries are not quotes.** Three candidate sources (a forum poll, an op-ed, a
+  history magazine behind a 403) were seen only as summaries, and none was used as evidence.
