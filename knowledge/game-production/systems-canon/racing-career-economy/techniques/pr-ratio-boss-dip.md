@@ -31,8 +31,10 @@ with every figure: ratio of what, for which car, on which path.
 - **Dip at each boss.** The boss stage pushes the ratio back under where the previous stage
   left it, by a stated amount. The dip makes a boss an ascent the player prepares for, and it
   gives the preceding stages a purpose: the player is buying toward something.
-- **End ahead.** The ratio finishes modestly above one, around 1.05, so the last stretch feels earned
-  rather than contested to the end, and a player who made reasonable purchases is rewarded.
+- **End modestly ahead.** The ratio finishes a little above one, around 1.05, so a player
+  who made reasonable purchases is rewarded. Keep the last stretch contestable. In a lab study
+  of a competitive game, not a racer, wins by a wide margin felt most competent and were
+  enjoyed less than close ones. A ratio far above one at the end buys competence with suspense.
 
 ## Prices from races-to-afford
 

@@ -70,6 +70,11 @@ is not a shop that has quietly stopped selling. It does three things.
 - **When there is a wallet cap, it is the end state's other half, and the receipt shows it.**
   A cap stops currency accumulating with nothing to buy; the discarded part of a payout is
   recorded as the difference between net and banked, never swallowed.
+- **The cap sits above the dearest useful offer still on sale.** A cap at or below a price
+  the player still needs to pay turns the cap into the wall. The check is mechanical: in every
+  simulated state where the wallet is at the cap, no useful offer is unaffordable. One shipped
+  racer set its earned-credit cap at the price of its dearest cars and raised it fivefold
+  within weeks of launch.
 - **When cars can be traded, resale never exceeds the price paid and installed parts do not
   survive the trade.** A buy-and-resell profit loop turns a finite garage into an infinite
   faucet. A trade may never leave the player without a car.

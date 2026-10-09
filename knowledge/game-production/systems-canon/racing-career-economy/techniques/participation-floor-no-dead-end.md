@@ -68,10 +68,27 @@ player who cannot earn, which is the only player it is for.
 - **When the player is at zero and repaired, tell them.** A player at zero cash who is not
   told the next race carries no risk reads the screen as a dead end even when it is not.
 - **Do not solve the dead end with a loan.** Debt is a second ledger with its own rules, and a
-  player in debt is stranded by a different mechanism. Where an optional loan exists
-  anyway, its repayment is taken from net after the floor and the cap, never from gross, so
-  that repayment cannot push the take-home below the guaranteed share; interest must not
-  compound, and no progress may require the loan.
+  player in debt is stranded by a different mechanism. The rules are the same whether the
+  player chose the loan or the story imposed it:
+  - repayment is a share of net, taken after the floor and the cap, never from gross;
+  - it stops at a stated minimum take-home;
+  - interest does not compound;
+  - no progress requires taking a loan.
+
+  Two numbers then go beside the cap's guarantee:
+  - **The worst-case take-home after repayment.** It is no longer the cap's share. In one
+    measured campaign two 20% takes over a 40-credit minimum left 26% of gross, where the cap
+    alone guaranteed 40%. State it as its own number.
+  - **The worst result's repayment against one event's interest.** If the repayment is
+    smaller, a losing streak grows the debt and the dead end returns through the ledger.
+
+  Charge interest per event, not per attempt, or a retry costs interest the floor never paid
+  for.
+- **When a consequence takes the car, supply one.** A seizure, a repossession or a car lost in
+  a wager must not leave the player without a car to enter with. The player races one the game
+  provides, whole and serviced free, and the floor still pays. Progress may wait on a result,
+  such as winning the car back. Entry and money may not. Test the supplied state like any
+  other: it is the zero-cash wrecked state with the car swapped.
 - **When the profile has a wallet cap, the guarantee is about net, not about the balance.**
   A player at the cap who wins is not stranded, but the balance will not move; say so.
 
@@ -80,9 +97,24 @@ player who cannot earn, which is the only player it is for.
 The floor and the entry guarantee are properties of the rules and can be tested exactly.
 That a floored career is pleasant to lose in is not measured by any of it.
 
+The debt and seizure rules rest on two lanes:
+- **One campaign's code and seeded traces, in development.** It has a story debt and a seizure that
+  supplies a rig. Its traces show no balance falling and no bankrupt career across 4,000 proxy
+  careers. Its worst result's repayment beats an event's interest by two credits.
+- **A blind lane's rule.** Never seize the only drivable car, and check that last place can
+  service the interest.
+
+A community record of an older racer that funded a broke player's restart points the same way.
+None of it is a measurement of people.
+
 ## When not to use this
 
 - **In a mode that is meant to end.** A permadeath or elimination mode has dead ends by
   design; label it so and keep the guarantee for the main career.
+- **In a stakes design where a race may lose money on purpose.** A buy-in race or an
+  uncapped bill makes a bad night cost net money, and a critic of one shipped racer called
+  that risk the point. The floor is then not the guarantee. A stated rescue is: a cheaper
+  event to fall back to, or a car that is always free to race. Name the rescue and test it
+  from the broke state, as procedure step 3 does for the floor.
 - **When the floor would make losing indistinguishable from drawing.** If the spread cannot be
   made wide, the problem is the payout table, not the floor.

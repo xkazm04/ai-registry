@@ -69,6 +69,15 @@ same sweep and the same owner as any headline price.
   and breaks the inequality at small prizes.
 - **One owner for the share.** The share lives in one data table; the settlement, the garage
   preview and any simulator read it from there. Two copies diverge and the preview lies.
+- **When the bill prices more than inflicted damage, the cap covers that part too.** Wear,
+  mileage and a price scaled by the car's value all charge a careful driver, and the last one
+  also charges progress: each upgrade raises the bill for the same scrape. Keep the service
+  cost honest about which part is damage, and expect the cap to bind more often as the car
+  improves, unless the prize scales with it. Measure the binding rate per tier, not only
+  across the career.
+- **When something else takes from net, the cap no longer sets the take-home.** A loan or a
+  creditor repaid after the cap lowers what the player keeps below the share the cap
+  guarantees. The participation floor states that second number.
 - **Preview what will be charged, not just the service cost.** The pre-race screen must say
   how much would be charged at the best and worst finish, or the player learns the cap only
   after the loss.
@@ -78,6 +87,12 @@ same sweep and the same owner as any headline price.
 The inequality is a property of the arithmetic and is testable exactly. The claim that a given
 share feels forgiving but not free is a design intention; a simulated driver measures the
 binding rate, and no person has reported the feel.
+
+No shipped racer with a share-of-prize cap turned up in a non-exhaustive search on 2026-10-10.
+Shipped careers either took repair straight from the winnings, dropped repair entirely, or let
+the bill outrun the prize. The wear rule rests on two lanes:
+- players of one racer reported repairs above a first-place prize "even without any contact";
+- a blind lane flagged value-scaled repair as a tax on progress.
 
 ## When not to use this
 

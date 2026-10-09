@@ -36,9 +36,22 @@ Two things follow that a designer should check by construction.
 A runtime link from player to field is rubber-banding in every form: opponents slow when the
 player trails, speed up when the player leads, or purchase in response to the player's
 purchases. Whatever the lever, it decouples outcome from preparation. The player's upgrades
-and driving change how close the race is by less than the regulator changes it, and a regulator
-that is noticed is resented. Players read such fields accurately as dishonest, and the
-dishonesty extends to the career's money: a part bought to win is bought to be neutralised.
+and driving change how close the race is by less than the regulator changes it. When the lever
+touches the economy, the dishonesty reaches the career's money: a part bought to win is bought
+to be neutralised.
+
+The resentment is narrower than the folklore says:
+- **An equipment boost is resented.** An opponent in the same car with plainly more speed reads
+  as cheating, to practitioners and critics alike.
+- **A driver-skill adjustment can pass unnoticed** when it is done well.
+- **Balancing between human racers was preferred** by experts and novices in one lab study.
+- **Disclosing an assist did not hurt play** in a study of another genre.
+
+So "the player will notice and resent it" is not a reason this technique can lean on for
+in-race pacing. Its reason is the economy's. Purchases, ratings and prices that read the player
+make the money meaningless whether or not anyone notices. An in-race pacing rule that leaves
+cars and prices alone is a difficulty decision. That includes a script that reads the player's
+position, which one shipped racer used after rejecting rubber-banding.
 
 The cost of the fixed schedule is real: a player ahead of the curve is bored and a player
 behind it is stuck. That cost is paid at design time, by authoring prizes and prices so the
@@ -101,6 +114,16 @@ of the first, and so a breach of the first is not excused by the second.
 Reproducibility and blindness are exact structural tests. That a fixed field feels fairer
 than a banded one is a design argument supported by public player sentiment about banding, not
 by a measurement of this field.
+
+Two lanes bounded the sentiment. One was practitioner and study evidence that resentment
+attaches to visible equipment boosts. The other was a blind lane that reached the same split
+between covert pace and visible cheating. The lab study balanced humans, not an AI field, and no
+controlled study of an AI field with and without banding was found. A non-exhaustive search
+found no shipped racer whose rivals buy from the player's catalogue on a schedule. The older
+precedents fixed a field per tier with no wallet, which is the strongest form here.
+
+The first realised-field measurement is dated in this technique's kotlin application. It
+covers the ceiling form across 2,000 proxy careers.
 
 ## When not to use this
 

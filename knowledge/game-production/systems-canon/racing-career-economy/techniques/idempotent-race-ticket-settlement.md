@@ -34,6 +34,13 @@ balance write and the progress write, and a duplicated end-of-race event all att
   earned; banked is what fit under the cap. The balance moves by banked, the receipt carries
   both, and banked never exceeds net. Without the second line, a capped player's winnings
   vanish silently.
+- **Every other take from net is its own line too.** A loan repayment, a payment to a
+  creditor and the cap's discard are three different reasons for banked to fall short of net.
+  The identity closes over all of them: net equals banked plus each take plus the discard.
+  The load check is that equation, not "banked does not exceed net". The weaker check accepts
+  any split of the gap, so the receipt cannot say where the money went. Money moved outside
+  the settlement belongs in the record too, for example restitution collected while the next
+  race is prepared.
 - **The ticket is bounded on both sides.** A ticket at or below the last settled one is a
   replay; a ticket above the number of races ever started was never issued. Both are refused.
   The refusal may be the stored receipt or an explicit "not settled" signal, but it must be
@@ -74,6 +81,14 @@ simulated career comparable run to run.
 
 Idempotence and the identity are testable exactly and are measured by property tests. How a
 player feels about a receipt is not measured.
+
+The two-entry-point failure has a public case. A shipped street racer saved a race's money
+before its progress. A player who quit while the end-of-race scene played kept the reward and
+could run the same qualifier again. The specialist press reported the loop as unlimited money
+within days of launch. A ticket check alone would not have closed it unless the ticket was
+written with the money, which is procedure step 3. The line-per-take rule rests on two lanes:
+- a campaign in development whose receipt lost its meaning when two debts arrived;
+- a blind lane that listed debt payments among the lines a receipt must show.
 
 ## When not to use this
 

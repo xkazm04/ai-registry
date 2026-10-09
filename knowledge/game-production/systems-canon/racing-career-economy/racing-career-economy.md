@@ -41,7 +41,11 @@ career in which a bad night costs net money is a career with a ratchet that only
 way: the player who most needs the next upgrade is the one the economy is pushing away from
 it. The mechanism is a ceiling on what repair may take out of a prize, expressed as a
 fraction of that prize rather than as an absolute, so the guarantee holds at every tier
-without re-tuning.
+without re-tuning. A career may choose otherwise on purpose: a buy-in race, or a mode where the
+bill is uncapped, can leave a bad night poorer, and one critic of a shipped street racer called
+that risk exhilarating. That is a stakes design, not a mistake. It moves the no-dead-end duty
+onto a stated rescue, such as a cheaper day to fall back to or a car that is always free to
+race. It never leaves that duty to luck.
 
 **There is no dead end.** No sequence of results leaves the player unable to start the next
 race. A player at zero cash with a wrecked car must still be able to enter, in a car that
@@ -75,10 +79,16 @@ damage the player took. That makes it unlike most sinks in two ways. It is **pro
 to the player's mistakes**, so it punishes exactly the thing that already punished them in
 the race. And it is **correlated with the prize**: a player who wrecks often is also a
 player who finishes low, so the large bill and the small prize arrive in the same race.
+The first property holds only while the bill prices inflicted damage. A bill that also prices
+wear, mileage or the value of the car charges careful driving and progress too. Players of
+one shipped racer reported repairs that outran a first-place prize "even without any contact".
+That part of the bill is a running cost, and the cap has to cover it as well.
 
 The naive fix is to make repair cheap, which also makes a core consequence of the game
-meaningless. The craft fix is to make repair real and to cap the *share* of the prize it
-may consume. The bill the player sees is the true service cost; what the player is charged
+meaningless. Dropping the bill altogether is a different and honest choice, and a shipped
+destruction racer made it after part wear drained its early players. It gives up the sink
+instead of pretending to keep it. The craft fix is to make repair real and to cap the *share*
+of the prize it may consume. The bill the player sees is the true service cost; what the player is charged
 is the smaller of that and a fixed fraction of the gross prize; the remainder is
 **insured** — the game absorbs it. Insurance here is a design fiction with an accounting
 meaning: the remainder is created-and-destroyed within the settlement and never touches the
@@ -103,6 +113,20 @@ The two together do not make losing free. A loser is poorer than a winner by the
 spread between the floor and the top prize, and the repair share still consumes a real
 fraction of every result. What they remove is the *trap*, not the *consequence*.
 
+A debt does not change this. That includes a loan the player chooses and a creditor the story
+imposes. The debt is a second ledger, and it takes from net after the cap:
+- as a share;
+- stopping at a stated minimum take-home;
+- with interest that does not compound.
+
+Its arithmetic has to clear one more bar: the worst result's repayment covers at least one
+event's interest, or a losing streak grows the debt and the dead end returns through the
+ledger.
+
+A consequence that takes the car, such as a seizure, supplies one. The player races a car the
+game provides, whole, and the floor still pays. Progress may wait on a win. Entry and money may
+not.
+
 ## A ticket, a receipt, and one settlement
 
 Once a race ends the game owes the player a number, and the engineering of paying it is
@@ -113,8 +137,10 @@ that records what was paid and why.
 The receipt is also a conservation statement. Gross prize, repair charged and net paid must
 satisfy an identity the receipt can be checked against, and a settlement that cannot
 reproduce the identity from its own fields is wrong regardless of whether the balance
-looks plausible. Settling the same ticket a second time is refused and
-changes nothing. This is the same property payment systems call idempotency, and it is
+looks plausible. Anything else that takes from net gets its own line, and the identity closes
+over all of them. Debt repayments and the wallet cap's discard are examples. Otherwise the gap
+between earned and banked means several things at once, and nobody can check it. Settling the
+same ticket a second time is refused and changes nothing. This is the same property payment systems call idempotency, and it is
 needed here for the same reasons — retries, crashes mid-write and restores — with the
 added reason that the whole point of the receipt is that the player can read it.
 
@@ -138,8 +164,19 @@ behind they are in the units the game uses for everything else. Skill and prepar
 real outcomes, because the opposition does not compensate. Compare the alternative that
 many racing games ship: opposing cars whose speed is nudged up when the player leads and
 down when the player trails. It makes every race close, and it makes the player's car
-upgrades and driving mistakes irrelevant to how close, which players eventually notice and
-resent. A fixed schedule is not harder or easier than that; it is *legible*.
+upgrades and driving mistakes irrelevant to how close.
+
+Whether players resent it depends on the form, and the evidence is narrower than the folklore:
+- **A visible boost is resented.** Players read an opponent in the same car with plainly more
+  speed as cheating, and both practitioner and critical sources say so.
+- **A modulation of driver skill can go unnoticed.** One that leaves the cars alone may pass, and
+  in one lab study balancing between human racers was preferred by experts and novices alike.
+- **A third form shipped.** A pacing script that still reads the player's position.
+
+All three are in-race adjustments, and they belong to difficulty design. This subject's
+position is narrower and holds either way. Nothing between races reads the player: not the
+cars the field owns, not their ratings, not the prices. A fixed schedule is not harder or
+easier than a banded field; it is *legible*.
 
 The same fixity gives the designer something rubber-banding never can: a target curve.
 
@@ -151,7 +188,9 @@ author where that relationship should sit. The unit is a **performance-rating ra
 player's car over the field's. A career should start with the player slightly behind,
 recover through the middle as the garage fills, and **dip at each boss** — the boss is
 deliberately an ascent the player has not yet bought their way out of — before ending with
-the player ahead, so the final stretch feels earned rather than uncontested.
+the player modestly ahead, so the final stretch feels earned. Modestly is the operative word.
+In a lab study of a competitive game, not a racer, wins by a wide margin felt most competent
+and were enjoyed less than close ones. The last stretch should stay contestable.
 
 That curve is a **design target**, and it must not be implemented as a runtime controller.
 The moment the game reads the player's rating and moves the field, it is rubber-banding
@@ -216,9 +255,10 @@ where should the player stand relative to it and what does each step cost", it i
    the property tests: net positive for every prize, repair-free start at zero cash,
    double-settlement leaves the balance unchanged, no useless offer on sale.
 2. **Choose the repair share and the participation floor together**, as data, and derive
-   the worst-case net from them.
+   the worst-case net from them. Where a debt exists, derive the worst-case take-home after
+   its repayment too, and check that it covers an event's interest.
 3. **Issue a ticket at race start**, settle by ticket, write a receipt that satisfies its
-   identity.
+   identity, with a line for every take from net.
 4. **Declare the shop finite** and render completion as a state.
 5. **Fix the rival schedule by stage**, bought from the same catalogue, and forbid the
    rival system from reading anything about the player.
