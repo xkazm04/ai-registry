@@ -87,6 +87,9 @@ is [unmeasured is not a pass](../../../../_laws.md#unmeasured-is-not-a-pass).
 - **When two speakers sound alike aloud, return to the voice entries**, not the single line.
 - **When only synthesized speech was used, label the line as machine-read** and schedule a
   person's read before it is recorded or locked.
+- **When a model read the text against this checklist without any audio, call it a page pass
+  with a spoken checklist**, not a read-aloud. It is worth running — it catches a construction
+  repeated across lines that a pattern list misses — but the line is still unheard.
 - **When a line is meant to be awkward — a character who stumbles — mark it as intended** so
   the finding is not fixed away.
 
@@ -104,6 +107,11 @@ synthesized voice, and that numerals, abbreviations and stacked pauses are weak 
 from a speech vendor's primary documentation; one recorded case of a generated line rendering
 with over half its length silent is a single observation, not a rate. The one-breath length is
 an editorial heuristic. That synthesized speech finds duration and pronunciation defects but
-misses delivery defects is practitioner experience. The
+misses delivery defects is practitioner experience; the one measured study of synthesized
+readback this pass found is a decades-old study of proofreading prose, and nothing measured
+tests it on dialogue rhythm. In one recorded run two model judges agreed least on the ear
+dimension — exactly on fewer than two lines in five — which is the page's weakness this rung
+exists for, and a model's text-only pass with this checklist found one construction repeated
+five times in one speaker's lines that the pattern list had missed. The
 per-line record and the labelled unheard state are this document's synthesis. None of this has
 been tested in a played game.

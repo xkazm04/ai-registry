@@ -37,9 +37,18 @@ The generator revises with the same call it generated from — the same voice en
 want and budget — plus the quoted critique, and returns three fixes to that one dimension rather
 than one, so that the revision is itself a small selection. Each revised line goes back through the
 banned-pattern filter, because revisions reintroduce stock phrasing, and is then judged blind
-**against its own original**, shuffled, with neither marked. A revision that does not beat its
-original is discarded and the original stands. This is the guard against the most reliable
-failure of the loop.
+**against its own original**, shuffled, with neither marked, and both scored in that same
+draw. A revision that does not beat its original is discarded and the original stands. This is
+the guard against the most reliable failure of the loop.
+
+The guard is read with the same biased instrument the loop is guarding against, so it needs a
+margin. A model judge favours the converged text a revision loop produces — repeated
+self-refinement settles into a model-preferred form that an outside model judge then rates
+better — and three fixes against one original win by chance more often than one would. So the
+revision must beat the original by more than the spread between draws, and the original's score
+is taken from the same draw, never carried over from the round that sent it back: in one
+recorded run, originals re-scored beside their rewrites fell by 0.3 on average from their first
+scores, which a carried-over number would have credited to every revision.
 
 ## The polish spiral
 
@@ -67,7 +76,8 @@ A person who sees only the winner can approve but cannot choose, and approval of
 candidate measures nothing about the alternatives. The person's edit of the chosen line is
 mostly replacement and cutting: swapping the one generic word for the specific one, deleting
 the clause that explains. An edit that adds is usually putting back what the line was right to
-leave out.
+leave out. The edited line goes back through the filter and the read-aloud, which are cheap;
+its scores stay with the text they judged and are not cited for the edited one.
 
 **At acceptance, the scene.** A person reads the accepted lines in scene order, because a line
 that wins its slot can still break its scene by repeating a move the previous speaker just
@@ -83,14 +93,22 @@ A model's ranking and critique are recorded as inputs to these decisions and nev
 for them, which is [no gate self-certifies](../../../../_laws.md#no-gate-self-certifies). A line
 that no person has picked is unreviewed draft and is reported that way, not as passed, which is
 [unmeasured is not a pass](../../../../_laws.md#unmeasured-is-not-a-pass). The record says who
-picked, so that an automatic pick is never later cited as a person's.
+picked, so that an automatic pick is never later cited as a person's — and that includes being
+read by a later stage. A status that marks a line as the pick travels with the line into the
+table a runtime selects from, and a runtime that plays the marked line first gives a model's
+highest mean a person's precedence: its siblings stop rotating, and a slot the record flagged
+as weak becomes the one line the player always hears. Until a person picks, the mark says
+auto-picked, and nothing downstream ranks it above a draft.
 
 ## Rationing the person
 
 The person's time is the scarce resource. Spend it in proportion to how much the player meets
 the line: hero lines get every checkpoint; high-frequency barks get the voice sign-off,
 a pick over the variant pool as a set, and a sampled read of what shipped; filler lines can be
-accepted from the judge's shortlist with a periodic sampled audit, labelled as auto-picked.
+accepted from the judge's shortlist with a periodic sampled audit, labelled as auto-picked. A
+filler slot too small for a judge gets the person's sampled read instead; a line with neither
+a judge's ranking nor a person's read is unreviewed, however carefully its writer checked it,
+and the writer of a generated script is the generator's own family.
 Never shorten a checkpoint by showing the person fewer candidates than the judge saw fail; show
 the floor exclusions too, so the person can overrule the judge.
 
@@ -98,7 +116,10 @@ the floor exclusions too, so the person can overrule the judge.
 
 - **When a critique contains a replacement line, strip the replacement** and keep the quote,
   the dimension and the direction.
-- **When a revision does not beat its original blind, keep the original.**
+- **When a revision does not beat its original blind, in the same draw and by more than the
+  spread between draws, keep the original.**
+- **When a pick is marked in the line table, mark who picked**; an unratified pick never
+  outranks its siblings at runtime.
 - **When a line still fails after two rounds, return to specification**, not to a third round.
 - **When a person has not picked a line, report it as draft**, whatever its scores.
 - **When the person and the judge disagree, record both and the person's reason**; repeated
@@ -116,7 +137,11 @@ That models fail to detect stock writing reliably, that readers rank writer-edit
 model-edited text and both above raw output, and that professional writers' edits were about
 three quarters replacements, a fifth deletions and very few insertions, come from a primary
 measured study of editors and models on model-written fiction, not dialogue. That model edits
-help but stay below human edits supports the two-round bound without fixing its number. The
-one-dimension-per-round rule, the must-beat-original rule, the post-play audit and the
-rationing of the person are practitioner synthesis. None of this
+help but stay below human edits supports the two-round bound without fixing its number; a 2026
+measured study of ten-round self-refinement on scientific abstracts found most edits in the
+first few rounds, then a model-preferred fixed point that an outside model judge rated better,
+which supports bounding the rounds and distrusting a model judge's verdict on them. The drift
+of re-scored originals and the runtime that ranked an unratified pick first are one recorded
+dialogue run and its shipped line table. The one-dimension-per-round rule, the margin, the
+post-play audit and the rationing of the person are practitioner synthesis. None of this
 has been tested in a played game.

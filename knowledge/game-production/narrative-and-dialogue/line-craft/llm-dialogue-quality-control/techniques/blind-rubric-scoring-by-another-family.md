@@ -24,17 +24,28 @@ countermeasure.
 likely, which is its own family's writing above all, and the likely line is the typical one.
 Unguarded, a model judge selects for exactly the genericness the pipeline exists to remove.
 The judge therefore comes from a **different model family** than the generator. Two models of one family agreeing count as one opinion, and
-the record says which family each came from.
+the record says which family each came from. Changing family removes self-recognition, not the
+taste preference tuning gives every family: the preference for low-perplexity text holds
+whoever wrote the text, and judges of several families rank model-written stories above
+human-written ones. A judge from another family is therefore necessary and not sufficient;
+the calibration below is what shows it can tell a specific line from a typical one.
 
 **It prefers a position.** Many judges lean to the first or the last item in a list. Shuffle
 the candidates for every draw, and run at least two draws with different orders; a candidate
 whose rank swings with position is a tie, not a winner. In pairwise comparison, run each pair
 twice with the positions swapped and drop the verdicts that flip.
 
-**It prefers length.** Longer candidates read as more thoughtful, to people as well as to
-models. Print each candidate's length beside it, let the rubric's economy dimension price
-length against the slot's intended size, and break ties toward the shorter line, so that
-preferring the longer line is a decision the rubric made rather than a leaning nobody noticed.
+**It leans on length.** Longer answers read as more thoughtful, to people as well as to many
+models, but the direction is the judge's own: measured with length held apart, some families
+prefer longer answers, one prefers concise ones and one is neutral, and in one recorded
+dialogue run two judges of the same family leaned opposite ways on the same candidates —
+within a slot, one favoured the longer line in 31 of 45 slots and the other in 12. Print each
+candidate's length beside it and let the rubric's economy dimension price length against the
+slot's intended size, so that length is a decision the rubric made. Then measure each judge's
+lean on the run's own scores — the rank correlation between length and score within a slot —
+rather than assume a direction and correct for it. For short lines, economy plus a
+shorter-wins tie-break counts length twice and tilts selection toward brevity; keep the
+tie-break only where the measured lean runs toward length.
 
 **It prefers what it is told to prefer.** Candidates carry opaque identifiers and nothing
 else: no constraint, no round number, no mark of which was revised or which a person wrote.
@@ -75,13 +86,26 @@ plus the entry's never-say rows and off-voice examples, which the generator did 
 
 ## Draws, medians and calibration
 
-One draw is a sample, not a verdict. Score each candidate in at least three draws with
+One draw is a sample, not a verdict. In one recorded run, eighteen lines scored by two judges
+were re-scored by two fresh judges of the same model classes: the mean moved by a median of
+0.3 and up to 1.05 on a five-point scale, five of the eighteen changed their ship-rule result,
+and two of nine pairs swapped order. Score each candidate in at least three draws with
 different orders and take the median per dimension; report the spread, and treat candidates
-whose medians sit within it as tied. Before trusting a judge on a new rubric or a new cast,
-calibrate it: a person ranks a small set of lines — some shipped-grade, some generic, some
-deliberately off-voice — and the judge must reproduce the person's ordering on the clear cases.
-A judge that ranks the generic line above the shipped one is not usable on this rubric,
-whatever its general reputation.
+whose medians sit within it as tied. Compare a line only with scores from the same draw: an
+earlier draw's number for a line now beside a revision is a different measurement, and in that
+run the re-scored lines fell by 0.3 on average once they stood beside rewrites.
+
+Two judges disagree most on the dimensions a page reads worst. In the same run the two judges
+agreed exactly on economy three times in four and on ear and subtext fewer than two times in
+five, with ear offset by more than half a point between them. Where judges split on a floor —
+one passes the line, the other fails it — the split is the finding: it goes to the person,
+not into an average that carries the line over a floor one judge refused.
+
+Before trusting a judge on a new rubric or a new cast, calibrate it: a person ranks a small set
+of lines — some shipped-grade and written by a person, some generic, some deliberately
+off-voice — and the judge must reproduce the person's ordering on the clear cases. A judge that
+ranks the generic line above the shipped one, or the generated line above the human one, is
+not usable on this rubric, whatever its general reputation.
 
 ## What the judge produces
 
@@ -102,22 +126,37 @@ judged again, which is
   independent evidence; replace the judge.
 - **When a candidate's rank changes with its position, record a tie.**
 - **When a candidate fails a floor dimension, exclude it** whatever its other scores.
+- **When one judge passes a line and another fails it on a floor, send it to the person** as a
+  disagreement; never average it past the floor.
+- **When a line's score comes from an earlier draw, do not rank it against this draw's
+  scores**; re-score it beside the lines it competes with.
+- **When no judge of another family is available, record that, and require a person's pick on
+  every slot that ships** instead of rationing the person.
 - **When the judge has not been calibrated on this rubric, its shortlist is advisory** and a
   person reads the whole batch.
 - **When the rubric changes, re-score the shortlists it produced** rather than mixing versions.
 
 ## When not to use this
 
-Fewer than four candidates do not need a judge; a person reads them. A slot whose quality is a
+Fewer than four candidates do not need a judge; a person reads them, or, at the filler ration,
+reads a labelled sample of them — never neither. A slot whose quality is a
 fact — a rule stated correctly, a name spelled right — is checked, not judged.
 
 ## Evidence status
 
 Position and length biases in model judges, and length bias in human judges too, are reported
 in primary measured evaluations of model-as-judge setups on general question answering rather
-than dialogue; self-preference, traced in one measured study to a preference for text of low
-perplexity to the judge, likewise. That models are poor at detecting stock writing comes from a
-measured study in which models flagged problem spans with less precision than experts agreed
-with each other, and from a second that found near-zero agreement between models and people on
-what counts as machine filler. The ten dimensions and their floors are a project rubric, not a
-validated instrument; the median of draws and the calibration set are practitioner synthesis. None of this has been tested in a played game.
+than dialogue; a 2026 comparison of five judges from four families found the length lean
+heterogeneous in direction, and position bias small beside a preference for formatting.
+Self-preference, traced in one measured study to a preference for text of low perplexity to the
+judge whoever wrote it, likewise; that judges of several families prefer model-written stories
+to human ones comes from two 2026 measured studies of creative writing. That models are poor at
+detecting stock writing comes from a measured study in which models flagged problem spans with
+less precision than three professional writers agreed with each other, and from a second that
+found near-zero agreement between models and people on what counts as machine filler. The
+test-retest spread, the per-dimension agreement and the opposite length leans are one recorded
+dialogue run of 456 candidates by two judges of one family, read from its score record; they
+are one run's numbers, not rates. No study tested showing word counts as a countermeasure.
+The ten dimensions and their floors are a project rubric, not a validated instrument; the
+median of draws and the calibration set are practitioner synthesis. None of this has been
+tested in a played game.

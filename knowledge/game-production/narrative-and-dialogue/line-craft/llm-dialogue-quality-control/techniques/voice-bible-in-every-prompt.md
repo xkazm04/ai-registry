@@ -39,7 +39,9 @@ Without reference lines it has rows to interpret and nothing to imitate.
 The call states what the speaker does and why: "speaks in short declaratives because he
 treats talk as a cost", "answers a question about herself with a question about the car". It
 does not list what to avoid. A model attends to the words in the prompt; a list of forbidden
-phrases raises their availability and, when obeyed, produces the nearest synonym. The voice
+phrases can raise their availability — measured in a small open model, weaker or absent in
+strong ones — and, when obeyed, produces the nearest synonym, which is the failure that holds
+for every model. The voice
 entry's never-say rows and off-voice example lines are therefore withheld from the generator
 and given to the filter and the judge, which check against them. The exception is a short
 refusal row phrased as behaviour — "never names his brother; says 'him' when he must" — which
@@ -102,8 +104,10 @@ not natural language — a menu label, a system message — is outside this subj
 
 That models steer better from positive instructions with reasons, from three to five varied
 examples, and from a prompt whose style matches the output wanted, comes from a model vendor's
-primary prompting documentation. That prohibitions plant
-the prohibited phrasing is practitioner consensus with weaker support. That a generator without
+primary prompting documentation, which also endorses a prohibition that carries its reason over
+a bare one. That naming a forbidden word primes it is measured mechanistically in one 2026
+study of a single seven-billion-parameter open model whose authors do not claim it generalises;
+for current large models it is practitioner consensus with weaker support. That a generator without
 a per-speaker reference collapses a cast into one register is supported by measured studies of
 model prose, not of dialogue. The assembly check, reader audit and cut-by-row rule are
 practitioner synthesis. None of this has been tested in a played game.

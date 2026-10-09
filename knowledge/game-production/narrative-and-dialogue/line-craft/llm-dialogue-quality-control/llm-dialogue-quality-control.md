@@ -48,8 +48,10 @@ the want and the pressure before it asks for words.
 
 The naive reading treats the problem as a vocabulary problem: collect the words that sound
 machine-made, forbid them in the prompt, and regenerate. That fails twice. A prohibition in
-the prompt plants the very phrasing it names, and a forbidden word is replaced by its nearest
-neighbour, so the line keeps its shape and loses only its most recognisable token. The tells
+the prompt can prime the very phrasing it names — measured in a small open model, and a
+model-dependent risk rather than a law — and even when it is obeyed, a forbidden word is
+replaced by its nearest neighbour, so the line keeps its shape and loses only its most
+recognisable token. The tells
 that survive a word list are structural — the three-item list, the "it is not X, it is Y"
 reversal, the rhetorical question answered by its own speaker, the line that ends on a
 summarising aphorism, the character who says exactly what they feel — and they are invisible
@@ -63,8 +65,9 @@ are all generic. Each prompt carries the speaker's voice entry verbatim and the 
 people they address, the situation, the speaker's want in this exchange, what they are
 withholding, a length budget stated as the intended size of the line, and a few reference
 lines written by a person. It is phrased as positive instruction with reasons — what the
-speaker does and why — because a model steers toward what it is shown and drifts toward what
-it is told to avoid. And it is written flat and short, because the register of the brief leaks
+speaker does and why — because a model steers toward what it is shown; the few refusals a
+voice needs stay in, each with its reason, since a prohibition that says why is followed
+better than a bare one. And it is written flat and short, because the register of the brief leaks
 into the register of the lines: an ornate brief returns ornate dialogue. See
 [voice-bible-in-every-prompt](./techniques/voice-bible-in-every-prompt.md).
 
@@ -119,11 +122,16 @@ deepest is that it prefers text it finds familiar — its own family's writing a
 the familiar line is the typical line, which is usually the one the pipeline least wants. An
 unguarded model judge therefore does not merely miss genericness; it selects for it. So the
 judge comes from a different model family than the generator, and two models of one family
-agreeing count as one opinion. It prefers whatever sits
+agreeing count as one opinion. Another family removes self-recognition, not the shared taste:
+judges of several families rank model-written stories above human ones, so the judge is
+trusted only after it ranks human-written lines of the kind that ships above generated ones.
+It prefers whatever sits
 first or last in a list, so candidates are shuffled and the order is varied across draws. It
-prefers longer lines, so each candidate is shown with its word count, the rubric prices
-length explicitly against the slot's budget, and the shorter line wins a tie, rather than
-leaving the preference silent. It
+leans on length, in a direction that depends on the judge — measured judges split between
+preferring longer answers and preferring concise ones, and two judges of one family have
+leaned opposite ways on the same candidates — so each candidate is shown with its word count,
+the rubric prices length explicitly against the slot's budget, and the lean is measured per
+judge on the run's own scores instead of assumed. It
 prefers what was labelled as the favourite, so candidates carry opaque identifiers and no
 generation metadata — no constraint, no round, no hint of which was revised.
 
@@ -137,6 +145,12 @@ for a broken voice. Scores are graded
 against shipped dialogue a lead would keep, not against the batch, because the best of twenty
 generic lines is still generic, which is
 [grade against what ships, not on a curve](../../../_laws.md#grade-against-what-ships-not-on-a-curve).
+A score is a draw, not a property of the line. In one recorded run, lines re-scored by fresh
+judges of the same model classes moved by a median of 0.3 on a five-point scale, and five of
+eighteen crossed the ship bar one way or the other. So a line is compared only with scores
+from the same draw, never with an earlier draw's number, and a line that one judge passes and
+another fails on a floor goes to the person as a disagreement rather than being averaged past
+the floor.
 The judge produces a ranked shortlist with reasons; it does not produce the winner. See
 [blind-rubric-scoring-by-another-family](./techniques/blind-rubric-scoring-by-another-family.md).
 
@@ -146,8 +160,10 @@ A critique that quotes the failing words, names the one lowest-scoring dimension
 the direction — without writing the replacement — gives the generator something to act on; a
 critique of everything at once gets a line rewritten wholesale and back toward the average. The generator
 revises against the same voice entry; the revised line goes back through the filter and is
-judged blind against its own original. A revision that does not beat the original is
-discarded, and after two rounds the slot stops revising, because a model revising its own
+judged blind against its own original, both scored in the same draw. A revision that does
+not beat the original by more than the spread between draws is discarded — a model judge
+favours the smoother, more converged text, and the best of three rewrites beats one original
+by chance alone — and after two rounds the slot stops revising, because a model revising its own
 line sands it toward its own average: each round makes the line smoother, more complete and
 more explained, which are the faults the round was meant to remove.
 
@@ -156,7 +172,11 @@ their own tells — a reviewer from the same family reads the family's habits as
 so a person signs off the voice entries before anything is generated from them, picks from the
 shortlist rather than approving a single winner, edits mostly by replacing and cutting words
 rather than adding them, accepts the final line, and after the first play audits what repeated
-and what two characters ended up sharing. A model's
+and what two characters ended up sharing. No line ships with neither a judge's ranking nor a
+person's read; the cheapest lines may be auto-picked, but they are labelled so. A label that
+marks a line as the pick records who picked it, because later stages read the label: a
+runtime that plays "the pick" first turns a model's highest mean into a person's choice
+without anyone making one. A model's
 approval is a recorded input to that decision and never the decision, which is
 [no gate self-certifies](../../../_laws.md#no-gate-self-certifies); a line nobody human has read
 is unreviewed draft, not a pass, which is
@@ -195,7 +215,8 @@ The **one-shot line** takes the first sample, which is the median. The **prohibi
 lists the banned words in the prompt and gets them back, or their neighbours. The **taste
 list** bans patterns nobody measured until ordinary speech is forbidden. The **mirror judge**
 scores a model's lines with the same family and approves its habits. The **length reward** lets
-a judge prefer longer candidates without anyone deciding that longer is better. The **curve**
+a judge's lean, longer or shorter, decide without anyone deciding that length matters. The
+**borrowed score** compares a line with another line's number from an earlier draw. The **curve**
 ships the best of a generic batch. The **polish spiral** revises until every line is smooth,
 complete and dead. The **page-only review** never hears the line. And the **rubber stamp**
 records a model's approval as a person's decision.

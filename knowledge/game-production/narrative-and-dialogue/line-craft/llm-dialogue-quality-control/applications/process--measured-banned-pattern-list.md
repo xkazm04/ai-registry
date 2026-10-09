@@ -5,7 +5,7 @@ subject: llm-dialogue-quality-control
 technique: measured-banned-pattern-list
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # Death Ride's banned-pattern table and tell blacklist, read against the two-tier list
@@ -85,6 +85,14 @@ The list is a well-chosen starting point, not a measured list for this game.
 filter to report what it read and struck:
 `docs/narrative/research/R3-dialogue-craft.md:397 "Expect about half to drop."` — an
 expectation, not a measurement, and with nothing that would fail loudly on an empty batch.
+
+## Since this reading
+
+On 2026-10-09 all 15 anchors above were re-resolved and held. The list has since been run once,
+as a lint in the writer's scratchpad. That lint is not in the tree, so it guards no later edit.
+Its yield is now a measurement: rebuilt from C4, it would have struck 3 of the 456 judged
+candidates, against the expected half. Both findings are in the kotlin application for this
+technique.
 
 ## Death Ride use
 

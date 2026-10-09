@@ -59,7 +59,11 @@ writers would not think of" — has been measured to raise the diversity of crea
 substantially over plain sampling. It works because it names the distribution the model would
 otherwise collapse, and it gives the selection step the surprising candidates that a
 typicality-biased generator never volunteers. Reserve a fixed share of every important slot's
-batch for that band, and do not let the judge know which candidates came from it.
+batch for that band, and do not let the judge know which candidates came from it. Keep each
+such call to a handful of candidates and reach the batch over several calls: the measured
+method's own authors report that quality degrades when one call is asked for too many. And its
+gain is measured as distance between meanings, not as variety of shape, so it complements the
+constraint deck rather than replacing it.
 
 ## How many
 
@@ -94,7 +98,10 @@ underspecified prompt are twenty more answers to the wrong question.
 - **When near-duplicates are removed, judge only if enough distinct candidates remain**; below
   that, regenerate with unused constraints.
 - **When a constraint's candidates rarely survive judging across many slots, retire it** from
-  that slot class's deck.
+  that slot class's deck — after a person has read a sample of what it produced, because a
+  judge's survival rate alone retires the constraints that resist the judge's own taste, and
+  the deck then drifts toward the typical line it exists to escape. A shape constraint is also
+  scored against a budget it was told to miss, so read its losses as possibly the rubric's.
 - **When a slot is a bark that repeats, generate for the variant pool**, then judge the pool
   as a set for internal repetition.
 
@@ -110,7 +117,13 @@ That sampling many candidates and selecting improves generated output over a sin
 well supported in published work on model generation and reranking, mostly outside dialogue.
 That preference tuning biases models toward typical completions, and that asking for a
 verbalized distribution of candidates raises measured creative-writing diversity to roughly
-one and a half to two times plain sampling, comes from a primary measured paper. That lists generated in one call converge on
+one and a half to two times plain sampling, comes from a primary measured paper; its diversity
+is mean pairwise distance between response embeddings, it reports larger gains in more capable
+models, and it was never compared with constraint rotation. That lists generated in one call converge on
 their first item, and that constraint rotation yields more structural diversity than
-temperature, are practitioner reports without a controlled measurement here. The ten-to-twenty count and the scaling by slot weight are a
+temperature, are practitioner reports without a controlled measurement here. One recorded
+dialogue run of 456 candidates in four constraint batches had the concrete-object and
+unlikely-angle batches supply 33 of 45 slot winners and the length-only batch 5, with batch
+means within 0.15 of each other; the winners were chosen by judges of the generator's family,
+so it says which shapes those judges rewarded, not which shapes play. The ten-to-twenty count and the scaling by slot weight are a
 practitioner heuristic. None of this has been tested in a played game.

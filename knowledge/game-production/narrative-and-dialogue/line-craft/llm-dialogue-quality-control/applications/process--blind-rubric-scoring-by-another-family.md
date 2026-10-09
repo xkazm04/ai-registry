@@ -5,7 +5,7 @@ subject: llm-dialogue-quality-control
 technique: blind-rubric-scoring-by-another-family
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-09
 ---
 
 # Death Ride's blind comparison protocol and revision protocol, read against blind scoring
@@ -14,9 +14,10 @@ This application reconciles blind rubric scoring by another family, and the revi
 feeds, against the dialogue research for Death Ride, an arcade combat racer for a
 television-class device, in the `firetv-deathride` tree at `firetv-deathride`.
 The research sets out a blind comparison protocol (section B5), a ten-dimension rubric (C1) and
-an eleven-step revision protocol (C5). None of it is implemented: no judge prompt, rubric file or
-score record exists in the game folder, so this is a reading of a design on paper. Nobody has
-played the game, and nothing here shows that a line chosen this way works in play.
+an eleven-step revision protocol (C5). The sections below read the design. The design has since
+been run once, on 2026-10-04. Its score record is `deathride/narrative/candidates/`, and the
+measurements read from that record on 2026-10-09 are in "The run, measured", near the end.
+Nobody has played the game, and nothing here shows that a line chosen this way works in play.
 
 Anchors are root-relative to that tree.
 
@@ -89,6 +90,45 @@ round count only.
 
 **The pick is not recorded as a person's.** Step 8 is marked for a human, but no record says who
 picked, so an automatic pick under deadline would be indistinguishable from a chosen one.
+
+## The run, measured
+
+The run judged 456 candidates for 45 slots, using two judges, the C1 rubric, shuffled packets,
+hidden authorship and character counts. A parse of the six candidates files reproduced the
+report's own table before anything new was computed
+(`docs/narrative/WRITING-PROCESS.md:28 "Agreement between the judges' candidate means (Pearson)"`,
+0.64 in both).
+
+**Another family was not available, and the record says so.**
+`docs/narrative/WRITING-PROCESS.md:137 "All four judges were Anthropic models."` The writer
+was a model of the same vendor. The technique's rule then puts a person's pick on every
+shipping slot. The report names that pick as the real final step, and it is not yet recorded.
+
+**The two judges leaned opposite ways on length.** Character counts were shown. Within a slot,
+the Spearman correlation between characters and score was positive in 31 of 45 slots for J1
+(mean +0.13) and in 12 of 45 for J2 (mean -0.18). Excluding the short-only batch, the pair's
+mean favoured the shorter line within slot and batch (mean -0.23). The winner was shorter
+than the slot median in 25 slots and longer in 15. The length bias the dossier guards against
+did not appear as one direction. It differed by judge, inside one family.
+
+**They agreed least where a page reads worst.**
+
+| Dimension | Pearson | Exact agreement |
+|---|---:|---:|
+| Economy | 0.80 | 75% |
+| Specificity | 0.75 | 57% |
+| Subtext | 0.58 | 39% |
+| Ear | 0.61 | 37%, J1 higher by 0.68 |
+| Tone | 0.46 | 66% |
+
+**The ship rule has no rule for two judges.** Of the 49 rows marked as the pick, 33 pass the
+C1 ship rule for both judges, 14 pass for one only, and 2 pass for neither. The technique now
+sends a one-judge pass to the person as a disagreement.
+
+**The revision guard was kept.** Rewrites were judged in the same draw as the originals they
+were replacing, which is what this application's deviation had asked for. How the originals
+moved between draws, and how the runtime ranks the picks, are in the kotlin application for the
+critique technique.
 
 ## Death Ride use
 

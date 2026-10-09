@@ -60,11 +60,20 @@ run, or as a rubric criterion where no pattern is precise enough, and say which.
 ## Enforcing
 
 The list is applied **after generation, by a filter**, not written into the prompt. A
-prohibition in the prompt names the thing and makes it more available to the model, and when
-the model does obey, it substitutes the nearest neighbour — a banned noun is replaced by its
-synonym in the same construction, and the line keeps the shape that made it generic. The prompt
-carries the positive version of the instruction instead: what the speaker does, in rows from
-their voice entry.
+prohibition in the prompt names the thing and can make it more available to the model — a
+priming effect measured in a small open model, and model-dependent — and when the model does
+obey, it substitutes the nearest neighbour: a banned noun is replaced by its synonym in the same
+construction, and the line keeps the shape that made it generic. A filter is also the only
+enforcement that can count what it read and struck. The prompt carries the positive version of
+the instruction instead: what the speaker does, in rows from their voice entry, with the
+speaker's few hard refusals stated once and each with its reason.
+
+Where the generator's sampler is in reach — an open-weight model run locally — a third
+enforcement point exists: suppress a listed string during decoding by backtracking to before it
+began and sampling again. Measured, that held quality while suppressing thousands of patterns,
+where banning the patterns' tokens outright became unusable at about two thousand. It still
+substitutes as a prompt ban does, so the structural tier and the re-measurement below apply
+unchanged, and the post-generation filter stays as the counting instrument.
 
 Lexical entries strike a candidate outright. A person may override a strike — the word is
 right for this speaker in this moment — and the override is logged with the line and a written
@@ -112,6 +121,11 @@ a stricter filter downstream.
 - **When an entry's only source is a catalogue rather than a count, file it as editorial.**
 - **When a person overrides a strike, log the line and the reason**; never let an override
   happen by silently editing the list.
+- **When a later pass — the read-aloud, the scene read, a person's note — finds a tell the
+  filter missed, add its shape as a structural entry** with its source, so the miss is caught
+  the next time without the later pass.
+- **When the filter runs outside the build, it does not guard the script.** It lives where the
+  script's own checks live and fails the build, or a later edit ships unfiltered.
 
 ## When not to use this
 
@@ -126,8 +140,16 @@ phrases at hundreds to over a thousand times their human rate, a single invented
 of thousands, and the "not X, it's Y" reversal at up to about six times, with over-use
 clustering by model family. Those are prose measurements on other models; no dialogue-specific
 ratio has been measured for a production generator here. Several patterns commonly listed as
-tells rest only on a curated community catalogue, which this document treats as editorial. That a prohibition in
-the prompt tends to plant the forbidden phrasing comes from model vendors' primary prompting
-guidance and from practitioner reports, not from a controlled study. The two-tier split,
+tells rest only on a curated community catalogue, which this document treats as editorial. That naming a
+forbidden word primes the model to produce it is measured mechanistically in one 2026 study of
+a single seven-billion-parameter open model, whose authors do not claim it for all models;
+vendor prompting guidance recommends saying what to do instead and endorses a prohibition that
+carries its reason, but does not claim that prohibitions plant phrasing. That decode-time
+backtracking suppresses listed patterns while holding quality, and that plain token banning
+does not, is from the same primary study as the ratios, scored by model judges rather than
+readers. In one recorded dialogue run the filter, applied to a judged pool of 456 candidates
+generated with voice entries in the prompt, would have struck 3 — under one percent, where the
+run's own protocol had predicted about half — so a filter's yield is a measurement, not an
+expectation. The two-tier split,
 substitution watching and rate-limited structural entries are practitioner synthesis. None of
 this has been tested in a played game.
