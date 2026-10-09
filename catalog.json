@@ -210,16 +210,16 @@
     },
     {
       "name": "council",
-      "version": "0.4.0",
+      "version": "0.5.0",
       "category": "workflow",
       "path": "skills/council/SKILL.md",
-      "contentHash": "sha256-n1:0f1363e1bdba6d99",
+      "contentHash": "sha256-n1:83bc4a8ba8438d12",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 4,
+      "lessons": 5,
       "lessonsPath": "skills/council/LESSONS.md",
-      "lessonsHash": "sha256-n1:bffc8b2a66658025",
+      "lessonsHash": "sha256-n1:02cc8f1ded3d7ea5",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1034,7 +1034,7 @@
     "skills": 39,
     "practices": 8,
     "memory": 9,
-    "lessons": 304
+    "lessons": 305
   },
   "bundles": [
     {
@@ -1072,9 +1072,9 @@
       "purity": "game",
       "subjects": 81,
       "techniques": 535,
-      "applications": 229,
-      "files": 849,
-      "contentHash": "sha256-b2:de5eb249d9955c4d"
+      "applications": 230,
+      "files": 850,
+      "contentHash": "sha256-b2:99c1e218f99e7ddf"
     },
     {
       "name": "grant-funding",

@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 535,
-  "applications": 229,
+  "applications": 230,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -825,9 +825,9 @@
    "subcategory": "cast-and-relationships",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/antagonist-fair-grievance-craft.md",
-   "digest": "sha256-b2:dc97a2cec6cdf2ba",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:4d7e66fe825d90cb",
+   "revision": 2,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "fair-grievance-wrong-means",
@@ -902,16 +902,23 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "rationed-necessity-in-public",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/applications/kotlin--rationed-necessity-in-public.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "fair-grievance-wrong-means",
      "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/applications/process--fair-grievance-wrong-means.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     },
     {
      "stack": "process",
      "technique": "rationed-necessity-in-public",
      "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/antagonist-fair-grievance-craft/applications/process--rationed-necessity-in-public.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     }
    ]
   },
