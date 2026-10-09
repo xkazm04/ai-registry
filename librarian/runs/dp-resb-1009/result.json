@@ -1,0 +1,85 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-resb-1009",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T22:00:00Z",
+  "ended_at": "2026-10-10T00:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/race-event-as-story-beat",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "race-event-as-story-beat",
+      "technique": "four-part-beat-delivery",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "race-event-as-story-beat",
+      "technique": "rule-variants-carry-story",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/race-event-as-story-beat.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/techniques/four-part-beat-delivery.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/techniques/rule-variants-carry-story.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/techniques/twenty-second-story-budget.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/process--four-part-beat-delivery.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/process--rule-variants-carry-story.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/kotlin--four-part-beat-delivery.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/kotlin--twenty-second-story-budget.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/kotlin--rule-variants-carry-story.md",
+    "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat/applications/kotlin--few-fixed-beats-many-flexible.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/race-event-as-story-beat.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "597e39f2",
+      "branch": "main",
+      "pathspec": "knowledge/game-production/narrative-and-dialogue/story-structure/race-event-as-story-beat"
+    },
+    {
+      "sha": "c85aa7f5",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "7f8b9368",
+      "branch": "main",
+      "pathspec": "librarian"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "4 kotlin apps at firetv d9990777; barks-absent claim was stale. 2 two-lane conditions (retry cap; scene read by objective), 4 evidence corrections, 0 techniques. gate --all stops at check-coverage-age (pre-existing, 17 d); other steps pass; run-tests not run."
+}
