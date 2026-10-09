@@ -211,3 +211,31 @@ subject's own size technique calls fabricated), the keep rules are broad with `-
 was launch-verified only. Outside hardening: Android's R8 and ABI guidance, and Amazon's two architecture pages,
 which disagree with each other by date (2026-02 says bundle only `armeabi-v7a`; 2026-05 says never drop 32-bit and add
 64-bit).
+
+## 2026-10-09 - stack-research routing (run `c5cb65de`, branch `autopilot/stack-grounded-opportunity-research-c5cb65de`)
+
+Routes two findings of Mage Arena VR's 2026-10 stack research (`docs/research/STACK-OPPORTUNITIES-2026-10.md` at
+`1ea2131`) whose own Registry column says EXTENDS `ship-pipeline-gating`. No technique, subject or category was added;
+no golden path or technique file was edited. Reconcile first: a grep of `knowledge/game-production` for
+`supportedDevices`, `HandleXRSupport`, `ExtraApplicationSettings`, `JAVA_HOME` and `JDK` found only an unrelated JDK
+mention in a perf-regression-gating application; `kotlin--ship-only-what-the-runtime-reads.md` mentions Gradle only as
+the Death Ride build and teaches neither lesson.
+
+- **F2, routed:** `applications/cpp--preflight-before-an-expensive-cook.md`. UE 5.8 `HandleXRSupport` (called from
+  `PostInitProperties`) writes a `quest2|questpro|quest3|quest3s` supportedDevices tag back into the default config
+  whenever two substrings are missing, so deleting the line does not hold. The project guards it with an inert XML
+  comment and asserts the package manifest value (`MARKER_SUPPORTED_DEVICES`). Graded: documented (vendor pages),
+  read (engine source, re-read 2026-10-09 on 5.8.3), probed (2026-10-07 editor launches, hash 8690fa6 unchanged with
+  the guard; `-SelfTest` exit 0). Not proven: the real APK manifest and the aapt dump format.
+- **F11, declined:** the lesson (check the toolchain against the engine's documented versions before the first
+  package) has no realization in the project's code. Its one check, `Test-JdkHome` in `apps/vr/tools/install-xr.ps1:22-25`, accepts any JDK
+  of 17 or newer, which is AGP's floor, not a comparison with Epic's documented OpenJDK 21.0.3; the rest of F11 is two
+  doc lines (`2f089be`) and an unrun first Gradle step. An application would describe a decision, not a realization.
+  Return condition: the project adds the advisory JDK-version preflight F11 names as optional, or the first package's
+  Gradle step runs and records its outcome.
+
+**Possible golden-path EXTENDS (from F2, owner's call, not made here):** the "configuration sanity" rung says each
+declaration is "trivially readable at rest". F2 is counter-evidence: a declaration the engine rewrites at load time is
+not stable at rest, and its check belongs on the artifact, with only the guard's presence left for preflight. Options:
+(a) a sentence on load-time rewriting under that rung; (b) a recurring inhabitant in `preflight-before-an-expensive-cook`
+("a guard against a tool that rewrites the declaration"); (c) leave both as they are, carried by the application.
