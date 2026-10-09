@@ -179,3 +179,40 @@ The lane's own WebFetch quotes were re-checked against them, and its 2026 judge-
 held. The vendor's prompting page, read raw, contradicted what the subject had attributed to it.
 An executed run's own score record was the richest field source this domain has had: it
 answered questions on test-retest, agreement and length lean with no new spend.
+
+## 2026-10-09 - deepen mass-based-arcade-collision (dp-mbac-1009)
+
+A single subject, ranked by single stack (process). The rank was a mislabel: both `process`
+applications read Death Ride's pure-Kotlin contact solver. They were refiled as `kotlin` and
+re-resolved at firetv `d9990777`, and four new kotlin applications cover the other
+techniques. No other registered project has a contact solver, so the subject stays one
+stack until one grows the seam.
+
+Seven corrections or conditions were reached by two lanes:
+- restitution pairing by minimum is a design choice, not physics, and no engine's default.
+  Death Ride's classes all share 0.24, so the rule is inert there;
+- the circle count comes from the waist depth. The old gap test passed a car whose flank
+  gave away 60% of its width, and a true capsule has no waist;
+- long spins come from missing yaw damping, not inertia. Where the handling has a yaw
+  inertia, the kick should divide by it;
+- the mass spread depends on how cars meet: a 1.5 ratio reads 95% head-on and 23% when a
+  mover hits a stationary car;
+- the closing test, not the maximum, stops the isolated double count;
+- one writer, with readers after the solver carrying the basis. Death Ride's audio mixes
+  bases;
+- the wall's "more than twice" ordering needs restitution below about 0.45.
+
+A 1D simulation of the tree's arithmetic kept full separation over percentage-and-slop
+(not-better). There were 0 techniques and 0 project commits. The map joins 0 contexts,
+because firetv's domains exclude game-production.
+
+Source-class notes:
+- Engine source read raw (header comments, combine functions) settled the pairing census
+  and refuted the "three candidates" framing. The three averaging defaults came from
+  documentation read through fetch summaries and carry less weight than the source reads.
+- The perception claim was settled by a 2026 reanalysis read as full-text XML. The lane's
+  quotes held against the raw text, and the raw read added the context a summary
+  drops: the 95% and 23% figures are Todd and Warren's 1982 data, reported in the 2026 paper.
+- The richest field evidence was arithmetic over the project's own data tables (shapes,
+  masses, inertia, tuning). It found two silent disagreements, design note against code and
+  handling inertia against contact kick, that no source states.
