@@ -166,7 +166,8 @@
           "id": "immersive-interaction",
           "title": "Immersive interaction",
           "subjects": [
-            "drawn-gesture-command-recognition"
+            "drawn-gesture-command-recognition",
+            "hand-tracked-timing-windows"
           ]
         }
       ]
