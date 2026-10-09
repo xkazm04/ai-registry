@@ -80,3 +80,20 @@ copied in a mod repository, a dialogue tool's default strategy) carried the rank
 bounds. Slides with speaker notes beat the talk's abstract. A games-press quote and a
 practitioner book chapter carried the repetition bounds. Forum posts and fan wikis stayed
 banked.
+
+## 2026-10-09 - deepen debt-and-loss-stakes-staging (dp-dls-1009)
+
+Single subject, ranked by single stack (process). Three kotlin applications read Death Ride's
+campaign code at firetv `10974fa3` and the project's committed seeded career traces. In those
+traces the scripted take followed a win only 26.7-80.8% of the time across four builds, while
+win-gated boss clears were wins 1,188/1,188. The league debt reads zero for a median 21 of 35
+events, and the bridging ledger lines are unwired. Two conditions were reached by both the
+experiment and the blind lane: the win-gated anchor, and spending the payoff. Two two-lane
+bounds landed: a schedule is a term, and a played unwinnable last stand works. Four evidence
+corrections landed. 0 new techniques; the map joins 0 contexts, because firetv is still
+unregistered at HEAD.
+
+Source-class note: the project's own committed simulation traces carried both measured
+conditions. Peer-reviewed abstracts and replication papers bounded the psychology. A re-read
+interview showed a "primary" rating was the journalist's narration. Wikis and forums stayed
+banked.
