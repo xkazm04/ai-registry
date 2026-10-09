@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 535,
-  "applications": 230,
+  "applications": 232,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -1552,9 +1552,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/condition-tagged-line-tables.md",
-   "digest": "sha256-b2:8d46aaf947003b3c",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:81ed4490fb7292f7",
+   "revision": 3,
+   "changedAt": "2026-10-09",
    "techniques": [
     {
      "slug": "line-table-schema",
@@ -1641,16 +1641,30 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "line-table-schema",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/applications/kotlin--line-table-schema.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "react-to-what-the-player-caused",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/applications/kotlin--react-to-what-the-player-caused.md",
+     "verified_on": "2026-10-09",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "line-table-schema",
      "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/applications/process--line-table-schema.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     },
     {
      "stack": "process",
      "technique": "repeat-avoidance-by-recency-and-cooldown",
      "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/applications/process--repeat-avoidance-by-recency-and-cooldown.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-09"
     }
    ]
   },
