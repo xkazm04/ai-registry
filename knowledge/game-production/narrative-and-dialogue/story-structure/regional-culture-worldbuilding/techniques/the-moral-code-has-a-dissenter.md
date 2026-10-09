@@ -77,7 +77,10 @@ unanimously on purpose, as a contrast that makes the disputed regions read as di
 once, and know it is a choice. And a code that is the antagonist's own law, enforced on
 everyone, is not this technique's object: dissent from the central power belongs to the
 region's politics and to the antagonist's design; this technique is about the region's own
-moral and the person inside it who refuses it.
+moral and the person inside it who refuses it. Nor does a menace the player is never meant to
+win over need a dissenter: the same director's interview concedes that one of his two great
+factions had little content of its own and its rank and file simply fight, and it still works
+as a threat. The rule is for the regions the player may side with.
 
 ## Evidence status
 

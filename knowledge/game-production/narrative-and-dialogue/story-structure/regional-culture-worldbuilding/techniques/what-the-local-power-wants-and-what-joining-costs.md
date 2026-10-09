@@ -72,6 +72,14 @@ owes. When the regions turn up for the finale, the player knows what each paid t
   victory scene to lead into it.
 - **When the price is paid off screen or in text only, move it into a scene or a screen the
   player handles** — a price on a later receipt, an empty seat, a closed shop.
+- **When a price is named, measure it against the region that did not join** — a later
+  region, or the same region's own schedule without the player. A loss the region's ordinary
+  progression would have produced anyway is not a price, however it is voiced.
+- **When a balance rule forbids allies any mechanical power, put the price on the region's
+  side**, not the player's: the region's own purse, car, stock or road can shrink without
+  adding a point of power to the player; and a payout voiced as the region's loss — the money
+  that would have bought what the region now goes without — turns the reward and the price
+  into one transfer.
 - **When every region pays the same kind of price, vary it**; a coalition built from identical
   sacrifices reads as a mechanic, not as people.
 - **When the price is a sum, look for the version of it that costs the region's code** — the
@@ -100,5 +108,7 @@ for the turn, rest on a game writer's statement about building a campaign around
 mission (high) and on secondary criticism of a redemption arc (medium). The local power's own
 want, the per-region hold and the price paid in the region's own code are practitioner
 judgement and the research's own design inference (low to medium); the research's table of
-regional bosses applies them but cites no source for the table itself. None of it has been
-tested in a played game.
+regional bosses applies them but cites no source for the table itself. The counterfactual test and the
+region-side price come from one shipped campaign's data read on 2026-10-10, where the only
+price carried by data was the ordinary schedule every rival follows (one case, design
+inference). None of it has been tested in a played game.

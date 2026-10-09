@@ -84,7 +84,11 @@ A campaign whose structure is a journey with no economic logic — an escape, a 
 search — should not force a supply chain onto the route; another ordering principle (distance,
 memory, seasons) can carry the argument. And where region order is decided by the ending-first
 plan — a unit that must come before another to plant a reveal — the plan wins and the chain
-bends around it, with the bend explained in the world.
+bends around it, with the bend explained in the world. And where the player choosing the order
+of regions is itself a pillar — a level-select structure, an open map — a fixed route costs
+that pillar. Keep the chain as the world's logic instead: each region's import names the
+region it comes from, so the chain reads from wherever the player starts, and the economy
+the player handles still has to agree with it.
 
 ## Evidence status
 
@@ -93,4 +97,7 @@ on-screen world (high). Class shown as geography and as what flows between space
 critic's essay and the researcher's own readings, checkable on screen (medium). Ordering a
 campaign's regions as a supply chain, the coinciding terrain arc and the advice not to reorder
 are the research's own design inference (low to medium), as is the rule that the tuned economy
-must agree with the chain. None of it has been tested in a played game.
+must agree with the chain. That player-chosen region order can be a design's strength rests
+on public facts about a long-running level-select series and a director's statement about an
+open world (high on the facts); it bounds the defend-the-order rule to fixed routes. None of
+it has been tested in a played game.

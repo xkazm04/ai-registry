@@ -51,9 +51,17 @@ the work and the institution, because people name what they handle every day and
 fear. The **code** is what the economy punishes and rewards turned into a moral: where water
 is scarce, wasting it is the worst sin; where everyone works on credit, a broken promise is.
 Derived in that order, every field explains the others, and a writer meeting an unforeseen
-situation can ask what the economy would make these people do. Culture grown from material
-conditions reads as inevitable; culture assigned from a mood board reads as costume. See
+situation can ask what the economy would make these people do. See
 [economy-institution-slang-code-per-region](./techniques/economy-institution-slang-code-per-region.md).
+
+Derivation is a consistency engine, not the only door in. Worlds begun from a handful of
+image words, from a map, or from an invented language whose speakers came later read as
+inevitable too, because something else carried their consistency. The order of invention is
+free; the order of checking is not. However a region was conceived, run the chain over it
+before the bible is locked: if its slang and its code cannot be traced to what the region
+makes and lacks, they are costume whatever came first. And the economy is the root, not the
+whole — belief, history and the lie of the land have to show through as well, or every region
+reads as a function of its trade.
 
 The same order is the cheapest check that the regions differ. Two regions with different
 economies cannot share a code without the bible saying why; two regions with the same economy
@@ -91,7 +99,9 @@ joining has a price — the central power raises the tithe, cuts the supply, cal
 punishes the dissenter, or the local power loses standing with its own people — each region
 becomes a decision the region makes, and the coalition at the end is something the player
 owes. The price is paid on screen, in the region's own currency, at a moment the player can
-see. The sharpest price is the thing the region's own code exists to protect — the neutral
+see, and it is a loss measured against what the region would have had without joining. A
+downgrade the region's ordinary progression would have produced anyway — every rival moving
+up a car on the same schedule — is not a price, however it is voiced. The sharpest price is the thing the region's own code exists to protect — the neutral
 pass that must take a side, the honest log that must be produced and gets its keeper erased —
 because then joining costs the region a piece of who it is, not only a sum. And a local power
 joins on terms, when its own want is protected, not because it was beaten. See
@@ -109,12 +119,23 @@ World by implication sits between them. The history is written in full in the bi
 almost none of it is said; what reaches the player is its **residue** — the price of water on
 a sign, a rule painted on a wall, a word everyone uses and nobody defines, a ruin nobody
 mentions, a toll everyone pays without complaint, a name that is a compressed event. A player
-who meets three consistent residues of the same history infers the history, and an inferred
-history is believed in a way a told one never is, because the player did the work. The guard
+who meets three consistent residues of the same history infers a history, and an inferred
+history is held more firmly than a told one, because the player did the work. It is not
+always the same history: players bring their own frames to the same scene and reach
+different conclusions, and much of what a residue-built world is admired for reaches its
+audience through other players' explanations rather than their own inference. So residue
+carries the history the player may take or leave. A fact the plot depends on gets residues
+in several channels and, at the moment the player needs it, one plain statement. The guard
 against opacity is that every implied fact has at least one touchpoint the player actually
 uses — a price they pay, a rule that changes what they may do, a word that appears on a
 screen they must read. A fact with no touchpoint is lore, and lore is cut first. See
 [world-by-implication](./techniques/world-by-implication.md).
+
+A line of the economy the player reads but cannot act on — a deduction on a receipt — is
+both a system and a residue, and it splits. The number is shown plainly, because the
+player's money must reconcile. The label speaks in the world's voice — the centre's
+euphemism, a fee that sounds reasonable — until the story's reveal renames it. A receipt that
+names the theft from the first race has spent the reveal on a label.
 
 The budget is the rule that makes implication hold: a region gets very few lines of outright
 explanation, each spent on a fact the player needs in order to act, and everything else must
@@ -148,7 +169,10 @@ player feels without being told; where the geography can climb with it — up a 
 the basin where the centre sits — the physical arc and the economic one become one crescendo.
 And the theme is carried by the route rather than said by a character. Once the order carries
 all three, swapping two regions for a narrative convenience breaks more than it gains, and the
-order should be defended as a decision rather than treated as a sequence. The rule that keeps it honest: the campaign's economy as the player handles it —
+order should be defended as a decision rather than treated as a sequence. That holds for a
+campaign whose route is fixed. Where choosing the order is itself a pillar of the design, a
+fixed chain costs that pillar; the chain then survives as the world's logic, readable from
+any region because each region's import names its neighbour, rather than as the route. The rule that keeps it honest: the campaign's economy as the player handles it —
 prices, purses, repair costs — must read from the same supply chain the story claims, because
 a player checks the story's claim against what their money does.
 
@@ -158,7 +182,8 @@ When the campaign is a blood sport, a league, an arena or any staged violence, t
 is not scenery. It is an institution, and it exists because somebody profits from it — and
 what they profit is rarely the gate money. The spectacle is the means; what its funders buy
 with it is something else: legitimacy, popularity that pays off in loyalty, fear, labour
-discipline, a channel for anger that would otherwise go somewhere worse. A world built around
+discipline, a channel for anger that would otherwise go somewhere worse, or standing displayed
+for its own sake. A world built around
 it answers three questions: **who profits** — the owners, the bookmakers, the sponsors, the
 local powers who take a cut and keep their licence, the central power that uses the spectacle
 to recruit, to distract or to settle what it could not settle openly; **who pays** — the
@@ -215,7 +240,13 @@ from material conditions, factions that contain internal dissent, a world shown 
 residue, and spectacle as something its funders buy power with — rest on working creators' own
 statements and on historical sources; the per-region price of joining and the euphemism of the
 centre are practitioner judgement and design inference; none of it has been tested in a played
-game.
+game. Three of them were bounded by counter-evidence on 2026-10-10. Derivation is one route to
+a consistent culture, not the only one: worlds begun from language or from mood words are on
+record from their own makers. Inference from residue varies from player to player, by a
+level designer's own account. And the reading of the ancient arena as bought power is
+contested; one school of historians reads its sponsors' giving as display of grandeur, an end
+in itself. A fiction may still write the spectacle as a purchase, but that is a choice the
+fiction makes, not a fact history hands it.
 
 ## Boundaries
 

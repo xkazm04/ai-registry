@@ -122,7 +122,11 @@ technique owns the spectacle as a system of which he may be only the largest ben
 ## Evidence status
 
 Spectacle as a means of buying power rests on historical scholarship on ancient games and an
-author's interview on building a fictional televised contest from them (high). The popular
+author's interview on building a fictional televised contest from them (high for the fiction,
+contested for the history). One school of historians reads the ancient sponsors' giving as
+neither redistribution nor depoliticisation but display of grandeur, an end in itself; the
+purchase reading is a choice a fiction may make, and standing for its own sake belongs on the
+list of what funders get. The popular
 champion as a threat the system removes in public rests on a film read directly (high). The
 target of satirical violence rests on public facts about several works (high on the facts); the
 generalisation is the research's own (medium). The table of who profits and who pays, the

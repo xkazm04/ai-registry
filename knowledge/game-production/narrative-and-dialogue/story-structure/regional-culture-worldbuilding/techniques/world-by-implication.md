@@ -74,6 +74,14 @@ becomes a lecture; glimpsed behind someone's want, it becomes a world.
   to nothing the player handles, cut it or keep it in the bible only.
 - **When a fact is conveyed by a single residue, add a second in a different channel**;
   one residue is a detail, two consistent ones are a history.
+- **When the plot depends on a fact, do not leave it to inference alone**: give it residues
+  in several channels and one plain statement at the moment the player needs it. Players
+  read the same scene differently, and residue reliably carries only the history the player
+  may take or leave.
+- **When a line of the economy is read but not acted on — a deduction on a receipt — show
+  the number plainly and let the label speak in the world's voice** until the story's reveal
+  renames it. A label that names the theft from the first receipt spends the reveal, and it
+  contradicts any card that plants the euphemism beside it.
 - **When a proper noun is invented, make it carry an event or a function** — a place named for
   what happened there, a title named for what its holder does.
 - **When the opening needs context, start in the middle of the world's routine** — a queue, a
@@ -101,4 +109,9 @@ Keeping the system in the background rests on a philosopher's recorded commentar
 (high). A used world shown as repaired rests on a film director's and a game director's own
 statements (high). Explaining through objects rests on on-screen readings partly the
 researcher's own (medium). The touchpoint rule and the exposition budget are practitioner
-judgement (low to medium). None of it has been tested in a played game.
+judgement (low to medium). That players bring their own frame to an environmental scene and
+reach different conclusions, and that a message which affects play should be unambiguous,
+rest on two level designers' published talk notes (high, primary); they bound inference to
+optional history. The split receipt line comes from one shipped campaign read on 2026-10-10
+(one case). No developer-sourced figure on how many players read optional lore was found.
+None of it has been tested in a played game.

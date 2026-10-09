@@ -112,5 +112,9 @@ should be reached through material conditions (high). One institution and a memo
 region rest on a showrunner's account of building a town through its civic institutions and
 rituals (high). The one-word-per-card cap, the slang gradient from edge to centre, and the
 reader for each field are the research's own design inference and practitioner judgement
-(low to medium). The convert keeping his culture rests on secondary criticism of a film
+(low to medium). The chain is bounded as an order of checking, not of invention: a novelist's
+letter puts his invented languages first and the world after them, a game director's design
+notes start his artists from a few image words and let the map dictate the rest, and an
+anthropologist's critique of materialist explanation holds that material conditions limit a
+culture without determining it (high, primary). The convert keeping his culture rests on secondary criticism of a film
 (medium-high). None of it has been tested in a played game.
