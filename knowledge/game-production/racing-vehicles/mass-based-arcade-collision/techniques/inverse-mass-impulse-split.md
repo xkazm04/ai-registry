@@ -77,5 +77,12 @@ person.
   as a fast-spinning wheel grinding on a wall. The scalar uses the centre velocity only; the
   spin technique states what is deliberately ignored.
 - **Do not add a percentage-and-slop position scheme on top** unless pairs demonstrably
-  jitter. The full separation is exact for circle pairs; softening it is a stability tool
-  for stacked bodies, which a racing field does not produce.
+  jitter, or something keys off contact persistence. The full separation is exact for
+  circle pairs. A racing field does produce stacks: a car pinned against the wall, or three
+  cars piled into it. In a 1D simulation of this technique (2026-10-09, one run per case),
+  three passes settled a pinned pair to zero overlap and a three-car pile to about 3 mm,
+  with no jitter. An 80% correction with slop left more overlap at every pass count. Slop
+  has a second purpose, though: it keeps a resting contact alive from one step to the next.
+  Full separation plus a margin ends the contact every step. That costs nothing while
+  contacts are found afresh each step, but it breaks any begin, persist and end event
+  model, and any warm-started solver.

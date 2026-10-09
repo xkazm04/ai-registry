@@ -14,10 +14,12 @@ use_when: [a hit off the car's axis should turn it, cars spin out of control aft
 ## The concern
 
 An off-axis contact should turn the car. A full treatment gives each body a moment of
-inertia and folds the lever arm into the impulse denominator, which is correct and almost
-never what an arcade racer wants: it produces long spins, makes the result depend on a
-shape constant nobody can tune by feel, and couples the linear and angular responses so a
-change to one moves the other.
+inertia and folds the lever arm into the impulse denominator. That is correct, and it is a
+sound choice wherever the handling model has lateral tyre grip or angular damping: the
+long spins people blame on inertia come from nothing removing the yaw afterwards, not from
+the inertia. The arcade kick earns its place on other grounds. It has a ceiling a designer
+sets directly, it keeps the linear response unchanged when the spin is tuned, and it does
+not make the result depend on a shape constant nobody can tune by feel.
 
 The arcade form is a yaw-rate kick. The lever arm is the cross product of the contact
 offset from the car's centre with the contact normal; the kick is that arm times the
@@ -62,6 +64,16 @@ are authored feel and have not been validated by a driver.
   authority over weight.
 - **When wall hits and car hits must turn differently,** give them separate scales and name
   both. A shared scale tuned for one will be wrong for the other.
+- **When the handling model already carries a yaw inertia, divide the kick by it, not by the
+  mass.** A mass-scaled kick grows with the lever arm. A long, light car then takes as much
+  turn from a hit as the shortest car, while its own tyres turn it at about half that rate.
+  Computed over a ten-class roster, the mass-scaled kick ranked the long classes differently from the handling
+  model. Keep the ceiling: the scale and the clamp stay authored, and only the per-car divisor
+  changes.
+- **When the ceiling binds above the ram threshold for most matchups,** the classes no longer
+  differ in spin for any hit that matters, and mass shapes only the small taps. Check the
+  closing speed at which each matchup reaches the ceiling. If it sits near the threshold,
+  the scale is doing nothing; lower it or raise the ceiling.
 - **When spin could cross the line from effect to control loss,** state the ceiling in terms
   of the handling model's own recovery rate, because a ceiling the car cannot steer out of
   within a second removes the player's agency.

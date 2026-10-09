@@ -15,17 +15,25 @@ use_when: [each vehicle carries its own bounciness, deciding a pair's rebound, a
 
 Restitution is a property of a surface or a body, but a collision is a property of a pair.
 When each car carries its own number, something has to turn two numbers into one before the
-impulse is computed. Three candidates are in common use: the product, the mean and the
-minimum. The choice decides which car "wins" the rebound, and it is one line of code that is
-rarely argued about and often wrong.
+impulse is computed. Five candidates are in use: the maximum, the mean, the product, a sum
+clamped to one, and the minimum. General-purpose engines default to one of the first four;
+of the eight checked on 2026-10-09, none defaults to the minimum, and the most common
+defaults are the maximum and the mean. The choice decides which car "wins" the rebound,
+and it is one line of code that is rarely argued about.
 
-The mean lets a lively car make a dead one bounce. That reads as a bug: a soft, armoured
-truck meeting a springy bumper car should absorb, not return, the energy. The product is
-too dead at the low end, since a pair of cars each at one half end at one quarter and
-nothing in the roster can bounce. The minimum states the physical intuition directly: the
-less elastic of the two surfaces decides how much energy is lost, because a rebound cannot
-return more than the deadest part of the contact can give back. It is also order
-independent, which keeps the result identical when a pair is visited as (A, B) or (B, A).
+The engines' defaults serve a different goal. The maximum exists so that a bouncy ball
+bounces off anything, and in a combat racer that means any lively car makes an armoured
+truck bounce too. The mean lets a lively car make a dead one bounce, which is the same fault
+at half strength. The product is too dead at the low end, since a pair of cars each at one
+half end at one quarter and nothing in the roster can bounce. The minimum serves the goal
+this subject has: the deader car decides, so a role authored to absorb hits absorbs them
+against every partner. It is also order independent, which keeps the result identical when a
+pair is visited as (A, B) or (B, A).
+
+The minimum is a design choice, not the physics. Vehicle-collision analyses compute a
+pair's coefficient from both cars' masses or stiffnesses (arXiv physics/0601168); none
+of them simply takes the smaller of the two. Say "the deader car
+decides" in the rule document, not "this is how energy is lost".
 
 Status: the minimum is an authored rule, not a measured one. The test that proves it is
 arithmetic (the pair rebound equals the smaller value's); how it feels is not established.
@@ -61,6 +69,14 @@ arithmetic (the pair rebound equals the smaller value's); how it feels is not es
 - **When a boundary's behaviour differs from a car-to-car contact,** author the boundary
   value separately and say so. A boundary silently inheriting the car's number is a quiet
   second authority over the same quantity.
+- **When every class shares one restitution, the pairing rule decides nothing,** and the
+  roster's contact feel rests on mass alone. That is a legitimate roster, but write it down:
+  a design note that promises per-class restitution while the class table carries none is
+  a claim nobody can tune against. Choose the pairing rule when the first class gets its own
+  value, not before.
+- **When you adopt an engine instead of a hand-written solver,** check its default
+  combine rule before authoring the table. A maximum or mean default silently reverses
+  "the heavy class absorbs", and the fix is the engine's combine setting, not lower numbers.
 
 ## When not to use this
 

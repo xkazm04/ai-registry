@@ -24,8 +24,12 @@ The distinction is the whole difference between a barrier that is a lane edge an
 is a hazard, and it is learned by the player in a few corners.
 
 Status: a simulated comparison proves the ordering, a glancing hit keeping more than twice
-the speed of a head-on one at the same approach speed. The tangent loss fraction is authored
-and has not been felt.
+the speed of a head-on one at the same approach speed, but only while restitution is low.
+With a tangent loss of a few percent, a head-on hit leaves at `e` times the approach speed,
+and a shallow glance leaves at nearly all of it. So "more than twice" needs the tangent
+retention to exceed twice the restitution. Computed on 2026-10-09: at a restitution of 0.24
+the ratio is 3.9 at a 15-degree glance and 2.2 at 60 degrees. At 0.4 it is 2.3 and 1.5. At
+0.5 it fails at every angle. The tangent loss fraction is authored and has not been felt.
 
 ## Procedure
 
@@ -48,7 +52,9 @@ and has not been felt.
    reads the head-on component only, so a scrape is nearly free.
 7. **Assert the ordering.** At the same speed, a car meeting a straight boundary at a
    shallow angle must leave with more than twice the speed of the same car meeting it at a
-   right angle. Keep the test; it is the contract.
+   right angle. Keep the test; it is the contract. Run it at the highest restitution any
+   class or surface can reach, not at the default, because the contract breaks once
+   restitution rises toward one half.
 
 ## Decision rules
 

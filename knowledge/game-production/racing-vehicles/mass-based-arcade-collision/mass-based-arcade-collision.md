@@ -46,12 +46,20 @@ a single authored number per car. Wall friction is a fixed fraction. Each is dec
 approximate where it is authored, so that nobody later mistakes a tuning knob for a
 measurement.
 
-The masses themselves have to be spread widely enough to be felt. A roster whose heaviest
-car is only a fifth heavier than its lightest produces a velocity ratio that nobody can
-perceive; the ratio between extremes needs to be well above two before a player can tell
-the classes apart by contact alone, and that spread is a roster-balance property, not a
-solver property. The balance subject next door owns choosing the numbers; this subject owns
-what a number does once it is chosen.
+The masses themselves have to be spread widely enough to be felt, and how wide depends on
+how the cars meet. In the perception literature, observers watching two bodies of a 1.5
+mass ratio approach each other at equal speed picked the heavier one 95% of the time. When
+a moving body struck a stationary one, at the same ratio, they were right 23% of the time,
+which is worse than chance (Todd and Warren 1982, as reanalysed by Todd and Norman, Journal of
+Vision 2026, doi:10.1167/jov.26.2.1). Individual bias is large too. In one dataset that paper
+reanalysed (Mitko and Fischer 2023), the mass ratio that looked equal to a given person
+ranged from 0.4 to 1.5. A ram into a
+slowed car is the second kind of meeting, so motion alone will often tell the player the
+wrong story. A spread well above two is a design margin for that case, not a perceptual
+threshold. Sound, shake and damage numbers have to carry the weight that the motion
+misreports. The spread is a roster-balance property, not a solver property: the balance
+subject next door owns choosing the numbers, and this subject owns what a number does once
+it is chosen.
 
 ## Position and velocity are separate repairs
 
@@ -69,11 +77,14 @@ technique.
 
 Circle-to-circle contact is the cheapest contact there is, has no degenerate case beyond
 coincident centres, and gives a smooth, round response. A car is longer than it is wide, so
-one circle is wrong and a rectangle test is expensive and full of corner cases. The answer
-is a capsule built from circles along the car's axis: a pair at the ends, and a middle one
-as soon as the car is long enough that a small object could fit between the end circles. The
-circles are derived from the drawn silhouette, so that what the player sees touching is
-what the model treats as touching. A contact test is then the product of the two cars'
+one circle is wrong and a rectangle test is expensive and full of corner cases. A true
+capsule, a segment with a radius, costs one segment-distance test per pair and has flat
+flanks. Where the solver already speaks only circles, the answer is a capsule built from
+circles along the car's axis: a pair at the ends, and a middle one once the waist between
+them lets an opponent sink further into the flank than the design tolerates. That happens
+well before a small object could fit between the end circles. The circles are derived from
+the drawn silhouette, so that what the player sees touching is what the model treats as
+touching. A contact test is then the product of the two cars'
 circle counts, which is small enough to ignore at racing populations and large enough to
 matter if the field ever grows into the hundreds.
 
@@ -120,16 +131,22 @@ consumer who needs it felt must schedule that test; nothing here substitutes for
 - **Equal masses by default.** The impulse is symmetric, every collision looks identical,
   and the roster's weight classes mean nothing in contact.
 - **Averaged restitution.** A bouncy car meeting a dead one rebounds as if both were
-  lively. The pairing technique states why the minimum is the honest choice.
-- **Spin from a full inertia model.** Cars spin for seconds after a tap and are unplayable;
-  or the spin is applied uncapped across several contact circles and a light car is thrown
-  into a rotation it cannot steer out of.
+  lively. The pairing technique states why the minimum suits a roster with roles
+  that must absorb hits. The minimum is a design choice, not the physics, and most
+  engines default to something else.
+- **Spin with nothing to stop it.** A full inertia model with no tyre grip or angular
+  damping lets cars spin for seconds after a tap. Or the spin is applied uncapped across
+  several contact circles, and a light car is thrown into a rotation it cannot steer out of.
+  Inertia is not the fault in either case. A handling model that already damps yaw can
+  take a full rotational contact; the bounded kick is for when the designer wants to set
+  the ceiling directly.
 - **Damage summed over solver passes.** The same meeting is paid for two, three or nine
   times, and the figure depends on the iteration count and on which circles touched.
 - **Wall friction as a flat speed multiplier.** Glancing and head-on hits cost the same, and
   racing along a barrier becomes as expensive as hitting it.
-- **A hole in a long car.** Two circles at the ends leave a gap a small car can drift into,
-  so one car sits inside another's drawn body with no contact registered.
+- **A hole in a long car.** Two circles at the ends leave a waist that an opponent's nose
+  sinks into, so one car sits inside another's drawn body with no contact registered. Long
+  before a small car fits in the gap, the flank has already given away half its width.
 
 ## Where this subject ends
 

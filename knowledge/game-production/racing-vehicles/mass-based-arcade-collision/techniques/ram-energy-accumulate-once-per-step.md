@@ -26,9 +26,19 @@ system; the accumulator is cleared at the start of the step and holds the larges
 speed seen above a threshold; the damage system reads it once after contact resolution is
 complete.
 
-Status: that the figure is a per-pair maximum, cleared each step and read once, is checkable
-by test. The threshold, the damage rate and the cooldown are authored. No claim is made that
-the damage feels fair.
+Two guards share the work, and it matters which does what. The closing test (record only
+while the pair is still approaching) is what stops an isolated meeting from being charged
+twice. After the first impulse the pair is separating, and every later visit records
+nothing, whether the slot sums or takes the maximum. In a 2026-10-09 simulation of this
+technique, an isolated pair gave the same figure at one to eight passes under both rules.
+The maximum earns its place where a pair closes again inside the step, as in a chain where
+a heavy car shunts one car into another. There the sum rose by 16% over the maximum.
+Recording a contact before the closing test, or from overlap depth, removes the first guard
+and makes the repetition real.
+
+Status: that the figure is a per-pair maximum, cleared each step and read after the solver,
+is checkable by test. The threshold, the damage rate and the cooldown are authored. No claim
+is made that the damage feels fair.
 
 ## Procedure
 
@@ -48,9 +58,14 @@ the damage feels fair.
    another is charged at a bounded rate.
 6. **Split by mass, inversely.** A car's share is the other car's mass over the total, so
    the heavier car takes less. This ties the damage to the same weight the impulse used.
-7. **Keep one reader.** Only the damage step reads the accumulator. Another system that
-   wants the same information, such as a sound or a camera shake, reads the damage event
-   instead of the raw slot.
+7. **Keep one writer, and read only after the last pass.** The solver is the only writer.
+   A system that wants what damage decided, such as a health bar, reads the damage event.
+   A system that needs a different gate may read the slot after the solver. A sound must
+   play during the damage cooldown, and an ability may only ask "did this pair ram this
+   step". Every such reader inherits the slot's basis (closing speed above the threshold)
+   and must convert it or say so. A second reader is the usual way a bare number crosses a
+   boundary. One combat racer's audio added such a reader, and it fed car and wall impacts
+   on different bases into one loudness formula.
 
 ## Decision rules
 
@@ -58,9 +73,11 @@ the damage feels fair.
   for a sum where there should be a maximum, or an accumulator that is not cleared.
 - **When ordinary nudges are being charged,** raise the threshold, not the damage rate. The
   threshold is the line between driving and ramming.
-- **When changing the solver pass count changes the damage,** the accumulator is being
-  written wrongly. A maximum is invariant to the number of passes that reach the same
-  maximum; a sum is not. Use this as an acceptance test.
+- **When changing the solver pass count changes the damage of a meeting,** the accumulator
+  is being written wrongly. Compare per meeting, not per step. In a chain, a single pass
+  can move the second pair's figure to the next step without changing it. Use an isolated
+  pair and a three-car chain behind a heavy car as the acceptance cases. The isolated pair
+  catches a missing closing test, and the chain catches a sum.
 - **When a car pinned against another is charged every step,** that is the cooldown's job.
   Choose it from how often a player should be punished for staying locked, in seconds.
 - **When several systems depend on the figure,** name the accumulator's unit and basis at
