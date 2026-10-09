@@ -97,3 +97,27 @@ Source-class note: the project's own committed simulation traces carried both me
 conditions. Peer-reviewed abstracts and replication papers bounded the psychology. A re-read
 interview showed a "primary" rating was the journalist's narration. Wikis and forums stayed
 banked.
+
+## 2026-10-09 - deepen ending-first-narrative-structure (dp-efn-1009)
+
+A single subject, ranked by single stack (process). The subject's own artifact turned out to
+be shipped: Death Ride's 518-line script carries the back-planned sheet as plant, payoff and
+reveal tags, under a card locked first. Two kotlin applications read it at firetv `10974fa3`.
+- A third of the ledger rows (33 of 96) sit on triggers no code raises.
+- Of the four objects the locked card names, one is planted where every player sees it.
+- The card's price is planted only on unwired shop lines.
+
+Four conditions were reached by two lanes:
+- run the checks against the build;
+- the decisive act is a decision the protagonist owns, and refusing the verb can be it;
+- re-open a card the units no longer support;
+- the sold-mystery exception to cutting lore.
+
+Five evidence corrections also landed. There were 0 new techniques. The map joins 0
+contexts, because firetv is still unregistered at HEAD.
+
+Source-class note:
+- The project's shipped data plus its call sites carried the measured condition.
+- Creator interviews carried both endings-side bounds, re-read verbatim.
+- A journal page carried the spoiler-replication correction.
+- Trade reports that would not fetch stayed summary-only and are rated Medium.
