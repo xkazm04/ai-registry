@@ -625,3 +625,35 @@ Source-class notes:
   a stat curve only.
 - **A project's refit is evidence about identifiability, not prices.** The same bounds on
   similar data gave armour 0.1 and 2.3.
+
+## 2026-10-10 - deepen controller-latency-instrumentation (dp-cli-1010)
+
+A single subject, ranked as "never swept by the librarian". Forged 2026-10-01; nothing was
+expired. The rank was real: the subject's sharpest claims had never been attacked, and one of
+them failed.
+
+New technique: `tick-sampled-versus-event-recorded-age`. Per-step state age, per-arrival age and
+action latency are three distributions. It converged in three lanes, and an experiment through
+the shipped input mailbox measured both failure directions: +14 ms at p95 from the heartbeat
+hold, and a 200 ms page freeze invisible to the per-arrival basis.
+
+Rules flipped or conditioned:
+- a film started at the controller's own flash is a lower bound, short by the phone's
+  touch-to-photon latency, and that shortfall varies by a phone frame (refuted "fixed offset");
+- a single server reading is the three-instant form and charges half the handling time;
+- a resume from sleep invalidates the offset even when the socket survived;
+- NTP's filter safeguards stated exactly; drift up to ~100 ppm;
+- the label carries the recording basis and the film's start event.
+
+Re-anchored both applications at `d9990777` (37 of 37 held, every node line moved) and added a
+kotlin application. Applied: 1 better (experiment), 1 better (simulation), 1 not-better
+(simulation), 1 unmeasurable, on firetv (unregistered). Impact: 0 contexts.
+
+Source-class notes:
+- **Raw downloads beat summaries again.** Both web lanes saved raw text. Every quote that
+  landed was re-found byte-for-byte there, and two that were not there were dropped.
+- **A measurement-lab methodology page is the right source for a protocol detail** (where on
+  the screen to read, onset versus threshold). It is the wrong source for a TV's lag number,
+  which loaded client-side and stayed secondary.
+- **The blind lane derived the start-event bias's sign and size before the web lane found the
+  measurements.** A derivation plus a measurement is the convergence that earned the flip.
