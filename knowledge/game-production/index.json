@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 537,
-  "applications": 288,
+  "applications": 289,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -2672,9 +2672,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/drawn-gesture-command-recognition.md",
-   "digest": "sha256-b2:251e882cfd648700",
-   "revision": 1,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:735476335f9e23b3",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "held-out-cross-user-acceptance",
@@ -2755,6 +2755,13 @@
      "technique": "held-out-cross-user-acceptance",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/applications/cpp--held-out-cross-user-acceptance.md",
      "verified_on": "2026-10-09",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "pen-down-stroke-segmentation",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/applications/cpp--pen-down-stroke-segmentation.md",
+     "verified_on": "2026-10-10",
      "verified_against": "cpp@20"
     },
     {
