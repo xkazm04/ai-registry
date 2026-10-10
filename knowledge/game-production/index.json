@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
-  "techniques": 536,
-  "applications": 287,
+  "techniques": 537,
+  "applications": 288,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "536/536",
+  "use_when_coverage": "537/537",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1912,9 +1912,9 @@
    "subcategory": "couch-and-tv",
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/controller-latency-instrumentation.md",
-   "digest": "sha256-b2:696388c329fbf2f6",
-   "revision": 1,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:6ce6acf48d8eaf62",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "best-rtt-sample-selection",
@@ -1989,6 +1989,22 @@
      ]
     },
     {
+     "slug": "tick-sampled-versus-event-recorded-age",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when a latency sample is recorded",
+      "a consumption-age figure is about to be read as the latency of a player's action",
+      "a stall on the controller side must show up in the numbers",
+      "two age distributions from the same session disagree"
+     ]
+    },
+    {
      "slug": "window-percentiles-are-not-poolable",
      "status": "forged",
      "laws": [
@@ -2005,16 +2021,23 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "tick-sampled-versus-event-recorded-age",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/applications/kotlin--tick-sampled-versus-event-recorded-age.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "node",
      "technique": "ping-pong-midpoint-clock-offset",
      "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/applications/node--ping-pong-midpoint-clock-offset.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     },
     {
      "stack": "process",
      "technique": "consumption-age-versus-photon-age-labelling",
      "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/applications/process--consumption-age-versus-photon-age-labelling.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     }
    ]
   },
@@ -10706,6 +10729,7 @@
     "controller-latency-instrumentation/consumption-age-versus-photon-age-labelling",
     "controller-latency-instrumentation/optical-flash-frame-count-protocol",
     "controller-latency-instrumentation/ping-pong-midpoint-clock-offset",
+    "controller-latency-instrumentation/tick-sampled-versus-event-recorded-age",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
@@ -11113,6 +11137,7 @@
     "controller-latency-instrumentation/exact-window-plus-histogram-quantiles",
     "controller-latency-instrumentation/optical-flash-frame-count-protocol",
     "controller-latency-instrumentation/ping-pong-midpoint-clock-offset",
+    "controller-latency-instrumentation/tick-sampled-versus-event-recorded-age",
     "controller-latency-instrumentation/window-percentiles-are-not-poolable",
     "crash-forensics-attribution/caller-chain-decay",
     "crash-forensics-attribution/confidence-gates-report-unknown",
@@ -11551,6 +11576,7 @@
     "combat-pacing-and-dramatic-arc/lead-car-wreck-before-lap-one-rate",
     "controller-latency-instrumentation/best-rtt-sample-selection",
     "controller-latency-instrumentation/exact-window-plus-histogram-quantiles",
+    "controller-latency-instrumentation/tick-sampled-versus-event-recorded-age",
     "controller-latency-instrumentation/window-percentiles-are-not-poolable",
     "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
     "drawn-gesture-command-recognition/pen-down-stroke-segmentation",
