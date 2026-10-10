@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 37,
+  "applications": 38,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -962,9 +962,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/parliamentary-data-modeling.md",
-   "digest": "sha256-b2:c27426c0cb367adc",
-   "revision": 3,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:871a82c05004b85d",
+   "revision": 4,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "cross-term-registry-loading",
@@ -1056,6 +1056,13 @@
      "technique": "cross-term-registry-loading",
      "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--cross-term-registry-loading.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "mandate-vs-person-identity",
+     "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--mandate-vs-person-identity.md",
+     "verified_on": "2026-10-10",
      "verified_against": "node@24"
     },
     {
