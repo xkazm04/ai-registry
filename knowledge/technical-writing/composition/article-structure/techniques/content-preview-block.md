@@ -48,13 +48,20 @@ invites a disagreement (owner rule, 2026-10-06, first full pipeline run).
 
 - **When the platform shows its own read time, leave it to the platform.** A post that
   states a different number than the page header contradicts itself in the first screen.
+  This holds only where the platform computes the figure. Where the header prints a field
+  somebody types (a CMS form, a static data file), that number is part of the post and
+  nothing checks it: derive it from the final text at build time. Measured on one product
+  blog (2026-10-10, ten posts): typed figures summed to 66 minutes for 15.8 minutes of text,
+  and none moved through nine later edits.
 - **When the preview sits after the first section heading, it is no longer a preview.**
   The opening scene needs no heading of its own; the preview follows it, and the first
   heading comes after the preview.
 - **When an outcome is a feeling ("understand X better"), rewrite it as an action.** A
   capability can be checked at the close; a feeling cannot.
 - **When the post is under about five minutes, shorten the preview to one line** with the
-  thesis. The full block is for posts long enough to need a map.
+  thesis. The full block is for posts long enough to need a map. Judge the length from the
+  text, not from a typed read time: on the blog above, every post was labelled five to eight
+  minutes and none held more than about two.
 
 ## When not to use it
 

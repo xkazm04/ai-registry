@@ -61,3 +61,7 @@ section is the one they came for.
 
 Reference pages whose readers navigate by name ("Configuration", "Errors") need topic
 headings, because the reader is looking up a known place, not following an argument.
+Tutorials need task headings: each step named by its action ("Step 2: Connect Slack"),
+because the reader is following along and needs to know where they are in the sequence,
+not what the step proves. Check that every step heading names an action and that the
+steps run in order; do not rewrite them as claims.

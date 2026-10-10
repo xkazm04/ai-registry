@@ -4,7 +4,7 @@ okf_bundle_name: technical-writing
 okf_bundle_title: Technical writing
 profile: rkb/0.1
 purity: writing
-stacks: [process]
+stacks: [process, next]
 ---
 
 # Technical writing
