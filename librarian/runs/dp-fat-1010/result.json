@@ -1,0 +1,96 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-fat-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "technical-writing",
+  "started_at": "2026-10-10T06:30:00Z",
+  "ended_at": "2026-10-10T07:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "technical-writing/figures-and-tables",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "figures-and-tables",
+      "technique": "designed-comparison-tables",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "figures-and-tables",
+      "technique": "visual-cadence",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "figures-and-tables",
+      "technique": "text-alternative-for-figures",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/technical-writing/presentation/figures-and-tables/figures-and-tables.md",
+    "knowledge/technical-writing/presentation/figures-and-tables/techniques/designed-comparison-tables.md",
+    "knowledge/technical-writing/presentation/figures-and-tables/techniques/label-length-figure-text.md",
+    "knowledge/technical-writing/presentation/figures-and-tables/techniques/one-message-per-figure.md",
+    "knowledge/technical-writing/presentation/figures-and-tables/techniques/text-alternative-for-figures.md",
+    "knowledge/technical-writing/presentation/figures-and-tables/techniques/visual-cadence.md",
+    "knowledge/technical-writing/presentation/figures-and-tables/applications/next--designed-comparison-tables--personas-web.md",
+    "knowledge/technical-writing/presentation/figures-and-tables/applications/next--text-alternative-for-figures--personas-web.md",
+    "knowledge/technical-writing/presentation/figures-and-tables/applications/next--visual-cadence--personas-web.md",
+    "knowledge/technical-writing/index.json",
+    "rules/ai-registry-technical-writing.md",
+    "catalog.json",
+    "librarian/subjects/technical-writing/figures-and-tables.md",
+    "librarian/applied.md",
+    "librarian/domains/technical-writing.md"
+  ],
+  "commits": [
+    {
+      "sha": "e654705c",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/technical-writing/presentation/figures-and-tables"
+      ]
+    },
+    {
+      "sha": "82efa3c9",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/technical-writing/index.json",
+        "rules/ai-registry-technical-writing.md"
+      ]
+    },
+    {
+      "sha": "9eef1330",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/technical-writing.md",
+        "librarian/subjects/technical-writing/figures-and-tables.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Alt text: neutral, chart type first (Lundgard 2022); pie fine for a share of a whole (Simkin 1987); parallel list where no carrier renders; cadence threshold a convention. 3 next apps, 21 anchors held. Impact 0. Gate: coverage-age red, pre-existing; rest green."
+}
