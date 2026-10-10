@@ -21216,7 +21216,7 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
-   "digest": "sha256-b2:c82d451e319cd31b",
+   "digest": "sha256-b2:7f5a9031da3d28ce",
    "revision": 4,
    "changedAt": "2026-10-10",
    "techniques": [
