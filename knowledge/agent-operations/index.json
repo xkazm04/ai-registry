@@ -5,7 +5,7 @@
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
   "techniques": 40,
-  "applications": 29,
+  "applications": 30,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/agent-benchmark-design/agent-benchmark-design.md",
-   "digest": "sha256-b2:95c6fad5833c1c40",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:550ea4630111cab6",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "comparable-cell-construction",
@@ -97,6 +97,14 @@
      "technique": "null-and-reference-controls",
      "file": "knowledge/agent-operations/measurement/agent-benchmark-design/applications/process--null-and-reference-controls.md",
      "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "python",
+     "technique": "comparable-cell-construction",
+     "file": "knowledge/agent-operations/measurement/agent-benchmark-design/applications/python--comparable-cell-construction--personas.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "python@3.12",
+     "refresh_by": "2027-01-10"
     }
    ]
   },
