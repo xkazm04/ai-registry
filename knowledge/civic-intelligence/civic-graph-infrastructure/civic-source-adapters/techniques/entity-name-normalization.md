@@ -59,6 +59,14 @@ ordering (display versus registry order) once.
   [one definition, imported everywhere](../../../_laws.md#one-definition-one-import)
   at its sharpest: a second folding scheme is a future mismatch with a person's
   name on it.
+  The rare letters are where two folds are *predicted* to part, not the only
+  place they do. Two folds also differ in the steps around the letter table:
+  whitespace collapse, trimming, case. In a single-language corpus with no
+  stroked letters, those steps are where the mismatch actually lives. Publisher
+  names carry doubled spaces, one fold collapses them, the other keeps them,
+  and a reader typing the name normally misses it. So when you consolidate,
+  compare the two functions' outputs over the stored population. Do not compare
+  their letter tables.
 - **Version the scheme.** Changing the fold table invalidates every persisted
   folded value; a change means a re-fold migration of the normalized columns, not
   a quiet edit that leaves old and new rows folded differently in one index.

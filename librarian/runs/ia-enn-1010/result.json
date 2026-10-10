@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ia-enn-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "civic-intelligence",
+  "started_at": "2026-10-10T17:30:00Z",
+  "ended_at": "2026-10-10T18:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "civic-intelligence/civic-source-adapters",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "civic-source-adapters",
+      "technique": "entity-name-normalization",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/applications/node--entity-name-normalization.md",
+    "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/techniques/entity-name-normalization.md",
+    "knowledge/civic-intelligence/index.json",
+    "librarian/applied.md",
+    "librarian/subjects/civic-intelligence/civic-source-adapters.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Politicas 6420218+0f2ab80+d87a37b pushed, cherry-picked onto origin (local master diverged 45/6). Single-stack point unmoved: the only civic project is node. Registry side built in a clean worktree of origin/main."
+}

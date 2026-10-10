@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 36,
+  "applications": 37,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -361,9 +361,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/civic-source-adapters.md",
-   "digest": "sha256-b2:bc6e0786554514a6",
-   "revision": 3,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:7942a4f4ae406e5c",
+   "revision": 4,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "entity-name-normalization",
@@ -453,6 +453,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "entity-name-normalization",
+     "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/applications/node--entity-name-normalization.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "legacy-encoding-and-escape-parsing",

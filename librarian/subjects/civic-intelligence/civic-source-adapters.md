@@ -1,8 +1,8 @@
 ---
 domain: civic-intelligence
 subject: civic-source-adapters
-last_touched: 2026-09-09
-touched_by: architecture-review
+last_touched: 2026-10-10
+touched_by: intake-apply
 dry_streak: 0
 ---
 
@@ -15,6 +15,19 @@ claims, snapshot completeness, export discovery and retention boundaries.
 This is a library review with focused reproductions of consumer limitations,
 not a consumer repair or refreshed application witness.
 
+## Apply - 2026-10-10 (ia-enn-1010)
+
+entity-name-normalization gained its first application (node, politicas, code,
+better). The consumer held four folds over one corpus: the ingest table fold and
+three NFD-strip forks (graph search, roster bridge, municipality picker). It also
+lacked the decomposed-input guard the 2026-09-09 review named. Paired over 1,252
+payload names, the folds disagreed on 0 letters and 13 doubled spaces. Graph
+search misses went from 13 to 0, decomposed-twin key mismatches from 853 to 0, and
+0 persisted keys moved. The technique gained a boundary: two folds also part in the
+steps around the letter table, so compare their outputs over the population, not
+their tables. Pushed to the consumer's origin. The single-stack point does not move, because the fleet's one civic
+project is node.
+
 ## Open leads
 
 - Repair consumer calendar, whole-token timestamp and exact-integer validation;
@@ -23,6 +36,8 @@ not a consumer repair or refreshed application witness.
   distinctions; verify the actual monetary grammar before parsing decimals.
 - Compare structured metadata exports with targeted search requirements and
   exercise pagination, completeness and upstream withdrawal propagation.
+- A fold version stamp and an unsupported-character report for the consumer's
+  single fold: neither exists, so a table change cannot be re-folded by scheme.
 - Reopen application verification only with the above source and runtime
   checks; do not promote maturity on the strength of this prose review.
 
