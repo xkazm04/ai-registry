@@ -20,8 +20,9 @@ the bundle (dp-as-1010). No librarian sweep has run yet.
 | evidence-and-sources | L2 primary (meta-analyses) + L3 field measurement (n = 45 numbers in 10 posts, 11 commits) | 2026-10-10 | 1 correction, 10 conditions, 3 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 | figures-and-tables | L2 primary (perception and accessibility studies) + L3 field measurement (n = 10 posts, 117 paragraphs; 9 card routes; guide renderer) | 2026-10-10 | 4 corrections, 9 conditions, 3 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 | medium-format-fidelity | L2 primary (reading, polarity and highlighting studies; WCAG; screen-size statistics) + L3 field measurement (66 paragraphs wrapped in the site's font; 11 themes' contrast computed; test suite and feed read) | 2026-10-10 | 5 corrections, 15 conditions, 5 applications (`next`) | 0 | stack default; the Medium map row a vendor landscape | none: no project map joins the bundle |
+| voice-and-register | L2 primary (psycholinguistic given-new studies; corpus studies of generated text; detector tests; style authorities) + L3 field measurement (238 blog sentences split and banded; pronoun, tell and dash counts over blog and guide; copy gate run on an export) | 2026-10-10 | 6 corrections, 17 conditions, 4 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 
-The other subject has not had a deepen pass.
+Every subject in the bundle has now had one deepen pass.
 
 ## Source-class memory
 
@@ -62,6 +63,15 @@ From one pass, so these are tallies, not rules:
   in six months, so a single tracker is a weak source for a width.
 - The blind lane again named the web lane's primary studies with no priors (three
   highlighting studies, three polarity studies). Five passes, one domain: still a tally.
+- Sixth pass (dp-var-1010): author-hosted PDFs (an essay, a 1974 study, a grammarian's
+  paper), PMC full text, Europe PMC abstracts and the arXiv API carried verbatim text;
+  ScienceDirect returned 403 and the style authority's live page was bot-blocked, so a
+  web-archive capture carried it. Two quotes a lane reported were absent from its saved
+  files and were re-fetched before landing, and a drafted arXiv author name was wrong
+  until checked against the record. Trade press relaying a second-hand figure (a magazine's
+  em dash count) was declined until the primary is read.
+- The blind lane again named the web lane's primary studies with no priors (Reinhart,
+  Liang, Pullum, Haviland and Clark). Six passes, one domain: still a tally.
 
 ## Field witnesses
 
@@ -80,3 +90,12 @@ From one pass, so these are tallies, not rules:
   - a summary-only feed.
 
   Five seams, five `next` applications.
+- The same site's blog and guide are the voice-and-register witness:
+  - a pronoun search where 6 of 8 blog hits are prompts the reader pastes or code;
+  - a blog with high sentence-length spread, where a monotony rule fires only on parallel
+    structure and heading artifacts;
+  - one "not just" frame repeated across posts and the guide;
+  - a five-rule house sheet with a gate, no person rule, and a checker that reads Markdown
+    bullets as dashes.
+
+  Four seams, four `next` applications.
