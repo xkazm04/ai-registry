@@ -1,0 +1,101 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-vab-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-10T04:05:00Z",
+  "ended_at": "2026-10-10T05:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/vehicle-archetype-balance",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "vehicle-archetype-balance",
+      "technique": "weights-fit-to-sim-with-published-residuals",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "vehicle-archetype-balance",
+      "technique": "winner-share-over-declared-course-mix",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "vehicle-archetype-balance",
+      "technique": "power-rating-single-function",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "vehicle-archetype-balance",
+      "technique": "linear-stat-to-physics-mapping",
+      "verdict": "unmeasurable",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/vehicle-archetype-balance.md",
+    "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/techniques/weights-fit-to-sim-with-published-residuals.md",
+    "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/techniques/winner-share-over-declared-course-mix.md",
+    "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/techniques/power-rating-single-function.md",
+    "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/techniques/linear-stat-to-physics-mapping.md",
+    "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/applications/kotlin--weights-fit-to-sim-with-published-residuals.md",
+    "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/applications/kotlin--winner-share-over-declared-course-mix.md",
+    "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/applications/kotlin--linear-stat-to-physics-mapping.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/vehicle-archetype-balance.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "72a68ecf",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/racing-vehicles/vehicle-archetype-balance"
+      ]
+    },
+    {
+      "sha": "ceabac7d",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "a0bf23f2",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/vehicle-archetype-balance.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Weights fit on point model, axle solver 5h later, never refit. Shipped weights fit error 0.00348 vs refit 0.00100; movement harness fails Rookie 56.2%, combat passes 52.7. Share is not margin (12/15 cells >=97%). 3 kotlin apps, 29 anchors held. Impact 0."
+}
