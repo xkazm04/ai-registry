@@ -340,3 +340,29 @@ and its material lab now crosses into a game engine through a generated script.
   or route it through the table when anything calls it again.
 - **Fleet commit** local only: the project's default branch carries 14 unpushed commits
   from other sessions, and pushing would publish them.
+
+## 2026-10-10 - second application, second stack (intake-apply-colour-space-20261010)
+
+Dispatched by the attention scan on "single stack (node)". The application is Python, so
+that point should clear at the next scan. The seam is in the same project as the first
+application, at a different edge: the headless bake stage of its 3D pipeline.
+
+- **Seam.** The Blender bake script held its own list of linear maps (normal, roughness)
+  and left AO out. Every baked AO was encoded through the sRGB curve, while the format's
+  occlusion slot and the project's own table read it as linear. The table had one owner
+  and a swatch test, but the test enumerated only the three material projections. A bake
+  did not look like a material edge to whoever wrote the test.
+- **Chosen to falsify.** A single-owner, tested table is the technique's end state. A
+  catch would have shown that per-role encoding errors cannot survive it. One survived,
+  in the one reader the guard did not name.
+- **Verdict `better`, code, ab-paired** in Blender 4.2 headless, against a float bake owned
+  by the harness. A linear reader of the AO was off by 0.119 mean across the occluded band
+  in A and by 0.0009 in B. The other three maps were byte-identical across arms. A bake
+  with no stated colour space is now refused. The fix shipped to the project's default
+  branch and was pushed from a worktree of origin, so sibling commits stayed local.
+- **Boundary case, banked rather than amended.** Step 3 lists the table's readers as
+  import, conversion or repacking, and validation. A *producer* of a texture is a fourth
+  reader. Scored as an amendment it is GAIN 1 / RISK 0, under the bar. **Return
+  condition:** a second tree where a texture producer holds its own role table.
+- **Still open from the 2026-09-10 review:** step 4's "there is no mixed case" is refuted
+  by base-colour alpha. This run did not touch it.
