@@ -1046,9 +1046,9 @@
       "purity": "agent-ops",
       "subjects": 9,
       "techniques": 40,
-      "applications": 30,
-      "files": 83,
-      "contentHash": "sha256-b2:4e64a3e2aab4de65"
+      "applications": 31,
+      "files": 84,
+      "contentHash": "sha256-b2:c37405dbafbd4f80"
     },
     {
       "name": "civic-intelligence",

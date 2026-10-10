@@ -5,7 +5,7 @@
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
   "techniques": 40,
-  "applications": 30,
+  "applications": 31,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -113,9 +113,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/agent-run-budgeting.md",
-   "digest": "sha256-b2:3a4d0d6d28c6b615",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:46c11cdadd0f7998",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "allowance-budgeting-across-workloads",
@@ -196,6 +196,14 @@
      "technique": "termination-cause-record",
      "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/process--termination-cause-record.md",
      "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "python",
+     "technique": "allowance-budgeting-across-workloads",
+     "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/python--allowance-budgeting-across-workloads--personas.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "python@3.12",
+     "refresh_by": "2027-01-10"
     }
    ]
   },
