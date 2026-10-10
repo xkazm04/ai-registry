@@ -579,3 +579,49 @@ Source-class notes:
   fix changed nothing, and only a run with controls could show that.
 - **A small study is the right weight for a narrow claim.** A phone-as-controller study backs
   the relative pad on fewer glances, not on performance. It entered the golden path at that weight.
+
+## 2026-10-10 - deepen vehicle-archetype-balance (dp-vab-1010)
+
+A single subject, ranked by single stack (process). The rank was real, and the physics had
+moved under the subject. Its rating weights were fitted on the point model at 11:14 on
+2026-10-01. At 16:17 the same day Death Ride moved every car to the two-axle solver, and nobody
+refit. Three kotlin applications now read the rating, the share gate and the mapping at
+`d9990777`. They rest on a scratch-worktree run of both roster harnesses at 2,000 races per
+course cell. Nothing was committed to the game.
+
+No new technique was earned. Convergence across the three lanes:
+- **Per-course dominance** (web: motorsport balance by circuit type; blind: players pick per
+  course).
+- **Skill segmentation** (web: a published balance framework that fails on any audience;
+  blind: equal-skill balance is not enough).
+- **Ratings get exploited through the part they under-price** (web: vendor patch notes; blind:
+  Goodhart).
+
+All three landed as conditions. The field lane added two the others could not:
+- **Share is not a margin.** 12 of 15 course cells are 97% or more one class, so the mixed
+  share sits near the owned weight.
+- **The verdict belongs to the harness's ruleset.** The movement harness fails Rookie at 56.2%,
+  while the combat harness passes it at 52.7%.
+
+Corrected: the weights technique's "near-zero weight" signature. A refit priced armour at 2.3 on
+data where armour does nothing, and the forge's 0.1 was the fitter's bound. Declined: the
+lap-time window as a technique. It is the instrument for a roster meant to be equivalent
+everywhere, the opposite design intent; it is recorded as a boundary in the winner-share
+technique.
+
+Applied: 2 better (experiment), 1 better (simulation), 1 unmeasurable (code), 1 unapplied
+(per-course pick and per-skill, which do not bind or have no harness arm), all on firetv
+(unregistered). Impact: 0 contexts.
+
+The registry was read back into the project again. The project had already relabelled its
+rating "a planning index" and moved acceptance to the combat harness. The README still names
+the movement-only harness, which now fails.
+
+Source-class notes:
+- **Vendor patch notes are primary for rating exploits.** They name the under-priced part and
+  the fix. The vendor's support pages returned 403 to fetch tools, and their text was seen only
+  in search extracts; forum threads redirected.
+- **A fan wiki's datamined tables carry numbers, not intent.** They were used for the shape of
+  a stat curve only.
+- **A project's refit is evidence about identifiability, not prices.** The same bounds on
+  similar data gave armour 0.1 and 2.3.
