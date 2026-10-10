@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-msp-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-10T05:05:00Z",
+  "ended_at": "2026-10-10T05:17:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/multi-speaker-speech-production",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Same finding dp-msp-1001 idled; nothing moved. No clock (verified 09-30), no new registration at HEAD. Registered media/game trees have no speech seam (pof declines TTS); speech trees are unregistered and node. Return: a registered non-node multi-voice speech tree."
+}
