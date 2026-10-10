@@ -157,3 +157,41 @@ dp-hfa-0928 ledger touches the subject. check-currency: 0 expired, 0 at-risk, no
 for this subject out of 78. The git log search for the banked leads' events found only
 this subject's own landing and a recruiting pass. Nothing was researched. The dispatcher
 ranks from its local main, which is the thing to fix, not this subject.
+
+## 2026-10-10 - apply fault-signature-catalogue (ia-fsc-1010), a second stack
+
+Dispatched by the Curator on "single stack (process)". This was an `/intake apply` pass,
+so nothing was researched. The technique had no applied row, and both applications were
+`process`. This pass adds `python` to the bundle's stacks and writes
+`applications/python--fault-signature-catalogue.md`.
+
+**Seam, chosen to falsify:** the Curator dispatcher's own settled history in Personas. A
+catalogue that named no more causes than the evidence already did would have refuted the
+technique. It named many more.
+- 595 plan dispatches were read.
+- Arm A, the evidence as written, named 2 of 318 non-landed items.
+- Arm B, seven symptom/tell/fix entries with tells from tables the app keeps, named 118.
+- Floor: 0 landed items with commits were re-attributed.
+
+**What the tree's shape added to the technique:**
+- **The tell can die before the verdict is read.** 112 of 185 "no exit code" items are
+  unattributable forever, because their session rows were reaped. That is a
+  stronger form of "add the entry while the tell is still known". The tell has to be
+  stamped into the verdict at settle time. A candidate amendment, from one tree so far.
+- **Refusal-as-result fed a saturation streak.** Five usage-limit refusals were settled
+  `idled`, the outcome that deepens a subject's dry streak, and one was settled `landed`.
+  That is the mirror case: a refusal read as a dry pass and as a success.
+- 13 reaped "blocked" workers had committed. This is the golden path's pass-side
+  attribution, seen in a dispatcher rather than a benchmark.
+
+**Shipped:** the live CLI loop keeps the worker's last words on a timeout (personas
+58b2ed20f0). The proof is ab-paired against the previous judge, and the suite is 26 of 26
+green. It was committed on local master and not pushed, because master carries six
+unpushed sibling commits.
+
+Not done: the retired in-app driver's `ended_how` still drops the state. That is the
+return condition if the loop is re-enabled. The six refusal-settled items are not
+corrected, because the app owns those rows.
+
+The finding that ranked this subject, "single stack", is cleared by the python
+application. dry_streak 0.
