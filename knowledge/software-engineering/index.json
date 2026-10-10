@@ -21216,9 +21216,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
-   "digest": "sha256-b2:8c2af696c8ba0de6",
-   "revision": 2,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:a9e52b1ada88e44b",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "credential-posture-at-the-call-door",
