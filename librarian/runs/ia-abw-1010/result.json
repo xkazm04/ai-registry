@@ -1,0 +1,77 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ia-abw-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "agent-operations",
+  "started_at": "2026-10-10T15:10:00Z",
+  "ended_at": "2026-10-10T16:05:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/agent-run-budgeting",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-operations/agent-run-budgeting",
+      "technique": "allowance-budgeting-across-workloads",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "technique": "comparable-cell-construction",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/python--allowance-budgeting-across-workloads--personas.md",
+    "knowledge/agent-operations/configuration-choice/agent-run-budgeting/techniques/allowance-budgeting-across-workloads.md",
+    "librarian/applied.md",
+    "librarian/subjects/agent-operations/agent-run-budgeting.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "1400b456",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/python--allowance-budgeting-across-workloads--personas.md",
+        "knowledge/agent-operations/configuration-choice/agent-run-budgeting/techniques/allowance-budgeting-across-workloads.md",
+        "librarian/applied.md",
+        "librarian/subjects/agent-operations/agent-run-budgeting.md"
+      ]
+    },
+    {
+      "sha": "5dc913c7",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations/index.json",
+        "rules/ai-registry-agent-operations.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. personas memory benchmark header never recorded the judge and counted cache replays as draw: code A/B 17280 vs 10152 served -> exact; pushed. Judge <=0.4%, write path 58-87%. Seam hunt fixed hash-seeded probes. Gate red upstream at coverage-age."
+}
