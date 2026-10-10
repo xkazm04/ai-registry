@@ -51,10 +51,11 @@ the pen is down cannot tell a missed command from a rejected one.
    and a minimum duration, both in data, remove twitches and tracker spikes before they
    reach the matcher.
 4. **Abort on tracking loss, never commit.** If the hand is lost or confidence falls below
-   the floor mid-stroke, the stroke ends as aborted. Treat a gap shorter than a few samples
-   as a gap and interpolate it. Treat a longer one as the end of the attempt. A stroke
-   completed by joining the last good sample to the first sample after the gap is a shape
-   the player never drew.
+   the floor mid-stroke, the stroke ends as aborted. Treat a gap shorter than the matcher
+   tolerates as a gap and interpolate it. Treat a longer one as the end of the attempt.
+   Past that length, a stroke completed by joining the last good sample to the first sample
+   after the gap is a shape the player never drew. The length is measured, not assumed (see
+   the decision rule on the bridge).
 5. **Cut the return path explicitly.** With a pose pen, the return happens with the pose
    released. With a speed pen, require a pause below the speed floor before a new pen-down
    may fire, and discard any stroke that starts within a short refractory interval after
@@ -85,6 +86,21 @@ the pen is down cannot tell a missed command from a rejected one.
 - **When the sensor updates more slowly than the game frame, a re-sent sample is not a new
   sample.** Speed computed against a repeated pose reads as a stop, and a speed pen ends the
   stroke there. Carry the last measured speed across repeated samples.
+- **When tracking drops, a held pose and a missing frame differ only for a speed pen.** A
+  runtime that keeps the last pose with zero confidence feeds a pose pen duplicate points.
+  Duplicates add no path, so a resampling matcher sees the same stroke it would see with the
+  frames missing. A speed pen reads the frozen pose as stillness, ends the stroke and commits
+  part of a shape. Gate on confidence before the pen sees the sample, not after.
+- **When choosing how long a gap to bridge, measure the matcher's tolerance; do not count
+  samples.** Inject one loss into recorded attempts at several points and several lengths.
+  For each length, read the precision of the commands that still fire. Then set the bridge
+  just below the length where that precision leaves its unperturbed value. A matcher that
+  resamples and compares unordered points forgives a short straight chord. In one synthetic
+  corpus (360 drawings x 4 onsets per length), precision stayed at 95.0% for losses up to
+  200 ms against 95.6% with no loss, then fell to 88% at 300 ms, 75% at 400 ms and 54% at
+  600 ms. Aborting after three samples there threw away every correct command at 100-200 ms
+  to stop 8 extra wrong ones. Past the knee, the choice between a fizzle and a command at
+  reduced precision is a design call. Show the abort, so the player can tell it from a miss.
 - **When a stroke's sample count is zero or near zero, the segmenter reports it.** A
   recognizer fed an empty stroke reports a match on nothing. An instrument proves it had
   input before it reports a verdict.

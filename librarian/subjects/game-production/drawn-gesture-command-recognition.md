@@ -1,8 +1,8 @@
 ---
 domain: game-production
 subject: drawn-gesture-command-recognition
-last_touched: 2026-10-09
-touched_by: forge
+last_touched: 2026-10-10
+touched_by: intake
 dry_streak: 0
 depth: L1
 ---
@@ -56,3 +56,37 @@ fitted plane.
   reject among the remaining line confusions.
 - **`vocabulary-distinctiveness-audit` has no application.** **Return:** a cross-user
   confusion matrix.
+
+### 2026-10-10 - `/intake apply pen-down-stroke-segmentation` (run `intake-apply-pdss-1010`, Curator dispatch on "single stack (cpp)")
+
+First application of `pen-down-stroke-segmentation`, as an **experiment** with verdict
+**not-better**, against `mage-arena-vr` `origin/master` at `e9f99db`. The applied row is
+`a86c1c6` in the project's `.ai/applied.jsonl`, pushed. There is no product change.
+
+**Seam, chosen to falsify.** The subsystem passes every frame to the stroke builder and never
+reads confidence, and the session pauses only after 1.5 s of loss. A resampling point-cloud
+matcher could forgive a short joined chord, which step 4 called a shape the player never drew.
+
+**Instrument first** (the declared focus). A line-for-line port of the builder over the
+project's own plane fit and cloud distance, run on the corpus the project documents. Its
+positive control was 83/83 of the suite's thresholds, checked before any arm was read.
+
+**Read.** 1,440 trials per loss length. Cast precision held at 95.0% through 200 ms of loss
+(95.6% with none), then fell to 88% at 300 ms, 75% at 400 ms and 54% at 600 ms. Aborting past
+3 samples discarded every correct cast at 100-200 ms. A held pose and a dropped frame were the
+same input to the pinch pen. To the speed pen, a held pose was a stop that committed a partial
+shape: 166 casts at 200 ms, all removed by the bridge.
+
+**Landed.** Step 4 now bridges a gap the matcher tolerates. Two decision rules were added:
+held pose versus missing frame by pen type, and how to measure the bridge. A cpp application
+records the arms and the table.
+
+**Side finding, not landed.** The project's speed-pen style is set only by tests. It extracts
+every corpus drawing, but none classifies under the reject floor, and the suite checks only
+extraction. **Return:** when that style becomes selectable, or the suite classifies it.
+
+**Open, with return conditions.**
+- **The knee on real hands.** It lies between 200 and 300 ms on synthetic strokes, under a
+  model where the hand keeps drawing while untracked. **Return:** the first recorded hands
+  corpus with dropouts. Re-read the curve before the confidence gate is built.
+- **Single stack (cpp).** Unmoved: one project draws gestures, in one stack.
