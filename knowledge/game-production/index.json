@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 536,
-  "applications": 283,
+  "applications": 284,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -9996,9 +9996,9 @@
    "subcategory": "couch-and-tv",
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/two-thumb-touch-layout-design.md",
-   "digest": "sha256-b2:e5f84870764a9a65",
-   "revision": 1,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:d62c19a7f670c753",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "cruise-fire-drives-throttle",
@@ -10045,7 +10045,8 @@
      "use_when": [
       "one thumb should carry both steering and throttle",
       "accidental acceleration from a resting thumb",
-      "designing the split layout"
+      "designing the split layout",
+      "putting brake on the same pad as a downward drag"
      ]
     },
     {
@@ -10058,7 +10059,8 @@
      "use_when": [
       "two thumbs drive different controls at once",
       "a thumb sliding off a button leaves it stuck or fires a neighbour",
-      "writing the multi-touch handling of a browser-based controller"
+      "writing the multi-touch handling of a browser-based controller",
+      "a control stays dead until a menu is opened"
      ]
     },
     {
@@ -10077,10 +10079,17 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "relative-anchor-steering",
+     "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/applications/kotlin--relative-anchor-steering.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "node",
      "technique": "pointer-capture-per-control",
      "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/applications/node--pointer-capture-per-control.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     }
    ]
   },
