@@ -1,0 +1,100 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-scb-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-10T00:20:00Z",
+  "ended_at": "2026-10-10T00:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/short-form-cards-and-barks",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "short-form-cards-and-barks",
+      "technique": "barks-that-survive-repetition",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "short-form-cards-and-barks",
+      "technique": "callback-pays-a-seed",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "short-form-cards-and-barks",
+      "technique": "television-read-budget",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "short-form-cards-and-barks",
+      "technique": "picture-carries-the-card",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/short-form-cards-and-barks.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/techniques/barks-that-survive-repetition.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/techniques/callback-pays-a-seed.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/techniques/picture-carries-the-card.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/techniques/television-read-budget.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/kotlin--barks-that-survive-repetition.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/kotlin--callback-pays-a-seed.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/kotlin--picture-carries-the-card.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/kotlin--television-read-budget.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/short-form-cards-and-barks.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "7c6cd7aa",
+      "branch": "main",
+      "pathspec": "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks"
+    },
+    {
+      "sha": "5fdbe8d6",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "fa696fba",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/short-form-cards-and-barks.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "4 kotlin apps at firetv d9990777, 52 anchors held. 0 techniques; conditions in 4 techniques + golden path. Applied 4 better, 2 unapplied. Impact 0 contexts. Knowledge gate green; librarian lane stops at check-coverage-age (pre-existing, 17 d)."
+}
