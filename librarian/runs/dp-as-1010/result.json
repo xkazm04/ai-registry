@@ -1,0 +1,87 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-as-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "technical-writing",
+  "started_at": "2026-10-10T06:00:00Z",
+  "ended_at": "2026-10-10T07:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "technical-writing/article-structure",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "article-structure",
+      "technique": "content-preview-block",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "article-structure",
+      "technique": "information-carrying-headings",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/technical-writing/composition/article-structure/article-structure.md",
+    "knowledge/technical-writing/composition/article-structure/techniques/content-preview-block.md",
+    "knowledge/technical-writing/composition/article-structure/techniques/information-carrying-headings.md",
+    "knowledge/technical-writing/composition/article-structure/applications/next--content-preview-block--personas-web.md",
+    "knowledge/technical-writing/composition/article-structure/applications/next--information-carrying-headings--personas-web.md",
+    "knowledge/technical-writing/index.md",
+    "knowledge/technical-writing/index.json",
+    "rules/ai-registry-technical-writing.md",
+    "catalog.json",
+    "librarian/subjects/technical-writing/article-structure.md",
+    "librarian/applied.md",
+    "librarian/domains/technical-writing.md"
+  ],
+  "commits": [
+    {
+      "sha": "3106d2bc",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/technical-writing"
+      ]
+    },
+    {
+      "sha": "5cf42079",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/technical-writing/index.json",
+        "rules/ai-registry-technical-writing.md"
+      ]
+    },
+    {
+      "sha": "4041346f",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/technical-writing.md",
+        "librarian/subjects/technical-writing/article-structure.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Golden path synced to 10-06 rule (no in-text read time). Blog typed readingTime 66 min vs 15.8 at 238 wpm (n=10): defer-to-platform only if computed. Tutorials: 19 genre-wrong findings vs 3. 2 next apps, 12 anchors held. Impact 0."
+}
