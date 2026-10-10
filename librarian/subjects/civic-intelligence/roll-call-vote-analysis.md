@@ -1,8 +1,8 @@
 ---
 domain: civic-intelligence
 subject: roll-call-vote-analysis
-last_touched: 2026-09-09
-touched_by: architecture-review
+last_touched: 2026-10-10
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -80,3 +80,22 @@ reverify work; no maturity or historical witness dates were refreshed.
   }
 }
 ```
+
+## Apply - 2026-10-10 (intake, run intake-apply-co-voting-2026-10-10)
+
+First application of `co-voting-agreement-matrix`, a code change on politicas with
+verdict `better`, shipped and pushed. The run was dispatched for the single-stack
+point, and a third node application does not move that point. The run chose the
+seam because it could falsify the technique's baseline rule. The profile's
+agreement panel printed rates with denominators but without a reference, under an
+alliance label. A replay of the public term-10 dumps through the project's own
+matrix function measured the baseline: the same-club median is 0.996 and the
+cross-club median is 0.431. 87% of the rows shown were the MP's own club. The
+panel now prints both medians and no longer says "allies". The seam partly
+refuted the expectation, because most rows sit more than one ballot above the
+club median. It also returned a second finding, now a boundary in the technique:
+rounded stored rates tie at the cut on 151 of 203 profiles. The write-time prune
+and the duplicate-ballot rule are latent on this corpus (0 pairs pruned,
+0 duplicates).
+
+The application documents carry the measurements.
