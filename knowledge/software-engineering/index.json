@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1840,
-  "applications": 1245,
+  "applications": 1246,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -21216,8 +21216,8 @@
    "subcategory": "evaluation-and-cost",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
-   "digest": "sha256-b2:a9e52b1ada88e44b",
-   "revision": 3,
+   "digest": "sha256-b2:c82d451e319cd31b",
+   "revision": 4,
    "changedAt": "2026-10-10",
    "techniques": [
     {
@@ -21347,6 +21347,13 @@
      "technique": "elimination-reasons-are-a-closed-vocabulary",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/applications/next--elimination-reasons-are-a-closed-vocabulary.md",
      "verified_on": "2026-09-05",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "next",
+     "technique": "unattempted-is-not-failed",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/applications/next--unattempted-is-not-failed.md",
+     "verified_on": "2026-10-10",
      "verified_against": "next@16.3.3"
     },
     {
