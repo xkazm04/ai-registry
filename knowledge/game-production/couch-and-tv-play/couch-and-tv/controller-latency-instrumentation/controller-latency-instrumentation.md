@@ -11,6 +11,7 @@ techniques:
   - optical-flash-frame-count-protocol
   - consumption-age-versus-photon-age-labelling
   - window-percentiles-are-not-poolable
+  - tick-sampled-versus-event-recorded-age
 ---
 
 # Controller latency instrumentation
@@ -83,7 +84,19 @@ which is why the lowest-round-trip sample is preferred: it carries the tightest 
 the least queueing. The estimate has an error bar of its own, and any consumption age
 smaller than that bar is not distinguishable from zero. Do not clamp negative ages to
 zero without counting them; a negative age is the instrument reporting that its offset is
-wrong.
+wrong. Two further assumptions hide in the same estimate. The first is that the screen device
+answered at once: with a single reading of its clock, any time it spends before answering is
+charged to the outbound leg, so a reply queued behind the game loop biases the offset by half
+the wait. The second is that the controller's clock kept running. A phone page's clock can
+pause while the device sleeps, so a resume invalidates the offset just as a reconnect does,
+even when the socket survived.
+
+The consumption age also rests on a choice made before any number exists: when a sample is
+taken. Sampling the held input's age on every simulation step measures how stale the state
+was, and it includes the controller's send interval. Recording once per arriving message
+measures flight time and goes blind whenever the controller stops sending. Recording once per
+player action, from the action's own timestamp to the step that consumed it, is the only one
+of the three that is the latency of an action. Each is defensible; an unnamed one is not.
 
 The percentiles rest on a storage choice. A live service cannot keep every sample for
 ever, so it keeps a bounded window exactly and a bounded histogram for the lifetime. The
@@ -99,7 +112,12 @@ exactly once per input; a high-frame-rate camera sees the input and the flash in
 shot; the count of camera frames between them, times the camera's frame period, is the
 latency. The resolution is one camera frame, and an input that lands at a random phase of
 the display refresh adds a spread of one display frame that no camera can remove, so the
-protocol takes many taps and reports a distribution, never one tap.
+protocol takes many taps and reports a distribution, never one tap. The film is only as
+honest as its start event. The controller's own flash appears after the phone has drawn it,
+tens of milliseconds after the touch and after the message has already left. A film that
+starts there measures a lower bound, and the shortfall changes from tap to tap. The start
+has to be the touch itself, instrumented, or the phone's own leg has to be filmed and
+carried beside the figure.
 
 ## Labels are the deliverable
 
@@ -142,6 +160,11 @@ already say so.
 - **It calls the consumption age the input-to-screen latency**, and the project passes a
   budget nobody measured on the surface the player looks at.
 - **It films one tap**, or films at a frame rate whose period is the size of the effect.
+- **It starts the film at the controller's flash** and reports the remainder as
+  input-to-photon, short by the phone's whole touch-to-photon latency.
+- **It records age when messages arrive, stamped when they were sent**, so a controller that
+  froze for a fifth of a second leaves no trace in the distribution.
+- **It keeps the offset across a sleep** because the socket stayed open.
 - **It fills the optical row from the network figures** because the row looked empty.
 - **It lets a clamp hide a bad clock**, so a mis-estimated offset shows up as a
   suspiciously low latency instead of as an error.

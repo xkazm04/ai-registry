@@ -28,9 +28,14 @@ average sample. Taking the median does somewhat better and still carries every
 persistently queued probe. Selecting the minimum round trip discards, rather than
 averages, the samples that are known to be worse.
 
-Network time implementations settled on the same rule long ago, over a short sliding
-window of recent exchanges, and for the same reason: as delay rises the offset variation
-rises with it, so the lowest-delay sample is the best candidate.
+Network time implementations settled on the same rule long ago, and for the same reason: as
+delay rises the offset variation rises with it, so the lowest-delay sample is the best
+candidate. The version-four protocol keeps the last eight exchanges and picks the lowest
+delay among them. It is short in samples, though at its polling intervals eight samples span
+minutes to hours. Three other safeguards come with it. It uses each sample once and never
+falls back to one older than the latest. It ages every sample's error estimate, so an old
+low-delay sample loses its advantage. And it discards an offset that jumps by more than about
+three times the recent jitter. A controller-sized implementation can afford all three.
 
 ## Procedure
 
@@ -50,9 +55,14 @@ Pure minimum selection has one defect that a short test never shows: the record 
 ages. A single lucky sample early in a long session, perhaps one that happened to coincide
 with an idle radio, sets a minimum no later probe can beat, and the offset is then frozen
 while the two clocks drift apart under it. Drift between ordinary device clocks is
-measured in tens of parts per million, which is a few milliseconds over several minutes,
-the same order as the quantity being measured. A long soak with a frozen offset slowly
-bends its own age series.
+typically tens of parts per million, and measured phones span roughly a hundred either way.
+That is a few to tens of milliseconds over several minutes, the same order as the quantity
+being measured. A long soak with a frozen offset slowly bends its own age series.
+
+Drift is the slow failure. The fast one is a clock that stopped. A phone page's clock can
+pause while the device sleeps. The record then holds a sample whose offset is wrong by the
+whole sleep, and no later sample beats its round trip. If that error exceeds the consumer's
+staleness limit, every input is rejected as stale while the connection looks healthy.
 
 The remedy is a window rather than a record. Keep the best sample from the last several
 probes or the last tens of seconds, let the record expire, and re-select. A short window
@@ -74,6 +84,8 @@ a more complicated failure surface.
   consecutive selections, log it.** A step larger than the error bar is a clock jump, a
   path change, or drift that the window is too long to follow; any of the three is worth
   seeing in the record.
+- **When the controller resumes from sleep or a hidden page, clear the record.** Treat it
+  exactly like a reconnect, even if the socket survived.
 - **Never select on the one-way inbound estimate alone.** The round trip is the only
   quantity observable from one side without already knowing the offset, which is why it is
   the selector.

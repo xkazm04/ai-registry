@@ -24,7 +24,10 @@ of a message. It includes the return leg and ends before any simulation consumed
 **Consumption age.** The corrected stamp of an input compared with the instant the
 simulation consumed it, in the screen device's clock. It measures the outbound leg, the
 queueing before the simulation's next step, and the offset error. It excludes rendering,
-presentation and the panel.
+presentation and the panel. It has a recording basis too: sampled every step (the age of the
+state the simulation held, which includes the controller's send interval), recorded per
+arrival, or recorded per action. These are different distributions, and the label names
+which one it is.
 
 **Photon age.** The finger or its stand-in to the first display frame carrying the answer,
 observed by a camera. It includes everything. It is the only one of the three allowed to be
@@ -36,7 +39,9 @@ not a number.
 Every figure in a report, dashboard, commit message or chat reply is written with one of
 these terms, the unit, and its clock basis. "Ack RTT p95 63 ms" and "input age p95 47 ms
 (consumption, offset-corrected)" and "optical p95 not measured" are complete statements.
-"Latency p95 47 ms" is not, and no template should allow it.
+"Latency p95 47 ms" is not, and no template should allow it. Nor is "input age p95 47 ms"
+once two bases exist in the same system: "state age per step" and "action latency" are
+different numbers.
 
 ## Why the distinction is worth rules
 
@@ -60,11 +65,14 @@ it is a good-looking number with a plausible name. The labelling rule exists for
    authority; reports quote it and do not paraphrase it.
 2. Name the field after the end event, not after the aspiration: a field that ends at
    consumption is called consumption age, whatever the design document hoped for.
-3. Carry the synchronisation state with the number. A consumption age taken before the offset
+3. Carry the recording basis with the number (per step, per arrival, per action), and the
+   start event of a film (an instrumented touch, or the controller's own flash, which makes
+   the figure a lower bound).
+4. Carry the synchronisation state with the number. A consumption age taken before the offset
    was estimated is a lower bound with a different meaning, and the report shows it as such
    rather than as the same quantity with worse luck.
-4. Give each report an optical row. If there is no film, the row says not measured.
-5. When comparing against a budget, compare like with like. A photon budget is compared to a
+5. Give each report an optical row. If there is no film, the row says not measured.
+6. When comparing against a budget, compare like with like. A photon budget is compared to a
    photon figure; a consumption figure may be compared to a consumption budget someone has
    derived, or to nothing.
 

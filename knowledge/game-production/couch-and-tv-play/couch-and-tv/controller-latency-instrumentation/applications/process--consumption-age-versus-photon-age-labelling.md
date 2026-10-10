@@ -5,13 +5,14 @@ subject: controller-latency-instrumentation
 technique: consumption-age-versus-photon-age-labelling
 stack: process
 status: forged
-verified_on: 2026-10-01
+verified_on: 2026-10-10
 ---
 
 # Labelling, soak summaries and the flash test in a racing game's reports
 
-Verified 2026-10-01 in the racing game's tree; paths are relative to its root, except the
-last section, which cites a sibling repository and says so. Honesty first, as the wave
+Verified 2026-10-01 in the racing game's tree, and re-anchored on 2026-10-10 at
+`deathride/main@d9990777`, where all 21 quotes held. Paths are relative to its root, except
+the last section, which cites a sibling repository and says so. Honesty first, as the wave
 requires: every figure below came from scripted clients on a real Fire TV stick, or from a
 desktop host. The optical flash test was written and documented and has never been run on a
 human's setup. No human has felt this game's latency.
@@ -21,8 +22,8 @@ human's setup. No human has felt this game's latency.
 The stats documentation defines the field by its end event and disclaims the optical
 reading in the same entry:
 
-- `deathride/README.md:38` "age when the simulation consumes the state."
-- `deathride/README.md:38` "it is not an optical latency measurement."
+- `deathride/README.md:40` "age when the simulation consumes the state."
+- `deathride/README.md:40` "it is not an optical latency measurement."
 
 The milestone report keeps the vocabulary apart:
 
@@ -51,17 +52,28 @@ it travels labelled as a proposal and is never rendered as met.
 
 The protocol is as documented and as specified; it was not run on a human setup.
 
-- `deathride/README.md:43` "Film both screens in one 240 fps shot for at least 30 taps."
-- `deathride/README.md:43` "network RTT is not a substitute"
-- `deathride/README.md:43` "Flash events are discarded if their input is already stale."
+- `deathride/README.md:45` "Film both screens in one 240 fps shot for at least 30 taps."
+- `deathride/README.md:45` "network RTT is not a substitute"
+- `deathride/README.md:45` "Flash events are discarded if their input is already stale."
 - Hardware gate: `deathride/docs/concepts/DEATH-RIDE-SPIKE-VERDICT.md:77` "Film both screens at 240 fps for at least 30 FLASH TEST taps."
-- The screen device acts only on an accepted input: `deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:173` "flash.set(true)"
+- The screen device acts only on an accepted input: `deathride/link/src/main/kotlin/dev/deathride/link/RaceServer.kt:261` "flash.set(true)"
 - The not-measured line from the feel research: `docs/concepts/deathride/W1-feel-research.md:19` "Optical latency and owner feel are not measured."
 
 Confirmed against the draft: single-frame event, accepted-input gate, frame rate and tap
 count stated, network figure refused as a substitute, p50, p95 and max reported. Not in the
 documented protocol and wanted by the standard: randomised tap phase, miss counting, the
 controller display's own latency, and the television's mode settings in the report.
+
+**The documented start event is a lower bound** (2026-10-10). The phone sends the flagged
+input first and paints its own flash afterwards, in the same handler:
+`deathride/controller/index.html:157` "send(1);$('flashscreen').classList.add('on')". The
+film runs from the phone's flash, which the browser composes and the panel scans out tens of
+milliseconds after the touch, while the message is already in flight. So the README's protocol
+measures flash-to-flash: input-to-photon minus the phone's own touch-to-photon latency, which
+varies by a phone frame from tap to tap. When the test is finally run, the figure needs either
+an instrumented touch as the start, or the phone leg filmed and carried beside it. Neither is in
+the documented protocol. The verdict's proposed optical rubric would be judged against the
+lower bound.
 
 The scout's anchor at line 73 of the feel research does not exist (the file ends at line
 41). The relevant sentences are at lines 19 and 39; line 39 carries the earlier

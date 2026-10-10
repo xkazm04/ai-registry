@@ -13,10 +13,11 @@ use_when: [turning a controller-side timestamp into the screen device's clock, e
 
 The controller and the screen device each read a monotonic clock that started at an
 arbitrary moment, so a timestamp from one means nothing on the other until the two are
-related. The offset is estimated with the same four-instant exchange that network time
-protocols use, reduced to the two-party case: the controller sends a probe carrying its
-send instant, the screen device answers with that instant echoed back plus its own clock
-reading at the moment of answering, and the controller notes its receive instant.
+related. The offset is estimated with a three-instant exchange, the older and simpler
+cousin of the four-instant exchange that network time protocols use. Both are two-party; the
+difference is how many readings the answering side contributes. The controller sends a probe
+carrying its send instant, the screen device answers with that instant echoed back plus one
+reading of its own clock, and the controller notes its receive instant.
 
 ## Procedure
 
@@ -39,10 +40,34 @@ the operating system mid-session produces an offset that jumps and an age series
 cliff in it. Use the monotonic clock on both sides, and treat any wall clock as unusable
 for this.
 
-The screen device's reading must be taken as late as possible before the reply is sent,
-and the controller's receive instant as early as possible after arrival. Every
-millisecond of handling jitter on either side is charged to the offset as if it were
-network time.
+"Never steps" is not "never stops" and not "never changes rate". As documented in 2026, a
+page's high-resolution clock pauses while the device sleeps in most browsers, except on
+one desktop platform. So after a phone's screen lock, the controller's clock has lost the
+whole sleep, and an offset estimated before it is wrong by that much. A monotonic clock on
+a host whose time daemon is slewing can also run fast or slow by far more than the crystal
+drift: it never jumps, but its rate is not stable. Treat a resume as a discontinuity, the
+same as a reconnect.
+
+The controller's receive instant must be taken as early as possible after arrival. Every
+millisecond of handling jitter on the controller's side is charged to the offset as if it
+were network time.
+
+## One reading or two
+
+The single reading on the screen device is where the three-instant form pays. Whatever the
+screen device spends between receiving the probe and taking its reading counts as outbound
+network time. With equal legs, that handling time shifts the offset by half its length, and
+it inflates the round trip, and so the bound, by all of it. A reply sent from the socket
+handler costs well under a millisecond. A reply queued for the game's next simulation step
+can cost a whole step, which at sixty steps a second is up to eight milliseconds of bias in
+a quantity measured in tens.
+
+So answer the probe from the receive path, never from a game tick, and take the reading
+just before replying. Where the answer cannot be immediate, send two readings instead of
+one: the screen device's receive instant T2 and its transmit instant T3. Then the offset is
+half of (T2 minus t0) plus (T3 minus t1), and the round trip used for the bound is (t1
+minus t0) minus (T3 minus T2). The handling time drops out of both. This is the network
+time protocol's own formula, and it costs one more number in the reply.
 
 ## What the estimate means, and its error bar
 
@@ -75,8 +100,13 @@ distribution cannot be detected from inside it.
   each other slowly and a single early sample goes stale; which sample to keep is the
   selection technique's concern, and the probe rate must be low enough that probes are not
   themselves load.
-- **Re-estimate after every reconnect.** A new connection can cross a different path with
-  a different asymmetry, and the previous offset has no claim on it.
+- **Re-estimate after every reconnect, and after every resume from sleep or a hidden page.**
+  A new connection can cross a different path with a different asymmetry, and a resumed
+  page's clock may have stopped while it slept. The previous offset has no claim on either.
+  A socket that survived the sleep is not evidence that the clock did.
+- **Answer the probe where it is received.** A reply that waits for the game loop charges
+  half the wait to the offset; when it must wait, return both of the screen device's
+  readings.
 
 ## When not to use it
 
