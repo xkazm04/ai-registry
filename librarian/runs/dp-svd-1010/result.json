@@ -1,0 +1,88 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-svd-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-10T08:00:00Z",
+  "ended_at": "2026-10-10T10:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/subtext-and-voice-differentiation",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "subtext-and-voice-differentiation",
+      "technique": "voice-bible-per-speaker",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "subtext-and-voice-differentiation",
+      "technique": "distinguish-by-rhythm-and-refusal",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/subtext-and-voice-differentiation.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/techniques/distinguish-by-rhythm-and-refusal.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/techniques/voice-bible-per-speaker.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/kotlin--voice-bible-per-speaker.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/process--distinguish-by-rhythm-and-refusal.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/process--voice-bible-per-speaker.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/process--dialogue-as-a-trade.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/subtext-and-voice-differentiation.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "976cc7c2",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation"
+      ]
+    },
+    {
+      "sha": "eb920fda",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "974105e9",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/subtext-and-voice-differentiation.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "kotlin+process apps at firetv d9990777, 11 anchors held; 40/41 re-anchored. Shipped tests 0/6 defects, bible lint 5/6; prose literals 15/15 false; 93/187 off rhythm. Masking 2-3/26 inside judge noise; 6 lines all judges miss. 0 techniques, 2 conditioned, 2 better. Impact 0."
+}
