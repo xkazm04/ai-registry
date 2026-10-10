@@ -12463,3 +12463,7 @@ applied here - one sighting, and the honest record is in the source note.
 ## 2.15.0 - 2026-10-10 - apply colour-space-is-per-texture-role
 
 - **When a consumer guards a single-owner rule with a test that names its readers, grep the rule's literal vocabulary across the whole tree and diff the hits against that list.** pof's swatch test asserted that three material projections restate no colour-space literal. A tree-wide grep for the literal found a fourth reader the test never named: a headless bake script that produces textures rather than receiving them. That reader had drifted by one role. The registry map joined no context to it, so a map-led seam hunt would have missed it. The guard's enumeration is the completeness claim to hunt, the same move Phase 6 makes on a golden path, aimed at the consumer's tests. (Mid-flight runs: nothing to do.)
+
+## 2.15.0 - 2026-10-10 - apply cull-before-submission
+
+- **A ground truth that pads by a different parameter than the arm reports a phantom difference.** The first truth padded every chord by the widest stroke, while the product padded each chord by its own. The patched product then read 24 chords short of "visible" on one row, which looked like a regression in the fix. Re-deriving the truth with the product's per-object parameter made the product equal the exact arm on every row. Before reading a gap between an arm and the truth, check that both computed the same quantity. (Mid-flight runs: nothing to do.)

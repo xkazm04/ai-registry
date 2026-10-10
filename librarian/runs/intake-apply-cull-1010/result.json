@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-cull-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-10T21:34:52Z",
+  "ended_at": "2026-10-10T21:58:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/render-submission-economy",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "render-submission-economy",
+      "technique": "cull-before-submission",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/engine-integration/render-submission-economy/applications/react--cull-before-submission.md",
+    "knowledge/game-production/engine-integration/render-submission-economy/techniques/cull-before-submission.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/render-submission-economy.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Registry 761dd76b (applied.md staged as HEAD + this row; a sibling's 8 rows left uncommitted) + 8df65a4a (generated, clean worktree). pof d4a6b603 + 0320375e pushed from an origin/master worktree. First react application in the subject."
+}
