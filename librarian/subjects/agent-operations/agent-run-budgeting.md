@@ -1,8 +1,8 @@
 ---
 domain: agent-operations
 subject: agent-run-budgeting
-last_touched: 2026-09-27
-touched_by: deepen
+last_touched: 2026-10-10
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -153,3 +153,48 @@ commits touching agent-operations are sibling ledger commits for other subjects.
 subject. No banked lead's return condition has an event. dry_streak is unchanged. The
 failure signature is the same one, now reproduced from a second HEAD: the lane scores a
 local checkout without comparing it to origin.
+
+## 2026-10-10 - the seat split nobody recorded (run `ia-abw-1010`)
+
+This was `/intake apply allowance-budgeting-across-workloads`, dispatched by the Curator
+lane on the scan finding "single stack (process)". The dispatch HEAD was e5babec3. The
+primary checkout's main was 13 behind origin, so the run worked from origin/main
+(a452b885) in a detached worktree. No sibling was live on the board.
+
+**Applied (personas, `code`, `better`, pushed).** The technique had no row at all. Its
+seam is the memory benchmark that the 09-27 pass had already used for
+termination-cause-record. Every workload in that benchmark draws on one subscription seat:
+the screen, the consumer, the judge and the design's write path. The run header recorded
+the consumer client's totals, with the screen folded in and cache replays added back as
+draw, plus the design's write cost. The judge's draw and the concurrency were never
+written down. Arm B (4edef99760) records each workload's served draw apart from replays,
+records the concurrency, and prints the split as one line. A new model-free check uses a
+fake CLI with known usage: the seat served 10,152 tokens, A attributed 17,280 and B
+attributed exactly 10,152. Verdicts and the 16 stored reports were byte-identical.
+
+**The falsifying read.** The seam was chosen to test whether scoring is the budget to
+reserve. The judge was replayed offline over the 16 stored runs with no model call. It drew
+at most 0.4% of any run, because it is deterministic-first. The consumer the technique did
+not name, the design's own write path, drew between 0 and 26M recorded tokens per run,
+58-87% on the designs that write. Inline judging held up: it leaves no unscored inventory.
+The finding is a boundary, written into the technique as two appended paragraphs:
+- in a comparison of systems, producing is two workloads, and the system under test's
+  draw varies by arm, so a closing window biases the ladder;
+- record the split from what was served.
+
+No standing sentence was made false.
+
+**Seam hunt.** The new check's verdict hash moved between two runs of the same arm. The
+benchmark's world generator iterated a set of strings in hash order. Four processes gave
+four probe sets for one seed, and none matched the saved published scenario. The fix
+(450dc69fac) is recorded against agent-benchmark-design's comparable-cell-construction in
+`applied.md`.
+
+**Banked lead:** pin a generated fixture by its content hash, not by its seed. A generator
+can depend on a per-process hash seed while its events and facts stay deterministic. This
+is a single observation, and agent-benchmark-design does not state it. Return when a
+second generator in the fleet shows it, or when a deepen pass on that subject takes it up.
+
+The 09-27 banked lead on block-ordered queues gains a measured motive: the write-path
+spread is the reason a window that closes mid-ladder would leave the cells unbalanced. Its
+return condition, a fleet benchmark losing a window mid-queue, has not yet had an event.

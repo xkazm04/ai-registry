@@ -28,6 +28,24 @@ Treat a window as capacity to be allocated, not discovered:
   free, and exhausting the window locks the operator out of their own console.
 - **Slack** — headroom for reruns of refused and truncated cells, which are guaranteed.
 
+**When the queue compares systems, producing is two workloads.** The agent that answers is
+held constant across arms. The system under test also calls models to consolidate,
+extract or write, and that draw is part of the arm, so it varies from arm to arm, by two
+orders of magnitude in one measured harness. A window that closes mid-queue then closes on
+the expensive arm and leaves the cheap ones complete, which biases the comparison. Budget
+that draw per arm, and reserve for the most expensive arm finishing. How large scoring is
+depends on the judge. A judge that tries deterministic checks first and calls a model only
+for replies a pattern cannot read drew under half a percent of each run in that harness,
+so reserving for it cost almost nothing. Scoring is the reservation to make first only
+where every run is judged by a model, or by several.
+
+**Record the split from what the seat served.** A response cache makes a run's token totals
+read as its cold cost rather than its draw. A shared client also folds one workload into
+another, and a judge with its own client may be counted and never written down. Count
+served calls and tokens per workload, keep replays apart, and record the concurrency the
+run drew at. A split the run record does not carry cannot be planned against the next
+window.
+
 ## Inline versus deferred scoring
 
 **Inline** (score each run as it finishes) keeps results fresh, surfaces defects early and
