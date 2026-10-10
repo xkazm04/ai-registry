@@ -1046,9 +1046,9 @@
       "purity": "agent-ops",
       "subjects": 9,
       "techniques": 40,
-      "applications": 29,
-      "files": 82,
-      "contentHash": "sha256-b2:d3b3a66847605042"
+      "applications": 30,
+      "files": 83,
+      "contentHash": "sha256-b2:3137eaf8e79ef825"
     },
     {
       "name": "civic-intelligence",
@@ -1059,9 +1059,9 @@
       "purity": "civic",
       "subjects": 15,
       "techniques": 92,
-      "applications": 35,
-      "files": 147,
-      "contentHash": "sha256-b2:dd1f5c808cbb22e7"
+      "applications": 36,
+      "files": 148,
+      "contentHash": "sha256-b2:8d02fee0ff296eb9"
     },
     {
       "name": "game-production",
