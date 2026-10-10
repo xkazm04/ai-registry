@@ -6,7 +6,7 @@ technique: co-voting-agreement-matrix
 status: forged
 laws: [lead-not-finding, every-cap-ships-its-population]
 shared_with: []
-use_when: [measuring pairwise voting similarity, feeding bloc discovery or clustering, claiming two legislators vote together]
+use_when: [measuring pairwise voting similarity, feeding bloc discovery or clustering, claiming two legislators vote together, ranking a member's most similar voters]
 ---
 
 # Co-voting agreement matrix
@@ -84,6 +84,17 @@ route any interpretive claim — bloc labels, "the real coalition", defection
 narratives — through the layer that is explicitly marked as interpretation
 and reviewed as such. A machine-computed cluster over the matrix is a lead
 for that layer, never a published finding on its own.
+
+**A "most like" list needs the same discipline at its cut.** Where in-group
+agreement sits near its ceiling, most of a member's top rows are their own
+group at the group's median, so the list describes the group rather than
+the pair. Print the member's own-group and other-group medians beside it,
+taken over every pairing rather than the rows shown. Rank on the stored
+integer counts, never on a rate rounded at write time: near the ceiling a
+rounded rate ties densely, and the store's row order then fills the last
+slots. When the last row shown and the first row left out differ by less
+than one shared vote, the cut is a tie and should be disclosed as one. An
+exact ordering is deterministic, but it does not make one partner closer.
 
 ## When not to use it
 
