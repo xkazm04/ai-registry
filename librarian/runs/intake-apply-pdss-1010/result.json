@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-pdss-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-10T19:48:36Z",
+  "ended_at": "2026-10-10T20:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/drawn-gesture-command-recognition",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "drawn-gesture-command-recognition",
+      "technique": "pen-down-stroke-segmentation",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/applications/cpp--pen-down-stroke-segmentation.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/techniques/pen-down-stroke-segmentation.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/drawn-gesture-command-recognition.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Registry dee26874 + de361647 (generated in a clean worktree), not pushed (local main 14/36, republished from the log). mage-arena-vr: row a86c1c6 pushed from an origin/master worktree; local master untouched. Single-stack point unmoved."
+}
