@@ -53,12 +53,25 @@ straight", which on a surface you cannot see is a cost worth paying.
   downstream, not the stroke on the glass.** A shorter stroke makes the pad twitchy for the
   population with the largest thumbs; the response curve changes feel without changing
   reach.
+- **When the player asks for faster steering, the stroke on the glass is still not the knob.**
+  Halving the travel gives the same maximum yaw with half the drag, and halves the resolution
+  near centre. Raise a gain downstream instead, but choose where it sits. Placed in the input
+  mapping, it changes only how fast the thumb reaches full lock. Placed in the vehicle model, it
+  raises what a person-driven car can do, so it is a balance change against every AI car and must
+  be reported as one.
+- **When a downstream gain is keyed to "a person is driving", keep the instruments out of it.**
+  A calibration rig or a scripted test that drives as a person would otherwise move every
+  calibrated result. Mark those cars and exempt them, and remember that a keyboard or pad on
+  another build may take the same human path.
 - **When the player says the car pulls to one side, check whether the pad re-anchors per
   contact before touching a dead zone.** A pad that keeps the previous anchor across lifts
   is absolute with an extra step.
 - **When two touches arrive on the pad, the first owns it and the second is ignored.** A
   second thumb on the pad is not a second steering value; it is a misplaced thumb, and the
-  ownership rule says what to do with it.
+  ownership rule says what to do with it. The refusal is safe only if the pad can never hold a
+  slot whose release it will not hear. Take the slot after capture succeeds, not before. If the
+  pad cannot guarantee that, let a fresh contact take over and re-anchor at zero, as
+  momentary controls do ([ownership technique](./pointer-capture-per-control.md)).
 - **When the layout makes the vertical axis meaningful, anchor it per contact too**, so a
   fresh touch starts at zero on both axes.
 

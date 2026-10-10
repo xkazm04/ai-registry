@@ -42,9 +42,12 @@ the first player to open it with a thumb on a pedal finds a car driving itself.
 6. **Make the link-loss path clear the same things**, and check it for omissions: a
    clearing routine written for the sheet case and a second written for the disconnect
    case drift apart. Prefer calling the first from the second.
-7. **Restore scrolling for the sheet while it is open, and driving's touch policy when it
-   closes**, because the browser intersects policies up the tree and a sheet under a root
-   that blocks panning cannot be scrolled.
+7. **Make the sheet scroll through its own contents' touch policy.** Panning is decided by
+   the elements between the touched one and the nearest scroll container. A sheet that is its
+   own scroll container scrolls under a root that blocks panning. It is blocked by buttons
+   inside it that carry driving's "no browser handling" policy. Give the sheet's contents
+   vertical pan. Switch the root's policy only when the page itself is what scrolls, and
+   restore it when the sheet closes.
 
 ## Decision rules
 
@@ -59,6 +62,14 @@ the first player to open it with a thumb on a pedal finds a car driving itself.
 - **When the sheet can be scrolled, its close control must stay reachable on the shortest
   landscape screen.** A neutralised controller behind an unreachable close button is a
   dead end.
+- **When the receiving side holds the last steering value through a short gap on purpose,
+  the glass still forgets its slots at link loss.** Holding the wheel while propulsion is cut
+  is a defensible choice for the protocol, since a brief hiccup should not straighten the car
+  mid-corner. It does not excuse the glass. When the link returns, the first thing sent is the
+  neutral state, and a thumb that stayed down must press again.
+- **When a sheet "will not scroll", find the element under the finger before changing the
+  root.** The usual cause is a child that blocks panning, and a root-level fix leaves it in
+  place.
 - **When the player returns from a sheet, make driving require a new press.** A status
   line that says to hold go again is the honest message after a clear.
 

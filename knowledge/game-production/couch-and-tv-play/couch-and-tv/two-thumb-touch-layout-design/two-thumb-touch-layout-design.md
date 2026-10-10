@@ -53,7 +53,16 @@ nothing, and the game agrees with them for a long time.
 A related failure is the platform taking a touch away. A system gesture, a notification
 shade, an incoming call or a scroll recogniser can cancel an active touch outright. A
 control must release on cancellation exactly as on lift, and must also release when it
-loses its claim for any reason, because the alternative is a hold with no finger.
+loses its claim for any reason, because the alternative is a hold with no finger. Those
+three notices are one chain, not three safety nets. The lost-claim notice follows a lift or
+a cancellation, so a release that never arrives is not rescued by listening harder on the
+control. What rescues it is the next press. A hold control whose slot is still full when its
+own target is pressed again lets the new touch **take over**, trading a rare early release
+for what would otherwise be a dead control. On some phones an operating-system gesture for
+three fingers can disrupt every touch for a moment, and the page cannot switch it off. A layout whose
+core driving needs a third simultaneous contact runs into that gesture. Requests that need
+the player's permission gesture, such as fullscreen or an orientation lock, belong on a
+release. For touch input, a press does not count as one.
 
 ## Steering is a relationship, not a place
 
@@ -72,7 +81,14 @@ The travel that maps to full lock is a physical distance in the thumb's own unit
 fraction of whatever pad size the layout happened to use: the same thumb on a larger phone
 should not need a longer stroke. And it is one authored value consumed once, downstream,
 with dead zone, response curve and slew applied in a single place, never re-derived on the
-glass ([one-authority-per-quantity](../../../_laws.md#one-authority-per-quantity)).
+glass ([one-authority-per-quantity](../../../_laws.md#one-authority-per-quantity)). A request
+for faster steering is answered downstream too, and where the gain sits matters. In the input
+mapping it changes how quickly the thumb reaches full lock. In the vehicle model it changes
+what the car can do, which makes it a balance decision. A published comparison of
+on-screen controls for a phone driving a remote screen backs the relative pad on a narrower
+ground than comfort. Fixed controls invited the thumb to drift while the eyes were on the
+screen, a floating stick reduced glances at the phone, and performance was similar (Baldauf et
+al., 2015, ACM TOMM).
 
 ## Three layouts, because the real question is which thumb gives up what
 
@@ -95,7 +111,12 @@ In the **split** family the throttle moves onto the steering pad as its vertical
 frees the other thumb for weapons and brake. One thumb carries two quantities, which is a
 real gain and a real risk: a thumb at rest on the pad can produce acceleration by accident.
 The mitigation is that a fresh touch starts at zero throttle, so the player must make an
-upward drag on purpose to accelerate.
+upward drag on purpose to accelerate. The family has a fuller form in which the downward
+drag is brake. The steering thumb then carries all three continuous quantities, and the
+other thumb is left with the momentary ones: fire, secondary, swap and handbrake. Go and
+brake become exclusive by geometry, and lifting is the only escape. A hard steer can sag
+into brake as easily as into go. No shipped convention backs the fuller form. It is a
+legitimate experiment, and an unmeasured one.
 
 These are **alternatives given to the owner as experiments**, and that wording is the
 design. Nothing about thumb reach, fatigue or comfort is known until a hand has held a
@@ -127,13 +148,17 @@ sheet over the controls, changing layout, changing handedness, a wrecked car, a 
 connection change. A new event that places a surface over the controls adds itself to the
 list or it leaks a held input.
 
-One browser fact deserves its own sentence because it fails silently: the browser applies
-the *intersection* of touch policies up the tree. A driving surface that disables browser
-panning on its root cannot be partly re-enabled on a scrollable sheet child; the sheet
-scrolls only if the policy is changed on the ancestors while the sheet is open, and restored
-when it closes. A sheet that cannot be scrolled on a short landscape screen is a sheet whose
-close button may be unreachable, and the player is then stuck in a menu with the controls
-neutralised.
+One browser fact deserves its own paragraph because it is easy to misdiagnose. Whether a drag
+pans is decided by the touch policy of every element between the one under the finger and
+the nearest scroll container. Nothing above that container counts. Zoom is the exception,
+and its chain runs to the root. A sheet that is its own scroll container therefore scrolls
+under a driving surface that disables panning on its root. What stops it is the sheet's
+contents. A driving page that turns off browser handling on every button has turned it off
+on the buttons inside the sheet too, and a drag that starts on one of them does not scroll,
+whatever the root says. Give the sheet's contents a vertical-pan policy, and switching the
+root is then unnecessary. A sheet that cannot be scrolled on a short landscape screen is a
+sheet whose close button may be unreachable, and the player is then stuck in a menu with
+the controls neutralised.
 
 ## Failure modes of the naive reading
 
@@ -146,6 +171,8 @@ neutralised.
   by the person who plays; a single layout turns a guess into a policy.
 - **Mirroring as a skin.** A left-handed mode that changes only positions has changed the
   look and left the semantics half-mirrored.
+- **Refusing a fresh press on a held control.** One lost release becomes a control that is
+  dead until something clears every slot.
 - **Neutralising on some events and not others.** The list of events is the safety property;
   the one omitted event is the one the player finds.
 - **Counting a simulated touch as a felt one.** An emulated multi-touch client proves the
@@ -157,7 +184,7 @@ neutralised.
 
 1. **Fix the control inventory** and say which quantities are continuous and which are holds.
 2. **Give every control one owner** that claims a touch at first contact and releases it on
-   lift, cancellation or loss of claim.
+   lift, cancellation or loss of claim. A fresh press on a held hold-control takes it over.
 3. **Make steering relative**, with travel in physical units, anchored per contact and
    zeroed per lift.
 4. **Author the layouts as data**, each with a stable name, and state for each claim whether
