@@ -66,6 +66,12 @@ shadow at the screen edge has passed the structural rung only
   ([every-effect-on-the-rules-is-visible](../../../_laws.md#every-effect-on-the-rules-is-visible)).
 - **When the margin is smaller than the largest bound, the cull is wrong for that class.** Raise
   the margin or give the class its own bound; do not tune it by watching for pops.
+- **When the frame is baked wider than the screen so a pan can reuse it, the margin is not slack.**
+  The band outside the stage is on screen during every pan until the next bake. A bound that only a
+  wide margin rescues therefore looks right at rest and pops in that band, and raising the margin
+  moves the band without closing it. Give the class its true bound instead. For a curve that is its
+  own box (both ends plus the turning point on each axis), not the box of its ends. The box of its
+  control points holds too, but it draws more than it needs as the view narrows.
 - **When the camera can move far in one frame, recompute bounds after the move.** A stale bound
   is a frame of missing objects at every cut.
 - **When the engine or a lower layer already culls, do not cull twice.** Measure what the lower
