@@ -542,3 +542,40 @@ Source-class notes:
 - **A project's calibration notes are field evidence with their own blind spots.** D3's +38-49%
   merged two corrections. Only an ablation separated the reference yaw (most of it) from the
   neutral target.
+
+## 2026-10-10 - deepen two-thumb-touch-layout-design (dp-ttl-1010)
+
+A single subject, ranked by single stack (node). The rank was real, and the subject had moved under
+it. Five days after the forge (2026-10-01), Death Ride shipped a "multitouch hardening" commit and a
+fourth layout (`898f4928`). It then reversed a stroke change within the hour (`af448554`). 16 of the
+node application's 27 quotes had moved or gone by `d9990777`.
+
+No new technique was earned. Rules flipped or conditioned:
+- a fresh press on a held hold-button takes the slot over (field and training lane; simulation
+  better);
+- the three release events are one chain per the spec, not three nets;
+- fullscreen and orientation lock belong on a release, because a touch press grants no activation;
+- the pad's downward drag may be brake (the full form, now the project's default, unmeasured);
+- touch-action is decided up to the nearest scroll container, so a sheet's own blocking children
+  stop it, not the root (spec text plus a seven-variant Chrome run; the old rule mispredicted 4 of 5);
+- a faster-steering request is a downstream gain kept off the calibration rig, and where it sits
+  decides whether it is a balance change.
+
+Widened with one kotlin application. The stroke was halved on the glass, then reverted, and the gain
+was moved into the model with lab cars exempt. The node application was re-anchored (33 of 33).
+
+Applied: 1 better (simulation), 1 better (experiment), 2 unmeasurable (code, physical phone), on
+firetv (unregistered). Impact: 0 contexts.
+
+The registry was read back into the project again. The subject's "release on three events" and
+"relative anchor" rules held in the rewrite. The project's own pitfall entry on touch-action carries
+the misdiagnosis this run corrected.
+
+Source-class notes:
+- **Specs fetched raw and grepped beat any summary.** Pointer Events and the HTML activation list
+  settled two claims in one read each, and a blind training-data lane had already flagged the
+  touch-action one.
+- **A project's pitfall log records a diagnosis, not a mechanism.** In the variant run its recorded
+  fix changed nothing, and only a run with controls could show that.
+- **A small study is the right weight for a narrow claim.** A phone-as-controller study backs
+  the relative pad on fewer glances, not on performance. It entered the golden path at that weight.
