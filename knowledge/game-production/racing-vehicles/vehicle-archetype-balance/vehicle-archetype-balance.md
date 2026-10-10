@@ -44,7 +44,11 @@ designer can predict what a change does and a reviewer can read a roster as a ta
 Handling in particular is two separable physical things — how much steering lock the
 vehicle has at speed, and how quickly yaw follows the input — and one rating may drive
 both, which is why the mapping is parameter-to-rating and not rating-to-parameter. Several
-parameters can hang from one stat; no parameter hangs from two.
+parameters can hang from one stat; no parameter hangs from two. Two conditions apply. Linearity
+is a choice: a shipped kart racer uses one lookup curve per stat to make stacking a stat
+yield less near the top. And once the movement step models geometry, a stat's value can be
+multiplied in the step by another stat or by per-vehicle shape data. The rule must then hold
+for the *effective* quantity the step integrates, not only for the table.
 
 The failure of the naive reading is a rating that is only a label. A bar on a screen that
 nothing consumes is a declared input with no reader
@@ -73,6 +77,15 @@ roughly equal race outcome. That prediction is approximate. The weights are a fi
 has residuals, and the residuals belong in the published record next to the weights
 (weights-fit-to-sim-with-published-residuals). A rating treated as an equivalence is a lie
 a player will discover on the first course where the equivalence does not hold.
+
+The fit is also bound to the rules it ran on. Replace the movement step and the weights are
+stale even if no vehicle's stats moved. The budget check keeps passing, because it reads the
+same stale weights. Only a fresh residual table shows what changed. A stat the simulation
+never exercised has a weight the data cannot identify, so it gets no price at all. A small
+weight and a large one are equally arbitrary. Field rating systems show the drift at scale:
+whole-table recalculations, and exploits through one under-priced part. A project whose
+physics outran its fit can honestly downgrade the rating to a planning index, provided the
+race-outcome acceptance carries the verdict.
 
 ## Equal cost, different shape: the identity pair
 
@@ -129,6 +142,21 @@ is a change to a vehicle's authored stats followed by a rerun of the full sweep 
 rerun is mandatory, because a one-point correction that cures one gate can overshoot into
 the opposite failure.
 
+Four conditions bound what a passing share means.
+- **A share is not a margin.** With scripted equal drivers, the faster class on a course wins
+  nearly every race there. The mixed share then sits near the course weight each class owns,
+  and the gate reads only leakage onto the partner's courses. Publish per-course time gaps
+  beside it.
+- **The course choice.** When a player picks the vehicle with the course in view, the mixture
+  no longer describes the decision. Gate per course type too, as motorsport balancing does by
+  circuit type, but with a ceiling on the lead, not a parity window, because the roster is
+  meant to differ per course.
+- **Driver skill.** A share at one driver skill is one bracket's verdict. Run the gate at two
+  or more and fail on any.
+- **The ruleset.** The verdict belongs to the rules the harness ran. In the source, the same
+  tier failed on movement alone and passed with combat on. The acceptance harness must run the
+  shipping rules, and a rule change reopens acceptance.
+
 ## Four invariants keep skill above power
 
 The rating budget is about *power*. Whether the game rewards driving is a separate question,
@@ -178,6 +206,9 @@ A rating that is a pretty number nobody computes twice. A budget enforced only o
 rating, so every vehicle is average. A weakness that is cosmetic: the "weak" stat is one the
 course set never punishes. A dominance check whose threshold the grid composition makes
 unreachable. A course mix nobody wrote down, so the result changes when a track is added.
-A fit weight that is near zero for a stat the simulation does not exercise — which prices
-that stat at nothing and lets one class collect it free. Each is a defect in the instrument,
-not in the roster, and each looks like a pass.
+A fit weight for a stat the simulation does not exercise, read as a price. Near zero, it lets
+one class collect the stat free. Anywhere else, it is a correlation. A rating calibrated on a
+movement step the game has since replaced, still passing its budget check. A mixed winner
+share near fifty percent read as "close" when every course is a rout. A movement-only harness
+still gating a game that now has combat. Each is a defect in the instrument, not in the
+roster, and each looks like a pass.

@@ -44,14 +44,35 @@ classes, and neither covers any mechanic the simulation did not exercise.
 ## What the fit cannot see
 
 A fit is only over the mechanics the simulation exercises. If the harness runs movement and no
-combat, armour does nothing in it, so the best-fitting armour weight is near zero. The rating
-then prices armour at nothing, a heavy class can collect it free, and the identity pair "armour
-high" is satisfied without a cost. The weight is not wrong for the data; the data is silent.
-The rule is to report any near-zero weight together with the mechanics the simulation did not
-include, and to treat the rating as *not calibrated* for those mechanics until a run that
+combat, armour does nothing in it, and the data says nothing about what armour is worth. The
+rating can then price armour at nothing, a heavy class can collect it free, and the identity
+pair "armour high" is satisfied without a cost. Braking is the other usual casualty on a course
+set with no demanding braking zones.
+
+**A silent stat's weight is unidentified, not zero.** The first version of this technique said
+the best-fitting weight of an unexercised stat is near zero, and told the reader to look for
+near-zero weights. The source's own refit showed that is not the signature. A roster of ten
+vehicles fitted for eight weights leaves the silent stats free, and they land wherever the
+exercised stats they correlate with push them. The original fit put armour and braking at its
+lower bound (0.1). Nine days later a refit used the same bounds and movement-only data from the
+replaced physics. It put armour at about 2.3, although armour still did nothing in that run. Neither
+number is a measurement: one is a constraint bound and the other is a correlation. The rule is
+to list every stat the simulation did not exercise and to mark its weight **unidentified**,
+whatever its value. Treat the rating as *not calibrated* for those mechanics until a run that
 exercises them is fitted
-([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)). Braking is the
-other usual casualty on a course set with no demanding braking zones.
+([unmeasured-is-not-a-pass](../../../_laws.md#unmeasured-is-not-a-pass)). A weight sitting
+exactly on a bound is a property of the fitter, and the report says so.
+
+**The fit is bound to the ruleset it ran, not to the stats.** The weights describe how stats
+turned into race outcomes under one movement model. Change that model and the weights are stale
+even if no vehicle's stats moved. In the source, the movement step was replaced by a two-axle
+solver within hours of the fit. Nobody refit. Eight vehicles whose stats never changed moved
+their residuals, and one two-vehicle tier flipped: its pair now finished level while its
+ratings sat six percent apart, at the edge of the tolerance. The budget check still passed
+every vehicle. Only the residual table could see it. A refit on the new physics with the same
+constraints cut the fit error by more than two thirds. Commercial rating systems show the same
+thing at scale: a long-running console series recalculated its whole rating table twice in two
+years.
 
 ## Decision rules
 
@@ -64,8 +85,16 @@ other usual casualty on a course set with no demanding braking zones.
   tolerance on a rating whose fit error is six is a tolerance that cannot be enforced
   physically.
 - When parts or upgrades change the mix of stats, refit; a fit made at stock settings does not
-  transfer.
+  transfer. Include the extreme parts in the fitting sample: the published exploits of rating
+  systems run through one under-priced part. A tyre that cost little rating and still gave
+  enough lateral grip is one example. The fix the vendor shipped kept the part's price and
+  changed its physics.
 - When the course mix changes, refit. The weights embody the mix.
+- When the movement step changes, refit, even if no stat changed. Stamp the weights with the
+  ruleset they were fitted on (a commit, a model name), so that a solver swap fails a check
+  instead of leaving the old calibration standing.
+- When the fitter lands a weight on a bound, report it as on the bound. Do not read it as the
+  stat's price.
 
 ## Why not simply set weights equal
 
@@ -78,7 +107,9 @@ the price.
 ## When not to use it
 
 When there are too few classes to constrain the fit — fewer vehicles than weights — the
-solution is underdetermined and any residual table is a fiction. When the simulation is not the
+solution is underdetermined and any residual table is a fiction. A margin of two or three
+vehicles over the weight count is not much better. The residuals of the exercised stats can be
+read, but the silent stats' weights cannot. When the simulation is not the
 shipping ruleset, the fit calibrates a different game; fix the harness first. And when the
 rating is only a display, with no gate depending on it, spend the effort on the acceptance
 check instead.

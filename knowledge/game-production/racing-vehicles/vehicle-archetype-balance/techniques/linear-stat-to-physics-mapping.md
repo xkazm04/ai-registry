@@ -40,6 +40,14 @@ steering limit, a drag term) where it applies to every vehicle identically, and 
 mapping linear. The mapping answers "what does this vehicle have"; the rules answer "what does
 the world do with it".
 
+Linearity is a choice and not the field's norm. A best-selling kart racer converts stat points
+through one lookup table per stat. Its datamined tables show speed rising by an equal step per
+level, while handling's step shrinks twice toward the top of the scale and mass jumps at one
+level. That design buys diminishing returns, so stacking one stat to the ceiling is less
+attractive. It costs the reviewer's ability to predict a one-point diff. If you need that
+trade, keep it in the one table: a per-stat curve that is monotonic, published and read by the
+same derive call. Never use a per-vehicle exception.
+
 ## Procedure
 
 1. List the physical parameters the step consumes. Anything the step reads that is not in the
@@ -74,6 +82,14 @@ the world do with it".
   and the ladder stays one authority.
 - When a designer asks for a bespoke value for one vehicle, the answer is a stat change or a
   new row, never an override. An override is a second model.
+- When the movement step grows geometry (axles, wheelbase, a load-sensitive grip term), the
+  rule "no parameter hangs from two stats" can hold in the table and fail in the step. The step
+  multiplies a stat's derived value by per-vehicle shape data, or by another stat's value. In
+  the source, the grip limit became the grip stat times a power of the mass stat. Steering and
+  yaw response were scaled by each class's wheelbase and inertia, from shape tables no stat
+  drives and the rating never reads. Audit the *effective* quantity the step integrates, not
+  the table's column. For each per-vehicle input either drive it from a stat or list it in the
+  rating's report as unpriced. A shape table is a hidden stat with a different file name.
 
 ## Common failures
 
@@ -88,6 +104,8 @@ rating and the physics disagree about what a point is.
 When the physical parameters are produced by a real physics model with its own vehicle
 description, the stat layer is a UI. The technique fits arcade handling where the author owns
 the parameters; in a simulation-grade model the author edits mass, centre of gravity and
-tyre curves, and a linear stat is a lossy summary. Also do not use it for a roster of a
+tyre curves, and a linear stat is a lossy summary. An arcade step that has moved partway there,
+to a two-axle solver with per-vehicle geometry, is in between. Keep the table, and own the
+geometry explicitly under the decision rule above. Also do not use it for a roster of a
 handful of one-off vehicles that will never be compared: the table earns its keep only where
 vehicles are weighed against each other.

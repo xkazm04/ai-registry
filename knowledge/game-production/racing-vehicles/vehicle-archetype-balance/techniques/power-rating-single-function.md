@@ -57,7 +57,10 @@ A published rating system in a well-known racing series computes its index by si
 lap of a test track built to be an average of the game's tracks, then buckets cars into classes
 by index. That is an *outcome* rating: it answers "how fast" and nothing about how. It is
 excellent for matchmaking and nearly silent about shape; two cars with the same index can win
-on opposite courses. A weighted sum of physical quantities is the opposite trade: transparent
+on opposite courses. The vendor's own help text says so: the index is one lap time on a virtual
+track and does not guarantee performance on every route or surface. Ratings of either kind get
+exploited through the part they under-price. When the competitive stakes rose, one title in
+that series dropped the open rating for spec cars with per-car balancing. A weighted sum of physical quantities is the opposite trade: transparent
 and predictable for an author, approximate as a predictor. This subject takes the transparent
 side for authoring and attaches the outcome side as an acceptance check (the winner-share
 technique) and a calibration (the fit technique). Neither alone is enough: an outcome-only
@@ -78,11 +81,21 @@ rating cannot be authored toward, and a weights-only rating cannot be trusted.
 - When two systems need a rating and one needs it faster, cache the function's result; do not
   write a cheaper formula. Why: a legacy formula is a second authority, and a simplified model
   may inform but must not produce a verdict.
-- When a parameter's weight is near zero, report it. A near-zero weight prices a stat at
-  nothing, and a class can then stack that stat free — see the fit technique.
+- When a parameter's weight was fitted on a simulation that never exercised it, report it as
+  unidentified, whatever its value. A near-zero weight prices a stat at nothing and lets a
+  class stack it free. A large one charges for something the race never paid out. Both are
+  invisible if the report only flags small weights. See the fit technique.
 - When a vehicle sits at the tolerance edge, treat that as a calibration finding about the
   weights before treating it as a stat error.
 - When a new stat or part adds a parameter, add its row and refit in the same change.
+- When the movement step changes, the rating is stale even if no stat moved. Recalibrate it
+  or relabel it. A project whose step outran its fit honestly downgraded its rating to "a
+  planning index, not a guarantee of equal lap strength". That is a legitimate end state,
+  provided the acceptance check carries the verdict.
+- When a tool outside the game recomputes the rating (an audit script, a spreadsheet), it is a
+  second authority even while it agrees. Make it call the function or read its output. A
+  recompute that omits a term which is zero today will start disagreeing silently on the day
+  that term is first set.
 
 ## When not to use it
 
