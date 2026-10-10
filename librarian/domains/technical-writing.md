@@ -18,8 +18,9 @@ the bundle (dp-as-1010). No librarian sweep has run yet.
 | article-structure | L2 primary + L3 field measurement (n = 10 posts) | 2026-10-10 | 1 correction, 2 conditions, 2 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 | depth-and-audience | L2 primary + L3 field measurement (n = 10 posts) | 2026-10-10 | 2 citation corrections, 6 conditions, 2 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 | evidence-and-sources | L2 primary (meta-analyses) + L3 field measurement (n = 45 numbers in 10 posts, 11 commits) | 2026-10-10 | 1 correction, 10 conditions, 3 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
+| figures-and-tables | L2 primary (perception and accessibility studies) + L3 field measurement (n = 10 posts, 117 paragraphs; 9 card routes; guide renderer) | 2026-10-10 | 4 corrections, 9 conditions, 3 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 
-The other three subjects have not had a deepen pass.
+The other two subjects have not had a deepen pass.
 
 ## Source-class memory
 
@@ -45,6 +46,13 @@ From one pass, so these are tallies, not rules:
   over comparable snapshots), so the full text was read before the figure landed.
 - The blind lane again named the web lane's primary studies with no priors (nine of them).
   Three passes now, all in one domain, so still a tally.
+- Fourth pass (dp-fat-1010): OpenAlex abstracts, arXiv PDF text, PLOS XML and W3C HTML
+  carried verbatim text for every study landed. ACM, SAGE and Taylor and Francis returned
+  403, and the table-guidelines paper is closed access, so its guideline titles stayed
+  summary-only and were declined. OpenAlex metadata caught a wrong first name in a drafted
+  citation.
+- The blind lane again named the web lane's primary studies with no priors. Four passes
+  now, all in one domain, so still a tally.
 
 ## Field witnesses
 
@@ -52,3 +60,6 @@ From one pass, so these are tallies, not rules:
   the bundle's first non-`process` witness. Typed read times there are a live seam. Its
   renderer cannot link, and its 45 body numbers carry no source: the evidence seam is live
   too, and its git history (an unsourced figure cut on 2026-09-14) is itself evidence.
+- The same site's blog renderer draws no image, table or code block, and its guide renderer
+  draws tables without alignment or a caption slot. Both are live seams for
+  figures-and-tables, and the guide's parser carries a defect recorded in that subject's note.
