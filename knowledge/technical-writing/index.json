@@ -5,7 +5,7 @@
   "source": "knowledge/technical-writing/ (frontmatter only)",
   "subjects": 6,
   "techniques": 29,
-  "applications": 22,
+  "applications": 26,
   "laws": 9,
   "categories": [
    "composition",
@@ -567,9 +567,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/technical-writing/prose/voice-and-register/voice-and-register.md",
-   "digest": "sha256-b2:8f4e0fccda5412e1",
-   "revision": 2,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:6dff038921dd5acc",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "house-style-consistency",
@@ -627,10 +627,38 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "house-style-consistency",
+     "file": "knowledge/technical-writing/prose/voice-and-register/applications/next--house-style-consistency--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "impersonal-results-reporting",
+     "file": "knowledge/technical-writing/prose/voice-and-register/applications/next--impersonal-results-reporting--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "machine-prose-tell-removal",
+     "file": "knowledge/technical-writing/prose/voice-and-register/applications/next--machine-prose-tell-removal--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "sentence-rhythm-and-stress",
+     "file": "knowledge/technical-writing/prose/voice-and-register/applications/next--sentence-rhythm-and-stress--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "process",
      "technique": "impersonal-results-reporting",
      "file": "knowledge/technical-writing/prose/voice-and-register/applications/process--impersonal-results-reporting.md",
-     "verified_on": "2026-10-05"
+     "verified_on": "2026-10-10"
     }
    ]
   }
