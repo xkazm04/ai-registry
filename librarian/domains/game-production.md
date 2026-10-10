@@ -439,3 +439,40 @@ Source-class notes:
 - **A measured asset set is a ground truth for text rules.** Fourteen clips with silence
   intervals were enough to fit and test a pricing rule. They were not enough to separate two
   screens with one positive between them.
+
+## 2026-10-10 - deepen steering-feel-profile-shaping (dp-sfp-1010)
+
+A single subject, ranked by single stack (process). The rank was real. Three kotlin applications
+now read Death Ride's feel pipeline at firetv `deathride/main` `d9990777`, with 22 anchors held.
+The two `process` applications were re-anchored at the same tree (39 of 39 hold).
+
+The headline is measured, not read. The game's profile bands are asserted on a bare default spec,
+which takes the single-body handling branch. Every catalogue car has driven the axle model since
+2026-10-01. Through the catalogue factory, the same fixture puts 60 of 150 traces out of band
+while the game's test passes. Pinned speed spins the axle model at full lock (70 of 150 traces
+over 45 degrees), so the step fixture stops measuring a turn there. Separately, 88 paired runs
+of the slew direction rule cut input lag every time and vehicle settle in about half, slower in 8.
+
+No new technique. Conditions landed in five techniques and the golden path:
+- build the trace fixture through the shipped factory and assert the branch;
+- pin speed only below the spin point;
+- the brake floor keys on the sign crossing when the model can spin;
+- the twofold slew return is an engine-sample default, not a survey of shipped titles;
+- the magnitude rule wins at the input and is a likely, not free, win at the vehicle;
+- a platform dead zone is a noise floor, and "around a tenth" had no source;
+- engines ramp the throttle fall, so the cliff is a touch-and-network choice.
+
+The fixture-path trap was reached by the experiment and the training lane independently.
+
+Applied: 2 better (experiment), 2 unapplied, on firetv (unregistered). Impact: 0 contexts.
+
+Source-class notes:
+- **Engine samples are where "typical" defaults come from.** The 2x return ratio traced to one
+  vendor vehicle sample, which other engines appear to inherit. That is a lineage, not a survey.
+  Shipped titles' options were reachable only through forums and search summaries, and none
+  named in technique text.
+- **Platform input docs are primary and fetchable.** The XInput page states the dead-zone,
+  scale and non-linear order in its own words. It is a better citation than any gamepad article.
+- **A game's own test can certify the wrong model.** Read which branch the fixture constructs
+  before citing a band as evidence. Here the source reading alone would have reported the bands
+  confirmed.
