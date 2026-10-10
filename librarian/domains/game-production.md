@@ -506,3 +506,39 @@ Source-class notes:
 - **A project's own writing report is rich field evidence, and it marks its own limits.** The
   writer's report listed its scratch-only lint, same-family judges and a generous test. Each
   admission was a measurable lead.
+
+## 2026-10-10 - deepen top-down-vehicle-handling-model (dp-tdv-1010)
+
+A single subject, ranked by single stack (process). The rank was real. The subject was forged at
+12:17 on 2026-10-01, and that same afternoon Death Ride read it and moved every roster car to a
+two-axle solver. Two kotlin applications now read the shipped solver at `d9990777`. Both rest on
+scratch-worktree ablations, and nothing was committed to the game.
+
+No new technique was earned. Three lanes converged on two points: two axles are the arcade floor
+for which-end-lets-go behaviour, and steady body slip on two axles is not zero. Both landed as
+conditions on the golden path and on `slip-restoring-yaw-stability`. The friction circle
+converged on mechanism and was declined on its ablation (+0.7 deg).
+
+Conditions landed:
+- restore toward a neutral slip from a reference yaw (raw 26.3% off the point model, shipped
+  13.6%, closer in 36/50; the neutral target alone is the smaller part);
+- fade the restoring term before a spin; a blended servo is not double counting;
+- load transfer is a small lever, so ablate before promising trail-braking (under a degree of a
+  ten-degree rise; no power-oversteer in any arm);
+- prefer edge sampling for kerb and verge while the roster's widths change;
+- new failure mode, the silent model swap;
+- a second one-authority incident (surface loss applied twice on the axle model).
+
+Applied: 1 better and 1 not-better (experiment), plus 1 better (code, measured by the project), on
+firetv (unregistered). Impact: 0 contexts.
+
+The registry was read back into the project. Both deviations the process applications recorded
+were adopted within the day: the hysteresis band witness and the reachable verge. V1's design note
+opens by reproducing "the forge finding".
+
+Source-class notes:
+- **The canonical game-physics tutorial is primary and fetchable as text.** Grep it rather than
+  trusting a summary: two fetch summaries of it disagreed on whether it mentions handbrakes.
+- **A project's calibration notes are field evidence with their own blind spots.** D3's +38-49%
+  merged two corrections. Only an ablation separated the reference yaw (most of it) from the
+  neutral target.
