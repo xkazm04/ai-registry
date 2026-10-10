@@ -1,0 +1,103 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-var-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "technical-writing",
+  "started_at": "2026-10-10T09:40:00Z",
+  "ended_at": "2026-10-10T10:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "technical-writing/voice-and-register",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "voice-and-register",
+      "technique": "impersonal-results-reporting",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "voice-and-register",
+      "technique": "sentence-rhythm-and-stress",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "voice-and-register",
+      "technique": "machine-prose-tell-removal",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "voice-and-register",
+      "technique": "house-style-consistency",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/technical-writing/prose/voice-and-register/voice-and-register.md",
+    "knowledge/technical-writing/prose/voice-and-register/techniques/impersonal-results-reporting.md",
+    "knowledge/technical-writing/prose/voice-and-register/techniques/sentence-rhythm-and-stress.md",
+    "knowledge/technical-writing/prose/voice-and-register/techniques/machine-prose-tell-removal.md",
+    "knowledge/technical-writing/prose/voice-and-register/techniques/house-style-consistency.md",
+    "knowledge/technical-writing/prose/voice-and-register/applications/process--impersonal-results-reporting.md",
+    "knowledge/technical-writing/prose/voice-and-register/applications/next--impersonal-results-reporting--personas-web.md",
+    "knowledge/technical-writing/prose/voice-and-register/applications/next--sentence-rhythm-and-stress--personas-web.md",
+    "knowledge/technical-writing/prose/voice-and-register/applications/next--machine-prose-tell-removal--personas-web.md",
+    "knowledge/technical-writing/prose/voice-and-register/applications/next--house-style-consistency--personas-web.md",
+    "knowledge/technical-writing/index.json",
+    "rules/ai-registry-technical-writing.md",
+    "catalog.json",
+    "librarian/subjects/technical-writing/voice-and-register.md",
+    "librarian/applied.md",
+    "librarian/domains/technical-writing.md"
+  ],
+  "commits": [
+    {
+      "sha": "9d07594b",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/technical-writing/prose/voice-and-register"
+      ]
+    },
+    {
+      "sha": "52ba3b29",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/technical-writing/index.json",
+        "rules/ai-registry-technical-writing.md"
+      ]
+    },
+    {
+      "sha": "8311191c",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/technical-writing.md",
+        "librarian/subjects/technical-writing/voice-and-register.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Stress position an essay, given-new not general; passive not the defect; participial 2-5x, no tell ranking; detector error per tool; Poynter attribution fixed. 8 pronoun hits, 2 real. 4 next apps, 31 anchors held. Impact 0. Gate green in worktree but coverage-age (unrelated)."
+}
