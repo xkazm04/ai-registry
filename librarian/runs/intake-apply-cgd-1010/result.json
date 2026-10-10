@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-cgd-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-10T20:30:00Z",
+  "ended_at": "2026-10-10T21:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/hand-tracked-timing-windows",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": 2,
+      "points_after": 2
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "game-production/hand-tracked-timing-windows",
+      "technique": "confidence-gated-detection",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/applications/cpp--confidence-gated-detection.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/techniques/confidence-gated-detection.md",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/hand-tracked-timing-windows.md",
+    "knowledge/game-production/index.json",
+    "catalog.json",
+    "rules/ai-registry-game-production.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md",
+    "librarian/runs/intake-apply-cgd-1010/result.json"
+  ],
+  "commits": [
+    {
+      "sha": "dc5c20cb",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/applications/cpp--confidence-gated-detection.md",
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/techniques/confidence-gated-detection.md",
+        "librarian/applied.md",
+        "librarian/subjects/game-production/hand-tracked-timing-windows.md"
+      ]
+    },
+    {
+      "sha": "26a16720",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. mage-arena-vr experiment not-better: raise-only gate zeroed sub-floor rewards, phantoms unmoved; onset hold cut them to 0.2-0.5%, but live window opens at the raise event, so deferral cost 3.9-13.4% guard. Row 6aa7a57 pushed. Gate stops at check-coverage-age."
+}
