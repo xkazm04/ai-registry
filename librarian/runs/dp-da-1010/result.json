@@ -1,0 +1,98 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-da-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "technical-writing",
+  "started_at": "2026-10-10T07:20:00Z",
+  "ended_at": "2026-10-10T08:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "technical-writing/depth-and-audience",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "depth-and-audience",
+      "technique": "term-in-a-clause",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "depth-and-audience",
+      "technique": "four-layer-depth",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "depth-and-audience",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "depth-and-audience",
+      "technique": "four-layer-depth",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/technical-writing/composition/depth-and-audience/depth-and-audience.md",
+    "knowledge/technical-writing/composition/depth-and-audience/techniques/term-in-a-clause.md",
+    "knowledge/technical-writing/composition/depth-and-audience/techniques/four-layer-depth.md",
+    "knowledge/technical-writing/composition/depth-and-audience/applications/next--term-in-a-clause--personas-web.md",
+    "knowledge/technical-writing/composition/depth-and-audience/applications/next--four-layer-depth--personas-web.md",
+    "knowledge/technical-writing/index.json",
+    "rules/ai-registry-technical-writing.md",
+    "catalog.json",
+    "librarian/subjects/technical-writing/depth-and-audience.md",
+    "librarian/applied.md",
+    "librarian/domains/technical-writing.md"
+  ],
+  "commits": [
+    {
+      "sha": "bb2335d7",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/technical-writing/composition/depth-and-audience"
+      ]
+    },
+    {
+      "sha": "241d1d29",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/technical-writing/index.json",
+        "rules/ai-registry-technical-writing.md"
+      ]
+    },
+    {
+      "sha": "fb4a4543",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/technical-writing.md",
+        "librarian/subjects/technical-writing/depth-and-audience.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Plain word before clause (Shulman 2020, defs did not restore fluency); one primary reader; tutorials keep limits; coda is not the rung. Graham rescoped. 2 next apps, 19 anchors held. Impact 0. Gate: coverage-age red, pre-existing."
+}
