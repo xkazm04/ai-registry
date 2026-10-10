@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 536,
-  "applications": 284,
+  "applications": 287,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -10279,9 +10279,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/vehicle-archetype-balance.md",
-   "digest": "sha256-b2:ac4ce5ffc63b7270",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:1e08d143bfc1401c",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "identity-pair-via-authored-band",
@@ -10373,6 +10373,27 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "linear-stat-to-physics-mapping",
+     "file": "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/applications/kotlin--linear-stat-to-physics-mapping.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "weights-fit-to-sim-with-published-residuals",
+     "file": "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/applications/kotlin--weights-fit-to-sim-with-published-residuals.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "winner-share-over-declared-course-mix",
+     "file": "knowledge/game-production/racing-vehicles/vehicle-archetype-balance/applications/kotlin--winner-share-over-declared-course-mix.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
     {
      "stack": "process",
      "technique": "power-rating-single-function",
