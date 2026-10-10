@@ -68,7 +68,15 @@ Decision rules:
   independently verified identifier to establish the entity.
 - **When one register entity accumulates links from many unrelated persons
   through the same source field, treat the entity as a junk-name attractor**
-  and quarantine the whole cluster for review.
+  and quarantine the whole cluster for review. Count distinct persons, not
+  edges, and resolve the whole population before writing any of it. One
+  person at a time never shows the cluster. Set the threshold above the
+  population's legitimate maximum, measured: people from one region or one
+  sector do share boards. Do not use "the register could not confirm the
+  officer" as a second signal. Public bodies outside the commercial register
+  fail that check while being legitimate. The rule catches junk labels only.
+  A namesake that draws two or three people stays below any threshold that
+  spares real boards, and needs the person-side gate below.
 - **When purging false edges, select by the recorded defect annotation, not
   by destination**, and print loudly anything at the destination that the
   gate excluded.

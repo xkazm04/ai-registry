@@ -1,8 +1,8 @@
 ---
 domain: civic-intelligence
 subject: beneficial-ownership-resolution
-last_touched: 2026-09-09
-touched_by: architecture-review
+last_touched: 2026-10-10
+touched_by: intake-apply
 dry_streak: 0
 ---
 
@@ -15,6 +15,19 @@ interval and checksum claims; distinguish historical implementation intent
 from the actual inspected classifier. No maturity promotion or refreshed
 application witness is asserted.
 
+## Apply - 2026-10-10 (ia-n2id-1010)
+
+name-to-identifier-discipline gained its first application (node, politicas, code,
+better). The consumer already had the injected resolver, the exact pick and the
+one-token blacklist; it had no attractor detection and did not count drops. The
+attractor rule was replayed on the consumer's own pre-purge population and held
+(49 of 49 junk ties flagged against 0 of 49 for the blacklist alone; 0 of 196
+legitimate ties held back). The technique gained a boundary: distinct persons,
+the whole population before the write, a threshold above the measured legitimate
+maximum, register-unconfirmed is no signal, and namesakes are out of the rule's reach.
+The single-stack attention point does not move: the fleet's one civic project is
+node. A second stack needs a second consumer.
+
 ## Open leads
 
 - Consumer fixtures and repairs for identity collisions, disjoint tenures,
@@ -22,6 +35,8 @@ application witness is asserted.
   comparison passes, not merely when the header describes the desired rule.
 - Retrieve the authoritative identifier algorithm and applicable historical
   access/retention contracts before certifying source-specific conformance.
+- A live full-chamber ingest with the attractor detector: its held-back list and
+  drop count are the live arm the 2026-10-10 replay stood in for.
 - Adjacent attribution subjects must preserve signature/payment distinctions
   and avoid treating an outside-tenure event as causal exoneration.
 

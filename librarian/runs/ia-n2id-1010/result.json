@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ia-n2id-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "civic-intelligence",
+  "started_at": "2026-10-10T17:05:00Z",
+  "ended_at": "2026-10-10T17:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "civic-intelligence/beneficial-ownership-resolution",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "beneficial-ownership-resolution",
+      "technique": "name-to-identifier-discipline",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/applications/node--name-to-identifier-discipline.md",
+    "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/techniques/name-to-identifier-discipline.md",
+    "knowledge/civic-intelligence/index.json",
+    "librarian/applied.md",
+    "librarian/subjects/civic-intelligence/beneficial-ownership-resolution.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only pass. Politicas dd4183b + 34fa45e on local master, not pushed (diverged from origin). Single-stack point unmoved: the only civic project is node. catalog.json built from a clean worktree of HEAD; the shared checkout carries sibling WIP."
+}
