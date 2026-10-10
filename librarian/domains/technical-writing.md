@@ -16,8 +16,9 @@ the bundle (dp-as-1010). No librarian sweep has run yet.
 | Subject | Depth rung | Last pass | Yield | Dry streak | Clock | Demand |
 | --- | --- | --- | --- | --- | --- | --- |
 | article-structure | L2 primary + L3 field measurement (n = 10 posts) | 2026-10-10 | 1 correction, 2 conditions, 2 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
+| depth-and-audience | L2 primary + L3 field measurement (n = 10 posts) | 2026-10-10 | 2 citation corrections, 6 conditions, 2 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 
-The other five subjects have not had a deepen pass.
+The other four subjects have not had a deepen pass.
 
 ## Source-class memory
 
@@ -31,6 +32,12 @@ From one pass, so these are tallies, not rules:
   the author's.
 - Marketing posts on read-time engagement carry figures with no method. One controlled SEO
   split test was found, and it was null.
+- Second pass (dp-da-1010): journal abstracts came through Crossref, and one method section
+  through an author-hosted PDF where the publisher copy failed. The method changed what the
+  finding covers (mouseover definitions, ten terms per paragraph), so read the method
+  before landing an abstract's claim.
+- The blind lane named the same five primary studies the web lane verified, with no
+  priors. These are tallies from two passes, not a rule.
 
 ## Field witnesses
 
