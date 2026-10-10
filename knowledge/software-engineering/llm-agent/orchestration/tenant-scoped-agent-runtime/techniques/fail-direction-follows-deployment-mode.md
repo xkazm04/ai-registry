@@ -7,7 +7,7 @@ status: forged
 stage: multi-service
 laws: [absent-guard-is-loud, unknown-is-not-a-value, failure-not-empty-success]
 shared_with: []
-use_when: [a credential resolver must decide what to do when the active scope has no such name, adding tenant isolation to a runtime that single-tenant deployments already ship, background work authenticates with a placeholder while interactive work succeeds, deciding whether a scope is an overlay or a boundary]
+use_when: [a credential resolver must decide what to do when the active scope has no such name, adding tenant isolation to a runtime that single-tenant deployments already ship, background work authenticates with a placeholder while interactive work succeeds, deciding whether a scope is an overlay or a boundary, a scope can name the endpoint a call goes to as well as the credential it carries]
 ---
 
 # Fail direction follows deployment mode
@@ -74,6 +74,43 @@ That signature is worth recognising on sight: *background fails
 authentication, foreground does not* is a scope that swallowed the process
 environment in a deployment that had nothing to hide from.
 
+## The overlay falls through per destination, not per name
+
+"There is nothing to leak from" holds for the overlay only while the scope
+names credentials and nothing else. When the scope can also name **where the
+call goes** — an endpoint, a base address, a provider host — a miss on the
+credential is no longer harmless, even with one tenant. The process
+credential was issued for one destination; the scope just chose another; a
+fall-through by name sends the process's secret to the scope's host. The
+leak runs toward the destination, not toward another tenant, which is why
+the deployment mode does not see it. A worker that accepts work from any
+authenticated caller, where the work carries its own endpoint and
+optionally its own key, is this shape exactly: measured on one such worker,
+13 of 48 profile-by-environment cases delivered the worker's own key to a
+host it had not been issued for, including a host the caller chose and a
+host spelled as the real one with a suffix appended.
+
+So the overlay's rule carries the destination as part of the name: **a miss
+falls through to the process credential only when the call is going where
+that credential was issued for.** A scope that overrides the destination
+without supplying a credential gets none, and the caller sees its
+declared default — here a labelled no-key result, never a plausible key.
+Bind by parsed host, not by string prefix, or the suffix case passes.
+
+The same rule closes a second fall-through that looks like convenience: from
+one credential name to a *different* one ("no key for this provider, try
+the other provider's key"). That is not an overlay at all — the scope did
+not override a value, the resolver substituted a credential issued to a
+third party — and on the measured worker it sent each provider's key to the
+other. Where one credential legitimately serves two protocols at one
+provider, the binding admits it by host, and the substitution is no longer
+needed.
+
+A resolver that never lets the caller name a destination — the base
+address is derived inside the door from the credential's own record, as in
+[brokered egress](../../../../security/identity-and-access/credential-vault/techniques/brokered-egress.md)
+— has no such case to handle. This section is for the resolver that does.
+
 ## The allowlist is tight, and widening it is never the fix
 
 Not every name a process reads is a tenant credential. Some genuinely
@@ -134,7 +171,9 @@ report. Where a fallback is legitimate, it records that it fired and why.
   process-level flag set once at startup. It describes the deployment, not
   the unit of work, so it is not itself a scoped value.
 - Isolation off: the scope is an overlay; a miss falls through to the
-  process.
+  process — but only toward the destination the process credential was
+  issued for. A scope that names its own destination and no credential gets
+  none, and a miss never falls through to a differently named credential.
 - Isolation on, scope installed: the scope is authoritative; a miss returns
   the caller's default and never consults the process.
 - Isolation on, no scope: raise, naming the credential and the call path
