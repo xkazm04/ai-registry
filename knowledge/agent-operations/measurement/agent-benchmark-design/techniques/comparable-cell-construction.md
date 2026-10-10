@@ -52,13 +52,25 @@ it is also what lets a fleet detect the comparison it must not make: two cells w
 records differ in anything but the configuration are not a comparison, whatever the table
 suggests.
 
+**Check the pins where the comparison is printed; do not assert them.** Recording the pins
+is half the rule. A tool that prints one row's pins under a sentence saying every row
+shares them has turned the rule back into prose. That prose is wrong in exactly the case
+the rule exists for, and nothing in the table shows it. Diff every pin except the variable
+across all rows at print time. Name the rows that differ, and refuse to call the table a
+comparison when any pin differs. A pin the record omits cannot be checked this way, so
+"no difference found" covers only the pins the record actually names.
+
 ## Handling a mid-flight fix
 
 A long benchmark will need its measurement corrected while it runs. Three rules keep that
 survivable:
 
 1. **Derive facts from stored artefacts**, so a corrected definition can be re-applied to
-   cells that already ran instead of requiring them to be re-run.
+   cells that already ran instead of requiring them to be re-run. Re-applying a definition
+   changes who scored the cell. From then on it was scored by the version that re-applied
+   the definition, not the one that ran it, so stamp the scorer separately from the
+   producer. A ladder re-scored piecemeal without that stamp cannot show afterwards that one
+   definition scored every row, even when that is true.
 2. **Re-run the cells the fix touches** where recomputation is impossible — for example
    when the fix changes what the run was allowed to see or do.
 3. **Log the fix with its time and its effect**, so any result read later can be placed on

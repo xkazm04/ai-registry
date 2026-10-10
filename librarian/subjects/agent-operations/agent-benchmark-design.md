@@ -1,8 +1,8 @@
 ---
 domain: agent-operations
 subject: agent-benchmark-design
-last_touched: 2026-09-27
-touched_by: deepen
+last_touched: 2026-10-10
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -152,3 +152,26 @@ zero expired and zero at-risk rows fleet-wide, and none for agent-operations. Th
 checkout moved forward between dispatches, so the lane does reread it. It reads local
 main, though, and never fetches origin. Moving the dispatch HEAD therefore does not clear
 the finding.
+
+## 2026-10-10 - the pins were recorded and asserted, never checked (run `ap-ccc-1010`)
+
+`/intake apply comparable-cell-construction`, dispatched by the Curator lane on the scan
+finding "single stack (process)". The primary checkout's main was 10 behind origin, so the
+run worked from origin/main (99c8c455) in a detached worktree.
+
+The 2026-09-27 apply row left the technique unapplied because no fleet configuration
+benchmark was found. personas' memory benchmark is one: each row is a design, and the
+header pins the consumer, judge, budget, elaboration, scenario and, since 09-27, the
+harness revision. The seam was the step that reads those pins. The ladder printer showed
+row 0's values under a sentence claiming every row shares them. It is now a pin diff,
+code A/B over 6 stored run sets with no model call: false assertions went from 5/6 to 0/6,
+and the table rows were byte-identical in all 6 sets. The application is the bundle's
+first `python` stack, and `stacks:` now declares it.
+
+The technique gained two paragraphs: a pin check runs where the comparison is printed, and
+the scorer of a re-applied definition is stamped separately from the producer. Both came
+from the seam. The published ladder holds on its five recorded pins, but none of its 16
+rows records which revision scored it. Next, for whoever owns that harness: one stamped
+re-judge of the ladder, and the binary revision of the in-app memory arm as a pin. Its
+consolidation timeout moved from 180 to 300 seconds between two cells, and the only trace
+is the failure text.
