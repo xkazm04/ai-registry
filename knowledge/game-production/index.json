@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 537,
-  "applications": 289,
+  "applications": 290,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -4672,9 +4672,9 @@
    "subcategory": "surface-and-imagery",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/imported-material-conformance.md",
-   "digest": "sha256-b2:ed5263112ac176f3",
-   "revision": 2,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:1a78990f85143545",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "a-fixer-script-is-the-edge-in-the-wrong-place",
@@ -4773,6 +4773,13 @@
      "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/applications/node--a-fixer-script-is-the-edge-in-the-wrong-place.md",
      "verified_on": "2026-10-06",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "python",
+     "technique": "colour-space-is-per-texture-role",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/applications/python--colour-space-is-per-texture-role.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "python@3.11"
     }
    ]
   },
