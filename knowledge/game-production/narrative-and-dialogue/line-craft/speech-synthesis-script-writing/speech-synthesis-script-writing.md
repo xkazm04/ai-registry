@@ -162,6 +162,15 @@ before tags, text before settings, one hesitation per line — is practitioner j
 is held as a standard to be checked by listening, not as a measured result. None of it has yet
 been tested in a played game.
 
+One part has since been measured. Across fourteen rendered lines on two voices, pricing the
+pause per boundary from each voice's own renders predicted spoken length about three times
+more closely than one price for the whole cast (median error 0.5 against 1.3 seconds). The
+cast-wide estimate came closest on the very line that failed. One listener, at a desk, kept that
+failed clip, and the project recorded the keep beside the failure rather than in place of it.
+What is still not measured is whether counting boundaries catches silent renders better than
+counting marks. On the rendered lines both counts flag the same one failure, and the lines a
+boundary count flags in the project's rewritten script have not been rendered.
+
 ## Boundaries
 
 **Against generated-speech-acceptance (in the media-generation bundle).** That subject judges a

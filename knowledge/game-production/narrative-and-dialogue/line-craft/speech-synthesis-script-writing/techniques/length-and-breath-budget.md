@@ -53,6 +53,23 @@ more silence than speech. The rule that splits a long sentence in two must not b
 that splits a line into fragments: two sentences reset the pitch; five sentences stall it. Learn
 each voice's pause per boundary from its first renders and write its lines to that price.
 
+The naive form of the estimate prices a boundary once for the whole cast: a rate per word plus
+a fixed pause per sentence. It looks careful, because it does count boundaries, and its errors
+hide the failure. Across fourteen rendered lines one such estimate ran long on every line, and
+it came closest on the one line that failed its silence screen. A word rate too slow for the
+hesitant voice and a boundary price less than half of that voice's real one cancelled exactly
+on its most fragmented line. Pricing the boundary and the word per voice, from that voice's
+other renders, cut the median error from about 1.3 seconds to about 0.5. An estimate that agrees
+with a render is not evidence that the line is well shaped; it is only evidence when the
+estimate was priced for that voice.
+
+The price is an average, not a law of each boundary. Speech research on pause control finds
+that "punctuation may fail to trigger a pause, while pauses may appear where no punctuation
+exists" (SwanVoice, arXiv 2605.30993, 2026). The measured lines agree. On the short-pausing
+voice, some full stops left no gap of a tenth of a second, and on the long-pausing voice, commas
+paid the price too. So the price is learned as silence per boundary across a voice's renders and
+used to rank lines, not to promise a gap at each mark.
+
 ## The floor matters as much as the ceiling
 
 Very short lines are where synthetic voices are least predictable, because the model has no
@@ -110,4 +127,10 @@ the other, its silence share ran about 18 to 56 percent against 0 to 20, and its
 line failed a silence ceiling. The two voices differ in both identity and settings, so which of
 the two sets the price is not separable from these data; it is one take per line on one engine
 generation, an observation and not a controlled study, and none of this has been tested in a
-played game yet.
+played game yet. The comparison of estimators was run on 2026-10-10 over the same fourteen
+clips, leaving each line out of its own voice's price. A cast-wide rule recovered from the
+project's script (about 0.38 seconds per word plus 0.32 per sentence) missed by a median 1.31
+seconds, at most 2.37. Per-voice medians (about 0.17 and 0.70 seconds per boundary) missed by a
+median 0.48, at most 1.18. The per-voice prices come from six and eight lines of ten to
+seventeen words, and they under-predicted the failed line by over a second, so they rank risk
+and do not certify a line.

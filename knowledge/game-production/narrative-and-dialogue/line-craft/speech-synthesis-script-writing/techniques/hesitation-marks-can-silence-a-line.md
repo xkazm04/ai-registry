@@ -30,7 +30,12 @@ boundaries, and every boundary is a pause the voice decides the length of. A ner
 whose voice is also cast or tuned to sound hesitant pays twice: the voice holds each boundary
 long, and the text supplies many boundaries. A fourteen-word line of five short sentences with a
 single ellipsis can render as more silence than speech on such a voice, with a gap of about a
-second at nearly every boundary, while the same voice renders two-sentence lines cleanly. The
+second at nearly every boundary, while the same voice renders two-sentence lines cleanly. A
+rewrite made under a marks-only rule keeps the boundaries. In one project's rewritten script,
+hesitation marks fell to at most one per line for the hesitant character. Yet about one line
+in five still carried three or more interior boundaries, and the lines that a priced count
+flagged were mostly unmarked fragments of five to eight words. The rule that a writer or a
+generator is handed has to name boundaries; a rule that names marks gets marks removed. The
 hesitation budget therefore counts the line's sentence boundaries and repetitions as well as its
 marks, and it is set per voice, because the price of a boundary belongs to the voice.
 
@@ -78,6 +83,15 @@ fallback, rather than being quietly retimed or waived; and a line whose clip nob
 or heard is unheard, not accepted
 ([unmeasured is not a pass](../../../../_laws.md#unmeasured-is-not-a-pass)).
 
+The screen routes a clip to a listener, and a listener may keep a clip the screen failed: the
+pauses can be the performance. The keep is then recorded *beside* the failure, not in place of
+it. The clip ships marked as kept and as failing, and a check refuses any record that loses
+either half, so the next screen calibration can see which failures people overruled. Every
+other status field written before the listening is updated with the keep. A stale "listening
+pending" beside a keep reads as an unheard line, and it has sent a later reader to that
+conclusion. A keep given at a review page is a desk verdict. It answers whether the take is
+acceptable, not whether it carries at the playback condition.
+
 ## Procedure
 
 1. **Count the hesitations** in every line before rendering — marks, repeats, stammers and
@@ -100,6 +114,12 @@ or heard is unheard, not accepted
 - When the same line renders cleanly on one voice and silently on another, record the voice's
   boundary price and write that voice's lines to it, and do not assume a mark is safe for the
   whole cast.
+- When a listener keeps a clip the screen failed, record the keep and keep the failure, and
+  guard the pair with a check. Do not retime the clip or raise the ceiling to make the record
+  agree.
+- When a script is gated before rendering, count boundaries beside marks and send the lines the
+  boundary count flags to a listener first. Until a render has shown which count predicts
+  failure on that voice, neither count passes a line on its own.
 
 ## When not to use it
 
@@ -111,11 +131,24 @@ hesitation as such.
 
 That too many pause markers can make a render unstable, and that a newer generation drops the
 older generation's pause markup, are statements from one speech vendor's documentation as read
-by a game-dialogue research dossier (high confidence there, primary for that vendor; not
-re-read for this document). The silence failure is one project's observation: one line, one
+by a game-dialogue research dossier (high confidence there, primary for that vendor). Both were
+re-read and confirmed at the source on 2026-10-10. The same pages also say that different
+voices handle pauses differently, especially voices trained with filler sounds, which is the
+vendor's own version of a boundary price that belongs to the voice. The silence failure is one project's observation: one line, one
 take, on one engine generation and one voice, which measured 55.52 percent silence against a 45
 percent ceiling with four interior gaps of about a second. The dossier attributes it to
 hesitation marks; the measured gaps sit at nearly every sentence boundary of a five-sentence
 line with only one ellipsis, which is why this technique counts fragments as well as marks. The
 cause has not been traced by a rewrite and re-render, it is not a controlled study, and none of
 this has been tested in a played game yet.
+
+A pass on 2026-10-10 found two more things. First, the project's owner listened to the failed
+clip on a review page and kept it, with the failure retained in the record. Second, the
+project's later script removed marks but kept fragments. Whether counting boundaries screens
+better than counting marks is **not measured**. On the fourteen rendered lines both counts flag
+the same single failure, so those lines cannot separate them. On the unrendered rewrite the
+boundary count flags lines that the marks count passes. That is a forecast, and it is fragile:
+across the hesitant voice's observed range of boundary prices it flags anywhere from none to
+about one line in six. Most flagged lines are shorter than any line it was calibrated on, and
+in a short line one pause is a large share of the clip. Rendering the flagged lines beside the
+rest is the test that would settle it.

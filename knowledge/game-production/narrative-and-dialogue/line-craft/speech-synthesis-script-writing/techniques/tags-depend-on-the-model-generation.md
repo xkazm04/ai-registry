@@ -46,7 +46,8 @@ voice**: a tag asking a soft voice to shout may be read aloud rather than perfor
 tag works where the voice's source recordings contain that delivery; so a character who must
 shout is cast with a voice that can, rather than tagged into it. It can **describe an action
 instead of a sound**: a tag for standing, grinning or music is not a vocal delivery, and the
-voice either speaks it or drops it. And it can be **muted by the settings**: the most stable
+voice either speaks it or drops it. It can be **misread in kind**: a delivery tag rendered as a
+sound effect, or a sound tag rendered as a delivery. And it can be **muted by the settings**: the most stable
 setting of a newer generation is described as less responsive to direction, so a stable
 baseline and heavy tag use pull against each other. Each is heard only by listening.
 
@@ -97,8 +98,14 @@ The per-generation differences — pause markup on the older generation and not 
 older generation's emotion from spoken narrative context, bracketed emotion and sound tags on
 the newer, a tag read aloud when it does not suit the voice, the advice against non-vocal tags —
 come from one speech vendor's documentation and blog as read by a game-dialogue research
-dossier, rated high confidence there; this document did not re-read those pages. The claim that
-the most stable setting is less responsive to direction comes from secondary guides the dossier
-rates medium and asks to be checked in the vendor's interface. That one project's current
+dossier, rated high confidence there. The pages were re-read at the source on 2026-10-10. That
+confirmed the read-aloud failure and added the misread-in-kind one. It also confirmed that pause
+markup of a stated length is unsupported on the newer generation, and on a third generation
+released on 2026-09-28, which accepts no markup of that kind at all. So a script written for the
+older generation is now two generations behind the vendor's default, and this technique's
+re-audition rule applies twice. The claim that the most stable setting is less responsive to
+direction comes from secondary guides the dossier rates medium. The re-reading did not find the
+stability presets those guides describe on the current primary pages, so the claim stays
+unconfirmed. That one project's current
 generation does not document the newer tags is the dossier's reading of the vendor pages, not a
 test. Nothing here is a controlled study, and none of it has been tested in a played game yet.

@@ -5,22 +5,28 @@ subject: speech-synthesis-script-writing
 technique: text-carries-the-emotion-not-the-settings
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-10
 ---
 
 # Voice settings against the documentation — Death Ride campaign voices
 
 *Resolved 2026-10-04 against the `firetv-deathride` working tree (branch `deathride/main`, tip
 `9ceb02d7`). Paths below are root-relative to that tree. Every cited line was re-opened and
-re-read on that date.*
+re-read on that date. Re-checked 2026-10-10 at tip `d9990777`: every anchor still holds, and the
+listening statement below is corrected.*
 
 Death Ride synthesises part of its campaign dialogue with ElevenLabs. Its dialogue research
 dossier (R3, section A13 "Writing for the ear and for ElevenLabs") tabulates what the vendor
 documents per model generation, and the project's voice wave records the settings it actually
 used. Putting the two side by side is the reconciliation this application makes. The vendor
 pages were not re-read for this document (web search was exhausted for the pass); the
-documentation claims below are the dossier's reading of them. The game has not been played, and
-no line's delivery has been judged by a listener.
+documentation claims below are the dossier's reading of them. The game has not been played.
+One listener has judged the fourteen clips: on 2026-10-03 the owner kept all of them from the
+review page
+(`docs/concepts/DEATH-RIDE-OWNER-DECISIONS-2026-10-03.md:69 "No rejections there."`). That is a
+desk verdict, not the sofa condition, and it judged the takes as delivered. It did not judge
+whether the settings or the words carried the delivery. (Corrected 2026-10-10: this paragraph
+had said no listener had judged any line.)
 
 ## The current setup
 

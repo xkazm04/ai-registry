@@ -18,8 +18,9 @@ while an emotion belongs to one line in one moment. Using a setting to make one 
 that anger for every line, and buys more than anger. Lower stability produces livelier takes and
 also unpredictable ones — misplaced stress, sudden changes of energy, longer and less even
 pauses and, at the extreme, unstable output. Higher style exaggeration amplifies the manner of
-the voice's source recordings, not the feeling of the scene, and engine guidance recommends
-leaving it at zero. Extreme speed values degrade quality. The rule is to keep settings at a
+the voice's source recordings, not the feeling of the scene. Engine guidance describes zero as
+the common setting and warns that raising it makes the model slightly less stable. Extreme
+speed values degrade quality. The rule is to keep settings at a
 neutral, stable baseline set once per voice, and to put the emotion in the words.
 
 ## One owner per quantity
@@ -38,10 +39,10 @@ of the fragments' many boundaries long, and the line fills with silence. Choose 
 stable baseline and a nervous line, or a deliberately looser baseline and plain sentences.
 Picking the text keeps the trait portable to the next engine.
 
-Settings are also generation-specific: one generation exposes a continuous stability control and
-a speed range, the next replaces stability with a few presets and drops speed. A script whose
-feeling depended on a setting loses it at the upgrade; a script whose feeling is in the words
-keeps it.
+Settings are also generation-specific. One generation exposes stability, similarity, style
+exaggeration and a speed range. A later one drops speed, and the latest keeps only stability and
+similarity, with no style and no speed. A script whose feeling depended on a setting loses it at
+the upgrade; a script whose feeling is in the words keeps it.
 
 ## How words carry emotion
 
@@ -103,11 +104,14 @@ the text is not.
 
 ## Evidence status
 
-The setting advice — style exaggeration recommended at zero, extreme speed values degrading
-quality, speed absent and stability reduced to presets on the newer generation — comes from one
-speech vendor's documentation as read by a game-dialogue research dossier (high confidence for
-the documentation rows, medium for the preset names, which came from secondary guides); this
-document did not re-read the pages. The double-owner lesson is an upward lesson from one
+The setting advice comes from one speech vendor's documentation, first as read by a
+game-dialogue research dossier and then re-read at the source on 2026-10-10. That re-reading
+corrected two things. Style at zero is described as the common setting, with a warning that
+raising it costs a little stability, not as a flat recommendation. And the stability presets the
+dossier reported for the newer generation, which it had from secondary guides, are absent from
+the current primary pages. Those pages instead document a generation released on 2026-09-28
+that keeps only stability and similarity. The speed range and its quality warning were
+confirmed as written. The double-owner lesson is an upward lesson from one
 project's voice setup, whose two voices run style above zero and whose nervous voice combines a
 looser stability setting with fragmented lines, and whose project notes say the settings do not
 prove the delivery was achieved; its most fragmented line failed a silence ceiling. That is an

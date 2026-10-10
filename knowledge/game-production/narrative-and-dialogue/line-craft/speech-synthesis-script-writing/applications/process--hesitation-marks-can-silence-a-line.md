@@ -5,14 +5,15 @@ subject: speech-synthesis-script-writing
 technique: hesitation-marks-can-silence-a-line
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-10
 ---
 
 # The Mechanic line that rendered as silence — Death Ride campaign voices
 
 *Resolved 2026-10-04 against the `firetv-deathride` working tree (branch `deathride/main`, tip
 `9ceb02d7`). Paths below are root-relative to that tree. Every cited line was re-opened and
-re-read on that date.*
+re-read on that date. Re-checked 2026-10-10 at tip `d9990777`: every anchor still holds, and the
+owner's listening status below is corrected.*
 
 Death Ride is a vehicular-combat racing campaign for Fire TV, played from the sofa. Some of its
 story lines are synthesised with ElevenLabs on the `eleven_multilingual_v2` model: an Announcer
@@ -105,5 +106,14 @@ he might — come round the back." That rewrite is a proposal, unrendered and un
 bible's "fragments and hedges" for the Mechanic is spent as one fragment per line at most. The
 45% ceiling, its -50 dBFS basis and its 0.1-second minimum stay in the screen, and the Mechanic
 voice's boundary price (most of a second) goes into the brief of any generator drafting his
-lines. Owner listening is still pending on this line
-(`deathride/audio/x3/voices/acceptance.json:1608 "listening pending"`).
+lines.
+
+**Corrected 2026-10-10.** This application said owner listening was still pending, citing
+`deathride/audio/x3/voices/acceptance.json:1608 "listening pending"`. That field predates the
+owner's pass. On 2026-10-03, a day before this application was written, the owner listened on
+the review page and kept all fourteen clips, this one included
+(`docs/concepts/DEATH-RIDE-OWNER-DECISIONS-2026-10-03.md:69 "No rejections there."`). The game
+ships the clip as kept, with its silence failure retained and guarded by a validator. The script
+of 2026-10-04 has since replaced the line for a story reason, not a silence one
+(`deathride/narrative/lines.csv:294 "recorded;replaced-by:shop.seizure.1"`). The `python`
+application beside this one reads the keep and the rewrite.
