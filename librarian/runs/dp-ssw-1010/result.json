@@ -1,0 +1,92 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ssw-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-10T01:05:00Z",
+  "ended_at": "2026-10-10T02:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/speech-synthesis-script-writing",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "speech-synthesis-script-writing",
+      "technique": "length-and-breath-budget",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "speech-synthesis-script-writing",
+      "technique": "hesitation-marks-can-silence-a-line",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/index.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/speech-synthesis-script-writing.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/techniques/hesitation-marks-can-silence-a-line.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/techniques/length-and-breath-budget.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/techniques/tags-depend-on-the-model-generation.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/techniques/text-carries-the-emotion-not-the-settings.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/kotlin--length-and-breath-budget.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/python--hesitation-marks-can-silence-a-line.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/process--hesitation-marks-can-silence-a-line.md",
+    "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/process--text-carries-the-emotion-not-the-settings.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/speech-synthesis-script-writing.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "aa0cd608",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/index.md",
+        "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing"
+      ]
+    },
+    {
+      "sha": "2376dd95",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "e87608a9",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/speech-synthesis-script-writing.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "kotlin+python apps at firetv d9990777, 23 anchors held; 2 process apps corrected (owner kept 14 clips). 0 techniques; 4 conditioned + golden path; vendor re-read (v4). 1 better, 1 unmeasurable, 1 unapplied. Impact 0. Librarian lane stops at coverage-age (pre-existing)."
+}
