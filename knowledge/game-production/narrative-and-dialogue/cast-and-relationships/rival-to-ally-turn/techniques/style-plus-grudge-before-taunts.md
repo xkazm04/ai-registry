@@ -65,7 +65,11 @@ referent and the rival's culture after crossing has nothing to keep.
 6. **Make the grudge a state, not a mood.** It persists from contest to contest, changes how
    the rival drives against the player while it stands, and is resolved by an event rather
    than reset at the start of each race. A grudge that resets every race is a temperament
-   again, and a multi-contest thread is what gives the later turn something to end.
+   again, and a multi-contest thread is what gives the later turn something to end. This
+   holds for the *arc* grudge. A *contact* grudge, earned by ramming the rival in an
+   ordinary race, should decay when the player stops antagonising them. One racing series
+   shipped a contact grudge that never faded, players asked for it to be switched off, and
+   the studio patched it to fade. Keep the two in separate states, and make each visible.
 7. **Hand the style to the behaviour authors as prose**, with the reason for each behaviour,
    and ask for it to be checkable in play.
 
@@ -92,6 +96,12 @@ the off-track material may confirm it, never carry it alone.
 - **When there are several rivals, give each a style that is distinguishable at a glance in
   play**, because a roster whose members are told apart only by their lines is a roster of
   one opponent.
+- **When the style is expressed as an offset on a difficulty setting or a vehicle, check it at
+  the hardest setting and in every vehicle the rival drives.** A clamp can zero a late-braking
+  offset at the top difficulty. A signature attack owned by the car class is shared by every
+  rival in that car.
+- **When a contact grudge never decays, give it a decay**, and leave the event-resolved rule to
+  the arc grudge.
 
 ## When not to use this
 
@@ -112,4 +122,8 @@ single source as a generalisation). The value of the slice of life before the tu
 primary showrunner interview about retelling a rivalry from the former antagonist's side
 (high). The strict ordering — behaviour, then persistent grudge, then lines that name the
 behaviour — is the research dossier's synthesis rather than any one source's rule, and none of
-it has yet been tested in a played game of this kind.
+it has yet been tested in a played game of this kind. The arc/contact split rests on a racing
+series' own patch notes, which made a never-decaying grudge decay, and on a players' thread
+asking for it to be turned off (medium: an official note quoted on a community board). The
+difficulty and vehicle check rests on one shipped game's code (high as a reading of that tree,
+one case).

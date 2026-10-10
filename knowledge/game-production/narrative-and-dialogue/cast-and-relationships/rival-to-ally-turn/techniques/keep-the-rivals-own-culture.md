@@ -30,7 +30,10 @@ does.
 would have won, their car is suddenly slower, their skill exists only when they are against the
 player. It happens because a strong ally threatens the protagonist's centrality and the balance.
 The audience reads it as a broken promise: the person who beat them in the second race was the
-reason they wanted the rival on their side.
+reason they wanted the rival on their side. Demotion means the *same role*, made weaker. A
+former boss whose ally form is a limited call-in of their signature attack has less total power.
+The call-in keeps the menace the player remembers, though, and players accept that trade. The
+balance problem was solved in the role, and the character was left alone.
 
 ## What the rival keeps
 
@@ -71,6 +74,22 @@ not take a certain kind of win, will not abandon a certain kind of person. These
 are where the rival's values meet the group's, and the group's response is where the
 neighbouring belonging work begins.
 
+## The rivalry is part of what is kept
+
+Where the contest goes on after the crossing — a racing season, a recurring duel, a run-based
+game whose boss returns every run — the ally still competes, and the rivalry survives the
+alliance as sport. The ally keeps score, and their lines say it. An ally who still beats the
+player sometimes, on stated terms, is a rival kept, not a turn undone. A former enemy who fights
+the player every run and still becomes a friend shows how far this can go.
+
+That needs two states where a naive build keeps one. *Which side* the rival is on and *whether
+they hold a grudge* are separate facts. An ally the player rams can hold a grudge as an ally,
+and that grudge speaks as an ally: *we are on the same side, and that is not a licence to wreck
+me*. Collapse the two into one flag and both directions fail. A line written for the
+wronged ally plays to a rival who has not yet crossed. A contract unrelated to a rival can mark
+them an ally. Keep the side as story state and the grudge as play state. Condition every
+grudge line on both.
+
 ## A declared culture must be read
 
 A design document that lists the rival's idiom, rites and loyalties and a line table that never
@@ -93,6 +112,11 @@ a finding.
 - **When the rival had a signature move as an opponent, give the player a way to call on it.**
 - **When a culture list exists, check post-turn lines against it**, and treat an empty row as a
   defect.
+- **When an ally's power must fall for balance, change the role, not the strength in the
+  role.** A limited call-in at full menace is kept competence. The same car driven worse is
+  demotion.
+- **When side and grudge share one state, split them**, and condition every post-crossing
+  grudge line on both.
 
 ## When not to use this
 
@@ -111,4 +135,18 @@ on a roguelike in which a befriended former boss can be summoned into the player
 documented only on a community wiki (low to medium), and on the research dossier's proposal. The rule against demotion and the check of post-turn
 lines against a culture list are this document's own judgement, informed by trope criticism of
 former enemies weakened after joining (low as a source, consistent with the critical consensus).
-None of it has been tested in a played game yet.
+None of it has been tested in a played game yet. The role-not-power bound was reached by two
+lanes:
+- **Counter-evidence.** The same roguelike's call-in is a sharply reduced, limited-use form of
+  the boss, and the character is still among the game's most praised (community wiki and a
+  critic's best-of list, medium).
+- **Blind.** A training-data-only lane put the failure in decline *caused by joining*, not in
+  any decline.
+
+Three lanes reached the surviving rivalry:
+- the blind lane, which named it the rule this subject was missing;
+- the counter-evidence lane, with a boss who fights the player every run and becomes a friend
+  without defecting;
+- one shipped game, whose allies keep racing the player.
+
+That game's single shared flag for side and grudge is the case behind splitting them.

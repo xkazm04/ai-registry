@@ -97,6 +97,10 @@ recorded fact the scene reads, never a scripted act the player did not perform.
 - **When the story's theme is persuasion itself.** A story about the power of an argument may
   legitimately turn a rival on words; then the words must be the rival's to weigh, and the scene
   must cost the speaker something.
+- **When the seeing has already happened.** A speech after a contest in which the rival saw the
+  hero do something is not a speech turn. It completes a turn the contest cracked. The speech
+  may then make its argument outright, provided it names what was seen rather than replacing
+  it. The rule is aimed at the speech with nothing seen behind it.
 - **When the rival is a child or a captive under coercion.** A turn under duress is a rescue,
   and seeing is not the issue; safety is.
 
@@ -109,4 +113,11 @@ checked directly (high), and it is the source of the two-stage reading. That a f
 turn by a refusal to finish an opponent rests on two works' documented finales (medium to high).
 Making the witnessed act a recorded player choice, replayed at the turn, is the research
 dossier's design proposal; no source shows it working in a game, and none of this has been
-tested in a played game yet.
+tested in a played game yet. The bound for a speech after a crack was reached by two lanes:
+- **Counter-evidence.** A peer-reviewed study of audiovisual fiction found that characters who
+  make explicit arguments in dialogue can persuade viewers. That measures the audience's
+  attitude, not whether a character's turn is believable (academic, high for what it measures).
+  The strongest critical defence of the speech turn concedes that it follows a fight in which
+  the speaker saw something (criticism, medium).
+- **Blind.** A training-data-only lane cited a speech-driven turn delivered in the middle of a
+  fight that many fans accept.

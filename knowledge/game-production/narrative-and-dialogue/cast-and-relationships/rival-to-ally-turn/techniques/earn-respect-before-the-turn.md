@@ -75,6 +75,14 @@ when the quality is the contest's whole skill.
 What is never acceptable is a fixed respect line played regardless of how the player won. It
 is the one moment in the arc where the game must visibly have been watching.
 
+**A conditioned line claims only what its condition read.** The subtler failure is a line that
+is gated on one fact and states three. Take a line in which the rival says the player pinned
+them to the wall twice and then let them finish, gated only on the rival having finished. It
+reads neither the contact count nor whether the player could have wrecked them, so a player
+who never touched the rival hears a mercy they did not show. The same holds for the wrecked branch. "Fair" is earned only if the *player* did the
+wrecking, so read who wrecked the rival, not just whether they were wrecked. Write the condition
+first, then the line, and cut every clause the condition cannot vouch for.
+
 ## Respect is shown, not stated
 
 The rival does not say "I respect you." They do something that only a person who respects the
@@ -98,6 +106,8 @@ audience's belief that it is real.
 - **When the rival has never beaten the player at their own excellence, add a contest where
   they do** before the turning one.
 - **When the defeat line announces friendship, rewrite it to explain the race just run.**
+- **When a respect line states a fact about the race, find the condition that reads that
+  fact.** If no condition reads it, record the fact or cut the clause.
 
 ## When not to use this
 
@@ -117,4 +127,9 @@ the character and be remembered afterwards rests on primary designer statements 
 character-driven boss fights (high) and on a documented action-game memory system (medium).
 The defeat line that reframes the race, and conditioning the respect beat on recorded contest
 facts, are the research dossier's design proposals and this document's own synthesis — no
-source shows either working — and nothing here has been tested in a played game yet.
+source shows either working — and nothing here has been tested in a played game yet. The rule
+that a conditioned line claims only what its condition read comes from one shipped game's
+script. There, every boss's respect line asserts a player act that the line's single flag does
+not record (high as a reading of that tree, one game). Players have also called a reactive
+nemesis system's lines canned once they repeat (community, low to medium). A reactive line
+spends its credibility the same way a fixed one does once the player catches it out.

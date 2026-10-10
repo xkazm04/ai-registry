@@ -47,7 +47,10 @@ which means they must have seen the rival's life and grudge before the contest, 
 them at the turn. The second is that beliefs move on evidence, not on argument. People in
 fiction, as in life, are rarely talked out of a grudge; they are shown something they cannot
 unsee. A rival who is persuaded by the hero's speech is a rival whose conviction was a
-sentence long.
+sentence long. The rule binds the *first* move, not every word: a speech may complete a turn
+that something seen has already cracked, by naming what the rival saw. The best defence of the
+speech turn is that it follows a contest in which the speaker saw something. What fails is a
+speech with nothing seen behind it.
 
 ## A rival is not an antagonist, and the difference decides the whole shape
 
@@ -74,7 +77,12 @@ hold against the hero, before anything they say. In a racing game that is a driv
 a grudge — the player learns the rival from the way they take a corner and the one thing they
 cannot forgive, and only then from their mouth; when the rival does taunt, the taunt names a
 behaviour the player has just felt. The grudge is a state that persists from contest to
-contest until something resolves it, not a mood that resets at the start line. A slice of the
+contest until something resolves it, not a mood that resets at the start line. Two grudges
+need two rules, though. The *arc* grudge is the injury the story will redirect, and it waits
+for its event. A *contact* grudge, which the player earns by ramming or wrecking the rival in
+an ordinary race, is fed by play and should fade when the player stops feeding it. A
+contact grudge that never decays was shipped in one racing series and patched out as a bug. A
+game that stores both grudges in one flag ends up with neither rule. A slice of the
 rival's life away from the contest is shown in the same stretch, so that the audience has seen
 what the rival stands to lose, because sympathy borrowed after the turn reads as a retcon. See
 [style-plus-grudge-before-taunts](./techniques/style-plus-grudge-before-taunts.md).
@@ -91,7 +99,13 @@ starts a deeper grudge. See
 **At the first offer:** the rival refuses, for a want the audience understands. The refusal is
 the story admitting that the rival has reasons, and it is what makes the later acceptance an
 act rather than a reflex. The strongest refusals are for something the rival then gets, and
-finds empty. See [refuse-once-then-turn](./techniques/refuse-once-then-turn.md).
+finds empty. What the refusal must do is fixed; when it happens and who voices the offer are
+not. It may come before the deciding contest, as a refusal of help. A rival who has already
+crossed may carry the offer, and the refusal may be wordless. It must state the rival's own
+reason once, and the turn must then be the rival's initiative. The rule binds a rival whose
+opposition was their own. A conscript or an unwilling enemy recruited in one conversation is
+a recruit, not a rival turn, and genres that recruit that way do it without loss. See
+[refuse-once-then-turn](./techniques/refuse-once-then-turn.md).
 
 **At the turn:** the rival sees something — an act, a document, a body, a betrayal by their
 own side, the hero doing something small, unobserved and unrewarded — that their existing
@@ -109,8 +123,11 @@ takes their skill. See
 **After crossing:** the rival keeps their own culture — speech, rites, loyalties outside the
 group, the way they do the thing they are good at — and keeps their competence. Their rites are
 kept and re-aimed at the new side rather than dropped, and the signature move the player
-learned to fear becomes the one the player is glad to have beside them. The new side gains a
-person, not a convert. See
+learned to fear becomes the one the player is glad to have beside them. The rivalry is part of
+what is kept: where the ally still competes, they still keep score. Which side the rival is on
+and whether they hold a grudge are then two separate states, and a grudge earned after the
+crossing speaks differently from the one before it. The new side gains a person, not a
+convert. See
 [keep-the-rivals-own-culture](./techniques/keep-the-rivals-own-culture.md).
 
 ## What a game owes that a film does not
@@ -123,11 +140,17 @@ The **respect beat must be conditioned on the contest, or the contest must be bu
 every way of winning carries the quality the rival respects**. A rival who praises a clean
 race the player won by ramming them into a wall has not shown respect; the game has shown
 that it was not watching. Either the line reads a recorded fact about how the win happened,
-or the contest is shaped so that only the respected kind of win is possible.
+or the contest is shaped so that only the respected kind of win is possible. A line that
+reads a fact must also **claim nothing its condition did not read**. Suppose a line is gated
+only on whether the rival finished, and then thanks the player for sparing them after two hits
+into the wall. It has invented two facts. That is the same failure as the fixed line, one clause later.
 
 The **refusal must happen to the player, not around them**. If the offer is a player choice,
 the first acceptance the player tries is the one the rival refuses; a menu that lets the
-player skip the refusal has deleted the beat that makes the turn worth having.
+player skip the refusal has deleted the beat that makes the turn worth having. A refusal
+written as an exchange must also *play* as one. A line picker that treats numbered lines as
+alternatives will show one of the four, and that one may not be the line that carries the
+reason.
 
 The **thing the rival sees can be something the player did**, which is the strongest turn a
 game has and one no film can stage: the rival witnesses the player's own earlier choice and
@@ -167,7 +190,9 @@ weight.
 and is markedly weaker than when they were an opponent. The audience was promised the person
 who beat them in the second race and got a shadow. The trap is often set by the cost itself,
 when the price of crossing is paid out of the rival's ability rather than out of something
-they own.
+they own. The failure is the same role made weaker. It is not every loss of total power: a
+former boss turned into a limited call-in of their signature move, still at full menace, has
+changed role and kept competence, and players accept that.
 
 **The taunt-first rival.** The rival is introduced by a line of trash talk that any rival in
 any story could say. The audience has no picture of the person, so nothing that happens to
@@ -182,7 +207,11 @@ checked on screen and weakest where a writer's intent was relayed second-hand. N
 been measured in play for this genre — no playtest has yet shown that a refused-then-witnessed
 turn is believed by players of a racing game where a cheap one is not — so each technique
 states its evidence separately, and a team adopting the subject should treat the first
-playtest of a turn as the first real test of it.
+playtest of a turn as the first real test of it. One shipped game's code has been read
+against it. The arc was written in full, and most of what failed failed between the script
+and the code that chooses lines: a refusal that played one line of four, respect lines that
+claimed facts no condition read, and a grudge flag doing three jobs. Before the playtest,
+check that every line the arc depends on can actually be reached.
 
 ## Where this subject stops, and what stands next to it
 
@@ -230,3 +259,6 @@ what it says about her; the neighbour turns it into numbers and proves the agent
    reason to read it.
 7. **List what the rival keeps** — speech, rite, outside loyalty, competence — and check the
    first post-turn scenes against the list.
+8. **Trace every line the arc depends on to the code that chooses it.** For each line, check
+   that it can be reached, that it plays in full, and that it claims only what its condition
+   reads.

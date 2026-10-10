@@ -75,6 +75,9 @@ reads as punishment for being kind.
 - **When the cost is declared, write two later moments that read it**, and check they shipped.
 - **When the cost is mechanical, signal before the choice that something will be lost**, and keep
   the player's share smaller than the rival's.
+- **When a cost is shown in state, measure it against a rival who did not cross.** A car the
+  rival "lost" by turning, while a rival who never turned drives the same car on the same
+  schedule, is a caption, not a cost. It passes "read twice later" and still costs nothing.
 
 ## When not to use this
 
@@ -93,4 +96,7 @@ the penalty games attach to recruiting a former enemy rest on documented party-b
 games and on trope criticism of universal welcome (medium to low; the trope sources are
 community-written). Paying the cost in the rival's own currency, taking equipment rather than
 skill, and reading the cost later are the research dossier's proposals and this document's own
-judgement; none of this has been tested in a played game yet.
+judgement; none of this has been tested in a played game yet. The counterfactual check comes
+from one shipped game's data. There, a former rival's announced loss of a car lines up with the
+car schedule that a rival who never turned also follows (high as a reading of that tree, one
+case).

@@ -34,6 +34,24 @@ The second approach must not be a repeated offer at all: it is the rival, having
 coming to the hero — or acting on the new side before any words are exchanged. The asymmetry
 matters. The refusal is a response to the hero; the turn is an initiative of the rival's.
 
+## The function is fixed; the placement is not
+
+The refusal does its three jobs wherever it sits, so its position is free:
+- **Before the deciding contest.** The rival refuses help, a hiding place or a warning, and the
+  contest then settles what the refusal left open.
+- **Carried by someone else.** A rival who has already crossed can make the offer, so each turn
+  in a chain recruits the next. A bystander can voice the doubt.
+- **Brief.** It can be a single line, or a look away.
+
+What may not move: the rival's own reason is heard once, the refusal comes before the turn, and
+the turn is then the rival's initiative.
+
+This also bounds the rule from the other side. It is for a rival whose opposition was their
+own, with a grudge or a code behind it. An unwilling enemy, a conscript or a mercenary can
+be won in a single conversation. Whole genres recruit that way, and nothing is lost, because
+there was no conviction to overcome. Do not give such a character a refusal they have no
+reason to make. If they *do* need one, they are a rival, and they belong to this technique.
+
 ## The refusal's reason must be the rival's, not the plot's
 
 A refusal "because I have one more race to run" is the plot deferring the turn. A refusal
@@ -91,6 +109,11 @@ drive against is a refusal they believe.
   show what it cost someone else.
 - **When the offer is a player choice, guarantee the first attempt is refused**, and let its
   wording read how the player offered.
+- **When the refusal is written as an exchange, confirm it plays as one.** A line picker that
+  treats numbered sibling lines as alternatives will show one line of the exchange. Check that
+  the line it shows is the one that states the reason.
+- **When the character never had a conviction of their own, recruit without a refusal**, and do
+  not call it a rival turn.
 
 ## When not to use this
 
@@ -111,4 +134,14 @@ reported through secondary outlets (medium). Critical writing on redemption arcs
 turn stumbles before it sticks, with broad consensus but secondary sources (medium). The
 player-facing rules — the first offer always refused, a mechanical consequence for the
 refusal, two refusal lengths per campaign — are design proposals from the research dossier and
-this document, and none has been tested in a played game yet.
+this document, and none has been tested in a played game yet. The placement bound was reached
+by two lanes:
+- **Counter-evidence.** A tactics series has recruited enemy units with one talk command for
+  decades (community wiki, high as a description of the mechanic). A craft authority writes
+  that the refusal may be brief, or voiced by another character (primary, his own blog).
+- **Blind.** A training-data-only lane named this the subject's most overstated claim. It cited
+  a turn with no offer at all, staged by the rival's own side betraying them, and a turn reached
+  through several refusals that ends with the rival making the offer.
+
+The exchange-plays-as-one rule comes from one shipped game's script, where a four-line refusal
+reaches the screen as one line.
