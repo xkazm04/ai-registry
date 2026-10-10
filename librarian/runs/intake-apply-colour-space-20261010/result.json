@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-colour-space-20261010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-10T20:36:00Z",
+  "ended_at": "2026-10-10T20:58:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/imported-material-conformance",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "imported-material-conformance",
+      "technique": "colour-space-is-per-texture-role",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/applications/python--colour-space-is-per-texture-role.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/imported-material-conformance.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Registry d13f7918 + d0387a17 (generated in a clean worktree). pof 727d1498 pushed from an origin/master worktree; local master 0e7ae8f0 carries the same change, 39 ahead with sibling work, not pushed. First python application in the subject."
+}
