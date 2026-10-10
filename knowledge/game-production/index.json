@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 537,
-  "applications": 289,
+  "applications": 290,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -4781,9 +4781,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/judgeable-spec-authoring/judgeable-spec-authoring.md",
-   "digest": "sha256-b2:93856c6f119f365d",
-   "revision": 2,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:51d2d7f30dfc2a96",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "enumeration-closure-as-arithmetic",
@@ -4892,6 +4892,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "enumeration-closure-as-arithmetic",
+     "file": "knowledge/game-production/content-pipeline/judgeable-spec-authoring/applications/next--enumeration-closure-as-arithmetic.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "node",
      "technique": "execute-the-rules-against-the-worked-example",
