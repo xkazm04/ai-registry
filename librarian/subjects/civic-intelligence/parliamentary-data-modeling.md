@@ -1,8 +1,8 @@
 ---
 domain: civic-intelligence
 subject: parliamentary-data-modeling
-last_touched: 2026-09-09
-touched_by: architecture-review
+last_touched: 2026-10-10
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -84,3 +84,29 @@ Retain all six techniques with explicit identity, temporal and snapshot limits. 
   }
 }
 ```
+
+## Apply - 2026-10-10 (intake, run intake-apply-mvpi-1010)
+
+First application of `mandate-vs-person-identity`, an experiment on politicas with
+verdict `better`. The run picked two seams because each could falsify the technique.
+
+- **Denominators (the defect).** The event tables are keyed by mandate. The
+  participation and attendance denominators are keyed by the term. Replayed on the
+  public term-10 dumps, the floor held: 0 of 193 full-term mandates moved. 10 short
+  mandates moved, in opposite directions on the two rates. Under the shipped rule,
+  8 of the 15 lowest participation rates belong to short mandates. This refuted
+  the project's own framing of the fix (Q-effort-5, "mandate_start_date-aware"):
+  for one replacement, a window from the start date counts 1,738 roll calls, while
+  the publisher's per-mandate rows count 1,595. Shipped as the first step of a
+  `task`: the helper, its test and the plan are on politicas master (`5af5c7f`,
+  pushed). It is not yet wired in, because wiring it changes a published formula
+  and needs a writer run against the store.
+- **Never-seated (held).** The activity-signature classifier agreed 4 of 4 with
+  hand research. The bulk tables hold no better seating evidence: the pre-oath
+  code is unused, and excuse rows were filed after one member had given up the
+  seat.
+- **Technique gained** a boundary section: the opportunity set is the publisher's
+  rows, a term denominator errs in opposite directions on the two rate kinds, and
+  neither a missing pre-oath code nor an excuse row proves seating.
+- **Not moved:** the single-stack attention point. The only civic project in the
+  fleet is node.

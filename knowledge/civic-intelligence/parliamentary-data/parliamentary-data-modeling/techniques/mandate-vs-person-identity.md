@@ -100,3 +100,31 @@ change can contextualize floor activity but does not prove its cause or remove
 attendance duties. Normalize rates by eligible opportunities where possible;
 raw counts with stated tenure can also be published without implying equal
 exposure. Preserve source person records when identity resolution is uncertain.
+
+## Which opportunities, and what proves a seat
+
+- **The opportunity set is the publisher's rows, not a date window.** Some
+  publishers write one ballot row per mandate per roll call, with a code for
+  "not present" too. Where they do, a mandate's rows are its eligible roll calls.
+  A window counted from the mandate's start date over-counts them whenever the
+  mandate arises before the member is sworn in. That over-count falls on
+  replacements, the population the normalization exists for. In one replay a
+  window held 1,738 roll calls where the publisher's rows held 1,595. For every
+  full-term mandate, the rows matched the term count exactly. That match is the
+  floor to check before trusting the rule.
+- **A term denominator errs in opposite directions on the two rate kinds.** The
+  same short mandate gets a participation share that is too low and an excused
+  share that is too low too, so its attendance looks too good. A composite of
+  the two can look ordinary while both parts are wrong. Check each rate on its
+  own.
+- **What does not prove seating.** A vote-code vocabulary can define a
+  "before the oath" value that the publisher never writes. An excuse table can
+  hold rows for a mandate the member gave up weeks earlier. So neither the
+  missing code nor an excuse row is evidence of seating. Where the bulk tables
+  hold no record of the oath, combine an end date at or near the first sitting
+  with no observed participation. Store the result as inferred, and confirm it
+  per mandate from an official or narrative record. In the one tree checked,
+  that inference agreed four out of four with hand research. The rule is still
+  to label it inferred. A missing participation value must stay missing. If it
+  is read as zero, a partial ingest turns a seated member into a never-seated
+  one.
