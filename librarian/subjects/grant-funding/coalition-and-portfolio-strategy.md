@@ -223,3 +223,36 @@ untrusted-text-is-data law is cited and the boundary handling is named.
   }
 }
 ```
+
+### 2026-10-11 - `/intake apply`, capacity-floor-detection (run `intake-apply-capfloor-1010`)
+
+The attention scan's single-stack finding (node only) dispatched this run. No registered project
+declares this bundle. The one tree that implements it is `grant`, which is checked out only on
+the other machine, so I read a fresh clone of its remote. The stack is still node. This run adds
+the technique's first application and does not change the single-stack point.
+
+I chose the seam to falsify the technique. The tree already had the gate, the floor/ceiling
+asymmetry, the honest unknown and the forward pointer. A caught outcome would have made the
+technique's strict conversion boundary moot. It did not. The pointer was written inside the
+capacity check's own fail message, so it rode on every capacity fail. Because capacity sorts
+ahead of deadline, it also became the headline screen-out reason on closed and foreign grants.
+
+`code`, `better`, ab-paired over a 16-case cross-product. Capacity fails that showed the pointer
+beside another fail went from 7 of 8 to 0. Floor: no status and no first-hard-fail key changed,
+the sole-capacity pointer was kept, and the project's gate was green. Shipped as `849f03d` +
+`a1e95cb` on the project's origin main.
+
+**Boundary added to the technique.** Attach the pointer after every check has run. "Hard"
+means *structural*, not *vetoes this system's verdict*: the tree keeps geography soft, but its
+only geography fail is a foreign national programme, which no partner cures.
+
+**Open, with return conditions.**
+- **The coalition module has no production caller.** The shipped conversion is copy. **Return:**
+  when a caller lands, gate it on the same sole-fail predicate.
+- **Duration-blind capacity.** The tree has no award period, which was the earlier review's
+  counterexample. **Return:** when ingested awards carry a period, compare an annualized floor.
+- **The hard-fail-on-a-proxy contradiction** recorded by the 2026-09-10 re-review is untouched.
+  This run tested the conversion, not the gate's evidence class.
+- **The repository is private.** The application describes the seam without paths. The older
+  `node--complementarity-scoring` application cites line ranges in the same eligibility module,
+  and those ranges have since drifted.

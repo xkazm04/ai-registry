@@ -80,6 +80,15 @@ hard fail.** A grant failing capacity *and* geography is a rejection; surfacing
 it as a coalition lead wastes assembly effort and teaches users to distrust the
 coalition pipeline.
 
+Two consequences for where the rule lives. A capacity check cannot enforce it by
+itself, because it cannot see its sibling checks: attach the forward pointer after
+every check has run, never inside the capacity check's own fail message. And "hard"
+here means *structural*, not *disqualifying in this system's verdict*. A system that
+softens a gate for verdict purposes, for example treating a location miss as "verify
+the solicitation", must still keep that gate's structural failures, such as a foreign
+national programme, out of the conversion. The test is whether a partner could cure
+the failure, not which gates veto the score.
+
 ## When not to use
 
 Do not apply the revenue heuristic to organizations whose capacity is structurally
