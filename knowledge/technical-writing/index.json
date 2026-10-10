@@ -5,7 +5,7 @@
   "source": "knowledge/technical-writing/ (frontmatter only)",
   "subjects": 6,
   "techniques": 29,
-  "applications": 11,
+  "applications": 14,
   "laws": 9,
   "categories": [
    "composition",
@@ -210,9 +210,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/technical-writing/grounding/evidence-and-sources/evidence-and-sources.md",
-   "digest": "sha256-b2:5b6b2b07c435fd74",
-   "revision": 1,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:ace81dc42c3b90dd",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "counter-evidence-alongside-the-thesis",
@@ -252,7 +252,8 @@
      "use_when": [
       "presenting a derived number or a likely explanation in a technical article",
       "drawing an explanatory illustration rather than a data figure",
-      "reviewing a draft that states reasoning with the confidence of measurement"
+      "reviewing a draft that states reasoning with the confidence of measurement",
+      "writing a scenario figure for a use case"
      ]
     },
     {
@@ -284,6 +285,27 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "inference-labelled-as-inference",
+     "file": "knowledge/technical-writing/grounding/evidence-and-sources/applications/next--inference-labelled-as-inference--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "numbered-in-page-citations",
+     "file": "knowledge/technical-writing/grounding/evidence-and-sources/applications/next--numbered-in-page-citations--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "own-measurement-disclosure",
+     "file": "knowledge/technical-writing/grounding/evidence-and-sources/applications/next--own-measurement-disclosure--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
     {
      "stack": "process",
      "technique": "numbered-in-page-citations",
