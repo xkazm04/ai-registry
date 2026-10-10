@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 536,
-  "applications": 281,
+  "applications": 283,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -9871,9 +9871,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/top-down-vehicle-handling-model.md",
-   "digest": "sha256-b2:ef72f6244d8e231a",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:e759ca72edfd8715",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "bounded-load-transfer-grip",
@@ -9964,16 +9964,30 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "bounded-load-transfer-grip",
+     "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/kotlin--bounded-load-transfer-grip.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "slip-restoring-yaw-stability",
+     "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/kotlin--slip-restoring-yaw-stability.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "kerb-verge-inside-hard-wall",
      "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/process--kerb-verge-inside-hard-wall.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     },
     {
      "stack": "process",
      "technique": "slip-restoring-yaw-stability",
      "file": "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/process--slip-restoring-yaw-stability.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     }
    ]
   },
