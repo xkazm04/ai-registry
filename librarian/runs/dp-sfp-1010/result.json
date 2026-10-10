@@ -1,0 +1,92 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-sfp-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-10T05:05:00Z",
+  "ended_at": "2026-10-10T07:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/steering-feel-profile-shaping",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "steering-feel-profile-shaping",
+      "technique": "five-profile-trace-bands",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "steering-feel-profile-shaping",
+      "technique": "asymmetric-steer-slew-rise-return",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/steering-feel-profile-shaping.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/techniques/asymmetric-steer-slew-rise-return.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/techniques/brake-never-reverses.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/techniques/deadzone-exponent-remap.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/techniques/five-profile-trace-bands.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/techniques/throttle-instant-release-progressive-rise.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/kotlin--asymmetric-steer-slew-rise-return.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/kotlin--brake-never-reverses.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/kotlin--five-profile-trace-bands.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/process--deadzone-exponent-remap.md",
+    "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/process--five-profile-trace-bands.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/steering-feel-profile-shaping.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "9a07be4d",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping"
+      ]
+    },
+    {
+      "sha": "e4713b9a",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "4a40a244",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/steering-feel-profile-shaping.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "3 kotlin apps at firetv d9990777, 22 anchors held; process apps re-anchored 39/39. Profile bands asserted on a non-shipped path: 60/150 out of band via the catalogue. Slew rule: lag 88/88 shorter, settle 43/37/8. 0 techniques, 5 conditioned. 2 better, 2 unapplied. Impact 0."
+}
