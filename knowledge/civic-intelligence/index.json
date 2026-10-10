@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 38,
+  "applications": 39,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -1546,9 +1546,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/roll-call-vote-analysis.md",
-   "digest": "sha256-b2:509482b854e4f02d",
-   "revision": 3,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:b125caa7a781e22d",
+   "revision": 4,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "club-line-and-rebellion",
@@ -1576,7 +1576,8 @@
      "use_when": [
       "measuring pairwise voting similarity",
       "feeding bloc discovery or clustering",
-      "claiming two legislators vote together"
+      "claiming two legislators vote together",
+      "ranking a member's most similar voters"
      ]
     },
     {
@@ -1643,6 +1644,13 @@
      "technique": "club-line-and-rebellion",
      "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--club-line-and-rebellion.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "co-voting-agreement-matrix",
+     "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--co-voting-agreement-matrix.md",
+     "verified_on": "2026-10-10",
      "verified_against": "node@24"
     },
     {
