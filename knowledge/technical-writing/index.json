@@ -5,7 +5,7 @@
   "source": "knowledge/technical-writing/ (frontmatter only)",
   "subjects": 6,
   "techniques": 29,
-  "applications": 14,
+  "applications": 17,
   "laws": 9,
   "categories": [
    "composition",
@@ -319,9 +319,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/technical-writing/presentation/figures-and-tables/figures-and-tables.md",
-   "digest": "sha256-b2:ee6a938542f4e2d5",
-   "revision": 2,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:b6bbac4ca340d184",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "captions-name-their-sources",
@@ -404,6 +404,27 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "designed-comparison-tables",
+     "file": "knowledge/technical-writing/presentation/figures-and-tables/applications/next--designed-comparison-tables--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "text-alternative-for-figures",
+     "file": "knowledge/technical-writing/presentation/figures-and-tables/applications/next--text-alternative-for-figures--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "visual-cadence",
+     "file": "knowledge/technical-writing/presentation/figures-and-tables/applications/next--visual-cadence--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
     {
      "stack": "process",
      "technique": "label-length-figure-text",
