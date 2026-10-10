@@ -24,6 +24,20 @@ table so the comparison is visible before any cell is read.**
 - Evidence from several studies on one question (see the `evidence-and-sources` subject's
   counter-evidence technique, whose for/against/limit table is a designed table).
 - A set of locations, stages or collection points with the same properties.
+- Two parallel "strengths" and "trade-offs" lists for two options, whose items pair up
+  attribute by attribute: the pairs are rows, the options are columns.
+
+## Table or graph
+
+The guidelines' own abstract bounds the form: a table is useful for showing exact values,
+and not the best solution for a lot of data or a compact space (Schwabish, 2020). The
+cognitive-fit account says the same in task terms: tables for looking up values, graphs
+for seeing relationships (Vessey, 1991). The bound is softer than it sounds; in one
+two-experiment study tables were answered faster on every task tested, trends included,
+and familiarity with the display mattered (Meyer, Shinar and Leiser, 1997). So: a table
+when the reader needs exact values or the attributes are mixed and qualitative, which is
+most article comparisons; a graph, or small multiples, when the message is a pattern
+across many numeric cells.
 
 ## Design rules
 
@@ -57,6 +71,17 @@ From a published set of table guidelines, applied to article tables:
   an image with a full text alternative and the data available, or a code-formatted
   fixed-width block for small tables (see the `medium-format-fidelity` subject). Do not
   dissolve it back into prose.
+- **When the platform renders neither an image nor a code block, the carrier is a
+  parallel list.** One item per option, its name first in bold, then the same attributes
+  in the same order with the same short labels; or one item per attribute when the
+  question is which option wins on it. Keep it to about four options and four
+  attributes, cutting to the ones that decide the choice. Two lists of strengths and
+  trade-offs per option are not this: the reader still pairs the attributes up. If the
+  team owns the renderer and has a table component elsewhere, extend the renderer instead.
+- **Check that the renderer honours the design.** A table component that left-aligns every
+  cell, ignores the alignment markers, or has no slot for a caption cannot carry rule 3
+  or a caption with sources, however the table is written. Check one rendered table
+  with a numeric column before relying on it.
 - **A historical column is visually de-emphasized**: grey text, placed last, labelled as
   history.
 - **Heat tints are a second channel, never the only one.** The number stays printed in the

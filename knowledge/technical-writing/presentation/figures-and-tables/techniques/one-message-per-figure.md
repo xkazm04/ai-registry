@@ -23,12 +23,25 @@ only what makes that message visible.**
    figure is two figures or a table.
 2. **Choose the form from the message, not from the data.** A comparison of magnitudes is
    bars on a common baseline; a change over versions is a slope or a ladder; a sequence is
-   a flow; a composition is a stacked unit, never a pie with many slices; a path through a
-   system is nodes and arrows.
+   a flow; a share of one whole with a few parts is a pie or a single bar; a comparison of
+   parts across several items is bars on a common baseline again; a path through a system
+   is nodes and arrows. The pie is not banned by the measurements: for a proportion of the
+   whole, readers judged a pie as accurately as a simple bar and more accurately than a
+   divided bar (Simkin and Hastie, 1987). Position on a common scale wins every comparison
+   across items (Cleveland and McGill, 1984). How many slices is too many is judgment;
+   no study found here varies it.
 3. **Remove everything that does not serve the message.** Gridlines that no reader uses to
    read a value, a legend that could be direct labels, decoration, a third dimension. The
-   figure guide's phrase is that any decoration that tells the viewer nothing new must go
+   figure guide reports Tufte's ban on decoration that tells the viewer nothing new, and
+   adds that what is chartjunk in one figure can be justified in another
    ([figures abstract, prose explains](../../../_laws.md#figures-abstract-prose-explains)).
+   The measured line runs between decoration that encodes the data and decoration that
+   does not. Embellished charts whose imagery carried the trend were read no less
+   accurately and remembered better weeks later (Bateman et al., 2010; twenty people,
+   untimed). Interesting but irrelevant material lowers learners' retention and transfer
+   (a seductive-details meta-analysis, Rey 2012: small to medium effects). In an article read for
+   understanding, cut decoration that encodes nothing; a pictogram that is the data may
+   stay.
 4. **Make the message the most visually prominent element.** The bar that carries the
    point is the one highlighted; the rest are context in a muted tone.
 5. **Write the caption**: the message first, then how to read the figure (what a mark
@@ -39,6 +52,14 @@ only what makes that message visible.**
 
 - **When the figure needs a paragraph in the body to explain how to read it, the figure is
   wrong.** Simplify the form until the caption can do that job.
+- **The stated message must be the figure's most prominent feature.** When a caption
+  names a feature the chart leaves faint, readers report the prominent feature as the
+  takeaway instead (Kim, Setlur and Agrawala, 2021). Make the message the most visible
+  mark, or change the message to the one the drawing shows.
+- **The message is a reading the data defends, not a slant.** A title's message is
+  recalled more often than the chart's even when the two disagree (Kong et al., 2018 and
+  2019). That makes a message title a strong tool and a misleading one at the same cost;
+  check it against the data, including the part the figure leaves out.
 - **When two messages compete, split the figure.** Two small figures with one message each
   are read; one large figure with two is studied, if at all.
 - **When the message is a single number, it is not a figure.** Put the number in a sentence

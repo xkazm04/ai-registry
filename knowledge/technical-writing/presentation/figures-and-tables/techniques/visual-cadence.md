@@ -26,6 +26,14 @@ box holding one fact and its number. A small visual counts; the rule is a cadenc
 quota of large figures. A pull-quote or a decorative image does not count: it carries no
 information (see label-length-figure-text).
 
+A list counts when it carries structure: a numbered sequence, or parallel items with the
+same attributes. A heading does not count; it is navigation, and a run of prose under a
+new heading is still a run. Neither does a one-line italic or bold "lead-in" paragraph.
+
+The two-paragraph limit is a working convention from one review, like the label budget;
+no study found sets a number of paragraphs between visuals. Treat a run of three as a
+prompt to look, not as a defect by itself.
+
 ## Two jobs a visual does
 
 1. **Spare mass.** When a paragraph states a comparison, a sequence or a set of numbers,
@@ -33,7 +41,9 @@ information (see label-length-figure-text).
    the exception, the "so what"). The post gets shorter, not longer.
 2. **Carry the hard part.** In the technically hardest passage, a mechanism with several
    moving parts, a diagram beside the text lets a newcomer follow and lets an expert check
-   the reading against the picture.
+   the reading against the picture. For the expert the diagram helps only when the text it
+   repeats is cut: as expertise rose, the best design moved from diagram with integrated
+   text to diagram with the text eliminated (Kalyuga, Chandler and Sweller, 1998).
 
 ## Procedure
 
@@ -58,6 +68,10 @@ information (see label-length-figure-text).
 - **A critique round that asks for more material is answered by replacement.** Accepted
   findings are met by changing sentences, not appending them; the cadence is re-checked
   after the round.
+- **On a renderer with no figure, table or code block, the cadence is met with structure,
+  not decoration.** The smallest visual is a numbered list for a sequence or a parallel
+  list for a comparison (see designed-comparison-tables). A run that is reasoning, not
+  structure, is shortened or split. A bold label on its own line is not a visual.
 - **Do not satisfy the rule with repeats.** The same table drawn three times is a
   different defect; each visual carries its own message.
 

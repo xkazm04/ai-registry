@@ -29,7 +29,11 @@ annotations; everything longer goes to the caption or the prose.**
 | Annotation | One short phrase pointing at one mark |
 
 These are working limits, not measured thresholds; their purpose is to make "this is a
-sentence" a visible violation.
+sentence" a visible violation. No study found sets a word count per label. The budget is
+per element, not a cap on how many annotations a figure carries: readers in one study
+preferred the charts with the most text annotations over sparser charts and over text
+alone (Stokes et al., 2022, a preference measure). Relevant annotation pointing at marks
+is not the defect; a paragraph in a box is.
 
 ## Procedure
 
@@ -43,7 +47,9 @@ sentence" a visible violation.
    readability on a phone; a figure that needs its labels shortened for the phone needed
    them shortened anyway.
 5. **Prefer direct labels to legends.** A label beside the line it names costs fewer words
-   and no eye travel.
+   and no eye travel. This is the measured part of the subject: direct labelling gave
+   reliably quicker readings than a key, without loss of accuracy (Milroy and Poulton,
+   1978).
 
 ## Decision rules
 
