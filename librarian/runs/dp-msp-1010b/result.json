@@ -1,0 +1,35 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-msp-1010b",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-10T12:05:00Z",
+  "ended_at": "2026-10-10T12:17:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/multi-speaker-speech-production",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Third idle on this finding (dp-msp-1001, dp-msp-1010). Nothing committed to the subject or projects.json since f571eee9. Clocks in window; node@22/24 drift needs a tree read. Return: a registered non-node multi-voice speech tree. Stop ranking it until then."
+}
