@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 537,
-  "applications": 288,
+  "applications": 289,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -4420,9 +4420,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/hand-tracked-timing-windows.md",
-   "digest": "sha256-b2:879171d0f623e847",
-   "revision": 1,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:0afd8193043b7082",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "confidence-gated-detection",
@@ -4483,6 +4483,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "confidence-gated-detection",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/applications/cpp--confidence-gated-detection.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "cpp@20"
+    },
     {
      "stack": "cpp",
      "technique": "onset-recovered-from-tracking-history",
