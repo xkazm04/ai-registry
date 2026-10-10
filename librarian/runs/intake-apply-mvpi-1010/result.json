@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-mvpi-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "civic-intelligence",
+  "started_at": "2026-10-10T18:50:00Z",
+  "ended_at": "2026-10-10T19:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "civic-intelligence/parliamentary-data-modeling",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "parliamentary-data-modeling",
+      "technique": "mandate-vs-person-identity",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--mandate-vs-person-identity.md",
+    "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/techniques/mandate-vs-person-identity.md",
+    "knowledge/civic-intelligence/index.json",
+    "rules/ai-registry-civic-intelligence.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/civic-intelligence/parliamentary-data-modeling.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Registry d9f8f902 + 2386c2d4 (generated on an origin worktree). Politicas: task step 1 5af5c7f + row 5f88b00 pushed from an origin worktree (local is 51/11); wiring needs a writer run. Single-stack point unmoved."
+}
