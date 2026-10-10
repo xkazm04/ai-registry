@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 537,
-  "applications": 290,
+  "applications": 291,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -8130,9 +8130,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/render-submission-economy/render-submission-economy.md",
-   "digest": "sha256-b2:13326c64907cedb4",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:63820d1b69bd0903",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "batch-by-page-where-order-is-invisible",
@@ -8267,6 +8267,13 @@
      "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/kotlin--residency-budget-checked-before-decode.md",
      "verified_on": "2026-10-07",
      "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "react",
+     "technique": "cull-before-submission",
+     "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/react--cull-before-submission.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "react@19.2.7"
     }
    ]
   },
