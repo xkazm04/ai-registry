@@ -1,0 +1,108 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-rta-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-09T23:50:00Z",
+  "ended_at": "2026-10-10T00:25:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/rival-to-ally-turn",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "rival-to-ally-turn",
+      "technique": "style-plus-grudge-before-taunts",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "rival-to-ally-turn",
+      "technique": "earn-respect-before-the-turn",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "rival-to-ally-turn",
+      "technique": "refuse-once-then-turn",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "rival-to-ally-turn",
+      "technique": "keep-the-rivals-own-culture",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "rival-to-ally-turn",
+      "technique": "turn-on-what-they-see",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/rival-to-ally-turn.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/techniques/earn-respect-before-the-turn.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/techniques/keep-the-rivals-own-culture.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/techniques/refuse-once-then-turn.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/techniques/style-plus-grudge-before-taunts.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/techniques/switching-sides-costs-something.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/techniques/turn-on-what-they-see.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/kotlin--earn-respect-before-the-turn.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/kotlin--keep-the-rivals-own-culture.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/kotlin--refuse-once-then-turn.md",
+    "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/kotlin--style-plus-grudge-before-taunts.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/rival-to-ally-turn.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "9c44b7b3",
+      "branch": "main",
+      "pathspec": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn"
+    },
+    {
+      "sha": "2bc462af",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "7fee96a1",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/rival-to-ally-turn.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "4 kotlin apps at firetv d9990777, 62 anchors held. 7 golden-path conditions, 0 techniques. Applied 4 better, 1 unmeasurable, 1 unapplied. Impact 0 contexts. gate --all stops at check-coverage-age (pre-existing, 17 d); the 15 later steps green run singly."
+}
