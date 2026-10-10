@@ -31,18 +31,29 @@ that a strict mode is supported for every provider while the adapters underneath
 append an instruction to the prompt asking for the right shape. The claim is not a lie
 anyone told; it is a claim nobody re-checked after the adapters changed.
 
+**Acceptance is not enforcement.** The loss can also happen on the vendor's side of the
+wire. Some vendors reject a constraint they cannot express, with an error naming the
+construct; others accept the request, ignore the unsupported field, and return a normal
+answer for a contract that was never in force. A seam that reads "the request was
+accepted" as "the constraint applied" has demoted nothing and believes everything.
+
 ## The rule
 
 Three moves, in order:
 
 1. **Inspect the contract for constructs the target dialect cannot express** before
-   sending. This is a scan of the contract, not of the answer, and it is cheap.
+   sending. This is a scan of the contract, not of the answer, and it is cheap - and it
+   is a scan against the target's documented subset, not against whether the target
+   accepted the request.
 2. **Demote the recorded enforcement level** when anything would be lost — from
    *enforced by the engine* to *requested in the prompt*. The outcome carries the level
    that actually applied, not the one that was intended.
 3. **Validate the answer locally on every path**, including the enforced one. A vendor
    that accepted a constraint may still return something outside it, and a seam that
-   trusts the constraint has no way to notice.
+   trusts the constraint has no way to notice. Three routes are documented by the vendors
+   themselves: output stopped by a ceiling is incomplete by construction; a refusal takes
+   precedence over the schema; and a fully enforced closed set can come back differing in
+   letter case under a normal stop, with no error and no special stop reason.
 
 Step 3 is what makes steps 1 and 2 safe rather than merely honest: the demotion informs
 the *reader*, and local validation protects the *system*.

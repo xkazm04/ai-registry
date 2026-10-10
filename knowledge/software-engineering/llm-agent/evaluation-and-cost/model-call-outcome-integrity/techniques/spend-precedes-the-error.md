@@ -21,14 +21,25 @@ different times. Failure handling is written first, because it is what makes the
 work; accounting is added later, on the success path, because that is where the numbers
 are. The result is a seam that meters what succeeded and drops what did not.
 
-That is not a rounding error. Several of the most expensive failure modes bill in full:
+That is not a rounding error. Several of the most expensive failure modes are billed:
 
-- a refusal or safety block, where the input was processed and the output suppressed
-- an answer that arrived and failed validation
 - an attempt stopped by a ceiling, which consumed the entire budget by definition
+- an answer that arrived and failed validation
+- an output a filter or classifier ended part-way, billed for the input and for what was
+  generated before the stop
+- a request a filter rejected after the vendor processed it, where the vendor charges for
+  processing whatever the status code says
 - a supervising process that was killed mid-call, after the work was done remotely
 
-Each is a case where the money left and the ledger did not move. Worse, each is
+Each is a case where the money left and the ledger did not move.
+
+The list is not "every failure bills in full", and the first version of this technique said
+it was. Vendors document the opposite for some of the same events: a refusal issued before
+any output is free in most of one vendor's categories and billed in the rest; an input a
+guardrail blocks before inference is charged for the guardrail evaluation and not for the
+model; a request refused for authentication or rate is not charged at all. Which failures
+cost money is a vendor-and-category fact that changes over time - so the seam reads it from
+the response rather than deciding it from the outcome class. Worse, each is
 *correlated with the conditions the ledger exists to catch*: budgets are exceeded during
 incidents, and incidents are when calls fail.
 
@@ -67,6 +78,11 @@ only the second reliably gets the error fixed.
 - **If the response object exists, meter it.** The question is not whether the call
   succeeded but whether work was performed on the other side.
 - **Meter the attempt, not the outcome's usefulness.** A discarded answer is spend.
+- **Price a failure from what the response reports, never from its class.** The same
+  outcome - a refusal, a filtered output - is billed in full by one vendor, in part by
+  another and not at all by a third. A ledger that books every refusal at full cost
+  overstates; one that books none understates. Where the response reports nothing, the
+  cost is unknown, not zero and not the full price.
 - **Where the transport reports its own total, prefer it for that call and say so**;
   where it does not, price from usage. Never emit a fabricated figure to fill the column
   — an unknown cost is unknown, and the metering subject owns how that is represented.

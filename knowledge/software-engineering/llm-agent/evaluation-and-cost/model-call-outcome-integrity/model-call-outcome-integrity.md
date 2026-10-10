@@ -94,7 +94,7 @@ routing.
 ## What a seam must be able to say
 
 An outcome carries an answer or it carries a reason, and the reason is drawn from a
-closed set the seam owns. The minimum vocabulary separates five things that naive seams
+closed set the seam owns. The minimum vocabulary separates six things that naive seams
 collapse into one:
 
 | the seam observed | what it means | who owns it |
@@ -102,11 +102,19 @@ collapse into one:
 | the model answered | an answer exists and may be judged | the model |
 | the model answered wrongly | the answer exists and failed a check | the model |
 | the model was cut off | a ceiling, deadline or window ended the attempt | the caller |
-| the model declined | it was reached and refused; there is no answer to judge | the model, by policy - counted apart from wrong answers |
+| the model declined | it was reached and wrote a refusal; there is no answer to judge | the model, by policy - counted apart from wrong answers |
+| a filter withheld the answer | a policy layer outside the model blocked the input or stopped the output | the vendor's policy layer - counted apart from both |
 | the model was never reached | no candidate was eligible, or none accepted the work | the caller |
 
 Only the answered and wrong rows are evidence about a model's quality; a decline is
-evidence about its policy and is counted apart. The cut-off and never-reached rows are
+evidence about its policy and is counted apart. A filter's stop is not evidence about the
+model at all: vendors document classifiers and filters that sit beside the model, block an
+input before generation or end an output part-way, and report it as a stop reason - while
+a refusal the model writes itself usually ends under a normal stop and is visible only in
+the content. Some vendors deliver a classifier's stop under the name *refusal*; the seam
+records the stop it received and does not promote it to the model's judgment. The two rows
+are also billed differently (see spend-precedes-the-error), which is a second reason not to
+merge them. The cut-off and never-reached rows are
 evidence about configuration, and a seam that cannot tell them apart will eventually
 publish never-reached as wrong - which reads as a damning result and is a bug report about
 the seam.
