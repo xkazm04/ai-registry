@@ -5,12 +5,12 @@ subject: steering-feel-profile-shaping
 technique: five-profile-trace-bands
 stack: process
 status: forged
-verified_on: 2026-10-01
+verified_on: 2026-10-10
 ---
 
 # A five-row feel table, a pinned-speed trace test, and a baseline row
 
-Read against the same couch-racer working tree as the sibling application (`firetv-deathride`, root for every path). Everything below is simulated or authored: sixty headless traces on one Windows JVM at a fixed sixty hertz, a table the owner's later hand selection did not derive from, and a touch distance that is a design hypothesis. No one has driven these profiles on a phone with a thumb.
+Read against the same couch-racer tree as the sibling application (`firetv` `deathride/main`, re-anchored at `d9990777` on 2026-10-10; root for every path). The fixture described here builds a default spec and so runs the single-body handling path; catalogue cars run the axle path, and the kotlin application for this technique measures what that does to the bands. Everything below is simulated or authored: sixty headless traces on one Windows JVM at a fixed sixty hertz, a table the owner's later hand selection did not derive from, and a touch distance that is a design hypothesis. No one has driven these profiles on a phone with a thumb.
 
 ## The table, with its bands beside it
 
@@ -28,7 +28,7 @@ Read against the same couch-racer working tree as the sibling application (`fire
 
 `docs/concepts/deathride/W1-feel-research.md:27 "| Spike | 0.183"` through line 31 is the eighteen-metre step table. The rows relevant to the technique: `| Loose | 0.133 | 1.308 | 13.761 | 38.631 | 0.633 |`, `| Agile | 0.150 | 1.309 | 13.748 | 20.520 | 0.133 |` and `| Stable | 0.317 | 1.081 | 16.645 | 7.932 | 0.250 |`. Line 33 reads it correctly in its first half: "compare both radius and transient time". Loose and Agile differ in radius by about one hundredth of a metre and in slip by a factor of nearly two, which is the strongest argument in the corpus for not reporting radius alone. The turn-in column shows the slew and authority working in the expected direction, from 0.133 s to 0.317 s.
 
-**Upward lesson and caveat.** The note's second sentence says "simply increasing yaw authority can increase saturated slip at high speed". The table supports the *pairing* of high authority with high slip, and does not isolate authority. Loose and Agile differ in several fields at once (`deathride/core/src/main/resources/data/feel.csv:3 "Loose,0.02,0.8,95"` against `deathride/core/src/main/resources/data/feel.csv:4 "Agile,0.025,0.85,105"`: authority 1.5 and 1.25 against 1.45 and 1.15, stability scale 0.6 against 0.9, yaw response scale 0.65 against 0.6, brake scale, steer rates). The stability restoring term, which scales the slip-correcting yaw in `deathride/core/src/main/kotlin/dev/deathride/core/World.kt:186 "profile.stabilityScale"`, is the likelier driver of the slip gap, and a one-setting sweep was not run. The technique now carries the rule: a cause is named only after a sweep that changes it alone.
+**Upward lesson and caveat.** The note's second sentence says "simply increasing yaw authority can increase saturated slip at high speed". The table supports the *pairing* of high authority with high slip, and does not isolate authority. Loose and Agile differ in several fields at once (`deathride/core/src/main/resources/data/feel.csv:3 "Loose,0.02,0.8,95"` against `deathride/core/src/main/resources/data/feel.csv:4 "Agile,0.025,0.85,105"`: authority 1.5 and 1.25 against 1.45 and 1.15, stability scale 0.6 against 0.9, yaw response scale 0.65 against 0.6, brake scale, steer rates). The stability restoring term, which scales the slip-correcting yaw in `deathride/core/src/main/kotlin/dev/deathride/core/World.kt:216 "profile.stabilityScale"`, is the likelier driver of the slip gap, and a one-setting sweep was not run. The technique now carries the rule: a cause is named only after a sweep that changes it alone.
 
 ## The baseline row, and who is not shaped
 

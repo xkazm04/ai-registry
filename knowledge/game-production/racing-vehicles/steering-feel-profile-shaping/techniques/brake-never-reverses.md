@@ -23,6 +23,8 @@ Three small rules, each in the one place that applies it.
 
 **Forward speed is floored at zero.** After the step's acceleration and deceleration are summed, clamp the forward component at zero before drag and before it is recombined into the world velocity. This is the clamp that prevents the reverse, and it must sit on the forward component in the vehicle's own frame; clamping the speed magnitude would not stop a vehicle already moving backward from continuing to do so.
 
+**Unless the model can spin.** In a model with real slip, a vehicle that has rotated half a turn while sliding has a large backward forward-component without any reverse involved, and a floor at zero deletes that momentum in one step: the car stops dead mid-spin. There the clamp keys on the *crossing*: if the step would carry the forward component from one sign to the other while no propulsion is applied, set it to zero; otherwise leave it. The brake then works against existing backward travel and still can never create it. Test both halves: backward momentum survives a step, and a brake held at a crawl ends with no backward travel. The plain floor is correct for a body that cannot rotate past its own velocity, and a game that switches handling models must check which floor each path has.
+
 ## Why a floor and not a rule in the controller
 
 It is tempting to enforce the rule at the client, by not sending brake when the vehicle is stopped. That cannot work: the client does not know the vehicle's speed to the precision required, the information is a tick old, and the shaping lives in the core by design. The floor is a property of the integration, so it belongs where the integration is.
@@ -42,6 +44,7 @@ A reverse gear is a distinct deliberate act with its own control, its own speed 
 
 - **A simulation with a real transmission.** A car with gears and a handbrake has reverse as part of its model; the rule here is for one-axis arcade controls.
 - **A game where reversing is the point.** A parking game or a drift trial with a spin-around mechanic needs reverse as a first-class control; the exclusion would be an error there.
+- **A product that chooses brake-to-reverse on one control.** Some arcade racers and vehicle kits do; it is a decision, not a defect, when it is gated so it cannot happen by accident (below a small speed, after a hold or a release-and-press, with a margin so it does not flip at zero). The failure this technique guards against is the ungated version that falls out of an integrator.
 
 ## The failure this prevents
 

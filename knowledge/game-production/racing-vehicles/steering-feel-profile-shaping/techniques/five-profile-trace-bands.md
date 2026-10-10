@@ -15,7 +15,9 @@ A handful of named feels, each a row of numbers, is a design that can be argued 
 
 ## The fixture
 
-One vehicle on open ground, not a lap. The speed is *pinned*: after each step the velocity is rescaled to the test speed, so what is measured is steering response rather than the interplay of acceleration and drag. Throttle is held constant and brake is zero. Run each profile at three speeds that span the authority blend (a parking speed, a mid speed, a near-top speed) and at four input patterns: a full step to lock, a ramp, a sine sweep and a half-lock hold. The step is the acceptance pattern; the others are for the reviewer. Use a fixed step length and a fixed trace length, and write both into the report header, since a measurement without its step and window is not comparable.
+One vehicle on open ground, not a lap. **Build it the way the game builds a raced vehicle**, through the same factory, data rows and flags, and assert which handling path ran. A vehicle constructed by hand with default parameters can take a different branch from every shipped vehicle. Then the bands guard a model nobody drives, and a change to the shipped model breaks nothing. In one measured case a game's bands passed 15 of 15 traces on a default-built vehicle while the same fixture, run through the catalogue factory, put 60 of 150 out of band. The handling model had been replaced the day after the bands were set. The speed is *pinned*: after each step the velocity is rescaled to the test speed, so what is measured is steering response rather than the interplay of acceleration and drag.
+
+Pinning is safe only while the model cannot spin at the pinned speed. A model with real tyre saturation, given a full-lock step at a speed the pin keeps constant, slides and is fed energy to keep sliding. The slip column then reads a spin, and turn-in and radius describe no turn. Choose the acceptance step below that point: find the largest input whose saturated slip stays well short of a spin across the vehicles under test, and use it. In the case above, 70 of 150 full-lock traces passed forty-five degrees of slip, 7 at half lock and none at a quarter. Throttle is held constant and brake is zero. Run each profile at three speeds that span the authority blend (a parking speed, a mid speed, a near-top speed) and at four input patterns: a full step to lock, a ramp, a sine sweep and a half-lock hold. The step is the acceptance pattern; the others are for the reviewer. Use a fixed step length and a fixed trace length, and write both into the report header, since a measurement without its step and window is not comparable.
 
 ## The measurements, and why four
 
@@ -46,6 +48,7 @@ Every table states: fixed step length, trace length, speeds, which pattern the t
 - **Hold speed.** Unpinned speed makes slip and radius depend on acceleration; the fixture isolates steering.
 - **Declare the bands in data, assert them in the test, write the results to a report file the reviewer can open.** The report is the evidence; the assertion keeps it true.
 - **Assert the scope.** The test asserts the profile count and the trace count before it asserts anything else.
+- **Assert the path.** The fixture comes from the game's own vehicle factory, and the test asserts the handling branch it took. When the game gains a handling model, the bands move to it in the same change, or the test fails.
 - **Never convert a band into a feel claim.** A profile inside its band is within its declared model behaviour; whether it feels good is a human verdict.
 
 ## When not to use it
