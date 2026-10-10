@@ -1,0 +1,100 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-ttl-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-10T03:50:00Z",
+  "ended_at": "2026-10-10T04:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/two-thumb-touch-layout-design",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "two-thumb-touch-layout-design",
+      "technique": "pointer-capture-per-control",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "two-thumb-touch-layout-design",
+      "technique": "neutralise-on-sheet-open-or-layout-change",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "two-thumb-touch-layout-design",
+      "technique": "pad-vertical-throttle-neutral-start",
+      "verdict": "unmeasurable",
+      "mode": "code"
+    },
+    {
+      "subject": "two-thumb-touch-layout-design",
+      "technique": "pointer-capture-per-control",
+      "verdict": "unmeasurable",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/two-thumb-touch-layout-design.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/techniques/pointer-capture-per-control.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/techniques/pad-vertical-throttle-neutral-start.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/techniques/relative-anchor-steering.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/techniques/neutralise-on-sheet-open-or-layout-change.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/applications/node--pointer-capture-per-control.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design/applications/kotlin--relative-anchor-steering.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/two-thumb-touch-layout-design.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "134d172a",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/couch-and-tv-play/couch-and-tv/two-thumb-touch-layout-design"
+      ]
+    },
+    {
+      "sha": "def1233a",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "c68248d0",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/two-thumb-touch-layout-design.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Field moved 5 days after forge (Drive layout, take-over, stroke revert). Take-over sim better; touch-action stops at scroll container (Chrome 154, 7 variants, controls held). Pad brake full form. Kotlin app added; node re-anchored 33/33. Impact 0."
+}
