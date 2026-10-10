@@ -36,8 +36,18 @@ produces a state the player cannot read.
 The reduced state of one car is a position, a velocity vector, a heading and a yaw rate.
 From those, one derived quantity does almost all of the work: the **slip angle**, the signed
 angle from the heading to the velocity direction. Zero slip is a car travelling the way it
-points. Small slip is ordinary cornering. Large slip is a slide. Nothing in the model needs
-a wheel, an axle or a contact patch; the slip angle is the whole tyre.
+points. Small slip is ordinary cornering. Large slip is a slide. For grip driving nothing in
+the model needs a wheel, an axle or a contact patch; the slip angle is the whole tyre.
+
+That last sentence has a boundary, and it is the first design decision. One slip angle has one
+saturation point, so it cannot say *which end* of the car lets go: understeer against
+oversteer, a handbrake that frees only the rear, a long car that turns wider than a short one,
+a spin that happens because the rear ran out of grip. When the design wants drift as a feature
+rather than as a flavour of cornering, the next model up is two axles: one slip angle and one
+lateral force at each end, and a yaw torque from the two forces on their lever arms. That is the
+reduction the most widely copied tutorial on game car physics uses, and its stated aim is
+understeer, oversteer, skidding and handbrake turns. It is still an arcade model. The laws below
+survive the move, but two of them change meaning; the techniques say how.
 
 Each step then does the same four things in the same order. Steering and the stabilising
 term set a *desired* yaw rate; the actual yaw rate lags toward it; the velocity is rotated
@@ -58,12 +68,18 @@ player feels. `speed-attenuated-steering-authority` carries it.
 **Yaw has a restoring term.** The nose is pulled toward the velocity direction in proportion
 to slip. Without it the car is a rotating body that never recovers; with too much it is on
 rails. This is the single most consequential constant in the model, and it is the one the
-rest of the handling is tuned around. `slip-restoring-yaw-stability` carries it.
+rest of the handling is tuned around. The direction it pulls toward is zero slip only for a
+point. A two-axle car corners with a steady body slip that is not zero, so there the term
+restores toward that neutral angle, or it fights every ordinary turn.
+`slip-restoring-yaw-stability` carries it.
 
 **Load moves, but only a little, and never past a bound.** Braking presses weight onto the
-front and lightens the rear; throttle does the reverse. A model that tracks that shift as a
-slowly-following scalar, fed by a bounded target, gets trail-braking and power-oversteer for
-the price of one low-pass filter. `bounded-load-transfer-grip` carries it.
+front and lightens the rear; throttle does the reverse. A model can track that shift as a
+slowly-following scalar fed by a bounded target. It is a small lever, and how small should be
+measured, not assumed. On a point mass its effect is a grip interval you can compute from the
+table. On a two-axle model it moves capacity between the ends. In one measured case, taking it
+out removed under a degree from a ten-degree slip rise when braking in a corner, and full
+throttle in the same corner produced no power-oversteer with it or without it. `bounded-load-transfer-grip` carries it.
 
 **Drift is a state with two thresholds.** A car enters a slide at one slip angle and leaves
 it at a smaller one. Without the gap, a car sitting at the threshold flickers between modes
@@ -88,6 +104,10 @@ realistic; it is wrong in a way no single line reveals. When a computer-driven o
 reads the same grip number the physics reads, it must read it once. A rival that was slowed
 by a surface at the corner-speed estimate and again by a separate multiplier failed to finish
 on the slipperiest surface, and the repair was to delete the duplicate, not to add power.
+The same project made the same mistake again when it moved to two axles. Surface grip already
+scaled each axle's capacity, and a first draft scaled the yaw reference by it as well. Ice
+recovery broke, and the fix was again a deletion. A model change is when this rule is most
+likely to be broken, because every law is being re-derived at once.
 
 **Bounded is a property of the target, not of a clamp.** A lagging scalar fed by a value
 that cannot leave a range stays in that range without a single `min`. A clamp hides the
@@ -120,6 +140,14 @@ hypothesis about a hand that has not yet been on the controller.
   recovery band. Players experience it as the car suddenly stopping being theirs.
 - **Realism creep.** Adding a wheel, then a differential, then a suspension, each justified by
   one anecdote. The arcade model's value is that one person can hold all of it in their head.
+  Two axles are not creep when the design asks for which-end-lets-go behaviour; they are the
+  floor for it. Creep is what comes after: per-wheel loads, drivetrains, engine torque curves,
+  longitudinal slip ratios. Canonical arcade write-ups leave those out on purpose, and some even
+  handle longitudinal and lateral tyre forces separately instead of sharing one grip budget.
+- **The silent model swap.** A game moves its roster to a richer model and keeps the old
+  integrator for a default car. The old laws' tests stay green, because they build the default
+  car, and now witness a path no shipped vehicle drives. Build every handling fixture through the
+  same factory that builds shipped cars, and assert which path it took.
 - **The orphan flag.** A drift state that is computed, tested and stored, and read by nothing
   but a particle effect. That is acceptable when named as such; it is a defect when everyone
   assumes it changes how the car drives.

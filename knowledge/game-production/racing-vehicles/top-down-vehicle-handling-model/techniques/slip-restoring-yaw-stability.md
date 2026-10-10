@@ -57,7 +57,44 @@ that the car is dull. It deserves three properties.
   without a second copy of the law, and the multiplier is a table value too.
 - **It is reduced by braking.** Hard braking unloads the rear and the car should be easier to
   rotate; the stabiliser is scaled by `1 - brake x loss`. The same loss factor appears in the
-  lateral-grip law, and it must come from the same table row, once.
+  lateral-grip law, and it must come from the same table row, once. On a two-axle model braking
+  reaches the rear through that axle's own load and grip budget, so the stabiliser carries no
+  brake factor at all.
+
+## On a two-axle model: restore toward the neutral slip, from a reference yaw
+
+Everything above assumes a point, where a car turning cleanly has zero slip and zero is the
+right target. A two-axle car does not. In a steady grip turn its body slip settles at a
+non-zero angle set by the rear lever arm and the rear tyre's own slip. At low speed the
+kinematic value is about the rear arm divided by the turn radius, and it changes as lateral
+load rises. In one measured roster the steady grip-turn slip even had the opposite sign from
+the point model's. Pulling that angle toward zero adds a constant yaw bias to every ordinary
+corner.
+
+The fix has two parts, and they are not equal:
+
+- **Steer toward the old model's steady yaw.** The steering term is divided by the
+  point model's steady-state factor, `1 + stability / lateralGrip`, so that at low slip the
+  axle car asks for the yaw rate the approved point car settled at.
+- **Restore toward the neutral slip, not toward zero.** The neutral angle is computed from the
+  reference yaw, the rear arm and the rear axle's remaining grip. It is bounded by the drift
+  entry threshold and faded out as the car slides, because in a slide the tyres own the angle.
+
+Measured on a simulated roster (ten car classes, five feel profiles, a quarter-steer grip turn at
+a pinned 18 m/s, compared with the retained point model): with neither part, steady yaw
+moved by a mean of 26% and by up to 49% on the default profile and 61% on the stablest. With
+both parts the mean was 14% and the compensated model was the closer of the two in 36 of 50
+pairs. Removing only the neutral target, and keeping the reference yaw, cost much less: a
+mean of 15% against 14%, closer in 29 of 50. Its weight grows with the stability multiplier,
+and on the stablest profile the worst pair went from 21% to 38%. **Simulated; nobody has felt
+either arm.** The remaining 14% is the axle model's intended change (long cars turn wider), not
+residual error.
+
+**Fade the restoring term before a spin.** A two-axle car has a real spin, which a point with a
+spring on its slip angle does not. The restoring term, and any counter-steer boost, should
+fade smoothly between a large useful drift angle and the spin threshold, so the
+player can lose the car for real. A term that keeps pulling at any angle turns every overcooked
+slide into an automatic catch.
 
 ## Procedure
 
@@ -98,7 +135,11 @@ made it; the constants are authored.
 ## When not to use this
 
 - **On a car whose heading is slaved to its velocity.** There is no slip to restore.
-- **When a real tyre model exists.** A slip-dependent lateral force already pulls the nose
-  round, and adding this term double-counts it; remove one.
+- **At full weight beside a real tyre model.** A slip-dependent lateral force already pulls the
+  nose round, and adding this term at full strength double-counts it. Removing it is one fix.
+  The other keeps the approved low-slip feel: run this term as a servo near grip and hand yaw
+  over to the axle torque as slip grows. Do the handover with a smooth blend between two slip
+  angles, a handbrake floor on the tyre share, and the servo's own torque capped by what the
+  axles can deliver. Either way, at any slip only one authority should own the yaw.
 - **As a stand-in for traction control.** A stabiliser tied to throttle or to a driver-assist
   switch is a different feature and belongs in its own law with its own switch.

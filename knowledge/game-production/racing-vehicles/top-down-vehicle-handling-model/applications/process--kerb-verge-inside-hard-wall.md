@@ -5,26 +5,29 @@ subject: top-down-vehicle-handling-model
 technique: kerb-verge-inside-hard-wall
 stack: process
 status: forged
-verified_on: 2026-10-01
+verified_on: 2026-10-10
 ---
 
-# The surface ladder is exercised; the verge band is probably unreachable
+# The surface ladder is exercised; the verge was unreachable, and edge sampling fixed it
 
-Read against the `firetv-deathride` tree, source root `firetv-deathride`, at
-the head of its main branch on 2026-10-01 (uncommitted work present, commit not pinned). The
-ladder's completion results are **simulated** (seeded computer-driven cars). The reachability
-finding below is a **derivation from cited lines**, not an instrumented run. Nothing here is
+First read against the `firetv-deathride` tree on 2026-10-01, at the head of its main branch
+(uncommitted work present, commit not pinned). Re-read on 2026-10-10 at `deathride/main`
+`d9990777`, and every anchor below is from that commit. The ladder's completion results are
+**simulated** (seeded computer-driven cars). The reachability result is now a **test in the
+project**. The first reading was only a derivation from cited lines. Nothing here is
 human-felt.
 
 ## The zones
 
-The bands are defined from the half-width, outermost first:
-deathride/core/src/main/kotlin/dev/deathride/core/World.kt:81 "abs(lateral)>widthAt(s)-Movement.vergeWidthM -> Surfaces.offtrack" and
-deathride/core/src/main/kotlin/dev/deathride/core/World.kt:82 "abs(lateral)>widthAt(s)-Movement.vergeWidthM-Movement.kerbWidthM -> Surfaces.kerb".
+The bands are defined from the half-width, outermost first, and since 2026-10-01 they are
+tested at the car's edge rather than its centre:
+deathride/core/src/main/kotlin/dev/deathride/core/World.kt:87 "abs(lateral)+contactRadiusM>widthAt(s,route)-Movement.vergeWidthM -> Surfaces.offtrack" and
+deathride/core/src/main/kotlin/dev/deathride/core/World.kt:88 "abs(lateral)+contactRadiusM>widthAt(s,route)-Movement.vergeWidthM-Movement.kerbWidthM -> Surfaces.kerb".
 The widths are metres in a table apart from the surface table: deathride/core/src/main/resources/data/movement.csv:13 "kerbWidthM,1" and
 deathride/core/src/main/resources/data/movement.csv:14 "vergeWidthM,1.5". The design note states the intent at
 docs/concepts/deathride/W3-movement.md:9 "A near-edge kerb and outer verge remain inside the hard wall". The surface is resolved once per
-step for each car from the projected position, deathride/core/src/main/kotlin/dev/deathride/core/World.kt:255 "c.surface=track.surfaceAt(projection.s,projection.distance)".
+step for each car, passing the car's collision radius for a roster car:
+deathride/core/src/main/kotlin/dev/deathride/core/World.kt:370 "c.surface=track.surfaceAt(projection.s,projection.distance,if(c.carClass==null)0.0 else c.spec.circleRadiusM,projection.route)".
 
 ## The ladder itself
 
@@ -37,53 +40,63 @@ docs/concepts/deathride/W3-movement.md:25 "| Asphalt | 69.350" to docs/concepts/
 The time ranking is not the grip ranking. Offtrack grip, 0.55, is higher than oil's 0.48, yet its
 finish times are the worst by a wide margin because its drag is 0.65 per second against oil's 0.02.
 That is the two-column argument recorded in the source's own numbers. **Simulated, n = 3 per
-surface.**
+surface.** Those times predate the roster's move to a two-axle model; the completion test still
+passes on the current tree, but the table has not been re-run.
 
 ## The incident the standard was built around
 
 docs/concepts/deathride/W3-movement.md:32 "Initial ice run failed the 180 s completion requirement for Bastion" gives the cause: the driver applied grip once in the
-lateral-acceleration corner limit and again as a speed multiplier. The corner-speed estimate reads
-the surface grip once, at deathride/core/src/main/kotlin/dev/deathride/core/World.kt:315 "track.surfaceAt(s+look,lane).gripScale", and the remaining factor applies only
-on straights, as a stated floor, at deathride/core/src/main/kotlin/dev/deathride/core/World.kt:316 "val surfaceLimit=if(point.curvature>0)1.0 else sqrt(c.surface.gripScale)".
-The fix was a deletion, not extra power.
+lateral-acceleration corner limit and again as a speed multiplier. The corner-speed estimate still
+reads the surface once, now through the axle model's own limit, at
+deathride/core/src/main/kotlin/dev/deathride/core/World.kt:478 "DriftDynamics.lateralLimit(c.spec,track.surfaceAt(s+look,lane,c.spec.circleRadiusM,c.trackRoute),driftRules)",
+and the remaining factor applies only on straights, as a stated floor, at
+deathride/core/src/main/kotlin/dev/deathride/core/World.kt:479 "val surfaceLimit=if(point.curvature>0)1.0 else sqrt(c.surface.gripScale)".
+The fix was a deletion, not extra power. The same failure came back once in the axle model's
+calibration, as docs/concepts/deathride/D3-drift-lab.md:23 "The first candidate applied surface loss twice and broke ice recovery".
+It was fixed the same way.
 
-## Reachability: the verge cannot be entered by a roster car (derived, not tested)
+## Reachability: unreachable on 2026-10-01, reachable and tested since
 
-The wall holds each collision circle inside the half-width, deathride/core/src/main/kotlin/dev/deathride/core/World.kt:328 "val limit=track.widthAt(projection.s)-radius".
-A roster car's radius is half its width, deathride/core/src/main/kotlin/dev/deathride/core/Cars.kt:19 "CarSpec(circleRadiusM=shape.widthM*.5", and the widths
-run from deathride/core/src/main/resources/data/car-shapes.csv:2 "Needle,6.6,3.0" to deathride/core/src/main/resources/data/car-shapes.csv:4 "Bastion,9.3,4.65", with the other classes between, so the radii span 1.5 to 2.325 m.
-The authored tracks use a half-width of 12, deathride/core/src/main/resources/data/tracks/foundry.csv:2 "-85,45,12,Asphalt,0".
+**The first reading (derived, 2026-10-01).** The wall holds each collision circle inside the
+half-width, now at deathride/core/src/main/kotlin/dev/deathride/core/World.kt:518 "val limit=track.widthAt(projection.s,projection.route)-radius".
+A roster car's radius is half its width,
+deathride/core/src/main/kotlin/dev/deathride/core/Cars.kt:26 "CarSpec(circleRadiusM=shape.widthM*.5", and the widths run from
+deathride/core/src/main/resources/data/car-shapes.csv:2 "Needle,6.6,3.0" to deathride/core/src/main/resources/data/car-shapes.csv:4 "Bastion,9.3,4.65", so the radii span 1.5 to 2.325 m.
+The authored tracks use a half-width of 12, deathride/core/src/main/resources/data/tracks/foundry.csv:2 "45,12,Asphalt,0". With the surface
+sampled at the car centre, the centre could be no deeper than `w - r`, and the verge began at
+`w - 1.5`. So the verge was reachable only for `r < 1.5`, and the smallest car had exactly 1.5
+against a strict greater-than. No ordinary drive reached the 0.65-drag surface, and riding the
+wall was the cheapest line.
 
-The surface is sampled at the car centre, and the two end circles each stay within `w - r`, so the
-centre cannot be deeper than `w - r`. The verge begins at `w - 1.5`, so:
-
-- **Verge** is reachable only for `r < 1.5`. The smallest car has `r = 1.5` exactly and the zone
-  test is a strict greater-than, so the reachable depth is zero for every class. No ordinary drive
-  reaches the 0.65-drag surface.
-- **Kerb** is reachable for `r < 2.5`, so for all five classes, with depths from 1.0 m for the
-  narrowest to 0.175 m for the widest.
-
-The note's own account of the verge, docs/concepts/deathride/W3-movement.md:32 "Offtrack-only runs are deliberately severe; ordinary play has only an outer verge", is
-the claim this derivation contradicts: those forced-surface runs are the only way the row was
-exercised. It is a derivation: straight sections, centre sampling and end-circle containment all
-hold in the code read, but no test records the surface at the deepest wall contact. **Open
-question for the owner: has any roster car ever been recorded on the verge outside a
-forced-surface run?**
+**What the project did.** It took the remedy this application proposed, sampling at the outer
+circle on the wall side, in commit `646f37a7` ("V1 make verge drag reachable"). That was three
+hours after this registry bundle landed. Its design note begins
+docs/concepts/deathride/V1-verge-and-lint.md:3 "Reproduce the forge finding with every roster car on both sides of a straight". The
+note confirmed the finding on the old code: all 20 class-and-side cases showed only asphalt or
+kerb. It then measured the drag consumer, not just the query:
+docs/concepts/deathride/V1-verge-and-lint.md:13 "ends at 19.71209 m/s on the verge versus 19.92680 on asphalt". The fix is the
+`+contactRadiusM` in the two zone lines above. The reachability test the standard asked
+for now exists:
+deathride/core/src/test/kotlin/dev/deathride/core/VergeTest.kt:8 "fun everyCarCanReachVergeSlowdownWhileContainedByEitherWall()".
+For every catalogue class on both walls, it drives the car to the wall-contained limit. It asserts
+the car is on the verge and loses speed against asphalt, and that it reaches the kerb band
+too. It also keeps the old failure as a control:
+deathride/core/src/test/kotlin/dev/deathride/core/VergeTest.kt:24 "centre-only query reproduces the unreachable verge".
 
 ## What the wall does at the end
 
 The wall keeps most tangential speed: deathride/core/src/main/resources/data/movement.csv:15 "wallTangentLoss,0.04" feeds
-deathride/core/src/main/kotlin/dev/deathride/core/World.kt:335 "c.vx+=ny*tangent*Movement.wallTangentLoss". With only 4 per cent tangential loss and a verge the
-car never meets, riding the wall is the cheapest line, and the band that was meant to prevent
-that cannot, on this geometry.
+deathride/core/src/main/kotlin/dev/deathride/core/World.kt:525 "c.vx+=ny*tangent*Movement.wallTangentLoss". With the verge reachable,
+a car on the wall is now on the 0.65-drag surface, so the band does the job the 4 per cent
+tangential loss could not.
 
 ## Deviations and upward lessons
 
-- **Deviation, unreachable band.** As above. A remedy within the standard: widen the verge past
-  the widest car's radius plus the depth to be felt (about 2.325 + 1.0 m), or sample the surface
-  at the outer circle on the wall side.
-- **Deviation, no reachability test.** Zone boundaries are checked by ordering only; the standard
-  asks for a deterministic run recording the deepest surface per class.
-- **Upward lesson.** Because the widths are metres in their own table, the bug is repairable by
-  editing a number, and the standard now carries the condition `r < v` as the check that was
-  missing.
+- **Closed: unreachable band.** Fixed by edge sampling, not by widening the verge. Of the two
+  remedies, edge sampling keeps the authored widths and works for any car width.
+- **Closed: no reachability test.** `VergeTest` records the footprint surface per class and
+  side and writes a report row for each.
+- **Upward lesson.** The condition `r < v` in the technique was the check that had been
+  missing. Once the derivation was written down with its numbers, the project reproduced it as
+  a failing regression and fixed it within three hours. A derivation from cited lines that
+  names its own falsifier can be acted on before anyone instruments it.

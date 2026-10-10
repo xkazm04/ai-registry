@@ -50,7 +50,15 @@ table of penalties for a place the car cannot go.
 The remedy is one of three, chosen on purpose: widen the bands to exceed the largest car's
 radius by the depth you want felt; sample the surface at the body's outermost point on the
 outer side rather than at its centre; or resolve the surface per wheel pair. The first is the
-cheapest and the one a tuning table can express.
+cheapest and the one a tuning table can express. But it ties the band widths to the widest car,
+so every new body re-opens the question. The second is one term in the zone test (offset plus
+radius), it holds for any car width, and it leaves the authored widths alone. In one game that
+had the defect, it was the remedy chosen, with a regression that failed on the old query first.
+After the fix, one coasting step on the verge lost measurably more speed than on asphalt. When
+you sample at the edge, keep two things at the centre or in step with it. Features authored as
+points on the road, such as a spill or a shortcut, stay sampled at the centre. Any opponent
+look-ahead that reads the surface uses the same footprint as the physics, or the driver plans
+for a surface the car will not be on.
 
 ## The margin is also a design promise about the wall
 
@@ -83,7 +91,8 @@ but non-zero, and let the band, not the wall, carry the penalty for approach.
 
 ## Decision rules
 
-- **When a band is never reached by a large car, widen it by the car's radius, not by guesswork.**
+- **When a band is never reached by a large car, widen it by the car's radius, not by guesswork,**
+  or move the sample to the car's edge. Prefer the edge when the roster's widths still change.
 - **When a track narrows, scale the bands down with the half-width,** or the verge swallows the
   road; the widths are caps, not fixed fractions.
 - **When a surface override applies to the whole track, the bands do not.** Keep the bands

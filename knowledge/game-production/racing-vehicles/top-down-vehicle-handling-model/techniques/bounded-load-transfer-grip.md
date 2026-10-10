@@ -58,6 +58,39 @@ and the larger loss from the brake term. Choose the constants so that the produc
 one, because otherwise braking improves cornering grip, which is physically backwards and, to
 a player, reads as a bug.
 
+## On a two-axle model the scalar moves capacity, and the target is derived
+
+Once the car has a front and a rear axle, the same scalar stops being a grip multiplier and
+becomes the shift of the front axle's share of the load: `frontShare = staticFront + transfer`,
+clamped so neither axle drops below a minimum load. The rear gets the rest. Each axle's grip
+capacity follows its share, so braking really does unload the rear, and the brake-grip-loss
+factor above has nothing left to stand in for: delete it. Brake force is then split between the
+axles by a table fraction, and the handbrake acts on the rear alone.
+
+The target is no longer a pedal sum. It is the textbook weight-transfer term,
+`-longitudinalAcceleration x cgHeight / (g x wheelbase)`, computed from the previous step's
+measured acceleration so the step has no algebraic loop. The longitudinal acceleration here
+includes drag and speed capping, so a lift after power reads as the deceleration it really is.
+A measured acceleration has no natural bound. **Here the bound is a clamp on the target,** with
+its own table row (a maximum transfer fraction), and the lag still follows the clamped target.
+The rule above survives in its useful form: never clamp the state, and keep the limit
+somewhere a designer can read it.
+
+The formula is standard in the game-physics tutorials and the racing-physics articles. The lag
+is not: the canonical tutorial gives the shifted weight with no filter, and an open-source port
+of it scales the previous step's acceleration by a gain and filters nothing. The low-pass is
+this subject's design choice. It is meant to stop grip, acceleration and load from feeding
+each other at a fixed step, and that is reasoning, not a measured result.
+
+**Measure the lever before trusting it.** In one simulated roster (ten car classes, a 22 m/s
+corner at half steer, then 0.6 s of 70% brake), peak slip over the braking and the second after
+it rose from a mean of about 2.6 degrees to 12.7. With load transfer removed it rose to 11.9:
+smaller in 9 of 10 classes, by under a degree on average. Full throttle in the same corner added
+about a tenth of a degree, with transfer or without, so there was no power-oversteer to remove.
+Most of the brake-in-corner slip came from terms the ablation left alone. Speed lost under a held
+steering angle is the likely one, but it was not measured. A table that promises trail-braking
+from load transfer should carry an ablation that shows it.
+
 ## Procedure
 
 1. **Define the target as a linear combination of two pedal values in `[0, 1]`,** with a table
@@ -97,7 +130,8 @@ reported by a human.
 ## When not to use this
 
 - **When the vehicle has a real suspension or per-wheel load.** The scalar then duplicates
-  the physics; delete it.
+  the physics; delete it. Per-axle loads *without* a suspension are a different case. There the
+  lagged scalar is the suspension's stand-in and stays, with the meaning given above.
 - **When there is no brake or throttle distinction in the input** (an auto-throttle racer).
   The target is constant and the technique degenerates to a constant multiplier.
 - **When a car is meant to feel indifferent to pedal use.** A kart on rails does not need the
