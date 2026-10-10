@@ -11,12 +11,18 @@ use_when: [defining an article page's colours, drawing figures that must work on
 
 # Light and dark rendering
 
-The concern: a page designed and checked in one colour scheme is read by a large share of its
-audience in the other. Figures with fixed dark strokes vanish, tints meant to highlight a
+The concern: a page designed and checked in one colour scheme is read by a real share of its
+audience in another: about a fifth of web traffic carried a dark preference in one browser
+vendor's 2021 case study. Figures with fixed dark strokes vanish, tints meant to highlight a
 cell turn muddy, highlighted code becomes unreadable, and the page that looked finished
 fails for those readers. **Define every colour as a named token with a value for each
-scheme, honour the reader's system preference by default, draw figures from the same
-tokens, and check both schemes.**
+scheme or theme the page ships, honour the reader's system preference by default, draw
+figures from the same tokens, and check every scheme shipped.**
+
+Honouring the preference is a courtesy to a stated choice, not a reading gain. Controlled
+studies found dark text on a light background read better, for younger and older readers,
+independent of ambient light; under dark ambient light, light-on-dark text was the least
+legible configuration tested.
 
 ## Procedure
 
@@ -24,7 +30,8 @@ tokens, and check both schemes.**
    series or tint by meaning (better, worse, history). Give every name a light and a dark
    value.
 2. **Default to the reader's system preference**, with an explicit toggle if the page
-   offers one, and make the toggle win over the preference.
+   offers one, and make the toggle win over the preference. A first visit with no stored
+   choice reads the preference; it never picks a theme by brand, rotation or chance.
 3. **Draw figures from the tokens.** Inline vector figures reference the role colours, so
    they switch with the page. Raster figures (where the platform requires images) are
    produced on a background that works in both schemes, or the platform's scheme handling
@@ -45,7 +52,13 @@ tokens, and check both schemes.**
   mid-luminance backgrounds for images, or white-backed images with a visible border, over
   transparent images whose strokes assume one background.
 - **Code highlighting has its own pair of themes** (see highlighted-code-blocks); a single
-  theme chosen for one scheme is the most common dark-mode defect in technical posts.
+  theme chosen for one scheme is the most common dark-mode defect in technical posts. A
+  highlighter wired with one dark theme and a transparent background puts pale tokens on
+  every light theme the site ships.
+- **When the page ships more than two themes, "both schemes" means every theme.** An
+  accent that passes on one light theme can fail on another: the same inline-code colour
+  measured 3.53:1 on one light theme of an eleven-theme site. Check each theme's text,
+  muted text, accent and code colours against its own background.
 
 ## When not to use it
 

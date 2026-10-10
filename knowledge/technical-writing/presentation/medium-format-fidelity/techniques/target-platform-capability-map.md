@@ -35,6 +35,7 @@ taken:
 | Interactive elements | Scripts? Embeds from which hosts? | Replace with a static figure; link the interactive version |
 | Citations | Anchor links inside the post? | Keep numbered citations and the sources list even if the numbers cannot link |
 | Read time | Platform-computed? | Reconcile with the preview's computed figure; state what the preview counts |
+| The site's own feed | Full content or a summary? Which markup survives a reader's sanitizer? | A summary feed carries no body at all, so nothing in this map reaches it; a full-content feed loses styles, scripts and often classes, so class-based highlighting and themed figures arrive uncoloured |
 
 ## Procedure
 
@@ -58,7 +59,11 @@ taken:
 - **Do not automate posting through an unofficial interface.** A package a person pastes or
   imports is slower and does not break when the platform changes its front end.
 
+- **A self-hosted site that publishes a feed already has a second platform.** The feed is
+  read in software that strips the page's styles and applies its own scheme. Decide
+  whether it carries the body, and if it does, map it like any other target.
+
 ## When not to use it
 
-Self-hosted publication of the authored page itself, where the page is the medium; the
-other techniques of this subject then cover everything.
+Self-hosted publication of the authored page itself, with no feed or syndication, where the
+page is the only medium; the other techniques of this subject then cover everything.

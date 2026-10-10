@@ -20,11 +20,23 @@ and check a short list of properties at each.**
 
 ## The two widths
 
-390 and 1440 CSS pixels are a practical pair: a common phone viewport and a common laptop
-and desktop width. They are a convention, not a standard; the standard floor is the
-accessibility reflow criterion, which asks that content be readable at a width equivalent to
-320 CSS pixels without scrolling in two dimensions, except for content that needs a
-two-dimensional layout (data tables, diagrams, code), which may scroll within itself.
+**Phone: 390 CSS pixels.** It is a common phone viewport, the second most common screen
+width in the United States in September 2026 by one traffic tracker. Worldwide the widths
+spread from 360 to 414.
+
+**Wide: where the column is at its maximum, and the common desktop width when the column
+grows.** For an article the wide check is about line length and wide elements, so what
+matters is the column, not the window. A column with a fixed maximum behaves the same at
+every width past that maximum, and any of them will do. A column that grows with the
+viewport (beside a sidebar, for instance) is checked at the most common desktop widths,
+1920 and then 1536 CSS pixels. 1440, which this technique first named, is a minor desktop
+width (under 3% worldwide in the same tracker). Tracker figures are screen sizes, not
+viewports: browser chrome and window size take some away.
+
+These are conventions, not a standard. The standard floor is the accessibility reflow
+criterion, which asks that content be readable at a width equivalent to 320 CSS pixels
+without scrolling in two dimensions, except for content that needs a two-dimensional layout
+(data tables, diagrams, code), which may scroll within itself.
 
 ## What to check at each width
 
@@ -57,6 +69,15 @@ two-dimensional layout (data tables, diagrams, code), which may scroll within it
 - **When a wide element must stay wide, make it scroll and say so visually** (a fade or a
   scroll hint), so a phone reader knows there is more.
 - **A defect at either width blocks publication.** Neither viewport is the primary one.
+- **A site-wide phone check does not cover articles unless it visits them.** A
+  no-sideways-scroll test on the home page says nothing about a post's tables and code. The
+  article routes are in the narrow project's list, or the check has not run.
+- **Seed the scheme.** Where the page can render more than one scheme or theme, each
+  render sets it explicitly. A test that inherits whatever the page chose has checked an
+  unknown scheme.
+- **A page-level horizontal clip hides the defect instead of fixing it.** With
+  `overflow-x: hidden` on the body, the scroll-width probe reads clean while content is
+  cut off. Measure with the clip lifted, or list the elements wider than the viewport.
 
 ## When not to use it
 
