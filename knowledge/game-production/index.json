@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 536,
-  "applications": 274,
+  "applications": 276,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -8998,9 +8998,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/speech-synthesis-script-writing.md",
-   "digest": "sha256-b2:d288645c0b915230",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:a50a9796e8191b69",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "change-the-text-before-the-settings",
@@ -9101,16 +9101,29 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "length-and-breath-budget",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/kotlin--length-and-breath-budget.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "hesitation-marks-can-silence-a-line",
      "file": "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/process--hesitation-marks-can-silence-a-line.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-10"
     },
     {
      "stack": "process",
      "technique": "text-carries-the-emotion-not-the-settings",
      "file": "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/process--text-carries-the-emotion-not-the-settings.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-10"
+    },
+    {
+     "stack": "python",
+     "technique": "hesitation-marks-can-silence-a-line",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/speech-synthesis-script-writing/applications/python--hesitation-marks-can-silence-a-line.md",
+     "verified_on": "2026-10-10"
     }
    ]
   },
