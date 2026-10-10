@@ -5,7 +5,7 @@
   "source": "knowledge/technical-writing/ (frontmatter only)",
   "subjects": 6,
   "techniques": 29,
-  "applications": 17,
+  "applications": 22,
   "laws": 9,
   "categories": [
    "composition",
@@ -438,9 +438,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/technical-writing/presentation/medium-format-fidelity/medium-format-fidelity.md",
-   "digest": "sha256-b2:2c5e505f786d6585",
-   "revision": 1,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:a0f3e264098c8cac",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "highlighted-code-blocks",
@@ -452,7 +452,8 @@
      "use_when": [
       "adding code samples to a technical article",
       "styling code blocks for both colour schemes",
-      "packaging code for a platform with its own highlighter"
+      "packaging code for a platform with its own highlighter",
+      "presenting a prompt or command the reader will copy"
      ]
     },
     {
@@ -513,10 +514,45 @@
    ],
    "applications": [
     {
+     "stack": "next",
+     "technique": "highlighted-code-blocks",
+     "file": "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--highlighted-code-blocks--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "light-and-dark-rendering",
+     "file": "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--light-and-dark-rendering--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "reading-column-and-type-scale",
+     "file": "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--reading-column-and-type-scale--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "target-platform-capability-map",
+     "file": "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--target-platform-capability-map--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "two-viewport-verification",
+     "file": "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--two-viewport-verification--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
      "stack": "process",
      "technique": "target-platform-capability-map",
      "file": "knowledge/technical-writing/presentation/medium-format-fidelity/applications/process--target-platform-capability-map.md",
-     "verified_on": "2026-10-05"
+     "verified_on": "2026-10-10"
     },
     {
      "stack": "process",

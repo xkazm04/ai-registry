@@ -1176,9 +1176,9 @@
       "purity": "writing",
       "subjects": 6,
       "techniques": 29,
-      "applications": 17,
-      "files": 56,
-      "contentHash": "sha256-b2:167f88ec1071c015"
+      "applications": 22,
+      "files": 61,
+      "contentHash": "sha256-b2:bc979a988c1a404a"
     }
   ],
   "usageEvidence": {

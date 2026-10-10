@@ -1,6 +1,6 @@
 # Technical writing - the subjects this registry carries
 
-`technical-writing` - 6 subjects, 29 techniques, 17 applications.
+`technical-writing` - 6 subjects, 29 techniques, 22 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### composition
