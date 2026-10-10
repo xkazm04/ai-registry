@@ -12440,3 +12440,7 @@ applied here - one sighting, and the honest record is in the source note.
 - **A small skill-shaped repository is one subject, not a spread of amendments.** Six mechanisms with one home-if-new fired the XL trigger mechanically; the prior-art agent that opened the nearest neighbours (not a slug match) is what made the six `NO HOME` verdicts trustworthy, and it ran before the score.
 - **A source that implements its own rules by prose is a free structural finding.** The tool's loop requires markers, run labels and hypothesis ids, and its own mandatory probe template carries none of them; the forge worker found six such gaps from the source alone. Ask of every rule-by-prose source what the instrument would have to check, and whether it does.
 - **Do not pass an MSYS `/c/...` path to `node -e`.** It is mangled to `C:c...`; pass a `C:/` path as an argument. (Mid-flight runs: nothing to do.)
+
+## 2.15.0 - 2026-10-10 - apply registry-corroboration-gating
+
+- **A committed ledger snapshot lags the correction payloads committed after it. Apply them before reading the snapshot as the consumer's state.** The July tie ledger put 6 MPs in arm A; the later payloads confirmed 4 of them and left 1 with money. Reading the snapshot alone would have overstated the live gap 19x in CZK, and it would have hidden the finding that mattered, which was what the payloads flipped. Grep the payload directory for the replayed rows' identifiers before computing the arms. (Mid-flight runs: nothing to do.)
