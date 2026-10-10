@@ -17,8 +17,9 @@ the bundle (dp-as-1010). No librarian sweep has run yet.
 | --- | --- | --- | --- | --- | --- | --- |
 | article-structure | L2 primary + L3 field measurement (n = 10 posts) | 2026-10-10 | 1 correction, 2 conditions, 2 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 | depth-and-audience | L2 primary + L3 field measurement (n = 10 posts) | 2026-10-10 | 2 citation corrections, 6 conditions, 2 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
+| evidence-and-sources | L2 primary (meta-analyses) + L3 field measurement (n = 45 numbers in 10 posts, 11 commits) | 2026-10-10 | 1 correction, 10 conditions, 3 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 
-The other four subjects have not had a deepen pass.
+The other three subjects have not had a deepen pass.
 
 ## Source-class memory
 
@@ -38,8 +39,16 @@ From one pass, so these are tallies, not rules:
   before landing an abstract's claim.
 - The blind lane named the same five primary studies the web lane verified, with no
   priors. These are tallies from two passes, not a rule.
+- Third pass (dp-es-1010): open-access venues (PLOS XML, arXiv API, PMC) and author-hosted
+  PDFs carried verbatim text for every meta-analysis landed; Wiley returned 403. The
+  Crossref abstract alone would have overstated one scope (a drift figure measured only
+  over comparable snapshots), so the full text was read before the figure landed.
+- The blind lane again named the web lane's primary studies with no priors (nine of them).
+  Three passes now, all in one domain, so still a tally.
 
 ## Field witnesses
 
 - A product blog in the fleet (`next`, static data file, ten posts, three tutorials). It is
-  the bundle's first non-`process` witness. Typed read times there are a live seam.
+  the bundle's first non-`process` witness. Typed read times there are a live seam. Its
+  renderer cannot link, and its 45 body numbers carry no source: the evidence seam is live
+  too, and its git history (an unsourced figure cut on 2026-09-14) is itself evidence.
