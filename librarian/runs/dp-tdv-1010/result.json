@@ -1,0 +1,95 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-tdv-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-10T03:32:00Z",
+  "ended_at": "2026-10-10T04:08:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/top-down-vehicle-handling-model",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "top-down-vehicle-handling-model",
+      "technique": "slip-restoring-yaw-stability",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "top-down-vehicle-handling-model",
+      "technique": "bounded-load-transfer-grip",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "top-down-vehicle-handling-model",
+      "technique": "kerb-verge-inside-hard-wall",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/top-down-vehicle-handling-model.md",
+    "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/techniques/slip-restoring-yaw-stability.md",
+    "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/techniques/bounded-load-transfer-grip.md",
+    "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/techniques/kerb-verge-inside-hard-wall.md",
+    "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/kotlin--slip-restoring-yaw-stability.md",
+    "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/kotlin--bounded-load-transfer-grip.md",
+    "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/process--slip-restoring-yaw-stability.md",
+    "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model/applications/process--kerb-verge-inside-hard-wall.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/top-down-vehicle-handling-model.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "61bc1ee5",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/racing-vehicles/top-down-vehicle-handling-model"
+      ]
+    },
+    {
+      "sha": "a6cf5e82",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "90f19140",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/top-down-vehicle-handling-model.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Roster moved to two axles hours after forge. 2 kotlin apps at firetv d9990777, 102/102 anchors held. Raw restoring 26.3% vs shipped 13.6% off point model (36/50). Load transfer <1 deg of 10. Circle declined. Process deviations adopted. Impact 0."
+}
