@@ -476,3 +476,33 @@ Source-class notes:
 - **A game's own test can certify the wrong model.** Read which branch the fixture constructs
   before citing a band as evidence. Here the source reading alone would have reported the bands
   confirmed.
+
+## 2026-10-10 - deepen subtext-and-voice-differentiation (dp-svd-1010)
+
+A single subject, ranked by single stack (process). The rank was real. Death Ride wired its
+518-line script into Kotlin on 2026-10-06, and the voice lint its writer built had never reached
+the repository. This run added one kotlin and one process application at `d9990777`. Both rest on
+scratch-worktree experiments, and nothing was committed to the game.
+
+No new technique was earned. One claim converged across two lanes: measured attribution of
+characters' speech leans on common-word rates, address, dialect and topic. As a result
+"refusal is the strongest marker" is re-ranked as craft opinion, and costume is now described as
+measurably distinctive but not a voice.
+
+Conditions landed:
+- the bible-reading check lives in the project suite (0 of 6 defects caught by the shipped tests,
+  5 of 6 by the lint);
+- literal bans go in a parseable row (15 of 15 prose-derived hits were false);
+- checkable rows are run against the judged winners (93 of 187 lines out of range);
+- the blind test needs a reference with no leaked lines, two or more judges keeping the common
+  misses, and masking (it cost 2 to 3 of 26 lines, inside 13 of 49 judge flips).
+
+Applied: 2 better (experiment), on firetv (unregistered). Impact: 0 contexts.
+
+Source-class notes:
+- **Computational stylometry and character-classification papers are primary and fetchable.**
+  The ACL Anthology serves the PDF, and its text extracts cleanly. Read the PDF text, not a fetch
+  summary, before quoting: the summary layer could not read the PDF at all.
+- **A project's own writing report is rich field evidence, and it marks its own limits.** The
+  writer's report listed its scratch-only lint, same-family judges and a generous test. Each
+  admission was a measurable lead.
