@@ -20,7 +20,10 @@ what they will not say — and two characters are distinct only when those choic
 
 The naive method dresses each character: an accent spelled phonetically, a catchphrase, a
 signature oath, a verbal tic. Costume is cheap to apply and it does mark speakers, which is
-why it persists. It fails on three counts. It is shallow: under the costume every character
+why it persists. Measurement agrees that it marks them. A classifier study of characters'
+speech in modern drama found forms of address and dialect words among the features that
+separate characters most easily. So the objection is not that costume is indistinct. It is
+that costume is not a voice. It fails on three counts. It is shallow: under the costume every character
 builds the same sentences and concedes at the same beat, and readers feel the sameness. It
 is fragile: one generator pass or one rushed writer drops the tic and the character
 vanishes. And it wears: a catchphrase heard twenty times turns a person into a sound effect.
@@ -50,9 +53,12 @@ an endearment, nothing at all — states the relationship every time they open t
 
 **Refusal.** What the speaker will not say: the topic they steer away from, the admission
 they never make, the name they avoid, the apology they will not give, the way they say no
-without the word. Refusal is the strongest marker because it is structural — it shapes
-whole exchanges rather than single lines — and because it is where character and subtext
-meet. A man who never refers to his dead brother, across a whole game, has a voice defined
+without the word. Refusal is the layer that matters most to the writing, because it is
+structural: it shapes whole exchanges rather than single lines, and it is where character and
+subtext meet. It is not the layer measurement finds first. Studies that attribute characters'
+speech by machine lean on how often a speaker uses common words, on address terms, on dialect
+and on topic. An absence needs far more text than a bark to register. So treat refusal as the
+layer that makes a voice worth having, not as the cheapest one to detect. A man who never refers to his dead brother, across a whole game, has a voice defined
 by an absence the player learns to hear. Refusal also gives every scene a pressure point: the
 moment someone pushes on the refusal is a scene whether or not they break it.
 
@@ -92,6 +98,22 @@ findings; the deliverable is the list of those lines, not a percentage. A second
 check is the swap test: take any line and ask whether another character could have said it
 unchanged. A line any character could say is a line no character owns.
 
+Three conditions decide whether the test measures voice or something else.
+
+**The reference must not contain the lines under test.** A voice bible usually quotes the
+script as its sample lines. A judge holding it can then match a line rather than attribute
+it. Remove the quoted lines from the pool, or the sample rows from the judge's copy.
+
+**One judge's percentage is noise at cast scale.** With five or ten lines per speaker, a single
+run's per-speaker score swings by several lines between runs. A model judge also sits well
+below a human reader at picking the speaker of a line. So use at least two judges and keep the
+lines they all miss. Those lines are stable. A ranking of whose voice is weakest usually is not.
+
+**Mask the cheap markers when the cast leans on them.** Address terms and names make the test
+easier. Replace them with a placeholder in one arm and compare. When the score barely moves,
+the voices stand on structure. When it collapses, the cast was being told apart by its
+costume.
+
 ## Decision rules
 
 - **When two characters' lines can be swapped without anyone noticing, change the rhythm or
@@ -128,6 +150,28 @@ the text itself, and in practitioners' interviews, which report their words seco
 "never says" discipline comes from a series writer's reported practice, with no primary
 statement found. That one model voicing a whole cast gives every speaker its own family
 fingerprint is supported by a measured study of over-used model phrasing, which covers
-prose rather than dialogue. The emphasis on refusal as the strongest marker, and the
-scheduled-break rule, are practitioner synthesis. The blind attribution test is a common
-workshop exercise; its reliability as an automated gate has not been measured here. None of this has been tested with players in a played game.
+prose. A 2024 [speaker-verification study](https://arxiv.org/abs/2405.10150) of
+agent-generated conversations measured the same thing in dialogue: role-playing models keep built-in characteristics across the roles
+they play.
+
+What separates characters under measurement comes from a different set of studies:
+
+- A 2019 classification study of characters in modern drama
+  ([Vishnubhotla, Hammond and Hirst](https://aclanthology.org/W19-2504)) found address and
+  dialect words among the most separating features. It also found that characters cluster
+  more closely in lesser playwrights' work.
+- Classic stylometry of a novelist's characters by their rates of common words, reached here
+  through secondary accounts.
+
+Ranking refusal first is therefore craft opinion, not measurement, and the scheduled-break
+rule is practitioner synthesis.
+
+On the test as a gate:
+
+- Model judges attribute the speaker of a line well below human readers. A 2025 benchmark
+  ([PersonaEval](https://arxiv.org/abs/2508.10014)) puts the best model near 69% and humans
+  at 90.8%.
+- The leakage, multi-judge and masking conditions come from one field re-run of one cast,
+  75 lines and four model judges. That run is recorded in the process application.
+
+None of this has been tested with players in a played game.

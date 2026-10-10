@@ -5,7 +5,7 @@ subject: subtext-and-voice-differentiation
 technique: voice-bible-per-speaker
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-10
 ---
 
 # A voice bible for a debt-racing campaign cast, voiced by a model

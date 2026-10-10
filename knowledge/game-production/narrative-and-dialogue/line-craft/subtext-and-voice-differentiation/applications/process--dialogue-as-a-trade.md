@@ -5,7 +5,7 @@ subject: subtext-and-voice-differentiation
 technique: dialogue-as-a-trade
 stack: process
 status: forged
-verified_on: 2026-10-04
+verified_on: 2026-10-10
 ---
 
 # Shop and paddock exchanges as trades in a debt-racing campaign

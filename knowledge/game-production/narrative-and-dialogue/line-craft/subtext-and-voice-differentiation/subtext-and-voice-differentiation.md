@@ -72,15 +72,19 @@ length and how it varies, whether the speaker finishes thoughts or abandons them
 they answer questions with statements or with other questions. **Vocabulary** — the domain
 the words come from (a trade, a faith, a ledger), the register, the words they reach for
 when angry. And **refusal** — the topics they will not raise, the admission they will not
-make, the word they will not use, how they say no. Refusal is the strongest marker of the
-three because it is invisible in any single line and unmistakable across twenty: a
+make, the word they will not use, how they say no. Refusal matters most to the writing,
+because it is invisible in any single line and unmistakable across twenty: a
 character who never once says what they feel, or never once says the dead man's name, is
-recognisable by the shape of the hole. Voices are lost first where they matter most: at the
+recognisable by the shape of the hole. It is not what measurement finds first. Machine
+attribution of characters' speech leans on rates of common words, address terms, dialect and
+topic, and costume is measurably distinctive. What costume cannot be is a voice. Voices are lost first where they matter most: at the
 peaks, where every character drifts into the same articulate emotional summary, although a
 frightened person loses syntax rather than gaining it. The test is mechanical and cheap:
 strip the speaker tags from a scene and ask a reader to attribute every line, and treat a
 cast whose distinctness was never tested this way as untested rather than distinct, which is
-[unmeasured is not a pass](../../../_laws.md#unmeasured-is-not-a-pass). See
+[unmeasured is not a pass](../../../_laws.md#unmeasured-is-not-a-pass). The test needs a
+reference that does not quote the lines under test, and more than one judge. Its finding
+is the lines every judge misses, because one judge's per-speaker percentage is mostly noise. See
 [distinguish-by-rhythm-and-refusal](./techniques/distinguish-by-rhythm-and-refusal.md).
 
 ## Every exchange is a trade
@@ -166,7 +170,10 @@ it leaves the cast as undifferentiated as having none. It is also single-sourced
 per speaker, read by the writer, the generator and the reviewer alike, rather than a
 paraphrase in each, which is
 [one authority per quantity](../../../_laws.md#one-authority-per-quantity) applied to a
-character. See [voice-bible-per-speaker](./techniques/voice-bible-per-speaker.md).
+character. A check that reads it needs the literal bans written as a row it can parse. It
+must also run in the project's own suite, not once in the session that wrote the lines. And
+after judging, every checkable row is run against the lines that won, because a rubric can
+override a bible without anyone noticing. See [voice-bible-per-speaker](./techniques/voice-bible-per-speaker.md).
 
 ## Machine authorship moves every default the wrong way
 

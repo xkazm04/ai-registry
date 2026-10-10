@@ -98,6 +98,21 @@ ceiling, the tic's frequency limit — are read by the check from the entry itse
 separately into a linter, which is
 [the law and the check that enforces it share one source](../../../../_laws.md#law-and-check-share-one-source).
 
+Two conditions make that single source real.
+
+**The check can only read rows written for a parser.** A refusal row written as prose mixes
+literal bans ("debt", "please") with semantic rules ("a direct threat") and with quoted words
+that only illustrate a rule ("I" when she could say "we"). A check that pulls every quoted term
+out of that prose bans the illustration. In one field run, all of its hits were false. So
+the entry keeps its literal bans in a row of their own, which the check reads. The semantic
+rules go to the reviewer, and no regex pretends to hold them.
+
+**The check lives where the lines change.** A lint run once, in the session that wrote the
+script, consumed the bible once. After that the script was wired into the game, and the next
+edit had no guard. The repository's own tests passed every documented defect when it was
+reintroduced. The check belongs in the project's test suite beside the loader that ships the
+lines, not in the writing session's scratch space.
+
 ## Maintaining it
 
 A person signs off each entry, its refusal rows above all, before anything is generated
@@ -118,6 +133,10 @@ the bible is wrong; when it is, change the bible first and then accept the line.
 - **When two entries have the same rhythm row, change one**; the cast is converging.
 - **When the bible and a judge's rubric disagree, the bible wins and the rubric is regenerated
   from it.**
+- **After judging, run every checkable row against the lines that won.** A rubric can override
+  a bible silently: the judges prefer longer, more concrete lines, and the rhythm rows go on
+  describing a terser cast than the one on the page. When most of the key picks break a row,
+  the row is the question. Rewrite it, or rewrite the picks. Never ship both.
 - **When an entry no longer fits in the prompt beside the scene, cut it to the rows that
   constrain lines**; biography goes to a separate document that nothing needs to read.
 
@@ -136,7 +155,18 @@ paired off-voice examples — is a practitioner synthesis rather than a publishe
 The guidance that a generator steers better from positive instructions with reasons and
 from three to five varied examples comes from a model vendor's primary prompting
 documentation. That a generator drifts toward a shared register is supported by measured
-studies of model prose, not of dialogue, and that models judge their own lines poorly by a
-measured study of editors and models; the per-listener register, arc and consumption rules
-are this document's own synthesis. None
-of this has been tested with players in a played game.
+studies of model prose. In dialogue it is supported by a 2024
+[speaker-verification study](https://arxiv.org/abs/2405.10150), which found that role-playing
+models keep built-in characteristics across the roles they play. That models judge their own
+lines poorly rests on a measured study of editors and models. The per-listener register, arc
+and consumption rules are this document's own synthesis.
+
+The two single-source conditions and the post-judging rule come from one field experiment on
+one draft script, recorded in the Kotlin application:
+
+- A lint reading the bible caught 5 of 6 documented defects. The project's suite caught none.
+- 15 of 15 literal hits from a prose refusal row were false.
+- 93 of 187 lines fell outside their speaker's declared word range, including 12 of 19 key
+  picks.
+
+None of this has been tested with players in a played game.
