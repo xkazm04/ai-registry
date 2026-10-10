@@ -5,7 +5,7 @@
   "source": "knowledge/technical-writing/ (frontmatter only)",
   "subjects": 6,
   "techniques": 29,
-  "applications": 9,
+  "applications": 11,
   "laws": 9,
   "categories": [
    "composition",
@@ -122,9 +122,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/technical-writing/composition/depth-and-audience/depth-and-audience.md",
-   "digest": "sha256-b2:95856d83d4559cb4",
-   "revision": 1,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:f8b4efd2b4bb4d7c",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "depth-by-replacement",
@@ -183,6 +183,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "four-layer-depth",
+     "file": "knowledge/technical-writing/composition/depth-and-audience/applications/next--four-layer-depth--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "term-in-a-clause",
+     "file": "knowledge/technical-writing/composition/depth-and-audience/applications/next--term-in-a-clause--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
     {
      "stack": "process",
      "technique": "depth-by-replacement",
