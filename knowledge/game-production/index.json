@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 536,
-  "applications": 279,
+  "applications": 281,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -9502,9 +9502,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/subtext-and-voice-differentiation.md",
-   "digest": "sha256-b2:de85383e8fb56e09",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:9abaf18b72e48ecd",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "dialogue-as-a-trade",
@@ -9595,16 +9595,29 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "voice-bible-per-speaker",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/kotlin--voice-bible-per-speaker.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "dialogue-as-a-trade",
      "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/process--dialogue-as-a-trade.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-10"
+    },
+    {
+     "stack": "process",
+     "technique": "distinguish-by-rhythm-and-refusal",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/process--distinguish-by-rhythm-and-refusal.md",
+     "verified_on": "2026-10-10"
     },
     {
      "stack": "process",
      "technique": "voice-bible-per-speaker",
      "file": "knowledge/game-production/narrative-and-dialogue/line-craft/subtext-and-voice-differentiation/applications/process--voice-bible-per-speaker.md",
-     "verified_on": "2026-10-04"
+     "verified_on": "2026-10-10"
     }
    ]
   },

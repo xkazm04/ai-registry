@@ -1072,9 +1072,9 @@
       "purity": "game",
       "subjects": 81,
       "techniques": 536,
-      "applications": 279,
-      "files": 900,
-      "contentHash": "sha256-b2:0532b2a16031caaf"
+      "applications": 281,
+      "files": 902,
+      "contentHash": "sha256-b2:7dda4801cf0ae6b5"
     },
     {
       "name": "grant-funding",
