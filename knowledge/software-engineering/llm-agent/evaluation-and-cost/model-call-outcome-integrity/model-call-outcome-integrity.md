@@ -114,7 +114,11 @@ a refusal the model writes itself usually ends under a normal stop and is visibl
 the content. Some vendors deliver a classifier's stop under the name *refusal*; the seam
 records the stop it received and does not promote it to the model's judgment. The two rows
 are also billed differently (see spend-precedes-the-error), which is a second reason not to
-merge them. The cut-off and never-reached rows are
+merge them. The split pays where something *reads* the outcome - a quality report, a
+repair loop, a ledger. A seam whose only decision is routing sends both the same way (not
+retried, handed on), and merging them there costs nothing until a reader arrives; the
+damage is in a seam that reads a filter's empty answer as a model's empty answer and asks
+again. The cut-off and never-reached rows are
 evidence about configuration, and a seam that cannot tell them apart will eventually
 publish never-reached as wrong - which reads as a damning result and is a bug report about
 the seam.
