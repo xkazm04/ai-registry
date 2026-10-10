@@ -355,3 +355,44 @@ Source-class notes:
   and found no sentence. `pdftotext` on the saved file gave both quotes verbatim.
 - **A tree's line picker is a field instrument for narrative claims.** Reading the slot rule
   (`Script.kt:11`) found the collapsed refusal, which no reading of the script alone shows.
+
+## 2026-10-10 - deepen short-form-cards-and-barks (dp-scb-1010)
+
+A single subject, ranked by single stack (process). The rank was real. Four kotlin applications
+now read Death Ride at firetv `deathride/main` `d9990777`, with 52 anchors held. They cover the
+line director, the script table, the card layout and the shipped story panels. Two scratch
+probes measured instead of reading:
+- a headless bark census over the whole campaign: 3 sittings, 73-79% of barks heard are
+  repeats, and the punchline line is heard 10-14 times;
+- the card layout under the test suite's own font proxy.
+
+Both `process` applications still resolve at `d9990777` (35 of 35 anchors held). They were not
+edited.
+
+No new technique. Conditions landed in four techniques and the golden path:
+- bark frequency is counted as hearings after the gates;
+- silence over a repeat is for rare-band lines only;
+- the seed ledger is audited over reachable rows, with one id per seed;
+- captions keep the audio's words and cut only by omission;
+- cards are budgeted for 200% text and one row per authored line;
+- restating the picture is kept for an ambiguous still, a new reader, and narration;
+- a reworked picture re-opens its cards;
+- the ban list is a gate after writing, re-mined each round.
+
+The picture and ban-list conditions were reached by the web and training-data lanes
+independently. The caption rule was reached by both lanes, and the web lane read four primary
+standards in full.
+
+Applied: 4 better (3 experiment, 1 simulation) and 2 unapplied, on firetv (unregistered).
+Impact: 0 contexts.
+
+Source-class notes:
+- **A running director is a measuring instrument for bark claims.** The table alone said "two
+  lines per pool". The census said which line a player hears fourteen times, and that the
+  writers' biggest pools sit on triggers that never fire.
+- **Audit the art pipeline's approval gate before reasoning about a card's picture.** Three cards
+  were written against panels the loader refuses (`StoryArt.kt:71`), and a rework deleted a seed
+  from a picture. Neither shows up in the script.
+- **Standards bodies' caption rules are rich and agree.** The FCC, Netflix, the BBC and the game
+  accessibility guidelines all permit reduction for reading rate, and all prefer omission to
+  paraphrase. bbc.co.uk refuses the fetch tool, and curl reads it.
