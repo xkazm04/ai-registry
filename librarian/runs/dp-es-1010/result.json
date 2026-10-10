@@ -1,0 +1,108 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-es-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "technical-writing",
+  "started_at": "2026-10-10T05:52:00Z",
+  "ended_at": "2026-10-10T06:35:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "technical-writing/evidence-and-sources",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "evidence-and-sources",
+      "technique": "numbered-in-page-citations",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "evidence-and-sources",
+      "technique": "inference-labelled-as-inference",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "evidence-and-sources",
+      "technique": "own-measurement-disclosure",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "evidence-and-sources",
+      "technique": "counter-evidence-alongside-the-thesis",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "evidence-and-sources",
+      "technique": "dated-current-data",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/technical-writing/grounding/evidence-and-sources/evidence-and-sources.md",
+    "knowledge/technical-writing/grounding/evidence-and-sources/techniques/counter-evidence-alongside-the-thesis.md",
+    "knowledge/technical-writing/grounding/evidence-and-sources/techniques/dated-current-data.md",
+    "knowledge/technical-writing/grounding/evidence-and-sources/techniques/inference-labelled-as-inference.md",
+    "knowledge/technical-writing/grounding/evidence-and-sources/techniques/numbered-in-page-citations.md",
+    "knowledge/technical-writing/grounding/evidence-and-sources/techniques/own-measurement-disclosure.md",
+    "knowledge/technical-writing/grounding/evidence-and-sources/applications/next--numbered-in-page-citations--personas-web.md",
+    "knowledge/technical-writing/grounding/evidence-and-sources/applications/next--own-measurement-disclosure--personas-web.md",
+    "knowledge/technical-writing/grounding/evidence-and-sources/applications/next--inference-labelled-as-inference--personas-web.md",
+    "knowledge/technical-writing/index.json",
+    "rules/ai-registry-technical-writing.md",
+    "catalog.json",
+    "librarian/subjects/technical-writing/evidence-and-sources.md",
+    "librarian/applied.md",
+    "librarian/domains/technical-writing.md"
+  ],
+  "commits": [
+    {
+      "sha": "a44ec1e5",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/technical-writing/grounding/evidence-and-sources"
+      ]
+    },
+    {
+      "sha": "779a1878",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/technical-writing/index.json",
+        "rules/ai-registry-technical-writing.md"
+      ]
+    },
+    {
+      "sha": "851b176a",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/technical-writing.md",
+        "librarian/subjects/technical-writing/evidence-and-sources.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Listed is not answered (O'Keefe 1999); source named in the sentence (Piccardi 2020: 0.29% clicks); snapshot at citation; worked example in the conditional; cut the run, not the headline. 3 next apps, 22 anchors held. Impact 0. Gate: coverage-age red, pre-existing; rest green."
+}
