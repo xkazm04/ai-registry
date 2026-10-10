@@ -19,8 +19,9 @@ the bundle (dp-as-1010). No librarian sweep has run yet.
 | depth-and-audience | L2 primary + L3 field measurement (n = 10 posts) | 2026-10-10 | 2 citation corrections, 6 conditions, 2 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 | evidence-and-sources | L2 primary (meta-analyses) + L3 field measurement (n = 45 numbers in 10 posts, 11 commits) | 2026-10-10 | 1 correction, 10 conditions, 3 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
 | figures-and-tables | L2 primary (perception and accessibility studies) + L3 field measurement (n = 10 posts, 117 paragraphs; 9 card routes; guide renderer) | 2026-10-10 | 4 corrections, 9 conditions, 3 applications (`next`) | 0 | stack default | none: no project map joins the bundle |
+| medium-format-fidelity | L2 primary (reading, polarity and highlighting studies; WCAG; screen-size statistics) + L3 field measurement (66 paragraphs wrapped in the site's font; 11 themes' contrast computed; test suite and feed read) | 2026-10-10 | 5 corrections, 15 conditions, 5 applications (`next`) | 0 | stack default; the Medium map row a vendor landscape | none: no project map joins the bundle |
 
-The other two subjects have not had a deepen pass.
+The other subject has not had a deepen pass.
 
 ## Source-class memory
 
@@ -53,6 +54,14 @@ From one pass, so these are tallies, not rules:
   citation.
 - The blind lane again named the web lane's primary studies with no priors. Four passes
   now, all in one domain, so still a tally.
+- Fifth pass (dp-mff-1010): PubMed efetch, Springer HTML, W3C TR HTML and raw web-archive
+  captures (`id_`) carried verbatim text. OpenAlex had no abstract for three of the four
+  papers tried. The platform's help centre still returns 403 live. One archive capture
+  reproduced on re-read and two did not, so a lane's archive quote is re-read before it
+  lands. Screen-size trackers report screens, not viewports, and one series moved fourfold
+  in six months, so a single tracker is a weak source for a width.
+- The blind lane again named the web lane's primary studies with no priors (three
+  highlighting studies, three polarity studies). Five passes, one domain: still a tally.
 
 ## Field witnesses
 
@@ -63,3 +72,11 @@ From one pass, so these are tallies, not rules:
 - The same site's blog renderer draws no image, table or code block, and its guide renderer
   draws tables without alignment or a caption slot. Both are live seams for
   figures-and-tables, and the guide's parser carries a defect recorded in that subject's note.
+- The same site is the medium-format-fidelity witness:
+  - a 768-pixel blog column holding 99 characters per line;
+  - eleven themes, one picked at random, with the system preference never read;
+  - inline code that fails contrast on two light themes;
+  - a phone test suite that visits no article;
+  - a summary-only feed.
+
+  Five seams, five `next` applications.

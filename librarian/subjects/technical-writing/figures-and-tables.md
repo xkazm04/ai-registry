@@ -111,6 +111,9 @@ Three lanes ran:
 - Prompt text in tutorials. Five prompts sit in italic blocks with no copy affordance, and
   four show literal asterisks. No technique covers prompt text as copyable material.
   Return: a second witness, or `medium-format-fidelity`'s code-block technique taking it.
+  **Taken 2026-10-10 (dp-mff-1010)** by highlighted-code-blocks. The count was corrected
+  there: the asterisks leak from four *inline* prompts, not from the italic blocks, and
+  two of the four are in a use-case post.
 - Data-encoding pictograms in technical articles (Borkin 2016, Haroz 2015). Return: a
   fleet article with a pictorial chart.
 
