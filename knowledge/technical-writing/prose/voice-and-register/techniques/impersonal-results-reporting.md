@@ -30,13 +30,21 @@ the full method where a reader can repeat it.**
 
 ## The passive trap
 
-The reflex fix for "I measured" is "it was measured", and it is the wrong one. A classic
-rule set for clear English says never use the passive where the active will do, and the
+The reflex fix for "I measured" is "it was measured", and it is the wrong one. Here the
 agentless passive hides exactly the information a technical reader wants: what did the
 measuring and under what conditions. Change the subject instead of the voice. "The
 measurement shows", "a tokenizer trained mostly on English splits", "the parallel corpus
-gives" are active and impersonal. The passive is right only where the agent is genuinely
-irrelevant and the object is the topic ("the vocabulary is built by repeated merging").
+gives" are active and impersonal.
+
+The defect is the hidden agent, not the passive. A grammarian's review of the case against
+the passive (Pullum, 2014) finds its stylistic charges "entirely baseless" and says critics
+confuse the grammar with a rhetorical failure to attribute agency. The passive is right
+where the agent is irrelevant ("the vocabulary is built by repeated merging"), and where it
+keeps the known thing in subject position so the new agent lands at the end. The essay that
+named the stress position models its own best revision as a passive, and warns against
+"slavish adherence" to the active voice. The passive is not a machine tell either: one
+corpus study measured an instruction-tuned model using the agentless passive at roughly half
+the human rate (Reinhart et al., 2025).
 
 ## Own measurements
 
@@ -49,15 +57,30 @@ subject), and later uses cite it like any other source.
 
 ## Procedure
 
-1. Search the draft for first-person pronouns and possessives, case-insensitive, as whole
-   words. Each hit is a finding with its span
+1. Search the draft's prose for first-person pronouns and possessives as whole words.
+   Strip first what is not the author's voice: quoted text, including prompts or commands
+   the reader is meant to type; UI labels; code, code comments and directive blocks. Match
+   a capital "I" case-sensitively, so "i.e." and loop variables do not hit. Add the forms a
+   bare pronoun list misses: "let's", "mine", "myself", "ours", "ourselves". Each remaining
+   hit is a candidate with its span
    ([a check names a property and a span](../../../_laws.md#a-check-names-a-property-and-a-span)).
-2. For each hit, ask what the sentence is about, make that the subject, and rewrite.
-   Delete the sentence if it is only about the author.
-3. Re-run the search over the article's companion files too (notes, source logs): a
+   On a product blog of ten posts, the unstripped search returned 8 hits and 2 were the
+   author's voice.
+2. Classify each candidate before rewriting: author narration, the organization speaking
+   as author, a reader-inclusive "we" ("we can see that x doubles"), or quoted speech.
+   Only narration is this technique's defect. An organization "we" is a house decision (see
+   house-style-consistency); when it reports an observation ("workflows we've seen users
+   build"), the defect is the missing source, not the pronoun.
+3. For each narration hit, ask what the sentence is about, make that the subject, and
+   rewrite. Delete the sentence if it is only about the author. Never swap "I" for "the
+   author": the APA style guidance says not to use the third person to refer to yourself,
+   and the swap keeps the author as the subject.
+4. Re-run the search over the article's companion files too (notes, source logs): a
    research log written in the first person tends to leak phrasing back into the page.
-4. Allow "you" where the house voice addresses the reader (preview outcomes, a changed
-   action in the close); see house-style-consistency.
+5. Allow "you" where the house voice addresses the reader (preview outcomes, a changed
+   action in the close); see house-style-consistency. Reader address and author narration
+   are separate axes: the same blog addressed its reader 152 times and narrated its author
+   once.
 
 ## Decision rules
 
@@ -67,9 +90,11 @@ subject), and later uses cite it like any other source.
   measurement ran on one machine") and keep the first person only where the impersonal form
   would hide responsibility.
 - **Counter-evidence about the rule itself.** Major style authorities do not ban the first
-  person: one developer documentation guide accepts first-person plural for the
-  organization as author, and the long argument for active verbs in scientific writing
-  usually ends, in a methods section, at "we".
+  person. One developer documentation guide accepts first-person plural "to refer to the
+  organization that's represented as the author". The APA's guidance says to use first-person
+  pronouns "to describe your work", and a leading science journal family recommends the
+  active voice with "we performed the experiment". The long argument for active verbs in
+  scientific writing usually ends, in a methods section, at "we".
   The rule here is a register choice for the reported technical article, adopted because
   author narration was the defect a reviewer named. A house that publishes first-person
   essays should record the opposite rule and check for that instead.

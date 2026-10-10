@@ -50,7 +50,15 @@ Choices that are conventions rather than craft, each stated as a rule a check ca
    sources list). Captions and alt text are where house rules leak most often, because they
    are written last.
 4. When a rule produces false positives on legitimate text, add the exception to the rule
-   rather than editing the text to satisfy the checker.
+   rather than editing the text to satisfy the checker. Run punctuation checks on the text
+   the reader sees, not the raw markup: a checker that collapses newlines reads Markdown
+   list bullets as spaced hyphens, and a product site's copy gate carried that warning on
+   five of its ten blog posts.
+5. Know the checker's unit. Where a whole post is one string to the gate, editing one word
+   re-gates the post, and the post's baselined debt is owed in the same edit. On that site
+   the blog file's banned em dashes went from 61 to 16 in four commits, one a language
+   review and three claim corrections that touched the posts for other reasons. 852 remain
+   in the guide.
 
 ## Decision rules
 
@@ -58,7 +66,16 @@ Choices that are conventions rather than craft, each stated as a rule a check ca
   developer style guide that prefers "you" and a science publisher that prefers "we" are
   both right for their genres; the house picks one for its genre.
 - **A rule that exists to curb a model habit is labelled as such.** It can be revisited when
-  the drafting model changes; a rule presented as grammar cannot.
+  the drafting model changes; a rule presented as grammar cannot. The em dash shows why:
+  a 2026 report relays that only one major chatbot still uses the mark as much as people
+  do, and the crowd-written field guide now dates its em dash section as ending September
+  2026. A ban recorded only as a dated decision, with no reason, cannot tell a later
+  editor whether it has outlived its cause.
+- **Person is a sheet rule, not only a technique.** Who speaks (the author, the
+  organization, nobody) and who is addressed belong on the sheet with a check. A product
+  site's five-rule sheet covered spelling, dashes, quotes, ellipsis and case and said
+  nothing about person; its blog addresses the reader throughout and in one post the
+  organization reports an unsourced observation as "we've seen".
 - **Consistency beats preference within one post.** When editing someone else's post to a
   house that lacks a rule for some choice, follow the post's own majority usage rather than
   the editor's taste.

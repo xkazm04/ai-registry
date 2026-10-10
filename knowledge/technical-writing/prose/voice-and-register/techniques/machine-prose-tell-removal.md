@@ -32,8 +32,13 @@ product copy.
   sentence per section that tells the reader the section mattered ("This highlights the
   importance of..."). Cut it; the next section's heading should carry the consequence.
 - **Superficial analysis tails.** A sentence-final participial clause that comments on a
-  result (", underscoring the need for...") is the most frequent tell in long drafts. Give
-  the comment a sentence with a subject, or cut it.
+  result (", underscoring the need for..."). Its grammatical family is measured:
+  instruction-tuned models use present participial clauses at 2 to 5 times the human rate,
+  one of them at 5.3 times (Reinhart et al., 2025). That study counts the clause type, not
+  the commenting tail, and no study ranks tells by frequency. Give the comment a sentence
+  with a subject, or cut it. A regex for a comma and an -ing word near the end needs a
+  reader: on a ten-post product blog it returned 5 hits and 2 were tails; the others were
+  gerund lists and a gerund subject.
 - **Sign-posting.** "Let's dive in", "Now let's look at", "It's worth noting that". A
   claim-carrying heading makes the sign-post redundant.
 - **The recap close.** A final paragraph that repeats the post in general terms. Replace it
@@ -61,8 +66,24 @@ product copy.
 ## Decision rules
 
 - **Never cite a detector score or "sounds generated" as a finding.** The same field guide
-  says a high detector percentage is not on its own a valid criterion, and detectors have
-  been shown to misfire on non-native writers (Liang et al., 2023). A finding without a span cannot be fixed.
+  tells its editors not to rely solely on detection tools, and rules a high detector
+  percentage out as a criterion for speedy deletion. Early detectors misfired on
+  non-native writers: 61.3 percent average false positives on 91 essays from an English
+  proficiency test, across seven tools (Liang et al., 2023). A 2026 test of thirteen
+  detectors on 135,389 pairs of non-native manuscripts and their professionally edited
+  versions found false-positive rates from 0 to 100 percent (Park, Jeong and Kim). The
+  error depends on the tool; the missing span does not. A finding without a span cannot
+  be fixed.
+- **Check the collection, not only the post.** The same opener template in two posts ("AI
+  agents aren't just for chatbots." and "...aren't just for developers.") is a tell no
+  per-post check sees. On the product blog and its guide, the "not just X, but Y" frame
+  was the most reliable pattern: 13 hits, 12 of them the frame and 1 a plain qualifier
+  ("any two versions, not just consecutive ones").
+- **Word lists date and misfire.** A lexical tell rises and falls with the models: the
+  excess style words in 2024 scientific abstracts were mostly verbs (Kobak et al., 2025),
+  and the field guide now dates its em dash section as ending September 2026. A word list
+  also flags literal senses ("the key that unlocks it"). Re-check a list when the drafting
+  model changes, and read each hit for its sense.
 - **Presence is not the defect; function is.** A real three-part list, a single dash, an
   "additionally" in a long argument are not findings. Density and emptiness are.
 - **The fix is usually a fact.** Most tells mark a place where the draft had no specific

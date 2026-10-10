@@ -5,7 +5,7 @@ subject: voice-and-register
 technique: impersonal-results-reporting
 stack: process
 status: forged
-verified_on: 2026-10-05
+verified_on: 2026-10-10
 ---
 
 # Process: a third-person sweep over an article and its research log
@@ -43,9 +43,11 @@ the research log.
 ## The same round's house decision
 
 The host's editing checklist for round two also banned em dashes in the page. That is a
-house rule adopted to curb a drafting habit, recorded as such in `house-style-consistency`;
-a 2026 trade piece quotes editors arguing that cutting a correct dash to avoid suspicion
-damages the sentence (https://www.poynter.org/reporting-editing/2026/ai-changing-human-writing-editors-em-dash/).
+house rule adopted to curb a drafting habit, recorded as such in `house-style-consistency`.
+A 2026 report on writers scrubbing em dashes quotes a content-marketing speaker at an
+editing society's conference: cutting a dash that is the right mark for the point loses its
+meaning (https://www.poynter.org/reporting-editing/2026/ai-changing-human-writing-editors-em-dash/,
+re-read 2026-10-10; an earlier version of this line attributed the argument to editors).
 
 ## What this witness does and does not show
 
