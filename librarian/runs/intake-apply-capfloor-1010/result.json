@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-capfloor-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "grant-funding",
+  "started_at": "2026-10-10T21:58:30Z",
+  "ended_at": "2026-10-10T22:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "grant-funding/coalition-and-portfolio-strategy",
+      "at": "2026-10-11",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "coalition-and-portfolio-strategy",
+      "technique": "capacity-floor-detection",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/applications/node--capacity-floor-detection.md",
+    "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/techniques/capacity-floor-detection.md",
+    "knowledge/grant-funding/index.json",
+    "rules/ai-registry-grant-funding.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/grant-funding/coalition-and-portfolio-strategy.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Registry a5a9282b (applied.md staged as HEAD + this row; sibling rows left) + 1101afe2 (generated, clean worktree). grant 849f03d + a1e95cb pushed from a fresh clone of its remote. Single-stack point unchanged: the only consumer is node."
+}

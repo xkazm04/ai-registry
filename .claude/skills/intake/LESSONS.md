@@ -12467,3 +12467,8 @@ applied here - one sighting, and the honest record is in the source note.
 ## 2.15.0 - 2026-10-10 - apply cull-before-submission
 
 - **A ground truth that pads by a different parameter than the arm reports a phantom difference.** The first truth padded every chord by the widest stroke, while the product padded each chord by its own. The patched product then read 24 chords short of "visible" on one row, which looked like a regression in the fix. Re-deriving the truth with the product's per-object parameter made the product equal the exact arm on every row. Before reading a gap between an arm and the truth, check that both computed the same quantity. (Mid-flight runs: nothing to do.)
+
+## 2.15.0 - 2026-10-11 - apply capacity-floor-detection
+
+- **A project checked out only on another machine is still reachable: resolve its remote, clone it fresh at a short path, and push from the clone.** `loadFleet()` returned no local path for the consumer, and the remote was not under the operator's account. `gh search repos <checkout dir name>` found it under an organization. A fresh clone has no sibling WIP, so the pathspec and worktree caution the shared checkouts need does not apply, and the push is a plain fast-forward. Check visibility before writing the application: this one was private, so the application describes the seam without paths.
+- **A single-stack dispatch cannot always be cleared, and the row should say so.** When the subject's only consumer in the fleet is the same stack, the first application is still owed, but the attention point stays. Name that in the scorecard instead of hunting for a second stack in an unregistered tree.
