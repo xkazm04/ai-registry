@@ -320,3 +320,38 @@ Source-class notes:
   revisionist historian.
 - **Search summaries are not quotes.** Three candidate sources (a forum poll, an op-ed, a
   history magazine behind a 403) were seen only as summaries, and none was used as evidence.
+
+## 2026-10-10 - deepen rival-to-ally-turn (dp-rta-1010)
+
+A single subject, ranked by single stack (process). The rank was real. Four kotlin
+applications now read Death Ride's rival data, grudge state, promotion, script director and
+line picker at firetv `deathride/main` `d9990777`, with 62 anchors held. The whole arc is
+written in the script. Most of what fails, fails between the script and the code that chooses
+lines:
+- a four-line refusal plays one line;
+- every respect line claims more than its one flag read;
+- one integer holds both the side and the grudge.
+
+No new technique. "The rivalry outlives the turn" was reached by all three lanes, but it is
+home-ambiguous with ally-bond-and-found-family, so it landed as a section of
+keep-the-rivals-own-culture. Golden-path rules conditioned:
+- the arc grudge waits for its event, while a contact grudge decays;
+- the refusal's function is fixed and its placement free, and a one-conversation recruit is not
+  a rival turn;
+- a speech may complete a turn that something seen has already cracked;
+- demotion is the same role made weaker;
+- side and grudge are two states;
+- a conditioned line claims nothing its condition did not read, and an exchange must play as
+  one.
+
+Applied: 4 better, 1 unmeasurable, 1 unapplied, all on firetv (unregistered). Impact: 0
+contexts.
+
+Source-class notes:
+- **Patch notes are counter-evidence to a design claim.** A studio's own patch, which made a
+  never-decaying nemesis decay, bounded "the grudge persists" more cleanly than any criticism
+  could. A community board's repost is enough when it carries the date and the verbatim text.
+- **Peer-reviewed PDFs: extract the text with pdftotext.** The fetch tool returned the binary
+  and found no sentence. `pdftotext` on the saved file gave both quotes verbatim.
+- **A tree's line picker is a field instrument for narrative claims.** Reading the slot rule
+  (`Script.kt:11`) found the collapsed refusal, which no reading of the script alone shows.
