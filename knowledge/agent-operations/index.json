@@ -5,7 +5,7 @@
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
   "techniques": 40,
-  "applications": 32,
+  "applications": 33,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -485,9 +485,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/harness-fault-attribution/harness-fault-attribution.md",
-   "digest": "sha256-b2:e2d4c798566b4d95",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:edaae8da7649ead2",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "clear-the-environment-first",
@@ -559,6 +559,12 @@
      "technique": "re-gate-then-resample",
      "file": "knowledge/agent-operations/measurement/harness-fault-attribution/applications/process--re-gate-then-resample.md",
      "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "python",
+     "technique": "fault-signature-catalogue",
+     "file": "knowledge/agent-operations/measurement/harness-fault-attribution/applications/python--fault-signature-catalogue.md",
+     "verified_on": "2026-10-10"
     }
    ]
   },

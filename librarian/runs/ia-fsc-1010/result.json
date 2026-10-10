@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ia-fsc-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "agent-operations",
+  "started_at": "2026-10-10T16:47:54Z",
+  "ended_at": "2026-10-10T17:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/harness-fault-attribution",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "harness-fault-attribution",
+      "technique": "fault-signature-catalogue",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/measurement/harness-fault-attribution/applications/python--fault-signature-catalogue.md",
+    "knowledge/agent-operations/index.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "librarian/applied.md",
+    "librarian/subjects/agent-operations/harness-fault-attribution.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only pass. Personas commit 58b2ed20f0 is on local master and not pushed; catalog.json and rules/ai-registry-software-engineering.md left uncommitted because they describe a sibling's uncommitted voice-io work."
+}
