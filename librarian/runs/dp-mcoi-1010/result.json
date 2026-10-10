@@ -1,0 +1,114 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-mcoi-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-10-10T14:25:00Z",
+  "ended_at": "2026-10-10T15:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/model-call-outcome-integrity",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 3,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "model-call-outcome-integrity",
+      "technique": "unattempted-is-not-failed",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "model-call-outcome-integrity",
+      "technique": "golden-path",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "model-call-outcome-integrity",
+      "technique": "golden-path",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/model-call-outcome-integrity.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/techniques/declared-call-site-identity.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/techniques/enforcement-demotion-on-translation-loss.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/techniques/one-deadline-across-attempts.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/techniques/spend-precedes-the-error.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/techniques/unattempted-is-not-failed.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity/applications/next--unattempted-is-not-failed.md",
+    "librarian/applied.md",
+    "librarian/domains/software-engineering.md",
+    "librarian/subjects/software-engineering/model-call-outcome-integrity.md"
+  ],
+  "commits": [
+    {
+      "sha": "73408c51",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity"
+      ]
+    },
+    {
+      "sha": "4b818b3f",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/software-engineering/index.json"
+      ]
+    },
+    {
+      "sha": "08cadb3e",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/evaluation-and-cost/model-call-outcome-integrity"
+      ]
+    },
+    {
+      "sha": "038a5aba",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    },
+    {
+      "sha": "4838bf66",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/software-engineering.md",
+        "librarian/subjects/software-engineering/model-call-outcome-integrity.md"
+      ]
+    },
+    {
+      "sha": "49ed4b94",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/software-engineering/index.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "3 lanes. Golden-path flip (a filter is not a refusal), 1 refutation, 3 conditions, first application (code A/B 13/13 -> 0/13 retryable). Maps: 4 pairs, 0 stale. Project commits local only: sibling work on 2 branches, a pre-existing kp copy-check block."
+}
