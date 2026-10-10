@@ -26,9 +26,25 @@ Vocabulary is made accessible cheaply, by explaining a term of art in a clause a
 on; the space this saves is spent on the material only an expert would have known to ask
 for: the mechanism, its production consequences, its limits and what it means. The
 newcomer is carried by the clauses and the figures; the expert is held by the substance.
-An essayist's case for simple writing makes the same split: readers whose command of the
-language lags their command of the ideas need plain words precisely *because* the topic is
-hard, and the less energy they spend on the prose, the more they have for the ideas.
+An essayist's case for simple writing reaches the same split from another side. His reader
+is not a newcomer to the field. It is a reader whose English lags their grasp of the ideas,
+and his target is needlessly intellectual words, not terms of art: a difficult topic does
+not license difficult words, and the less energy a reader spends on the prose, the more is
+left for the ideas.
+
+## Where one text cannot serve both
+
+The split has a measured limit. In a reading study, low-knowledge readers learned more from
+a cohesive, explicit text and high-knowledge readers from a minimally coherent one, because
+filling the gaps made them work. Instruction research generalises this as the expertise
+reversal effect: support that helps a novice can cost an experienced learner. The two-reader
+article survives on a narrower condition. A follow-up found the low-cohesion benefit only in
+*less skilled* readers with high knowledge; skilled readers with high knowledge did better
+with the cohesive text, and a practitioner reading a technical post is usually a skilled
+reader. A clause of gloss costs that reader little, though no study has compared an inline
+gloss with a glossary or with no definition across expertise. The reversal applies once the
+support outgrows a clause: worked steps, a sustained analogy, a paragraph per term. That
+material belongs in a separate post the expert can skip.
 
 ## The depth ladder
 
@@ -43,8 +59,9 @@ first. See four-layer-depth.
 3. **Limits**: where the effect does not apply, is shrinking, or is contradicted, stated
    with the counter-evidence (see the `evidence-and-sources` subject).
 4. **Philosophy**: what it means: who pays, who decided, what responsibility follows for
-   the people who build on it. This rung is where an article becomes worth citing rather
-   than worth bookmarking, and it is the one an audience-first brief cuts first.
+   the people who build on it. This rung is where, in this subject's judgment (no study
+   measured it), an article becomes worth citing rather than worth bookmarking, and it is
+   the one an audience-first brief cuts first.
 
 An explanation framework for documentation describes the same territory: explanation is
 the understanding-oriented mode, it gives the design decisions, history and constraints
@@ -54,8 +71,12 @@ expected, to hold an opinion it has earned.
 
 ## Length is held while depth rises
 
-The space for depth does not come from making the post longer. A post that doubles in
-length to add depth loses the readers it was meant to deepen
+The space for depth does not come from making the post longer. The measured cost is
+position, not length. In one news-site study, long-form articles drew complete visits at
+about the rate of short-form ones and twice the engaged time. But attention falls down the
+page: most readers stop near the halfway mark, and in eye-tracking three quarters of viewing
+time goes to the first two screens. Depth appended to a longer post lands where fewer of the
+readers it was written for still are
 ([depth by replacement, not addition](../../_laws.md#depth-by-replacement-not-addition)).
 It comes from cutting what flattens: the analogy that needs translating back, the
 paragraph-length definition, the section that repeats a figure in words, the general
@@ -93,23 +114,67 @@ first principles and could check. See non-obvious-detail-selection.
   catalogue of confusing explanations names it.
 - **Philosophy as a coda.** A last paragraph of reflection bolted onto a flat post. The
   philosophy rung works only when the mechanism and consequence rungs below it were built;
-  otherwise it is opinion without evidence.
+  otherwise it is opinion without evidence. On a product's own blog the coda is usually a
+  positioning line restating the product's advantage. That is the publisher's claim, not a
+  position the post has argued, and a review should not credit it as the rung.
 
 ## Naming the audience
 
-A brief that names the audience names both readers and the trade: "a practitioner who
-knows the field; terms of art explained in a clause; the space goes to mechanism,
-consequence, limits and meaning". Naming only one reader invites the drafter to sacrifice
-the other.
+A brief names **one primary reader, specifically, and the floor kept for the other**: "a
+practitioner who knows the field is the reader; terms of art are explained in a clause for
+the newcomer; the space goes to mechanism, consequence, limits and meaning". The catalogue
+of confusing explanations prescribes the same remedy for inconsistent expectations: pick one
+specific person and write for them. Naming the primary reader without the floor invites the
+drafter to sacrifice the newcomer. Naming two readers as equals leaves the drafter no way to
+settle a conflict between them. Naming none gives the field's usual result: a post that
+defines a basic term in one sentence and assumes a hard one in the next.
+
+The second reader depends on the venue. In a field publication it is a newcomer to the
+field. On a product or vendor blog it is often a buyer or user from outside the field, and
+the title may say so. There the primary reader flips. Plain words carry the post, and a term
+that reader does not need is replaced rather than glossed (see term-in-a-clause). The depth
+ladder applies to the posts written for engineers, not to announcements and use-case
+pieces, which persuade rather than explain.
 
 ## Sources this subject rests on
 
-- Paul Graham, "Write Simply", March 2021, https://www.paulgraham.com/simply.html: plain
-  words for readers whose grasp of ideas exceeds their grasp of the language; less energy on
-  prose leaves more for ideas.
+- Paul Graham, "Write Simply", March 2021, https://www.paulgraham.com/simply.html, re-read
+  2026-10-10: readers who are not native speakers, whose "understanding of ideas may be way
+  ahead of their understanding of English"; a difficult topic does not license difficult
+  words. It concerns needlessly intellectual words, not terms of art.
+- McNamara, Kintsch, Songer and Kintsch, Cognition and Instruction, 1996,
+  doi:10.1207/s1532690xci1401_1: low-knowledge readers benefit from a coherent text,
+  high-knowledge readers from a minimally coherent one.
+- O'Reilly and McNamara, Discourse Processes, 2007, doi:10.1080/01638530709336895: the
+  low-cohesion benefit was restricted to less skilled, high-knowledge readers; skilled
+  high-knowledge readers benefited from the cohesive text.
+- Kalyuga, Ayres, Chandler and Sweller, "The expertise reversal effect", Educational
+  Psychologist, 2003, doi:10.1207/S15326985EP3801_4. Instructional settings, not article
+  reading.
+- Pew Research Center, Mitchell, Stocking and Matsa, "Long-form reading shows signs of life
+  in our mobile news world", 2016-05-05: 1,530 complete interactions per long-form article
+  and 1,576 per short-form; 123 seconds of engaged time against 57.
+- Shulman, Dixon, Bullock and Colón Amill, Journal of Language and Social Psychology,
+  2020, doi:10.1177/0261927X20902177: jargon disrupts fluent processing "even when
+  definitions for the jargon terms are provided". Method from the companion paper, Bullock
+  et al., Public Understanding of Science, 2019, doi:10.1177/0963662519865687 (N = 650):
+  "Definitions were provided using a mouseover text feature"; "10 jargon terms were
+  included in each paragraph".
+- Martínez and Mammola, "Specialized terminology reduces the number of citations of
+  scientific papers", Proc. R. Soc. B, 2021, doi:10.1098/rspb.2020.2581.
+- Trudeau, "The Public Speaks", Scribes Journal of Legal Writing 14 (2011-2012): 76% of
+  respondents with law degrees preferred the longer passage that explained the legal term.
+- Hinds, Journal of Experimental Psychology: Applied, 1999, doi:10.1037/1076-898X.5.2.205:
+  experts were worse predictors of novice performance and resisted debiasing; intermediates
+  predicted better.
+- Nielsen Norman Group, Fessenden, "Scrolling and attention", 2018-04-15: 74% of viewing
+  time in the first two screenfuls. Chartbeat data reported by Slate (Manjoo, 2013): most
+  readers scroll to about the halfway mark.
 - Diataxis, "Explanation", https://diataxis.fr/explanation/: explanation is
   understanding-oriented, gives context and reasons, and must consider alternatives and
   counter-examples; it also tends to absorb other material and has to be kept bounded.
 - Julia Evans, "Patterns in confusing explanations", 2021-08-19,
-  https://jvns.ca/blog/confusing-explanations/: outdated and inconsistent assumptions about
-  the reader, strained analogies, unsupported statements, "what" without "why".
+  https://jvns.ca/blog/confusing-explanations/, re-read 2026-10-10: outdated and
+  inconsistent assumptions about the reader, strained analogies, unsupported statements,
+  "what" without "why", too many concepts at a time. Her remedy for inconsistent
+  expectations is "pick 1 specific person and write for them!"

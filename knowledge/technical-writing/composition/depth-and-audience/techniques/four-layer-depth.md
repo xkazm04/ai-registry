@@ -41,7 +41,10 @@ can answer.
    A limit that is only a hedge ("this may not always hold") is not a limit.
 4. Give the philosophy layer its own section or paragraph late in the post, after enough
    mechanism and consequence to support it. An opinion the post has earned reads as
-   judgment; one it has not reads as editorializing.
+   judgment; one it has not reads as editorializing. In a post longer than about two
+   screens, also state the position in one sentence near the opening. Attention falls
+   down the page (three quarters of viewing time goes to the first two screens), so a
+   position that appears only at the end reaches a minority. The late section argues it.
 5. Fit the four layers into the section's existing length by cutting what flattens it
    ([depth by replacement, not addition](../../../_laws.md#depth-by-replacement-not-addition)).
 
@@ -55,11 +58,20 @@ can answer.
   effect.** "Who pays for this?" followed by nothing is rhetoric; "the cost lands on users
   in the regions least able to pay it, because quotas are denominated in the unit that
   carries the premium" is a position a reader can disagree with.
+- **A positioning line is not the philosophy rung.** On a product's own blog the closing
+  paragraph often restates the product's advantage. That is the publisher's claim, and the
+  rung needs a position the post has argued from its own evidence.
 - **Not every section needs all four layers equally.** The mechanism section is mostly
   mechanism; the closing chapter is mostly consequence and philosophy. The check is that the
   post as a whole climbs all four, and no section stays on the ground floor.
 
 ## When not to use it
 
-Tutorials and reference pages, where the reader needs to act and the philosophy layer is
-noise. The ladder is for explanatory writing, whose reader came to understand.
+Reference pages, and most of a tutorial, where the reader needs to act and the philosophy
+layer is noise. The ladder is for explanatory writing, whose reader came to understand.
+
+One rung survives into a tutorial: **limits, as a caveat on the action.** A limit that
+changes what the reader will do goes in the step it governs, in one sentence: a scheduled
+job that stops while the machine sleeps, a branch threshold on a score whose source the
+reader has to know, a permission the setup does not grant. It is not an aside for the
+expert. It is the part of the step the reader would otherwise find out in production.
