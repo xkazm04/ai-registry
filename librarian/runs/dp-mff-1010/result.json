@@ -1,0 +1,113 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-mff-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "technical-writing",
+  "started_at": "2026-10-10T09:00:00Z",
+  "ended_at": "2026-10-10T09:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "technical-writing/medium-format-fidelity",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "medium-format-fidelity",
+      "technique": "reading-column-and-type-scale",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "medium-format-fidelity",
+      "technique": "light-and-dark-rendering",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "medium-format-fidelity",
+      "technique": "highlighted-code-blocks",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "medium-format-fidelity",
+      "technique": "two-viewport-verification",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "medium-format-fidelity",
+      "technique": "target-platform-capability-map",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/technical-writing/presentation/medium-format-fidelity/medium-format-fidelity.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/techniques/highlighted-code-blocks.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/techniques/light-and-dark-rendering.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/techniques/reading-column-and-type-scale.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/techniques/target-platform-capability-map.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/techniques/two-viewport-verification.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/applications/process--target-platform-capability-map.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--highlighted-code-blocks--personas-web.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--light-and-dark-rendering--personas-web.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--reading-column-and-type-scale--personas-web.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--target-platform-capability-map--personas-web.md",
+    "knowledge/technical-writing/presentation/medium-format-fidelity/applications/next--two-viewport-verification--personas-web.md",
+    "knowledge/technical-writing/index.json",
+    "rules/ai-registry-technical-writing.md",
+    "catalog.json",
+    "librarian/subjects/technical-writing/medium-format-fidelity.md",
+    "librarian/subjects/technical-writing/figures-and-tables.md",
+    "librarian/applied.md",
+    "librarian/domains/technical-writing.md"
+  ],
+  "commits": [
+    {
+      "sha": "3ebe2666",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/technical-writing/presentation/medium-format-fidelity"
+      ]
+    },
+    {
+      "sha": "cc57e150",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/technical-writing/index.json",
+        "rules/ai-registry-technical-writing.md"
+      ]
+    },
+    {
+      "sha": "08b53825",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/technical-writing.md",
+        "librarian/subjects/technical-writing/figures-and-tables.md",
+        "librarian/subjects/technical-writing/medium-format-fidelity.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Line length most-studied not largest (Dyson; 1.4.8 is a mechanism); dark scheme a courtesy, not a gain; highlighting a convention; 1440 minor. 5 next apps, 31 anchors held; blog column 99 cpl measured in font. Impact 0. Knowledge gate 8/8 green."
+}
