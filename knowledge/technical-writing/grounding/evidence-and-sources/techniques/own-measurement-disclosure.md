@@ -51,6 +51,14 @@ Per experiment, enough that another person can rerun it and get the same number:
 - **Report the definition with the number when it is non-obvious.** "Position in the
   vocabulary" means merge rank for one tokenizer family and score order for another; the
   number is meaningless without saying which.
+- **When the method cannot be recovered, cut the run, not the headline.** A published
+  figure whose test nobody can describe any more is withdrawn together with every other
+  number from the same test, or the test is repeated and disclosed. Deleting the striking
+  figure and keeping its quieter neighbour leaves the same undisclosed measurement on the
+  page, now without the sentence that showed it was one.
+- **A number in a title travels without its hedge.** "About five minutes" in the body is
+  an honest estimate; "in 5 minutes" in the title, the card and the feed is a claim with
+  no qualifier. A figure goes in a title only if it was measured and the body states the run.
 - **Do not round in the log.** Round in the page, to the house's significant figures; keep
   the raw counts where the derivation can be checked.
 - **Translations or inputs made for the article are disclosed as such.** A test sentence

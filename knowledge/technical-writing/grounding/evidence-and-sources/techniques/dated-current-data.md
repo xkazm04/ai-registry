@@ -48,6 +48,10 @@ only as labelled history.**
   The disagreement is information: the effect is changing, and the direction matters.
 - **When a page has no date, the read date is the only date.** Say "undated page, read on"
   rather than inventing a publication date.
+- **A post's date dates its numbers only until someone edits them.** When a figure changes
+  after publication (corrected, re-measured or removed), the post shows an updated date or
+  the changed figure carries its own. A publication date that stays put through edits to the
+  numbers tells the reader the wrong age.
 - **A version name is part of the number.** "A tokenizer" is not a source; the named
   vocabulary at its version is.
 
