@@ -1,8 +1,8 @@
 ---
 domain: civic-intelligence
 subject: conflict-of-interest-detection
-last_touched: 2026-09-09
-touched_by: architecture-review
+last_touched: 2026-10-10
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -79,3 +79,19 @@ Retain the economic screening method with explicit limits. Consumer formula pari
   }
 }
 ```
+
+## Apply - 2026-10-10 (ap-rcg-1010)
+
+registry-corroboration-gating gained its first application (node, politicas,
+experiment, better). The consumer gates the vote-versus-interest join and the
+review tier on registry confirmation. The published per-MP attributable figure is
+not gated: its bucket is decided by tie class alone. A replay of the committed
+211-tie ledger found 6 of 30 published figures carrying 128.1M CZK from ties the
+register had not confirmed. A confirmed-only arm withholds all of it and none of
+the confirmed money. The seam was chosen to falsify the gate. Four of the six
+"contradicted" ties, 95% of the withheld money, were later confirmed by deeper
+register reads, and none had a contradicting record. The technique gained a
+check-depth boundary: record whether a check read the current view or the full
+history, and treat a current-view no-match as unchecked history, not as a
+contradiction. The single-stack attention point does not move: the fleet's one
+civic project is node.

@@ -117,3 +117,17 @@ register coverage is not universal: other documented primary evidence needs
 an explicit review path. Trust-tier ordering is one queue policy; reserve
 declared capacity for urgent corroboration and coverage gaps so unconfirmed
 leads are not permanently starved.
+
+A no-match is not a contradiction until the register's history has been read.
+A lookup against an entity's current officers misses past roles, and old entries
+often lack the birth date the person match keys on. In one replay of a published
+money layer, six owner and manager ties had been stored as contradicted. Four of
+them, carrying 95% of the withheld money, were confirmed later by a full-history
+read of the same register. None of the six had a register record that actually
+contradicted the role. So a check records the depth it read (current view or full
+history) beside its result. A current-view no-match is filed as "checked with no
+match" and queued for the history read. It goes to the data-quality lane only
+after that read also finds nothing. The gate still holds while the history read
+is pending, so no unconfirmed money stands next to a name. What the depth rule
+changes is the queue and the label. It also bounds how long a real tie stays
+withheld.

@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 36,
+  "applications": 37,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -589,9 +589,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/conflict-of-interest-detection.md",
-   "digest": "sha256-b2:f6f6af7607476e31",
-   "revision": 3,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:8c453c984e7fd14d",
+   "revision": 4,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "registry-corroboration-gating",
@@ -681,6 +681,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "registry-corroboration-gating",
+     "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/applications/node--registry-corroboration-gating.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "triage-signal-scoring",

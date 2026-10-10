@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ap-rcg-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "civic-intelligence",
+  "started_at": "2026-10-10T18:00:00Z",
+  "ended_at": "2026-10-10T18:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "civic-intelligence/conflict-of-interest-detection",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "conflict-of-interest-detection",
+      "technique": "registry-corroboration-gating",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/applications/node--registry-corroboration-gating.md",
+    "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/techniques/registry-corroboration-gating.md",
+    "knowledge/civic-intelligence/index.json",
+    "rules/ai-registry-civic-intelligence.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/civic-intelligence/conflict-of-interest-detection.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Politicas db92367 (applied row) on local master, not pushed (47 ahead / 9 behind). Single-stack point unmoved: one civic project. Index, rules, catalog built in a detached worktree of HEAD (sibling WIP in the shared checkout)."
+}
