@@ -38,16 +38,24 @@ Each figure names its unit and the assumption behind it,
   resolution — and asks that timed text sit
   larger than that, because it is on screen only briefly. Every other figure is computed at
   this size.
+- **The largest size the player may choose.** The same guidance asks that players can resize
+  text to twice the minimum without losing content. A card area sized only for the minimum
+  overflows at that scale unless the text reflows or scrolls. In one measured game, every card
+  overflowed its area at twice the size, and all but two did at one and a half times. Budget
+  the card for the scaled case, or give the scaled case a layout of its own.
 - **Characters per line, at that type size.** A line of roughly forty characters is the working
-  ceiling for fast-read text such as subtitles; a card line should sit under it, near a dozen
-  words, because a card line is meant to be taken in at a glance rather than read.
+  ceiling for fast-read text such as subtitles. A card line is read at the player's pace, and
+  can run longer. Each authored line should fit **one row** at the card's type size, so that
+  each sense break falls on a row break. A dozen words is the outer limit. In one measured game
+  a row held about 58 characters, and a fifth of the authored lines overflowed it.
 - **Lines per unit.** Three for a card, and often fewer when the picture carries the first;
   one, at most two, for a bark subtitle.
 - **Words per bark,** set by the breath and by where the player's eyes are: a handful of words
   mid-action, up to a full breath between rounds (bark-carries-character-in-one-breath).
 - **Dwell seconds per card,** derived from the slowest reader present and a read-aloud pass,
-  never from a silent read by the writer who already knows the words. Where possible the
-  player dismisses the card rather than a timer doing it, because a timer is set for an average
+  never from a silent read by the writer who already knows the words. Broadcast practice puts
+  a floor of about 0.3 seconds per word under any timed text. Where possible the player
+  dismisses the card rather than a timer doing it, because a timer is set for an average
   reader and the room is not average.
 
 State these as targets, not limits. A writer told "maximum three lines of forty characters"
@@ -64,10 +72,16 @@ number or symbol that has no obvious spoken form, parentheses and dashes that ha
 two stressed words colliding, a sentence whose meaning depends on emphasis the text does not
 mark, a word whose pronunciation depends on its meaning.
 
-When a line is voiced as well as shown, the caption matches the audio word for word. A
-caption that paraphrases its audio — tidier, shorter, or written before the recording was
+When a line is voiced as well as shown, the caption keeps the audio's words in the audio's
+order. A caption that paraphrases its audio — tidier, or written before the recording was
 edited — makes the room hear one line and read another, and the reader aloud stumbles exactly
-where the two diverge. The voiced form wins the wording; the caption follows it.
+where the two diverge. The voiced form wins the wording; the caption follows it. When the
+speech outruns the reading rate the room can manage, captioning standards allow the caption
+to be reduced. The reduction is by **omission, never by substitution**, and broadcast
+guidance for young children says the same. The better fix is upstream: write the voiced line
+short enough that its verbatim caption fits the rate. One streaming standard allows up to 17
+characters a second for children and up to 20 for adults. A broadcaster recommends 160 to 180
+words a minute.
 
 ## Procedure
 
@@ -79,7 +93,9 @@ where the two diverge. The voiced form wins the wording; the caption follows it.
 3. **Write to the targets,** and grade what was written against the target, not only against
    the ceiling.
 4. **Place line breaks by hand at sense boundaries,** never by automatic wrapping, so each line
-   holds a phrase that can be read alone.
+   holds a phrase that can be read alone. Check that the renderer keeps them. A layout that
+   joins the authored lines into one paragraph and wraps it discards the breaks the writer
+   placed.
 5. **Read aloud from the sofa,** time the slowest reader, and set dwell from that time.
 6. **Check on the real screen** at the real distance; a mock-up on a monitor answers a
    different question.
@@ -109,12 +125,16 @@ where the two diverge. The voiced form wins the wording; the caption follows it.
 The roughly forty-character line ceiling, the two-line subtitle maximum, manual line breaks at
 editorially sensible points, the console minimum body height, and larger default type for
 timed text all come from a platform holder's published game accessibility guidelines on
-subtitles and text display, read in full for this subject (primary). The point that silent
+subtitles and text display, read in full for this subject (primary). The 200 percent resize requirement
+comes from the same guidelines (primary, re-read verbatim on 2026-10-10). The point that silent
 adult reading speed is the wrong basis for a room is consistent with broadcast subtitling
-practice and with accessibility guidance that subtitle rate should suit the audience's age;
-the broadcast figures themselves are recalled, not re-verified in this pass. The voiced-text
-rules — spelled-out numbers, word-for-word captions, pronunciation-dependent words — come from
-a voice-synthesis vendor's published guidance (primary for that vendor's models, untested on
-others). The mid-action bark figure is a design proposal from the research behind this
-subject, not a measurement. The dwell-from-read-aloud rule is this subject's own judgement.
-None of this has been tested in a played game yet.
+practice and with accessibility guidance that subtitle rate should suit the audience's age.
+The reading-rate figures, the per-word dwell floor and the omission-not-substitution rule come
+from a federal caption-quality rule, a streaming service's timed-text guide, a broadcaster's
+subtitle guidelines and the community game accessibility guidelines (all primary, read in full
+on 2026-10-10). The voiced-text rules — spelled-out numbers, captions that keep the audio's words,
+pronunciation-dependent words — come from a voice-synthesis vendor's published guidance (primary for
+that vendor's models, untested on others). The mid-action bark figure is a design proposal from the
+research behind this subject, not a measurement. The dwell-from-read-aloud rule is this subject's
+own judgement. The one-row card line and the scaled-text overflow were measured on one racing game's
+card layout, using its own font proxy. No card has been read from a sofa.

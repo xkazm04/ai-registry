@@ -22,7 +22,26 @@ The picture carries **what is seen**: place, object, face, posture, weather, dam
 present and who is missing. The text carries **what cannot be seen**: what something cost,
 who owes whom, what was said, what happens next, when time runs out, a name. The test is a
 single question asked of every line: could a viewer have read this off the picture? If yes,
-the line goes.
+the line goes, unless one of the three exceptions below applies.
+
+## When restating the picture is not waste
+
+The duplicate test assumes a viewer who reads the picture fluently and can see it. Three
+conditions break that assumption.
+
+- **The still is ambiguous.** A covered car, an unnamed face or a pile of parts can be read
+  more than one way. A few words that fix the reading (*your* car, *his* tag, *the
+  courier's* gearbox) carry the one thing the picture cannot, which is which reading is meant. Keep the
+  anchoring words and cut the description around them.
+- **The reader is new to the picture.** Text that recaps a diagram is redundant for a reader
+  who can already read the diagram. A novice may not understand the diagram without the text,
+  and that is measured instructional research, not taste. A family room includes novices. The
+  first card that shows a face or an object the player has not met may name it once, and
+  later cards drop the name.
+- **The reader cannot see the picture.** A player using screen narration gets only the text.
+  A card meant to be narrated needs a separate description of what the picture shows, kept out
+  of the visible lines. The wordless peak card needs it most, because without one it gives a
+  narration user nothing at all.
 
 The strongest pairing goes further than avoiding overlap: the text changes what the picture
 shows. An image of a man smiling beside a car reads as a winner; the line "He sold the house
@@ -85,6 +104,9 @@ will see it — is the only one that answers the question.
   changed, never what is shown.
 - **When the picture contains readable text** — a sign, a number, a name painted on a car —
   that text is part of the card's budget and must not be repeated below it.
+- **When a picture is reworked,** re-read every card and callback it serves. A picture can
+  carry a seed or a payment that no line mentions, and a new composition can delete it without
+  any text changing.
 
 ## When not to use this
 
@@ -97,11 +119,18 @@ will see it — is the only one that answers the question.
 ## Evidence status
 
 The division between what is seen and what is said is long-standing craft in comics (caption
-versus panel), film title cards and picture books, and is consistent with general research on
-redundancy between image and text, though no measured effect size is relied on here. The
+versus panel), film title cards and picture books. It is consistent with instructional research
+in which a diagram alone beat a diagram plus text that recapped it. The same research conditions
+that result: a less experienced reader could not understand the diagram without the text (the
+expertise reversal effect; primary, peer-reviewed). No effect size is relied on here. The
+narration exception comes from a platform holder's accessibility guidelines, which ask that
+non-decorative images carry a description read aloud by narration (primary). The training-data
+lane reached the same two conditions independently, through redundancy boundary conditions and
+the anchoring function of a caption. The rework rule comes from one game's shipped panels. There,
+an art rework removed a seed from a picture while the picture that pays it kept the payment. The
 peak-silence rule rests on animation directors speaking first-hand about wordless sequences
 (primary, high confidence for the interviews read in full, medium for one quote known only
 from a search excerpt). The object-carries-history rule draws on readings of animated series
 that the collecting research partly marks as its own interpretation (medium). The rule that
 review must happen on the rendered card follows from the bundle's law on perceptual evidence.
-None of this has been tested in a played game yet.
+No card has yet been judged by a player.

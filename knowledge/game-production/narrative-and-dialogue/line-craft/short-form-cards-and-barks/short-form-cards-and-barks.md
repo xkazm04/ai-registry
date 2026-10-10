@@ -81,7 +81,10 @@ owed, what was said, when it ends. When the image changes, the text is rewritten
 card's text is written against its picture and not beside it. The rule reaches its limit at
 the emotional peak, where the strongest card often has fewer lines or none: words invite the
 player to evaluate a moment that the picture alone lets them feel, and the silence is planned,
-not left over. This also decides how a card is reviewed: a card judged as text alone passes lines that duplicate the image and fails lines
+not left over. The rule assumes a viewer who reads the picture fluently and can see it. A few
+words that fix which reading an ambiguous still means are not a duplicate. Neither is naming a
+face once for a room meeting it for the first time. A card meant for screen narration carries a
+separate description of its picture. This also decides how a card is reviewed: a card judged as text alone passes lines that duplicate the image and fails lines
 that only make sense with it, which is exactly backwards. See
 [picture-carries-the-card](./techniques/picture-carries-the-card.md).
 
@@ -109,7 +112,10 @@ carry the precise joke, the reference, the named detail, because it will only ev
 fresh. A writer who assigns the best specific jokes to the most common events has written a
 pool that is funniest in the first five minutes and worst for the rest of the evening. Variants
 must differ in angle, not wording — five synonyms for "watch out" are one line heard five
-times — and a repeat punctures the illusion of an attentive world faster than a silence does.
+times. A repeated joke punctures the illusion of an attentive world faster than a silence does.
+A plain line repeated is recognised, and silencing every repeat would mute most of a cast. The
+frequency that matters is how often the player *hears* the line, after cooldowns and caps,
+not how often its event happens.
 Selection machinery — cooldowns, no-repeat windows, variant weights — reduces how often a
 line repeats; it cannot rescue a line that was never fit to repeat. See
 [barks-that-survive-repetition](./techniques/barks-that-survive-repetition.md).
@@ -125,7 +131,9 @@ an arc. Because short units are scattered across play and many
 fire only under conditions, a callback is also a correctness problem: a callback whose seed
 the player never saw is a line that refers to nothing. Seeds and callbacks are therefore kept
 as a ledger, audited in both directions — callbacks with no reachable seed, and seeds that no
-callback ever pays. See [callback-pays-a-seed](./techniques/callback-pays-a-seed.md).
+callback ever pays. The audit runs over what the game can actually show, not over what the
+script table declares, because a table is usually written ahead of the code that plays it.
+See [callback-pays-a-seed](./techniques/callback-pays-a-seed.md).
 
 ## The television sets the budget
 
@@ -136,9 +144,11 @@ on a timer is unreadable in a way that a card on a desk monitor never is. So the
 stated before writing, per unit class, in a declared unit with its basis: characters per
 line at a stated type size, lines per card, words per bark, seconds of dwell. The budget is an
 instruction about the size of the thing, not a ceiling discovered at layout, and every unit
-is read aloud before it ships, because read-aloud is how a household will meet it. Where a
-line is both voiced and captioned, the caption matches the audio word for word; a caption that
-paraphrases its own audio makes the room hear one line and read another. See
+is read aloud before it ships, because read-aloud is how a household will meet it. The card
+is budgeted for the largest text size the player may choose, not only for the default. Where a
+line is both voiced and captioned, the caption keeps the audio's words in order, and if the
+rate forces a cut it cuts by omission. A caption that paraphrases its own audio makes the room
+hear one line and read another. See
 [television-read-budget](./techniques/television-read-budget.md).
 
 ## Stock phrases are banned by list, and the list is not enough
@@ -153,10 +163,13 @@ fate, a rule-of-three on every line; and **interior-state words** that narrate w
 feels or realises instead of giving the fact that would make the player feel it. Run the list
 as a check on every stored unit, let a hit reject the line unless a person overrides it with a
 written reason, and keep the list and the check in one place so the style guide and the gate
-cannot drift apart. Then know what it does not catch: a writer or generator steered off a
-banned phrase reaches for its nearest synonym, and the synonym is just as empty. The list
-removes the worst offenders; the shape of the card and the specificity of the image are what
-replace them.
+cannot drift apart. Run it as a gate after writing, not as an instruction to the generator:
+naming banned phrases in a prompt has limited effect and can raise their use. Then know what it
+does not catch. A generator steered off a banned phrase sometimes reaches for a near-synonym, so
+re-mine the output for displaced phrases after each round of bans. In measured suppression with
+re-mining, judged quality rose rather than fell, so the substitutes are not as empty as the
+originals. The list removes the worst offenders; the shape of the card and the specificity of
+the image are what replace them.
 
 ## Failure modes of the naive reading
 

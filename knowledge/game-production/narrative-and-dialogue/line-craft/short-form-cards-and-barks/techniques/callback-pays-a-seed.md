@@ -65,6 +65,15 @@ counterpart exists — [declaring an input is not consuming it](../../../../_law
 - **A seed no callback pays** is a promise broken quietly. One or two are texture; many are a
   sign that payments were planned and cut, and the remaining seeds now read as loose ends.
 
+**Audit what the game can show, not what the table declares.** A script table is usually
+written ahead of the code that plays it. A row whose trigger no code fires plants nothing and
+pays nothing, and so does a row whose condition needs a fact nothing sets. Pair seeds and
+callbacks over the rows the runtime can reach, under the facts the runtime actually supplies.
+In one measured script, the table audit paired nine seeds and only three pairs survived in
+play. The table audit also passed two orphan callbacks on the main path. Give each seed **one
+id, shared by every payment**. A seed tagged under one word and paid under another looks like
+an orphan to any audit, and a real orphan can hide behind the same mismatch.
+
 ## Procedure
 
 1. **Plan the payment before planting the seed.** A seed planted in hope of a later use is
@@ -74,8 +83,9 @@ counterpart exists — [declaring an input is not consuming it](../../../../_law
 3. **Record the seed as seen** when its unit is shown, so callbacks can be conditioned on it.
 4. **Write the callback as a change of meaning,** carried by image or bare words, without a
    reminder.
-5. **Audit the ledger** whenever units are added, cut or re-conditioned: orphan callbacks are
-   defects; unpaid seeds are reviewed.
+5. **Audit the ledger over the reachable rows** whenever units are added, cut or
+   re-conditioned, and whenever a trigger gains or loses code. Orphan callbacks are defects;
+   unpaid seeds are reviewed.
 
 ## Decision rules
 
@@ -106,5 +116,6 @@ possible in games is documented in a dynamic-dialogue conference talk and a game
 interviews (high); the one-callback-per-exchange rationing rule is rated medium by the research
 that proposed it. The double-reading seed comes from that research's design proposals, which
 it labels inference, not fact. The ledger and its two-direction audit are this subject's
-application of the bundle's law on declared but unconsumed inputs. None of this has been tested
-in a played game yet.
+application of the bundle's law on declared but unconsumed inputs. The reachability rule comes
+from running both audits over one racing game's real script table and its line director (one
+table, one tree). No callback has yet been judged by a player.

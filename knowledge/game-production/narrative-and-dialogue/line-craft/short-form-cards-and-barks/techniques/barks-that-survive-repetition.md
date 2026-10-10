@@ -53,23 +53,33 @@ events, is a repeat the selection machinery cannot see.
 
 A writer cannot apply the rule without a number, and the number must carry its unit and basis:
 expected fires **per session**, under a **stated session length and play pattern**, for a
-stated event. "Common" means nothing; "about forty fires in a ninety-minute evening of four
-races per hour, before selection limits" is a number a writer can write to, and a
+stated event. "Common" means nothing; "about forty hearings in a ninety-minute evening of four
+races per hour, after the selection gates" is a number a writer can write to, and a
 selection-table owner can check against what the game actually logs —
 [a number carries its unit and its basis](../../../../_laws.md#a-number-carries-its-unit-and-basis).
 The frequency comes from the condition table that fires the line; this technique consumes it.
+
+Count **hearings, not events.** Where cooldowns, gaps and per-race caps already exist, the
+player hears only a fraction of the events that could have fired a line. In one measured
+racing campaign it was about one hearing in five and a half events, so a pool sized to the
+event count would have been five times too large. Wear follows the heard count. Before the
+gates exist, count events and label the figure as an upper bound.
 
 From the frequency follow two figures: how many variants the pool needs so that any one line
 recurs rarely enough to stay tolerable, and how specific each variant may be. A pool for a
 forty-fire event needs more variants than a pool for a four-fire event, and its variants must
 be plainer. When the arithmetic says the pool cannot be made large enough, prefer silence to a
-repeat: a missing line costs less than a repeated one, because a repeat tells the player the
-world is a recording.
+repeat **of a rare-band line**. A missing line costs less than a repeated joke, because a
+repeated joke tells the player the world is a recording. The rule does not extend to plain
+attitudinal lines, which are written to be recognised and may repeat on their band's horizon.
+Applied to every line, it silences most of a cast: in one measured campaign, a rule of no
+line heard twice in an evening would have cut three barks in four.
 
 ## Procedure
 
 1. **Get or estimate fires per session for each event**, with the session assumption written
-   next to the number.
+   next to the number. Use hearings after the selection gates where the gates exist, and
+   event counts, labelled as an upper bound, where they do not.
 2. **Sort events into frequency bands** and assign each band its specificity ceiling: plain
    attitude for the most frequent, specific observation for the rare, unique lines for events
    that occur once.
@@ -112,5 +122,10 @@ volume-over-placement approach come from a game director's interviews (primary, 
 standout-per-pool, length-variety and synonym-pool rules come from the research behind this
 subject, rated high for the system and medium for its pool sizes. The report that players of a
 racing game modded out a repetitive announcer comes from community sources (low). The band
-procedure and the repetition read are this subject's own codification. None of this has been
-tested in a played game yet.
+procedure and the repetition read are this subject's own codification. A headless census of
+one racing campaign's real line selector supplies the measured parts. It ran three sittings
+of 34 races with an AI stand-in for the player. The census found that most hearings were
+repeats, that the punchline lines were heard most, and that the hearings-versus-events ratio
+and the cost of a blanket no-repeat rule are as stated above. It is one game with one
+driver model, so the ratios belong to that game. No line has been judged by a player on a
+sofa.
