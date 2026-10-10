@@ -4,7 +4,7 @@ okf_bundle_name: agent-operations
 okf_bundle_title: Agent operations
 profile: rkb/0.1
 purity: agent-ops
-stacks: [process, python]
+stacks: [process, python, next]
 ---
 
 # Agent operations

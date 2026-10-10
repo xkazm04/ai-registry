@@ -1,8 +1,8 @@
 ---
 domain: agent-operations
 subject: engine-behaviour-profiles
-last_touched: 2026-09-28
-touched_by: deepen
+last_touched: 2026-10-10
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -120,3 +120,49 @@ the first touch's ledger commit (740666db) changes the subject folder or this no
 `declined`, not `idled`: the subject has had one pass, not two dry ones. dry_streak is
 unchanged; the banked leads were not re-checked. The fix belongs in the
 dispatcher: read origin, and read `librarian/runs/*/result.json` for the subject before sending.
+
+## 2026-10-10 - capability-claims-expire applied in code, a second stack (run `ap-cce-1010`)
+
+This was an `/intake apply` run, dispatched on the scan finding "single stack (process)". Registry HEAD at
+dispatch was e5babec3. No siblings were live.
+
+**Seam hunt.** gigs is the only fleet project that declares agent-operations. Its engine
+pin (a second-opinion model through a CLI harness) led to kp, which runs the gigs
+pipeline. kp holds two kinds of claim about model families. The first kind is call-site
+pins, which are current: they name the 5.5 releases. The second is a baked benchmark
+grid, measured 2026-08-12 on the 5.0 releases. A Models > Quality board turns that grid
+into a per-use-case routing recommendation with a one-click Pin. The grid stamps its
+date, judge, runs per cell, cases and release ids. It stamps no harness version and no
+effort tier, and nothing compares it with the releases kp runs.
+
+**Applied: `better`, code, ab-paired** (`next--capability-claims-expire`, 9/9 anchors
+held against kp).
+- Arm A: a pin on a newer release of a family the grid measured read "not benchmarked",
+  and the board offered to re-pin it onto the older measurement. That happened in 22 of
+  22 such cells (11 use cases x 6 pins over the committed grid).
+- Arm B, the technique's decision rule ("a grid older than the newest release in either
+  family answers we do not currently know"): a `superseded_pin` state with no Pin
+  button, 0 of 22.
+- Floor: the other 44 rows are byte-identical across the arms, and the typecheck and
+  i18n parity are green.
+- The seam was chosen to falsify. A grid whose picks never met a newer-release pin would
+  have read not-better.
+- Pushed as kp 7392a7179 + ledger f673baa37, cherry-picked onto origin in a worktree
+  through kp's full pre-push gate. kp's local main carries a sibling run's unpushed
+  commit, and this run did not publish it.
+
+**Structural fact.** kp already knew the newer releases, in five call-site pins and two
+plan seats, and the board read none of them. The stamps were written for the grid's
+reader, and nothing was written for when the grid stops being true. This supports the
+technique's re-derive-on-a-trigger rule: a stamp makes a claim falsifiable, and
+something still has to fire the trigger.
+
+**Lead (kp, not landed).** The board reads only the pin. A superseded *pick* under a
+default pin is still recommended: the grid's `claude-opus-5` is recommended although kp
+runs `claude-opus-5-5` elsewhere. Return: when the bake records the releases kp runs,
+or the grid is re-benched on the 5.5 releases. The bench runner's records carry no CLI
+version either, so a harness update under an unchanged model id leaves the grid quoting
+itself.
+
+`next` was added to the agent-operations bundle's `stacks:` (the gate refused the stack
+until then). dry_streak is unchanged.
