@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 536,
-  "applications": 266,
+  "applications": 270,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -8238,9 +8238,9 @@
    "subcategory": "cast-and-relationships",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/rival-to-ally-turn.md",
-   "digest": "sha256-b2:6f8f7566cbec31de",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:84a91c3a2c3f6e35",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "earn-respect-before-the-turn",
@@ -8318,6 +8318,34 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "earn-respect-before-the-turn",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/kotlin--earn-respect-before-the-turn.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "keep-the-rivals-own-culture",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/kotlin--keep-the-rivals-own-culture.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "refuse-once-then-turn",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/kotlin--refuse-once-then-turn.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "style-plus-grudge-before-taunts",
+     "file": "knowledge/game-production/narrative-and-dialogue/cast-and-relationships/rival-to-ally-turn/applications/kotlin--style-plus-grudge-before-taunts.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
     {
      "stack": "process",
      "technique": "style-plus-grudge-before-taunts",
