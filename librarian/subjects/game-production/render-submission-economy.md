@@ -99,3 +99,29 @@ required for first-use work inside a live scene and optional behind such a layer
   the prepared and synchronous region paths.
 - **Bins retention** (~10.2 MiB for five courses, desktop estimate) against P9's unattributed +47.7 MiB PSS.
 - **A second tree; no headset.** Unchanged.
+
+### 2026-10-10 - `/intake apply`, cull-before-submission (run `intake-apply-cull-1010`)
+
+Dispatched by the attention scan's single-stack finding (kotlin only). **A second tree and a second stack:**
+`pof` (react), whose story-graph renderer is a Canvas 2D view baked into an overscanned bitmap and blitted on pan.
+Seam chosen to falsify: the renderer already culled subtrees, sectors, rim units and arcs before any work and
+counted what it painted, so a caught outcome would have said a disciplined culler with a wide margin makes step 2
+(the conservative bound) moot. It did not. Chords, which are quadratic curves pulled toward the hub, were bounded by
+their ends on the wheel and not culled at all on the dial.
+
+`code`, `better`, ab-paired over three staged documents and 589 cameras, with a replica that matched the drawer's own
+count on every camera. On the wheel, visible chords missing from the bake went from 3,082 + 27 to 0. On the dial,
+submissions over the zoomed cameras went from 12,936 to 3,788. Floor: 0 visible chords lost, orrery suites green, tsc
+clean. Shipped as pof `d4a6b603` + `0320375e` on origin/master.
+
+**Boundary added to the technique.** When the bake is wider than the screen so a pan can reuse it, the margin is not
+slack: 3,107 of 3,109 misses sat in the overscan band and only 2 were visible at rest. The decision rule "raise the
+margin" does not hold there, and the class needs its true bound. For a curve that is the exact box. The
+control-polygon box also held but over-drew by 33% at zoom 16, against 2% for the exact box.
+
+**Open, with return conditions.**
+- **Frame time.** Counts on a stub context only. **Return:** a browser pan over the large document at zoom 4 with
+  frame time and a mid-gesture screenshot of the overscan band, before and after.
+- **A cull result that sets a style.** The wheel's chord opacity is read off the culled count (600 threshold), so a
+  cull change can retint every chord. **Return:** when a project asks whether density-driven styling belongs on the
+  cull side of the line the technique draws for rules of play.
