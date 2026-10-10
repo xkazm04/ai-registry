@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1840,
-  "applications": 1246,
+  "applications": 1247,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -34720,9 +34720,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
-   "digest": "sha256-b2:ae4ba4c01a933a35",
-   "revision": 6,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:e25b75ee0d820e2b",
+   "revision": 7,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "fail-direction-follows-deployment-mode",
@@ -34737,7 +34737,8 @@
       "a credential resolver must decide what to do when the active scope has no such name",
       "adding tenant isolation to a runtime that single-tenant deployments already ship",
       "background work authenticates with a placeholder while interactive work succeeds",
-      "deciding whether a scope is an overlay or a boundary"
+      "deciding whether a scope is an overlay or a boundary",
+      "a scope can name the endpoint a call goes to as well as the credential it carries"
      ],
      "stage": "multi-service"
     },
@@ -34823,6 +34824,14 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "fail-direction-follows-deployment-mode",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/applications/node--fail-direction-follows-deployment-mode.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "node@18",
+     "refresh_by": "2027-01-10"
+    },
     {
      "stack": "python",
      "technique": "task-local-tenant-scope",
