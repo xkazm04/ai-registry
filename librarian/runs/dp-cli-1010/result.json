@@ -1,0 +1,102 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dp-cli-1010",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-10T10:20:00Z",
+  "ended_at": "2026-10-10T11:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/controller-latency-instrumentation",
+      "at": "2026-10-10",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "controller-latency-instrumentation",
+      "technique": "tick-sampled-versus-event-recorded-age",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "controller-latency-instrumentation",
+      "technique": "best-rtt-sample-selection",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "controller-latency-instrumentation",
+      "technique": "ping-pong-midpoint-clock-offset",
+      "verdict": "not-better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "controller-latency-instrumentation",
+      "technique": "optical-flash-frame-count-protocol",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/controller-latency-instrumentation.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/techniques/best-rtt-sample-selection.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/techniques/consumption-age-versus-photon-age-labelling.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/techniques/optical-flash-frame-count-protocol.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/techniques/ping-pong-midpoint-clock-offset.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/techniques/tick-sampled-versus-event-recorded-age.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/applications/node--ping-pong-midpoint-clock-offset.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/applications/process--consumption-age-versus-photon-age-labelling.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation/applications/kotlin--tick-sampled-versus-event-recorded-age.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/subjects/game-production/controller-latency-instrumentation.md",
+    "librarian/applied.md",
+    "librarian/domains/game-production.md"
+  ],
+  "commits": [
+    {
+      "sha": "10906f59",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/couch-and-tv-play/couch-and-tv/controller-latency-instrumentation"
+      ]
+    },
+    {
+      "sha": "dc5a4cb6",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    },
+    {
+      "sha": "1abcb9b0",
+      "branch": "main",
+      "pathspec": [
+        "librarian/applied.md",
+        "librarian/domains/game-production.md",
+        "librarian/subjects/game-production/controller-latency-instrumentation.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Never swept. Phone-flash film refuted as fixed offset: a lower bound (48-276 ms published). Three-instant offset charges h/2; resume clears the record. New tick-sampled-versus-event-recorded-age, experiment better. Apps re-anchored 37/37 + kotlin. Impact 0."
+}
