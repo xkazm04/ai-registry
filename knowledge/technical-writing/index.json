@@ -5,7 +5,7 @@
   "source": "knowledge/technical-writing/ (frontmatter only)",
   "subjects": 6,
   "techniques": 29,
-  "applications": 7,
+  "applications": 9,
   "laws": 9,
   "categories": [
    "composition",
@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/technical-writing/composition/article-structure/article-structure.md",
-   "digest": "sha256-b2:e5b9771914182ba9",
-   "revision": 2,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:b8977d39279a614e",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "closing-chapter-settles-the-account",
@@ -95,6 +95,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "content-preview-block",
+     "file": "knowledge/technical-writing/composition/article-structure/applications/next--content-preview-block--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "information-carrying-headings",
+     "file": "knowledge/technical-writing/composition/article-structure/applications/next--information-carrying-headings--personas-web.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16"
+    },
     {
      "stack": "process",
      "technique": "content-preview-block",
