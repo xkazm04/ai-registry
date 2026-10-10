@@ -396,3 +396,46 @@ Source-class notes:
 - **Standards bodies' caption rules are rich and agree.** The FCC, Netflix, the BBC and the game
   accessibility guidelines all permit reduction for reading rate, and all prefer omission to
   paraphrase. bbc.co.uk refuses the fetch tool, and curl reads it.
+
+## 2026-10-10 - deepen speech-synthesis-script-writing (dp-ssw-1010)
+
+A single subject, ranked by single stack (process). The rank was real. Two code-stack
+applications now read Death Ride at firetv `deathride/main` `d9990777`, with 23 anchors held:
+- `kotlin` on the script table's spoken-length estimate;
+- `python` on the audio silence screen, the owner-audio validator and a census of the rewritten
+  Mechanic.
+
+A leave-one-out fit over the 14 rendered clips measured rather than read. A per-voice boundary
+price cuts the duration error from 1.31 to 0.48 s (median), and the cast-wide estimate is
+closest on the one failed line. Whether a boundary count screens better than a marks count is
+unmeasured: they tie on the rendered clips, and the 7 lines the census flags are unrendered.
+
+Corrected: both `process` applications reported the clips unheard. The owner kept all 14 on
+2026-10-03, before the subject was forged. All 47 anchors re-held at `d9990777`, and
+`verified_on` moved.
+
+No new technique. Conditions landed in four techniques and the golden path:
+- a cast-wide estimate hides the failure;
+- the boundary price is an average, not a pause per mark;
+- a marks-only rule keeps fragments;
+- a listener's keep is recorded beside the failure;
+- style 0 is the common setting, not a rule, and the stability presets are absent from primary pages;
+- v4 (2026-09-28) keeps only stability and similarity and accepts no pause markup;
+- a tag can be misread in kind.
+
+The per-voice pricing was reached by the measurement and the training lane independently. The
+vendor quotes were re-fetched by hand from raw doc pages.
+
+Applied: 1 better (experiment), 1 unmeasurable (experiment), 1 unapplied, on firetv
+(unregistered). Impact: 0 contexts. The bundle declares the `python` stack.
+
+Source-class notes:
+- **The vendor's raw `.md` doc pages are the primary text and are fetchable.** Appending `.md`
+  to a docs URL returns verbatim source that grep can check. The dossier's secondary guides
+  (stability presets, a 250-character minimum) did not survive a primary re-read.
+- **A project's status fields lag its decisions.** The cue manifest kept "owner listening
+  pending" beside "Keep" on all 14 voices, and the forge cited the stale field. Read the
+  decision record (the owner export) before a status column.
+- **A measured asset set is a ground truth for text rules.** Fourteen clips with silence
+  intervals were enough to fit and test a pricing rule. They were not enough to separate two
+  screens with one positive between them.
