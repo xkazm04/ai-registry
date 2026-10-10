@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 536,
-  "applications": 276,
+  "applications": 279,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -9254,9 +9254,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/steering-feel-profile-shaping.md",
-   "digest": "sha256-b2:75522784bdcb5c62",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:f80739677d547e38",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "asymmetric-steer-slew-rise-return",
@@ -9346,16 +9346,37 @@
    ],
    "applications": [
     {
+     "stack": "kotlin",
+     "technique": "asymmetric-steer-slew-rise-return",
+     "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/kotlin--asymmetric-steer-slew-rise-return.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "brake-never-reverses",
+     "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/kotlin--brake-never-reverses.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "five-profile-trace-bands",
+     "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/kotlin--five-profile-trace-bands.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
      "stack": "process",
      "technique": "deadzone-exponent-remap",
      "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/process--deadzone-exponent-remap.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     },
     {
      "stack": "process",
      "technique": "five-profile-trace-bands",
      "file": "knowledge/game-production/racing-vehicles/steering-feel-profile-shaping/applications/process--five-profile-trace-bands.md",
-     "verified_on": "2026-10-01"
+     "verified_on": "2026-10-10"
     }
    ]
   },
