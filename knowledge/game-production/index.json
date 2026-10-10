@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 536,
-  "applications": 270,
+  "applications": 274,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -8754,9 +8754,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/short-form-cards-and-barks.md",
-   "digest": "sha256-b2:ad67b1491a2e4063",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:ecadb1fb4bf0be46",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "bark-carries-character-in-one-breath",
@@ -8840,6 +8840,34 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "barks-that-survive-repetition",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/kotlin--barks-that-survive-repetition.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "callback-pays-a-seed",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/kotlin--callback-pays-a-seed.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "picture-carries-the-card",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/kotlin--picture-carries-the-card.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "television-read-budget",
+     "file": "knowledge/game-production/narrative-and-dialogue/line-craft/short-form-cards-and-barks/applications/kotlin--television-read-budget.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "kotlin@2.0.21"
+    },
     {
      "stack": "process",
      "technique": "barks-that-survive-repetition",
