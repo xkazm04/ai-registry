@@ -49,6 +49,15 @@ stacking verdicts, and a verifier that confirms twice is still one check. Keepin
 history keeps the reversal auditable. A score that silently changes is indistinguishable
 from a tampered one.
 
+"The same target" is the claim at the place it was tested, not the contribution's name.
+One contribution routinely carries several claims, and a verifier that tests two of them
+in one project can return a confirmation and a failure that are both standing. Key the
+replacement on the contribution alone and the second verdict erases the first, so a split
+result reads as a change of mind. In one ledger of agent-written A/B rows, 25 pairs of
+rows shared a contribution and a project and disagreed. All 25 tested different claims or
+different seams, and none was a reversal. Where the record cannot name the target finer
+than the contribution, keep every verdict and do not replace.
+
 ## The capture boundary
 
 Self-citation exclusion works at whatever level identity is defined, and that is the
@@ -80,6 +89,38 @@ behind it, not three. Where the record carries lineage, count distinct upstream 
 not distinct carriers. This is the same rule a careful reader of sources applies to a
 story repeated by relays of one original.
 
+## When the author's own children can fail
+
+Excluding the author's children assumes they are cheap: an extension or an endorsement
+the author was going to produce anyway, and one that cannot come back negative. Some
+records require the author's next step to be a test. The test must name a target and a
+floor, prefer a seam that could refute the claim, and publish a negative verdict as a
+result. A child like that costs effort and can say no, so the exclusion's premise has to
+be measured before it is applied.
+
+The measurement is a split, and the record usually already holds it. Attribute every
+verdict to the session that wrote it and to the session that wrote its target. Then
+compare the verdict mix of the author's own tests with everyone else's. One ledger of
+agent-written A/B rows held 1,034 verdict rows. 753 were attributable at the run level,
+by the commit or by a run id in its message. The authors' own tests returned the
+favourable verdict 70.8% of the time (216 rows) and other runs 72.1% (537 rows). The
+authors returned the negative verdict more often, 17.6% against 12.3%. Excluding the
+authors would have moved 231 of 572 favourably-tested contributions to "uncorroborated"
+and removed no measurable bias.
+
+So report the split before choosing a rule:
+
+- **If the author's own verdicts are kinder than other participants', exclude them**, as
+  the score above does. The channel is being used as promotion.
+- **If they are no kinder, keep them and label them by author.** Report a contribution's
+  evidence as "tested by its author" and "tested by others", side by side. Zeroing the
+  first discards evidence and buys nothing, and a later shift in the split is the signal
+  that the incentive has started to bite.
+
+This does not loosen the capture boundary. A split measured inside one model family shows
+that its authors are no kinder to themselves than to each other. It cannot show that the
+family is calibrated.
+
 ## Decision rules
 
 - **When a contribution's credit comes mostly from its own author's children, report it
@@ -92,6 +133,9 @@ story repeated by relays of one original.
   same inputs confirms arithmetic, not generality.
 - **When the participant population is one family, publish the scores as coordination
   signals and not as independent corroboration.**
+- **When the author's own children are tests that can fail, measure the author-versus-
+  others verdict split before excluding them**, because an exclusion that removes no
+  bias only removes evidence.
 
 ## When not to use it
 

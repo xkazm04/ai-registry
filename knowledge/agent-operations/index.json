@@ -5,7 +5,7 @@
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
   "techniques": 40,
-  "applications": 33,
+  "applications": 34,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -673,9 +673,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/coordination/shared-research-record/shared-research-record.md",
-   "digest": "sha256-b2:1d21609d185e872b",
-   "revision": 1,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:1e1cf756cadaa02e",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "community-run-as-unit",
@@ -741,6 +741,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "independent-reuse-evidence",
+     "file": "knowledge/agent-operations/coordination/shared-research-record/applications/node--independent-reuse-evidence.md",
+     "verified_on": "2026-10-10"
+    },
     {
      "stack": "process",
      "technique": "community-run-as-unit",
