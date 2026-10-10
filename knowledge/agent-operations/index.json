@@ -5,7 +5,7 @@
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
   "techniques": 40,
-  "applications": 31,
+  "applications": 32,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -390,9 +390,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/engine-behaviour-profiles.md",
-   "digest": "sha256-b2:40f0d360f0af1a7a",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:9e183fb9321e30c7",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "authority-conflict-disposition",
@@ -453,6 +453,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "capability-claims-expire",
+     "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/next--capability-claims-expire.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16.3"
+    },
     {
      "stack": "process",
      "technique": "authority-conflict-disposition",
