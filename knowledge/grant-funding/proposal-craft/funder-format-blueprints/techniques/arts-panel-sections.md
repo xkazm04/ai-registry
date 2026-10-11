@@ -77,3 +77,12 @@ arts project applying to a community fund uses the trust/lottery form
 community outcomes. An arts organization answering a federal cultural
 agency's rubric-scored notice follows the published rubric, which may
 resemble this triad but must be mirrored from the notice itself.
+
+The trigger is the funder, not the applicant. Arts organizations describe
+themselves in arts vocabulary, so a tool that infers the form from
+everything it knows will hand them this triad for every grant they open.
+Decide it from the funder's name and the call's own text. An arts
+funder's name or call usually carries its own arts signal, so leaving the
+applicant's mission out of the decision rarely costs the arts form where
+it belongs. Where it does, the fix is a better funder signal, not the
+applicant's keywords.

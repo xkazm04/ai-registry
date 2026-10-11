@@ -62,6 +62,17 @@ match:
   call, no hidden state — the same opportunity always routes the same way,
   the decision is testable in isolation, and an audit of "why this form?"
   is a table lookup.
+- **The genre is the opportunity's, never the applicant's.** Classify from
+  the funder's name and the call's own text only. The applicant's mission
+  vocabulary is the richest text a drafting product holds, so it is the
+  input most likely to leak in, and once it does the form stops being a
+  property of the grant: a theater gets an arts panel's sections from a
+  youth foundation, and an advocacy coalition gets the organizing form from
+  an arts council. The applicant's identity may shape register inside a
+  section, never which sections exist. Resolve the route through one
+  function for every reader that renders, saves, scores or seals a
+  section. A reader that resolves it from different inputs silently drops
+  whatever the others wrote.
 - **Shared section keys are the reuse mechanism.** Families that genuinely
   score the same underlying criterion under different labels share a
   storage key (several families carry a "need" and a "capacity"); review
