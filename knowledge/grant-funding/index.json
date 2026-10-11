@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 38,
+  "applications": 39,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -375,9 +375,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/evidence-grounded-claims.md",
-   "digest": "sha256-b2:e51dfebdc4addd28",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:9cad6354b6240e51",
+   "revision": 2,
+   "changedAt": "2026-10-11",
    "techniques": [
     {
      "slug": "bracketed-placeholder-over-invention",
@@ -464,6 +464,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "bracketed-placeholder-over-invention",
+     "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/applications/node--bracketed-placeholder-over-invention.md",
+     "verified_on": "2026-10-11",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "ungrounded-statistic-detection",
