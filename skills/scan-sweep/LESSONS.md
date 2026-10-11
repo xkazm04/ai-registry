@@ -3,6 +3,36 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets. Merged from every copy of this skill on 2026-08-22 when it moved into the registry lane.
 
+## 4.5.0 - 2026-10-11 - fleet (backlog migration to Personas Approvals, no scan)
+
+Operator asked for every scan backlog left in fleet repos to reach Personas
+Approvals; the run built section 9.1 (4.6.0) and migrated by hand first.
+
+- **The register made backlogs visible; it never got them decided.** ~940 open items
+  across twelve repos: register-pointed findings files, challenge follow-up lists,
+  moonshot READMEs, and six outboxes holding 130 findings the 30-line ingest never
+  reached (oldest 36 days). Section 0's notice was being read and carried, run after
+  run. The fix is a destination, not a louder notice: 335 items from the last 14 days
+  were filed into Approvals, ~600 older ones expired and were deleted on the operator's
+  call.
+- **The outbox is the wrong door for a backlog.** It takes 30 findings per ingest and
+  is read only when a Fleet session exits in that exact root, so any file over 30 lines
+  is a queue that drains one Fleet session at a time. `POST /dev-tools/ideas` has no
+  cap and answers per item; it needed an `origin`/`lens` pair (Personas fcf65c4d85) so
+  the items keep the Scan-sweep badge and share the outbox's dedup keys - 11 outbox
+  findings came back as dedup hits, not duplicates.
+- **Probe the running build before a bulk filing.** The first real card filed as
+  `app_master`: the app predated the patch. One card, one DB read, then the batch.
+- **An uncommitted patch in a shared checkout is not a patch.** The Personas change
+  vanished from the working tree between test and use (another session restored the
+  tree; nothing in stash or reflog). Re-applied and committed by pathspec at once - and
+  `git commit --only <paths>`, because that index already held another session's
+  staged files.
+- **A findings file is also a build ledger.** StatReel's files held 208 built rows next
+  to 131 open ones; deleting them would have erased the history. Handed rows get
+  `status: handed_off` instead, rewritten line by line in each row's own JSON spacing
+  (a whole-file re-serialise touched 212 lines for 131 changes).
+
 ## 4.3.0 - 2026-10-05 - lighttrack (LightTrack)
 
 First `--challenge` run in this repo, and the first anywhere with a rider cohort.
