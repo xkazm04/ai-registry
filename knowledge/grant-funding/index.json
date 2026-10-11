@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 39,
+  "applications": 40,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -490,9 +490,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/funder-format-blueprints.md",
-   "digest": "sha256-b2:ac2f6016de7c700f",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:2a93f28f957aa4e4",
+   "revision": 2,
+   "changedAt": "2026-10-11",
    "techniques": [
     {
      "slug": "arts-panel-sections",
@@ -578,6 +578,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "arts-panel-sections",
+     "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/applications/node--arts-panel-sections.md",
+     "verified_on": "2026-10-11",
+     "verified_against": "node@24"
+    },
     {
      "stack": "process",
      "technique": "blueprint-routing-rules",
