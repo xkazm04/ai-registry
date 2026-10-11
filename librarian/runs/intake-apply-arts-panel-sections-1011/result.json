@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-arts-panel-sections-1011",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "grant-funding",
+  "started_at": "2026-10-11T02:50:07Z",
+  "ended_at": "2026-10-11T03:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "grant-funding/funder-format-blueprints",
+      "at": "2026-10-11",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "funder-format-blueprints",
+      "technique": "arts-panel-sections",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/grant-funding/proposal-craft/funder-format-blueprints/applications/node--arts-panel-sections.md",
+    "knowledge/grant-funding/proposal-craft/funder-format-blueprints/techniques/arts-panel-sections.md",
+    "knowledge/grant-funding/proposal-craft/funder-format-blueprints/techniques/blueprint-routing-rules.md",
+    "knowledge/grant-funding/index.json",
+    "rules/ai-registry-grant-funding.md",
+    "catalog.json",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Registry 68a0d4ec (applied.md staged as HEAD + this row; sibling rows left unstaged) + 053676be (generated, clean worktree). grant 2f4bfa8 + 77f3c2c pushed from a fresh clone of its remote. Single-stack point moves: process + node."
+}
