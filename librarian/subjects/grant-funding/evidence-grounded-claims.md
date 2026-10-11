@@ -147,3 +147,45 @@ factual claims about the world.
   }
 }
 ```
+
+### 2026-10-11 - `/intake apply`, bracketed-placeholder-over-invention (run `intake-apply-bpoi-1011`)
+
+The attention scan's single-stack finding (node only) dispatched this run. The only tree that
+implements this subject is `grant`, which is checked out only on the other machine. It was
+reached through its remote, as in `intake-apply-capfloor-1010`. This is the technique's first
+application. The single-stack point stays, because the subject's only consumer is node.
+
+I chose the seam to falsify the technique's *machine legibility* ground, which assumes one
+bounded bracket pattern the generator stays inside. The prompt half held: all four prose-writing
+prompts carry the clause. The reader half did not. Five readers of the placeholder used four
+bounds: the fill-in list stopped at 60 characters, the fabrication exemption at 80, the harvester
+at 60, the proofreader at 40, and the quantified gate had no bound. The project's own recorded
+model output (69 outputs, 157 placeholders) has 15 placeholders of 61-134 characters, all opening
+with "insert". The model follows *name the want* and appends an example, which makes the span
+long.
+
+`code`, `better`, ab-paired by replaying the recorded outputs through both arms. Placeholders
+the list misses went from 15 to 0. Sections still holding a fill-in after the writer fills every
+listed one went from 6 of 18 to 0; three of those were report sections behind the public
+certificate gate. Example figures flagged as fabrication went from 1 to 0, and harvested as an
+outcome from 1 to 0. Floor: real-figure flags unchanged on all 69 outputs, a long aside without
+the want verb still reads as prose, and the project gate is green apart from 2 failures that
+predate the change. Shipped as `57ddf02` + `3c568f0` on the project's origin main.
+
+**Boundary added to the technique.** "Short" is a request to the generator, not a property of
+its output. Every reader imports one definition, checked against recorded generator output, so
+the set a check exempts is exactly the set the gate lists. A want-verb lead admits a long
+placeholder without admitting a long aside. An example inside the brackets never carries a
+figure. One decision rule was added: walk the writer's path (fill what is listed, re-run the
+gate, require that no placeholder remains).
+
+**Open, with return conditions.**
+- **The generator half is unmeasured.** No prompt bounds a placeholder's length or forbids a
+  figure inside it. **Return:** when the quality-gate harness can run live, A/B that clause and
+  read the share of long spans and the count of figures inside brackets.
+- **One short-side divergence is left.** The critic lists a bare footnote `[1]` as a fill-in;
+  the proofreader ignores it. This is left to the owner, because this run kept to one variable.
+- **The 2026-09-10 review's clarifications are untouched**: the grounding-scope hole in the
+  detector, and the ledger's singular-kind conflict. This run tested the placeholder contract,
+  not those.
+- **The repository is private.** The application describes the seam without paths.
