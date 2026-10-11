@@ -6,7 +6,7 @@
   "mode": "apply",
   "domain": "grant-funding",
   "started_at": "2026-10-11T02:50:07Z",
-  "ended_at": "2026-10-11T03:15:00Z",
+  "ended_at": "2026-10-11T03:13:32Z",
   "exit": 0,
   "counts": {
     "dispatched": 0,
@@ -48,5 +48,5 @@
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "Apply-only. Registry 68a0d4ec (applied.md staged as HEAD + this row; sibling rows left unstaged) + 053676be (generated, clean worktree). grant 2f4bfa8 + 77f3c2c pushed from a fresh clone of its remote. Single-stack point moves: process + node."
+  "notes": "Apply-only. Registry c2fd535a (content + applied row) and 17e247c0 (generated), pushed from an origin/main worktree; local-main twins 68a0d4ec/053676be/f500b9e4 stay unpushed. grant 2f4bfa8 + 77f3c2c pushed. Single-stack point moves: process + node."
 }
