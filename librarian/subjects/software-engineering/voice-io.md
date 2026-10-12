@@ -1,7 +1,7 @@
 ---
 subject: voice-io
 domain: software-engineering
-last_touched: 2026-09-30
+last_touched: 2026-10-07
 touched_by: deepen
 dry_streak: 0
 ---
@@ -11,6 +11,41 @@ dry_streak: 0
 First touch: [[2026-08-27-s1-mini-transcript-cleanup]] — run 28, an
 operator-dispatched intake. Class: MATURE (the subject was forged 2026-08-18
 and widened since; this run added its tenth technique).
+
+## 2026-10-07 - /deepen-style run (forge from a shipped flow): the voice setup experience
+
+Source class: one project's shipped first-run flow (the Personas "Table" studio
+and its setup engine, read at `658137ea`), the decision record of a second app
+adopting it the same day, and two measurements taken on the machine that runs
+both. The owner asked for the setup experience to become the standard. This
+was a forge run for that, not an intake.
+
+- **`voice-setup-experience` (NEW, 19th technique).** Existing techniques owned
+  the parts (placement, install states, compare surface, shared home), but none
+  owned the first meeting where they all arrive at once. It has seven rules:
+  a local, heard default with cloud labelled and never a silent fallback;
+  engine, install and pick as one resumable flow with install as a verified
+  state machine; compare by ear (the first completed preview greets and
+  selects, then one fixed line, no overlap, leaving stops); recognizers side
+  by side over one take with latency; receipts from the real store that
+  reopen their step, with settings as the re-entry; speaker ids pinned to the
+  model package (the gap: pinned by convention, not read from the package);
+  one per-user engine home with a cross-app install lock. The golden path
+  gained "The first meeting is a flow, not a settings page".
+- **Measured:** the comparison line spoken by the local engine took
+  2.56-3.01 s of wall time per preview (three runs, 2.9 s of audio,
+  engine-reported RTF 0.375), so about 1.5 s of each preview is the
+  per-call model load. On disk, the engine is 47 MB and the model 383 MB.
+  This is why the preview needs a *synthesizing* state.
+- **Applications:** `react--voice-setup-experience` (forged; seven deviations,
+  among them the unlabelled default recognizer, settings as a second
+  implementation, file-presence readiness, and a per-process install lock)
+  and `python--voice-setup-experience` (draft; the second app's daemon-held
+  design, promoted when its code lands).
+- **Apply: unapplied as an A/B.** The second app is being built to this
+  technique now, which makes it a transplant and not an experiment. Return:
+  re-read when it lands, and test whether a person reaches a heard voice
+  without help.
 
 ## 2026-09-30 - /deepen (source-driven): a synthesis-engine bake-off
 

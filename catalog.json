@@ -191,16 +191,16 @@
     },
     {
       "name": "contest",
-      "version": "1.9.1",
+      "version": "1.10.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:b54351bba54400c3",
+      "contentHash": "sha256-n1:28486502c749d174",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 16,
+      "lessons": 17,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:30190820650fd4f8",
+      "lessonsHash": "sha256-n1:fffe7ce39b40027a",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -825,10 +825,10 @@
     },
     {
       "name": "uat",
-      "version": "1.11.0",
+      "version": "1.11.1",
       "category": "testing",
       "path": "skills/uat/SKILL.md",
-      "contentHash": "sha256-n1:13d4425539cfd1ea",
+      "contentHash": "sha256-n1:ce7a645ce7d89a23",
       "adopters": [
         "ascent@plugin:1.7.0",
         "kp@plugin:1.7.0",
@@ -837,9 +837,9 @@
       ],
       "invokes30d": 2,
       "reportedInvokes": 2,
-      "lessons": 15,
+      "lessons": 16,
       "lessonsPath": "skills/uat/LESSONS.md",
-      "lessonsHash": "sha256-n1:0fdd175af7f8ba15",
+      "lessonsHash": "sha256-n1:d8a10db02cfb595d",
       "usageContributors": [
         "wolf"
       ],
@@ -1034,7 +1034,7 @@
     "skills": 39,
     "practices": 8,
     "memory": 9,
-    "lessons": 305
+    "lessons": 307
   },
   "bundles": [
     {
@@ -1059,9 +1059,9 @@
       "purity": "civic",
       "subjects": 15,
       "techniques": 92,
-      "applications": 39,
-      "files": 151,
-      "contentHash": "sha256-b2:2325d2a0e6e57b4c"
+      "applications": 36,
+      "files": 148,
+      "contentHash": "sha256-b2:8d02fee0ff296eb9"
     },
     {
       "name": "game-production",
@@ -1072,9 +1072,9 @@
       "purity": "game",
       "subjects": 81,
       "techniques": 537,
-      "applications": 291,
-      "files": 913,
-      "contentHash": "sha256-b2:6a35893396712cb4"
+      "applications": 288,
+      "files": 910,
+      "contentHash": "sha256-b2:49fa978ea3b5d20d"
     },
     {
       "name": "grant-funding",
@@ -1085,9 +1085,9 @@
       "purity": "funding",
       "subjects": 17,
       "techniques": 105,
-      "applications": 40,
-      "files": 167,
-      "contentHash": "sha256-b2:c7cad446ca30a178"
+      "applications": 38,
+      "files": 165,
+      "contentHash": "sha256-b2:6a0546ec04051531"
     },
     {
       "name": "llm-observability",
@@ -1162,10 +1162,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 234,
-      "techniques": 1840,
-      "applications": 1245,
-      "files": 3324,
-      "contentHash": "sha256-b2:1564a12f368a18fb"
+      "techniques": 1841,
+      "applications": 1247,
+      "files": 3327,
+      "contentHash": "sha256-b2:05ef48f018cf43d8"
     },
     {
       "name": "technical-writing",

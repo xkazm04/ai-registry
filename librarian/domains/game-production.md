@@ -321,6 +321,53 @@ Source-class notes:
 - **Search summaries are not quotes.** Three candidate sources (a forum poll, an op-ed, a
   history magazine behind a 403) were seen only as summaries, and none was used as evidence.
 
+## 2026-10-10 - deepen racing-track-authoring-and-lint (dp-rtal-1010)
+
+A single subject, ranked by single stack (process). The rank was real, and the subject had moved
+under it. In the 446 firetv commits since the `process` applications' tip, Death Ride grew a layout
+composer, 66 courses, junctions and alternative routes, four more linters, a seeded quality
+instrument and a shape contract. Seven kotlin applications now read the track gate at `d9990777`,
+along with its committed evidence: 37 installed circuits and 25 proof rows.
+
+One technique was reached by three lanes:
+- **shape-contract-above-the-linter.** The contract measures outline, placed rhythm and seeded race
+  behaviour, runs a library similarity pass, and plants a witness for every gate. It rejected all 29
+  lint-clean legacy circuits, agreeing with an earlier human rejection.
+
+Four golden-path rules flipped:
+- branches hang off the curve, through declared crossings, hinted projection, and alternative routes
+  mapped onto an interval;
+- acceptance is a separate instrument;
+- the overlap exclusion is the larger of car lengths and road widths (widths alone were measured
+  misfiring);
+- the longest wheelbase decides the turning floor, and body length is a proxy.
+
+Six technique conditions landed:
+- grip binds at speed, and the bake costs about 1.6 times the authored radius;
+- a passing width and a compression limit sit beside the width floor;
+- cap the longest straight and record a speed profile;
+- match the collision shape and author the grid on a straight;
+- separation can be a game rule, and look-ahead comes from the safe area;
+- a felt camera change belongs in the table.
+
+Both process applications were re-resolved at `d9990777` (61 anchors), and six stale claims were
+corrected.
+
+Applied rows: 6 better and 2 unmeasurable, all simulations. There were 0 project commits. The map
+joins 0 contexts, because firetv is still unregistered at HEAD.
+
+Source-class notes:
+- **Regulation PDFs give verbatim text to pdftotext, bilingual columns included.** FIA Appendix O's
+  English column survives `-layout` extraction. Grep it with `-a`, because the French column's
+  accents make grep call the file binary.
+- **A tree's own committed proof files are the cheapest counter-evidence to its linter.** The
+  quality instrument's `gate-proof.json` recorded the linter's findings on planted courses, and two
+  of them were false positives that no unit test sees. Read the proof rows, not only their fired
+  flags.
+- **A field lane's reimplementation is a derivation, not a test.** The lane rebuilt the bake in
+  JavaScript to explain the false positive. It matched three course lengths exactly, but it lands
+  as "derived" in the application, never as measured.
+
 ## 2026-10-10 - deepen rival-to-ally-turn (dp-rta-1010)
 
 A single subject, ranked by single stack (process). The rank was real. Four kotlin

@@ -3,7 +3,7 @@ name: contest
 description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief; a wrap step then keeps every variant as notes and screenshots and the winner's source. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.9.1
+version: 1.10.0
 tags: contest, prototyping, ui, landing, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id>"
 ---
@@ -307,6 +307,31 @@ from - in both routers. Two other decisions are first-class:
 
 A verdict does not need a panel: an owner deciding on the reveal reports alone is a valid contest.
 
+### Three markers settle a contest, and nothing else does
+
+`contest.json` is the only place a contest's state lives - there is no separate status field and
+nothing to keep in step. Exactly three keys mean *settled*, and they are the three this skill's
+own predicate reads (`scripts/lib/wrap.mjs`, `const decided = (c) => !!c.winner ||
+!!c.combined?.length || !!c.closed`):
+
+| key | written by | meaning |
+| --- | --- | --- |
+| `winner` | `verdict --winner` | one variant won |
+| `combined` | `verdict --combine` | several were fused; **`winner` stays null on purpose** |
+| `closed` | `wrap --close "<reason>"` | the owner ended it with no winner |
+
+Two consequences, both of which have bitten:
+
+- **`--shortlist` deliberately leaves the contest OPEN.** It is a deferral, not a verdict. Any
+  consumer reading the arena will keep asking the owner for a decision until a later round records
+  one of the three markers above, or `wrap --close` ends the family. If the shortlist is in fact
+  the end of the story, close it; do not leave it as the last word.
+- **A decision taken anywhere other than `verdict`/`wrap` does not exist.** Shipping the winner,
+  writing a commit, telling the owner "done" - none of them touch `contest.json`. Measured on
+  Personas 2026-10-06: **8 of the 10 contests its ledger reported as needing the owner's verdict
+  were finished**, because the deciding step was `--combine`, a `wrap --close`, a reveal round, or
+  a promotion that wrote nothing back. Record the verdict in the same turn you act on it.
+
 `verdict` unblinds, writes `contests/<id>.md`, upserts the `Contests.md` index, and updates
 `Patterns.md`: a pattern the winner carried gains a **win**, every pattern a judge named gains a
 **sighting**. Curate with `--pattern` - the panel's tally is evidence, the host's statement of
@@ -386,6 +411,18 @@ When the owner names an existing product surface as the style reference, extract
 components, migrate that surface onto them, and prove the migration with the same instrument.
 Report the before/after deviation counts; "it compiles and the tests pass" is not a promotion.
 
+**6. Record the verdict before you finish, if nobody has.** Promotion is the step most likely to
+happen without one: the owner picks in conversation, the port ships, and `contest.json` is never
+touched. Check before you close the task, and act:
+
+```
+node <skill>/scripts/contest.mjs status --id <slug>     # is a marker recorded?
+node <skill>/scripts/contest.mjs verdict --id <slug> --winner <key> --note "<the owner's words>"
+```
+
+A promoted contest with no recorded marker is an open contest as far as every consumer is
+concerned, and it will sit in the owner's queue asking for a decision he already made.
+
 ## 10. Wrap - archive the field, keep the winner
 
 **A decided contest is an audit record, not a gallery.** The first fleet survey found 18 GB of
@@ -407,6 +444,22 @@ the seat's Markdown, the page's text, the reveal's **Why this design** and the s
 implementation, the copies, staged data, losing seats' strays and rebuildable trees. It never
 enters a link. **No screenshot, no deletion:** a variant without one keeps its source until the
 visual pass has run and `wrap` runs again. The full contract is in **`references/wrap.md`**.
+
+**Wrap is also the family's self-healing pass, which is why it is not optional.** It is the only
+step that reads the whole family at once, and it refuses to run (exit 3) unless every leaf round
+is settled - so a `wrap --apply` that succeeds is proof the family's state is recorded, and a
+`wrap` that exits 3 names the round whose marker is missing. Run it on every contest you touch,
+including old ones: it costs a dry run to find out, and it is the cheapest way to discover that a
+contest everyone considers finished still reads as open.
+
+Order matters at the end of a family:
+
+1. last round decided with `verdict` (`--winner` or `--combine`), **or** ended with
+   `wrap --close "<reason>"`;
+2. `wrap --id <slug>` dry run - read what it says about the family;
+3. `wrap --id <slug> --apply`.
+
+Skipping 1 makes 3 impossible, and skipping 3 means nobody ever discovers that 1 was skipped.
 
 ## Project overlay
 

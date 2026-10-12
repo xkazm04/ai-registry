@@ -537,3 +537,33 @@ skill's source note; the outcome is recorded there.
 - **`verdict --force` rewrites the whole vault note.** Turning a shortlist into a winner would
   have erased the owner's earlier review. The backfill saved each note and re-appended it as
   `## Earlier record`. Proposal, not applied: verdict could keep the earlier body itself.
+
+## 1.10.0 - 2026-10-06 - personas (contest ledger desync)
+
+- **The consumer read one of the three settled markers.** Personas' arena scanner
+  (`src-tauri/src/commands/contest/arena.rs`) deserialized `contest.json` into a struct with
+  `winner` and `shortlist` and **no `combined`, no `closed`, no `kind`** - and serde drops unknown
+  keys silently. Every `verdict --combine` and every `wrap --close` was therefore invisible by
+  construction, and a reveal round, whose verdict lives on its parent, could never settle at all.
+  **8 of the 10 contests the app reported as awaiting the owner's verdict were finished.**
+  `passport-wall-r2` is the clean proof: `combined: [B/1, A/1]`, `decided` 09-25, `wrapped` - and it
+  still read `review`. Fixed consumer-side by porting `wrap.mjs`'s own predicate; no data migration
+  was needed, because every proof was already in the files.
+- **The lesson for the skill is about what a verdict shape COSTS downstream.** Three of the four
+  ways to end a contest leave `winner` null, and §7 presented them as peers without saying which
+  keys a reader must consult. A consumer written from §7 reads `winner`. §7 now names the three
+  markers in a table with the predicate beside them.
+- **`--shortlist` reads as "still asking you" forever, and that is correct behaviour nobody states.**
+  Ten Personas contests sit shortlisted with the real verdict in a child round. Harmless where
+  shortlisted sorts as settled; fatal where it does not.
+- **Promotion is where a verdict goes unrecorded.** §9 ran to "prove the port" and stopped. Five
+  Personas contests shipped and never got a marker. §9 now ends with a `status` check and a
+  `verdict` call.
+- **An errored seat record was read as a settled seat.** The scanner counted any `record.json` on
+  disk as "this seat ran" without reading its `outcome`, so `process-lanes` - one seat, errored with
+  "no JSON envelope on stdout", empty `final.md` - read as `queued` indefinitely rather than
+  stalled. Outcome is now read; a contest whose every record failed and that collected nothing
+  reads `failed`.
+- **Open, not fixed here:** the in-app decide path (`decide.rs`) still records only winner and
+  shortlist, so the app can read a combine/close but not write one. Noted for the operator; it is a
+  feature, not the desync.

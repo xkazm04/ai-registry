@@ -12,8 +12,10 @@ Your job: take every `worker` action in your project block to a terminal state -
 The repo's CLAUDE.md/AGENTS.md says "commit, never push, unless this session's prompt
 asks for it". **This prompt is that ask** - for PR merges, pushes of branches and fixes
 you author in this run, and branch deletions. It does NOT extend to commits you did not
-author: the primary checkout's unpushed commits on the default branch stay unpushed
-(they are in your `operator` list for that reason). Your fixes start from
+author: a clean fast-forward of the primary's unpushed default-branch commits is a
+mechanical `push-primary` action the director applies itself (not yours to touch); a
+diverged, live, push-denied, or production-deploy case stays in your `operator` list
+instead, unpushed, for the reason given there. Your fixes start from
 `origin/<default>`, never from the primary's local default branch.
 
 ## Hard rules
@@ -83,6 +85,7 @@ manager the lockfile names** (`pnpm-lock.yaml` -> `pnpm install --frozen-lockfil
 manager silently rewrites the lockfile (personas, 2026-09-15). After any install run
 `git status` and restore lockfile churn you did not intend before staging. A populated
 `node_modules` in a fresh worktree is not a complete one - install before trusting a gate.
+Run `npm ci` (or the repo's installer) IN the worktree. Never junction or symlink the primary's `node_modules` into it: `git worktree remove --force` and `rm -rf` follow the link and wipe the primary's copy (pof, 2026-09-30). Likewise never delete a directory you have not checked for a `.git` entry and for links.
 Installs are slow, so batch shippable work into one worktree where you can.
 
 **Reproduce CI versions in an isolated environment, never the machine's.** To pin the

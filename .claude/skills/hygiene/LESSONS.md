@@ -1,4 +1,4 @@
-# Lessons - hygiene
+﻿# Lessons - hygiene
 
 Append-only reflection lane. One entry per run that taught something, newest last.
 Format: `## <version used> - <YYYY-MM-DD> - <scope>` followed by `- ` bullets.
@@ -318,3 +318,67 @@ with the lesson here saying why.
   unpushed commits at 11:39Z, 27 minutes after its worker finished with no changes; blaming the
   worker was the obvious read. The push event time against the worker's
   window settled it.
+
+## 2026-09-30
+
+- **A worker brief must carry the node_modules junction hazard.** The pof worker junctioned
+  node_modules into its worktree, and `git worktree remove --force` followed the junction and
+  wiped the primary's copy (restored with `npm ci`). The rule is in memory but not in
+  `references/worker-brief.md`: say "run `npm ci` in the worktree, never junction".
+- **Ascent went undispatched for the second run** because the 2026-09-24 worker's
+  `C:/t/hyg-ascent-*` worktrees (1 and 73 uncommitted changes) are still there. The
+  dead-worker rule holds, but it means a repo's backlog grows until the owner clears them.
+- **The "trim porcelain" bug recurred in the director's own verifier** (first entry lost its
+  leading space, `.ai/x` read as `ai/x`). Split lines before trimming, always.
+- **A fix that a worker cannot push still gets committed.** personas' CodeQL fix sits on a
+  local branch because the pre-push census gate fails on master itself; the census drift is
+  now the blocker for every personas worktree push.
+- **Every dependabot bump in politicas fails Doc-sync**, not its own change; an empty commit
+  with four `Doc-sync(...)` trailers clears it. Merge commits need the trailers too.
+- **Scanning with `| head` kills the scan** (SIGPIPE); redirect to a file and read the file.
+
+## 2026-10-01
+
+- **Debris pass added; its first delete destroyed a registered worktree.** `git ls-files --others`
+  reports a nested checkout as one untracked directory, so ascent's `.bench/ship-main` (a
+  detached worktree at a release commit, idle 9 days) read as 44 MB of cache. I confirmed it
+  was a worktree in the SAME shell command that deleted it, so the check could not stop the
+  delete. No commits lost (tip on master, entry pruned); any uncommitted content in it is gone.
+  Rules now: a directory holding `.git` is never debris (scan and apply re-check), and a
+  check and the irreversible act it guards never share one command. Also: a `.bench/.../node_modules`
+  junction pointed at ascent's real `node_modules` - unlink with `cmd //c rmdir`, verify the target.
+- **A candidate is not mess until someone opens it.** `ai-registry/.personas-web/registry.yaml`
+  looked like a stray dot-dir and is a real consumer overlay. Candidates stay operator rows.
+
+## 1.0.7 - 2026-10-04 - policy change, `primary-unpushed`
+
+- **Operator reversed the 2026-09-15 "never ship commits hygiene did not author" rule for
+  the clean case.** The fleet runs many unattended sessions across machines; unpushed
+  primary-branch commits are routinely their already-committed work, not unread WIP, and
+  syncing that is the whole point of a start-of-day sweep. A fast-forward-only push
+  (`behind === 0`) on an idle, non-push-denied, non-production-deploy primary is now
+  `mechanical` (`push-primary`), applied without a worker. Diverged history, a live
+  checkout, a push-denied repo (systedo-case, via its own deny settings), and a
+  production-deploy default branch (`ascent:master` - Vercel deploys on push, and there is
+  no CI run yet for a commit that was never pushed) still go to the operator as
+  `primary-unpushed`, unchanged. Widen `PRODUCTION_DEPLOY_DEFAULT` in `hygiene-scan.mjs`
+  only for a repo whose default branch deploys outside its own CI - debris, alerts and
+  WIP (points 1/2/4 of the 2026-10-04 request) were left untouched.
+
+## 1.0.7 - 2026-10-07 - full fleet run, 12 workers
+
+- **A session limit killed the gravitone worker AFTER it had pushed to main.** Its first push (d72dc28) and a dirty gates.yml were the only trace; the snapshot (worktree state, `gh run list`) plus `SendMessage` to its agent id resumed it with its own history, and it finished the item. Snapshot against the project's real checkout path from `projects.json`: a guessed path ran `gh pr list` in the wrong repo and read as an empty answer.
+- **Red default branch was often several independent faults.** gravitone main had a stale lockfile, a selftest asserting a gitignored corpus and no chromium install; personas had a stale evidence path plus three linux-only test failures with a fourth (clippy dead_code) hidden behind them. Re-read the next step's result after each fix before calling it done.
+- **Dependabot PRs red on a shared cause are red on the base, not on themselves.** pumper: three unpatched wasmtime advisories failed all six PRs; fix master, then `gh pr update-branch`. politicas: every package.json bump fails Doc-sync until it carries Doc-sync trailers (operator decision pending: a standing exemption).
+- **A push to a protected master from a worker worktree was accepted with "Bypassed rule violations: 6 of 6 required status checks"** (pumper, wasmtime lock bump). Authorized, and CI was green after, but it is the admin-bypass path: worth deciding whether workers may use it.
+- **The Bash tool in worker sessions had no git, gh, head or tail on PATH**; every worker fell back to PowerShell. Put "use PowerShell" in the worker brief.
+- **Hygiene never reached a verdict on four items a worker could not bound**: kp main red because origin/main lacks 124 unpushed local commits (live primary, so not mechanical), gravitone live-lane spec rewrite, sqlx 0.9 and utoipa 6 migrations. All went to the operator list with the located cause.
+
+## 1.0.7 - 2026-10-08 - full fleet run, 13 workers
+
+- **Ascent loop branches and skillbench arms cost worker runs and produced no actions.** firetv (8), mage-arena-vr (7), garden-vr (5), kp (10 skillbench), tracklight (3 skillbench): every worker read each branch in full and left all of them, because each holds unique, divergent commits and adopting them is a product call. Proposal: the scan should classify `ascent/loop-*`, `ascent/runner` and `skillbench/*` as `operator` (an adopt-or-archive decision), not `worker`. Three of the 13 workers would then not have been dispatched.
+- **kp origin/main is red for the reason 2026-10-07 named, now from the other side**: a sibling pushed commits that import files that exist only in the primary's unpushed line (166 ahead). Every PR then fails typecheck and build alike, so #93 and #94 were repaired and could not merge. A red default branch whose missing symbols resolve in `git log main` (local) is a primary-unpushed problem, not a worker fix.
+- **gravitone: a UI redesign dropped test ids that only the live lane drives** (race sheet, `cell-<id>-<step>`). The live job stayed red for three days while gates and python were green. The worker restored the attribute and the job went green.
+- **A pull_request run freezes its merge ref**: rerunning it, or closing and reopening the PR, reused the stale merge. `gh pr update-branch` makes a fresh merge ref (gravitone #3).
+- **A PR head cut from the primary's unpushed line looks like a small PR and is not**: personas #29 has a README title and carries 44 commits and 807 files. kp #95 showed +10k lines for one line, from CRLF churn plus a regenerated registry map. Read `changedFiles` and `git diff --ignore-space-at-eol` before calling a PR superseded or repairable.
+- **Director verify instrument**: comparing the primary's dirty set needs plain `git status --porcelain` (not `-uall`, since the plan stores an untracked directory as one row). Do not trim the whole output, because that eats the leading space of the first ` M` line and shifts its path by one character. Two primaries (personas, personas-web) differed because their own live sessions committed during the run. Check `reflog` before blaming a worker.

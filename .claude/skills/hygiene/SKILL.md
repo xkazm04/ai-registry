@@ -3,7 +3,7 @@ name: hygiene
 description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot), plus invalid Claude Code project settings via `claude doctor`. Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, or when branches, PRs and alerts have piled up across the fleet."
 category: ai-native
 memory: project
-version: 1.1.0
+version: 1.1.1
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -22,8 +22,10 @@ itself, and one Sonnet worker per project does the rest in isolated worktrees.
 
 What it is not: `/maintain` reduces code debt inside one repo, `/librarian` maintains
 this registry's knowledge, `/ci-triage` diagnoses one red build (workers borrow its
-method). Hygiene owns only the delivery surface: PRs, branches, worktrees, the default
-branch's CI, and GitHub's alert queues.
+method). Hygiene owns the delivery surface - PRs, branches, worktrees, the default
+branch's CI, GitHub's alert queues - and the **debris** dev processes leave in a checkout:
+crash dumps, bytecode caches, scratch folders, a dot-directory a tool created at the root
+because it did not know where to put its working files.
 
 ## Invocation
 
@@ -53,15 +55,23 @@ What the authorization does NOT cover, for the director and every worker:
 - Anything the instrument marks `hands-off`. Something live touched it.
 - `git push` into systedo-case (its settings deny it on purpose): server-side
   `gh pr merge` only.
-- **Shipping commits hygiene did not author.** Operator decision, 2026-09-15: every fleet
-  repo's CLAUDE.md says "commit, never push - the owner pushes after reading the log",
-  and the unpushed commits sitting on a primary checkout's default branch are exactly the
-  ones not read yet. They are an `operator` row (`primary-unpushed`, with the newest
-  subjects), never a worker action. The dispatch prompt is the explicit ask those
-  CLAUDE.md lines allow for - but only for merges, deletions and fixes the run authors.
+- **Shipping commits hygiene did not author**, when the push is not a clean fast-forward
+  sync. Operator decision, 2026-10-04 (revises 2026-09-15): unpushed commits on a primary's
+  default branch are routinely another session's or another machine's already-committed
+  work, and syncing that is exactly what a start-of-day sweep is for - so a clean
+  fast-forward push (not diverged, checkout idle, repo does not deny push, default branch
+  not a production-deploy target) is `mechanical` (`push-primary`), not a worker action.
+  What still goes to the operator as `primary-unpushed`: diverged history (needs a
+  merge/rebase judgment call), a live checkout, a push-denied repo, or a production-deploy
+  default branch (see below). The dispatch prompt remains the explicit ask for anything a
+  worker itself authors - merges, deletions, fixes.
 
-Merging to `master` on ascent or systedo-case **is a production deploy** (Vercel Git
-integration). CI green before merge is not optional there.
+Merging **or pushing** to `master` on ascent or systedo-case **is a production deploy**
+(Vercel Git integration). CI green before either is not optional there, and there is no CI
+run yet to check for commits that were never pushed - so `push-primary` never fires for
+`ascent:master` (`PRODUCTION_DEPLOY_DEFAULT` in `hygiene-scan.mjs`); systedo-case is already
+excluded via its push-deny settings. Widen that set only for a repo whose default branch
+deploys outside its own CI.
 
 ## Never classify anything yourself
 
@@ -76,9 +86,9 @@ classes:
 
 | class | who | examples |
 |---|---|---|
-| `mechanical` | the script's `--apply` | delete branches whose content is on the default branch (tip archived to `refs/hygiene-archive/<date>/` first), remove clean idle Claude Code/temp worktrees, prune missing worktrees, set `origin/HEAD`, fast-forward an idle primary checkout |
-| `worker` | one Sonnet per project | ship or repair open PRs, fix a red default branch, triage unmerged branches, push unpushed default-branch commits, fix code-scanning/Dependabot alerts |
-| `operator` | the human, in the final report | secret alerts, stale uncommitted WIP, a primary checkout parked on a feature branch, Personas-app worktree backlog, security posture (scanning not configured) |
+| `mechanical` | the script's `--apply` | delete branches whose content is on the default branch (tip archived to `refs/hygiene-archive/<date>/` first), remove clean idle Claude Code/temp worktrees, prune missing worktrees, set `origin/HEAD`, fast-forward an idle primary checkout, **push an idle primary's clean fast-forward-able unpushed commits** (`push-primary` - skipped if diverged, live, push-denied, or a production-deploy default branch), **delete untracked junk-named debris** (`*.stackdump`, `__pycache__`, `*.pyc`, `*.orig/.rej/.swp`, `Thumbs.db`, `.DS_Store`, `nul`, editor `~` files) |
+| `worker` | one Sonnet per project | ship or repair open PRs, fix a red default branch, triage unmerged branches, fix code-scanning/Dependabot alerts |
+| `operator` | the human, in the final report | `debris-candidate` (untracked top-level scratch-looking entries: `tmp*`, `out`, `backup*`, `*.bak/.log/.tmp`, an unknown dot-directory), `tracked-junk` (a junk name that is committed), secret alerts, stale uncommitted WIP, a primary checkout parked on a feature branch, `primary-unpushed` that is diverged/live/push-denied/production-deploy, Personas-app worktree backlog, security posture (scanning not configured) |
 | `hands-off` | nobody | anything with reflog, commit or dirty-file activity inside `--live-minutes` (default 120), and PRs updated inside it |
 
 If the plan looks wrong, fix `scripts/hygiene-scan.mjs` - never override a class by
@@ -130,6 +140,22 @@ a harness upgrade) is NOT part of this sweep: its findings are a source to verif
 `--no-harness` skips Tier 1 on a machine without `claude` on PATH.
 
 `/hygiene scan` ends here: print the table and the operator list.
+
+## Debris - what counts and what never does
+
+The scan looks only at **untracked, not-ignored** entries of each primary checkout
+(`git ls-files --others --exclude-standard --directory`: an untracked directory is one row).
+Ignored paths are intentional; ordinary untracked files are somebody's WIP and are never
+listed. Three tiers: *junk* names are deleted by `--apply` after re-checking that the entry
+is still untracked, idle past `--live-minutes`, inside the repo and free of symlinks or
+junctions (a recursive delete that follows one wiped a primary's `node_modules`); *candidate*
+names go to the operator with size and age, because a script cannot know whether `out/` or
+`.personas-web/` holds the only copy of something; *tracked-junk* is a content change and is
+reported only. Debris deletion is **not recoverable** (no archive ref exists for an untracked
+file) - that is why the junk list stays short and name-based. Widen it only with a LESSONS
+entry showing the name was never content. The rule for the operator triage: ask for a decision
+and, once made, either delete it, add it to `.gitignore` if the tool keeps recreating it, or
+fix the process that wrote it there.
 
 ## Phase 2 - Mechanical
 
@@ -207,10 +233,12 @@ A worker's report is a claim. For each project:
 0. **Start from what actually landed, not from the report:**
    `git -C <path> fetch origin` then
    `git -C <path> log --reverse --format='%h %an | %s' <plan defaultSha>..origin/<default>`.
-   Every commit there must be accounted for by a merged PR or a report's
-   `pushes[].commits`; one that is not is either a sibling session's work (check its author
-   and time) or something the worker forgot to report (tracklight 2026-09-15: three store
-   fixes hidden behind a push's tip SHA). Steps 2 and 5 run against this list.
+   Every commit there must be accounted for by a merged PR, a report's `pushes[].commits`,
+   or a mechanical `push-primary` DONE row in `applied.jsonl`; one that is not is either a
+   sibling session's work (check its author and time) or something the worker forgot to
+   report (tracklight 2026-09-15: three store fixes hidden behind a push's tip SHA). Steps
+   2 and 5 run against this list - `push-primary` commits included, since they were not
+   authored by this run and still need the same post-push CI check.
 1. Every PR the report says merged: `gh pr view <n> -R <repo> --json state,mergedAt`.
 2. Every push to a default branch: `gh run list -R <repo> --branch <default> --limit 5`
    shows the run for that SHA completed green (or still in progress - then
@@ -218,7 +246,7 @@ A worker's report is a claim. For each project:
    outage the run caused: dispatch a repair worker for that project before reporting.
 3. The primary checkout is untouched: `git -C <path> branch --show-current` matches, and the
    **sorted set** of `git --no-optional-locks status --porcelain` paths equals `plan.json`'s
-   `primary.dirtyPaths` (except an `ff-primary` DONE row, or a live primary whose own
+   `primary.dirtyPaths` (except an `ff-primary` or `delete-debris` DONE row, or a live primary whose own
    session moved on - then name the differing paths and judge whether a worker could have
    written them). A count is not enough: a worker that edits the wrong tree and reverts a
    different file leaves the count intact. Also read `git -C <path> config --local --list`

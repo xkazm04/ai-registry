@@ -22,6 +22,7 @@ techniques:
   - render-acceptance
   - engine-choice-on-decisive-terms
   - real-time-synthesis-budget
+  - voice-setup-experience
 ---
 
 # Voice input and output
@@ -384,6 +385,21 @@ a rendered artifact is accepted at all — the known degenerate shape, the
 bounded retry, and the honest refusal — because success that is actually
 failure is the one outcome the terminal state set cannot express.
 
+## The first meeting is a flow, not a settings page
+
+Everything above arrives at the person at once, the first time they turn voice
+on: an engine to choose, hundreds of megabytes to install, a voice to pick, a
+recognizer to trust with their room. The defaults that flow offers are the
+ones most installations keep, so the flow is part of the architecture. It
+defaults to a local voice someone has verified by ear and never falls back to
+cloud silently. It installs through named, verified states. It lets the person
+compare voices and recognizers by ear and pick. It folds each decision into a
+receipt that reopens its step, and the settings page is a way back into it,
+not a second copy. It also pins the speaker identity it stores, and shares
+one locked engine home with every other app on the machine.
+[voice-setup-experience](./techniques/voice-setup-experience.md) owns the
+seven rules.
+
 ## The techniques
 
 - [stt-pipeline](./techniques/stt-pipeline.md) — capture, metering, endpointing,
@@ -459,3 +475,9 @@ failure is the one outcome the terminal state set cannot express.
   acceleration path that falls back silently, the process boundary as part of
   the rate, one tier that needs nothing, letting the user time a device choice,
   and deferring what the common tier cannot carry.
+- [voice-setup-experience](./techniques/voice-setup-experience.md) — the
+  first-run flow that turns no voice into a chosen one: the local, heard
+  default and the labelled cloud opt-in, install as a verified state machine
+  with a resumable step, compare by ear (greet first, one comparison line, no
+  overlap), recognizers side by side with latency, receipts that reopen their
+  step, speaker ids pinned to the model package, and one locked engine home.

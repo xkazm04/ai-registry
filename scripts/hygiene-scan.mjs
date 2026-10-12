@@ -34,6 +34,9 @@
  *               a primary checkout parked on a feature branch.
  *   hands-off   something live touched it within --live-minutes. Reported, never acted on.
  *
+ * Debris (untracked scratch/junk in a primary checkout) rides the same classes: junk names
+ * are mechanical (`delete-debris`), scratch-looking entries are operator rows. See scanDebris.
+ *
  * Never discarded by anything here: uncommitted changes, a branch checked out anywhere,
  * a worktree the Personas app owns, a branch that is the base of an open PR.
  *
@@ -242,6 +245,96 @@ export function denyBlocksPush(rules) {
 }
 
 const bySeverity = (alerts) => alerts.reduce((acc, a) => { acc[a.severity ?? 'unknown'] = (acc[a.severity ?? 'unknown'] ?? 0) + 1; return acc; }, {});
+
+// `<slug>:<defaultBranch>` pairs whose push triggers a production deploy (Vercel Git
+// integration) outside the repo's own CI. Mechanical push-primary never touches these.
+const PRODUCTION_DEPLOY_DEFAULT = new Set(['ascent:master']);
+
+// ---------------------------------------------------------------------------- debris
+
+/**
+ * Debris in the primary checkout: untracked leftovers of dev processes that did not know
+ * where to put operative files or did not clean up after themselves (crash dumps, bytecode
+ * caches, editor droppings, scratch folders, a dot-directory some tool created at the root).
+ *
+ * Three tiers, deliberately blunt:
+ *   JUNK       - names that are never content. `--apply` deletes them (idle, untracked,
+ *                no symlinks inside, still inside the repo).
+ *   CANDIDATE  - names that smell like scratch (tmp, out, backup, *.bak, *.log, an untracked
+ *                top-level dot-directory). A human decides: the scan can say what and how
+ *                old, not whether it matters.
+ *   tracked    - a JUNK name that is COMMITTED. Removing it is a content change, so it is
+ *                an operator row, never mechanical.
+ *
+ * A directory holding its own `.git` is never listed: ascent's `.bench/ship-main` read as
+ * 44 MB of cache and was a registered worktree (2026-10-01; deleted before the rule existed).
+ *
+ * Only UNTRACKED, NOT-IGNORED entries are looked at: gitignored paths are intentional, and
+ * `--directory` collapses an untracked directory into one row so a scratch tree is one
+ * decision, not four hundred. The new-WIP guard of the rest of this script is not weakened:
+ * an entry touched inside --live-minutes is hands-off, and ordinary untracked files that
+ * match neither tier are never listed at all.
+ */
+const JUNK = [
+  /\.stackdump$/i, /(^|\/)__pycache__\/?$/, /\.py[co]$/i, /\.(orig|rej|swp|swo)$/i,
+  /(^|\/)(Thumbs\.db|\.DS_Store|desktop\.ini)$/i, /(^|\/)nul$/i, /~$/, /(^|\/)\.#[^/]+$/,
+];
+const CANDIDATE = [
+  /^(tmp|temp|scratch|scratchpad|out|output|backup|backups|old|junk|trash|dump|dumps)(-[^/]*)?\/?$/i,
+  /^(\.tmp|tmp|temp)[-_.][^/]*\/?$/i, /\.(bak|tmp|log)$/i, /^\.[^/]+\/$/,
+];
+// Top-level dot-directories that are legitimately untracked-but-unignored are rare; these
+// are the ones tools create on purpose and a human would never want listed as mess.
+const KNOWN_DOTDIRS = /^\.(claude|github|vscode|idea|husky|lefthook|ai|cursor|kiro|codex|config)\/$/;
+
+/** A directory holding its own `.git` is a checkout (worktree, clone), never debris: `git ls-files --others` reports one as a plain untracked dir. */
+function holdsCheckout(abs) {
+  try { return fs.statSync(abs).isDirectory() && fs.existsSync(path.join(abs, '.git')); } catch { return false; }
+}
+
+function newestMtime(abs, depth = 0) {
+  let st;
+  try { st = fs.lstatSync(abs); } catch { return { ms: 0, bytes: 0, symlink: false }; }
+  if (st.isSymbolicLink()) return { ms: st.mtimeMs, bytes: 0, symlink: true };
+  if (!st.isDirectory()) return { ms: st.mtimeMs, bytes: st.size, symlink: false };
+  let ms = st.mtimeMs, bytes = 0, symlink = false, n = 0;
+  if (depth > 6) return { ms, bytes, symlink };
+  let entries = [];
+  try { entries = fs.readdirSync(abs); } catch { /* unreadable */ }
+  for (const e of entries) {
+    if (++n > 5000) break;
+    const r = newestMtime(path.join(abs, e), depth + 1);
+    if (r.ms > ms) ms = r.ms;
+    bytes += r.bytes;
+    symlink = symlink || r.symlink;
+  }
+  return { ms, bytes, symlink };
+}
+
+async function scanDebris(repoPath) {
+  const out = [];
+  const others = await git(repoPath, ['ls-files', '--others', '--exclude-standard', '--directory', '-z'], { timeout: 90_000 });
+  if (others.ok) {
+    for (const rel of others.stdout.split('\0').filter(Boolean)) {
+      const top = !rel.replace(/\/$/, '').includes('/');
+      const tier = JUNK.some((re) => re.test(rel)) ? 'junk'
+        : (top && !KNOWN_DOTDIRS.test(rel) && CANDIDATE.some((re) => re.test(rel))) ? 'candidate'
+        : null;
+      if (!tier) continue;
+      if (holdsCheckout(path.join(repoPath, rel))) continue;
+      const m = newestMtime(path.join(repoPath, rel));
+      out.push({ path: rel, tier, bytes: m.bytes, ageMin: minutesSince(m.ms), symlink: m.symlink });
+    }
+  }
+  // A committed junk name: report only.
+  const tracked = await git(repoPath, ['ls-files', '-z'], { timeout: 90_000 });
+  if (tracked.ok) {
+    for (const rel of tracked.stdout.split('\0').filter(Boolean)) {
+      if (JUNK.some((re) => re.test(rel))) out.push({ path: rel, tier: 'tracked', bytes: 0, ageMin: null, symlink: false });
+    }
+  }
+  return out.slice(0, 300);
+}
 
 // ---------------------------------------------------------------------------- scan one
 
@@ -471,7 +564,7 @@ async function scanProject(slug, proj) {
   // ---- harness settings
   P.harness = NO_HARNESS ? { status: 'skipped', findings: [] } : await harnessSettings(proj.path);
   if (P.harness.status === 'not-run') P.problems.push(`claude doctor did not run: ${P.harness.reason}`);
-
+  P.debris = await scanDebris(proj.path);
   P.actions = planActions(P);
   return P;
 }
@@ -561,6 +654,21 @@ export function splitRed(defaultCi = []) {
   return { gate: failed.filter(isGate), signal: failed.filter((r) => !isGate(r)) };
 }
 
+/** Debris rows for one project (also used for the registry itself, which is not a fleet project). */
+function debrisActions(P) {
+  const A = [];
+  const add = (cls, kind, target, reason, extra = {}) => A.push({ project: P.slug, class: cls, kind, target, reason, ...extra });
+  const kb = (b) => (b >= 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.max(1, Math.round(b / 1024))} KB`);
+  for (const d of P.debris ?? []) {
+    const what = `${d.tier === 'tracked' ? 'committed' : 'untracked'}${d.bytes ? `, ${kb(d.bytes)}` : ''}${d.ageMin != null ? `, touched ${d.ageMin < 120 ? `${d.ageMin} min` : `${Math.round(d.ageMin / 60)} h`} ago` : ''}`;
+    if (d.tier === 'tracked') add('operator', 'tracked-junk', d.path, `${what} - a junk-named file is in the tree; removing it is a content change`);
+    else if (d.ageMin != null && d.ageMin < LIVE_MIN) add('hands-off', 'live-debris', d.path, what);
+    else if (d.tier === 'junk' && !d.symlink) add('mechanical', 'delete-debris', d.path, what, { bytes: d.bytes });
+    else add('operator', 'debris-candidate', d.path, `${what}${d.symlink ? ', contains a symlink/junction' : ''} - looks like scratch; delete it or tell me where it belongs`, { bytes: d.bytes });
+  }
+  return A;
+}
+
 function planActions(P) {
   const A = [];
   const add = (cls, kind, target, reason, extra = {}) => A.push({ project: P.slug, class: cls, kind, target, reason, ...extra });
@@ -637,14 +745,31 @@ function planActions(P) {
     if (P.primary.live) add('hands-off', 'primary-behind-live', P.defaultBranch, `${P.primary.behind} behind origin, but the checkout was active ${P.primary.lastActivityMin} min ago`);
     else add('mechanical', 'ff-primary', P.defaultBranch, `${P.primary.behind} commit(s) behind origin, 0 ahead`);
   } else if (P.primary.onDefault && P.primary.ahead > 0) {
-    // Operator decision 2026-09-15: every fleet repo's CLAUDE.md says the owner pushes
-    // after reading the log, and these are exactly the commits not yet read. Hygiene
-    // lists them; it never ships commits it did not author.
-    add('operator', 'primary-unpushed', P.defaultBranch, `${P.primary.ahead} unpushed commit(s) on ${P.defaultBranch}${P.primary.behind ? `, ${P.primary.behind} behind origin (diverged)` : ''}${P.primary.live ? ', checkout live' : ''} - newest: ${P.primary.unpushed.join(' | ')}`, { ahead: P.primary.ahead, behind: P.primary.behind });
+    // Operator decision 2026-10-04 (revises 2026-09-15): unpushed commits on a primary's
+    // default branch are routinely another session's or another machine's already-committed
+    // work left unsynced, and hygiene's start-of-day job is to sync the environment. A clean
+    // fast-forward push (not diverged, checkout idle) is mechanical. Diverged history, a live
+    // checkout, a push-denied repo, or a production-deploy default branch (Vercel on push,
+    // e.g. ascent:master) still need a human - CI green before a push is not optional there,
+    // and there is no CI run yet to check for commits that were never pushed.
+    const diverged = P.primary.behind > 0;
+    const isProdDeploy = PRODUCTION_DEPLOY_DEFAULT.has(`${P.slug}:${P.defaultBranch}`);
+    const detail = `${P.primary.ahead} unpushed commit(s) on ${P.defaultBranch}${diverged ? `, ${P.primary.behind} behind origin (diverged)` : ''} - newest: ${P.primary.unpushed.join(' | ')}`;
+    if (!diverged && !P.primary.live && !P.pushDenied && !isProdDeploy) {
+      add('mechanical', 'push-primary', P.defaultBranch, detail, { ahead: P.primary.ahead, behind: P.primary.behind });
+    } else {
+      const why = diverged ? 'diverged - needs a merge/rebase decision'
+        : P.primary.live ? `checkout live, active ${P.primary.lastActivityMin} min ago`
+        : P.pushDenied ? 'repo settings deny git push'
+        : 'production-deploy default branch - CI green before push is not optional';
+      add('operator', 'primary-unpushed', P.defaultBranch, `${detail} (${why})`, { ahead: P.primary.ahead, behind: P.primary.behind });
+    }
   }
   if (!P.primary.onDefault) {
     add('operator', 'primary-off-default', P.primary.branch ?? '(detached)', `primary checkout is on ${P.primary.branch ?? 'a detached HEAD'} with ${P.primary.dirty ?? '?'} uncommitted change(s)${P.primary.live ? ', live' : ''}`);
   }
+
+  A.push(...debrisActions(P));
 
   const cs = P.security.codeScanning, ss = P.security.secretScanning, db = P.security.dependabot;
   if (cs.alerts.length) add('worker', 'code-scanning', `${cs.alerts.length} open`, JSON.stringify(cs.bySeverity));
@@ -676,6 +801,7 @@ function renderMarkdown(fleet, projects) {
   L.push('| project | default | CI | open PRs | local br | remote br | worktrees | code scan | secrets | dependabot | harness | mech | worker | operator | hands-off |');
   L.push('|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|');
   for (const P of projects) {
+    if (P.selfOnly) { L.push(`| ${P.slug} (debris only) | - | - | - | - | - | - | - | - | - | - | ${P.actions.filter((a) => a.class === 'mechanical').length} | 0 | ${P.actions.filter((a) => a.class === 'operator').length} | ${P.actions.filter((a) => a.class === 'hands-off').length} |`); continue; }
     if (!P.actions) { L.push(`| ${P.slug} | - | - | - | - | - | - | - | - | - | - | - | - | - | ${P.problems.join('; ')} |`); continue; }
     const n = (c) => P.actions.filter((a) => a.class === c).length;
     const red = splitRed(P.defaultCi);
@@ -764,6 +890,34 @@ async function applyAction(P, a) {
       const r = await git(cwd, ['merge', '--ff-only', `origin/${a.target}`], { timeout: 300_000 });
       return r.ok ? { done: true } : { skipped: (r.stderr || r.stdout).trim().split('\n').slice(0, 3).join(' ') };
     }
+    case 'push-primary': {
+      const act = await probeCheckout(cwd);
+      if (act.lastActivityMin < LIVE_MIN) return { skipped: `primary active ${act.lastActivityMin} min ago` };
+      const branch = await gitOut(cwd, ['branch', '--show-current']);
+      if (branch !== a.target) return { skipped: `primary moved to ${branch}` };
+      await git(cwd, ['fetch', 'origin', a.target]);
+      const behind = Number(await gitOut(cwd, ['rev-list', '--count', `${branch}..origin/${branch}`]));
+      if (behind > 0) return { skipped: `diverged - ${behind} behind origin now` };
+      const r = await git(cwd, ['push', 'origin', branch], { timeout: 300_000 });
+      return r.ok ? { done: true } : { skipped: (r.stderr || r.stdout).trim().split('\n').slice(0, 3).join(' ') };
+    }
+    case 'delete-debris': {
+      // Irreversible, so every guard is re-checked now: inside the repo, still untracked and
+      // not ignored, idle, and nothing in it is a symlink or junction (rmSync would be
+      // asked to follow one - the node_modules junction wipe of 2026-09-2x).
+      const abs = path.resolve(cwd, a.target);
+      const root = path.resolve(cwd) + path.sep;
+      if (!abs.startsWith(root) || abs === path.resolve(cwd)) return { skipped: 'outside the repo' };
+      if (!fs.existsSync(abs)) return { skipped: 'already gone' };
+      if (holdsCheckout(abs)) return { skipped: 'holds a .git - a checkout, not debris' };
+      const tracked = await gitOut(cwd, ['ls-files', '--', a.target]);
+      if (tracked) return { skipped: 'now tracked' };
+      const m = newestMtime(abs);
+      if (m.symlink) return { skipped: 'contains a symlink or junction' };
+      if (minutesSince(m.ms) < LIVE_MIN) return { skipped: `touched ${minutesSince(m.ms)} min ago` };
+      try { fs.rmSync(abs, { recursive: true, force: true }); } catch (e) { return { skipped: String(e.message).split('\n')[0] }; }
+      return fs.existsSync(abs) ? { skipped: 'still present after delete' } : { done: true, bytes: m.bytes };
+    }
     default:
       return { skipped: `not a mechanical kind: ${a.kind}` };
   }
@@ -816,7 +970,7 @@ async function main() {
     for (const P of plan.projects) {
       if (ONLY && !ONLY.has(P.slug)) continue;
       // Order matters: worktrees before their branches, prune before anything reads the list.
-      const order = ['set-origin-head', 'prune-worktrees', 'remove-worktree', 'delete-local-branch', 'delete-remote-branch', 'ff-primary'];
+      const order = ['set-origin-head', 'prune-worktrees', 'remove-worktree', 'delete-local-branch', 'delete-remote-branch', 'delete-debris', 'ff-primary', 'push-primary'];
       const mech = (P.actions ?? []).filter((a) => a.class === 'mechanical').sort((x, y) => order.indexOf(x.kind) - order.indexOf(y.kind));
       let pruned = false;
       for (const a of mech) {
@@ -843,6 +997,12 @@ async function main() {
       return { slug, problems: [`scan crashed: ${e.stack?.split('\n').slice(0, 2).join(' ')}`] };
     }
   });
+  // This registry is the fleet's host, not a member, so its own checkout would never be swept.
+  if (!ONLY) {
+    const self = { slug: 'ai-registry', path: ROOT, selfOnly: true, problems: [], debris: await scanDebris(ROOT) };
+    self.actions = debrisActions(self);
+    projects.push(self);
+  }
   const plan = { generatedAt: new Date().toISOString(), machine: fleet.machine, liveMinutes: LIVE_MIN, idleHours: IDLE_H, fleetProblems: fleet.problems, projects };
   fs.writeFileSync(path.join(outDir, 'plan.json'), JSON.stringify(plan, null, 2));
   const md = renderMarkdown(fleet, projects);

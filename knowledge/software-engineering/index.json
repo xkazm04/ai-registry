@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
-  "techniques": 1840,
-  "applications": 1245,
+  "techniques": 1841,
+  "applications": 1247,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1840/1840",
+  "use_when_coverage": "1841/1841",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -37711,9 +37711,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256-b2:b7d28920c42693f8",
-   "revision": 19,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:fa1c8ca716f872dc",
+   "revision": 20,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -37987,6 +37987,28 @@
      "stage": "team"
     },
     {
+     "slug": "voice-setup-experience",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "one-authority-per-vocabulary",
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building first-run voice onboarding",
+      "a second app needs the same voice setup",
+      "choosing what the default voice is",
+      "an install that downloads hundreds of MB inside a setup flow",
+      "a settings page and an onboarding flow both choose the voice",
+      "letting a person pick a speech recognizer",
+      "a voice picker stores a numeric speaker id",
+      "two apps on one machine install the same local voice engine"
+     ]
+    },
+    {
      "slug": "voice-ux-integration",
      "status": "forged",
      "laws": [
@@ -38036,6 +38058,12 @@
      "verified_against": "python@3.12"
     },
     {
+     "stack": "python",
+     "technique": "voice-setup-experience",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/python--voice-setup-experience.md",
+     "verified_on": "2026-10-07"
+    },
+    {
      "stack": "react",
      "technique": "duplex-agent-sessions",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/react--duplex-agent-sessions.md",
@@ -38053,6 +38081,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/react--transcript-normalization.md",
      "verified_on": "2026-08-27",
      "verified_against": "react@19.2.6"
+    },
+    {
+     "stack": "react",
+     "technique": "voice-setup-experience",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/react--voice-setup-experience.md",
+     "verified_on": "2026-10-07",
+     "verified_against": "react@19"
     },
     {
      "stack": "rust",
@@ -39412,6 +39447,7 @@
     "voice-io/engine-choice-on-decisive-terms",
     "voice-io/on-device-vs-cloud",
     "voice-io/real-time-synthesis-budget",
+    "voice-io/voice-setup-experience",
     "web-scraping/dry-run-preview",
     "web-scraping/llm-assisted-rule-authoring",
     "web-scraping/shape-change-detection",
@@ -40031,6 +40067,7 @@
     "voice-io/spoken-intent-parsing",
     "voice-io/stt-pipeline",
     "voice-io/transcript-handoff-receipts",
+    "voice-io/voice-setup-experience",
     "voice-io/voice-ux-integration",
     "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
     "watch-cache-and-resync/desync-is-a-state",
@@ -41450,6 +41487,7 @@
     "versioning-snapshots/version-identity",
     "voice-io/authored-voice-identity",
     "voice-io/tts-pipeline",
+    "voice-io/voice-setup-experience",
     "watch-cache-and-resync/atomic-swap-at-initial-sync",
     "watch-cache-and-resync/one-stream-fanned-out",
     "web-scraping/dedup-and-datasets",
@@ -42177,6 +42215,7 @@
     "voice-io/duplex-agent-sessions",
     "voice-io/engine-abstraction",
     "voice-io/portable-provider-package",
+    "voice-io/voice-setup-experience",
     "web-scraping/extraction-rule-dsl",
     "windowed-inference-over-oversized-inputs/schedule-parity-by-realized-cut",
     "windowed-inference-over-oversized-inputs/step-synchronous-windows",
@@ -42845,6 +42884,7 @@
     "voice-io/real-time-synthesis-budget",
     "voice-io/render-acceptance",
     "voice-io/unattended-caller-attribution",
+    "voice-io/voice-setup-experience",
     "watch-cache-and-resync/completeness-barrier-with-a-warm-queue",
     "web-scraping/soak-mode-and-verdict-replay",
     "webhook-ingestion/duplicate-and-replay-dedup",

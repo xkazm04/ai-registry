@@ -94,12 +94,31 @@ test('Personas-app worktrees are summarized for the operator, never removed', ()
   assert.equal(A.find((a) => a.kind === 'personas-app-worktrees')?.class, 'operator');
 });
 
-test('unpushed commits on the primary default branch are an operator row, never a worker ship', () => {
-  // Operator decision 2026-09-15: the owner pushes after reading the log.
+test('clean unpushed commits on an idle primary are a mechanical push, never a worker ship', () => {
+  // Operator decision 2026-10-04 (revises 2026-09-15): sync is the point of the sweep.
   const P = project({ primary: { branch: 'main', onDefault: true, dirty: 0, live: false, ahead: 3, behind: 0, unpushed: ['abc fix: x'] } });
   const A = planActions(P);
-  assert.equal(A.find((a) => a.kind === 'primary-unpushed')?.class, 'operator');
+  assert.deepEqual(kinds(A, 'mechanical'), ['push-primary main']);
   assert.equal(A.filter((a) => a.class === 'worker').length, 0);
+  assert.equal(A.find((a) => a.kind === 'primary-unpushed'), undefined);
+});
+
+test('unpushed commits stay an operator row when diverged, live, push-denied or a production deploy', () => {
+  const diverged = project({ primary: { branch: 'main', onDefault: true, dirty: 0, live: false, ahead: 2, behind: 1, unpushed: ['abc fix: x'] } });
+  assert.deepEqual(kinds(planActions(diverged), 'mechanical'), []);
+  assert.equal(planActions(diverged).find((a) => a.kind === 'primary-unpushed')?.class, 'operator');
+
+  const live = project({ primary: { branch: 'main', onDefault: true, dirty: 0, live: true, lastActivityMin: 3, ahead: 2, behind: 0, unpushed: ['abc fix: x'] } });
+  assert.deepEqual(kinds(planActions(live), 'mechanical'), []);
+  assert.equal(planActions(live).find((a) => a.kind === 'primary-unpushed')?.class, 'operator');
+
+  const denied = project({ pushDenied: true, primary: { branch: 'main', onDefault: true, dirty: 0, live: false, ahead: 2, behind: 0, unpushed: ['abc fix: x'] } });
+  assert.deepEqual(kinds(planActions(denied), 'mechanical'), []);
+  assert.equal(planActions(denied).find((a) => a.kind === 'primary-unpushed')?.class, 'operator');
+
+  const deploy = project({ slug: 'ascent', defaultBranch: 'master', primary: { branch: 'master', onDefault: true, dirty: 0, live: false, ahead: 2, behind: 0, unpushed: ['abc fix: x'] } });
+  assert.deepEqual(kinds(planActions(deploy), 'mechanical'), []);
+  assert.equal(planActions(deploy).find((a) => a.kind === 'primary-unpushed')?.class, 'operator');
 });
 
 test('an idle primary that is only behind is fast-forwarded; a live one is hands-off', () => {
@@ -210,4 +229,20 @@ test('a leaked secret goes to the operator, never to a worker', () => {
   P.security.secretScanning = { posture: 'enabled', alerts: [{ number: 1, type: 'Google API Key' }], bySeverity: { secret: 1 } };
   const A = planActions(P);
   assert.equal(A.find((a) => a.kind === 'secret-scanning')?.class, 'operator');
+});
+
+test('debris: junk is mechanical, scratch is the operator, live and tracked are never deleted', () => {
+  const d = (path, tier, over = {}) => ({ path, tier, bytes: 2048, ageMin: 30 * HOUR, symlink: false, ...over });
+  const A = planActions(project({
+    debris: [
+      d('grep.exe.stackdump', 'junk'),
+      d('skills/x/__pycache__/', 'junk', { ageMin: 5 }),
+      d('.personas-web/', 'candidate'),
+      d('tmp/', 'candidate', { symlink: true }),
+      d('stale.pyc', 'tracked'),
+    ],
+  }));
+  assert.deepEqual(kinds(A, 'mechanical'), ['delete-debris grep.exe.stackdump']);
+  assert.deepEqual(kinds(A, 'hands-off'), ['live-debris skills/x/__pycache__/']);
+  assert.deepEqual(kinds(A, 'operator'), ['debris-candidate .personas-web/', 'debris-candidate tmp/', 'tracked-junk stale.pyc']);
 });
