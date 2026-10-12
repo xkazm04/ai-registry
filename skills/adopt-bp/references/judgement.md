@@ -12,21 +12,22 @@ features with their biggest files, entry points and static values. Write one res
 {
   "features": {
     "<feature slug>": {
-      "development": { "standardsPct": 72, "dupSites": 2, "techDebt": 1,
+      "development": { "dupSites": 2, "techDebt": 1,
                        "evidence": "Store logic duplicated in src/x/A.tsx:40 and src/x/B.tsx:88; no error boundary around the editor." },
-      "security":    { "findingsCritical": 0, "findingsHigh": 0, "findingsMedium": 1, "findingsLow": 2, "standardsPct": 85,
+      "security":    { "findingsCritical": 0, "findingsHigh": 0, "findingsMedium": 1, "findingsLow": 2,
                        "evidence": "API route src/app/api/x/route.ts:12 passes user input to fs.readFile without a path guard (medium)." },
-      "design":      { "undesignedStates": 2, "standardsPct": 70,
+      "design":      { "undesignedStates": 2,
                        "evidence": "No empty state in src/x/List.tsx:20; error is a raw alert() at src/x/Form.tsx:55." }
       // a feature with no UI: "design": { "applicable": false }
     }
   },
   "proposals": [
     { "feature": "<slug>", "lens": "security", "metric": "findingsMedium", "title": "Guard the file path in the export route",
-      "body": "Why and how, 2-4 sentences, with file:line.", "standard": "none", "expected_delta": -1, "size": "S", "risk": 3 }
+      "body": "## Summary\n...\n## Description\n...\n## Flow\n...\n## Expected impact\n...\n## Evaluation\nBefore 1 (this run), after 0 ...",
+      "standard": "none", "expected_delta": -1, "size": "S", "risk": 3 }
   ],
   "coverage": [
-    { "feature": "<slug>", "standard": "house:errors/boundaries", "state": "deviation", "evidence": "file:line" }
+    { "feature": "<slug>", "lens": "development", "standard": "<subject>/<technique>", "state": "deviation", "evidence": "src/x/A.tsx:40" }
   ]
 }
 ```
@@ -39,11 +40,14 @@ features with their biggest files, entry points and static values. Write one res
   design when it has a UI (otherwise `"design": { "applicable": false }`). A lens you looked at and
   found clean gets explicit zeros (`"findingsCritical": 0` ...): zero is a measurement. Omit a key only
   when you did not look. `judge` prints per-lens coverage and warns on gaps.
-- `standardsPct` (0-100): the share of the practices that apply to this feature that it follows. For
-  development: typing, error handling, separation of concerns, no dead code, naming, tests for logic.
-  For security: input validation at boundaries, authz on routes, no secrets, safe sinks, safe
-  file/process/SQL access. For design: tokens instead of literals, loading/empty/error states,
-  keyboard access, labels, the 12 px text floor.
+- **Standards and coverage (this is where `standardsPct` comes from).** Each feature in the batch
+  lists `standards`: the registry techniques that govern it (`<subject>/<technique>` and when it
+  applies). For each one that touches a lens you judged, write one `coverage` row with that `lens`:
+  `conformant`, `deviation`, `not-applicable` or `unknown`, with `file:line` evidence. `judge` derives
+  `standardsPct = conformant / (conformant + deviation)` per feature and lens, exactly as /lens-scan
+  does. Never write `standardsPct` yourself (it is ignored). A house rule in `.ai/house/standards/`
+  counts the same as `house:<subject>/<line-id>` (lens-scan `references/house.md`). No standard listed
+  and no house rule: write no coverage row and the metric stays unmeasured. Never invent a standard.
 - `dupSites`: places where the same logic is copy-pasted (count of extra copies you saw).
 - `techDebt`: 0 none, 1 some, 2 heavy, 3 severe.
 - `findings*`: concrete problems you could point at with file:line, by severity. Critical = exploitable
@@ -51,14 +55,15 @@ features with their biggest files, entry points and static values. Write one res
   low = hygiene. A local developer tool with no network exposure rarely has a critical.
 - `undesignedStates`: user-visible states with no designed treatment (loading, empty, error,
   overflow, disabled) in the feature's screens.
-- **Proposals:** only for real problems you saw. Each names a metric it moves and by
-  how much (`expected_delta`, negative for `down`-is-better metrics), a size `XS`..`XL` and a risk 1-10.
-  `standard` is `none` unless you are applying a named registry technique (`<subject>/<technique>`)
-  or house rule (`house:<subject>/<rule>`).
-- **Coverage:** optional; one row per standard you checked explicitly.
-- Be calibrated, not anchored: score what you saw. 90+ means you found nothing to fault in a feature
-  you read closely; under 60 means several practices are clearly missing. Most features have 0
-  critical and 0 high findings.
+- **Proposals** follow /lens-scan's contract, so the review UI and `/lens-scan execute` can take
+  them: only for real problems you saw; each names the catalog `metric` it moves and by how much
+  (`expected_delta` in the metric's unit, negative for `down`-is-better metrics; a fix that moves no
+  metric is refused), a size `XS`..`XL` and a risk 1-10, and a body in five sections: **Summary /
+  Description / Flow / Expected impact / Evaluation** (Before = the stored value, After = the
+  expected one). `standard` is `none` unless a listed technique or house rule governs it. A rerun
+  never re-proposes an item that is open or was declined.
+- Be calibrated: count what you can point at, and rate severity by the definitions above, not by
+  how the code feels. Most features have 0 critical and 0 high findings; a clean lens is all zeros.
 - **Deprecated features** (stage `deprecated`): judge security only, `"design": { "applicable": false }`,
   and propose nothing but a security fix or the feature's removal. Code with no importer is a
   removal proposal, not a refactor.

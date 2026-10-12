@@ -5,7 +5,7 @@ memory: project
 tags: onboarding, blueprint, app-structure, lens-scan, product-tree, benchmark, providers
 description: "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets, proposals and coverage; then validates with bp's own validator and registers the repo so bp's project switcher shows it. Deterministic work runs in scripts/adopt.mjs; the model only names the product tree and judges code, in batches that can fan out or be benchmarked across providers with scripts/bench.mjs. Invoke with /adopt-bp [<repo path>] [--check] [--slug s --name n]."
 argument-hint: "[<repo path>] [--check] [--slug <slug>] [--name <name>] [--bp <bp checkout>]"
-version: 1.0.0
+version: 1.1.0
 ---
 
 # adopt-bp - a repo in, a blueprint out
@@ -17,15 +17,24 @@ everything beside it, for a repo bp has never seen, and leaves a rescan path for
 `S` below is this skill's directory; `node $S/scripts/adopt.mjs <cmd> --root <repo> --bp <bp>`.
 `--bp` defaults to `$ADOPT_BP_ROOT`, then a sibling `../bp`.
 
+**adopt-bp onboards; /lens-scan measures from then on.** This skill needs its sibling
+`lens-scan` in the same skills lane and writes nothing to the store itself: every run,
+measurement, coverage row and proposal goes through lens-scan's `store.mjs`, every static
+metric through its `footprint.mjs` (the catalog is lens-scan's `references/metrics.md`), and
+every facet refresh through its `structure.mjs` in merge mode. So the onboarding baseline and
+every later `/lens-scan` run are one series, and a lens-scan phase 1 keeps the product tree
+adopt-bp declared (`provenance.product_tree: adopt-bp`). Rerun adopt-bp when the product tree
+changed; run `/lens-scan` to re-measure, propose against standards and execute what people approved.
+
 ## What gets written
 
 | Artifact | Where | By |
 |---|---|---|
 | v3 map: code tree, product tree, stages, built-in lenses, facets | `<repo>/.ai/lens-scan/app-structure.json` | seed + you (phase A) + measure + judge |
 | events (feature-added, stage) from git history | `<repo>/.ai/lens-scan/events.jsonl` (append-only) | events |
-| lens-scan store: runs, measurements, proposals, coverage, activity | `<repo>/.ai/lens-scan/scan.db` (DDL `<bp>/docs/standard/lens-scan-store.sql`) | measure + judge |
+| lens-scan store: runs, measurements, proposals, coverage, activity | `<repo>/.ai/lens-scan/scan.db` (lens-scan's DDL, identical to `<bp>/docs/standard/lens-scan-store.sql`) | measure + judge, through lens-scan `store.mjs` |
 | working files (inventory, tree, batches, judgement, report) | `<repo>/.ai/lens-scan/work/` | all |
-| `.ai/lens-scan/` in `.gitignore`; the product in `<bp>/bp.products.local.json` | repo, bp | register |
+| `.ai/lens-scan/` in `.gitignore` (or `.git/info/exclude` when `.gitignore` has uncommitted edits); the product in `<bp>/bp.products.local.json`; a lens-scan overlay `.claude/lens-scan/config.md` when absent | repo, bp | register |
 | `ADOPT.md` summary | `<repo>/.ai/lens-scan/` | report |
 
 Nothing else in the repo changes. Never commit in the target repo unless the operator asks; its
@@ -49,12 +58,17 @@ tree may carry another session's work.
    `work/product-tree.json`, then `adopt.mjs tree`. It refuses a broken tree by name; fix and rerun.
 3. **Events.** `adopt.mjs events`: feature-added at the first commit of a feature's files, a stage
    event at `stage_since` (or the last commit). Append-only.
-4. **Measure.** `adopt.mjs measure`: static metrics per feature into the store and facets
-   (development: loc, files, depCount, testRatioPct, status, lastCommit, stalled; security:
-   secretHits, unsafeSinks; design: rawLiterals, or `applicable: false` with no UI files).
-5. **Phase B - judgement (you).** `adopt.mjs batches [--size 8]`, then follow
+4. **Measure.** `adopt.mjs measure`: lens-scan's `footprint.mjs --lens all` per feature
+   (development: loc, files, depCount, testRatioPct; security: secretHits, unsafeSinks;
+   design: rawLiterals, or `applicable: false` with no UI component file), plus the map-only
+   development fields status, lastCommit and stalled.
+5. **Phase B - judgement (you).** `adopt.mjs batches [--size 8]` (each feature carries the
+   registry techniques that govern it, from the repo's `.ai/registry-map.json`), then follow
    `references/judgement.md` for every `work/batches/NN.json`, writing `work/judgement/NN.json`.
-   Fan out to subagents when your harness has them. Then `adopt.mjs judge --model <your model id>`.
+   Fan out to subagents when your harness has them. Then `adopt.mjs judge --model <your model id>`:
+   one lens-scan measure run per lens, `standardsPct` derived from that run's coverage rows
+   (lens-scan's rule; no standard, no number), one propose run that never re-proposes an open or
+   declined item.
 6. **Validate.** `adopt.mjs validate`: bp's validator (schema, references, facet types, events) plus
    coverage, placement and staging checks. Do not finish on a failing validate.
 7. **Register.** `adopt.mjs register [--slug s --name n]` (skip with `--no-register` in a benchmark

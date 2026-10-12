@@ -63,12 +63,54 @@ test('adopts a tiny repo end to end', { skip: !BP && 'no bp checkout' }, () => {
   assert.equal(map.facets.api.security.values.unsafeSinks, 1);
   assert.equal(map.facets.api.design.applicable, false);
 
-  write(root, '.ai/lens-scan/work/judgement/01.json', JSON.stringify({ features: { editor: { development: { standardsPct: 80, dupSites: 0, techDebt: 0 }, security: { findingsCritical: 0, findingsHigh: 0, findingsMedium: 0, findingsLow: 0, standardsPct: 90 } } },
+  // a proposal that moves no metric is refused, and a refused judgement writes nothing
+  write(root, '.ai/lens-scan/work/judgement/01.json', JSON.stringify({ features: {}, proposals: [{ feature: 'api', lens: 'security', title: 'Vague' }] }));
+  r = run(root, 'judge', '--model', 'test');
+  assert.notEqual(r.status, 0);
+  assert.match(r.stderr, /names feature, lens, title, the metric it moves/);
+
+  write(root, '.ai/lens-scan/work/judgement/01.json', JSON.stringify({
+    features: {
+      editor: { development: { dupSites: 0, techDebt: 1, standardsPct: 99 }, security: { findingsCritical: 0, findingsHigh: 0, findingsMedium: 0, findingsLow: 0 } },
+      api: { development: { dupSites: 0 }, security: { findingsCritical: 0, findingsHigh: 1, findingsMedium: 0, findingsLow: 0, evidence: 'src/api/route.ts:1 eval' }, design: { applicable: false } },
+    },
+    coverage: [
+      { feature: 'editor', lens: 'development', standard: 'react-patterns/typed-props', state: 'conformant', evidence: 'src/editor/Editor.tsx:2' },
+      { feature: 'editor', lens: 'development', standard: 'react-patterns/no-inline-style', state: 'deviation', evidence: 'src/editor/Editor.tsx:2' },
+      { feature: 'editor', lens: 'development', standard: 'house:ui/tokens', state: 'not-applicable' },
+    ],
     proposals: [{ feature: 'api', lens: 'security', metric: 'unsafeSinks', title: 'Drop eval', body: 'src/api/route.ts:1', expected_delta: -1, size: 'XS', risk: 2 }] }));
   r = run(root, 'judge', '--model', 'test');
   assert.equal(r.status, 0, r.stderr);
-  assert.match(r.stderr, /judgement gaps/, 'missing lenses are reported');
+  assert.match(r.stderr, /standardsPct ignored - it is derived/);
+  assert.match(r.stderr, /judgement gaps: design missing on 1/, 'the editor has a UI and no design judgement');
+  let m = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/app-structure.json'), 'utf8'));
+  assert.equal(m.facets.editor.development.values.standardsPct, 50, 'derived: 1 conformant / (1 + 1 deviation)');
+  assert.equal(m.facets.editor.development.values.techDebt, 1, 'a non-metric field lands in the facet');
+  assert.equal(m.facets.api.security.values.findingsHigh, 1);
+  assert.equal('standardsPct' in m.facets.api.security.values, false, 'no coverage rows: unmeasured, never guessed');
+  r = run(root, 'judge', '--model', 'test');
+  assert.match(r.stdout, /1 already open or declined, not re-proposed/);
+
+  // /lens-scan phase 1 after adoption merges: the declared tree survives a structure run
+  const structure = path.join(HERE, '..', '..', 'lens-scan', 'scripts', 'structure.mjs');
+  const s1 = spawnSync(process.execPath, [structure, '--map', 'context-map.json', '--lenses', path.join(BP, 'docs', 'standard', 'lenses')], { cwd: root, encoding: 'utf8' });
+  assert.equal(s1.status, 0, s1.stderr);
+  assert.equal(JSON.parse(s1.stdout).mode, 'merge');
+  m = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/app-structure.json'), 'utf8'));
+  assert.deepEqual(m.features.map((f) => [f.slug, f.stage]), [['editor', 'live'], ['api', 'in-dev']]);
+  assert.equal(m.facets.api.design.applicable, false);
+
   r = run(root, 'validate');
   assert.equal(r.status, 0, r.stdout + r.stderr);
+  r = run(root, 'register', '--slug', 'tiny-adopt-test', '--name', 'Tiny');
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(fs.readFileSync(path.join(root, '.claude/lens-scan/config.md'), 'utf8'), /project_slug: tiny-adopt-test/);
+  // leave bp's registry as it was
+  const reg = path.join(BP, 'bp.products.local.json');
+  const doc = JSON.parse(fs.readFileSync(reg, 'utf8'));
+  doc.products = doc.products.filter((p) => p.slug !== 'tiny-adopt-test');
+  fs.writeFileSync(reg, `${JSON.stringify(doc, null, 2)}
+`);
   fs.rmSync(root, { recursive: true, force: true });
 });

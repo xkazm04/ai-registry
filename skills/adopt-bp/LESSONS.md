@@ -11,3 +11,8 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 - API-only features were called live when their only callers sat in the deprecated shell; stage now follows the calling surface.
 - Real repos ship context maps with duplicate context names and directory entries in file_paths (pof: 2 and 53). seed renames duplicates by group and expand() walks directories; check reports both.
 - The bp canvas folded deprecated features into "promised"; only a real product with many deprecated features showed it (fixed in bp 29509c2). Smoke every adoption on the canvas, not just the validator.
+
+## 1.0.0 - 2026-10-12 - pof (aligned with /lens-scan)
+- Two skills wrote one store with two writers, two metric definitions and two standardsPct methods. adopt-bp now writes nothing itself: store.mjs for every row, footprint.mjs for static metrics, structure.mjs (merge mode) for facets. Onboarding is the first point of lens-scan's series, not a parallel one.
+- standardsPct was a judged number here and a coverage-derived ratio in lens-scan. It is derived now, from coverage rows against registry techniques the batch lists per feature (via .ai/registry-map.json); no standard, no number.
+- Proposals follow lens-scan's contract (catalog metric + expected delta, five-section body, no re-proposing an open or declined item), so the review UI and /lens-scan execute take onboarding proposals without translation.

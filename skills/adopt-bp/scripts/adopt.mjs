@@ -2,6 +2,8 @@
 // adopt-bp: the deterministic half of onboarding a repo into the bp product blueprint.
 // The LLM half (product tree, judgement) writes JSON into <root>/.ai/lens-scan/work/; this script
 // checks, seeds, measures, merges, validates and registers. Spec: bp docs/standard/app-structure-v3.md.
+// Every store write, every static metric and every facet refresh goes through the sibling /lens-scan
+// skill's scripts (store.mjs, footprint.mjs, structure.mjs): one writer, one metric catalog, one series.
 //
 //   node adopt.mjs check     [--root .] [--bp <bp checkout>]          what exists, what is needed (JSON with --json)
 //   node adopt.mjs seed      [--root .] [--bp ..] [--slug s --name n] skeleton v3 map + work/inventory.json
@@ -18,12 +20,20 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 // node:sqlite still prints an ExperimentalWarning on every run; it is noise in an agent's transcript.
 const emitWarning = process.emitWarning.bind(process);
 process.emitWarning = (w, ...a) => (/SQLite/.test(String(w)) ? undefined : emitWarning(w, ...a));
 const HERE = path.dirname(fileURLToPath(import.meta.url));
+const LENS_SCAN = path.join(HERE, '..', '..', 'lens-scan', 'scripts');
+const REGISTRY = path.resolve(HERE, '..', '..', '..');
+const lensScan = async () => {
+  if (!fs.existsSync(path.join(LENS_SCAN, 'store.mjs'))) die(`the lens-scan skill is not beside adopt-bp (${LENS_SCAN}); install the registry's skills lane, not adopt-bp alone`);
+  const url = (f) => pathToFileURL(path.join(LENS_SCAN, f)).href;
+  const [store, footprint, structure] = await Promise.all([import(url('store.mjs')), import(url('footprint.mjs')), import(url('structure.mjs'))]);
+  return { store, footprint, structure };
+};
 const SKILL_VERSION = (fs.readFileSync(path.join(HERE, '..', 'SKILL.md'), 'utf8').match(/^version:\s*(\S+)/m) ?? [])[1] ?? '0';
 const argv = process.argv.slice(2);
 const cmd = argv[0];
@@ -94,59 +104,26 @@ function findContextMap() {
 }
 
 // ------------------------------------------------------------------------------------- file facts
-const TEST_RE = /(^|\/)(__tests__|tests?|e2e|spec)\/|\.(test|spec|e2e)\.[cm]?[jt]sx?$|_test\.(go|py|rs)$|(^|\/)test_[^/]+\.py$/;
-const UI_RE = /\.(tsx|jsx|vue|svelte|css|scss|html)$/;
-const CODE_RE = /\.([cm]?[jt]sx?|vue|svelte|py|rs|go|java|kt|cs|cpp|cc|c|h|hpp|rb|php|swift|css|scss|sql|mjs)$/;
-const SECRET_RES = [/AKIA[0-9A-Z]{16}/g, /-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----/g, /\bsk-(?:ant-|proj-)?[A-Za-z0-9_-]{24,}/g,
-  /\bghp_[A-Za-z0-9]{36}\b/g, /\bxox[abpr]-[A-Za-z0-9-]{10,}/g, /\bAIza[0-9A-Za-z_-]{35}\b/g,
-  /(?:password|passwd|secret|api[_-]?key)\s*[:=]\s*["'][^"'\s$`{]{12,}["']/gi];
-const SINK_RES = [/\beval\s*\(/g, /\bnew\s+Function\s*\(/g, /dangerouslySetInnerHTML/g, /\.innerHTML\s*=/g, /document\.write\s*\(/g,
-  /\bexec(?:Sync)?\s*\(\s*`[^`]*\$\{/g, /\bshell\s*:\s*true\b/g];
-const RAW_COLOR_RE = /#[0-9a-fA-F]{3,8}\b(?![-\w])|\brgba?\s*\(\s*\d/g;
-const IMPORT_RE = /(?:import\s[^'"]*?from\s*|import\s*\(\s*|require\s*\(\s*|^\s*import\s+)["']([^"'.\/][^"']*)["']/gm;
-const count = (s, res) => res.reduce((n, r) => n + (s.match(r)?.length ?? 0), 0);
-const pkgName = (spec) => (spec.startsWith('@') ? spec.split('/').slice(0, 2).join('/') : spec.split('/')[0]);
-const ALIAS = /^(@\/|~\/|#|node:|@@)/;
-
+// Inventory and batch rows only (what the model reads). The measured numbers come from footprint.mjs.
+const UI_RE = /\.(tsx|jsx|vue|svelte|html)$/;
+const CODE_RE = /\.([cm]?[jt]sx?|vue|svelte|py|rs|go|java|kt|cs|cpp|cc|c|h|hpp|rb|php|swift|css|scss|sql)$/;
+let FP = null; // lens-scan footprint module, loaded once
+let FILES = null;
+const repoFiles = () => (FILES ??= FP.repoFiles(ROOT));
+const expand = (paths) => FP.expandPaths(paths, ROOT, repoFiles());
 function fileFacts(rel, cache) {
   if (cache.has(rel)) return cache.get(rel);
-  const p = path.join(ROOT, rel);
   let f = null;
   try {
-    const st = fs.statSync(p);
+    const st = fs.statSync(path.join(ROOT, rel));
     if (st.isFile() && st.size < 2_000_000) {
-      const s = fs.readFileSync(p, 'utf8');
-      const loc = s.split('\n').filter((l) => l.trim()).length;
-      const ui = UI_RE.test(rel);
-      const deps = new Set();
-      if (/\.[cm]?[jt]sx?$/.test(rel)) for (const m of s.matchAll(IMPORT_RE)) if (!ALIAS.test(m[1])) deps.add(pkgName(m[1]));
-      f = { rel, loc, test: TEST_RE.test(rel), ui, code: CODE_RE.test(rel), secrets: count(s, SECRET_RES), sinks: count(s, SINK_RES),
-        rawColors: ui && !/\.(css|scss)$/.test(rel) ? count(s, [RAW_COLOR_RE]) : 0, deps: [...deps] };
+      const text = fs.readFileSync(path.join(ROOT, rel), 'utf8');
+      f = { rel, loc: FP.nonBlank(text), test: FP.isTest(rel), ui: UI_RE.test(rel), code: CODE_RE.test(rel) };
     }
   } catch { /* missing on disk: the context map is stale here */ }
   cache.set(rel, f);
   return f;
 }
-// Context maps may list a directory ("src/lib/x/"): expand it to the tracked (or on-disk) files under it.
-let TRACKED = null;
-function trackedFiles() {
-  if (TRACKED) return TRACKED;
-  try { TRACKED = git('ls-files').split('\n').filter(Boolean); } catch { TRACKED = []; }
-  return TRACKED;
-}
-function expand(rels) {
-  const out = new Set();
-  for (const r0 of rels ?? []) {
-    const r = r0.replace(/\\/g, '/');
-    let dir = r.endsWith('/');
-    if (!dir) { try { dir = fs.statSync(path.join(ROOT, r)).isDirectory(); } catch { /* missing */ } }
-    if (!dir) { out.add(r); continue; }
-    const pre = r.endsWith('/') ? r : `${r}/`;
-    for (const t of trackedFiles()) if (t.startsWith(pre)) out.add(t);
-  }
-  return [...out];
-}
-const stem = (rel) => path.basename(rel).replace(/\.(test|spec|e2e)(?=\.)/, '').replace(/\.[^.]+$/, '').replace(/^test_/, '').toLowerCase();
 
 // ------------------------------------------------------------------------------------- map io
 function loadMap() { if (!exists(MAP)) die(`no map at ${MAP} - run seed first`); return readJson(MAP); }
@@ -193,7 +170,7 @@ function check() {
     add('stages', f.length && f.every((x) => x.stage) ? 'ok' : 'missing', `${f.filter((x) => x.stage).length}/${f.length} staged`, f.every((x) => x.stage) && f.length ? null : 'phase A sets stage');
     add('lenses', (map.lenses ?? []).length ? 'ok' : 'missing', `${(map.lenses ?? []).length} lenses`, (map.lenses ?? []).length ? null : 'seed copies the built-in lenses');
     const facets = Object.values(map.facets ?? {}).flatMap((x) => Object.values(x));
-    const judged = facets.filter((x) => x.values && ('standardsPct' in x.values)).length;
+    const judged = facets.filter((x) => x.values && ['dupSites', 'findingsCritical', 'undesignedStates'].some((k) => k in x.values)).length;
     add('static-metrics', facets.length ? 'ok' : 'missing', `${facets.length} facets`, facets.length ? null : 'measure');
     add('judgement', judged ? 'ok' : 'missing', `${judged} judged facets`, judged ? null : 'phase B: judgement');
   } else if (!items.some((i) => i.key === 'map')) add('map', 'missing', MAP, 'seed');
@@ -217,8 +194,10 @@ function check() {
 }
 
 // =================================================================================== seed
-function seed() {
+async function seed() {
   const bp = bpRoot();
+  const LS = await lensScan();
+  FP = LS.footprint;
   const cm = findContextMap();
   if (!cm || cm.error || !Array.isArray(cm.map.contexts) || !cm.map.contexts.length) die('no usable context map (contexts[]): run phase 0 first (SKILL.md), writing context-map.json in v2 shape');
   const prev = exists(MAP) ? readJson(MAP) : null;
@@ -230,10 +209,10 @@ function seed() {
     $schema: 'app-structure/3', version: 3,
     project: { slug, name, ...(cm.map.project?.id ? { id: cm.map.project.id } : {}) },
     generator: 'adopt-bp', generated_at: now(),
-    provenance: { ...(prev?.provenance ?? {}), git_commit: isGit() ? git('rev-parse', 'HEAD').trim() : undefined, context_map: cm.file, context_map_version: cm.version, skill_version: SKILL_VERSION },
+    provenance: { ...(prev?.provenance ?? {}), source: 'context-map.json', git_commit: isGit() ? git('rev-parse', 'HEAD').trim() : undefined, context_map: cm.file, context_map_version: cm.version, skill_version: SKILL_VERSION },
     taxonomy: { ...(cm.map.taxonomy ?? {}), ...(prev?.taxonomy ?? {}) },
     groups: (cm.map.groups ?? []).map(clean),
-    contexts: dedupeContexts(cm.map.contexts.map(clean)),
+    contexts: dedupe(LS.structure, cm.map.contexts.map(clean)),
     domains: prev?.domains ?? [], capabilities: prev?.capabilities ?? [], features: prev?.features ?? [],
     milestones: prev?.milestones ?? [], kpis: prev?.kpis ?? [],
     lenses: [...lenses, ...(prev?.lenses ?? []).filter((l) => l.source === 'project')],
@@ -263,17 +242,11 @@ function seed() {
   console.log(`seeded ${posix(path.relative(ROOT, MAP))}: ${map.contexts.length} contexts, ${map.groups.length} groups, ${lenses.length} built-in lenses${prev ? ' (rescan: product tree, facets and project lenses kept)' : ''}`);
   console.log(`inventory: ${posix(path.relative(ROOT, path.join(WORK, 'inventory.json')))} (${inv.reduce((n, c) => n + c.loc, 0)} lines across ${inv.reduce((n, c) => n + c.files, 0)} files)`);
 }
-/** Context names are the code tree's key (spec 5); a duplicate gets its group's slug appended. */
-function dedupeContexts(cs) {
-  const seen = new Set();
-  return cs.map((c) => {
-    if (!seen.has(c.name)) { seen.add(c.name); return c; }
-    let n = `${c.name}-${slugify(c.group ?? 'x')}`, i = 2;
-    while (seen.has(n)) n = `${c.name}-${i++}`;
-    warn(`context name "${c.name}" is duplicated in the context map; the copy in group "${c.group}" is renamed "${n}"`);
-    seen.add(n);
-    return { ...c, name: n };
-  });
+/** Context names are the code tree's key (spec 5): lens-scan's rule, so both skills key the tree alike. */
+function dedupe(structureMod, cs) {
+  const { contexts, renamed } = structureMod.dedupeContexts(cs);
+  for (const r of renamed) warn(`context name "${r.from}" is duplicated in the context map; the copy in group "${r.group}" is renamed "${r.to}"`);
+  return contexts;
 }
 function clean(o) { const r = {}; for (const [k, v] of Object.entries(o)) if (v !== null && v !== undefined && k !== 'root') r[k] = v; return r; }
 
@@ -314,6 +287,8 @@ function tree() {
   // a feature that disappeared from the tree is archived, not removed (spec 11)
   for (const [slug, old] of prev) if (!feats.some((x) => x.slug === slug)) map.features.push({ ...old, status: 'archived' });
   if (t.milestones?.length) map.milestones = t.milestones;
+  // lens-scan's structure.mjs keeps a tree it did not map 1:1 (it merges facets and the code tree only)
+  map.provenance = { ...(map.provenance ?? {}), product_tree: 'adopt-bp' };
   map.taxonomy = { ...(map.taxonomy ?? {}), feature_kinds: [...new Set(map.features.map((x) => x.kind).filter(Boolean))], feature_tiers: [...new Set(map.features.map((x) => x.tier).filter(Boolean))] };
   for (const k of ['feature_kinds', 'feature_tiers']) if (!map.taxonomy[k].length) delete map.taxonomy[k];
   saveMap(map);
@@ -321,7 +296,8 @@ function tree() {
 }
 
 // =================================================================================== events
-function events() {
+async function events() {
+  FP = (await lensScan()).footprint;
   const map = loadMap();
   if (!(map.features ?? []).length) die('no features - run tree first');
   const hist = isGit() ? fileHistory() : new Map();
@@ -352,88 +328,77 @@ function events() {
 }
 
 // =================================================================================== store
-async function openStore() {
-  const { DatabaseSync } = await import('node:sqlite');
-  const bp = bpRoot();
-  fs.mkdirSync(STORE, { recursive: true });
-  const db = new DatabaseSync(DB, { timeout: 5000 });
-  const v = db.prepare('PRAGMA user_version').get().user_version;
-  if (v === 0) db.exec(fs.readFileSync(path.join(bp, 'docs', 'standard', 'lens-scan-store.sql'), 'utf8'));
-  else if (v !== 1) die(`scan.db user_version ${v}; adopt-bp writes v1 only`);
-  return db;
-}
-const insert = (db, table, row) => { const k = Object.keys(row); db.prepare(`INSERT INTO ${table} (${k.join(',')}) VALUES (${k.map(() => '?').join(',')})`).run(...k.map((x) => row[x])); };
-const upsertFacet = (map, feature, lens, values, at, extra = {}) => {
+const upsertFacet = (map, feature, lens, values, extra = {}) => {
   map.facets ??= {}; map.facets[feature] ??= {};
   const f = map.facets[feature][lens] ?? {};
-  map.facets[feature][lens] = { ...f, ...extra, values: { ...(f.values ?? {}), ...values }, measured_at: at, source: 'adopt-bp' };
+  map.facets[feature][lens] = { ...f, ...extra, values: { ...(f.values ?? {}), ...values }, source: f.source ?? 'adopt-bp' };
 };
 const STATUS_OF = { idea: 'not-started', specified: 'not-started', 'in-dev': 'in-progress', 'in-review': 'in-review', flagged: 'done', live: 'done', deprecated: 'done' };
+/** Metric facets come from the store, through lens-scan's structure merge: the map can never disagree with the store. */
+function refreshFacets(LS, map, db) {
+  const cm = findContextMap();
+  const { structure, report } = LS.structure.toAppStructure(cm.map, { existing: map, latest: LS.store.latest(db), lenses: builtinLenses(bpRoot()), generator: 'adopt-bp' });
+  if (report.dangling_feature_contexts?.length) warn(`features name contexts the code tree no longer has: ${report.dangling_feature_contexts.join(', ')} - rescan the product tree`);
+  return structure;
+}
 
 // =================================================================================== measure
 async function measure() {
+  const LS = await lensScan();
+  FP = LS.footprint;
   const map = loadMap();
   const feats = (map.features ?? []).filter((x) => x.status !== 'archived');
   if (!feats.length) die('no features - run tree first');
+  const db = LS.store.openStore(DB);
+  const { id: run } = LS.store.runStart(db, { phase: 'measure', lenses: ['development', 'security', 'design'], scope: { features: feats.length, tool: 'adopt-bp' }, model: 'static', note: `adopt-bp ${SKILL_VERSION} baseline: footprint.mjs --lens all` });
+  let results;
+  try {
+    results = LS.footprint.measureFeatures({ structure: map, root: ROOT, lenses: ['development', 'security', 'design'], store: LS.store, db, run });
+    LS.store.runEnd(db, { run, status: 'done' });
+  } catch (e) { LS.store.runEnd(db, { run, status: 'failed', note: String(e.message).slice(0, 300) }); db.close(); throw e; }
+  // non-metric development fields and design applicability live in the map only (they are not measurements)
   const hist = isGit() ? fileHistory() : new Map();
-  const cache = new Map();
-  const ctxFiles = new Map(map.contexts.map((c) => [c.name, expand(c.file_paths)]));
-  // tests anywhere in the repo, by the stem of the file they test
-  let tracked = [];
-  try { tracked = git('ls-files').split('\n').filter(Boolean); } catch { /* no git */ }
-  const testsByStem = new Map();
-  for (const t of tracked.filter((x) => TEST_RE.test(x) && CODE_RE.test(x))) { const s = stem(t); if (!testsByStem.has(s)) testsByStem.set(s, []); testsByStem.get(s).push(t); }
-  const db = await openStore();
-  const at = now();
-  const runId = `adopt-${at.replace(/[-:.TZ]/g, '').slice(0, 14)}-measure`;
-  insert(db, 'runs', { id: runId, started_at: at, updated_at: at, phase: 'measure', status: 'running', lenses: JSON.stringify(['development', 'security', 'design']), scope: JSON.stringify({ features: feats.length, tool: 'adopt-bp' }), skill_version: SKILL_VERSION, model: 'static', note: 'adopt-bp static metrics' });
+  const files = new Map(LS.footprint.featureFiles(map, null, ROOT, repoFiles()).map((f) => [f.slug, f.files]));
   const today = Date.now();
-  let n = 0;
   for (const f of feats) {
-    const rels = [...new Set((f.contexts ?? []).flatMap((c) => ctxFiles.get(c) ?? []))];
-    const files = rels.map((r) => fileFacts(r, cache)).filter((x) => x && x.code);
-    if (!files.length) continue;
-    const src = files.filter((x) => !x.test), tests = new Set(files.filter((x) => x.test).map((x) => x.rel));
-    for (const s of src) for (const t of testsByStem.get(stem(s.rel)) ?? []) tests.add(t);
-    const testLoc = [...tests].map((t) => fileFacts(t, cache)).filter(Boolean).reduce((a, x) => a + x.loc, 0);
-    const srcLoc = src.reduce((a, x) => a + x.loc, 0);
-    const h = rels.map((r) => hist.get(r)).filter(Boolean);
+    const h = (files.get(f.slug) ?? []).map((r) => hist.get(r)).filter(Boolean);
     const last = h.length ? h.map((x) => x.last).sort().at(-1) : null;
-    const ui = src.filter((x) => x.ui);
-    const dev = {
-      loc: srcLoc, files: src.length, depCount: new Set(src.flatMap((x) => x.deps)).size,
-      testRatioPct: srcLoc ? Math.min(100, Math.round((testLoc / srcLoc) * 100)) : 0,
-      ...(STATUS_OF[f.stage] ? { status: STATUS_OF[f.stage] } : {}),
-      ...(last ? { lastCommit: last.slice(0, 10), stalled: f.stage === 'in-dev' && today - Date.parse(last) > 45 * 864e5 } : {}),
-    };
-    const sec = { secretHits: src.reduce((a, x) => a + x.secrets, 0), unsafeSinks: src.reduce((a, x) => a + x.sinks, 0) };
-    const units = { loc: 'lines', files: 'files', depCount: 'deps', testRatioPct: '%', secretHits: 'hits', unsafeSinks: 'sinks', rawLiterals: 'literals' };
-    const rec = (lens, vals, evidence) => {
-      for (const [k, v] of Object.entries(vals)) if (typeof v === 'number' && units[k]) insert(db, 'measurements', { run_id: runId, feature: f.slug, lens, metric: k, value: v, unit: units[k], method: 'static', evidence: evidence[k] ?? null, measured_at: at });
-      upsertFacet(map, f.slug, lens, vals, at);
-    };
-    rec('development', dev, { testRatioPct: `${testLoc} test lines / ${srcLoc} source lines (${tests.size} test files)`, loc: `${src.length} files` });
-    rec('security', sec, {
-      secretHits: src.filter((x) => x.secrets).map((x) => x.rel).slice(0, 5).join(', ') || null,
-      unsafeSinks: src.filter((x) => x.sinks).map((x) => `${x.rel}(${x.sinks})`).slice(0, 5).join(', ') || null,
-    });
-    if (ui.length) rec('design', { rawLiterals: ui.reduce((a, x) => a + x.rawColors, 0) }, { rawLiterals: `${ui.length} UI files` });
-    else upsertFacet(map, f.slug, 'design', {}, at, { applicable: false });
-    insert(db, 'activity', { run_id: runId, at, feature: f.slug, lens: 'development', kind: 'measured', text: `${f.name}: ${srcLoc} lines, ${src.length} files, tests ${dev.testRatioPct}%` });
-    n += 1;
+    upsertFacet(map, f.slug, 'development', { ...(STATUS_OF[f.stage] ? { status: STATUS_OF[f.stage] } : {}), ...(last ? { lastCommit: last.slice(0, 10), stalled: f.stage === 'in-dev' && today - Date.parse(last) > 45 * 864e5 } : {}) });
+    if (results.find((r) => r.feature === f.slug)?.no_ui) upsertFacet(map, f.slug, 'design', {}, { applicable: false });
   }
-  db.prepare('UPDATE runs SET status = ?, ended_at = ?, updated_at = ? WHERE id = ?').run('done', now(), now(), runId);
+  const out = refreshFacets(LS, map, db);
   db.close();
-  saveMap(map);
-  console.log(`measured ${n}/${feats.length} features (static) -> run ${runId}`);
+  saveMap(out);
+  const n = results.filter((r) => r.loc !== undefined).length;
+  console.log(`measured ${n}/${feats.length} features through lens-scan footprint (static: development, security, design) -> run ${run}`);
 }
 
 // =================================================================================== batches
-function batches() {
+/** Registry techniques that govern a feature, via the repo's .ai/registry-map.json and the registry's knowledge index. */
+function standardsFor(feature, regMap, ctxByName) {
+  if (!regMap) return [];
+  const subjects = new Map();
+  for (const c of feature.contexts ?? []) {
+    const row = (regMap.contexts ?? []).find((r) => r.name === c || r.name === ctxByName.get(c)?.name);
+    for (const s of (row?.subjects ?? []).slice(0, 3)) if (!subjects.has(s.subject) || subjects.get(s.subject).score < s.score) subjects.set(s.subject, s);
+  }
+  const out = [];
+  for (const s of [...subjects.values()].sort((a, b) => b.score - a.score).slice(0, 3)) {
+    const idx = path.join(REGISTRY, 'knowledge', s.bundle, 'index.json');
+    let techniques = [];
+    try { techniques = readJson(idx).subjects?.[s.subject]?.techniques ?? []; } catch { /* bundle not in this registry */ }
+    for (const t of techniques.slice(0, 5)) out.push({ standard: `${s.subject}/${t.slug}`, use_when: (t.use_when ?? [])[0] });
+  }
+  return out;
+}
+async function batches() {
+  FP = (await lensScan()).footprint;
   const map = loadMap();
   const size = Number(opt('size', '8'));
   const feats = (map.features ?? []).filter((x) => x.status !== 'archived');
   const ctx = new Map(map.contexts.map((c) => [c.name, c]));
+  const regFile = path.join(ROOT, '.ai', 'registry-map.json');
+  const regMap = exists(regFile) ? readJson(regFile) : null;
   const cache = new Map();
   const dir = path.join(WORK, 'batches');
   fs.rmSync(dir, { recursive: true, force: true });
@@ -445,75 +410,108 @@ function batches() {
     return { slug: f.slug, name: f.name, summary: f.summary, stage: f.stage, ui: files.some((x) => x.ui),
       entry_points: [...new Set((f.contexts ?? []).flatMap((c) => ctx.get(c)?.entry_points ?? []))].slice(0, 6),
       files: files.slice(0, 12).map((x) => `${x.rel} (${x.loc})`), more_files: Math.max(0, files.length - 12),
+      standards: standardsFor(f, regMap, ctx),
       static: { development: map.facets?.[f.slug]?.development?.values, security: map.facets?.[f.slug]?.security?.values } };
   }).sort((a, b) => (b.static.development?.loc ?? 0) - (a.static.development?.loc ?? 0));
   let i = 0;
   for (let k = 0; k < rows.length; k += size) { i += 1; writeJson(path.join(dir, `${String(i).padStart(2, '0')}.json`), { batch: i, of: Math.ceil(rows.length / size), features: rows.slice(k, k + size) }); }
-  console.log(`${i} batches of <= ${size} features -> ${posix(path.relative(ROOT, dir))}/ (judge each into work/judgement/NN.json)`);
+  const governed = rows.filter((r) => r.standards.length).length;
+  console.log(`${i} batches of <= ${size} features -> ${posix(path.relative(ROOT, dir))}/ (judge each into work/judgement/NN.json); ${governed}/${rows.length} features carry registry standards${regMap ? '' : ' (no .ai/registry-map.json: standardsPct stays unmeasured unless house rules apply)'}`);
 }
 
 // =================================================================================== judge
+// Judgement metrics per lens (lens-scan metrics.md). standardsPct is never judged as a number: it is
+// derived from the coverage rows of the same run, as lens-scan derives it. techDebt is a non-metric field.
 const RANGES = {
-  development: { standardsPct: [0, 100], dupSites: [0, 1e4], techDebt: [0, 3] },
-  security: { findingsCritical: [0, 1e4], findingsHigh: [0, 1e4], findingsMedium: [0, 1e4], findingsLow: [0, 1e4], standardsPct: [0, 100] },
-  design: { undesignedStates: [0, 1e4], standardsPct: [0, 100] },
+  development: { dupSites: [0, 1e4] },
+  security: { findingsCritical: [0, 1e4], findingsHigh: [0, 1e4], findingsMedium: [0, 1e4], findingsLow: [0, 1e4] },
+  design: { undesignedStates: [0, 1e4] },
 };
-const NOT_METRIC = new Set(['techDebt']);
+const JUDGED_KEY = { development: 'dupSites', security: 'findingsCritical', design: 'undesignedStates' };
+const FIELDS = { development: { techDebt: [0, 3] } };
+const STANDARD_RE = /^(?:house:)?[a-z0-9][a-z0-9.-]*\/[a-z0-9][a-z0-9.-]*$/;
+const norm = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 async function judge() {
+  const LS = await lensScan();
   const map = loadMap();
   const dir = path.join(WORK, 'judgement');
   const files = exists(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith('.json')).sort() : [];
   if (!files.length) die(`no ${dir}/*.json - phase B writes them (references/judgement.md)`);
   const slugs = new Set((map.features ?? []).map((x) => x.slug));
-  const db = await openStore();
-  const at = now();
-  const runId = `adopt-${at.replace(/[-:.TZ]/g, '').slice(0, 14)}-propose`;
-  insert(db, 'runs', { id: runId, started_at: at, updated_at: at, phase: 'propose', status: 'running', lenses: JSON.stringify(Object.keys(RANGES)), scope: JSON.stringify({ batches: files.length, tool: 'adopt-bp' }), skill_version: SKILL_VERSION, model: opt('model', 'unknown'), note: 'adopt-bp judgement' });
-  let judged = 0, props = 0, cov = 0, refused = 0;
+  // 1. validate everything first: a refused file writes nothing
+  const metrics = { development: [], security: [], design: [] }, cov = { development: [], security: [], design: [] }, props = [], fields = [], na = [];
   for (const file of files) {
     let j;
     try { j = readJson(path.join(dir, file)); } catch (e) { err(`${file}: not JSON (${e.message})`); continue; }
     for (const [slug, lenses] of Object.entries(j.features ?? {})) {
-      if (!slugs.has(slug)) { err(`${file}: unknown feature "${slug}"`); refused += 1; continue; }
+      if (!slugs.has(slug)) { err(`${file}: unknown feature "${slug}"`); continue; }
       for (const [lens, v] of Object.entries(lenses ?? {})) {
-        const R = RANGES[lens];
-        if (!R) { warn(`${file}: ${slug}: lens "${lens}" is not judged by adopt-bp, ignored`); continue; }
-        if (v?.applicable === false) { upsertFacet(map, slug, lens, {}, at, { applicable: false }); continue; }
-        const vals = {};
-        for (const [k, [lo, hi]] of Object.entries(R)) {
+        if (!RANGES[lens]) { warn(`${file}: ${slug}: lens "${lens}" is not judged by adopt-bp, ignored`); continue; }
+        if (v?.applicable === false) { na.push([slug, lens]); continue; }
+        if (v?.standardsPct !== undefined) warn(`${file}: ${slug}.${lens}.standardsPct ignored - it is derived from coverage rows`);
+        for (const [k, [lo, hi]] of Object.entries(RANGES[lens])) {
           if (v?.[k] === undefined || v?.[k] === null) continue;
           const x = Number(v[k]);
           if (!Number.isFinite(x) || x < lo || x > hi) { err(`${file}: ${slug}.${lens}.${k} = ${v[k]} out of ${lo}..${hi}`); continue; }
-          vals[k] = Math.round(x);
-          if (!NOT_METRIC.has(k)) insert(db, 'measurements', { run_id: runId, feature: slug, lens, metric: k, value: vals[k], unit: k.endsWith('Pct') ? '%' : null, method: 'judgement', evidence: typeof v.evidence === 'string' ? v.evidence.slice(0, 2000) : null, measured_at: at });
+          metrics[lens].push({ feature: slug, lens, metric: k, value: Math.round(x), method: 'judgement', unit: k.startsWith('findings') ? 'findings' : k === 'dupSites' ? 'sites' : 'states', evidence: typeof v.evidence === 'string' ? v.evidence.slice(0, 2000) : undefined });
         }
-        if (Object.keys(vals).length) { upsertFacet(map, slug, lens, vals, at); judged += 1; }
+        for (const [k, [lo, hi]] of Object.entries(FIELDS[lens] ?? {})) if (v?.[k] !== undefined) { const x = Number(v[k]); if (Number.isInteger(x) && x >= lo && x <= hi) fields.push([slug, lens, k, x]); else err(`${file}: ${slug}.${lens}.${k} = ${v[k]} out of ${lo}..${hi}`); }
       }
     }
-    for (const p of j.proposals ?? []) {
-      if (!slugs.has(p.feature) || !RANGES[p.lens] || !p.title) { err(`${file}: proposal refused (feature/lens/title): ${JSON.stringify(p).slice(0, 120)}`); continue; }
-      const size = ['XS', 'S', 'M', 'L', 'XL'].includes(p.size) ? p.size : null;
-      const risk = Number.isInteger(p.risk) && p.risk >= 1 && p.risk <= 10 ? p.risk : null;
-      insert(db, 'proposals', { id: `${runId}-${String(props + 1).padStart(3, '0')}`, run_id: runId, feature: p.feature, lens: p.lens, metric: p.metric ?? null, title: String(p.title).slice(0, 200), body: p.body ?? null, standard: p.standard || 'none', expected_delta: Number.isFinite(p.expected_delta) ? p.expected_delta : null, size, risk, kind: 'fix', parent_id: null, status: 'proposed', created_at: at, updated_at: at });
-      insert(db, 'activity', { run_id: runId, at, feature: p.feature, lens: p.lens, kind: 'proposed', text: String(p.title).slice(0, 200) });
-      props += 1;
-    }
     for (const c of j.coverage ?? []) {
-      if (!slugs.has(c.feature) || !c.standard || !['conformant', 'deviation', 'not-applicable', 'unknown'].includes(c.state)) { err(`${file}: coverage row refused: ${JSON.stringify(c).slice(0, 120)}`); continue; }
-      db.prepare('INSERT INTO coverage (feature, standard, state, evidence, judged_at, run_id) VALUES (?,?,?,?,?,?) ON CONFLICT(feature, standard) DO UPDATE SET state=excluded.state, evidence=excluded.evidence, judged_at=excluded.judged_at, run_id=excluded.run_id').run(c.feature, c.standard, c.state, c.evidence ?? null, at, runId);
-      cov += 1;
+      if (!slugs.has(c.feature) || !RANGES[c.lens] || !STANDARD_RE.test(c.standard ?? '') || !['conformant', 'deviation', 'not-applicable', 'unknown'].includes(c.state)) { err(`${file}: coverage row refused (feature, lens, standard '<subject>/<technique>' or 'house:...', state): ${JSON.stringify(c).slice(0, 140)}`); continue; }
+      cov[c.lens].push(c);
+    }
+    for (const p of j.proposals ?? []) {
+      if (!slugs.has(p.feature) || !RANGES[p.lens] || !p.title || !p.metric || !Number.isFinite(p.expected_delta)) { err(`${file}: proposal refused - a fix names feature, lens, title, the metric it moves and expected_delta: ${JSON.stringify(p).slice(0, 140)}`); continue; }
+      if (p.standard && p.standard !== 'none' && !STANDARD_RE.test(p.standard)) { err(`${file}: proposal standard "${p.standard}" is not '<subject>/<technique>', 'house:...' or 'none'`); continue; }
+      props.push(p);
     }
   }
-  db.prepare('UPDATE runs SET status = ?, ended_at = ?, updated_at = ? WHERE id = ?').run(errors ? 'failed' : 'done', now(), now(), runId);
+  if (errors) die(`judgement refused (${errors} errors); fix work/judgement/*.json and rerun - nothing was written`);
+  // 2. write through lens-scan's store: one measure run per lens, then one propose run
+  const db = LS.store.openStore(DB);
+  const model = opt('model', 'unknown');
+  const runs = [];
+  let derived = 0, written = 0;
+  for (const lens of Object.keys(RANGES)) {
+    if (!metrics[lens].length && !cov[lens].length) continue;
+    const { id: run } = LS.store.runStart(db, { phase: 'measure', lenses: [lens], scope: { tool: 'adopt-bp', judgement: true }, model, note: `adopt-bp ${SKILL_VERSION} judgement baseline` });
+    runs.push(run);
+    if (metrics[lens].length) { LS.store.measure(db, run, metrics[lens]); written += metrics[lens].length; }
+    for (const c of cov[lens]) LS.store.coverage(db, { run, feature: c.feature, standard: c.standard, state: c.state, evidence: c.evidence });
+    // standardsPct = conformant / (conformant + deviation) over this run's rows for the feature (lens-scan metrics.md)
+    const per = new Map();
+    for (const c of cov[lens]) { const r = per.get(c.feature) ?? { ok: 0, dev: 0 }; if (c.state === 'conformant') r.ok += 1; if (c.state === 'deviation') r.dev += 1; per.set(c.feature, r); }
+    const rows = [...per].filter(([, r]) => r.ok + r.dev > 0).map(([feature, r]) => ({ feature, lens, metric: 'standardsPct', value: Math.round((r.ok / (r.ok + r.dev)) * 1000) / 10, unit: '%', method: 'judgement', evidence: `coverage: ${r.ok} conformant / ${r.dev} deviation (run ${run})` }));
+    if (rows.length) { LS.store.measure(db, run, rows); derived += rows.length; }
+    LS.store.runEnd(db, { run, status: 'done' });
+  }
+  let proposed = 0, skipped = 0;
+  if (props.length) {
+    const open = LS.store.proposals(db).filter((x) => ['proposed', 'approved', 'executing', 'declined'].includes(x.status));
+    const { id: run } = LS.store.runStart(db, { phase: 'propose', lenses: [...new Set(props.map((p) => p.lens))], scope: { tool: 'adopt-bp' }, model, note: `adopt-bp ${SKILL_VERSION} proposals` });
+    runs.push(run);
+    for (const p of props) {
+      // lens-scan rule: never re-propose an open or declined item (same feature, lens, metric and title)
+      if (open.some((x) => x.feature === p.feature && x.lens === p.lens && x.metric === p.metric && norm(x.title) === norm(p.title))) { skipped += 1; continue; }
+      LS.store.propose(db, { run, feature: p.feature, lens: p.lens, kind: 'fix', metric: p.metric, expectedDelta: p.expected_delta, standard: p.standard || 'none', size: ['XS', 'S', 'M', 'L', 'XL'].includes(p.size) ? p.size : undefined, risk: Number.isInteger(p.risk) && p.risk >= 1 && p.risk <= 10 ? p.risk : undefined, title: String(p.title).slice(0, 200), body: p.body });
+      LS.store.activity(db, { run, kind: 'proposed', feature: p.feature, lens: p.lens, text: String(p.title).slice(0, 200) });
+      proposed += 1;
+    }
+    LS.store.runEnd(db, { run, status: 'done' });
+  }
+  for (const [slug, lens] of na) upsertFacet(map, slug, lens, {}, { applicable: false });
+  for (const [slug, lens, k, x] of fields) upsertFacet(map, slug, lens, { [k]: x });
+  const out = refreshFacets(LS, map, db);
   db.close();
-  saveMap(map);
-  const active = (map.features ?? []).filter((x) => x.status !== 'archived');
-  const lensCov = (lens) => active.filter((f) => { const fc = map.facets?.[f.slug]?.[lens]; return fc && (fc.applicable === false || 'standardsPct' in (fc.values ?? {})); }).length;
+  saveMap(out);
+  const active = (out.features ?? []).filter((x) => x.status !== 'archived');
+  const lensCov = (lens) => active.filter((f) => { const fc = out.facets?.[f.slug]?.[lens]; return fc && (fc.applicable === false || JUDGED_KEY[lens] in (fc.values ?? {})); }).length;
   const gaps = Object.keys(RANGES).map((l) => [l, lensCov(l)]).filter(([, n]) => n < active.length);
   console.log(`coverage: ${Object.keys(RANGES).map((l) => `${l} ${lensCov(l)}/${active.length}`).join(', ')}`);
   if (gaps.length) warn(`judgement gaps: ${gaps.map(([l, n]) => `${l} missing on ${active.length - n}`).join('; ')} - judge them or mark design applicable:false`);
-  console.log(`judgement merged from ${files.length} files: ${judged} facets, ${props} proposals, ${cov} coverage rows${refused ? `, ${refused} unknown features refused` : ''} -> run ${runId}`);
-  if (errors) process.exit(1);
+  console.log(`judgement through lens-scan store: ${written} metric rows, ${derived} standardsPct derived from ${Object.values(cov).flat().length} coverage rows, ${proposed} proposals${skipped ? ` (${skipped} already open or declined, not re-proposed)` : ''} -> runs ${runs.join(', ')}`);
 }
 
 // =================================================================================== validate
@@ -531,8 +529,9 @@ function validate() {
     features: feats.length, domains: (map.domains ?? []).length, capabilities: (map.capabilities ?? []).length,
     unplaced: feats.filter((f) => !f.capability).length, unstaged: feats.filter((f) => !f.stage).length,
     contexts_covered: `${[...ctx].filter((c) => covered.has(c)).length}/${ctx.size}`,
-    static_measured: facetCount('development', 'loc'), judged_dev: facetCount('development', 'standardsPct'),
-    judged_sec: facetCount('security', 'standardsPct'), judged_design: facetCount('design', 'standardsPct'),
+    static_measured: facetCount('development', 'loc'), judged_dev: facetCount('development', 'dupSites'),
+    judged_sec: facetCount('security', 'findingsCritical'), judged_design: facetCount('design', 'undesignedStates'),
+    standards_dev: facetCount('development', 'standardsPct'), standards_sec: facetCount('security', 'standardsPct'), standards_design: facetCount('design', 'standardsPct'),
     lenses: (map.lenses ?? []).length,
   };
   if (!feats.length) err('no features');
@@ -577,6 +576,19 @@ function register() {
       fs.appendFileSync(gi, `${txt && !txt.endsWith('\n') ? '\n' : ''}\n# bp product blueprint: machine-local scan store (adopt-bp)\n.ai/lens-scan/\n`);
       console.log('.gitignore: added .ai/lens-scan/');
     }
+  }
+  // hand-off: /lens-scan reads its overlay for the context map, the lens manifests and the project
+  const ov = path.join(ROOT, '.claude', 'lens-scan', 'config.md');
+  if (!exists(ov)) {
+    const cm = findContextMap();
+    fs.mkdirSync(path.dirname(ov), { recursive: true });
+    fs.writeFileSync(ov, ['---', `context_map: ${cm?.file ?? 'context-map.json'}`, `standard_lenses: ${posix(path.join(bp, 'docs', 'standard', 'lenses'))}`,
+      `project_slug: ${slug}`, `project_name: "${name.replace(/"/g, '\\"')}"`, 'default_lens: development', '---', '',
+      `# lens-scan overlay - written by /adopt-bp ${SKILL_VERSION} on ${now().slice(0, 10)}`, '',
+      'The product tree in .ai/lens-scan/app-structure.json is declared (provenance.product_tree: adopt-bp): lens-scan',
+      "phase 1 merges into it and never remaps contexts 1:1. Add `## Gates`, `## Harness` and `## Probes` as the",
+      'lens-scan SKILL.md overlay table describes; standard_lenses is a machine path to the bp checkout.', ''].join('\n'));
+    console.log(`lens-scan overlay: ${posix(path.relative(ROOT, ov))} (uncommitted)`);
   }
   console.log(`registered "${slug}" (${name}) -> ${root} in ${posix(reg)}; open bp at /?product=${slug}`);
 }
