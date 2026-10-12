@@ -98,3 +98,32 @@ test('cli: store merge and idempotent re-run', async () => {
   const none = await main([...args.slice(0, 4), '--db', join(dir, 'missing.db'), '--dry']);
   assert.equal(none.store, 'none');
 });
+
+test('merge: a declared product tree survives; duplicates renamed by group; lenses kept', () => {
+  const dup = { ...MAP, contexts: [...MAP.contexts, { name: 'misc', group: 'Platform Core', file_paths: ['src/b.ts'] }] };
+  const fresh = toAppStructure(dup, { lenses: [LENS('development')] });
+  assert.equal(fresh.structure.provenance.product_tree, 'contexts');
+  assert.deepEqual(fresh.report.renamed_contexts, [{ from: 'misc', to: 'misc-platform-core', group: 'Platform Core' }]);
+  const existing = {
+    ...fresh.structure,
+    provenance: { ...fresh.structure.provenance, product_tree: 'adopt-bp' },
+    domains: [{ slug: 'money', name: 'Money' }], capabilities: [{ slug: 'billing', name: 'Billing', domain: 'money' }],
+    features: [{ slug: 'invoicing', name: 'Invoicing', capability: 'billing', contexts: ['invoice-editor', 'invoice-api', 'gone-ctx'], stage: 'live' }],
+    milestones: [{ slug: 'm1', name: 'M1', status: 'active' }],
+    lenses: [...fresh.structure.lenses.map((l) => ({ ...l, enabled: false })), { ...fresh.structure.lenses[0], id: 'com.example.cost', source: 'project' }],
+    facets: { invoicing: { development: { values: { status: 'done', loc: 1 }, source: 'adopt-bp' }, design: { values: {}, applicable: false } } },
+  };
+  const latest = [{ feature: 'invoicing', lens: 'development', metric: 'loc', value: 99, measured_at: '2026-10-05T00:00:00.000Z' }];
+  const { structure: s, report } = toAppStructure(dup, { lenses: [LENS('development')], latest, existing });
+  assert.equal(report.mode, 'merge');
+  assert.deepEqual(s.features, existing.features, 'features, stages and contexts kept as declared');
+  assert.deepEqual(s.domains, existing.domains);
+  assert.deepEqual(s.milestones, existing.milestones);
+  assert.deepEqual(report.dangling_feature_contexts, ['gone-ctx']);
+  assert.deepEqual(s.facets.invoicing.development.values, { status: 'done', loc: 99 }, 'metric refreshed, non-metric value kept');
+  assert.equal(s.facets.invoicing.design.applicable, false);
+  assert.deepEqual(s.lenses.map((l) => [l.id, l.enabled]), [['development', false], ['com.example.cost', true]], 'a switched-off lens stays off; project lenses kept');
+  assert.equal(s.provenance.product_tree, 'adopt-bp');
+  const again = toAppStructure(dup, { lenses: [LENS('development')], latest, existing: s });
+  assert.equal(JSON.stringify(again.structure), JSON.stringify(s), 'merge is idempotent');
+});

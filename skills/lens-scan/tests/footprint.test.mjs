@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { packageOf, importsOf, isTest, countFootprint, main } from '../scripts/footprint.mjs';
+import { packageOf, importsOf, isTest, countFootprint, countPatterns, expandPaths, featureFiles, stemOf, main } from '../scripts/footprint.mjs';
 import { openStore, runStart, latest } from '../scripts/store.mjs';
 
 test('packageOf: bare specifiers only, package-name part', () => {
@@ -42,7 +42,7 @@ test('countFootprint: loc, files, depCount, testRatioPct; absent when unmeasurab
     { path: 'src/a.test.ts', text: "import t from 'vitest';\n" },
     { path: 'src/gone.ts', text: undefined },
   ]);
-  assert.deepEqual(r.metrics, { loc: 5, files: 3, depCount: 3, testRatioPct: 50 });
+  assert.deepEqual(r.metrics, { loc: 5, files: 3, depCount: 3, testRatioPct: 25 }, 'test lines (1) over source lines (4)');
   assert.equal(r.missing, 1);
   const rust = countFootprint([{ path: 'src/lib.rs', text: 'fn main() {}\n' }]);
   assert.deepEqual(rust.metrics, { loc: 1, files: 1 }, 'no js/ts file: depCount and testRatioPct are unmeasured');
@@ -68,15 +68,45 @@ test('cli: writes through the store; --dry writes nothing', async () => {
   const dry = await main(['--structure', sp, '--root', dir, '--db', dbPath, '--dry']);
   assert.equal(dry.written, false);
   const out = await main(['--run', id, '--structure', sp, '--root', dir, '--db', dbPath]);
-  assert.deepEqual(out.features[0], { feature: 'ctx-a', loc: 3, files: 2, depCount: 2, testRatioPct: 100 });
+  assert.deepEqual(out.features[0], { feature: 'ctx-a', loc: 3, files: 2, depCount: 2, testRatioPct: 50 });
   assert.deepEqual(out.features[1], { feature: 'ctx-b', missing_files: 1 });
   const back = openStore(dbPath);
   const rows = latest(back);
   const acts = back.prepare('SELECT kind FROM activity ORDER BY id').all().map((r) => r.kind);
   back.close();
   assert.deepEqual(rows.map((r) => [r.feature, r.metric, r.value, r.method]), [
-    ['ctx-a', 'depCount', 2, 'static'], ['ctx-a', 'files', 2, 'static'], ['ctx-a', 'loc', 3, 'static'], ['ctx-a', 'testRatioPct', 100, 'static']]);
+    ['ctx-a', 'depCount', 2, 'static'], ['ctx-a', 'files', 2, 'static'], ['ctx-a', 'loc', 3, 'static'], ['ctx-a', 'testRatioPct', 50, 'static']]);
   assert.ok(rows.every((r) => r.lens === 'development' && r.evidence));
   assert.deepEqual(acts, ['reading', 'measured', 'reading', 'note']);
   await assert.rejects(main(['--run', id, '--structure', sp, '--bundle-stats', 'x.json']), /not supported/);
+});
+
+test('testRatioPct: repo tests named after a source file count; capped at 100', () => {
+  const src = [{ path: 'src/editor/Editor.tsx', text: 'a\nb\nc\nd\n' }];
+  const repoTests = [{ path: 'src/__tests__/editor.test.tsx', text: 'x\ny\n' }, { path: 'src/__tests__/other.test.tsx', text: 'z\n' }];
+  assert.equal(countFootprint(src, { repoTests }).metrics.testRatioPct, 50, 'only the test whose stem names a source file');
+  assert.equal(countFootprint(src, { repoTests: [{ path: 't/Editor.spec.ts', text: 'x\n'.repeat(9) }] }).metrics.testRatioPct, 100, 'capped');
+  assert.equal(stemOf('src/__tests__/Foo.spec.ts'), 'foo');
+});
+
+test('countPatterns: secrets and sinks over non-test files, raw colours over UI files, no_ui', () => {
+  const r = countPatterns([
+    { path: 'src/api.ts', text: "eval(x); const k = 'AKIAABCDEFGHIJKLMNOP';\n" },
+    { path: 'src/View.tsx', text: "<div style={{ color: '#ff0000', background: 'rgb(1,2,3)' }} dangerouslySetInnerHTML={h} />\n" },
+    { path: 'src/api.test.ts', text: 'eval(y)\n' },
+  ]);
+  assert.deepEqual(r.security, { secretHits: 1, unsafeSinks: 2 });
+  assert.deepEqual(r.design, { rawLiterals: 2 });
+  assert.equal(countPatterns([{ path: 'src/lib.ts', text: 'x\n' }]).noUi, true);
+});
+
+test('expandPaths and featureFiles: directory entries expand; the structure code tree names win', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'lens-scan-expand-'));
+  mkdirSync(join(dir, 'src', 'x'), { recursive: true });
+  writeFileSync(join(dir, 'src', 'x', 'a.ts'), 'a\n');
+  writeFileSync(join(dir, 'src', 'x', 'b.ts'), 'b\n');
+  assert.deepEqual(expandPaths(['src/x/', 'src/gone.ts'], dir).sort(), ['src/gone.ts', 'src/x/a.ts', 'src/x/b.ts']);
+  const structure = { contexts: [{ name: 'x-renamed', file_paths: ['src/x'] }], features: [{ slug: 'f', contexts: ['x-renamed'] }, { slug: 'old', contexts: ['x-renamed'], status: 'archived' }] };
+  const map = { contexts: [{ name: 'x', file_paths: ['nope.ts'] }] };
+  assert.deepEqual(featureFiles(structure, map, dir), [{ slug: 'f', files: ['src/x/a.ts', 'src/x/b.ts'] }]);
 });

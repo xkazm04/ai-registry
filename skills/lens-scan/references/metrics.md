@@ -1,4 +1,4 @@
-# Metric catalog v1 - what /lens-scan measures
+# Metric catalog v1.1 - what /lens-scan (and /adopt-bp's baseline) measures
 
 Read from `SKILL.md` phase 2. Each metric is a **lens field key**: the store writes it
 as `measurements.metric`, phase 1 writes its latest value into
@@ -31,7 +31,7 @@ new metric is a catalog change (and a skill version bump), not a run-time invent
 | `p50Ms` | ms | down | probe | The overlay's `## Probes` command for the feature's timed path; median of its runs. |
 | `p95Ms` | ms | down | probe | Same command, 95th percentile. Fewer than 20 samples: report p95 as unmeasured. |
 | `dupSites` | sites | down | judgement | Sites in the feature that duplicate logic present elsewhere (same shape, could be one function or component). Evidence lists every site. Through `code-optimizer` / `tech-debt-tracker`. |
-| `testRatioPct` | % | up | static | `footprint.mjs`: test files (`*.test.*`, `*.spec.*`, under `__tests__/` or `tests/`) / non-test js/ts source files x 100, one decimal. Absent when there is no non-test source file. |
+| `testRatioPct` | % | up | static | `footprint.mjs`: test lines / non-test js/ts source lines x 100, one decimal, capped at 100. Test lines are the feature's own test files (`*.test.*`, `*.spec.*`, under `__tests__/` or `tests/`) plus every repo test file whose stem names one of its source files. Absent when there is no non-test source line. **1.1: was test files / source files; the series breaks at 1.1** (bp's development manifest always defined it as lines). |
 | `standardsPct` | % | up | judgement | See [standardsPct](#standardspct). |
 
 ## security
@@ -42,8 +42,8 @@ new metric is a catalog change (and a skill version bump), not a run-time invent
 | `findingsHigh` | findings | down | judgement | Exploitable with a precondition (an account, a crafted input) or a missing control on a sensitive path. |
 | `findingsMedium` | findings | down | judgement | Weakens a control without a known exploit path (missing rate limit, verbose errors). |
 | `findingsLow` | findings | down | judgement | Hygiene: defence in depth, hardening the code would read better with. |
-| `secretHits` | hits | down | static | A secret-pattern grep (key prefixes, private-key headers, high-entropy assignments) over the feature's files; the pattern set and command are the evidence. A hit a human has confirmed as a fixture is still counted until it is moved out of source. |
-| `unsafeSinks` | sinks | down | static | Calls into a dangerous sink with non-constant input: dynamic code evaluation, raw HTML injection, shell or SQL built by string interpolation, unsafe deserialization. The sink list and grep are the evidence; a judgement pass may remove a false positive with `file:line` and a reason. |
+| `secretHits` | hits | down | static | `footprint.mjs --lens security`: `SECRET_PATTERNS` (key prefixes, private-key headers, long literal credentials) over the feature's non-test files. A hit a human has confirmed as a fixture is still counted until it is moved out of source. |
+| `unsafeSinks` | sinks | down | static | `footprint.mjs --lens security`: `SINK_PATTERNS` (dynamic code evaluation, raw HTML injection, document.write, interpolated exec, `shell: true`) over the feature's non-test js/ts files. A judgement pass may remove a false positive with `file:line` and a reason. |
 | `standardsPct` | % | up | judgement | See [standardsPct](#standardspct). |
 
 Severity follows the house profile when it defines one (`house.md`, profile
@@ -55,7 +55,7 @@ Severity follows the house profile when it defines one (`house.md`, profile
 | --- | --- | --- | --- | --- |
 | `axeViolations` | violations | down | harness | Accessibility-engine violations on the feature's screens, summed over the overlay's sizes and themes. |
 | `undesignedStates` | states | down | judgement | States the feature can reach with no designed presentation: loading, empty, error, partial, offline, permission-denied. Count per missing state per surface; evidence names the surface and the state. Through `ux-reviewer` / `error-handler`. |
-| `rawLiterals` | literals | down | static | Presentation values that bypass the design tokens: raw colours, raw pixel sizes and spacing, hard-coded user-facing strings where the repo has a string catalog. Grep pattern and command are the evidence. |
+| `rawLiterals` | literals | down | static | `footprint.mjs --lens design`: raw colours (`#hex`, `rgb()`/`rgba()`) written in UI component files (`.tsx .jsx .vue .svelte .html`) instead of tokens. Absent (and the feature named `no_ui`) when it has no component file. Raw sizes and strings are not counted in 1.1. |
 | `minTextPx` | px | up | harness | The smallest computed font size of visible text on the feature's screens. |
 | `consoleErrors` | errors | down | harness | Console errors and unhandled rejections logged while the harness drives the feature. |
 | `standardsPct` | % | up | judgement | See [standardsPct](#standardspct). |
