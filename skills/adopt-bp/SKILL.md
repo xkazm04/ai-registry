@@ -5,7 +5,7 @@ memory: project
 tags: onboarding, blueprint, app-structure, lens-scan, product-tree, benchmark, providers
 description: "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets, proposals and coverage; then validates with bp's own validator and registers the repo so bp's project switcher shows it. Deterministic work runs in scripts/adopt.mjs; the model only names the product tree and judges code, in batches that can fan out or be benchmarked across providers with scripts/bench.mjs. Invoke with /adopt-bp [<repo path>] [--check] [--slug s --name n]."
 argument-hint: "[<repo path>] [--check] [--slug <slug>] [--name <name>] [--bp <bp checkout>]"
-version: 1.1.0
+version: 1.2.0
 ---
 
 # adopt-bp - a repo in, a blueprint out
@@ -108,7 +108,7 @@ has it; a rescan with adopt-bp is for when the product tree itself changed.
 
 `scripts/bench.mjs` runs this same skill in parallel seats (Claude, Codex, Grok CLIs) on throwaway
 worktrees of one repo and scores what each produced: validator pass, coverage, measured and judged
-facets, proposals, wall time and reported cost. Use it to decide which provider takes the heavy
+facets, proposals, wall time and reported cost. `--phase judgement` runs only phase B on an already adopted repo (the offload shape: the product tree stays, a provider judges); an interrupted seat resumes in its worktree and keeps the batches it finished. `promote` merges a seat's new store runs into the repo's store and validates; it never deletes the store directory, so it is safe while bp has the store open. Use it to decide which provider takes the heavy
 phase B on large repos. Score with `bench.mjs score`, then verify a blind sample of claims against
 the code (12 proposals and 6 stages per seat): counts measure volume, only verification measures truth.
 
@@ -128,6 +128,7 @@ review queue. Re-bench before trusting this table on a different stack.
 
 ```
 node $S/scripts/bench.mjs run   --target <repo> --seats codex:gpt-6.1-sol@high,claude:claude-sonnet-5-5@high,grok:grok-4.7@high [--bp <bp>] [--out <dir>] [--ceiling-min 120]
+node $S/scripts/bench.mjs run   --phase judgement --target <adopted repo> --seats <one or more> ...   # phase B only, from the repo's adopted state
 node $S/scripts/bench.mjs score --out <dir>
 node $S/scripts/bench.mjs promote --out <dir> --seat <seat-id> [--force]   # copy the winner into the repo, register it
 node $S/scripts/bench.mjs clean --out <dir> [--keep <seat-id>]

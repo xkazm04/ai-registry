@@ -4,9 +4,11 @@
 // isolation flags and envelope parsing are the contest skill's (../../contest/scripts/lib).
 //
 //   node bench.mjs run     --target <repo> --seats <engine:model@effort,...> [--bp <bp>] [--out <dir>] [--ceiling-min 120] [--only <seat-id>] [--force]
+//                          [--phase all|judgement]   judgement: the seat starts from the target's adopted .ai/lens-scan
+//                                                    (product tree, static metrics kept) and runs only phase B
 //   node bench.mjs score   --out <dir>                     scores.json + SCOREBOARD.md
-//   node bench.mjs promote --out <dir> --seat <seat-id>    copy that seat's .ai/lens-scan into the target and register it
-//   node bench.mjs clean   --out <dir> [--keep <seat-id>]  remove the seat worktrees (the kept one too once promoted)
+//   node bench.mjs promote --out <dir> --seat <seat-id> [--force]  take that seat's map, events and work files, MERGE its new store runs, register, validate
+//   node bench.mjs clean   --out <dir> [--keep <seat-id>] [--discard]  remove the seat worktrees; refuses before a validated promotion
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -75,6 +77,15 @@ function runSeat({ argv: a, stdin, env }, { cwd, timeoutMs, logDir }) {
 }
 
 function prompt(p, ws, bp) {
+  if (opt('phase', 'all') === 'judgement') return [
+    `You are running phase B (judgement) of the /adopt-bp skill on an already adopted repository: the one in your current directory (${posix(ws)}). Read ${posix(path.join(SKILL, 'SKILL.md'))} and ${posix(path.join(SKILL, 'references', 'judgement.md'))} first.`,
+    `- bp checkout: ${posix(bp)}. Scripts: node ${posix(ADOPT)} <cmd> --root . --bp ${posix(bp)}`,
+    `- The product tree, events and static metrics exist; do NOT run seed, tree, events, measure or register. Run: batches, then judge EVERY batch into .ai/lens-scan/work/judgement/NN.json, then judge (--model ${p.model}), validate and report.`,
+    '- Work autonomously; never ask questions. Write only under .ai/lens-scan/ in this directory. Do not commit, do not touch git state, do not edit any file outside this directory.',
+    '- Every lens on every feature (explicit zeros when clean; design applicable:false without UI; deprecated features: security only). Coverage rows against the standards each batch lists; values grounded in code you read; full repo-relative paths with lines. Use subagents for the batches if your harness has them.',
+    '- Resuming an interrupted seat: a work/judgement/NN.json already on disk was written by this seat before it stopped. Check that it parses and covers every feature of its batch, keep it if so, and judge only the batches that are missing or incomplete.',
+    '- Finish with a five-line hand-back: per-lens coverage, standardsPct derived counts, the three proposals that matter most, what stayed unmeasured and why.',
+  ].join('\n');
   return [
     `You are running the /adopt-bp skill as one seat of a benchmark. Read ${posix(path.join(SKILL, 'SKILL.md'))} and its references, then follow it end to end on the repository in your current directory (${posix(ws)}).`,
     `- bp checkout: ${posix(bp)} (pass --bp to every adopt.mjs call). Scripts: node ${posix(ADOPT)} <cmd> --root . --bp ${posix(bp)}`,
@@ -103,6 +114,17 @@ async function run() {
     // the operator's context map may be newer than HEAD (or untracked): seats adopt what the operator has
     for (const f of ['context-map.json']) if (fs.existsSync(path.join(target, f))) fs.copyFileSync(path.join(target, f), path.join(ws, f));
     if (flag('force')) fs.rmSync(path.join(ws, '.ai', 'lens-scan'), { recursive: true, force: true });
+    if (opt('phase', 'all') === 'judgement') {
+      const from = path.join(target, '.ai', 'lens-scan');
+      if (!fs.existsSync(path.join(from, 'app-structure.json'))) die(`--phase judgement needs an adopted target (${posix(from)}/app-structure.json)`);
+      // the adopted state: map, events, store, and from work/ only the inventory and the product tree
+      // (a previous seat's judgement files, scripts and notes would leak into this one)
+      fs.cpSync(from, path.join(ws, '.ai', 'lens-scan'), { recursive: true, filter: (f) => {
+        const rel = path.relative(from, f).split(path.sep);
+        if (/^scan\.db-(wal|shm)$/.test(rel.at(-1))) return false;
+        return rel[0] !== 'work' || rel.length === 1 || (rel.length === 2 && ['inventory.json', 'product-tree.json'].includes(rel[1]));
+      } });
+    }
     const command = engineCommand(p, resolveBin(p.engine), prompt(p, ws, bp), { workspace: '.' });
     writeJson(path.join(logDir, 'command.json'), { argv: command.argv.map((x) => (x.length > 300 ? `${x.slice(0, 300)}...` : x)), cwd: posix(ws), started: new Date().toISOString() });
     console.log(`${p.id}: starting in ${posix(ws)} (ceiling ${timeoutMs / 60000} min)`);
@@ -169,23 +191,59 @@ async function score() {
 }
 
 // =================================================================================== promote / clean
-function promote() {
+async function promote() {
   const bench = readJson(BENCH);
   const id = opt('seat') ?? die('--seat is required');
   const s = bench.seats[id] ?? die(`no seat ${id}`);
   const from = path.join(s.ws, '.ai', 'lens-scan'), to = path.join(bench.target, '.ai', 'lens-scan');
   if (!fs.existsSync(path.join(from, 'app-structure.json'))) die(`${id} produced no map`);
-  if (fs.existsSync(to) && !flag('force')) die(`${posix(to)} exists (use --force to replace it)`);
-  fs.rmSync(to, { recursive: true, force: true });
-  fs.cpSync(from, to, { recursive: true, filter: (f) => !/scan\.db-(wal|shm)$/.test(f) });
+  const hasStore = fs.existsSync(path.join(to, 'scan.db'));
+  if (fs.existsSync(path.join(to, 'app-structure.json')) && !flag('force')) die(`${posix(to)} is adopted already (use --force to take this seat's map, events and new store runs)`);
+  // Never delete the target's store directory: a running blueprint may hold scan.db open (Windows then
+  // refuses the delete halfway). Files are overwritten one by one; the store is MERGED, not copied.
+  fs.mkdirSync(to, { recursive: true });
+  for (const f of fs.readdirSync(from, { recursive: true, withFileTypes: true })) {
+    if (!f.isFile() || /^scan\.db(-wal|-shm)?$/.test(f.name)) continue;
+    const rel = path.relative(from, path.join(f.parentPath ?? f.path, f.name));
+    fs.mkdirSync(path.dirname(path.join(to, rel)), { recursive: true });
+    fs.copyFileSync(path.join(from, rel), path.join(to, rel));
+  }
+  if (!hasStore) fs.copyFileSync(path.join(from, 'scan.db'), path.join(to, 'scan.db'));
+  else {
+    // the store is append-only: copy every run (and its rows) the target does not have yet, in one transaction
+    const { DatabaseSync } = await import('node:sqlite');
+    const db = new DatabaseSync(path.join(to, 'scan.db'));
+    db.exec('PRAGMA busy_timeout = 10000');
+    db.prepare('ATTACH DATABASE ? AS seat').run(path.join(from, 'scan.db'));
+    const fresh = db.prepare('SELECT id FROM seat.runs WHERE id NOT IN (SELECT id FROM main.runs)').all().map((r) => r.id);
+    db.exec('BEGIN');
+    try {
+      const q = (sql) => db.prepare(sql.replaceAll('$RUNS', fresh.map(() => '?').join(',') || "''")).run(...fresh);
+      q('INSERT INTO main.runs SELECT * FROM seat.runs WHERE id IN ($RUNS)');
+      q('INSERT INTO main.measurements (run_id, feature, lens, metric, value, unit, method, evidence, measured_at) SELECT run_id, feature, lens, metric, value, unit, method, evidence, measured_at FROM seat.measurements WHERE run_id IN ($RUNS)');
+      q('INSERT INTO main.proposals SELECT * FROM seat.proposals WHERE run_id IN ($RUNS) AND id NOT IN (SELECT id FROM main.proposals)');
+      q('INSERT INTO main.activity (run_id, at, feature, lens, kind, text) SELECT run_id, at, feature, lens, kind, text FROM seat.activity WHERE run_id IN ($RUNS)');
+      q('INSERT INTO main.shots (run_id, feature, path, size, theme, harness_module, captured_at, report) SELECT run_id, feature, path, size, theme, harness_module, captured_at, report FROM seat.shots WHERE run_id IN ($RUNS)');
+      q('INSERT INTO main.coverage SELECT * FROM seat.coverage WHERE run_id IN ($RUNS) ON CONFLICT (feature, standard) DO UPDATE SET state = excluded.state, evidence = excluded.evidence, judged_at = excluded.judged_at, run_id = excluded.run_id');
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); db.close(); die(`store merge failed, nothing merged: ${e.message}`); }
+    db.exec('DETACH DATABASE seat');
+    db.close();
+    console.log(`store: merged ${fresh.length} run(s) from ${id}`);
+  }
   const r = spawnSync(process.execPath, [ADOPT, 'register', '--root', bench.target, '--bp', bench.bp, ...(opt('slug') ? ['--slug', opt('slug')] : []), ...(opt('name') ? ['--name', opt('name')] : [])], { encoding: 'utf8', stdio: 'inherit' });
+  const v = spawnSync(process.execPath, [ADOPT, 'validate', '--root', bench.target, '--bp', bench.bp], { encoding: 'utf8' });
+  if (v.status !== 0) die(`promoted, but the target does not validate - keep the seat worktree and look:\n${v.stdout}${v.stderr}`);
   bench.promoted = { seat: id, at: new Date().toISOString() };
   writeJson(BENCH, bench);
+  console.log(`promoted ${id} -> ${posix(to)} (validates)`);
   process.exit(r.status ?? 0);
 }
 function clean() {
   const bench = readJson(BENCH);
   const keep = opt('keep');
+  // a seat's worktree is the only copy of its result until a promotion has validated
+  if (!bench.promoted && !flag('discard')) die('nothing was promoted from this bench yet; promote a seat first, or pass --discard to drop every result');
   for (const [id, s] of Object.entries(bench.seats)) {
     if (id === keep) continue;
     spawnSync('git', ['-C', bench.target, 'worktree', 'remove', '--force', s.ws], { stdio: 'inherit' });
