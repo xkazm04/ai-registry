@@ -711,9 +711,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 61,
+      "lessons": 62,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:e8f99271f05dbcec",
+      "lessonsHash": "sha256-n1:b3c77b590affdd88",
       "usageContributors": [
         "wolf"
       ],
@@ -1051,7 +1051,7 @@
     "skills": 40,
     "practices": 8,
     "memory": 9,
-    "lessons": 307
+    "lessons": 308
   },
   "bundles": [
     {
