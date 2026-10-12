@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-enum-closure-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-10T20:50:00Z",
+  "ended_at": "2026-10-10T21:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/judgeable-spec-authoring",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": 2,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "game-production/judgeable-spec-authoring",
+      "technique": "enumeration-closure-as-arithmetic",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/content-pipeline/judgeable-spec-authoring/applications/next--enumeration-closure-as-arithmetic.md",
+    "knowledge/game-production/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/judgeable-spec-authoring.md",
+    "knowledge/game-production/index.json",
+    "catalog.json",
+    "rules/ai-registry-game-production.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md",
+    "librarian/runs/intake-apply-enum-closure-1010/result.json"
+  ],
+  "commits": [
+    {
+      "sha": "9da160dd",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/game-production/content-pipeline/judgeable-spec-authoring/applications/next--enumeration-closure-as-arithmetic.md",
+        "knowledge/game-production/index.md",
+        "librarian/subjects/game-production/judgeable-spec-authoring.md",
+        "librarian/applied.md"
+      ]
+    },
+    {
+      "sha": "52653461",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. pof code A/B over 351 steps: blind graded steps 58 -> 0, orphan wiring rule 119 -> 0, verdicts identical, cap evictions 0. pof cc848c85 + 3ffb3dd9 pushed. Stack next added; both stacks are JS."
+}

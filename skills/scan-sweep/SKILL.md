@@ -1,11 +1,11 @@
 ---
 name: scan-sweep
-description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; what a probe could not measure - a walked simulation, a named-but-unbuilt instrument, an out-of-scope seam, an M or L too large to land unread - goes to Lane B, an A/B wave of Opus workers in parallel worktrees that build both arms, measure with the same instrument, seed the control red, and let the director merge `better` and throw `not-better`; only a direction, an XL, an irreversible change, a loosened policy, or an operator-only act still waits for a human. Use for a standing quality loop, before a hardening milestone, or to work down a backlog. Pass --develop for new capability, --optimize for deep hardening, --challenge for a proving ground (two critic-graded hard candidates per context), --ideas-only to change no code, --coverage for the pick list, --backlogs for what earlier passes left unworked (announced first on every run)."
-argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--riders N] [--until-covered] [--go] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs] [--ab] [--ab-only] [--workers N]"
+description: "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept evenly instead of repeatedly in the same corner. Every finding climbs an evidence ladder (gate > probe > experiment > simulation) before it is routed: a measured `better` with no escalation builds in-session, S or M, under any strategy; `not-better` is rejected with its figures; what a probe could not measure - a walked simulation, a named-but-unbuilt instrument, an out-of-scope seam, an M or L too large to land unread - goes to Lane B, an A/B wave of Opus workers in worktrees that build both arms, measure with the same instrument, seed the control red, and let the director merge `better` and throw `not-better`; only a direction, an XL, an irreversible change, a loosened policy, or an operator-only act still waits for a human. Use for a standing quality loop, a hardening milestone, or a backlog. Pass --develop for new capability, --optimize for deep hardening, --challenge for a proving ground (two critic-graded hard candidates per context), --ideas-only to change no code, --coverage for the pick list, --backlogs for what earlier passes left open, --handoff to file them into Personas Approvals (each run ends there)."
+argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--riders N] [--until-covered] [--go] [--one <context>] [--depth N] [--ideas-only] [--lenses k1,k2] [--coverage] [--backlogs] [--ab] [--ab-only] [--workers N] [--handoff]"
 category: workflow
 contexts: tracked
 memory: project
-version: 4.5.0
+version: 4.6.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -31,6 +31,7 @@ returning to the next-least-covered area, not from skimming.
 /scan-sweep --ab                # after the round's Lane A commits, dispatch Lane B (§5, references/ab-lane.md)
 /scan-sweep --ab-only           # no scan: drain the existing backlog's Lane B items through the wave
 /scan-sweep --workers N         # cap on concurrent Lane B workers (default 4)
+/scan-sweep --handoff           # no scan: file every open backlog into Personas Approvals (§9.1), then delete it
 ```
 
 **Default = the stabilize loop.** No arguments means: pick the least lens-covered
@@ -205,8 +206,9 @@ and say what can be done with it: **work it down** (route it through §5 exactly
 a fresh round would: Lane A items build in-session, Lane B items drain through
 the wave with `--ab-only`, Lane C - `direction` / `architecture` /
 `irreversible` / `policy-loosen` / operator-only - stays for the operator),
-**keep sweeping anyway**, or
-**close it** (the operator says the rest is not wanted; set the row `closed` with
+**hand it to Approvals** (`--handoff`, §9.1: the cards go to Personas
+Approvals → Backlog, the files are deleted, the row is closed), **keep sweeping
+anyway**, or **close it** (the operator says the rest is not wanted; set the row `closed` with
 the reason). When the operator is present, ask which. When the run is
 unattended, do not block: repeat the notice at the top of every round report
 and carry on with the loop.
@@ -221,6 +223,11 @@ Rules that keep the notice honest:
   them nothing was ever owed.
 - **Never re-propose what an open backlog already holds.** Its titles join §2's
   never-re-propose lists for this run, exactly like the digest's.
+- **A backlog older than 14 days is not carried again.** Offer the operator:
+  hand it to Approvals, or delete it. A file nobody reopened in two weeks is a
+  file nobody will; carrying it forward only lengthens the notice.
+- **A row whose note says the hand-off was owed** (Personas was not running when
+  §9.1 ran) is retried before anything else, without asking.
 - `--backlogs` prints this notice and stops. `--coverage` prints it above the
   table.
 
@@ -672,8 +679,10 @@ many as were built, and nothing in the per-round reports added them up. So:
   `instrument` field cannot be drained - the round that wrote it owes it one.
 
 **What the backlog is FOR — and what never goes in it.** The Personas idea backlog
-(the memory outbox → `dev_ideas` → the triage deck) is where a HUMAN decides. It
-holds Lane C and nothing else: the escalations, the operator-only acts, and what
+(Approvals → Backlog, the `dev_ideas` table, reached by §9.1's hand-off or the memory
+outbox) is where a HUMAN decides. During a run it
+holds Lane C and nothing else (at session end §9.1 adds the undrained Lane B,
+tagged as drainable): the escalations, the operator-only acts, and what
 Lane B could not measure. A Lane A item is built. A Lane B item is built or thrown.
 A backlog full of approved-but-unbuilt items is a sweep that stopped one step early
 — measured 2026-08-28, 149 of 240 wave findings were auto-approvable, and measured
@@ -1003,6 +1012,65 @@ or update one line in the open-backlog register (overlay key `openBacklogs`):
 first on every invocation - it is how a backlog survives the weeks between
 sweeps.
 
+### 9.1 Hand-off to Approvals - the session's last act
+
+**A run does not end with findings in repo files.** The register above kept
+backlogs from being lost; it did not get them decided. Measured 2026-10-11 across
+twelve fleet repos: ~940 open items sat in registers, findings files, challenge
+follow-up lists, moonshot READMEs and six undrained outboxes (130 findings the
+30-line ingest never reached), the oldest 36 days old, and none of them was in
+front of the operator. Personas Approvals
+(Overview → Approvals → Backlog, the `dev_ideas` table) is the one place the
+operator decides, so every item a session leaves open goes there before the
+session reports done.
+
+**What is handed off.** Everything still open when the run stops: Lane C cards,
+Lane B items the run did not drain (tagged A/B-drainable, so the operator can
+bounce them to `--ab-only` instead of judging them), carries the run did not
+reach (as Lane B), and Lane B `unmeasurable`. Built items and `not-better`
+rejections never are. A Lane B item stays out of Approvals while the run can
+still drain it - the hand-off is for what the session leaves behind, not a
+shortcut past §5.
+
+**How.**
+
+1. Write the cards, one §9 finding object per line plus `"lane":"B|C"` and
+   `"source":"<register id>"`, to `.claude/scan-sweep/handoff-<run id>.jsonl`.
+   Cards from another shape (a challenge follow-up list, a moonshot README
+   table, a `lanes.jsonl` row) are converted to it first; keep `title`, put the
+   rest in `body`, and leave a scale out rather than invent it - the script
+   defaults it and says so on the card.
+2. `node ${CLAUDE_SKILL_DIR}/scripts/approvals.mjs --file <that file> --repo
+   <repo root> --out <file>.results.jsonl` (`--dry-run` first when the operator
+   is present and the batch is over 50; `--register` when the repo is not yet a
+   Personas project and the operator agreed to register it). It files each card
+   over the app's local HTTP door (`POST /dev-tools/ideas`, `origin: scan_sweep`,
+   lens-keyed so a card the outbox already filed is a dedup hit), with no 30-item
+   cap, and returns per card `created | deduped | rated | near_duplicate`.
+   A dedup hit on a `rejected` row is a human "no" that already exists - it is
+   reported, never re-filed with `force`.
+3. **Exit 0** (every card landed): delete the hand-off file and every source
+   file whose cards all landed (a source that is also a ledger - a findings
+   file holding built rows, `lanes.jsonl` - is kept, and its handed rows get
+   `"status": "handed_off"` so the build history survives and §0 stops counting
+   them), set the register row `closed` with `note:
+   "handed to Personas Approvals <date>: <n> created, <m> deduped"`, and commit
+   the deletions where the files were tracked. **Exit 3 or 4** (Personas not
+   running, repo not registered): delete nothing; leave the row `open` with
+   `note: "hand-off owed: <reason>"` and say so in the closing report - §0
+   retries it next run. **Exit 1**: delete only the sources whose cards all
+   landed; the rest stay with their row open and the failures named.
+4. The closing report leads with the hand-off line: `Approvals: <n> filed
+   (<c> created, <d> deduped, <r> already rejected) - <k> owed`.
+
+The outbox (§9 above) keeps the progress, coverage and escalation lines; when
+Personas is running, findings go through the hand-off instead of competing for
+the outbox's 30 lines. When it is not, the outbox is still the fallback for up
+to 30 findings, and the rest wait for the hand-off.
+
+`--handoff` runs this step alone over every open backlog §0 found, oldest first,
+and scans nothing.
+
 ## 10. Persist a snapshot
 
 Append one line per round to `.claude/scan-history/scan-sweep.jsonl` (create the
@@ -1039,6 +1107,7 @@ consuming repo. The skill runs on the defaults without it.
 | `memoryOutbox` | `.personas/memory-outbox.jsonl` | Where findings are emitted. |
 | `backlogDigest` | `.personas/backlog-digest.json` | Titles never to re-propose. |
 | `openBacklogs` | `.claude/scan-history/open-backlogs.jsonl` | Register of findings files earlier passes left unworked; read first (§0), written by §9. |
+| `handoff` | `on` | §9.1: file the session's open items into Personas Approvals. `off` for a repo with no Personas on the machine; the register then carries them. |
 | `gates` | from `.claude/conventions.json` / manifest capabilities | Verification commands per surface. |
 | `depth` | 5 (loop), 10 (`--one`) | Findings per context per round. |
 | `neverSweep` | none | Contexts the loop skips (generated, vendored). |

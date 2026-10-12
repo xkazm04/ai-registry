@@ -77,3 +77,8 @@ reports no expectation must report *that*, rather than reporting conformance.
 - **A workaround is a signal.** If call sites are smuggling purpose into a free-text tag
   because the record has no field for it, the record is missing a field — and the tag
   will be inconsistent by the time anyone tries to use it.
+- **Do not expect the telemetry standard to supply it.** The current conventions for
+  model-call telemetry name the operation, the provider, the agent, the workflow and the
+  prompt, and nothing names the purpose; observability products offer a free-form name or
+  property. Mapping the declared identifier onto one of those fields is fine - letting the
+  field's optionality decide whether a call has one is not.

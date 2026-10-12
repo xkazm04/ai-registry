@@ -1,7 +1,7 @@
 ---
 subject: tenant-scoped-agent-runtime
 domain: software-engineering
-last_touched: 2026-09-23
+last_touched: 2026-10-10
 dry_streak: 0
 ---
 
@@ -120,3 +120,29 @@ remain, with explicit applicability and counterexamples.
 Banked lead (proposal, not landed): when a multi-tenant mode becomes the default, the warn-only fallbacks in non-raising resolvers move onto the default path, and their fail direction deserves a second look. Return condition: the next pass that opens this technique, or a fleet project adopting a default-on tenant mode.
 
 Impact: no judged verdict moved.
+
+## 2026-10-10 - `/intake apply` (run ap-fdfdm-1010)
+
+Dispatched from the attention scan for **single stack (python)**. `fail-direction-follows-deployment-mode`
+had been unapplied since 2026-09-02 for want of a multi-tenant fleet process. The search
+went for the technique's other half instead: an overlay over a process environment in a
+deployment it calls isolation-off. personas' cloud worker is that shape (persona model
+profile = scope, worker env = process, any non-empty bearer admitted), and its seam could
+falsify the sentence "there is nothing to leak from". It did. The scope names the
+destination as well as the credential, so the overlay sent the worker's own key to a
+caller-chosen host. A second fall-through, to a differently named credential, sent each
+provider's key to the other.
+
+- Code A/B, ab-paired: foreign-host deliveries 13/48 -> 0/48, floor 35/35 unchanged; real-HTTP
+  canary agrees. Shipped and pushed to personas origin/master (`1e755be94`, `8bfc211f64`).
+- Landed: `applications/node--fail-direction-follows-deployment-mode.md` (9/9 anchors held at
+  `8bfc211f64`); a boundary section in the technique ("the overlay falls through per
+  destination, not per name") plus a decision-rule clause and a `use_when` entry; one clause in
+  the golden path's pointer sentence. Scored GAIN 2 / RISK 0 / COST 1, append: the file's
+  existing sentences stay true.
+- The tree disagrees with itself: the same repository's desktop egress makes a
+  caller-named destination unrepresentable (`credential-vault/brokered-egress`), and the
+  worker did the opposite. The technique now names that door as the case with nothing to handle.
+- Open: the worker's isolation mode is undeclared (any bearer is admitted), so a keyless
+  persona with no base address still spends the operator's key on the default host.
+  Return: when the worker gains real caller auth or a second caller.

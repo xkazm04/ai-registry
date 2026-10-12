@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ap-ire-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "agent-operations",
+  "started_at": "2026-10-10T17:02:00Z",
+  "ended_at": "2026-10-10T17:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/shared-research-record",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "shared-research-record",
+      "technique": "independent-reuse-evidence",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/coordination/shared-research-record/applications/node--independent-reuse-evidence.md",
+    "knowledge/agent-operations/coordination/shared-research-record/techniques/independent-reuse-evidence.md",
+    "knowledge/agent-operations/index.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/agent-operations/shared-research-record.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only pass against the registry apply ledger. not-better: the authors own verdicts are no kinder than other runs, and 0 of 25 split pairs are reversals. The technique gained a boundary amendment. Built in a worktree of origin/main (local main diverged)."
+}

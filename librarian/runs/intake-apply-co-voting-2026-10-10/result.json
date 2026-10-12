@@ -48,5 +48,5 @@
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "Apply-only. Registry 4b06bda5 + 269d6ef7 (generated in a clean worktree). Politicas: 5bb214e + 486c1bd pushed to origin/master from an origin worktree (5f88b00..486c1bd); local master untouched. Single-stack point unmoved."
+  "notes": "Apply-only. Registry 0a9d9f20 + 5c7ab221 on origin/main (cherry-picked from local 4b06bda5 + 269d6ef7). Politicas 5bb214e + 486c1bd pushed from an origin worktree (5f88b00..486c1bd); local master untouched. Single-stack point unmoved."
 }

@@ -162,7 +162,9 @@ authenticates with a placeholder and fails while foreground work keeps
 succeeding. That signature — one lane of traffic failing authentication
 while another lane is fine — is the diagnostic fingerprint of a scope that
 became a blindfold. [fail-direction-follows-deployment-mode](./techniques/fail-direction-follows-deployment-mode.md)
-owns the two modes, the small allowlist of names that genuinely describe
+owns the two modes, the destination binding that keeps even the overlay
+from sending a process credential to a host the scope chose, the small
+allowlist of names that genuinely describe
 the process rather than a tenant, and the discipline that the fix for an
 unscoped read is to wrap the call path rather than widen the allowlist.
 

@@ -417,6 +417,23 @@
       "tokensBasis30d": null
     },
     {
+      "name": "lens-scan",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/lens-scan/SKILL.md",
+      "contentHash": "sha256-n1:fc6c4373d5ebb607",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 0,
+      "usageContributors": [],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
+    },
+    {
       "name": "leonardo",
       "version": "1.5.2",
       "category": "other",
@@ -682,10 +699,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.5.0",
+      "version": "4.6.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:b406a31421eeb8fb",
+      "contentHash": "sha256-n1:3df753b5a7ad980d",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -694,9 +711,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 60,
+      "lessons": 62,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:4c6f0ab60659b3b6",
+      "lessonsHash": "sha256-n1:b3c77b590affdd88",
       "usageContributors": [
         "wolf"
       ],
@@ -741,9 +758,9 @@
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 31,
+      "lessons": 32,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:8b76401b3dc854da",
+      "lessonsHash": "sha256-n1:354b8e79c13ba4ec",
       "usageContributors": [
         "wolf"
       ],
@@ -1031,10 +1048,10 @@
     }
   ],
   "counts": {
-    "skills": 39,
+    "skills": 40,
     "practices": 8,
     "memory": 9,
-    "lessons": 307
+    "lessons": 310
   },
   "bundles": [
     {
@@ -1046,9 +1063,9 @@
       "purity": "agent-ops",
       "subjects": 9,
       "techniques": 40,
-      "applications": 30,
-      "files": 83,
-      "contentHash": "sha256-b2:3137eaf8e79ef825"
+      "applications": 34,
+      "files": 87,
+      "contentHash": "sha256-b2:a4e8fc4d34d2e98a"
     },
     {
       "name": "civic-intelligence",
@@ -1059,9 +1076,9 @@
       "purity": "civic",
       "subjects": 15,
       "techniques": 92,
-      "applications": 36,
-      "files": 148,
-      "contentHash": "sha256-b2:8d02fee0ff296eb9"
+      "applications": 40,
+      "files": 152,
+      "contentHash": "sha256-b2:a129361361014f84"
     },
     {
       "name": "game-production",
@@ -1072,9 +1089,9 @@
       "purity": "game",
       "subjects": 81,
       "techniques": 537,
-      "applications": 288,
-      "files": 910,
-      "contentHash": "sha256-b2:49fa978ea3b5d20d"
+      "applications": 293,
+      "files": 915,
+      "contentHash": "sha256-b2:3d0653d8f1db5821"
     },
     {
       "name": "grant-funding",
@@ -1085,9 +1102,9 @@
       "purity": "funding",
       "subjects": 17,
       "techniques": 105,
-      "applications": 38,
-      "files": 165,
-      "contentHash": "sha256-b2:6a0546ec04051531"
+      "applications": 41,
+      "files": 168,
+      "contentHash": "sha256-b2:3812f466854ca18e"
     },
     {
       "name": "llm-observability",
@@ -1163,9 +1180,9 @@
       "purity": "software",
       "subjects": 234,
       "techniques": 1841,
-      "applications": 1247,
-      "files": 3327,
-      "contentHash": "sha256-b2:05ef48f018cf43d8"
+      "applications": 1249,
+      "files": 3329,
+      "contentHash": "sha256-b2:e5ff2dbfe076410a"
     },
     {
       "name": "technical-writing",

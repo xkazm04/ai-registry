@@ -47,5 +47,5 @@
   "pr": null,
   "declined": [],
   "failure_signature": null,
-  "notes": "Apply-only. Registry af258eb6 + 5e2ee972 (generated in a clean worktree). Politicas: task 31d6c55 on branch intake/mvpi-1010, not merged (formula change, needs writer run); row 8b6870f on local master, not pushed (51/11). Single-stack point unmoved."
+  "notes": "Apply-only. Registry d9f8f902 + 2386c2d4 (generated on an origin worktree). Politicas: task step 1 5af5c7f + row 5f88b00 pushed from an origin worktree (local is 51/11); wiring needs a writer run. Single-stack point unmoved."
 }

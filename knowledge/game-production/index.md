@@ -4,7 +4,7 @@ okf_bundle_name: game-production
 okf_bundle_title: Game production
 profile: rkb/0.1
 purity: game
-stacks: [kotlin, cpp, python]
+stacks: [kotlin, cpp, python, next]
 ---
 
 # Game production

@@ -1,0 +1,71 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-bpoi-1011",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "grant-funding",
+  "started_at": "2026-10-11T02:21:01Z",
+  "ended_at": "2026-10-11T02:58:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "grant-funding/evidence-grounded-claims",
+      "at": "2026-10-11",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "evidence-grounded-claims",
+      "technique": "bracketed-placeholder-over-invention",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/applications/node--bracketed-placeholder-over-invention.md",
+    "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/techniques/bracketed-placeholder-over-invention.md",
+    "knowledge/grant-funding/index.json",
+    "rules/ai-registry-grant-funding.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/grant-funding/evidence-grounded-claims.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [
+    {
+      "sha": "71b41655",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/grant-funding/proposal-craft/evidence-grounded-claims",
+        "librarian/applied.md",
+        "librarian/subjects/grant-funding/evidence-grounded-claims.md"
+      ]
+    },
+    {
+      "sha": "030a7cb6",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/grant-funding/index.json",
+        "rules/ai-registry-grant-funding.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only, landed from a detached origin/main worktree (local main 24/45 diverged, untouched). grant 57ddf02 + 3c568f0 pushed from a fresh clone of its remote. Single-stack point unchanged: the only consumer is node."
+}

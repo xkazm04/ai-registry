@@ -1240,3 +1240,52 @@ Source-class tally (post-hoc, this run):
   dependency is defined but excluded.
 - An engine's own resolver was the cheapest ground truth: it ran 24 configurations in
   seconds and settled two disagreements between lanes.
+
+## Run dp-mcoi-1010 - model-call-outcome-integrity, a filter is not a refusal
+
+A Curator dispatch on "never swept by the librarian". That reason was real: no subject note
+existed. It is why this subject was dispatched four times in eleven days. Two of those runs
+idled, because the reason read as "already swept". It did not mean that. The only sweep,
+dp-mcoi-0930, had run a single counter-evidence lane, so the subject's dry streak of 2
+counted idles, not research.
+
+Three lanes ran this time: counter-evidence, current vendor vocabulary, and a blind
+training-data lane. Every quote that landed was re-read from a raw vendor page, or from SDK
+source at a pinned commit.
+
+- **One golden-path rule flipped, and both independent lanes reached it.** The decline row
+  splits in two. A policy layer beside the model (an input block, or an output filter or
+  classifier) is its own outcome, owned by that layer. A refusal the model writes itself
+  arrives under a normal stop. A simulation on a second project then added a condition:
+  the split pays only where something reads the outcome. A seam that only routes loses
+  nothing by merging the two.
+- **One claim was refuted.** "Failures bill in full" is false for refusals and blocks.
+  Vendors document pre-output refusals as free in most categories, and input-guardrail
+  blocks as free of model charges. Price a failure from the response, never from its class.
+- **Three conditions were added.**
+  - An official client library replaces any stated wait over a minute with its own few
+    seconds of backoff.
+  - A client library's default timeout, or an idle-connection drop, must be ruled out
+    before a cut is called a remote window.
+  - Some vendors accept an unsupported schema field and ignore it, so accepting the request
+    is not enforcing the constraint.
+- **Two confirmations.** No telemetry convention has a field for purpose. The convention
+  now records an expected stop that never arrived as an error.
+- **No new technique.** The one convergence landed as a golden-path correction.
+- **One application.** It is the flagship technique's first. A project's seven adapters
+  read the stop condition after the body, so a reply cut off at the cap became retryable
+  malformed output. A/B on 13 fixtures: 13/13 retryable before the change (3 billed calls
+  per truncation), 0/13 after. Shipped as a local commit.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| model-call-outcome-integrity | L3 | 1 golden-path flip, 1 refutation, 3 conditions, 1 application (code A/B) | 0 stale (4 pairs across 3 projects, none judged) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Vendor reference pages and SDK source, fetched raw and grepped, carried every quote that
+  landed. Two WebFetch summaries were re-read raw before anything was cited.
+- Forum threads ("a model now writes the refusal and bills the whole call") were banked,
+  not landed. Each had one source and no vendor sentence behind it.
+- The blind lane agreed with the counter lane on the filter/refusal split and on SDK caps
+  on retry waits. Where it gave figures (an SDK cap of about 60 s), the source agreed with
+  them for one library and contradicted them for the two others.

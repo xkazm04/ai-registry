@@ -39,7 +39,12 @@ happened remotely is never recorded. The call cost money and left no trace.
    signal from outside.
 4. **A stated wait outranks a computed one.** Where a vendor says how long to wait, that
    is a schedule, not a suggestion, and the ladder honours it. Retrying earlier than asked
-   is the one move politeness must never make.
+   is the one move politeness must never make. **The vendor's client library has a ladder
+   of its own, inside yours, and it may not obey this.** One official library substitutes
+   its own backoff of a few seconds for any stated wait over a minute - retrying earlier
+   than asked by construction - and another gives up instead; a third honours any wait.
+   Turn the library's retries off and own the one ladder, or read the library's cap and
+   count it as part of the seam's budget. A ladder you did not write is still yours.
 5. **When the stated wait does not fit the remaining budget, end the ladder** and say so
    as its own terminal outcome. Shortening the wait to fit is a silent violation; the
    honest report is that the budget was found insufficient in advance, carrying the wait
@@ -52,7 +57,15 @@ third is not: the remote side may end a request on its own schedule. It appears 
 transport error at a suspiciously round, repeatable elapsed time, on a call that neither
 reached the token ceiling nor the local timeout.
 
-Treat a repeatable elapsed-time failure as a **remote window**, and record it as a
+Rule out two nearer causes before naming it. A **client library's default timeout** is
+round by construction - ten minutes for a non-streaming call is a common default, and one
+vendor's library refuses to start a non-streaming call it expects to outlast that - and it
+is a local timeout the seam never set, so "neither reached the local timeout" has to
+include the timeouts nobody chose. A **network path that drops idle connections** produces
+the same repeatable cut on a long non-streaming call. Both are transport: the fix is
+streaming, a keep-alive or a batch interface, and a smaller request only hides them.
+
+What remains after both are ruled out is a **remote window**: record it as a
 capability limit at this input size rather than as an infrastructure flake to retry
 forever. It has a fix, and the fix is a smaller request or a different engine — not a
 longer local timeout, which is the change it superficially invites.

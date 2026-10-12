@@ -3,6 +3,36 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets. Merged from every copy of this skill on 2026-08-22 when it moved into the registry lane.
 
+## 4.5.0 - 2026-10-11 - fleet (backlog migration to Personas Approvals, no scan)
+
+Operator asked for every scan backlog left in fleet repos to reach Personas
+Approvals; the run built section 9.1 (4.6.0) and migrated by hand first.
+
+- **The register made backlogs visible; it never got them decided.** ~940 open items
+  across twelve repos: register-pointed findings files, challenge follow-up lists,
+  moonshot READMEs, and six outboxes holding 130 findings the 30-line ingest never
+  reached (oldest 36 days). Section 0's notice was being read and carried, run after
+  run. The fix is a destination, not a louder notice: 335 items from the last 14 days
+  were filed into Approvals, ~600 older ones expired and were deleted on the operator's
+  call.
+- **The outbox is the wrong door for a backlog.** It takes 30 findings per ingest and
+  is read only when a Fleet session exits in that exact root, so any file over 30 lines
+  is a queue that drains one Fleet session at a time. `POST /dev-tools/ideas` has no
+  cap and answers per item; it needed an `origin`/`lens` pair (Personas fcf65c4d85) so
+  the items keep the Scan-sweep badge and share the outbox's dedup keys - 11 outbox
+  findings came back as dedup hits, not duplicates.
+- **Probe the running build before a bulk filing.** The first real card filed as
+  `app_master`: the app predated the patch. One card, one DB read, then the batch.
+- **An uncommitted patch in a shared checkout is not a patch.** The Personas change
+  vanished from the working tree between test and use (another session restored the
+  tree; nothing in stash or reflog). Re-applied and committed by pathspec at once - and
+  `git commit --only <paths>`, because that index already held another session's
+  staged files.
+- **A findings file is also a build ledger.** StatReel's files held 208 built rows next
+  to 131 open ones; deleting them would have erased the history. Handed rows get
+  `status: handed_off` instead, rewritten line by line in each row's own JSON spacing
+  (a whole-file re-serialise touched 212 lines for 131 changes).
+
 ## 4.3.0 - 2026-10-05 - lighttrack (LightTrack)
 
 First `--challenge` run in this repo, and the first anywhere with a rider cohort.
@@ -1587,3 +1617,11 @@ that check stays cheap.
 - **Lane B piled up silently.** Without `--ab`, each round recorded its B cards and no step added them up. The loop closed with 112 open, more than half as many as were built. 4.4.0 puts a running Lane B total in the round close-out (§8), a drain prompt at half the built count or 25 items (§5), and makes the closing report lead with the pile.
 - **An overlay gate made a live network ingest.** `uv run --project pipeline pytest`, run from the repo root, loaded no pytest config, so the `live` marker ran: 5 polite requests and a new raw snapshot. Nothing was published and the warehouse was untouched, but it was an act the repo law asks the owner about. The repo fix was a conftest hook. 4.4.0 adds §7.9: dry-run each overlay gate before round 1 and check what config it loaded. A gate that can spend money or hit the network must refuse that from inside the test tree.
 - **I misread the registry map.** I reported "the map truncates each context's paths to 12" as a registry bug. It is a documented sample (`build-registry-map.mjs`, `check-context-coverage.mjs`), and the full file list lives in `context-map.json`. The round brief already took the file list from there, so no round was harmed. 4.4.0 adds a line to §6 saying so, so the next sweep does not file the same lead.
+
+## 4.5.0 - 2026-10-10 - bp (first adoption: a UI-lens pass, then --optimize over all 11 contexts)
+
+- **Run shape:** two passes in two days, both director-run fan-outs with one git worktree per round and merges after every wave. Pass 1, operator-narrowed (5 UX/UI lenses, 5 findings per context, Sonnet executors): 39 of 39 routed findings landed. Pass 2, `--optimize` (8 lenses, depth 8 to match the package): 69 built by rounds plus 3 director integration fixes, 5 rejected with figures, 16 Lane B, 1 Lane C (closed by the director), fp 0, 7 new gates wired into the overlay.
+- **A dead-code deletion is only proven against the wave's merged tree.** In one wave, the standard round deleted an exported constant after a correct zero-consumer grep, while the tooling round in a sibling worktree made the same constant the single source for two scripts. Each branch was green alone; the merge was red (typecheck exit 2, the health check exit 1). The zero-consumer grep in §4.5 ran against the round's base, not against what the wave was about to land. Proposal: under a director fan-out, re-run every deletion's zero-consumer grep on the combined tree before the wave's integration gate, and say which deletions a sibling revived.
+- **Cross-context duplicates need deduping at routing, not at build.** In pass 1, four analysts found the same light-theme text-contrast failure in four contexts, and two found the same tab-strip keyboard defect. The director merged them into one shared-token contract plus waves ordered by dependency (the context that owns the token builds first). Without that step, four executors would have each invented a token.
+- **Worktree rounds and package installs.** Four parallel `npm ci` runs took about 12 minutes and stalled two executors on the stream watchdog (resumed cleanly). A `node_modules` junction to one install runs the node gates but not a Turbopack dev server, and in git-bash an unquoted `cmd //c mklink //J` loses its backslashes and links nowhere, so worktree gates silently resolved the parent checkout's packages. Repo-specific detail went to the overlay; the general point: verify what a worktree's gates actually load (§7.9 already says so for configs).
+- **A gate that cannot fail was the most common optimize finding.** Three rounds independently found checks that exited 0 on a seeded failure (a health check below its own target, screenshot probes, a manifest gate missing from the always-list). Seeding the failure (§7.6) is what found each of them.

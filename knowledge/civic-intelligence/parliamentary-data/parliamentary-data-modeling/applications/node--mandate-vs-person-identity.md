@@ -16,7 +16,7 @@ ab_verdict: better
 The politicas repo ingests the Czech Chamber of Deputies bulk dumps and scores
 every sitting MP on a six-part contribution index. The stack is Node 24,
 witnessed by the CI pin in `.github/workflows/ci.yml:36` "node-version: 24".
-The tree was read at commit `8b6870f`. The measurements below come from the
+The tree was read at commit `5f88b00`. The measurements below come from the
 chamber's public dumps (`poslanci.zip`, `hl-2025ps.zip`) as published on
 2026-10-10, replayed outside the product because no local store was available.
 
@@ -97,14 +97,15 @@ It would fire on a partial ingest.
 
 ## What shipped
 
-A `task`, not a merge. The pure helper that computes the per-mandate
-denominators, and its test, sit on the branch `intake/mvpi-1010` at `31d6c55`
-(5 of 5 tests pass; typecheck reports 0 errors across the project). A plan
-beside them in `.ai/tasks/` names the three writers, the formula-reference bump,
-the methodology copy and the writer run. The helper is not merged. Wiring it
-in changes a published formula, and the stored scores only move when the
-writer runs against the store. Merging the code alone would stamp a new formula
-reference onto unchanged numbers.
+This is the first step of a `task`, not the fix. The pure helper that computes
+the per-mandate denominators and its test landed on the project's default
+branch as `5af5c7f`. Its 5 tests pass, the existing contribution suite passes
+22 of 22, and the project's pre-push gate passed (typecheck plus 4,121 tests).
+A plan beside it in `.ai/tasks/` names the remaining steps: the three writers,
+the formula-reference bump, the methodology copy and the writer run. The
+helper is not wired in yet. Wiring it changes a published formula, and the
+stored scores only move when the writer runs against the store. Wiring the
+code alone would stamp a new formula reference onto unchanged numbers.
 
 ## What this realization cannot do
 

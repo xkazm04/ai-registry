@@ -59,6 +59,23 @@ A placeholder is worse prose and better epistemics, on four grounds:
 - **Keep the form short and single-line.** A bounded bracket pattern is
   what keeps detection and exclusion cheap and unambiguous; a placeholder
   that sprawls across lines or nests brackets defeats both.
+- **One grammar for every reader, sized to what the generator writes.**
+  "Short" is a request to the generator, not a property of its output. A
+  model told to name the want appends an example ("[insert specific
+  barrier, such as transportation or scheduling conflicts]"), and in one
+  measured run about one placeholder in ten outgrew a bound sized to the
+  prompt's own short example. The list the writer resolves, the gate that
+  refuses submission, the detection layer's exclusion, and any harvester
+  that turns prose into reported figures must all read *one* definition,
+  checked against recorded generator output, so that the set a check
+  exempts is exactly the set the gate lists. When each reader carries its
+  own bound, one span can be exempt from detection and invisible to the
+  gate at the same time. No single reader's test can catch that, because
+  each reader is correct by its own definition. A want-verb lead is the
+  discriminator that lets a long placeholder count without every long
+  bracketed aside counting too. And the example inside the brackets must
+  never carry a figure, because to any reader the span outgrows, that
+  figure reads as a claim.
 - **Never suppress the form for polish.** The strongest anti-pattern is a
   post-processing step or prompt tweak that removes placeholders to make
   demos look finished. A generator forbidden the honest form does not
@@ -78,6 +95,9 @@ A placeholder is worse prose and better epistemics, on four grounds:
   merely un-looked-up.
 - When the same placeholder recurs across sections, keep the wording
   identical so resolution fills all of them consistently.
+- When more than one component reads placeholders, they import one
+  definition. Test it by walking the writer's path: fill every span the
+  gate lists, re-run the gate, and require that no placeholder remains.
 
 ## When not to use
 

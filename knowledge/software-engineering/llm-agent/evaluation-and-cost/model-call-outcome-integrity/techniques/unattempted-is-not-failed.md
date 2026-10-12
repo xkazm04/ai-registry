@@ -48,7 +48,9 @@ If the attempt was stopped by a ceiling:
    an operator hunting; "hit the cap of N, raise it with this control" is a work item.
 3. Where the response reports how much of the budget went to intermediate work rather
    than to the answer, carry that number. It is the difference between "raise the
-   ceiling" and "this model cannot do this task within any sane ceiling".
+   ceiling" and "this model cannot do this task within any sane ceiling". Take it from the
+   usage accounting, never from the visible text: where intermediate work is summarized for
+   display, the billed count and the visible count differ by design.
 4. Never let the void reach a scorer, an average or a comparison. It has no value to
    contribute, and contributing zero is the specific mistake.
 
@@ -83,10 +85,17 @@ number with a plausible story attached.
   the seam can receive to a named outcome and make an unmapped member loud: a window
   exhaustion and an iteration pause are voids, and both can leave a tool block half-written.
   A refusal is neither void nor wrong - the model was reached and declined - so it is its
-  own outcome and never a score of zero.
-- **In a stream the stop condition arrives last.** It is unknown until the final event, so a
-  stream that drops earlier has an unobservable stop condition: report that, never the text
-  received so far as a completed answer.
+  own outcome and never a score of zero. A filter's stop (content withheld by a policy layer
+  beside the model) is a third outcome, not a refusal: the model wrote nothing that can be
+  read as its judgment. The vocabularies keep growing, and the newer members do not all
+  describe the call - some name a defect in the request itself, some name the standing of
+  the account - so the owner of an unmapped member is unknown until someone maps it.
+- **In a stream the stop condition arrives last, and the usage after it.** Both are unknown
+  until the final events, so a stream that drops earlier has an unobservable stop condition
+  and no price: report that, never the text received so far as a completed answer. The
+  current telemetry conventions for model calls take the same line - an expected stop that
+  never arrived is recorded as an error, not omitted. An error event delivered inside the
+  stream is different: it is an observed outcome, not a drop.
 - **The ceiling is not the only limit.** A wall-clock deadline and a remote request
   window produce the same three symptoms from different causes; each gets its own named
   outcome, because each has a different fix and a different owner.

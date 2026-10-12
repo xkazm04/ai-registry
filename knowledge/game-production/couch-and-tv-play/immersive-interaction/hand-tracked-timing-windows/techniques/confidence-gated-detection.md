@@ -31,6 +31,19 @@ speed estimate while the finger curls that tell an open palm from a fist cannot.
 quantity on the confidence that matters for it. The gate is per joint or per feature where
 the tracker reports that detail, and per hand where it does not.
 
+**With per-hand confidence, the timing gate is where the phantoms are.** If one number
+covers the whole hand, a low-confidence position is as doubtful as a low-confidence pose,
+and it reaches the verdict through the onset walk rather than through the classification.
+An eligibility gate on its own leaves that path open. In one replay the eligibility gate
+took sub-floor rewards to zero, and phantom perfects stayed at 1.3-5.4% of perfect time
+against 1.8-4.7% without it. Gate timing as a **hold**: an untrusted sample measures
+nothing, carries the last trusted speed and height, and the next trusted sample is measured
+across the gap. Adding that hold cut phantoms to 0.2-0.5%, at a cost of 0.2-0.4% of perfect
+time on dips where the position had been right. A held-sample rule that already exists for
+a slow camera is the same mechanism. Its time bound is what separates a re-sent pose from
+stillness, and confidence is the flag that lets a low-confidence hold outlast that bound
+without being read as stillness.
+
 ## Defer or reject
 
 When the classification candidate is built from low-confidence samples:
@@ -45,6 +58,18 @@ When the classification candidate is built from low-confidence samples:
 
 Defer is the default for defences. Reject is the default for commands that spend resources
 or commit the player, where a false accept costs more.
+
+**Deferral is free only where the verdict waits for it.** The player loses nothing only if
+hits are judged against the recovered onset after a resolution horizon. If the window opens
+at the recognition event and a hit's verdict is final when it lands, a deferral does two
+things. It moves the window by the deferral's length, and every hit inside the deferral
+lands unguarded. In one replay that cost 13% of guard time on 83 ms dips where the tracker
+had been right. Build the horizon before the deferral.
+
+**Size the bound from the dips, not from "a few samples".** The bound has to cover the dips
+the tracker actually produces on a correct pose. If it does not, expiry withholds the reward
+from a correct defence. In the same replay, a three-sample bound lost a fifth of perfect
+time on six-sample dips, and an eight-sample bound lost none.
 
 ## Hysteresis
 
@@ -62,7 +87,9 @@ flicker restarts the classifier's hold, delaying the verdict or splitting a stro
 4. Implement deferral with an explicit bound, and log every deferral with its outcome:
    confirmed, expired or contradicted.
 5. Count rewarded verdicts by the lowest confidence that contributed. A reward from below
-   the floor is a defect and should be impossible.
+   the floor is a defect and should be impossible. That count reads zero as soon as any gate
+   exists, so it shows that a gate is present, not that it works. Also count rewards that the
+   same clip does not earn without the dip. Only that second count measures the gate.
 
 ## Decision rules
 
@@ -74,6 +101,10 @@ flicker restarts the classifier's hold, delaying the verdict or splitting a stro
   in both modes before switching.** Higher sample rates can bring more jitter with them.
 - **When the test clips carry confidence and no detector reads it, the gate is missing, not
   passed.** A synthetic dip that changes nothing proves only that nothing reads the field.
+- **When the sub-floor reward count is zero and phantom rewards have not moved, the onset
+  is reading doubtful positions.** Gate timing as a hold before raising the reward floor.
+- **When the live window opens at recognition and the tests judge on onset, measure both.**
+  A gate that is better under one rule can fail the floor under the other.
 - **When confidence is unavailable**, treat sudden pose changes, impossible joint angles and
   bone-length changes as a derived low-confidence signal, and name it derived.
 

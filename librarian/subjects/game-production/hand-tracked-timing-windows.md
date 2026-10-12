@@ -1,8 +1,8 @@
 ---
 domain: game-production
 subject: hand-tracked-timing-windows
-last_touched: 2026-10-09
-touched_by: forge
+last_touched: 2026-10-10
+touched_by: intake
 dry_streak: 0
 depth: L1
 ---
@@ -66,3 +66,36 @@ procedural clips).
   runtime version, build and command.
 - **`confidence-gated-detection` and `tracking-loss-as-a-game-state` have no application.**
   **Return:** a detector that reads confidence, and the loss state built (V3).
+  *(2026-10-10: `confidence-gated-detection` has been applied as an experiment; see below.)*
+
+### 2026-10-10 - `/intake apply confidence-gated-detection` (run `intake-apply-cgd-1010`)
+
+First application of `confidence-gated-detection`, an experiment on `mage-arena-vr` `master`
+at `6aa7a57`. It reached `not-better` with `proof: ab-paired`, and the applied row is in the
+project's `.ai/applied.jsonl` (pushed). The instrument was a line-for-line port of the ward
+detector and the absorb resolver. It reproduced 22/22 values of the suite's own timing report
+before any arm was read. The corpus was 28 raises, each with one confidence dip near the confirm
+frame, giving 9,960 trials per arm at each confidence level.
+
+**The seam was chosen to falsify two claims.**
+- The first claim was that deferral costs the player nothing. The live session opens the window
+  at the raise event, so it could break here. It did: on dips the tracker got right, a deferral
+  cost 3.9-13.4% of guard time.
+- The second claim was that a reward from below the floor is the defect to count. The eligibility
+  gate took that count to zero, and phantom perfects did not move (1.3-5.4% against 1.8-4.7%).
+
+**What landed.** The technique gained four things:
+- the timing gate as a hold, which cut phantoms to 0.2-0.5%;
+- the condition that deferral is free only when the verdict waits for it;
+- a deferral bound sized from the observed dips (three samples lost 20% of perfect time on
+  six-sample dips);
+- a second count in step 5.
+
+Two decision rules were added. The asymmetry the forge run named shows up again here: the tests
+judge on onset and the live session judges at recognition. That split is now a measured cost,
+not only a deviation.
+
+**Open.**
+- **Onset in the live session** stays first in the ship order. Gating before it moves the window.
+- **Device corpus.** **Return:** at V1 (4 Nov), read the dip lengths and the pose error per
+  confidence band before choosing the floor (0.2 here, a guess) and the bound.

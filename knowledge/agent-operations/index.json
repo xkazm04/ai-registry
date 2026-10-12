@@ -5,7 +5,7 @@
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
   "techniques": 40,
-  "applications": 30,
+  "applications": 34,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/agent-benchmark-design/agent-benchmark-design.md",
-   "digest": "sha256-b2:95c6fad5833c1c40",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:550ea4630111cab6",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "comparable-cell-construction",
@@ -97,6 +97,14 @@
      "technique": "null-and-reference-controls",
      "file": "knowledge/agent-operations/measurement/agent-benchmark-design/applications/process--null-and-reference-controls.md",
      "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "python",
+     "technique": "comparable-cell-construction",
+     "file": "knowledge/agent-operations/measurement/agent-benchmark-design/applications/python--comparable-cell-construction--personas.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "python@3.12",
+     "refresh_by": "2027-01-10"
     }
    ]
   },
@@ -105,9 +113,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/agent-run-budgeting.md",
-   "digest": "sha256-b2:3a4d0d6d28c6b615",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:46c11cdadd0f7998",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "allowance-budgeting-across-workloads",
@@ -188,6 +196,14 @@
      "technique": "termination-cause-record",
      "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/process--termination-cause-record.md",
      "verified_on": "2026-09-27"
+    },
+    {
+     "stack": "python",
+     "technique": "allowance-budgeting-across-workloads",
+     "file": "knowledge/agent-operations/configuration-choice/agent-run-budgeting/applications/python--allowance-budgeting-across-workloads--personas.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "python@3.12",
+     "refresh_by": "2027-01-10"
     }
    ]
   },
@@ -374,9 +390,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/engine-behaviour-profiles.md",
-   "digest": "sha256-b2:40f0d360f0af1a7a",
-   "revision": 2,
-   "changedAt": "2026-09-27",
+   "digest": "sha256-b2:9e183fb9321e30c7",
+   "revision": 3,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "authority-conflict-disposition",
@@ -437,6 +453,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "capability-claims-expire",
+     "file": "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/next--capability-claims-expire.md",
+     "verified_on": "2026-10-10",
+     "verified_against": "next@16.3"
+    },
     {
      "stack": "process",
      "technique": "authority-conflict-disposition",
@@ -650,9 +673,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/coordination/shared-research-record/shared-research-record.md",
-   "digest": "sha256-b2:1d21609d185e872b",
-   "revision": 1,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:1e1cf756cadaa02e",
+   "revision": 2,
+   "changedAt": "2026-10-10",
    "techniques": [
     {
      "slug": "community-run-as-unit",
@@ -718,6 +741,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "independent-reuse-evidence",
+     "file": "knowledge/agent-operations/coordination/shared-research-record/applications/node--independent-reuse-evidence.md",
+     "verified_on": "2026-10-10"
+    },
     {
      "stack": "process",
      "technique": "community-run-as-unit",

@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ap-fdfdm-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-10T14:40:00Z",
+  "ended_at": "2026-10-10T15:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/tenant-scoped-agent-runtime",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/tenant-scoped-agent-runtime",
+      "technique": "fail-direction-follows-deployment-mode",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/applications/node--fail-direction-follows-deployment-mode.md",
+    "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/techniques/fail-direction-follows-deployment-mode.md",
+    "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/tenant-scoped-agent-runtime.md",
+    "knowledge/software-engineering/index.json",
+    "rules/ai-registry-software-engineering.md",
+    "catalog.json",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "4b60217e",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/applications/node--fail-direction-follows-deployment-mode.md",
+        "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/techniques/fail-direction-follows-deployment-mode.md",
+        "knowledge/software-engineering/llm-agent/orchestration/tenant-scoped-agent-runtime/tenant-scoped-agent-runtime.md",
+        "librarian/applied.md",
+        "librarian/subjects/software-engineering/tenant-scoped-agent-runtime.md"
+      ]
+    },
+    {
+      "sha": "623f8aae",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. personas cloud worker sent its key to caller-chosen hosts: code A/B 13/48 -> 0/48, floor 35/35; pushed. Amendment: overlay falls through per destination. Full gate red upstream at check-coverage-age; knowledge/skills lanes green."
+}

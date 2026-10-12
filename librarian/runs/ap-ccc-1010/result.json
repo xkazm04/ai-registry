@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ap-ccc-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "agent-operations",
+  "started_at": "2026-10-10T15:05:00Z",
+  "ended_at": "2026-10-10T16:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/agent-benchmark-design",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-operations/agent-benchmark-design",
+      "technique": "comparable-cell-construction",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/measurement/agent-benchmark-design/applications/python--comparable-cell-construction--personas.md",
+    "knowledge/agent-operations/measurement/agent-benchmark-design/techniques/comparable-cell-construction.md",
+    "knowledge/agent-operations/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/agent-operations/agent-benchmark-design.md",
+    "knowledge/agent-operations/index.json",
+    "rules/ai-registry-agent-operations.md",
+    "catalog.json",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "ae5b6797",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations/measurement/agent-benchmark-design/applications/python--comparable-cell-construction--personas.md",
+        "knowledge/agent-operations/measurement/agent-benchmark-design/techniques/comparable-cell-construction.md",
+        "knowledge/agent-operations/index.md",
+        "librarian/applied.md",
+        "librarian/subjects/agent-operations/agent-benchmark-design.md"
+      ]
+    },
+    {
+      "sha": "37b6ade1",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations/index.json",
+        "rules/ai-registry-agent-operations.md",
+        "catalog.json"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. personas memory benchmark asserted shared pins unchecked: code A/B false assertions 5/6 -> 0/6, tables byte-identical; pushed. Technique: pin check at print time, scorer stamp. Full gate red upstream at check-coverage-age; knowledge lane green."
+}

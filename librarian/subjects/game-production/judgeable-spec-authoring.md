@@ -1,8 +1,8 @@
 ---
 domain: game-production
 subject: judgeable-spec-authoring
-last_touched: 2026-09-10
-touched_by: external-reconcile
+last_touched: 2026-10-10
+touched_by: intake-apply
 dry_streak: 0
 ---
 
@@ -50,6 +50,43 @@ eight-row matrix; dry-run exits 0 while reporting undefined and ambiguous scenar
   is a second-sighting candidate; a third makes it a law conversation.
 - `quality-verdict-integrity`: dry-run exit 0 while judging nothing is a runnable
   instance of a green exit that judged nothing.
+
+## Applied - 2026-10-10 (intake-apply-enum-closure-1010)
+
+`enumeration-closure-as-arithmetic`, first application, on pof (a Next.js app), `code`,
+`better`, ab-paired over 351 catalog steps. The dispatch reason was a single stack
+(node). Applications now span `node` and `next`, but both run on a JavaScript runtime, so
+the scan point moves less than the label suggests.
+
+- `applications/next--enumeration-closure-as-arithmetic.md`. The produce prompt's
+  "Required fields" list came from opt-in tags, and its guard sampled what a checker
+  *says* on empty data. Blind graded steps went from 58 of 259 to 0. Prompts asking for a
+  wiring contract that nothing grades went from 119 of 258 to 0. Verdicts on all 351
+  stubs were identical, and no block was evicted by the size cap. pof `cc848c85`.
+
+**Sharpest finding.** The guard that already sat on this seam was a census of reason
+text, and a value law gives no reason. A closure built from what the checker reads,
+recorded over the producer's own stub, found 19 value-law fields that no prompt had named.
+
+### Technique-edit candidates (banked, one sighting)
+
+- `enumeration-closure-as-arithmetic`: **in a size-budgeted artifact, the closure
+  competes with what it closes over.** Naming every graded field evicted another
+  section at the cap. It was paid for by the inverse closure: an instruction no
+  reader consumes was deleted. Return: a second budgeted artifact where stating a
+  closure evicts a section.
+- Same technique, procedure: the dispositions were three (described here, named here,
+  settled later by a runner or a selection), and a draft that gave every unlisted
+  field one disposition told a producer to write a field the selection owns. The
+  technique already says "owned there by name". The case is worth a line under its
+  decision rules if a second tree shows a runner-owned field.
+
+### Leads
+
+- pof vendors/Economy Sim grades one quantity at two addresses (a nested blended
+  margin and a top-level copy written for a second checker). This is
+  `quantity-ownership-and-the-bindable-row` territory, unapplied. Return: when that
+  technique is applied to pof.
 
 ## Architecture review - 2026-09-10
 

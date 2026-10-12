@@ -1,0 +1,73 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ap-cce-1010",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "apply",
+  "domain": "agent-operations",
+  "started_at": "2026-10-10T15:40:00Z",
+  "ended_at": "2026-10-10T17:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "agent-operations/engine-behaviour-profiles",
+      "at": "2026-10-10",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": 2,
+      "points_after": 0
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-operations/engine-behaviour-profiles",
+      "technique": "capability-claims-expire",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/next--capability-claims-expire.md",
+    "knowledge/agent-operations/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/agent-operations/engine-behaviour-profiles.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "knowledge/agent-operations/index.json",
+    "catalog.json",
+    "rules/ai-registry-agent-operations.md",
+    "librarian/runs/ap-cce-1010/result.json"
+  ],
+  "commits": [
+    {
+      "sha": "6250ad09",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations/configuration-choice/engine-behaviour-profiles/applications/next--capability-claims-expire.md",
+        "knowledge/agent-operations/index.md",
+        "librarian/applied.md",
+        "librarian/subjects/agent-operations/engine-behaviour-profiles.md",
+        ".claude/skills/intake/SCORECARD.md"
+      ]
+    },
+    {
+      "sha": "6473ff98",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/agent-operations/index.json",
+        "catalog.json",
+        "rules/ai-registry-agent-operations.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. kp code A/B better: Quality board stopped re-pinning a release newer than its grid onto the older measurement (22/22 -> 0/22). Pushed kp 7392a7179. Scan 2 -> 0. Full gate stops upstream at check-coverage-age."
+}
