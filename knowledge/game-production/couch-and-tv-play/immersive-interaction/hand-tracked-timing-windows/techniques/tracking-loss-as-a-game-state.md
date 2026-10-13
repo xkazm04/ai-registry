@@ -84,6 +84,10 @@ a defence that failed, or the player learns the wrong lesson about their timing.
 ## Decision rules
 
 - **When a ward stays up with the hands in the lap, the coast bound is missing or too long.**
+- **When the game pauses on loss, the pause bound and the coast bound are two numbers.** A pause is
+  felt and wants seconds of loss before it fires; a held defence has to release inside the shortest
+  window. A tree that has only the pause bound has a defence that outlives its hand by that many
+  seconds, drawn or not.
 - **When blocks fail at the edge of view, distinguish loss from timing in the logs before
   touching the window.**
 - **When the player keeps losing tracking in one motion, change the motion before

@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 537,
-  "applications": 294,
+  "applications": 295,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -4434,9 +4434,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/hand-tracked-timing-windows.md",
-   "digest": "sha256-b2:0afd8193043b7082",
-   "revision": 2,
-   "changedAt": "2026-10-10",
+   "digest": "sha256-b2:b5df788755fdb170",
+   "revision": 3,
+   "changedAt": "2026-10-13",
    "techniques": [
     {
      "slug": "confidence-gated-detection",
@@ -4516,6 +4516,13 @@
      "technique": "sensor-latency-inside-the-window-budget",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/applications/cpp--sensor-latency-inside-the-window-budget.md",
      "verified_on": "2026-10-09",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "tracking-loss-as-a-game-state",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/hand-tracked-timing-windows/applications/cpp--tracking-loss-as-a-game-state.md",
+     "verified_on": "2026-10-13",
      "verified_against": "cpp@20"
     }
    ]

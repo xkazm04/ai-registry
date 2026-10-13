@@ -99,3 +99,10 @@ not only a deviation.
 - **Onset in the live session** stays first in the ship order. Gating before it moves the window.
 - **Device corpus.** **Return:** at V1 (4 Nov), read the dip lengths and the pose error per
   confidence band before choosing the floor (0.2 here, a guess) and the bound.
+
+**2026-10-13, tracking-loss-as-a-game-state applied (simulation, better).** The tree has the
+technique's pause half (1.5 s at the session) and no coast or release at the ward, so a guard
+outlives its hand ten times over a 0.15 s window and is undrawn while it holds. One decision rule
+added: the pause bound and the coast bound are two numbers. Nothing was executed (no engine, no
+kept detector port). **Return:** the same V1 device corpus; read gap lengths before choosing the
+coast bound, then run the cases on a JS port.
