@@ -72,6 +72,12 @@ and everything calls it.
   second-largest spread is a healthy fraction of its largest has a plane. A stroke with one
   dominant spread has no stable plane, so project it onto the body plane instead. The
   fraction is a threshold and lives in data.
+- **A fitted plane still needs the head's forward for its sign.** The fit is invariant under
+  any turn, but its normal comes out of the eigen-solver with an arbitrary sign. Point it at a
+  world constant and the plane is right until the player turns past ninety degrees, then every
+  stroke is mirrored. In one measured tree wrong-line casts rose from 13 to 99 of 270 once the
+  yaw passed 90 degrees, and a handed shape collapsed to 4 of 90 correct. Take the sign from
+  the head's forward direction captured at pen-down.
 - **When depth jitter is large compared with the drawing size, prefer the body plane.** A
   plane fitted to noise tilts with the noise.
 

@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 537,
-  "applications": 293,
+  "applications": 294,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -2672,9 +2672,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/drawn-gesture-command-recognition.md",
-   "digest": "sha256-b2:735476335f9e23b3",
-   "revision": 2,
-   "changedAt": "2026-10-10",
+   "digest": "sha256-b2:49e82fdf25c605fd",
+   "revision": 3,
+   "changedAt": "2026-10-13",
    "techniques": [
     {
      "slug": "held-out-cross-user-acceptance",
@@ -2769,6 +2769,13 @@
      "technique": "reject-class-recognition",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/applications/cpp--reject-class-recognition.md",
      "verified_on": "2026-10-09",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "stroke-plane-projection",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/applications/cpp--stroke-plane-projection.md",
+     "verified_on": "2026-10-13",
      "verified_against": "cpp@20"
     }
    ]
