@@ -1,7 +1,7 @@
 ---
 domain: llm-observability
 subject: judge-calibration-and-drift
-last_touched: 2026-09-29
+last_touched: 2026-10-13
 touched_by: intake
 ---
 
@@ -296,3 +296,7 @@ licenses only an aggregate comparison with a caveat, never a trusted verdict.
 - **Structural fact nobody designed:** the ledger's agreement (ties counted as dissent) and the parking step's
   log line (ties excluded) are two definitions of one statistic. Left as is, because changing it restates
   history.
+
+## 2026-10-13 - inbox lead from garden-vr (2026-10-07), ruled by `/intake`
+
+**LANDED in 3b1f7e02** as the new technique `reference-ladder`. The lead: before a judge or perceptual metric scores a render against a reference, measure its floor (a known-worse render) and its ceiling, then read every score on that ladder and disqualify the instrument for any frame that reads outside floor..ceiling. **Corrected premise:** the dispatch brief phrased the ceiling as "the reference scored against itself". The consumer's own lessons (2026-10-03, 2026-10-04) and the lead row say *a second reference of the same style*, and that is the version landed. Self-scoring is degenerate: a metric returns its identity value, and a judge recognizes the identical picture. **Prior art in this subject:** `judge-selection-by-spread` uses known-good and known-bad means to *choose* a judge. `golden-set-agreement-measurement` calibrates against human labels. Neither reads a reference-anchored score against a reference-pair ceiling, and neither has the out-of-range disqualification. **Corroboration (convergence, two other runs and bundles):** media-generation `character-identity-continuity/identity-ruler-calibration` (known-answer rungs; a wrong rung order discards the instrument) and agent-operations `agent-benchmark-design/null-and-reference-controls` (null and reference runs bracket every configuration). The consumer evidence (garden-vr lessons.md lines 65-70 and 89-95 at `f14a1164`) supplies the two readings the corpus lacked. One is a ceiling below the target: a blind judge held a closest-yet render at 2/5 on properties of a photoreal reference. The other is a past-ceiling reading: palette distance and a learned similarity rated the frame past reference-vs-reference and were disqualified. Product and metric names are kept out of the technique (purity). Not A/B tested (Phase 7.5 not run in this headless dispatch).
