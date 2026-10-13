@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 41,
+  "applications": 42,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/coalition-and-portfolio-strategy.md",
-   "digest": "sha256-b2:0c39a1146124b21b",
-   "revision": 2,
-   "changedAt": "2026-10-11",
+   "digest": "sha256-b2:a117d0a98c221c22",
+   "revision": 3,
+   "changedAt": "2026-10-13",
    "techniques": [
     {
      "slug": "capacity-floor-detection",
@@ -117,6 +117,13 @@
      "technique": "complementarity-scoring",
      "file": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/applications/node--complementarity-scoring.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "lead-applicant-selection",
+     "file": "knowledge/grant-funding/matching-and-intelligence/coalition-and-portfolio-strategy/applications/node--lead-applicant-selection.md",
+     "verified_on": "2026-10-13",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
