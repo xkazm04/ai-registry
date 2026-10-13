@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status] [--lens development|security|design|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>]"
 category: workflow
 memory: project
-version: 1.2.1
+version: 1.2.2
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -264,7 +264,11 @@ age. A decline note is input to the next propose phase; read it.
 `run-start --phase execute`, then for each `approved` item, highest expected value per
 size first, under the [Lane B worktree doctrine](../scan-sweep/references/ab-lane.md)
 (one worktree per item or write-set group, never `npm ci` through a junction, the
-director merges).
+director merges). **Unlink the `node_modules` junction before removing a worktree**:
+`cmd /c rmdir <worktree>
+ode_modules`, then `git worktree remove`. On Windows
+`git worktree remove --force` deletes through the junction and empties the base
+checkout's `node_modules`.
 
 **`--proposals a,b,c`** narrows the run to those ids: read them with
 `store.mjs proposals --ids a,b,c` and record the run as

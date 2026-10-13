@@ -15,3 +15,7 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 ## 1.2.1 - 2026-10-13 - bp
 
 - Field lesson: the first blueprint-spawned scan (claude -p through the user-scope junction ~/.claude/skills/lens-scan) found store.mjs and footprint.mjs silently doing nothing - the run-as-script check compared argv[1] (junction path) with import.meta.url (real path). The agent worked around it with an import wrapper. All three scripts now compare real paths.
+
+## 1.2.2 - 2026-10-13 - pof (dispatched from bp)
+
+- Field lesson: the first blueprint-dispatched execute (p-c3f7d3, p-73edaa on pof, both merged green) removed its worktrees with the node_modules junction still in place and emptied pof's own node_modules; the agent noticed and reinstalled. The rule was in scan-sweep's ab-lane.md, but section 5 restated only two of its rules inline and the run followed the inline list. Section 5 now names the unlink step itself.
