@@ -108,3 +108,62 @@ test('cli: JSON on stdout, bulk --json, exit 2 on bad input', () => {
 test('parseArgs keeps negative numbers as values', () => {
   assert.deepEqual(parseArgs(['propose', '--expected-delta', '-3', '--dry']), { _: ['propose'], expectedDelta: '-3', dry: true });
 });
+
+test('run-start: BP_JOB_ID becomes the run note, a passed note is kept after it', () => {
+  const db = openStore(tmpDb());
+  const note = (o) => db.prepare('SELECT note FROM runs WHERE id = ?').get(runStart(db, { phase: 'measure', lenses: 'development', ...o }).id).note;
+  assert.equal(note({ env: { BP_JOB_ID: 'j-1' } }), 'bp-job:j-1');
+  assert.equal(note({ env: { BP_JOB_ID: 'j-2' }, note: 'rescan' }), 'bp-job:j-2 · rescan');
+  assert.equal(note({ env: {}, note: 'by hand' }), 'by hand');
+  assert.equal(note({ env: { BP_JOB_ID: '  ' } }), null, 'a blank job id is no job');
+  const { id: failing } = runStart(db, { phase: 'measure', lenses: 'tmp.x', env: { BP_JOB_ID: 'j-3' } });
+  assert.equal(runEnd(db, { run: failing, status: 'failed', note: 'no app-structure' }).note, 'bp-job:j-3 · no app-structure', 'a closing note keeps the job prefix');
+  db.close();
+  const path = tmpDb();
+  const { id } = JSON.parse(execFileSync(process.execPath, [SCRIPT, '--db', path, 'run-start', '--phase', 'measure', '--lenses', 'tmp.x'], { encoding: 'utf8', env: { ...process.env, BP_JOB_ID: 'j-cli' } }));
+  const back = openStore(path);
+  assert.equal(back.prepare('SELECT note FROM runs WHERE id = ?').get(id).note, 'bp-job:j-cli', 'the CLI reads the environment');
+  back.close();
+});
+
+test('run-start: a feature-list scope is recorded as {features} and checked against the structure first', () => {
+  const db = openStore(tmpDb());
+  const known = new Set(['a', 'b', 'c']);
+  const { id } = runStart(db, { phase: 'measure', lenses: 'tmp.x', features: 'a, b,a', knownFeatures: known, env: {} });
+  assert.deepEqual(JSON.parse(db.prepare('SELECT scope FROM runs WHERE id = ?').get(id).scope), { features: ['a', 'b'] });
+  assert.throws(() => runStart(db, { phase: 'measure', lenses: 'tmp.x', features: 'a,zzz', knownFeatures: known }), /unknown feature slug\(s\) in scope: zzz/);
+  assert.throws(() => runStart(db, { phase: 'measure', lenses: 'tmp.x', scope: '{"features":["nope"]}', knownFeatures: () => known }), /nope/, 'a JSON scope naming features is checked too');
+  assert.throws(() => runStart(db, { phase: 'measure', lenses: 'tmp.x', features: 'a' }), /there is none/, 'no structure, no feature scope');
+  assert.throws(() => runStart(db, { phase: 'measure', lenses: 'tmp.x', features: 'a', scope: '{}', knownFeatures: known }), /one of them/);
+  let read = 0;
+  runStart(db, { phase: 'measure', lenses: 'tmp.x', scope: '{"capability":"billing"}', knownFeatures: () => { read += 1; return known; } });
+  assert.equal(read, 0, 'a scope that names no features never reads the structure');
+  assert.equal(db.prepare('SELECT COUNT(*) AS n FROM runs').get().n, 2, 'a refused scope writes no run');
+  db.close();
+
+  // cli: --features, checked against app-structure.json beside the db; exit 2 and no row on an unknown slug
+  const path = tmpDb();
+  openStore(path).close();
+  writeFileSync(join(path, '..', 'app-structure.json'), JSON.stringify({ features: [{ slug: 'a' }, { slug: 'b' }] }));
+  assert.match(cli(path, 'run-start', '--phase', 'measure', '--lenses', 'tmp.x', '--features', 'a,b').id, /^r-/);
+  const r = spawnSync(process.execPath, [SCRIPT, '--db', path, 'run-start', '--phase', 'measure', '--lenses', 'tmp.x', '--features', 'a,gone'], { encoding: 'utf8' });
+  assert.equal(r.status, 2);
+  assert.match(r.stderr, /gone/);
+  const back = openStore(path);
+  assert.deepEqual(back.prepare('SELECT scope FROM runs').all().map((x) => JSON.parse(x.scope)), [{ features: ['a', 'b'] }]);
+  back.close();
+});
+
+test('proposals --ids: only those ids, in the order asked; an unknown id is simply absent', () => {
+  const path = tmpDb();
+  const db = openStore(path);
+  const { id: run } = runStart(db, { phase: 'propose', lenses: 'development', env: {} });
+  const mk = (t) => propose(db, { run, feature: 'a', lens: 'development', title: t, kind: 'fix', metric: 'loc', expectedDelta: -1 }).id;
+  const [p1, p2, p3] = [mk('one'), mk('two'), mk('three')];
+  db.prepare("UPDATE proposals SET status = 'approved' WHERE id IN (?, ?)").run(p1, p3);
+  assert.deepEqual(proposals(db, { ids: `${p3},${p1},p-000000` }).map((p) => p.id), [p3, p1]);
+  assert.deepEqual(proposals(db, { ids: [p2, p3], status: 'approved' }).map((p) => p.id), [p3], 'filters combine');
+  assert.throws(() => proposals(db, { ids: ' , ' }), /at least one/);
+  assert.deepEqual(cli(path, 'proposals', '--ids', p2).map((p) => p.title), ['two']);
+  db.close();
+});

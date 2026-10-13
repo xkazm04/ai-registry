@@ -6,6 +6,13 @@ as `measurements.metric`, phase 1 writes its latest value into
 with `metric: { better, method, target?, warn_at? }`. Measure only keys listed here; a
 new metric is a catalog change (and a skill version bump), not a run-time invention.
 
+**Lenses with a scan block** (1.2) are the exception to "measure only keys listed
+here": their keys are their own manifest's numeric metric fields, every one measured
+by `judgement` against the manifest's `scan.instructions`
+([lenses-map.md](lenses-map.md#lenses-with-a-scan-block-12)). The rules below apply to
+them unchanged, plus one: a feature the lens does not touch gets no row and a facet
+`applicable: false`, never a 0.
+
 ## The rules every metric obeys
 
 - **Unmeasurable means no row.** When the method cannot run for a feature (no files on

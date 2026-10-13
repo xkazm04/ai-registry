@@ -6,14 +6,19 @@
 //
 //   node store.mjs [--db <path>] <subcommand> [flags]        (--db default .ai/lens-scan/scan.db)
 //   init
-//   run-start --phase measure|propose|execute|propagate --lenses a,b [--scope <json>] [--model m] [--note t]
-//   run-end --run <id> --status done|failed|aborted [--note t]
+//   run-start --phase measure|propose|execute|propagate --lenses a,b [--scope <json> | --features a,b,c]
+//             [--structure <app-structure.json>] [--model m] [--note t]
+//             --features is the scope {"features":[...]}; a scope naming features (either way) is checked
+//             against the structure (default: app-structure.json beside the db) and an unknown slug is
+//             refused before any run row exists. BP_JOB_ID in the environment makes the note
+//             `bp-job:<id>` (`bp-job:<id> · <note>` with --note): how the blueprint finds its job's run.
+//   run-end --run <id> --status done|failed|aborted [--note t]   (--note replaces the note, keeping a bp-job: prefix)
 //   activity --run <id> --kind <k> --text <t> [--feature f] [--lens l]
 //   measure --run <id> --feature f --lens l --metric m --value <num> [--unit u] [--method m] [--evidence e]
 //   measure --run <id> --json <file>          (array of {feature, lens, metric, value, unit?, method?, evidence?})
 //   propose --run <id> --feature f --lens l --title t --kind fix|baseline-upgrade|propagation
 //           [--metric m] [--body-file p] [--standard s] [--expected-delta n] [--size XS..XL] [--risk 1-10] [--parent id]
-//   proposals [--status s] [--feature f] [--kind k]
+//   proposals [--status s] [--feature f] [--kind k] [--ids a,b]   (--ids: those ids only, in that order)
 //   proposal-update --id <id> [--status executing|done|failed] [--after-value n] [--result-sha sha]
 //   shot --run <id> --feature f --path <rel to store dir> [--size s] [--theme t] [--module m] [--report-file p]
 //   coverage --run <id> --feature f --standard s --state conformant|deviation|not-applicable|unknown [--evidence e]
@@ -26,7 +31,7 @@
 //  - every write bumps runs.updated_at (or proposals.updated_at), the cursor the review UI polls.
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, mkdirSync, existsSync } from 'node:fs';
-import { dirname, isAbsolute, normalize, resolve } from 'node:path';
+import { dirname, isAbsolute, join, normalize, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
@@ -118,18 +123,49 @@ function liveRun(db, id) {
 const touchRun = (db, id, at) => db.prepare('UPDATE runs SET updated_at = ? WHERE id = ?').run(at, id);
 
 // ------------------------------------------------------------------------------------- writes
-export function runStart(db, { phase, lenses, scope, model, note } = {}) {
+/** The blueprint correlates a job with its run by this note prefix (bp src/lib/scan/jobs.ts RUN_NOTE_PREFIX). */
+export const BP_JOB_PREFIX = 'bp-job:';
+const listOf = (v) => (Array.isArray(v) ? v : String(v).split(',')).map((s) => String(s).trim()).filter(Boolean);
+
+/** The feature slugs of an app-structure file; null when there is none to read. */
+export function structureFeatures(path) {
+  if (!path || !existsSync(path)) return null;
+  let s;
+  try { s = JSON.parse(readFileSync(path, 'utf8')); } catch (e) { bad(`${path} is not readable JSON (${e.message})`); }
+  return new Set((s.features ?? []).map((f) => f?.slug).filter((x) => typeof x === 'string'));
+}
+
+/**
+ * Opens a run. `features` (array or comma list) is the scope {features: [...]}. A scope that names
+ * features is checked against `knownFeatures` (a Set of slugs, or a function that reads one - called only
+ * when a scope names features) before anything is written; without one the run is refused.
+ * `env.BP_JOB_ID` prefixes the note with `bp-job:<id>`.
+ */
+export function runStart(db, { phase, lenses, scope, features, knownFeatures, model, note, env = process.env } = {}) {
   oneOf('phase', phase, PHASES);
   const list = (Array.isArray(lenses) ? lenses : String(need('lenses', lenses)).split(',')).map((s) => s.trim()).filter(Boolean);
   if (!list.length) bad('--lenses names at least one lens');
-  let scopeJson;
-  if (scope !== undefined) {
-    try { scopeJson = JSON.stringify(typeof scope === 'string' ? JSON.parse(scope) : scope); } catch { bad('--scope must be JSON'); }
+  let sc;
+  if (scope !== undefined && features !== undefined) bad('--scope and --features are one scope; pass one of them');
+  if (features !== undefined) {
+    if (features === true) bad('--features names at least one feature slug');
+    sc = { features: [...new Set(listOf(features))] };
+  } else if (scope !== undefined) {
+    try { sc = typeof scope === 'string' ? JSON.parse(scope) : scope; } catch { bad('--scope must be JSON'); }
   }
+  if (sc?.features !== undefined) {
+    if (!Array.isArray(sc.features) || !sc.features.length || !sc.features.every((f) => typeof f === 'string' && f)) bad('scope.features is a non-empty list of feature slugs');
+    const known = typeof knownFeatures === 'function' ? knownFeatures() : knownFeatures;
+    if (!known) bad('a feature scope is checked against the app-structure, and there is none (pass --structure <path>)');
+    const unknown = sc.features.filter((f) => !known.has(f));
+    if (unknown.length) bad(`unknown feature slug(s) in scope: ${unknown.join(', ')}`);
+  }
+  const job = typeof env?.BP_JOB_ID === 'string' ? env.BP_JOB_ID.trim() : '';
+  const text = job ? `${BP_JOB_PREFIX}${job}${note ? ` · ${note}` : ''}` : note;
   const at = now();
   const id = runId();
   db.prepare(`INSERT INTO runs (id, started_at, updated_at, phase, status, lenses, scope, skill_version, model, note)
-    VALUES (?, ?, ?, ?, 'running', ?, ?, ?, ?, ?)`).run(id, at, at, phase, JSON.stringify(list), scopeJson ?? null, skillVersion() ?? null, model ?? null, note ?? null);
+    VALUES (?, ?, ?, ?, 'running', ?, ?, ?, ?, ?)`).run(id, at, at, phase, JSON.stringify(list), sc === undefined ? null : JSON.stringify(sc), skillVersion() ?? null, model ?? null, text ?? null);
   return { id };
 }
 
@@ -137,7 +173,10 @@ export function runEnd(db, { run, status, note } = {}) {
   oneOf('status', status, RUN_END);
   const id = liveRun(db, run);
   const at = now();
-  db.prepare('UPDATE runs SET status = ?, ended_at = ?, updated_at = ?, note = COALESCE(?, note) WHERE id = ?').run(status, at, at, note ?? null, id);
+  // a closing note replaces the run's note, but never the job prefix the blueprint matches the run by
+  const job = (db.prepare('SELECT note FROM runs WHERE id = ?').get(id).note ?? '').match(/^bp-job:\S+/)?.[0];
+  const text = note !== undefined && job && !String(note).startsWith(job) ? `${job} · ${note}` : note;
+  db.prepare('UPDATE runs SET status = ?, ended_at = ?, updated_at = ?, note = COALESCE(?, note) WHERE id = ?').run(status, at, at, text ?? null, id);
   return getRun(db, id);
 }
 
@@ -211,13 +250,23 @@ export function propose(db, o = {}) {
   return { id };
 }
 
-export function proposals(db, { status, feature, kind } = {}) {
+/** Proposals by status, feature, kind; `ids` (array or comma list) keeps those ids only, in the order
+ *  given - an id that is not in the result does not exist. */
+export function proposals(db, { status, feature, kind, ids } = {}) {
   const where = [], args = [];
   if (status !== undefined) { where.push('status = ?'); args.push(status); }
   if (feature !== undefined) { where.push('feature = ?'); args.push(feature); }
   if (kind !== undefined) { where.push('kind = ?'); args.push(kind); }
+  let order;
+  if (ids !== undefined) {
+    order = [...new Set(listOf(ids === true ? '' : ids))];
+    if (!order.length) bad('--ids names at least one proposal id');
+    where.push(`id IN (${order.map(() => '?').join(', ')})`);
+    args.push(...order);
+  }
   const sql = `SELECT * FROM proposals${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY created_at, id`;
-  return db.prepare(sql).all(...args).map(clean);
+  const rows = db.prepare(sql).all(...args).map(clean);
+  return order ? rows.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id)) : rows;
 }
 
 export function proposalUpdate(db, { id, status, afterValue, resultSha } = {}) {
@@ -299,7 +348,11 @@ export function main(argv) {
   try {
     switch (cmd) {
       case 'init': return { db: resolve(typeof a.db === 'string' ? a.db : DEFAULT_DB), user_version: SCHEMA_VERSION };
-      case 'run-start': return runStart(db, { phase: a.phase, lenses: a.lenses, scope: a.scope, model: a.model, note: a.note });
+      case 'run-start': {
+        const dbPath = typeof a.db === 'string' ? a.db : DEFAULT_DB;
+        const knownFeatures = () => structureFeatures(typeof a.structure === 'string' ? a.structure : join(dirname(dbPath), 'app-structure.json'));
+        return runStart(db, { phase: a.phase, lenses: a.lenses, scope: a.scope, features: a.features, knownFeatures, model: a.model, note: a.note });
+      }
       case 'run-end': return runEnd(db, { run: a.run, status: a.status, note: a.note });
       case 'activity': return activity(db, a);
       case 'measure': {

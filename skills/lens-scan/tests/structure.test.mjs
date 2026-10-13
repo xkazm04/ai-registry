@@ -4,10 +4,10 @@
 // latest measurements merged into facets, nulls dropped, and byte-identical output on a re-run.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { toAppStructure, slugify, main } from '../scripts/structure.mjs';
+import { toAppStructure, slugify, main, setApplicable, lensMethod } from '../scripts/structure.mjs';
 import { openStore, runStart, measure } from '../scripts/store.mjs';
 
 const MAP = {
@@ -126,4 +126,81 @@ test('merge: a declared product tree survives; duplicates renamed by group; lens
   assert.equal(s.provenance.product_tree, 'adopt-bp');
   const again = toAppStructure(dup, { lenses: [LENS('development')], latest, existing: s });
   assert.equal(JSON.stringify(again.structure), JSON.stringify(s), 'merge is idempotent');
+});
+
+const JUDGED = (id, scan) => ({ ...LENS(id), fields: [
+  { key: 'callSites', label: 'Call sites', type: 'integer', metric: { better: 'down', method: 'judgement' } },
+  { key: 'migratedPct', type: 'percent', unit: '%', metric: { better: 'up', method: 'judgement' } },
+  { key: 'owner', type: 'string' },
+  { key: 'state', type: 'enum', values: ['todo', 'done'] },
+  { key: 'estimate', type: 'number' },
+], ...(scan ? { scan } : {}) });
+
+test('facet: set and clear applicable; other facets and keys untouched; atomic, and no rewrite when unchanged', async () => {
+  const dir = mkdtempSync(join(tmpdir(), 'lens-scan-facet-'));
+  const path = join(dir, 'app-structure.json');
+  const s0 = {
+    $schema: 'app-structure/3', version: 3, project: { slug: 'x', name: 'X' },
+    features: [{ slug: 'a', name: 'A' }, { slug: 'b', name: 'B' }],
+    lenses: [{ id: 'development', source: 'builtin', enabled: true, manifest: LENS('development') },
+      { id: 'tmp.drop-moment', source: 'project', enabled: true, temporary: true, manifest: JUDGED('tmp.drop-moment', { method: 'judgement', instructions: 'Find moment.js use.' }) }],
+    facets: { a: { development: { values: { loc: 10 }, source: 'lens-scan', measured_at: '2026-10-01T00:00:00.000Z' } }, b: { 'tmp.drop-moment': { values: { callSites: 3 }, source: 'lens-scan' } } },
+  };
+  writeFileSync(path, JSON.stringify(s0, null, 2));
+  const run = (...args) => main(['facet', '--structure', path, ...args]);
+
+  const set = await run('--feature', 'a', '--lens', 'tmp.drop-moment', '--applicable', 'false', '--reason', 'No date handling in a.');
+  assert.equal(set.written, true);
+  assert.deepEqual(set.facet, { source: 'lens-scan', applicable: false, reason: 'No date handling in a.' });
+  let s = JSON.parse(readFileSync(path, 'utf8'));
+  assert.deepEqual(s.facets.a.development, s0.facets.a.development, 'the other facet of the feature is untouched');
+  assert.deepEqual(s.facets.b, s0.facets.b, 'other features untouched');
+  assert.deepEqual(s.lenses, s0.lenses, 'the temporary lens entry is kept as it is');
+  assert.deepEqual(readdirSync(dir), ['app-structure.json'], 'atomic: no temp file left behind');
+  assert.equal((await run('--feature', 'a', '--lens', 'tmp.drop-moment', '--applicable', 'false', '--reason', 'No date handling in a.')).written, false, 'unchanged: not rewritten');
+
+  // a facet that already holds readings keeps them; clearing removes only applicable and reason
+  await run('--feature', 'b', '--lens', 'tmp.drop-moment', '--applicable', 'false', '--reason', 'Moved off moment.');
+  assert.deepEqual(JSON.parse(readFileSync(path, 'utf8')).facets.b['tmp.drop-moment'], { values: { callSites: 3 }, source: 'lens-scan', applicable: false, reason: 'Moved off moment.' });
+  const cleared = await run('--feature', 'b', '--lens', 'tmp.drop-moment', '--applicable', 'true');
+  assert.deepEqual(cleared.facet, s0.facets.b['tmp.drop-moment']);
+  const gone = await run('--feature', 'a', '--lens', 'tmp.drop-moment', '--applicable', 'true');
+  assert.equal('facet' in gone, false, 'a facet that held only the judgement is removed with it');
+  s = JSON.parse(readFileSync(path, 'utf8'));
+  assert.deepEqual(s.facets, s0.facets, 'set then clear is a round trip');
+
+  await assert.rejects(run('--feature', 'zz', '--lens', 'development', '--applicable', 'false', '--reason', 'r'), /no feature/);
+  await assert.rejects(run('--feature', 'a', '--lens', 'tmp.nope', '--applicable', 'false', '--reason', 'r'), /no lens/);
+  await assert.rejects(run('--feature', 'a', '--lens', 'development', '--applicable', 'false'), /needs --reason/);
+  await assert.rejects(run('--feature', 'a', '--lens', 'development', '--applicable', 'maybe'), /true or false/);
+  assert.throws(() => setApplicable({ features: [{ slug: 'a' }], lenses: [{ id: 'l' }] }, { feature: 'a', lens: 'l', applicable: false, reason: '  ' }), /needs --reason/);
+});
+
+test('a 1:1 re-map keeps a judged applicable:false; metric values still come from the store', () => {
+  const first = toAppStructure(MAP, { lenses: [LENS('development')] }).structure;
+  first.facets = { misc: { 'tmp.x': { applicable: false, reason: 'untouched', source: 'lens-scan' }, development: { values: { loc: 1 }, source: 'lens-scan' } }, gone: { 'tmp.x': { applicable: false } } };
+  const { structure: s } = toAppStructure(MAP, { lenses: [LENS('development')], existing: first });
+  assert.equal(s.provenance.product_tree, 'contexts');
+  assert.deepEqual(s.facets, { misc: { 'tmp.x': { applicable: false, reason: 'untouched', source: 'lens-scan' } } }, 'old metric values are rebuilt from the store (none here); a dropped feature is dropped');
+});
+
+test('lens: builtin keeps its method, a scan block makes judgement with the numeric metric fields, none is refused', async () => {
+  assert.deepEqual(lensMethod({ id: 'design', source: 'builtin', manifest: JUDGED('design', { method: 'judgement', instructions: 'x' }) }),
+    { id: 'design', source: 'builtin', enabled: true, method: 'builtin', ignored: 'scan block: a built-in lens keeps its built-in method' });
+  const j = lensMethod({ id: 'tmp.drop-moment', source: 'project', temporary: true, enabled: false, manifest: JUDGED('tmp.drop-moment', { method: 'judgement', instructions: 'Find moment.js use.' }) });
+  assert.equal(j.method, 'judgement');
+  assert.equal(j.instructions, 'Find moment.js use.');
+  assert.equal(j.enabled, false);
+  assert.equal(j.temporary, true);
+  assert.deepEqual(j.fields.map((f) => f.key), ['callSites', 'migratedPct'], 'numeric with a metric block only');
+  assert.equal(lensMethod({ id: 'quality', source: 'builtin', manifest: LENS('quality') }).method, 'none', 'a built-in lens-scan has no method for');
+  assert.equal(lensMethod({ id: 'quality', source: 'builtin', manifest: JUDGED('quality', { method: 'judgement', instructions: 'Judge it.' }) }).method, 'judgement');
+
+  const dir = mkdtempSync(join(tmpdir(), 'lens-scan-lens-'));
+  const path = join(dir, 's.json');
+  writeFileSync(path, JSON.stringify({ features: [], lenses: [{ id: 'com.x.cost', source: 'project', manifest: LENS('com.x.cost') }, { id: 'tmp.y', source: 'project', manifest: JUDGED('tmp.y', { method: 'judgement', instructions: 'Look.' }) }] }));
+  assert.equal((await main(['lens', '--structure', path, '--id', 'tmp.y'])).fields.length, 2);
+  await assert.rejects(main(['lens', '--structure', path, '--id', 'com.x.cost']), (e) => e.code === 1 && /no scan method/.test(e.message));
+  await assert.rejects(main(['lens', '--structure', path, '--id', 'tmp.none']), (e) => e.code === 2);
+  await assert.rejects(main(['nonsense', '--structure', path]), /unknown subcommand/);
 });
