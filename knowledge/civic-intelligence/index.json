@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 43,
+  "applications": 44,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -737,9 +737,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/legislative-change-tracking.md",
-   "digest": "sha256-b2:f46b1fc0cad11f05",
-   "revision": 3,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:107b16248149c61f",
+   "revision": 4,
+   "changedAt": "2026-10-13",
    "techniques": [
     {
      "slug": "amendment-instruction-grammar",
@@ -822,6 +822,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "amendment-instruction-grammar",
+     "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/applications/node--amendment-instruction-grammar.md",
+     "verified_on": "2026-10-13",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "bill-fate-dating",
