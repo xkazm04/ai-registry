@@ -15254,9 +15254,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256-b2:4fc5c1fbe75c52d2",
-   "revision": 25,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:3eafb649495c9498",
+   "revision": 26,
+   "changedAt": "2026-10-13",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -15488,7 +15488,8 @@
      "use_when": [
       "deciding whether a run finished or only looks finished",
       "a session says done but its drop point is empty",
-      "choosing a deadline or quorum to close a wave"
+      "choosing a deadline or quorum to close a wave",
+      "an unattended headless run exits cleanly without its declared result"
      ]
     },
     {

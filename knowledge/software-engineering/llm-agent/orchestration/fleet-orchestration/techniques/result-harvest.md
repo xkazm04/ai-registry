@@ -6,7 +6,7 @@ technique: result-harvest
 status: forged
 laws: [failure-not-empty-success, count-carries-predicate, one-validation-door]
 shared_with: []
-use_when: [deciding whether a run finished or only looks finished, a session says done but its drop point is empty, choosing a deadline or quorum to close a wave]
+use_when: [deciding whether a run finished or only looks finished, a session says done but its drop point is empty, choosing a deadline or quorum to close a wave, an unattended headless run exits cleanly without its declared result]
 ---
 
 # Result harvest
@@ -73,6 +73,67 @@ out at the straggler deadline" is an accounting; "mostly done" is not
 arithmetic invariant is total: accounts sum to the roster, always — a member
 that fits no class is a bug in the harvest, and it should fail loudly rather
 than be dropped from the denominator.
+
+## A clean exit without the result is resumed before it is classified
+
+One account has a recovery the others lack, and it arises from how a one-shot
+headless session ends. Run unattended, the session's process lives exactly as
+long as the model's turn: when the model ends its turn, the run is over. That
+includes a turn the model ends to *wait for* something it started in the
+background. Interactively, the background process finishing would arrive as the
+next turn; headless, there is no next turn. The process exits with success, the
+work is half done and uncommitted, the background job's failure goes unread, and
+the roster sees a member whose exit was clean and whose drop point is empty.
+
+One fleet hit this three times in three days, across three model families, which
+settles two things about it:
+
+- **It is not one model's quirk.** A workaround per engine is the wrong layer.
+- **A sentence does not fix it.** After the session's instructions forbade
+  ending a turn while a process ran, the same failure recurred in the next task,
+  sixty-four turns in. This is the out-of-process form of
+  [continuation-as-state](../../session-continuation/techniques/continuation-as-state.md):
+  the fact that the run is unfinished has to live where the *runner* reads it,
+  because the runner is the only party still awake when the session has exited.
+
+So the recovery belongs to the runner, keyed on the declared drop point:
+
+1. **Trigger on the exact conjunction:** exit success, declared result absent,
+   and a resumable session identity captured from the first run's structured
+   output. A failing exit is a failure to classify, not a stall to coax. Without
+   a session identity, a "resume" is a fresh session with no memory of the work,
+   which is a re-dispatch with its own cost and must be accounted as one.
+2. **Resume the same session with a short, fixed continuation prompt** that names
+   the likely cause and the exit condition: check whether the process it was
+   waiting on finished by reading its log, wait for it in the foreground if it is
+   still running, finish the remaining steps, verify, and write the result. The
+   same session keeps the context of what it already did. A fresh session
+   would redo that work or contradict it.
+3. **Bound it, and stop early on exhaustion.** A small fixed count (that fleet
+   allowed two) caps the cost of a session that will never produce the artifact.
+   Skip the continuation when the run's output shows a quota or balance limit,
+   because resuming into an exhausted account only produces another empty exit.
+4. **Account for every continuation.** A member that needed continuations ends
+   as *completed after N continuations*. A member that used them all ends as
+   *exited clean, result missing after N continuations*. Neither is folded into
+   ordinary success. The rescue rate is the number that says whether the bound
+   is right, and only these accounts can produce it.
+
+The continued session's result passes the same ingestion door and the same
+acceptance verdict as any other
+([completion-claim-verification](./completion-claim-verification.md)). The
+continuation recovers the missing artifact. It does not certify what that
+artifact claims.
+
+**What is not known yet is the rescue rate.** The fleet that built this checked
+that the resumed session keeps its context. It did not measure how often a
+continuation then produced the artifact. Until someone measures it, the bound is
+a guess. The accounts in step 4 are how to measure it.
+
+**Do not continue a session that reported failure through the contract.** It
+has said what happened, and a continuation would argue with its report. A drop
+point that exists but fails validation is a malformed result, not a missing one,
+and it is classified as such.
 
 ## Stragglers get a policy, not a vigil
 
