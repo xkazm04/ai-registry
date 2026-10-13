@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 45,
+  "applications": 46,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -1588,9 +1588,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/roll-call-vote-analysis.md",
-   "digest": "sha256-b2:b125caa7a781e22d",
-   "revision": 4,
-   "changedAt": "2026-10-10",
+   "digest": "sha256-b2:1952ca06aa46d09f",
+   "revision": 5,
+   "changedAt": "2026-10-13",
    "techniques": [
     {
      "slug": "club-line-and-rebellion",
@@ -1693,6 +1693,13 @@
      "technique": "co-voting-agreement-matrix",
      "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--co-voting-agreement-matrix.md",
      "verified_on": "2026-10-10",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "positional-vs-participation-bases",
+     "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--positional-vs-participation-bases.md",
+     "verified_on": "2026-10-13",
      "verified_against": "node@24"
     },
     {
