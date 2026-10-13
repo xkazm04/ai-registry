@@ -102,3 +102,19 @@ test('a repository that never subscribed is left alone rather than reported on',
  assert.equal(status,0);
  assert.equal(out.skipped,'no-manifest');
 });
+
+test('a commit of only the conform ledger is skipped and records no miss',t=>{
+ // Measured 2026-10-12: every unattended conform commit drew a `missed` row, which dirtied the
+ // ledger, which the next commit carried - a loop of false misses.
+ const root=project(t,{contexts:[ctx('ai',['.ai'],['knowledge-registry'])],ledger:''});
+ const {status,out}=run(root,'.ai/registry-map.json,.ai/conform-detail.json,.ai/consults.jsonl,.ai/conform-runs/merged/x.json');
+ assert.equal(status,0);
+ assert.equal(out.skipped,'conform-ledger-only');
+ assert.equal(fs.readFileSync(path.join(root,'.ai','consults.jsonl'),'utf8'),'');
+});
+
+test('a conform-ledger path beside real code still checks the code',t=>{
+ const root=project(t,{contexts:[ctx('tables',['app/table'],['table'])],ledger:''});
+ const {out}=run(root,'.ai/registry-map.json,app/table/Grid.tsx',['--no-record']);
+ assert.deepEqual(out.missed.map(m=>m.subject),['table']);
+});

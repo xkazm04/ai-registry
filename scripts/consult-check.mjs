@@ -187,7 +187,23 @@ function changedPaths() {
   return r.stdout.split('\n').map((s) => s.trim()).filter(Boolean);
 }
 
-const paths = changedPaths();
+// The conform ledger is this registry's OWN output in the consumer: the map, its detail, the
+// consults ledger and the conform run archive. A commit that only writes them records verdicts
+// somebody already paid to read; it changes no code a subject could govern, so it cannot have
+// missed a consult. Measured 2026-10-12 to 13: every unattended /curator --multi commit of those
+// files drew a `missed` row (subjects knowledge-registry, eval-harness) into consults.jsonl, which
+// dirtied the ledger again, which the next round committed - 7 extra commits per repo per night,
+// and 48 false misses (16 in each of the three repos with this hook) in the signal the
+// signals lane counts.
+const CONFORM_LEDGER = /^\.ai\/(registry-map\.json|conform-detail\.json|consults\.jsonl|conform-runs\/)/;
+const allPaths = changedPaths();
+const paths = allPaths.filter((p) => !CONFORM_LEDGER.test(p.replace(/\\/g, '/')));
+
+if (allPaths.length > 0 && paths.length === 0) {
+  if (!quiet && !asJson) console.log('consult-check: only the conform ledger is staged; nothing to have consulted.');
+  if (asJson) console.log(JSON.stringify({ skipped: 'conform-ledger-only' }, null, 1));
+  process.exit(EXIT.OK);
+}
 
 if (paths.length === 0) {
   if (!quiet && !asJson) console.log('consult-check: nothing staged.');
