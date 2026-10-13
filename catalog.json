@@ -13,6 +13,25 @@
   },
   "skills": [
     {
+      "name": "adopt-bp",
+      "version": "1.2.0",
+      "category": "workflow",
+      "path": "skills/adopt-bp/SKILL.md",
+      "contentHash": "sha256-n1:64c70c00f9635360",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 3,
+      "lessonsPath": "skills/adopt-bp/LESSONS.md",
+      "lessonsHash": "sha256-n1:b0c8f17decc570a7",
+      "usageContributors": [],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
+    },
+    {
       "name": "agent-guidance-bootstrap",
       "version": "0.9.0",
       "category": "ai-native",
@@ -418,14 +437,16 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:fc6c4373d5ebb607",
+      "contentHash": "sha256-n1:01bcd54f85924e7f",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/lens-scan/LESSONS.md",
+      "lessonsHash": "sha256-n1:d638f3b39121a148",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -600,10 +621,10 @@
     },
     {
       "name": "perfect",
-      "version": "2.7.1",
+      "version": "2.8.0",
       "category": "workflow",
       "path": "skills/perfect/SKILL.md",
-      "contentHash": "sha256-n1:36ae05e746037e4b",
+      "contentHash": "sha256-n1:bd005138374c41e3",
       "adopters": [
         "ascent@plugin:2.3.0",
         "kp@plugin:2.3.0",
@@ -614,9 +635,9 @@
       ],
       "invokes30d": 46,
       "reportedInvokes": 46,
-      "lessons": 27,
+      "lessons": 28,
       "lessonsPath": "skills/perfect/LESSONS.md",
-      "lessonsHash": "sha256-n1:87875b14f8369e50",
+      "lessonsHash": "sha256-n1:9e6bd9277d824a0a",
       "usageContributors": [
         "wolf"
       ],
@@ -1048,10 +1069,10 @@
     }
   ],
   "counts": {
-    "skills": 40,
+    "skills": 41,
     "practices": 8,
     "memory": 9,
-    "lessons": 310
+    "lessons": 315
   },
   "bundles": [
     {

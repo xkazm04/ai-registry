@@ -11,6 +11,22 @@
   },
   "plugins": [
     {
+      "name": "adopt-bp",
+      "source": "./skills/adopt-bp",
+      "description": "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets, proposals and coverage; then",
+      "version": "1.2.0",
+      "category": "workflow",
+      "tags": [
+        "onboarding",
+        "blueprint",
+        "app-structure",
+        "lens-scan",
+        "product-tree",
+        "benchmark",
+        "providers"
+      ]
+    },
+    {
       "name": "agent-guidance-bootstrap",
       "source": "./skills/agent-guidance-bootstrap",
       "description": "Create or refresh a repo's AGENTS.md so an agent joining the codebase gets commands, architecture and constraints without guessing. Use on a repo with no agent guidance, or when the existing file has gone stale.",
@@ -261,7 +277,7 @@
       "name": "lens-scan",
       "source": "./skills/lens-scan",
       "description": "Measure a product feature by feature through one lens - development, security or design - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review UI. Use when a team needs the current state of a product me",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "category": "workflow",
       "tags": [
         "measure",
@@ -367,7 +383,7 @@
       "name": "perfect",
       "source": "./skills/perfect",
       "description": "Session-after-session product perfection loop. The strongest available model at xhigh reasoning (currently Sonnet 5.5) directs - it walks the repo's context map context-by-context, proposes up to 5 challenged, high-value directions per context (features, design elevations, significant optimizations), gates them with the user until the pool is full, then orchestrates Sonnet-class builder subagents ",
-      "version": "2.7.1",
+      "version": "2.8.0",
       "category": "workflow",
       "tags": [
         "loop",

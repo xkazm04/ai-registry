@@ -19,7 +19,10 @@ YOUR WRITE SET - the only files you may modify:
 Anything outside it requires DECISION NEEDED. A compile error, type error or
 failing test in a file OUTSIDE your write set is a sibling's half-written
 state, not your bug: re-run once, then REPORT THE FILE IT NAMES. Never fix it,
-never revert it.
+never revert it. If your change needs an edit outside the write set (an importer
+of a symbol you moved, a caller of a signature you changed), do not make it and
+do not dodge it with an import from a higher layer: return DECISION NEEDED with
+the exact file and edit, and the Director widens your write set or applies it.
 
 SHARED-RESOURCE PROTOCOL (non-negotiable):
 - Append-only registries (<overlay ## Class B>): you MAY edit, but re-read the
@@ -104,7 +107,10 @@ law, out-of-scope walls>
   targeted `npx vitest run <files>` | conditional gates when you touched the
   matching files>. Then drive the actual flow when a dev server is available
   (<overlay ## Smoke: port/URL + marker; never trust a stale port>); report
-  what you COULD NOT verify honestly.
+  what you COULD NOT verify honestly. If your change is visible (render,
+  layout, chrome, an interaction), end your report with a "needs a browser"
+  list: the view, viewport and state where a person should look. The Director
+  drives it before the wave lands.
 
 If a product decision is ambiguous, STOP that direction and return `DECISION NEEDED: <question>`
 with your recommendation - never guess. Final report format:
