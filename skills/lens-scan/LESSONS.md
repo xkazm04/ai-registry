@@ -19,3 +19,7 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 ## 1.2.2 - 2026-10-13 - pof (dispatched from bp)
 
 - Field lesson: the first blueprint-dispatched execute (p-c3f7d3, p-73edaa on pof, both merged green) removed its worktrees with the node_modules junction still in place and emptied pof's own node_modules; the agent noticed and reinstalled. The rule was in scan-sweep's ab-lane.md, but section 5 restated only two of its rules inline and the run followed the inline list. Section 5 now names the unlink step itself.
+
+## 1.2.3 - 2026-10-14 - bp
+
+- Field lesson (from a flaky bp check, then measured on store.mjs itself): three runs opening a NEW store at once failed 3-9% of the time with `no such table: runs` - the DDL sets user_version before it creates its tables, so a second process read v1 and skipped the DDL. A new file's switch to WAL can also answer SQLITE_BUSY without the busy handler (seen in bp's fake). openStore now retries the WAL switch and runs the DDL in one BEGIN IMMEDIATE that re-reads the version: 5/180 concurrent fresh run-starts failed before, 0/180 after. The blueprint starts up to 3 scans per product, so a first scan of several lenses on a new repo hits this.

@@ -93,12 +93,23 @@ export function openStore(dbPath = DEFAULT_DB, { readOnly = false } = {}) {
   mkdirSync(dirname(resolve(dbPath)), { recursive: true });
   const db = new DatabaseSync(dbPath);
   db.exec('PRAGMA busy_timeout = 5000');
-  const v = db.prepare('PRAGMA user_version').get().user_version;
-  if (v === 0) db.exec(readFileSync(DDL_PATH, 'utf8'));
-  else db.exec('PRAGMA journal_mode = WAL');
+  // Parallel runs (the blueprint starts up to 3) may open a new store together. Switching a new file to WAL can
+  // answer SQLITE_BUSY without the busy handler, so it retries; the DDL sets user_version before its tables, so it
+  // runs in one IMMEDIATE transaction that re-reads the version - nobody sees v1 without the tables.
+  for (let i = 0; ; i++) {
+    try { db.exec('PRAGMA journal_mode = WAL'); break; } catch (e) { if (e.errcode !== 5 || i >= 100) throw e; sleepSync(20 + Math.random() * 30); }
+  }
+  if (db.prepare('PRAGMA user_version').get().user_version === 0) {
+    db.exec('BEGIN IMMEDIATE');
+    try {
+      if (db.prepare('PRAGMA user_version').get().user_version === 0) db.exec(readFileSync(DDL_PATH, 'utf8'));
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); throw e; }
+  }
   assertVersion(db, dbPath);
   return db;
 }
+function sleepSync(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); }
 function assertVersion(db, dbPath) {
   const v = db.prepare('PRAGMA user_version').get().user_version;
   if (v !== SCHEMA_VERSION) { db.close(); refuse(`${dbPath}: store schema v${v}, this script knows v${SCHEMA_VERSION} - upgrade the skill, never hand-migrate`); }
