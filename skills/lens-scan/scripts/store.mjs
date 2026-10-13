@@ -30,7 +30,7 @@
 //  - `approved` and `declined` are human decisions written by the review UI, never by this CLI;
 //  - every write bumps runs.updated_at (or proposals.updated_at), the cursor the review UI polls.
 import { DatabaseSync } from 'node:sqlite';
-import { readFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readFileSync, mkdirSync, existsSync, realpathSync } from 'node:fs';
 import { dirname, isAbsolute, join, normalize, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -384,7 +384,8 @@ export function main(argv) {
   } finally { db.close(); }
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+// run as a script: compare real paths, so a skills folder reached through a junction or symlink still runs
+if (process.argv[1] && isEntry(process.argv[1], import.meta.url)) {
   try {
     const out = main(process.argv.slice(2));
     if (out?.help) process.stdout.write(out.help);
@@ -393,4 +394,8 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     process.stderr.write(`store: ${e.message}\n`);
     process.exit(e instanceof StoreError ? e.code : 1);
   }
+}
+
+function isEntry(argv1, url) {
+  try { return realpathSync(resolve(argv1)) === realpathSync(fileURLToPath(url)); } catch { return resolve(argv1) === fileURLToPath(url); }
 }

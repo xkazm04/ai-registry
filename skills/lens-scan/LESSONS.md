@@ -11,3 +11,7 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 ## 1.2.0 - 2026-10-13 - bp
 - Change (not a field lesson): the blueprint (bp) now starts lens-scan headless as scan jobs, so 1.2.0 adds what that needs. Any lens whose manifest declares `scan: { method: 'judgement', instructions }` is measurable (`structure.mjs lens --id` names the method and the numeric metric fields; development, security and design keep their built-in methods). A feature the lens does not touch gets no reading and a facet `applicable: false` with a reason through the new `structure.mjs facet` command, which edits one facet and writes atomically; a 1:1 re-map now keeps that judgement too.
 - Change: `run-start --features a,b,c` records the scope `{"features":[...]}` and refuses an unknown slug before any run row exists; `BP_JOB_ID` makes the run note `bp-job:<id>` (kept by `run-end --note`); `proposals --ids` and `execute --proposals` narrow execution to named approved items; a "Headless (from the blueprint)" section says the agent never stops to ask and fails a run visibly. Unproven in the field: no real headless run has used these yet.
+
+## 1.2.1 - 2026-10-13 - bp
+
+- Field lesson: the first blueprint-spawned scan (claude -p through the user-scope junction ~/.claude/skills/lens-scan) found store.mjs and footprint.mjs silently doing nothing - the run-as-script check compared argv[1] (junction path) with import.meta.url (real path). The agent worked around it with an import wrapper. All three scripts now compare real paths.

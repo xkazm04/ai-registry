@@ -277,7 +277,7 @@
       "name": "lens-scan",
       "source": "./skills/lens-scan",
       "description": "Measure a product feature by feature through one lens - development, security, design, or any project lens whose manifest declares a judgement scan - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "workflow",
       "tags": [
         "measure",

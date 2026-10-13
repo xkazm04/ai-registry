@@ -44,7 +44,7 @@
 //     built-in keeps its own method even when its manifest has a scan block), `judgement` (the manifest's
 //     scan.method, with its instructions and the numeric metric fields a reading may be written for), or
 //     refused (exit 1) when it has neither. An unknown lens id exits 2.
-import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, renameSync, rmSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, renameSync, rmSync, realpathSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -361,9 +361,14 @@ export async function main(argv) {
   };
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+// run as a script: compare real paths, so a skills folder reached through a junction or symlink still runs
+if (process.argv[1] && isEntry(process.argv[1], import.meta.url)) {
   main(process.argv.slice(2)).then((out) => {
     if (out?.help) process.stdout.write(out.help);
     else process.stdout.write(`${JSON.stringify(out, null, 2)}\n`);
   }).catch((e) => { process.stderr.write(`structure: ${e.message}\n`); process.exit(e.code === 2 ? 2 : 1); });
+}
+
+function isEntry(argv1, url) {
+  try { return realpathSync(resolve(argv1)) === realpathSync(fileURLToPath(url)); } catch { return resolve(argv1) === fileURLToPath(url); }
 }

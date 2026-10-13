@@ -34,7 +34,7 @@
 // A feature with no existing file gets no row at all: unmeasured, never 0. bundleKb is not measured
 // here: chunk attribution per feature needs a stats format this script does not parse robustly, so
 // --bundle-stats is refused rather than half-supported.
-import { readFileSync, existsSync, statSync, readdirSync } from 'node:fs';
+import { readFileSync, existsSync, statSync, readdirSync, realpathSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { builtinModules } from 'node:module';
 import { join, resolve, basename, relative } from 'node:path';
@@ -225,9 +225,14 @@ export async function main(argv) {
   } finally { db?.close(); }
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+// run as a script: compare real paths, so a skills folder reached through a junction or symlink still runs
+if (process.argv[1] && isEntry(process.argv[1], import.meta.url)) {
   main(process.argv.slice(2)).then((out) => {
     if (out?.help) process.stdout.write(out.help);
     else process.stdout.write(`${JSON.stringify(out, null, 2)}\n`);
   }).catch((e) => { process.stderr.write(`footprint: ${e.message}\n`); process.exit(e.code === 2 ? 2 : 1); });
+}
+
+function isEntry(argv1, url) {
+  try { return realpathSync(resolve(argv1)) === realpathSync(fileURLToPath(url)); } catch { return resolve(argv1) === fileURLToPath(url); }
 }
