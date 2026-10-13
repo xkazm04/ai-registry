@@ -14,6 +14,7 @@ techniques:
   - repeatability-floor
   - fit-and-report-on-disjoint-labels
   - judge-replacement-bridge
+  - reference-ladder
 ---
 
 # Judge calibration and drift
@@ -255,3 +256,7 @@ verdict names the judge that produced it
   retired judge with no human labels: replay the replacement over the
   benchmark's reference outputs, tolerance from the repeatability floor, and
   the judge's identity carried in every stored verdict.
+- [reference-ladder](./techniques/reference-ladder.md) — a score against a
+  reference is read between a known-worse floor and a reference-against-reference
+  ceiling; a reading outside that range disqualifies the instrument for that
+  candidate.

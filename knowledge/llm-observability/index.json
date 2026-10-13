@@ -4,7 +4,7 @@
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
-  "techniques": 127,
+  "techniques": 128,
   "applications": 80,
   "laws": 9,
   "categories": [
@@ -14,7 +14,7 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "127/127",
+  "use_when_coverage": "128/128",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1094,9 +1094,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/judge-calibration-and-drift/judge-calibration-and-drift.md",
-   "digest": "sha256-b2:d0f0d4aa66f81402",
-   "revision": 5,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:80bd8653a6d797f2",
+   "revision": 6,
+   "changedAt": "2026-10-13",
    "techniques": [
     {
      "slug": "fit-and-report-on-disjoint-labels",
@@ -1156,6 +1156,22 @@
       "choosing which model judges",
       "a cheaper judge candidate looks almost as accurate",
       "verifying a judging-method change like batching"
+     ]
+    },
+    {
+     "slug": "reference-ladder",
+     "status": "forged",
+     "laws": [
+      "the-judge-is-both-untrusted-and-under-test",
+      "statistical-verdicts-or-no-verdict"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a judge or a similarity metric scores a candidate against a reference",
+      "a candidate scores better than the reference itself could",
+      "a candidate a human calls closest still scores low",
+      "adopting a perceptual metric as a gate",
+      "the reference and the candidate come from different production processes"
      ]
     },
     {
@@ -2761,6 +2777,7 @@
     "judge-calibration-and-drift/fit-and-report-on-disjoint-labels",
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/judge-replacement-bridge",
+    "judge-calibration-and-drift/reference-ladder",
     "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/windowed-score-drop-alerting",
     "quality-regression-gating/baseline-carries-its-conditions",
@@ -2799,6 +2816,7 @@
     "judge-calibration-and-drift/golden-set-agreement-measurement",
     "judge-calibration-and-drift/judge-replacement-bridge",
     "judge-calibration-and-drift/judge-selection-by-spread",
+    "judge-calibration-and-drift/reference-ladder",
     "judge-calibration-and-drift/repeatability-floor",
     "judge-calibration-and-drift/scheduled-recalibration",
     "judge-calibration-and-drift/trust-bar-verdict",

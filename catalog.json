@@ -1135,10 +1135,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 18,
-      "techniques": 127,
+      "techniques": 128,
       "applications": 80,
-      "files": 230,
-      "contentHash": "sha256-b2:1fb324c32867598b"
+      "files": 231,
+      "contentHash": "sha256-b2:d19395c7e421de60"
     },
     {
       "name": "localization",
@@ -1203,7 +1203,7 @@
       "techniques": 1841,
       "applications": 1249,
       "files": 3329,
-      "contentHash": "sha256-b2:e5ff2dbfe076410a"
+      "contentHash": "sha256-b2:664799d8c115d521"
     },
     {
       "name": "technical-writing",
