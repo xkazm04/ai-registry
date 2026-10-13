@@ -89,6 +89,30 @@ attack surface.
 - When the model returns kinds outside the taxonomy, drop them in the
   parser. Do not widen the taxonomy from the output side.
 
+## When the call also carries someone else's text
+
+The rule above keeps third-party documents out of extraction. It does not
+cover the case where the model pass reads the first-party document *beside*
+third-party text in one call, which happens whenever extraction is folded into
+an analysis that also needs the other document (a requirement list, a call for
+proposals, a job posting). Then the typed output can carry a fact that only the
+other text stated, worded as the first party's. In one observed run, a document
+that said "nurse" came back with a nursing licence and an issuing board,
+because the requirement text beside it named both. The same response's prose
+said the licence was not shown. The typed field and the narrative disagreed,
+and only the typed field reached the gate that acts on it.
+
+When the call can't be split, the deterministic floor also checks the model's
+output, not only its own matches. Before a model-emitted fact can satisfy
+anything downstream, the extracted text of the first-party document must state
+it: a cue, the identifier verbatim, or the value. A fact that fails the check
+is still kept. It is surfaced for confirmation, which is the confidence grade
+doing its job. The check is lenient by construction (a document that repeats
+the requirement's own words passes it), so it catches imports and does not
+certify the fact. Run it against text read without the model wherever such text
+exists. Checking a model's fact against the same model's transcript only checks
+that the model agrees with itself.
+
 ## When not to use
 
 Do not point extraction at documents the organization did not produce or

@@ -4,6 +4,7 @@ okf_bundle_name: grant-funding
 okf_bundle_title: Grant funding
 profile: rkb/0.1
 purity: funding
+stacks: [python]
 ---
 
 # Grant funding

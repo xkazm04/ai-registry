@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 42,
+  "applications": 43,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -389,9 +389,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/evidence-grounded-claims.md",
-   "digest": "sha256-b2:9cad6354b6240e51",
-   "revision": 2,
-   "changedAt": "2026-10-11",
+   "digest": "sha256-b2:c953babd01cb3f71",
+   "revision": 3,
+   "changedAt": "2026-10-13",
    "techniques": [
     {
      "slug": "bracketed-placeholder-over-invention",
@@ -496,6 +496,14 @@
      "technique": "verified-fact-ledger",
      "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/applications/node--verified-fact-ledger.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "python",
+     "technique": "document-fact-extraction",
+     "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/applications/python--document-fact-extraction--kp.md",
+     "verified_on": "2026-10-13",
+     "verified_against": "python@3.12",
+     "refresh_by": "2027-01-13"
     }
    ]
   },
