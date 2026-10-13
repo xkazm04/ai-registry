@@ -118,3 +118,12 @@ explicit; it does not eliminate judgment or prove substantive benefit. A
 newly introduced act, secondary rule or repealed framework may not be an
 amendment to a listed statute. Report these exclusions and unmeasured channels;
 do not infer no interest from a zero in an incomplete money layer.
+
+A repeal clause is not evidence that a framework was repealed. A bill that
+amends a listed statute routinely repeals some of its provisions, and an
+omnibus bill names many statutes inside one repeal clause. Replayed on a
+population of 141 bills, dropping every edge whose statute also sat in the
+bill's repeal list removed five of eleven bills, two of them titled as
+amendments of the listed statute itself. Keep the edge and report the
+overlap as a flag for the reviewer; exclude only on a whole-statute repeal
+read from the bill, never inferred from a repeal-clause hit.
