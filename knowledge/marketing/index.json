@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 183,
-  "applications": 87,
+  "applications": 88,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -637,9 +637,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/campaign-anomaly-triage.md",
-   "digest": "sha256-b2:7347c30e41046dbb",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:d462df79b17e6987",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "crater-vs-slow-bleed",
@@ -745,6 +745,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "crater-vs-slow-bleed",
+     "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/applications/node--crater-vs-slow-bleed.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "hysteresis-and-cooldown-tombstones",

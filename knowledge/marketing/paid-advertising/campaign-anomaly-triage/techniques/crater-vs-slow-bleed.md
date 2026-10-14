@@ -75,6 +75,9 @@ that were wrong.
   is reported by the snapshot rule it already matches.
 - When any week in the window has no spend, the slow-bleed verdict is silent.
   "Not measured" is not a data point.
+- When a single day has no spend, leave it out of the noise-floor estimate, and size
+  the weekly standard error by the measured days a week holds. A zero filled in for a
+  paused day inflates the variance and silences a clean slide.
 - When the run reaches the minimum but the loss is shallow, stay silent: a
   significant wobble is not a bleed.
 - When the latest move points up, there is no bleed, however deep the earlier
