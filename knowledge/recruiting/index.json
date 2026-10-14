@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 298,
+  "applications": 299,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -144,9 +144,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/ai-assistance-detection-and-fairness.md",
-   "digest": "sha256-b2:a76f9c0d03d93064",
-   "revision": 2,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:abd094354f75564a",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "behaviour-matched-peer-test-for-over-reliance",
@@ -238,6 +238,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "brief-paste-ratio-and-bulk-paste-tells",
+     "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/node--brief-paste-ratio-and-bulk-paste-tells.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "observed-process-is-supporting-not-load-bearing",

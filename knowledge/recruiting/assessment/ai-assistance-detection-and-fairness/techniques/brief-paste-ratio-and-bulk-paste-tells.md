@@ -116,6 +116,23 @@ Given that list, the honest posture is that these signals *raise questions for
 a human to ask*, and their entire value is realised in the authorship
 conversation.
 
+## Reading "unreviewed" needs edit magnitude
+
+Applying this to a product that watches an editor (see the application
+`node--brief-paste-ratio-and-bulk-paste-tells`) showed that the
+unreviewed-bulk distinction cannot be computed from the existence of a later
+edit. The editor emits its own change event right after every paste, so a lone
+paste always has an edit behind it, and a window long enough to skip that event
+is satisfied by a single keystroke, which turned a ghost-written paste into an
+authentic-looking record in one of four test streams. Record how much changed
+after the paste (a changed-character count per edit), not whether anything did,
+or keep treating any large paste as a question for the conversation and never as
+a score.
+
+Also containment is taken over everything the candidate submitted, not the best
+single message: a brief pasted in three pieces across three prompts is the same
+delegation as one paste, and a per-message maximum reads it at a third.
+
 ## When not to use it
 
 - **When you cannot obtain consent**, or when local rules make monitoring of
