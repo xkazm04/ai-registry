@@ -57,6 +57,12 @@ The load-bearing move: encode privacy doctrine in the extraction code itself.
   narrative use harder to introduce. Runtime validation and inspection of logs,
   temporary files, caches and exports are still needed; a function signature
   cannot prevent every copy made before extraction.
+- **The note writer is part of the boundary.** Purpose-binding in the adapter is
+  undone if a later stage interpolates the matching key into stored prose (an
+  analyst note, a log line, a reviewer comment). Build those strings in functions
+  that are never handed the sensitive value, and pin that with a test over every
+  branch; a header comment saying the field "never surfaces" is a promise, not a
+  control.
 - **Distinguish public-role facts from private-life facts.** A person's seat,
   directorship, declared conflict, or public contract is the subject matter; their
   home address, family, or health never is — even when the source publishes it.
