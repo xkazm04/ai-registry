@@ -67,6 +67,7 @@ the first two cannot be overtaken by the rest at any realistic count.
 - **When a listing status is unrecognised, score it as attention, because the cost of
   surfacing a healthy location is one glance and the cost of burying a suspended one is
   the location's revenue** until somebody notices.
+- **When a status wording contains a healthy stem inside a negation or a pending state - "not connected", "unverified", "pending verification", the same prefixes in another language - test the negation before the healthy stems,** because a substring match on the stem reads the negated wording as the healthy one. One implementation that followed the fail-toward-attention rule for unknown wording still scored 14 of 15 such wordings as clean, since the healthy test ran first; negation-first took it to 0 with explicit affirmatives and disconnects unchanged.
 - **When a location needs attention by any single criterion - listing not clean, a
   flag, rank off the first page, more than a couple of unanswered reviews - count it
   in the "needs attention" total,** and keep that total as a count, separate from the
