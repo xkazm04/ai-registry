@@ -12,7 +12,7 @@ ab_verdict: better
 
 # The CV polish screen: where "no estimated outcome" had no rule
 
-Pinned at `kp@a73922bac`, changed at `kp@46ec05c47`. The job-seeker module had already
+Pinned at `kp@a73922bac`, changed at `kp@bab569307`. The job-seeker module had already
 adopted the technique's ladder on the deterministic side and the fidelity contract on the
 model side, so the seam was chosen to falsify "the tree holds the whole technique". A
 CAUGHT outcome would have been a rewrite the screen accepts that the technique forbids;
@@ -63,7 +63,7 @@ replaced line and the dialog, so a size or verb the record already holds passes 
 
 - **A**: the screen at `a73922bac`. Five of five constructed rewrites `ok`. Two new tests
   red.
-- **B**: the screen at `46ec05c47`. Five of five become questions; a line that already
+- **B**: the screen at `bab569307`. Five of five become questions; a line that already
   states the bound, or a seeker who said "I built it alone", still passes. Floor: the 81
   jobseeker and authenticity tests green, linter clean.
 - **Not measured**: how often a live model proposes these rewrites, and the localized
