@@ -101,7 +101,7 @@ Consent to read a session is not the discriminator. Two properties are:
 **what the read extracts**, and **whether the result is stored and
 re-served**. On the measured corpus above, a consumer that read only the last
 eight text turns of each session, each cut at 500 characters, into a prompt
-that was discarded after the turn exposed no credential in 5,383 windows, and
+the consumer itself did not store exposed no credential in 5,383 windows, and
 redacting before the cut changed nothing; declining to redact there was
 right, and measurably so. The same consumer starts to matter the moment
 either property moves: a longer cut exposed two credentials in four windows,
