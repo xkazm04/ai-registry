@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 190,
-  "applications": 114,
+  "applications": 115,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -551,8 +551,8 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/media-generation/visual-generation/data-video-art-direction/data-video-art-direction.md",
-   "digest": "sha256-b2:4d5fd071c2f5a32a",
-   "revision": 4,
+   "digest": "sha256-b2:5007da65e6caab0e",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -778,6 +778,12 @@
      "stack": "process",
      "technique": "curiosity-title-thumbnail",
      "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/process--curiosity-title-thumbnail.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "ending-sequence",
+     "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/process--ending-sequence.md",
      "verified_on": "2026-10-14"
     },
     {
