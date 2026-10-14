@@ -17,7 +17,10 @@
  * race the board exists to prevent. The board you read is this script collating a
  * directory of single-writer records. Anything that genuinely must be serialized -
  * regenerating the index, appending to a ledger, committing - takes a named lock, which is
- * an atomic exclusive file create and nothing cleverer.
+ * an atomic exclusive file create and nothing cleverer. A claim's own decision is
+ * serialized the same way: `claim` reads the board, decides and writes its record under
+ * a short internal gate, so a contended source or subject is refused before work starts
+ * rather than discovered afterwards.
  *
  * The board lives in the git COMMON directory, not the working tree:
  *
@@ -96,6 +99,8 @@ function ensure() {
 const STALE_MIN = 45;          // no heartbeat this long => the run is presumed abandoned
 const LOCK_TTL_S = 900;        // a lock older than this is breakable, loudly
 const BREAK_GATE_STALE_S = 30; // a takeover gate older than this was left by a crashed breaker
+const CLAIM_GATE_STALE_S = 10; // a claim gate older than this was left by a crashed claimer
+const CLAIM_GATE_WAIT_S = 30;  // a claim that cannot enter the gate this long gives up loudly
 
 function nowISO() { return new Date().toISOString(); }
 function ageMin(iso) { return (Date.now() - Date.parse(iso)) / 60000; }
@@ -355,55 +360,95 @@ function slugify(s) {
 
 function runFile(id) { return path.join(RUNS, id.replace(/[^a-z0-9._-]/gi, '_') + '.json'); }
 
+/** Run `fn` while holding the board's claim gate, so one claim's read-decide-write cannot
+ *  interleave with another's. Before 2026-10-14 claim read the live siblings, decided,
+ *  then wrote its record, with a `git` subprocess (the branch lookup) inside that window;
+ *  two claims inside it both saw an empty board and both were granted. The gate reuses the
+ *  lock primitives rather than a new mechanism: it is born with its content (createLock),
+ *  a gate left by a crashed claimer is reclaimed replace-if-unchanged (breakIfUnchanged)
+ *  after `staleS`, and the holder releases it the same way, so a slow holder whose gate
+ *  was reclaimed never deletes the next holder's. The gate guards a few file operations;
+ *  nothing slow runs inside it. It lives beside `runs/` and `locks/` and ends in neither
+ *  `.json` nor `.lock`, so a session running an older run-board ignores it - the record
+ *  format is unchanged, and an older claimer simply does not serialize.
+ *  Returns { value } or { timedOut: true }. */
+export function withClaimGate(gate, fn, { staleS = CLAIM_GATE_STALE_S, waitS = CLAIM_GATE_WAIT_S } = {}) {
+  const deadline = Date.now() + waitS * 1000;
+  const content = JSON.stringify({ pid: process.pid, at: nowISO() }) + '\n';
+  for (;;) {
+    if (createLock(gate, content)) break;
+    if (Date.now() >= deadline) return { timedOut: true };
+    const seen = lockFingerprint(gate);
+    if (seen === null) continue;                              // released between our two looks
+    let ageS = 0;
+    try { ageS = (Date.now() - fs.statSync(gate).mtimeMs) / 1000; } catch { continue; }
+    if (ageS > staleS && breakIfUnchanged(gate, seen) !== 'busy') continue;
+    sleep(5 + Math.floor(Math.random() * 15));
+  }
+  const mine = lockFingerprint(gate);
+  try {
+    return { value: fn() };
+  } finally {
+    breakIfUnchanged(gate, mine);                            // release only the gate we took
+  }
+}
+
 function cmdClaim() {
   const skill = one('skill') || die('claim needs --skill (intake|harvest|deepen|forge|reconcile|...)');
   const source = one('source') || die('claim needs --source (the url, path or dispatch slug being mined)');
   const runId = one('run') || (new Date().toISOString().slice(0, 10) + '-' + slugify(skill) + '-' + slugify(source) + '-' + process.pid);
   ensure();
+  const branch = gitBranch();                                 // a subprocess: kept outside the gate
 
-  const siblings = loadRuns().filter((r) => r._live && r.runId !== runId);
-  const conflicts = [];
+  const gated = withClaimGate(path.join(BOARD, 'claim.gate'), () => {
+    const siblings = loadRuns().filter((r) => r._live && r.runId !== runId);
+    const conflicts = [];
 
-  for (const s of siblings) {
-    if (normSource(s.source) === normSource(source)) {
-      conflicts.push('SAME SOURCE   ' + s.runId + ' is already mining ' + s.source + ' (phase ' + (s.phase || '?') + ', ' + s._staleMin + 'm since heartbeat)');
+    for (const s of siblings) {
+      if (normSource(s.source) === normSource(source)) {
+        conflicts.push('SAME SOURCE   ' + s.runId + ' is already mining ' + s.source + ' (phase ' + (s.phase || '?') + ', ' + s._staleMin + 'm since heartbeat)');
+      }
     }
-  }
-  const mine = [...many('subject'), ...many('path'), ...many('project')];
-  for (const s of siblings) {
-    const theirs = [...(s.claims && s.claims.subjects || []), ...(s.claims && s.claims.paths || []), ...(s.claims && s.claims.projects || [])];
-    for (const m of mine) {
-      for (const t of theirs) if (touches(m, t)) conflicts.push('OVERLAP       ' + s.runId + ' holds ' + t + ' (yours: ' + m + ')');
+    const mine = [...many('subject'), ...many('path'), ...many('project')];
+    for (const s of siblings) {
+      const theirs = [...(s.claims && s.claims.subjects || []), ...(s.claims && s.claims.paths || []), ...(s.claims && s.claims.projects || [])];
+      for (const m of mine) {
+        for (const t of theirs) if (touches(m, t)) conflicts.push('OVERLAP       ' + s.runId + ' holds ' + t + ' (yours: ' + m + ')');
+      }
     }
-  }
 
-  const existing = readJSON(runFile(runId));
-  const rec = {
-    runId,
-    skill,
-    source,
-    status: one('status') || 'active',
-    phase: one('phase') || (existing ? existing.phase : '0'),
-    pid: process.pid,
-    branch: gitBranch(),
-    scratch: one('scratch') || (existing && existing.scratch) || null,
-    startedAt: (existing && existing.startedAt) || nowISO(),
-    heartbeatAt: nowISO(),
-    domains: [...new Set([...(existing && existing.domains || []), ...many('domain')])],
-    claims: {
-      subjects: [...new Set([...(existing && existing.claims && existing.claims.subjects || []), ...many('subject')])],
-      paths: [...new Set([...(existing && existing.claims && existing.claims.paths || []), ...many('path')])],
-      projects: [...new Set([...(existing && existing.claims && existing.claims.projects || []), ...many('project')])],
-    },
-  };
+    const existing = readJSON(runFile(runId));
+    const rec = {
+      runId,
+      skill,
+      source,
+      status: one('status') || 'active',
+      phase: one('phase') || (existing ? existing.phase : '0'),
+      pid: process.pid,
+      branch,
+      scratch: one('scratch') || (existing && existing.scratch) || null,
+      startedAt: (existing && existing.startedAt) || nowISO(),
+      heartbeatAt: nowISO(),
+      domains: [...new Set([...(existing && existing.domains || []), ...many('domain')])],
+      claims: {
+        subjects: [...new Set([...(existing && existing.claims && existing.claims.subjects || []), ...many('subject')])],
+        paths: [...new Set([...(existing && existing.claims && existing.claims.paths || []), ...many('path')])],
+        projects: [...new Set([...(existing && existing.claims && existing.claims.projects || []), ...many('project')])],
+      },
+    };
+    const refused = conflicts.length > 0 && !flag('force');
+    if (!refused) writeJSON(runFile(runId), rec);             // decided and written under one gate
+    return { siblings, conflicts, refused };
+  });
+  if (gated.timedOut) die('claim gate ' + path.join(BOARD, 'claim.gate') + ' stayed held for ' + CLAIM_GATE_WAIT_S + 's; nothing was claimed. Read the board, then retry.');
+  const { siblings, conflicts, refused } = gated.value;
 
-  if (conflicts.length && !flag('force')) {
+  if (refused) {
     console.error('CONTENDED - ' + conflicts.length + ' collision(s) with live siblings:');
     for (const c of conflicts) console.error('  ' + c);
     console.error('\nThe claim was NOT written. Re-scope, wait, or re-run with --force and say so in the note.');
     process.exit(3);
   }
-  writeJSON(runFile(runId), rec);
   for (const c of conflicts) console.log('warn: ' + c);
   console.log('claimed ' + runId);
   console.log('board   ' + BOARD);

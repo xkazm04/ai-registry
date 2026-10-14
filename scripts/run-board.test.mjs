@@ -3,7 +3,9 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { lockBreakable, runLiveness, breakIfUnchanged, lockFingerprint, createLock } from './run-board.mjs';
+import { spawn, execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { lockBreakable, runLiveness, breakIfUnchanged, lockFingerprint, createLock, withClaimGate } from './run-board.mjs';
 
 // The board's staleness window is 45 minutes and its default lock ttl is 900s.
 const STALE_S = 45 * 60;
@@ -188,4 +190,102 @@ test('a lock is never visible without its content, and a held lock refuses a sec
   assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).runId, 'rA');
   assert.deepEqual(fs.readdirSync(dir).filter((f) => f.endsWith('.new')), [], 'no temp file is left behind');
   fs.rmSync(dir, { recursive: true, force: true });
+});
+
+/* ---------------------------------------------------------------- claim gate (2026-10-14) */
+
+// Measured before this fix, 32 trials of 8 concurrent `claim` processes naming one source:
+// 30 trials granted it to 2-5 runs at once (96 grants for 32 trials); naming one subject,
+// 29 trials granted it to 2-6 runs. Claim read the board, decided, then wrote its record,
+// with a `git` subprocess inside that window. After: exactly one grant in every trial.
+
+function tmpGate() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rb-gate-'));
+  return { dir, gate: path.join(dir, 'claim.gate') };
+}
+
+test('a held claim gate keeps a second claimer out, and a free one lets it in', () => {
+  const { dir, gate } = tmpGate();
+  fs.writeFileSync(gate, '{"pid":1}\n');                               // a live claimer is inside
+  let ran = false;
+  assert.deepEqual(withClaimGate(gate, () => { ran = true; }, { waitS: 0.2 }), { timedOut: true });
+  assert.equal(ran, false, 'the decision never ran while another claimer held the gate');
+  // positive control: the same call with the gate free runs the decision and releases it
+  fs.unlinkSync(gate);
+  assert.deepEqual(withClaimGate(gate, () => 'decided', { waitS: 0.2 }), { value: 'decided' });
+  assert.equal(fs.existsSync(gate), false, 'the gate is released after the decision');
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test('a gate left by a crashed claimer is reclaimed, and released even when the decision throws', () => {
+  const { dir, gate } = tmpGate();
+  fs.writeFileSync(gate, '{"pid":1}\n');
+  const old = new Date(Date.now() - 60_000);
+  fs.utimesSync(gate, old, old);
+  assert.deepEqual(withClaimGate(gate, () => 'decided', { waitS: 2 }), { value: 'decided' });
+  assert.throws(() => withClaimGate(gate, () => { throw new Error('boom'); }, { waitS: 2 }), /boom/);
+  assert.equal(fs.existsSync(gate), false);
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test('a holder whose gate was reclaimed never deletes the next holder\'s gate', () => {
+  const { dir, gate } = tmpGate();
+  withClaimGate(gate, () => {
+    fs.unlinkSync(gate);                                                // judged stale and broken ...
+    assert.equal(createLock(gate, '{"pid":2}\n'), true);                // ... and taken by the next claimer
+  });
+  assert.equal(fs.readFileSync(gate, 'utf8'), '{"pid":2}\n', 'the next holder still holds its gate');
+  // positive control: a release by name, as a bare unlink, deletes the next holder's gate
+  fs.unlinkSync(gate);
+  assert.equal(fs.existsSync(gate), false);
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+/** A throwaway repo carrying a copy of this run-board, so its board resolves to
+ *  <tmp>/.git/run-board and never to a live one. GIT_* is scrubbed: a hook's GIT_DIR
+ *  would otherwise point the copy at the real repository's board. */
+function throwawayBoard() {
+  const env = Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_')));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rb-claim-'));
+  execFileSync('git', ['init', '-q'], { cwd: dir, env, stdio: 'ignore' });
+  fs.mkdirSync(path.join(dir, 'scripts'));
+  fs.copyFileSync(fileURLToPath(new URL('./run-board.mjs', import.meta.url)), path.join(dir, 'scripts', 'run-board.mjs'));
+  const claim = (args) => new Promise((resolve) => {
+    const p = spawn(process.execPath, [path.join(dir, 'scripts', 'run-board.mjs'), 'claim', '--skill', 'intake', ...args], { cwd: dir, env });
+    let out = '', err = '';
+    p.stdout.on('data', (d) => { out += d; });
+    p.stderr.on('data', (d) => { err += d; });
+    p.on('close', (code) => resolve({ code, out, err }));
+  });
+  const runs = () => fs.readdirSync(path.join(dir, '.git', 'run-board', 'runs')).filter((f) => f.endsWith('.json'));
+  return { dir, claim, runs };
+}
+
+async function racedClaims(argsFor, n = 8) {
+  const { dir, claim, runs } = throwawayBoard();
+  const res = await Promise.all(Array.from({ length: n }, (_, i) => claim(argsFor(i))));
+  for (const r of res.filter((x) => x.code === 0)) {
+    const board = /board\s+(.+)/.exec(r.out)[1].trim();
+    assert.ok(path.resolve(board).toLowerCase().startsWith(path.resolve(dir).toLowerCase()), 'claimed on the throwaway board only');
+  }
+  const granted = res.filter((r) => r.code === 0).length;
+  const contended = res.filter((r) => r.code === 3 && /^CONTENDED - \d+ collision\(s\) with live siblings:/.test(r.err)).length;
+  const records = runs().length;
+  fs.rmSync(dir, { recursive: true, force: true });
+  return { granted, contended, records };
+}
+
+test('REGRESSION: concurrent claims of one source grant it exactly once', async () => {
+  for (let t = 0; t < 3; t++) {
+    const r = await racedClaims((i) => ['--source', 'https://github.com/acme/widget', '--run', 't' + t + '-c' + i]);
+    assert.deepEqual(r, { granted: 1, contended: 7, records: 1 }, 'trial ' + t);
+  }
+});
+
+test('REGRESSION: concurrent claims of one subject from different sources grant it exactly once', async () => {
+  const subject = 'software-engineering/engineering-process/standards-and-gates/quality-gates';
+  for (let t = 0; t < 3; t++) {
+    const r = await racedClaims((i) => ['--source', 'https://github.com/acme/src-' + i, '--subject', subject, '--run', 't' + t + '-c' + i]);
+    assert.deepEqual(r, { granted: 1, contended: 7, records: 1 }, 'trial ' + t);
+  }
 });
