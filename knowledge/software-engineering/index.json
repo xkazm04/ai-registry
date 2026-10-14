@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1271,
+  "applications": 1272,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -26873,9 +26873,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/public-claim-provenance/public-claim-provenance.md",
-   "digest": "sha256-b2:df9980b5ba402dfc",
-   "revision": 2,
-   "changedAt": "2026-08-24",
+   "digest": "sha256-b2:60eb54ef03f44a69",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "build-time-derivation-off-the-client-bundle",
@@ -26975,6 +26975,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "build-time-derivation-off-the-client-bundle",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/public-claim-provenance/applications/react--build-time-derivation-off-the-client-bundle.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19"
+    },
     {
      "stack": "react",
      "technique": "degraded-never-claims-live",
