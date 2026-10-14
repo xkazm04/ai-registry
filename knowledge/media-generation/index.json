@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
-  "techniques": 187,
-  "applications": 101,
+  "techniques": 190,
+  "applications": 105,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,7 +15,7 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "187/187",
+  "use_when_coverage": "190/190",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3303,9 +3303,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:38fe40a58f42da00",
-   "revision": 18,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:6bb352204d334af5",
+   "revision": 19,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "alignment-names-its-text",
@@ -3449,6 +3449,21 @@
      ]
     },
     {
+     "slug": "pinned-frame-notes",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a person reviews a cut and an assistant or editor makes the changes",
+      "review feedback arrives as prose such as \"the title feels low near the middle\"",
+      "a cut is re-rendered at a different size or frame rate between rounds of review",
+      "an assistant has to find the layer in source that a reviewer is pointing at"
+     ]
+    },
+    {
      "slug": "seek-stable-composition-authoring",
      "status": "forged",
      "laws": [
@@ -3465,6 +3480,22 @@
      ]
     },
     {
+     "slug": "silent-defects-get-a-code-or-an-error",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a renderer accepts input it cannot honour and produces a plausible picture anyway",
+      "a composition renders cleanly and the output is transparent, black, cut off or missing a layer",
+      "a missing or undecodable media file resolves as black frames or silent audio instead of failing",
+      "a request validator bounds the size of text but the text is drawn, wrapped and clipped later",
+      "an incident was diagnosed by watching the output and nothing now prevents its recurrence"
+     ]
+    },
+    {
      "slug": "storyboard-grid-conditioning",
      "status": "forged",
      "laws": [
@@ -3478,14 +3509,57 @@
       "carrying a whole scene's plan into one generation call instead of per-shot requests",
       "choosing panel count and layout for a storyboard image"
      ]
+    },
+    {
+     "slug": "verify-cheapest-artifact-first",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "checkability-routes-the-pixel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a cut is compiled from source and the full render takes minutes, needs a GPU, or costs money",
+      "an assistant is about to render a finished video to find out whether a composition is right",
+      "a person is in the loop and will judge the result by watching it",
+      "a composition renders without error and the output is blank, black or wrong"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "silent-defects-get-a-code-or-an-error",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/next--silent-defects-get-a-code-or-an-error.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "node",
+     "technique": "pinned-frame-notes",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/node--pinned-frame-notes.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22"
+    },
     {
      "stack": "node",
      "technique": "seek-stable-composition-authoring",
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/node--seek-stable-composition-authoring.md",
      "verified_on": "2026-09-16",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "silent-defects-get-a-code-or-an-error",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/node--silent-defects-get-a-code-or-an-error.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "verify-cheapest-artifact-first",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/node--verify-cheapest-artifact-first.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@22"
     },
     {
@@ -3765,6 +3839,8 @@
     "video-assembly/derived-turn-markers",
     "video-assembly/drift-correction",
     "video-assembly/seek-stable-composition-authoring",
+    "video-assembly/silent-defects-get-a-code-or-an-error",
+    "video-assembly/verify-cheapest-artifact-first",
     "visual-style-locking/consistency-control-arm",
     "visual-style-locking/draft-proofing-locked-ratchet",
     "visual-style-locking/motion-sampled-under-a-frame-budget",
@@ -3961,6 +4037,7 @@
     "video-assembly/cut-compiled-from-source",
     "video-assembly/drift-correction",
     "video-assembly/motion-plate-library",
+    "video-assembly/pinned-frame-notes",
     "video-assembly/seek-stable-composition-authoring",
     "visual-style-locking/draft-proofing-locked-ratchet"
    ]
@@ -3987,8 +4064,11 @@
     "live-system-demo-film/summary-rendered-from-the-run",
     "platform-format-adaptation/sound-off-first-design",
     "video-assembly/cut-compiled-from-source",
+    "video-assembly/pinned-frame-notes",
     "video-assembly/seek-stable-composition-authoring",
-    "video-assembly/storyboard-grid-conditioning"
+    "video-assembly/silent-defects-get-a-code-or-an-error",
+    "video-assembly/storyboard-grid-conditioning",
+    "video-assembly/verify-cheapest-artifact-first"
    ]
   },
   "cost-per-usable-output": {

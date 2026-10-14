@@ -1,7 +1,7 @@
 ---
 subject: optional-dependency-degradation
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-10-14
 dry_streak: 0
 ---
 
@@ -172,3 +172,12 @@ target `python--guarded-singleton-accessor` gained one count correction (189 ent
 ### 2026-09-16 - `/harvest backlog` wave 1, one technique
 
 `misconfiguration-never-reaches-a-fallback`, the first landing of backlog mode: four source notes ([[2026-09-07-gbrain]], [[2026-09-16-squid]], [[2026-09-04-weave-router]], [[2026-08-31-semantica]]) had banked the same rule untriaged, and none had measured it. The blind spot sits *before* this subject's presence branch: a value whose name is not recognised is dropped, reads as absent, and takes the fallback built for genuine absence. Measured in code on kp (14/14 misconfigurations unhandled -> 0/14, floor held) and shipped there. The gbrain note's claim that the finding inverts `absent-degrades-malformed-fails-fast` was wrong: the extractive fallback exists for failed calls, not for a dependency the deployment declared it lacks, and the technique draws that line.
+
+## Harvest - 2026-10-14 (forge fg1014)
+
+Amended `misconfiguration-never-reaches-a-fallback` with "Unset can mean the dependency picks": resolve
+the location yourself, host value then private temporary then feature off. Discriminator: a configured
+but unwritable location degrades quietly only because the fallback is a throwaway cache of derived data.
+Subject is at 10 techniques (over the ceiling), so no technique file was added. The source's decision
+record is `proposed`; its rung-3 path has no test; the temp root follows environment variables, which
+the record's "no env variables" rule does not cover. One cpp application added.

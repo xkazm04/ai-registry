@@ -66,3 +66,7 @@ giving the remedies as a ranked ladder instead.
 
 Unapplied: no authorized fleet project ships a native process that reads other
 applications' accessibility trees. Return condition in `applied.md`.
+
+## 2026-10-14 - light-c (intake lightc-1014)
+
+Added technique native-side-owns-the-target-set (entitlement of a command to touch the filesystem or spawn, upstream of ipc-contract call shape) with one application against the source tree. Leads banked in the source note: exact exemptions from a protected root, mode-detection ladder that fails toward the cheaper wrong guess. Return condition for both: a second independent source.

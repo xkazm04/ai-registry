@@ -1,6 +1,6 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 81 subjects, 537 techniques, 296 applications.
+`game-production` - 83 subjects, 547 techniques, 300 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### systems-canon
@@ -16,10 +16,10 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - **geometry** - asset-class-poly-budgeting, generated-asset-world-scale, generated-mesh-acceptance, mesh-finishing-for-engine-readiness
 - **motion-and-audio** - adaptive-music-authoring, game-dialogue-voice-pipeline, motion-quality-gating, spatial-audio-scene-authoring
 - **sourcing-economics** - image-to-3d-input-gating, regeneration-vs-repair-economics
-- **surface-and-imagery** - imported-material-conformance, shader-budget-authoring, sprite-and-atlas-production, tiling-texture-acceptance
+- **surface-and-imagery** - depth-ordered-layered-art, imported-material-conformance, shader-budget-authoring, sprite-and-atlas-production, tiling-texture-acceptance
 
 ### engine-integration
-- crash-forensics-attribution, engine-integration-safety, engine-pitfall-corpus, gameplay-runtime-patterns, perf-regression-gating, render-submission-economy, runtime-observation-evidence, ship-pipeline-gating, visual-script-to-code-transpilation
+- crash-forensics-attribution, engine-integration-safety, engine-pitfall-corpus, gameplay-runtime-patterns, perf-regression-gating, render-submission-economy, rigid-body-simulation-stability, runtime-observation-evidence, ship-pipeline-gating, visual-script-to-code-transpilation
 
 ### craft-judgment
 - aaa-craft-rubric-authoring, design-doc-compliance-scoring, playtest-signal-to-defect, quality-verdict-integrity, subsystem-review-doctrine, unattended-build-loop

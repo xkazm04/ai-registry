@@ -1110,11 +1110,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 81,
-      "techniques": 537,
-      "applications": 296,
-      "files": 918,
-      "contentHash": "sha256-b2:44b4a25ab13b24f4"
+      "subjects": 83,
+      "techniques": 547,
+      "applications": 300,
+      "files": 934,
+      "contentHash": "sha256-b2:06b559709e219f1e"
     },
     {
       "name": "grant-funding",
@@ -1176,10 +1176,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 26,
-      "techniques": 187,
-      "applications": 101,
-      "files": 319,
-      "contentHash": "sha256-b2:3280f78a7c5c8642"
+      "techniques": 190,
+      "applications": 105,
+      "files": 326,
+      "contentHash": "sha256-b2:9b7e0606b35d678c"
     },
     {
       "name": "recruiting",
@@ -1188,11 +1188,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "recruiting",
-      "subjects": 66,
-      "techniques": 409,
-      "applications": 295,
-      "files": 774,
-      "contentHash": "sha256-b2:a42de048e0ff972f"
+      "subjects": 67,
+      "techniques": 416,
+      "applications": 298,
+      "files": 785,
+      "contentHash": "sha256-b2:4730fd74b0add399"
     },
     {
       "name": "software-engineering",
@@ -1201,11 +1201,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 234,
-      "techniques": 1847,
-      "applications": 1274,
-      "files": 3360,
-      "contentHash": "sha256-b2:92b335c5e0c57852"
+      "subjects": 235,
+      "techniques": 1860,
+      "applications": 1290,
+      "files": 3390,
+      "contentHash": "sha256-b2:be22efb4588fad18"
     },
     {
       "name": "technical-writing",

@@ -100,3 +100,14 @@ not authorize a technique on its own.
   it. The rule ("name any implicit order a stable sort was carrying before appending
   identity") owes the ECMAScript/MDN stability text, and the politicas commits
   `26d695a`/`22f03d6` are unverified.
+
+- **Impact evaluation, 2026-10-14 (grid-keyboard-model).** impact-null (1 of 2): blind A/B in a
+  consuming project, 4/5 vs 4/5. The pre-landing corpus already produced the grid design;
+  the landing's distinct contribution (no wrap at row edges) showed in one arm only. Ledger:
+  `librarian/harvest/evaluations.md`.
+
+## 2026-10-14 - [[2026-10-14-revogrid]]
+
+`/intake` over a data-grid library, focus on table quality. Four techniques added, all in the half a grid has and a list-style table does not: `compressed-scroll-space` (the browser's scroll ceiling; the thumb reaches every row only up to about the ceiling's pixel count in rows, a derivation), `one-door-for-range-writes` (paste, fill, cut and clear are writers; the source tree has two events for one store), `clipboard-range-round-trip` (copy then paste of the same block changed 4 rows and 8 cells into 5 and 10 in the source's own functions), `export-escapes-for-its-consumer` (formula layer under the CSV layer; exemption by shape, measured on 800 contacts).
+
+Open for a later sweep: pinned partitions (a lead), column auto-size by character count (amendment to the column-width line), grouping x sort x filter. `performance` rung 4 now points at `compressed-scroll-space`.

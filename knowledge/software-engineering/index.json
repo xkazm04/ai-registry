@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 234,
-  "techniques": 1847,
-  "applications": 1274,
+  "subjects": 235,
+  "techniques": 1860,
+  "applications": 1290,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1847/1847",
+  "use_when_coverage": "1860/1860",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4270,9 +4270,9 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/background-jobs.md",
-   "digest": "sha256-b2:4a1ddf4af408b961",
-   "revision": 4,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:22ed2a99172ae050",
+   "revision": 5,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "adaptive-cadence",
@@ -4359,9 +4359,31 @@
       "ticks overlap because they outlast their cadence",
       "deciding when repeated failure earns quarantine"
      ]
+    },
+    {
+     "slug": "timeout-is-a-status-not-a-consumption",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a bounded wait on a tracked operation gives up and the caller needs to wait again later",
+      "a forever timeout turns out to be finite after a unit conversion",
+      "a wait on an already-finished operation reports a timeout"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "timeout-is-a-status-not-a-consumption",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/applications/cpp--timeout-is-a-status-not-a-consumption.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "cpp@17"
+    },
     {
      "stack": "react",
      "technique": "job-progress-and-cancellation",
@@ -13855,9 +13877,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256-b2:e561e382d42cb2f2",
-   "revision": 15,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:59b7b5d98d37139a",
+   "revision": 16,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "cancellation-attribution",
@@ -13888,6 +13910,24 @@
       "a reusable unit's callers cannot branch on why it failed",
       "deciding where a failure representation should be converted",
       "an application-shaped error type has leaked into something other teams depend on"
+     ]
+    },
+    {
+     "slug": "containment-boundary-restores-state",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where an unwinding failure is caught inside a long-lived editing or serving process",
+      "an escaped panic would leave a document or session half-mutated",
+      "a third-party parser reads hostile bytes and may abort the host",
+      "adding a last-resort catch and unsure whether it should also restore state",
+      "a catch that logs and continues keeps running on corrupt state",
+      "a target aborts on failure so no catch can work"
      ]
     },
     {
@@ -14034,6 +14074,13 @@
      "technique": "error-doors",
      "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/react--error-doors.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "containment-boundary-restores-state",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--containment-boundary-restores-state.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.90"
     },
     {
      "stack": "rust",
@@ -21992,9 +22039,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256-b2:a33adfb4a8edc0eb",
-   "revision": 17,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:7c8008f2207b1946",
+   "revision": 18,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "borrowed-surface",
@@ -22185,7 +22232,9 @@
       "deciding where a boundary should allow substitution",
       "making untested code testable",
       "choosing whether a dependency deserves an interface",
-      "planning to replace an external dependency"
+      "planning to replace an external dependency",
+      "two producers must feed one consumer identically",
+      "classifying known divergences between producers"
      ]
     },
     {
@@ -23245,9 +23294,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/native-shell-integration/native-shell-integration.md",
-   "digest": "sha256-b2:eb941b25ec740109",
-   "revision": 3,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:0ab230f2977430e7",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "capability-presence-contract",
@@ -23296,6 +23345,21 @@
       "choosing an idle timeout for a subscriber that never sees an error",
       "a reconnect loop spins because the connection succeeds and then goes quiet",
       "deciding which streams move to the native process and which stay in the view"
+     ]
+    },
+    {
+     "slug": "native-side-owns-the-target-set",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a destructive or executing command accepts a list of paths from the presentation layer",
+      "a native command takes a string and hands it to a shell",
+      "deciding between an allow-list and a deny-list for what a command may touch",
+      "a layered safety check has a layer that logs and carries on",
+      "a capability manifest is scoped tightly and every product command is still callable"
      ]
     },
     {
@@ -23407,6 +23471,13 @@
      "technique": "native-owned-stream",
      "file": "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--native-owned-stream.md",
      "verified_on": "2026-09-03",
+     "verified_against": "rust@2021"
+    },
+    {
+     "stack": "rust",
+     "technique": "native-side-owns-the-target-set",
+     "file": "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--native-side-owns-the-target-set.md",
+     "verified_on": "2026-10-14",
      "verified_against": "rust@2021"
     },
     {
@@ -23773,9 +23844,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/optional-dependency-degradation.md",
-   "digest": "sha256-b2:5740098d6095e387",
-   "revision": 16,
-   "changedAt": "2026-09-16",
+   "digest": "sha256-b2:641cb6bf0b2c6916",
+   "revision": 17,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "absent-degrades-malformed-fails-fast",
@@ -23889,7 +23960,8 @@
       "a constructor accepts arbitrary keyword options",
       "a degraded answer is good enough that nobody would notice it replaced the real one",
       "writing a stand-in for a dependency a test build does not link",
-      "a typo in a setting changed which backend served and nothing logged it"
+      "a typo in a setting changed which backend served and nothing logged it",
+      "a library leaves a write location unset and a dependency picks its own default"
      ]
     },
     {
@@ -23938,6 +24010,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "misconfiguration-never-reaches-a-fallback",
+     "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/cpp--misconfiguration-never-reaches-a-fallback.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "cpp@17"
+    },
     {
      "stack": "node",
      "technique": "absent-degrades-malformed-fails-fast",
@@ -27131,9 +27210,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256-b2:6e635d76a310aa4b",
-   "revision": 53,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:0d8378dd13155e59",
+   "revision": 54,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "advancement-evidence-fields",
@@ -27778,6 +27857,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--gate-liveness.md",
      "verified_on": "2026-09-05",
      "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "prose-rule-drift",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--prose-rule-drift--panic-lint.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.90"
     },
     {
      "stack": "rust",
@@ -29572,7 +29658,7 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
    "digest": "sha256-b2:7f83bf34fe6f34be",
-   "revision": 4,
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -34539,8 +34625,8 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256-b2:f5aa23bf6f14872f",
-   "revision": 13,
+   "digest": "sha256-b2:c587a204413d5373",
+   "revision": 14,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -34554,6 +34640,49 @@
       "placing filter sort and window on server or client",
       "a sort that only reorders the loaded page",
       "deciding when a client-held table must move server-side"
+     ]
+    },
+    {
+     "slug": "clipboard-range-round-trip",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "copying a range of cells out of a table and pasting it back changes the number of rows or cells",
+      "a cell value containing a tab or a line break breaks a paste",
+      "deciding what formats a table puts on the clipboard",
+      "a page with more than one table reacts to one paste",
+      "a pasted spreadsheet block carries a trailing blank row"
+     ]
+    },
+    {
+     "slug": "compressed-scroll-space",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a windowed table holds hundreds of thousands of rows and the scrollbar stops tracking the rows",
+      "the last rows of a very long table cannot be reached",
+      "deciding whether a long table should be windowed on the client or paged on the server",
+      "mapping wheel and thumb input onto a scroll range the browser will not grant",
+      "a click on a deep-scrolled row lands on a neighbouring row"
+     ]
+    },
+    {
+     "slug": "export-escapes-for-its-consumer",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a table exports its rows to CSV and some cells come from users or other systems",
+      "a cell starting with an equals sign or a plus opens as a formula in a spreadsheet",
+      "a CSV encoder is copied into several export routes",
+      "nullable or date values export as the wrong text",
+      "deciding which cells a formula guard must leave alone"
      ]
     },
     {
@@ -34601,6 +34730,23 @@
       "rows replaced by skeletons while refreshing",
       "entrance animation replaying on scroll back",
       "an empty table after the response shape changed"
+     ]
+    },
+    {
+     "slug": "one-door-for-range-writes",
+     "status": "forged",
+     "laws": [
+      "one-validation-door"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an editable table lets users paste",
+      "fill-drag",
+      "cut or clear a block of cells",
+      "a validator or audit hook is attached to the cell editor and bulk input still gets bad values in",
+      "pasted text lands in a numeric or date column as a string",
+      "a paste skips read-only cells without telling anyone",
+      "deciding what an edit event should carry for undo"
      ]
     },
     {
@@ -34655,6 +34801,13 @@
    "applications": [
     {
      "stack": "next",
+     "technique": "export-escapes-for-its-consumer",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--export-escapes-for-its-consumer.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
      "technique": "filtering",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--filtering.md",
      "verified_on": "2026-09-23",
@@ -34673,6 +34826,30 @@
      "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/next--sorting.md",
      "verified_on": "2026-09-20",
      "verified_against": "next@16"
+    },
+    {
+     "stack": "node",
+     "technique": "clipboard-range-round-trip",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/node--clipboard-range-round-trip.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "node",
+     "technique": "compressed-scroll-space",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/node--compressed-scroll-space.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "node",
+     "technique": "export-escapes-for-its-consumer",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/node--export-escapes-for-its-consumer--revogrid.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "node",
+     "technique": "one-door-for-range-writes",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/table/applications/node--one-door-for-range-writes.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "react",
@@ -36822,6 +36999,137 @@
      "technique": "source-normalization",
      "file": "knowledge/software-engineering/operations/service-operations/triage-queues/applications/react--source-normalization.md",
      "verified_on": "2026-08-18"
+    }
+   ]
+  },
+  "trust-base": {
+   "category": "engineering-process",
+   "subcategory": "standards-and-gates",
+   "status": "forged",
+   "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/trust-base.md",
+   "digest": "sha256-b2:9e7a4721c917b497",
+   "revision": 1,
+   "changedAt": "2026-10-14",
+   "techniques": [
+    {
+     "slug": "assumptions-are-build-errors",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a proof or a type-level argument depends on a platform fact such as word size or endianness",
+      "the verified side and the unverified side both mention the same environmental fact",
+      "a package is built on targets the proof was never run on"
+     ]
+    },
+    {
+     "slug": "leaf-spec-states-what-callers-read",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the contract of a function the checker is told to trust",
+      "a trusted contract is deliberately weaker than the body",
+      "a refactor adds a caller of a trusted function",
+      "a proof fails because a trusted contract says too little"
+     ]
+    },
+    {
+     "slug": "marker-impl-names-its-exclusion",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "writing or reviewing a hand-written thread-transfer or shared-access assertion",
+      "a type holds interior mutability behind a lock or a publish flag",
+      "a manual marker impl survives a refactor of the type's fields",
+      "deciding what bounds the impl should demand"
+     ]
+    },
+    {
+     "slug": "soundness-argument-names-its-dependencies",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "an escape hatch is sound only because of a declaration made elsewhere",
+      "a pointer cast reads data a constructor is supposed to have appended",
+      "a representation attribute is load-bearing for a distant block",
+      "auditing which escape sites carry a justification"
+     ]
+    },
+    {
+     "slug": "trusted-leaf-gets-an-outside-test",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a function body is marked as trusted while its stated contract is consumed by proofs",
+      "a proof suite is green and the question is what would turn it red if a leaf changed",
+      "writing the test for a one-line trusted body"
+     ]
+    },
+    {
+     "slug": "verifier-footprint-stays-contained",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "adding a prover or specification library to a package that other teams depend on",
+      "deciding whether to pin a verifier-coupled dependency exactly",
+      "the verified subset of the language is constraining code outside the verified part",
+      "choosing collection types for code a prover will reason about"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "assumptions-are-build-errors",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/rust--assumptions-are-build-errors.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.88"
+    },
+    {
+     "stack": "rust",
+     "technique": "leaf-spec-states-what-callers-read",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/rust--leaf-spec-states-what-callers-read.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.88"
+    },
+    {
+     "stack": "rust",
+     "technique": "marker-impl-names-its-exclusion",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/rust--marker-impl-names-its-exclusion.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.88"
+    },
+    {
+     "stack": "rust",
+     "technique": "soundness-argument-names-its-dependencies",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/rust--soundness-argument-names-its-dependencies.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.88"
+    },
+    {
+     "stack": "rust",
+     "technique": "trusted-leaf-gets-an-outside-test",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/rust--trusted-leaf-gets-an-outside-test.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.88"
+    },
+    {
+     "stack": "rust",
+     "technique": "verifier-footprint-stays-contained",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/rust--verifier-footprint-stays-contained.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.88"
     }
    ]
   },
@@ -39714,6 +40022,7 @@
     "transactions-over-a-replicated-log/compose-then-conform",
     "transactions-over-a-replicated-log/list-verification-by-present-keys",
     "transactions-over-a-replicated-log/snapshot-read-plus-verify-log",
+    "trust-base/assumptions-are-build-errors",
     "ui-controls/adoption-enforcement",
     "ui-controls/call-site-ownership",
     "ui-controls/control-inventory-and-discovery",
@@ -39812,6 +40121,7 @@
     "background-jobs/loop-health-telemetry",
     "background-jobs/startup-sweeps",
     "background-jobs/tick-isolation",
+    "background-jobs/timeout-is-a-status-not-a-consumption",
     "batch-undo-commit-window/bounded-fanout-commit",
     "batch-undo-commit-window/deferred-write-window",
     "batch-undo-commit-window/flush-on-teardown",
@@ -39951,6 +40261,7 @@
     "entity-lifecycle/orphan-reconciliation",
     "entity-lifecycle/provenance-denormalization",
     "error-handling/cancellation-attribution",
+    "error-handling/containment-boundary-restores-state",
     "error-handling/error-doors",
     "error-handling/parse-failure-keeps-identity",
     "error-handling/reclassification-is-not-repair",
@@ -40329,6 +40640,7 @@
     "triage-queues/focus-mode",
     "triage-queues/source-normalization",
     "triage-queues/verdict-writeback",
+    "trust-base/trusted-leaf-gets-an-outside-test",
     "ui-controls/adoption-enforcement",
     "untrusted-extension-host/declared-schema-extension-storage",
     "untrusted-extension-host/derived-capability-inventory",
@@ -40949,6 +41261,7 @@
     "transactions-over-a-replicated-log/live-file-is-the-snapshot",
     "transactions-over-a-replicated-log/same-value-still-conflicts",
     "triage-queues/bulk-triage",
+    "trust-base/leaf-spec-states-what-callers-read",
     "ui-controls/adoption-enforcement",
     "ui-controls/call-site-ownership",
     "untrusted-extension-host/derived-capability-inventory",
@@ -41011,6 +41324,7 @@
     "authorization/delegated-authority",
     "authorization/one-accessor-per-fold-direction",
     "authorization/read-write-predicate-symmetry",
+    "background-jobs/timeout-is-a-status-not-a-consumption",
     "bounded-enumeration/required-limit-breaks-unaware-clients",
     "client-fetch-cache/sibling-entry-warmth",
     "client-state/observed-read-subscription",
@@ -41446,6 +41760,7 @@
     "structured-output/schema-validation-and-repair",
     "subprocess-lifecycle/spawn-contract",
     "sync-replication/projection-security",
+    "table/one-door-for-range-writes",
     "telemetry-pii-redaction/emit-site-inventory",
     "telemetry-pii-redaction/hook-coverage-gaps",
     "templates-scaffolding/catalog-curation",
@@ -41511,6 +41826,7 @@
     "authorization/identity-bearing-keys",
     "background-jobs/job-progress-and-cancellation",
     "background-jobs/loop-supervision",
+    "background-jobs/timeout-is-a-status-not-a-consumption",
     "batch-undo-commit-window/bounded-fanout-commit",
     "batch-undo-commit-window/single-pending-batch-invariant",
     "bounded-enumeration/after-plus-limit-not-cursor",
@@ -42468,6 +42784,7 @@
     "supply-chain/permission-manifest-scoping",
     "sync-replication/conflict-detection-and-policy",
     "sync-replication/topology-declaration",
+    "table/export-escapes-for-its-consumer",
     "telemetry-pii-redaction/denylist-plus-pattern-pass",
     "templates-scaffolding/readiness-prerequisites",
     "templates-scaffolding/template-anatomy",
@@ -42860,6 +43177,7 @@
     "structured-output/constrained-decoding-is-a-shared-budget",
     "structured-output/enumerable-domain-decoding",
     "subscription-billing-periods/boundary-stitch-on-timezone-change",
+    "table/compressed-scroll-space",
     "untrusted-extension-host/host-api-import-budget",
     "usage-event-ingestion/dedupe-key-survives-soft-delete",
     "usage-pricing-models/exact-money-with-one-rounding-boundary",
@@ -42935,6 +43253,7 @@
     "native-guest-interop/class-from-impl-with-borrow-warning",
     "native-guest-interop/explicit-lossy-conversion",
     "native-shell-integration/capability-presence-contract",
+    "native-shell-integration/native-side-owns-the-target-set",
     "native-shell-integration/non-stealing-overlay",
     "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",
     "optional-dependency-degradation/guarded-singleton-accessor",
@@ -43052,6 +43371,7 @@
     "engine-binding-surface/pre-resolve-what-the-engine-cannot-await",
     "engine-host-contract/null-and-blocking-executors",
     "entity-lifecycle/archive-restore-semantics",
+    "error-handling/containment-boundary-restores-state",
     "error-handling/crash-capture",
     "execution-state-checkpointing/resume-mints-a-duplicate",
     "extension-trust-boundary/invert-the-default-for-exposed-surface",
@@ -43256,6 +43576,7 @@
     "durable-agent-operations/intent-mints-the-identity",
     "durable-agent-operations/settlement-order-is-not-placement-order",
     "engine-binding-surface/capability-deferred-release",
+    "error-handling/containment-boundary-restores-state",
     "execution-state-checkpointing/the-record-outlives-the-rewind",
     "fleet-orchestration/evidence-outranks-a-liveness-claim",
     "guest-execution-bounding/bounded-shadow-backtrace",

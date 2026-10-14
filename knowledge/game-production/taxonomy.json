@@ -68,7 +68,8 @@
             "shader-budget-authoring",
             "sprite-and-atlas-production",
             "tiling-texture-acceptance",
-            "imported-material-conformance"
+            "imported-material-conformance",
+            "depth-ordered-layered-art"
           ]
         },
         {
@@ -104,7 +105,8 @@
         "ship-pipeline-gating",
         "visual-script-to-code-transpilation",
         "perf-regression-gating",
-        "render-submission-economy"
+        "render-submission-economy",
+        "rigid-body-simulation-stability"
       ]
     },
     {

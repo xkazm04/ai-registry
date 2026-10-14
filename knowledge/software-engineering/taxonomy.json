@@ -464,7 +464,8 @@
             "knowledge-registry",
             "repo-manifest-standard",
             "multi-project",
-            "invariant-placement"
+            "invariant-placement",
+            "trust-base"
           ]
         },
         {

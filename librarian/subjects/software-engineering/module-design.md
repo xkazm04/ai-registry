@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: module-design
-last_touched: 2026-10-07
+last_touched: 2026-10-14
 touched_by: intake
 dry_streak: 0
 ---
@@ -309,3 +309,11 @@ Source: [[2026-10-02-yoagent]]. Gained `host-primitive-facade` (14 to 15 techniq
   opposite direction. Return condition: a fleet Rust crate must build for a script host.
 - Neighbour cluster left as leads, not a new subject (the obvious home category, language-runtime, holds ten subjects):
   public API growth, library CI pins, global-state test isolation.
+
+## Harvest - 2026-10-14 (forge fg1014)
+
+Added to `seams-and-adapters` the section on a ledger of divergences between two producers feeding one
+consumer (defect asserted, fragile and note not, an unobserved defect is documentation only, the pin is
+deleted or inverted when the consumer is fixed). Subject at 16 techniques; section, not file. No
+application: the evidence generator is outside the pinned clone. Unverified: that the two "backends" share
+one parser.

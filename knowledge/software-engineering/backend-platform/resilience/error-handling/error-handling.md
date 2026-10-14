@@ -14,6 +14,7 @@ techniques:
   - crash-capture
   - cancellation-attribution
   - consumer-decides-error-shape
+  - containment-boundary-restores-state
   - exit-contract-is-a-taxonomy-projection
 ---
 

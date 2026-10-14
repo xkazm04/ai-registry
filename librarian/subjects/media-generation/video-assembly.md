@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-10-04
+last_touched: 2026-10-14
 dry_streak: 0
 ---
 
@@ -294,3 +294,12 @@ expanded token and nowhere after it.
   timestamps as a boolean capability axis, which cannot distinguish "two index spaces,
   consumer chooses" from "one, engine chose" - a probe reports parity exactly where the
   migration risk lives. Cross-bundle; banked as a lead with its return condition.
+
+## 2026-10-14 - /intake ([[2026-10-14-gatewai-framefields]])
+
+- Three techniques landed from one code-first video engine: `verify-cheapest-artifact-first` (a ladder of artifacts ordered by cost, with a named defect class per rung, and the boundary that a cheap rung only stands in for the export for what it can reproduce, which covers effects that read the previous frame), `silent-defects-get-a-code-or-an-error` (fail on missing input; code and severity-grade everything that draws but not as intended; a character cap cannot see width), and `pinned-frame-notes` (feedback as a frame, a spot in fractions, a marked image and a done flag, stored as files).
+- Applied once: the silent-defect technique found 11 of 21 overlay cases overflowing the safe zone in a fleet ad renderer; fixed and probed (ab-paired, not pushed).
+- Untriaged: the stateful-effect exception to frame-index purity as an amendment to `seek-stable-composition-authoring`, scored 1/0/1. Its content sits in the ladder technique's cheap-rung section. Promote it if a second source states the exception for a different effect class.
+- Open lead: a per-frame CPU cost table by model size from the same engine's skill (a dated fact). Return when a second engine publishes a comparable measurement.
+- Two techniques have no application yet. Return when a connected project grows a render ladder or a review surface over a cut.
+

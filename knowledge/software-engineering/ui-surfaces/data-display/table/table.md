@@ -11,6 +11,10 @@ techniques:
   - loading-and-empty-states
   - client-server-split
   - grid-keyboard-model
+  - compressed-scroll-space
+  - one-door-for-range-writes
+  - clipboard-range-round-trip
+  - export-escapes-for-its-consumer
 ---
 
 # Table
@@ -217,3 +221,16 @@ same data.
 - [grid-keyboard-model](./techniques/grid-keyboard-model.md) — native table or
   grid, two-dimensional traversal that stops at edges, cell versus widget focus,
   suspending and restoring navigation, and jump keys under windowed data.
+- [compressed-scroll-space](./techniques/compressed-scroll-space.md) — what to do
+  when the row count outgrows the browser's scrollable-size ceiling: probe the
+  ceiling, keep logical and physical coordinates apart, and where the thumb stops
+  being able to address every row.
+- [one-door-for-range-writes](./techniques/one-door-for-range-writes.md) — paste,
+  fill, cut and clear are writers too: one door that resolves identity, coerces
+  by column type, applies permission per cell and reports what was written.
+- [clipboard-range-round-trip](./techniques/clipboard-range-round-trip.md) — copy
+  and paste as one pair with one acceptance test: the block you copied is the
+  block you paste.
+- [export-escapes-for-its-consumer](./techniques/export-escapes-for-its-consumer.md)
+  — the spreadsheet-formula layer under the CSV layer, exemptions by shape, typed
+  serialisation, and one shared encoder.

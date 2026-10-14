@@ -1,0 +1,61 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "px1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-10-14T12:00:00Z",
+  "ended_at": "2026-10-14T15:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/rigid-body-simulation-stability",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "game-production/rigid-body-simulation-stability",
+      "technique": "spring-by-frequency-and-damping-ratio",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/engine-integration/rigid-body-simulation-stability/applications/kotlin--spring-by-frequency-and-damping-ratio.md",
+    "knowledge/game-production/engine-integration/rigid-body-simulation-stability/applications/process--spring-by-frequency-and-damping-ratio.md",
+    "knowledge/game-production/engine-integration/rigid-body-simulation-stability/rigid-body-simulation-stability.md",
+    "knowledge/game-production/engine-integration/rigid-body-simulation-stability/techniques/bound-actuation-by-the-lightest-coupled-body.md",
+    "knowledge/game-production/engine-integration/rigid-body-simulation-stability/techniques/filter-the-pair-after-proving-the-class.md",
+    "knowledge/game-production/engine-integration/rigid-body-simulation-stability/techniques/instability-triage-by-stiffness-source.md",
+    "knowledge/game-production/engine-integration/rigid-body-simulation-stability/techniques/replicated-environments-share-unbounded-geometry.md",
+    "knowledge/game-production/engine-integration/rigid-body-simulation-stability/techniques/spring-by-frequency-and-damping-ratio.md",
+    "knowledge/game-production/taxonomy.json",
+    "knowledge/game-production/index.json",
+    "catalog.json",
+    "librarian/handoffs/2026-10-14-rigid-body-simulation-stability.md",
+    "librarian/handoffs/2026-10-14-native-runtime-contracts.md",
+    "librarian/sources/2026-10-14-nvidia-physx.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/rigid-body-simulation-stability.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One subject (5 techniques, 2 applications) forged in-session from a physics repository's tuning guides; runtime-contract cluster banked as a scout brief; one experiment row, unmeasurable (the fleet project already complies); nothing shipped to a project."
+}
