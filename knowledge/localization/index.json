@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 64,
+  "applications": 65,
   "laws": 8,
   "categories": [
    "european",
@@ -389,8 +389,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
-   "digest": "sha256-b2:f2ab8ec30c943b96",
-   "revision": 7,
+   "digest": "sha256-b2:1dfae6e610f0569e",
+   "revision": 8,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -602,6 +602,12 @@
      "technique": "rendered-string-extraction",
      "file": "knowledge/localization/craft/copy-quality-gates/applications/process--rendered-string-extraction.md",
      "verified_on": "2026-09-14"
+    },
+    {
+     "stack": "process",
+     "technique": "reviewer-calibration-and-sampling",
+     "file": "knowledge/localization/craft/copy-quality-gates/applications/process--reviewer-calibration-and-sampling.md",
+     "verified_on": "2026-10-14"
     }
    ]
   },
