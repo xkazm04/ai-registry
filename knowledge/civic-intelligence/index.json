@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 61,
+  "applications": 62,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -558,8 +558,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/claim-verification-and-provenance/claim-verification-and-provenance.md",
-   "digest": "sha256-b2:5995aea9f4263929",
-   "revision": 4,
+   "digest": "sha256-b2:104d602823b24da4",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -656,6 +656,13 @@
      "stack": "node",
      "technique": "claim-ref-addressing",
      "file": "knowledge/civic-intelligence/accountability-method/claim-verification-and-provenance/applications/node--claim-ref-addressing.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "derivation-comparison",
+     "file": "knowledge/civic-intelligence/accountability-method/claim-verification-and-provenance/applications/node--derivation-comparison.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },

@@ -99,6 +99,18 @@ never be the success state.
   aggregate is mixed or absent, the claim ships **without** a derivation
   field. A half-recomputed store has no single author, and a claim that picks
   one asserts more than the data carries.
+- Scope the ref to the metric, not to the module. A formula ref is bumped when
+  that metric's definition moves; a change to an adjacent predicate or
+  partition that this metric's value and meaning do not read is not a bump.
+  Bumping a shared ref on every nearby edit flips every issued citation to
+  "moved (by basis)" with the figure unchanged, which teaches readers to ignore
+  the label. The value comparison still catches any change that moves the
+  figure.
+- A figure recomputed live from its inputs at every render has no store to
+  compare against the code; its stamp is the identity of the inputs (the pass
+  or snapshot), and the formula comparison is the value comparison against the
+  recomputation. Declare a formula ref only where a stored value can outlive
+  the code that wrote it.
 
 ## When not to use it
 
