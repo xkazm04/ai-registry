@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 64,
+  "applications": 65,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -827,9 +827,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/funder-research/funder-research.md",
-   "digest": "sha256-b2:f13ef61cbc49e47b",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:f6444a0625aab599",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "adversarial-verification-pass",
@@ -920,6 +920,12 @@
      "technique": "coverage-gap-driven-planning",
      "file": "knowledge/grant-funding/funding-landscape/funder-research/applications/node--coverage-gap-driven-planning.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "process",
+     "technique": "adversarial-verification-pass",
+     "file": "knowledge/grant-funding/funding-landscape/funder-research/applications/process--adversarial-verification-pass.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",
