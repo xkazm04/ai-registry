@@ -114,6 +114,11 @@
       "checkouts": {
         "Wolf": "kiro/paypal"
       }
+    },
+    "athena-portable": {
+      "checkouts": {
+        "Wolf": "kiro/athena-portable"
+      }
     }
   }
 }
