@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 91,
+  "applications": 92,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -405,8 +405,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/budget-reallocation-prescription.md",
-   "digest": "sha256-b2:94624edac847f980",
-   "revision": 2,
+   "digest": "sha256-b2:5f8b79a54bd3e664",
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -515,6 +515,13 @@
      "technique": "guardrails-simulate-approve-revert",
      "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/applications/node--guardrails-simulate-approve-revert.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "linear-projection-with-confidence-cap",
+     "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/applications/node--linear-projection-with-confidence-cap.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
