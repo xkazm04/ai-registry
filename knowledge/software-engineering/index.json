@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1273,
+  "applications": 1274,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -29571,9 +29571,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
-   "digest": "sha256-b2:ebdfd4e4b02f4d12",
-   "revision": 2,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:7f83bf34fe6f34be",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "caption-carrying-figures",
@@ -29684,6 +29684,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "caption-carrying-figures",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/applications/process--caption-carrying-figures.md",
+     "verified_on": "2026-10-14"
+    },
     {
      "stack": "process",
      "technique": "evidence-linked-badges",
