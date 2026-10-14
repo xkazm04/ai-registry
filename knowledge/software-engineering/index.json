@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1266,
+  "applications": 1267,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -15040,9 +15040,9 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/federated-client-contracts/federated-client-contracts.md",
-   "digest": "sha256-b2:153c79fcdc83adae",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:295f5223f56c2656",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "contract-driven-hosting",
@@ -15141,6 +15141,13 @@
      "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/federated-client-contracts/applications/python--summary-only-egress.md",
      "verified_on": "2026-09-03",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "rust",
+     "technique": "delta-or-absolute-exchange",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/federated-client-contracts/applications/rust--delta-or-absolute-exchange.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.96"
     }
    ]
   },
