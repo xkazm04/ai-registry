@@ -55,3 +55,8 @@ blocks, territory as a globe, a wave of new states as a flag map with a log.
 
 - **A series that has already earned its form.** Keep the form across
   episodes and vary the world instead.
+- **A pipeline whose composition fixes the form** cannot execute step 2. Do not
+  instruct a generator to vary the form; name the variable dimensions, and ask for
+  the step 1 line plus a verdict on whether the fixed form shows or hides the move,
+  so the owner can commission another form. Asking for a variation the schema
+  cannot carry costs a rejected file or is silently ignored.
