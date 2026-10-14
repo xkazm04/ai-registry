@@ -86,6 +86,10 @@ next mining pass is expected to surface the ones it did not.
   expand to close variants on the dominant platform.
 - When one theme recurs across campaigns, promote it to a shared list, because a
   theme maintained in six places drifts in five of them.
+- When a negative is gated, gate it on the campaign total across ad groups and let any
+  converting query in the same campaign that contains the term as a phrase veto it,
+  because campaign scope and phrase match block more than the row that justified it,
+  and the verdict must not depend on which row the loop meets first.
 - When the mining source was a campaign-type that does not expose per-query
   negatives (an automated shopping or asset-based campaign whose exclusions live at
   account level), route the negative to the account-level mechanism the platform
