@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 97,
+  "applications": 98,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -3434,9 +3434,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/speed-to-lead-and-assisted-reply.md",
-   "digest": "sha256-b2:0e44cb7eafa79d37",
-   "revision": 2,
-   "changedAt": "2026-09-16",
+   "digest": "sha256-b2:5e8bf55d63a99e73",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "answer-in-first-sentence-never-promise",
@@ -3526,6 +3526,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "answer-in-first-sentence-never-promise",
+     "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--answer-in-first-sentence-never-promise.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "bant-lite-scoring",
