@@ -74,6 +74,9 @@ recommendation speaks of efficiency and says so
 
 - When the model names an entity outside the request, drop it and log the drop; do
   not re-prompt for a better name, because the better name is also not in the request.
+- When the model named entities and every one was dropped, the list stays empty; the
+  deterministic subject set backfills only a model that named nothing at all, because
+  backfilling after a total drop shows rows the model never pointed at under its name.
 - When the cause is a measurement gap, the lever is to fix measurement and touch no
   spend; a lever that pauses on a gap has read the ladder backwards.
 - When the cause is healthy, the lever is "hold, and consider a careful increase on
