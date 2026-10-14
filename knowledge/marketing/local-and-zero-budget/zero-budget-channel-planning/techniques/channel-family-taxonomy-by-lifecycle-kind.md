@@ -34,8 +34,8 @@ The table is the whole technique. A listing is a bounded task: verify, fill the
 fields, add photos, mark it done, revisit when something changes. A conversational
 channel is a standing commitment whose cost is attention and whose failure mode is
 being read as spam; it has no completion state, only live, paused or abandoned. A
-content channel continues by producing the next piece and is the kind a target
-query can be aimed at. A push channel also continues by producing the next piece and
+content channel continues by producing the next piece and, with the
+conversational kind, is one a target query can be aimed at. A push channel also continues by producing the next piece and
 is *not* - nobody arrives on it from a results page, and the business is spending a
 permission rather than earning an arrival; `owned-push-as-its-own-kind` holds that
 split and the second rule it changes. Outreach is a series of discrete pitches; a
@@ -46,7 +46,9 @@ for a listing (one-shot work) and delegated for a conversational channel (where 
 trained assistant earns its keep answering reactions). The derived next step for a
 live listing is "mark done"; for a live conversational channel it is "check the
 inbox"; for a live content, push or outreach channel it is "create the next piece". A
-query is dealt only to the content kind. Every one of those rules would be
+query is dealt to the content and conversational kinds - the two a searcher can
+arrive on, through a ranked page or a ranked thread - and to no listing, push or
+outreach channel. Every one of those rules would be
 wrong if written against the family list, because two families in one kind share
 the rule and one family in two kinds would need it split - which is exactly what
 the owned-content family turned out to be.
@@ -109,6 +111,12 @@ community's rules", ahead of anything about posting.
   exists for this business type; when it does not, fall back to "work the first
   action here", because a signpost to a page that does not exist is a broken
   promise and the playbook's first actions are always real.
+- When deciding which kinds a target query may be dealt to, name the kinds a
+  searcher can arrive on from a results page - content and conversational - and
+  not content alone, because a plan with few content channels would otherwise
+  starve: measured on a deterministic deal over five project-type packs, restricting
+  the deal to content cut the queries placed from 23 to 10, and a pack with one
+  content channel placed one query where it had placed three.
 - When a channel is done, deal it no query and derive no step, because the plan
   would be proposing work on something the business closed.
 
