@@ -96,3 +96,15 @@ Academic and some public-sector CVs are registers where a listing of positions,
 publications and grants *is* the accomplishment and outcome-phrasing reads as
 salesmanship; follow the register. Early-career documents with little paid work should
 apply the same shape to projects, study and volunteering rather than inflating thin roles.
+
+## Measured boundary: a screen that compares digits cannot see these
+
+A rewrite screen built on "no number the record lacks" and a closed list of leadership
+words still passes five invented claims: a bound glued to a stated figure ("about 30%"
+becomes "30%+", "over 30%"), a magnitude adverb on an outcome with no number
+("significantly reduced"), a participation verb replaced by an everyday leadership verb
+("assisted with" becomes "drove" or "managed"), and "we" rewritten as "I". Close each
+relative to the replaced line and the owner's own words: a bound, a magnitude word or a
+first-person pronoun the line did not carry becomes the owner's question, and one it
+already carried passes. Measured on one tree with five constructed cases (n=5, 2026-10-14);
+the localized forms were not tested.
