@@ -88,6 +88,11 @@ many relations did not fit.
   decide its default-view fate explicitly and add it to the counted
   disclosure — an unclassified grade that falls through to "visible" has
   been silently verified by omission.
+- Write the filter as the list of grades it ADMITS (verified, plus a
+  deterministic relation with nothing to review), never as the list it
+  excludes: an exclusion list passes every grade nobody thought to name, which
+  is how a rejected edge once rendered as verified and how the next unnamed
+  grade would. Anything unrecognized hides and counts as pending.
 - When a non-forensic casual mode exists alongside for the same audience, the authorized *data* is identical
   and only defaults differ; the toggle is a view preference, never a second
   query path that could drift.
