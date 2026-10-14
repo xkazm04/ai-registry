@@ -71,6 +71,7 @@ Every export, not just every template, is checked:
 - **When a template or layout engine changes, re-run the round trip on a fixed set of
   reference documents** - short, long, career change, non-Latin diacritics, two pages - and
   fail the change on any regression.
+- **The file's own properties gate the verdict, not only its text.** Title, structure tree, embedded fonts and size are measured by the same run, and a run that prints them but exits clean on a missing one has not verified them: a defect that drops the structure tree should fail the check that was written to see it.
 - **A verification result is bound to the exact file it checked.** A re-render, a changed
   template or a changed font invalidates it; [a verdict is bound to what it
   judged](../../../_laws.md#a-verdict-is-bound-to-what-it-judged).
