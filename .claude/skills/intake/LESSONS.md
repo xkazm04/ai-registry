@@ -12548,3 +12548,30 @@ applied here - one sighting, and the honest record is in the source note.
   (0/73 changes reachable from a project+day pool, 73/73 from the read scope), and it became a
   harness check. The fixture tell in `scope-before-similarity` applies to the registry's own
   instruments, not only to a project's test suite. One sighting; a rule at three.
+
+## 2.15.0 - 2026-10-14 - agentic-coding-flywheel-setup (practitioner series R1)
+
+- **When an amendment states a trade the registry itself is subject to, price it on the
+  registry's own history before it lands.** The concurrent-vcs amendment said a long
+  package should isolate. A merge-tree replay of 1,129 of our own commits, each change
+  replayed onto a branch point half an hour to two hours earlier, said the opposite for
+  additive work: isolation's paid conflicts per landing exceeded the shared checkout's
+  recorded incidents at every lead. The clause was rewritten before landing and the apply
+  row reads `not-better`. Git history is a free instrument for any claim about checkouts,
+  commits or ledgers. Kin to tencentdb's lesson (our own instrument); one sighting.
+- **A practitioner's audits outrank his published method.** Twelve statements in the
+  method are contradicted by the audits of the projects it ran on, and its strongest
+  practices (a no-self-close policy with a debt cap, a claim contract that can fail) live
+  in one tree each and nowhere in the method. Read the operating half before the tour
+  half, and pin the evidence trees beside the method's repository.
+- **Check each premise a builder brief states against its record before dispatch.** Five
+  premises in this run's briefs were wrong, and builders found them only after dispatch: a
+  "race" that was two spellings of one source, transcripts that had rolled off, registry
+  commits made from sessions in other project folders, a direction for host contention,
+  and read-only workers briefed to run git. Each would have taken one lookup. Backlog row
+  `dle-m5-brief-review-before-fanout` measures whether one review pass catches them.
+- **The A/B bar decides landing, not the effort spent.** Of three method builds, one
+  landed as code, one as an instrument with its target missed and said so, and one (two
+  hours of building, floor met) did not land because it changed no real verdict. Kept on
+  a local branch that the next round's brief names, with its verdict recorded, it is that
+  round's starting point rather than discarded work.
