@@ -36,6 +36,15 @@ Every delivered nudge resolves to exactly one outcome:
   reached the user and says nothing about their preferences; it feeds cap
   and queue tuning instead. Mixing the two poisons the efficacy read.
 
+**Make "ignored" derivable, not implied.** An aggregate that reads only
+acted and dismissed cannot see a kind nobody touches: its total never reaches
+the sample floor and its allowance never moves, so the strongest negative vote
+is the one the loop drops. If a shared terminal status (`expired`) covers both
+aged-out-after-delivery and never-delivered, discriminate on the delivery stamp
+and count only the first. Better still, stamp *exposure* (the card was actually
+shown), so that ignored means seen-and-untouched and a card delivered into a
+closed app costs its kind nothing.
+
 Attribution requires the delivered record to carry the nudge identity and
 kind forever; the outcome table is a join on identity. Aggregates are
 reported with their predicate
