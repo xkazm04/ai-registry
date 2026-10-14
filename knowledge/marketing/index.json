@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 92,
+  "applications": 93,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -2333,9 +2333,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/performance-root-cause-diagnosis.md",
-   "digest": "sha256-b2:97e7d27c65c2bc8d",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:afbd4fa8af69140b",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "advice-ledger-scores-past-advice",
@@ -2437,6 +2437,13 @@
      "technique": "cause-ladder-tracking-gap-first",
      "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/applications/node--cause-ladder-tracking-gap-first.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "one-lever-from-supplied-entities",
+     "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/applications/node--one-lever-from-supplied-entities.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
