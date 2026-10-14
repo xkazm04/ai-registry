@@ -69,6 +69,9 @@ the literal digit ("1 new message") instead of the placeholder, mirror it
 with the literal half-width digit 1 — not the word 一 — in that variant only.
 The variant structure is the source's contract; Chinese follows it without
 adding conventions of its own.
+**Audit:** a Latin plural `s` glued to a Chinese noun (`团队s`, `人格s`) is this rule broken
+and is greppable as a CJK character immediately followed by the letter s; a catalog measured 2026-10-14 carried nine, all left by a
+terminology substitution that rewrote the noun and kept the English plural.
 **Message-format note:** in a plural-syntax block, Chinese fills only the
 `other` branch (plus any explicit `=0`/`=1` branches the source carries);
 the syntax keywords themselves are skeleton and stay untouched.
