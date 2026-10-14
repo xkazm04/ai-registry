@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 303,
+  "applications": 304,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -455,9 +455,9 @@
    "subcategory": "motion-and-audio",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/adaptive-music-authoring.md",
-   "digest": "sha256-b2:00e2e60b733dd108",
-   "revision": 2,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:53c6b98e5365cdb2",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "intensity-mapping-from-declared-game-state",
@@ -549,6 +549,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "loop-boundary-and-tail-contract",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/applications/node--loop-boundary-and-tail-contract.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "music-acceptance-beyond-decode-checks",
