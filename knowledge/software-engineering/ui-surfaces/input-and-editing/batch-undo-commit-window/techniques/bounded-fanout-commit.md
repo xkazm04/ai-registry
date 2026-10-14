@@ -110,3 +110,13 @@ being bounded.
 4. No index used as identity beyond the call that produced it.
 5. No pool over order-dependent writes.
 6. No per-store pools that lift the global concurrency cap.
+
+## Decision rule: reuse the owned pool, wrap it for settlement
+
+When a codebase already owns a bounded-pool primitive, route the commit
+through it rather than writing a second one, and check how it treats a
+rejection. A fail-fast pool is correct for reads and wrong for a commit: it
+abandons the unclaimed share of the cursor. Catch inside the lane, record the
+reason in the slot, and the shared primitive serves the commit unchanged. Also
+check how the caller treats an identity that vanished before the write: it is
+"not attempted", never a success.
