@@ -88,6 +88,9 @@ block, and a guessed attribute is worse than none.
   honest gap beats a confident invention.
 - When a generated spec contains an attributes block the owner never reported, treat
   the block as fabricated and strike it, whatever it contains.
+- When a generator is told not to write hours, ban the availability claim too
+  (round-the-clock, weekend, emergency) and check prose for it, because the word
+  "hours" is not the only way to assert the same eligibility.
 
 ## When NOT to use
 
