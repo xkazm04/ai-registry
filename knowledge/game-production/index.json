@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 308,
+  "applications": 309,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -218,8 +218,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
-   "digest": "sha256-b2:966b0424a0fbaad0",
-   "revision": 6,
+   "digest": "sha256-b2:5830c3752f48cc16",
+   "revision": 7,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -318,6 +318,13 @@
      "stack": "next",
      "technique": "strict-output-schema-with-derived-dependents",
      "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/next--strict-output-schema-with-derived-dependents.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "tag-dialect-normalization",
+     "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/next--tag-dialect-normalization.md",
      "verified_on": "2026-10-14",
      "verified_against": "next@16"
     },
