@@ -60,6 +60,14 @@ rules for the guard itself:
 - Its failure message teaches: name the invariant, the breakage class
   (range filters, ordering, cursors), and the sanctioned codec routine —
   the next developer sees the message, not the design discussion.
+- It must match **every spelling of the formatter**, not just the one
+  that takes arguments. A scan keyed on the argument-taking call is blind to
+  the bare call, which has no arguments to verify and so no way to fail the
+  check. Cover the bare form separately and classify each remaining site by
+  where its string goes: stored or compared (use the codec) versus shown to a
+  human or parsed back to an instant (allowlist it with the reason, and fail
+  on a stale entry). A scan that truncates at the test-module marker also
+  misses a site placed after it; say so or scan the whole file.
 - It covers clients and tools, not just the server: an SDK that formats
   client event time variably poisons the store from outside.
 

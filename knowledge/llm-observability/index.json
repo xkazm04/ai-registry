@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
   "techniques": 128,
-  "applications": 80,
+  "applications": 81,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/analytics-store-design.md",
-   "digest": "sha256-b2:bf0add3e00da26dc",
-   "revision": 4,
-   "changedAt": "2026-08-30",
+   "digest": "sha256-b2:5e5fc139c1005082",
+   "revision": 5,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "analytical-copy-partitioning",
@@ -126,6 +126,13 @@
      "technique": "capability-flags-and-refusal",
      "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/applications/rust--capability-flags-and-refusal.md",
      "verified_on": "2026-08-30",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "fixed-width-timestamp-encoding",
+     "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/applications/rust--fixed-width-timestamp-encoding.md",
+     "verified_on": "2026-10-14",
      "verified_against": "rust@1.96"
     },
     {
