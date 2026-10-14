@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 304,
+  "applications": 305,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -29,8 +29,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
-   "digest": "sha256-b2:bf481aef4e66ab78",
-   "revision": 5,
+   "digest": "sha256-b2:21e97a6481e61723",
+   "revision": 6,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -198,6 +198,12 @@
      "technique": "checkable-against-the-stored-artifact",
      "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/process--checkable-against-the-stored-artifact.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "process",
+     "technique": "criterion-set-coverage-audit",
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/process--criterion-set-coverage-audit.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",
