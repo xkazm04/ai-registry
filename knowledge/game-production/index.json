@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 300,
+  "applications": 301,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -2287,8 +2287,8 @@
    "subcategory": "surface-and-imagery",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/depth-ordered-layered-art/depth-ordered-layered-art.md",
-   "digest": "sha256-b2:fa97a61bb4b0e0de",
-   "revision": 1,
+   "digest": "sha256-b2:45512ccbfc8ce00e",
+   "revision": 2,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -2376,6 +2376,13 @@
      "file": "knowledge/game-production/asset-production/surface-and-imagery/depth-ordered-layered-art/applications/node--texture-ends-on-an-edge-or-fades.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@20.10"
+    },
+    {
+     "stack": "react",
+     "technique": "order-across-every-reachable-pose",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/depth-ordered-layered-art/applications/react--order-across-every-reachable-pose.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19.2"
     }
    ]
   },
