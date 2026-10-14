@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 52,
+  "applications": 53,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -145,9 +145,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/deadline-pipeline-management.md",
-   "digest": "sha256-b2:399ca23b5d30dcec",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:b642cf6de6e0d363",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "closing-instant-resolution",
@@ -248,6 +248,12 @@
      "technique": "closing-instant-resolution",
      "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/applications/node--closing-instant-resolution.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "cross-client-deadline-union",
+     "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/applications/node--cross-client-deadline-union.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "node",
