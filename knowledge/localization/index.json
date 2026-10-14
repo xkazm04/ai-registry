@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 71,
+  "applications": 72,
   "laws": 8,
   "categories": [
    "european",
@@ -413,8 +413,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
-   "digest": "sha256-b2:f855274e4c426560",
-   "revision": 9,
+   "digest": "sha256-b2:f00a2dbd4e8fdce1",
+   "revision": 10,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -637,6 +637,12 @@
      "stack": "process",
      "technique": "severity-as-declared-data",
      "file": "knowledge/localization/craft/copy-quality-gates/applications/process--severity-as-declared-data.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "source-defects-from-cross-language-agreement",
+     "file": "knowledge/localization/craft/copy-quality-gates/applications/process--source-defects-from-cross-language-agreement.md",
      "verified_on": "2026-10-14"
     }
    ]
