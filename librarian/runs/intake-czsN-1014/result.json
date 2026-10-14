@@ -1,0 +1,30 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-czsN-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-10-14T09:00:00Z",
+  "ended_at": "2026-10-14T09:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-10-14-stefan-3d-ai-game-setup.md",
+    "librarian/sources/index.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Leads-only outcome: 4 catches, 3 leads, 2 untriaged; no content landed."
+}
