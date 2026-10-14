@@ -9,6 +9,7 @@ techniques:
   - chunking-and-indexing
   - embedding-lifecycle
   - hybrid-lane-fusion
+  - named-period-vote
   - relationship-proximity-lane
   - structural-centrality-lane
   - second-pass-rescoring
@@ -203,7 +204,10 @@ is a property of the decomposed query rather than of a mode flag the caller
 supplied, and
 [query-decomposition-before-the-lanes](./techniques/query-decomposition-before-the-lanes.md)
 owns it, including the undecomposed baseline that must remain a first-class
-mode. Provenance is not decoration: it is what lets the consumer of
+mode. A query can also carry a key that no index answers at all: a period ("back in
+March"). It addresses when each item was said, so it is fused as a down-weighted vote over
+the candidates the lanes fetched, never applied as a filter, and resolved against the
+asker's clock ([named-period-vote](./techniques/named-period-vote.md)). Provenance is not decoration: it is what lets the consumer of
 the slice justify, verify, or discount each item — the same discipline the
 memory subject demands when it labels recalled beliefs before injection.
 
@@ -223,6 +227,10 @@ memory subject demands when it labels recalled beliefs before injection.
   embedder.
 - [hybrid-lane-fusion](./techniques/hybrid-lane-fusion.md) — lane roster, score
   normalization across incomparable scales, fusion strategies, tiers, dedup.
+- [named-period-vote](./techniques/named-period-vote.md) — a period named in the
+  question as a weighted vote over fetched candidates: why not a filter, the weight
+  chosen against the cut, the depth that bounds it, the asker's clock, and why it is
+  not supersedence.
 - [relationship-proximity-lane](./techniques/relationship-proximity-lane.md) —
   expansion along typed relations, why it is not a peer lane, correlated
   evidence, per-relation policy, and when a stored graph earns no seat.

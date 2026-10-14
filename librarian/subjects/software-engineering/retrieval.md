@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: retrieval
-last_touched: 2026-09-15
+last_touched: 2026-10-14
 touched_by: intake
 dry_streak: 0
 ---
@@ -262,3 +262,24 @@ judgment being conditioned on a ranking policy and not only on a corpus
 snapshot, which `retrieval-evaluation` versions and the other it does not
 (`retrieval-evaluation`); and rerank cost scaling with candidate length rather
 than candidate count.
+
+## 2026-10-14 - `/intake` icm ([[2026-10-14-icm]], run `intake-icm-1014`, intake 2.15.0)
+
+Gained `named-period-vote` (12 -> 13 techniques), a source-tree application, a fleet
+application, and a second source-tree application on `ranking-budgets`.
+
+**A key no index answers.** The golden path's query plane decomposes a query into
+specifics and themes; a period ("back in March") is neither, and addresses the item's
+time column. Two memory stores (mem0 on 2026-09-17, icm today) independently kept it as a
+ranked vote and refused to filter on it. The technique was written from the measurement,
+not from either source: on a replayed year, a vote and a filter cover the same with the
+window right, and at a cut of five a full-weight vote loses as much as a filter with the
+window wrong (24 of 78), while at a cut of 40 the vote loses 1 and the filter 41. So the
+rule is a weight chosen against the cut, not "vote, never filter". The home was contested
+with `agent-memory/recall-injection` (where the mem0 row pointed); `retrieval` owns fusion,
+and the "a vote is not supersedence" section states the boundary toward agent-memory's
+consolidation and this subject's own retirement re-imposition.
+
+Untriaged here, with anchors in the source note: overfetch sized by saturation rather than a
+fixed factor (`ranking-budgets`); a lexical floor on the same indexed unit beside any
+published recall figure (`retrieval-evaluation`).

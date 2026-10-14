@@ -6,7 +6,7 @@ technique: durable-store-failure-posture
 status: forged
 laws: [failure-not-empty-success, unknown-is-not-a-value, deletion-is-not-repair, creation-names-reaper]
 shared_with: []
-use_when: [a durable memory store fails to parse and more than one code path must react, deciding whether a corrupt store reads as empty, the read path runs on every turn and cannot be allowed to throw, choosing what the model is told when its own memory is unreadable, a store the agent both reads and writes is shared across concurrent sessions, a consolidation pass copies the store, lets a model work on the copy and swaps it back over the live store]
+use_when: [a durable memory store fails to parse and more than one code path must react, deciding whether a corrupt store reads as empty, the read path runs on every turn and cannot be allowed to throw, choosing what the model is told when its own memory is unreadable, a store the agent both reads and writes is shared across concurrent sessions, a consolidation pass copies the store, lets a model work on the copy and swaps it back over the live store, a pass held across a model call keeps being refused because the store moved under it]
 ---
 
 # Durable store failure posture
@@ -141,3 +141,45 @@ ready only if the live state is exactly the state the pass produced. A leftover 
 of a failed or rejected pass is a reaper's problem
 ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)) — the executed
 failed-pass run left its staging directory beside the live one.
+
+### Compare what the pass read, not the whole store
+
+The version check above is right about what it protects and too coarse about what it
+compares. A store that captures continuously, a write every few tool calls from every
+session, moves its version during almost any pass that waits on a model, so "reject on a
+mismatch" refuses the pass, the retry re-reads a store that moves again, and the
+consolidation that was supposed to keep the store small never lands. "Replay the writes
+made since" needs a log of those writes, which most stores do not keep.
+
+The narrower check is on the **read set**. The pass names the items it read, with a token
+for each (the content it saw, or a per-item version), and its publish step removes or
+replaces only those, in one transaction, after confirming each one is still present, still
+in the same scope and unchanged. Anything written while the model was thinking was never
+part of the read and is left alone. A changed or missing read item is the only reason to
+refuse, and the refusal names those items, as a stale result rather than an error. This
+still closes every case the store-wide check exists for: an item edited meanwhile is not
+deleted along with a correction the summary never saw, an item forgotten meanwhile does not
+come back through the summary, and two passes over the same items do not leave two
+summaries. What it adds is that new writes, and the part of a topic that did not fit in the
+prompt, survive by construction instead of by rejection. One open-source memory engine
+made exactly this change to its consolidation interface and accepted the breaking release
+it cost: the call that used to replace a whole topic now takes the ids that were read and
+writes nothing without them.
+
+Measured on a small instance of the same shape, a prune that moves the oldest entries of an
+append-only shared notes file and publishes with a whole-file comparison and five retries:
+with an append landing while each attempt was planning, the whole-file check gave up after
+five attempts and wrote nothing, and the read-set check (the file still begins with the text
+that was read; the appended tail is carried over and planned once more in memory) finished
+on the first attempt with no line lost. With no concurrent writer the two produced
+byte-identical files and output.
+
+Two limits, both measured on the same instance. The read-set check **narrows** the window,
+it does not close it: the instant between the final confirmation and the publish remains,
+and with an append landing at every temporary write both checks refused alike. And the
+window it removes is the time spent between the read and the publish, so where that is a
+few milliseconds of pure computation the gain is small; the rule pays where the read is held
+across a model call. The check also needs the read set to be expressible: stable ids, an
+append-only order, or a per-item version. Where items are immutable once written, the token
+reduces to a liveness check. A store that rewrites items in place and versions nothing can
+only compare the whole.

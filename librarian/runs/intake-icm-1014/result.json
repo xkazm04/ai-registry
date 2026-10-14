@@ -1,0 +1,91 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-icm-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T18:08:00Z",
+  "ended_at": "2026-10-14T19:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/retrieval",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/trust-base",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "retrieval",
+      "technique": "named-period-vote",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-memory",
+      "technique": "durable-store-failure-posture",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-memory",
+      "technique": "baseline-ladder",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/techniques/named-period-vote.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--named-period-vote.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/python--named-period-vote.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--ranking-budgets--icm.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/durable-store-failure-posture.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--durable-store-failure-posture.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--durable-store-failure-posture--pof.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--decay-and-forgetting--icm.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--recall-injection--icm.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--consolidation--icm.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/rust--soundness-argument-names-its-dependencies--icm.md",
+    "librarian/sources/2026-10-14-icm.md",
+    "librarian/sources/2026-09-17-mem0.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/retrieval.md",
+    "librarian/subjects/software-engineering/agent-memory.md",
+    "librarian/subjects/software-engineering/trust-base.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "named-period-vote technique + read-set amendment, both measured on falsifying fleet seams; 7 source-tree apps; personas 4933593909 and pof 64a5452e local, not pushed; index/catalog left uncommitted (sibling WIP)."
+}

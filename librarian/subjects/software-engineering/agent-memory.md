@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-09-29
+last_touched: 2026-10-14
 touched_by: deepen, intake
 dry_streak: 0
 ---
@@ -880,3 +880,26 @@ evidence's author. This technique reads its commitment state, and the two compos
 
 Open: the manual consolidation pass has its own rules block without the rule (unmeasured),
 and open items admitted with a status have no revisit date.
+
+## 2026-10-14 - intake icm ([[2026-10-14-icm]], run `intake-icm-1014`, intake 2.15.0)
+
+One amendment and four source-tree applications; memory lane entered on the operator's
+brief.
+
+- `durable-store-failure-posture` gained "Compare what the pass read, not the whole store":
+  the long-window rule compared the store's version, which refuses every model-held pass on a
+  store that captures continuously. The source paid a breaking release for the read-set form.
+  Measured on the fleet script the earlier run had fixed with the store-wide check: with an
+  append during every attempt's planning the old check gave up, the read-set check finished
+  first time, nothing lost; both limits (the confirm-to-publish window stays; the gain is the
+  read-to-publish time) are in the section.
+- Applications against the source: the always-on pack drawing from the two never-pruned tiers
+  (`decay-and-forgetting`, the technique's rule inverted with no file wrong), its packing
+  (`recall-injection`: truncation, stop-not-skip, an age-keyed cached narrative), the merge
+  door without a contradiction test beside a facts table no agent path writes or reads
+  (`consolidation`), and the consolidate call whose agent-facing tool drops the per-item token
+  (`durable-store-failure-posture`).
+- Memory lane: the source is the ladder's verbatim + hybrid arm in its benchmark form; its
+  92.9% LoCoMo figure reads about 60% of each conversation's store at k=50 and stays a lead.
+  The seam hunt also measured the ladder's own hybrid arm: its 40-chunk cap binds below budget
+  but costs no coverage (118 of 123 at both 40 and 200), so that ladder row stands.
