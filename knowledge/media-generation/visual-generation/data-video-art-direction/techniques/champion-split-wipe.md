@@ -32,6 +32,10 @@ change *is* the story beat.
 
 - Use it only for real changes of champion. Ordinary rank swaps use eased
   row moves.
+- Count the cadence before choosing. A ranked series of real driver seasons
+  changed leader every 3 to 8 seconds (nine a minute) and wants the
+  cross-fade; a wipe is for a run whose changes are far enough apart that each
+  one is an event. The threshold between them is unmeasured; it is one datum.
 - Portraits follow photo-to-poster-portrait and photo-rights-ledger.
 
 ## When not to use it
