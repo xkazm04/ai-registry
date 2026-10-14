@@ -12609,3 +12609,11 @@ applied here - one sighting, and the honest record is in the source note.
   same ledger carried it. The registry's ledger lock does not cover a fleet tree. Append
   and commit in one command, or take the lock on that tree's own board (the board lives
   in each repository's git common directory).
+- **Build a HEAD-plus-mine blob inside the commit lock, from the HEAD you commit on.** This
+  run took the ledger lock, staged its ledger blobs from HEAD, and committed under the
+  commit lock a step later. Meanwhile a sibling round committed the same eight ledgers
+  under the commit lock alone. The diff of the two commits shows nothing reverted, and the
+  record cannot say whether the blobs were built before or after the sibling's commit. A
+  blob built from the older HEAD and committed after it would have reverted the sibling's
+  rows with no error. Take the commit lock first, then build the blobs, stage, commit and
+  verify, so the order does not depend on luck.
