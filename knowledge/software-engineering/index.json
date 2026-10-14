@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1262,
+  "applications": 1263,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -4387,9 +4387,9 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/batch-undo-commit-window.md",
-   "digest": "sha256-b2:140b51387ec6d463",
-   "revision": 1,
-   "changedAt": "2026-08-22",
+   "digest": "sha256-b2:0a97dbb3f9411b0d",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "bounded-fanout-commit",
@@ -4477,6 +4477,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "bounded-fanout-commit",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/applications/react--bounded-fanout-commit.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19"
+    },
     {
      "stack": "react",
      "technique": "flush-on-teardown",
