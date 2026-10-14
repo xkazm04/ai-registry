@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 299,
+  "applications": 300,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -551,9 +551,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/assessment-instrument-validation/assessment-instrument-validation.md",
-   "digest": "sha256-b2:57b37f2086d65243",
-   "revision": 3,
-   "changedAt": "2026-08-24",
+   "digest": "sha256-b2:2ee1b76b7bb78a10",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "adversarial-persona-red-teaming",
@@ -661,6 +661,13 @@
      "technique": "judge-independent-of-generator",
      "file": "knowledge/recruiting/assessment/assessment-instrument-validation/applications/process--judge-independent-of-generator.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "python",
+     "technique": "binary-metrics-over-a-noisy-scale",
+     "file": "knowledge/recruiting/assessment/assessment-instrument-validation/applications/python--binary-metrics-over-a-noisy-scale.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "spec",
