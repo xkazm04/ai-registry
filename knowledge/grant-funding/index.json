@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 43,
+  "applications": 44,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -1628,9 +1628,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/proposal-narrative-structure/proposal-narrative-structure.md",
-   "digest": "sha256-b2:79e64d68ff33874e",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:4ac550453602d6fa",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "evidence-base-citation",
@@ -1715,6 +1715,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "funder-dollars-unlock-close",
+     "file": "knowledge/grant-funding/proposal-craft/proposal-narrative-structure/applications/node--funder-dollars-unlock-close.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "process",
      "technique": "evidence-base-citation",
