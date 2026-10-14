@@ -144,7 +144,7 @@ flagged, or that a calibration claim had three outcomes behind it.
 
 ## Instances that exist in a tree you can open
 
-C:/Users/kazda/AppData/Local/Temp/claude/C--Users-kazda-kiro-ai-registry/095256c8-c1a0-4f07-89b7-88e543d3fa8b/scratchpad/icoach-1014
+`<scratchpad>/icoach-1014`, a clone of `github:noamseg/interview-coach-skill`
 (read-only clone, commit 634a8dd8): references/story-mapping-engine.md (fit scoring,
 portfolio protocol, earned-secret-aware selection), references/cross-cutting.md (the gap
 patterns and the pattern-by-strength table), references/calibration-engine.md (drift
