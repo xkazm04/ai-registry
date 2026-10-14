@@ -41,7 +41,11 @@ forever.
 **Audit:** grep both pronouns; every occurrence of the non-chosen pronoun is a
 citable finding. In one real 11.5k-key catalog the count was 428 您 to 81 你 —
 the catalog had a de facto ruling at 84% coherence, and the correct move was
-to standardize the minority, not to reopen the question.
+to standardize the minority, not to reopen the question. Ratios decay as a
+catalog grows: the same product measured 65% (757 to 415) at 24.8k keys, so
+count again before citing a recorded percentage, and exclude a companion or
+persona voice from the sweep until its boundary is itself a recorded ruling.
+The 请 audit must exclude 请求 (request), a noun and not the marker.
 
 ## ZH-QING · 请 marks consequence, not routine
 

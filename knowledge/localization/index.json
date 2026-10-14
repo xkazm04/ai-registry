@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 68,
+  "applications": 69,
   "laws": 8,
   "categories": [
    "european",
@@ -157,7 +157,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/bengali/bengali.md",
-   "digest": "sha256-b2:264b0a7fc5e42e7d",
+   "digest": "sha256-b2:f6ac5ff846908048",
    "revision": 6,
    "changedAt": "2026-10-14",
    "techniques": [
@@ -281,8 +281,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/east-asian/chinese/chinese.md",
-   "digest": "sha256-b2:9e1752d7c1ada7be",
-   "revision": 6,
+   "digest": "sha256-b2:dc7e9554889bd517",
+   "revision": 7,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -380,6 +380,12 @@
      "stack": "process",
      "technique": "measure-words-and-quantity",
      "file": "knowledge/localization/east-asian/chinese/applications/process--measure-words-and-quantity.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "register-and-address",
+     "file": "knowledge/localization/east-asian/chinese/applications/process--register-and-address.md",
      "verified_on": "2026-10-14"
     },
     {
