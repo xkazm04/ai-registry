@@ -58,6 +58,7 @@ the weight degrades to the snapshot severity and remains a valid order.
   is the reallocation subject's.
 - When the alert has more items than it can spell out, the omitted ones are
   counted, not dropped silently.
+- When two surfaces order the same set (a table queue and a server batch that buys the evaluations), both are fed the same targets and history. A surface that omits them ranks on a different severity and spends the quota in a different order.
 - When spend is in more than one currency, sort within currency and label the
   scope; never sort a mixed-currency list by raw numbers.
 - When a sort or a badge would need a target to render, and no target exists for
