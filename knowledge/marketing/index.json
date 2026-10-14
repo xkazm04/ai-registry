@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 91,
+  "applications": 92,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -1948,9 +1948,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/local-visibility-and-reputation/local-visibility-and-reputation.md",
-   "digest": "sha256-b2:c9c743abc7139222",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:5d614de6ba6e3089",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "attention-score-for-many-locations",
@@ -2043,6 +2043,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "attention-score-for-many-locations",
+     "file": "knowledge/marketing/local-and-zero-budget/local-visibility-and-reputation/applications/node--attention-score-for-many-locations.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "pack-visibility-per-engine-never-averaged",
