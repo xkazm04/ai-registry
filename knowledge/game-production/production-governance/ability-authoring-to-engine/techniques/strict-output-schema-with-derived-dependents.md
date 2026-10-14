@@ -80,6 +80,9 @@ defect that reads correctly in every artifact it corrupts.
   record and instruct the author to reconcile to it. A generated artifact that quietly
   disagrees with the catalogue it belongs to is a drift source, and it drifts in the
   direction of whatever the author last saw.
+- **When a quantity is authored once as a field and again as a literal inside a generated
+  text artifact, compare them at acceptance.** A field-by-field shape check cannot see
+  the second copy, and the consumers of the two copies are different programs.
 - **When the output must be machine-read, forbid decoration.** No prose wrapper, no fenced
   block, no commentary. Reject rather than repair — a repair layer becomes the place where
   malformed output is normalised into wrong output.
