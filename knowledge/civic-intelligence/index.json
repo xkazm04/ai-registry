@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 47,
+  "applications": 48,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -368,9 +368,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/civic-source-adapters.md",
-   "digest": "sha256-b2:50f8895be5bd83ed",
-   "revision": 5,
-   "changedAt": "2026-10-13",
+   "digest": "sha256-b2:69b5bd7c73fb40c8",
+   "revision": 6,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "entity-name-normalization",
@@ -479,6 +479,13 @@
      "technique": "legacy-encoding-and-escape-parsing",
      "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/applications/node--legacy-encoding-and-escape-parsing.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "licence-and-privacy-by-construction",
+     "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/applications/node--licence-and-privacy-by-construction.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
