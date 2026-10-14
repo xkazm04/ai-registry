@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 81,
   "techniques": 537,
-  "applications": 295,
+  "applications": 296,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -2672,9 +2672,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/drawn-gesture-command-recognition.md",
-   "digest": "sha256-b2:49e82fdf25c605fd",
-   "revision": 3,
-   "changedAt": "2026-10-13",
+   "digest": "sha256-b2:c763688c28aafebb",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "held-out-cross-user-acceptance",
@@ -2745,7 +2745,9 @@
      "use_when": [
       "adding a command to an existing gesture vocabulary",
       "two commands are confused with each other more often than with noise",
-      "a proposed shape differs from another only in size or direction"
+      "a proposed shape differs from another only in size or direction",
+      "an acceptance gate reports one pooled number across commands",
+      "every command opens with the same prefix"
      ]
     }
    ],
@@ -2776,6 +2778,13 @@
      "technique": "stroke-plane-projection",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/applications/cpp--stroke-plane-projection.md",
      "verified_on": "2026-10-13",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "vocabulary-distinctiveness-audit",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/drawn-gesture-command-recognition/applications/cpp--vocabulary-distinctiveness-audit.md",
+     "verified_on": "2026-10-14",
      "verified_against": "cpp@20"
     }
    ]
