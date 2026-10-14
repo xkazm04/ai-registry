@@ -101,6 +101,11 @@ will be read as a measurement
   binary rate instead.** A target on a noisy scale becomes an optimisation
   against noise, and the fastest way to hit it is to make the judge more
   generous.
+- **When replacing a scored gate with a binary rate, measure the binary's base
+  rate on the corpus the gate already passed.** A proposition true in nine of
+  ten judgments or more at that corpus cannot fail a regression; it is stable
+  because it is vacuous, not because it is well specified. Keep the score gated
+  until the propositions split the corpus.
 - **When a binary is unstable across reruns, the proposition is underspecified,
   not the judge.** Rewrite it until two people reading the same submission agree.
 - **When a continuous score is genuinely required** — a recruiter-facing ranking,
