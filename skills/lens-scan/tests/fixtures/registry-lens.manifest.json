@@ -1,0 +1,37 @@
+{
+  "$schema": "lens-manifest/1",
+  "id": "com.example.registry",
+  "version": "1.0.0",
+  "name": "Registry",
+  "short": "REG",
+  "description": "How far the product is registered in ai-registry, how much of it the registry's topics cover, and what it sends back.",
+  "reader": { "role": "Tech lead who keeps the product on the registry's golden paths", "density": "standard" },
+  "fields": [
+    { "key": "registered", "label": "Registered", "type": "integer", "min": 0, "max": 1, "metric": { "better": "up", "method": "static" } },
+    { "key": "topicsMapped", "label": "Topics mapped", "type": "integer", "unit": "topics", "headline": true, "metric": { "better": "up", "method": "static" } },
+    { "key": "judgedPct", "label": "Judged", "type": "percent", "unit": "%", "metric": { "better": "up", "method": "static" } },
+    { "key": "deviations", "label": "Deviations", "type": "integer", "unit": "pairs", "metric": { "better": "down", "method": "static" } }
+  ],
+  "health": {
+    "rules": [
+      { "when": { "field": "registered", "eq": 0 }, "health": "bad", "reason": "The product is not registered in ai-registry." },
+      { "when": { "field": "deviations", "gt": 0 }, "health": "watch", "reason": "{deviations} registry pairs deviate from the golden path." }
+    ],
+    "default": "good",
+    "rollup": { "method": "worst-of" }
+  },
+  "presentation": {
+    "glyph": { "path": "M3 2 L3 14 M3 2 L10 2 L13 5 L10 8 L3 8 M8 8 L13 14" },
+    "line": "solid",
+    "measures": "topicsMapped",
+    "evidence": ["topicsMapped", "judgedPct", "deviations", "registered"]
+  },
+  "scan": {
+    "method": "steps",
+    "steps": [
+      { "kind": "script", "run": "node \"{registry}/scripts/registry-lens.mjs\" --project example --path \"{root}\" --structure \"{structure}\" --json", "yields": ["registered", "topicsMapped", "judgedPct", "deviations"] },
+      { "kind": "skill", "skill": "conform", "budget": 6 },
+      { "kind": "script", "run": "node \"{registry}/scripts/registry-lens.mjs\" --project example --path \"{root}\" --structure \"{structure}\" --json", "yields": ["registered", "topicsMapped", "judgedPct", "deviations"] }
+    ]
+  }
+}

@@ -1,10 +1,10 @@
 ---
 name: lens-scan
-description: "Measure a product feature by feature through one lens - development, security, design, or any project lens whose manifest declares a judgement scan - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review UI. Use when a team needs the current state of a product measured with care (company setting, history, human approval) rather than a solo backlog mass-resolved: before a hardening milestone, to baseline a lens, to turn a better pattern into a house standard and propagate it to every similar site. Sibling of scan-sweep, which lands what it can prove on its own; lens-scan never decides, it measures, proposes and executes what was approved. Modes: measure, propose, execute, propagate, status."
-argument-hint: "[measure|propose|execute|propagate|status] [--lens development|security|design|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>]"
+description: "Measure a product feature by feature through one lens - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review UI. Use when a team needs the current state of a product measured with care (company setting, history, human approval) rather than a solo backlog mass-resolved: before a hardening milestone, to baseline a lens, to turn a better pattern into a house standard and propagate it to every similar site. Sibling of scan-sweep, which lands what it can prove on its own; lens-scan never decides, it measures, proposes and executes what was approved. Modes: measure, propose, execute, propagate, status, onboard (draft a new lens with a free icon and add it to the map)."
+argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.2.3
+version: 1.3.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -43,6 +43,7 @@ the only gate into execution.
 /lens-scan execute --proposals p-1a2b3c,p-4d5e6f   # only these items (each must be approved)
 /lens-scan propagate                         # child proposals for a landed baseline upgrade
 /lens-scan status                            # what waits for a decision, what is running; changes nothing
+/lens-scan onboard "<what the lens measures>" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]
 ```
 
 `--scope` takes a capability slug (a context group), a context name, or a feature slug;
@@ -158,10 +159,9 @@ measured by its manifest's scan block, on the manifest's own fields
   component file gets no `rawLiterals` row and is named in `no_ui`: mark its design facet
   not applicable rather than measuring nothing forever. A judgement pass may still strike
   a pattern false positive with `file:line` and a reason.
-- **Harness** - screenshots and runtime readings (`axeViolations`, `minTextPx`,
-  `consoleErrors`) through the overlay's `## Harness` commands. Each screenshot is a
-  `shot` row: path under the store directory (`shots/<feature>/<run>-<size>-<theme>.png`),
-  size, theme, harness module, and the harness report as JSON.
+- **Harness** - screenshots, `minTextPx`, `consoleErrors` through the overlay's
+  [`## Harness`](#harness): a `shot` row per screenshot; a feature that cannot be rendered
+  gets `activity --kind note --text "unscreenable: <why>"` and no shot, never a stand-in.
 - **Probe** - timed paths (`p50Ms`, `p95Ms`) through the overlay's `## Probes` commands.
 - **Judgement** - read the feature's files once, then judge them through the lens's
   mapped scan-sweep lenses ([lenses-map.md](references/lenses-map.md)) and the
@@ -170,28 +170,35 @@ measured by its manifest's scan block, on the manifest's own fields
   `conformant | deviation | not-applicable | unknown`, with `file:line` evidence.
   `standardsPct` is derived from those rows (metrics.md).
 
+**Units** come from the manifest field (`structure.mjs lens` prints them), never free text
+([where](references/lens-manifest-scan.md#units)).
+
 **A feature with no overlay mapping for a method is simply not measured by that
 method.** Never guess a harness module or a timed path from a file name; record a
 `note` activity and move on. Close with `run-end --status done` (or `failed` with a
 note), then re-run phase 1.
 
-### Lenses with a scan block (judgement scans)
+### Lenses with a scan block (judgement and steps scans)
 
-Any lens in the map's `lenses[]` - a project lens, a temporary `tmp.<kebab>` lens the
-blueprint made, a built-in lens-scan has no method for - is measurable when its
-manifest declares `scan: { method: 'judgement', instructions: '<what to look for>' }`.
+Any lens in `lenses[]` - project, temporary `tmp.<kebab>`, or `business`, `operations`,
+`quality` (built-in ids with no built-in method) - is measurable by its manifest's scan
+block: `{ method: 'judgement', instructions }` or `{ method: 'steps', steps }` (1 to 8
+`script` / `skill` (`conform` only) / `judgement` steps, in order, in one run). Types (bp's
+`LensScan` / `LensScanStep`, name for name) and row rules: [lens-manifest-scan.md](references/lens-manifest-scan.md).
 Ask the map before run-start:
 
 ```
 node ${CLAUDE_SKILL_DIR}/scripts/structure.mjs lens --id <lens>
 ```
 
-It prints the method and, for `judgement`, the instructions and the **fields a reading
-may fill**: those with a `metric` block and a numeric type (`integer`, `number`,
-`percent`, `money`). **Precedence:** `development`, `security` and `design` keep their
-built-in methods above even when their manifest carries a scan block (the output says
-`ignored`). A lens with neither is refused (exit 1): stop and say so; never improvise
-a method for it. Then, per feature in scope:
+It prints the method, the instructions or steps, and the **fields a reading may fill**
+(a `metric` block and a numeric type) with their units. `development`, `security` and
+`design` keep their built-in methods even with a scan block (`ignored`). A lens with no
+scan, or a step lens-scan does not run (`step skill <x> is not allowed`), is refused (exit
+1): stop and say so; never improvise a method. **Steps:** `script` =
+`steps.mjs run --lens <id> --step <i> --run-id <run>` (it records the rows); `skill` = this
+session runs `/conform <args> --budget <budget>`; `judgement` = the procedure below with the
+step's instructions. Per feature in scope:
 
 1. `activity --kind reading --feature <f> --lens <lens>`, and read the feature's code
    footprint once: the files its contexts list in the map's code tree (directory
@@ -211,11 +218,16 @@ a method for it. Then, per feature in scope:
    in that lens. A feature that has the thing and has none of the bad cases is touched
    and gets its `0`s.
 
-The facet command edits only that facet's `applicable` and `reason` (every other facet,
-value and lens entry is kept) and rewrites the file atomically. Re-running phase 1
-afterwards keeps both. Judgement numbers on an author's instructions drift like any
-judgement: same instructions, same reading, and a run note when the manifest's
-instructions changed since the last measurement.
+The facet command edits that facet only, atomically ([more](references/lens-manifest-scan.md#judgement)).
+
+## Onboard
+
+Drafts a lens and adds it to the map, by the contract it shares with the blueprint's lens
+chat: [lens-onboarding.md](references/lens-onboarding.md) - at most 3 questions (headless:
+none), unit-carrying metric fields, a **free icon** (one stroked path, 16x16, readable at
+7 px) whose glyph+line no enabled lens draws, a judgement or steps scan. `--draft-only`
+prints one fenced `lens-manifest` block and writes nothing; otherwise `structure.mjs lens-add`
+appends it atomically, and `--first-scan` measures every feature.
 
 ## 3. Propose
 
@@ -238,6 +250,10 @@ Every item names:
   Expected impact / Evaluation**. The Evaluation's Before is the stored measurement;
   its After is the expected value and the rung that predicts it
   ([evidence ladder](../scan-sweep/references/evidence.md)).
+
+**`target: registry`.** An item built in the ai-registry checkout - "register the project",
+"land lead X" - starts its body with the line `target: registry` (the store has no target
+column); every other item targets the product.
 
 Prefer three items that each move a number to ten that each describe a smell. Before
 proposing, read `proposals` for the feature: never re-propose an open or declined
@@ -265,8 +281,7 @@ age. A decline note is input to the next propose phase; read it.
 size first, under the [Lane B worktree doctrine](../scan-sweep/references/ab-lane.md)
 (one worktree per item or write-set group, never `npm ci` through a junction, the
 director merges). **Unlink the `node_modules` junction before removing a worktree**:
-`cmd /c rmdir <worktree>
-ode_modules`, then `git worktree remove`. On Windows
+`cmd /c rmdir <worktree>\node_modules`, then `git worktree remove`. On Windows
 `git worktree remove --force` deletes through the junction and empties the base
 checkout's `node_modules`.
 
@@ -277,7 +292,9 @@ status is `approved` are executed. Every other id is skipped with a `note` activ
 saying why (`p-1a2b3c: not found`, `p-4d5e6f: proposed, not approved`, `... done
 already`) and named in the report; an id that is missing from the output does not
 exist. Never approve one to make it eligible. Without `--proposals`, every approved
-item is in the run. Each item then goes through these steps:
+item is in the run. An item whose body starts `target: registry` is built in a worktree of
+the **registry checkout** (found as for `{registry}`), refused with `lens-scan refused: registry
+checkout has uncommitted changes` while its `git status --porcelain` prints anything. Each item:
 
 1. `proposal-update --id <p> --status executing`; `activity --kind executing`.
 2. **Re-measure before** with the same method the item's metric was measured with. If
@@ -321,11 +338,12 @@ Never report a metric you did not store.
 
 The blueprint starts this skill as a job: `claude -p` in the product repo with the
 prompt as the only input (an argument or stdin), `BP_JOB_ID` in the environment, and
-nobody watching the terminal. Its two prompts:
+nobody watching the terminal. Its prompts:
 
 ```
 /lens-scan measure --lens <id> [--scope <feature-slug,feature-slug,...>]
 /lens-scan execute --proposals <id,id,...>
+/lens-scan onboard "<description>" --draft-only     # the lens chat, with --resume per turn
 ```
 
 - **Never stop to ask.** There is no one to answer. Where the method says "ask once"
@@ -358,12 +376,32 @@ sections for the command maps.
 | `default_scope` | none (ask once; headless: every feature) | The judgement/harness scope when `--scope` is absent. |
 | `bundle_stats` | none (`bundleKb` unmeasured) | A per-feature bundle stats file, when one exists. |
 | `## Gates` | `.ai/manifest.yaml` capabilities | The verification commands phase 5 runs, verbatim. |
-| `## Harness` | none (harness metrics unmeasured) | `feature -> module, sizes, themes, command`; the command writes a PNG and a JSON report. |
+| `## Harness` | none (harness metrics unmeasured) | The generic form [below](#harness): how to start and reach the front end, and a route or click steps per feature. |
 | `## Probes` | none (`p50Ms`/`p95Ms` unmeasured) | `feature -> timed path command`; the command prints the timings. |
 | `## Skill improvement log` | none | One dated line per reflection (see below). |
 
 A feature absent from `## Harness` or `## Probes` is not measured by that method;
 the overlay is the whole mapping, never a hint.
+
+### Harness
+
+```
+## Harness
+command: npm run dev -- --port 4173      # starts the front end
+url: http://localhost:4173
+ready: /                                 # polled until HTTP 200, 120 s cap
+sizes: 1280x800
+themes: light, dark                      # how a theme is set: `theme: query ?theme=` | `theme: class dark` | `theme: media`
+features:
+  <slug>: route /path                    # or: steps click "Text" > click "Other" (Playwright text selectors)
+  <slug>: unscreenable "native window only"
+```
+
+`python -I ${CLAUDE_SKILL_DIR}/scripts/harness.py --root . --run <run> [--features a,b]`
+(Python Playwright; its docstring is the reference) captures `shots/<run>/<feature>-<theme>-<size>.png`
+and prints `shots` (-> `store.mjs shot --report-file`), `measurements` (`minTextPx`,
+`consoleErrors` -> `measure --json`) and `unscreenable` (marked so, or a navigation error,
+HTTP error or blank body -> the note). It always kills the command's process tree.
 
 ---
 

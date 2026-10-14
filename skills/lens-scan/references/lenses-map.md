@@ -21,7 +21,8 @@ it matters, name it in the report for another skill.
 
 Any other lens in the map - a project lens, a temporary `tmp.<kebab>` lens, a built-in
 the table above does not list - is measurable when its manifest declares
-`scan: { method: 'judgement', instructions }`. It reads **no** scan-sweep lens: the
+`scan: { method: 'judgement', instructions }` (or, from 1.3, composed `steps`:
+[lens-manifest-scan.md](lens-manifest-scan.md)). It reads **no** scan-sweep lens: the
 author's `instructions` are the whole judging prose, and the fields with a `metric`
 block and a numeric type (`integer`, `number`, `percent`, `money`) are its metric keys.
 `structure.mjs lens --id <id>` prints both. The three lenses in the table keep their

@@ -1,0 +1,58 @@
+// node --test skills/lens-scan/tests
+// Pins harness.py's reading of the generic `## Harness` overlay (SKILL.md "Harness") without a browser: --dry
+// parses and plans, starts nothing. Skipped when no Python is on PATH; the capture itself needs Playwright and
+// is shown by hand (a static fixture site, one route missing -> unscreenable).
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
+const SCRIPT = fileURLToPath(new URL('../scripts/harness.py', import.meta.url));
+const PY = ['python', 'python3'].find((p) => spawnSync(p, ['--version']).status === 0);
+
+function overlay(body) {
+  const root = mkdtempSync(join(tmpdir(), 'lens-scan-harness-'));
+  mkdirSync(join(root, '.claude', 'lens-scan'), { recursive: true });
+  writeFileSync(join(root, '.claude', 'lens-scan', 'config.md'), `---\ndefault_lens: design\n---\n\n## Harness\n${body}\n## Probes\nnone\n`);
+  return root;
+}
+const harness = (root, ...args) => spawnSync(PY, ['-I', SCRIPT, '--root', root, '--run', 'r-20261014000000-abcd', '--dry', ...args], { encoding: 'utf8' });
+
+test('harness --dry: the generic form parses; unscreenable features are listed; an unmapped scoped feature is named', { skip: !PY && 'no python on PATH' }, () => {
+  const root = overlay(`command: npm run dev -- --port 4173      # starts the front end
+url: http://localhost:4173
+ready: /
+sizes: 1280x800, 390x844
+themes: light, dark
+theme: query ?theme=
+features:
+  invoices: route /invoices?tab=open      # a query in a route survives the comment rule
+  settings: steps click "Settings" > click "Billing"
+  tray: unscreenable "native window only"
+`);
+  const r = harness(root, '--features', 'invoices,tray,ghost');
+  assert.equal(r.status, 0, r.stderr);
+  const out = JSON.parse(r.stdout);
+  assert.deepEqual(out.unscreenable, [{ feature: 'tray', why: 'native window only' }]);
+  assert.deepEqual(out.unmapped, ['ghost']);
+  assert.deepEqual([out.shots, out.measurements], [[], []], '--dry captures nothing');
+});
+
+test('harness: bad overlays exit 2 with the reason', { skip: !PY && 'no python on PATH' }, () => {
+  for (const [body, why] of [
+    ['features:\n  a: route /\n', /needs url/],
+    ['url: http://x\nsizes: big\n', /not WxH/],
+    ['url: http://x\ntheme: colour\n', /not media/],
+    ['url: http://x\nfeatures:\n  a: hover "x"\n', /not route, steps or unscreenable/],
+    ['url: http://x\nfeatures:\n  a: steps press "x"\n', /click "Text" or goto/],
+  ]) {
+    const r = harness(overlay(body));
+    assert.equal(r.status, 2, body);
+    assert.match(r.stderr, why);
+  }
+  const none = mkdtempSync(join(tmpdir(), 'lens-scan-harness-'));
+  assert.equal(harness(none).status, 2, 'no overlay');
+});

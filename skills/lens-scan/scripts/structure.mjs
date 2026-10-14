@@ -42,8 +42,16 @@
 //   node structure.mjs lens --id <id> [--structure <path>]
 //     How lens-scan measures a lens in the map: method `builtin` (development, security, design - a
 //     built-in keeps its own method even when its manifest has a scan block), `judgement` (the manifest's
-//     scan.method, with its instructions and the numeric metric fields a reading may be written for), or
-//     refused (exit 1) when it has neither. An unknown lens id exits 2.
+//     instructions) or `steps` (the manifest's ordered scan.steps), each with the numeric metric fields a
+//     reading may be written for and their `unit` (every measure write takes its unit from here); refused
+//     (exit 1) when it has none, or a step lens-scan does not run (a skill other than conform, a script
+//     yielding a field that is not a numeric metric). An unknown lens id exits 2. business, operations and
+//     quality are built-in ids WITHOUT a built-in method: their scan block decides, as for any project lens.
+//   node structure.mjs lens-add --manifest <file> [--structure <path>]
+//     Onboarding's write (references/lens-onboarding.md): checks the manifest (checkManifest: a tmp.<kebab>
+//     id is temporary, any other a reverse-DNS project id; a look another enabled lens draws is refused),
+//     then appends {id, version, source: 'project', enabled: true, [temporary: true,] created_at, manifest}
+//     to lenses[] atomically. An id the map already has is refused (exit 1); a bad manifest exits 2.
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync, renameSync, rmSync, realpathSync } from 'node:fs';
 import { basename, dirname, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
@@ -54,6 +62,9 @@ export const DEFAULT_OUT = '.ai/lens-scan/app-structure.json';
 export const BUILTIN_METHODS = ['development', 'security', 'design'];
 /** Field types a judgement reading may fill: the store holds numbers only. */
 export const NUMERIC_TYPES = ['integer', 'number', 'percent', 'money'];
+/** The skills a `skill` scan step may run (1.3.0): conform judges registry-map pairs. */
+export const STEP_SKILLS = ['conform'];
+export const MAX_STEPS = 8;
 const inputError = (m) => Object.assign(new Error(m), { code: 2 });
 const refusal = (m) => Object.assign(new Error(m), { code: 1 });
 
@@ -284,15 +295,211 @@ export function setApplicable(structure, { feature, lens, applicable, reason }) 
   return { changed: JSON.stringify(facet) !== before, ...(facet ? { facet } : {}) };
 }
 
-/** How lens-scan measures a lens entry: builtin, judgement (with instructions and numeric metric fields), or none. */
+/** The fields a reading may be written for: numeric, with a metric block. `unit` is the one every write takes. */
+export const metricFields = (m) => (m?.fields ?? []).filter((f) => f?.metric && NUMERIC_TYPES.includes(f.type))
+  .map((f) => ({ key: f.key, type: f.type, ...(f.unit ? { unit: f.unit } : {}), better: f.metric.better, ...(f.metric.method ? { method: f.metric.method } : {}), ...(f.label ? { label: f.label } : {}), ...(f.description ? { description: f.description } : {}) }));
+const nonEmpty = (v) => typeof v === 'string' && v.trim() !== '';
+const only = (o, keys) => Object.keys(o).every((k) => keys.includes(k));
+
+/**
+ * Why a steps list cannot run, one sentence, or null. `keys` are the lens's numeric metric field keys: a
+ * script step yields only those. The skill refusal is the line a headless job shows after `lens-scan refused: `.
+ */
+export function stepsProblem(steps, keys) {
+  if (!Array.isArray(steps) || steps.length < 1 || steps.length > MAX_STEPS) return `scan.steps holds 1 to ${MAX_STEPS} steps`;
+  for (const [i, st] of steps.entries()) {
+    if (!st || typeof st !== 'object' || Array.isArray(st)) return `scan.steps[${i}] must be an object`;
+    if (st.kind === 'script') {
+      if (!nonEmpty(st.run)) return `scan.steps[${i}]: a script step needs run`;
+      if (!Array.isArray(st.yields) || !st.yields.length || st.yields.some((k) => typeof k !== 'string')) return `scan.steps[${i}]: a script step lists the fields it yields`;
+      const bad = st.yields.find((k) => !keys.includes(k));
+      if (bad) return `scan.steps[${i}] yields ${bad}, which is not a numeric metric field of the lens`;
+      if (!only(st, ['kind', 'run', 'yields'])) return `scan.steps[${i}]: a script step takes kind, run and yields only`;
+    } else if (st.kind === 'skill') {
+      if (!STEP_SKILLS.includes(st.skill)) return `step skill ${st.skill} is not allowed`;
+      if (st.args !== undefined && typeof st.args !== 'string') return `scan.steps[${i}].args must be a string`;
+      if (st.budget !== undefined && !(Number.isInteger(st.budget) && st.budget > 0)) return `scan.steps[${i}].budget must be a positive integer`;
+      if (!only(st, ['kind', 'skill', 'args', 'budget'])) return `scan.steps[${i}]: a skill step takes kind, skill, args and budget only`;
+    } else if (st.kind === 'judgement') {
+      if (!nonEmpty(st.instructions)) return `scan.steps[${i}]: a judgement step needs instructions`;
+      if (!only(st, ['kind', 'instructions'])) return `scan.steps[${i}]: a judgement step takes kind and instructions only`;
+    } else return `scan.steps[${i}].kind must be script, skill or judgement (got ${JSON.stringify(st.kind)})`;
+  }
+  return null;
+}
+
+/**
+ * How lens-scan measures a lens entry: builtin, judgement (instructions) or steps (the ordered steps), each
+ * with the numeric metric fields; `none` when nothing measures it, `invalid` (with `why`) when its steps
+ * cannot run. Only development, security and design are builtin: business, operations and quality are
+ * measured by their scan block like any project lens.
+ */
 export function lensMethod(entry) {
   const m = entry.manifest ?? {};
   const out = { id: entry.id, ...(entry.source ? { source: entry.source } : {}), enabled: entry.enabled !== false, ...(entry.temporary ? { temporary: true } : {}) };
-  if (BUILTIN_METHODS.includes(entry.id)) return { ...out, method: 'builtin', ...(m.scan ? { ignored: 'scan block: a built-in lens keeps its built-in method' } : {}) };
-  if (m.scan?.method !== 'judgement' || typeof m.scan.instructions !== 'string' || !m.scan.instructions.trim()) return { ...out, method: 'none' };
-  const fields = (m.fields ?? []).filter((f) => f?.metric && NUMERIC_TYPES.includes(f.type))
-    .map((f) => ({ key: f.key, type: f.type, ...(f.unit ? { unit: f.unit } : {}), better: f.metric.better, ...(f.label ? { label: f.label } : {}), ...(f.description ? { description: f.description } : {}) }));
+  const fields = metricFields(m);
+  if (BUILTIN_METHODS.includes(entry.id)) return { ...out, method: 'builtin', ...(m.scan ? { ignored: 'scan block: a built-in lens keeps its built-in method' } : {}), fields };
+  if (m.scan?.method === 'steps') {
+    const why = stepsProblem(m.scan.steps, fields.map((f) => f.key));
+    return why ? { ...out, method: 'invalid', why } : { ...out, method: 'steps', steps: m.scan.steps, fields };
+  }
+  if (m.scan?.method !== 'judgement' || !nonEmpty(m.scan.instructions)) return { ...out, method: 'none' };
   return { ...out, method: 'judgement', instructions: m.scan.instructions, fields };
+}
+
+// ------------------------------------------------------------------------------------- manifest check
+// The structural check onboarding passes before lens-add writes a manifest: the JS twin of the blueprint's
+// checkLensManifest (bp src/lib/scan/manifest-check.ts), so a lens written here is one bp draws and scans.
+export const TEMP_LENS_ID = /^tmp\.[a-z0-9][a-z0-9-]{1,40}$/;
+export const PROJECT_LENS_ID = /^[a-z]{2,}(?:\.[a-z0-9-]+){2,}$/;
+export const GLYPHS = ['bars', 'set-square', 'brackets', 'pulse', 'padlock', 'check'];
+export const LINES = ['solid', 'double', 'dotted', 'comb', 'chain', 'hatched', 'dimension'];
+const TYPES = ['number', 'integer', 'percent', 'money', 'boolean', 'string', 'enum', 'date'];
+const METRIC_METHODS = ['static', 'probe', 'harness', 'judgement'];
+const HEALTHS = ['good', 'watch', 'bad'];
+const TOP = ['$schema', 'id', 'version', 'name', 'short', 'description', 'reader', 'fields', 'health', 'presentation', 'scan'];
+const SEMVER = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/, KEY = /^[a-z][A-Za-z0-9]*$/, SHORT = /^[A-Z0-9]{2,4}$/;
+const PATH_OK = /^[Mm][MmZzLlHhVvCcSsQqTtAa0-9eE.,+\- ]{0,2047}$/;
+const isObj = (v) => !!v && typeof v === 'object' && !Array.isArray(v);
+const condFields = (c, out = []) => {
+  if (!isObj(c)) return out;
+  for (const k of ['all', 'any']) if (Array.isArray(c[k])) for (const x of c[k]) condFields(x, out);
+  if (c.not !== undefined) condFields(c.not, out);
+  if (typeof c.field === 'string') out.push(c.field);
+  return out;
+};
+// Per command: numbers per segment, and which of them are coordinates (A: radii, rotation and flags are not).
+const PATH_CMDS = { M: [2, [0, 1]], L: [2, [0, 1]], T: [2, [0, 1]], H: [1, [0]], V: [1, [0]], C: [6, [0, 1, 2, 3, 4, 5]], S: [4, [0, 1, 2, 3]], Q: [4, [0, 1, 2, 3]], A: [7, [5, 6]], Z: [0, []] };
+
+/**
+ * Why a custom glyph path is not a free icon lens-scan accepts, or null: absolute commands only, every
+ * coordinate inside the 16x16 box, at least 2 drawing segments (a move alone draws nothing).
+ */
+export function glyphPathProblem(d) {
+  if (typeof d !== 'string' || !PATH_OK.test(d)) return 'presentation.glyph.path must be SVG path commands and numbers only (at most 2048 characters, starting with M)';
+  const tokens = d.match(/[A-Za-z]|[-+]?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?/g) ?? [];
+  const isCmd = (t) => /^[A-Za-z]$/.test(t);
+  let draws = 0, i = 0;
+  while (i < tokens.length) {
+    const c = tokens[i++];
+    if (!isCmd(c)) return `presentation.glyph.path has a number where a command belongs (${c})`;
+    if (c !== c.toUpperCase()) return `presentation.glyph.path uses the relative command ${c}: write absolute (upper-case) commands inside 0..16`;
+    const [arity, coords] = PATH_CMDS[c];
+    if (!arity) continue; // Z closes the shape; it draws no segment of its own
+    let segs = 0;
+    while (i < tokens.length && !isCmd(tokens[i])) {
+      const args = tokens.slice(i, i + arity);
+      if (args.length < arity || args.some(isCmd)) return `presentation.glyph.path: ${c} takes ${arity} numbers per segment`;
+      const n = args.map(Number);
+      if (coords.some((k) => n[k] < 0 || n[k] > 16)) return `presentation.glyph.path leaves the 16x16 box (${c} ${args.join(' ')})`;
+      i += arity;
+      if (c !== 'M' || segs > 0) draws += 1; // pairs after a move are line segments
+      segs += 1;
+    }
+    if (!segs) return `presentation.glyph.path: ${c} has no numbers`;
+  }
+  return draws >= 2 ? null : 'presentation.glyph.path draws fewer than 2 segments; a free icon needs at least 2 drawing commands';
+}
+
+/** The look a manifest draws, comparable across lenses: a shared glyph name, or its path with spaces normalized. */
+export const lookOf = (p) => ({ glyph: isObj(p?.glyph) ? { path: String(p.glyph.path ?? '').trim().replace(/\s+/g, ' ') } : p?.glyph, line: p?.line });
+const sameLook = (a, b) => a.line === b.line && JSON.stringify(a.glyph) === JSON.stringify(b.glyph);
+/** The looks the map's other enabled lenses draw (bp's TakenLook, plus the id): what a new lens may not repeat. */
+export const takenLooks = (structure, exceptId) => (structure?.lenses ?? [])
+  .filter((l) => l?.enabled !== false && l.id !== exceptId && isObj(l.manifest?.presentation)).map((l) => ({ id: l.id, ...lookOf(l.manifest.presentation) }));
+
+/**
+ * null when `x` is a lens manifest lens-add may write and a scan can measure; else what failed, one
+ * sentence. `mode` 'temporary' wants a tmp.<kebab> id, 'project' a reverse-DNS id. `taken` (takenLooks)
+ * refuses a glyph+line pair another enabled lens already draws.
+ */
+export function checkManifest(x, { mode, taken = [] } = {}) {
+  if (!isObj(x)) return 'the manifest must be a JSON object';
+  const extra = Object.keys(x).filter((k) => !TOP.includes(k));
+  if (extra.length) return `unknown keys: ${extra.join(', ')}`;
+  if (x.$schema !== 'lens-manifest/1') return '$schema must be "lens-manifest/1"';
+  const id = typeof x.id === 'string' ? x.id : '';
+  if (mode === 'temporary' && !TEMP_LENS_ID.test(id)) return `id must be tmp.<kebab> (got ${JSON.stringify(x.id)})`;
+  if (mode !== 'temporary' && (!PROJECT_LENS_ID.test(id) || id.startsWith('tmp.'))) return `id must be reverse-DNS, e.g. com.<org>.<kebab> (got ${JSON.stringify(x.id)})`;
+  if (typeof x.version !== 'string' || !SEMVER.test(x.version)) return 'version must be semver, e.g. 1.0.0';
+  if (!nonEmpty(x.name)) return 'name is required';
+  if (x.short !== undefined && (typeof x.short !== 'string' || !SHORT.test(x.short))) return 'short must be 2-4 capital letters or digits';
+  if (x.description !== undefined && typeof x.description !== 'string') return 'description must be a string';
+  if (!isObj(x.reader) || !['simple', 'standard', 'dense'].includes(x.reader.density)) return 'reader.density must be simple, standard or dense';
+  if (x.reader.role !== undefined && typeof x.reader.role !== 'string') return 'reader.role must be a string';
+
+  if (!Array.isArray(x.fields) || !x.fields.length) return 'fields must list at least one field';
+  const keys = new Set(), numeric = new Set(), metricKeys = [];
+  for (const [i, f] of x.fields.entries()) {
+    if (!isObj(f)) return `fields[${i}] must be an object`;
+    if (typeof f.key !== 'string' || !KEY.test(f.key)) return `fields[${i}].key must be camelCase`;
+    if (keys.has(f.key)) return `field key ${f.key} is used twice`;
+    keys.add(f.key);
+    if (!nonEmpty(f.label)) return `field ${f.key} needs a label`;
+    if (!TYPES.includes(f.type)) return `field ${f.key} has an unknown type ${JSON.stringify(f.type)}`;
+    if (f.type === 'enum' && (!Array.isArray(f.values) || !f.values.length || f.values.some((v) => typeof v !== 'string'))) return `enum field ${f.key} needs its values`;
+    if (f.type === 'money' && (typeof f.currency !== 'string' || !/^[A-Z]{3}$/.test(f.currency))) return `money field ${f.key} needs a currency`;
+    if (f.unit !== undefined && !nonEmpty(f.unit)) return `field ${f.key}: unit must be a short word`;
+    if (NUMERIC_TYPES.includes(f.type)) numeric.add(f.key);
+    if (f.metric !== undefined) {
+      if (!NUMERIC_TYPES.includes(f.type)) return `field ${f.key} has a metric but is not numeric (integer, number, percent or money)`;
+      if (!isObj(f.metric) || (f.metric.better !== 'up' && f.metric.better !== 'down') || !METRIC_METHODS.includes(f.metric.method)) return `field ${f.key}: metric needs better (up|down) and a method`;
+      metricKeys.push(f.key);
+    }
+  }
+  if (!metricKeys.length) return 'at least one numeric field needs a metric block, or the scan has nothing to fill';
+
+  const h = x.health;
+  if (!isObj(h) || !Array.isArray(h.rules)) return 'health.rules is required';
+  for (const [i, r] of h.rules.entries()) {
+    if (!isObj(r) || !isObj(r.when) || !HEALTHS.includes(r.health) || !nonEmpty(r.reason)) return `health.rules[${i}] needs when, health (good|watch|bad) and reason`;
+    const unknown = condFields(r.when).find((k) => !keys.has(k));
+    if (unknown) return `health.rules[${i}] names an unknown field ${unknown}`;
+  }
+  if (!HEALTHS.includes(h.default)) return 'health.default must be good, watch or bad';
+  const ru = h.rollup;
+  if (!isObj(ru)) return 'health.rollup is required';
+  if (ru.method === 'share') { if (typeof ru.watch !== 'number' || typeof ru.bad !== 'number') return 'a share rollup needs watch and bad fractions'; }
+  else if (ru.method === 'weighted') { if (typeof ru.by !== 'string' || !numeric.has(ru.by)) return 'a weighted rollup needs by = a numeric field'; }
+  else if (ru.method !== 'worst-of') return 'health.rollup.method must be worst-of, share or weighted';
+
+  const p = x.presentation;
+  if (!isObj(p)) return 'presentation is required';
+  if (isObj(p.glyph)) { const why = glyphPathProblem(p.glyph.path); if (why) return why; }
+  else if (!GLYPHS.includes(p.glyph)) return `presentation.glyph must be one of ${GLYPHS.join(', ')}, or { path } in a 16x16 box`;
+  if (!LINES.includes(p.line)) return `presentation.line must be one of ${LINES.join(', ')}`;
+  if (p.measures !== undefined && (typeof p.measures !== 'string' || !keys.has(p.measures))) return 'presentation.measures must name a field';
+  if (p.evidence !== undefined && (!Array.isArray(p.evidence) || p.evidence.some((k) => typeof k !== 'string' || !keys.has(k)))) return 'presentation.evidence must list field keys';
+  const clash = taken.find((t) => sameLook(lookOf(t), lookOf(p)));
+  if (clash) return `presentation draws the same glyph and line as ${clash.id ?? 'another enabled lens'}; pick another glyph or line`;
+
+  const s = x.scan;
+  if (!isObj(s)) return "scan is required: { method: 'judgement', instructions } or { method: 'steps', steps }";
+  if (s.method === 'judgement') {
+    if (!nonEmpty(s.instructions)) return 'a judgement scan needs instructions';
+    if (!only(s, ['method', 'instructions'])) return 'a judgement scan takes only method and instructions';
+  } else if (s.method === 'steps') {
+    if (!only(s, ['method', 'steps'])) return 'a steps scan takes only method and steps';
+    const why = stepsProblem(s.steps, metricKeys);
+    if (why) return why;
+  } else return "scan.method must be 'judgement' or 'steps'";
+  return null;
+}
+
+/**
+ * Appends a checked manifest to a parsed structure, in place: {id, version, source 'project', enabled,
+ * [temporary,] created_at, manifest} - the entry the blueprint writes. Refuses an id the map has.
+ */
+export function addLens(structure, manifest, { now = new Date() } = {}) {
+  const temporary = TEMP_LENS_ID.test(manifest?.id ?? '');
+  const lenses = (structure.lenses ??= []);
+  if (lenses.some((l) => l?.id === manifest?.id)) throw refusal(`lens ${manifest.id} already exists in the map; an id is never reused or renamed`);
+  const why = checkManifest(manifest, { mode: temporary ? 'temporary' : 'project', taken: takenLooks(structure, manifest?.id) });
+  if (why) throw inputError(`lens manifest refused: ${why}`);
+  const entry = { id: manifest.id, version: manifest.version, source: 'project', enabled: true, ...(temporary ? { temporary: true } : {}), created_at: now.toISOString(), manifest };
+  lenses.push(entry);
+  if (structure.stats && typeof structure.stats === 'object') structure.stats.lenses = lenses.length;
+  return entry;
 }
 
 function readStructure(path) {
@@ -309,15 +516,27 @@ export async function main(argv) {
   const a = parseArgs(argv);
   if (a.help) return { help: HELP };
   const cmd = a._[0];
-  if (cmd === 'facet' || cmd === 'lens') {
+  if (cmd === 'facet' || cmd === 'lens' || cmd === 'lens-add') {
     const path = typeof a.structure === 'string' ? a.structure : typeof a.out === 'string' ? a.out : DEFAULT_OUT;
     const { text, structure } = readStructure(path);
     if (cmd === 'lens') {
       const entry = structure.lenses?.find((l) => l.id === a.id);
       if (typeof a.id !== 'string' || !entry) throw inputError(`no lens ${JSON.stringify(a.id ?? null)} in the structure's lenses[] (--id <lens id>)`);
       const info = lensMethod(entry);
-      if (info.method === 'none') throw refusal(`lens ${entry.id} has no scan method: it is not a built-in lens-scan measures and its manifest declares no scan { method: 'judgement', instructions }`);
+      if (info.method === 'none') throw refusal(`lens ${entry.id} has no scan method: it is not a built-in lens-scan measures and its manifest declares no scan { method: 'judgement', instructions } or { method: 'steps', steps }`);
+      if (info.method === 'invalid') throw refusal(info.why);
       return info;
+    }
+    if (cmd === 'lens-add') {
+      if (typeof a.manifest !== 'string') throw inputError('lens-add needs --manifest <file>');
+      let manifest;
+      try { manifest = JSON.parse(readFileSync(a.manifest, 'utf8')); } catch (e) { throw inputError(`--manifest is not readable JSON (${e.message})`); }
+      const entry = addLens(structure, manifest);
+      const next = `${JSON.stringify(structure, null, 2)}\n`;
+      // re-read right before the rename: the blueprint writes this file too, and a lens it added meanwhile is kept
+      if (readFileSync(path, 'utf8') !== text) throw refusal(`${path} changed while the lens was being added; run lens-add again`);
+      writeAtomic(path, next);
+      return { out: basename(path), written: true, added: { id: entry.id, version: entry.version, source: entry.source, ...(entry.temporary ? { temporary: true } : {}), created_at: entry.created_at } };
     }
     if (typeof a.feature !== 'string' || typeof a.lens !== 'string') throw inputError('facet needs --feature <slug> --lens <id>');
     if (a.applicable !== 'false' && a.applicable !== 'true') throw inputError('--applicable is true or false');

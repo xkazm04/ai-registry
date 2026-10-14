@@ -186,7 +186,8 @@ test('a 1:1 re-map keeps a judged applicable:false; metric values still come fro
 
 test('lens: builtin keeps its method, a scan block makes judgement with the numeric metric fields, none is refused', async () => {
   assert.deepEqual(lensMethod({ id: 'design', source: 'builtin', manifest: JUDGED('design', { method: 'judgement', instructions: 'x' }) }),
-    { id: 'design', source: 'builtin', enabled: true, method: 'builtin', ignored: 'scan block: a built-in lens keeps its built-in method' });
+    { id: 'design', source: 'builtin', enabled: true, method: 'builtin', ignored: 'scan block: a built-in lens keeps its built-in method',
+      fields: [{ key: 'callSites', type: 'integer', better: 'down', method: 'judgement', label: 'Call sites' }, { key: 'migratedPct', type: 'percent', unit: '%', better: 'up', method: 'judgement' }] });
   const j = lensMethod({ id: 'tmp.drop-moment', source: 'project', temporary: true, enabled: false, manifest: JUDGED('tmp.drop-moment', { method: 'judgement', instructions: 'Find moment.js use.' }) });
   assert.equal(j.method, 'judgement');
   assert.equal(j.instructions, 'Find moment.js use.');
