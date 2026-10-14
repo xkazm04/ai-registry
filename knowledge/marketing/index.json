@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 183,
-  "applications": 84,
+  "applications": 85,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -143,9 +143,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/attribution-and-incrementality.md",
-   "digest": "sha256-b2:93a52de469eab4c7",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:76cd61c8eb24e3a6",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "before-after-is-not-an-experiment",
@@ -245,6 +245,13 @@
      "technique": "before-after-is-not-an-experiment",
      "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/applications/node--before-after-is-not-an-experiment.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "holdout-test-on-the-biggest-channel",
+     "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/applications/node--holdout-test-on-the-biggest-channel.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
