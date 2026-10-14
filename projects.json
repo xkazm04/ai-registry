@@ -109,6 +109,11 @@
       "checkouts": {
         "Wolf": "kiro/garden-vr"
       }
+    },
+    "paypal": {
+      "checkouts": {
+        "Wolf": "kiro/paypal"
+      }
     }
   }
 }
