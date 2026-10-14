@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 305,
+  "applications": 306,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -703,8 +703,8 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/automated-screening-fairness-gates.md",
-   "digest": "sha256-b2:3925e87676508a14",
-   "revision": 4,
+   "digest": "sha256-b2:1f4e2b1f7486ecbc",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -831,6 +831,13 @@
      "technique": "route-vocabulary-narrower-than-verdict-vocabulary",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/applications/process--route-vocabulary-narrower-than-verdict-vocabulary.md",
      "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "python",
+     "technique": "hold-as-the-canonical-fallback-verdict",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/applications/python--hold-as-the-canonical-fallback-verdict.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "python@3.12"
     }
    ]
   },
