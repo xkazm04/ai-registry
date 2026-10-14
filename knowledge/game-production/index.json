@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 305,
+  "applications": 306,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -218,8 +218,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
-   "digest": "sha256-b2:31ac1088907a5e8a",
-   "revision": 5,
+   "digest": "sha256-b2:966b0424a0fbaad0",
+   "revision": 6,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -311,6 +311,13 @@
      "stack": "next",
      "technique": "refinement-mode-minimal-diff",
      "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/next--refinement-mode-minimal-diff.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16"
+    },
+    {
+     "stack": "next",
+     "technique": "strict-output-schema-with-derived-dependents",
+     "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/next--strict-output-schema-with-derived-dependents.md",
      "verified_on": "2026-10-14",
      "verified_against": "next@16"
     },
