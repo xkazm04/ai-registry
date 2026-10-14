@@ -1103,3 +1103,10 @@ out and no baseline is committed. The checker itself is strict. No technique cha
 "a gate whose scope is empty unless a flag is passed" already owns it. The tree adds one
 detail: deactivation at template expansion leaves no skipped-step marker for an operator
 to find.
+
+## 2026-10-14 - intake wc-1014 (storytold/wordcraft)
+
+Second application of `prose-rule-drift` (`rust--prose-rule-drift--panic-lint`): a lint set denied at 18
+of 19 roots with the one unguarded root and a prose-only indexing rule; the layering checker already
+visits every crate and does not assert the attribute. Fleet census 0 of 17 / 44 / 6 roots; personas holds the
+rule as a measured ratchet. Verdict unmeasurable.

@@ -299,3 +299,12 @@ the technique's prose does not name: the deciding layer (the queue, in the store
 sits *below* the layer that knows the category (the LLM crate) in the dependency graph,
 so a typed enum is unreachable and a marker in the shared core crate is the only shape.
 One bit only; the fault-line axis and retry-after are not carried.
+
+## 2026-10-14 - intake wc-1014 (storytold/wordcraft)
+
+Landed `containment-boundary-restores-state` (stage between a handled error and crash-capture:
+catch at the mutation chokepoint, same error shape, whole-snapshot restore, three doors, net not
+licence, targets that abort). Application `rust--containment-boundary-restores-state` against the
+source tree (anchors checked). `resilience/` is at the ten-child cap, so panic policy could not be
+its own subject there; revisit placement if a second containment technique arrives. Boundary with
+crash-capture stated in both directions. Verdict unmeasurable (no panic-injection arm).

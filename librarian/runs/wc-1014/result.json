@@ -1,0 +1,61 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "wc-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T20:00:00Z",
+  "ended_at": "2026-10-14T21:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/error-handling",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "error-handling",
+      "technique": "containment-boundary-restores-state",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "quality-gates",
+      "technique": "prose-rule-drift",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/resilience/error-handling/techniques/containment-boundary-restores-state.md",
+    "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--containment-boundary-restores-state.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--prose-rule-drift--panic-lint.md",
+    "librarian/sources/2026-10-14-storytold-wordcraft.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "1 technique + 2 source-tree applications; 2 leads, 2 catches, 3 untriaged; no ship (priced arm not run)."
+}
