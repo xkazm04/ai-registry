@@ -33,6 +33,9 @@ as clickbait.
 ## Decision rules
 
 - No superlatives or outcome words in titles ("dominates", "never lost").
+  A list of outcome words must carry the past and adjective forms of its verbs
+  ("dominated", "dominant", "unbeaten"), not only the spelling of the example:
+  a whole-word match lets every unlisted inflection through.
 - Logo tiles are equal in size and treatment. Order them so the winner
   isn't the first read.
 - The topic line stays on screen for the whole timeline.
