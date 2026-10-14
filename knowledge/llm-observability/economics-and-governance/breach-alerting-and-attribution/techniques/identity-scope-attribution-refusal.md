@@ -78,6 +78,13 @@ pointing at nothing teaches operators to hate the boundary.
   channel" → the channel's membership is an assertion the system cannot
   verify; the answer stays no, and the internal audience uses the
   authenticated surface like everyone else.
+- When a *second* alert producer shares the channels (forecasts, margin or
+  anomaly warnings, digests to a shared room) → classify its subject on the
+  same infrastructure-versus-identity line. A producer that works the
+  customer axis puts the identity in its message by construction, and no
+  rollup-shape guard exists to stop it: mark the alert identity-scoped at the
+  point the axis is known and make the broadcast composer drop the subject and
+  its figures, not just the breach path.
 - When designing digest emails or periodic summaries that *are* explicitly
   per-tenant and delivered to verified tenant contacts → this technique does
   not apply; that is an authenticated surface with a known audience, not a
