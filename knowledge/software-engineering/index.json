@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 235,
   "techniques": 1860,
-  "applications": 1295,
+  "applications": 1296,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20997,9 +20997,9 @@
    "subcategory": "platform-observability",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/platform-observability/metric-surface-contract/metric-surface-contract.md",
-   "digest": "sha256-b2:e8bf5f739fe682e7",
-   "revision": 2,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:7fac3c16c37ab0cc",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "derive-outside-the-hot-loop",
@@ -21110,6 +21110,13 @@
      "file": "knowledge/software-engineering/backend-platform/platform-observability/metric-surface-contract/applications/python--same-process-monotonic-intervals.md",
      "verified_on": "2026-09-03",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "rust",
+     "technique": "derive-outside-the-hot-loop",
+     "file": "knowledge/software-engineering/backend-platform/platform-observability/metric-surface-contract/applications/rust--derive-outside-the-hot-loop.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.97"
     }
    ]
   },
