@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 304,
+  "applications": 305,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -565,8 +565,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/assessment-instrument-validation/assessment-instrument-validation.md",
-   "digest": "sha256-b2:2ee1b76b7bb78a10",
-   "revision": 4,
+   "digest": "sha256-b2:cf6f4e9c392bffb1",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -680,6 +680,13 @@
      "stack": "python",
      "technique": "binary-metrics-over-a-noisy-scale",
      "file": "knowledge/recruiting/assessment/assessment-instrument-validation/applications/python--binary-metrics-over-a-noisy-scale.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "synthetic-candidate-behaviour-landscape",
+     "file": "knowledge/recruiting/assessment/assessment-instrument-validation/applications/python--synthetic-candidate-behaviour-landscape.md",
      "verified_on": "2026-10-14",
      "verified_against": "python@3.12"
     },
