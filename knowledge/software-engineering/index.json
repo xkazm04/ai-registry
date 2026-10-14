@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1261,
+  "applications": 1262,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -11711,9 +11711,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
-   "digest": "sha256-b2:639026a17955f1e4",
-   "revision": 1,
-   "changedAt": "2026-08-22",
+   "digest": "sha256-b2:95cdaebc076df84d",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "catalog-referential-invariants",
@@ -11794,6 +11794,13 @@
      "technique": "catalog-referential-invariants",
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/applications/react--catalog-referential-invariants.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "derived-navigation-projection",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/applications/react--derived-navigation-projection.md",
+     "verified_on": "2026-10-14",
      "verified_against": "react@19"
     },
     {
