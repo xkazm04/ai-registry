@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1263,
+  "applications": 1264,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -11285,9 +11285,9 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deterministic-prefix-caching/deterministic-prefix-caching.md",
-   "digest": "sha256-b2:43c1666c71913bd2",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:018e88a8c6d68b18",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "atomic-write-then-move",
@@ -11388,6 +11388,13 @@
      "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deterministic-prefix-caching/applications/python--capability-marker-boundary-scan.md",
      "verified_on": "2026-09-03",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "rust",
+     "technique": "enumerate-the-non-working-cases",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/deterministic-prefix-caching/applications/rust--enumerate-the-non-working-cases.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1"
     }
    ]
   },
