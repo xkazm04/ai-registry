@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 54,
+  "applications": 55,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -281,9 +281,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/eligibility-analysis.md",
-   "digest": "sha256-b2:6b6806cff275bcee",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:038e4cb2993ff664",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "applicant-type-code-mapping",
@@ -389,6 +389,13 @@
      "technique": "applicant-type-code-mapping",
      "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/applications/node--applicant-type-code-mapping.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "award-size-capacity-fit",
+     "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/applications/node--award-size-capacity-fit.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
