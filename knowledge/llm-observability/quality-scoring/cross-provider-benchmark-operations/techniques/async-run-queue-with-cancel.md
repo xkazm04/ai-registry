@@ -58,6 +58,14 @@ machinery:
 5. **A backend that cannot cancel atomically says unsupported** — an honest
    refusal, never a pretend-cancel that leaves the worker spending.
 
+6. **A `cancelling` job whose lease has gone stale needs a settler.** Keeping it
+   out of the claimable set stops it restarting, but it also leaves nothing to
+   end it: a worker that dies before its next case boundary strands the job in a
+   live-looking state for ever. Let the same path that reclaims dead workers'
+   jobs settle it as cancelled, with a marker distinct from the worker-lost one,
+   and leave a fresh-lease cancel alone, since renewal continues through the
+   wind-down and a stale lease therefore means a dead worker.
+
 Partial results from a cancelled run are kept and marked, exactly as with a
 budget halt: the report carries cancelled/partial with planned-versus-done
 counts, and every consumer — gates first — treats the run as unverified,
