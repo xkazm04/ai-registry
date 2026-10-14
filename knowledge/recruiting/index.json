@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
-  "subjects": 66,
-  "techniques": 409,
-  "applications": 293,
+  "subjects": 67,
+  "techniques": 416,
+  "applications": 296,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -20,7 +20,7 @@
    "candidate-self-presentation"
   ],
   "layout": "nested",
-  "use_when_coverage": "409/409",
+  "use_when_coverage": "416/416",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -5078,6 +5078,138 @@
     }
    ]
   },
+  "interview-story-portfolio": {
+   "category": "candidate-self-presentation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/interview-story-portfolio.md",
+   "digest": "sha256-b2:87756b27e3e7f5cf",
+   "revision": 1,
+   "changedAt": "2026-10-14",
+   "techniques": [
+    {
+     "slug": "earned-secret-needs-proof",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "inference-must-look-like-inference",
+      "a-claim-carries-its-sample-and-its-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an answer is correct but could have come from any qualified candidate",
+      "a candidate or tool is extracting insights from experiences to make answers distinctive",
+      "deciding which of two equal experiences to lead with"
+     ]
+    },
+    {
+     "slug": "fit-tiers-with-a-secondary-skill-cap",
+     "status": "forged",
+     "laws": [
+      "absence-of-evidence-is-not-evidence",
+      "inference-must-look-like-inference"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "grading how well an experience answers a predicted question",
+      "deciding whether an experience that only touches a competency can lead an answer",
+      "designing the match step of an interview preparation tool"
+     ]
+    },
+    {
+     "slug": "freshness-and-overuse-across-a-search",
+     "status": "forged",
+     "laws": [
+      "a-claim-carries-its-sample-and-its-basis",
+      "absence-of-evidence-is-not-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a candidate is in a multi-round process with one employer",
+      "a candidate has told the same experience in several interviews",
+      "deciding how many times an experience can be reused"
+     ]
+    },
+    {
+     "slug": "gap-response-chosen-by-story-strength",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "absence-of-evidence-is-not-evidence",
+      "inference-must-look-like-inference"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a predicted question has no experience that answers it",
+      "a candidate's only matching experience is thin",
+      "a candidate asks how to answer honestly about something they have not done"
+     ]
+    },
+    {
+     "slug": "one-treatment-per-root-cause",
+     "status": "forged",
+     "laws": [
+      "inference-must-look-like-inference",
+      "a-claim-carries-its-sample-and-its-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "one habit seems to depress several scoring dimensions across practice sessions",
+      "a candidate is being given a drill per weak dimension",
+      "deciding when a recurring weakness is resolved"
+     ]
+    },
+    {
+     "slug": "portfolio-assignment-before-per-question-pick",
+     "status": "forged",
+     "laws": [
+      "a-claim-carries-its-sample-and-its-basis",
+      "inference-must-look-like-inference"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "mapping a set of experiences to a set of predicted interview questions",
+      "two questions want the same best experience",
+      "deciding when an experience may be told twice in one conversation"
+     ]
+    },
+    {
+     "slug": "practice-score-needs-outcomes-before-it-is-trusted",
+     "status": "forged",
+     "laws": [
+      "a-claim-carries-its-sample-and-its-basis",
+      "a-predictor-cannot-grade-its-own-labels",
+      "a-verdict-is-bound-to-what-it-judged"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a practice rubric is being treated as a forecast of interview results",
+      "a tool declares itself calibrated after a few real interviews",
+      "deciding whether to rescale a practice rubric on interviewer feedback"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "gap-response-chosen-by-story-strength",
+     "file": "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/process--gap-response-chosen-by-story-strength.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "portfolio-assignment-before-per-question-pick",
+     "file": "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/process--portfolio-assignment-before-per-question-pick.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "practice-score-needs-outcomes-before-it-is-trusted",
+     "file": "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/process--practice-score-needs-outcomes-before-it-is-trusted.md",
+     "verified_on": "2026-10-14"
+    }
+   ]
+  },
   "llm-era-work-sample-design": {
    "category": "assessment",
    "subcategory": null,
@@ -9092,6 +9224,11 @@
     "inference-labelling-and-refusal/self-reported-confidence-is-not-a-measurement",
     "interview-round-design/cohort-reducer-between-rounds",
     "interview-round-design/shared-material-for-comparability",
+    "interview-story-portfolio/earned-secret-needs-proof",
+    "interview-story-portfolio/freshness-and-overuse-across-a-search",
+    "interview-story-portfolio/one-treatment-per-root-cause",
+    "interview-story-portfolio/portfolio-assignment-before-per-question-pick",
+    "interview-story-portfolio/practice-score-needs-outcomes-before-it-is-trusted",
     "llm-era-work-sample-design/probe-discrimination-audit-before-shipping",
     "multi-jurisdiction-hiring-compliance/codified-threshold-only-where-one-exists",
     "peer-benchmarking-under-k-anonymity/all-time-basis-and-why-a-window-biases",
@@ -9244,6 +9381,9 @@
     "interview-round-design/phase-to-competency-mapping",
     "interview-run-of-show/per-question-time-budget-that-tightens",
     "interview-run-of-show/question-kit-grounded-in-named-evidence-gaps",
+    "interview-story-portfolio/fit-tiers-with-a-secondary-skill-cap",
+    "interview-story-portfolio/freshness-and-overuse-across-a-search",
+    "interview-story-portfolio/gap-response-chosen-by-story-strength",
     "llm-era-work-sample-design/covert-probe-with-a-decision-space",
     "llm-era-work-sample-design/probe-discrimination-audit-before-shipping",
     "multi-jurisdiction-hiring-compliance/codified-threshold-only-where-one-exists",
@@ -9357,6 +9497,7 @@
     "interview-round-design/phase-to-competency-mapping",
     "interview-round-design/shared-material-for-comparability",
     "interview-run-of-show/per-question-time-budget-that-tightens",
+    "interview-story-portfolio/practice-score-needs-outcomes-before-it-is-trusted",
     "llm-era-work-sample-design/mid-flight-requirement-change",
     "llm-era-work-sample-design/probe-discrimination-audit-before-shipping",
     "portable-candidate-credentials/freshness-is-separate-from-integrity",
@@ -9480,6 +9621,8 @@
     "interview-run-of-show/duration-band-and-clamping",
     "interview-run-of-show/regenerate-without-destroying-human-notes",
     "interview-run-of-show/slack-absorbing-open-block",
+    "interview-story-portfolio/earned-secret-needs-proof",
+    "interview-story-portfolio/gap-response-chosen-by-story-strength",
     "llm-era-work-sample-design/anchor-the-task-to-the-role-not-the-material",
     "llm-era-work-sample-design/authorship-verifying-debrief-questions",
     "llm-era-work-sample-design/forced-decision-log-as-normal-practice",
@@ -9574,6 +9717,7 @@
     "early-career-potential-assessment/symmetric-discount-across-populations",
     "evidence-provenance-weighting/provenance-rebaseline-and-retuning",
     "inference-labelling-and-refusal/self-reported-confidence-is-not-a-measurement",
+    "interview-story-portfolio/practice-score-needs-outcomes-before-it-is-trusted",
     "pre-publish-fillability-forecast/reuse-the-production-scorer-not-a-model-of-it",
     "selection-score-calibration/deterministic-holdout-clean-arm",
     "selection-score-calibration/label-leakage-taxonomy"
@@ -9641,6 +9785,11 @@
     "inference-labelling-and-refusal/self-reported-confidence-is-not-a-measurement",
     "interview-round-design/phase-to-competency-mapping",
     "interview-run-of-show/question-kit-grounded-in-named-evidence-gaps",
+    "interview-story-portfolio/earned-secret-needs-proof",
+    "interview-story-portfolio/fit-tiers-with-a-secondary-skill-cap",
+    "interview-story-portfolio/gap-response-chosen-by-story-strength",
+    "interview-story-portfolio/one-treatment-per-root-cause",
+    "interview-story-portfolio/portfolio-assignment-before-per-question-pick",
     "llm-era-work-sample-design/authorship-verifying-debrief-questions",
     "llm-era-work-sample-design/covert-probe-with-a-decision-space",
     "llm-era-work-sample-design/forced-decision-log-as-normal-practice",
