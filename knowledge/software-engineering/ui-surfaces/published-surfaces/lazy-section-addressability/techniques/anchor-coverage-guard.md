@@ -92,6 +92,17 @@ which no wrapper on this page hosts" is a fix.
   content moved to another page. Name the unresolved entries; do it in
   development only, for the same reason as the rest.
 
+## One page, several consumers of the vocabulary
+
+The navigation is rarely the only consumer. A guided tour, a call to action or
+a deep link from another page each names addresses too, and each is a separate
+declaration that can drift alone. In one measured tree a gate over the home
+page's own manifest caught a renamed wrapper at once, while renaming a section
+id on a page whose map was declared by hand failed nothing: the tour step and
+the map entry both pointed at an element that no longer existed. Enumerate the
+consumers of each address space and give each its comparison; a guard on the
+consumer that happens to be tested says nothing about the others.
+
 ## Muting is the failure mode
 
 A guard that is noisy gets silenced, and silencing it is not a fix
