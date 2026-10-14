@@ -84,6 +84,12 @@ Round-trip the pair: generate, parse, compare. It is a small test and it is the
 only thing standing between a hand-edited reference and a generator that has
 quietly diverged from it.
 
+Compare the seed against the reference itself, not against a pasted fixture of it.
+A fixture is a third copy: round-tripping it through its own parser proves the
+parser inverts the serializer and says nothing about whether the generator still
+emits what the reference declares. Pin the lane set (and any comment that names a
+role) directly between the two.
+
 ## Parse conservatively
 
 An overlay is read by code that may be older than the file. Two rules keep that

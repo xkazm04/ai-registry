@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1270,
+  "applications": 1271,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -18537,9 +18537,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
-   "digest": "sha256-b2:4f67f0d981e204d6",
-   "revision": 10,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:08227ed9be7fc676",
+   "revision": 11,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -18665,6 +18665,12 @@
      "technique": "catalog-as-sync-key",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--catalog-as-sync-key.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "consumer-overlays",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--consumer-overlays.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "node",
