@@ -60,6 +60,10 @@ For each class, the taxonomy stores how the demand and the document manifest:
    least as often as in correct orthography, and a hint that demands the
    diacritics misses half the real uploads. Where a class has official
    synonyms, the needle carries all of them.
+   Authoring ASCII hints is only half the rule: **normalize the upload name
+   too** (decompose it and drop combining marks) before testing the hint, or
+   the correctly spelled file, the one a native user types by default, is
+   reported missing against a hint that never expected it.
 3. **A human label** in the market's language — the checklist is read by the
    applicant, and a translated class name for a document that only exists
    locally is often meaningless.
