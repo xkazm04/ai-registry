@@ -4,7 +4,7 @@ okf_bundle_name: llm-observability
 okf_bundle_title: LLM observability
 profile: rkb/0.1
 purity: software
-stacks: [rust, python]
+stacks: [rust, python, typescript]
 ---
 
 # LLM observability
