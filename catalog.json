@@ -1110,19 +1110,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-<<<<<<< HEAD
-      "subjects": 82,
-      "techniques": 542,
-      "applications": 297,
-      "files": 925,
-      "contentHash": "sha256-b2:9863dce0bd847aa6"
-=======
       "subjects": 81,
       "techniques": 537,
       "applications": 296,
       "files": 918,
       "contentHash": "sha256-b2:44b4a25ab13b24f4"
->>>>>>> cur/n37
     },
     {
       "name": "grant-funding",
@@ -1133,9 +1125,9 @@
       "purity": "funding",
       "subjects": 17,
       "techniques": 105,
-      "applications": 48,
-      "files": 175,
-      "contentHash": "sha256-b2:660fe3a8ad27ed10"
+      "applications": 49,
+      "files": 176,
+      "contentHash": "sha256-b2:465a842dfc42917c"
     },
     {
       "name": "llm-observability",
