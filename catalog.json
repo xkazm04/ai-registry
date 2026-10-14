@@ -1125,9 +1125,9 @@
       "purity": "funding",
       "subjects": 17,
       "techniques": 105,
-      "applications": 60,
-      "files": 187,
-      "contentHash": "sha256-b2:04612dd6cc2beaa9"
+      "applications": 61,
+      "files": 188,
+      "contentHash": "sha256-b2:ba867e97ee0f491c"
     },
     {
       "name": "llm-observability",

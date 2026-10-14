@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 60,
+  "applications": 61,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -566,8 +566,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/funder-format-blueprints.md",
-   "digest": "sha256-b2:0f35373e2c09be69",
-   "revision": 3,
+   "digest": "sha256-b2:aec02f7c8d562627",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -665,6 +665,13 @@
      "stack": "node",
      "technique": "movement-funder-sections",
      "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/applications/node--movement-funder-sections.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "trust-and-lottery-sections",
+     "file": "knowledge/grant-funding/proposal-craft/funder-format-blueprints/applications/node--trust-and-lottery-sections.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
