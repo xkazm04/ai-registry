@@ -46,6 +46,16 @@ means no suggestion.** The fallthrough is the feature. Cue rules are
 extended when real placeholder phrasings show up unmapped — driven by
 observed misses, not by ambition to resolve everything.
 
+Cues are read from the want clause, as whole words. A drafting prompt that
+asks the model to name the want gets back a want plus an appended example
+("[insert specific reason, such as technical delays or budget reallocation]");
+a cue matched anywhere in that text reads the example, or a word the cue
+happens to sit inside ("underserved"), and offers a sourced figure into the
+wrong blank. Cut the placeholder at the first example marker before matching,
+and treat a qualifier that makes the blank a period figure (actual, budgeted,
+spent, remaining, balance) as never the annual one. Measured on 64 distinct
+recorded placeholders, whole-substring cues mapped five and every one was wrong.
+
 ## The offer: suggestion, not substitution
 
 Resolution surfaces the matching fact *next to* the placeholder — value,
