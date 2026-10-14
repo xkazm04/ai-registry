@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 235,
-  "techniques": 1871,
-  "applications": 1334,
+  "techniques": 1872,
+  "applications": 1336,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1871/1871",
+  "use_when_coverage": "1872/1872",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1926,9 +1926,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:44a563d27a28f342",
-   "revision": 50,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:4f054116d66a9495",
+   "revision": 51,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2111,6 +2111,23 @@
       "two writers claiming the same sequential id",
       "a model swap silently thins what capture writes down",
       "one oversized item crowds a distillation batch"
+     ]
+    },
+    {
+     "slug": "exposure-is-not-credit",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a memory or rule store learns helpful or harmful from task outcomes",
+      "a session verdict is applied to every item the session was shown",
+      "items are promoted to a trusted or proven class by accumulated credit",
+      "an always-on or generic tier collects feedback",
+      "retrieval weights are tuned offline from outcome labels",
+      "a passive harvester joins delivered items to later success or failure"
      ]
     },
     {
@@ -2430,6 +2447,13 @@
      "verified_against": "bun@1.3.13"
     },
     {
+     "stack": "bun",
+     "technique": "exposure-is-not-credit",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/bun--exposure-is-not-credit--practitioner-memory.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "bun@1"
+    },
+    {
      "stack": "claude-code",
      "technique": "cross-context-promotion",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/claude-code--cross-context-promotion.md",
@@ -2539,6 +2563,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--baseline-ladder.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "exposure-is-not-credit",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--exposure-is-not-credit--personas.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "python@3"
     },
     {
      "stack": "python",
@@ -41348,6 +41379,7 @@
     "agent-memory/coverage-instrumentation",
     "agent-memory/cross-context-promotion",
     "agent-memory/diagnosis-withheld-from-the-executor",
+    "agent-memory/exposure-is-not-credit",
     "agent-memory/lane-reconciliation",
     "agent-memory/loss-site-inventory",
     "agent-memory/probe-without-write-back",
@@ -43383,6 +43415,7 @@
     "agent-instruction-files/machine-owned-regions",
     "agent-memory/baseline-ladder",
     "agent-memory/consolidation",
+    "agent-memory/exposure-is-not-credit",
     "agent-memory/lane-reconciliation",
     "agent-memory/memory-value-model",
     "agent-memory/observation-clock",
