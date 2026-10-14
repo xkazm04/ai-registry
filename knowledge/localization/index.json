@@ -616,8 +616,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/czech/czech.md",
-   "digest": "sha256-b2:b461da362b9365f3",
-   "revision": 7,
+   "digest": "sha256-b2:c02d0abf167c5100",
+   "revision": 8,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -719,8 +719,7 @@
      "stack": "process",
      "technique": "gender-neutral-forms",
      "file": "knowledge/localization/european/czech/applications/process--gender-neutral-forms.md",
-     "verified_on": "2026-10-14",
-     "verified_against": "next-intl@4.14.5"
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",

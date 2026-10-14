@@ -6,7 +6,6 @@ technique: gender-neutral-forms
 stack: process
 status: forged
 verified_on: 2026-10-14
-verified_against: next-intl@4.14.5
 applied: code
 ab_verdict: better
 ---
