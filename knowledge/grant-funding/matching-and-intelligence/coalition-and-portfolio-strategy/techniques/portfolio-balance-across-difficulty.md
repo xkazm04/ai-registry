@@ -101,6 +101,10 @@ tier assignments, not just footnotes.
 - When last cycle's results skew — all reaches lost *and* all base won — read
   it as calibration data on the difficulty model before reading it as strategy
   failure; a base tier that never loses may be under-reaching.
+- An unrated program is priced at the median of the measured rates in the same slate, never at
+  a fixed prior. A flat default sits above the single-digit rates a real slate carries, so under
+  partial coverage the unknowns outrank the measured on the invented number alone. Keep the flat
+  prior only when nothing is rated, where it is uniform and orders nothing.
 - Re-balance when the pipeline changes materially or a cycle turns, not per
   new opportunity; a portfolio rebuilt weekly is deadline-chasing with extra
   steps.

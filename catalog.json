@@ -1125,9 +1125,9 @@
       "purity": "funding",
       "subjects": 17,
       "techniques": 105,
-      "applications": 47,
-      "files": 174,
-      "contentHash": "sha256-b2:3af175a06121ce32"
+      "applications": 48,
+      "files": 175,
+      "contentHash": "sha256-b2:1bff254946c2f29b"
     },
     {
       "name": "llm-observability",
@@ -1163,10 +1163,10 @@
       "profile": "rkb/0.1",
       "purity": "marketing",
       "subjects": 30,
-      "techniques": 184,
+      "techniques": 183,
       "applications": 89,
-      "files": 307,
-      "contentHash": "sha256-b2:52079b55e5df35d5"
+      "files": 306,
+      "contentHash": "sha256-b2:626feb7f37b00b1b"
     },
     {
       "name": "media-generation",

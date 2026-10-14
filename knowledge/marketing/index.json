@@ -4,7 +4,7 @@
   "bundle": "marketing",
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
-  "techniques": 184,
+  "techniques": 183,
   "applications": 89,
   "laws": 10,
   "categories": [
@@ -17,7 +17,7 @@
    "positioning-and-proof"
   ],
   "layout": "nested",
-  "use_when_coverage": "184/184",
+  "use_when_coverage": "183/183",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2177,9 +2177,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/on-page-and-metadata-craft/on-page-and-metadata-craft.md",
-   "digest": "sha256-b2:a79c3ee28aaf8181",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:87a9b0e1cb50b7ec",
+   "revision": 1,
+   "changedAt": "2026-09-09",
    "techniques": [
     {
      "slug": "ctr-lifts-as-tie-breakers-not-a-stack",
@@ -2222,21 +2222,6 @@
       "running an audit or fix pass on a page the owner wrote",
       "scoping what an automated on-page fixer may edit",
       "deciding whether a thin page or a heavy asset may be removed"
-     ]
-    },
-    {
-     "slug": "metadata-shape-uniformity-site-wide",
-     "status": "forged",
-     "laws": [
-      "label-convention-as-convention",
-      "not-measured-is-not-zero"
-     ],
-     "shared_with": [],
-     "use_when": [
-      "auditing the descriptions of a site whose metadata was generated in bulk",
-      "checking a model-written batch of titles and descriptions before they ship",
-      "deciding whether unique description strings are enough",
-      "judging a sitewide description problem from a sample"
      ]
     },
     {
@@ -3732,7 +3717,6 @@
     "money-page-conversion-craft/progressive-disclosure-five-visible",
     "money-page-conversion-craft/proof-count-five-real-and-checkable",
     "on-page-and-metadata-craft/ctr-lifts-as-tie-breakers-not-a-stack",
-    "on-page-and-metadata-craft/metadata-shape-uniformity-site-wide",
     "on-page-and-metadata-craft/primary-keyword-triple-placement",
     "on-page-and-metadata-craft/structured-data-by-page-kind",
     "on-page-and-metadata-craft/title-and-meta-pixel-budget",
@@ -3879,7 +3863,6 @@
     "money-page-conversion-craft/diagnostic-quadrant-clicks-leads-impressions",
     "money-page-conversion-craft/thank-you-page-is-the-conversion-event",
     "on-page-and-metadata-craft/low-ctr-high-impression-rewrite-targets",
-    "on-page-and-metadata-craft/metadata-shape-uniformity-site-wide",
     "on-page-and-metadata-craft/title-and-meta-pixel-budget",
     "performance-root-cause-diagnosis/advice-ledger-scores-past-advice",
     "performance-root-cause-diagnosis/cause-ladder-tracking-gap-first",
