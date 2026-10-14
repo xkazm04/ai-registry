@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 235,
-  "techniques": 1870,
-  "applications": 1331,
+  "techniques": 1871,
+  "applications": 1334,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1870/1870",
+  "use_when_coverage": "1871/1871",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -7239,8 +7239,8 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
-   "digest": "sha256-b2:cf6a232689bde3b6",
-   "revision": 7,
+   "digest": "sha256-b2:3c78256751da8f70",
+   "revision": 8,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -7323,13 +7323,20 @@
      "slug": "physical-isolation",
      "status": "forged",
      "laws": [
-      "creation-names-reaper"
+      "creation-names-reaper",
+      "gate-sees-target",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "deciding whether a task needs its own worktree",
       "a cleanup deleted the main checkout's dependencies",
-      "registry and disk disagree about worktrees"
+      "registry and disk disagree about worktrees",
+      "deciding whether implementer sessions may share one checkout instead of taking worktrees",
+      "many writers land small changes and every worktree branch is dozens of commits stale by the time it integrates",
+      "two branches merged cleanly and the result broke",
+      "one session's half-created directory broke every session's build",
+      "a verification or audit run must produce evidence while siblings edit the tree"
      ]
     },
     {
@@ -7403,6 +7410,18 @@
      "stack": "process",
      "technique": "never-lose-work-rules",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--never-lose-work-rules--instruction-file.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "physical-isolation",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--physical-isolation--ai-registry.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "physical-isolation",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--physical-isolation--practitioner-swarm.md",
      "verified_on": "2026-10-14"
     },
     {
@@ -15633,9 +15652,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256-b2:3eafb649495c9498",
-   "revision": 26,
-   "changedAt": "2026-10-13",
+   "digest": "sha256-b2:9c76a758a1cf421f",
+   "revision": 27,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -15919,6 +15938,28 @@
      ]
     },
     {
+     "slug": "verifier-seat-capacity",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "count-carries-predicate",
+      "limits-are-derived",
+      "creation-names-reaper",
+      "failure-not-empty-success",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a verification-debt cap is refusing every new claim and only the missing verifier could clear it",
+      "nothing has closed for days while producers keep finishing work",
+      "the appointed verifier also produces work and its own items sit unverified",
+      "a verdict lane almost never says no",
+      "deciding who reads the verifier's output",
+      "choosing what to measure about a verification or review queue",
+      "each producer reports owing nothing while the queue still holds a backlog"
+     ]
+    },
+    {
      "slug": "worker-trajectory-anatomy",
      "status": "forged",
      "laws": [
@@ -15963,6 +16004,12 @@
      "technique": "parallel-dispatch",
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/process--parallel-dispatch.md",
      "verified_on": "2026-09-17"
+    },
+    {
+     "stack": "process",
+     "technique": "verifier-seat-capacity",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/process--verifier-seat-capacity--practitioner-swarm.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "python",
@@ -40041,6 +40088,7 @@
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/integration-door",
     "concurrent-vcs/isolated-index-commits",
+    "concurrent-vcs/physical-isolation",
     "concurrent-vcs/sub-file-claim-scope",
     "conformance-checking/checker-false-positive-discipline",
     "conformance-checking/claim-write-back",
@@ -40765,6 +40813,7 @@
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/soft-budget-under-the-hard-cap",
     "fleet-orchestration/substrate-reconciliation",
+    "fleet-orchestration/verifier-seat-capacity",
     "form/server-error-mapping",
     "generated-workflow-candidates/stage-level-result-caching",
     "guest-execution-bounding/grace-for-the-uninterruptible-host-call",
@@ -41457,6 +41506,7 @@
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/soft-budget-under-the-hard-cap",
+    "fleet-orchestration/verifier-seat-capacity",
     "fleet-orchestration/worker-trajectory-anatomy",
     "form/error-aggregation-and-focus",
     "generated-workflow-candidates/score-keyed-candidate-selection",
@@ -42711,6 +42761,7 @@
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/session-registry",
     "fleet-orchestration/substrate-reconciliation",
+    "fleet-orchestration/verifier-seat-capacity",
     "fleet-orchestration/worker-trajectory-anatomy",
     "guest-execution-bounding/one-terminator-many-armed-slots",
     "guided-tours/tour-lifecycle",
@@ -43613,6 +43664,7 @@
     "engine-string-representation/compile-time-static-string-table",
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/soft-budget-under-the-hard-cap",
+    "fleet-orchestration/verifier-seat-capacity",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "guest-execution-bounding/budget-tier-from-observed-output",
     "guest-execution-bounding/cost-budget-cooperative-yield",
@@ -43815,6 +43867,7 @@
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
     "concurrency-guards/fence-inside-write-transaction",
+    "concurrent-vcs/physical-isolation",
     "conformance-checking/declared-deviation-register",
     "contested-acquisition/no-surface-no-rung",
     "convergence-loop-and-requeue/own-writes-are-not-triggers",
@@ -43865,6 +43918,7 @@
     "fleet-orchestration/brief-carries-the-session",
     "fleet-orchestration/deliberation-as-an-elected-turn",
     "fleet-orchestration/parallel-dispatch",
+    "fleet-orchestration/verifier-seat-capacity",
     "guest-execution-bounding/nested-liveness-ceilings",
     "guest-execution-bounding/terminate-from-outside-when-you-cannot-count",
     "guest-execution-bounding/uncatchable-limit-errors",
@@ -44014,6 +44068,7 @@
     "fleet-orchestration/deliberation-as-an-elected-turn",
     "fleet-orchestration/inherited-state-provenance",
     "fleet-orchestration/parallel-dispatch",
+    "fleet-orchestration/verifier-seat-capacity",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
     "index-free-random-access/sorted-data-as-a-read-only-index",

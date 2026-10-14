@@ -5,7 +5,7 @@
   "source": "knowledge/agent-operations/ (frontmatter only)",
   "subjects": 9,
   "techniques": 40,
-  "applications": 34,
+  "applications": 35,
   "laws": 6,
   "categories": [
    "configuration-choice",
@@ -485,22 +485,25 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/agent-operations/measurement/harness-fault-attribution/harness-fault-attribution.md",
-   "digest": "sha256-b2:edaae8da7649ead2",
-   "revision": 3,
-   "changedAt": "2026-10-10",
+   "digest": "sha256-b2:2b9eedd4aecd13fe",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "clear-the-environment-first",
      "status": "draft",
      "laws": [
       "the-harness-is-a-suspect-in-every-red",
-      "measure-the-tree-not-the-summary"
+      "measure-the-tree-not-the-summary",
+      "a-ceiling-is-a-measurement-boundary"
      ],
      "shared_with": [],
      "use_when": [
       "triaging a failed or red run",
       "before writing down a finding about a model",
-      "investigating a cluster of failures across configurations"
+      "investigating a cluster of failures across configurations",
+      "a failure passed when rerun alone or on a quieter host",
+      "timeouts or cancellations on a heavily loaded host"
      ]
     },
     {
@@ -548,6 +551,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "clear-the-environment-first",
+     "file": "knowledge/agent-operations/measurement/harness-fault-attribution/applications/process--clear-the-environment-first--practitioner-swarm.md",
+     "verified_on": "2026-10-14"
+    },
     {
      "stack": "process",
      "technique": "clear-the-environment-first",
@@ -984,6 +993,7 @@
     "agent-benchmark-design/coverage-and-provisional-labelling",
     "agent-run-budgeting/ceiling-as-measurement-boundary",
     "agent-run-budgeting/termination-cause-record",
+    "harness-fault-attribution/clear-the-environment-first",
     "harness-fault-attribution/fault-signature-catalogue",
     "model-and-effort-selection/task-shape-tier-policy",
     "shared-research-record/community-run-as-unit"

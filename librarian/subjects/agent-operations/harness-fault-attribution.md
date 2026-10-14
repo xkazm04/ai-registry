@@ -1,8 +1,8 @@
 ---
 domain: agent-operations
 subject: harness-fault-attribution
-last_touched: 2026-09-27
-touched_by: deepen
+last_touched: 2026-10-14
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -195,3 +195,26 @@ corrected, because the app owns those rows.
 
 The finding that ranked this subject, "single stack", is cleared by the python
 application. dry_streak 0.
+
+## 2026-10-14 - host contention is an environmental fault class (intake, run dle-r1-1014)
+
+Source note [[2026-10-14-agentic-coding-flywheel-setup]], practitioner series R1. The
+source's revision-bound audit ran a suite on a shared build host at a load average near
+200: 58 tests failed and 56 passed when rerun alone, attributed to budget cancellations
+under contention.
+
+- `clear-the-environment-first` amended: host contention (load, shared build locks,
+  linker fan-out) is an environmental fault class; a failure that passes alone on a
+  quieter host is **load-confounded** until a rerun at matched load decides; capture the
+  load while the run is live. The worker overrode the brief, which asked to file a solo
+  pass as environmental: the solo rerun changes load, parallelism and the sample at once.
+- Golden path: the singleton paragraph now separates intermittent (gone on a rerun under
+  the original contention) from load-confounded (gone only on a quieter host).
+- Application `process--clear-the-environment-first--practitioner-swarm`.
+- Phase 7.5 on personas (experiment, **unmeasurable**): the appmaster merge gate clears a
+  branch-only test failure when a narrowed solo rerun passes. A read-only census of 1,167
+  run records found 12 such clearances (2026-10-05..09), none with host load recorded;
+  the cleared gates ran at a median 1.31x their project's gate duration, against 1.00x
+  for all gates, a proxy only. The code change (stamp contention, clear only on a full
+  rerun at matched contention) is proposed in the project's `.ai/applied.jsonl`
+  (personas e5fb6c8206), not made.

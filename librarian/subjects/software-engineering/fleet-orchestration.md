@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-10-13
+last_touched: 2026-10-14
 touched_by: intake
 dry_streak: 0
 ---
@@ -767,3 +767,31 @@ Source [[../../sources/2026-10-06-deer-flow-v3]], `08b27aef..53df22bd`. **One am
 ## 2026-10-13 - inbox lead from garden-vr (2026-10-07), ruled by `/intake`
 
 **LANDED in 795a2fef** as an amendment to `result-harvest`: "A clean exit without the result is resumed before it is classified". The lead: a one-shot headless session ends its whole run when the model ends a turn, including a turn ended to "wait for" a background process, so the process exits 0 with an empty drop point and the background job's failure goes unread. **Prior art:** `result-harvest` already classed "completion claimed, result missing" but named no recovery. `session-continuation/continuation-as-state` owns the doctrine that a prose "keep working" rule does not hold and the harness must enforce continuation with a cap. It enforces at an in-process stop hook. The lead's novel half is the out-of-process form: the runner is the only party awake after exit, the trigger is exit success AND declared artifact absent AND a captured session id, and the remedy is a same-session resume with a fixed continuation prompt, bounded (two), skipped on quota exhaustion. **Corroboration:** convergence with continuation-as-state (a different run and source reaching the bounded harness-side rule), plus the consumer tree read at garden-vr `f14a1164`: `tools/orchestrate/agent-loop.mjs:106-117` implements exactly this trigger and bound through each engine's own resume flag. The lessons ledger records three incidents across three model families (2026-10-02, 10-03 after the prose rule, 10-04). **Not measured, and said so in the text:** the rescue rate. The consumer's local `orchestration/runs/{sundial,terrarium}/loop.log` (362 lines) carry no `resuming (continuation` line, so there is no yield figure yet; step 4 of the amendment (account every continuation) is how to get one. No application written: the tree's runner is a candidate `node--result-harvest` witness once a rescue rate exists. Not A/B tested (Phase 7.5 not run in this headless dispatch).
+
+## 2026-10-14 - intake `agentic-coding-flywheel-setup` (run dle-r1-1014, practitioner series R1)
+
+Source note [[2026-10-14-agentic-coding-flywheel-setup]]. One new technique and two
+amendments, from a design record whose E4 (code-first waves, one orchestrator closes,
+self-close forbidden, verification debt capped) was PARTIAL here.
+
+- New technique `verifier-seat-capacity`: the closer separated from the producer is a
+  seat with a queue. Count debt at the seat with its oldest age; pair a cap with an
+  occupancy check that escalates instead of stalling; give the verifier's own work a
+  second reader; read self-grading from a verdict distribution that almost never says no.
+  The source's own audit found the seat vacant, the debt cap refusing every new claim,
+  and, once a verifier was appointed, 17 of 28 submitted items sent back.
+- `parallel-dispatch` corrected: it said no observed door enforces the debt bound; the
+  source's task-policy file is one. `completion-claim-verification` gained one paragraph.
+- Application `process--verifier-seat-capacity--practitioner-swarm` (anchors at pinned
+  commits; the audit's heading says ten closed where its list names eleven).
+- Phase 7.5 on this registry (experiment, **unmeasurable**): an occupancy replay over the
+  harvest evaluation ledger says the seat was silent 47 days while passes kept landing and
+  a 7-day check would first have fired 2026-09-04; a replay cannot say whether an
+  escalation would have been answered. Instrument: a live arm (backlog row
+  `dle-m6-verification-debt-veto`) or a blind re-read.
+- Our own self-grading, measured (`completion-claim-verification` row, experiment,
+  **not-better** as a falsifier): a tier-1 re-verify of 460 self-graded `better` rows in
+  `librarian/applied.md` found a gate run after the change in about 70% and falsified
+  none, but only 13.5% of code passes ran a gate whose exit status could fail; 16 masked
+  passes printed failures. Not landed; kept on a local branch for the series' DLE-010
+  round, which builds tier 2 (re-run the named gate at the named commit).

@@ -1086,9 +1086,9 @@
       "purity": "agent-ops",
       "subjects": 9,
       "techniques": 40,
-      "applications": 34,
-      "files": 87,
-      "contentHash": "sha256-b2:a4e8fc4d34d2e98a"
+      "applications": 35,
+      "files": 88,
+      "contentHash": "sha256-b2:09153cfbb59d8e1a"
     },
     {
       "name": "civic-intelligence",
@@ -1202,10 +1202,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 235,
-      "techniques": 1870,
-      "applications": 1331,
-      "files": 3441,
-      "contentHash": "sha256-b2:98e8986a48838202"
+      "techniques": 1871,
+      "applications": 1334,
+      "files": 3445,
+      "contentHash": "sha256-b2:daf9a5984afa4f2e"
     },
     {
       "name": "technical-writing",

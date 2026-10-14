@@ -240,7 +240,11 @@ its crashed owner, but activity does not. This is
   session is invisible to every other session's conflict check.
 - **Multi-file work gets a worktree.** The main checkout is for single-file
   touches and coordination artifacts; anything larger works in physical
-  isolation.
+  isolation. The one exception is the implementer seat of a tree shared on
+  purpose, where many writers land small additive changes behind blocking
+  leases and a commit-time guard, and even there every seat whose output is
+  evidence works isolated
+  ([physical-isolation](./techniques/physical-isolation.md)).
 - **No commit is built through the shared index while siblings are live.**
   Either the session is alone in its worktree, or the commit is built in a
   private index seeded from the head it extends.

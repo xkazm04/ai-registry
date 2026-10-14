@@ -54,3 +54,36 @@ design record whose routing count put four NONE entries on this subject:
 - Boundary with `fleet-orchestration` untouched: assignment stays there; the
   claim grain and the merge-back are here. Boundary with `concurrency-guards`:
   the door's lock follows `cross-process-exclusion` unchanged.
+
+## 2026-10-14 - intake `agentic-coding-flywheel-setup` (run dle-r1-1014, practitioner series R1)
+
+Source note [[2026-10-14-agentic-coding-flywheel-setup]]: one practitioner's published
+operating method for agent swarms, read against the audits of the projects it ran on. The
+design record's E6 (one shared checkout on main, leases and guards instead of isolation)
+was CONTESTED against this subject's bright line.
+
+- `physical-isolation` gains "What isolation costs, and the regime where a shared tree
+  wins": isolation's integration price (stale context, semantic conflicts that merge
+  clean and surface late), the shared tree's price as the source's own audit recorded
+  it, a discriminator (many writers, small additive changes, guards that engage on their
+  own, every shared state valid at every instant), when the bright line holds anyway
+  (feature work, long feature packages, any seat whose output is evidence) and a
+  failure-mode table. The invariant "Multi-file work gets a worktree" gained one
+  exception sentence for the implementer seat of a tree shared on purpose with the guards.
+- Phase 7.5 on this registry (experiment, **not-better** for the drafted clause): a
+  merge-tree replay of 1,129 commits, 2026-09-01..10-14, priced worktrees against the
+  shared checkout. Isolation's paid conflicts per landing exceed the shared tree's 12
+  recorded incidents (1.06% per landing) at every lead, 1.4-2.6x at the most generous
+  reading; same-day appends conflicted 479 of 480 times. The drafted "the package runs for
+  hours" clause was refuted and rewritten before landing (duration is a reason only for
+  feature work), and a set-merge may never touch a generated file. Conflicts are caught
+  and incidents are silent; neither was priced.
+- Applications `process--physical-isolation--practitioner-swarm` (the source's fleet,
+  anchors at pinned commits) and `process--physical-isolation--ai-registry` (the replay).
+- Our own guards, measured: the run-board claim now reads, decides and writes under one
+  gate (`intent-ledgers` row, code better, 30/32 and 29/32 double grants to 0/32, shipped
+  bdb7dbf2); a commit inventory replay (`commit-verification` row, experiment better at
+  path level, 3 of 4 known sweeps, 0.21% clean flagged, target missed on a hunk-level
+  sweep, instrument shipped e148ad7d).
+- Boundary with `fleet-orchestration` untouched: assignment and the verifier seat stay
+  there; the checkout regime and the commit guard are here.
