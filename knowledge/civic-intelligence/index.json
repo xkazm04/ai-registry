@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 60,
+  "applications": 61,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -23,8 +23,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/accountability-publishing-ethics.md",
-   "digest": "sha256-b2:70323591442c4979",
-   "revision": 5,
+   "digest": "sha256-b2:df5e3b3acc0625d6",
+   "revision": 6,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -133,6 +133,13 @@
      "stack": "react",
      "technique": "honest-empty-states",
      "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/applications/react--honest-empty-states.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "public-role-scope-limit",
+     "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/applications/react--public-role-scope-limit.md",
      "verified_on": "2026-10-14",
      "verified_against": "react@19"
     },
