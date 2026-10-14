@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1256,
+  "applications": 1257,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -3865,9 +3865,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/authoring-block-vocabulary/authoring-block-vocabulary.md",
-   "digest": "sha256-b2:56958110621cdb65",
-   "revision": 1,
-   "changedAt": "2026-08-22",
+   "digest": "sha256-b2:2a061e427ef67238",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "blocks-as-machine-readable-source",
@@ -3941,6 +3941,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "blocks-as-machine-readable-source",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/authoring-block-vocabulary/applications/react--blocks-as-machine-readable-source.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19"
+    },
     {
      "stack": "react",
      "technique": "closed-directive-set",
