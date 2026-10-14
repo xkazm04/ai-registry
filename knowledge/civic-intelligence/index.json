@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 59,
+  "applications": 60,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -673,8 +673,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/conflict-of-interest-detection.md",
-   "digest": "sha256-b2:9763fc3d89eef0ac",
-   "revision": 6,
+   "digest": "sha256-b2:2ba35a7ec2bb7a1a",
+   "revision": 7,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -783,6 +783,13 @@
      "stack": "node",
      "technique": "temporal-alignment-of-money-and-role",
      "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/applications/node--temporal-alignment-of-money-and-role.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "tie-class-taxonomy",
+     "file": "knowledge/civic-intelligence/public-money/conflict-of-interest-detection/applications/node--tie-class-taxonomy.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
