@@ -12575,3 +12575,11 @@ applied here - one sighting, and the honest record is in the source note.
   hours of building, floor met) did not land because it changed no real verdict. Kept on
   a local branch that the next round's brief names, with its verdict recorded, it is that
   round's starting point rather than discarded work.
+
+## 2.15.0 - 2026-10-15 - cass-memory-system (dle-r5-1015, series DLE-005)
+
+- Write the target and the floor into the instrument before its first run. This run looked at arms A and B on an incomplete ground truth and then wrote the floor; the floor failed B, which kept the verdict honest, but a floor written after a look could as easily be written to pass. Say so in the row when it happens.
+- Print mid-state on your own ground truth, not only on the arms. The first truth left procedure and fix probes out and made the source's procedure records look useless (top-10 precision 0.2, 0.6 once fixed). The conclusion survived; the first number would not have.
+- Read the rows before a sentence that says every. The application first said every item blamed through use was a two-value record; the 18 rows split 5 / 9 / 4, and the technique's rule changed with the split.
+- Recorded contexts plus graded verdicts are a model-free instrument for any attribution or credit claim in the memory lane, and they exist for one arm already. A feedback mechanism that cannot be an arm (outcomes drawn at generation) can still have its measurement-validity half priced this way.
+- A fleet project's append-only ledger is shared even when status shows it clean: a sibling appended to personas `.ai/applied.jsonl` between this run's status check and its write, and a whole-file stage carried the row. Stage only your hunk there too, as in the registry.

@@ -266,3 +266,43 @@ the audits of the projects it ran on - the audits are the better evidence.
 - **What R1 got wrong about itself:** five premise defects in its own briefs, found by
   builders after dispatch (see `dle-m5`); applications were written for the three landings
   only; the source-tree task row was skipped under the license.
+
+### R5 - DLE-005, 2026-10-15 (run `dle-r5-1015`, memory lane)
+
+Source note `librarian/sources/2026-10-15-cass-memory-system.md`. Two trees by one author:
+`cass_memory_system` @ `12d20332` and its stricter successor `eidetic_engine_cli` @
+`1679e0fa` (procedural-memory core only). Nineteen design entries; routing count cm 1 /
+ee 3 NONE, all at one stage (outcome feedback) of `agent-memory`, so a technique and not a
+forge. Siblings live: `dle-002-1015`, `dle-004-1015`, later `dle-r10-1015`.
+
+- **Landed knowledge:** new technique `agent-memory/exposure-is-not-credit` - a run's
+  verdict copied onto every delivered item is signed per run and unsigned per item;
+  guards on blame do not repair the unit; credit flows only through a contrast, a
+  deliberate use or a propensity weight; blame through use misfires where the item was
+  right and the read or the grade was wrong; silence is neutral; offline tuning on shown
+  items learns its own teacher. Amendments to `memory-value-model`, the golden path and
+  `decay-and-forgetting` (a value-keyed bar also bars the negation). Two applications.
+  Registry `e0bf45d0` (content), `5f38f4fc` (index, rules, catalog, built in a clean
+  worktree; gate --all 25/25).
+- **Memory lane, priced on the ladder:** model-free, over the recorded per-probe contexts
+  of the service arm in both read modes. The source's attribution rule tracked delivery
+  0.82/0.81 and carrying an answer 0.06/0.05; 25 of 36 and 23 of 33 proven items never
+  carried one. Symmetric blame was worse. Use credit raised top-25 precision 0.36 -> 0.92
+  (0.32 -> 0.96) and failed the declared floor, so the apply row is **not-better**; a post
+  hoc variant without blame through use held it and is the next test. Instrument personas
+  `d9343ca762`; row and harness backlog `c3cc02dcd0`.
+- **The harness cannot rank a feedback-driven memory:** task outcomes are drawn at
+  generation. So interval-bound trust transitions (the successor's posterior) and
+  inverting a harmful rule into a warning are leads, with a closed-loop world as their
+  return condition.
+- **Peer study (personas brain):** 34 points, 1 adopt / 6 adapt / 20 keep ours / 7
+  different forces, no proposals; personas `bc24fccb89`. The adopt: the always-on rule
+  lane must report a failed query instead of silently dropping every conduct rule.
+- **The charter's questions:** neither tree replaces or indexes his negative-results
+  ledger, and neither measures retrieval on it; the successor keeps its own negative
+  results unindexed too. Retry conditions: none in the first tree; 6 of 18 sampled
+  decisions in the successor, plus a calendar deadline on deferrals. Banked as backlog
+  row `dle-k7-retry-condition-on-rejections`.
+- **What this round got wrong about itself:** the instrument's floor was written after a
+  first look; two of its own sentences were wrong until the rows were read; the personas
+  ledger commit swept one `dle-002-1015` row (intact, history not rewritten).

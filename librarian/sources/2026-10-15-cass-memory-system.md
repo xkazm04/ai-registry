@@ -309,7 +309,18 @@ blocks re-derivation by text match".
 ## Peer study (personas brain against both trees)
 
 Dispatched to one worker and written in the project's own tree as a comparison study
-(no direction proposals, per the series ruling). Summary in the run's outcome below.
+(no direction proposals, per the series ruling), committed in personas as `bc24fccb89`:
+**34 points - 1 adopt, 6 adapt, 20 keep ours, 7 different forces**, 113 anchors held
+across both roots. The one adopt: the always-on rule lane must say so when its query
+fails (today a failure becomes an empty list and every conduct rule drops out of the
+turn silently). The tree corrected five seeded points, among them a third rule writer
+(the sync inbox, whose provenance is the incoming delta, not a checked episode) and a
+harness blind spot: the harness never refreshes a rule's last-used time, so decay keyed
+on it would look healthy in a replay while production refreshes the always-on six every
+turn. Tests to initiate, ranked: the always-on key against an exposure-free merit key on
+a frozen store (coverage, no judge); the exposure check re-run on the personas brain's own
+recorded rule contexts; decay on last-used time with and without production-like
+touches.
 Facts that shaped it, verified in the personas tree by the director before dispatch: the
 always-on procedural lane picks six rules by importance then recency while every
 nightly-written rule shares one importance (the degeneration `recall-injection` already

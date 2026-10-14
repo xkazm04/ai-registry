@@ -1,0 +1,78 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dle-r5-1015",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T22:56:56Z",
+  "ended_at": "2026-10-14T23:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-memory",
+      "technique": "exposure-is-not-credit",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/exposure-is-not-credit.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/memory-value-model.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/decay-and-forgetting.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/bun--exposure-is-not-credit--practitioner-memory.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--exposure-is-not-credit--personas.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/sources/2026-10-15-cass-memory-system.md",
+    "librarian/subjects/software-engineering/agent-memory.md"
+  ],
+  "commits": [
+    {
+      "sha": "e0bf45d0",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/exposure-is-not-credit.md",
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/memory-value-model.md",
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/decay-and-forgetting.md",
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/bun--exposure-is-not-credit--practitioner-memory.md",
+        "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--exposure-is-not-credit--personas.md",
+        "librarian/sources/2026-10-15-cass-memory-system.md",
+        "librarian/subjects/software-engineering/agent-memory.md"
+      ]
+    },
+    {
+      "sha": "5f38f4fc",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "catalog.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Series DLE-005, memory lane. 1 technique + 3 amendments, 2 apps; personas experiment not-better (finding held, first repair failed its floor); 4 leads (feedback cannot be an arm here); personas peer study 34 points; nothing pushed."
+}
