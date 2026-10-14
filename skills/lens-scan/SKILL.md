@@ -264,6 +264,14 @@ Every item names:
 "land lead X" - starts its body with the line `target: registry` (the store has no target
 column); every other item targets the product.
 
+**An item's delta has the metric's grain.** When a metric counts something coarser than the
+fix, the item must cover the whole unit or claim no delta on it. Example: the registry lens's
+`deviations` counts *pairs*, and one pair's deviation verdict names several shortfalls. So
+an item claiming `deviations -1` lists in its Flow **every** shortfall the pair's verdict
+names (read them from the map's evidence), and it is sized for all of them. A fix for one
+shortfall moves no count until the pair flips: propose it under a metric with that grain, or
+fold it into the pair's item.
+
 Prefer three items that each move a number to ten that each describe a smell. Before
 proposing, read `proposals` for the feature: never re-propose an open or declined
 item; a declined one is re-proposed only with new evidence, and the body says what is

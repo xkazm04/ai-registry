@@ -42,3 +42,7 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 ## 1.4.2 - 2026-10-14 - bp (the first real headless execute)
 
 - Field lesson: the first `drive.mjs execute` on paypal (9 registry items, two waves) passed drive's 90-minute timeout with 3 items done and 4 merged on main. The kill left the run `running` and 6 items `executing` that no path could finish: execute took only `approved` items, and nothing may move an item back. drive now closes a run whose session died as `aborted`; the default timeout is 30 min per item (at least 90); execute takes a cut-off item (`executing`, no running execute run names it) and reconciles it from what landed (`git log --grep <id>`, the run's worktrees) before building anything.
+
+## 1.4.3 - 2026-10-14 - bp (the paypal headless execute's result)
+
+- Field lesson: 9 registry items executed headless on paypal. 3 moved their metric; 6 landed real, gate-green fixes (constant-time token compare, pin expiry, audit sanitizing...) and still read `deviations` unchanged, because each fixed ONE shortfall of a pair whose verdict names several (authorization: the compare was fixed, refusal causes still missing). The proposals claimed `-1` on a pair-grain count for a technique-grain fix. Propose now requires an item's delta at the metric's grain: a pair item lists every shortfall the verdict names, or the fix is folded into the pair's item. The execute recorded those 6 `failed` but kept the merges (the doctrine says revert); that call is the operator's, not the skill's.
