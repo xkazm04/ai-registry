@@ -1176,10 +1176,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 26,
-      "techniques": 187,
-      "applications": 97,
-      "files": 315,
-      "contentHash": "sha256-b2:eee5575613787ebd"
+      "techniques": 190,
+      "applications": 101,
+      "files": 322,
+      "contentHash": "sha256-b2:265812e96106d106"
     },
     {
       "name": "recruiting",
@@ -1188,11 +1188,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "recruiting",
-      "subjects": 66,
-      "techniques": 409,
-      "applications": 293,
-      "files": 772,
-      "contentHash": "sha256-b2:7619c3e9845b2294"
+      "subjects": 67,
+      "techniques": 416,
+      "applications": 296,
+      "files": 783,
+      "contentHash": "sha256-b2:3778eac1fe36da91"
     },
     {
       "name": "software-engineering",
@@ -1202,10 +1202,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 234,
-      "techniques": 1847,
-      "applications": 1255,
-      "files": 3341,
-      "contentHash": "sha256-b2:8e529deff4f536db"
+      "techniques": 1850,
+      "applications": 1260,
+      "files": 3349,
+      "contentHash": "sha256-b2:a2eef82fa1330f1c"
     },
     {
       "name": "technical-writing",

@@ -7,12 +7,12 @@ author: NVIDIA-Omniverse
 words: 453
 words_in_tree: 12738
 extracted: 11
-accepted: 1
+accepted: 4
 declined: 0
 leads: 3
 already_covered: 1
-untriaged: 5
-dispatched: 1
+untriaged: 0
+dispatched: 4
 applied: 1
 shipped: 0
 run_id: px1014
@@ -55,18 +55,23 @@ subjects, so it is banked as a scout brief, not forged.
 | 4 | K | technique | M | bound actuation by lightest body | (in 1) | real gap | - | landed; tripwires replaced by a derived check |
 | 5 | K | technique | S | cloned environments share unbounded geometry | (in 1) | real gap | - | landed; N-squared is inference, stated as such |
 | 6 | K | technique | S | prove the class, then filter the pair | (in 1) | partial | - | landed standalone |
-| 7 | K | technique | S | pin a known divergence with a ledger; an unobserved defect is documentation | boundary of seams-and-adapters | partial | 1/1/1 | lead |
-| 8 | K | technique | M | a bounded wait leaves the operation unconsumed | new-technique | unverified | - | untriaged (D2) |
-| 9 | K | technique | M | generation-stamped handles, stale check before kind check | new-technique | unverified | - | untriaged (D3) |
-| 10 | K | technique | M | unset delegates the choice to a dependency | new-technique | partial | - | untriaged (D1) |
-| 11 | K | technique | S | profile the wait, not the enqueue | new-technique | likely catch | - | already covered in spirit by `perf-regression-gating`; unchecked |
+| 7 | K | amendment | S | pin a known divergence with a ledger; an unobserved defect is documentation (D5) | extends seams-and-adapters | partial | - | **landed in the forge wave** (fg1014) as a section of `module-design/seams-and-adapters`; host past the ceiling, so no new file |
+| 8 | K | technique | M | a bounded wait leaves the operation unconsumed (D2) | new-technique | real gap | - | **landed in the forge wave**: `background-jobs/timeout-is-a-status-not-a-consumption` + cpp application |
+| 9 | K | technique | M | generation-stamped handles, stale check before kind check (D3) | new-technique | thin | - | lead: scouted NEW, but no subject in the corpus has a native-API-surface home (nearest, `language-runtime`, is about embedded engines) |
+| 10 | K | amendment | S | unset delegates the choice to a dependency (D1) | extends misconfiguration-never-reaches-a-fallback | partial | - | **landed in the forge wave** as a section + cpp application; hosts past the ceiling |
+| 11 | K | technique | S | cost lands under the wait, not the enqueue (D4) | new-technique | thin | - | lead: scouted NEW but one sentence of content; `perf-regression-gating` is silent on it |
 
 Vetoes: none fired. V1 checked: engine-integration had 9 subjects, now 10 (full).
-Rows 8-10 and part of 11 are untriaged, not declined: nobody judged them.
+Forge wave (run fg1014, 2026-10-14): scouts A/B/C read the implementation and the
+neighbours' prose; three workers on three disjoint folders; every anchor on the two new
+applications verified (26/26 and 11/11). Rows 7, 8 and 10 landed; rows 9 and 11 are
+leads, not declines. D6 (requirement files with criterion IDs) is a lead too: 66 files,
+no checker in the tree, so only the convention can be described.
 
-Leads (return condition): row 7 and D5, "when a second independent source pins a known
-defect with a ledger"; D4, "when `perf-regression-gating` is read in prose and found
-silent on enqueue-versus-wait"; the changelog, "when a delta re-scan reads the SDK
+Leads (return condition): D3, "when a second source with a handle-based API appears, or
+a subject for native API surfaces exists"; D4, "when a second source shows enqueue-versus-
+wait attribution beyond one sentence"; D6, "when a checker that reads the criterion tags
+is found (the tree's own doc points at a file not in the clone)"; the changelog, "when a delta re-scan reads the SDK
 changelog for failure modes recorded as revisions".
 
 Convergence worth recording: the vehicle-model integrator in a fleet project arrived

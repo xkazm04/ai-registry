@@ -1,6 +1,6 @@
 # Recruiting - the subjects this registry carries
 
-`recruiting` - 66 subjects, 409 techniques, 293 applications.
+`recruiting` - 67 subjects, 416 techniques, 296 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### role-definition
@@ -32,4 +32,4 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - compensation-banding-and-market-honesty, honest-measurement-presentation, peer-benchmarking-under-k-anonymity, recruiting-cost-and-automation-economics, recruiting-funnel-metrics, small-sample-honesty-in-hiring-analytics
 
 ### candidate-self-presentation
-- cv-content-construction, cv-presentation-and-parseability
+- cv-content-construction, cv-presentation-and-parseability, interview-story-portfolio

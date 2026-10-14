@@ -1,7 +1,7 @@
 ---
 subject: background-jobs
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-10-14
 dry_streak: 0
 ---
 
@@ -31,3 +31,10 @@ work only when work yields. Three properties each defeat a layer: the deadline m
 not fire because timers are advanced by the same scheduler; the victim is not the
 culprit; and it scales with contention. Inverts where the non-yielding span is
 microseconds, and the offload is ceremony.
+
+## Harvest - 2026-10-14 (forge fg1014, from a physics runtime's requirement records)
+
+Added `timeout-is-a-status-not-a-consumption` (6 -> 7 techniques) and one cpp application. Boundary
+drawn against `job-progress-and-cancellation` (cancel versus wait-and-retry). Two claims uncorroborated:
+that an overflow clamp can turn "forever" finite (the code shows intent, not the overflow), and that
+the pending list is index-ordered. Return: re-verify against a second tree with a bounded-wait API.

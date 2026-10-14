@@ -6,7 +6,7 @@ technique: seams-and-adapters
 status: forged
 laws: [gate-sees-target, one-validation-door]
 shared_with: []
-use_when: [deciding where a boundary should allow substitution, making untested code testable, choosing whether a dependency deserves an interface, planning to replace an external dependency]
+use_when: [deciding where a boundary should allow substitution, making untested code testable, choosing whether a dependency deserves an interface, planning to replace an external dependency, two producers must feed one consumer identically, classifying known divergences between producers]
 ---
 
 # Seams and adapters
@@ -233,6 +233,83 @@ and inverting it is the common mistake:
 Deliberate behaviour changes ride separately, before or after, never inside. A
 structural change that also fixes a bug cannot be reverted without losing the
 fix, and cannot be reviewed without arguing two questions at once.
+
+## Two producers, one consumer: a ledger of divergences, and which are asserted
+
+The shared contract exercise above runs one suite against every adapter of an
+interface. A related shape has the seam on the other side: two **producers**
+that must feed one consumer identically, each filling the same input, one by
+generating it and one by hand. The parity test is the same instrument, and it
+is not enough on its own, because the divergences between the producers are not
+all alike and a pass says nothing about the ones it never drove.
+
+The rule: **hold the two producers to one parity test, and record every known
+divergence in a ledger that classifies it three ways.**
+
+- **Defect** — observable behaviour differs now. It is asserted, and the
+  assertion is a pin on the *wrong* value: it goes red the day the consumer is
+  fixed without the ledger being updated, so the fix is forced to change the
+  contract in the same change.
+- **Fragile** — masked today by another layer. It is not asserted, because
+  nothing observable differs, but the row names the masking layer, so removing
+  that layer is a visible event rather than a silent one.
+- **Note** — no behavioural effect. Not asserted.
+
+Each row names the test case that asserts it. A defect no case observes is
+**documentation only**, and the ledger says so in that column; it is a claim
+read off the code and never run, and it is not a verified defect. The column is
+the honest half of the ledger, because it keeps a count of defects from
+reading as a count of observed ones.
+
+The clearest instances come from a physics runtime's contract docs. The
+consumer's default for a material's friction is 0.5 while the schema fallback
+the generating producer publishes is 0.0, so a generated scene simulates with
+friction 0 and a hand-built one that omits the column simulates with 0.5. An
+absent limit column leaves both bounds at 0, and an enable rule written as an
+OR over the bounds then activates a [0, 0] limit that locks the joint; on
+generated input the defect never fires, because that producer always publishes
+the bounds as unbounded. One threshold default sat a thousand times off its
+documented fallback beyond the unit factor, and an existing test had frozen it.
+The contract tallied 11 defects, 16 fragile spots and 36 notes: in that one contract
+most divergences were not defects, and a ledger that could not tell them apart
+would have read as noise.
+
+**The parity case must drive the absent path explicitly.** A producer whose
+output is always fully populated masks the consumer's absent-input defect, so a
+parity test fed only by that producer passes and observes nothing. The case
+that asserts a defect is the one that builds the input the way the second
+producer would and leaves the column out. Where such a case cannot be built —
+in the instance above, the unpopulated scene is not simulable at all, because
+the consumer's zero cone is rejected as invalid and the harness treats that
+error as fatal — the defect stays documented, not exercised, and the ledger
+says exactly that.
+
+**This pin is the opposite of a specification test.** A characterization test
+records what the system does, and the sentence above says it must not be
+written as a specification. A defect pin goes further: it asserts a value known
+to be wrong, on purpose, so that the correction cannot land unnoticed. When the
+consumer is fixed the pin is deleted or inverted to assert the corrected value
+and the row moves out of the ledger; a green run after the fix is a stale
+contract, and a pin that is left red is the mechanism working. It follows that a
+defect pin is never evidence the behaviour is wanted, and nobody should copy
+its expected value as a requirement.
+
+It also differs from a canary enrolled in a gate's judged population, which
+proves the gate is alive by failing by construction
+([gate-liveness](../../../standards-and-gates/quality-gates/techniques/gate-liveness.md)).
+Nothing here tests an instrument. The pin holds a known defect in place, and the
+failure it waits for is the repair. The row-level cost of a pin that never
+observed its claim is the subject of
+[unreached-decisions-pin-nothing](../../../build-and-release/test-harness/techniques/unreached-decisions-pin-nothing.md),
+which is why the documentation-only column exists.
+
+Two cautions about what the parity means. Where both producers are walkers over
+the same source and hand one shared parser the result, parity is between their
+outputs *as that consumer sees them*; a defect in the shared parser is on both
+sides and the parity test cannot see it. And the ledger does not apply to a
+single producer, where there is nothing to diverge from, nor to a divergence
+that is intended and specified: that is not a defect, it is the specification,
+and it belongs in the contract's own text.
 
 ## When not to use it
 

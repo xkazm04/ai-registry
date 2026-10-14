@@ -1,6 +1,6 @@
 ---
 spec: forge-scout-brief
-status: BANKED
+status: EXECUTED
 subject: native-runtime-contracts (working name; the scouts decide the subjects)
 bundle: software-engineering
 source: https://github.com/NVIDIA-Omniverse/PhysX
@@ -95,3 +95,27 @@ handoff is a scout brief and the count is a claim to check, not a fact.
 The physics-stability material in the same tree is already forged separately
 (`2026-10-14-rigid-body-simulation-stability.md`). The cooked-collider cache is the
 only physics-adjacent decision here (D1) and is a configuration question.
+
+## Execution record (2026-10-14, run fg1014)
+
+Scouted by three read-only workers against the implementation and the neighbours' prose,
+then forged by three workers on disjoint folders; reviewed by diff (purity grep clean,
+anchors 26/26 and 11/11 on the two applications, `use_when` present). Outcomes:
+
+- D2 landed: `background-jobs/techniques/timeout-is-a-status-not-a-consumption` (subject 6 -> 7
+  techniques) + a cpp application.
+- D1 landed as an amendment of `optional-dependency-degradation/misconfiguration-never-reaches-a-fallback`
+  (host at 10 techniques, over the ceiling) + a cpp application. The discriminator the scout found:
+  a configured-but-unwritable location degrades quietly here, against the technique's own
+  fail-fast rule, because the fallback is a throwaway cache of derived data.
+- D5 landed as a section of `module-design/seams-and-adapters` (host at 16). No application: the
+  parity generator is not in the clone.
+- D3 -> lead (no home for a native-API-surface rule). D4 -> lead (one sentence of content).
+  D6 -> lead (no checker in the tree; 66 requirement files, not 80+).
+
+Corrections to this brief found by the scouts: the requirement count is 66, and the
+tests under `plc/tests` are markdown scenarios (the executable tests carry `@implements` /
+`@covers` tags that nothing in the tree parses); the ADR is `proposed`, not decided; seven
+entry points already carried the stale-handle guard, five getters lacked it, and the test
+enumerates by hand; "lowest pending" is the first timed-out operation in list order; the
+forces line for D4 is not in the cited source.

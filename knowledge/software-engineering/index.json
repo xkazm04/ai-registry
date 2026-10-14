@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
-  "techniques": 1847,
-  "applications": 1255,
+  "techniques": 1850,
+  "applications": 1260,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1847/1847",
+  "use_when_coverage": "1850/1850",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4249,7 +4249,7 @@
    "subcategory": "work-execution",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/background-jobs.md",
-   "digest": "sha256-b2:4a1ddf4af408b961",
+   "digest": "sha256-b2:22ed2a99172ae050",
    "revision": 4,
    "changedAt": "2026-09-03",
    "techniques": [
@@ -4338,9 +4338,31 @@
       "ticks overlap because they outlast their cadence",
       "deciding when repeated failure earns quarantine"
      ]
+    },
+    {
+     "slug": "timeout-is-a-status-not-a-consumption",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "identity-survives-reuse",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a bounded wait on a tracked operation gives up and the caller needs to wait again later",
+      "a forever timeout turns out to be finite after a unit conversion",
+      "a wait on an already-finished operation reports a timeout"
+     ]
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "timeout-is-a-status-not-a-consumption",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/background-jobs/applications/cpp--timeout-is-a-status-not-a-consumption.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "cpp@17"
+    },
     {
      "stack": "react",
      "technique": "job-progress-and-cancellation",
@@ -13793,7 +13815,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/error-handling.md",
-   "digest": "sha256-b2:e561e382d42cb2f2",
+   "digest": "sha256-b2:59b7b5d98d37139a",
    "revision": 15,
    "changedAt": "2026-09-05",
    "techniques": [
@@ -13826,6 +13848,24 @@
       "a reusable unit's callers cannot branch on why it failed",
       "deciding where a failure representation should be converted",
       "an application-shaped error type has leaked into something other teams depend on"
+     ]
+    },
+    {
+     "slug": "containment-boundary-restores-state",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "failure-not-empty-success",
+      "record-precedes-effect"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where an unwinding failure is caught inside a long-lived editing or serving process",
+      "an escaped panic would leave a document or session half-mutated",
+      "a third-party parser reads hostile bytes and may abort the host",
+      "adding a last-resort catch and unsure whether it should also restore state",
+      "a catch that logs and continues keeps running on corrupt state",
+      "a target aborts on failure so no catch can work"
      ]
     },
     {
@@ -13972,6 +14012,13 @@
      "technique": "error-doors",
      "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/react--error-doors.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "containment-boundary-restores-state",
+     "file": "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--containment-boundary-restores-state.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.90"
     },
     {
      "stack": "rust",
@@ -21875,7 +21922,7 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/module-design/module-design.md",
-   "digest": "sha256-b2:a33adfb4a8edc0eb",
+   "digest": "sha256-b2:7c8008f2207b1946",
    "revision": 17,
    "changedAt": "2026-10-07",
    "techniques": [
@@ -22068,7 +22115,9 @@
       "deciding where a boundary should allow substitution",
       "making untested code testable",
       "choosing whether a dependency deserves an interface",
-      "planning to replace an external dependency"
+      "planning to replace an external dependency",
+      "two producers must feed one consumer identically",
+      "classifying known divergences between producers"
      ]
     },
     {
@@ -23121,7 +23170,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/native-shell-integration/native-shell-integration.md",
-   "digest": "sha256-b2:eb941b25ec740109",
+   "digest": "sha256-b2:0ab230f2977430e7",
    "revision": 3,
    "changedAt": "2026-09-04",
    "techniques": [
@@ -23172,6 +23221,21 @@
       "choosing an idle timeout for a subscriber that never sees an error",
       "a reconnect loop spins because the connection succeeds and then goes quiet",
       "deciding which streams move to the native process and which stay in the view"
+     ]
+    },
+    {
+     "slug": "native-side-owns-the-target-set",
+     "status": "forged",
+     "laws": [
+      "verdict-survives-boundary"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a destructive or executing command accepts a list of paths from the presentation layer",
+      "a native command takes a string and hands it to a shell",
+      "deciding between an allow-list and a deny-list for what a command may touch",
+      "a layered safety check has a layer that logs and carries on",
+      "a capability manifest is scoped tightly and every product command is still callable"
      ]
     },
     {
@@ -23283,6 +23347,13 @@
      "technique": "native-owned-stream",
      "file": "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--native-owned-stream.md",
      "verified_on": "2026-09-03",
+     "verified_against": "rust@2021"
+    },
+    {
+     "stack": "rust",
+     "technique": "native-side-owns-the-target-set",
+     "file": "knowledge/software-engineering/client-architecture/native-shell-integration/applications/rust--native-side-owns-the-target-set.md",
+     "verified_on": "2026-10-14",
      "verified_against": "rust@2021"
     },
     {
@@ -23649,7 +23720,7 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/optional-dependency-degradation.md",
-   "digest": "sha256-b2:5740098d6095e387",
+   "digest": "sha256-b2:641cb6bf0b2c6916",
    "revision": 16,
    "changedAt": "2026-09-16",
    "techniques": [
@@ -23765,7 +23836,8 @@
       "a constructor accepts arbitrary keyword options",
       "a degraded answer is good enough that nobody would notice it replaced the real one",
       "writing a stand-in for a dependency a test build does not link",
-      "a typo in a setting changed which backend served and nothing logged it"
+      "a typo in a setting changed which backend served and nothing logged it",
+      "a library leaves a write location unset and a dependency picks its own default"
      ]
     },
     {
@@ -23814,6 +23886,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "cpp",
+     "technique": "misconfiguration-never-reaches-a-fallback",
+     "file": "knowledge/software-engineering/backend-platform/resilience/optional-dependency-degradation/applications/cpp--misconfiguration-never-reaches-a-fallback.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "cpp@17"
+    },
     {
      "stack": "node",
      "technique": "absent-degrades-malformed-fails-fast",
@@ -27007,7 +27086,7 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256-b2:6e635d76a310aa4b",
+   "digest": "sha256-b2:0d8378dd13155e59",
    "revision": 53,
    "changedAt": "2026-10-06",
    "techniques": [
@@ -27654,6 +27733,13 @@
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--gate-liveness.md",
      "verified_on": "2026-09-05",
      "verified_against": "rust@1.85"
+    },
+    {
+     "stack": "rust",
+     "technique": "prose-rule-drift",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/applications/rust--prose-rule-drift--panic-lint.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.90"
     },
     {
      "stack": "rust",
@@ -39682,6 +39768,7 @@
     "background-jobs/loop-health-telemetry",
     "background-jobs/startup-sweeps",
     "background-jobs/tick-isolation",
+    "background-jobs/timeout-is-a-status-not-a-consumption",
     "batch-undo-commit-window/bounded-fanout-commit",
     "batch-undo-commit-window/deferred-write-window",
     "batch-undo-commit-window/flush-on-teardown",
@@ -39821,6 +39908,7 @@
     "entity-lifecycle/orphan-reconciliation",
     "entity-lifecycle/provenance-denormalization",
     "error-handling/cancellation-attribution",
+    "error-handling/containment-boundary-restores-state",
     "error-handling/error-doors",
     "error-handling/parse-failure-keeps-identity",
     "error-handling/reclassification-is-not-repair",
@@ -40881,6 +40969,7 @@
     "authorization/delegated-authority",
     "authorization/one-accessor-per-fold-direction",
     "authorization/read-write-predicate-symmetry",
+    "background-jobs/timeout-is-a-status-not-a-consumption",
     "bounded-enumeration/required-limit-breaks-unaware-clients",
     "client-fetch-cache/sibling-entry-warmth",
     "client-state/observed-read-subscription",
@@ -41381,6 +41470,7 @@
     "authorization/identity-bearing-keys",
     "background-jobs/job-progress-and-cancellation",
     "background-jobs/loop-supervision",
+    "background-jobs/timeout-is-a-status-not-a-consumption",
     "batch-undo-commit-window/bounded-fanout-commit",
     "batch-undo-commit-window/single-pending-batch-invariant",
     "bounded-enumeration/after-plus-limit-not-cursor",
@@ -42805,6 +42895,7 @@
     "native-guest-interop/class-from-impl-with-borrow-warning",
     "native-guest-interop/explicit-lossy-conversion",
     "native-shell-integration/capability-presence-contract",
+    "native-shell-integration/native-side-owns-the-target-set",
     "native-shell-integration/non-stealing-overlay",
     "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",
     "optional-dependency-degradation/guarded-singleton-accessor",
@@ -42922,6 +43013,7 @@
     "engine-binding-surface/pre-resolve-what-the-engine-cannot-await",
     "engine-host-contract/null-and-blocking-executors",
     "entity-lifecycle/archive-restore-semantics",
+    "error-handling/containment-boundary-restores-state",
     "error-handling/crash-capture",
     "execution-state-checkpointing/resume-mints-a-duplicate",
     "extension-trust-boundary/invert-the-default-for-exposed-surface",
@@ -43126,6 +43218,7 @@
     "durable-agent-operations/intent-mints-the-identity",
     "durable-agent-operations/settlement-order-is-not-placement-order",
     "engine-binding-surface/capability-deferred-release",
+    "error-handling/containment-boundary-restores-state",
     "execution-state-checkpointing/the-record-outlives-the-rewind",
     "fleet-orchestration/evidence-outranks-a-liveness-claim",
     "guest-execution-bounding/bounded-shadow-backtrace",

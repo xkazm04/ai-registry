@@ -10,6 +10,7 @@ techniques:
   - loop-health-telemetry
   - startup-sweeps
   - job-progress-and-cancellation
+  - timeout-is-a-status-not-a-consumption
 ---
 
 # Background jobs & supervised loops
@@ -133,6 +134,14 @@ under the job contract, not the tick contract.
 The rule of thumb: if anyone could reasonably want a progress bar or a cancel
 button, it is a job. If its only observer is the health system, it is a tick.
 
+A job also has a *collector*: the caller that started it and comes back for the
+result. When that caller waits with a budget and the budget runs out, the wait
+has said something about itself and nothing about the job — it returns a
+status that leaves the job tracked and uncollected, so the caller can wait
+again. That is the opposite choice from a deadline that cancels the work, and
+the two must not be confused
+([timeout-is-a-status-not-a-consumption](./techniques/timeout-is-a-status-not-a-consumption.md)).
+
 ## The runtime's lifecycle is three designed phases
 
 **Startup.** The process was down; the world moved. Work that should have
@@ -204,3 +213,7 @@ These hold across every technique, and reviews should check them directly:
 - [job-progress-and-cancellation](./techniques/job-progress-and-cancellation.md)
   — job identity, honest progress and ETA, cooperative cancellation, snapshot
   re-attach, bounded live logs, and terminal states distinct from progress.
+- [timeout-is-a-status-not-a-consumption](./techniques/timeout-is-a-status-not-a-consumption.md)
+  — a bounded wait that gives up leaves the operation pending and collectable:
+  literal poll and forever, a last readiness check at the deadline, one shared
+  budget across operations, and a stated barrier scope.
