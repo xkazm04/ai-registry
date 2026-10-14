@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-ara-1014",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T00:00:00Z",
+  "ended_at": "2026-10-14T00:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-10-14",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 1,
+      "points_after": 1
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "reason": "Subject has 17 applications on five stacks (neovim, next, node, python, rust); the only scan reason is \"1 application(s) near their clock\" (python--rewrite-before-the-gate, refresh_by 2026-11-05, 22 days out). No single-stack or no-application debt, so there is no second source to earn. The row carries verified_against (consumer-runtime witness), which external workers may not write; its refresh is a deepen/librarian re-verification, not a reconcile wave. Checked at branch cur/n87 off curator-night-1014."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Declined, not idled-with-work: no worker dispatched, no applications or techniques touched. Right lane: deepen currency re-verification on the python application before 2026-11-05."
+}
