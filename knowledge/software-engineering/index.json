@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1266,
+  "applications": 1267,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -17386,9 +17386,9 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/index-free-random-access.md",
-   "digest": "sha256-b2:938e37a6912a9762",
-   "revision": 1,
-   "changedAt": "2026-09-21",
+   "digest": "sha256-b2:95ffb5e82166138c",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "conservation-sweep-over-a-partition-parameter",
@@ -17480,6 +17480,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "reversible-encoding-buys-tail-recovery",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/index-free-random-access/applications/node--reversible-encoding-buys-tail-recovery.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22"
+    },
     {
      "stack": "rust",
      "technique": "conservation-sweep-over-a-partition-parameter",
