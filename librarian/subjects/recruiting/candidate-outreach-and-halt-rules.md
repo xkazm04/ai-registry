@@ -1,8 +1,8 @@
 ---
 domain: recruiting
 subject: candidate-outreach-and-halt-rules
-last_touched: 2026-09-28
-touched_by: deepen
+last_touched: 2026-10-14
+touched_by: external-reconcile
 dry_streak: 0
 depth: L2
 ---
@@ -109,6 +109,7 @@ subjects' moves.
 
 ## Open leads
 
+- LANDED 2026-10-14: FCC 26-67 (adopted 2026-09-30, released 2026-10-01) re-pinned in the spec application; the draft was adopted as expected (category-scoped revoke-all, exclusive means, five-minute confirmation presumption); upper layers needed no edit; refresh_by now 2026-12-31 (effective date = 30 days after Federal Register publication, unknown at retrieval); Further Notice may shorten the ten-business-day limit. Original record follows.
 - **The FCC vote of 2026-09-30.** The draft would narrow the revocation scope and
   allow an exclusive means. Return: after the meeting, before the spec
   application's refresh_by 2026-10-31. Re-pin it, and check that the upper
