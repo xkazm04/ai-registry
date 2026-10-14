@@ -125,6 +125,22 @@ This is not the text-normalization pass that turns digits and markup into
 speakable words; that pass is per text and stateless, while the lexicon is
 per world and its trigger is a revision.
 
+## A multi-speaker call changes the unit, not the discipline
+
+Some engines now take the whole exchange in one request: a list of turns, each
+with its own voice, rendered as one performance so that interruptions and
+overlaps are the engine's. That is attractive for a scene and it moves the
+unit of work. The output is one clip for the call, the reliable length of a
+multi-voice call can sit well below the single-voice cap, and the engine
+documents no way to replace one turn inside it. So the **call becomes the
+address**: the line stays the unit of the script and the review, but the unit
+of re-rendering is the smallest span one call covers, which is the scene
+fallback of the line-addressed technique, chosen up front. Cut calls at scene
+or beat boundaries rather than at the cap, keep a short context handoff
+between calls, and measure identity per voice exactly as before. Which engines
+behave this way is a dated fact in the applications, not a property of the
+subject.
+
 ## How the five compose
 
 The line address is the join key for everything else. A line's render is keyed
