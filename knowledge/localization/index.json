@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 59,
+  "applications": 60,
   "laws": 8,
   "categories": [
    "european",
@@ -371,8 +371,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
-   "digest": "sha256-b2:7cc7ca0423f15ae0",
-   "revision": 6,
+   "digest": "sha256-b2:f2ab8ec30c943b96",
+   "revision": 7,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -566,6 +566,12 @@
      "technique": "enforcement-at-the-write-seams",
      "file": "knowledge/localization/craft/copy-quality-gates/applications/process--enforcement-at-the-write-seams.md",
      "verified_on": "2026-09-14"
+    },
+    {
+     "stack": "process",
+     "technique": "format-aware-check-catalog",
+     "file": "knowledge/localization/craft/copy-quality-gates/applications/process--format-aware-check-catalog.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",
