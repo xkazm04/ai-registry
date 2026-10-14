@@ -12537,3 +12537,14 @@ applied here - one sighting, and the honest record is in the source note.
 - A repository that ships a measurement of itself is an instrument, not only a source: build it, run its own accounting on one small input beside the plain command, and the claim becomes a paired result. Here the proxy booked 95.1% saved on a run where it emitted three times the plain output, because its baseline was a format it had injected; no amount of reading the accounting code showed that as plainly as one run did. Redirect its state first and list the user-profile directories before and after: every documented path override was set and it still created one there.
 - Reader workers summarized a fallback order in the right shape and the wrong detail (they reported a legacy-page fallback the code does not take), and the detail was the finding: the code's console-less fallback is the graphical page, which decodes the measured bytes without error into wrong letters. The promotion read is not only for rows a worker report blocks; open the one function a landing's mechanism rests on even when the report agrees with the landing.
 - A seam chosen to falsify can come back falsified the other way, and that is a reason to drop it, not to construct the case that would bite: the predicted stderr warning never reached the tool runner's stream under the real runtime, so the change was not made and the floor technique was applied at a different seam (a KPI parser) where the obvious fix did fail as predicted.
+
+## 2.15.0 - 2026-10-14 - tencentdb-agent-memory
+
+- **Before pricing a claim on our own instrument, confirm the instrument varies the dimension the
+  claim lives on.** The memory lane says to price a memory claim on the ladder. The ladder ingests
+  the whole simulated year as one conversation, so a session-scoped reconciliation scores there as
+  if it reconciled across sessions: pricing this source's defect "on the ladder" would have
+  reported no cost. The cheap move was a zero-model reach check over the scenario's ground truth
+  (0/73 changes reachable from a project+day pool, 73/73 from the read scope), and it became a
+  harness check. The fixture tell in `scope-before-similarity` applies to the registry's own
+  instruments, not only to a project's test suite. One sighting; a rule at three.
