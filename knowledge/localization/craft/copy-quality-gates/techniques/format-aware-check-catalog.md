@@ -125,6 +125,11 @@ for the capitalization rule has to be present for the parity rule.
   file that will not load.
 - **When a literal is checked, check identity as well as count**, because the
   failure this class exists for is a changed digit, not a missing one.
+- **When a literal is checked, demand the source's literals of the target, not the reverse**, because
+  a spelled-out number rendered as digits ("thirty" to "30") and a single digit rendered as a word are
+  both correct, and an illustrative input sample (a placeholder address or repository path) is
+  localised on purpose: exempt the sample class and reserved example domains, or the check fires
+  on every translated form field and is switched off within a week.
 - **When a check is disabled for a language or a script, record it where the
   language's rules live**, not as a project flag, so every consumer inherits the
   same answer (the sibling measurement subject owns that exemption design, in
