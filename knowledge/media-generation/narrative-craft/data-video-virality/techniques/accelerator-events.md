@@ -48,6 +48,9 @@ rather than just watching bars move.
   events that explain the largest moves.
 - Speculative milestones after "now" (projected overtakes) are allowed
   only when labelled as projected.
+- Count only events dated inside the animated span toward the minimum, and
+  check mechanically that they cover most of it. A gate that counts entries
+  alone accepts four pre-start events or six bunched in one stretch.
 - Events explain moves; they never assert causes the data doesn't show.
   "Oil embargo" next to a price spike is fine. "This caused the
   recession" is narration, and it needs evidence.
