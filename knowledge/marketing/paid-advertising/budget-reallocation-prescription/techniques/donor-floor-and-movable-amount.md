@@ -59,6 +59,9 @@ field. Absent is absent.
 3. **Skip** the move when the floored amount is zero or less - the donor is already
    at its floor and there is nothing to move - rather than emitting a zero move that
    an apply would refuse anyway.
+   Skip before pairing is committed: a recipient is claimed only once the move
+   exists, because a donor at its floor that claims first and then skips burns the best
+   recipient for the donor behind it, which then gets the second best or none.
 4. **Convert** to a daily delta at apply time by dividing the period amount by the
    period days, in the account's smallest unit, rounded once.
 5. **Plan** the donor's new budget as the maximum of the floor and the old budget

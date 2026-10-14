@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 183,
-  "applications": 84,
+  "applications": 85,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -383,9 +383,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/budget-reallocation-prescription.md",
-   "digest": "sha256-b2:de5bd9e259ead603",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:94624edac847f980",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "donor-floor-and-movable-amount",
@@ -474,6 +474,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "donor-floor-and-movable-amount",
+     "file": "knowledge/marketing/paid-advertising/budget-reallocation-prescription/applications/node--donor-floor-and-movable-amount.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "donor-ranking-waste-vs-profit-destruction",
