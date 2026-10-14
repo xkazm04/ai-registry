@@ -1151,9 +1151,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 68,
-      "files": 208,
-      "contentHash": "sha256-b2:fb2616d042ecbd18"
+      "applications": 69,
+      "files": 209,
+      "contentHash": "sha256-b2:5c6d1c73b15627dc"
     },
     {
       "name": "marketing",
