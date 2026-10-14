@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 66,
   "techniques": 409,
-  "applications": 293,
+  "applications": 294,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3381,8 +3381,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/cv-presentation-and-parseability.md",
-   "digest": "sha256-b2:716a1b9aade428ef",
-   "revision": 1,
+   "digest": "sha256-b2:938f0a3f26e90176",
+   "revision": 2,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -3458,6 +3458,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "export-format-and-round-trip-verification",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--export-format-and-round-trip-verification.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19.3"
+    },
     {
      "stack": "react",
      "technique": "parse-safe-reading-order",
