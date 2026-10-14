@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1258,
+  "applications": 1259,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -4928,9 +4928,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/canvas-graph.md",
-   "digest": "sha256-b2:59c31182b8b6b4db",
-   "revision": 5,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:98dcec8d04236b95",
+   "revision": 6,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "canvas-accessibility",
@@ -5029,6 +5029,13 @@
      "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--canvas-accessibility.md",
      "verified_on": "2026-09-20",
      "verified_against": "react@19.2"
+    },
+    {
+     "stack": "react",
+     "technique": "direct-manipulation",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/canvas-graph/applications/react--direct-manipulation.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
