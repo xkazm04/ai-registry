@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1257,
+  "applications": 1258,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -8147,9 +8147,9 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/correlated-exchange-over-broadcast.md",
-   "digest": "sha256-b2:cda56907c8605ae9",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:0fcc9ffc5f2fa559",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "binding-parity-floor",
@@ -8244,6 +8244,13 @@
      "technique": "binding-parity-floor",
      "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--binding-parity-floor.md",
      "verified_on": "2026-09-02",
+     "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "correlation-key-vocabulary",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--correlation-key-vocabulary.md",
+     "verified_on": "2026-10-14",
      "verified_against": "rust@1.95"
     },
     {
