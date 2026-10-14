@@ -95,3 +95,13 @@ A single short process with a single interviewer needs no search-wide record; th
 within-interview constraint from the allocation technique is enough. A candidate who has
 only ever told an experience in practice sessions, never to a real audience, has not used
 it, whatever the rehearsal count says.
+
+## What the field evidence supports
+
+Between-interview variation in presentation is normal: in a 448-interview study, applicants
+varied their impression-management tactics from interview to interview, honest defensive
+tactics most ([Roulin and Bourdage, 2017](https://doi.org/10.3389/fpsyg.2017.00029)).
+That study measured self-reported tactics and no outcomes, so it cannot say that a re-told
+story costs anything; the cost described above remains reasoning. What it supports is the
+practice of pinning the verifiable particulars of a reused experience (dates, role,
+numbers) and letting only the emphasis vary by audience.
