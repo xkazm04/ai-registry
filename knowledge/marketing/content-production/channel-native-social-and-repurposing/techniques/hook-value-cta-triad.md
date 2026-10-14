@@ -76,6 +76,10 @@ top posts, the first diagnosis is which of the three parts is missing.
   value general or ask the owner, never sharpen it with a plausible figure.
 - When a channel has no in-post link, the call to action says where the link lives
   rather than pasting a URL, because a dead URL in the caption reads as carelessness.
+- When more than one generator writes posts for the same networks, state the triad in
+  each one's instruction, because a generator without it closes with the link and a
+  second ask (eight of eight posts in a measured pair of arms), and the hook stays good
+  either way - the missing part is the single ask, not the opening.
 - When the visible length of a feed is unknown, assume it is short (a convention of
   roughly a hundred to a hundred and fifty characters as of this writing
   ([label convention as convention](../../../_laws.md#label-convention-as-convention)))
