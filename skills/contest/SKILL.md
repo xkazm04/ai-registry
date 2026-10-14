@@ -1,9 +1,9 @@
 ---
 name: contest
-description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief; a wrap step then keeps every variant as notes and screenshots and the winner's source. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id> to drive one step."
+description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault, a promotion is held to a fidelity contract and a code-quality-and-performance contract (port-quality.md), whose pattern ledger becomes the bar in the next brief; a wrap step then keeps every variant as notes and screenshots and the winner's source. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.10.1
+version: 1.11.0
 tags: contest, prototyping, ui, landing, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id>"
 ---
@@ -378,6 +378,17 @@ node <skill>/scripts/contest.mjs refine --id <slug> --shortlist A/2,C/1 --feedba
    round with the panel only if the owner wants a second opinion; a refinement round is decided
    by the person who wrote the review.
 
+**When the round's winner will be ported into a product** (a fusion or refinement round after an
+owner verdict), the brief also asks for code that is ready to port. That means:
+- one component per visual thing;
+- tokens declared once, with no re-typed literals;
+- state machines as tables;
+- one keymap declaration;
+- no duplicated helpers.
+
+The host reads the delivered code against `references/port-quality.md` Q0 before the promotion
+starts. Port-ready code shortens the port; it never replaces it.
+
 ## 8. Report
 
 Say, in this order: the winner and its concept; the runner-up; the scoreboard; the seats' wall
@@ -410,6 +421,29 @@ procedure, and the drifts it has already caught, are in **`references/promotion.
 When the owner names an existing product surface as the style reference, extract it into shared
 components, migrate that surface onto them, and prove the migration with the same instrument.
 Report the before/after deviation counts; "it compiles and the tests pass" is not a promotion.
+
+**A port is a rebuild, not a copy, and it is held to a second contract: code quality and
+performance.** A seat builds to show a design inside a wall-clock ceiling, and its code shows it.
+The first winner read this way (2026-10-14) measured:
+- 433 string-HTML `esc(` calls;
+- the same status mapping 5 times;
+- signal colours re-typed about 144 times past their tokens;
+- no state machine kept as a table;
+- keys that changed meaning from page to page.
+
+The product it was promoted into had already accumulated 55 layer inversions, 22 import cycles and
+53 `as unknown as` casts from earlier copied ports. Before the first ported line,
+**`references/port-quality.md`** runs five steps:
+- **Q0:** inventory the winner's code, duplicates first.
+- **Q1:** design the structure: boundaries enforced by the build, one schema door per boundary, one
+  error taxonomy, transition tables as data, a test ladder, a styling form that keeps pixels.
+- **Q2:** put the gates at **zero** for the new code, each proven red once on a seeded violation.
+- **Q3:** extract tokens and components; never copy them.
+- **Q4:** gate performance budgets by counts, not timings.
+
+Then **Q5**: characterise, cut over, and delete the old code in the same change. A promotion exits
+only when the fidelity contract (0 deviations, interactions driven) and the quality contract (gates
+green at zero, budgets held, old code gone) both hold.
 
 **6. Record the verdict before you finish, if nobody has.** Promotion is the step most likely to
 happen without one: the owner picks in conversation, the port ships, and `contest.json` is never

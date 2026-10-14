@@ -3,6 +3,39 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
 
+## 1.10.1 - 2026-10-14 - gravitone-gcloud (foundry-next-design: design reports, UI prototypes, fusion, port plan)
+
+Run shape: round 1 had 4 cross-family seats x 3 design reports, owner review, no panel (`gpt-6-astra@high` via codex, `claude-opus-5-5@xhigh`, `gemini-4-argon@high` via agy, `grok-4.7@high`). Round 2 had 3 `claude-opus-5-5@high` seats x 3 UI prototypes. The fusion was run twice: round 3 on the wrong baseline, round 4 on the right one. Each fusion was then polished by owner-gated /perfect-style waves. 12/12, 9/9, 1/1 and 1/1 delivered, all with 0 page errors.
+
+- **The owner's labels were seat/variant ids, and the host read one as a blind letter.** "A/2" meant seat `a2` variant 2 (The Weir, blind B/2). The host recorded blind A/2 (The Light Table), and a full fusion plus polish wave was built on it before the owner caught it. The owner's other labels in the same message (`A3/v1`, `D1/V3`, `A2/V2`) were plainly seat/variant notation. **Proposal:** when a family carries both blind letters and seat workspaces, echo the concept name back before acting on any key ("A/2 = The Light Table?"), and let `verdict` accept `--winner seat:<id>/<n>`.
+- **`verdict --force` does not rewrite this contest's `Patterns.md` evidence.** `upsertPatterns` is idempotent per contest id, so a corrected verdict kept the wrong evidence lines. They were hand-edited, scoped to the contest's own lines. **Proposal:** `--force` should replace this contest's lines.
+- **There is no command to close one leaf round.** `wrap --close` sets the family root. The superseded round got `closed: {reason, at}` written into its own `contest.json`, the shape the instrument reads.
+- **`refine` cannot express what this owner asked twice.** Once it was "one model for all shortlisted designs, three prototypes each"; once it was "fuse donors onto a winner". Both rounds were built with `init` plus hand-staged `design/`, `reference/` and `baseline/` folders, with lineage keys written into `contest.json`. **Proposal:** `refine --participants <spec> --variants n` and `fuse --baseline <key> --donors <keys>`.
+- **The blinder redacted design material inside code again.** A design's own lane name `seat.claude` in a JS file was redacted 58 times in one seat, and the copy would have shipped `[redacted]` tokens into code. Provider names in round-1 reports were redacted too. No self-signatures were found either time. The originals were restored into the blind slots, following the 1.8.0 precedent.
+- **Staging real material is what made the prototypes real.** The host staged 104 downscaled plates with the owner's keep/reject verdicts, extracted styles, Dojo thumbs, strip clips, the app's fixture universe and the current screens. Every prototype opened on the operator's own work.
+- **The winner's code was a prototype's code, and the port plan had to say so.** Read before the port, the winner had:
+  - 433 string-HTML `esc(` calls;
+  - 5 copies of one status mapping;
+  - signal colours re-typed about 144 times;
+  - no state machine kept as a table;
+  - keys that changed meaning between pages.
+
+  The owner asked for the porting phase to be held to code quality and performance the way the planning phase was. This produced **1.11.0**: `references/port-quality.md` (Q0-Q5) and the second promotion contract in step 9.
+- **Builder criteria can be met by the letter.** "Every bar has visible text or an aria-label" was met by hiding 54 of 66 labels. The screenshot showed most labels drawn beside the bars, so the probe's count undercounted. A criterion needs a geometric assertion *and* a photographed check.
+- **Cost and wall time, as the CLIs reported them.**
+
+  | Round | Seat | Wall time | Turns | Cost |
+  |---|---|---|---|---|
+  | 1 | agy | 21 min | 1 | not reported |
+  | 1 | grok | 24.5 min | 33 | $0.81 |
+  | 1 | codex | 25.6 min | 1 | not reported |
+  | 1 | opus xhigh | 30.8 min | 2 | $27.08 |
+  | 2 | opus high | 25 min | | $8.14 |
+  | 2 | opus high | 30 min | | $19.81 |
+  | 2 | opus high | 37 min | | $22.02 |
+  | fusion | opus high | 30 min | | $19.19 |
+  | fusion | opus high | 28 min | | $21.25 |
+
 ## 1.8.0 - 2026-10-05 - ai-registry (token-tax-blog, the first technical-writing contest, 8 seats x 1 article, owner-only review)
 
 Run shape: Sonnet 5.5, Opus 5.5, `gpt-6.1-sol` and Gemini 3.8 Flash (via `agy`), two seats each at
