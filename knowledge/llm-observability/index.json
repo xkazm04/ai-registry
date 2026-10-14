@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
   "techniques": 128,
-  "applications": 83,
+  "applications": 84,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -23,8 +23,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/analytics-store-design.md",
-   "digest": "sha256-b2:5e5fc139c1005082",
-   "revision": 5,
+   "digest": "sha256-b2:dd9e74116ab5601b",
+   "revision": 6,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -132,6 +132,13 @@
      "stack": "rust",
      "technique": "fixed-width-timestamp-encoding",
      "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/applications/rust--fixed-width-timestamp-encoding.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.96"
+    },
+    {
+     "stack": "rust",
+     "technique": "flat-events-plus-json-linkage",
+     "file": "knowledge/llm-observability/telemetry-and-data/analytics-store-design/applications/rust--flat-events-plus-json-linkage.md",
      "verified_on": "2026-10-14",
      "verified_against": "rust@1.96"
     },
