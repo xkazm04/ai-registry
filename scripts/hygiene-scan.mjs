@@ -874,7 +874,9 @@ async function applyAction(P, a) {
       if (act.lastActivityMin < IDLE_H * 60) return { skipped: `became active ${act.lastActivityMin} min ago` };
       const head = await gitOut(a.target, ['rev-parse', 'HEAD']);
       if (a.sha && head !== a.sha) return { skipped: 'HEAD moved' };
-      const r = await git(cwd, ['worktree', 'remove', a.target], { timeout: 600_000 });
+      // core.longpaths: without it Windows deletes half a node_modules tree, drops the
+      // admin entry, and fails with "Filename too long" (athena-everywhere, 2026-10-10).
+      const r = await git(cwd, ['-c', 'core.longpaths=true', 'worktree', 'remove', a.target], { timeout: 600_000 });
       if (!r.ok) return { skipped: r.stderr.trim() };
       if (a.deleteBranch && a.branch) {
         const sha = await gitOut(cwd, ['rev-parse', '--verify', '-q', `refs/heads/${a.branch}`]);

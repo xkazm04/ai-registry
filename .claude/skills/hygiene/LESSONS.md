@@ -382,3 +382,38 @@ with the lesson here saying why.
 - **A pull_request run freezes its merge ref**: rerunning it, or closing and reopening the PR, reused the stale merge. `gh pr update-branch` makes a fresh merge ref (gravitone #3).
 - **A PR head cut from the primary's unpushed line looks like a small PR and is not**: personas #29 has a README title and carries 44 commits and 807 files. kp #95 showed +10k lines for one line, from CRLF churn plus a regenerated registry map. Read `changedFiles` and `git diff --ignore-space-at-eol` before calling a PR superseded or repairable.
 - **Director verify instrument**: comparing the primary's dirty set needs plain `git status --porcelain` (not `-uall`, since the plan stores an untracked directory as one row). Do not trim the whole output, because that eats the leading space of the first ` M` line and shifts its path by one character. Two primaries (personas, personas-web) differed because their own live sessions committed during the run. Check `reflog` before blaming a worker.
+
+## 1.1.0 - 2026-10-10 - live run on Fox (11 projects, 88 mechanical, 9 workers, 5 stalled)
+
+- **An API outage stalled five of six concurrent workers at once**, each killed by the 600 s
+  stream watchdog mid-item (a tracklight cherry-pick, a kp worktree with an uncommitted fix,
+  a grant `npm install`). The Phase 3 recovery worked as written: snapshot `C:/t/hyg*`,
+  then `SendMessage` each agent id inside the same session; all five resumed from their
+  transcripts and cleaned up. The cost of "finish the in-flight item, start nothing new" is
+  real: kp reached none of its six items and grant none of its four triage rows. That is
+  the price of not compounding a half-known state; the next run picks them up.
+- **`git worktree remove` on Windows half-deletes a worktree with a deep `node_modules`.**
+  athena-everywhere: the admin entry and `.git` file went, the directory stayed, the action
+  logged SKIP "Filename too long", and the remnant became an untracked `.claude/worktrees/`
+  in the primary. `--apply` now passes `-c core.longpaths=true`; the remnant was removed by
+  hand via a `\?\` path and its merged branch archived, then deleted.
+- **Concurrent `npm ci` into fresh worktrees fails on this box** (kp gave up after 20+ min,
+  grant hit repeated ENOTEMPTY until `rd /s /q node_modules` plus `--ignore-scripts`). Six
+  workers is the GitHub limit, not the disk's: npm-heavy projects compete for one cache.
+- **A fixed first red hides the next one.** grant's main had been red since July on six
+  lint errors; fixing them let the unit step run for the first time and expose four tests
+  whose stub-certificate fixtures expired on 2026-08-19. Expect a red-fix to take two
+  pushes when the first failing step gated everything after it (kp shows the same shape:
+  `test:agent` fails before lint-ratchet, perf, unit and build ever run).
+- **A master with live pushers cannot confirm a fix per SHA.** personas' CI concurrency
+  cancelled the runs on the worker's fix and the two pushes after it; the scan then fell
+  back to the last *completed* push verdict (the old failure) and still read RED. That is
+  the right conservative answer; verify against the tip's run, not the fix's.
+- **The fixture identity leak recurred in ascent.** Repo-local `user.name=Deps Test`
+  (`deps-test@ascent.invalid`) predates this run - two 2026-10-07 commits on `readme-boost`
+  carry it - so the 2026-09-19 pre-push-fixture pattern is still live there. Only Phase 4
+  step 3's config read caught it; a worker that commits without `-c user.name` inherits it.
+- **Triage rows still lack two facts a worker needs.** goat's "27 commits not on main" was a
+  one-day-old v2 redesign, not debris (no age on the row); pumper's 24 local `moonshot/*`
+  rows were all strict ancestors of a remote preservation branch and could have been
+  classified as contained mechanically (`merge-base --is-ancestor` against remote heads).
