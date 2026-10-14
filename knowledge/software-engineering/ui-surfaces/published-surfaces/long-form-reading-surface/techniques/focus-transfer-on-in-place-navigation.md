@@ -71,6 +71,14 @@ shape matters:
   ([identity-survives-reuse](../../../../_laws.md#identity-survives-reuse)); the
   initial mount is then simply the case where there is no previous identity,
   and it falls out of the rule instead of needing a special case.
+- **Hold the identity where a remount cannot erase it.** Many routers remount
+  the article view when the document segment changes. Identity kept in component
+  state or a ref then restarts on every navigation, the guard reads every arrival
+  as a first mount, and the handoff never fires while every markup check stays
+  green (measured: a shipped mount-flag guard failed the destination assertion
+  on every in-page navigation). Keep the last landed identity outside the
+  component, null until the first landing
+  ([application](../applications/react--focus-transfer-on-in-place-navigation--remount-guard.md)).
 - **Transfer on a real change, not on a re-render.** Re-rendering the same
   article — a theme change, a resize, a data refresh — is not navigation and
   must not move focus. Focus that moves on re-render is worse than focus that

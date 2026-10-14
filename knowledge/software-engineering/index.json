@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1267,
+  "applications": 1268,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -18992,9 +18992,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/long-form-reading-surface/long-form-reading-surface.md",
-   "digest": "sha256-b2:0073dc38cb06cee0",
-   "revision": 2,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:ee082e781491937e",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "anchor-id-single-assigner",
@@ -19087,6 +19087,13 @@
      "technique": "fixed-chrome-offset-budget",
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/long-form-reading-surface/applications/react--fixed-chrome-offset-budget.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "focus-transfer-on-in-place-navigation",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/long-form-reading-surface/applications/react--focus-transfer-on-in-place-navigation--remount-guard.md",
+     "verified_on": "2026-10-14",
      "verified_against": "react@19"
     }
    ]
