@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1255,
+  "applications": 1256,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -290,9 +290,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/adaptive-fidelity-tiers.md",
-   "digest": "sha256-b2:d4ac343817726595",
-   "revision": 3,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:f86168141a75e96a",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "asymmetric-tier-transitions",
@@ -381,6 +381,13 @@
      "technique": "asymmetric-tier-transitions",
      "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/applications/react--asymmetric-tier-transitions.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "measured-not-declared-capability",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/applications/react--measured-not-declared-capability.md",
+     "verified_on": "2026-10-14",
      "verified_against": "react@19"
     },
     {
