@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
   "techniques": 128,
-  "applications": 82,
+  "applications": 83,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -661,9 +661,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
-   "digest": "sha256-b2:9b1c943f13921ab0",
-   "revision": 10,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:1bb6a4d8f620f867",
+   "revision": 11,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "aggregate-only-digests",
@@ -802,6 +802,13 @@
      "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/python--fixed-task-vocabulary.md",
      "verified_on": "2026-08-30",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "rust",
+     "technique": "aggregate-only-digests",
+     "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/rust--aggregate-only-digests--absent-measure.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
