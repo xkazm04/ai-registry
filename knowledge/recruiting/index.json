@@ -1764,9 +1764,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/candidate-outreach-and-halt-rules.md",
-   "digest": "sha256-b2:546cc18121327592",
-   "revision": 3,
-   "changedAt": "2026-09-28",
+   "digest": "sha256-b2:bf053db49cbe254e",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "an-automatic-reply-is-not-an-answer",
@@ -1918,8 +1918,8 @@
      "stack": "spec",
      "technique": "halt-the-sequence-on-any-reply",
      "file": "knowledge/recruiting/sourcing-and-intake/candidate-outreach-and-halt-rules/applications/spec--halt-the-sequence-on-any-reply.md",
-     "verified_on": "2026-09-28",
-     "refresh_by": "2026-10-31"
+     "verified_on": "2026-10-14",
+     "refresh_by": "2026-12-31"
     },
     {
      "stack": "spec",
