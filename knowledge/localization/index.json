@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 70,
+  "applications": 71,
   "laws": 8,
   "categories": [
    "european",
@@ -157,8 +157,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/bengali/bengali.md",
-   "digest": "sha256-b2:f6ac5ff846908048",
-   "revision": 6,
+   "digest": "sha256-b2:687278c315fcf51b",
+   "revision": 7,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -267,6 +267,12 @@
      "technique": "terminology-and-loanwords",
      "file": "knowledge/localization/south-and-southeast-asian/bengali/applications/process--terminology-and-loanwords.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "ui-conventions-and-length",
+     "file": "knowledge/localization/south-and-southeast-asian/bengali/applications/process--ui-conventions-and-length.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "spec",
