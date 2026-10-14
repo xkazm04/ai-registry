@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 93,
+  "applications": 94,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -283,8 +283,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/content-production/brand-voice-capture/brand-voice-capture.md",
-   "digest": "sha256-b2:e0d16a6c7bbebc79",
-   "revision": 3,
+   "digest": "sha256-b2:ce4c407913248a00",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -389,6 +389,13 @@
      "technique": "rejections-and-edits-become-constraints",
      "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--rejections-and-edits-become-constraints.md",
      "verified_on": "2026-09-23",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "tenant-never-speaks-the-sample-persona",
+     "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--tenant-never-speaks-the-sample-persona.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
