@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 54,
+  "applications": 55,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -276,9 +276,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/civic-knowledge-graphs.md",
-   "digest": "sha256-b2:c3e404f166d9270f",
-   "revision": 4,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:17e0c82939462a2d",
+   "revision": 5,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "civic-entity-ontology",
@@ -368,6 +368,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "civic-entity-ontology",
+     "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/applications/node--civic-entity-ontology.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "destructive-rebuild-guard",
