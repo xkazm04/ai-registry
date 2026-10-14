@@ -1138,9 +1138,9 @@
       "purity": "software",
       "subjects": 18,
       "techniques": 128,
-      "applications": 80,
-      "files": 231,
-      "contentHash": "sha256-b2:45e9dcdd97b5520f"
+      "applications": 81,
+      "files": 232,
+      "contentHash": "sha256-b2:813869253dd3fc1d"
     },
     {
       "name": "localization",
