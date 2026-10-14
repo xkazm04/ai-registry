@@ -76,6 +76,11 @@ provider's retry. Acknowledging on an in-memory enqueue satisfies nothing.
   reconciliation note — must either live outside the upserted record or be
   explicitly preserved in the update arm, or redelivery quietly erases your
   own annotations.
+- **A duplicate that lands while the first attempt is still persisting is not a duplicate yet.**
+  An in-process seen-set that is marked before the commit turns the provider's concurrent retry
+  into an acknowledgement for work that may still roll back. Hold the key in flight, refuse a
+  concurrent repeat so the provider retries, mark it done at commit, and release it on every
+  early exit including a dropped request.
 - **A failing record fails its delivery.** Do not skip the bad record and
   commit the rest; the provider's retry replays everything, and the skipped
   record's bug now needs the retry to still be happening when you fix it.
