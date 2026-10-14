@@ -55,6 +55,14 @@ Pin these as contracts, in tests, alongside the removal contracts:
 - **When a mask would remove a quantity, stop.** Quantities are almost never
   identifying on their own. A rule that eats numbers has been written at the
   wrong altitude — it is matching a format, not a meaning.
+- **When a contact or identifier pattern is shaped like a digit run, test it
+  against dates and quantities before shipping it.** A phone pattern is a format
+  match, and a career document is full of strings with the same format: a tenure
+  range ("2015 - 2019"), a month-year range, a grouped quantity ("12 000 000
+  requests"). Gate the match on meaning - a plus prefix, a digit count, a range
+  or grouping shape that a number is, and a phone is not - and pin a range and a
+  quantity as preservation contracts. One production redactor masked all of them
+  as a phone until a seam hunt read the contact path.
 - **When a masking rule is generalised to catch a miss, re-run the preservation
   contracts first.** Every widening in this craft pays for its recall in
   substance, and the payment is silent unless it is pinned.
