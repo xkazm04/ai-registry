@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 43,
+  "applications": 44,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -1412,9 +1412,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/nonprofit-verification.md",
-   "digest": "sha256-b2:d434b75d340d872e",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:a2d0b78d8b935da8",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "determinate-vs-inconclusive-outcomes",
@@ -1509,6 +1509,13 @@
      "technique": "determinate-vs-inconclusive-outcomes",
      "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--determinate-vs-inconclusive-outcomes.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "graceful-source-degradation",
+     "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--graceful-source-degradation.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
