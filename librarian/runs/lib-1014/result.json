@@ -33,7 +33,20 @@
       "points_after": null
     }
   ],
-  "verdicts": [],
+  "verdicts": [
+    {
+      "subject": "markdown-vault",
+      "technique": "create-and-replace-are-different-operations",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "markdown-vault",
+      "technique": "where-this-standard-does-not-apply",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
   "files": [
     "librarian/subjects/software-engineering/accessibility.md",
     "librarian/subjects/software-engineering/markdown-vault.md",
