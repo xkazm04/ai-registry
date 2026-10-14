@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 183,
-  "applications": 84,
+  "applications": 85,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -26,9 +26,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/answer-engine-visibility/answer-engine-visibility.md",
-   "digest": "sha256-b2:35600b562c163d97",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:aca35ecb09aa8af8",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "answer-block-under-question-heading",
@@ -122,6 +122,14 @@
     }
    ],
    "applications": [
+    {
+     "stack": "prompt-pipeline",
+     "technique": "answer-block-under-question-heading",
+     "file": "knowledge/marketing/search-and-content/answer-engine-visibility/applications/prompt-pipeline--answer-block-under-question-heading.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "prompt-pipeline@2026.10.14",
+     "refresh_by": "2027-01-14"
+    },
     {
      "stack": "prompt-pipeline",
      "technique": "third-party-mentions-over-on-page-tricks",
