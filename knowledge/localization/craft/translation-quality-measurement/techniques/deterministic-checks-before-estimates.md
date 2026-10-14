@@ -33,6 +33,17 @@ rule, and the estimator is pointed only at the residue.**
   makes it critical unconditionally. Position is deliberately not checked —
   moving a placeholder to where the target grammar wants it is required, and a
   check that enforces source order manufactures a defect out of correct work.
+  Two direction rules keep it honest. **Compare the delimited span in every
+  script, not the runtime's own token class:** the substituting code matches
+  an ASCII word, so a placeholder name an engine translated into the target
+  script is not a placeholder to it and renders as literal braces — and a gate
+  that reuses that same pattern inherits the blind spot and passes the string.
+  Define the span by its delimiters, excluding the shapes that are not
+  placeholders (a comma-bearing plural expression, a quoted example). And
+  **check the two directions separately:** a name in the target that the
+  source lacks is always a defect; a source name missing from the target is
+  often correct, since a singular plural-form value may state the count in
+  words.
 - **Termbase adherence.** For each concept with a settled rendering, the check
   is: the source term is present in this unit and the target's canonical
   rendering is absent from the target unit. That is the mechanical half of
