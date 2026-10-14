@@ -67,6 +67,7 @@ with a one-line detail quoting the campaign's own numbers.
 - When a rule needs an input a client may lack (a margin, a diff, a daily series),
   make it inert without that input rather than defaulting the input. A defaulted
   margin invents a break-even; an inert rule invents nothing.
+- When a count rule ("zero conversions") and a ratio rule ("return below target") read the same spend, give the ratio rules the count's complement as a clause. Value reported against zero conversions otherwise matches both and the reason list contradicts itself; the headline and severity are unchanged, so only the secondary reasons notice.
 - When a campaign has zero cost, no efficiency rule fires: an undefined ratio has
   no verdict. Only the status rule can speak, and it needs spend to speak.
 - When a snapshot rule and a change rule both match, the snapshot rule still
