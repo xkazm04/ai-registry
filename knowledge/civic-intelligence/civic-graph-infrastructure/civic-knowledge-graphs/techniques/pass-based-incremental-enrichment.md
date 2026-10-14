@@ -106,6 +106,10 @@ computed as its own to overwrite.
 - When two passes want to write the same property, that is an ownership
   conflict to resolve in design, not a race to resolve by ordering. One
   property, one owning pass lineage.
+- When a generic writer shares a store with owned layers, derive its refusal
+  set as the closed vocabulary minus what it owns, for nodes and for edges
+  alike. A hand-named deny list guards only the incident that named it; the
+  vocabulary grows and the list does not.
 
 ## When not to use passes
 

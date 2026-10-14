@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 60,
+  "applications": 61,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -283,8 +283,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/civic-knowledge-graphs.md",
-   "digest": "sha256-b2:6488cd815476f2d6",
-   "revision": 6,
+   "digest": "sha256-b2:76e2caa5616df8ad",
+   "revision": 7,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -400,6 +400,13 @@
      "stack": "node",
      "technique": "forensic-view-filtering",
      "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/applications/node--forensic-view-filtering.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "pass-based-incremental-enrichment",
+     "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-knowledge-graphs/applications/node--pass-based-incremental-enrichment.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@24"
     }
