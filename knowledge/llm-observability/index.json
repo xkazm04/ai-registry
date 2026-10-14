@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
   "techniques": 128,
-  "applications": 85,
+  "applications": 86,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -433,9 +433,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256-b2:529238b95e86e429",
-   "revision": 11,
-   "changedAt": "2026-09-22",
+   "digest": "sha256-b2:609da9e2f3c21869",
+   "revision": 12,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -637,6 +637,13 @@
      "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/python--target-matrix-runs.md",
      "verified_on": "2026-08-30",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "rust",
+     "technique": "async-run-queue-with-cancel",
+     "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/rust--async-run-queue-with-cancel.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@2021"
     },
     {
      "stack": "rust",
