@@ -78,6 +78,10 @@ interesting cases.
 - When the publisher provides only one affiliation stream, model what it
   actually is (usually the club) and record that the other is absent —
   do not synthesize the missing one from names.
+- When a map serves a "current" affiliation, separate a member who still sits with no 
+  open club window (independent today: absent from the map) from a member who no longer 
+  sits (last known club, labelled as such); carrying the last closed window for both 
+  repaints the first group with a body they left.
 - When list and club happen to coincide for most members (a calm term),
   resist the merge anyway; the model cost is one body kind, and the first
   defection converts the shortcut into published errors.

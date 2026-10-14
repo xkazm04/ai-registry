@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 49,
+  "applications": 50,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -1018,9 +1018,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/parliamentary-data-modeling.md",
-   "digest": "sha256-b2:30cb6b080fd61c8d",
-   "revision": 5,
-   "changedAt": "2026-10-13",
+   "digest": "sha256-b2:127bbeee60e64648",
+   "revision": 6,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "cross-term-registry-loading",
@@ -1133,6 +1133,13 @@
      "technique": "office-vs-plain-membership",
      "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--office-vs-plain-membership.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "party-club-vs-electoral-list",
+     "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--party-club-vs-electoral-list.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     }
    ]
