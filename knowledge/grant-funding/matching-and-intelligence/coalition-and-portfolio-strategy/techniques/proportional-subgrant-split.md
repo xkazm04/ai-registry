@@ -74,6 +74,7 @@ is a precedent someone will regret.
   shares for certain member classes, limits on administrative rates), the
   funder's constraints bind first and the proportional rule allocates the
   remainder. The funder sets the form of the budget, not the coalition.
+- Allocate whole percentage points by largest remainder so the shares sum to exactly 100. Rounding each share on its own does not: three equal members each round to 33 and the set reconciles to 99, and in a seeded sample of 500 revenue mixes more than a quarter missed 100. A split that does not add up cannot be copied into the agreement, and the leftover point becomes the first thing members dispute.
 - Never leave the split implicit in a budget spreadsheet only. The controlling
   artifact is the written agreement each member signed; the budget must
   reconcile to it.
