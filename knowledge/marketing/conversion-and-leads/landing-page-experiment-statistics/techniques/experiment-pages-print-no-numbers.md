@@ -73,6 +73,7 @@ remember the rule.
   the page's identity is temporary and its links are the operator's to check.
 - When serving several arms, serve them from one address, because a chosen arm is not
   a randomised one.
+- When a model drafts the copy, screen its output against the figures the brief supplied and replace an unsupplied percentage with the generic fallback, because an instruction not to invent a number is not a control; the schema removes the field, not the sentence.
 - When mining a lesson, require the gated significance predicate, because a leader is
   not a winner and a lesson from a leader is folklore with a badge.
 - When the experiment's numbers are illustrative, the copy is generic and the label
