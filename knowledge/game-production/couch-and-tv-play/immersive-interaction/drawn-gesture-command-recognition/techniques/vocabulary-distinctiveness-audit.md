@@ -6,7 +6,7 @@ technique: vocabulary-distinctiveness-audit
 status: draft
 laws: [law-and-check-share-one-source, unmeasured-is-not-a-pass]
 shared_with: []
-use_when: [adding a command to an existing gesture vocabulary, two commands are confused with each other more often than with noise, a proposed shape differs from another only in size or direction]
+use_when: [adding a command to an existing gesture vocabulary, two commands are confused with each other more often than with noise, a proposed shape differs from another only in size or direction, an acceptance gate reports one pooled number across commands, every command opens with the same prefix]
 ---
 
 # Vocabulary distinctiveness audit
@@ -65,6 +65,8 @@ direction matters while the matcher ignores direction is two sources that disagr
   paths to point clouds silently merges every directional pair.
 - **When the vocabulary is taught gradually, audit each stage's subset as well as the full
   set.** Early players with three shapes deserve a vocabulary that is distinct at three.
+- **When the acceptance gate pools commands inside a capture variant, apply its bars to each command inside each variant as well.** A pooled bar can be met by one clip while one command sits at 80%; the weakest command is the vocabulary's real accuracy. Where the per-command cut starts under its bar, ratchet it (a cell may not lose clips) instead of failing on arrival, and record the cell as a known deviation.
+- **When every command opens with the same prefix, report the remainder's share of the drawn path.** If the discriminating part is about a tenth of the cloud, pairwise distances are decided by a few points, tilt and sloppiness move a command across the boundary easily, and the pair at risk is the one whose remainders are angled between the others.
 - **When no cross-user corpus exists yet, steps 1-3 may run and step 4 is unmeasured.**
   Template distances are structural evidence, and they never stand in for the matrix.
 
