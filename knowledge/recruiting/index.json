@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 302,
+  "applications": 303,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -689,9 +689,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/automated-screening-fairness-gates.md",
-   "digest": "sha256-b2:211a0516170db8f6",
-   "revision": 3,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:3925e87676508a14",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "blocked-rejection-as-an-audited-event",
@@ -785,6 +785,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "blocked-rejection-as-an-audited-event",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/automated-screening-fairness-gates/applications/node--blocked-rejection-as-an-audited-event.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "defense-in-depth-recheck-at-the-apply-boundary",

@@ -88,6 +88,7 @@ the vocabulary changes.
   entitled to propose, at scale. Suppressing the record removes your only view of it.
 - **When a refusal count rises after a deploy, treat it as a regression with a name.**
   Group by proposing caller and refusing rule; the pair usually identifies the commit.
+- **When the proposer is knowable, stamp it; "not identified" is for the unknowable.** A pass that proposed the reject is the actor, and a null left on a refusal the system itself can attribute throws away the one field the audit asked for. Likewise store the refusing rule as an identifier beside the sentence: a rule that exists only inside prose cannot be counted.
 - **When the refusal cannot name its proposer, record *not identified* and raise it.**
   Authority may be downgraded from human to automated when the record is unclear, never
   upgraded, and never defaulted to a convenient person.
