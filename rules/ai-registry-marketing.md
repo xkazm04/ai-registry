@@ -1,6 +1,6 @@
 # Marketing - the subjects this registry carries
 
-`marketing` - 30 subjects, 184 techniques, 100 applications.
+`marketing` - 30 subjects, 184 techniques, 101 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### search-and-content
