@@ -20,3 +20,8 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 ## 1.1.0 - 2026-10-12 - pof (judgement-only rerun)
 - promote deleted the target's .ai/lens-scan before copying; a running bp held scan.db open, Windows refused the delete halfway (map and events gone, store left), and a chained clean then deleted the seat worktree - the only copy of a $27 judgement run. promote now never deletes: it overwrites files one by one, merges the seat's new runs into the store in one SQLite transaction (safe beside a reader), and validates; clean refuses until a promotion validated. Never chain clean after promote with `;`.
 - A judgement-only seat (bench run --phase judgement) is the provider-offload shape: it starts from the target's adopted state and copies only inventory and product tree from work/, so a previous seat's scripts and notes cannot leak in.
+
+## 1.2.1 - 2026-10-14 - athena-portable (bp validation run)
+
+- Field lesson: `adopt.mjs measure` passed the feature COUNT as `scope.features`, but the lens-scan store (since 1.2.0) wants the list of feature slugs and checks them against the map, so the first adoption after lens-scan 1.2.0 crashed at the static baseline. It now passes the slugs and the known set. The headless run patched a temp copy to finish; this is the real fix.
+- Field lesson: a context map kept from before a burst of commits can miss whole folders (athena-portable: 111 of 257 desktop source files covered, the depth scenes absent), and adopt then reads those features as having no UI. Counting dead paths (27 of 831) hid it; check coverage of tracked source, not just dead entries, before trusting an old map.

@@ -5,7 +5,7 @@ memory: project
 tags: onboarding, blueprint, app-structure, lens-scan, product-tree, benchmark, providers
 description: "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets, proposals and coverage; then validates with bp's own validator and registers the repo so bp's project switcher shows it. Deterministic work runs in scripts/adopt.mjs; the model only names the product tree and judges code, in batches that can fan out or be benchmarked across providers with scripts/bench.mjs. Invoke with /adopt-bp [<repo path>] [--check] [--slug s --name n]."
 argument-hint: "[<repo path>] [--check] [--slug <slug>] [--name <name>] [--bp <bp checkout>]"
-version: 1.2.0
+version: 1.2.1
 ---
 
 # adopt-bp - a repo in, a blueprint out

@@ -350,7 +350,7 @@ async function measure() {
   const feats = (map.features ?? []).filter((x) => x.status !== 'archived');
   if (!feats.length) die('no features - run tree first');
   const db = LS.store.openStore(DB);
-  const { id: run } = LS.store.runStart(db, { phase: 'measure', lenses: ['development', 'security', 'design'], scope: { features: feats.length, tool: 'adopt-bp' }, model: 'static', note: `adopt-bp ${SKILL_VERSION} baseline: footprint.mjs --lens all` });
+  const { id: run } = LS.store.runStart(db, { phase: 'measure', lenses: ['development', 'security', 'design'], scope: { features: feats.map((f) => f.slug), tool: 'adopt-bp' }, knownFeatures: new Set(feats.map((f) => f.slug)), model: 'static', note: `adopt-bp ${SKILL_VERSION} baseline: footprint.mjs --lens all` });
   let results;
   try {
     results = LS.footprint.measureFeatures({ structure: map, root: ROOT, lenses: ['development', 'security', 'design'], store: LS.store, db, run });
