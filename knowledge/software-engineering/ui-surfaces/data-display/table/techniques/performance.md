@@ -123,6 +123,10 @@ that *takes things away*:
   variable row heights all interact with the scroll math; variable heights in
   particular demand measurement or estimation machinery that is a permanent
   maintenance surface.
+- **The scrollable box has a ceiling** — a spacer as tall as the whole dataset
+  stops growing at a browser-dependent size in the tens of millions of pixels, so
+  a windowed table that was correct at fifty thousand rows can lose its last rows
+  at a million; see [compressed-scroll-space](./compressed-scroll-space.md).
 - **Scroll anchoring and restoration** become your code's problem instead of
   the platform's.
 

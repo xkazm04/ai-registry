@@ -1,0 +1,48 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rvg-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T09:00:00Z",
+  "ended_at": "2026-10-14T13:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/table",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "table",
+      "technique": "export-escapes-for-its-consumer",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/compressed-scroll-space.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/one-door-for-range-writes.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/clipboard-range-round-trip.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/export-escapes-for-its-consumer.md",
+    "librarian/sources/2026-10-14-revogrid.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "4 techniques in table; 1 applied as code (better); 3 unapplied for want of a fleet seam; index.json/catalog.json left uncommitted (sibling WIP in the regeneration)."
+}
