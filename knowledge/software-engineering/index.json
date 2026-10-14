@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1267,
+  "applications": 1268,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -19096,9 +19096,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/machine-authored-documentation/machine-authored-documentation.md",
-   "digest": "sha256-b2:e02500921c1ec7c8",
-   "revision": 2,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:346e2d5ca7d54fa1",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "declared-truth-boundary",
@@ -19221,6 +19221,13 @@
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/machine-authored-documentation/applications/node--evidence-without-verdict.md",
      "verified_on": "2026-08-31",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "rust",
+     "technique": "declared-truth-boundary",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/machine-authored-documentation/applications/rust--declared-truth-boundary.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
