@@ -1125,9 +1125,9 @@
       "purity": "funding",
       "subjects": 17,
       "techniques": 105,
-      "applications": 45,
-      "files": 172,
-      "contentHash": "sha256-b2:cd8a2b2072c76686"
+      "applications": 46,
+      "files": 173,
+      "contentHash": "sha256-b2:76f3bd2580040c5c"
     },
     {
       "name": "llm-observability",
@@ -1205,7 +1205,7 @@
       "techniques": 1841,
       "applications": 1250,
       "files": 3330,
-      "contentHash": "sha256-b2:6cea6922346d45df"
+      "contentHash": "sha256-b2:d448f6005cde83b6"
     },
     {
       "name": "technical-writing",

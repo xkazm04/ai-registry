@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 45,
+  "applications": 46,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -1312,9 +1312,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/jurisdiction-modelling.md",
-   "digest": "sha256-b2:20b9b2d9afba0f40",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:ebec143c908aa71b",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "compliance-document-taxonomy",
@@ -1400,6 +1400,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "compliance-document-taxonomy",
+     "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--compliance-document-taxonomy.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "jurisdiction-profile-schema",
