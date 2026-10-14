@@ -85,6 +85,12 @@ a boundary that was never emitted, and a pass that silently skipped the element
 sentinel costs one string and it is the only thing that makes the escalation trigger
 below computable at all.
 
+**The reader of a strict contract treats an empty, absent or malformed challenge as the
+same fourth value: "did not run".** Voiding the whole artifact for a malformed informational
+field wakes a person over nothing, and accepting an empty list as clean is the failure the
+sentinel exists to end. Keep three distinguishable states in the stored record: not run, ran
+with notes, ran and found nothing.
+
 ## The posture's label is a pinned parameter, not a framing choice
 
 [Choi et al. (2026)](https://arxiv.org/html/2601.04790v1) studied role labels in

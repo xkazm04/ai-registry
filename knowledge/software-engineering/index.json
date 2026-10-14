@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 235,
   "techniques": 1860,
-  "applications": 1293,
+  "applications": 1294,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -25698,9 +25698,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/plan-review.md",
-   "digest": "sha256-b2:cb405581d6418f66",
-   "revision": 3,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:53b4cdb9f8d08966",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "decision-sized-slicing",
@@ -25788,6 +25788,12 @@
      "technique": "decision-sized-slicing",
      "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/applications/process--decision-sized-slicing.md",
      "verified_on": "2026-08-28"
+    },
+    {
+     "stack": "process",
+     "technique": "fresh-posture-self-challenge",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/applications/process--fresh-posture-self-challenge.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",
