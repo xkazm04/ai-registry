@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 112,
+  "applications": 113,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -860,8 +860,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/content-production/channel-native-social-and-repurposing/channel-native-social-and-repurposing.md",
-   "digest": "sha256-b2:3b9436bb0bb8ee09",
-   "revision": 2,
+   "digest": "sha256-b2:4de8e15de57b8f1d",
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -977,6 +977,13 @@
      "technique": "per-network-register-and-limits",
      "file": "knowledge/marketing/content-production/channel-native-social-and-repurposing/applications/node--per-network-register-and-limits.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "retell-not-copy-with-source-digest",
+     "file": "knowledge/marketing/content-production/channel-native-social-and-repurposing/applications/node--retell-not-copy-with-source-digest.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     }
    ]
