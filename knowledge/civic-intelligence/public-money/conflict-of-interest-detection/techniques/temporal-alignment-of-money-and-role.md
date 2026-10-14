@@ -79,6 +79,12 @@ significance score, and they do different work:
   briefly joined. A high fraction on modest money can be a better lead than
   a low fraction on large money.
 
+A date that is present but impossible is undated, not early or late: a
+signature year in the far future or before the register existed is a data
+defect, and a window test over raw strings aligns it whenever the window is
+open-ended. Screen each payment date for plausibility before the window test,
+count the rejects with the undated, and never repair them.
+
 Undated payments join the missing-data ledger: they contribute to the raw
 total, never to the aligned amount, and their count is disclosed so the
 aligned fraction can be read as a lower bound only for complete, deduplicated,

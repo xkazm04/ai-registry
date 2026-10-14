@@ -1099,9 +1099,9 @@
       "purity": "civic",
       "subjects": 15,
       "techniques": 92,
-      "applications": 46,
-      "files": 158,
-      "contentHash": "sha256-b2:9a6477b7b251e02f"
+      "applications": 47,
+      "files": 159,
+      "contentHash": "sha256-b2:a59aa7d0317c77c0"
     },
     {
       "name": "game-production",
@@ -1202,10 +1202,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 234,
-      "techniques": 1842,
+      "techniques": 1841,
       "applications": 1250,
-      "files": 3331,
-      "contentHash": "sha256-b2:164283b72e52822b"
+      "files": 3330,
+      "contentHash": "sha256-b2:6cea6922346d45df"
     },
     {
       "name": "technical-writing",
