@@ -1,7 +1,7 @@
 ---
 subject: data-access
 domain: software-engineering
-last_touched: 2026-10-06
+last_touched: 2026-10-15
 dry_streak: 0
 ---
 
@@ -118,3 +118,14 @@ the join; negative control fires and names the defect (kp `3f253853`).
 ## 2026-10-06 - /intake deer-flow --delta (run `intake-deer-flow-1006-v3`, cloud dispatch)
 
 Source [[../../sources/2026-10-06-deer-flow-v3]]. `python--layering-rules` re-pinned `08b27aef -> 53df22bd`. Three anchors, content unchanged (the dependency rule now at `backend/AGENTS.md:201`). No claim moved.
+
+## 2026-10-15 - intake `mcp_agent_mail_rust` (run dle-002-1015, practitioner series DLE-002)
+
+Source note [[2026-10-15-mcp-agent-mail-rust]]. New application
+`rust--existence-authority-written-last--agent-mail`: a claim written to a database and a
+file read by two different enforcers. The technique's rule holds per reader; with two
+readers trusting opposite stores no single order hides the half-state from both, and for
+an exclusion record "authority absent" means permission, so the create half-state is a
+false allow bounded by a synchronous write and swept by a background worker, while
+release is ordered to over-restrict. Candidate amendment banked untriaged (U2). The
+predecessor's in-memory compensation is the technique's retraction without a sweep.

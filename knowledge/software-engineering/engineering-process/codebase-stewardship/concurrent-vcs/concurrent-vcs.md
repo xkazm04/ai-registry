@@ -12,6 +12,7 @@ techniques:
   - shared-resource-arbitration
   - sub-file-claim-scope
   - integration-door
+  - commit-time-claim-guard
 ---
 
 # Concurrent-workspace version control
@@ -242,7 +243,9 @@ its crashed owner, but activity does not. This is
   touches and coordination artifacts; anything larger works in physical
   isolation. The one exception is the implementer seat of a tree shared on
   purpose, where many writers land small additive changes behind blocking
-  leases and a commit-time guard, and even there every seat whose output is
+  leases and a commit-time guard that checks the session's own inventory
+  before anyone's claims ([commit-time claim
+  guard](./techniques/commit-time-claim-guard.md)), and even there every seat whose output is
   evidence works isolated
   ([physical-isolation](./techniques/physical-isolation.md)).
 - **No commit is built through the shared index while siblings are live.**
@@ -293,3 +296,8 @@ its crashed owner, but activity does not. This is
   merge-back of isolated branches: claim read from the record, rebase in the
   branch's worktree, dirt judged by overlap, verify-then-teardown, the claim's
   lifetime across a failed integration, and scope checked against change.
+- [commit-time-claim-guard](./techniques/commit-time-claim-guard.md) — the hook
+  a shared tree relies on at the commit: why the session's own write inventory
+  gates first and a claim only complements it, what a claim protects in a file
+  two sessions both write (arrival order, not content), the record the hook
+  reads, its fail directions, and the replay that prices it before install.

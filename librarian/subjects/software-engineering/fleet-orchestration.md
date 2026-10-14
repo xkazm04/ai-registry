@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: fleet-orchestration
-last_touched: 2026-10-14
+last_touched: 2026-10-15
 touched_by: intake
 dry_streak: 0
 ---
@@ -795,3 +795,13 @@ self-close forbidden, verification debt capped) was PARTIAL here.
   none, but only 13.5% of code passes ran a gate whose exit status could fail; 16 masked
   passes printed failures. Not landed; kept on a local branch for the series' DLE-010
   round, which builds tier 2 (re-run the named gate at the named commit).
+
+## 2026-10-15 - intake `mcp_agent_mail_rust` (run dle-002-1015, practitioner series DLE-002)
+
+Source note [[2026-10-15-mcp-agent-mail-rust]]. New application
+`rust--evidence-outranks-a-liveness-claim--agent-mail`: a forced release refused while any
+of four activity signals on the leased paths is fresh, computed for the guarded object
+rather than the session; departures: a probe that cannot resolve its workspace folds into
+"stale" (unknown read as dead), and expiry outranks evidence without fenced writes. Design
+entry D6 (an automated coordinator on an autonomy ladder, shadow by default, policies
+replayed on history before live) has no home: banked as lead L1; this category is full.

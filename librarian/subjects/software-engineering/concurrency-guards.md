@@ -1,7 +1,7 @@
 ---
 subject: concurrency-guards
 domain: software-engineering
-last_touched: 2026-10-14
+last_touched: 2026-10-15
 touched_by: intake
 dry_streak: 0
 ---
@@ -199,3 +199,14 @@ reclaim; a malformed config falling back to a private authority), and
 delete-by-name takeover; fixed in `6bfb3f6c`, double-grant trials 13/32 to 0/32.
 The `cross-process-exclusion` text was not changed: its rule (takeover is
 replace-if-unchanged) was right and the board violated it.
+
+## 2026-10-15 - intake `mcp_agent_mail_rust` (run dle-002-1015, practitioner series DLE-002)
+
+Source note [[2026-10-15-mcp-agent-mail-rust]]. New application
+`rust--cross-process-exclusion--agent-mail`: every version-control call takes a
+per-repository in-process mutex and then an OS lock on a private sentinel, after a tool
+release corrupted repositories under concurrent readers. Departure: the server's own
+archive commits run under a different guard and meet a second process only at the tool's
+own index lock. Catches this run: critical-section-across-a-suspension (sync outside the
+fence, rename inside), preparation-is-the-staleness-window (a pooled snapshot pre-check).
+Backlog row dle-002-lock-fence (a broken lock's holder learns it before the guarded write).

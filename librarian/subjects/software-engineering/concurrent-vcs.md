@@ -1,7 +1,7 @@
 ---
 subject: concurrent-vcs
 domain: software-engineering
-last_touched: 2026-10-14
+last_touched: 2026-10-15
 ---
 # concurrent-vcs
 
@@ -87,3 +87,36 @@ was CONTESTED against this subject's bright line.
   sweep, instrument shipped e148ad7d).
 - Boundary with `fleet-orchestration` untouched: assignment and the verifier seat stay
   there; the checkout regime and the commit guard are here.
+
+## 2026-10-15 - intake `mcp_agent_mail_rust` (run dle-002-1015, practitioner series DLE-002)
+
+Source note [[2026-10-15-mcp-agent-mail-rust]]: a coordination server for agent swarms
+whose commit hook refuses a staged path under another agent's exclusive claim, read with
+its Python predecessor as design history.
+
+- New technique `commit-time-claim-guard`: the session's own write inventory gates the
+  commit and a claim only complements it; a claim protects a co-written file by arrival
+  order (the first writer's commit is trusted whole); every-writer ledgers defeat a path
+  guard both ways (exempt: the hunk catch vanishes; exclusive: the fleet serializes); the
+  lease is checked only for commits from the shared tree; the hook's record is durable and
+  narrow before the grant returns, healed, generation-stamped; one matcher; fail
+  directions; replay before enabling with the tree's generators declared. Golden path:
+  techniques list, the shared-tree invariant; `physical-isolation`'s discriminator bullet
+  now names the inventory check first (append, standing sentences true).
+- Phase 7.5, ai-registry (experiment, **not-better** for the source's lease rule): the
+  commit replay gained lease arms on branch ab/lease-guard-replay (c0f626d8, unlanded).
+  1,425 mapped commits: inventory 3/4 known sweeps at 0.28% clean; declared claims 2/4 at
+  0.07%; implied claims 3/4 incl. the ledger-row sweep at about 15%; ledgers exempt: the
+  ledger-row catch vanishes, as predicted.
+- Phase 7.5, personas (experiment, **not-better**, seam chosen to falsify): the inventory
+  rule flagged 6.2% of 1,459 mapped commits, nearly all unmodelled generators; 2 carried
+  another session's lines, both deliberate. The technique gained "the inventory is per
+  tree". During the run a sibling round's pathspec commit of that tree's apply ledger
+  carried this run's uncommitted row: the shared-ledger hunk sweep on a second tree.
+- Applications: `process--commit-time-claim-guard--ai-registry`,
+  `rust--commit-time-claim-guard--agent-mail`, `rust--sub-file-claim-scope--agent-mail`
+  (the no-wait partial grant moves hold-and-wait between calls; untriaged U1 as an
+  amendment).
+- Backlog rows from the peer study: dle-002-board-unreadable-record-fails,
+  dle-002-beat-partial-grant, dle-002-evidence-liveness, dle-002-lock-fence,
+  dle-002-refuse-broad-claims; dle-m2b-declared-inventory-guard updated.

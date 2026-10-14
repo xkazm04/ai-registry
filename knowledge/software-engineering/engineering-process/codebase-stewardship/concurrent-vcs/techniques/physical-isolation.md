@@ -132,7 +132,9 @@ The shared tree is the better trade for a seat only when all of these hold:
   blocking lease with an expiry on every file a session will change
   ([sub-file claim scope](./sub-file-claim-scope.md) prices the lease); a
   commit-time guard that refuses a commit touching a path another session
-  holds; a guard that refuses every whole-tree operation
+  holds and, checked first, one carrying a path the committing session never
+  wrote, since a claim alone misses most sweeps that land
+  ([commit-time claim guard](./commit-time-claim-guard.md)); a guard that refuses every whole-tree operation
   ([never-lose-work rules](./never-lose-work-rules.md)); commits built from
   the session's own inventory in a private index, never from the tree's
   status ([isolated-index commits](./isolated-index-commits.md)); and a
