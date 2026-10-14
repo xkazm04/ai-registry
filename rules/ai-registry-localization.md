@@ -1,6 +1,6 @@
 # Localization - the subjects this registry carries
 
-`localization` - 17 subjects, 119 techniques, 64 applications.
+`localization` - 17 subjects, 119 techniques, 65 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### european
