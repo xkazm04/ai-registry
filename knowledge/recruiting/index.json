@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 303,
+  "applications": 304,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -29,8 +29,8 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/adverse-impact-and-proxy-neutrality.md",
-   "digest": "sha256-b2:4d10354096a7f66a",
-   "revision": 3,
+   "digest": "sha256-b2:a6b772b8ebe7f352",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -136,6 +136,13 @@
      "technique": "selection-rate-ratio-testing",
      "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/node--selection-rate-ratio-testing.md",
      "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "too-small-to-assess-as-a-distinct-verdict",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/adverse-impact-and-proxy-neutrality/applications/node--too-small-to-assess-as-a-distinct-verdict.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
