@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 115,
+  "applications": 116,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -717,8 +717,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/campaign-anomaly-triage.md",
-   "digest": "sha256-b2:50256b24f4983b0e",
-   "revision": 4,
+   "digest": "sha256-b2:a78ea1170fae119e",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -857,6 +857,13 @@
      "stack": "node",
      "technique": "severity-times-spend-attention-order",
      "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/applications/node--severity-times-spend-attention-order.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "spend-spike-without-return",
+     "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/applications/node--spend-spike-without-return.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
