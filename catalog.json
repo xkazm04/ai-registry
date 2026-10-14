@@ -1164,9 +1164,9 @@
       "purity": "marketing",
       "subjects": 30,
       "techniques": 183,
-      "applications": 86,
-      "files": 303,
-      "contentHash": "sha256-b2:075c749ca0743cfa"
+      "applications": 87,
+      "files": 304,
+      "contentHash": "sha256-b2:56784556b3af232e"
     },
     {
       "name": "media-generation",
@@ -1202,10 +1202,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 234,
-      "techniques": 1841,
+      "techniques": 1842,
       "applications": 1250,
-      "files": 3330,
-      "contentHash": "sha256-b2:6cea6922346d45df"
+      "files": 3331,
+      "contentHash": "sha256-b2:164283b72e52822b"
     },
     {
       "name": "technical-writing",

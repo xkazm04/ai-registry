@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
-  "techniques": 1841,
+  "techniques": 1842,
   "applications": 1250,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1841/1841",
+  "use_when_coverage": "1842/1842",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -21115,9 +21115,9 @@
    "subcategory": "shell-and-navigation",
    "status": "reconciled",
    "file": "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/modal-stack.md",
-   "digest": "sha256-b2:c0c7b5eacfef8679",
-   "revision": 4,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:7848e4396b8a86da",
+   "revision": 5,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "anchored-positioning",
@@ -34297,9 +34297,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
-   "digest": "sha256-b2:b2b329111d190ae7",
-   "revision": 12,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:f5aa23bf6f14872f",
+   "revision": 13,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "client-server-split",
@@ -34330,6 +34330,21 @@
       "a selection surviving a filter change and acting on rows nobody can see",
       "deciding whether a text filter may apply on every keystroke",
       "selections dropped when the user turns the page"
+     ]
+    },
+    {
+     "slug": "grid-keyboard-model",
+     "status": "forged",
+     "laws": [
+      "identity-survives-reuse"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an interactive table is a native table or a grid",
+      "one tab stop for a whole data table",
+      "arrow keys that must also operate a control inside a cell",
+      "a keyboard jump to the last row on a windowed or paged table",
+      "focus landing on a cell that holds a button"
      ]
     },
     {
@@ -41479,6 +41494,7 @@
     "subscription-billing-periods/hourly-pass-with-derived-idempotency",
     "sync-replication/change-tracking-and-cursors",
     "sync-replication/tombstone-propagation",
+    "table/grid-keyboard-model",
     "table/pagination",
     "table/performance",
     "table/sorting",
