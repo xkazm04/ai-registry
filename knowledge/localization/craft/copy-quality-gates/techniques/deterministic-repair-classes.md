@@ -88,6 +88,7 @@ applied — without the record it is a drive-by edit with a script's confidence.
 - **When an autocorrect step would suppress findings it could not fix, change the
   step**, because a report that is quiet after repair is read as a catalog that is
   clean.
+- **When the damaged character stood for content the unit no longer holds, detect it always and repair from the source-language unit**, because stripping the corruption leaves the content gone (a control character where a colon belonged) and the output is then derivable only from a reference, never from the unit.
 - **When a repair would change a word, it is not a repair class**, because anything
   that moves meaning belongs to the reported layers and to a human.
 
