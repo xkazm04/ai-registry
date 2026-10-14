@@ -37021,8 +37021,8 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/trust-base.md",
-   "digest": "sha256-b2:9e7a4721c917b497",
-   "revision": 1,
+   "digest": "sha256-b2:7f1da8b2d22f2a55",
+   "revision": 2,
    "changedAt": "2026-10-14",
    "techniques": [
     {

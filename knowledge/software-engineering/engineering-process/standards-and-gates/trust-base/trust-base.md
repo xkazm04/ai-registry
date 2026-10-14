@@ -148,10 +148,13 @@ predicate with the number: "escape sites with a note within five lines" is a
 different count from "sites whose note names its dependency"
 ([count-carries-predicate](../../../_laws.md#count-carries-predicate)).
 
-Two cautions on the audit. First, a lint for undocumented unsafe blocks covers
-the block form only; the marker assertions and the dependent declarations they
-rest on are outside it, so a clean lint run is a statement about one spelling of
-the base. Second, the base grows by accretion. Each member was reasonable
+Two cautions on the audit. First, a lint for undocumented unsafe code
+checks that a note exists next to the spellings it visits (blocks, and in some
+ecosystems unsafe trait impls); it cannot read what a note depends on, and the
+declarations the argument rests on, or a body the checker was told to skip, are
+outside it, so a clean lint run is a statement about the presence of notes on
+some spellings of the base, not about their truth. Check which item kinds the
+linter visits before stating its coverage. Second, the base grows by accretion. Each member was reasonable
 when added; the perimeter is the sum, and no one decision made it large. Set a
 review trigger on the count rather than on any single addition.
 

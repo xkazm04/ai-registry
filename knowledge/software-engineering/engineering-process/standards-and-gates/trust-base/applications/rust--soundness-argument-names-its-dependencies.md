@@ -53,3 +53,22 @@ a note sits above `from_utf8_unchecked`. It names the dependency (validity
 established at creation) in one direction only. The constructor it points to does not
 say a reader depends on it, so the site has the first end of the edge and not the
 second.
+
+## Lint coverage of this site, checked against the linter's source (2026-10-14)
+
+The restriction lint `undocumented_unsafe_blocks` in Rust's clippy is documented as
+checking "unsafe blocks and impls without a `// SAFETY: ` comment". Read against the
+lint's source on the beta branch (`clippy_lints/src/undocumented_unsafe_blocks.rs`,
+`check_item`): it visits trait impls whose trait is `unsafe` (so hand-written
+`Send`/`Sync` impls are covered), skips inherent impls, requires the comment on the
+lines directly preceding the item (attributes in between are accepted by default via
+`accept-comment-above-attributes`, and a comment above the enclosing statement by
+`accept-comment-above-statement`), and its companion `unnecessary_safety_comment`
+flags notes on safe code. Rust-for-Linux enables it and denies unsafe code without a
+note. The first version of this subject said impls were outside the lint's reach and
+listed "can a lint enforce comments on impls" as open; it can, for presence. What
+stays manual is unchanged: whether the note names its exclusion and its dependency.
+Consequence for the deviation above: the eight undocumented impls in the witness
+would each be a lint finding under that configuration, which makes the lint the
+cheapest first step of the remedy rather than a partial one. Sources read through
+search snippets and the source file fetch; I did not run the lint on the witness tree.
