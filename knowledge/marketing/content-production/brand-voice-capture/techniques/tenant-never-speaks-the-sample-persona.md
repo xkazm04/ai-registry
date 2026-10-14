@@ -76,6 +76,7 @@ a decision a human makes, never a default the product makes for them.
   beneath it, because the owner cleared it on purpose.
 - When seeding, include no samples, no facts and no drafts, because a seed
   that ticks a readiness gate makes the gate meaningless.
+- When scoring readiness over a state that merges the seed under saved voices, count only voices that carry a real training stamp, because a seed's directives and red lines read as written content to a gate that only counts rows.
 - When deciding demo-ness, read the project's kind from the one seam that
   owns it, never from a name, because a string test leaks on the first
   rename.
