@@ -128,3 +128,8 @@ rather than by inheritance.
 6. Do not claim the capability over a continuously compressed or
    non-seekable stream, and derive the reverse reader's buffer size from the
    sampled record size.
+7. When the format delimits records with a character it escapes inside
+   fields, the same recovery needs no symmetric escape: the delimiter is
+   always a boundary, so truncate to the last one. Keep a separate record of
+   completion for any unit of work that can legitimately produce no rows,
+   since the output cannot carry its identity.
