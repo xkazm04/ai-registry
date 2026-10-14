@@ -97,6 +97,12 @@ per se. Consequences:
   checklists do not catch arithmetic — a script was found declaring 947 words and
   5:00 at 190 wpm while actually holding 1161 words (6:07), and none of its twelve
   self-checks was a word count.
+- **Run the arithmetic on the words, not on the clock the engine declared.** A
+  pipeline that derives a render's runtime from per-beat seconds the generating model
+  wrote is checking the model against itself: the same answer can declare 1,374 words
+  into 300 seconds and pass every timing law. Compare spoken words to the render's own
+  budget and to a ceiling just above the fastest measured delivery, and refuse the
+  over-length side; treat a thinly filled slot as advice, not a refusal.
 - **When budget and floor conflict**, present the creator the honest pair: longer
   video at their rate, or their rate is incompatible with this slot. Never the
   silent third option.
