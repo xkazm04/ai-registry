@@ -59,6 +59,12 @@ precise percentage is not
 
 - When fewer than two trailing days exist, the noise is zero by construction; treat
   the band as absent and the probability as unprintable, never as certainty.
+- Zero remaining noise on an unfinished month is the same case wherever it comes from:
+  a flat or all-zero series past the elapsed-day gate has no estimate either, so the gate
+  must require a positive remaining deviation as well as enough elapsed days. And the gate
+  belongs to the number, not to one card: every surface that carries the probability, a
+  generated recap or an export included, applies it, because a text writer will narrate an
+  early percentage as fact.
 - When the remaining standard deviation is zero because the month is complete, the
   probability is one or zero by comparison, and the card shows "final", not "100%".
 - When the daily errors are visibly autocorrelated - a promotion that ran a week, a
