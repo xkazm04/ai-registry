@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 190,
-  "applications": 108,
+  "applications": 109,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -773,8 +773,8 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/media-generation/narrative-craft/data-video-virality/data-video-virality.md",
-   "digest": "sha256-b2:cf2f5d58696ff1d6",
-   "revision": 2,
+   "digest": "sha256-b2:ed91e7903444131b",
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -912,6 +912,12 @@
      "technique": "continuity-gate",
      "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--continuity-gate.md",
      "verified_on": "2026-10-03"
+    },
+    {
+     "stack": "process",
+     "technique": "path-over-conclusion",
+     "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--path-over-conclusion.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",

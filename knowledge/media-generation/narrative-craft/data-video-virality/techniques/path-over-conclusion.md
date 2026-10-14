@@ -44,6 +44,7 @@ middle of the video.
 - A conclusion-only idea can be rescued by changing the framing (a map
   of winners becomes a cumulative race of totals), not by better
   animation.
+- A rationale gate that checks only for non-empty text accepts "keeps changing". Count dates and named entities in it (two of each, forty characters) and put a worked example in the brief the generating seats copy, since they copy its shape.
 - Documentary human stories (one person's comeback, one season) fail
   this gate in a narration-free format, however strong the story is.
 
