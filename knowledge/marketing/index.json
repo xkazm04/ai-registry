@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 105,
+  "applications": 106,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -151,8 +151,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/attribution-and-incrementality.md",
-   "digest": "sha256-b2:76cd61c8eb24e3a6",
-   "revision": 2,
+   "digest": "sha256-b2:ec4c7c4c286f6f72",
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -274,6 +274,13 @@
      "technique": "offline-conversion-upload-guards",
      "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/applications/node--offline-conversion-upload-guards.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "triangulate-attribution-incrementality-and-mix-model",
+     "file": "knowledge/marketing/measurement-and-economics/attribution-and-incrementality/applications/node--triangulate-attribution-incrementality-and-mix-model.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     }
    ]

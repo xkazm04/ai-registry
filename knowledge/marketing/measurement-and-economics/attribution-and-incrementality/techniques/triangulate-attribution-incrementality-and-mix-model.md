@@ -69,6 +69,7 @@ incrementality factor the holdout produced.
   there, because the disagreement is the finding and the holdout is the arbiter.
 - When a surface is about to blend instruments into one figure, refuse and show them
   side by side, because the blend erases the provenance that makes any of them usable.
+- When a header or summary total spans rows whose instruments or provenance differ (measured beside fixture, attributed beside modelled), sum only the rows that share the strongest provenance and state how many contributed, because a per-row label does not carry into a total computed above it.
 - When a decision is about existence - keep or kill a channel - trust the holdout over
   the attribution column, because the column cannot see what would have happened
   without the channel.
