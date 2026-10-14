@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 51,
+  "applications": 52,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -960,8 +960,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/grant-source-landscape.md",
-   "digest": "sha256-b2:00daf1ae19b2a4b8",
-   "revision": 4,
+   "digest": "sha256-b2:a68a0cd9e0c26a9d",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -1084,6 +1084,13 @@
      "stack": "node",
      "technique": "market-readiness-tiering",
      "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/applications/node--market-readiness-tiering.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "open-call-vs-awarded-history",
+     "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/applications/node--open-call-vs-awarded-history.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@24"
     }
