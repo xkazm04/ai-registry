@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1260,
+  "applications": 1261,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -874,9 +874,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/agent-addressable-ui.md",
-   "digest": "sha256-b2:db15363c780a3072",
-   "revision": 2,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:eeacc7371e042d65",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "agent-pasteable-reference-format",
@@ -962,6 +962,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "agent-pasteable-reference-format",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/applications/react--agent-pasteable-reference-format.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19"
+    },
     {
      "stack": "react",
      "technique": "build-time-source-stamping",
