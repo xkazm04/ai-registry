@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 58,
+  "applications": 59,
   "laws": 8,
   "categories": [
    "european",
@@ -371,9 +371,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/copy-quality-gates/copy-quality-gates.md",
-   "digest": "sha256-b2:acdac15e9b7117f3",
-   "revision": 5,
-   "changedAt": "2026-09-14",
+   "digest": "sha256-b2:7cc7ca0423f15ae0",
+   "revision": 6,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "anchored-model-review",
@@ -554,6 +554,12 @@
      "technique": "copy-contract-before-drafting",
      "file": "knowledge/localization/craft/copy-quality-gates/applications/process--copy-contract-before-drafting.md",
      "verified_on": "2026-09-14"
+    },
+    {
+     "stack": "process",
+     "technique": "deterministic-repair-classes",
+     "file": "knowledge/localization/craft/copy-quality-gates/applications/process--deterministic-repair-classes.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",
