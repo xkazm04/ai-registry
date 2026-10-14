@@ -25,7 +25,11 @@ This is `scan-sweep`'s sibling and reuses its doctrine **by reference**:
 
 When those files are not reachable beside this skill, say `scan-sweep: unavailable` in
 the run header and run only the static and declared-command methods; never improvise
-a lens from memory.
+a lens from memory. **The skipped judgement fails visibly**: one `activity --kind error`
+per skipped lens ("judgement skipped: scan-sweep unavailable"), and the run ends
+`failed` when it measured nothing else, so a caller never reads the previous run's
+judgement as current. Look for scan-sweep beside the skill's REAL path as well as the
+path it was invoked through (a junctioned skill's `..` is the link's parent).
 
 The difference is the contract. `scan-sweep` mass-resolves a solo backlog and lands
 what it proves. `lens-scan` works where several people own the product: it chases
