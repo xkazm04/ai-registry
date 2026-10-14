@@ -13,6 +13,7 @@ techniques:
   - unexported-capability-ladder
   - layout-resolved-input-synthesis
   - native-owned-stream
+  - native-side-owns-the-target-set
 ---
 
 # Native shell integration
