@@ -90,6 +90,12 @@ Two symmetry corollaries live here:
   metrics, no follow key. The platform's unit of coverage is the mandate,
   not the family. A relative independently holding a covered public role is
   covered on the same terms as every other holder of that role.
+- **A keyword filter for the fact boundary advises; it does not withhold.** The
+  nexus test (a spouse's firm cited to its registry is in scope) cannot be
+  expressed as a term list, so a kinship-term check at ingestion flags the string
+  for a reviewer rather than dropping or blanking it. Measured on one tree: every
+  hit over 1089 public-render strings was a real kinship statement, and two
+  tempting terms (a profession, a corporate parent) were false positives.
 - **Refusing out-of-scope material is silent; refusing in-scope material is
   disclosed.** Dropping a private-life fact needs no notice. Excluding an
   in-scope record (a broken row, an unparseable filing) is a coverage gap
