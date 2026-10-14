@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 66,
   "techniques": 409,
-  "applications": 294,
+  "applications": 295,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3149,8 +3149,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/cv-content-construction.md",
-   "digest": "sha256-b2:a6bf4c819af3872f",
-   "revision": 1,
+   "digest": "sha256-b2:17519f5f3da58534",
+   "revision": 2,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -3247,6 +3247,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "accomplishment-statements-without-invention",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--accomplishment-statements-without-invention.md",
+     "verified_on": "2026-10-14"
+    },
     {
      "stack": "process",
      "technique": "machine-rewrite-fidelity-contract",
