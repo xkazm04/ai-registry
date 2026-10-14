@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 306,
+  "applications": 307,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -1423,9 +1423,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/candidate-communication-integrity.md",
-   "digest": "sha256-b2:1e9e47936aa7eedc",
-   "revision": 5,
-   "changedAt": "2026-09-26",
+   "digest": "sha256-b2:c969375a5572288d",
+   "revision": 6,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "bounce-receipt-supersedes-a-green-send",
@@ -1524,6 +1524,13 @@
      "technique": "bounce-receipt-supersedes-a-green-send",
      "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--bounce-receipt-supersedes-a-green-send.md",
      "verified_on": "2026-09-26",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "candidate-locale-resolution-authority",
+     "file": "knowledge/recruiting/candidate-experience/candidate-communication-integrity/applications/node--candidate-locale-resolution-authority.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
