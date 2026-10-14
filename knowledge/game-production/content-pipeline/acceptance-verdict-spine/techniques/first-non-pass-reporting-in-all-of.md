@@ -82,6 +82,9 @@ composed unit a member-level breakdown on demand. See `explain-why-this-verdict`
   fabricated aggregate has no author and no rung.
 - **When a member needs context that may be absent, it degrades to not-measured, never
   to a failure** — absent context must not regress a satisfied unit.
+- **When a composition is built with zero members, it returns a deferred result, never
+  undefined and never a pass.** An empty conjunction measured nothing; a filtered or
+  generated member list can reach it, and a typed-but-missing verdict crashes the reader.
 - **When a composition is itself a member of another composition, the rule applies
   recursively** and the reported reason stays a leaf's reason. Do not summarise at
   each level.
