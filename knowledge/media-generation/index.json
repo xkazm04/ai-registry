@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 190,
-  "applications": 105,
+  "applications": 106,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -116,9 +116,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
-   "digest": "sha256-b2:d0f91a327c95da3c",
-   "revision": 8,
-   "changedAt": "2026-09-07",
+   "digest": "sha256-b2:5d17b8b8dfcc5ca0",
+   "revision": 9,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "camera-position-semantics",
@@ -237,6 +237,13 @@
      "file": "knowledge/media-generation/visual-generation/cinematic-language/applications/process--genre-visual-contracts.md",
      "verified_on": "2026-08-24",
      "refresh_by": "2027-02-24"
+    },
+    {
+     "stack": "process",
+     "technique": "lighting-as-dramatic-instrument",
+     "file": "knowledge/media-generation/visual-generation/cinematic-language/applications/process--lighting-as-dramatic-instrument.md",
+     "verified_on": "2026-10-14",
+     "refresh_by": "2027-04-14"
     },
     {
      "stack": "process",
