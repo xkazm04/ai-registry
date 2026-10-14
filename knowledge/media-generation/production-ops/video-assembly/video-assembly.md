@@ -16,6 +16,9 @@ techniques:
   - storyboard-grid-conditioning
   - cut-compiled-from-source
   - seek-stable-composition-authoring
+  - verify-cheapest-artifact-first
+  - silent-defects-get-a-code-or-an-error
+  - pinned-frame-notes
 ---
 
 # Video assembly
