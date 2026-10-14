@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
   "techniques": 128,
-  "applications": 81,
+  "applications": 82,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -142,8 +142,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/billing-revenue-normalization.md",
-   "digest": "sha256-b2:bd89fb77ab4250c9",
-   "revision": 4,
+   "digest": "sha256-b2:5016479d8228da36",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -257,6 +257,13 @@
      "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/applications/rust--contract-version-is-provenance.md",
      "verified_on": "2026-09-11",
      "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "idempotent-revenue-upsert",
+     "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/applications/rust--idempotent-revenue-upsert.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "rust@1.96"
     },
     {
      "stack": "rust",
