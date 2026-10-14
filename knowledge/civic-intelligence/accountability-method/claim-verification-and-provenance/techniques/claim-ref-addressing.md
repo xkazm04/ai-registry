@@ -104,3 +104,12 @@ encoding does not authenticate issuance and does not hide personal data.
 Decoding failure means unsupported or malformed, not proven never issued.
 Check canonical encoding, decoded size and permitted identifier grammar;
 retain tombstones without republishing withdrawn sensitive content.
+
+## Decision rules
+
+- **One claim, one address: prove it by re-encoding.** A decoder that validates the
+  alphabet and length and then decodes still accepts aliases, because base64-family
+  codecs drop unused trailing bits and text decoders repair invalid bytes into a
+  replacement character. Re-encode what you decoded and require it to equal the input,
+  else refuse. That makes the accepted set exactly the encoder's image, and it covers
+  failures nobody enumerated.
