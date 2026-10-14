@@ -439,16 +439,16 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.4.3",
+      "version": "1.4.4",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:477d8b31e6f9b129",
+      "contentHash": "sha256-n1:79b88ede1e063974",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 10,
+      "lessons": 11,
       "lessonsPath": "skills/lens-scan/LESSONS.md",
-      "lessonsHash": "sha256-n1:3e450f8cf4325f4a",
+      "lessonsHash": "sha256-n1:95602a2d61b81fc9",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1074,7 +1074,7 @@
     "skills": 41,
     "practices": 8,
     "memory": 9,
-    "lessons": 336
+    "lessons": 337
   },
   "bundles": [
     {
@@ -1203,9 +1203,9 @@
       "purity": "software",
       "subjects": 235,
       "techniques": 1870,
-      "applications": 1327,
-      "files": 3440,
-      "contentHash": "sha256-b2:80f8d8670578a704"
+      "applications": 1331,
+      "files": 3441,
+      "contentHash": "sha256-b2:98e8986a48838202"
     },
     {
       "name": "technical-writing",

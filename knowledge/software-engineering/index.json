@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 235,
   "techniques": 1870,
-  "applications": 1327,
+  "applications": 1331,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -1926,8 +1926,8 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:66930cf9b9bd790d",
-   "revision": 49,
+   "digest": "sha256-b2:44a563d27a28f342",
+   "revision": 50,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -2371,7 +2371,8 @@
       "one store holds several projects or private scratch beside shared items",
       "a rollup or merged item is written with a scope field",
       "a merge or supersede accepts a member list from a caller",
-      "the test fixtures for a maintenance pass all share one scope"
+      "the test fixtures for a maintenance pass all share one scope",
+      "a write-time dedup recalls candidates from the current session while search reads across sessions"
      ]
     },
     {
@@ -2458,6 +2459,20 @@
     },
     {
      "stack": "node",
+     "technique": "consolidation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--consolidation--tencentdb.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22.16"
+    },
+    {
+     "stack": "node",
+     "technique": "decay-and-forgetting",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--decay-and-forgetting--tencentdb.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22.16"
+    },
+    {
+     "stack": "node",
      "technique": "decay-and-forgetting",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--decay-and-forgetting.md",
      "verified_on": "2026-09-07",
@@ -2503,6 +2518,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--probe-without-write-back.md",
      "verified_on": "2026-09-04",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "scope-before-similarity",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--scope-before-similarity--tencentdb.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22.16"
     },
     {
      "stack": "node",
@@ -26264,9 +26286,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/prompt-assembly.md",
-   "digest": "sha256-b2:7436fd55a7cb2500",
-   "revision": 43,
-   "changedAt": "2026-10-02",
+   "digest": "sha256-b2:ad13b2ee69c25e8d",
+   "revision": 44,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "amortized-compaction-cadence",
@@ -26586,7 +26608,8 @@
       "importing another tool's conversation history so a cheaper model can finish the task",
       "a resumed agent calls tools that do not exist in its own roster",
       "deciding whether a borrowed transcript is replayed as turns or rendered as context",
-      "a subscription quota ran out mid-task and the work must move to another agent"
+      "a subscription quota ran out mid-task and the work must move to another agent",
+      "a model asked to review or extract from a transcript writes the next turn instead"
      ]
     },
     {
@@ -26834,6 +26857,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--endpoint-sealed-continuation-metadata.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@24.15.0"
+    },
+    {
+     "stack": "node",
+     "technique": "foreign-harness-history-folding",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--foreign-harness-history-folding--tencentdb.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22.16"
     },
     {
      "stack": "node",
@@ -27448,8 +27478,8 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/quality-gates/quality-gates.md",
-   "digest": "sha256-b2:ea38731924a70bf2",
-   "revision": 55,
+   "digest": "sha256-b2:0d8378dd13155e59",
+   "revision": 54,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -35829,9 +35859,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:8d20114004b2bb74",
-   "revision": 27,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:5521806124d93882",
+   "revision": 26,
+   "changedAt": "2026-10-06",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
