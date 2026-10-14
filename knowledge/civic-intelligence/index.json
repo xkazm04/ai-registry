@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 55,
+  "applications": 56,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -396,8 +396,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/civic-source-adapters.md",
-   "digest": "sha256-b2:69b5bd7c73fb40c8",
-   "revision": 6,
+   "digest": "sha256-b2:12619eb6d175ea59",
+   "revision": 7,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -513,6 +513,13 @@
      "stack": "node",
      "technique": "licence-and-privacy-by-construction",
      "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/applications/node--licence-and-privacy-by-construction.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "publisher-sentinel-values",
+     "file": "knowledge/civic-intelligence/civic-graph-infrastructure/civic-source-adapters/applications/node--publisher-sentinel-values.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
