@@ -1,6 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { lockBreakable, runLiveness } from './run-board.mjs';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { lockBreakable, runLiveness, breakIfUnchanged, lockFingerprint, createLock } from './run-board.mjs';
 
 // The board's staleness window is 45 minutes and its default lock ttl is 900s.
 const STALE_S = 45 * 60;
@@ -122,4 +125,67 @@ test('the two predicates agree about the incident', () => {
   // Both halves must now protect it, or the sibling gets one of the two wrong answers.
   assert.equal(runLiveness({ status: 'running', staleMin: 46, lockAgeS: 1 }).live, true);
   assert.equal(lockBreakable({ ageS: 1, holderLive: false, beatSinceAcquire: false, ttl: TTL }).breakable, false);
+});
+
+/* ---------------------------------------------------------------- takeover (2026-10-14) */
+
+// Measured before this fix: 24 processes contending one lock whose holder was dead got
+// it granted to 3 to 6 of them at once in 5 of 12 trials, because a breaker deleted the
+// lock by name after judging it, and a faster breaker had already replaced it.
+
+function tmpLock() {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rb-lock-'));
+  return { dir, file: path.join(dir, 'commit.lock') };
+}
+const lockRecord = (runId, acquiredAt) => JSON.stringify({ runId, pid: 1, acquiredAt, ttl: TTL }, null, 2) + '\n';
+const DEAD = '2026-01-01T00:00:00.000Z';
+
+test('REGRESSION: a breaker never deletes a lock taken after it judged the old one', () => {
+  const { dir, file } = tmpLock();
+  fs.writeFileSync(file, lockRecord('ghost', DEAD));
+  const judged = lockFingerprint(file);                                  // B judges the dead holder
+  fs.unlinkSync(file);                                                   // A breaks it ...
+  assert.equal(createLock(file, lockRecord('rA', new Date().toISOString())), true); // ... and takes it
+  assert.equal(breakIfUnchanged(file, judged), 'changed');               // B acts on a stale judgement
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).runId, 'rA');
+  // positive control: the takeover as it stood (a bare unlink after the judgement) deletes A's lock
+  const legacyTakeover = (f) => fs.unlinkSync(f);
+  legacyTakeover(file);
+  assert.equal(fs.existsSync(file), false);
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test('an unchanged lock is broken, even one too corrupt to parse', () => {
+  const { dir, file } = tmpLock();
+  fs.writeFileSync(file, '{ not json');
+  assert.equal(breakIfUnchanged(file, lockFingerprint(file)), 'broken');
+  assert.equal(fs.existsSync(file), false);
+  assert.equal(fs.existsSync(file + '.break'), false, 'the takeover gate is released');
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test('a breaker that finds the gate held waits, and a crashed breaker\'s gate expires', () => {
+  const { dir, file } = tmpLock();
+  fs.writeFileSync(file, lockRecord('ghost', DEAD));
+  const judged = lockFingerprint(file);
+  fs.writeFileSync(file + '.break', '');                                // a live breaker is inside
+  assert.equal(breakIfUnchanged(file, judged), 'busy');
+  assert.equal(fs.existsSync(file), true);
+  const old = new Date(Date.now() - 60_000);
+  fs.utimesSync(file + '.break', old, old);                             // ... and it crashed there
+  assert.equal(breakIfUnchanged(file, judged), 'busy');                 // this call clears the stale gate
+  assert.equal(breakIfUnchanged(file, judged), 'broken');
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test('a lock is never visible without its content, and a held lock refuses a second create', () => {
+  // The other half of the same race: a lock created empty and written a moment later was
+  // read as "no acquiredAt", judged breakable, and deleted by a contender.
+  const { dir, file } = tmpLock();
+  assert.equal(createLock(file, lockRecord('rA', new Date().toISOString())), true);
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).runId, 'rA');
+  assert.equal(createLock(file, lockRecord('rB', new Date().toISOString())), false);
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).runId, 'rA');
+  assert.deepEqual(fs.readdirSync(dir).filter((f) => f.endsWith('.new')), [], 'no temp file is left behind');
+  fs.rmSync(dir, { recursive: true, force: true });
 });

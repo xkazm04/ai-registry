@@ -95,6 +95,7 @@ function ensure() {
 // decides nothing.
 const STALE_MIN = 45;          // no heartbeat this long => the run is presumed abandoned
 const LOCK_TTL_S = 900;        // a lock older than this is breakable, loudly
+const BREAK_GATE_STALE_S = 30; // a takeover gate older than this was left by a crashed breaker
 
 function nowISO() { return new Date().toISOString(); }
 function ageMin(iso) { return (Date.now() - Date.parse(iso)) / 60000; }
@@ -472,15 +473,99 @@ function holderBeatSinceAcquire(held) {
 
 function lockFile(name) { return path.join(LOCKS, name.replace(/[^a-z0-9._-]/gi, '_') + '.lock'); }
 
+/** What a contender saw when it judged a lock: bytes plus modification time. Two holders
+ *  never share one (the content carries runId and an acquiredAt to the millisecond), and
+ *  a corrupt lock keeps the same one, so it can still be reclaimed. null = no file. */
+export function lockFingerprint(file) {
+  try {
+    const st = fs.statSync(file);
+    return st.mtimeMs + ':' + st.size + ':' + fs.readFileSync(file, 'utf8');
+  } catch { return null; }
+}
+
+/** Write a lock with its content in ONE step: the content goes to a private temp file and
+ *  a hard link publishes it under the lock name, which fails with EEXIST exactly like an
+ *  exclusive create. Before 2026-10-14 the lock was created empty and written a moment
+ *  later, and a contender that read it inside that moment saw no acquiredAt, judged it
+ *  breakable and deleted it. Where the file system cannot link, fall back to that old
+ *  create-then-write path rather than refusing to lock at all. Returns false on EEXIST. */
+export function createLock(file, content) {
+  const tmp = file + '.' + process.pid + '.' + Date.now() + '.new';
+  fs.writeFileSync(tmp, content);
+  try {
+    fs.linkSync(tmp, file);
+    return true;
+  } catch (e) {
+    if (e.code === 'EEXIST') return false;
+    if (!['EPERM', 'ENOTSUP', 'ENOSYS', 'EXDEV', 'EINVAL'].includes(e.code)) throw e;
+    let fd;
+    try { fd = fs.openSync(file, 'wx'); } catch (e2) { if (e2.code === 'EEXIST') return false; throw e2; }
+    fs.writeFileSync(fd, content);
+    fs.closeSync(fd);
+    return true;
+  } finally {
+    try { fs.unlinkSync(tmp); } catch { /* already gone */ }
+  }
+}
+
+/** Break a lock only if it is still the lock that was judged breakable. A file system has
+ *  create-if-absent but no delete-if-unchanged, so a bare unlink after a judgement is a
+ *  check-then-act gap: a second breaker that judged the same dead holder deletes the lock
+ *  the first breaker has just taken, and both hold it (measured 2026-10-14: 5 of 12 trials
+ *  of 24 contenders on a stale lock granted it to 3 to 6 runs at once). Breakers therefore
+ *  serialize on a short-lived gate and re-read the lock under it; only an unchanged lock is
+ *  deleted. Plain acquirers never touch the gate - they only create when the lock is gone.
+ *  A gate left by a breaker that crashed inside this function is cleared after
+ *  BREAK_GATE_STALE_S; a live breaker holds it for a few file operations.
+ *  Returns 'broken' | 'changed' (gone or replaced since it was judged) | 'busy'. */
+export function breakIfUnchanged(file, seen, { gateStaleS = BREAK_GATE_STALE_S } = {}) {
+  const gate = file + '.break';
+  let fd;
+  try { fd = fs.openSync(gate, 'wx'); } catch (e) {
+    if (e.code !== 'EEXIST') throw e;
+    try { if ((Date.now() - fs.statSync(gate).mtimeMs) / 1000 > gateStaleS) fs.unlinkSync(gate); } catch { /* gone */ }
+    return 'busy';
+  }
+  try {
+    const now = lockFingerprint(file);
+    if (now === null || now !== seen) return 'changed';
+    fs.unlinkSync(file);
+    return 'broken';
+  } finally {
+    fs.closeSync(fd);
+    try { fs.unlinkSync(gate); } catch { /* already gone */ }
+  }
+}
+
+/** The reclaim judgement for a lock record as read off disk - the same one `lock` applies,
+ *  so `gc` and `list` can never call breakable what `lock` would refuse to break. */
+function judgeLock(held) {
+  const ageS = (Date.now() - Date.parse(held.acquiredAt || 0)) / 1000;
+  return {
+    ageS,
+    ...lockBreakable({
+      ageS,
+      holderLive: holderRunLive(held),
+      beatSinceAcquire: holderBeatSinceAcquire(held),
+      ttl: held.ttl,
+    }),
+  };
+}
+
 function readLocks() {
   ensure();
   const out = [];
   for (const f of fs.readdirSync(LOCKS)) {
     if (!f.endsWith('.lock')) continue;
+    const seen = lockFingerprint(path.join(LOCKS, f));
     const rec = readJSON(path.join(LOCKS, f)) || {};
     rec.name = f.replace(/\.lock$/, '');
-    rec._ageS = (Date.now() - Date.parse(rec.acquiredAt || 0)) / 1000;
-    rec._breakable = rec._ageS > (rec.ttl || LOCK_TTL_S);
+    // Until 2026-10-14 this read age alone, so `gc` reaped - and `list` flagged - a live
+    // holder past its ttl that `lock` itself would refuse to break.
+    const j = judgeLock(rec);
+    rec._ageS = j.ageS;
+    rec._breakable = j.breakable;
+    rec._seen = seen;
     out.push(rec);
   }
   return out;
@@ -540,43 +625,41 @@ function cmdLock() {
   const deadline = Date.now() + waitS * 1000;
 
   for (;;) {
-    try {
-      const fd = fs.openSync(file, 'wx');                     // atomic: create-or-fail
-      fs.writeFileSync(fd, JSON.stringify({ runId, pid: process.pid, acquiredAt: nowISO(), ttl }, null, 2) + '\n');
-      fs.closeSync(fd);
+    const content = JSON.stringify({ runId, pid: process.pid, acquiredAt: nowISO(), ttl }, null, 2) + '\n';
+    if (createLock(file, content)) {                          // atomic: create-or-fail, content included
       console.log("acquired lock '" + name + "' for " + runId + ' (ttl ' + ttl + 's)');
       console.log('RELEASE IT: node scripts/run-board.mjs unlock ' + name + ' --run ' + runId);
       return 0;
-    } catch (e) {
-      if (e.code !== 'EEXIST') throw e;
-      const held = readJSON(file) || {};
-      if (held.runId === runId) { console.log("lock '" + name + "' already held by " + runId + ' (reentrant, no-op)'); return 0; }
-      const ageS = (Date.now() - Date.parse(held.acquiredAt || 0)) / 1000;
-      // Two independent reasons to reclaim, and neither is "the clock ran out" alone:
-      // the owner is gone, or the owner is past its ttl with no beat since it acquired.
-      // A demonstrably-working owner is never superseded on age - and "demonstrably"
-      // includes the acquire itself. Before 2026-09-17 ownerGone read the heartbeat
-      // alone, so a live run that had been quiet past the staleness window lost a lock
-      // it had taken one second earlier, while check() told the same sibling its paths
-      // were clear. A stored liveness claim may not outrank a record the work wrote.
-      const { breakable, ownerGone } = lockBreakable({
-        ageS,
-        holderLive: holderRunLive(held),
-        beatSinceAcquire: holderBeatSinceAcquire(held),
-        ttl: held.ttl,
-      });
-      if (breakable) {
-        console.error("warn: breaking lock '" + name + "' held by " + held.runId + ' (' + Math.round(ageS) + 's old; ' + (ownerGone ? 'holder has no recent heartbeat' : 'past ttl with no beat since it acquired') + ').');
-        try { fs.unlinkSync(file); } catch { /* a racing breaker won; loop and retry */ }
-        continue;
-      }
-      if (Date.now() >= deadline) {
-        console.error("CONTENDED - lock '" + name + "' held by " + held.runId + ' (pid ' + held.pid + ', ' + Math.round(ageS) + 's old).');
-        if (!waitS) console.error('  Retry with --wait <secs> to block, or do the unserialized part of your work first.');
-        process.exit(3);
-      }
-      sleep(3000);
     }
+    const seen = lockFingerprint(file);
+    const held = readJSON(file) || {};
+    if (held.runId === runId) { console.log("lock '" + name + "' already held by " + runId + ' (reentrant, no-op)'); return 0; }
+    const ageS = (Date.now() - Date.parse(held.acquiredAt || 0)) / 1000;
+    // Two independent reasons to reclaim, and neither is "the clock ran out" alone:
+    // the owner is gone, or the owner is past its ttl with no beat since it acquired.
+    // A demonstrably-working owner is never superseded on age - and "demonstrably"
+    // includes the acquire itself. Before 2026-09-17 ownerGone read the heartbeat
+    // alone, so a live run that had been quiet past the staleness window lost a lock
+    // it had taken one second earlier, while check() told the same sibling its paths
+    // were clear. A stored liveness claim may not outrank a record the work wrote.
+    const { breakable, ownerGone } = lockBreakable({
+      ageS,
+      holderLive: holderRunLive(held),
+      beatSinceAcquire: holderBeatSinceAcquire(held),
+      ttl: held.ttl,
+    });
+    if (breakable) {
+      // The takeover is replace-if-unchanged, never a bare unlink: see breakIfUnchanged.
+      const r = breakIfUnchanged(file, seen);
+      if (r === 'broken') console.error("warn: breaking lock '" + name + "' held by " + held.runId + ' (' + Math.round(ageS) + 's old; ' + (ownerGone ? 'holder has no recent heartbeat' : 'past ttl with no beat since it acquired') + ').');
+      if (r !== 'busy') continue;                             // another breaker is mid-takeover: wait briefly
+    }
+    if (Date.now() >= deadline) {
+      console.error("CONTENDED - lock '" + name + "' held by " + held.runId + ' (pid ' + held.pid + ', ' + Math.round(ageS) + 's old).');
+      if (!waitS) console.error('  Retry with --wait <secs> to block, or do the unserialized part of your work first.');
+      process.exit(3);
+    }
+    sleep(breakable ? 50 : 3000);
   }
 }
 
@@ -616,7 +699,8 @@ function cmdGc() {
   }
   for (const l of readLocks()) {
     if (!l._breakable) continue;
-    fs.unlinkSync(lockFile(l.name)); n++;
+    if (breakIfUnchanged(lockFile(l.name), l._seen) !== 'broken') continue;
+    n++;
     console.log("reaped lock '" + l.name + "' (holder " + l.runId + ')');
   }
   console.log(n ? 'gc: reaped ' + n + '.' : 'gc: nothing to reap.');
