@@ -1177,9 +1177,9 @@
       "purity": "media",
       "subjects": 26,
       "techniques": 187,
-      "applications": 100,
-      "files": 318,
-      "contentHash": "sha256-b2:951366cce38b3b62"
+      "applications": 101,
+      "files": 319,
+      "contentHash": "sha256-b2:3280f78a7c5c8642"
     },
     {
       "name": "recruiting",
@@ -1192,7 +1192,7 @@
       "techniques": 409,
       "applications": 295,
       "files": 774,
-      "contentHash": "sha256-b2:8a617e889ba64357"
+      "contentHash": "sha256-b2:49e45cc68b727650"
     },
     {
       "name": "software-engineering",

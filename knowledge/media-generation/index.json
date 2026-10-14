@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 187,
-  "applications": 100,
+  "applications": 101,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -394,9 +394,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/creator-voice-and-tone.md",
-   "digest": "sha256-b2:66d58043dc8787a3",
-   "revision": 2,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:38392204a3c7239c",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "delivery-rate-budgeting",
@@ -480,6 +480,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "delivery-rate-budgeting",
+     "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/applications/next--delivery-rate-budgeting.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "process",
      "technique": "engine-tone-separation",

@@ -3150,7 +3150,7 @@
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/cv-content-construction.md",
    "digest": "sha256-b2:17519f5f3da58534",
-   "revision": 2,
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
