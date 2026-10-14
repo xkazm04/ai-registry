@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 113,
+  "applications": 114,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -582,8 +582,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/business-profile-and-citations.md",
-   "digest": "sha256-b2:69dad15e36cc293a",
-   "revision": 3,
+   "digest": "sha256-b2:4be8d2e008df4c01",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -686,6 +686,13 @@
      "stack": "node",
      "technique": "hours-and-attributes-only-when-true",
      "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/applications/node--hours-and-attributes-only-when-true.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@2026.10.14"
+    },
+    {
+     "stack": "node",
+     "technique": "nap-byte-identical-citations",
+     "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/applications/node--nap-byte-identical-citations.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@2026.10.14"
     },
