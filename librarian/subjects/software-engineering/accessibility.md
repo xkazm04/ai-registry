@@ -1,7 +1,7 @@
 ---
 subject: accessibility
 domain: software-engineering
-last_touched: 2026-09-01
+last_touched: 2026-10-14
 dry_streak: 0
 ---
 
@@ -143,3 +143,23 @@ inherits from the parent).
 
 Leads: `role_description`/`state_description` (return: a wave binding
 `primitive-level-a11y` here); the text-run model has no home in this subject.
+
+## 2026-10-14 - librarian run lib-1014 (scoped deepen)
+
+Chosen on demand: 11 consumer deviations (39 consults), last swept 2026-09-01, no recorded pass.
+Landed, no new technique (the imperative-channel finding had one search lane plus compat data,
+not two independent lanes): `live-region-architecture` lost its stale "only channel" claim and
+gained "The imperative channel" (the provider stays the single door; four limits, one marked
+unverified); `keyboard-navigation-models` focus-visibility floor gained unobscured focus and
+script-moved focus; the golden path points navigation focus at `app-shell`.
+No `verified_on` moved and no `verified_against` was written: no application citation was
+re-resolved and no tree was opened.
+
+Open leads (return conditions):
+- Probe identical-repeat and the macOS drop for the imperative call. Return when a run can drive real readers or a consumer reports a silent announcement.
+- Target size (24px) and accessible authentication are absent. Return when a deviation names either.
+- An `assistive-tech-divergence` pairing application is owed when a project adopts the imperative call.
+- Proposals for other subjects: `app-shell` (focus-ring cross-reference), the toast subject (learn the imperative channel). Not placed this run.
+- Only one deviation was traceable (personas, sidebar heading focus). The rest of the 11 behind the score could not be located.
+
+Declined: accessibility statements and the EU act, already declined earlier. Not saturated.

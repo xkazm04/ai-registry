@@ -11,8 +11,10 @@ use_when: [screen reader silent though text renders, burst of updates loses all 
 
 # Live region architecture
 
-A live region is the only channel through which a screen reader hears
-about changes happening away from the user's focus. It is also one of
+A live region is the long-standing channel through which a screen reader
+hears about changes happening away from the user's focus (an imperative
+second channel now exists; see "The imperative channel" below, which
+narrows what this sentence can claim). It is also one of
 the most misunderstood platform mechanisms in the field, because its
 failure mode is silence — the code runs, the text renders, nothing is
 voiced, and no error appears anywhere. Architecture, not usage, is what
@@ -194,6 +196,47 @@ render paths (something painted). Visual layers re-render freely for
 layout reasons; a provider fed from renders speaks noise. Event-sourced
 announcements plus deliberate repeat mechanics give exactly one
 utterance per occurrence — no more, no fewer.
+
+## The imperative channel: announce without a mutation
+
+The platform now also offers an imperative call, `ariaNotify(text,
+{priority})`, on any element: it speaks a string at any time, with no
+DOM change to observe and with text independent of what is on screen.
+The compatibility data lists it in all three engine families (stable
+releases from late 2025 into 2026), and the reference documents the
+mapping `normal` to polite and `high` to assertive. It removes the two
+costs this architecture was built around — the region that must exist
+before the news (semantics #1) and the identical string that is not a
+mutation (semantics #3) have no object when nothing needs to mutate.
+
+It does not retire the provider; it changes what sits behind the door.
+Four facts keep the region in the design:
+
+- **It is not a superset in delivery.** The reference states that
+  live-region announcements take priority over it, that only the most
+  recent notification is normally spoken, and that combining several
+  into one is more reliable than sending several. Last-write-wins
+  (semantics #2) therefore survives, and the drain queue stays.
+- **Its failures are silent, the worst grade.** The compatibility notes
+  record that on one desktop reader pairing a notification may be
+  dropped when another accessibility event fires at the same instant,
+  and that one operating-system family exposes the method yet never
+  speaks it. A permissions policy can also block it, in which case the
+  call silently does nothing. A path that fails by saying nothing is the
+  failure [assistive-tech-divergence](./assistive-tech-divergence.md)
+  ranks worst.
+- **Support is recent**, so any audience on older engines has only the
+  region. Feature-detect inside the provider, and write each message
+  through exactly one channel per environment: both at once is a double
+  announcement, the opposite defect.
+- **Unverified here:** whether any reader coalesces two identical
+  successive notifications. Until a pairing on the held list is probed
+  with the same two-in-a-row test described above, treat a repeat as
+  unproven rather than as solved.
+
+The rule that survives is the same one: call sites say "announce" and the
+provider decides the channel. Adding the imperative path is a change
+inside the provider, which is the point of having one.
 
 ## What gets a politeness grade, and who decides
 

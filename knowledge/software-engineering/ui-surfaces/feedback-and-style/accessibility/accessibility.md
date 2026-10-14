@@ -143,8 +143,11 @@ So announcements are a piece of engineering, not a side effect: one
 persistent provider mounted with the shell, a drain queue so bursts are
 serialized instead of last-write-wins swallowed, deliberate re-announce
 mechanics so a repeated message (same text, new event) is spoken again,
-and politeness levels assigned by policy rather than per call site. That
-infrastructure is [live-region-architecture](./techniques/live-region-architecture.md).
+and politeness levels assigned by policy rather than per call site. (The
+platform has recently added an imperative announce call that needs no
+mutation, but it is newer, fails silently on some pairings and yields to
+live regions, so it lives behind the same provider rather than replacing
+it.) That infrastructure is [live-region-architecture](./techniques/live-region-architecture.md).
 The *delivery policy* for out-of-band messages — which severities
 announce at which politeness, how announcement triage mirrors visual
 toast triage — is owned by the notification subject at
@@ -265,6 +268,11 @@ mechanics and are held to this subject's standard:
   [toasts-notifications](../toasts-notifications/toasts-notifications.md),
   specifically
   [announcement-accessibility](../toasts-notifications/techniques/announcement-accessibility.md).
+- **Navigation focus and page title** — where focus and the announcement
+  go when the location changes, and deriving the title from it —
+  [app-shell](../../shell-and-navigation/app-shell/app-shell.md), its
+  accessibility posture; this subject supplies the visible-focus floor
+  the destination must meet.
 - **Motion mechanics** — how the animation layer implements reduced
   motion — the motion subject; this subject states the requirement it
   must meet.
