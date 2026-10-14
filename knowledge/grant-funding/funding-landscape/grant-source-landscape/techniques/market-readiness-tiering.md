@@ -95,6 +95,11 @@ feed is.
 - When the product states confidence to users, derive the statement from
   the tier — never claim launch-grade accuracy in a backbone-carried
   market.
+- A user-facing market claim (a coverage blurb, a FAQ answer) names only
+  the pillars that are BUILT. A pillar that is declared on the market's
+  profile but has no working adapter is roadmap copy ("coming soon"), not
+  coverage; derive the claim from the built set, and pin it with a test that
+  fails when copy mentions a registry check no adapter backs.
 
 ## When not to apply
 
