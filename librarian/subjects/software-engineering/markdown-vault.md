@@ -1,7 +1,7 @@
 ---
 subject: markdown-vault
 domain: software-engineering
-last_touched: 2026-09-06
+last_touched: 2026-10-14
 touched_by: intake
 dry_streak: 0
 ---
@@ -178,3 +178,21 @@ boundary; (3) `replicated-substrate` should cover the application as its own rep
 agent - its writes owe atomic replace and a divergence check, and they reset the mtime
 the staleness check reads. **Coverage:** a directory ingest into a vector store is a real
 gap for an ingestion subject, not this one.
+
+## 2026-10-14 - librarian run lib-1014 (scoped deepen)
+
+Chosen on demand: 11 deviations against 16 consults. The recorded re-judgment found 11 of 14 pairs
+inapplicable because the match was the bare word "vault", so the golden path gained a
+"Where this standard does not apply" precondition rather than a rule change. Also landed:
+deep-link address shapes (`editor-interop`), create versus replace (`vault-as-database`), and
+own-sync-as-replication-agent plus conflict-copy replication (`replicated-substrate`).
+No new technique; all four earlier unplaced proposals were absorbed. No `verified_on` moved and
+no tree was opened.
+
+Open leads (return conditions):
+- A personas application for the four sidecar findings. Return when a `/conform` apply worker has the tree open.
+- The matcher keys on the bare word "vault"; a `use_when` or precondition route would stop the false positives. That is a change outside this subject.
+- `sync-replication` could take the divergence-check point. Not placed.
+- Timer or explicit-refresh application for `read-triggered-reconciliation`, unchanged.
+
+Declined: a new technique (create/replace fits `vault-as-database`); an application written from a judge summary without opening the tree. Not saturated.
