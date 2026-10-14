@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 303,
+  "applications": 304,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -151,8 +151,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/ai-assistance-detection-and-fairness.md",
-   "digest": "sha256-b2:abd094354f75564a",
-   "revision": 3,
+   "digest": "sha256-b2:a28201782a40ecdc",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -270,6 +270,13 @@
      "technique": "planted-canary-with-real-ground-truth",
      "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/process--planted-canary-with-real-ground-truth.md",
      "verified_on": "2026-09-26"
+    },
+    {
+     "stack": "python",
+     "technique": "frozen-naive-baseline-comparison",
+     "file": "knowledge/recruiting/assessment/ai-assistance-detection-and-fairness/applications/python--frozen-naive-baseline-comparison.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "python@3.12"
     },
     {
      "stack": "react",
