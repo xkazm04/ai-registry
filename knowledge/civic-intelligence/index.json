@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 52,
+  "applications": 53,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/accountability-publishing-ethics.md",
-   "digest": "sha256-b2:8759ece7c024136a",
-   "revision": 3,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:fa726834a1bc90f1",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "accountless-notification-privacy",
@@ -121,6 +121,13 @@
      "technique": "lead-not-verdict-framing",
      "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/applications/process--lead-not-verdict-framing.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "react",
+     "technique": "accountless-notification-privacy",
+     "file": "knowledge/civic-intelligence/accountability-method/accountability-publishing-ethics/applications/react--accountless-notification-privacy.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
