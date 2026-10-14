@@ -10,6 +10,7 @@ techniques:
   - performance
   - loading-and-empty-states
   - client-server-split
+  - grid-keyboard-model
 ---
 
 # Table
@@ -162,7 +163,12 @@ A table is one of the few surfaces with rich native semantics — use them.
 
 - Real table semantics (or the equivalent grid role when cells are
   interactive): rows, column headers associated with their cells, a caption or
-  accessible name stating what the table contains.
+  accessible name stating what the table contains. The choice is a keyboard
+  decision: a native table puts every focusable cell element in the tab
+  sequence, a grid keeps one tab stop and makes the author own every key. Read-only
+  cells stay a native table; the
+  [grid-keyboard-model](./techniques/grid-keyboard-model.md) technique is the
+  rule and the cost.
 - **Sort state is exposed, not just drawn — and its change is spoken.** The
   header cell carries the current sort direction in the accessibility layer,
   and the header is a real button — reachable, activatable, focus-visible.
@@ -208,3 +214,6 @@ same data.
 - [client-server-split](./techniques/client-server-split.md) — which tier owns
   filtering, sorting, and paging, and why splitting one axis across tiers is
   the deadly variant.
+- [grid-keyboard-model](./techniques/grid-keyboard-model.md) — native table or
+  grid, two-dimensional traversal that stops at edges, cell versus widget focus,
+  suspending and restoring navigation, and jump keys under windowed data.

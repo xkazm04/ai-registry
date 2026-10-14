@@ -1,0 +1,70 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hv-se-1014",
+  "skill": "harvest",
+  "skill_version": "unversioned",
+  "mode": "run",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T10:00:00Z",
+  "ended_at": "2026-10-14T13:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 2,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/table",
+      "at": "2026-10-14",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/modal-stack",
+      "at": "2026-10-14",
+      "engine": "harvest",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-10-14",
+      "engine": "harvest",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/quality-gates",
+      "at": "2026-10-14",
+      "engine": "harvest",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/grid-keyboard-model.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/table.md",
+    "knowledge/software-engineering/ui-surfaces/data-display/table/techniques/performance.md",
+    "knowledge/software-engineering/ui-surfaces/shell-and-navigation/modal-stack/techniques/focus-and-scroll-containment.md",
+    "librarian/sources/2026-10-14-w3c-aria-apg.md",
+    "librarian/sources/2026-10-14-google-eng-practices.md",
+    "librarian/sources/2026-10-14-shadcn-ui.md",
+    "librarian/sources/2026-10-14-agent-memory-techniques.md",
+    "librarian/sources/2026-10-14-getzep-graphiti.md",
+    "librarian/sources/2026-10-14-letta-memory-benchmark.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Incomplete: 10 content landings were already pending evaluation (flagged; operator ran anyway) plus 1 new. google/eng-practices rows 1,4,5 (human-review gate) untriaged, home undecided."
+}

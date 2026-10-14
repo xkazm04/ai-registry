@@ -95,6 +95,16 @@ Pointer blocking by a backdrop handles the mouse. Two channels remain:
   inert marking to be redirected. A trap that only intercepts the tab key is
   a fence with one plank.
 
+The inert marking is also a **claim made to assistive technology, and a false
+claim is worse than none.** Declaring the overlay modal tells those users that
+everything outside it is unreachable and may hide it from them. Declare it only
+when both halves are true: application code stops every user from interacting
+with the content outside, and the styling visually obscures it. An overlay that
+is declared modal but leaves the page interactive, or one that lets the page show
+through undimmed, strands assistive users in a surface that does not behave as
+the declaration says. Non-modal entries (the popover case above) make no such
+claim.
+
 ## Containment is stack-aware
 
 Exactly **one** overlay traps at a time: the topmost *modal* entry.

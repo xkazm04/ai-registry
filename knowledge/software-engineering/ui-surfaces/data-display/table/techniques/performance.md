@@ -112,7 +112,13 @@ that *takes things away*:
 - **Find-in-page breaks** — unmounted rows are unfindable by the platform's
   own search.
 - **Assistive traversal breaks** unless total counts and row positions are
-  re-declared semantically; even then the experience degrades.
+  re-declared semantically; even then the experience degrades. The
+  declaration is concrete: the container states the total row and column
+  counts, and each mounted row and cell states its own one-based position in
+  the full set, because the DOM holds only a subset and assistive technology
+  would otherwise read the subset's size and offsets as the table's. The
+  keyboard jump to the last row has the matching flaw (it lands on the last
+  mounted row); see [grid-keyboard-model](./grid-keyboard-model.md).
 - **Layout features get harder** — sticky headers/columns, row expansion, and
   variable row heights all interact with the scroll math; variable heights in
   particular demand measurement or estimation machinery that is a permanent
