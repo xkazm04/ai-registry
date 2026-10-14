@@ -1,8 +1,8 @@
 ---
 kind: harvest-queue
 created: 2026-08-28
-updated: 2026-09-28
-entries: 296
+updated: 2026-10-14
+entries: 305
 statuses: mixed
 ---
 
@@ -364,3 +364,23 @@ a bundle.
 | KOP-013 | 1 | https://harvardlawreview.org/forum/vol-127/perma-scoping-and-addressing-the-problem-of-link-and-reference-rot-in-legal-citations/ | paper | first-party practitioner account | knowledge-ops (nearest: software-engineering/engineering-process/codebase-stewardship/docs-sync) | Zittrain, Albert & Lessig (Harvard Law Review Forum 127): >70% reference rot in law journals, 50% in Supreme Court opinions; founded Perma.cc, still operating; seen in search | content | queued |
 | KOP-014 | 1 | https://arxiv.org/abs/2212.01479 | paper | first-party practitioner account | software-engineering/engineering-process/codebase-stewardship/docs-sync | Tan, Wagner & Treude, DOCER (EMSE / ICSE 2024 journal-first): 28.9% of popular GitHub projects hold an outdated code reference in docs, 82.3% did at some point | content | queued |
 | KOP-015 | 2 | https://arxiv.org/abs/1903.12282 | paper | first-party practitioner account | software-engineering/engineering-process/codebase-stewardship/docs-sync | Zhang et al., Obsolete Answers on Stack Overflow (IEEE TSE 2019): 58.4% obsolete when posted, only 20.5% ever updated - decay in a large public knowledge corpus | content | queued |
+
+## agent-fleet practitioner series (9)
+
+One author's agent-fleet stack, studied method-first as a series of intake rounds. The
+charter holds the operator's rulings (license posture, scope, the measured-A/B bar for
+our own method) and a cold-start brief per row:
+[`handoffs/2026-10-14-dicklesworthstone-series.md`](../handoffs/2026-10-14-dicklesworthstone-series.md).
+Order is provisional until DLE-001 re-ranks it.
+
+| id | pri | source | type | class | target | why it is here | yield | status |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DLE-001 | 1 | https://github.com/Dicklesworthstone/agentic_coding_flywheel_setup | code-repo | first-party practitioner account | agent-operations/* + llm-agent/orchestration + our own skills | R1: the operating method behind a fleet shaped like ours (planning loop, task records, review rotation, honesty rules), compared point by point against our method; ranks the later rows | content | batched |
+| DLE-002 | 1 | https://github.com/Dicklesworthstone/mcp_agent_mail_rust | code-repo | first-party practitioner account | llm-agent/orchestration/fleet-orchestration + engineering-process/codebase-stewardship/concurrent-vcs | coordination fabric: inter-agent mail with expiring advisory file leases enforced at commit; peers personas fleet, run-board, tracklight relay | content | queued |
+| DLE-003 | 1 | https://github.com/Dicklesworthstone/beads_rust | code-repo | first-party practitioner account | backend-platform/work-execution + llm-agent/orchestration | task graph with a text log as truth, read with its triage viewer (beads_viewer); peers pof task DAG, personas Run Desk | content | queued |
+| DLE-004 | 2 | https://github.com/Dicklesworthstone/coding_agent_session_search | code-repo | first-party practitioner account | llm-agent/prompt-and-context/retrieval + llm-agent/orchestration/session-continuation | one schema over many harness session formats, index-time redaction, token-budgeted agent output; peers personas transcript reader, process-sessions.mjs | content | queued |
+| DLE-005 | 1 | https://github.com/Dicklesworthstone/cass_memory_system | code-repo | first-party practitioner account | llm-agent/prompt-and-context/agent-memory (memory lane) | procedural memory distilled from session history, with eidetic_engine_cli as its successor; mechanisms become memory-year arms first | content | queued |
+| DLE-006 | 3 | https://github.com/Dicklesworthstone/ntm | code-repo | first-party practitioner account | llm-agent/runtime-and-io/terminal-multiplexing | swarm launcher over a terminal multiplexer; lowest gap (personas pairs already conformant) | currency | queued |
+| DLE-007 | 2 | https://github.com/Dicklesworthstone/destructive_command_guard | code-repo | first-party practitioner account | llm-agent/orchestration/hitl-approval + security | command guard for agent shells | content | parked: operator excluded the safety ring 2026-10-14 |
+| DLE-008 | 3 | https://github.com/Dicklesworthstone/slb | code-repo | first-party practitioner account | llm-agent/orchestration/hitl-approval | two-person approval bound to the exact command | content | parked: operator excluded the safety ring 2026-10-14 |
+| DLE-009 | 3 | https://github.com/Dicklesworthstone/remote_compilation_helper | code-repo | first-party practitioner account | agent-operations/run-safety | builds routed off-box from clean overlays of HEAD | content | parked: operator excluded the safety ring 2026-10-14 |
