@@ -1203,9 +1203,9 @@
       "purity": "software",
       "subjects": 235,
       "techniques": 1860,
-      "applications": 1291,
-      "files": 3391,
-      "contentHash": "sha256-b2:807237556cf1b9f1"
+      "applications": 1292,
+      "files": 3392,
+      "contentHash": "sha256-b2:abb83ac0f078b5d5"
     },
     {
       "name": "technical-writing",

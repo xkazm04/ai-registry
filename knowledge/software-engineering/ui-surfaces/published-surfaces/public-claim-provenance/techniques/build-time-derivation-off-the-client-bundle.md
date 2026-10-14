@@ -42,6 +42,11 @@ supports it, mark the module so that importing it from a reader-side component
 fails at build rather than quietly widening the download; a boundary nobody
 can cross by accident is worth more than a convention everyone agrees with.
 
+A doc comment saying "server only" is the convention version of this, and it
+is not enough: a client module can import the reducer and the build stays green.
+Turn the marker on and read the first build as an audit, since a path nobody was
+looking at (a dev harness, a preview registry) may already cross the boundary.
+
 ## Derive at build, not merely off the bundle
 
 Moving the derivation off the reader's download is the smaller half. The
