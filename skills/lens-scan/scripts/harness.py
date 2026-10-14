@@ -11,7 +11,7 @@ Reads the generic `## Harness` form from the overlay:
     ready: /                                 # polled until HTTP 200, 120 s cap
     sizes: 1280x800                          # one or more WxH, comma-separated
     themes: light, dark
-    theme: media                             # how a theme is set: media (default) | query ?theme= | class dark
+    theme: media                             # how a theme is set: media (default) | query ?theme= | class dark | storage <key>
     features:
       <slug>: route /path
       <slug>: steps click "Text" > click "Other"   # Playwright text selectors, from the url's root
@@ -118,8 +118,9 @@ def parse_harness(body):
     if not cfg['url']:
         raise InputError('## Harness needs url: <base url>')
     tm = cfg['theme']
-    if not (tm == 'media' or re.fullmatch(r'query \??[A-Za-z0-9_-]+=?', tm) or re.fullmatch(r'class [A-Za-z0-9_-]+', tm)):
-        raise InputError(f'## Harness theme: {tm!r} is not media | query ?<param>= | class <name>')
+    if not (tm == 'media' or re.fullmatch(r'query \??[A-Za-z0-9_-]+=?', tm) or re.fullmatch(r'class [A-Za-z0-9_-]+', tm)
+            or re.fullmatch(r'storage [A-Za-z0-9_.:-]+', tm)):
+        raise InputError(f'## Harness theme: {tm!r} is not media | query ?<param>= | class <name> | storage <localStorage key>')
     return cfg
 
 
@@ -216,6 +217,9 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
     w, h = size
     ctx = browser.new_context(viewport={'width': w, 'height': h},
                               color_scheme=('dark' if theme == 'dark' else 'light') if cfg['theme'] == 'media' else None)
+    if cfg['theme'].startswith('storage '):
+        # the app reads its theme from localStorage at start: write it before any of the page's own scripts run
+        ctx.add_init_script('try { localStorage.setItem(%s, %s) } catch (e) {}' % (json.dumps(cfg['theme'].split(' ', 1)[1]), json.dumps(theme)))
     page = ctx.new_page()
     errors = []
     page.on('console', lambda m: errors.append(m.text[:300]) if m.type == 'error' else None)

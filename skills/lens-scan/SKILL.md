@@ -391,7 +391,7 @@ command: npm run dev -- --port 4173      # starts the front end
 url: http://localhost:4173
 ready: /                                 # polled until HTTP 200, 120 s cap
 sizes: 1280x800
-themes: light, dark                      # how a theme is set: `theme: query ?theme=` | `theme: class dark` | `theme: media`
+themes: light, dark                      # how a theme is set: `theme: query ?theme=` | `theme: class dark` | `theme: storage <localStorage key>` | `theme: media`
 features:
   <slug>: route /path                    # or: steps click "Text" > click "Other" (Playwright text selectors)
   <slug>: unscreenable "native window only"
