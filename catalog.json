@@ -1164,9 +1164,9 @@
       "purity": "marketing",
       "subjects": 30,
       "techniques": 183,
-      "applications": 85,
-      "files": 302,
-      "contentHash": "sha256-b2:3c351322be159eb9"
+      "applications": 86,
+      "files": 303,
+      "contentHash": "sha256-b2:075c749ca0743cfa"
     },
     {
       "name": "media-generation",
@@ -1205,7 +1205,7 @@
       "techniques": 1841,
       "applications": 1250,
       "files": 3330,
-      "contentHash": "sha256-b2:d448f6005cde83b6"
+      "contentHash": "sha256-b2:6cea6922346d45df"
     },
     {
       "name": "technical-writing",
