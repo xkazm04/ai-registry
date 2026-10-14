@@ -91,7 +91,9 @@ Two details make the injection practical:
 ## Decision rules
 
 - **When a check has no dependencies, it is not a check.** Delete it or give it real
-  inputs.
+  inputs. The evaluator enforces this: an
+  empty or missing dependency list yields a named *unmapped* blocker, never zero blockers,
+  because zero blockers reads as pass and a check nobody wired up would print success.
 - **When a dependency is missing entirely, that is a blocker, not a skip.**
 - **When blockers are mixed** — some failing, some deferred — report a failure. A
   known failure dominates an unknown.

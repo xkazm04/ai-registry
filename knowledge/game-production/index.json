@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 307,
+  "applications": 308,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -348,8 +348,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/acceptance-verdict-spine.md",
-   "digest": "sha256-b2:f4dc617db038fd0c",
-   "revision": 4,
+   "digest": "sha256-b2:25217c1b6264a2cf",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -459,6 +459,13 @@
      "technique": "explain-why-this-verdict",
      "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/react--explain-why-this-verdict.md",
      "verified_on": "2026-08-30",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "gate-check-dependency-map",
+     "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/applications/react--gate-check-dependency-map.md",
+     "verified_on": "2026-10-14",
      "verified_against": "react@19"
     }
    ]
