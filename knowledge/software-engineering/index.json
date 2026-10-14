@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1270,
+  "applications": 1271,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -24391,9 +24391,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
-   "digest": "sha256-b2:8ce99c4e6acfe0fa",
-   "revision": 2,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:f51109a4fa17ac48",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "discoverable-critical-resources",
@@ -24500,6 +24500,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "discoverable-critical-resources",
+     "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/applications/next--discoverable-critical-resources.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16.3.8"
+    },
     {
      "stack": "next",
      "technique": "field-measured-load-budget",
