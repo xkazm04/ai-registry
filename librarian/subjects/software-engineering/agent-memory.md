@@ -903,3 +903,24 @@ brief.
   92.9% LoCoMo figure reads about 60% of each conversation's store at k=50 and stays a lead.
   The seam hunt also measured the ladder's own hybrid arm: its 40-chunk cap binds below budget
   but costs no coverage (118 of 123 at both 40 and 200), so that ladder row stands.
+
+## 2026-10-14 - intake TencentDB Agent Memory ([[2026-10-14-tencentdb-agent-memory]], run `intake-tdbmem-1014`, intake 2.15.0)
+
+One amendment, three source-tree applications, memory lane entered on judgement.
+
+- `scope-before-similarity` gained "Finer than the read is a crossing too": the technique guarded
+  the too-wide direction only. The source's write-time dedup recalls candidates from the current
+  session while its search reads across sessions, so a value changed in a later session never
+  meets the old row. Priced with no model on the ladder's scenario: a project+day pool reaches 0
+  of 73 state changes, the read scope 73; the ladder runs as one conversation and could not see
+  it, so the check now ships beside it (personas `d6e06a6231`). Served-stale first; the source
+  dates every recalled line, so answered-stale is open.
+- Applications against the source: the session-scoped pool and its sound delete guard
+  (`scope-before-similarity`), replace-by-delete with a later-cleaned log, store-all on failure
+  and a merge that raises priority (`consolidation`), a skill retirement method with no caller
+  beside a reviewer that cannot delete (`decay-and-forgetting`, third "no callers" instance).
+- Lead, not landed: a judge that may only advance the always-on (persona) rewrite, deferring
+  without advancing its checkpoint. No technique in the subject says when the always-on summary is
+  rewritten. Memory lane: arm first.
+- Untriaged: bulk import wants a stricter capture bar than live capture (promoted to a real gap,
+  scored +1); side requests of a harness must not write memory.

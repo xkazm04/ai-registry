@@ -1,0 +1,64 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-tdbmem-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T18:20:00Z",
+  "ended_at": "2026-10-14T20:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/agent-memory",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/prompt-assembly",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-memory",
+      "technique": "scope-before-similarity",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "prompt-assembly",
+      "technique": "foreign-harness-history-folding",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/techniques/scope-before-similarity.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/techniques/foreign-harness-history-folding.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--scope-before-similarity--tencentdb.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--consolidation--tencentdb.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/node--decay-and-forgetting--tencentdb.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/prompt-assembly/applications/node--foreign-harness-history-folding--tencentdb.md",
+    "librarian/sources/2026-10-14-tencentdb-agent-memory.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "2 amendments + 4 source-tree applications; 3 leads, 5 catches, 6 untriaged; 1 fleet ship (memory-year partition-reach check). Index and catalog left uncommitted: the catalog carries a sibling's skill bump."
+}

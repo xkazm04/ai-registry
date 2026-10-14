@@ -6,7 +6,7 @@ technique: foreign-harness-history-folding
 status: forged
 laws: [unknown-is-not-a-value, failure-not-empty-success, identity-survives-reuse]
 shared_with: []
-use_when: [continuing a session that a different agent harness recorded, importing another tool's conversation history so a cheaper model can finish the task, a resumed agent calls tools that do not exist in its own roster, deciding whether a borrowed transcript is replayed as turns or rendered as context, a subscription quota ran out mid-task and the work must move to another agent]
+use_when: [continuing a session that a different agent harness recorded, importing another tool's conversation history so a cheaper model can finish the task, a resumed agent calls tools that do not exist in its own roster, deciding whether a borrowed transcript is replayed as turns or rendered as context, a subscription quota ran out mid-task and the work must move to another agent, a model asked to review or extract from a transcript writes the next turn instead]
 ---
 
 # Foreign-harness history folding
@@ -91,6 +91,33 @@ or whose schemas share field names, may fall anywhere between arms A and C.
   needs, and it is the one both independent realizations examined here
   arrive at for the case each one owns.
 
+## A reader that reviews is a fourth case
+
+The three carriers serve a model that will continue the history or keep it in view. A third
+kind of reader does neither: an extractor, a reviewer or a judge reads a finished conversation
+to emit something *about* it (a lesson, a memory, a verdict) and must not add a turn to it.
+The history need not come from another harness. To that reader, any conversation it did not
+have is foreign. Projection to text is the right carrier, and how the projection is shaped
+decides whether it works.
+
+A projection that keeps the conversation's own role markers is still a conversation to the
+reader. The transcript ends on a long assistant turn, the markers say what comes next, and the
+reviewer writes the next assistant turn. One memory extractor recorded exactly that: handed a
+transcript tagged with plain role names, it ignored its output contract and wrote a
+1,235-token continuation of the main conversation, with zero tool calls and no
+nothing-to-save answer. Its fix removes the cues one at a time: role tags that are not the
+reader's own (a "past" prefix on each role), an end-of-transcript marker followed by one
+sentence restating the task, and an output contract closed to tool calls or a literal
+nothing-sentinel, so a continuation is a contract violation instead of an answer.
+
+The cue is the turn shape, not the tag names. A second implementation encodes the transcript as
+a data value: each turn is an object in an array, labelled untrusted evidence, and the reply is
+a closed object in which an empty list is a stated valid answer. Its prompt ends on the data
+with no restatement. Across 14 recorded passes over real transcripts of 3,000 to 84,000
+characters it had no failed parse and used the empty answer twice. Once the transcript is a
+value instead of a sequence of turns, there is no next turn to write. The end marker and the
+restatement are owed while the rendering is still turn-shaped.
+
 ## Decision rules
 
 - **Record the producing harness as provenance on the imported span**, next
@@ -126,6 +153,11 @@ or whose schemas share field names, may fall anywhere between arms A and C.
 - **Tell the operator the continuation runs from a summary.** A session
   imported from another agent looks native in a history list, and it behaves
   differently. Label it at the head of the transcript.
+- **A transcript read for review is projected, never replayed, and never in the reader's own
+  role markers.** Encode it as a value, or tag its roles in a form the reader does not use for
+  itself. If it stays turn-shaped, close it with an end marker and restate the task after it.
+- **Close a reviewer's output** to its tool calls or a stated nothing-sentinel, so a
+  continuation is a violation the parser catches, not prose that gets stored.
 - **Pin the text projection's skip with its reason.** A projection that drops
   tool blocks as "noisy" will eventually be improved by someone who wants
   richer context. The reason that survives review is the arm A row, not

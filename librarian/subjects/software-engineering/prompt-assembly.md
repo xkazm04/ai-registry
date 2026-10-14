@@ -575,3 +575,18 @@ Source: [[2026-10-02-yoagent]]. Gained `compaction-target-is-an-aim`, `compactio
   condition: a fleet project owns a transcript spend-down or sends a provider cache key.
 - **Open (untriaged, one neighbour read each):** tool source consulted once per run and sorted by name for the cached
   prefix (against `cache-breakpoint-allocation`'s variability rule); a rate-limit-before-overflow classification.
+
+## 2026-10-14 - intake TencentDB Agent Memory ([[2026-10-14-tencentdb-agent-memory]], run `intake-tdbmem-1014`)
+
+- `foreign-harness-history-folding` gained "A reader that reviews is a fourth case": the
+  enumeration of carriers served continuation and awareness. A memory extractor handed a
+  transcript in plain role names wrote a 1,235-token continuation with zero tool calls; its fix is
+  non-native role tags, an end marker plus a restated task, and a reply closed to tool calls or a
+  nothing-sentinel. The falsifying seam scoped it before landing: a fleet consolidation pass that
+  encodes the transcript as a JSON value and ends on the data had 0 failed parses in 14 real
+  passes (3,062 to 84,042 chars), so the end marker is owed only for turn-shaped renderings.
+  Applied as a simulation over recorded outcomes, not-better for that tree (nothing to fix).
+- Untriaged: the same product's core injects per-turn recall in the user turn while its proxy
+  removed per-turn recall as cache-breaking; a proxy that delivers context by answering a turn
+  with a synthesized tool call (attribution mirror of `substituted-result-attribution`, in
+  agent-runtime-assembly).

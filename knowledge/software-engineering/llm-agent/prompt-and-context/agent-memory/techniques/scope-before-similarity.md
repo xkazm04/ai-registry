@@ -6,7 +6,7 @@ technique: scope-before-similarity
 status: forged
 laws: [one-validation-door, derivation-names-recomputation]
 shared_with: []
-use_when: [a compaction or reflection pass clusters memories by similarity, a distiller or consolidation pass chooses its input window, one store holds several projects or private scratch beside shared items, a rollup or merged item is written with a scope field, a merge or supersede accepts a member list from a caller, the test fixtures for a maintenance pass all share one scope]
+use_when: [a compaction or reflection pass clusters memories by similarity, a distiller or consolidation pass chooses its input window, one store holds several projects or private scratch beside shared items, a rollup or merged item is written with a scope field, a merge or supersede accepts a member list from a caller, the test fixtures for a maintenance pass all share one scope, a write-time dedup recalls candidates from the current session while search reads across sessions]
 applied: code
 ab_verdict: better
 ---
@@ -95,6 +95,43 @@ When one pass is scoped, check the others. When the reason given for the scoping
 the candidate set is not the whole store"), it was scoped by accident, and the sibling pass
 that had no cost pressure was not.
 
+## Finer than the read is a crossing too
+
+The rule has a mirror failure, and it is quieter. A pass partitioned by *more* than the scope
+key never merges across a boundary; it never compares across one either. The read path is not
+partitioned that way, so the reader is served both sides of a contradiction the pass could not
+see.
+
+The usual extra field is the conversation. A write-time duplicate check that recalls candidates
+from the current session only is cheap, keeps its prompt small, and reads as isolation, while
+search on the same store reads across every session the owner has had. A value restated in a
+later session is then written beside the one it replaces: never updated, never superseded,
+because nothing on the write path ever saw the old row. In one released engine the shared
+candidate helper states both filters in one comment, cross-session for its search caller and
+session-scoped for its dedup caller, and the reason given for the second is that extraction runs
+per session. That is the asymmetry above, inherited rather than chosen.
+
+Priced with no model on a simulated year of one user's work (176 facts, 73 state changes): a
+pool partitioned by project and day reaches **0 of 73** changes, by project and week 3, by the
+read scope all 73. Fifty-one of the old values were last stated more than thirty days before
+they changed, because a value that does not change is not repeated. The replay that produced
+those numbers ingests every arm as one conversation, so it could not show this until the
+partition was made a variable: the fixture tell below, in the instrument that prices every
+other design.
+
+Two things decide what the miss costs:
+
+- **It is a served-stale cost before it is an answered-stale one**
+  ([stale-served-versus-stale-answered](./stale-served-versus-stale-answered.md)). A reader
+  handed both values with their dates can still pick the newer; one handed bare text cannot.
+- **A field may guard this path's delete without being a scope field.** The same engine
+  filters the dedup's own delete by session, which is sound: its target list came from a
+  session-scoped pool, so the guard matches the pool. The error is making that guard the pool.
+
+So the key is exact, not a floor: every field that decides who may read or delete, and **no
+field the read path ignores**. A conversation, a day, a batch or an import run is provenance.
+Record it on the item, and never partition the comparison by it.
+
 ## When not to use it
 
 - A store with one owner and one scope has nothing to partition.
@@ -116,3 +153,7 @@ that had no cost pressure was not.
 - Keep merged members recoverable (superseded, not deleted), so a crossing that slipped through
   can be undone.
 - Seed tests with at least two scopes. A single-scope suite passes on the defect.
+- Partition the comparison by the read scope's fields and nothing finer. Check what the search
+  caller filters by, and match it; a session, a day or a batch is provenance.
+- Seed one value stated in one session and changed in a later one. A single-session suite
+  cannot represent the miss.
