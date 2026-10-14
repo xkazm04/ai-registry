@@ -119,3 +119,16 @@ a deadline and killed when it fires, so there is no rung 1 to split.
   origin-of-cancellation rule; home contested between this subject and
   agent-runtime-assembly/operator-tier-code-loading, so not landed. Return condition: a
   fleet tree that kills a contributed hook after a grace period, or a second sighting.
+
+### 2026-10-14 - intake rtk-ai/vox (run intake-vox-1014; subject held by intake-rtk-1014)
+
+Amendment to `spawn-contract`, section "Handles the child was never given": on platforms
+whose process creation passes the inheritable handle table as a whole, a child spawned
+with all three streams discarded still inherits every inheritable handle, including the
+spawner's own standard handles, so a detached child holds its spawner's caller's pipe.
+Measured before writing: reader waited 4,145-4,169 ms against a 4,087 ms child, 42-84 ms
+with the spawner's standard handles released first; another runtime's detached spawn
+did not leak (131-245 ms). Appended under the content lock after a re-read while the rtk
+run held the subject; no restructure. Applications `rust--spawn-contract--vox` (the
+source's daemon start) and `rust--spawn-contract--personas` (code, better: the detached
+dev-server spawn now releases its std handles, personas e86c5e7a29, not pushed).

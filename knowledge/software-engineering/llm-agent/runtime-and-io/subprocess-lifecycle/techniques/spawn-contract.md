@@ -116,6 +116,41 @@ the neighboring subject's jurisdiction
 technique's obligation ends at handing over live pipe ends and honestly
 reporting when they close.
 
+## Handles the child was never given
+
+The five inputs above leave out a sixth on platforms whose process creation passes
+the inheritable handle table as a whole. There, a spawn that hands the child any
+stream at all turns on inheritance for every handle the parent holds that is marked
+inheritable, not only the three it wired. The parent's own standard handles are
+inheritable whenever the parent received them from a caller, which is the ordinary
+case for a command run by a shell pipe or by an agent's tool call. A child spawned
+with all three streams discarded can therefore still hold its spawner's caller's
+pipe open, and the caller's read does not end until that child exits.
+
+This was measured, and a detached child is where it bites. A spawner run under a
+pipe reader started a detached child (all streams discarded, its own process group,
+no console) and printed one line. The reader waited 4,145 and 4,148 ms, the child's
+whole lifetime (the child alone ran for 4,087 ms). With the spawner's own standard
+handles marked non-inheritable before the spawn, the reader returned in 72 to 84 ms,
+and a later child that inherited standard output on purpose still printed. One
+runtime's spawn primitive leaked this way; another runtime's detached spawn, measured
+the same way, returned in 131 to 245 ms. Measure the one you use. For an agent, the
+leak means a tool call that starts a daemon returns only when the daemon exits,
+which for a daemon is never.
+
+The remedies, in order of reach:
+
+- **Clear the inherit flag on every handle that must die with this process,** at the
+  point it is created or acquired: the process's own standard handles before any
+  long-lived child is spawned, and a listening socket when it is bound. A listener a
+  child can inherit outlives the process that bound it, and the port stays taken by a
+  dead process until the child exits too.
+- **Pass an explicit list of the handles to inherit** where the runtime exposes it.
+  That turns inheritance from the parent's ambient table into a sixth input the door
+  constructs, which is the rule this technique applies to the other five.
+- **Record the inheritance stance in the spawn record,** so "why is the caller still
+  waiting" has an answer in the log.
+
 ## The spawn record
 
 The door emits one structured record per launch: resolved executable,

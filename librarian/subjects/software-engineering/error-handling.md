@@ -308,3 +308,11 @@ licence, targets that abort). Application `rust--containment-boundary-restores-s
 source tree (anchors checked). `resilience/` is at the ten-child cap, so panic policy could not be
 its own subject there; revisit placement if a second containment technique arrives. Boundary with
 crash-capture stated in both directions. Verdict unmeasurable (no panic-injection arm).
+
+### 2026-10-14 - intake rtk-ai/vox (run intake-vox-1014)
+
+Catch, recorded as `applications/rust--containment-boundary-restores-state--vox.md`: a
+tool server whose release profile aborts on panic, so its safety is the prevention rule
+alone; four agent-reachable panic sites each guarded after a crash with a test named
+after it, and no junk-argument sweep over the fourteen tools, which is the technique's
+missing half for that tree.

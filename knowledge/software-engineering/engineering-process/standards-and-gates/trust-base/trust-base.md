@@ -11,6 +11,7 @@ techniques:
   - soundness-argument-names-its-dependencies
   - assumptions-are-build-errors
   - verifier-footprint-stays-contained
+  - census-counts-unmarked-members
 ---
 
 # Trust base
@@ -104,7 +105,7 @@ should become a fact the build refuses to proceed without. Removing is
 (shrink the claim to the irreducible field before justifying it),
 [assumptions-are-build-errors](./techniques/assumptions-are-build-errors.md), and
 [verifier-footprint-stays-contained](./techniques/verifier-footprint-stays-contained.md),
-which holds the perimeter of the tooling itself down. Three of the six
+which holds the perimeter of the tooling itself down. Three of the seven
 techniques are removals, and they come first in any audit because a deleted
 member costs nothing to keep correct.
 
@@ -158,6 +159,14 @@ linter visits before stating its coverage. Second, the base grows by accretion. 
 when added; the perimeter is the sum, and no one decision made it large. Set a
 review trigger on the count rather than on any single addition.
 
+A third caution, because it changes the count rather than its reading: some members
+carry no spelling at all. A standard function that a later language revision re-marks
+as needing the escape marker is called with no marker by code pinned to the earlier
+revision, and the checker accepts the call without deriving its safety. A census by
+marker cannot see these, and in one tree it reported a base of zero over forty-nine of
+them. [census-counts-unmarked-members](./techniques/census-counts-unmarked-members.md)
+adds them to the count with the revision's own migration lint.
+
 ## What the golden path does not claim
 
 It does not say a trust base is bad. A kernel of reviewed, tested, documented
@@ -192,3 +201,8 @@ what it asserts, and give it a witness the checker is not.
   — proof tooling reaches the published graph only as the smallest mandatory
   piece, the verified subset lives in one plain-data module behind a thin
   adapter, and the verifier's version is one value.
+- [census-counts-unmarked-members](./techniques/census-counts-unmarked-members.md)
+  — functions a later language revision re-marks as unsafe are members with no
+  marker in older-revision code; the migration lint counts them, their argument
+  quotes the function's own thread precondition, and removal (move the write before
+  the first thread, or replace the global) comes before documentation.

@@ -652,3 +652,11 @@ Untriaged in this subject, with anchors in the source note (rows 8-11): the idem
 axis carrying two meanings, one predicate per policy across loaders,
 a wrong operation name answered with names only, and create-only with preserve-on-omit
 (contested with `write-freshness-gate`).
+
+### 2026-10-14 - intake rtk-ai/vox (run intake-vox-1014)
+
+Catch, recorded as `applications/rust--caller-differentiated-capability--vox.md`: a speech
+tool whose agent door never builds the command line's output-path option (an arbitrary
+file write), with both doors resolved through one function after a stored preference
+once reached only one of them. Half-violation of `tool-schema-design`: two schema
+parameters no backend reads, kept and labelled "no effect yet".

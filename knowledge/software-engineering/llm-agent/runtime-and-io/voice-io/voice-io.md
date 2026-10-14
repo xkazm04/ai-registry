@@ -23,6 +23,7 @@ techniques:
   - engine-choice-on-decisive-terms
   - real-time-synthesis-budget
   - voice-setup-experience
+  - bounded-playback-wait
 ---
 
 # Voice input and output
@@ -199,6 +200,18 @@ at the next sentence boundary. A stop control that finishes its thought
 teaches the user that the control is fake. The
 [tts-pipeline](./techniques/tts-pipeline.md) technique owns the queue, voice
 identity, playback ownership, and interruption.
+
+The lifecycle has terminal states and no deadline, and for most surfaces that is
+enough, because nothing waits on the voice. A caller whose contract is to wait (a
+speech command that returns once it has spoken, a queue that starts the next
+utterance when the last one ends) is waiting on a device that can fail to open or
+accept audio and never play it, and neither failure raises anything. The wait is
+bounded by the audio, not by the device: a fixed limit on the open, and a drain
+deadline derived from the queued audio's length, counted on the playback position
+wherever the channel can pause.
+[bounded-playback-wait](./techniques/bounded-playback-wait.md) owns the two bounds,
+the report-before-release order, and the measurement that an engine which substitutes
+a sink has already bounded the device.
 
 ## Consent and indication are architecture, not copy
 
@@ -481,3 +494,9 @@ seven rules.
   with a resumable step, compare by ear (greet first, one comparison line, no
   overlap), recognizers side by side with latency, receipts that reopen their
   step, speaker ids pinned to the model package, and one locked engine home.
+- [bounded-playback-wait](./techniques/bounded-playback-wait.md) — when a caller
+  must wait for audio to finish: a fixed limit on opening the device, a drain
+  deadline derived from the queued audio and moved per streamed chunk, the outcome
+  sent before the device is released, stopping generation when the device is not
+  opening, the stall measured on the playback position where a pause can happen, and
+  measuring whether a mediated engine has already bounded the device.

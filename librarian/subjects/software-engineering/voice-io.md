@@ -282,3 +282,21 @@ All three not-applicable: the matcher routed on "voice" as persona tone, "synthe
 question minting and "transcript" as CLI JSONL. The golden path's precondition (a product
 that listens or speaks) would route them away. One pair in the companion area was left
 stale on purpose while another session holds that code.
+
+### 2026-10-14 - intake rtk-ai/vox (run intake-vox-1014)
+
+New technique `bounded-playback-wait`: a caller whose contract is to wait for audio to
+finish waits on a device that can fail to open or accept audio and never drain it; the
+open gets a fixed limit, the drain a deadline derived from the queued audio, moved per
+streamed chunk, and the outcome is sent before the device is released. Written from a
+speech tool whose agent hooks hung on a remote sound server. The falsifying seam (the
+desktop companion's playback helper, behind a browser engine) returned `not-better` for
+the literal port and changed the landing: the engine ended a clip on time with audio
+output disabled, and a pause stretched the end by the pause, so the technique carries an
+audio-clock rule for pausable channels and "measure the engine before adding a device
+watchdog". Golden path: a paragraph after the lifecycle section and a list entry.
+Source-tree applications `rust--bounded-playback-wait` and `rust--real-time-synthesis-budget`
+(the process boundary measured both ways, 0.75 s vs 0.26-0.32 s first sound; benchmark
+figures with medians, first calls apart, and a "not measured" list). Untriaged: opening
+the output device while the model loads; energy detection scaled to the observed peak;
+clone reference length against synthesis time (lead).

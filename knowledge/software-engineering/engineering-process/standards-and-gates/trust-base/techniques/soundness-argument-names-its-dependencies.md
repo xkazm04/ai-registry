@@ -89,6 +89,23 @@ note at all.
   and "sites whose note names its dependency" are different numbers, and the second
   is the one that predicts drift.
 
+## A dependence on what else is running
+
+One more shape sits outside the three, and it decays faster than any of them: an
+argument that rests on which threads exist when the site runs. "Sound because nothing
+else is running yet" depends on every spawn that can precede the site, on every path
+that reaches it, including spawns added later in other functions for reasons that
+have nothing to do with the site. In one tree the note was true when written, and a
+latency change five months later started a thread one line before the call path that
+reaches it; the note was not revisited and the build stayed green. Two rules follow.
+The argument quotes the escape hatch's own stated precondition rather than a reading
+of it narrowed to the author's use (one variable instead of the whole environment,
+one reader instead of every reader). And the second end of the edge is at the spawn
+points: where the site can be moved before the first spawn, move it, because a
+placement is checkable and a population claim is not. Hatches of this kind that an
+older language revision lets code call with no marker at all are counted by
+[census-counts-unmarked-members](./census-counts-unmarked-members.md).
+
 ## When not to use it
 
 - **When the site is locally sound.** A cast of a freshly allocated buffer of known

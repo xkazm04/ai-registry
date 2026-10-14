@@ -1,0 +1,101 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-vox-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T18:11:02Z",
+  "ended_at": "2026-10-14T19:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/voice-io",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/trust-base",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/subprocess-lifecycle",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "voice-io",
+      "technique": "bounded-playback-wait",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "trust-base",
+      "technique": "census-counts-unmarked-members",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "trust-base",
+      "technique": "soundness-argument-names-its-dependencies",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "subprocess-lifecycle",
+      "technique": "spawn-contract",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/techniques/bounded-playback-wait.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--bounded-playback-wait.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/react--bounded-playback-wait--personas.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/rust--real-time-synthesis-budget.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/trust-base.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/techniques/census-counts-unmarked-members.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/techniques/soundness-argument-names-its-dependencies.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/rust--census-counts-unmarked-members.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/rust--census-counts-unmarked-members--personas.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/techniques/spawn-contract.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--spawn-contract--vox.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--spawn-contract--personas.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--caller-differentiated-capability--vox.md",
+    "knowledge/software-engineering/backend-platform/resilience/error-handling/applications/rust--containment-boundary-restores-state--vox.md",
+    "librarian/sources/2026-10-14-rtk-ai-vox.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/voice-io.md",
+    "librarian/subjects/software-engineering/trust-base.md",
+    "librarian/subjects/software-engineering/subprocess-lifecycle.md",
+    "librarian/subjects/software-engineering/mcp-tools.md",
+    "librarian/subjects/software-engineering/error-handling.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Two techniques and two amendments (voice-io, trust-base, subprocess-lifecycle); routing count 2, no handoff. Nine applications. Four apply rows on one fleet project, one code row shipped (not pushed); one not-better experiment amended its technique before landing."
+}
