@@ -26,7 +26,8 @@
 //   gaps --lens l [--structure <app-structure.json>]
 //             what a caller still has to do for one lens: per feature, the lens's metrics with no reading
 //             (`unmeasured`: no done measure run of this lens covered the feature yet; `unmeasurable`: one
-//             did and wrote nothing - a "?" a re-run will not fill), readings older than the structure
+//             did and wrote nothing - a "?" a re-run will not fill), readings older than the context map
+//             the structure was built over (`provenance.context_map_generated_at`)
 //             (`stale`), and the lens's backlog by status. Reads only.
 //   decide --ids a,b --decision approve|decline --by <kind:name> [--note t]
 //             a caller's decision on `proposed` items, recorded as decided_by <kind:name> (`operator:jane`,
@@ -381,7 +382,9 @@ export function structureLens(path, lens) {
   if (l.enabled === false) bad(`lens ${lens} is disabled in ${path}`);
   const metrics = (l.manifest?.fields ?? []).filter((f) => f?.metric && typeof f.key === 'string').map((f) => f.key);
   if (!metrics.length) bad(`lens ${lens} declares no metric fields`);
-  return { metrics, features: (s.features ?? []).map((f) => f?.slug).filter((x) => typeof x === 'string'), generated_at: s.generated_at };
+  return { metrics, features: (s.features ?? []).map((f) => f?.slug).filter((x) => typeof x === 'string'), // not generated_at: lens-scan rewrites the structure after every measure; the map date moves only when the
+  // file lists a reading was taken over change
+  mapAt: s.provenance?.context_map_generated_at };
 }
 
 /**
@@ -391,6 +394,7 @@ export function structureLens(path, lens) {
 export function gaps(db, { lens, structure } = {}) {
   const id = need('lens', lens);
   const st = structureLens(structure, id);
+  const mapAt = st.mapAt ? Date.parse(st.mapAt) : undefined;
   const have = new Map();
   for (const m of latest(db, { lens: id })) {
     if (!have.has(m.feature)) have.set(m.feature, new Map());
@@ -413,7 +417,7 @@ export function gaps(db, { lens, structure } = {}) {
     for (const k of st.metrics) {
       const at = m.get(k);
       if (at === undefined) row[tried ? 'unmeasurable' : 'unmeasured'].push(k);
-      else { totals.measured += 1; if (st.generated_at && at < st.generated_at) row.stale.push(k); }
+      else { totals.measured += 1; if (mapAt !== undefined && Date.parse(at) < mapAt) row.stale.push(k); }
     }
     totals.unmeasured += row.unmeasured.length; totals.unmeasurable += row.unmeasurable.length; totals.stale += row.stale.length;
     // absent is omitted: a feature with nothing to do is not listed, an empty list is not printed
@@ -423,7 +427,7 @@ export function gaps(db, { lens, structure } = {}) {
   }
   const backlog = {};
   for (const r of db.prepare('SELECT status, COUNT(*) AS n FROM proposals WHERE lens = ? GROUP BY status').all(id)) backlog[r.status] = r.n;
-  return clean({ lens: id, metrics: st.metrics, structure_at: st.generated_at, totals, features, backlog });
+  return clean({ lens: id, metrics: st.metrics, context_map_at: st.mapAt, totals, features, backlog });
 }
 
 // ------------------------------------------------------------------------------------- cli

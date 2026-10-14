@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.4.0
+version: 1.4.1
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -360,7 +360,7 @@ node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id> --root <repo> [--
 
 - `status` costs no model call: per feature, the metrics still `unmeasured`,
   `unmeasurable` (a done run covered it and wrote nothing) and `stale` (older than the
-  app-structure), plus the lens's backlog by status (`store.mjs gaps`).
+  context map the structure was built over), plus the lens's backlog by status (`store.mjs gaps`).
 - `cover` runs `measure` only over the features with gaps, in chunks. For a lens with a
   conform step, a chunk is the size of the step's budget, so each feature in a run gets a
   pair judged. Then it runs one `propose`.

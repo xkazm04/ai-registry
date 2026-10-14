@@ -439,16 +439,16 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.4.0",
+      "version": "1.4.1",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:bd5a0bb6fa898967",
+      "contentHash": "sha256-n1:285e6d8cffaf3efe",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 7,
+      "lessons": 8,
       "lessonsPath": "skills/lens-scan/LESSONS.md",
-      "lessonsHash": "sha256-n1:a8bdd22760c8561e",
+      "lessonsHash": "sha256-n1:866e302c3134965d",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1074,7 +1074,7 @@
     "skills": 41,
     "practices": 8,
     "memory": 9,
-    "lessons": 323
+    "lessons": 324
   },
   "bundles": [
     {

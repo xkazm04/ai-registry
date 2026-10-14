@@ -13,7 +13,8 @@ import { drive } from '../scripts/drive.mjs';
 const STORE = fileURLToPath(new URL('../scripts/store.mjs', import.meta.url));
 const LENS = 'com.x.reg';
 const structure = {
-  generated_at: '2026-10-14T00:00:00.000Z',
+  generated_at: '2999-01-01T00:00:00.000Z', // rewritten after every measure: never the stale clock
+  provenance: { context_map_generated_at: '2026-10-14T00:00:00.000000000+00:00' },
   features: [{ slug: 'a' }, { slug: 'b' }, { slug: 'c' }],
   lenses: [{ id: LENS, enabled: true, manifest: {
     fields: [{ key: 'judged', metric: { method: 'static' } }, { key: 'conf', metric: { method: 'static' } }, { key: 'label' }],
@@ -29,7 +30,7 @@ function repo() {
   return { root, file, dbPath, db: openStore(dbPath) };
 }
 
-test('gaps: unmeasured until a done run covers a feature, unmeasurable after, stale before the structure', () => {
+test('gaps: unmeasured until a done run covers a feature, unmeasurable after, stale before the context map', () => {
   const { file, db } = repo();
   let g = gaps(db, { lens: LENS, structure: file });
   assert.deepEqual(g.metrics, ['judged', 'conf'], 'only fields with a metric block');
@@ -40,7 +41,7 @@ test('gaps: unmeasured until a done run covers a feature, unmeasurable after, st
   g = gaps(db, { lens: LENS, structure: file });
   assert.deepEqual(g.features, [{ feature: 'b', unmeasurable: ['conf'] }, { feature: 'c', unmeasured: ['judged', 'conf'] }]);
   assert.deepEqual(g.totals, { features: 3, cells: 6, measured: 3, unmeasured: 2, unmeasurable: 1, stale: 0 });
-  writeFileSync(file, JSON.stringify({ ...structure, generated_at: '2999-01-01T00:00:00.000Z' }));
+  writeFileSync(file, JSON.stringify({ ...structure, provenance: { context_map_generated_at: '2999-01-01T00:00:00.000000000+00:00' } }));
   assert.equal(gaps(db, { lens: LENS, structure: file }).totals.stale, 3);
   assert.throws(() => gaps(db, { lens: 'nope', structure: file }), /not in/);
 });
