@@ -81,6 +81,12 @@ paid for somewhere:
   seat but let service area inform fit, because** funders' territorial rules
   usually bind on where the applicant *is*, while where it *works* is a fit
   argument.
+- **When more than one surface matches the applicant's place against listing
+  text (an eligibility check and a ranking score), route them through one
+  whole-word matcher, because** the craft rules above are enforced only where
+  the shared helper is called, and the second surface quietly keeps the
+  substring test that scores a town inside a common noun at full marks and an
+  empty profile field against every listing.
 
 ## When not to use
 

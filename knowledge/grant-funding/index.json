@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 63,
+  "applications": 64,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -293,8 +293,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/eligibility-analysis.md",
-   "digest": "sha256-b2:965d41bdd32f61c8",
-   "revision": 3,
+   "digest": "sha256-b2:198a681c980c0e23",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -413,6 +413,13 @@
      "stack": "node",
      "technique": "deadline-and-cutoff-evaluation",
      "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/applications/node--deadline-and-cutoff-evaluation.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "geographic-scope-gating",
+     "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/applications/node--geographic-scope-gating.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@22"
     },
