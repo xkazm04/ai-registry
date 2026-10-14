@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 43,
+  "applications": 44,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -953,9 +953,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/grant-source-landscape.md",
-   "digest": "sha256-b2:e9556d995de9d07c",
-   "revision": 2,
-   "changedAt": "2026-08-27",
+   "digest": "sha256-b2:88c33309f79a7103",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "close-date-normalization",
@@ -1065,6 +1065,13 @@
      "technique": "curated-floor-vs-live-feed",
      "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/applications/node--curated-floor-vs-live-feed.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "dedup-records-who-carried-it",
+     "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/applications/node--dedup-records-who-carried-it.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
     }
    ]
   },

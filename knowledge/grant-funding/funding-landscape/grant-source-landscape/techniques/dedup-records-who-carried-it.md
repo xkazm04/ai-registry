@@ -93,6 +93,12 @@ it looks like evidence.
   independence cannot be recovered later from the rows — by then every
   carrier looks alike, and the only surviving distinction is the one
   onboarding wrote down.
+- **When the upstream is declared in a map, key the map on the identifier the stored
+  rows actually carry, because** a declaration priced on the adapter's own name
+  matches nothing if the adapter writes its origin's name into the row: the map
+  reads as correct, passes its own tests, and is dead code until the day an
+  adapter starts writing its own name. Check the declaration against a real row
+  once, not against the adapter list.
 - **When a surface displays a corroboration count, display the carriers,
   because** a bare "3 sources" invites the reader to assume three
   independent ones, and naming them lets a reader who knows the field catch
