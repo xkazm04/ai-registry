@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 306,
+  "applications": 307,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -468,8 +468,8 @@
    "subcategory": "motion-and-audio",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/adaptive-music-authoring.md",
-   "digest": "sha256-b2:53c6b98e5365cdb2",
-   "revision": 3,
+   "digest": "sha256-b2:ca8a8a31c7e8c7d8",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -574,6 +574,13 @@
      "technique": "music-acceptance-beyond-decode-checks",
      "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/applications/node--music-acceptance-beyond-decode-checks.md",
      "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "node",
+     "technique": "stem-and-voice-budget-derivation",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/applications/node--stem-and-voice-budget-derivation.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
     },
     {
      "stack": "process",
