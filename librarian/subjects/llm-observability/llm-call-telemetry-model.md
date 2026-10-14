@@ -266,3 +266,5 @@ without the `applied:` / `ab_verdict:` pair that convention puts beside it.
 ## 2026-10-06 - /intake deer-flow --delta (run `intake-deer-flow-1006-v3`, cloud dispatch)
 
 Source [[../../sources/2026-10-06-deer-flow-v3]]. `python--server-owned-fields` re-pinned `08b27aef -> 53df22bd`. The upstream middleware guide was compressed and dropped the reason behind unconditional stamping ("a fact whose presence depends on whether an observer is installed is not a fact"). The rule survived as "even without observers". The application keeps the old quotation, marked with its commit. The server-owned set is now cited from code (`services.py:144-172`); it grew by six keys, each added to the one set. No claim moved.
+
+- **Impact evaluation, 2026-10-14.** token-usage-quadruple: impact-null, blind 1/5 vs 1/5; the landing's added points (sender-defaulted 0, fold once) were not raised by either arm. Ledger: `librarian/harvest/evaluations.md`.

@@ -297,3 +297,5 @@ field is left as it stands.
   }
 }
 ```
+
+- **Impact evaluation, 2026-10-14.** span-cap-truncation-signal: impact-null, blind 5/5 vs 5/5; neither arm opened the technique, so a weak test (consult routing). Ledger: `librarian/harvest/evaluations.md`.

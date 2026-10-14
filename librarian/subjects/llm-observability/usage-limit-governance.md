@@ -286,3 +286,5 @@ caps, Bedrock, Google Cloud spend-cap budgets) were not re-resolved; its
   }
 }
 ```
+
+- **Impact evaluation, 2026-10-14.** cost-evidence-and-imputation: impact-null, blind 4/5 vs 4/5; enforcement-placement-and-reconciliation: impact-null, pre-landing arm 2/5 vs HEAD arm 1/5, margin not attributed to the landing. Ledger: `librarian/harvest/evaluations.md`.
