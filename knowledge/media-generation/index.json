@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 187,
-  "applications": 97,
+  "applications": 98,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -3069,9 +3069,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/sound-effect-generation/sound-effect-generation.md",
-   "digest": "sha256-b2:0112a4c354784706",
-   "revision": 3,
-   "changedAt": "2026-08-29",
+   "digest": "sha256-b2:1cbc518525da855c",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "envelope-first-briefing",
@@ -3151,6 +3151,13 @@
      "technique": "envelope-first-briefing",
      "file": "knowledge/media-generation/audio-generation/sound-effect-generation/applications/node--envelope-first-briefing.md",
      "verified_on": "2026-08-27",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "layered-element-assembly",
+     "file": "knowledge/media-generation/audio-generation/sound-effect-generation/applications/node--layered-element-assembly.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
