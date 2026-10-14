@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1262,
+  "applications": 1263,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -14908,9 +14908,9 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/fault-signal-propagation.md",
-   "digest": "sha256-b2:0b59042fbc5ac45b",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:98e086771de65e12",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "edge-deadline-arming",
@@ -15005,6 +15005,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "react",
+     "technique": "last-value-degradation",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/fault-signal-propagation/applications/react--last-value-degradation.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19"
+    },
     {
      "stack": "rust",
      "technique": "edge-deadline-arming",
