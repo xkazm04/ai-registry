@@ -1,0 +1,57 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "lib-1014",
+  "skill": "librarian",
+  "skill_version": "1.6.2",
+  "mode": "run",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T07:30:00Z",
+  "ended_at": "2026-10-14T08:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 2,
+    "landed": 2,
+    "declined": 2,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/accessibility",
+      "at": "2026-10-14",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 44,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/markdown-vault",
+      "at": "2026-10-14",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": 44,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/subjects/software-engineering/accessibility.md",
+    "librarian/subjects/software-engineering/markdown-vault.md",
+    "librarian/applied.md",
+    "librarian/runs/2026-10-14-1.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "upstream/Project-MONAI/MONAI",
+      "reason": "due but ranks below consumer-deviation demand; no citation risk (pin-unreachable and rewritten are both 0); re-derive next run"
+    },
+    {
+      "subject": "upstream/openbao/openbao",
+      "reason": "due but ranks below consumer-deviation demand; no citation risk; re-derive next run"
+    }
+  ],
+  "failure_signature": null,
+  "notes": ""
+}
