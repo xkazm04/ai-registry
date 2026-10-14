@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1256,
+  "applications": 1257,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -7078,9 +7078,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
-   "digest": "sha256-b2:c8742871bd3cb036",
-   "revision": 5,
-   "changedAt": "2026-09-23",
+   "digest": "sha256-b2:3188afedb5eb767f",
+   "revision": 6,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "commit-verification",
@@ -7184,6 +7184,12 @@
      "technique": "isolated-index-commits",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--isolated-index-commits.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "process",
+     "technique": "never-lose-work-rules",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--never-lose-work-rules--instruction-file.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",

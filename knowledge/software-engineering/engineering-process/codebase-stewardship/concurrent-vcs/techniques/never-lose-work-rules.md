@@ -80,6 +80,14 @@ destroy, and you take the lowest rung that works:
    branch, history moves forward only — repairs are new commits or
    amendments to the unshared tip.
 
+Two boundary cases the ban text must carry, found by replaying one project's
+sessions against it: a stash scoped to your own paths is not the sweeping form,
+yet it is the same habit, so an A/B of your own change belongs in a throwaway
+isolated working copy rather than a stash in the shared checkout; and a
+pathspec on commit bounds which files are committed but still commits their
+working-tree content, so a file a sibling has also edited is not yours to
+commit that way.
+
 ## Housekeeping asymmetry
 
 The deep principle under all four rules: **operations must be asymmetric in
