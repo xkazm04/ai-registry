@@ -83,6 +83,7 @@ passage slot; a page that says what the business charged for 1,400 jobs since
   and give it a schema that cannot carry a number the inventory lacks, because
   an instruction not to invent does not satisfy the law and a fabricated
   statistic is the exact shape an engine most readily lifts.
+- When a generator already receives the business's figures as structured brief points, do not spend a prompt rule on carrying them verbatim, because a paired run showed the baseline already reproduces them with units; spend the effort on the output vocabulary instead (whether the generator can emit a table at all), since a list of strings is the ceiling of a schema without one.
 - When a page has strong original data but is buried in a long guide, move the
   data passage into the first third of the page, because the direction of the
   "citations come from early in the document" finding is safe even though its
