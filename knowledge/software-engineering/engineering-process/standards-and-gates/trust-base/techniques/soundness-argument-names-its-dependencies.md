@@ -58,12 +58,19 @@ search for the dependency's name or in a review of the site.
 
 ## What a lint can and cannot enforce
 
-Lints exist for the block form: require a note adjacent to each unsafe block.
-That covers the first end of the first kind of site. It does not cover hand-written
-markers on types (see [the marker discipline](./marker-impl-names-its-exclusion.md)),
-nor the second end of any edge, because a lint can require that a comment exist
-and cannot read what it depends on. Run the lint, but report it as coverage of one
-spelling. A clean lint is evidence about blocks only. A two-ended note is a manual
+Lints exist that require a note adjacent to each unsafe block, and in at least one
+ecosystem the same lint also covers hand-written unsafe trait impls, so the
+marker assertions of [the marker discipline](./marker-impl-names-its-exclusion.md)
+can be held to "a note exists" mechanically; check which item kinds your linter
+visits before claiming either way (the dated application records one such check, and the
+earlier version of this paragraph wrongly said impls were outside it). That
+covers the first end of the first kind of site and nothing more. It does not
+cover the second end of any edge, because a lint can require that a comment exist
+and cannot read what it depends on; it also stays silent on a note that sits one
+line too far from the item, on declarations the checker was told to trust, and on
+unsafe code produced by a macro unless the linter expands it. Run the lint, but
+report it as coverage of the spellings it visits. A clean lint is evidence that
+notes exist, not that they are true. A two-ended note is a manual
 discipline checked at review, and the measure that tells you whether it is working
 is the fraction of sites whose note names a dependency, not the fraction that has a
 note at all.
