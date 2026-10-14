@@ -104,7 +104,8 @@
         "ship-pipeline-gating",
         "visual-script-to-code-transpilation",
         "perf-regression-gating",
-        "render-submission-economy"
+        "render-submission-economy",
+        "rigid-body-simulation-stability"
       ]
     },
     {
