@@ -1,0 +1,48 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "seo-0ctl14",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "marketing",
+  "started_at": "2026-10-14T09:00:00Z",
+  "ended_at": "2026-10-14T11:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "marketing/on-page-and-metadata-craft",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "on-page-and-metadata-craft",
+      "technique": "metadata-shape-uniformity-site-wide",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/marketing/search-and-content/on-page-and-metadata-craft/techniques/metadata-shape-uniformity-site-wide.md",
+    "knowledge/marketing/search-and-content/on-page-and-metadata-craft/applications/node--metadata-shape-uniformity-site-wide.md",
+    "knowledge/marketing/search-and-content/on-page-and-metadata-craft/on-page-and-metadata-craft.md",
+    "librarian/sources/2026-10-14-agricidaniel-claude-seo.md",
+    "librarian/subjects/marketing/on-page-and-metadata-craft.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One technique and one application. Five of nine candidates were catches; two leads (section-level third-party content risk, page-state drift). Apply: experiment, unmeasurable, no stored batch of generated briefs."
+}

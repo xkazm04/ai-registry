@@ -11,6 +11,7 @@ techniques:
   - low-ctr-high-impression-rewrite-targets
   - structured-data-by-page-kind
   - mechanical-layer-only-never-the-copy
+  - metadata-shape-uniformity-site-wide
 ---
 
 # On-page and metadata craft
@@ -66,6 +67,12 @@ one of those studies compared titles with one device against titles without it. 
 all of them produces a title the reader recognises as bait, which the engine both
 rewrites and, on the evidence of the bounce, deprioritises. The lifts are tie-breakers
 between two honest variants, never a formula. See `ctr-lifts-as-tie-breakers-not-a-stack`.
+
+**Unique strings can still share one shape.** A bulk-generated site passes a duplicate
+check while every description opens by restating its title and closes on the same stock
+call to action. The engine's snippet guidance names "identical or similar" descriptions,
+and similarity is a property of the batch, not of any page, so it is measured across the
+site with a count floor and a share. See `metadata-shape-uniformity-site-wide`.
 
 ## Keyword placement is a covenant with the crawler, not a density
 

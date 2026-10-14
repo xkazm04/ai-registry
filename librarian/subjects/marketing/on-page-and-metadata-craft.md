@@ -33,3 +33,13 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   second tree is the next pass.
 - No `librarian/applied.md` row yet except where the source note says so; the
   unapplied backlog is every technique here without a row.
+
+## 2026-10-14 - intake seo-0ctl14 (SEO skill suite)
+
+Added technique `metadata-shape-uniformity-site-wide` (site-level measure of shared
+description shape) and application `node--metadata-shape-uniformity-site-wide`
+(systedo-case, experiment, unmeasurable). Golden path gained one list entry and one
+paragraph; no existing sentence changed. Boundary: `local-page-doorway-prevention` owns
+templated body copy; this owns templated head tags. Section-level third-party content
+risk was considered here and banked as a lead (source note
+`2026-10-14-agricidaniel-claude-seo.md`).

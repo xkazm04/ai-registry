@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 89,
+  "applications": 90,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -2177,7 +2177,7 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/on-page-and-metadata-craft/on-page-and-metadata-craft.md",
-   "digest": "sha256-b2:a79c3ee28aaf8181",
+   "digest": "sha256-b2:24c8250c98eaae02",
    "revision": 2,
    "changedAt": "2026-10-14",
    "techniques": [
@@ -2284,6 +2284,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "metadata-shape-uniformity-site-wide",
+     "file": "knowledge/marketing/search-and-content/on-page-and-metadata-craft/applications/node--metadata-shape-uniformity-site-wide.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "structured-data-by-page-kind",
