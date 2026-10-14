@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 105,
+  "applications": 106,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -26,8 +26,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/search-and-content/answer-engine-visibility/answer-engine-visibility.md",
-   "digest": "sha256-b2:aca35ecb09aa8af8",
-   "revision": 2,
+   "digest": "sha256-b2:09b4d7a982b7c49a",
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -126,6 +126,14 @@
      "stack": "prompt-pipeline",
      "technique": "answer-block-under-question-heading",
      "file": "knowledge/marketing/search-and-content/answer-engine-visibility/applications/prompt-pipeline--answer-block-under-question-heading.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "prompt-pipeline@2026.10.14",
+     "refresh_by": "2027-01-14"
+    },
+    {
+     "stack": "prompt-pipeline",
+     "technique": "informational-as-linking-fuel-not-traffic",
+     "file": "knowledge/marketing/search-and-content/answer-engine-visibility/applications/prompt-pipeline--informational-as-linking-fuel-not-traffic.md",
      "verified_on": "2026-10-14",
      "verified_against": "prompt-pipeline@2026.10.14",
      "refresh_by": "2027-01-14"
