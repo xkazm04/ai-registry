@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 187,
-  "applications": 98,
+  "applications": 99,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -505,9 +505,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/media-generation/visual-generation/data-video-art-direction/data-video-art-direction.md",
-   "digest": "sha256-b2:10a9cce44446d777",
-   "revision": 1,
-   "changedAt": "2026-10-04",
+   "digest": "sha256-b2:fbaf7acd0cb468e9",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "case-native-chart-form",
@@ -710,6 +710,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "process",
+     "technique": "case-native-chart-form",
+     "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/process--case-native-chart-form.md",
+     "verified_on": "2026-10-14"
+    },
     {
      "stack": "process",
      "technique": "concept-landing-proposals",
