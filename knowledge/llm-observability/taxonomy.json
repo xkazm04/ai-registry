@@ -12,7 +12,8 @@
         "analytics-store-design",
         "llm-call-telemetry-model",
         "multi-provider-event-normalization",
-        "trace-rollup-and-attribution"
+        "trace-rollup-and-attribution",
+        "agent-session-archive"
       ]
     },
     {
