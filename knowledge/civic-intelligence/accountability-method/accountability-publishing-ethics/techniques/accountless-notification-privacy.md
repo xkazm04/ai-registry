@@ -87,6 +87,13 @@ failure the reader can never detect.
   Where that exposure is unacceptable, keep filtering on the client or use
   a separately reviewed delivery mechanism. An address is not a revocable
   secret merely because the server stores no account.
+- **Match the shape of a key, not only a valid key.** A scrub that fires only
+  when some value parses leaves the whole list in the event the moment every
+  value is slightly off (case, trailing space, a fragment appended by the
+  browser). Treat a value with the key prefix as sensitive; leave a parameter
+  of the same name that has no key shape alone. Walk every container the
+  request shape can take: dictionary, list of pairs, and headers that quote
+  the previous address.
 - **Any new egress path re-runs the fingerprint audit.** A share button, a
   server-rendered preview, a cache layer keyed by full URL, a new telemetry
   integration — each is a fresh chance for the address-borne list to persist
