@@ -191,6 +191,43 @@ What a coach does not owe is certainty about the interviewer. Every technique he
 claim about a listener the candidate has not met, built on a record of a few events. State
 the claim, state what it rests on, and leave room for the room to disagree.
 
+## What the interviewing literature adds, and where it stops
+
+The portfolio is a candidate-side planning aid, and the field evidence about the room it
+prepares for is thinner than the technique vocabulary suggests. Two dated findings bound
+what the portfolio may claim.
+
+**Impression management is common and weakly rewarded in the interview, not strongly.** A
+meta-analysis of 18 articles (42 effect sizes, pooled n = 8,635) puts the corrected
+correlation between impression-management use and interview ratings at about 0.22
+(self-focused tactics 0.24, k = 20, n = 2,515; other-focused 0.17, k = 12, n = 1,277), with
+a larger link in lab studies than field studies (0.24 vs 0.18) and in working applicants
+than students (0.36 vs 0.15) ([Peck and Levashina, 2017](https://doi.org/10.3389/fpsyg.2017.00201)).
+The honest-versus-deceptive split was not analysed there. The use for this subject: a
+well-allocated, truthful portfolio is a form of self-focused presentation, and the
+literature supports it as worth doing without supporting a promise about outcome. No
+technique here may state or imply that following it raises the chance of an offer; the
+evidence is about ratings, in samples dominated by students and mock settings.
+
+**Applicants vary their presentation from one interview to the next, and not evenly.** In
+80 business students across 448 interviews (mean 5.8 each, 71 analysed for variability),
+honest defensive tactics varied most between interviews, honest self-promotion least
+([Roulin and Bourdage, 2017](https://doi.org/10.3389/fpsyg.2017.00029)). Impression
+management there was self-reported and the paper reports no ratings or offers, so it says
+nothing about whether variation helps. It does mean the portfolio's facts, not its
+framing, are the part a candidate must hold constant: the framing of an experience will
+drift between rounds whatever the plan says, and the plan should pin the verifiable
+particulars (dates, roles, numbers, who did what) so that drift stays in emphasis.
+
+**What the evidence does not reach.** Both studies are of impression management in
+general; neither tests story allocation, fit tiers or gap responses, so those remain this
+subject's reasoned practice rather than measured effects (the open measurement is recorded
+in the subject note). Evidence on candidates using generative tools during live
+interviews was, as of 2026-10-14, practitioner surveys and trade reporting, not
+peer-reviewed; this subject takes no position on detection and keeps its rule that a
+supplied insight is a proposal until the candidate can tell the story behind it
+([earned-secret-needs-proof](./techniques/earned-secret-needs-proof.md)).
+
 ## What the naive readings get wrong
 
 - **"Pick the best story for the question."** Correct for one question and wrong for a
@@ -204,6 +241,8 @@ the claim, state what it rests on, and leave room for the room to disagree.
   a story is not.
 - **"Be memorable."** Memorability earned by manufactured contrarianism is a risk the
   record cannot support. Memorability earned by a proven, specific insight is an asset.
+- **"Doing this raises the odds of an offer."** The interview literature measures ratings
+  and impression management broadly; nothing measured here tests this allocation.
 - **"Our scores predict how interviews go."** Not until real outcomes exist in a quantity
   that separates signal from chance, and often not in one search.
 - **"Fix each weak dimension with its own drill."** If one cause depresses several
