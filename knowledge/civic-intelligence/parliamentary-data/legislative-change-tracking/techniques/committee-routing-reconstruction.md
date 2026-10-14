@@ -66,6 +66,7 @@ open code space and a status ladder that must never be descended by guesswork.
 - **When a pair has rows in the log but no dated step at its strongest
   status, publish the status undated** — status and date are independent
   claims, and one surviving does not license inventing the other.
+- **Ranking an unknown code below every real status is not the same as dropping it.** The collapsed pair keeps strongest status, and also carries the distinct unrecognised codes seen among its rows (absent when there are none). A suppressed unreadable row is indistinguishable from no row, so the one time it signals a reassignment nobody can find it. Test it as a pair with one documented and one unreadable row, in both input orders.
 - **Scope filtering is the caller's decision.** The collapse itself should
   be term-agnostic and bill-agnostic; which bills' assignments become
   published edges is governed by the corpus the consumer defines, so the
