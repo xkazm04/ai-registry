@@ -63,6 +63,7 @@ from a model is a figure invented under another name.
 - **When the identifier fails the shape test, return null, because** a link
   constructed anyway points at a page that does not exist — or worse, at a
   different opportunity's page.
+- **When writing the shape test, match the canonical key itself, not "whatever coerces to a number", because** a numeric-coercion check accepts exponent, hex, binary, decimal, signed, zero-padded and past-safe-integer strings, and each one derives a link (or a detail fetch) for a different opportunity than the record names. Test the exact digit form, and cover the coercible non-keys in the shape test's own cases.
 - **When the crowd profile is low-confidence, ignore it entirely rather than
   blending, because** a single filer's URL may be their org's SSO entry
   point, a staging portal, or simply wrong; blending averages truth with

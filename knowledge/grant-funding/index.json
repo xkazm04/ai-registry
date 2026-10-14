@@ -1853,9 +1853,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/submission-filing/submission-filing.md",
-   "digest": "sha256-b2:3cdbdffa62af2f49",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:b55fa27d7f176a02",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "crowd-verified-filing-profiles",
