@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 67,
+  "applications": 68,
   "laws": 8,
   "categories": [
    "european",
@@ -157,8 +157,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/south-and-southeast-asian/bengali/bengali.md",
-   "digest": "sha256-b2:72b74663cfaed823",
-   "revision": 5,
+   "digest": "sha256-b2:264b0a7fc5e42e7d",
+   "revision": 6,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -254,6 +254,12 @@
      "stack": "process",
      "technique": "de-anglicization-constructions",
      "file": "knowledge/localization/south-and-southeast-asian/bengali/applications/process--de-anglicization-constructions.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "register-and-address",
+     "file": "knowledge/localization/south-and-southeast-asian/bengali/applications/process--register-and-address.md",
      "verified_on": "2026-10-14"
     },
     {
