@@ -5,7 +5,7 @@
   "source": "knowledge/llm-observability/ (frontmatter only)",
   "subjects": 18,
   "techniques": 128,
-  "applications": 84,
+  "applications": 85,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -293,8 +293,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/breach-alerting-and-attribution/breach-alerting-and-attribution.md",
-   "digest": "sha256-b2:4cd19892b6c22349",
-   "revision": 4,
+   "digest": "sha256-b2:183ec8b74ed943d6",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -418,6 +418,13 @@
      "technique": "top-contributor-attribution",
      "file": "knowledge/llm-observability/economics-and-governance/breach-alerting-and-attribution/applications/rust--top-contributor-attribution.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "typescript",
+     "technique": "notification-channel-security",
+     "file": "knowledge/llm-observability/economics-and-governance/breach-alerting-and-attribution/applications/typescript--notification-channel-security--delivery-time-sink-vetting.md",
+     "verified_on": "2026-10-14",
+     "refresh_by": "2027-01-14"
     }
    ]
   },
