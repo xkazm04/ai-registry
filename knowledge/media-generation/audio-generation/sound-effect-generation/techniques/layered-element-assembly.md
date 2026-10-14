@@ -69,6 +69,9 @@ cannot family; every variant is a fresh roll of all four axes.
 - When a sound will recur, keep its elements and the assembly note, not
   just the bounce, because the elements are the reusable asset and the
   bounce is one rendering of it.
+- When assembling a stack, trim each element to its own attack before
+  aligning, because generated takes start at different offsets and a
+  stack trimmed only after the sum is offset by the longest lead silence.
 
 ## When not to use this
 
