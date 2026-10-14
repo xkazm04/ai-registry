@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 301,
+  "applications": 302,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -29,9 +29,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/aaa-craft-rubric-authoring.md",
-   "digest": "sha256-b2:4739d012b0a4422d",
-   "revision": 4,
-   "changedAt": "2026-09-16",
+   "digest": "sha256-b2:bf481aef4e66ab78",
+   "revision": 5,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "capped-disqualifiers",
@@ -180,6 +180,12 @@
      "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/node--lens-versioning-as-invalidation.md",
      "verified_on": "2026-09-16",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "capped-disqualifiers",
+     "file": "knowledge/game-production/craft-judgment/aaa-craft-rubric-authoring/applications/process--capped-disqualifiers.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",

@@ -98,6 +98,12 @@ back into arithmetic.
 - **Define applicability before scoring.** Legitimate exceptions, such as
   intentionally abstract lettering or airborne motion, must be explicit and
   versioned. Do not negotiate silent per-artifact waivers.
+- **Enforce the cap where the grade is stored, not in the auditor's reading of the list.**
+  If a finding can say a disqualifier fired while the level beside it sits above the cap,
+  the cap is a sentence and the contradiction is stored. Give each disqualifier a stable
+  id, let a finding cite it, and have the write door refuse a level above the strictest
+  cited cap. A cited id the rubric does not have is refused too, since ignoring it lets a
+  typo lift the cap. Findings that cite none are untouched, so adoption can be gradual.
 - **Report the cap as a distinct outcome, not as a low score.** "Failed on a
   disqualifier" and "scored poorly across criteria" call for completely different
   fixes; a system that renders both as the same low number destroys that information.
