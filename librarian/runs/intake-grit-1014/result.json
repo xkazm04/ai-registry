@@ -1,0 +1,92 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-grit-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T16:05:00Z",
+  "ended_at": "2026-10-14T19:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/concurrent-vcs",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/concurrency-guards",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "concurrent-vcs",
+      "technique": "integration-door",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "concurrent-vcs",
+      "technique": "sub-file-claim-scope",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "concurrency-guards",
+      "technique": "cross-process-exclusion",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/techniques/sub-file-claim-scope.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/techniques/integration-door.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--sub-file-claim-scope.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--integration-door.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/node--integration-door.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/node--sub-file-claim-scope.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/techniques/shared-claims-by-announce-and-verify.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--shared-claims-by-announce-and-verify.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion--symbol-lock-store.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/node--cross-process-exclusion.md",
+    "scripts/run-board.mjs",
+    "scripts/run-board.test.mjs",
+    "librarian/sources/2026-10-14-grit.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/concurrent-vcs.md",
+    "librarian/subjects/software-engineering/concurrency-guards.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "6bfb3f6c",
+      "branch": "main",
+      "pathspec": [
+        "scripts/run-board.mjs",
+        "scripts/run-board.test.mjs"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "3 techniques, 7 applications. Applied: 2 experiments not-better (personas), 1 unapplied, 1 code better on the registry run-board (13/32 to 0/32 double grants, 6bfb3f6c). index/catalog left uncommitted (sibling WIP). 8 catches, 2 leads, 4 untriaged."
+}

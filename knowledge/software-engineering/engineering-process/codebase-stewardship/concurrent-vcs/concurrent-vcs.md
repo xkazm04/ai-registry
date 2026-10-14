@@ -10,6 +10,8 @@ techniques:
   - commit-verification
   - never-lose-work-rules
   - shared-resource-arbitration
+  - sub-file-claim-scope
+  - integration-door
 ---
 
 # Concurrent-workspace version control
@@ -20,8 +22,9 @@ of them aware of each other unless something makes them aware. This subject
 owns what happens at the version-control layer under that arrangement: how
 sessions declare where they intend to work, how they physically avoid each
 other, how a commit is built so that a neighbor's simultaneous activity cannot
-corrupt it, how corruption is *detected* when it happens anyway, and how the
-whole arrangement is cleaned up so it does not silt over time.
+corrupt it, how corruption is *detected* when it happens anyway, how isolated
+work comes back into the shared line, and how the whole arrangement is cleaned
+up so it does not silt over time.
 
 The boundary with the sibling subject
 [fleet-orchestration](../../../llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md) is
@@ -66,6 +69,20 @@ efforts. The ledger coordinates *what work exists*; the worktree guarantees
 *edits cannot interleave*. The techniques:
 [intent-ledgers](./techniques/intent-ledgers.md) and
 [physical-isolation](./techniques/physical-isolation.md).
+
+The ledger's unit is a path, declared as coarsely as is honest, and that stays
+right while sessions rarely share a file and a person reads the conflicts. A
+system that hands many autonomous sessions different functions of one file meets
+the opposite force: path claims serialize work the line-level merge would have
+combined. Claims below the file buy that back and open five holes the path
+scheme never had - name-based identity, containment, the import block no unit
+owns, units that do not exist yet, and an index that goes stale with every
+merge - and they only pay where refusals for overlap are actually common. When
+the reader of a refusal is an autonomous session rather than a person, the claim
+also stops being advisory: it blocks, it expires as a lease, and its refusal
+names the free alternatives. Both the measurement that decides whether to go
+below the file and the price list are
+[sub-file-claim-scope](./techniques/sub-file-claim-scope.md).
 
 ## The staging index is shared mutable state
 
@@ -131,6 +148,25 @@ stale local cache of it. This is
 [commit-verification](./techniques/commit-verification.md), and it is not
 optional garnish — in a shared checkout it is the *only* mechanism that
 detects the failure class at all.
+
+## Integration is a stage, not a clause
+
+Isolation ends with "merged back when done", and that clause hides the one stage
+every isolated session passes through: many branches converging on one shared
+line, through a target checkout siblings are editing, followed by a teardown
+that destroys the only copy of the work if it runs one step early. The stage
+deserves its own design because it is the only point in the protocol nothing can
+skip - a ledger read can be forgotten, a claim drawn too narrowly, but no change
+reaches the shared line except through the integration - so it is where scope is
+checked against change, where the rebase runs (inside the branch's own worktree,
+never from the main checkout), where the target's dirt is judged by its overlap
+with the branch rather than refused wholesale, and where worktree, branch and
+claim are released only after the target is verified to contain the work. How
+long a claim survives a failed integration depends on the claim's grain: a held
+branch's directory-wide claims cost little to release, measured, while a
+function-level claim released on failure invites the collision the held branch
+will meet on retry. This is
+[integration-door](./techniques/integration-door.md).
 
 ## Never-lose-work rules are structural, not disciplinary
 
@@ -211,6 +247,10 @@ its crashed owner, but activity does not. This is
 - **Every commit is verified by readback.** The newest log entry is yours, or
   recovery starts immediately — while the failure is one commit old and
   amendable.
+- **Every branch reaches the shared line through one serialized door**, which
+  reads the change from the record, judges the target's dirt by overlap, and
+  tears down worktree, branch and claim only after verifying the target contains
+  the work.
 - **No operation ever moves another session's work** — not into a stash, not
   into a commit, not into the void. Operations that cannot be scoped to your
   own work are banned in shared checkouts.
@@ -241,3 +281,11 @@ its crashed owner, but activity does not. This is
 - [shared-resource-arbitration](./techniques/shared-resource-arbitration.md) —
   session-unique naming for scratch and artifacts, activity-evidence over
   lock files, and arbitration for unshareable resources.
+- [sub-file-claim-scope](./techniques/sub-file-claim-scope.md) — claims that
+  name functions rather than paths: when the parallelism is worth it, and the
+  identity, containment, remainder, creation, staleness, dependency and
+  all-or-nothing rules that keep a finer claim from reading as a false all-clear.
+- [integration-door](./techniques/integration-door.md) — the serialized
+  merge-back of isolated branches: claim read from the record, rebase in the
+  branch's worktree, dirt judged by overlap, verify-then-teardown, the claim's
+  lifetime across a failed integration, and scope checked against change.

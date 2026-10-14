@@ -18,6 +18,7 @@ techniques:
   - renewal-deadline-two-thirds-ttl
   - race-catalog-with-two-histories
   - preparation-is-the-staleness-window
+  - shared-claims-by-announce-and-verify
 ---
 
 # Idempotency & in-flight guards
@@ -107,7 +108,11 @@ From that stance, the spine of the subject:
    compare-and-swap claim on a shared row, or a population check over
    observable artifacts — and every such mechanism must answer the question
    in-process guards never face: *what happens when the holder dies without
-   releasing?* (see cross-process-exclusion).
+   releasing?* (see cross-process-exclusion). A *shared* mode on such
+   substrate is a second machine again: where the store offers only per-key
+   create-if-absent, several readers cannot live in one key, so each holder
+   announces in a key of its own and then verifies the other class before it
+   proceeds (see shared-claims-by-announce-and-verify).
 5. **The guard prevents concurrent starts; attribution survives concurrent
    finishes.** Guards are gates at the entrance. When an old attempt was
    superseded — cancelled, timed out, replaced — its result may still arrive,

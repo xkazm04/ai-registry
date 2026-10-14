@@ -1,7 +1,7 @@
 ---
 subject: concurrency-guards
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-10-14
 touched_by: intake
 dry_streak: 0
 ---
@@ -183,3 +183,19 @@ has no reaper. Cites `creation-names-reaper`.
 ### 2026-09-17 - `/harvest backlog` wave 3, one technique + one application
 
 `preparation-is-the-staleness-window`, from [[2026-08-31-openwiki-v050]], [[2026-09-07-lago]] and [[2026-09-04-openviking]]. The subject owned the check-to-use race created by splitting a critical section and fencing at the write; what was missing is placement: a guard's verdict ages across the preparation that follows it, and the gap is the length of the preparation rather than a scheduling accident. The technique's value is that the irreversible step's nature picks the form - condition the write where the store owns the state, re-read and dedup where the effect leaves the system, snapshot before and after where a cheap write licenses future skipping - and that the fresh read may refuse or widen a lock set but never swap a payload an operation identity already promised. Measured on a real outbound PII path (1 leaked POST of 3 probes to 0) and shipped. Noted for a later run: `mcp-tools/write-freshness-gate` is the same law at a different altitude and neither file knows about the other.
+
+### 2026-10-14 - intake `github:rtk-ai/grit` (run intake-grit-1014), one technique + three applications
+
+Source note [[2026-10-14-grit]]. New technique `shared-claims-by-announce-and-verify`:
+shared and exclusive modes on a store with only per-key create-if-absent, by two
+keyspaces and announce-then-verify; the store's read and list consistency stated as
+a precondition; upgrade counts every other reader; reclaim conditional, refresh
+re-reads, explicit-code-only error classification. Unapplied (no fleet project runs
+shared claims over an object store). Applications: `rust--shared-claims-by-announce-and-verify`
+and `rust--cross-process-exclusion--symbol-lock-store` (the source tree: an
+in-process mutex as scenery and a test that shared it; non-atomic expired-holder
+reclaim; a malformed config falling back to a private authority), and
+`node--cross-process-exclusion`: the registry's own board had the same
+delete-by-name takeover; fixed in `6bfb3f6c`, double-grant trials 13/32 to 0/32.
+The `cross-process-exclusion` text was not changed: its rule (takeover is
+replace-if-unchanged) was right and the board violated it.
