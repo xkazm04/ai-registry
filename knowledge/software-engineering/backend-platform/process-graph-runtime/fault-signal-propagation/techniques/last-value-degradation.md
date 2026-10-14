@@ -116,6 +116,7 @@ the first post-restart message, which is also what proves the edge recovered.
   returning all three, so that a caller cannot accidentally take the value alone.
 - **State a maximum acceptable age per edge, distinct from the deadline.**
 - **Declare criticality per edge; default to critical.**
+- **Render the age and health beside the value, not beside its source.** A client that keeps the last answer when a poll fails and reports the failure only next to the list the value came from has the cache and has still laundered it: the stale status reads as current. Put the mark where the value is read.
 - **Propagate degradation downstream.** An output computed under degradation says
   so, so that the next stage's own degraded logic runs on truth rather than on a
   full-confidence claim built from stale parts.
