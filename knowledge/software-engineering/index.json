@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1841,
-  "applications": 1249,
+  "applications": 1250,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -1912,9 +1912,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:23599eae61aa7119",
-   "revision": 47,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:7770d30ff5df3c25",
+   "revision": 48,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2635,6 +2635,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/rust--rejected-revision-leaves-its-evidence.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "spec",
+     "technique": "consolidation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/spec--consolidation.md",
+     "verified_on": "2026-10-07",
+     "refresh_by": "2027-04-07"
     },
     {
      "stack": "sql",

@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "recruiting",
   "source": "knowledge/recruiting/ (frontmatter only)",
-  "subjects": 64,
-  "techniques": 398,
-  "applications": 291,
+  "subjects": 66,
+  "techniques": 409,
+  "applications": 293,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -16,10 +16,11 @@
    "pipeline-operations",
    "candidate-experience",
    "governance",
-   "measurement"
+   "measurement",
+   "candidate-self-presentation"
   ],
   "layout": "nested",
-  "use_when_coverage": "398/398",
+  "use_when_coverage": "409/409",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3143,6 +3144,117 @@
     }
    ]
   },
+  "cv-content-construction": {
+   "category": "candidate-self-presentation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/cv-content-construction.md",
+   "digest": "sha256-b2:a6bf4c819af3872f",
+   "revision": 1,
+   "changedAt": "2026-10-14",
+   "techniques": [
+    {
+     "slug": "accomplishment-statements-without-invention",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "absence-of-evidence-is-not-evidence",
+      "inference-must-look-like-inference"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "rewriting a duty line into an accomplishment",
+      "deciding whether a bullet may carry a number",
+      "designing the rules of an automated bullet improver"
+     ]
+    },
+    {
+     "slug": "career-change-framing",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "inference-must-look-like-inference"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a candidate is targeting a role unlike their past roles",
+      "choosing between chronological",
+      "functional and hybrid layouts",
+      "writing a target line or summary for a change of direction"
+     ]
+    },
+    {
+     "slug": "evidenced-skills-over-self-ratings",
+     "status": "forged",
+     "laws": [
+      "inference-must-look-like-inference",
+      "a-claim-carries-its-sample-and-its-basis",
+      "absence-of-evidence-is-not-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing the skills section of a CV",
+      "deciding whether to render skill levels as bars",
+      "pips or percentages",
+      "stating language proficiency"
+     ]
+    },
+    {
+     "slug": "machine-rewrite-fidelity-contract",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "every-decision-names-its-actor",
+      "a-verdict-is-bound-to-what-it-judged"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a language model rewrites",
+      "polishes or tailors CV text",
+      "designing the validation step after a model CV rewrite",
+      "deciding what an automated CV improvement may apply without the owner"
+     ]
+    },
+    {
+     "slug": "relevance-ordering-and-recency-compression",
+     "status": "forged",
+     "laws": [
+      "absence-of-evidence-is-not-evidence",
+      "meaning-does-not-live-in-a-label"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding section order on a CV",
+      "choosing how many bullets each role gets",
+      "compressing an old or off-target role",
+      "a CV runs over its page budget"
+     ]
+    },
+    {
+     "slug": "target-role-tailoring-without-stuffing",
+     "status": "forged",
+     "laws": [
+      "say-only-what-the-record-holds",
+      "absence-of-evidence-is-not-evidence",
+      "a-claim-carries-its-sample-and-its-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "tailoring a CV to a job posting or a target role",
+      "aligning CV vocabulary with what employers search for",
+      "showing a candidate which requirements their CV does not evidence"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "machine-rewrite-fidelity-contract",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--machine-rewrite-fidelity-contract.md",
+     "verified_on": "2026-09-26"
+    }
+   ]
+  },
   "cv-parsing-and-career-reading": {
    "category": "candidate-evidence",
    "subcategory": null,
@@ -3261,6 +3373,97 @@
      "technique": "text-extraction-damage-and-repair",
      "file": "knowledge/recruiting/candidate-evidence/cv-parsing-and-career-reading/applications/process--text-extraction-damage-and-repair.md",
      "verified_on": "2026-09-29"
+    }
+   ]
+  },
+  "cv-presentation-and-parseability": {
+   "category": "candidate-self-presentation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/cv-presentation-and-parseability.md",
+   "digest": "sha256-b2:716a1b9aade428ef",
+   "revision": 1,
+   "changedAt": "2026-10-14",
+   "techniques": [
+    {
+     "slug": "export-format-and-round-trip-verification",
+     "status": "forged",
+     "laws": [
+      "absence-of-evidence-is-not-evidence",
+      "a-verdict-is-bound-to-what-it-judged"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "generating a CV file for download or upload",
+      "adding or changing a CV template",
+      "deciding between a fixed-layout and a word-processor format for a CV"
+     ]
+    },
+    {
+     "slug": "market-conventions-and-personal-data",
+     "status": "forged",
+     "laws": [
+      "uncertainty-resolves-toward-the-candidate",
+      "meaning-does-not-live-in-a-label",
+      "a-claim-carries-its-sample-and-its-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a CV shows a photo",
+      "date of birth",
+      "marital status or signature",
+      "building per-country CV variants",
+      "localising CV section headings and date formats"
+     ]
+    },
+    {
+     "slug": "parse-safe-reading-order",
+     "status": "forged",
+     "laws": [
+      "absence-of-evidence-is-not-evidence",
+      "uncertainty-resolves-toward-the-candidate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between a single-column and a two-column CV template",
+      "placing contact details",
+      "skills or icons in a CV layout",
+      "a CV template is reported to parse badly"
+     ]
+    },
+    {
+     "slug": "scan-path-hierarchy",
+     "status": "forged",
+     "laws": [
+      "meaning-does-not-live-in-a-label"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "laying out the header and entry pattern of a CV template",
+      "deciding what goes in the first third of page one",
+      "choosing what to bold or colour on a CV"
+     ]
+    },
+    {
+     "slug": "type-scale-density-and-page-budget",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "setting the type scale",
+      "margins and spacing of a CV template",
+      "a CV overflows or underfills its page budget",
+      "deciding between a one- and a two-page CV"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "react",
+     "technique": "parse-safe-reading-order",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--parse-safe-reading-order.md",
+     "verified_on": "2026-09-26",
+     "verified_against": "react@19.3"
     }
    ]
   },
@@ -8612,6 +8815,8 @@
     "cv-authenticity-screening/hidden-text-and-smuggling-detection",
     "cv-authenticity-screening/implausible-span-and-arithmetic-checks",
     "cv-parsing-and-career-reading/degraded-intake-as-a-visible-queue",
+    "cv-presentation-and-parseability/market-conventions-and-personal-data",
+    "cv-presentation-and-parseability/parse-safe-reading-order",
     "degrade-never-block-a-candidate/an-outage-must-not-change-who-advances",
     "degrade-never-block-a-candidate/never-cache-a-degraded-verdict",
     "early-career-potential-assessment/symmetric-discount-across-populations",
@@ -8763,8 +8968,11 @@
     "comparative-shortlist-evaluation/role-relevant-exclusive-differentiators",
     "compensation-banding-and-market-honesty/role-family-by-seniority-anchor-bands",
     "cv-authenticity-screening/claim-density-and-stuffing-heuristics",
+    "cv-content-construction/relevance-ordering-and-recency-compression",
     "cv-parsing-and-career-reading/multilingual-experience-quantity-parsing",
     "cv-parsing-and-career-reading/text-extraction-damage-and-repair",
+    "cv-presentation-and-parseability/market-conventions-and-personal-data",
+    "cv-presentation-and-parseability/scan-path-hierarchy",
     "decision-audit-and-traceability/reason-codes-over-prose",
     "decision-audit-and-traceability/structured-facts-plus-a-locale-invariant-audit-string",
     "early-career-potential-assessment/explainable-potential-breakdown",
@@ -8859,9 +9067,12 @@
     "conversational-assessment-validation/persona-by-behaviour-heatmap",
     "conversational-assessment-validation/prompt-change-regression-baseline",
     "cv-authenticity-screening/claim-density-and-stuffing-heuristics",
+    "cv-content-construction/evidenced-skills-over-self-ratings",
+    "cv-content-construction/target-role-tailoring-without-stuffing",
     "cv-parsing-and-career-reading/multilingual-experience-quantity-parsing",
     "cv-parsing-and-career-reading/per-claim-provenance-at-extraction-time",
     "cv-parsing-and-career-reading/tenure-and-date-range-reading",
+    "cv-presentation-and-parseability/market-conventions-and-personal-data",
     "decision-audit-and-traceability/integrity-evident-is-not-tamper-resistant",
     "degrade-never-block-a-candidate/declare-degraded-grounding-rather-than-lowering-confidence-silently",
     "early-career-potential-assessment/domain-distance-grading",
@@ -8992,12 +9203,18 @@
     "conversational-assessment-validation/persona-by-behaviour-heatmap",
     "cv-authenticity-screening/hidden-text-and-smuggling-detection",
     "cv-authenticity-screening/implausible-span-and-arithmetic-checks",
+    "cv-content-construction/accomplishment-statements-without-invention",
+    "cv-content-construction/evidenced-skills-over-self-ratings",
+    "cv-content-construction/relevance-ordering-and-recency-compression",
+    "cv-content-construction/target-role-tailoring-without-stuffing",
     "cv-parsing-and-career-reading/degraded-intake-as-a-visible-queue",
     "cv-parsing-and-career-reading/multilingual-experience-quantity-parsing",
     "cv-parsing-and-career-reading/per-claim-provenance-at-extraction-time",
     "cv-parsing-and-career-reading/structured-extraction-contract-with-refusals",
     "cv-parsing-and-career-reading/tenure-and-date-range-reading",
     "cv-parsing-and-career-reading/text-extraction-damage-and-repair",
+    "cv-presentation-and-parseability/export-format-and-round-trip-verification",
+    "cv-presentation-and-parseability/parse-safe-reading-order",
     "decision-audit-and-traceability/hash-chained-append-only-records",
     "decision-audit-and-traceability/integrity-evident-is-not-tamper-resistant",
     "decision-audit-and-traceability/reason-codes-over-prose",
@@ -9119,6 +9336,8 @@
     "conversational-assessment-validation/judged-quality-as-a-separate-axis",
     "conversational-assessment-validation/prompt-change-regression-baseline",
     "cv-authenticity-screening/document-as-data-never-as-instructions",
+    "cv-content-construction/machine-rewrite-fidelity-contract",
+    "cv-presentation-and-parseability/export-format-and-round-trip-verification",
     "decision-audit-and-traceability/hash-chained-append-only-records",
     "decision-audit-and-traceability/seal-actor-policy-version-and-decisive-inputs",
     "degrade-never-block-a-candidate/never-cache-a-degraded-verdict",
@@ -9226,6 +9445,10 @@
     "conversational-assessment-validation/deterministic-reliability-invariants-at-full-pass",
     "cv-authenticity-screening/document-as-data-never-as-instructions",
     "cv-authenticity-screening/implausible-span-and-arithmetic-checks",
+    "cv-content-construction/accomplishment-statements-without-invention",
+    "cv-content-construction/career-change-framing",
+    "cv-content-construction/machine-rewrite-fidelity-contract",
+    "cv-content-construction/target-role-tailoring-without-stuffing",
     "cv-parsing-and-career-reading/structured-extraction-contract-with-refusals",
     "decision-audit-and-traceability/integrity-evident-is-not-tamper-resistant",
     "decision-audit-and-traceability/reason-codes-over-prose",
@@ -9391,6 +9614,9 @@
     "cv-authenticity-screening/claim-density-and-stuffing-heuristics",
     "cv-authenticity-screening/ground-the-model-against-a-deterministic-prepass",
     "cv-authenticity-screening/hidden-text-and-smuggling-detection",
+    "cv-content-construction/accomplishment-statements-without-invention",
+    "cv-content-construction/career-change-framing",
+    "cv-content-construction/evidenced-skills-over-self-ratings",
     "cv-parsing-and-career-reading/per-claim-provenance-at-extraction-time",
     "cv-parsing-and-career-reading/structured-extraction-contract-with-refusals",
     "cv-parsing-and-career-reading/tenure-and-date-range-reading",
@@ -9546,6 +9772,7 @@
     "collective-and-statutory-hiring-governance/sticky-governance-against-silent-downgrade",
     "combining-signals-into-a-hire-decision/terminal-decisions-stay-with-a-person",
     "compensation-banding-and-market-honesty/grounded-band-is-read-only",
+    "cv-content-construction/machine-rewrite-fidelity-contract",
     "decision-audit-and-traceability/capture-the-machine-verdict-before-a-human-overwrites-it",
     "decision-audit-and-traceability/seal-actor-policy-version-and-decisive-inputs",
     "degrade-never-block-a-candidate/a-candidate-action-is-debited-never-gated",
