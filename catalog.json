@@ -1164,9 +1164,9 @@
       "purity": "marketing",
       "subjects": 30,
       "techniques": 183,
-      "applications": 84,
-      "files": 301,
-      "contentHash": "sha256-b2:eb4c71d1d9833cb7"
+      "applications": 85,
+      "files": 302,
+      "contentHash": "sha256-b2:3c351322be159eb9"
     },
     {
       "name": "media-generation",
