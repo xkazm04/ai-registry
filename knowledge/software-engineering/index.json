@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1272,
+  "applications": 1273,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -18703,9 +18703,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/lazy-section-addressability.md",
-   "digest": "sha256-b2:91bc8c88178741f5",
-   "revision": 1,
-   "changedAt": "2026-08-22",
+   "digest": "sha256-b2:7932d7ba8929c786",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "always-present-anchor-wrappers",
@@ -18781,6 +18781,13 @@
      "technique": "always-present-anchor-wrappers",
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/applications/react--always-present-anchor-wrappers.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "anchor-coverage-guard",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/applications/react--anchor-coverage-guard.md",
+     "verified_on": "2026-10-14",
      "verified_against": "react@19"
     },
     {
