@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 105,
+  "applications": 106,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -283,8 +283,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/content-production/brand-voice-capture/brand-voice-capture.md",
-   "digest": "sha256-b2:ce4c407913248a00",
-   "revision": 4,
+   "digest": "sha256-b2:b342c84ba777f10a",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -403,6 +403,13 @@
      "technique": "voice-maturity-and-retrain-triggers",
      "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--voice-maturity-and-retrain-triggers.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "voice-profile-dimensions",
+     "file": "knowledge/marketing/content-production/brand-voice-capture/applications/node--voice-profile-dimensions.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     }
    ]
