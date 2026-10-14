@@ -29,9 +29,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/accessibility/accessibility.md",
-   "digest": "sha256-b2:5e30485ee0c7c123",
-   "revision": 7,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:28e896937cbeca9b",
+   "revision": 8,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "a11y-verification",
@@ -19207,9 +19207,9 @@
    "subcategory": "embedded-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/embedded-surfaces/markdown-vault/markdown-vault.md",
-   "digest": "sha256-b2:7a10f98b2d9488ac",
-   "revision": 2,
-   "changedAt": "2026-09-07",
+   "digest": "sha256-b2:87c62934ba6ab217",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "editor-interop",

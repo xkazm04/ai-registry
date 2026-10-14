@@ -179,3 +179,17 @@ Two absolutes close the model:
   purest visual form: the indicator was the visibility, not the blemish.
   Restyle it to meet the design language and the contrast floor;
   never remove it without a replacement that is at least as visible.
+  Two cases are routinely missed. **Visible is not the same as
+  unobscured**: the current standard (WCAG 2.2, AA) requires that a
+  focused component not be entirely hidden by author-created content, and
+  sticky headers, footers and docked panels are the usual culprits when
+  tabbing scrolls the target underneath them; reserving scroll margin for
+  the fixed chrome is the documented sufficient technique. **Script-moved
+  focus owes an indicator too**: a heading or container given focus
+  programmatically (after navigation, after a deletion) is still where
+  the keyboard user is, and suppressing its outline because it "is not a
+  control" leaves them with no cursor. Where the concern is a ring
+  flashing for pointer users, key the indicator to the focus-visible
+  state rather than removing it. Who moves focus after a navigation, and
+  what the page title says, is owned by
+  [app-shell](../../../shell-and-navigation/app-shell/app-shell.md).

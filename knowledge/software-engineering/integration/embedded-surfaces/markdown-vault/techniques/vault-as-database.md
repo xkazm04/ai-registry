@@ -132,3 +132,31 @@ torn intermediate. This protects a single write's integrity — it does *not*
 arbitrate two writers editing the same record, which is the concern of the
 sync layer, not the write primitive. The temp file names its reaper: on
 rename failure it is removed, not leaked into the vault as a phantom record.
+
+## Create and replace are different operations
+
+Rename-over-target is a *replace*: it succeeds whether or not a note was there,
+and silently discards it if one was. That is the right primitive for updating a
+record the writer already holds a view of, and the wrong one for a write whose
+key the **caller chose** — a title typed by a person, or supplied by an agent
+through a tool call. Two callers choosing the same title, or one choosing the
+title of a note the human wrote last week, turn "save" into destroying someone
+else's record with no error anywhere.
+
+- **Creation is exclusive.** A write that means "new note" must fail when the
+  name is taken, using a primitive that refuses at the filesystem rather than a
+  prior existence check (which another writer can invalidate between the check
+  and the write): exclusive-create on open, a hard link of the finished temp
+  file into place, or a no-replace rename where the platform offers one. Support
+  is uneven — the no-replace rename flag is per-filesystem on Linux, and
+  Windows' move call replaces only when asked to — so the fallback matters more
+  than the preferred form. The loser gets a distinct "exists" result and either
+  chooses another name or switches to update.
+- **Update carries a precondition.** A tool that edits an existing note takes
+  the content hash (or change-stamp) of the version it read and refuses to write
+  over any other; the failure is a conflict returned to the caller, not a retry
+  over the top. The window between the final check and the rename remains and
+  is narrow; it is the cost of having no engine, and the reason the human's
+  edit wins the tie ([editor-interop](./editor-interop.md)).
+- **A caller-keyed write never inherits "replace" as its default.** If both
+  intents share one tool, the intent is an explicit argument.

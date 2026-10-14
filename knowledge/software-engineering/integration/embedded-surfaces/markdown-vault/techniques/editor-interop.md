@@ -116,6 +116,16 @@ by the editor's own deep-link scheme. Discipline of the link itself:
 - **Normalize the path shape** to the form the editor's scheme expects
   (separator direction, extension conventions), and encode it properly —
   paths contain spaces and human punctuation.
+- **Know which of the scheme's two address shapes you are building, and never
+  mix them.** The documented open action of the reference editor's scheme takes
+  a vault identifier plus a `file` that is either a bare name or a path from the
+  vault root (extension optional for markdown), and, separately, a `path` that
+  is an absolute filesystem path and overrides both vault and file; values must
+  be URI-encoded, separators and spaces included. Handing an absolute path to
+  the vault-relative parameter, or a vault-relative one to the absolute
+  parameter, is the reverse of the basename error and fails the same way: the
+  wrong note or none. Hold one representation internally, convert at a single
+  boundary function, and test it with a nested path containing a space.
 - **Degrade to a no-op, visibly harmless,** when the editor or vault
   identity is not yet known — the affordance can be wired unconditionally
   and simply do nothing rather than every call site growing a guard.

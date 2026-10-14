@@ -52,6 +52,32 @@ an edit. The honest shape is a fourth defect class in the integrity lint —
 *this file looks like a replication artifact* — with the pair it shadows named,
 so the human resolves it instead of the application guessing.
 
+Two details that change the cleanup. The decorated copy is itself an ordinary
+file, so the agent replicates it to every device: the duplicate and its orphan
+charge appear everywhere, not on the machine that conflicted. And which side
+keeps the original name is decided by the agent's own rule (one widely used
+syncer renames the copy with the older modification time), so the file left under
+the original name is not reliably the one the human last edited.
+
+## Your own sync is the same writer
+
+The replication agent does not have to be third-party software. An application
+that pulls notes from a remote store, or pushes them to one, *is* a replication
+agent for that vault, and owes everything it would demand of one:
+
+- **Atomic replace for each pulled file**, same as any write; a bulk pull that
+  writes in place shows the human's editor half-written notes.
+- **A divergence check before overwriting**: compare the local file to the
+  content recorded at last sync, and when the local copy moved too, write the
+  remote version as a clearly named conflict sibling or stop. Last pull wins is
+  last-writer-wins against the human.
+- **Its writes reset the signal the staleness check reads.** A pull stamps every
+  file it touches with the pull time unless it deliberately restores the remote
+  modification time, so a freshly synced vault looks reviewed today; carry the
+  review date in-band, as below, or restore the stamp and say so.
+- **Its own artifacts follow the exclusion rule**: conflict siblings it writes
+  are named so the walker excludes and reports them, like any other agent's.
+
 ## Its writes destroy the metadata a detector reads
 
 The staleness detector treats modification time as a proxy for review-currency

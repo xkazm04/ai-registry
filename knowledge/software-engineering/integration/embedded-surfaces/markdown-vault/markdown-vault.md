@@ -209,6 +209,27 @@ review date to a timestamp the substrate owns, treat a non-local record as
 unknown rather than as empty, and let any whole-corpus verdict say it was
 computed over what was present at the time.
 
+## Where this standard does not apply
+
+The word "vault" matches things this standard is not about, and a consumer that
+routes by the word gets a wall of inapplicable findings (measured: eleven of
+fourteen judged pairs in one re-judgment were of this kind). The precondition is
+the physics above, not the name: **a directory of human-readable records that a
+person also opens in their own tool and that the application treats as a
+database.** Without that, none of the techniques bind.
+
+- **Secret stores.** A credential or key vault is encrypted, opaque and
+  single-custody by design; no human edits it in an editor, no peer writer
+  exists, and "inspectable by any tool" is the property it is built to refuse.
+- **Database browsers and one-shot ingest.** A tool that reads a directory once
+  to load a vector or search store owns no shared custody and no round trip; its
+  questions belong to the ingestion and retrieval subjects.
+- **Stores the application alone writes.** With no peer, editor-interop and
+  replicated-substrate are inert; the record contract and the walker still apply.
+
+The inverse also holds: an application that writes notes into a human-visible
+folder owes this standard even if nothing in its code says "vault".
+
 ## Failure modes this standard exists to prevent
 
 - **The silent rot** — no integrity lint, so broken links, orphans, and stale
