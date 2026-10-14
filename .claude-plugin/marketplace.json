@@ -14,7 +14,7 @@
       "name": "adopt-bp",
       "source": "./skills/adopt-bp",
       "description": "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets, proposals and coverage; then",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "category": "workflow",
       "tags": [
         "onboarding",
