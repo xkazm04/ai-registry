@@ -123,6 +123,8 @@ was removed, promise availability the page hedges. Indexers treat that as
 misrepresentation and penalize the whole surface, and an assistant that ingests
 it will state the false version confidently to a user.
 
+Sharing the parser fixes structure, not text. A step or answer still arrives with the author's inline markup, which the renderer turns into elements and a structured-data consumer cannot; emit the reader-visible form (inline markup stripped, by the same module that owns the parser), or the machine copy carries syntax the page never shows. Measured once: 8% of emitted steps.
+
 Two consequences follow mechanically. Emission is driven by the parse, so a body
 with no procedure block emits no procedure — an empty extraction is a correct
 extraction and must not fall back to a hand-written default. And per-locale
