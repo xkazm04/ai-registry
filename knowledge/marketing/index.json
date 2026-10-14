@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 111,
+  "applications": 112,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -582,8 +582,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/business-profile-and-citations.md",
-   "digest": "sha256-b2:33431a57056a2ed2",
-   "revision": 2,
+   "digest": "sha256-b2:69dad15e36cc293a",
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -679,6 +679,13 @@
      "stack": "node",
      "technique": "city-in-query-never-in-name",
      "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/applications/node--city-in-query-never-in-name.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@2026.10.14"
+    },
+    {
+     "stack": "node",
+     "technique": "hours-and-attributes-only-when-true",
+     "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/applications/node--hours-and-attributes-only-when-true.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@2026.10.14"
     },
