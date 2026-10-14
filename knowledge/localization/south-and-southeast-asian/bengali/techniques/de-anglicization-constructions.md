@@ -98,6 +98,8 @@ stay Latin mid-sentence (attached per BN-LATINSUFFIX); the tell distinguishing
 them from stranded English is the termbase: a Latin token with no
 do-not-translate row is untranslated residue.
 
+**Calibration.** Count before you rewrite. A termbase noun left bare in a few dozen strings is one global edit; stranded Latin in tens of percent of a copy set means the pass was never finished and calls for re-translation, not patching. Grammar tells can be absent while this one is high (a draft that translated structure and skipped vocabulary).
+
 ## When not to over-apply
 
 These anchors exist to type findings, not to license rewrites. A string flagged
