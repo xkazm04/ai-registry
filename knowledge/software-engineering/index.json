@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1267,
+  "applications": 1268,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -18423,9 +18423,9 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/keyed-sample-transforms/keyed-sample-transforms.md",
-   "digest": "sha256-b2:926f399475e0ef4d",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:0b71cd6d2d0ff2a0",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "array-and-keyed-dual-forms",
@@ -18502,6 +18502,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "array-and-keyed-dual-forms",
+     "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/keyed-sample-transforms/applications/next--array-and-keyed-dual-forms.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16"
+    },
     {
      "stack": "python",
      "technique": "multi-sample-fan-out",
