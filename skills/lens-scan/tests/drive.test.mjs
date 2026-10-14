@@ -73,9 +73,13 @@ const prompt = readFileSync(0, 'utf8').trim();
 const db = openStore('.ai/lens-scan/scan.db');
 const m = prompt.match(/^\\/lens-scan (measure|propose|execute) --lens (\\S+)(?: --scope (\\S+))?|^\\/lens-scan execute --proposals (\\S+)/);
 const phase = m[1] ?? 'execute';
-const { id } = runStart(db, { phase, lenses: m[2] ?? 'x', features: m[3], knownFeatures: new Set(['a', 'b', 'c']) });
+const { id } = runStart(db, { phase, lenses: m[2] ?? 'x', features: m[3], scope: m[4] ? { proposals: m[4].split(',') } : undefined, knownFeatures: new Set(['a', 'b', 'c']) });
 if (phase === 'measure') measure(db, id, m[3].split(',').map((f) => ({ feature: f, lens: m[2], metric: 'judged', value: 1 })));
-if (m[4]) for (const p of proposals(db, { ids: m[4] })) if (p.status === 'approved') { proposalUpdate(db, { id: p.id, status: 'executing' }); proposalUpdate(db, { id: p.id, status: 'done', resultSha: 'abc1234' }); }
+if (m[4]) for (const p of proposals(db, { ids: m[4] })) {
+  if (p.status === 'approved') proposalUpdate(db, { id: p.id, status: 'executing' });
+  if (process.env.FAKE_DIE) process.exit(1); // the session dies mid-build: the run stays running, the item executing
+  proposalUpdate(db, { id: p.id, status: 'done', resultSha: 'abc1234' }); // a cut-off item is reconciled, never re-claimed
+}
 runEnd(db, { run: id, status: 'done' });
 console.log('fake done', prompt);
 `;
@@ -115,5 +119,29 @@ test('drive: status starts nothing; cover chunks by the conform budget; execute 
     const ro = openStore(dbPath, { readOnly: true });
     assert.equal(proposals(ro, { ids: p1 })[0].decided_by, 'agent:test');
     ro.close();
+  } finally { process.stderr.write = quiet; }
+});
+
+test('drive: a session that dies leaves its run aborted, and the next execute reconciles the item it cut off', async () => {
+  const { root, dbPath, db } = repo();
+  const { id: run } = runStart(db, { phase: 'propose', lenses: LENS });
+  const p1 = propose(db, { run, feature: 'a', lens: LENS, title: 't1', kind: 'fix', metric: 'conf', expectedDelta: 10 }).id;
+  runEnd(db, { run, status: 'done' });
+  decide(db, { ids: p1, decision: 'approve', by: 'operator:jane' });
+  db.close();
+  const fake = join(root, 'fake-claude.mjs');
+  writeFileSync(fake, FAKE);
+  const quiet = process.stderr.write;
+  process.stderr.write = () => true;
+  try {
+    const died = await drive(['execute', '--lens', LENS, '--root', root], { ...process.env, LENS_SCAN_CLAUDE_BIN: fake, FAKE_DIE: '1' });
+    assert.equal(died.ok, false);
+    assert.equal(died.items[0].status, 'executing');
+    const ro = openStore(dbPath, { readOnly: true });
+    assert.equal(ro.prepare('SELECT status FROM runs WHERE id = ?').get(died.jobs[0].run).status, 'aborted', 'drive closed the dead run');
+    ro.close();
+    const again = await drive(['execute', '--lens', LENS, '--root', root], { ...process.env, LENS_SCAN_CLAUDE_BIN: fake });
+    assert.deepEqual(again.cut_off, [p1]);
+    assert.equal(again.items[0].status, 'done');
   } finally { process.stderr.write = quiet; }
 });

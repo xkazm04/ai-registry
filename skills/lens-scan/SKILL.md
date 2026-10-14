@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.4.1
+version: 1.4.2
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -299,7 +299,13 @@ checkout's `node_modules`.
 **`--proposals a,b,c`** narrows the run to those ids: read them with
 `store.mjs proposals --ids a,b,c` and record the run as
 `run-start --phase execute --scope '{"proposals":["a","b","c"]}'`. Only items whose
-status is `approved` are executed. Every other id is skipped with a `note` activity
+status is `approved` are executed, plus a **cut-off** item: one left `executing` by a run
+that is no longer `running` (a killed or crashed session; no running execute run's scope
+names it). Reconcile a cut-off item from what landed before building anything:
+`git log --grep <id>` on the base branch, and the worktrees its run left (`git worktree list`).
+Landed: skip step 3, re-measure after, and record `done` or `failed` as in steps 4-5 (its
+merge sha is the result). Half-built in a worktree: finish it there or discard the worktree
+and build again. Nothing: build it. Never move it back to `approved`. Every other id is skipped with a `note` activity
 saying why (`p-1a2b3c: not found`, `p-4d5e6f: proposed, not approved`, `... done
 already`) and named in the report; an id that is missing from the output does not
 exist. Never approve one to make it eligible. Without `--proposals`, every approved
@@ -308,7 +314,7 @@ the **registry checkout** (found as for `{registry}`), refused with `lens-scan r
 checkout has uncommitted changes` while its `git status --porcelain --untracked-files=no` prints
 anything (untracked files are other work and never block it). Each item:
 
-1. `proposal-update --id <p> --status executing`; `activity --kind executing`.
+1. `proposal-update --id <p> --status executing` (a cut-off item is already `executing`: skip the update); `activity --kind executing`.
 2. **Re-measure before** with the same method the item's metric was measured with. If
    the Before has moved since the proposal, say so in the body of the commit; if the
    item is already moot, record `failed` with the reason.

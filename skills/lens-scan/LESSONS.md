@@ -38,3 +38,7 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 ## 1.4.1 - 2026-10-14 - bp (the first real drive runs)
 
 - Field lesson: the first real `drive.mjs cover` on paypal turned 0 stale readings into 90, all from the run that had just measured them. `gaps` dated staleness by the app-structure's `generated_at`, and lens-scan rewrites the structure after every measure phase. Staleness now dates from `provenance.context_map_generated_at`, which moves only when the file lists the readings were taken over change.
+
+## 1.4.2 - 2026-10-14 - bp (the first real headless execute)
+
+- Field lesson: the first `drive.mjs execute` on paypal (9 registry items, two waves) passed drive's 90-minute timeout with 3 items done and 4 merged on main. The kill left the run `running` and 6 items `executing` that no path could finish: execute took only `approved` items, and nothing may move an item back. drive now closes a run whose session died as `aborted`; the default timeout is 30 min per item (at least 90); execute takes a cut-off item (`executing`, no running execute run names it) and reconciles it from what landed (`git log --grep <id>`, the run's worktrees) before building anything.

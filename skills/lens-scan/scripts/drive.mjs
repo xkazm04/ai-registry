@@ -15,7 +15,8 @@
 //            feature in a run gets a pair judged), then one propose run over the lens unless --no-propose. An
 //            `unmeasurable` metric - a done run covered the feature and wrote nothing - is reported, and re-run only
 //            on --retry (the method changed, or a steps lens's conform step can fill what its script could not).
-//   execute  the lens's approved items (or --ids), in runs of --batch (default 50, the blueprint's cap).
+//   execute  the lens's approved items (or --ids), in runs of --batch (default 50, the blueprint's cap), plus any
+//            item a dead run left `executing` (`cut_off`): the run reconciles it from what landed.
 //            --approve-proposed --by <kind:name> first approves the lens's `proposed` items as that decider
 //            (store.mjs decide): the caller's flag is the decision, exactly as the blueprint's Execute backlog
 //            button is. Without it nothing is approved here.
@@ -23,13 +24,15 @@
 // The CLI: LENS_SCAN_CLAUDE_BIN, else BP_CLAUDE_BIN, else `claude` on PATH (a .js/.mjs path runs on this Node).
 // Each run gets BP_JOB_ID=drive-<id> (the store notes the run `bp-job:drive-<id>`, which is how this script
 // finds it) and a log at .ai/lens-scan/work/drive/<id>.log. stdout: one JSON summary. stderr: progress lines.
+// A run's session that ends while its run still says running (a timeout - --timeout-min, default 90 for a measure,
+// 30 per item and at least 90 for an execute - or a crash) has the run closed `aborted`.
 // Exit 0 every run done, 1 a run failed or was refused, 2 bad input.
 import { spawn } from 'node:child_process';
 import { createWriteStream, existsSync, mkdirSync, readFileSync, realpathSync, statSync } from 'node:fs';
 import { delimiter, extname, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { openStore, gaps, decide, proposals, parseArgs, StoreError } from './store.mjs';
+import { openStore, gaps, decide, proposals, parseArgs, runEnd, StoreError } from './store.mjs';
 
 const MAX_BATCH = 50;
 const SAFE_ID = /^[A-Za-z0-9._-]+$/;
@@ -82,6 +85,11 @@ function runJob({ root, dbPath, prompt, model, timeoutMin, env = process.env }) 
       const db = openStore(dbPath, { readOnly: true });
       let run, runStatus;
       try { run = db && runIdOf(db, job); runStatus = run && db.prepare('SELECT status FROM runs WHERE id = ?').get(run).status; } finally { db?.close(); }
+      // the session is gone (killed, crashed) and its run still says running: close it, so its items read as cut off
+      if (runStatus === 'running') {
+        const w = openStore(dbPath);
+        try { runEnd(w, { run, status: 'aborted', note: `ended by drive: ${last || `exit ${code}`}` }); runStatus = 'aborted'; } catch { /* closed meanwhile */ } finally { w.close(); }
+      }
       // lens-scan refuses before run-start and still exits 0: no run is a failure, its last line says why
       if (code !== 0) finish({ run, status: 'failed', exit: code ?? undefined, error: last || `exit ${code}` });
       else if (!run) finish({ status: 'failed', exit: 0, error: last || 'no run started' });
@@ -128,7 +136,9 @@ export async function drive(argv, env = process.env) {
   const structure = join(root, '.ai', 'lens-scan', 'app-structure.json');
   if (!existsSync(dbPath)) bad(`no scan store at ${dbPath} - adopt the product first (/adopt-bp)`);
   const model = typeof a.model === 'string' ? (SAFE_ID.test(a.model) ? a.model : bad('--model may not reach a command line')) : undefined;
-  const timeoutMin = intFlag(a, 'timeoutMin', 90);
+  // a cover run is one bounded measure; an execute run builds, gates and re-measures every item (paypal's 9 took
+  // over 90 min): 30 min per item, never under 90, unless the caller says otherwise
+  const timeoutFor = (items) => intFlag(a, 'timeoutMin', Math.max(90, 30 * items));
   const dry = a.dry === true;
   const read = (fn) => { const db = openStore(dbPath, { readOnly: true }); try { return fn(db); } finally { db.close(); } };
   const before = read((db) => gaps(db, { lens, structure }));
@@ -145,7 +155,7 @@ export async function drive(argv, env = process.env) {
     summary.plan = plan.map((c) => `/lens-scan measure --lens ${lens} --scope ${c.join(',')}`);
     if (a.noPropose !== true) summary.plan.push(`/lens-scan propose --lens ${lens}`);
     summary.unmeasurable = before.features.filter((f) => f.unmeasurable).map((f) => ({ feature: f.feature, metrics: f.unmeasurable }));
-    if (!dry) for (const prompt of summary.plan) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin, env }));
+    if (!dry) for (const prompt of summary.plan) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin: timeoutFor(1), env }));
   } else {
     let items = read((db) => proposals(db, a.ids !== undefined ? { ids: a.ids } : {})).filter((p) => p.lens === lens);
     if (a.approveProposed !== undefined) {
@@ -157,10 +167,16 @@ export async function drive(argv, env = process.env) {
       } else summary.approved = dry ? open : [];
       items = read((db) => proposals(db, { ids: items.map((p) => p.id).join(',') || 'none' }));
     }
-    const go = items.filter((p) => p.status === 'approved' || (dry && summary.approved?.includes(p.id))).map((p) => p.id).filter((id) => SAFE_ID.test(id));
+    // an item left `executing` by a run that is no longer running was cut off; the next execute reconciles it
+    const held = read((db) => new Set(db.prepare("SELECT scope FROM runs WHERE phase = 'execute' AND status = 'running'").all()
+      .flatMap((r) => { try { return JSON.parse(r.scope ?? '{}').proposals ?? ['*']; } catch { return ['*']; } })));
+    const cutOff = items.filter((p) => p.status === 'executing' && !held.has(p.id) && !held.has('*')).map((p) => p.id);
+    if (cutOff.length) summary.cut_off = cutOff;
+    const go = items.filter((p) => p.status === 'approved' || cutOff.includes(p.id) || (dry && summary.approved?.includes(p.id))).map((p) => p.id).filter((id) => SAFE_ID.test(id));
     summary.skipped = items.filter((p) => !go.includes(p.id)).map((p) => ({ id: p.id, status: p.status }));
-    summary.plan = chunks(go, intFlag(a, 'batch', MAX_BATCH, MAX_BATCH)).map((c) => `/lens-scan execute --proposals ${c.join(',')}`);
-    if (!dry) for (const prompt of summary.plan) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin, env }));
+    const batches = chunks(go, intFlag(a, 'batch', MAX_BATCH, MAX_BATCH));
+    summary.plan = batches.map((c) => `/lens-scan execute --proposals ${c.join(',')}`);
+    if (!dry) for (const [i, prompt] of summary.plan.entries()) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin: timeoutFor(batches[i].length), env }));
     if (go.length && !dry) {
       summary.items = read((db) => proposals(db, { ids: go.join(',') })).map((p) => ({
         id: p.id, feature: p.feature, status: p.status, metric: p.metric, expected_delta: p.expected_delta, after_value: p.after_value, result_sha: p.result_sha, title: p.title,
