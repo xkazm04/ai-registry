@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 52,
+  "applications": 53,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -136,8 +136,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/beneficial-ownership-resolution.md",
-   "digest": "sha256-b2:2afd423130a1bd5d",
-   "revision": 6,
+   "digest": "sha256-b2:6ed2df0c3ed437c2",
+   "revision": 7,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -253,6 +253,13 @@
      "technique": "role-period-reconciliation",
      "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/applications/node--role-period-reconciliation.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "struck-off-entity-archives",
+     "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/applications/node--struck-off-entity-archives.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     }
    ]
