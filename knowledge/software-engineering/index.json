@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1262,
+  "applications": 1263,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -16192,9 +16192,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/guest-language-introspection.md",
-   "digest": "sha256-b2:aef36b9f494a27f8",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:2c6a2e97171d3e18",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "flag-gated-debug-global",
@@ -16271,6 +16271,13 @@
      "technique": "flag-gated-debug-global",
      "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/applications/rust--flag-gated-debug-global.md",
      "verified_on": "2026-09-03",
+     "verified_against": "rust@1.91"
+    },
+    {
+     "stack": "rust",
+     "technique": "guest-settable-limits-and-switches",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/applications/rust--guest-settable-limits-and-switches--wasm-host.md",
+     "verified_on": "2026-10-14",
      "verified_against": "rust@1.91"
     },
     {

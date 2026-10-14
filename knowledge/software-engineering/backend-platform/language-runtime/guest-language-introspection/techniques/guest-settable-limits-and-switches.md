@@ -108,3 +108,5 @@ mid-program flipping produces programs whose meaning depends on when a line ran.
 the limits namespace is not a way to test the limit's *value* — that the default
 recursion limit is what the documentation says is a host-side test, one line, against
 the host's constant.
+
+An engine with no guest-side global at all (a sandboxed bytecode guest that can only be configured by its host) keeps the lesson and loses the accessor: lower the limit through the host's configuration door in the test, assert on the failure class, and let a fresh store per call stand in for the restore. The mutation check is the proof the lowered limit is what stopped the guest: ignore the limit in the host and the test must fail.
