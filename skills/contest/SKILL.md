@@ -3,7 +3,7 @@ name: contest
 description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault whose pattern ledger becomes the bar in the next brief; a wrap step then keeps every variant as notes and screenshots and the winner's source. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.10.0
+version: 1.10.1
 tags: contest, prototyping, ui, landing, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id>"
 ---
@@ -486,7 +486,7 @@ timeout_min: 60                       # per seat  [60]
 | `## Taste` | what the owner wants judged harder here (motion, accessibility, density, print) - appended to every brief | none |
 | `## Skill improvement log` | dated lines from the reflection clause | empty |
 
-<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v6 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
@@ -495,8 +495,11 @@ permission to edit another repository, send data, commit, or publish.
 
 **Run log.** Unlike a lesson, this is written on every run that started work - failed and
 aborted runs included; skip read-only info modes and runs cancelled before any work. Append
-ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the task's MAIN checkout: local,
 gitignored run output inside the task's own repository, never a write into the registry.
+A run that worked in a linked worktree logs in the main checkout that worktree belongs to
+(`git rev-parse --git-common-dir`, minus `/.git`) - a disposable worktree takes the line
+with it when it is removed. `log-run.mjs` resolves this on its own.
 The registry pulls it later (`/librarian skills` on the same machine). When a registry
 checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
 stamps project, device and version for you:
@@ -517,7 +520,8 @@ Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"contest","outc
   rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
 - `model`/`effort` as your harness states them (`null` effort when you cannot see it).
   `tokensEst` is the drop in the harness's remaining-token counter since this skill was
-  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+  invoked, or `null` (with `log-run.mjs`, omit `--tokens-est`); exact figures are measured
+  later from transcripts - never guess one.
 - `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
   reviewer reads: what worked, what the method made harder, where its instructions were
   wrong, missing or ignored. No filesystem paths or email addresses.

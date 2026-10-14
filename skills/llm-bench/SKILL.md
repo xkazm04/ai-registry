@@ -3,7 +3,7 @@ name: llm-bench
 description: "Compare models head-to-head on ONE declared LLM use case of a connected project, and return a rating table a human can act on. Picks the project and the use case from tracklight's use-case registry (registering them if the project has none), fans the identical task across an arm per model - hosted Nebius open-weight models, an OpenAI-compatible endpoint, and the local Claude Code CLI - mirrors every call to tracklight so cost/latency land beside the project's real traffic, then judges the outputs on grounding, calibration and actionability, with speed reported as context rather than as the verdict. Exists because the interesting question is never 'which model is best' but 'which model is most useful HERE', and because the answer is worthless unless the harness gave every arm the same chance: the method's hard-won half is the five fairness traps that silently starve or advantage an arm, and the rule that finish_reason is read before any theory is formed. Invoke with /llm-bench [setup|run|judge|report] [project]."
 category: ai-native
 memory: project
-version: 0.2.0
+version: 0.2.1
 tags: llm, model-comparison, benchmark, use-cases, tracklight, nebius, judge
 argument-hint: "[setup|run|judge|report] [project]"
 ---
@@ -197,7 +197,7 @@ the budget/timeout defaults are the ones this file names.
 
 ---
 
-<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v6 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
@@ -206,8 +206,11 @@ permission to edit another repository, send data, commit, or publish.
 
 **Run log.** Unlike a lesson, this is written on every run that started work - failed and
 aborted runs included; skip read-only info modes and runs cancelled before any work. Append
-ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the task's MAIN checkout: local,
 gitignored run output inside the task's own repository, never a write into the registry.
+A run that worked in a linked worktree logs in the main checkout that worktree belongs to
+(`git rev-parse --git-common-dir`, minus `/.git`) - a disposable worktree takes the line
+with it when it is removed. `log-run.mjs` resolves this on its own.
 The registry pulls it later (`/librarian skills` on the same machine). When a registry
 checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
 stamps project, device and version for you:
@@ -228,7 +231,8 @@ Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"llm-bench","ou
   rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
 - `model`/`effort` as your harness states them (`null` effort when you cannot see it).
   `tokensEst` is the drop in the harness's remaining-token counter since this skill was
-  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+  invoked, or `null` (with `log-run.mjs`, omit `--tokens-est`); exact figures are measured
+  later from transcripts - never guess one.
 - `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
   reviewer reads: what worked, what the method made harder, where its instructions were
   wrong, missing or ignored. No filesystem paths or email addresses.

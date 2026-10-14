@@ -74,8 +74,9 @@ Rules:
   slashes and no brackets or spaces (the merge's anchor floor cannot read those); anchor on a
   line that exists and is not blank, or the merge skips the verdict.
 - List in techniques[] every technique you judged - at least half the subject's techniques
-  for every verdict, not only the conformant ones. The merge replaces the pair's technique
-  list in conform-detail.json wholesale, so a technique you leave out is deleted there.
+  for every verdict, not only the conformant ones. The merge keeps a technique you leave out
+  only as `carriedFrom: <its older date>`, so an unjudged technique reads as inherited, not
+  current.
 - Uncertain is "unknown"; put it in declined[] with the reason instead of guessing.
 - Write exactly one file, whole, in one write:
   <checkout>/.ai/conform-runs/<worker-id>.json
@@ -156,15 +157,11 @@ merged - `merge-conform-runs.mjs --reapply` can restore it later. `notApplied` l
 the map does not hold (skipped by the anchor floor or older than the map's); match them
 against the funnel's skipped list.
 
-**Same-day reaffirmation hazard.** The merge counts a verdict whose state and evidence equal
-the row's, dated the same day as the row's `evaluatedAt`, as `unchanged`, and an `unchanged`
-pair is not rewritten - so its `stale` flag is **not** cleared and its digest is not
-re-stamped. A second wave on the same day that reaffirms a verdict word for word (a re-run, a
-resumed wave whose first merge already landed) then fails `stillStale` / `wrongDigest` on that
-row with nothing wrong in the judging. Read such a row against the funnel's `unchanged`
-count before calling the merge writer defective; the Phase 3 rebuild (section 8) does not
-clear it either, because the row still carries the old digest. Re-judge it on another day, or
-change the evidence line if the anchor genuinely moved.
+**Same-day reaffirmation.** A verdict whose state and evidence equal the row's, dated the same
+day, is re-stamped against the current subject and its `stale` flag cleared; the funnel counts
+it `reaffirmed`, not `merged` (merge-conform-runs since 2026-10-14). A replay of an
+already-merged file still finds the row current and changes nothing. A `stillStale` row after
+the merge therefore means a real problem - read it against the funnel's skipped list.
 
 ## 7. Orphans - the single writer, after the merge
 

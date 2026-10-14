@@ -310,3 +310,26 @@ test('check-runs fails each planted defect with file:line', () => {
     assert.match(r.stderr, re);
   }
 });
+
+test('log-run from a linked worktree writes to the main checkout and stamps its project', () => {
+  const main = checkout('wtmain');
+  const gitdir = path.join(main, '.git', 'worktrees', 'friend-x');
+  fs.mkdirSync(gitdir, { recursive: true });
+  const wt = path.join(main, '.claude', 'worktrees', 'friend-x');
+  fs.mkdirSync(wt, { recursive: true });
+  fs.writeFileSync(path.join(wt, '.git'), `gitdir: ${gitdir}\n`);
+  const r = run(LOG_RUN, [...VALID_FLAGS, '--tokens-est', 'null'], { cwd: wt });
+  assert.equal(r.status, 0, r.stderr);
+  assert.equal(fs.existsSync(path.join(wt, LOCAL_REL)), false, 'nothing lands in the disposable worktree');
+  const row = JSON.parse(fs.readFileSync(path.join(main, LOCAL_REL), 'utf8').trim());
+  assert.equal(row.project, path.basename(main).toLowerCase());
+  assert.equal(row.tokensEst, null, '`--tokens-est null` means unknown, not the string "null"');
+});
+
+test('log-run in a submodule-shaped checkout keeps its own root', () => {
+  const sub = tmp('submod');
+  fs.writeFileSync(path.join(sub, '.git'), 'gitdir: ../parent/.git/modules/sub\n');
+  const r = run(LOG_RUN, VALID_FLAGS, { cwd: sub });
+  assert.equal(r.status, 0, r.stderr);
+  assert.ok(fs.existsSync(path.join(sub, LOCAL_REL)));
+});

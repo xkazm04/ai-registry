@@ -6,7 +6,7 @@ import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from '../lib/exit-codes.mjs';
-import { mergeRuns, acquireLock, stampOf, LOCK_NAME } from '../merge-conform-runs.mjs';
+import { mergeRuns, acquireLock, stampOf, mergeTechniques, LOCK_NAME } from '../merge-conform-runs.mjs';
 
 const SCRIPT = fileURLToPath(new URL('../merge-conform-runs.mjs', import.meta.url));
 const CTX = '11111111-aaaa-bbbb-cccc-000000000001';
@@ -228,4 +228,35 @@ test('stampOf orders a date-only stamp at the start of its day', () => {
   assert.ok(stampOf('2026-10-09T00:00:01Z') > stampOf('2026-10-09'));
   assert.equal(stampOf(''), null);
   assert.equal(stampOf('not a date'), null);
+});
+
+test('a same-day reaffirmation of a stale row re-stamps it against the current subject and clears stale', () => {
+  fixture(({ root, registry, runs }) => {
+    const map = readMap(root);
+    // Judged today against the old digest, then the subject moved: the map marks it stale.
+    Object.assign(pair(map, CTX2, 'rate-limiting'), { evaluatedAt: '2026-10-09', stale: true });
+    fs.writeFileSync(path.join(root, '.ai', 'registry-map.json'), JSON.stringify(map, null, 2) + '\n');
+    writeRun(runs, 'd-r.json', { worker: 'd-r', evaluatedAt: '2026-10-09T15:00:00Z', pairs: [verdict({ context: CTX2, state: 'deviation', evidence: 'src/limiter.ts:3 buckets by user only' })] });
+    const r = mergeRuns({ root, registry });
+    assert.equal(r.reaffirmed, 1);
+    assert.equal(r.unchanged, 0);
+    const p = pair(readMap(root), CTX2, 'rate-limiting');
+    assert.equal(p.stale, undefined);
+    assert.equal(p.evaluatedAgainst, 'sha256-b2:new');
+    assert.equal(p.evaluatedRevision, 7);
+    assert.equal(p.state, 'deviation');
+  });
+});
+
+test('mergeTechniques: incoming verdicts win by slug, the rest are carried with the date they were judged', () => {
+  const prior = { evaluatedAt: '2026-10-01', techniques: [
+    { technique: 'a', verdict: 'conformant', evidence: 'x:1' },
+    { technique: 'b', verdict: 'deviation', evidence: 'x:2' },
+    { technique: 'c', verdict: 'conformant', evidence: 'x:3', carriedFrom: '2026-09-01' },
+  ] };
+  const out = mergeTechniques(prior, [{ technique: 'b', verdict: 'conformant', evidence: 'x:9' }]);
+  assert.deepEqual(out.map((t) => [t.technique, t.verdict, t.carriedFrom ?? null]), [
+    ['b', 'conformant', null], ['a', 'conformant', '2026-10-01'], ['c', 'conformant', '2026-09-01'],
+  ]);
+  assert.deepEqual(mergeTechniques(null, undefined), []);
 });

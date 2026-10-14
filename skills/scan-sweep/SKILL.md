@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--r
 category: workflow
 contexts: tracked
 memory: project
-version: 4.6.0
+version: 4.6.1
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -1126,7 +1126,7 @@ fixed, last strategy and age, least-covered first. Then stop.
 
 ---
 
-<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v6 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
@@ -1135,8 +1135,11 @@ permission to edit another repository, send data, commit, or publish.
 
 **Run log.** Unlike a lesson, this is written on every run that started work - failed and
 aborted runs included; skip read-only info modes and runs cancelled before any work. Append
-ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the task's MAIN checkout: local,
 gitignored run output inside the task's own repository, never a write into the registry.
+A run that worked in a linked worktree logs in the main checkout that worktree belongs to
+(`git rev-parse --git-common-dir`, minus `/.git`) - a disposable worktree takes the line
+with it when it is removed. `log-run.mjs` resolves this on its own.
 The registry pulls it later (`/librarian skills` on the same machine). When a registry
 checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
 stamps project, device and version for you:
@@ -1157,7 +1160,8 @@ Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"scan-sweep","o
   rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
 - `model`/`effort` as your harness states them (`null` effort when you cannot see it).
   `tokensEst` is the drop in the harness's remaining-token counter since this skill was
-  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+  invoked, or `null` (with `log-run.mjs`, omit `--tokens-est`); exact figures are measured
+  later from transcripts - never guess one.
 - `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
   reviewer reads: what worked, what the method made harder, where its instructions were
   wrong, missing or ignored. No filesystem paths or email addresses.

@@ -190,6 +190,22 @@ function addSuperseded(entry, item) {
   entry.superseded = list.slice(-SUPERSEDED_KEEP);
 }
 
+/**
+ * The pair's technique verdicts after a merge: the incoming judge's verdicts win by
+ * technique slug, and a technique it did not judge is CARRIED from the detail it replaces,
+ * stamped `carriedFrom: <the date it was judged>` so a reader can tell fresh from inherited.
+ * Replacing the list wholesale lost most of the detail in a narrow re-judgement (straighten
+ * wave, pumper 2026-10-14: 12 -> 1 and 11 -> 1 techniques, 431 lines gone).
+ */
+export function mergeTechniques(prior, incoming) {
+  const fresh = (incoming || []).filter((t) => t && t.technique);
+  const seen = new Set(fresh.map((t) => t.technique));
+  const carried = (prior?.techniques || [])
+    .filter((t) => t && t.technique && !seen.has(t.technique))
+    .map((t) => (t.carriedFrom ? t : { ...t, carriedFrom: prior.evaluatedAt ?? null }));
+  return [...fresh, ...carried];
+}
+
 /** Read one candidate file. Never throws: an unreadable file is a status, not a crash. */
 function loadRun(dir, name) {
   const abs = path.join(dir, name);
@@ -249,7 +265,7 @@ function mergeLocked({ root, registry, dry, only, reapply, mapPath, runsDir, mer
   const byName = new Map(map.contexts.filter((c) => nameCount.get(c.name) === 1).map((c) => [c.name, c]));
 
   const result = {
-    dry, files: [], pairs: 0, merged: 0, unchanged: 0, older: 0, skipped: [], declined: [],
+    dry, files: [], pairs: 0, merged: 0, unchanged: 0, reaffirmed: 0, older: 0, skipped: [], declined: [],
     conflicts: [], states: {}, flips: {}, techniques: {}, deviations: [], proposals: [], consultsAppended: 0,
   };
 
@@ -280,7 +296,7 @@ function mergeLocked({ root, registry, dry, only, reapply, mapPath, runsDir, mer
   runs.sort((a, b) => a.ts - b.ts || a.name.localeCompare(b.name));
 
   for (const r of runs) {
-    const f = { file: r.name, source: r.source, status: r.already ? 'already-merged' : 'merged', pairs: 0, merged: 0, unchanged: 0, older: 0, declined: 0, skipped: 0 };
+    const f = { file: r.name, source: r.source, status: r.already ? 'already-merged' : 'merged', pairs: 0, merged: 0, unchanged: 0, reaffirmed: 0, older: 0, declined: 0, skipped: 0 };
     result.files.push(f);
     if (r.already) continue;
     const worker = r.run.worker || r.name.replace(/\.json$/, '');
@@ -313,7 +329,21 @@ function mergeLocked({ root, registry, dry, only, reapply, mapPath, runsDir, mer
       const priorTs = prior && prior.evaluatedAt === row.evaluatedAt && prior.state === row.state ? prior.evaluatedTs : null;
       const existingTs = stampOf(priorTs) ?? stampOf(row.evaluatedAt);
       const sameVerdict = row.state === p.state && row.evidence === p.evidence;
-      if (sameVerdict && (row.evaluatedAt === dateOf(ts) || (existingTs !== null && ts < existingTs))) {
+      const older = existingTs !== null && ts < existingTs;
+      if (sameVerdict && (row.evaluatedAt === dateOf(ts) || older)) {
+        // A same-day reaffirmation of a row that went stale (the subject moved after the
+        // verdict was written) is a re-judgement against the CURRENT subject: re-stamp it and
+        // clear the flag. Counting it `unchanged` left `stale` set and failed the wave's
+        // verify-merge on a same-day re-run (straighten 1.3.0, pumper, 2026-10-14). A replay of
+        // an already-merged file finds the row current and stays a byte-identical no-op.
+        const cur = index[`${p.bundle || row.bundle}/${p.subject}`];
+        if (!older && cur && (row.stale || row.evaluatedAgainst !== cur.digest)) {
+          row.evaluatedAgainst = cur.digest;
+          if (Number.isInteger(cur.revision)) row.evaluatedRevision = cur.revision; else delete row.evaluatedRevision;
+          delete row.stale;
+          f.reaffirmed++; result.reaffirmed++;
+          continue;
+        }
         f.unchanged++; result.unchanged++;
         continue;
       }
@@ -352,7 +382,7 @@ function mergeLocked({ root, registry, dry, only, reapply, mapPath, runsDir, mer
       if (p.registryProposal) result.proposals.push({ subject: p.subject, context: ctx.name, proposal: p.registryProposal });
       const entry = {
         context: ctx.name, subject: p.subject, bundle, state: p.state, evaluatedAt: row.evaluatedAt,
-        evaluatedTs: incoming.evaluatedAt, worker, techniques: p.techniques || [], registryProposal: p.registryProposal,
+        evaluatedTs: incoming.evaluatedAt, worker, techniques: mergeTechniques(prior, p.techniques), registryProposal: p.registryProposal,
       };
       if (superseded.superseded.length) entry.superseded = superseded.superseded;
       detail.pairs[key] = entry;
@@ -394,7 +424,7 @@ function mergeLocked({ root, registry, dry, only, reapply, mapPath, runsDir, mer
 
 function printFunnel(r) {
   const merged = r.files.filter((f) => f.status === 'merged' || f.status === 'already-merged');
-  console.log(`merge-conform-runs${r.dry ? ' (dry)' : ''}: ${merged.length} run file(s) · ${r.pairs} pair verdict(s) · ${r.merged} merged · ${r.unchanged} unchanged · ${r.older} older than the map · ${r.skipped.length} skipped`);
+  console.log(`merge-conform-runs${r.dry ? ' (dry)' : ''}: ${merged.length} run file(s) · ${r.pairs} pair verdict(s) · ${r.merged} merged · ${r.unchanged} unchanged · ${r.reaffirmed} reaffirmed · ${r.older} older than the map · ${r.skipped.length} skipped`);
   for (const f of r.files.filter((x) => !['merged', 'already-merged'].includes(x.status))) console.log(`  - ${f.file}: ${f.status}${f.note ? ` (${f.note})` : ''}`);
   for (const f of r.files.filter((x) => x.status === 'already-merged')) console.log(`  - ${f.file}: already merged, no-op`);
   console.log(`  pair states this merge: ${JSON.stringify(r.states)}`);

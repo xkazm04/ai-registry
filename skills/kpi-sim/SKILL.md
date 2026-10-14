@@ -4,7 +4,7 @@ contexts: tracked
 category: testing
 memory: project
 description: KPI Simulation - measure a project's KPIs locally, simulate user behavior with UAT-style Characters, and predict real-world targets from web benchmarks, writing a result.json the Personas app ingests into its KPI module (env-tagged simulated series + proposal-gated adjustments). Engine doctrine mirrors src/features/teams/sub_kpis/kpiSimPrompt.ts - the app dispatches the same contract into managed repos as a Fleet Dev-runner session, so most target repos never need this skill installed. Invoke with `/kpi-sim run [--l2] [--kpi <id>] [--project-root <path>]` or `/kpi-sim predict`.
-version: 1.3.0
+version: 1.3.1
 argument-hint: "run [--l2] [--kpi <id>] [--project-root <path>] | predict"
 ---
 
@@ -114,7 +114,7 @@ Always set both `"skill":"kpi-sim"` and `"context":"<name>"` — together they d
 
 ---
 
-<!-- clause: knowledge-sync v1 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/knowledge-sync.md; edit the template, then re-stamp -->
+<!-- clause: knowledge-sync v2 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/knowledge-sync.md; edit the template, then re-stamp -->
 ## Knowledge sync
 
 This skill proposes and executes backlog items. Every item it proposes is judged against the standard this repo subscribes to, so a run moves the codebase toward the registry's golden paths and sends back what it learned - not toward a private notion of "better" that the next skill will undo.
@@ -126,12 +126,12 @@ This skill proposes and executes backlog items. Every item it proposes is judged
 
 **Read before you propose.** For each context in scope, take its subjects from the map and read the golden path (`subjects[<slug>].file`, verbatim from the index - never a path built from a slug; bundles are nested) plus the techniques whose `use_when` matches what you are about to decide. Then every backlog item you emit names the technique it serves or violates - `standard: <subject>/<technique>` - or `standard: none` when nothing governs it. A pair the map already marks `deviation` is a pre-approved item with its fix described; a pair marked `conformant` is a regression guard on anything you change there. A deviation is a finding: never lower the standard to fit the code, and never present a technique's number as a rule - the technique carries the rule, the application carries the measurement.
 
-**Log the read** - one line per context, append-only, gitignored, to `.ai/consults.jsonl`: `{"ts":"<ISO>","bundle":"<domain>","subjects":["<slug>"],"techniques":["<slug>"],"deviations":<n>}`, where `deviations` counts the items this run raised that a technique explicitly names. Bare slugs, never paths. The registry's `signals-collect.mjs` folds these into `signals/` as counts only; it is the only way the corpus learns which paths are load-bearing and which are decoration.
+**Log the read** - one line per context, append-only, to `.ai/consults.jsonl` in the task's MAIN checkout (never a disposable worktree), written before the run's first commit - pre-commit consult checks read it: `{"ts":"<ISO>","bundle":"<domain>","subjects":["<slug>"],"techniques":["<slug>"],"deviations":<n>}`, where `deviations` counts the items this run raised that a technique explicitly names. Bare slugs, never paths. The registry's `signals-collect.mjs` folds these into `signals/` as counts only; it is the only way the corpus learns which paths are load-bearing and which are decoration.
 
 **Send back what a LANDED fix taught.** When a change you made and verified generalizes past this repo - a rule that would transplant to an unrelated team, a case where a technique's rule broke against real code, or a place this repo does it BETTER than the golden path - append one line to `.ai/registry-leads.jsonl`: `{"ts":"<ISO>","bundle":"<domain>","nearest":"<subject-slug or null>","kind":"technique|application|subject","claim":"<when X, do Y, because Z - one sentence>","because":"<what this run measured or broke and fixed>","confidence":"low|medium|high","from":"kpi-sim@<version>"}`. Earned only: it came from code you changed, not from a fix you proposed. A lead ORIGINATES a finding and never authorizes one - nothing here edits a bundle; the registry's `leads-collect.mjs` -> `librarian/inbox.md` -> `/intake` decides what survives. Say in the report that you filed one, and say plainly when you filed none. Verdicts on a pair's state belong to `/conform`: close by naming the contexts you touched so it can re-judge them.
 <!-- /clause: knowledge-sync -->
 
-<!-- clause: skill-reflection v5 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
+<!-- clause: skill-reflection v6 - stamped by scripts/apply-skill-clauses.mjs from docs/skill-clauses/skill-reflection.md; edit the template, then re-stamp -->
 ## Skill Reflection
 
 After the work, record only useful observations supported by this run. No lesson is
@@ -140,8 +140,11 @@ permission to edit another repository, send data, commit, or publish.
 
 **Run log.** Unlike a lesson, this is written on every run that started work - failed and
 aborted runs included; skip read-only info modes and runs cancelled before any work. Append
-ONE line to `.ai/skill-runs.local.jsonl` at the root of the checkout you worked in: local,
+ONE line to `.ai/skill-runs.local.jsonl` at the root of the task's MAIN checkout: local,
 gitignored run output inside the task's own repository, never a write into the registry.
+A run that worked in a linked worktree logs in the main checkout that worktree belongs to
+(`git rev-parse --git-common-dir`, minus `/.git`) - a disposable worktree takes the line
+with it when it is removed. `log-run.mjs` resolves this on its own.
 The registry pulls it later (`/librarian skills` on the same machine). When a registry
 checkout is reachable (`registry.local` in `.ai/manifest.yaml`), prefer its writer, which
 stamps project, device and version for you:
@@ -162,7 +165,8 @@ Otherwise write the line yourself: `{"ts":"<ISO, UTC Z>","skill":"kpi-sim","outc
   rework or an operator course-correction; 5 at the edge - partial or failed on the merits.
 - `model`/`effort` as your harness states them (`null` effort when you cannot see it).
   `tokensEst` is the drop in the harness's remaining-token counter since this skill was
-  invoked, or `null`; exact figures are measured later from transcripts - never guess one.
+  invoked, or `null` (with `log-run.mjs`, omit `--tokens-est`); exact figures are measured
+  later from transcripts - never guess one.
 - `result` is one line (max 240 chars). `comment` (max 2000) is the self-reflection a
   reviewer reads: what worked, what the method made harder, where its instructions were
   wrong, missing or ignored. No filesystem paths or email addresses.

@@ -137,7 +137,8 @@ const given = { ...input, ...flags };
 // Flags arrive as strings; numbers are coerced only when they look like integers, so a
 // bad value still reaches validation and is reported by name.
 const intish = (v) => (typeof v === 'string' && /^-?\d+$/.test(v.trim()) ? Number(v) : v);
-const orNull = (v) => (v === undefined || v === '' ? null : v);
+// `--tokens-est null` is what the clause's own wording ("or `null`") invites; it means unknown.
+const orNull = (v) => (v === undefined || v === '' || v === 'null' ? null : v);
 
 const problems = [];
 for (const k of REQUIRED) if (given[k] === undefined || given[k] === '') problems.push(`missing ${k} (--${k})`);
@@ -146,11 +147,26 @@ for (const k of REQUIRED) if (given[k] === undefined || given[k] === '') problem
 const skill = typeof given.skill === 'string' ? given.skill.slice(given.skill.lastIndexOf(':') + 1) : given.skill;
 
 // The local file belongs at the checkout root, where runs-backfill looks for it: the
-// nearest ancestor holding .ai/manifest.yaml or .git (a worktree's .git is a file, which
-// counts), else cwd.
+// nearest ancestor holding .ai/manifest.yaml or .git, else cwd. A LINKED WORKTREE resolves
+// to its main checkout: skills that work in a disposable worktree (friend, contest seats,
+// architect probes) would otherwise write the row where the worktree's removal deletes it,
+// and stamp the worktree's folder name as the project (measured 2026-10-14: a friend cycle
+// in .claude/worktrees/friend-agents-191433). The worktree's .git file names the main
+// repository (`gitdir: <main>/.git/worktrees/<name>`); a submodule's points into
+// .git/modules and keeps its own root.
+function mainCheckout(dir) {
+  const dotGit = path.join(dir, '.git');
+  let text;
+  try { if (!fs.statSync(dotGit).isFile()) return dir; text = fs.readFileSync(dotGit, 'utf8'); } catch { return dir; }
+  const m = text.match(/^gitdir:\s*(.+?)\s*$/m);
+  if (!m) return dir;
+  const gitdir = path.resolve(dir, m[1]);
+  const w = gitdir.match(/^(.*)[\\/]\.git[\\/]worktrees[\\/][^\\/]+$/);
+  return w && fs.existsSync(w[1]) ? w[1] : dir;
+}
 function checkoutRoot(start) {
   for (let dir = path.resolve(start); ; dir = path.dirname(dir)) {
-    if (fs.existsSync(path.join(dir, '.ai', 'manifest.yaml')) || fs.existsSync(path.join(dir, '.git'))) return dir;
+    if (fs.existsSync(path.join(dir, '.ai', 'manifest.yaml')) || fs.existsSync(path.join(dir, '.git'))) return mainCheckout(dir);
     if (path.dirname(dir) === dir) return path.resolve(start);
   }
 }
@@ -164,7 +180,7 @@ if (version === null && skill) {
 }
 
 // ---------------------------------------------------------------- the row
-const id = resolveIdentity({ cwd: process.cwd(), registryRoot: ROOT });
+const id = resolveIdentity({ cwd: checkout, registryRoot: ROOT });
 const values = {
   schema: SCHEMA,
   id: null,
