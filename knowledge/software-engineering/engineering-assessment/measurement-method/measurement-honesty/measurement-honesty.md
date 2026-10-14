@@ -17,6 +17,7 @@ techniques:
   - unelidable-measurement
   - control-failure-is-not-a-datum-state
   - speed-figure-names-its-endpoints
+  - the-baseline-is-the-untouched-path
 ---
 
 # Measurement honesty
@@ -289,6 +290,15 @@ that they do. Two rules follow:
   tell which side a number's bias falls on, and how to phrase the bound so it
   survives being copied into a slide without its footnote.
 
+The same discipline applies to the figure an intervention publishes about
+itself. A saving is a ratio whose denominator is the consumer's untouched path,
+and the two ways that arm drifts - measuring against an input the intervention
+constructed for itself, and dividing two estimates whose error is not shared -
+both inflate the claim without a single wrong sum.
+[the-baseline-is-the-untouched-path](./techniques/the-baseline-is-the-untouched-path.md)
+covers both, with the per-item decisions an aggregate-grade estimate must not
+make.
+
 ## Failure modes of the naive reading
 
 - **"A number is better than a blank."** It is not, when the number is
@@ -379,3 +389,7 @@ that they do. Two rules follow:
   the two events a duration is measured between and the two kinds a speed claim
   can be, why an observer's first observable event is not the one its name
   implies, and the comparison that breaks when the end event differs per arm.
+- [the-baseline-is-the-untouched-path](./techniques/the-baseline-is-the-untouched-path.md) —
+  the control arm as the request the consumer issued, the intervention that
+  measures against its own constructed input, and why a ratio of two estimates
+  is aggregate-grade but not per-item-grade.

@@ -9,6 +9,7 @@ techniques:
   - compressibility-follows-the-producer
   - formatting-before-information
   - escape-hatch-usage-as-the-safety-metric
+  - untransformed-arm-is-the-floor
 ---
 
 # Tool result economy
@@ -67,6 +68,14 @@ recovery path has also shipped its own regression test.
 [escape-hatch-usage-as-the-safety-metric](./techniques/escape-hatch-usage-as-the-safety-metric.md)
 turns the recovery rate into the earliest and cheapest signal that a transform
 took something the model wanted.
+
+Beneath all four, on every call, sits a guard that is not a decision about
+policy at all: whatever the transform produced must beat what the model would
+have read without it, and where it cannot - a short output, a failed or
+unrecognised run, the transform's own crash, an invocation the transform
+changed - the untransformed output goes through instead.
+[untransformed-arm-is-the-floor](./techniques/untransformed-arm-is-the-floor.md)
+states that floor and where it meets the escape hatch's fallback cap.
 
 ## A result's cost is not its length
 
@@ -216,3 +225,7 @@ plays.
   — the recovery path as the transform's own regression test, the five shapes
   recovery takes, the advertisement precondition, and the conditional
   population the rate is measured over.
+- [untransformed-arm-is-the-floor](./techniques/untransformed-arm-is-the-floor.md)
+  — the per-call guard with the hint inside the comparison, failed and
+  unrecognised runs passing through, the crash path, the arm an injected
+  output format moves, and the bounding-versus-transparent discriminator.

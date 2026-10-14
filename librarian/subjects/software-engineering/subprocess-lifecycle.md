@@ -1,7 +1,7 @@
 ---
 subject: subprocess-lifecycle
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-10-14
 touched_by: intake
 dry_streak: 0
 ---
@@ -132,3 +132,22 @@ did not leak (131-245 ms). Appended under the content lock after a re-read while
 run held the subject; no restructure. Applications `rust--spawn-contract--vox` (the
 source's daemon start) and `rust--spawn-contract--personas` (code, better: the detached
 dev-server spawn now releases its std handles, personas e86c5e7a29, not pushed).
+
+### 2026-10-14 - /intake rtk-ai/rtk (run `intake-rtk-1014`)
+
+New technique `decode-child-output-per-line`, from [[../../sources/2026-10-14-rtk]]
+and a measurement on this machine. `spawn-contract`'s pinned locale settles the
+encoding only where the environment decides it; a console program on a
+platform with legacy console code pages writes in the console's page. Measured
+(OEM 852, ANSI 1250): lossy decode lost 4 of 9 letters, whole-buffer legacy
+decode mangled the UTF-8 half of a mixed stream, per-line was exact; from a
+console-less parent the console lookup returned 0 and the shell wrote OEM. The
+source's console-less fallback (the graphical page) decoded the same bytes
+without error into four wrong letters - the boundary the technique states:
+error-free is not evidence the page was right. Golden path: list entry and one
+paragraph after the spawn-door paragraph, under the content lock (vox held the
+subject and had amended `spawn-contract` the same afternoon; that file was not
+touched). Applications `rust--decode-child-output-per-line--rtk` (source,
+not-better for the fallback page) and `--personas` (code, better, ab-paired,
+personas 5ab86317e9, not pushed). Untriaged: a buffering proxy relays the
+signal, flushes, re-raises (`termination-and-reaping`).

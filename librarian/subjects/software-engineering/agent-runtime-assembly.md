@@ -1,7 +1,7 @@
 ---
 subject: agent-runtime-assembly
 domain: software-engineering
-last_touched: 2026-10-06
+last_touched: 2026-10-14
 dry_streak: 0
 touched_by: intake
 ---
@@ -496,3 +496,20 @@ Source [[../../sources/2026-10-06-deer-flow-v3]], `08b27aef..53df22bd`, 740 comm
 - `python--checkpoint-mode-custody`: the deviation (the degraded path reads underivable `next` as none) still holds. Added the metadata-only accessor door and the retention contract.
 
 **The forge worker's Q1 fired in substance.** Three further custody decisions now sit beside the mode gate and the linearized resume: retention protects the parent chain (#5255, a draft contract with no production trigger); a fork clears references into the out-of-checkpoint archive; and lineage never changes its agent binding. Escalated (E2 + E4), not executed. The proposed subject shape is in the source note. Untriaged: release-follows-the-work (D10, for concurrency-guards) and operator code in the browser (an operator-tier boundary sentence).
+
+## 2026-10-14 - /intake rtk-ai/rtk (run `intake-rtk-1014`)
+
+New technique `rewriting-under-a-foreign-gate`, from [[../../sources/2026-10-14-rtk]]:
+`rewrite-before-the-gate` assumes the runtime owns the gate's rules; a hook that
+wraps an agent's commands inside a host whose rules a person wrote against the
+original re-keys every rule. The source pre-judges the original against a copy
+of the host's policy (deny suppresses the rewrite, no-match never approves,
+undecomposable commands are not rewritten, a strictest-of-three splitter), and
+shows the gaps the technique closes: unread and malformed rule sources skipped
+silently, a host classifier blinded by the wrapper, rewriter errors discarded
+by the host script. About 25 permission-interplay fixes in its changelog.
+Application `rust--rewriting-under-a-foreign-gate--rtk` (read, not run).
+Unapplied in the fleet: no project rewrites an agent's commands under a host's
+rules. Return: when one ships a rewriting pre-tool hook. Untriaged: argument
+fidelity in a transparent proxy (parse only your own flags, ask the tool,
+fuzz against it).

@@ -212,16 +212,16 @@
     },
     {
       "name": "contest",
-      "version": "1.10.1",
+      "version": "1.11.0",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:fbf1c04f1d632207",
+      "contentHash": "sha256-n1:7023b1026afd5600",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 17,
+      "lessons": 18,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:fffe7ce39b40027a",
+      "lessonsHash": "sha256-n1:d07deaa6392ca200",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -442,13 +442,13 @@
       "version": "1.4.3",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:a07f326d42a8577d",
+      "contentHash": "sha256-n1:477d8b31e6f9b129",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 9,
+      "lessons": 10,
       "lessonsPath": "skills/lens-scan/LESSONS.md",
-      "lessonsHash": "sha256-n1:82c6e59c4a4d551e",
+      "lessonsHash": "sha256-n1:3e450f8cf4325f4a",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1074,7 +1074,7 @@
     "skills": 41,
     "practices": 8,
     "memory": 9,
-    "lessons": 334
+    "lessons": 336
   },
   "bundles": [
     {
@@ -1202,10 +1202,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 235,
-      "techniques": 1860,
-      "applications": 1297,
-      "files": 3397,
-      "contentHash": "sha256-b2:519dd3744389dc45"
+      "techniques": 1870,
+      "applications": 1327,
+      "files": 3440,
+      "contentHash": "sha256-b2:80f8d8670578a704"
     },
     {
       "name": "technical-writing",

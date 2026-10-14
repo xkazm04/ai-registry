@@ -21,6 +21,7 @@ techniques:
   - substituted-result-attribution
   - nested-run-is-not-its-parent
   - activation-is-a-separate-mutation
+  - rewriting-under-a-foreign-gate
 ---
 
 # Agent runtime assembly
@@ -383,6 +384,11 @@ special-case it.
   policy judges what executes; the original travels beside the effective
   value with per-frame provenance; the continuation is single-use, and
   fall-through is conditioned on whether the call beneath already ran.
+- [rewriting-under-a-foreign-gate](./techniques/rewriting-under-a-foreign-gate.md)
+  — the same rewrite contributed into a host whose rules were written against
+  the original: judge the original against a copy of the host's policy first,
+  never turn no-match into approval, rewrite only what the permission splitter
+  can decompose, and withhold approval when a rule source went unread.
 - [substituted-result-attribution](./techniques/substituted-result-attribution.md)
   — a frame that returns without entering the continuation is a producer, so
   the result names it: replay and substitution spelled differently, freshness

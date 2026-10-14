@@ -11,6 +11,7 @@ techniques:
   - session-reuse
   - liveness-and-heartbeats
   - host-resource-protection
+  - decode-child-output-per-line
 ---
 
 # Subprocess & CLI session lifecycle
@@ -72,6 +73,14 @@ and the structural rule above them: **one spawn door**. Every launch in the
 host passes through a single constructor that applies the hardening
 uniformly, because a spawn site added next quarter inherits exactly the
 discipline of the door it goes through — and nothing else.
+
+The same door has an exit. The bytes a child writes become text in one place
+or in every capture site's own default, and a pinned environment settles that
+only for children whose encoding the environment decides; a console program
+on a platform with legacy console code pages writes in the console's page
+whatever its environment says.
+[decode-child-output-per-line](./techniques/decode-child-output-per-line.md)
+owns that decode.
 
 ## Every child names its reaper
 
@@ -236,3 +245,6 @@ Two rules fall out of the table:
 - [host-resource-protection](./techniques/host-resource-protection.md) —
   timeout ceilings, pressure-aware admission with hysteresis, per-child
   budgets.
+- [decode-child-output-per-line](./techniques/decode-child-output-per-line.md)
+  — one decode for captured output, the line as the unit, the legacy page
+  looked up from the host's position and verified with a known word.

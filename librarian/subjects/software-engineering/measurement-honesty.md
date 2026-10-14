@@ -1,7 +1,7 @@
 ---
 subject: measurement-honesty
 domain: software-engineering
-last_touched: 2026-09-17
+last_touched: 2026-10-14
 ---
 # measurement-honesty
 
@@ -34,3 +34,18 @@ enumeration, not on the subject's attention points.
 ### 2026-09-17 - `/harvest backlog` wave 3, one technique
 
 `speed-figure-names-its-endpoints`, from [[2026-08-31-omniroute]] and [[2026-08-28-gemini-omni-1-1-flash]]. The subject owned the confound as a *state* (the environment moved across arms, so publish the axis and withhold the contrast); this is a different cause with a different repair - the figure's definition was underspecified, so each arm resolved the end event differently, and the repair is upstream in the definition. `metric-surface-contract` binds the start anchor and the units in the name; the end event's identity, and the case where it varies per arm, were unowned. Measured on a bench whose first-token column stamped an empty envelope on exactly the two highest-effort cells. The throughput-versus-latency half is carried as a reader-side rule with its instrument named: no fleet site publishes both quantities from one change. Also recorded: the worker's own pre-declared noise band was the wrong one (an absolute arrival spread for a paired within-stream difference) and says so in its row.
+
+### 2026-10-14 - /intake rtk-ai/rtk (run `intake-rtk-1014`), one technique
+
+`the-baseline-is-the-untouched-path`, from [[../../sources/2026-10-14-rtk]]. The
+subject owned partial observation, endpoints and reconciliation but not the
+control arm of a saving an intervention books for itself. Measured on the
+source's built binary: a structured format the proxy injected was its baseline
+(41x the plain output for a test runner), and its saving was booked at 95.1%
+while the consumer read three times as much. The ratio-of-estimates half was
+measured on 84 of the source's paired tests against two subword tokenizers:
+aggregate within a point, per pair -29.7 to +16.6 points - so the estimate is
+aggregate-grade, not per-item-grade. Application `rust--...--rtk` (experiment,
+not-better for the source's booking). Fleet unapplied; return condition: the
+memory-year ladder's per-arm context-token column, estimated by length over
+arms of different content shape, before arms are ranked by context size.

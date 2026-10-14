@@ -1,7 +1,7 @@
 ---
 subject: tool-result-economy
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-10-14
 dry_streak: 0
 ---
 
@@ -69,3 +69,27 @@ both before adding a third cost-measurement technique anywhere.
   is a law candidate about measurement boundaries rather than two techniques.
 - The subject's one application is `unmeasurable` because a test binary would not
   launch. Return: when it is re-run on the primary dev box.
+
+## 2026-10-14 - /intake rtk-ai/rtk (run `intake-rtk-1014`)
+
+Source [[../../sources/2026-10-14-rtk]], a command proxy that compresses what a
+coding agent reads - the second independent source this subject's single-source
+debt asked for, and an implementer rather than an account. **New technique**
+`untransformed-arm-is-the-floor`: the per-call guard with the hint inside the
+comparison, failed and unrecognised runs passing through (the source's false
+clean and a fleet KPI parser's, independently), the crash path, the arm an
+injected output format moves (measured: 73 B plain, 3,024 B injected, 224 B
+emitted, guard silent, 95.1% booked), and the bounding-versus-transparent
+discriminator against `escape-hatch-usage-as-the-safety-metric`'s fallback cap.
+The golden path's "Four decisions" heading was kept true: the floor is added as
+a guard beneath them, not a fifth decision. Applications: `rust--...--rtk`
+(source, experiment, not-better at the injected arm) and `rust--...--personas`
+(code, better, KPI readings from programs that never started, personas
+3de69f5027, not pushed).
+
+Corroboration banked: the source's per-filter recall verdict in two
+never-merged modes with a floor of 5 confirms `escape-hatch-usage-as-the-safety-metric`
+nearly rule for rule, and breaks its conditional denominator (summaries with no
+pointer are outside it). Untriaged with anchors in the source note: store the
+hidden tail and route recovery around the compressor; line selection in a
+declarative filter uncounted as loss.

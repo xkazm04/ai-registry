@@ -1,0 +1,95 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-rtk-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T15:20:00Z",
+  "ended_at": "2026-10-14T19:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 4,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/tool-result-economy",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/measurement-honesty",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/agent-runtime-assembly",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/subprocess-lifecycle",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "subprocess-lifecycle",
+      "technique": "decode-child-output-per-line",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "tool-result-economy",
+      "technique": "untransformed-arm-is-the-floor",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/techniques/untransformed-arm-is-the-floor.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/tool-result-economy.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/applications/rust--untransformed-arm-is-the-floor--rtk.md",
+    "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/applications/rust--untransformed-arm-is-the-floor--personas.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/techniques/the-baseline-is-the-untouched-path.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/measurement-honesty.md",
+    "knowledge/software-engineering/engineering-assessment/measurement-method/measurement-honesty/applications/rust--the-baseline-is-the-untouched-path--rtk.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/techniques/rewriting-under-a-foreign-gate.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/agent-runtime-assembly.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/agent-runtime-assembly/applications/rust--rewriting-under-a-foreign-gate--rtk.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/techniques/decode-child-output-per-line.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--decode-child-output-per-line--rtk.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/applications/rust--decode-child-output-per-line--personas.md",
+    "librarian/sources/2026-10-14-rtk.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/tool-result-economy.md",
+    "librarian/subjects/software-engineering/measurement-honesty.md",
+    "librarian/subjects/software-engineering/agent-runtime-assembly.md",
+    "librarian/subjects/software-engineering/subprocess-lifecycle.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "4 techniques, 6 applications. 2 code better in personas (paired, local, not pushed); baseline measured on the source binary, fleet unapplied; foreign gate unapplied. 7 catches, 5 leads, 9 untriaged."
+}
