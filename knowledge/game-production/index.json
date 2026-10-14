@@ -335,9 +335,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/content-pipeline/acceptance-verdict-spine/acceptance-verdict-spine.md",
-   "digest": "sha256-b2:cc46738c751b13c7",
-   "revision": 3,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:f4dc617db038fd0c",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "explain-why-this-verdict",
