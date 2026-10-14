@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 190,
-  "applications": 113,
+  "applications": 114,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -273,8 +273,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/research-grounding/content-research-grounding/content-research-grounding.md",
-   "digest": "sha256-b2:96ec565814494fec",
-   "revision": 4,
+   "digest": "sha256-b2:094f1b2708130460",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -393,6 +393,13 @@
      "technique": "prior-declaration-and-steel-man",
      "file": "knowledge/media-generation/research-grounding/content-research-grounding/applications/react--prior-declaration-and-steel-man.md",
      "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "react",
+     "technique": "provenance-signal-asymmetry",
+     "file": "knowledge/media-generation/research-grounding/content-research-grounding/applications/react--provenance-signal-asymmetry.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "react@19"
     },
     {
      "stack": "react",
