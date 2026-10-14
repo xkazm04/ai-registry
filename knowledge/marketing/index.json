@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 112,
+  "applications": 113,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -710,8 +710,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/campaign-anomaly-triage.md",
-   "digest": "sha256-b2:efb7f8b5c79a4937",
-   "revision": 3,
+   "digest": "sha256-b2:50256b24f4983b0e",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -844,6 +844,13 @@
      "technique": "one-target-reciprocal-thresholds",
      "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/applications/node--one-target-reciprocal-thresholds.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "severity-times-spend-attention-order",
+     "file": "knowledge/marketing/paid-advertising/campaign-anomaly-triage/applications/node--severity-times-spend-attention-order.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
