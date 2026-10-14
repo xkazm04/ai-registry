@@ -88,7 +88,10 @@ the list is sorted by score, which is the one operation the list is for.
 - **The generator's files sit beside the package, outside its contract**, so
   an unaware consumer ignores them cleanly.
 - **A candidate is named once, at generation**, and every later stage keys
-  on that name.
+  on that name. Comparison has one key function too: a second normaliser
+  written beside a consumer drifts from the first, and the drift shows at the
+  inputs the first one was careful about (accents, non-ASCII scripts), where
+  an over-aggressive fold collapses distinct candidates to one empty key.
 
 ## When not to use this
 

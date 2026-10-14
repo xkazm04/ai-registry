@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1262,
+  "applications": 1263,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -15872,9 +15872,9 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/generated-workflow-candidates/generated-workflow-candidates.md",
-   "digest": "sha256-b2:acd501ca62d5c9f0",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:a8a570eae3950671",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "candidates-as-ordinary-artifacts",
@@ -15959,6 +15959,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "candidates-as-ordinary-artifacts",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/generated-workflow-candidates/applications/next--candidates-as-ordinary-artifacts--ranking-pool.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16"
+    },
     {
      "stack": "python",
      "technique": "stage-level-result-caching",
