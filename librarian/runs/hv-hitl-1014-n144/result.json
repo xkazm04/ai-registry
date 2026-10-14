@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "hv-hitl-1014-n144",
+  "skill": "harvest",
+  "skill_version": "unversioned",
+  "mode": "auto",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T14:00:00Z",
+  "ended_at": "2026-10-14T14:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/hitl-approval",
+      "at": "2026-10-14",
+      "engine": "harvest",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/sources/2026-10-14-se-hitl-harvest-batch.md",
+    "librarian/sources/index.md",
+    "librarian/harvest/queue.md",
+    "librarian/harvest/specs.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Auto pass over the hitl-approval batch: 5 rows mined, 4 specs banked (specs.md section 7), nothing landed, nothing declined."
+}

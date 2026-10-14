@@ -592,3 +592,79 @@ rule below is written stack-neutral.
   Auto mode never lands content. An attended pass lands 6a-6d and 6f-6g after re-verifying
   the anchors, and decides whether 6e and 6h stand alone or fold into 6a and 6f. Each landing
   owes an A/B evaluation per `.claude/skills/harvest/references/evaluation.md`.
+
+## 7. Approval design, measured: a classifier gate, a denial breaker, confirmation placement, a visible budget (software-engineering) - from SEA-048/049/051/054, 2026-10-14
+
+**AUTO-BANKED, not operator-approved.** `/harvest auto` (run `hv-hitl-1014-n144`, note
+[[2026-10-14-se-hitl-harvest-batch]]) banks content aimed at existing subjects. Nobody approved
+these. The landing session re-verifies prior art at body level first, owes an A/B evaluation per
+landing, and writes mechanisms only (no vendor or product names in upper layers; those belong in an
+application).
+
+Needle: `llm-agent/orchestration/hitl-approval` (16 techniques) carries gate fatigue as a volume
+failure but no measurement of approval behaviour and no automated approver; `fleet-orchestration`
+and `cost-metering` hold the budget but not the agent's view of it.
+
+- **7a. NEW TECHNIQUE `hitl-approval/<classifier-before-the-prompt>`** (an automated approver standing
+  in for the per-action prompt). Draft rule: a second model reviews each action and the human sees
+  only what it blocks.
+  - *Staged review.* A cheap single-token filter tuned to over-block, then a reasoning stage run only
+    on what the first flags. Measured (post of 2026-03-25): false positive on 10,000 real calls 8.5%
+    after stage 1, 0.4% after stage 2.
+  - *The reviewer sees intent, not evidence the agent fetched.* Input is the user's messages and the
+    agent's tool calls; assistant prose and tool results are stripped, so hostile content in a file or
+    page cannot talk to the reviewer. Pair with a separate scan of incoming tool results.
+  - *State the miss rate that matters.* Real overeager actions (n=52): 17% pass; synthetic
+    exfiltration (n=1,000): 5.7% pass. The stated cause is the reviewer misjudging whether an earlier
+    approval covers the action's full blast radius, so the approval's scope must be named in what the
+    reviewer sees.
+  - *Relations to check at landing:* `fail-closed-profile-for-headless` (three-valued classifier,
+    unknown is not safe), `oracle-before-gate`, `consent-gates` (scoped grants). Laws:
+    `gate-sees-target`, `unknown-is-not-a-value`.
+  - *Corroboration owed:* both anchors are one vendor's post and its docs. n=52 is small. One
+    independent implementation with numbers, or a measurement on our own gate, before it lands.
+  - *Discriminator:* is the per-action prompt approved nearly always (SEA-049: 93%)? Yes: a reviewer
+    in front of it. No: the prompt is still doing work.
+- **7b. AMENDMENT to `unattended-mode` or `fail-closed-profile-for-headless`: the denial circuit
+  breaker.** An automated approver that keeps blocking is telling you it lacks context or the agent is
+  off course. Count blocks two ways, 3 consecutive and 20 total per session; either trips automation
+  off and hands the next action to a person. Details worth keeping from the docs: thresholds are not
+  tunable by the agent, the total persists until its own trip, and a denial caused by a separate
+  safety check refusing the reviewer's own request does not count. With no human to hand to, the
+  blocked action does not run and the agent continues (current docs, dated 2026-10-14); the earlier
+  post said the process terminates, so state which and date it.
+  - *Anchors:* post of 2026-03-25 ("3 consecutive denials or 20 total"); permission-mode docs,
+    "Repeated-block thresholds".
+  - *Relation:* the denial itself returning as a tool result is already in
+    `fail-closed-profile-for-headless`; this is the counter above it.
+  - *Corroboration owed:* same single vendor; the numbers are a design choice, not a finding.
+- **7c. NEW TECHNIQUE `hitl-approval/<confirmation-points-by-expected-cost>`.** Where a human
+  verifies a multi-step run is a scheduling problem: per-step success probability, time to confirm,
+  time to find the first error, time to redo. A dynamic program works back from the last step and
+  picks the next checkpoint; high error rates produce frequent checkpoints, accurate agents sparse
+  ones.
+  - *Measured (CHI '26, n=48 within-subjects, 3 tasks of 8, 12 and 16 steps):* intermediate
+    confirmation 13.54% faster than confirm-at-end (264.70 s to 228.86 s, p<0.001), 81% preferred.
+  - *Carry the reversal.* The gain depends on where the error lands: about 29% for early errors,
+    about 2% for mid, 4.5% slower for late. A fixed cadence is the wrong default; the model needs a
+    per-step success estimate that updates online.
+  - *Caveats:* lab tasks with fixed error probabilities, one paper, discussion and appendices
+    unread. A formative study (n=8) supplies the confirm-diagnose-correct-redo loop.
+  - *Relation:* `gate-state-machines` (where the gate sits), `severity-sla-ladder`, `resume-after-decision`.
+- **7d. AMENDMENT to `fleet-orchestration/soft-budget-under-the-hard-cap` (and a cross-link from
+  `cost-metering`): the budget is restated to the agent every turn.** The technique puts a soft
+  number in the brief once. A loop that is not shown its remaining budget does not use a larger one.
+  Mechanism: a policy paragraph at the start, then after every tool result a status block of used and
+  remaining per tool, plus one reminder line.
+  - *Measured (COLM 2026, v2 2026-08-17):* at a budget of 10 the tracker matches the plain loop at 100
+    on BrowseComp (12.8% vs 12.6%) at 31.3% lower cost; on a coding benchmark at a budget of 50 the
+    resolve rate goes 36.8% to 55.4% with a similar number of calls (one model).
+  - *Caveats:* web-search and coding agents; the last 44,432 characters unread; the planning modules
+    (BATS) not banked. The unified cost formula (tokens plus calls times price) is already in
+    `cost-metering`.
+  - *Check at landing:* does our brief text derive the soft number from the cap (it should, per the
+    technique), and does anything re-state it after the first turn.
+
+  Auto mode never lands content. An attended pass lands 7a-7d after re-verifying the anchors, decides
+  whether 7a and 7b are one technique, and runs the A/B evaluation per
+  `.claude/skills/harvest/references/evaluation.md`.
