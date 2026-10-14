@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 82,
-  "techniques": 542,
-  "applications": 297,
+  "subjects": 83,
+  "techniques": 547,
+  "applications": 299,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "542/542",
+  "use_when_coverage": "547/547",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -2279,6 +2279,103 @@
      "technique": "take-it-after-a-win",
      "file": "knowledge/game-production/narrative-and-dialogue/story-structure/debt-and-loss-stakes-staging/applications/process--take-it-after-a-win.md",
      "verified_on": "2026-10-09"
+    }
+   ]
+  },
+  "depth-ordered-layered-art": {
+   "category": "asset-production",
+   "subcategory": "surface-and-imagery",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/surface-and-imagery/depth-ordered-layered-art/depth-ordered-layered-art.md",
+   "digest": "sha256-b2:bec3a8d4a722868f",
+   "revision": 1,
+   "changedAt": "2026-10-14",
+   "techniques": [
+    {
+     "slug": "measured-draw-order",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a layered picture has more than a few dozen overlapping parts",
+      "a draw-order fix in one view breaks another",
+      "deciding whether an overlap needs a different key or different geometry"
+     ]
+    },
+    {
+     "slug": "order-across-every-reachable-pose",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a layered picture explodes",
+      "opens or animates toward the viewer",
+      "the order is right at rest and apart but wrong in between",
+      "choosing the sample points for a motion check"
+     ]
+    },
+    {
+     "slug": "split-wrapping-parts-at-the-wrap",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a part wraps or passes through another and is wrong from one side",
+      "a long run crosses another run",
+      "deciding whether a draw-order bug needs a split or a key"
+     ]
+    },
+    {
+     "slug": "texture-ends-on-an-edge-or-fades",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a layered picture carries seams",
+      "ribs",
+      "grooves",
+      "ticks or rule lines",
+      "a texture stops in the middle of a face at close zoom",
+      "closing a layered-art run and deciding what a clean check proves"
+     ]
+    },
+    {
+     "slug": "the-record-must-cover-the-drawing",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a check runs on shapes the author records as they build",
+      "a check passes and says nothing about a part you know is awkward",
+      "any gate whose input is written by the party being gated"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "measured-draw-order",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/depth-ordered-layered-art/applications/node--measured-draw-order.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@20.10"
+    },
+    {
+     "stack": "node",
+     "technique": "texture-ends-on-an-edge-or-fades",
+     "file": "knowledge/game-production/asset-production/surface-and-imagery/depth-ordered-layered-art/applications/node--texture-ends-on-an-edge-or-fades.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@20.10"
     }
    ]
   },
@@ -10877,6 +10974,7 @@
     "controller-latency-instrumentation/tick-sampled-versus-event-recorded-age",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "depth-ordered-layered-art/texture-ends-on-an-edge-or-fades",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
     "design-canon-as-executable-law/shape-check-vs-content-invariant",
     "design-doc-compliance-scoring/bidirectional-gap-detection",
@@ -11290,6 +11388,7 @@
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "crash-forensics-attribution/weighted-evidence-directory-file-symbol",
     "debt-and-loss-stakes-staging/ledger-after-every-event",
+    "depth-ordered-layered-art/measured-draw-order",
     "design-canon-as-executable-law/archetype-aware-envelopes",
     "design-canon-as-executable-law/parse-thresholds-from-prose",
     "design-doc-compliance-scoring/coverage-vs-conformance-split",
@@ -11482,6 +11581,7 @@
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "depth-ordered-layered-art/the-record-must-cover-the-drawing",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
     "drawn-gesture-command-recognition/held-out-cross-user-acceptance",
@@ -11556,6 +11656,8 @@
     "controller-latency-instrumentation/optical-flash-frame-count-protocol",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
     "debt-and-loss-stakes-staging/survive-the-lean-stretch",
+    "depth-ordered-layered-art/order-across-every-reachable-pose",
+    "depth-ordered-layered-art/texture-ends-on-an-edge-or-fades",
     "design-canon-as-executable-law/shape-check-vs-content-invariant",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
     "difficulty-design-and-adaptation/equal-skill-straight-time-loss",
@@ -11727,6 +11829,8 @@
     "controller-latency-instrumentation/exact-window-plus-histogram-quantiles",
     "controller-latency-instrumentation/tick-sampled-versus-event-recorded-age",
     "controller-latency-instrumentation/window-percentiles-are-not-poolable",
+    "depth-ordered-layered-art/order-across-every-reachable-pose",
+    "depth-ordered-layered-art/the-record-must-cover-the-drawing",
     "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
     "drawn-gesture-command-recognition/pen-down-stroke-segmentation",
     "encounter-balance-simulation/distinct-hash-seed-diversity-alarm",

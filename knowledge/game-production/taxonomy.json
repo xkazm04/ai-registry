@@ -68,7 +68,8 @@
             "shader-budget-authoring",
             "sprite-and-atlas-production",
             "tiling-texture-acceptance",
-            "imported-material-conformance"
+            "imported-material-conformance",
+            "depth-ordered-layered-art"
           ]
         },
         {
