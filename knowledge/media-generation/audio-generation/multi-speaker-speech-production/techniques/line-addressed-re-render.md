@@ -100,6 +100,19 @@ today's, and the audio looks fresh.
    engine that needs three takes per accepted line costs three renders, and
    the identity check's break count predicts that rate.
 
+## Engines that render a whole exchange in one call
+
+An engine may accept several turns, each with its own voice, as a single
+generation. Its output is one clip, and none of its documents need describe a
+way to replace one turn inside it. Treat the call as the address: group lines
+into calls at scene or beat boundaries (by the script's own structure, not by
+the cap), key the render by the call's whole input, and make the unit of
+staleness the call. A revised line then re-renders its call and the review
+covers that call, which is the scene fallback below adopted by design. Whether
+a single-turn call can stand in for one turn of a grouped call without an
+identity break is the same ten-take check, run on a single-turn render placed
+beside grouped neighbours. If it fails, regroup rather than patch.
+
 ## When not to use it
 
 - **Identity does not hold** (above): re-render the scene.

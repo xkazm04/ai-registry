@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 187,
-  "applications": 96,
+  "applications": 97,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2116,9 +2116,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/multi-speaker-speech-production.md",
-   "digest": "sha256-b2:242c4736c3ed62d8",
-   "revision": 1,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:7bc754e857597539",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "chunk-boundary-continuity",
@@ -2217,6 +2217,13 @@
      "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/applications/node--voice-asset-model-generation-binding.md",
      "verified_on": "2026-09-30",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "process",
+     "technique": "chunk-boundary-continuity",
+     "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/applications/process--chunk-boundary-continuity.md",
+     "verified_on": "2026-10-14",
+     "refresh_by": "2027-01-14"
     }
    ]
   },

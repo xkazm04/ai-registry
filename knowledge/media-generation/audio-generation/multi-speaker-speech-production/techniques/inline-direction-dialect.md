@@ -58,6 +58,11 @@ engine changes**, and the design that makes that survivable.
    A tag on line three does not persist to line four unless the engine's
    documentation says so and the ear confirms it.
 
+Dialect forms also differ **between call types of one engine**: a delivery tag
+that one generation honors is carried in the text of a turn in a multi-voice
+call, while pause forms follow the generation's own rule. Key the compile table
+by call type as well as generation and voice class.
+
 ## Vendor tag-following is a claim
 
 Vendors state that newer generations follow tags more reliably, and that tags

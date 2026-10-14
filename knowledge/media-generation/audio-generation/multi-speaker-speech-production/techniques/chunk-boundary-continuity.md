@@ -62,6 +62,13 @@ model conditions the read on what surrounds it. Three rules:
 Concatenating independently rendered files is not continuity. It is the
 absence of it, and a gap or crossfade cannot restore a shared contour.
 
+A call that renders several voices at once is a different shape from a
+single-voice call: its reliable length can be a fraction of the single-voice
+cap, and its context inputs (preceding and following text, earlier request
+identifiers) may be shorter or fewer than the single-voice ones. Read all of
+these per call type from the current documentation; the cap you pinned for one
+call type is not the cap for the other.
+
 ## Audit the seam, not the chunk
 
 Each chunk can pass every check in isolation and the join still fail, because a
