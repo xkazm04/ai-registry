@@ -70,12 +70,27 @@ settled reports `idled` and that is a result.
    --json` returns expired, at-risk and stack-drift per application, plus which
    bundles have no reporting installation at all (`witness: unknown` is NOT
    `current`). Spot-check the index against one real file before trusting any score.
+   **Volatile facts are a computed input too:** `node scripts/check-currency.mjs
+   --volatile` ranks documents by the platform-set quantities they state (windows,
+   multipliers, prices, thresholds) scaled by time since `verified_on`; `--subject
+   <slug>` lists that subject's facts by line. The clock above exists only on
+   applications and measures age, not whether a fact moved: on 2026-10-14 an unexpired
+   application still said a cache-read price of "~0.1x" that one vendor had since split
+   by model, and a golden path said "63 days" for a window a platform sets at 90. A
+   locator, never a verdict: a high score means read the numbers against sources.
    Judgment gap-thesis pass on the shortlist only.
 2. **Research** - 3-6 lanes per subject. **Counter-evidence is non-optional** and the
    highest-value lane per token in every measured run: actively refute the subject's
    strongest claims; a claim verified-and-left-untouched is a first-class result.
    One **training-data-only** lane runs blind to search results - its job is proving
    convergence (a claim two independent lanes reach earns technique-level placement).
+   **That convergence does not confirm a volatile fact.** A price, window, threshold or
+   default that a vendor sets is exactly what training data holds an old copy of: in a
+   2026-10-14 control pass the blind lane agreed with every figure the web lane refuted,
+   and a "2-3 weeks" geo-test convention was left standing as "training memory agrees,
+   not re-sourced" while the platform's own page said 3-10. A directed run starts from
+   `check-currency.mjs --volatile --subject <slug>`, and a volatile fact is
+   confirmed-untouched only when a page you opened says so.
    **Read the current file before drafting any correction** - golden paths often
    hedge better than techniques, and phantom fixes against a summary are the
    dominant failure mode.
