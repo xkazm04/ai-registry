@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 190,
-  "applications": 115,
+  "applications": 116,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -811,8 +811,8 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/media-generation/narrative-craft/data-video-virality/data-video-virality.md",
-   "digest": "sha256-b2:ed91e7903444131b",
-   "revision": 3,
+   "digest": "sha256-b2:a919e67f58aae209",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -962,6 +962,12 @@
      "technique": "precedent-evidence-gate",
      "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--precedent-evidence-gate.md",
      "verified_on": "2026-10-03"
+    },
+    {
+     "stack": "process",
+     "technique": "recognizable-cast",
+     "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--recognizable-cast.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",
