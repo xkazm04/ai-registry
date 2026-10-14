@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 58,
+  "applications": 59,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -287,8 +287,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/eligibility-analysis.md",
-   "digest": "sha256-b2:038e4cb2993ff664",
-   "revision": 2,
+   "digest": "sha256-b2:965d41bdd32f61c8",
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -400,6 +400,13 @@
      "stack": "node",
      "technique": "award-size-capacity-fit",
      "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/applications/node--award-size-capacity-fit.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "deadline-and-cutoff-evaluation",
+     "file": "knowledge/grant-funding/matching-and-intelligence/eligibility-analysis/applications/node--deadline-and-cutoff-evaluation.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@22"
     },
