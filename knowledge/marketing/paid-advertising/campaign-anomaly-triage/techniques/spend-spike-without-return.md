@@ -61,6 +61,10 @@ only the displayed ones.
 - When cost rose from zero, the relative delta is undefined; treat the campaign
   as newly spending and let the snapshot rules judge it. Never compute a delta
   against a zero base as a percentage.
+- When the diff stores a stand-in for a zero base (a fixed +100% so the row can be
+  sorted), the rule must test the prior cost itself, not the stored delta: a
+  stand-in is not a measured rise, and a rule that reads it fires on every
+  campaign that resumed from a pause.
 - When the prior period is a degraded or sample sync, do not diff; a change
   against illustrative data is not a change.
 - When the spike coincides with a known budget change the manager made, the rule
