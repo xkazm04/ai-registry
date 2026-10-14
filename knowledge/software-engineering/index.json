@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
   "techniques": 1847,
-  "applications": 1269,
+  "applications": 1270,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -22998,9 +22998,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/native-document-format.md",
-   "digest": "sha256-b2:a8dfcdf0eabecaff",
-   "revision": 2,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:1104f28404244275",
+   "revision": 3,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "format-generations-are-declared",
@@ -23093,6 +23093,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "format-is-the-engines-input",
+     "file": "knowledge/software-engineering/integration/acquisition-and-ingest/native-document-format/applications/next--format-is-the-engines-input.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16.3.3"
+    },
     {
      "stack": "rust",
      "technique": "format-generations-are-declared",
