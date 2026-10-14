@@ -142,9 +142,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/economics-and-governance/billing-revenue-normalization/billing-revenue-normalization.md",
-   "digest": "sha256-b2:6c728b0d6ba9bcf6",
-   "revision": 3,
-   "changedAt": "2026-09-11",
+   "digest": "sha256-b2:bd89fb77ab4250c9",
+   "revision": 4,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "contract-version-is-provenance",
