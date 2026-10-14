@@ -88,6 +88,10 @@ measured is a wish.
 - **When several refinements accumulate, keep each round's prior.** The lineage — brief,
   then each instruction and each resulting artifact — is what lets someone answer "when did
   this number become that" without guessing.
+- **When the comparison enumerates fields, include the ones the instruction told the
+  author to preserve.** Identity and prose (name, label, description) are the fields a model
+  rewrites most readily and a numeric-and-code diff cannot see; a diff that omits them
+  reports "identical" for a refinement that rephrased the artifact.
 - **When the author cannot see the prior artifact, do not call it refinement.** A mode
   named for a guarantee it cannot provide is worse than no mode.
 
