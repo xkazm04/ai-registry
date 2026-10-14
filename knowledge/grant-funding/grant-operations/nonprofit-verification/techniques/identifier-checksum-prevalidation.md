@@ -75,6 +75,10 @@ feedback instead of a network round trip.
 - **When a batch import hits checksum failures, quarantine those rows for
   human correction rather than dropping or best-guessing them, because**
   an honest "these 14 ids look mistyped" beats fourteen silent absences.
+- **When an input form and a verification adapter both normalize the same identifier,
+  give them one shared normalizer, because** a form that tolerates separators the
+  adapter does not strip accepts an id and then reports it as a typo offline, which
+  sends a user with a correct number back to their paperwork.
 - **When the same identifier arrives repeatedly in different formatting,
   suspect the normalizer before the registry, because** most "flaky
   verification" reports trace to string-unequal equal ids.

@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 50,
+  "applications": 51,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -1446,8 +1446,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/nonprofit-verification.md",
-   "digest": "sha256-b2:a2d0b78d8b935da8",
-   "revision": 2,
+   "digest": "sha256-b2:c86ddeeb343afef0",
+   "revision": 3,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -1548,6 +1548,13 @@
      "stack": "node",
      "technique": "graceful-source-degradation",
      "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--graceful-source-degradation.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "identifier-checksum-prevalidation",
+     "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--identifier-checksum-prevalidation.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
