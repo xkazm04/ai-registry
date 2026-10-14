@@ -99,6 +99,19 @@ arrangements break multiplication), and the published ownership-data
 standards keep "ownership" and "control" as separate interest types for
 exactly this reason.
 
+## A bounded walk files "private" only on a recorded terminal
+
+A private-law legal form on the last owner reached is not an end of the chain:
+state groups hold their subsidiaries through ordinary private-form companies.
+When the walk stops at its depth or fetch bound, the verdict for the entity is
+"unknown", still counted as attributable, until some hop reached a non-public
+end (natural persons, or an owner the allowlist knows to be private) and that
+end is recorded on the edge. Parent legal form alone is a classification of the
+parent, not of the chain. Reading the register also means reading the owner
+entries that carry neither a legal-person nor a natural-person shape (a text
+entry naming a state): skipping them by shape reads the same absence as
+"no owner".
+
 ## When not to use it
 
 Do not walk chains for entities whose class makes the walk meaningless —

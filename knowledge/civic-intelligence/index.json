@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 46,
+  "applications": 47,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -136,9 +136,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/beneficial-ownership-resolution.md",
-   "digest": "sha256-b2:7e6f371ff7c462a5",
-   "revision": 5,
-   "changedAt": "2026-10-13",
+   "digest": "sha256-b2:2afd423130a1bd5d",
+   "revision": 6,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "identifier-checksum-validation",
@@ -239,6 +239,13 @@
      "technique": "officer-record-reading",
      "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/applications/node--officer-record-reading.md",
      "verified_on": "2026-10-13",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "ownership-chain-traversal",
+     "file": "knowledge/civic-intelligence/public-money/beneficial-ownership-resolution/applications/node--ownership-chain-traversal.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
