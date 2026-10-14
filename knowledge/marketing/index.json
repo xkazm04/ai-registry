@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 95,
+  "applications": 96,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -3179,9 +3179,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/search-term-mining/search-term-mining.md",
-   "digest": "sha256-b2:0904ace063044219",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:1621d4afd9f6763b",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "campaign-level-phrase-negative",
@@ -3268,6 +3268,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "campaign-level-phrase-negative",
+     "file": "knowledge/marketing/paid-advertising/search-term-mining/applications/node--campaign-level-phrase-negative.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "never-mine-demo-data",
