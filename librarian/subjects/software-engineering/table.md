@@ -100,3 +100,8 @@ not authorize a technique on its own.
   it. The rule ("name any implicit order a stable sort was carrying before appending
   identity") owes the ECMAScript/MDN stability text, and the politicas commits
   `26d695a`/`22f03d6` are unverified.
+
+- **Impact evaluation, 2026-10-14 (grid-keyboard-model).** impact-null (1 of 2): blind A/B in a
+  consuming project, 4/5 vs 4/5. The pre-landing corpus already produced the grid design;
+  the landing's distinct contribution (no wrap at row edges) showed in one arm only. Ledger:
+  `librarian/harvest/evaluations.md`.
