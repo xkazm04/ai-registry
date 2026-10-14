@@ -3,7 +3,12 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { summarize, encode, shellKind, toolKind, PHASE } from '../lib/process-sessions.mjs';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import { summarize, summarizeFile, cwdsIn, encode, shellKind, toolKind, PHASE } from '../lib/process-sessions.mjs';
 
 const at = (s) => `2026-09-20T10:00:${String(s).padStart(2, '0')}.000Z`;
 const user = (s, text, extra = {}) => JSON.stringify({ type: 'user', timestamp: at(s), cwd: 'C:\\kiro\\app', entrypoint: 'cli', message: { content: text }, ...extra });
@@ -63,4 +68,144 @@ test('shell and tool kinds', () => {
   assert.equal(shellKind('git status'), 'git');
   assert.equal(toolKind('mcp__claude-in-chrome__navigate'), 'browser');
   assert.equal(PHASE.commit, 'ship');
+});
+
+// ---- discovery and attribution: read every folder, attribute by the records' cwd ----
+
+const rec = (s, cwd, extra = {}) => JSON.stringify({ type: 'assistant', timestamp: at(s), cwd, message: { content: [{ type: 'tool_use', id: `r${s}`, name: 'Read', input: {} }] }, ...extra });
+// a fixture fleet: C:\kiro\other is a checkout, C:\t\wt-* a worktree of `app`, C:\own a repo outside the fleet
+const projectOfB = (cwd) => (cwd.toLowerCase().startsWith('c:\\kiro\\other') ? 'other' : null);
+const placeOfB = (cwd) => {
+  const l = cwd.toLowerCase();
+  if (l.startsWith('c:\\t\\wt')) return { slug: 'app', via: 'worktree' };
+  if (l.startsWith('c:\\own')) return { repo: 'c:\\own\\.git' };
+  return null;
+};
+const fileOf = (cwds) => cwds.map((c, i) => rec(i, c));
+
+test('a session launched in a checkout keeps the old rule\'s answer, whatever it visits later', () => {
+  const lines = fileOf(['C:\\kiro\\other\\src', 'C:\\t\\wt-1', 'C:\\t\\wt-1', 'C:\\own', 'C:\\own']);
+  const r = summarizeFile(lines, { projectOf: projectOfB, placeOf: placeOfB, id: 'a' });
+  assert.equal(r.session.project, 'other');
+  assert.equal(r.via, 'checkout');
+  assert.equal(r.session.project, summarize(lines, { projectOf: projectOfB, id: 'a' }).project, 'positive control: the old entry point agrees');
+});
+
+test('a session launched in a fleet worktree is that repo\'s, and the old entry point never saw it', () => {
+  const lines = fileOf(['C:\\t\\wt-2', 'C:\\t\\wt-2', 'C:\\kiro\\other']);
+  const r = summarizeFile(lines, { projectOf: projectOfB, placeOf: placeOfB, id: 'b' });
+  assert.deepEqual([r.disp, r.via, r.session.project, r.session.wt], ['read', 'worktree', 'app', 1]);
+  assert.equal(summarize(fileOf(['C:\\t\\wt-2']), { projectOf: projectOfB, id: 'b' }), null);
+  assert.equal(summarizeFile(fileOf(['C:\\t\\wt-2']), { projectOf: projectOfB, id: 'b' }).disp, 'outside-fleet');
+});
+
+test('launched outside the fleet: the records vote, and a repo outside the fleet can outvote', () => {
+  const p = { projectOf: projectOfB, placeOf: placeOfB, id: 'v' };
+  // launched in the home folder (no repository), then works in a checkout
+  const home = summarizeFile(fileOf(['C:\\Users\\me', 'C:\\Users\\me', 'C:\\Users\\me', 'C:\\kiro\\other', 'C:\\kiro\\other']), p);
+  assert.deepEqual([home.disp, home.via, home.session.project], ['read', 'vote', 'other']);
+  // a run in its own repo that reads one fleet file is not fleet work - the old rule took it
+  const visit = fileOf(['C:\\own', 'C:\\own', 'C:\\own', 'C:\\kiro\\other\\skills']);
+  assert.equal(summarizeFile(visit, p).disp, 'outside-fleet');
+  assert.equal(summarize(visit, { projectOf: projectOfB, id: 'v' }).project, 'other', 'positive control: the old rule attributes it');
+  // ties go to the first seen
+  assert.equal(summarizeFile(fileOf(['C:\\own', 'C:\\own', 'C:\\kiro\\other', 'C:\\kiro\\other']), p).disp, 'outside-fleet');
+  assert.equal(summarizeFile(fileOf(['C:\\x', 'C:\\kiro\\other', 'C:\\kiro\\other', 'C:\\own', 'C:\\own']), p).session.project, 'other');
+});
+
+test('every transcript gets exactly one disposition', () => {
+  const p = { projectOf, id: 'd' };
+  assert.equal(summarizeFile([], p).disp, 'empty');
+  assert.equal(summarizeFile([''], p).disp, 'empty');
+  assert.equal(summarizeFile([JSON.stringify({ type: 'summary', summary: 'x' })], p).disp, 'empty');
+  assert.equal(summarizeFile(['{not json', 'garbage'], p).disp, 'unparseable');
+  assert.equal(summarizeFile([rec(0, 'D:\\elsewhere')], p).disp, 'outside-fleet');
+  assert.equal(summarizeFile([user(0, 'hi')], p).disp, 'read');
+  // a sidechain cwd does not attribute (as before)
+  assert.equal(summarizeFile([rec(0, 'C:\\kiro\\app', { isSidechain: true })], p).disp, 'empty');
+});
+
+test('cwdsIn reads every distinct cwd in order without parsing records, escapes intact', () => {
+  const buf = Buffer.from([
+    JSON.stringify({ cwd: 'C:\\a "q"\\b', x: 1 }),
+    JSON.stringify({ cwd: 'C:\\kiro\\app', message: { content: 'text mentioning "cwd":"C:\\fake" inline' } }),
+    JSON.stringify({ cwd: 'C:\\a "q"\\b' }),
+    '{"cwd":"C:\\\\x\\\\', // a cut-off line yields nothing
+  ].join('\n'));
+  assert.deepEqual(cwdsIn(buf), ['C:\\a "q"\\b', 'C:\\kiro\\app']);
+  assert.deepEqual(cwdsIn(Buffer.from('')), []);
+});
+
+// The script end to end, on a fixture store: discovery reads every folder, attribution comes
+// from the records' cwd, every transcript gets a disposition, and nothing path-like is kept.
+const SCRIPT = fileURLToPath(new URL('../process-sessions.mjs', import.meta.url));
+const ROOT = path.resolve(path.dirname(SCRIPT), '..');
+const commonDir = (() => {
+  const g = path.join(ROOT, '.git');
+  if (fs.statSync(g).isDirectory()) return g;
+  const gitdir = path.resolve(ROOT, fs.readFileSync(g, 'utf8').match(/gitdir:\s*(.+)/)[1].trim());
+  const cd = path.join(gitdir, 'commondir');
+  return fs.existsSync(cd) ? path.resolve(gitdir, fs.readFileSync(cd, 'utf8').trim()) : gitdir;
+})();
+const origin = (fs.readFileSync(path.join(commonDir, 'config'), 'utf8').match(/\[remote "origin"\][^[]*?\burl\s*=\s*(\S+)/) || [])[1];
+
+test('the script reads every folder and accounts for every transcript', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ps-disc-'));
+  try {
+    const store = path.join(tmp, 'projects');
+    // a pruned worktree whose directory survives: a .git FILE pointing into the registry's git dir
+    const linked = path.join(tmp, 'linked'); fs.mkdirSync(linked);
+    fs.writeFileSync(path.join(linked, '.git'), `gitdir: ${path.join(commonDir, 'worktrees', 'gone-xyz')}\n`);
+    // a clone of the registry (same origin), and a repo that is not fleet
+    const clone = path.join(tmp, 'clone'); fs.mkdirSync(path.join(clone, '.git'), { recursive: true });
+    fs.writeFileSync(path.join(clone, '.git', 'config'), `[remote "origin"]\n\turl = ${origin ?? 'https://example.invalid/none'}\n`);
+    const foreign = path.join(tmp, 'foreign'); fs.mkdirSync(path.join(foreign, '.git'), { recursive: true });
+    fs.writeFileSync(path.join(foreign, '.git', 'config'), '[remote "origin"]\n\turl = https://example.invalid/not-fleet.git\n');
+    const work = (cwd, s0 = 0) => [user(s0, 'SECRET PROMPT', { cwd }), rec(s0 + 1, cwd), rec(s0 + 2, cwd), rec(s0 + 3, cwd)].join('\n');
+    const put = (dir, name, body, old = true) => {
+      fs.mkdirSync(path.join(store, dir), { recursive: true });
+      const f = path.join(store, dir, `${name}.jsonl`);
+      fs.writeFileSync(f, body);
+      if (old) { const t = new Date(Date.now() - 3600e3); fs.utimesSync(f, t, t); }
+    };
+    put('C--elsewhere', '11111111-in-checkout', work(path.join(ROOT, 'scripts')));
+    put('C--Users-home', '22222222-launched-home', [rec(0, 'C:\\Users\\home'), work(path.join(ROOT, 'docs'), 1)].join('\n'));
+    put('C--tmp-linked', '33333333-git-link', work(linked));
+    put('C--tmp-clone', '44444444-clone', work(path.join(clone, 'src')));
+    put('C--tmp-foreign', '55555555-foreign', [work(foreign), rec(9, path.join(ROOT, 'skills'))].join('\n'));
+    // a vanished temp dir (never created here) holds most of the work: not provably fleet work
+    put('C--tmp-gone', '99999999-vanished', [work(path.join(tmp, 'vanished', 'wt')), rec(9, path.join(ROOT, 'skills'))].join('\n'));
+    put('C--tmp-foreign', '66666666-empty', '');
+    put('C--tmp-foreign', '77777777-garbage', 'not json\n{also not');
+    put('C--tmp-live', '88888888-live', work(path.join(ROOT, 'scripts')), false);
+    const cache = path.join(tmp, 'cache.json');
+    const run = () => JSON.parse(execFileSync(process.execPath, [SCRIPT, '--json', '--min-work', '1', '--claude-projects', store, '--cache', cache], { encoding: 'utf8' }));
+    const out = run();
+    const d = out.source.dispositions;
+    assert.equal(out.source.scanned, 9);
+    assert.equal(Object.values(d).reduce((a, b) => a + b, 0), out.source.scanned, 'dispositions account for every transcript');
+    assert.deepEqual(d, { read: origin ? 4 : 3, 'outside-fleet': origin ? 2 : 3, empty: 1, unparseable: 1, 'in-flight': 1 });
+    const ids = Object.fromEntries(out.sessions.map((s) => [s.id, s.project]));
+    assert.equal(ids['11111111'], 'ai-registry');
+    assert.equal(ids['22222222'], 'ai-registry', 'launched elsewhere, cwd later inside the checkout');
+    assert.equal(ids['33333333'], 'ai-registry', 'a .git file into the registry git dir');
+    if (origin) assert.equal(ids['44444444'], 'ai-registry', 'a clone with the registry origin');
+    assert.equal(ids['55555555'], undefined, 'a run in a non-fleet repo that visits the registry once is not registry work');
+    assert.equal(ids['99999999'], undefined, 'work in a vanished directory outvotes one registry visit');
+    assert.equal(ids['88888888'], 'ai-registry', 'an in-flight session is read and shown');
+    // structure only: no prompt text and no path in the output or the cache
+    for (const blob of [JSON.stringify(out), fs.readFileSync(cache, 'utf8')]) {
+      for (const leak of ['SECRET', path.basename(tmp), 'Users\\\\home']) assert.ok(!blob.includes(leak), `leaked ${leak}`);
+    }
+    // warm: nothing parsed again, same answer; the cache outlives the transcript
+    const warm = run();
+    assert.equal(warm.source.parsed, 0);
+    assert.deepEqual(warm.source.dispositions, d);
+    fs.rmSync(path.join(store, 'C--elsewhere'), { recursive: true });
+    const rolled = run();
+    assert.equal(rolled.source.scanned, 8);
+    assert.ok(rolled.sessions.some((s) => s.id === '11111111'), 'a rolled-off transcript stays remembered');
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
 });
