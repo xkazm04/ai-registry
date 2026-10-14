@@ -101,6 +101,12 @@ enforcing — the catalog's settled choice wins and the ruling is recorded, per
   mechanical to detect, but each candidate needs a judgment ruling — most
   doubles are legitimate sense distinctions (execution vs run as different
   source concepts), and a scripted merge destroys them.
+- A sentence that is mostly Latin words with Arabic termbase words inside it
+  (three or more consecutive Latin words) is not a terminology finding: it is
+  an untranslated source that a glossary pass half-rewrote, and the coverage
+  gate counts it as translated. Retranslate the whole string rather than
+  patching the substituted words. Detect it by counting Latin runs of four or
+  more words in an ar string that differs from its English source.
 
 ## When NOT to apply
 

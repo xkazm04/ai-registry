@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 66,
+  "applications": 67,
   "laws": 8,
   "categories": [
    "european",
@@ -24,8 +24,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/right-to-left/arabic/arabic.md",
-   "digest": "sha256-b2:833ef30c1389aa67",
-   "revision": 7,
+   "digest": "sha256-b2:2a269b007892f799",
+   "revision": 8,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -131,6 +131,12 @@
      "technique": "register-and-address",
      "file": "knowledge/localization/right-to-left/arabic/applications/process--register-and-address.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "terminology-and-loanwords",
+     "file": "knowledge/localization/right-to-left/arabic/applications/process--terminology-and-loanwords.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "spec",
