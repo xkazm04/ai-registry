@@ -64,6 +64,11 @@ make it structurally impossible for a fallback to resolve to advance or reject.
   though: the deterministic answer must itself pass the shield and the route narrowing,
   and where no such answer exists the default returns to hold. Never let a caller supply
   an arbitrary fallback — that is how advance gets in through the back door.
+  The template's *advance* is the exception to the preference: it is a score band, not a
+  verdict the model gave, and filling it into a reply whose verdict was unreadable lets it
+  ride the model's own confidence and source label into whatever acts unattended on "the
+  model's advance". Take the deterministic hold or reject (both still pass the gates);
+  turn the template's advance into hold.
 - **When the fallback would be advance, you have inverted the asymmetry.** A wrongly-held
   candidate costs one review; a wrongly-advanced candidate costs an interview slot and
   gives a hiring manager a candidate the system never actually endorsed. A wrongly-
