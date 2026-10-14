@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 302,
+  "applications": 303,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -212,9 +212,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/ability-authoring-to-engine.md",
-   "digest": "sha256-b2:1b5128a8a3cb939d",
-   "revision": 4,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:31ac1088907a5e8a",
+   "revision": 5,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "declared-vs-referenced-tag-audit",
@@ -301,6 +301,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "refinement-mode-minimal-diff",
+     "file": "knowledge/game-production/production-governance/ability-authoring-to-engine/applications/next--refinement-mode-minimal-diff.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "next@16"
+    },
     {
      "stack": "node",
      "technique": "declared-vs-referenced-tag-audit",
