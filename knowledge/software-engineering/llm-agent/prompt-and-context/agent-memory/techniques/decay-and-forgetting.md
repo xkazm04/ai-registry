@@ -499,6 +499,14 @@ store with one forget verb cannot express both:
   would let the next cycle re-derive the same fact under slightly different
   wording, which is the silent relearn the bar exists to prevent. It records
   what was forgotten for the audit trail and is never matched against.
+  A value-keyed bar fails in the other direction as well, and a store that
+  matches on text anyway shows it: a word-overlap block at a high threshold also
+  matches the item's **negation**, because "mock the client" and "never mock the
+  client" share nearly every word, so forgetting one bars its opposite. The
+  polarity check a merge door runs before a duplicate verdict
+  ([consolidation](./consolidation.md)) is usually written for that door alone and
+  is absent from the block's path, so a bar that has to match text runs the same
+  check, or keys on the key as above.
 
 Two stores in one tree converged on this shape independently, and both chose
 the same lifting rule, which is the part worth taking: **the bar is lifted

@@ -34,6 +34,7 @@ techniques:
   - stale-served-versus-stale-answered
   - filter-at-the-id-door
   - container-carries-decision-status
+  - exposure-is-not-credit
 ---
 
 # Agent memory
@@ -495,6 +496,14 @@ where material crosses into context. Written for value-model hygiene; it is the
 same edge. A learned store that discards provenance has not shed overhead, it
 has capped what it can learn.
 
+The edge is the substrate, not the estimator. Its cheapest reading, the run's
+outcome copied onto every item in the selected set, is the wrong one: at the
+success rates agents run at, it reproduces the delivery count with a sign on it,
+and on a replayed year it ranked items by how often they were shown, not by
+whether they ever carried an answer. Credit needs a channel that names the item -
+a contrast, deliberate use, or a propensity weight - and silence stays neutral
+([exposure-is-not-credit](./techniques/exposure-is-not-credit.md)).
+
 **Two: the history outgrows its budget.** The whole pipeline is an answer to
 material that will not fit and beliefs that must be correctable. Below that
 point it is overhead, and the raw record in context is the incumbent it has to
@@ -634,3 +643,8 @@ comparison a stated result instead of an unexamined premise.
   what a consolidation pass may write as state: a hedge inside a sentence survives
   extraction, but a planning bullet carries its status only in its container, so admit
   by a lifecycle field where one exists and state the container rule where none does.
+- [exposure-is-not-credit](./techniques/exposure-is-not-credit.md) - learning from
+  outcomes: a run's verdict copied onto every delivered item ranks by exposure, guards
+  on blame do not repair the unit, credit flows only through a channel that names the
+  item, blame through use misfires where the item was right and the read or the grade
+  was wrong, and silence is neutral.
