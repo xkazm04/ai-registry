@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 112,
+  "applications": 113,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -986,9 +986,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/client-reporting-and-data-provenance/client-reporting-and-data-provenance.md",
-   "digest": "sha256-b2:8ab0a5e98ab28224",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:fe885254bb5f67e0",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "live-means-synced-rows",
@@ -1080,6 +1080,13 @@
      "technique": "live-means-synced-rows",
      "file": "knowledge/marketing/measurement-and-economics/client-reporting-and-data-provenance/applications/node--live-means-synced-rows.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "lower-is-better-inverts-verdict-not-number",
+     "file": "knowledge/marketing/measurement-and-economics/client-reporting-and-data-provenance/applications/node--lower-is-better-inverts-verdict-not-number.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
