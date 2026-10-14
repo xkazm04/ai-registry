@@ -87,6 +87,11 @@ is not a wasted draft; it is the only feedback the doctrine gets.
   send-ready ([a gate before money and copy](../../../_laws.md#a-gate-before-money-and-copy)).
 - When the qualification is known, instruct the model explicitly to ask only what is
   still unknown, because a generic "ask 1-3 questions" instruction re-asks.
+- When a deterministic canned reply sits beside the model path (a demo floor, a suggested
+  inbox text), hold it to rules 1 and 3 too, because the human who sends it after a glance
+  reads its first sentence exactly as a customer would, and a keyword template that opens
+  with thanks, or defaults an absent name to a filler word, breaks the doctrine on the one
+  path nobody prompts.
 
 ## When not to use this
 
