@@ -36,7 +36,10 @@ profit gain is the full amount, because profit on that spend was minus the spend
    out of scope so that a downstream apply path expecting only shifts is never
    handed a pause it cannot execute; the surfaces that can execute a pause opt in.
 2. **Rank** them with the same waste metric as every donor: cost times one minus
-   zero, the full cost. They out-rank every partial donor without a special case.
+   zero, the full cost. That out-ranks a partial donor only at equal spend: a large
+   partial donor can waste more than a small burner's whole cost. So **consider every
+   admitted pause before any shift** when a move cap applies, and let the emitted list
+   keep whatever order its consumers already read.
 3. **Emit** a pause move with the donor's full period spend as its amount, both
    ratios at zero, no recipient, value gain zero, profit gain equal to the amount
    when a margin is present.
@@ -50,6 +53,10 @@ profit gain is the full amount, because profit on that spend was minus the spend
 - When cost is at or above the noise floor and the unrounded conversion count is
   zero, recommend a pause, not a shift, because a fraction of nothing is still
   nothing and the remainder keeps burning.
+- When the return is zero but the conversion count is not (conversions reported with
+  no value), the row is not a burner and not a zero-ratio donor either: its value side
+  is unmeasured, so neither pause nor shift is computed from it. Test the count, not
+  the ratio, so the recommender and the triage rule name the same campaigns.
 - When a burner is inside the noise floor, do nothing yet, because the floor exists
   to keep a two-day-old campaign from being paused on its first hundred units of
   spend; that floor is a convention and is labelled as one.
