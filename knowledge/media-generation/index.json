@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 26,
   "techniques": 190,
-  "applications": 106,
+  "applications": 107,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -401,8 +401,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/creator-voice-and-tone.md",
-   "digest": "sha256-b2:38392204a3c7239c",
-   "revision": 3,
+   "digest": "sha256-b2:705a6b4ef4672901",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -493,6 +493,12 @@
      "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/applications/next--delivery-rate-budgeting.md",
      "verified_on": "2026-10-14",
      "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "process",
+     "technique": "dial-vs-subject-property",
+     "file": "knowledge/media-generation/narrative-craft/creator-voice-and-tone/applications/process--dial-vs-subject-property.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",
