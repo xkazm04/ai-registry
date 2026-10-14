@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 60,
+  "applications": 61,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -693,9 +693,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index/funder-intelligence-index.md",
-   "digest": "sha256-b2:0bb1b4772365c9ef",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:2f706a1a6b2de40a",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "award-rate-by-revenue-bracket",
@@ -782,6 +782,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "consent-scoped-contribution",
+     "file": "knowledge/grant-funding/matching-and-intelligence/funder-intelligence-index/applications/node--consent-scoped-contribution.md",
+     "verified_on": "2026-10-14"
+    },
     {
      "stack": "node",
      "technique": "k-anonymity-suppression",

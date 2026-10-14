@@ -94,3 +94,14 @@ terms and no contributor to protect. Mixing regimes is the thing to avoid:
 when a display blends contributor-derived aggregates with public-source
 figures, each row's provenance note says which it is, because the reader's
 trust model — and the legal posture — differs between them.
+
+## Decision rule: enumerate the readers of the raw store, not the filter
+
+"The filter has one implementation" is only true if every consumer of the
+raw outcome rows goes through it, and derived tables are the ones that
+escape: a calibration table, a ranking prior or a cached rollup is not
+thought of as "the index" and reads the same rows directly. When adding or
+auditing a consent filter, list the callers of the unfiltered read itself.
+Any caller that is not the filter is a pooling path with no consent check;
+export the filter and route it through, and pin it with a test in which one
+of three organizations is non-consenting and the derived output counts two.
