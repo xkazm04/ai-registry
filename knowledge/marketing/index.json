@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 91,
+  "applications": 92,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -1712,9 +1712,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/lead-quality-and-source-diagnosis.md",
-   "digest": "sha256-b2:d1c9ced278f50d7a",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:24365f04c5e856e8",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "cause-taxonomy-spam-mistargeting-pricing-volume",
@@ -1812,6 +1812,13 @@
      "technique": "cause-taxonomy-spam-mistargeting-pricing-volume",
      "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/applications/node--cause-taxonomy-spam-mistargeting-pricing-volume.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "cheap-cpl-splits-spam-from-mistargeting",
+     "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/applications/node--cheap-cpl-splits-spam-from-mistargeting--peers-and-prior.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
     {
