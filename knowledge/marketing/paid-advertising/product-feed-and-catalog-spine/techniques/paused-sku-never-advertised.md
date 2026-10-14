@@ -48,6 +48,7 @@ prevent.
 
 ## Decision rules
 
+- When a consumer takes a narrow row shape (a name and a category) so it can be tested in isolation, the pause flag must still ride in that shape and be filtered inside the consumer's own input builder. A narrow shape with no slot for the flag makes the filter every caller's job, and a builder that feeds a generation prompt is exactly the consumer whose author never learns the flag exists. Filtering in the one builder all callers share beats filtering at each call site.
 - When a consumer needs to show paused items - the catalog manager itself - it reads
   the model, not the adapter, because the adapter's whole contract is that nothing
   paused passes through it.
