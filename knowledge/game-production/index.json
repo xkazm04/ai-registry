@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 81,
-  "techniques": 537,
-  "applications": 295,
+  "subjects": 82,
+  "techniques": 542,
+  "applications": 297,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "537/537",
+  "use_when_coverage": "542/542",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -8305,6 +8305,102 @@
     }
    ]
   },
+  "rigid-body-simulation-stability": {
+   "category": "engine-integration",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/engine-integration/rigid-body-simulation-stability/rigid-body-simulation-stability.md",
+   "digest": "sha256-b2:6eb09f312d5bd430",
+   "revision": 1,
+   "changedAt": "2026-10-14",
+   "techniques": [
+    {
+     "slug": "bound-actuation-by-the-lightest-coupled-body",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting a drive's maximum force or a joint's maximum velocity",
+      "a light link that is thrown by a heavy one",
+      "large mass or inertia ratios across a joint or a contact",
+      "a hand-written correction term that overshoots into reversal"
+     ]
+    },
+    {
+     "slug": "filter-the-pair-after-proving-the-class",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a jointed mechanism that is unstable only when it folds on itself",
+      "non-adjacent links interpenetrating",
+      "deciding whether to disable self-collision",
+      "a filter that did nothing"
+     ]
+    },
+    {
+     "slug": "instability-triage-by-stiffness-source",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a simulation is unstable and several tuning guides disagree about which lever comes first",
+      "deciding between a shorter step and more solver iterations",
+      "a mechanism that jitters or penetrates after a change",
+      "an instability that appears only sometimes"
+     ]
+    },
+    {
+     "slug": "replicated-environments-share-unbounded-geometry",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "cloning one scene many times to train or test in parallel",
+      "contact cost that grows faster than the copy count",
+      "a profile that blames the solver for a scene whose individual copies are cheap"
+     ]
+    },
+    {
+     "slug": "spring-by-frequency-and-damping-ratio",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "authoring or reviewing a spring",
+      "drive or compliant joint",
+      "a gain copied from one joint to another",
+      "a mechanism that stopped exploding but got weaker",
+      "choosing a fixed or a variable step for a hand-written integrator"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "spring-by-frequency-and-damping-ratio",
+     "file": "knowledge/game-production/engine-integration/rigid-body-simulation-stability/applications/kotlin--spring-by-frequency-and-damping-ratio.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "spring-by-frequency-and-damping-ratio",
+     "file": "knowledge/game-production/engine-integration/rigid-body-simulation-stability/applications/process--spring-by-frequency-and-damping-ratio.md",
+     "verified_on": "2026-10-14"
+    }
+   ]
+  },
   "rival-to-ally-turn": {
    "category": "narrative-and-dialogue",
    "subcategory": "cast-and-relationships",
@@ -10922,6 +11018,7 @@
     "regeneration-vs-repair-economics/reroll-economics-per-credit",
     "regeneration-vs-repair-economics/score-basis-must-be-stated",
     "render-submission-economy/cost-per-effect-before-effect-count",
+    "rigid-body-simulation-stability/instability-triage-by-stiffness-source",
     "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
     "runtime-observation-evidence/deterministic-headless-timestep",
     "runtime-observation-evidence/tiers-of-truth",
@@ -11106,6 +11203,7 @@
     "render-submission-economy/prepare-off-the-render-thread-commit-on-it",
     "render-submission-economy/retain-what-did-not-change",
     "render-submission-economy/spread-periodic-render-thread-bursts",
+    "rigid-body-simulation-stability/bound-actuation-by-the-lightest-coupled-body",
     "runtime-observation-evidence/observation-spine-contract",
     "shader-budget-authoring/channel-packing",
     "shader-budget-authoring/hardware-tier-lighting-presets",
@@ -11321,6 +11419,8 @@
     "render-submission-economy/residency-budget-checked-before-decode",
     "render-submission-economy/retain-what-did-not-change",
     "render-submission-economy/spread-periodic-render-thread-bursts",
+    "rigid-body-simulation-stability/bound-actuation-by-the-lightest-coupled-body",
+    "rigid-body-simulation-stability/spring-by-frequency-and-damping-ratio",
     "runtime-observation-evidence/behavioural-discriminators-over-symbolic-pass",
     "runtime-observation-evidence/bounded-evidence-with-provenance",
     "runtime-observation-evidence/deterministic-headless-timestep",
@@ -11657,6 +11757,8 @@
     "racing-track-authoring-and-lint/mutate-good-track-to-prove-linter",
     "render-submission-economy/batch-by-page-where-order-is-invisible",
     "render-submission-economy/cull-before-submission",
+    "rigid-body-simulation-stability/filter-the-pair-after-proving-the-class",
+    "rigid-body-simulation-stability/replicated-environments-share-unbounded-geometry",
     "speech-synthesis-script-writing/hesitation-marks-can-silence-a-line",
     "sprite-and-atlas-production/autotile-rule-set-completeness",
     "steering-feel-profile-shaping/five-profile-trace-bands",
