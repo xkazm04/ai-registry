@@ -1,0 +1,77 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-dockeragent-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T12:00:00Z",
+  "ended_at": "2026-10-14T14:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/cost-metering",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/hitl-approval",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "software-engineering/cost-metering",
+      "technique": "one-pot-across-delegation",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "software-engineering/hitl-approval",
+      "technique": "fail-closed-profile-for-headless",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/techniques/one-pot-across-delegation.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/techniques/time-ceilings-count-working-time.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/techniques/housekeeping-calls-obey-the-ceiling.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--one-pot-across-delegation.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--time-ceilings-count-working-time.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--housekeeping-calls-obey-the-ceiling.md",
+    "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/techniques/fail-closed-profile-for-headless.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/techniques/author-advisories-yield-to-the-users-mode.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/go--fail-closed-profile-for-headless.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/go--author-advisories-yield-to-the-users-mode.md",
+    "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "librarian/sources/2026-10-14-docker-docker-agent.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/cost-metering.md",
+    "librarian/subjects/software-engineering/hitl-approval.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "5 techniques landed in cost-metering and hitl-approval; 2 catches; 2 simulation rows, both unmeasurable; nothing shipped to a project."
+}

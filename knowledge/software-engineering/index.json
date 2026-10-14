@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 234,
-  "techniques": 1842,
-  "applications": 1250,
+  "techniques": 1847,
+  "applications": 1255,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1842/1842",
+  "use_when_coverage": "1847/1847",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -8246,9 +8246,9 @@
    "subcategory": "evaluation-and-cost",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/cost-metering.md",
-   "digest": "sha256-b2:b3129728f9d9c336",
-   "revision": 14,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:7247db31eb8f3dce",
+   "revision": 15,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "budget-enforcement",
@@ -8277,6 +8277,36 @@
       "an always-on agent loop bills around the clock while nobody interacts with it",
       "deciding how a self-driven loop slows when it runs out of real work",
       "a loop's cost control must not add latency to the interactions it exists for"
+     ]
+    },
+    {
+     "slug": "housekeeping-calls-obey-the-ceiling",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a context-compaction or summarization call runs inside a budgeted session",
+      "an exhausted ceiling meeting a call the session needs in order to continue",
+      "a nested run that emits its own stop signal",
+      "deciding whether skipping a housekeeping step is a failure"
+     ]
+    },
+    {
+     "slug": "one-pot-across-delegation",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "limits-are-derived"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent delegates to sub-agents that each run their own loop",
+      "a per-run ceiling that a fan-out could multiply",
+      "naming a ceiling that several actors reference",
+      "a nested run started to do housekeeping for its parent"
      ]
     },
     {
@@ -8353,6 +8383,21 @@
      ]
     },
     {
+     "slug": "time-ceilings-count-working-time",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a time ceiling to an interactive agent session",
+      "a duration limit that trips while the user is reading",
+      "deciding what a session clock measures",
+      "a ceiling that overshoots by one in-flight call"
+     ]
+    },
+    {
      "slug": "unit-classes-are-open",
      "status": "forged",
      "laws": [
@@ -8401,9 +8446,30 @@
    "applications": [
     {
      "stack": "go",
+     "technique": "housekeeping-calls-obey-the-ceiling",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--housekeeping-calls-obey-the-ceiling.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "one-pot-across-delegation",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--one-pot-across-delegation.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
      "technique": "spend-attribution",
      "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--spend-attribution.md",
      "verified_on": "2026-08-23"
+    },
+    {
+     "stack": "go",
+     "technique": "time-ceilings-count-working-time",
+     "file": "knowledge/software-engineering/llm-agent/evaluation-and-cost/cost-metering/applications/go--time-ceilings-count-working-time.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "go@1.27"
     },
     {
      "stack": "next",
@@ -16556,10 +16622,25 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/hitl-approval.md",
-   "digest": "sha256-b2:bc33acb280c8df96",
-   "revision": 21,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:52d7f3cfb87a79d9",
+   "revision": 22,
+   "changedAt": "2026-10-14",
    "techniques": [
+    {
+     "slug": "author-advisories-yield-to-the-users-mode",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "loading an agent definition written by someone other than the person running it",
+      "merging approval rules from an author file and a user file",
+      "an author-declared default that could loosen or tighten approval",
+      "deciding which side wins when a rule says ask and the user chose an auto-deciding policy"
+     ]
+    },
     {
      "slug": "consent-gates",
      "status": "forged",
@@ -16606,6 +16687,23 @@
       "proving what the decider saw when they said yes",
       "rewriting a verdict instead of superseding it",
       "an agent types into a surface whose own send control the person presses"
+     ]
+    },
+    {
+     "slug": "fail-closed-profile-for-headless",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "unknown-is-not-a-value",
+      "absent-guard-is-loud"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "running an agent with no human to answer prompts",
+      "choosing what an approval gate does when nobody can be asked",
+      "a tool call the classifier cannot label",
+      "an unrecognised policy value in configuration",
+      "a headless run that hangs on a confirmation"
      ]
     },
     {
@@ -16788,6 +16886,20 @@
     }
    ],
    "applications": [
+    {
+     "stack": "go",
+     "technique": "author-advisories-yield-to-the-users-mode",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/go--author-advisories-yield-to-the-users-mode.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "go@1.27"
+    },
+    {
+     "stack": "go",
+     "technique": "fail-closed-profile-for-headless",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/hitl-approval/applications/go--fail-closed-profile-for-headless.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "go@1.27"
+    },
     {
      "stack": "next",
      "technique": "handoff-is-a-declared-door",
@@ -39040,6 +39152,8 @@
     "connector-catalog/schema-driven-forms",
     "connector-catalog/shipped-vs-operator-ownership",
     "cost-metering/budget-enforcement",
+    "cost-metering/housekeeping-calls-obey-the-ceiling",
+    "cost-metering/one-pot-across-delegation",
     "cost-metering/preflight-estimation",
     "cost-metering/unit-classes-are-open",
     "credential-vault/brokered-egress",
@@ -39157,8 +39271,10 @@
     "hash-pinned-translation-pipeline/hash-scope-choice",
     "hash-pinned-translation-pipeline/shape-sync-is-not-content-sync",
     "health-checks/probe-design",
+    "hitl-approval/author-advisories-yield-to-the-users-mode",
     "hitl-approval/consent-gates",
     "hitl-approval/cosmetic-vs-enforced-threshold-invariant",
+    "hitl-approval/fail-closed-profile-for-headless",
     "hitl-approval/fixed-policy-amendable-plan",
     "hitl-approval/gate-state-machines",
     "hitl-approval/handoff-is-a-declared-door",
@@ -39627,6 +39743,7 @@
     "conversation-orchestration/show-dont-tell-walkthrough",
     "conversation-orchestration/structured-visual-replies",
     "cost-metering/engagement-paced-cadence",
+    "cost-metering/housekeeping-calls-obey-the-ceiling",
     "cost-metering/usage-ledgers",
     "credential-vault/acquisition",
     "credential-vault/health-probing",
@@ -40331,6 +40448,7 @@
     "cost-metering/preflight-estimation",
     "cost-metering/spend-attribution",
     "cost-metering/spend-observability",
+    "cost-metering/time-ceilings-count-working-time",
     "cost-metering/unit-classes-are-open",
     "cost-metering/usage-ledgers",
     "cost-metering/whole-prompt-denominator",
@@ -40835,6 +40953,7 @@
     "generated-workflow-candidates/score-keyed-candidate-selection",
     "generated-workflow-candidates/two-tier-data-statistics",
     "hitl-approval/decision-records",
+    "hitl-approval/fail-closed-profile-for-headless",
     "hitl-approval/handoff-is-a-declared-door",
     "hitl-approval/oracle-before-gate",
     "import-normalization/overlay-merge-absence-semantics",
@@ -42028,6 +42147,7 @@
     "hash-pinned-translation-pipeline/drift-classification",
     "hash-pinned-translation-pipeline/emitter-detector-hash-parity",
     "health-checks/three-state-outcomes",
+    "hitl-approval/author-advisories-yield-to-the-users-mode",
     "hitl-approval/cosmetic-vs-enforced-threshold-invariant",
     "hitl-approval/human-performed-steps",
     "hitl-approval/severity-sla-ladder",
@@ -42327,6 +42447,7 @@
     "conversation-orchestration/narration-promote-on-finish",
     "cost-metering/price-tables",
     "cost-metering/spend-observability",
+    "cost-metering/time-ceilings-count-working-time",
     "credential-vault/health-probing",
     "credential-vault/token-refresh-lifecycle",
     "data-access/read-models-and-projections",
@@ -42553,6 +42674,7 @@
     "agent-memory/cross-context-promotion",
     "concurrency-guards/cache-value-not-handle",
     "convergence-loop-and-requeue/keyed-queue-with-earliest-wins",
+    "cost-metering/one-pot-across-delegation",
     "cross-instance-cache-lease/renewal-beats-a-tuned-timeout",
     "decentralized-artifact-distribution/fail-closed-trust-dependency",
     "deferred-finalization/correction-window-is-the-grace-period",
@@ -42813,6 +42935,7 @@
     "guest-execution-bounding/terminate-from-outside-when-you-cannot-count",
     "guest-execution-bounding/uncatchable-limit-errors",
     "guest-language-introspection/flag-gated-debug-global",
+    "hitl-approval/fail-closed-profile-for-headless",
     "hitl-approval/truncated-verdict-space",
     "import-normalization/durable-intermediate-representation",
     "index-free-random-access/conservation-sweep-over-a-partition-parameter",

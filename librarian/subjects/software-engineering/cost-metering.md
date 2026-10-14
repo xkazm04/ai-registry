@@ -138,3 +138,7 @@ tree's router divides by the uncached remainder and clamps to one (`node--whole-
 executed across eight fractions). Residuals kept: cache-write tokens bill at the input rate until a
 price book carries a write rate; the OTLP ingest path was not audited. Banked lead: a counterfactual
 saving assumes the baseline used the same tokens.
+
+## 2026-10-14 - intake docker-agent ([[2026-10-14-docker-docker-agent]], run `intake-dockeragent-1014`)
+
+Landed three techniques the golden path did not have, all at stages the enumeration of spend paths skipped: `one-pot-across-delegation` (a per-run ceiling belongs to the run; delegated and nested runs charge the parent's tracker, named ceilings are shared pots), `time-ceilings-count-working-time` (a duration ceiling sums work, not attendance; boundary-checked, with a stated overshoot), `housekeeping-calls-obey-the-ceiling` (the summarizer is a spend path; refusal is a skip). Three Go applications against the source tree. **Boundary to review:** `time-ceilings-count-working-time` narrows the interactive "proceed anyway" in `budget-enforcement` for a ceiling the operator declared in their own configuration; the older sentence was bounded, not reversed. Catch: unpriced spend flagged rather than zero is already `price-tables`. Fleet: personas shares one pot by run id for cycles and replays, but its breeding measurement phase has its own ceiling and the generation phase none (simulation, unmeasurable).

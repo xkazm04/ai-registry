@@ -263,3 +263,7 @@ Gained `handoff-is-a-declared-door` (technique 14, two applications: the source 
 A probe for "approval binds to the previewed artifact" returned zero and was wrong: `resume-after-decision` says it in one sentence ("byte for byte"). Opened before scoring, so it went in as a catch.
 
 Open: the machine-channel rule (a token that authorises telemetry does not authorise a decision) has one application, unmeasurable until the sibling application sends a decider.
+
+## 2026-10-14 - intake docker-agent ([[2026-10-14-docker-docker-agent]], run `intake-dockeragent-1014`)
+
+Landed `fail-closed-profile-for-headless` (the closed default when nobody can be asked: a never-prompting profile over a three-valued classifier; the open grant in `unattended-mode` is its opposite door) and `author-advisories-yield-to-the-users-mode` (rules carry their writer's tier; an author's ask is advisory under the user's chosen mode). Two Go applications. **The source tree leaves a hole the second technique records:** allow rules are not tiered, so an author file can approve what a user's fail-closed run would refuse. Fleet: personas builds every headless invocation with the open permission flag and restricts only through a persona-declared roster; left unchanged as a posture decision (simulation, unmeasurable).

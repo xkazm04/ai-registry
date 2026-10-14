@@ -14,6 +14,9 @@ techniques:
   - spend-observability
   - unit-classes-are-open
   - whole-prompt-denominator
+  - one-pot-across-delegation
+  - time-ceilings-count-working-time
+  - housekeeping-calls-obey-the-ceiling
 ---
 
 # Cost metering & budgets
@@ -307,3 +310,15 @@ surfaces show and which anomalies they must make visible is the
 - [unit-classes-are-open](./techniques/unit-classes-are-open.md) — the unit
   axis as an open vocabulary; nest a class or count it as residual; unmodeled
   units make a cost a floor; efficiency scored in currency on two arms.
+- [one-pot-across-delegation](./techniques/one-pot-across-delegation.md) — a
+  per-run ceiling belongs to the run: delegated and nested runs charge the
+  parent's tracker by reference, named ceilings are shared pots, and a fan-out
+  cannot multiply the allowance.
+- [time-ceilings-count-working-time](./techniques/time-ceilings-count-working-time.md)
+  — a duration ceiling sums the durations of the work, not the span of the
+  session; checked at boundaries with a stated overshoot; a terminal stop for a
+  ceiling the operator set in their own configuration.
+- [housekeeping-calls-obey-the-ceiling](./techniques/housekeeping-calls-obey-the-ceiling.md)
+  — the summarizer is a spend path: check before, charge after, refusal is a
+  skip rather than a failure, and a nested run's stop signal is control, not
+  content.

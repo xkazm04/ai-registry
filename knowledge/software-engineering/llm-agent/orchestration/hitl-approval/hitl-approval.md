@@ -18,6 +18,8 @@ techniques:
   - oracle-before-gate
   - truncated-verdict-space
   - handoff-is-a-declared-door
+  - fail-closed-profile-for-headless
+  - author-advisories-yield-to-the-users-mode
 ---
 
 # Human-in-the-loop approval
@@ -362,3 +364,11 @@ the machine with nobody ever having seen it.
   how a human gets pulled in at all: the model requests and only a declared node
   grants, the answerer is resolved before the ask, reply authority is bound to the
   delivered notice, and a statutory request is a universal door instead.
+- [fail-closed-profile-for-headless](./techniques/fail-closed-profile-for-headless.md)
+  — the default when nobody can be asked: a named profile that never prompts and
+  denies what it would not allow, over a three-valued classifier where unknown is
+  never safe, with policy inherited by delegates and kept on resume.
+- [author-advisories-yield-to-the-users-mode](./techniques/author-advisories-yield-to-the-users-mode.md)
+  — rules carry the tier of who wrote them: denies bind from any tier, an
+  author's ask is advisory under the user's chosen mode, and author defaults
+  fill only a gap the user left.
