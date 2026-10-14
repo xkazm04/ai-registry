@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 57,
+  "applications": 58,
   "laws": 8,
   "categories": [
    "european",
@@ -1973,9 +1973,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
-   "digest": "sha256-b2:cfe21e4fea74ddc1",
-   "revision": 4,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:3c01b1e10a982d9c",
+   "revision": 5,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "context-sufficiency-signals",
@@ -2137,6 +2137,13 @@
      "technique": "context-sufficiency-signals",
      "file": "knowledge/localization/craft/translation-quality-measurement/applications/node--context-sufficiency-signals--personas.md",
      "verified_on": "2026-10-06",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "cost-and-licence-of-measurement",
+     "file": "knowledge/localization/craft/translation-quality-measurement/applications/node--cost-and-licence-of-measurement--personas.md",
+     "verified_on": "2026-10-14",
      "verified_against": "node@22"
     }
    ]

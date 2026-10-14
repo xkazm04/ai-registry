@@ -116,6 +116,18 @@ never be joined.
   the sentinel and corner-case controls — is not recovered by per-unit savings.
   The break-even is units times regenerations; compute it before building the
   ladder rather than assuming either answer.
+  Read the second factor off the store's own history rather than guessing it, and
+  count it in units scored per period, not store size. In one measured store (24k
+  source strings, thirteen targets that grow in lockstep, four months of history)
+  the target text was rewritten wholesale in bursts with the source unchanged —
+  18% of the store in the first month, 7% in the second, then 0.4% and 0.03% — while
+  the stream of new strings kept arriving at 7–29% of the store per month. A store
+  like that is not regenerated on a schedule: it is append-mostly with occasional
+  rewrite campaigns. The delta gate it needs is small enough for either rung, so
+  the rung is decided by the licence and by whether a rewrite campaign is
+  planned, and the standing local estimator repays itself only across a campaign.
+  One store, one window; the lockstep growth multiplies every figure by the number
+  of targets.
 - **As a reason to skip a rung.** Cheapness does not let a lower rung answer a
   higher rung's question, and a permissive licence is not evidence for a model
   nobody has measured on the pair.
