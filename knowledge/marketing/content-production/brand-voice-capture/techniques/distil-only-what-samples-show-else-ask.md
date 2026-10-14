@@ -65,8 +65,16 @@ profile saved over a real one.
 - When a distiller returns no questions and the voice is not yet mature,
   reject the output and re-prompt, because a cold voice with no open
   questions means the distiller invented rather than asked.
-- When a question is already answered, drop it from every fallback list,
-  because re-asking is the product not listening.
+- When a question is already answered, drop it from every question list the
+  owner will see - the canned fallback and the distiller's own - because
+  re-asking is the product not listening, and a prompt that says "do not ask
+  what is known" is a request the distiller can ignore.
+- When there is no sample and no non-blank answer, drop the fields that claim
+  to be derived from material - hard do/never rules and exemplar sentences in
+  the voice - at the normalisation step, not only in the prompt, because the
+  instruction to be cautious governs the distiller's wording while the saved
+  profile is governed by what the code keeps; an invented guardrail is
+  obeyed by every later draft.
 - When the material is thin, say so in the summary, because a profile that
   hides its own evidence base cannot be reviewed.
 
