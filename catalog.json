@@ -1151,9 +1151,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 67,
-      "files": 207,
-      "contentHash": "sha256-b2:b50571e93118b905"
+      "applications": 68,
+      "files": 208,
+      "contentHash": "sha256-b2:fb2616d042ecbd18"
     },
     {
       "name": "marketing",
@@ -1177,9 +1177,9 @@
       "purity": "media",
       "subjects": 26,
       "techniques": 190,
-      "applications": 110,
-      "files": 331,
-      "contentHash": "sha256-b2:e0375f238b093d05"
+      "applications": 111,
+      "files": 332,
+      "contentHash": "sha256-b2:2a9122d44ed06b30"
     },
     {
       "name": "recruiting",
