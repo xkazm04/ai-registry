@@ -66,6 +66,14 @@ technique exists to make unnecessary.
 - When the provider offers both a mutable "latest" object and immutable
   versions, key on the immutable identity you want one row per — one row per
   invoice that updates in place is the usual right answer for revenue.
+- When two deliveries announce the same fact at different grains (a cumulative
+  order total and a per-refund delta), sharing one key makes the stored value
+  whichever arrived last, so a second partial refund or a late redelivery
+  understates it. Choose one authoritative grain per fact: either key each
+  delta on its own object id and ignore the cumulative announcement, or keep
+  the shared key and make the upsert monotone for that figure. Replayed over
+  every delivery order of three partial refunds, the shared key was right in
+  120 of 720 orders (both events), 0 of 720 (delta only).
 - When an object genuinely has no provider id (rare; some manual-entry
   paths), derive from the most stable natural key available and mark the
   source, rather than falling back to randomness for just those rows.
