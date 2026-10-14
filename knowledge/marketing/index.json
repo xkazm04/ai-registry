@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 109,
+  "applications": 110,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -574,9 +574,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/business-profile-and-citations.md",
-   "digest": "sha256-b2:e04ee1287543e329",
-   "revision": 1,
-   "changedAt": "2026-09-09",
+   "digest": "sha256-b2:33431a57056a2ed2",
+   "revision": 2,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "city-in-query-never-in-name",
@@ -667,6 +667,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "city-in-query-never-in-name",
+     "file": "knowledge/marketing/local-and-zero-budget/business-profile-and-citations/applications/node--city-in-query-never-in-name.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@2026.10.14"
+    },
     {
      "stack": "node",
      "technique": "suspension-risk-checklist",
