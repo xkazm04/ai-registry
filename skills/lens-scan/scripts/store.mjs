@@ -23,11 +23,21 @@
 //   shot --run <id> --feature f --path <rel to store dir> [--size s] [--theme t] [--module m] [--report-file p]
 //   coverage --run <id> --feature f --standard s --state conformant|deviation|not-applicable|unknown [--evidence e]
 //   latest [--feature f] [--lens l]           latest measurement per (feature, lens, metric)
+//   gaps --lens l [--structure <app-structure.json>]
+//             what a caller still has to do for one lens: per feature, the lens's metrics with no reading
+//             (`unmeasured`: no done measure run of this lens covered the feature yet; `unmeasurable`: one
+//             did and wrote nothing - a "?" a re-run will not fill), readings older than the structure
+//             (`stale`), and the lens's backlog by status. Reads only.
+//   decide --ids a,b --decision approve|decline --by <kind:name> [--note t]
+//             a caller's decision on `proposed` items, recorded as decided_by <kind:name> (`operator:jane`,
+//             `agent:personas`): the door a headless caller uses where no review UI runs. The skill itself
+//             never calls it; drive.mjs calls it only on its caller's --approve-proposed.
 //
 // Store rules this script owns (SKILL.md and references/metrics.md explain why):
 //  - a measurement is a finite number; an unmeasurable metric gets NO row (never a 0 placeholder);
 //  - writes go only into a run whose status is `running`;
-//  - `approved` and `declined` are human decisions written by the review UI, never by this CLI;
+//  - `approved` and `declined` are decisions the review UI or a caller's `decide --by` writes, never proposal-update;
+//  - every status move is a compare-and-set on the status it read, so two executors never build one item;
 //  - every write bumps runs.updated_at (or proposals.updated_at), the cursor the review UI polls.
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync, mkdirSync, existsSync, realpathSync } from 'node:fs';
@@ -290,8 +300,10 @@ export function proposalUpdate(db, { id, status, afterValue, resultSha } = {}) {
   }
   const after = num('after-value', afterValue);
   if (status === undefined && after === undefined && resultSha === undefined) bad('nothing to update (--status, --after-value, --result-sha)');
-  db.prepare(`UPDATE proposals SET status = COALESCE(?, status), after_value = COALESCE(?, after_value),
-    result_sha = COALESCE(?, result_sha), updated_at = ? WHERE id = ?`).run(status ?? null, after ?? null, resultSha ?? null, now(), p.id);
+  // compare-and-set on the status read above: a second executor that read the same `approved` row loses here
+  const r = db.prepare(`UPDATE proposals SET status = COALESCE(?, status), after_value = COALESCE(?, after_value),
+    result_sha = COALESCE(?, result_sha), updated_at = ? WHERE id = ? AND status = ?`).run(status ?? null, after ?? null, resultSha ?? null, now(), p.id, p.status);
+  if (r.changes === 0) refuse(`proposal ${id} moved on while this update ran (it was ${p.status}); someone else holds it`);
   return clean(db.prepare('SELECT * FROM proposals WHERE id = ?').get(p.id));
 }
 
@@ -332,6 +344,86 @@ export function latest(db, { feature, lens } = {}) {
       SELECT *, ROW_NUMBER() OVER (PARTITION BY feature, lens, metric ORDER BY measured_at DESC, id DESC) AS rn FROM measurements
       ${where.length ? `WHERE ${where.join(' AND ')}` : ''}) WHERE rn = 1 ORDER BY feature, lens, metric`;
   return db.prepare(sql).all(...args).map(clean);
+}
+
+/** A decider is `<kind>:<name>` - who carries the decision when no review UI wrote it. */
+const DECIDER_RE = /^[a-z][a-z-]*:[A-Za-z0-9._@-]+$/;
+
+/**
+ * A caller's decision on `proposed` items, each a compare-and-set: an item no longer `proposed` is reported,
+ * never touched. Returns { decision, by, decided: [ids], skipped: [{ id, status }] } ('not-found' for a missing id).
+ */
+export function decide(db, { ids, decision, by, note } = {}) {
+  const list = [...new Set(listOf(need('ids', ids)))];
+  oneOf('decision', decision, ['approve', 'decline']);
+  const who = need('by', by);
+  if (!DECIDER_RE.test(who)) bad(`--by names who decides as <kind>:<name>, e.g. operator:jane or agent:personas (got ${JSON.stringify(who)})`);
+  const to = decision === 'approve' ? 'approved' : 'declined';
+  const at = now();
+  const upd = db.prepare(`UPDATE proposals SET status = ?, decided_by = ?, decided_at = ?, decision_note = ?, updated_at = ?
+    WHERE id = ? AND status = 'proposed'`);
+  const decided = [], skipped = [];
+  for (const id of list) {
+    if (upd.run(to, who, at, note ?? null, at, id).changes) { decided.push(id); continue; }
+    const p = db.prepare('SELECT status FROM proposals WHERE id = ?').get(id);
+    skipped.push({ id, status: p ? p.status : 'not-found' });
+  }
+  return { decision: to, by: who, decided, skipped };
+}
+
+/** One lens of an app-structure file: its metric keys in manifest order, the feature slugs, the structure's date. */
+export function structureLens(path, lens) {
+  if (!path || !existsSync(path)) bad(`no app-structure at ${path}; gaps are counted against its features and the lens's metrics`);
+  let s;
+  try { s = JSON.parse(readFileSync(path, 'utf8')); } catch (e) { bad(`${path} is not readable JSON (${e.message})`); }
+  const l = (s.lenses ?? []).find((x) => x?.id === lens);
+  if (!l) bad(`lens ${lens} is not in ${path}`);
+  if (l.enabled === false) bad(`lens ${lens} is disabled in ${path}`);
+  const metrics = (l.manifest?.fields ?? []).filter((f) => f?.metric && typeof f.key === 'string').map((f) => f.key);
+  if (!metrics.length) bad(`lens ${lens} declares no metric fields`);
+  return { metrics, features: (s.features ?? []).map((f) => f?.slug).filter((x) => typeof x === 'string'), generated_at: s.generated_at };
+}
+
+/**
+ * What a caller still has to do for one lens (see the header). A feature counts as attempted once a `done`
+ * measure run of this lens had no feature scope or named it.
+ */
+export function gaps(db, { lens, structure } = {}) {
+  const id = need('lens', lens);
+  const st = structureLens(structure, id);
+  const have = new Map();
+  for (const m of latest(db, { lens: id })) {
+    if (!have.has(m.feature)) have.set(m.feature, new Map());
+    have.get(m.feature).set(m.metric, m.measured_at);
+  }
+  const attempted = new Set();
+  let all = false;
+  for (const r of db.prepare("SELECT lenses, scope FROM runs WHERE phase = 'measure' AND status = 'done'").all()) {
+    if (!JSON.parse(r.lenses).includes(id)) continue;
+    const f = r.scope ? JSON.parse(r.scope).features : undefined;
+    if (!Array.isArray(f)) { all = true; break; }
+    for (const x of f) attempted.add(x);
+  }
+  const features = [];
+  const totals = { features: st.features.length, cells: st.features.length * st.metrics.length, measured: 0, unmeasured: 0, unmeasurable: 0, stale: 0 };
+  for (const f of st.features) {
+    const m = have.get(f) ?? new Map();
+    const tried = all || attempted.has(f);
+    const row = { feature: f, unmeasured: [], unmeasurable: [], stale: [] };
+    for (const k of st.metrics) {
+      const at = m.get(k);
+      if (at === undefined) row[tried ? 'unmeasurable' : 'unmeasured'].push(k);
+      else { totals.measured += 1; if (st.generated_at && at < st.generated_at) row.stale.push(k); }
+    }
+    totals.unmeasured += row.unmeasured.length; totals.unmeasurable += row.unmeasurable.length; totals.stale += row.stale.length;
+    // absent is omitted: a feature with nothing to do is not listed, an empty list is not printed
+    if (row.unmeasured.length || row.unmeasurable.length || row.stale.length) {
+      features.push(Object.fromEntries(Object.entries(row).filter(([, v]) => !Array.isArray(v) || v.length)));
+    }
+  }
+  const backlog = {};
+  for (const r of db.prepare('SELECT status, COUNT(*) AS n FROM proposals WHERE lens = ? GROUP BY status').all(id)) backlog[r.status] = r.n;
+  return clean({ lens: id, metrics: st.metrics, structure_at: st.generated_at, totals, features, backlog });
 }
 
 // ------------------------------------------------------------------------------------- cli
@@ -390,6 +482,8 @@ export function main(argv) {
       case 'shot': return shot(db, a);
       case 'coverage': return coverage(db, a);
       case 'latest': return latest(db, a);
+      case 'gaps': return gaps(db, { lens: a.lens, structure: typeof a.structure === 'string' ? a.structure : join(dirname(typeof a.db === 'string' ? a.db : DEFAULT_DB), 'app-structure.json') });
+      case 'decide': return decide(db, a);
       default: bad(`unknown subcommand ${JSON.stringify(cmd)} - run with --help`);
     }
   } finally { db.close(); }

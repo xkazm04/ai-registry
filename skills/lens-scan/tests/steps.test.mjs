@@ -183,9 +183,9 @@ test('lens-add: appends atomically with the blueprint entry shape; refuses a dup
   assert.equal(JSON.parse(readFileSync(p.structurePath, 'utf8')).lenses.length, 4, 'refusals write nothing');
 });
 
-test('onboarding: the contract file exists, SKILL.md references both new references, and bumps to 1.3.0', () => {
+test('onboarding: the contract file exists, SKILL.md references both new references, and is at least 1.3.0', () => {
   const skill = readFileSync(join(SKILL_DIR, 'SKILL.md'), 'utf8');
-  assert.match(skill, /^version: 1\.3\.0$/m);
+  assert.match(skill, /^version: 1\.([3-9]|\d{2,})\.\d+$/m);
   for (const ref of ['references/lens-onboarding.md', 'references/lens-manifest-scan.md']) {
     assert.ok(existsSync(join(SKILL_DIR, ref)), `${ref} exists`);
     assert.ok(skill.includes(`](${ref})`), `SKILL.md links ${ref}`);

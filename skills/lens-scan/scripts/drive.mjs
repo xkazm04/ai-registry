@@ -1,0 +1,188 @@
+#!/usr/bin/env node
+// lens-scan drive - the headless caller's door: complete one lens's coverage or execute its backlog in a
+// product repo with no review UI and no blueprint server running. Deterministic: it reads the store, decides
+// which features or items need a run, and starts `claude -p` once per run with a lens-scan prompt on stdin -
+// the same prompts the blueprint's job runner sends. The model works only inside those runs.
+//
+//   node drive.mjs status  --lens <id> [--root <product repo>]
+//   node drive.mjs cover   --lens <id> [--root r] [--stale] [--retry] [--chunk n] [--max-runs n] [--no-propose]
+//   node drive.mjs execute --lens <id> [--root r] [--ids a,b] [--approve-proposed --by <kind:name>] [--batch n]
+//   common: [--model m] [--timeout-min n] [--dry]
+//
+//   status   gaps and backlog (store.mjs gaps); starts nothing.
+//   cover    measures the features with an `unmeasured` metric (also `stale` with --stale, `unmeasurable` with
+//            --retry) in runs of --chunk features (default 12; a lens with a conform step: its budget, so each
+//            feature in a run gets a pair judged), then one propose run over the lens unless --no-propose. An
+//            `unmeasurable` metric - a done run covered the feature and wrote nothing - is reported, and re-run only
+//            on --retry (the method changed, or a steps lens's conform step can fill what its script could not).
+//   execute  the lens's approved items (or --ids), in runs of --batch (default 50, the blueprint's cap).
+//            --approve-proposed --by <kind:name> first approves the lens's `proposed` items as that decider
+//            (store.mjs decide): the caller's flag is the decision, exactly as the blueprint's Execute backlog
+//            button is. Without it nothing is approved here.
+//
+// The CLI: LENS_SCAN_CLAUDE_BIN, else BP_CLAUDE_BIN, else `claude` on PATH (a .js/.mjs path runs on this Node).
+// Each run gets BP_JOB_ID=drive-<id> (the store notes the run `bp-job:drive-<id>`, which is how this script
+// finds it) and a log at .ai/lens-scan/work/drive/<id>.log. stdout: one JSON summary. stderr: progress lines.
+// Exit 0 every run done, 1 a run failed or was refused, 2 bad input.
+import { spawn } from 'node:child_process';
+import { createWriteStream, existsSync, mkdirSync, readFileSync, realpathSync, statSync } from 'node:fs';
+import { delimiter, extname, join, resolve } from 'node:path';
+import { randomBytes } from 'node:crypto';
+import { fileURLToPath } from 'node:url';
+import { openStore, gaps, decide, proposals, parseArgs, StoreError } from './store.mjs';
+
+const MAX_BATCH = 50;
+const SAFE_ID = /^[A-Za-z0-9._-]+$/;
+const bad = (m) => { throw new StoreError(m, 2); };
+const say = (m) => process.stderr.write(`drive: ${m}\n`);
+
+// ------------------------------------------------------------------------------------- the CLI
+/** The CLI to start: { file, args } with the prompt on stdin. null = not installed. */
+export function resolveCli(args, env = process.env) {
+  const bin = env.LENS_SCAN_CLAUDE_BIN || env.BP_CLAUDE_BIN || 'claude';
+  if (/\.(mjs|cjs|js)$/i.test(bin)) return existsSync(bin) ? { file: process.execPath, args: [bin, ...args], shell: false } : null;
+  if (process.platform !== 'win32') return { file: bin, args, shell: false };
+  const exts = extname(bin) ? [''] : ['.exe', '.com', '.cmd', '.bat'];
+  const dirs = /[\\/]/.test(bin) ? [''] : (env.PATH ?? env.Path ?? '').split(delimiter).filter(Boolean);
+  for (const d of dirs) for (const e of exts) {
+    const f = d ? join(d, bin + e) : resolve(bin + e);
+    try { if (statSync(f).isFile()) return { file: f, args, shell: /\.(cmd|bat)$/i.test(f) }; } catch { /* not here */ }
+  }
+  return null;
+}
+
+const runIdOf = (db, job) => db.prepare("SELECT id FROM runs WHERE note LIKE ? ORDER BY started_at DESC LIMIT 1").get(`bp-job:${job}%`)?.id;
+
+/** One `claude -p` run of `prompt` in `root`; resolves { job, prompt, run, status, exit, error }. */
+function runJob({ root, dbPath, prompt, model, timeoutMin, env = process.env }) {
+  const job = `drive-${Date.now().toString(36)}-${randomBytes(2).toString('hex')}`;
+  const args = ['-p', '--dangerously-skip-permissions', '--output-format', 'text', ...(model ? ['--model', model] : [])];
+  const cli = resolveCli(args, env);
+  if (!cli) return Promise.resolve({ job, prompt, status: 'failed', error: 'Claude Code CLI not found (set LENS_SCAN_CLAUDE_BIN)' });
+  const dir = join(root, '.ai', 'lens-scan', 'work', 'drive');
+  mkdirSync(dir, { recursive: true });
+  const log = createWriteStream(join(dir, `${job}.log`), { flags: 'a' });
+  log.write(`# drive job ${job} started ${new Date().toISOString()}\n# prompt (stdin): ${prompt}\n`);
+  say(`${job} start: ${prompt}`);
+  return new Promise((done) => {
+    let last = '', timer;
+    const child = spawn(cli.file, cli.args, { cwd: root, env: { ...env, BP_JOB_ID: job }, windowsHide: true, shell: cli.shell, stdio: ['pipe', 'pipe', 'pipe'] });
+    const out = (d) => { log.write(d); const l = String(d).replace(/\r/g, '').split('\n').map((x) => x.trim()).filter(Boolean).pop(); if (l) last = l.slice(0, 300); };
+    child.stdout.on('data', out); child.stderr.on('data', out);
+    child.stdin.on('error', () => {});
+    if (timeoutMin > 0) timer = setTimeout(() => { last = `timed out after ${timeoutMin} min`; killTree(child); }, timeoutMin * 60_000);
+    const finish = (r) => {
+      clearTimeout(timer);
+      log.end(`\n# drive job ${job} ${r.status}${r.error ? `: ${r.error}` : ''}\n`);
+      say(`${job} ${r.status}${r.run ? ` (${r.run})` : ''}${r.error ? `: ${r.error}` : ''}`);
+      done({ job, prompt, ...r });
+    };
+    child.on('error', (e) => finish({ status: 'failed', error: e.message }));
+    child.on('close', (code) => {
+      const db = openStore(dbPath, { readOnly: true });
+      let run, runStatus;
+      try { run = db && runIdOf(db, job); runStatus = run && db.prepare('SELECT status FROM runs WHERE id = ?').get(run).status; } finally { db?.close(); }
+      // lens-scan refuses before run-start and still exits 0: no run is a failure, its last line says why
+      if (code !== 0) finish({ run, status: 'failed', exit: code ?? undefined, error: last || `exit ${code}` });
+      else if (!run) finish({ status: 'failed', exit: 0, error: last || 'no run started' });
+      else if (runStatus !== 'done') finish({ run, status: 'failed', exit: 0, error: `run ended ${runStatus}` });
+      else finish({ run, status: 'done', exit: 0 });
+    });
+    child.stdin.end(`${prompt}\n`);
+  });
+}
+
+function killTree(child) {
+  if (child.pid === undefined) return;
+  if (process.platform === 'win32') spawn('taskkill', ['/pid', String(child.pid), '/T', '/F'], { windowsHide: true, stdio: 'ignore' }).on('error', () => child.kill());
+  else child.kill();
+}
+
+// ------------------------------------------------------------------------------------- planning
+/** The conform budget of a lens's steps scan, when it has one: a cover run then judges one pair per feature. */
+function conformBudget(structurePath, lens) {
+  try {
+    const l = JSON.parse(readFileSync(structurePath, 'utf8')).lenses.find((x) => x.id === lens);
+    const step = l?.manifest?.scan?.steps?.find((s) => s.kind === 'skill' && s.skill === 'conform');
+    return step ? (Number.isInteger(step.budget) && step.budget > 0 ? step.budget : 6) : undefined;
+  } catch { return undefined; }
+}
+
+const chunks = (list, n) => { const out = []; for (let i = 0; i < list.length; i += n) out.push(list.slice(i, i + n)); return out; };
+const intFlag = (a, k, dflt, max = Infinity) => {
+  if (a[k] === undefined) return dflt;
+  const n = Number(a[k]);
+  if (!Number.isInteger(n) || n < 1 || n > max) bad(`--${k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)} is an integer 1-${max === Infinity ? 'n' : max}`);
+  return n;
+};
+
+/** Plans and (unless --dry) runs one verb. Returns the summary object; `ok` false when any run failed. */
+export async function drive(argv, env = process.env) {
+  const a = parseArgs(argv);
+  const verb = a._[0];
+  if (!['status', 'cover', 'execute'].includes(verb)) bad('usage: drive.mjs status|cover|execute --lens <id> [--root <repo>] (see the header)');
+  const lens = typeof a.lens === 'string' ? a.lens : bad('--lens is required');
+  if (!SAFE_ID.test(lens)) bad(`--lens ${JSON.stringify(lens)} may not reach a command line`);
+  const root = resolve(typeof a.root === 'string' ? a.root : '.');
+  const dbPath = join(root, '.ai', 'lens-scan', 'scan.db');
+  const structure = join(root, '.ai', 'lens-scan', 'app-structure.json');
+  if (!existsSync(dbPath)) bad(`no scan store at ${dbPath} - adopt the product first (/adopt-bp)`);
+  const model = typeof a.model === 'string' ? (SAFE_ID.test(a.model) ? a.model : bad('--model may not reach a command line')) : undefined;
+  const timeoutMin = intFlag(a, 'timeoutMin', 90);
+  const dry = a.dry === true;
+  const read = (fn) => { const db = openStore(dbPath, { readOnly: true }); try { return fn(db); } finally { db.close(); } };
+  const before = read((db) => gaps(db, { lens, structure }));
+  const summary = { verb, lens, root, dry, before: { totals: before.totals, backlog: before.backlog } };
+
+  if (verb === 'status') return { ...summary, gaps: before.features, ok: true };
+
+  const jobs = [];
+  if (verb === 'cover') {
+    const todo = before.features.filter((f) => f.unmeasured || (a.stale === true && f.stale) || (a.retry === true && f.unmeasurable)).map((f) => f.feature);
+    const budget = conformBudget(structure, lens);
+    const size = intFlag(a, 'chunk', budget ?? 12, 200);
+    const plan = chunks(todo, size).slice(0, intFlag(a, 'maxRuns', Infinity));
+    summary.plan = plan.map((c) => `/lens-scan measure --lens ${lens} --scope ${c.join(',')}`);
+    if (a.noPropose !== true) summary.plan.push(`/lens-scan propose --lens ${lens}`);
+    summary.unmeasurable = before.features.filter((f) => f.unmeasurable).map((f) => ({ feature: f.feature, metrics: f.unmeasurable }));
+    if (!dry) for (const prompt of summary.plan) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin, env }));
+  } else {
+    let items = read((db) => proposals(db, a.ids !== undefined ? { ids: a.ids } : {})).filter((p) => p.lens === lens);
+    if (a.approveProposed !== undefined) {
+      const by = typeof a.by === 'string' ? a.by : bad('--approve-proposed needs --by <kind:name>: who carries the decision');
+      const open = items.filter((p) => p.status === 'proposed').map((p) => p.id);
+      if (open.length && !dry) {
+        const db = openStore(dbPath);
+        try { summary.approved = decide(db, { ids: open, decision: 'approve', by, note: `approved headless through drive.mjs by ${by}` }).decided; } finally { db.close(); }
+      } else summary.approved = dry ? open : [];
+      items = read((db) => proposals(db, { ids: items.map((p) => p.id).join(',') || 'none' }));
+    }
+    const go = items.filter((p) => p.status === 'approved' || (dry && summary.approved?.includes(p.id))).map((p) => p.id).filter((id) => SAFE_ID.test(id));
+    summary.skipped = items.filter((p) => !go.includes(p.id)).map((p) => ({ id: p.id, status: p.status }));
+    summary.plan = chunks(go, intFlag(a, 'batch', MAX_BATCH, MAX_BATCH)).map((c) => `/lens-scan execute --proposals ${c.join(',')}`);
+    if (!dry) for (const prompt of summary.plan) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin, env }));
+    if (go.length && !dry) {
+      summary.items = read((db) => proposals(db, { ids: go.join(',') })).map((p) => ({
+        id: p.id, feature: p.feature, status: p.status, metric: p.metric, expected_delta: p.expected_delta, after_value: p.after_value, result_sha: p.result_sha, title: p.title,
+      }));
+    }
+  }
+  summary.jobs = jobs;
+  if (!dry) { const after = read((db) => gaps(db, { lens, structure })); summary.after = { totals: after.totals, backlog: after.backlog }; }
+  summary.ok = jobs.every((j) => j.status === 'done');
+  return summary;
+}
+
+if (process.argv[1] && isEntry(process.argv[1], import.meta.url)) {
+  drive(process.argv.slice(2)).then((s) => {
+    process.stdout.write(`${JSON.stringify(s, null, 2)}\n`);
+    process.exit(s.ok ? 0 : 1);
+  }, (e) => {
+    process.stderr.write(`drive: ${e.message}\n`);
+    process.exit(e instanceof StoreError ? e.code : 1);
+  });
+}
+
+function isEntry(argv1, url) {
+  try { return realpathSync(resolve(argv1)) === realpathSync(fileURLToPath(url)); } catch { return resolve(argv1) === fileURLToPath(url); }
+}

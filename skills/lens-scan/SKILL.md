@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.3.0
+version: 1.4.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -71,9 +71,11 @@ prints JSON (`--help` lists them). The rules it enforces are the method's rules:
   `evidence` (`file:line`, a command, or the counting rule).
 - Writes go only into a `running` run, and every write bumps the run's `updated_at`,
   which is how the review UI follows a scan live.
-- `approved` and `declined` are human decisions the review UI writes. The CLI refuses
-  them. The skill moves an approved item to `executing`, `done` or `failed`, and
-  nothing else.
+- `approved` and `declined` are human decisions: the review UI writes them, or a
+  headless caller through `store.mjs decide --by <kind:name>` (see Headless).
+  `proposal-update` refuses them. The skill moves an approved item to `executing`,
+  `done` or `failed`, and nothing else; every move is a compare-and-set on the status
+  it read, so two executors (the blueprint and a headless caller) never build one item.
 
 `activity` rows are the scan's live feed. Write one at every step a person watching
 would want to see: `reading` when you open a feature, `measured`, `proposed`,
@@ -201,7 +203,10 @@ It prints the method, the instructions or steps, and the **fields a reading may 
 scan, or a step lens-scan does not run (`step skill <x> is not allowed`), is refused (exit
 1): stop and say so; never improvise a method. **Steps:** `script` =
 `steps.mjs run --lens <id> --step <i> --run-id <run>` (it records the rows); `skill` = this
-session runs `/conform <args> --budget <budget>`; `judgement` = the procedure below with the
+session runs `/conform <args> --budget <budget>` - **with a feature scope, the budget goes
+to the scope first**: one `/conform <context> --budget 1` per scoped feature that has no
+judged pair yet (its `primary_context`, else its first context with a mapped pair), and
+only what is left as conform picks; `judgement` = the procedure below with the
 step's instructions. Per feature in scope:
 
 1. `activity --kind reading --feature <f> --lens <lens>`, and read the feature's code
@@ -267,9 +272,11 @@ new. Status is `proposed`. Close the run.
 ## 4. Approval
 
 People approve or decline in the review UI, which writes `status`, `decided_by`,
-`decided_at` and `decision_note`. **The skill never self-approves**, never asks for a
-blanket approval in chat, and never edits a decision. `status` mode reports what
-waits:
+`decided_at` and `decision_note`. Where no review UI runs, the caller that carries a
+person's request decides through `drive.mjs execute --approve-proposed --by <kind:name>`
+(Headless), and `decided_by` names it. **The skill never self-approves**: inside a run
+it never calls `decide`, never asks for a blanket approval in chat, and never edits a
+decision. `status` mode reports what waits:
 
 ```
 node ${CLAUDE_SKILL_DIR}/scripts/store.mjs proposals --status proposed
@@ -298,7 +305,8 @@ already`) and named in the report; an id that is missing from the output does no
 exist. Never approve one to make it eligible. Without `--proposals`, every approved
 item is in the run. An item whose body starts `target: registry` is built in a worktree of
 the **registry checkout** (found as for `{registry}`), refused with `lens-scan refused: registry
-checkout has uncommitted changes` while its `git status --porcelain` prints anything. Each item:
+checkout has uncommitted changes` while its `git status --porcelain --untracked-files=no` prints
+anything (untracked files are other work and never block it). Each item:
 
 1. `proposal-update --id <p> --status executing`; `activity --kind executing`.
 2. **Re-measure before** with the same method the item's metric was measured with. If
@@ -338,9 +346,34 @@ metrics written, items proposed or executed with their deltas, what was skipped 
 why (no mapping, unmeasurable, house rule missing), and the header lines from phase 0.
 Never report a metric you did not store.
 
-## Headless (from the blueprint)
+## Headless (the blueprint, or any caller)
 
-The blueprint starts this skill as a job: `claude -p` in the product repo with the
+**Any agent or script can drive a lens without the blueprint running.** The store is the
+whole interface, and `scripts/drive.mjs` is the caller's door. It decides what needs a run
+from the store, starts one `claude -p` per run, and prints one JSON summary:
+
+```
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs status  --lens <id> --root <product repo>
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs cover   --lens <id> --root <repo> [--retry] [--stale] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id> --root <repo> [--approve-proposed --by operator:<name>] [--dry]
+```
+
+- `status` costs no model call: per feature, the metrics still `unmeasured`,
+  `unmeasurable` (a done run covered it and wrote nothing) and `stale` (older than the
+  app-structure), plus the lens's backlog by status (`store.mjs gaps`).
+- `cover` runs `measure` only over the features with gaps, in chunks. For a lens with a
+  conform step, a chunk is the size of the step's budget, so each feature in a run gets a
+  pair judged. Then it runs one `propose`.
+- `execute` builds the lens's approved items. `--approve-proposed --by <kind:name>`
+  approves its `proposed` items first. The caller's flag is the person's decision,
+  exactly as the blueprint's Execute backlog button is, and `decided_by` records who.
+  A caller passes it only when the person it acts for asked for the backlog to be built.
+- Exit 0 when every run is `done`, 1 when a run failed or was refused, 2 for bad input.
+  The blueprint shows these runs like its own (their note is `bp-job:drive-<id>`).
+
+`--dry` prints the plan and starts nothing. Use it before a first real run.
+
+The blueprint starts this skill the same way, as a job: `claude -p` in the product repo with the
 prompt as the only input (an argument or stdin), `BP_JOB_ID` in the environment, and
 nobody watching the terminal. Its prompts:
 
@@ -352,7 +385,7 @@ nobody watching the terminal. Its prompts:
 
 - **Never stop to ask.** There is no one to answer. Where the method says "ask once"
   (`default_scope`), take the headless default (every feature); where it would ask for
-  approval, the review UI's decisions in the store are the only answer.
+  approval, the decisions already in the store (the review UI's, or a caller's `decide`) are the only answer.
 - **Missing prerequisites fail the run, visibly.** Check what you can before run-start
   (`structure.mjs lens --id <lens>`, the feature list through `run-start --features`).
   A refusal before run-start leaves no run: end with one line, `lens-scan refused: <why>`,

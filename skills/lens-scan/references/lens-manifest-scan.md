@@ -100,7 +100,7 @@ fails the step: an `error` activity, nothing written, `steps.mjs` exits 1.
 
 ### `skill`
 
-Only `conform` in 1.3.0. The measuring session runs `/conform` itself, headless, with the
+Only `conform` (since 1.3.0). The measuring session runs `/conform` itself, headless, with the
 step's `args` and `--budget <budget>` (conform's own default, 3-6 pairs, when absent), then
 continues with the next step. conform writes verdicts into `.ai/registry-map.json`; it writes
 no measurement. That is why the registry lens composes `script -> skill -> script`: the
