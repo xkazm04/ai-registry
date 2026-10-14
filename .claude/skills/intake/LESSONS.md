@@ -12583,3 +12583,29 @@ applied here - one sighting, and the honest record is in the source note.
 - Read the rows before a sentence that says every. The application first said every item blamed through use was a two-value record; the 18 rows split 5 / 9 / 4, and the technique's rule changed with the split.
 - Recorded contexts plus graded verdicts are a model-free instrument for any attribution or credit claim in the memory lane, and they exist for one arm already. A feedback mechanism that cannot be an arm (outcomes drawn at generation) can still have its measurement-validity half priced this way.
 - A fleet project's append-only ledger is shared even when status shows it clean: a sibling appended to personas `.ai/applied.jsonl` between this run's status check and its write, and a whole-file stage carried the row. Stage only your hunk there too, as in the registry.
+
+## 2.15.0 - 2026-10-15 - mcp-agent-mail-rust (practitioner series DLE-002)
+
+- **A charter's premises are briefs too.** The declared focus (check each brief premise
+  against its record) was applied to four briefs and every checked premise held. Five
+  premises were still wrong, all stated by the series charter about the source and its
+  peers (persistence order, where enforcement happens, which repository is canonical,
+  what the peers have). Workers found them only because the briefs told them to treat
+  the charter's claims as claims to test. Put the charter's statements about the source
+  on the premise list, not only the brief's own.
+- **A rewrite read beside its predecessor is an in-tree A/B.** The two versions made
+  opposite choices on what decides success, whether a conflicting claim is granted, and
+  which way the guard fails, and the rewrite's comments name the incident behind each
+  reversal. Cloning the predecessor cost one command and settled what neither tree's prose
+  did. When a source says it replaced an earlier version, clone both.
+- **An instrument tuned on one tree false-flags on the next.** The commit replay's
+  inventory knows the registry's generators; on a fleet tree it flagged 6.2% of commits,
+  nearly all regenerated maps, scripted deletions and locale files. Reading the rows
+  (foreign lines carried or not) turned a would-be "the guard pays here" into a boundary
+  for the technique. Before applying a registry instrument to a fleet tree, assume its
+  first high count is an unmodelled generator.
+- **Append and commit a fleet ledger row in one hold.** This run's row in a fleet tree's
+  apply ledger sat uncommitted for minutes, and a sibling round's pathspec commit of the
+  same ledger carried it. The registry's ledger lock does not cover a fleet tree. Append
+  and commit in one command, or take the lock on that tree's own board (the board lives
+  in each repository's git common directory).

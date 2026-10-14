@@ -118,6 +118,8 @@ elsewhere (DLE-004). Each round below carries what R1 learned that bears on it.
 
 ### DLE-002 - coordination fabric
 
+- **Done 2026-10-15** (run `dle-002-1015`; source note
+  `librarian/sources/2026-10-15-mcp-agent-mail-rust.md`). See `## Outcomes`.
 - `/intake https://github.com/Dicklesworthstone/mcp_agent_mail_rust` (canonical; the
   superseded Python version is design history - its persistence order is the inverse of
   the Rust one, and the inversion is a finding).
@@ -306,3 +308,53 @@ forge. Siblings live: `dle-002-1015`, `dle-004-1015`, later `dle-r10-1015`.
 - **What this round got wrong about itself:** the instrument's floor was written after a
   first look; two of its own sentences were wrong until the rows were read; the personas
   ledger commit swept one `dle-002-1015` row (intact, history not rewritten).
+
+### DLE-002, 2026-10-15 (run `dle-002-1015`)
+
+Source note `librarian/sources/2026-10-15-mcp-agent-mail-rust.md` (Rust @ `3821104c`, its
+Python predecessor @ `47b8122e` read as design history). Eight design entries in five
+systems: two NONE (an automated coordinator on an autonomy ladder; directed agent mail
+with no broadcast), one CONTESTED (a no-wait partial grant against all-or-nothing
+acquisition, resolved as a boundary); no forge handoff.
+
+- **R1's question answered.** A lease names whole paths or globs, never lines. A file two
+  agents both write has either one exclusive holder or any number of shared ones, and
+  shared claims never block a commit. So the guard catches a co-written file only by
+  arrival order: the first writer holds it and its commit passes carrying the second
+  writer's lines. His exemption for the shared task tracker sits exactly where our
+  hunk-level sweeps live.
+- **His rule through the replay (arm B for `dle-m2b`): not-better on every arm.** 1,425
+  mapped commits, branch `ab/lease-guard-replay` (`c0f626d8`, unlanded). Declared claims
+  2/4 known sweeps at 0.07% clean; implied claims (every file reserved at first write)
+  3/4, including the ledger-row sweep, at about 15% clean and about 230 refused grants a
+  month; ledgers exempt removed that catch, as predicted; no lease arm saw abandoned work
+  committed "as found". The inventory reference: 3/4 at 0.28%. `dle-m2b` updated: the
+  content check for shared ledgers remains the direct fix.
+- **Landed knowledge:** `concurrent-vcs/commit-time-claim-guard` (new; the inventory
+  gates, a claim complements). Seven applications: the registry replay and six against the
+  source tree (concurrent-vcs x2, data-access, audit-logging, fleet-orchestration,
+  concurrency-guards). Commits `711e06d5`, `c46b252b` (index).
+- **Applies:** ai-registry experiment not-better (the lease rule); personas experiment
+  not-better as a falsifier (the inventory rule flagged 6.2%, nearly all unmodelled
+  generators; the technique gained "the inventory is per tree"). During the run a sibling
+  round's pathspec commit of personas' apply ledger carried this run's uncommitted row
+  (`c3cc02dcd0`; fix on top `7368e66953`): the shared-ledger hunk sweep, live, on a second
+  tree.
+- **Premises the trees corrected (all in this charter):** the persistence order is not
+  inverted (both versions write the database first; what inverted is which write decides
+  success, and the guard reads the derived copy, which forced its re-coupling); "enforced
+  only at commit" holds for the predecessor only (the rewrite refuses at grant); the
+  predecessor is labelled superseded, but its repository name is the planned canonical
+  home; personas has no worker-to-worker mail and no file leases, but has a hub every
+  session reports to and machine-to-machine persona messaging; tracklight leases tasks,
+  not files, with a fence on every write.
+- **Backlog rows added (peer study, 34 points):** `dle-002-board-unreadable-record-fails`,
+  `dle-002-beat-partial-grant`, `dle-002-evidence-liveness`, `dle-002-lock-fence`,
+  `dle-002-refuse-broad-claims`. None changed in-session: three sibling rounds were on the
+  same board and the bar is a paired run.
+- **Leads:** L1 the automated coordinator (`llm-agent/orchestration/` is full), L2
+  directed agent mail; both XL, escalated to the operator.
+- **What this round got wrong about itself:** the declared focus checked this run's brief
+  premises and they held, while the five wrong premises came from the charter the briefs
+  inherited; the personas apply row was left uncommitted for a few minutes in a tree three
+  sibling rounds were writing, which is how it was swept.

@@ -1,0 +1,145 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dle-002-1015",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T22:35:00Z",
+  "ended_at": "2026-10-15T00:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/concurrent-vcs",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/data-access",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/audit-logging",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/fleet-orchestration",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/concurrency-guards",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "concurrent-vcs",
+      "technique": "commit-time-claim-guard",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "concurrent-vcs",
+      "technique": "commit-time-claim-guard",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/techniques/commit-time-claim-guard.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/techniques/physical-isolation.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--commit-time-claim-guard--ai-registry.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--commit-time-claim-guard--agent-mail.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--sub-file-claim-scope--agent-mail.md",
+    "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--existence-authority-written-last--agent-mail.md",
+    "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--best-effort-with-accounting--agent-mail.md",
+    "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--evidence-outranks-a-liveness-claim--agent-mail.md",
+    "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion--agent-mail.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/sources/2026-10-15-mcp-agent-mail-rust.md",
+    "librarian/subjects/software-engineering/concurrent-vcs.md",
+    "librarian/subjects/software-engineering/data-access.md",
+    "librarian/subjects/software-engineering/audit-logging.md",
+    "librarian/subjects/software-engineering/fleet-orchestration.md",
+    "librarian/subjects/software-engineering/concurrency-guards.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/harvest/evaluations.md",
+    "librarian/harvest/backlog.jsonl",
+    "librarian/harvest/queue.md",
+    "librarian/handoffs/2026-10-14-dicklesworthstone-series.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [
+    {
+      "sha": "711e06d5",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/techniques/commit-time-claim-guard.md",
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/techniques/physical-isolation.md",
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--commit-time-claim-guard--ai-registry.md",
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--commit-time-claim-guard--agent-mail.md",
+        "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--sub-file-claim-scope--agent-mail.md",
+        "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--existence-authority-written-last--agent-mail.md",
+        "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--best-effort-with-accounting--agent-mail.md",
+        "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--evidence-outranks-a-liveness-claim--agent-mail.md",
+        "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion--agent-mail.md",
+        "librarian/sources/2026-10-15-mcp-agent-mail-rust.md",
+        "librarian/subjects/software-engineering/concurrent-vcs.md",
+        "librarian/subjects/software-engineering/data-access.md",
+        "librarian/subjects/software-engineering/audit-logging.md",
+        "librarian/subjects/software-engineering/fleet-orchestration.md",
+        "librarian/subjects/software-engineering/concurrency-guards.md"
+      ]
+    },
+    {
+      "sha": "c46b252b",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/index.json",
+        "catalog.json",
+        "rules/ai-registry-software-engineering.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "software-engineering/concurrency-guards",
+      "reason": "C10: a write mode kept because it passed, not because it won; nothing survives the strip"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Series DLE-002. 1 technique, 7 apps (6 vs source), 2 apply rows not-better, 5 backlog rows, 2 XL leads, 4 untriaged; lease-guard A/B kept on branch ab/lease-guard-replay c0f626d8. Prose in the source note."
+}
