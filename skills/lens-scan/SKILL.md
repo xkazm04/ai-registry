@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.4.3
+version: 1.4.4
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -322,6 +322,10 @@ the **registry checkout** (found as for `{registry}`), refused with `lens-scan r
 checkout has uncommitted changes` while its `git status --porcelain --untracked-files=no` prints
 anything (untracked files are other work and never block it). Each item:
 
+0. **Re-check the item against Propose as it reads today** (a cut-off item too, after its
+   landed work is reconciled). An item that cannot meet those rules (a delta at the wrong
+   grain, a metric that no longer exists) is not built: record it `failed` with a `note`
+   activity `re-propose: <why>`.
 1. `proposal-update --id <p> --status executing` (a cut-off item is already `executing`: skip the update); `activity --kind executing`.
 2. **Re-measure before** with the same method the item's metric was measured with. If
    the Before has moved since the proposal, say so in the body of the commit; if the
@@ -397,6 +401,10 @@ nobody watching the terminal. Its prompts:
 /lens-scan onboard "<description>" --draft-only     # the lens chat, with --resume per turn
 ```
 
+- **Never end your turn while work runs.** In `claude -p`, the end of your turn ends the
+  process, and every background builder, judge and conform agent dies with it. The run is
+  then closed `aborted` with its items cut off. Wait for every agent you started in the
+  foreground, and end the turn only after `run-end`.
 - **Never stop to ask.** There is no one to answer. Where the method says "ask once"
   (`default_scope`), take the headless default (every feature); where it would ask for
   approval, the decisions already in the store (the review UI's, or a caller's `decide`) are the only answer.
