@@ -63,6 +63,11 @@ convention; the platform documents neither a share nor a count, only that headli
   says the keyword in every line.
 - **When the keyword list is empty, report the factor as unmeasured and renormalise the
   composite, because** an absent signal must neither penalise nor inflate the rating.
+- **When a keyword and its headline form differ only by an ending, compare on a stem
+  prefix for longer tokens and keep short tokens exact, because** exact membership
+  reports a set that says the keyword in every inflected form as having none, while a
+  prefix on short tokens (four or five characters) matches unrelated words that merely
+  share a start.
 
 ## When NOT to use
 
