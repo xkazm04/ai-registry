@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 62,
+  "applications": 63,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -152,8 +152,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/deadline-pipeline-management.md",
-   "digest": "sha256-b2:55ae2eb0a8f61149",
-   "revision": 3,
+   "digest": "sha256-b2:721a04f1205b55a9",
+   "revision": 4,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -273,6 +273,12 @@
      "technique": "miss-risk-scoring",
      "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/applications/node--miss-risk-scoring.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "severity-band-triage",
+     "file": "knowledge/grant-funding/grant-operations/deadline-pipeline-management/applications/node--severity-band-triage.md",
+     "verified_on": "2026-10-14"
     },
     {
      "stack": "process",

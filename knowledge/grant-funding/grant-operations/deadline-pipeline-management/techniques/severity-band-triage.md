@@ -78,6 +78,10 @@ exists to prevent.
 - **When two surfaces disagree about an item's band**, the defect is almost
   always divergent day math, not divergent thresholds. Fix the clock, not the
   bands.
+- **When a presentation cue needs "is this critical?"**, ask the band
+  function, never re-state its threshold. A hand-written `<= 7` beside a
+  band that is `< 7` puts day seven in two bands inside one table cell, and
+  no threshold review will find it because the number looks the same.
 
 ## When not to use it
 
