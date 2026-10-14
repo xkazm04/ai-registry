@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 306,
+  "applications": 307,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -990,9 +990,9 @@
    "subcategory": "fairness-and-defensibility",
    "status": "forged",
    "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/bulk-adverse-action-governance.md",
-   "digest": "sha256-b2:525cb59fe170b344",
-   "revision": 5,
-   "changedAt": "2026-09-29",
+   "digest": "sha256-b2:f33d2cefcafef4c0",
+   "revision": 6,
+   "changedAt": "2026-10-14",
    "techniques": [
     {
      "slug": "cohort-drift-forces-a-fresh-review",
@@ -1101,6 +1101,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "cohort-drift-forces-a-fresh-review",
+     "file": "knowledge/recruiting/decision-and-fairness/fairness-and-defensibility/bulk-adverse-action-governance/applications/node--cohort-drift-forces-a-fresh-review.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "contest-door-at-the-point-of-decision",
