@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 235,
-  "techniques": 1872,
-  "applications": 1336,
+  "techniques": 1873,
+  "applications": 1343,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1872/1872",
+  "use_when_coverage": "1873/1873",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3744,9 +3744,9 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
-   "digest": "sha256-b2:1fadfb8d9819f243",
-   "revision": 9,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:154304c5d9578971",
+   "revision": 10,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -3936,6 +3936,13 @@
      "technique": "tamper-evidence",
      "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/node--tamper-evidence.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "best-effort-with-accounting",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--best-effort-with-accounting--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
     },
     {
      "stack": "rust",
@@ -6942,9 +6949,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256-b2:a22cbe60c40eb259",
-   "revision": 15,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:ccc991958e998a93",
+   "revision": 16,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "atomic-file-publish",
@@ -7241,6 +7248,13 @@
     {
      "stack": "rust",
      "technique": "cross-process-exclusion",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
+    },
+    {
+     "stack": "rust",
+     "technique": "cross-process-exclusion",
      "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion--symbol-lock-store.md",
      "verified_on": "2026-10-14"
     },
@@ -7270,10 +7284,30 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
-   "digest": "sha256-b2:3c78256751da8f70",
-   "revision": 8,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:de557423d4cf3016",
+   "revision": 9,
+   "changedAt": "2026-10-15",
    "techniques": [
+    {
+     "slug": "commit-time-claim-guard",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "many sessions share one checkout and a commit can carry another session's work",
+      "choosing what a pre-commit hook refuses in a shared tree",
+      "deciding whether claims or each session's own write record should gate a commit",
+      "a shared ledger every session appends to keeps carrying a sibling's rows",
+      "a commit hook reads a claim record that another store owns",
+      "deciding how a commit guard fails when it cannot read its own state",
+      "pricing a commit guard before installing it"
+     ]
+    },
     {
      "slug": "commit-verification",
      "status": "forged",
@@ -7421,6 +7455,12 @@
     },
     {
      "stack": "process",
+     "technique": "commit-time-claim-guard",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--commit-time-claim-guard--ai-registry.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "process",
      "technique": "commit-verification",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--commit-verification.md",
      "verified_on": "2026-08-22"
@@ -7463,9 +7503,23 @@
     },
     {
      "stack": "rust",
+     "technique": "commit-time-claim-guard",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--commit-time-claim-guard--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
+    },
+    {
+     "stack": "rust",
      "technique": "integration-door",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--integration-door.md",
      "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "rust",
+     "technique": "sub-file-claim-scope",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--sub-file-claim-scope--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
     },
     {
      "stack": "rust",
@@ -9171,9 +9225,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256-b2:b67182492821d592",
-   "revision": 18,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:2dba94be6400dea1",
+   "revision": 19,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -9421,6 +9475,13 @@
      "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/python--layering-rules.md",
      "verified_on": "2026-10-06",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "rust",
+     "technique": "existence-authority-written-last",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--existence-authority-written-last--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
     },
     {
      "stack": "rust",
@@ -15683,9 +15744,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256-b2:9c76a758a1cf421f",
-   "revision": 27,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:93bd71853ab468b1",
+   "revision": 28,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -16083,6 +16144,13 @@
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--completion-claim-verification.md",
      "verified_on": "2026-09-02",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "evidence-outranks-a-liveness-claim",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--evidence-outranks-a-liveness-claim--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
     },
     {
      "stack": "rust",
@@ -40116,6 +40184,7 @@
     "concurrency-guards/preparation-is-the-staleness-window",
     "concurrency-guards/renewal-deadline-two-thirds-ttl",
     "concurrency-guards/shared-claims-by-announce-and-verify",
+    "concurrent-vcs/commit-time-claim-guard",
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/integration-door",
     "concurrent-vcs/isolated-index-commits",
@@ -40705,6 +40774,7 @@
     "concurrency-guards/renewal-deadline-two-thirds-ttl",
     "concurrency-guards/shared-claims-by-announce-and-verify",
     "concurrency-guards/single-flight-primitives",
+    "concurrent-vcs/commit-time-claim-guard",
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/integration-door",
     "concurrent-vcs/intent-ledgers",
@@ -41891,6 +41961,7 @@
     "companion-runtime/metered-llm-seam",
     "companion-runtime/operative-working-set",
     "concurrency-guards/cache-value-not-handle",
+    "concurrent-vcs/commit-time-claim-guard",
     "conditional-service-composition/intent-and-environment-in-one-namespace",
     "conditional-service-composition/requirement-closure-before-selection",
     "conformance-checking/edition-stratified-conformance",
@@ -43900,6 +43971,7 @@
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
     "concurrency-guards/fence-inside-write-transaction",
+    "concurrent-vcs/commit-time-claim-guard",
     "concurrent-vcs/physical-isolation",
     "conformance-checking/declared-deviation-register",
     "contested-acquisition/no-surface-no-rung",

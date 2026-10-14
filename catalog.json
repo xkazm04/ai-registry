@@ -1202,10 +1202,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 235,
-      "techniques": 1872,
-      "applications": 1336,
-      "files": 3448,
-      "contentHash": "sha256-b2:225f92b5d11a2e94"
+      "techniques": 1873,
+      "applications": 1343,
+      "files": 3456,
+      "contentHash": "sha256-b2:bb2a91cec6a48286"
     },
     {
       "name": "technical-writing",
