@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 59,
+  "applications": 60,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -429,8 +429,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/evidence-grounded-claims.md",
-   "digest": "sha256-b2:b165d626a400472c",
-   "revision": 4,
+   "digest": "sha256-b2:95f028623c37cc30",
+   "revision": 5,
    "changedAt": "2026-10-14",
    "techniques": [
     {
@@ -529,6 +529,13 @@
      "stack": "node",
      "technique": "placeholder-to-fact-resolution",
      "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/applications/node--placeholder-to-fact-resolution.md",
+     "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "provenance-per-figure",
+     "file": "knowledge/grant-funding/proposal-craft/evidence-grounded-claims/applications/node--provenance-per-figure.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@24"
     },
