@@ -55,6 +55,11 @@ organization as defunct. The rules:
   verdict.** Classify it inconclusive and, critically, *do not cache it* —
   caching converts a five-second upstream hiccup into a full cache-lifetime
   of a false answer served with confidence.
+- **Assert absence only from the registry's explicit not-found signal,
+  never from what a success body failed to contain.** A well-formed success
+  with no entity in it, or an entity carrying none of the deciding fields, is
+  the same retryable error as any other empty answer; reading it as "no such
+  entity" turns an upstream hiccup into a determinate, cached disqualifier.
 - **When some decisive fields are present, degrade downward only.** An
   entity that is found but whose registration states are empty or
   unrecognized is "not confirmed active" — a determinate non-pass — never
