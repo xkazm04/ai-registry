@@ -31,3 +31,11 @@ Append-only reflection lane. One entry per run that taught something. Format:
 ## 1.3.1 - 2026-09-09 - ai-registry
 
 - Architecture review: the shared reflection clause assumed a writable registry link in every installation. Replaced that assumption with installation-aware scope and explicit adoption. This records an instruction audit, not a field effectiveness result.
+
+## 1.6.0 - 2026-10-14 - personas
+
+- Headless field run (`/friend agents --pick auto --cycles 1`) landed one feature commit with no prompt: offline connector probes shown as "couldn't reach" instead of a red failure, 38 files, tsc clean, 53 vitest pass, hooks passed. Verified by checks only, since the app was not launched (no `--verify`). The Evidence header showed 29 deviations, a standard slot from a deviation pair, and 6 directions filtered as prior rejections or in-flight subjects.
+- `git worktree add -b <branch>` without a start point branched from whatever the main checkout had checked out, not the base branch. 0d now names `<base_branch>` explicitly.
+- Ranking deviations before filtering them lets rejected pairs crowd the top 5. The order is now: filter by the rejection set, then rank and keep 5. Pairs carry no technique field, so the technique is chosen from the subject's `use_when`.
+- Gitignored evidence (the scan-sweep backlog digest) exists only in the main checkout; a fresh worktree reads it as absent. Evidence reads and the consults/run logs now go to the main checkout.
+- tsc failed until the i18n type generator ran after the string catalogue changed; Phase 4 now runs codegen on any catalogue change, falling back to the generators the typecheck depends on.

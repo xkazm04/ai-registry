@@ -23,7 +23,10 @@
 //   groups         { column: [metric, ...] } summary columns in the Markdown table
 //   mdColumns      columns of the Markdown table
 //   cssWeight      weight of raw values in co-located .css files (default 0)
-//   sharedImport   import prefix that marks use of the system's components
+//   sharedImport   import prefix(es) that mark use of the system's components: a string or a
+//                  list. Default: '@/<featuresRoot without src/>/<each systemPrefix>/'. When
+//                  no import matches, sharedPer100 is 0 everywhere: analyze() returns a
+//                  warning (printed to stderr) instead of a silent zero column.
 //   contextMap     optional JSON { contexts: [{ name, group, file_paths[] }] } for a ctx column
 //   lowConfLoc     modules under this LOC are flagged lowConf (default 300)
 //
@@ -34,7 +37,7 @@ import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import {
-  readConfigFile, mergeConfig, parseGrouping, moduleOf, isSystemModule, fileFilter, relToRoot,
+  readConfigFile, mergeConfig, parseGrouping, moduleOf, isSystemModule, systemPrefixes, fileFilter, relToRoot,
   walkFiles, argReader, isMain,
 } from './lib/modules.mjs';
 
@@ -114,15 +117,21 @@ export function debtOf(score, loc) { return Math.round(score * loc / 100); }
 
 const CSSRE = /font-size:\s*[\d.]+(?:px|rem)|#[0-9a-fA-F]{3,8}\b|rgba?\(/g;
 
-function sharedImportRe(prefix) {
-  const esc = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  return new RegExp('import\\s+(?:type\\s+)?(?:\\{([^}]*)\\}|(\\w+))\\s*from\\s*[\\x22\\x27]' + esc, 'g');
+/** One regex matching an import from any of the prefixes (a string or a list). */
+export function sharedImportRe(prefixes) {
+  const list = [].concat(prefixes).filter(Boolean);
+  const esc = list.map((x) => x.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|');
+  return new RegExp('import\\s+(?:type\\s+)?(?:\\{([^}]*)\\}|(\\w+))\\s*from\\s*[\\x22\\x27](?:' + (esc || '(?!)') + ')', 'g');
 }
 
-function defaultSharedImport(cfg) {
-  const root = cfg.featuresRoot.replace(/^src\//, '').replace(/\/+$/, '');
-  const sys = String(cfg.systemPrefix || '').replace(/\/+$/, '');
-  return '@/' + (root ? root + '/' : '') + (sys ? sys + '/' : '') + 'components/';
+/**
+ * The import prefix of each system folder: '@/' + featuresRoot (without a leading src/) + prefix.
+ * (Until 0.3.0 it appended "components/", which matched one project's layout and silently zeroed
+ * sharedPer100 everywhere else.)
+ */
+export function defaultSharedImport(cfg) {
+  const root = String(cfg.featuresRoot || '').replace(/^\.?\/?src\//, '').replace(/^src$/, '').replace(/^\.$/, '').replace(/\/+$/, '');
+  return systemPrefixes(cfg.systemPrefix).map((sys) => '@/' + (root ? root + '/' : '') + sys + '/');
 }
 
 /**
@@ -152,7 +161,8 @@ export function analyze(repo, cfgIn = {}, opts = {}) {
   if (cfg.contextMap !== null) {
     try { for (const c of JSON.parse(read(cfg.contextMap || 'context-map.json')).contexts) for (const p of (c.file_paths || [])) ctxOf[p] = c.name + ' [' + c.group + ']'; } catch { /* optional */ }
   }
-  const IMP = sharedImportRe(cfg.sharedImport || defaultSharedImport(cfg));
+  const sharedPrefixes = [].concat(cfg.sharedImport || defaultSharedImport(cfg));
+  const IMP = sharedImportRe(sharedPrefixes);
   const since = new Date(now - days * 864e5).toISOString().slice(0, 10);
   const added = new Set(useGit ? git('log', '--diff-filter=A', '--since=' + since, '--name-only', '--format=', '--', root).split(NL).filter(Boolean) : []);
   const mods = {}, coh = { recent: { loc: 0 }, older: { loc: 0 } };
@@ -186,7 +196,12 @@ export function analyze(repo, cfgIn = {}, opts = {}) {
   const per = (o, k) => +((o[k] || 0) * 100 / o.loc).toFixed(2);
   const cohorts = Object.fromEntries(Object.entries(coh).map(([k, o]) => [k, { loc: o.loc, score: +scoreOf(o, metrics, cssW).toFixed(2), ...Object.fromEntries(keys.map((x) => [x, per(o, x)])) }]));
   const weights = Object.entries(metrics).filter(([, [, w]]) => w).map(([k, [, w]]) => k + '=' + w).join(' ') + ' cssRaw=' + cssW;
-  return { files: files.length, since, rows, cohorts, weights, metrics, mdColumns: cfg.mdColumns || DEFAULT_MD_COLUMNS, featuresRoot: root, systemPrefix: cfg.systemPrefix, useGit };
+  const sharedMatches = Object.values(mods).reduce((n, m) => n + m.shImp, 0);
+  const warnings = [];
+  if (files.length && !sharedMatches) {
+    warnings.push(`sharedImport ${sharedPrefixes.join(' | ') || '(none)'} matched 0 imports in ${files.length} files: sharedPer100 is 0 everywhere because the prefix is wrong, not because nothing uses the kit. Set sharedImport to the kit's import prefix (e.g. "@/app/_components/kit").`);
+  }
+  return { files: files.length, since, rows, cohorts, weights, metrics, mdColumns: cfg.mdColumns || DEFAULT_MD_COLUMNS, featuresRoot: root, systemPrefix: cfg.systemPrefix, useGit, sharedImport: { prefixes: sharedPrefixes, matches: sharedMatches }, warnings };
 }
 
 /** Render the three output formats from an analyze() result. */
@@ -197,7 +212,7 @@ export function render(res, top = 999) {
   const table = (L) => ['| # | ' + mc.join(' | ') + ' |', '|' + '---|'.repeat(mc.length + 1), ...L.map((r) => '| ' + r.rank + ' | ' + mc.map((c) => r[c]).join(' | ') + ' |')].join(NL);
   const feat = res.rows.filter((r) => !r.system).map((r, i) => ({ ...r, rank: i + 1 }));
   const sys = res.rows.filter((r) => r.system).map((r, i) => ({ ...r, rank: 'S' + (i + 1) }));
-  const md = 'files=' + res.files + ' modules=' + res.rows.length + ' since=' + res.since + NL + 'cohorts per 100 LOC: ' + JSON.stringify(res.cohorts) + NL + 'weights: ' + res.weights + NL + NL + '## Feature modules' + NL + table(feat.slice(0, top)) + NL + NL + '## ' + (res.systemPrefix || 'system/') + ' (system) modules' + NL + table(sys.slice(0, top));
+  const md = 'files=' + res.files + ' modules=' + res.rows.length + ' since=' + res.since + NL + 'cohorts per 100 LOC: ' + JSON.stringify(res.cohorts) + NL + 'weights: ' + res.weights + NL + NL + '## Feature modules' + NL + table(feat.slice(0, top)) + NL + NL + '## ' + (systemPrefixes(res.systemPrefix).map((x) => x + '/').join(', ') || 'system/') + ' (system) modules' + NL + table(sys.slice(0, top));
   const json = JSON.stringify({
     featuresRoot: res.featuresRoot, files: res.files, since: res.since, weights: res.weights, cohorts: res.cohorts,
     modules: res.rows.map(({ sh, cx, list, shImp, ...r }) => ({ ...r, sharedNames: [...sh].sort(), fileList: list })),
@@ -214,6 +229,7 @@ function main(argv) {
   const top = +a.get('--top', 999), out = a.get('--out', null);
   const res = analyze(repo, cfg, { since: +a.get('--since', 30), noGit: a.has('--no-git') });
   if (res.files === 0) { console.error(`style-divergence: no production files under ${res.featuresRoot} in ${repo} - check featuresRoot / extensions`); process.exit(2); }
+  for (const w of res.warnings) console.error('style-divergence: WARNING ' + w);
   const { csv, md, json } = render(res, top);
   if (out) {
     fs.mkdirSync(out, { recursive: true });

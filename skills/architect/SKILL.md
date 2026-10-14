@@ -1,11 +1,11 @@
 ---
 name: architect
-description: Heavy structural codebase scan - surfaces weak patterns to upgrade and strong patterns to codify, producing ADR-style decisions with a durable cross-session backlog. The highest-risk / highest-payoff scan in the suite; walks the context map area by area.
-argument-hint: "[area]"
+description: "Heavy structural codebase scan - surfaces weak patterns to upgrade and strong patterns to codify, and proves whether the repo's own gates (lint rules, hooks, CI checks, type rules, test guards, ratchets) still fire, producing ADR-style decisions with a durable cross-session backlog. The highest-risk / highest-payoff scan in the suite; walks the context map area by area. Modes: scan (one theme, parallel-angle sweep), area (one area), gates (inventory every gate touching a theme, state what it checks versus what the standard wants, and prove it fires with a planted-violation probe on a scratch copy - fires / silent / partial N of M / unprobed), resume (refresh and execute one queued decision), status (read-only - re-measure every pending ADR, classify still-valid / re-sized / done-elsewhere / stale, re-date the backlog). Every surviving finding ends as an ADR, a lint rule / CI gate / test guard, a scoped rollout plan, or a shrink-only ratchet pinned to the dry-run count."
+argument-hint: "[scan|area|gates|resume|status] [theme or area]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.9.0
+version: 1.10.0
 model: sonnet
 ---
 # Architect
@@ -16,7 +16,7 @@ This is the highest-risk, highest-payoff skill in the suite. It pairs with `/res
 
 The method is **repo-agnostic**: it reads whatever context sources the repo actually has for its taxonomy, and keeps a vault for a durable backlog of architectural decisions that span multiple sessions. Everything one repository is — its vault root, context documents, gates, area menu, conventions — lives in the overlay below, and every key has a default, so the run works in a repo that carries no overlay at all.
 
-**Deliverable contract — every finding ends as an artifact.** An architect run that produces observations without enforcement artifacts is a failed run. Each finding that survives triage must terminate as exactly one of: **(a)** an ADR-style vault note (Phase 7b/8a), **(b)** a lint rule / CI gate / structural-test proposal (Phase 7B), or **(c)** a scoped rollout plan with per-PR steps (the ADR's Rollout section). Only `drop` verdicts are artifact-free, and they are recorded with a reason. If you reach Phase 12 with a surviving finding that has none of the three, the run is not done.
+**Deliverable contract — every finding ends as an artifact.** An architect run that produces observations without enforcement artifacts is a failed run. Each finding that survives triage must terminate as exactly one of: **(a)** an ADR-style vault note (Phase 7b/8a), **(b)** a lint rule / CI gate / structural-test proposal (Phase 7B), **(c)** a scoped rollout plan with per-PR steps (the ADR's Rollout section), or **(d)** a **shrink-only ratchet pinned to the dry-run count** — the enforcement dry run (Phase 7c step 4) lists today's offenders, that list becomes the allowlist, a new offender fails, a converted site must delist itself, and the list may only shrink. (d) is the sanctioned terminal artifact for a partial migration too large for one session: a one-session gate that does not pretend the migration happened. A proven negative (Phase 3d) terminates as (b) — the gate that keeps the bug class absent, either an existing gate proven to fire or a proposed one. Only `drop` verdicts are artifact-free, and they are recorded with a reason. If you reach Phase 12 with a surviving finding that has none of the four, the run is not done.
 
 ## Project overlay
 
@@ -65,20 +65,20 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 
 ## Input
 
-Ask numbered-menu questions. Numeric input picks the option; **Enter** picks the default; option `1. other → …` is the deviation lane and accepts free text.
-
 ### Q1 — Mode
 
 ```
 Mode? (Enter = scan)
   1. scan      - pick a theme, parallel-agent sweep        <- default
   2. area      - bound the sweep to one area
-  3. resume    - drain the backlog (skip scanning)
+  3. gates     - prove the theme's gates still fire (probe on a scratch copy)
+  4. resume    - drain the backlog (skip scanning)
+  5. status    - read-only: refresh every pending ADR, re-date the backlog
 ```
 
-`resume` skips the rest of Input — jump straight to Phase 9.
+`gates` asks Q2a (the theme) and runs § Gates mode in place of Phase 3. `resume` and `status` skip the rest of Input — after Phases 0-1, load [resume and status](references/resume-status.md) and go straight to Phase 9 or its § Status mode. Status reads a pending ADR's governing subject (Phase 1b step 0) only when re-sizing that ADR needs it.
 
-### Q2a — Theme (scan mode)
+### Q2a — Theme (scan and gates modes)
 
 ```
 Theme? (Enter = pick for me)
@@ -94,7 +94,7 @@ Theme? (Enter = pick for me)
   10. pick for me   <- default (uses Architect/coverage.md staleness)
 ```
 
-Theme is required for scan mode — `pick for me` (option 10) is fine, but a one-word vague free-form theme yields shallow findings; if option 1's input is too thin, re-ask.
+Theme is required for scan and gates modes — `pick for me` (option 10) is fine, but a one-word vague free-form theme yields shallow findings; if option 1's input is too thin, re-ask.
 
 ### Q2b — Area (area mode)
 
@@ -109,7 +109,7 @@ Area? (Enter = pick for me)
 
 Numeric options 2–9 are the overlay's `## Area menu`; with no overlay, derive up to 8 from the context map's groups (or the repo's top-level source directories) and print what you derived them from. Option 1's free text falls through to the existing area resolver. Scan is bounded to that area but still cross-cutting within it; same parallel-agent shape as scan mode.
 
-If the user's first message is ambiguous about mode (e.g. just `/architect`), present Q1; if they typed `resume` directly, skip to Phase 9.
+If the user's first message is ambiguous about mode (e.g. just `/architect`), present Q1; if they typed `resume`, `status` or `gates` directly, take that mode without asking.
 
 ---
 
@@ -129,7 +129,7 @@ If the user's first message is ambiguous about mode (e.g. just `/architect`), pr
   - `Architect/coverage.md` — themes/areas previously scanned, staleness, last-decision date
   - `Patterns/architect-preferences.md` — distilled rules across runs (promoted from Lessons)
   - `Lessons/{date}-architect.md` — append-only self-reflection
-- **Categories of finding** — `weak-pattern | strong-pattern | tech-swap | structural-bug-class | convention-gap`
+- **Categories of finding** — `weak-pattern | strong-pattern | tech-swap | structural-bug-class | convention-gap | enforcement-gap | proven-negative`
 - **Risk** — 1 (low, isolated) … 5 (production-critical surface)
 - **Effort** — `s | m | l | xl`
 - **Reach** — concrete number: "{N} files / {M} call sites / {K} components" — never vague.
@@ -137,20 +137,9 @@ If the user's first message is ambiguous about mode (e.g. just `/architect`), pr
 
 ---
 
-## Coordination — Active-Runs Ledger
+## Coordination
 
-**Only when the overlay names an `active_runs_ledger`.** With no ledger declared, `git status` is the whole coordination surface: note foreign uncommitted work, never sweep it into your commits, and skip the rest of this section.
-
-Before materially editing the working tree (which `/architect` always does in Phase 7 — Execute), register this session in the ledger, following the format conventions at the top of the ledger file itself. Read its `## Active` section first; if any `started`-status entry overlaps your area-mode scope and is <2h old, surface the conflict to the user before proceeding. Overlap on the ledger file itself is expected and is not a conflict.
-
-**Ledger edits are a single bash invocation** (read + append/move in one command) — parallel sessions rewrite the file between an Edit-tool read and its write, so multi-step edits lose entries. Always edit the ledger in the **main checkout**, even when the code work happens in a worktree.
-
-**Declared paths for `/architect`:**
-- Vault: `Architect/scans/<run>.md`, `Architect/decisions/<adr>.md`, `Architect/backlog.md`, `Architect/strong-patterns.md`, `Architect/weak-patterns.md`, `Lessons/{date}-architect.md`
-- Working tree (varies by area mode): the area's file paths as the context source lists them
-- Always: the ledger itself
-
-**At session end** (Phase 7 commit lands, the user closes without execute, or the run aborts): move your entry to the top of `## Recently completed`. Update `Status` to `completed (commit: <sha>)` or `aborted (<reason>)`. Trim entries older than 14 days while you're there.
+With no `active_runs_ledger` in the overlay, `git status` is the whole coordination surface: note foreign uncommitted work and never sweep it into your commits. When the overlay names a ledger, follow § Coordination in [the execute reference](references/execute.md) before the first working-tree edit (Phase 7 or 7B) and again at session end.
 
 ---
 
@@ -168,71 +157,7 @@ Record `$VAULT` (and `vault_subdir`, default `Architect`) for the rest of the ru
 
 ### Bootstrap (one-time per vault)
 
-If any of these are missing, create them:
-
-- `$VAULT/Architect/` (directory)
-- `$VAULT/Architect/scans/`, `$VAULT/Architect/decisions/` (directories)
-- `$VAULT/Architect/backlog.md`:
-  ```markdown
-  # Architect Backlog
-
-  Durable queue of architectural decisions. Sorted manually by priority.
-  Status values: `proposed | approved | in-progress | shipped | abandoned | blocked`.
-
-  ## Pending
-  _No pending decisions._
-
-  ## Shipped
-  _None yet._
-
-  ## Abandoned / Blocked
-  _None yet._
-  ```
-- `$VAULT/Architect/strong-patterns.md`:
-  ```markdown
-  # Strong Patterns
-
-  Load-bearing patterns identified by `/architect`. Promote-worthy: ideally these
-  graduate into lint rules, design-doc sections, or codified conventions.
-
-  ## Patterns
-
-  _No patterns yet._
-  ```
-- `$VAULT/Architect/weak-patterns.md`:
-  ```markdown
-  # Weak Patterns
-
-  Anti-patterns identified by `/architect`, with reach data. Each entry should
-  eventually convert into a backlog decision (or get explicitly accepted as
-  "tolerable for now" with a reason).
-
-  ## Patterns
-
-  _No patterns yet._
-  ```
-- `$VAULT/Architect/coverage.md`:
-  ```markdown
-  # Architect Coverage
-
-  Heatmap of themes and areas scanned, with last-scan date.
-
-  ## Themes
-  _No themes scanned._
-
-  ## Areas
-  _No areas scanned._
-  ```
-- `$VAULT/Patterns/architect-preferences.md`:
-  ```markdown
-  # Architect Preferences (distilled from /architect runs)
-
-  > Rules upgraded from `Lessons/` after 3+ observations. Loaded by Phase 1.
-
-  _No patterns yet. Will be populated as runs accumulate._
-  ```
-
-`Lessons/` is shared with the other skills — don't recreate.
+If any vault file Phase 1 reads is missing (`Architect/` with `scans/` and `decisions/`, `backlog.md`, `strong-patterns.md`, `weak-patterns.md`, `coverage.md`, `Patterns/architect-preferences.md`), load [the bootstrap templates](references/vault-bootstrap.md) and create what is missing from them. `Lessons/` is shared with the other skills — don't recreate.
 
 ---
 
@@ -280,7 +205,9 @@ If a pattern's `Codification status` is already `lint-rule-added`, `docs-written
 
 ### Scan mode → Phase 3
 ### Area mode → Phase 3 (with area scope override applied to all sub-agent prompts)
-### Resume mode → Phase 9
+### Gates mode → § Gates mode, then Phase 3c onward
+### Resume mode → Phase 9 ([resume and status](references/resume-status.md))
+### Status mode → § Status mode in the same reference; read-only, and the run ends there
 
 ---
 
@@ -296,6 +223,8 @@ For a generic theme, default angles:
 3. **Failure mode** — what happens when this fails? Error handling consistency, recovery, observability.
 4. **Performance surface** — any hot paths? Sync work that should be async? N+1 patterns? Bundle weight contributions?
 5. **Test coverage** — is this tested at the right layer? Unit, integration, e2e? Test gaps that hide regressions?
+
+   **Swap rule — enforcement coverage.** When the repo's rules file, the overlay's `## Gates` / `## Lint vehicle`, or a custom-rule directory names gates, replace angle 5 with **enforcement coverage**: inventory every gate touching the theme and state what each observes versus what the standard wants observed (§ Gates mode, G1-G2). The angle reports; the main session runs the probes (G3), because a read-only agent does not create scratch worktrees. A gate with zero violations for its whole life is invisible to every defect-shaped angle — this is the angle that sees it.
 
 Pick the angles that match the theme. Examples:
 
@@ -319,7 +248,8 @@ You are scanning the {product} codebase ({stack}) for {angle name}.
 
 Theme: {theme}
 {If area mode:} Scope: only files under {area paths from the area taxonomy}
-Background: {1 paragraph from the architecture digest relevant to the theme}
+Background: {1 paragraph from the architecture digest relevant to the theme;
+            every number followed by the command that produced it}
 
 Specific questions:
 1. {question 1 tailored to angle}
@@ -340,6 +270,10 @@ strategically and report shape, not exhaustive detail.
 
 Run all sub-agents **in parallel** (single message, multiple `Agent` tool calls).
 
+**Every number in a brief carries the command that produced it, or is omitted.** The receiving agent treats a background number as fact, and a quick `grep -c` is usually the wrong predicate — two such counts sent two agents spending their budget refuting them.
+
+**If the harness refuses an agent** (a concurrency cap — nested builders count against it — or a "do not retry" reply), do not retry and do not drop the angle: run its brief yourself in the main session, sequentially. The brief is the thinking; the agent is only the throughput. Mark each such angle `main session (agent refused)` in the scan note and count it as an angle, not a sub-agent. A theme that reduces to a countable predicate degrades well (one reproducible instrument beats five estimates); one that needs wide semantic reading degrades badly — say which this was.
+
 ### 3c. Synthesize
 
 Merge the sub-agent reports into a single pattern model. Look specifically for:
@@ -359,15 +293,46 @@ After synthesis, you should have:
 - 0–4 **strong-pattern findings** worth codifying.
 - 0–2 **tech-swap proposals** (replace lib X with Y) — only when smell strength is ≥4 AND swap unlocks payoff a refactor can't.
 - 0–3 **structural-bug-class** findings — recurring bugs whose root is structural (e.g. "every effect that polls leaks because we have no `useInterval` primitive — fix the missing primitive, not 14 effects").
+- 0–3 **proven negatives** — a bug class the run feared and measured absent: the predicate, the command, the count (zero), and the gate that keeps it absent (an existing gate proven to fire, or a proposed one). A clean sweep is not a null result: it converts a suspected weakness into a codifiable strength, and a rule that ships at `error` with nothing to migrate is the cheapest gate a repo will ever get. Runs under-report these because a clean sweep reads as nothing found — list them. Each is recorded in the scan note and as a strong-patterns entry with `Kept absent by: <gate or none>`.
+- 0–4 **enforcement-gap** findings (gates mode, or the enforcement-coverage angle) — a gate that is `silent` or `partial`.
 
-Cap total findings at **8**. If you have more, rank by `(reach × payoff) / (risk × effort)` and drop the bottom.
+Cap total findings at **8**; proven negatives are listed beside them and do not count against the cap. If you have more, rank by `(reach × payoff) / (risk × effort)` — reach = the first integer in `reach` — and drop the bottom.
+
+---
+
+## Gates mode: prove the theme's gates fire
+
+Replaces Phase 3a-3b when Q1 picked `gates`; Phase 3c onward runs as usual. It exists because in a repo whose laws are already gates, the yield moves from the code to the enforcement layer: a lint selector silently overridden by a later config block, or a rule enforced by a hand-listed array covering 8 of ~200 sites, produces no violations, no symptom and no drift — the only observable is the gate itself. Scope: one theme; budget about 30-40 minutes.
+
+### G1. Inventory
+
+Every gate that touches the theme, by kind: **lint rule** (custom rules and config selectors), **hook** (git hooks, pre-commit / pre-push), **CI check** (workflow steps, required jobs), **type rule** (compiler strictness flags, type-level brands), **test guard** (structural / invariant tests), **ratchet** (allowlists, baselines, count caps). Sources: the overlay's `## Gates`, `## Lint vehicle` and `## Test guard vehicle`, the rules file, linter and compiler config, hook directories, CI workflows, `package.json` scripts. Read the **resolved** configuration wherever the tool can print it (a linter's print-config for a file in scope, the compiler's show-config): a source file can declare a selector that a later block overrides, and only the resolved config shows it. A gate kind that does not touch the theme is listed as `n/a` in one line, never omitted.
+
+### G2. What it checks vs what the standard wants
+
+One row per gate: what it OBSERVES (its predicate and its scope — globs, listed sites) versus what the governing standard (Phase 1b step 0; else the repo law) wants observed. Two shapes recur: the gate watches a **proxy** rather than the target, and the gate's **scope is a hand-kept list**. For a scoped gate count M, the sites the standard covers, with an independent walker — never the gate's own list — and N, the sites the gate covers.
+
+### G3. Prove it fires — by probe, never by reading
+
+For each gate, plant the exact violation it exists to catch on a scratch copy, and run the gate. A gate that watches other gates (a config-resolution guard, a meta-test) is probed with each theme rule shadowed in turn, not only its own family:
+
+- **Never in the user's tree.** Prefer a tool's stdin mode with a virtual path when it has one (a linter's `--stdin --stdin-filename <a path in scope>` writes nothing; check its output, since a virtual path the linter ignores exits 0 with a warning and reads as silent). Otherwise a temp detached worktree: `git worktree add --detach <scratch>/gate-probe HEAD`, dependencies shared as in the execute reference 7a. Clean it up the same run: remove a `node_modules` junction with `rmdir` first (a recursive delete follows it into the main checkout), then `git worktree remove --force <scratch>/gate-probe` and `git worktree prune`.
+- **Pair every probe with a control.** The planted violation must fail the gate and an otherwise identical clean file must pass. Without the control, "fires" cannot be told from "always red".
+- **Read the exit status from the gate itself**, never through a pipe, and read its output: a failure raised by some other rule is not this gate firing.
+- **Record the probe command** in the scan note, so the next run and the fix's own test can re-run it.
+
+Each gate ends **fires** (violation caught, control clean), **silent** (violation passes), **unprobed (<why>)** (no safe probe, e.g. a hook that runs only on push; never counts as fires), or **partial** (fires on the probe but covers N of M sites, or catches some anti-shapes the standard names and not others). A silent or partial gate is an `enforcement-gap` finding, and its fix is not done until the probe is kept as a test (a canary violation, or an assertion on the resolved config) so the gate cannot go silent again. A gate that fires plus a measured zero of its violations is a proven negative (Phase 3d).
+
+### G4. Hand over
+
+With no gate touching the theme, say so and offer `scan` instead — an empty enforcement layer is a `convention-gap` finding only where the standard names a gate. Otherwise synthesize as Phase 3c (G2's proxies and partial scopes are findings in their own right) and continue at Phase 3d.
 
 ---
 
 ## Phase 4: Surface against existing memory
 
 Before presenting, cross-check every finding against:
-- `$VAULT/Architect/strong-patterns.md` — if you're flagging a "weakness" in something previously identified as strong, the user's expectation has changed; flag the conflict explicitly.
+- `$VAULT/Architect/strong-patterns.md` — if you're flagging a "weakness" in something previously identified as strong, the user's expectation has changed; flag the conflict explicitly. A strong-pattern entry a later run refutes gets a dated `Conflict:` line with the evidence, never a silent deletion.
 - `$VAULT/Architect/backlog.md` — if a finding duplicates a pending decision, merge them and note "previously proposed in [[backlog#decision-N]], re-confirming with new reach data."
 - `$VAULT/Architect/weak-patterns.md` — same for weak patterns. If reach or risk has shifted, update the existing entry instead of creating a new one.
 
@@ -437,6 +402,8 @@ For strong-pattern:
     Risk to losing: {what would happen if it drifts - concrete bug shape}
 ```
 
+For enforcement-gap, use the weak-pattern block plus three lines — `Gate:` (kind and file), `Checks / wants:` (G2's row), `Probe:` (the command, then fires / silent / unprobed / partial N of M). For a proven negative, one block: `Predicate:`, `Command:`, `Count: 0`, `Kept absent by:` (a gate proven to fire, or the proposed gate).
+
 ### Aging strong patterns (from Phase 1d)
 
 After the new findings, print a short Aging block — only if Phase 1d found any:
@@ -473,12 +440,12 @@ The four-way triage matters: architect findings rarely all execute now, but they
 
 For each verdict:
 
-- **execute now** → proceed to Phase 7. When more than one finding is marked execute-now, run them as one session **sequenced by ascending risk**, with the gate re-run between findings so a regression is attributable to the finding that caused it. State the sequence before starting. Do not ask the user to reduce the set — they chose it.
+- **execute now** → load [the execute reference](references/execute.md) and run Phase 7. When more than one finding is marked execute-now, run them as one session **sequenced by ascending risk**, with the gate re-run between findings so a regression is attributable to the finding that caused it. State the sequence before starting. Do not ask the user to reduce the set — they chose it.
 - **queue** → proceed to Phase 8 (write ADR + add to backlog).
 - **drop** → record in scan note as `decided: dropped` with reason. Pattern-track in Lessons (Phase 10).
 - **rework** → ask: "what shape would actually fit?" Capture user's reframe, update the finding, re-present. If they don't have a clear redo, queue it as `proposed (needs reshape)` so a future scan can revisit.
 
-Strong-pattern findings have a different triage:
+Strong-pattern findings and proven negatives have a different triage (for a proven negative, `codify` means shipping or keeping the gate that holds it absent):
 ```
 For strong patterns (new this run), pick a verdict:
   1. codify   - proceed to Phase 7B; ship lint rule / docs / test guard
@@ -504,171 +471,9 @@ Codification is on by default if the user picks `codify` for any pattern (new or
 
 ## Phase 7: Execute (one decision, this session)
 
-This is the high-rigor execution path, with full validation. Isolation follows the repo law's parallel-safety rules where it declares any, not ad-hoc branching.
+Load [the execute reference](references/execute.md) when triage marked any finding `execute now` or a resume picked one, and read it in full before the first edit. It carries 7a isolation (worktree by default, feasibility-tested for EVERY gate class), 7b the ADR template (with `reach_cmd`), 7c pre-flight (inspect, classify and coexist with foreign work; baselines with numbers AND exit status; the counted enforcement dry run and the shrink-only ratchet), 7d atomic commits (exact-path staging, a `--name-only` index check, a line-ending check, the repo's own commit convention, never `--no-verify`), and 7e-7h final sweep, ADR status, repo law and visual verification.
 
-### 7a. Isolation: worktree by default
-
-Multi-file work MUST NOT happen on the base branch next to other sessions. Architect rollouts are almost always multi-file, so the default is a dedicated worktree under the overlay's `worktree_root` (default `.claude/worktrees`):
-
-```
-Isolation for this decision:
-
-  1. worktree {worktree_root}/architect-{slug}   <- default (mandatory for multi-file rollouts)
-  2. commit on current checkout                  <- only if the rollout touches a single file
-
-Pick 1 or 2 (Enter = 1).
-```
-
-**Test the worktree before committing to it.** A fresh worktree has no installed dependencies, so the gates that make a high-rigor rollout *high-rigor* may not run there at all. Decide with evidence, not by default:
-
-1. Create it, then run ONE cheap gate (the typecheck) inside it.
-2. If it fails for want of dependencies, try the cheap share first — a junction/symlink of `node_modules` from the main checkout. This is usually enough for `tsc`, the linter and the unit runner.
-3. **Re-test EVERY gate class you will rely on, not just a cheap one and a slow one.** The link that satisfies one runner routinely fails another, and which one breaks is not predictable from cost: a shared `node_modules` can satisfy the type gate and still break the bundler (Turbopack: *"Symlink [project]/node_modules is invalid, it points out of the filesystem root"*) — or satisfy the type gate and break the TEST runner instead (observed separately: 106 failures across 21 files, all route-handler imports resolving to `undefined`, with the local env ruled out as the cause). Run one of each class — typecheck, lint, unit, build — before trusting the worktree. Discovering this at Phase 7e means the final gate never ran.
-4. If a gate cannot run in the worktree, say which one, and choose deliberately: run that gate from the main checkout after merge, or work on the main checkout from the start. **Never report a gate as passing that you could not run** — and never read an exit code through a pipe (`… | tail`), which reports the exit status of `tail` and will happily show `0` for a build that died.
-
-Isolation that costs verification is a bad trade when the repo law already mandates pathspec-only staging. Record the choice and its reason in the ADR.
-
-If option 1:
-```bash
-git worktree add {worktree_root}/architect-{slug} -b worktree-architect-{slug}
-cd {worktree_root}/architect-{slug}
-```
-Work and commit inside the worktree; vault writes and ledger edits still target the main checkout/vault paths. After the branch is merged into `{base_branch}` and confirmed in `git log {base_branch}`, clean up (Phase 12 ritual): `git worktree remove {worktree_root}/architect-{slug}` then `git branch -D worktree-architect-{slug}`.
-
-Option 2 is legitimate only for genuinely single-file changes. If the user insists on the main checkout for a multi-file rollout, warn once (citing the repo law's isolation rule if it has one), then honor it — the ADR is what gives the change its identity either way.
-
-### 7b. Write the ADR first
-
-Before any code change, write `$VAULT/Architect/decisions/{YYYY-MM-DD}-{slug}.md`:
-
-```markdown
----
-date: 2026-05-01
-slug: {slug}
-status: in-progress
-type: weak-pattern | structural-bug-class | tech-swap
-reach: "{concrete count}"
-risk: {1-5}
-effort: {s/m/l/xl}
-payoff: {1-5}
-branch: worktree-architect-{slug} | "(committed on main checkout)"
-related_scan: [[Architect/scans/{date}-{theme}]]
----
-
-# {Title}
-
-## Context
-{What's the codebase reality today, with file:line examples. ~1 paragraph.}
-
-## Decision
-{What we're going to do. ~1 paragraph. Be specific about scope.}
-
-## Consequences
-### Positive
-- {what we gain}
-### Negative / risks
-- {what we lose or risk}
-### Mitigations
-- {pre-flight checks, rollback plan}
-
-## Rollout
-{Numbered list of atomic commits planned. Each one is independently shippable.}
-{If this decision TURNS ON AN ENFORCEMENT - a validator, a constraint, a lint rule at
-error, a stricter parser - step 0 is ALWAYS a counted dry run. See 7c step 4.}
-1. {step 1} - {validation: cargo check / tsc / lint / tests}
-2. {step 2} - {validation}
-3. ...
-
-## Acceptance criteria
-- {observable criterion 1}
-- {observable criterion 2}
-- {observable criterion 3}
-
-## Regression checklist
-- [ ] {area 1 still works} - verified by: {how}
-- [ ] {area 2 still works} - verified by: {how}
-- ...
-```
-
-### 7c. Pre-flight checks
-
-In a fresh worktree (7a option 1) the tree starts clean — skip straight to step 3 (baselines). On the main checkout (option 2), **do NOT require a clean working tree.** Concurrent CLIs run on the same tree; assuming a clean baseline is wrong, and acting on that assumption (stash, reset, checkout) destroys other people's work. Instead, **inspect, classify, and coexist**:
-
-1. **Inspect the tree:**
-   ```bash
-   git status --short
-   ```
-   Read every modified or untracked path.
-
-2. **Classify each path** as one of:
-   - **In-flight by someone else** — paths that have nothing to do with this architect decision. Leave them strictly alone for the rest of the run.
-   - **Pre-existing in your touch zone** — paths the decision will edit that already have uncommitted changes. Surface to the user:
-     ```
-     File X already has uncommitted changes. The architect decision wants to edit it.
-     Options:
-       1. commit those changes first (you do it; I'll re-inspect after)
-       2. let me commit on top of them (your changes stay; mine layer on)
-       3. abort - pick a different decision
-     ```
-     Default to option 2 if the user doesn't pick — commit-on-top is the principle.
-   - **Yours from this session** — paths only this session has authored. Normal.
-
-3. **Capture validation baselines** — run the overlay's `## Gates` → `baseline:` commands (with no overlay, the detected typecheck / lint / test / compile commands; print what you detected). Record the numbers in the ADR's `## Pre-flight baseline` section. Subsequent commits compare to this baseline — a lint count going from 10086 → 10089 warnings is a regression caused by *you*, not the in-flight other-author work (whose net contribution to the baseline is captured in the snapshot you just took). In a repo with a large pre-existing warning baseline the metric is **delta on the files this diff touched**, never an absolute count.
-
-4. **If the decision turns on an enforcement, measure what already violates it — BEFORE wiring it.** Any change shaped "switch on a check" (a schema validator, a database constraint, a lint rule at `error`, a stricter parser, a required field) has a second baseline that the gate commands above do not capture: **how much existing data or code fails the new rule.** That number decides whether the change is additive or an outage, and it is not inferable — measure it with a throwaway read-only script against production-shaped data, and record the count in the ADR beside the gate numbers.
-
-   Two traps this catches, both observed:
-   - **Fixtures are not evidence about live data.** A seeded corpus validating 100% is a false all-clear; it is precisely the data that never drifted. One run's seeds passed 66/66 while the live table failed 50 of 121 — enforcing as planned would have silently dropped 41% of a user-facing list.
-   - **Live data is not evidence about the full range of legal shapes.** A live corpus passing 100% still says nothing about shapes the application deliberately tolerates but rarely stores — legacy records, partial payloads, fixtures the code is written to accept. Check what the *consumers and their tests* treat as valid, not only what the producer currently emits. The same run's live data passed 121/121 and enforcement still broke a test asserting that a deliberately thin payload stays readable.
-
-   When the violation count is non-zero and the violators are legitimate, the honest outcome is usually **not** enforcement but a recorded, counted observation mode — the check runs and reports, the value still flows — which keeps the drift measurable without manufacturing an outage. Say so in the ADR rather than treating it as a failed decision: a dry run that stops an enforcement is the step working, and the violations it surfaces are frequently the run's most valuable finding.
-
-**Forbidden during pre-flight (and at every later phase):**
-- `git stash` — never. Not even with `--keep-index`.
-- `git reset --hard`, `git reset --merge`, `git restore`, `git checkout --` on any path.
-- `git clean -f`, `git clean -fdx`.
-- `git add -A`, `git add .`, `git add -u` — always specify exact paths so you don't accidentally claim someone else's work.
-
-If the working tree contains a path that conflicts with your edits and the user doesn't want to commit it first, abort the decision and queue it back to the backlog with a `blocked: working-tree-conflict` note. Re-attempting later (when the conflict has cleared) is fine.
-
-### 7d. Atomic commits per rollout step
-
-For each step in the ADR's Rollout section:
-
-1. Apply the changes for that step.
-2. Run the validation listed for that step.
-3. **Compare to baseline** — TS errors must not increase, lint warnings must not exceed baseline + small rounding (5 max), tests must pass at the baseline rate. Note: if the baseline already had non-zero errors/warnings from in-flight other-author work, those propagate forward — that's fine; the metric is *delta*, not absolute.
-4. If validation regresses → fix inline. Do NOT stack failing commits. Do NOT use `--no-verify` or `--amend`.
-5. Stage **only the paths this step touched** — `git add path/one path/two`. Never `git add -A`, `git add .`, or `git add -u` — those would sweep up in-flight work from other CLIs or the user's editor. If you can't enumerate the paths, you don't know what you changed; stop and re-inspect with `git status --short` and `git diff --name-only`.
-6. **Verify the staged index before committing:** run `git diff --cached --stat`. If the staged file count exceeds the paths you just `git add`-ed, the index held pre-staged files from another session — `git restore --staged <path>` each unrelated file first. Never trust the index; even worktrees can carry foreign pre-staged content.
-7. Commit with `architect: <step title>` prefix, Co-Authored-By footer, body referencing the ADR by wikilink.
-8. Record the commit SHA in the ADR's Rollout section as you go.
-
-### 7e. Final regression sweep
-
-After the last step:
-
-1. Run the overlay's `## Gates` → `final:` commands in full (default: the same set the baseline snapshotted). Long gates go `run_in_background` and their output is read before the next state-changing action.
-2. Walk through the ADR's regression checklist. For each item, verify it works — run the actual code path if the overlay's `## Smoke` says how.
-3. **If any checklist item is unverified, do not mark the ADR as `shipped`.** Mark `in-progress` with a "needs verification" note and queue the verification as a follow-up.
-
-### 7f. Update ADR status
-
-When all rollout steps are committed and regression checklist passes:
-- Update ADR frontmatter: `status: shipped`, add `commits: [<sha>, ...]`.
-- Move the entry in `Architect/backlog.md` from Pending to Shipped.
-
-If only some steps shipped, status stays `in-progress` and the ADR records which steps remain.
-
-### 7g. Repo law — non-negotiable
-
-Every commit honors the overlay's `## Repo law` in full: its i18n contract (which locale files a new string must land in, and by which pipeline), its design-token and shared-component rules, its error-handling and IPC discipline, its out-of-scope walls. With no overlay, read the repo's rules file and follow what it states; where it states nothing, match the shape of the surrounding code rather than inventing one.
-
-If a rollout step cannot honor the repo law, do not ship it half-converted — split that step out and record it in the ADR as remaining.
-
-### 7h. Visual verification
-
-For UI-affecting decisions: follow the overlay's `## Smoke` to run the app, exercise the affected surface, confirm. With no `## Smoke`, state explicitly that you have NOT visually verified — never claim "looks good" from code review alone.
+At every phase, never `git stash`, `git reset --hard`, `git restore` / `git checkout --` on a path, `git clean`, or `git add -A` / `.` / `-u`.
 
 ---
 
@@ -680,295 +485,26 @@ Load [the strong-pattern procedure](references/codify-patterns.md) when triage s
 
 ## Phase 8: Backlog the queued decisions
 
-For every finding the user marked **queue** in Phase 6:
-
-### 8a. Write a stub ADR
-
-Same template as Phase 7b, but with:
-- `status: proposed`
-- Rollout section can be sketchy (filled in when the decision moves to `in-progress` in a future session).
-- No commits, no branch.
-
-Save to `$VAULT/Architect/decisions/{YYYY-MM-DD}-{slug}.md`.
-
-### 8b. Append to the backlog
-
-In `$VAULT/Architect/backlog.md`, under `## Pending`, add:
-
-```markdown
-- **[{date}] {Title}** - type: {type}, risk: {N}, effort: {s/m/l/xl}, payoff: {N}, reach: {concrete}
-  ADR: [[Architect/decisions/{date}-{slug}]]
-  Source scan: [[Architect/scans/{date}-{theme}]]
-  Status: proposed
-  Notes: {any user input from triage}
-```
-
-Sort the Pending section by `(reach × payoff) / (risk × effort)` descending — easiest high-payoff first. The user can manually re-sort.
-
-### 8c. Update weak-patterns.md / strong-patterns.md
-
-For weak-pattern findings, add or update an entry in `$VAULT/Architect/weak-patterns.md`:
-
-```markdown
-## {Pattern title}
-
-- First seen: {date} (this run)  /  Last seen: {date}
-- Reach: {count, current}
-- Reach trend: {growing | stable | shrinking}
-- Backlog item: [[Architect/backlog#decision-N]] (or "no decision queued yet")
-- Examples: `{file:line}`, `{file:line}`, `{file:line}`
-```
-
-For strong-pattern findings — write only when triage verdict is `note` or `codify`. **Never write entries the user marked `drop`** (drop means "not actually load-bearing"; persisting it would pollute the file). For `codify` verdicts, the entry is written here in skeleton form, then Phase 7B fills in `Codified`, `Codification status`, and `Codification ADR` when the codification ships.
-
-```markdown
-## {Pattern title}
-
-- Identified: {date}
-- Reach: {count}
-- Why it works: {1 sentence}
-- Codification status: noted | docs-written | lint-rule-added | test-guard-added | combination
-- Last reviewed: {date - set on every aging review snooze}
-- Examples: `{file:line}`, `{file:line}`
-```
-
-For aging strong patterns marked `drop` in Phase 6, **delete** the existing entry from `strong-patterns.md` (see Phase 7B.h). Entries are not kept around as tombstones.
+For every finding marked **queue** in Phase 6, and every strong pattern or proven negative marked `note` or `codify`, load [the backlog entries](references/backlog-entries.md): 8a a stub ADR (the 7b template at `status: proposed`, with its `reach_cmd`), 8b the backlog line, sorted by `(reach × payoff) / (risk × effort)`, 8c the weak-patterns / strong-patterns entries. Never persist a strong pattern marked `drop`; an aging one marked `drop` is deleted, not tombstoned.
 
 ---
 
-## Phase 9: Resume mode
+## Phase 9: Resume and status
 
-Triggered when input was `resume`. Skip all of Phase 3 (no scanning).
-
-### 9a. Read the backlog
-
-Open `$VAULT/Architect/backlog.md`. Print the Pending section to the user, formatted as a numbered table:
-
-```
-Pending architect decisions ({N}):
-
-#   Date         Title                                                   Type           R/E/P  Reach
-─   ──────────   ─────────────────────────────────────────────────────   ────────────   ─────  ──────────────
-1   2026-04-15   Inconsistent loading state shape across feature modules  weak-pattern   3/m/4  47f / 12c / 3s
-2   2026-04-15   Replace handcrafted form state with react-hook-form      tech-swap      4/xl/4 ~280f
-3   2026-04-22   Missing useInterval primitive; polling leaks             struct-bug     4/l/4  8 effects
-...
-```
-
-R/E/P = risk / effort / payoff.
-
-### 9b. Pick one to execute
-
-Ask:
-```
-Which to execute now? Reply with a decision number (1-{N}).
-
-Shortcuts:
-  open N   - read the full ADR before deciding (re-asks after)
-  abort    - bail; nothing executes
-  Enter    - pick decision #1 (top-priority)   <- default
-```
-
-If they pick `open N`, read the ADR file and print it. Then re-ask.
-
-### 9c. Refresh the ADR
-
-The ADR was written previously and may be stale (codebase has moved on). Before executing:
-- Re-verify the file:line anchors still exist.
-- Re-count reach (run the original grep, see if numbers shifted).
-- Read recent git log on touched files to spot conflicts.
-- If anything material has changed (a step was already done by another change, the shape of the proposed fix is now wrong, the reach has shrunk to a level where it's not worth the effort), **stop and present the delta to the user**. Ask whether to proceed, reshape, or abandon.
-
-If nothing material has changed, fill in any sketchy parts of the Rollout section and proceed.
-
-### 9d. Execute
-
-Jump to Phase 7a (isolation) and run through 7b–7h normally — resume executions get a worktree like any other multi-file rollout.
+Load [resume and status](references/resume-status.md). **Resume** prints the backlog, picks one decision, refreshes its ADR (9c: anchors, `reach_cmd` re-run, acceptance criteria re-measured against the tree, classified still-valid / re-sized / done-elsewhere / stale, delta presented before anything executes), then executes through Phase 7; a finding the resume uncovers becomes its own backlog entry (9e). **Status** runs 9c over every pending ADR, read-only, re-dates `backlog.md`, and ends with `resume N`.
 
 ---
 
-## Phase 10: Self-reflection
+## Phases 10-12: Close out
 
-### 10a. Ask why for dropped findings
-
-Single batched question:
-```
-For the dropped findings, why did you drop them?
-
-  [3] {title}
-  [5] {title}
-
-Per-item reasons or one overall reason.
-
-Shortcuts:
-  skip    - record "no reason given"
-  Enter   - same as "skip"   <- default
-```
-
-### 10b. Append to Lessons
-
-Write `$VAULT/Lessons/{YYYY-MM-DD}-architect.md`:
-
-```markdown
-## Run: {timestamp} - {theme or area} ({mode})
-
-Sub-agents spawned: {N} angles
-Findings surfaced: {weak: M, strong: K, swap: J, struct-bug: L}
-Triage:
-  - executed: [list]
-  - queued: [list]
-  - dropped: [list]
-  - reworked: [list]
-
-### Drop reasons
-- [3] {reason}
-- [5] {reason}
-
-### Self-reflection
-- Sub-agent angles that produced strong signal: {which ones}
-- Sub-agent angles that produced noise: {which ones}
-- Synthesis miss: {anything I framed wrong that the user corrected}
-- Calibration drift: {e.g. "rated 4 findings 'high payoff' but user dropped 2 of 4 - over-weighting payoff"}
-- Re-usable insight for future scans: {1 sentence}
-```
-
-### 10c. Backfill the scan note
-
-(See Phase 11 for the scan note structure — backfill drop reasons there.)
-
-### 10d. Pattern promotion
-
-Same logic as `/research` and `/explorer`: read all `Lessons/*-architect.md`, look for repeated drop reasons. After 3+ observations, propose adding to `$VAULT/Patterns/architect-preferences.md`.
-
-### 10e. Architecture-digest update check
-
-Did this run discover a structural fact about the codebase that future runs need to know? Architect runs are *especially* prone to this — sub-agent reports often surface boundaries the skill didn't have on its map. If yes, edit the architecture digest (the overlay's first `## Context sources` entry; with no overlay, the repo's rules file) directly with the new fact, tagged with run date.
-
-### 10f. Update coverage.md
-
-Update the Themes section (or Areas if area mode):
-
-```markdown
-### {theme}
-- Last scanned: {date}
-- Last scan: [[Architect/scans/{date}-{theme}]]
-- Findings (last 3 scans): [8, 4, 6]
-- Findings actioned: [3, 1, 2]
-- Yield density: {actioned / surfaced}
-- Notes: {observations across runs}
-```
-
----
-
-## Phase 11: Persist the scan
-
-Write `$VAULT/Architect/scans/{YYYY-MM-DD}-{theme-or-area-slug}.md`:
-
-```markdown
----
-date: 2026-05-01
-mode: scan | area | resume
-theme: state-management | (n/a for resume)
-area: vault | (n/a unless area mode)
-sub_agents_spawned: 4
-findings_total: 8
-findings_weak: 5
-findings_strong: 2
-findings_swap: 1
-findings_struct_bug: 0
-executed: [2]
-queued: [1, 3, 5]
-dropped: [4, 6]
-reworked: [7, 8]
-adrs_written: ["[[2026-05-01-loading-state-shape]]", "[[2026-05-01-poll-primitive]]"]
-commits: [<sha1>, <sha2>, <sha3>]   # only if execute path was taken
-branch: worktree-architect-loading-state-shape | "(committed on main checkout)" | "(no execution this run)"
----
-
-# Architect scan - {theme or area} ({date})
-
-## Sub-agent reports
-{1-2 sentence summary per angle, with link to full text if you want to keep
-the full reports in working memory; otherwise omit}
-
-## Findings
-
-### [1] {title}  ➤ queued (ADR [[date-slug]])
-**Type:** weak-pattern
-**Reach / Risk / Effort / Payoff:** ...
-**Verdict:** queued - {1 sentence reason}
-
-### [2] {title}  ✅ executed -> {commit shas}
-**Type:** struct-bug
-**Reach / Risk / Effort / Payoff:** ...
-**Verdict:** executed; ADR [[date-slug]]; branch worktree-architect-{slug}
-
-### [3] ...
-
-## Strong patterns observed
-- {pattern title} -> noted in strong-patterns.md (or "codify" if user picked that)
-
-## Cross-references
-- Related ADRs (existing): [[...]]
-- Related preferences: [[Patterns/architect-preferences]]
-```
-
----
-
-## Phase 12: Final summary
-
-Print:
-
-```
-Architect run complete.
-
-  Mode:           {scan | area | resume}
-  Theme/area:     {theme or area name}
-  Sub-agents:     {N} angles
-  Findings:       {weak} weak / {strong} strong / {swap} swap / {sb} struct-bug
-
-  Triage outcome:
-    Executed:     {K} -> ADR [[...]], commits {shas}, branch {branch}
-    Queued:       {Q} (in backlog)
-    Dropped:      {D}
-    Reworked:     {R}
-
-  Strong patterns:
-    Identified:   {N} new this run
-    Codified:     {C} -> vehicles {[lint-rule|docs-stack|docs-claude|test-guard]}, commits {shas}
-    Noted:        {M} -> strong-patterns.md
-    Aging surfaced: {A} (from prior runs >=60d old)
-    Aging actioned: {codified: K, snoozed: S, dropped: D}
-
-  Files updated:   ($VAULT = {resolved vault root})
-    + $VAULT/Architect/scans/{date}-{slug}.md
-    + $VAULT/Lessons/{date}-architect.md
-    + $VAULT/Architect/decisions/{date}-{slug}.md  (x {N})
-    ~ $VAULT/Architect/backlog.md
-    ~ $VAULT/Architect/weak-patterns.md  (if any weak findings)
-    ~ $VAULT/Architect/strong-patterns.md  (if any strong findings)
-    ~ $VAULT/Architect/coverage.md
-    {if pattern promoted:}
-    ~ $VAULT/Patterns/architect-preferences.md
-    {if the architecture digest was updated:}
-    ~ {digest path}
-
-  Next?
-    1. /architect resume     - execute next decision ({Q} pending)   <- default if Q > 0
-    2. /architect scan       - fill the queue with a new theme
-    3. /explorer             - daily wandering on adjacent area
-    4. /research             - external-source companion run
-    5. done
-    {if a worktree was created: also note "merge worktree-architect-{slug}, then
-     remove the worktree (.claude/worktrees/architect-{slug}) and delete the branch"}
-```
+Load [close-out](references/close-out.md) once the triage work is done, for scan, area, gates and resume runs: Phase 10 self-reflection (drop reasons, Lessons, pattern promotion, architecture-digest update, coverage.md), Phase 11 the scan note (including its gate-probe table and proven negatives), Phase 12 the final summary and its `Next?` block.
 
 ---
 
 ## Notes on use
 
 - **Cadence** — once a week is plenty. Architect runs are heavy; the backlog absorbs the inventory and resume mode amortizes the work.
-- **Scan vs resume** — alternate. Scan to fill the queue, resume to drain it. A backlog of 20 pending items means the next session should be resume, not scan.
+- **Scan vs resume** — alternate. Scan to fill the queue, resume to drain it. A backlog of 20 pending items means the next session should be resume, not scan; a backlog not refreshed in 30 days gets a `status` run first, so the resume picks from today's numbers.
 - **Coexist with uncommitted work.** Where the repo law declares parallel-safety primitives, this is the pattern they describe — keep the two aligned. Architect never requires a clean baseline on a shared checkout: inspect what's there, edit only its own paths, stage only those paths, and verify the staged index before every commit (Phase 7d step 6). Never `git stash`, never `git reset --hard`, never `git checkout --` someone else's work. Physical isolation comes from the worktree default (Phase 7a), not from cleaning the shared tree.
 - **Conflict signal** — if a finding contradicts a `strong-pattern` already in the vault, treat it as the most interesting finding of the run. Either the strong-pattern entry is stale (codebase moved on) or the new finding is wrong. Either way, the answer changes the model meaningfully.
 - **Drift signal** — if 3 consecutive scans on different themes produce backlog items but zero get executed via resume, the user is using architect as a brainstorming tool, not a shipping tool. Surface this in self-reflection: ask whether to lower the bar for execution or accept that the backlog is the artifact.
@@ -976,22 +512,7 @@ Architect run complete.
 
 ## App context coverage (Personas-managed repos)
 
-This skill declares `contexts: tracked` — the Personas app measures per-context memory coverage for it. When run inside a Personas-managed repo (a `.personas/` dir exists, or the app dispatched this run), before finishing append JSON lines to `.personas/memory-outbox.jsonl` at the repo root (append, never rewrite) — one node per context you meaningfully worked on:
-
-```json
-{"type":"node","kind":"progress","title":"<=200 chars: what you did in this context","body":"optional detail","context":"<exact context name the app knows>","skill":"architect"}
-```
-
-**Which name — this is the part that silently fails.** The ingest anchors a node
-by matching `context` against the names the app actually knows, case-insensitively.
-A name it does not recognize is NOT an error: the node is stored with a null
-context and simply never counts toward coverage. Use the name set the overlay's
-`coverage_context_source` declares; with no overlay, use the context map's names.
-**A repo whose map and whose app disagree must say so in the overlay** — a
-mechanically generated map and a product-level taxonomy can share almost no names,
-and anchoring to the wrong one loses every node silently.
-
-Always set both `"skill":"architect"` and `"context":"<name>"` — together they drive the per-skill context-coverage % (last 30 days). The app ingests and deletes the file when the session ends. Skip silently when not Personas-managed.
+This skill declares `contexts: tracked`. When a `.personas/` directory exists in the MAIN checkout — resolve it from `git rev-parse --git-common-dir`, never `$PWD`, since a worktree has none — or the Personas app dispatched the run, load [the coverage procedure](references/personas-coverage.md) before finishing. Skip silently otherwise.
 
 ---
 

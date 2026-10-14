@@ -5,9 +5,11 @@
 //                 [--status pending,sent-back] [--top N] [--all] [--json] [--out <file.json>]
 //
 // Each row: module, system, score, debt, loc, files, reachable/reachFiles, ratio, last,
-// c30, status. Only LIVE modules (reachable > 0, or unknown to the reachability run) are
-// ranked; dead ones are counted and listed after, because a module nobody can open is a
-// routing question, not a rebuild target. --all ranks everything.
+// c30, status. Only LIVE FEATURE modules (reachable > 0, or unknown to the reachability run,
+// and not under a systemPrefix) are ranked; dead ones are counted and listed after, because a
+// module nobody can open is a routing question, not a rebuild target; system modules (the kit,
+// shared component folders) go to `rest` too, because the kit is changed by a kit batch, never
+// rebuilt as a feature. --all ranks everything.
 //
 // Orders:
 //   debt        highest debt first (score * loc / 100: where the most raw styling lives)
@@ -96,7 +98,7 @@ export function rankInventory(rows, order = 'debt', visible = []) {
 
 /** The full inventory: ranked live rows first (with rank), then the rest. */
 export function buildInventory(rows, { order = 'debt', visible = [], all = false, statuses = null } = {}) {
-  const keep = (r) => (all || r.live) && (!statuses || statuses.includes(r.status));
+  const keep = (r) => (all || (r.live && !r.system)) && (!statuses || statuses.includes(r.status));
   const ranked = rankInventory(rows.filter(keep), order, visible).map((r, i) => ({ rank: i + 1, ...r }));
   const rest = rows.filter((r) => !keep(r)).sort(byDebt).map((r) => ({ rank: null, ...r }));
   return { order, visible, ranked, rest };
@@ -108,7 +110,8 @@ function fmt(inv, top) {
   const lines = ['| ' + cols.join(' | ') + ' |', '|' + '---|'.repeat(cols.length)];
   for (const r of inv.ranked.slice(0, top)) lines.push('| ' + cols.map((c) => cell(r, c)).join(' | ') + ' |');
   const dead = inv.rest.filter((r) => !r.live);
-  const head = `inventory: ${inv.ranked.length} ranked (order=${inv.order}${inv.visible.length ? ' visible=' + inv.visible.join(',') : ''}), ${dead.length} dead, ${inv.rest.length - dead.length} filtered`;
+  const system = inv.rest.filter((r) => r.live && r.system);
+  const head = `inventory: ${inv.ranked.length} ranked (order=${inv.order}${inv.visible.length ? ' visible=' + inv.visible.join(',') : ''}), ${dead.length} dead, ${system.length} system (not targets), ${inv.rest.length - dead.length - system.length} filtered`;
   const tail = dead.length ? ['', 'dead (routing questions, not rebuild targets): ' + dead.map((r) => r.module).join(', ')] : [];
   return [head, '', ...lines, ...tail].join('\n');
 }

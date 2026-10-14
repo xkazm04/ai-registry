@@ -1,10 +1,11 @@
-# Tiger lenses - the three rubrics (full checklists)
+# LLM engine lens - checklists for an LLM-powered area
 
-The body of SKILL.md carries the method; this file carries the dial-by-dial checklists and
-the verdict fields. `/tiger init` copies these three sections into `tiger/lenses/*.md` in the
-consuming repo and annotates them with the app's own levers (which sub-task is clamped, which
-prefix is cacheable, which Character is must-pass). When the vault has no `lenses/` folder,
-judge against this file as-is.
+Kept from tiger 2.x, which certified LLM call sites (retired in 3.0.0). When the hunted area
+is LLM-powered, the dossier points the seats here: these dials are where evolutionary moves in
+such an area usually hide (grounding the model is not given, a cheaper or stronger model per
+sub-task, capture that enables evals). Seats read it as a lens for proposals, not as an audit to
+complete. "Character" means a representative user (the uat skill's term); "vault" and
+`engine/*` notes refer to a 2.x vault if the repo has one.
 
 Scores are dials (`N/10` per dial, `N/M` for grounding) so they are numbers you watch climb
 across sessions. Every score cites `file:line`.

@@ -7,12 +7,20 @@
 // instrument exists to prevent.
 //
 //   node reachability.mjs [--repo <dir>] [--config <json>] [--entry <file>]... [--alias @=src]...
-//                         [--floor 50] [--grouping sub|depth:N] [--json]
+//                         [--entry-glob <pattern|next-app>]... [--floor 50]
+//                         [--grouping sub|depth:N] [--json]
 //
 // Entry: --entry (repeatable), else config.entry (string or list), else the first that
 // exists of src/main.tsx, src/main.ts, src/index.tsx, src/index.ts, src/main.jsx,
 // src/index.jsx, src/main.js, src/index.js, then the <script type="module" src> of index.html.
 // An .html entry is expanded to its module scripts.
+//
+// Entry globs: --entry-glob (repeatable) or config.entryGlob (string or list) ADD every file
+// they match to the entries (a framework with file-system routing has no single entry).
+// Patterns are repo-relative with `**`, `*`, `?` and `{a,b}`. The preset `next-app` is the
+// Next.js app router: page, layout, template, error, global-error, loading, not-found and
+// default files plus the metadata routes (opengraph-image, twitter-image, icon, apple-icon,
+// sitemap, robots, manifest) under app/ or src/app/. A glob that matches nothing is an error.
 //
 // Resolution: aliases (--alias KEY=DIR, repeatable; config.aliases { KEY: DIR }; plus
 // compilerOptions.paths from tsconfig.json, or jsconfig.json, when present; when nothing
@@ -165,6 +173,68 @@ export function collectAliases(repo, cliPairs = [], cfgAliases = {}) {
   return out;
 }
 
+export const NEXT_APP_ENTRY_GLOBS = [
+  '{src/,}app/**/{page,layout,template,error,global-error,loading,not-found,default}.{tsx,ts,jsx,js}',
+  '{src/,}app/**/{opengraph-image,twitter-image,icon,apple-icon,sitemap,robots,manifest}.{tsx,ts,jsx,js}',
+];
+export const ENTRY_GLOB_PRESETS = { 'next-app': NEXT_APP_ENTRY_GLOBS };
+
+/** Expand `{a,b}` alternatives (nested allowed) into plain patterns. */
+export function expandBraces(pattern) {
+  const open = pattern.indexOf('{');
+  if (open < 0) return [pattern];
+  let depth = 0, close = -1;
+  const parts = [];
+  let start = open + 1;
+  for (let i = open; i < pattern.length; i++) {
+    const c = pattern[i];
+    if (c === '{') depth++;
+    else if (c === '}') { depth--; if (depth === 0) { parts.push(pattern.slice(start, i)); close = i; break; } }
+    else if (c === ',' && depth === 1) { parts.push(pattern.slice(start, i)); start = i + 1; }
+  }
+  if (close < 0) throw new Error(`entryGlob: unbalanced "{" in "${pattern}"`);
+  const head = pattern.slice(0, open), tail = pattern.slice(close + 1);
+  return parts.flatMap((p) => expandBraces(head + p + tail));
+}
+
+/** A brace-free glob -> RegExp over repo-relative forward-slash paths. */
+export function globToRegExp(glob) {
+  let re = '';
+  for (let i = 0; i < glob.length; i++) {
+    const c = glob[i];
+    if (c === '*' && glob[i + 1] === '*') {
+      i++;
+      if (glob[i + 1] === '/') { i++; re += '(?:.*/)?'; } else re += '.*';
+    } else if (c === '*') re += '[^/]*';
+    else if (c === '?') re += '[^/]';
+    else re += c.replace(/[.+^${}()|[\]\\]/g, '\\$&');
+  }
+  return new RegExp('^' + re + '$');
+}
+
+/** Presets expanded, braces expanded: the plain patterns a list of entry globs stands for. */
+export function entryGlobPatterns(globs) {
+  return [].concat(globs || []).flatMap((g) => ENTRY_GLOB_PRESETS[g] || [g]).flatMap(expandBraces);
+}
+
+/**
+ * Files matched by entry globs, sorted and unique. `list(dir)` returns repo-relative files under
+ * dir (walkFiles by default); each pattern walks only its static directory prefix.
+ */
+export function matchEntryGlobs(globs, list) {
+  const out = new Set();
+  const cache = new Map();
+  for (const pat of entryGlobPatterns(globs)) {
+    const segs = pat.split('/');
+    const k = segs.findIndex((x) => /[*?]/.test(x));
+    const base = (k < 0 ? segs.slice(0, -1) : segs.slice(0, k)).join('/');
+    if (!cache.has(base)) cache.set(base, list(base || '.'));
+    const re = globToRegExp(pat);
+    for (const f of cache.get(base)) if (re.test(f.replace(/^\.\//, ''))) out.add(f.replace(/^\.\//, ''));
+  }
+  return [...out].sort();
+}
+
 /** Resolve the entry list (repo-relative). */
 export function findEntries(repo, requested = []) {
   const list = requested.length ? requested : (() => {
@@ -185,8 +255,14 @@ export function findEntries(repo, requested = []) {
 export function analyzeReachability(repo, cfgIn = {}, opts = {}) {
   const cfg = mergeConfig(cfgIn);
   const rule = parseGrouping(cfg.grouping);
-  const requested = opts.entries?.length ? opts.entries : [].concat(cfg.entry || []);
-  const { requested: entryNames, files: entryFiles } = findEntries(repo, requested);
+  const globs = opts.entryGlobs?.length ? opts.entryGlobs : [].concat(cfg.entryGlob || []);
+  const globbed = globs.length ? matchEntryGlobs(globs, (dir) => walkFiles(repo, dir)) : [];
+  if (globs.length && !globbed.length) throw new Error(`entryGlob ${globs.join(', ')} matched no file`);
+  const explicit = opts.entries?.length ? opts.entries : [].concat(cfg.entry || []).filter(Boolean);
+  // With globs and no explicit entry, the globs ARE the entries (no default src/main.tsx guess).
+  const found = explicit.length || !globbed.length ? findEntries(repo, explicit) : { requested: [], files: [] };
+  const entryNames = [...new Set([...found.requested, ...globbed])];
+  const entryFiles = [...new Set([...found.files, ...globbed])];
   if (!entryFiles.length) throw new Error('no entry found - pass --entry <file>');
   for (const e of entryFiles) if (!fs.existsSync(path.join(repo, e))) throw new Error(`entry ${e} does not exist`);
   const aliases = collectAliases(repo, opts.aliasPairs || [], cfg.aliases || {});
@@ -205,9 +281,10 @@ function main(argv) {
   const cfg = readConfigFile(a.get('--config'));
   if (a.has('--grouping')) cfg.grouping = a.get('--grouping');
   const floor = +(a.get('--floor', cfg.floor ?? 50));
-  const res = analyzeReachability(repo, cfg, { entries: a.all('--entry'), aliasPairs: a.all('--alias') });
+  const res = analyzeReachability(repo, cfg, { entries: a.all('--entry'), aliasPairs: a.all('--alias'), entryGlobs: a.all('--entry-glob') });
+  const from = res.entries.length > 5 ? `${res.entries.slice(0, 3).join(', ')} and ${res.entries.length - 3} more entries` : res.entries.join(', ');
   if (res.walked < floor) {
-    console.error(`reachability: walked only ${res.walked} files from ${res.entries.join(', ')} - the resolver is broken, not the app small (floor ${floor}; lower it with --floor for a genuinely small app)`);
+    console.error(`reachability: walked only ${res.walked} files from ${from} - the resolver is broken, not the app small (floor ${floor}; lower it with --floor for a genuinely small app)`);
     process.exit(2);
   }
   if (!res.modules.length) { console.error(`reachability: no production files under ${mergeConfig(cfg).featuresRoot}`); process.exit(2); }
@@ -215,7 +292,7 @@ function main(argv) {
   if (a.has('--json')) { console.log(JSON.stringify(res, null, 1)); return; }
   const dead = list.filter((r) => r.reachable === 0);
   const partial = list.filter((r) => r.reachable > 0 && r.reachable < r.files);
-  console.log(`walked ${res.walked} files from ${res.entries.join(', ')}; ${list.length} modules; ${dead.length} fully unreachable; ${partial.length} partly reachable`);
+  console.log(`walked ${res.walked} files from ${from}; ${list.length} modules; ${dead.length} fully unreachable; ${partial.length} partly reachable`);
   for (const r of dead) console.log(`DEAD     ${r.module} (${r.files} files)`);
   for (const r of partial.slice(0, 40)) console.log(`PARTIAL  ${r.module} ${r.reachable}/${r.files}`);
 }

@@ -1,5 +1,7 @@
 ## Phase 7B: Codify strong patterns
 
+**Commit convention** (every vehicle below): commit in the repo's own convention — read its `commit-msg` hook, contributing guide or `git log --oneline -20` first. `architect:` as a prefix only where the repo has none; attribution goes in the body (`Architect-decision: [[<mini-ADR>]]` plus any Co-Authored-By). A hook rejection is repo law: comply, **never `--no-verify`**. Stage exact paths and check `git diff --cached --name-only` before each commit, as in Phase 7d step 6 ([execute reference](execute.md)).
+
 Triggered for every strong pattern (new or aging) marked `codify` in Phase 6. Multiple codifications can run in the same session — they're independent and lower-risk than a Phase 7 weak-pattern execution.
 
 ### 7B.a. Pick the vehicle
@@ -33,8 +35,8 @@ If the user picks `multiple`, codify each vehicle in a separate atomic commit.
 1. Read the linter config and any existing custom-rule directory (the overlay's `## Lint vehicle` names both) to learn the project's custom-rule conventions — rule file shape, naming, registration. If the repo has no custom-rule mechanism at all, say so and fall back to a docs vehicle.
 2. Write the new rule where the existing ones live, following their shape — name format, severity, message, fix function if mechanically auto-fixable.
 3. Register it in the linter config. Default severity: `warn` (a new rule over existing code is a migration, not a wall). Only use `error` if the user explicitly says "ship blocker."
-4. Run the lint gate and capture the new warning count. Compare to baseline. If the new count is enormous (>500 warnings), warn the user — the rule is too noisy and either the pattern isn't actually as load-bearing as thought, or the rule needs scope narrowing. Pause for guidance.
-5. Commit: `architect: codify <pattern> as lint rule` — body explains the rule, threshold, and current warning count.
+4. Run the lint gate and capture the new warning count. Compare to baseline. If the new count is enormous (>500 warnings), warn the user — the rule is too noisy and either the pattern isn't actually as load-bearing as thought, or the rule needs scope narrowing. Pause for guidance. A count of **zero** is not proof either: a rule that a later config block shadows reports zero forever. Prove it fires with a planted-violation probe (SKILL.md § Gates mode, G3) under the resolved config before committing.
+5. Commit (§ Commit convention below) — subject e.g. `<type>(lint): codify <pattern>`; body explains the rule, threshold, and current warning count.
 
 ### 7B.c. Docs vehicle (architecture digest or rules file)
 
@@ -42,7 +44,7 @@ If the user picks `multiple`, codify each vehicle in a separate atomic commit.
 2. Find the right insertion point — for the digest: a "Strong patterns" section or the architecture section it relates to; for the rules file: under its conventions heading, with a subsection.
 3. Write the section: name, why it works (the "load-bearing" reasoning from the strong-pattern entry), canonical example with `file:line` reference, anti-shape to avoid, optional pointer to the lint rule if `multiple` was picked.
 4. Keep it concise — 10-25 lines. Long convention docs go unread.
-5. Commit: `architect: codify <pattern> in <file>` — body quotes the appended section.
+5. Commit (§ Commit convention below) — subject e.g. `docs: codify <pattern> in <file>`; body quotes the appended section.
 
 ### 7B.d. Test guard vehicle
 
@@ -50,7 +52,7 @@ If the user picks `multiple`, codify each vehicle in a separate atomic commit.
 2. Write the test with the repo's own runner (the overlay's `## Test guard vehicle`, else the runner in `package.json` scripts or the toolchain default), in the location the repo already puts such tests.
 3. The test should walk the file tree, grep for the anti-shape, and assert zero violations. Provide a clear failure message that points the offender to the strong-patterns entry and the rule.
 4. Run the test gate and confirm the new test passes against current code.
-5. Commit: `architect: codify <pattern> as structural test guard`.
+5. Commit (§ Commit convention below) — subject e.g. `test: codify <pattern> as structural test guard`.
 
 ### 7B.d2. Registry vehicle
 
@@ -88,7 +90,7 @@ status: shipped
 type: codification
 vehicle: lint-rule | docs-stack | docs-claude | test-guard | combination
 parent_strong_pattern: [[Architect/strong-patterns#{title}]]
-related_scan: [[Architect/scans/{date}-{theme}]]
+related_scan: [[Architect/scans/{date}-{theme}-{mode}]]
 commits: [<sha>]
 ---
 
@@ -110,7 +112,7 @@ No codification work — just update the entry in `strong-patterns.md`:
 - Add or update `Last reviewed: {today}`.
 - Bump the `Snoozed until: {today + 30 days}` field (create if missing).
 
-This commit is optional — if it's the only change of the run, commit `architect: snooze {pattern} for 30d`. Otherwise bundle into the run's regular activity.
+Vault edits are not repo commits. If the vault lives inside the repo and this is the only change of the run, commit it in the repo's convention (e.g. `chore: snooze {pattern} for 30d`); otherwise bundle it into the run's regular activity.
 
 ### 7B.h. For aging patterns marked `drop`
 

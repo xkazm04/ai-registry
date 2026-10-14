@@ -60,7 +60,11 @@ test('inventory: dead modules are never ranked; --all and status filters', () =>
   const rows = joinInventory(DIV, REACH, LEDGER);
   const inv = buildInventory(rows, { order: 'debt' });
   assert.equal(inv.ranked.some((r) => r.module === 'recipes/sub_dead'), false);
-  assert.deepEqual(inv.rest.map((r) => r.module), ['recipes/sub_dead']);
+  // System modules (the kit, shared folders) are never offered as rebuild targets either.
+  assert.equal(inv.ranked.some((r) => r.system), false);
+  assert.deepEqual(inv.rest.map((r) => r.module).sort(), ['recipes/sub_dead', 'shared/components/x']);
+  assert.deepEqual(inv.rest.map((r) => r.rank), [null, null]);
+  assert.equal(buildInventory(rows, { all: true }).ranked.some((r) => r.module === 'shared/components/x'), true, '--all ranks them');
   assert.equal(inv.ranked[0].rank, 1);
   assert.equal(buildInventory(rows, { all: true }).ranked[0].module, 'recipes/sub_dead');
   const pend = buildInventory(rows, { statuses: ['pending'] });

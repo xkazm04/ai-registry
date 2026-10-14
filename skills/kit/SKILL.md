@@ -1,11 +1,11 @@
 ---
 name: kit
-description: "Revitalize and unify the design of a web app: measure style divergence per module, gate a foundation (type scale, muting, colour roles) with the owner, stop new slips with ratchets and agent law, run a contest for a COMPOSITION KIT (the shared building blocks one level above buttons), port the finalists onto one real page so the owner chooses on the product, promote the winner at 0 measured deviations, then rebuild the app module by module in owner-gated feature batches across sessions, with a coverage ledger as memory. Use when an app's modules each look like a different app, shared components are overlooked, or a design system exists on paper but not in the code. Invoke with /kit (resume), /kit init (setup track), /kit batch [next|<feature>], /kit grow, /kit status, /kit reflect."
+description: "Revitalize and unify the design of a web app: measure style divergence per module, gate a foundation (type scale, muting, colour roles) with the owner, stop new slips with ratchets and agent law, run a contest for a COMPOSITION KIT (the shared building blocks one level above buttons), port the finalists onto one real page so the owner chooses on the product, promote the winner at 0 measured deviations, then rebuild the app module by module in feature batches across sessions, with a coverage ledger as memory. A repo that already has a kit enters with /kit adopt: register its parts, record each skipped setup step with its reason, and run the first batch in the same session. Batches are gated per batch, or (the default for a new overlay) the Director decides, asks the owner only key decisions, and shows a periodic summary gate. Use when an app's modules each look like a different app, shared components are overlooked, or a design system exists on paper but not in the code. Invoke with /kit (resume), /kit init (setup track), /kit adopt (existing kit), /kit batch [next|<feature>], /kit grow, /kit gate <batch>|summary, /kit status, /kit reflect."
 category: workflow
 memory: vault
-version: 0.2.0
+version: 0.3.0
 tags: design-system, ui, typography, composition-kit, refactor, contest, batches, vault
-argument-hint: "[init | batch [next|<feature>] | grow | gate <batch> | status | reflect]"
+argument-hint: "[init | adopt | batch [next|<feature>] | grow | gate <batch>|summary | status | reflect]"
 ---
 
 # Kit - one vocabulary, composed, gated by the owner's eyes
@@ -30,17 +30,20 @@ promotion). Its evidence is in `LESSONS.md`; the rules it earned are in
   (`${CLAUDE_SKILL_DIR}/references/builder-brief.md`), on disjoint files, returning a structured
   report; they counter-propose with evidence instead of guessing.
 - **Owner** - the person. Gates are visual: screenshot pairs and a numbered decision list. The
-  owner's words at a gate are law for every later brief, quoted verbatim.
+  owner's words at a gate are law for every later brief, quoted verbatim. How often the owner is
+  asked is the overlay's `gate_mode` (below).
 
 ## Invocation
 
 | Call | Does |
 |---|---|
-| `/kit` | Resume: read the overlay and memory, re-derive the inventory, report where the campaign stands and propose the next step. |
+| `/kit` | Resume: read the overlay and memory, re-derive the inventory, report where the campaign stands and propose the next step. No memory yet but a shared composition layer in the code -> propose `/kit adopt`, not `/kit init`. |
 | `/kit init` | The **setup track** (below) for a project with no kit yet. Resumable per step. |
+| `/kit adopt` | The **adopt track** (below) for a project that already has a kit: overlay, S0, register the kit, record the skipped steps, then the first batch in the same session. |
 | `/kit batch [next\|<feature>]` | One **feature batch**: select, look, build, review, gate, close. |
 | `/kit grow` | A **kit batch**: build the kit parts builders proposed, before the next feature batch. |
 | `/kit gate <batch>` | Re-present a batch's gate (the owner was away, or asked to see it again). |
+| `/kit gate summary` | The **summary gate** over the Director-approved batches waiting for the owner (`gate_mode: key-decisions`). |
 | `/kit status` | The coverage table and the next batch candidates; changes nothing. |
 | `/kit reflect` | The retro only (see Skill Reflection). |
 
@@ -53,7 +56,7 @@ for prose.
 ```yaml
 ---
 product: ""                    # brief header                       [repo directory name]
-vault: []                      # candidate memory roots, first existing wins  [<repo>/.kit]
+vault: []                      # candidate memory roots, first existing wins  [the root sibling .claude/*/config.md overlays share, else <repo>/.kit]
 vault_subdir: Kit              # namespace inside the vault         [Kit]
 features_root: src/features    # where modules live                 [src/features]
 entry: src/main.tsx            # the renderer entry for reachability [auto: main.tsx|index.tsx|index.html]
@@ -62,8 +65,19 @@ kit_path: ""                   # the promoted kit, once it exists   [none -> set
 doctrine: ""                   # the project's style doctrine file  [none -> setup track]
 batch_builders: 5              # parallel builders per batch        [5]
 contest_seats: ""              # engine:model@effort list for the kit contest [ask]
+gate_mode: key-decisions       # per-batch | key-decisions          [see below]
+summary_every: 3               # Director-approved batches per summary gate [3]
 ---
 ```
+
+**`gate_mode`.** `per-batch`: the owner gates every batch (one question per batch). `key-decisions`:
+the Director decides each batch, asks the owner only the key decisions as they arise, and shows a
+**summary gate** (one family image over `summary_every` batches) - see
+`${CLAUDE_SKILL_DIR}/references/gate-kit.md` for what counts as a key decision. **A new overlay
+(`/kit init`, `/kit adopt`) is written with `key-decisions`**: it is the stated preference of the
+owner this skill was forged with, after per-batch gating left batches "pending owner" across
+campaigns. An existing overlay WITHOUT the key runs `per-batch` (the mode it was started under);
+the opening line says so and offers the switch once.
 
 | Section | Carries | Default |
 |---|---|---|
@@ -80,11 +94,13 @@ contest_seats: ""              # engine:model@effort list for the kit contest [a
 `<vault>/<vault_subdir>/`, Obsidian-openable, never inside this skill's directory:
 
 ```
-Kit.md               # HOME: phase (setup step or batching), kit_path, doctrine, gate table
+Kit.md               # HOME: phase (setup step or batching), kit_path, doctrine, gate table,
+                     #   the setup table (S0-S6: done | done-outside | skipped | owed, each with its reason)
 coverage.json        # the ledger - written ONLY through scripts/coverage.mjs
-gates.md             # every owner verdict VERBATIM, dated, with what it changed (the taste record)
+gates.md             # every owner verdict VERBATIM (batch, key decision, summary gate), dated,
+                     #   with what it changed (the taste record)
 batches/<id>.md      # one per batch: modules, briefs, reports digest, pairs paths, verdict
-setup/<step>.md      # setup track records (S1 scouts digest, S2 specimen verdict, S5 contest)
+setup/<step>.md      # setup track records (S1 scouts digest, S2 specimen verdict, S5 contest, adopt)
 ```
 
 **Memory records what was DONE and DECIDED, never what was computed.** Divergence scores,
@@ -127,10 +143,33 @@ Full procedure, briefs and the traps each step already hit: `${CLAUDE_SKILL_DIR}
   product. Promote the winner into the shared components at 0 deviations; write the doctrine's kit
   section; point the agent law at it. Record `kit_path` and `doctrine` in the overlay.
 
-**Do not restyle modules before S6.** The campaign that forged this skill gated three local module
-restyles first: two were judged degradations and one near-nothing, and the owner's diagnosis was
-"there is nothing ... which would try to achieve standardized component composition". The first
-module built FROM the chosen kit passed first time.
+**Do not restyle modules before a kit exists** (promoted at S6, or registered by `/kit adopt`). The
+campaign that forged this skill gated three local module restyles first: two were judged
+degradations and one near-nothing, and the owner's diagnosis was "there is nothing ... which would
+try to achieve standardized component composition". The first module built FROM the chosen kit
+passed first time.
+
+## The adopt track (`/kit adopt`) - a repo that already has a kit
+
+Real campaigns enter midway: the look came from a landing contest, the kit was printed by hand,
+setup steps were skipped on purpose. Forcing them through S0-S6 re-runs a contest the owner already
+decided. Full procedure and traps: `${CLAUDE_SKILL_DIR}/references/adopt.md`.
+
+- **A1 Overlay.** Write `.claude/kit/config.md` (or fill only the missing keys of an existing one,
+  naming them): `kit_path` = the existing kit, `gate_mode: key-decisions`, gates and repo law from
+  the repo's own files. One opening question carries only what the code cannot answer (visibility
+  order, any key decision).
+- **A2 S0.** The instruments as in the setup track, configured to this repo's layout; reuse an
+  existing shooter, else build the minimal one the first batch needs.
+- **A3 Register the kit.** `coverage.mjs adopt --id adopt-0 --text "<where the kit came from>"`, then
+  `add-kit-part --batch adopt-0 --parts <file>` (one row per existing part, one-line API each). A part
+  the owner chose not to build: `add-kit-part --declined --why "<his words>"`, so it never resurfaces as
+  a gap. A kit specimen page, if one exists, becomes the family image's reference page.
+- **A4 Record the skips.** `Kit.md`'s setup table gets one row per S-step: `done`, `done-outside`
+  (with the evidence you opened: commit, path, contest id), `skipped` (with the reason) or `owed`
+  (with its return condition). A row without a reason is not written.
+- **A5 First batch, same session.** `Kit.md` phase -> batching; run `/kit batch next`. Adopt never
+  edits the kit: changing a part is a kit batch (`/kit grow`).
 
 ## The batch track (`/kit batch`) - repeated across sessions
 
@@ -152,12 +191,19 @@ Full protocol: `${CLAUDE_SKILL_DIR}/references/batch.md`. Gate presentation:
 5. **Review.** The Director opens the pairs, checks each against the doctrine and the owner's
    quotes, attributes every ratchet move per file against the batch base, and composes the batch's
    **family image** (each module after | a kit reference page).
-6. **Gate.** One question per batch with the paths inside it (pairs, family image, decision list);
-   per-module verdicts allowed. Capture the owner's words verbatim in `gates.md`; a correction is
-   also a taste line in the overlay.
-7. **Close.** `coverage.mjs close-batch` with the verbatim verdict and commits; send-backs become
-   the next batch's first modules; ratchet the census on a clean tree after tracing each drop;
-   promote any rule seen twice into the doctrine and the builder brief.
+6. **Gate**, by `gate_mode`. `per-batch`: one question per batch with the paths inside it (pairs,
+   family image, decision list); per-module verdicts allowed. `key-decisions`: the Director decides
+   each module from the pairs and the family image, asks the owner only the decisions that meet the
+   key-decision criteria, and reports the rest as a numbered decision list. Either way, the owner's
+   words go verbatim into `gates.md`; a correction is also a taste line in the overlay.
+7. **Close.** `coverage.mjs close-batch` with the owner's verbatim verdict (`per-batch`) or
+   `--verdict director-approved --text "<decision record>" --decisions <numbered list file>`
+   (`key-decisions`), and the commits;
+   send-backs become the next batch's first modules; ratchet the census on a clean tree after
+   tracing each drop; promote any rule seen twice into the doctrine and the builder brief.
+8. **Summary gate** (`key-decisions`). `coverage.mjs status --summary-every <summary_every>` prints
+   SUMMARY-DUE: present one family image over the waiting batches and record the owner's verdict
+   with `coverage.mjs summary-gate`. At twice `summary_every` waiting batches, open no new batch.
 
 ## Invariants
 
@@ -166,9 +212,11 @@ Full protocol: `${CLAUDE_SKILL_DIR}/references/batch.md`. Gate presentation:
 - Compose from the kit; a local duplicate of a kit part is a finding; a missing part is a kit
   batch, not a workaround.
 - Port from measurement, never from memory: a chosen design is held to a computed-style contract.
-- One human selection per batch. A standing approval over this flow deletes its only input (the
-  owner's knowledge of where the product is going); the flow would keep producing output and stop
-  producing decisions.
+- The owner's decisions stay the flow's input. `per-batch`: one owner selection per batch.
+  `key-decisions`: the owner decides every key decision when it arises and sees every
+  Director-approved batch at a summary gate; `director-approved` is never `approved` until a summary
+  gate says so. A standing approval that skips both deletes the only input (the owner's knowledge of
+  where the product is going); the flow would keep producing output and stop producing decisions.
 - Never widen a tolerance, never re-baseline a rise, never stash or sweep another session's work.
 
 ---

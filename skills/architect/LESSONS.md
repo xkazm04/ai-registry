@@ -398,3 +398,10 @@ Append-only reflection lane. One entry per run that taught something. Format:
 ## 1.7.0 - 2026-09-09 - ai-registry
 
 - Context audit: conditional branch instructions were loaded with every invocation. Moved the branch unchanged to an explicitly triggered reference and verified reconstruction of the original body. This proves preservation of text, not unchanged model behavior.
+
+## 1.10.0 - 2026-10-14 - kp
+
+- **The only new blind spot came from probing a meta-gate with its NEIGHBOUR shadowed, not its own family.** The 2026-09-01 config-resolution guard fired on its own probe and control, and was silent when `no-empty` was shadowed by a later block setting `allowEmptyCatch`: it guards 11 of the 12 laws it exists to protect. A guard over other gates has to be probed once per theme rule shadowed in turn; the family it was written for is the one case already known to work. Applied in 1.10.0 G3 before release.
+- **Proven-to-fire is per scope, not per gate.** The envelope ratchet fired inside `app/api` and was silent outside it; pre-push ran neither error-handling test guard, so both fire only when someone runs them. The `fires / silent / partial` vocabulary needed a fourth result, `unprobed (<why>)`, for gates with no safe probe (push-only hooks); left out, they drift into "fires" by default.
+- **A strong pattern recorded as a proven negative was refuted.** The 2026-09-01 entry "prose matching is absent" was wrong: 13 sites classify errors by message text. Deleting the entry would have erased the evidence that the earlier predicate was too narrow; a dated `Conflict:` line keeps both the claim and the refutation for triage.
+- **Status needs the command, and no pre-1.10.0 ADR had one.** 13 pending decisions came back 8 still-valid, 3 re-sized, 1 done-elsewhere, 1 unverified. All three re-sizes rested on rebuilt reach commands, because no older ADR carried a `reach_cmd`. A re-size measured with a reconstructed predicate is only as good as the reconstruction, so status records the rebuilt command in the backlog's `Refreshed:` line rather than writing it silently into the ADR.

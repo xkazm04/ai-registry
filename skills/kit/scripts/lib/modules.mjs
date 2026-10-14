@@ -17,7 +17,9 @@ export const DEFAULT_CONFIG = Object.freeze({
   exclude: '__tests__|\\.test\\.|\\.spec\\.|\\.stories\\.',
   // "sub" = feature/sub_x heuristic (see moduleOf); "depth:N" = first N directories.
   grouping: 'sub',
-  // First path segment (under featuresRoot) that holds the design SYSTEM rather than a feature.
+  // Folder(s) under featuresRoot that hold the design SYSTEM rather than a feature: a string or a
+  // list (the kit plus the shared component folders, e.g. ["_components/kit", "features/shared"]).
+  // System modules are measured but never offered as rebuild targets.
   systemPrefix: 'shared/',
 });
 
@@ -76,26 +78,44 @@ export function parseGrouping(rule) {
  */
 export function moduleOf(rel, rule = { kind: 'sub' }, systemPrefix = 'shared/') {
   const s = rel.split('/').filter(Boolean);
+  // The longest system prefix (one or more segments) that holds this file, if any.
+  const sys = systemPrefixes(systemPrefix).find((p) => (rel + '/').startsWith(p + '/') && s.length > p.split('/').length);
   if (rule.kind === 'depth') {
     const dirs = s.slice(0, -1);
     if (dirs.length === 0) return '(root)';
-    if (dirs.length < rule.n) return dirs.join('/') + '/(root)';
-    return dirs.slice(0, rule.n).join('/');
+    const m = dirs.length < rule.n ? dirs.join('/') + '/(root)' : dirs.slice(0, rule.n).join('/');
+    // A depth too shallow to see a nested system folder (depth:1 over "_components/kit") would fold
+    // the kit into its parent: the system prefix itself is the module then.
+    const plain = m.replace(/\/\(root\)$/, '');
+    if (sys && sys !== plain && sys.startsWith(plain + '/')) return sys;
+    return m;
   }
   if (s.length === 1) return '(root)';
+  if (sys) {
+    const rest = s.slice(sys.split('/').length);
+    if (rest.length === 1) return `${sys}/(root)`;
+    return rest.length >= 3 ? `${sys}/${rest[0]}/${rest[1]}` : `${sys}/${rest[0]}/(root)`;
+  }
   const [ft, a, b] = s;
-  const sys = String(systemPrefix || '').replace(/\/+$/, '');
   if (s.length === 2) return ft + '/(root)';
-  if (sys && ft === sys) return s.length >= 4 ? `${ft}/${a}/${b}` : `${ft}/${a}/(root)`;
   if (a.startsWith('sub_')) return `${ft}/${a}`;
   if (s.length >= 4 && b.startsWith('sub_')) return `${ft}/${a}/${b}`;
   return `${ft}/${a}`;
 }
 
-/** Is `module` part of the design system (vs a feature)? */
+/**
+ * `systemPrefix` as a list: a string, a comma-separated string or an array (the kit plus the
+ * shared component folders), normalised without trailing slashes, longest first.
+ */
+export function systemPrefixes(systemPrefix) {
+  const raw = Array.isArray(systemPrefix) ? systemPrefix : String(systemPrefix ?? '').split(',');
+  return [...new Set(raw.map((p) => String(p).trim().replace(/\\/g, '/').replace(/^\/+|\/+$/g, '')).filter(Boolean))]
+    .sort((a, b) => b.length - a.length || a.localeCompare(b));
+}
+
+/** Is `module` part of the design system (vs a feature)? Any listed prefix counts. */
 export function isSystemModule(module, systemPrefix = 'shared/') {
-  const p = String(systemPrefix || '').replace(/\/+$/, '');
-  return p !== '' && (module === p || module.startsWith(p + '/'));
+  return systemPrefixes(systemPrefix).some((p) => module === p || module.startsWith(p + '/'));
 }
 
 /** Build a predicate for production source files from config (extensions + exclude regex). */

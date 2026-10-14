@@ -13,8 +13,8 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { moduleOf, parseGrouping, isSystemModule, fileFilter, relToRoot, stripJsonComments } from '../scripts/lib/modules.mjs';
-import { analyze, render, buildMetrics, countMetrics, scoreOf, debtOf, defaultMetrics } from '../scripts/style-divergence.mjs';
+import { moduleOf, parseGrouping, isSystemModule, systemPrefixes, fileFilter, relToRoot, stripJsonComments } from '../scripts/lib/modules.mjs';
+import { analyze, render, buildMetrics, countMetrics, scoreOf, debtOf, defaultMetrics, defaultSharedImport, sharedImportRe } from '../scripts/style-divergence.mjs';
 
 const SUB = { kind: 'sub' };
 
@@ -134,5 +134,56 @@ test('analyze a fixture tree without git: modules, ranking, system split, output
     const d1 = analyze(dir, { grouping: 'depth:1' }, { noGit: true });
     assert.deepEqual(d1.rows.map((r) => r.module).sort(), ['(root)', 'clean', 'noisy', 'shared']);
     assert.equal(d1.rows.find((r) => r.module === 'shared').system, true);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('systemPrefix as a list: nested kit folder, several shared folders, longest prefix wins', () => {
+  const SUB = parseGrouping('sub');
+  const sys = ['_components/kit', 'features/shared', '_components'];
+  assert.deepEqual(systemPrefixes(sys), ['_components/kit', 'features/shared', '_components'], 'longest first, ties by name');
+  assert.deepEqual(systemPrefixes('_components/kit/, features/shared'), ['_components/kit', 'features/shared']);
+  assert.deepEqual(systemPrefixes(''), []);
+  assert.equal(moduleOf('_components/kit/Panel.tsx', SUB, sys), '_components/kit/(root)');
+  assert.equal(moduleOf('_components/kit/art/Area.tsx', SUB, sys), '_components/kit/art/(root)');
+  assert.equal(moduleOf('_components/kit/art/x/y/Z.tsx', SUB, sys), '_components/kit/art/x');
+  assert.equal(moduleOf('_components/Nav.tsx', SUB, sys), '_components/(root)');
+  assert.equal(moduleOf('features/shared/Empty.tsx', SUB, sys), 'features/shared/(root)');
+  assert.equal(moduleOf('features/hiring/schedule/P.tsx', SUB, sys), 'features/hiring', 'a feature is untouched');
+  // depth:1 is too shallow to see the nested kit: the prefix itself becomes the module.
+  const D1 = parseGrouping('depth:1');
+  assert.equal(moduleOf('_components/kit/Panel.tsx', D1, ['_components/kit']), '_components/kit');
+  assert.equal(moduleOf('_components/Nav.tsx', D1, ['_components/kit']), '_components', 'a sibling of the kit keeps its depth module');
+  assert.equal(moduleOf('features/shared/a/B.tsx', parseGrouping('depth:2'), ['features/shared']), 'features/shared');
+  assert.equal(moduleOf('features/hiring/a/B.tsx', parseGrouping('depth:2'), ['features/shared']), 'features/hiring');
+  assert.equal(isSystemModule('features/shared/(root)', sys), true);
+  assert.equal(isSystemModule('_components/kit', sys), true);
+  assert.equal(isSystemModule('features/hiring', sys), false);
+  assert.equal(isSystemModule('features/sharedness', ['features/shared']), false, 'whole segments only');
+  // The single-string default keeps its 0.2 behaviour.
+  assert.equal(moduleOf('shared/components/forms/Input.tsx', SUB), 'shared/components/forms');
+});
+
+test('sharedImport: default is the system folder prefix (no "components/"), lists, and a zero-match warning', () => {
+  assert.deepEqual(defaultSharedImport({ featuresRoot: 'src/features', systemPrefix: 'shared/' }), ['@/features/shared/']);
+  assert.deepEqual(defaultSharedImport({ featuresRoot: 'app', systemPrefix: ['_components/kit', 'features/shared'] }), ['@/app/_components/kit/', '@/app/features/shared/']);
+  assert.deepEqual(defaultSharedImport({ featuresRoot: 'src', systemPrefix: 'components/kit' }), ['@/components/kit/']);
+  const re = sharedImportRe(['@/app/_components/kit/', '@/lib/ui/']);
+  assert.equal([...'import { Panel } from "@/app/_components/kit/Panel";\nimport X from \'@/lib/ui/X\';\nimport { Y } from "@/app/other";'.matchAll(re)].length, 2);
+  assert.equal([...'import { A } from "@/x";'.matchAll(sharedImportRe([]))].length, 0);
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kit-shi-'));
+  try {
+    const w = (rel, text) => { const p = path.join(dir, rel); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, text); };
+    w('app/_components/kit/Panel.tsx', 'export const Panel = () => null;');
+    w('app/features/hiring/schedule/P.tsx', 'import { Panel } from "@/app/_components/kit/Panel";\nexport default Panel;');
+    const cfg = { featuresRoot: 'app', systemPrefix: ['_components/kit'] };
+    const ok = analyze(dir, cfg, { noGit: true });
+    assert.deepEqual(ok.warnings, []);
+    assert.equal(ok.sharedImport.matches, 1);
+    assert.ok(ok.rows.find((r) => r.module === 'features/hiring').sharedPer100 > 0);
+    assert.equal(ok.rows.find((r) => r.module === '_components/kit/(root)').system, true);
+    assert.match(render(ok).md, /## _components\/kit\/ \(system\) modules/);
+    const zero = analyze(dir, { ...cfg, sharedImport: '@/components/kit/' }, { noGit: true });
+    assert.equal(zero.sharedImport.matches, 0);
+    assert.match(zero.warnings[0], /matched 0 imports in 2 files/);
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });

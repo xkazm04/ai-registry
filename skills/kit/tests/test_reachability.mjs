@@ -13,6 +13,7 @@ import path from 'node:path';
 import {
   extractSpecifiers, parseAliasArg, parseTsconfigPaths, entriesFromHtml, createResolver, walkGraph,
   groupReachability, analyzeReachability, findEntries,
+  expandBraces, globToRegExp, entryGlobPatterns, matchEntryGlobs, NEXT_APP_ENTRY_GLOBS,
 } from '../scripts/reachability.mjs';
 
 test('specifiers: from, export-from, dynamic, side-effect, require', () => {
@@ -109,4 +110,49 @@ test('walkGraph and groupReachability are pure over injected io', () => {
   assert.deepEqual([...seen].sort(), ['/a.ts', '/b.ts', '/e.ts']);
   const rows = groupReachability(['src/features/x/sub_a/A.tsx', 'src/features/x/sub_a/B.tsx', 'src/other/Z.tsx'], new Set(['src/features/x/sub_a/A.tsx']));
   assert.deepEqual(rows, [{ module: 'x/sub_a', files: 2, reachable: 1, unreachable: ['src/features/x/sub_a/B.tsx'] }]);
+});
+
+test('entry globs: braces, globstar, presets, matching over an injected file list', () => {
+  assert.deepEqual(expandBraces('{src/,}app/{a,b{1,2}}.ts'), ['src/app/a.ts', 'src/app/b1.ts', 'src/app/b2.ts', 'app/a.ts', 'app/b1.ts', 'app/b2.ts']);
+  assert.throws(() => expandBraces('app/{a,b.ts'), /unbalanced/);
+  const re = globToRegExp('app/**/page.tsx');
+  assert.equal(re.test('app/page.tsx'), true, '** matches zero directories');
+  assert.equal(re.test('app/(org)/[id]/page.tsx'), true, 'route groups and dynamic segments are literal');
+  assert.equal(re.test('app/x/page.tsx.bak'), false);
+  assert.equal(globToRegExp('app/*.tsx').test('app/x/y.tsx'), false, '* stays inside one segment');
+  assert.equal(entryGlobPatterns('next-app').length, entryGlobPatterns(NEXT_APP_ENTRY_GLOBS).length);
+  const files = {
+    app: ['app/layout.tsx', 'app/page.tsx', 'app/(org)/[id]/page.tsx', 'app/error.tsx', 'app/loading.tsx', 'app/not-found.tsx', 'app/x/template.tsx',
+      'app/opengraph-image.tsx', 'app/apple-icon.tsx', 'app/x/Widget.tsx', 'app/api/route.ts', 'app/_components/kit/Panel.tsx'],
+  };
+  const listed = [];
+  const list = (dir) => { listed.push(dir); return files.app.filter((f) => f.startsWith(dir + '/')); };
+  const got = matchEntryGlobs(['next-app'], list);
+  assert.deepEqual(got, ['app/(org)/[id]/page.tsx', 'app/apple-icon.tsx', 'app/error.tsx', 'app/layout.tsx', 'app/loading.tsx', 'app/not-found.tsx', 'app/opengraph-image.tsx', 'app/page.tsx', 'app/x/template.tsx']);
+  assert.deepEqual([...new Set(listed)].sort(), ['app', 'src/app'], 'each pattern walks only its static prefix, once');
+  assert.deepEqual(matchEntryGlobs('app/x/*.tsx', list), ['app/x/Widget.tsx', 'app/x/template.tsx']);
+});
+
+test('analyzeReachability with an entry glob: app router special files are entries, a dead glob is an error', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'kit-glob-'));
+  try {
+    const w = (rel, text) => { const p = path.join(dir, rel); fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, text); };
+    w('tsconfig.json', '{ "compilerOptions": { "paths": { "@/*": ["./*"] } } }');
+    w('app/layout.tsx', 'export default function L() { return null; }');
+    w('app/hiring/page.tsx', 'import { Panel } from "@/app/_components/kit/Panel";\nexport default Panel;');
+    w('app/hiring/error.tsx', 'export default function E() { return null; }');
+    w('app/opengraph-image.tsx', 'export default function I() { return null; }');
+    w('app/_components/kit/Panel.tsx', 'export const Panel = () => null;');
+    w('app/_components/kit/Unused.tsx', 'export const U = 1;');
+    const cfg = { featuresRoot: 'app', grouping: 'depth:1', systemPrefix: ['_components/kit'], entryGlob: 'next-app' };
+    const res = analyzeReachability(dir, cfg);
+    assert.equal(res.entries.length, 4);
+    const by = Object.fromEntries(res.modules.map((m) => [m.module, m]));
+    assert.deepEqual([by.hiring.reachable, by.hiring.files], [2, 2], 'error.tsx is an entry, not unreachable');
+    assert.deepEqual([by['_components/kit'].reachable, by['_components/kit'].files], [1, 2]);
+    assert.equal(by['(root)'].reachable, 2, 'layout and the metadata image route are entries');
+    // Explicit entries and globs combine; the CLI option wins over config.
+    assert.equal(analyzeReachability(dir, cfg, { entries: ['app/_components/kit/Unused.tsx'] }).modules.find((m) => m.module === '_components/kit').reachable, 2);
+    assert.throws(() => analyzeReachability(dir, cfg, { entryGlobs: ['pages/**/*.tsx'] }), /matched no file/);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });

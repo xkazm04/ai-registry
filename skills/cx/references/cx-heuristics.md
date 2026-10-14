@@ -16,9 +16,11 @@ additions come from the overlay's `## Heuristics`, never from editing this file 
 | **cognitive load** | Is there one job on the screen, and can the eye hold what is shown? | element count; competing highlights; text over ~60 characters a line; more than 5 choices |
 | **empty, error, edge** | What does the screen look like with nothing, with a failure, with too much? | the three states rendered; whether errors say what to do next |
 | **consistency** | Does it obey the design doc and behave like its siblings? | the doc's rule quoted; a component used two ways; a label that changes name between screens |
+| **irreversible step** | At a create, publish, send, delete or commit, does the screen say what this step makes permanent, where it happens? | enumerate what becomes immutable at the button; whether THIS screen says so, not one two steps earlier where the choice was made. `recovery` asks whether the user can undo; this asks whether they are told what cannot be |
 | **recovery** | Can the user undo, go back, or start over without loss? | Back path; destructive actions confirmed; state preserved across the round trip |
 | **copy** | Are the words the user's, active, specific, and short? | system nouns on screen; passive voice; labels that need the sentence to be understood |
 | **accessibility** | Contrast, size, focus visibility, motion respect, alternatives to colour | minimum text size for the surface; focus ring visible at distance; reduced-motion honoured; colour never the only signal |
+| **dead control** | Can every control on this screen actually do something, in some reachable state? | a disabled control with no path to enabled; a toggle whose effect is overridden where it is shown; a prototype switch with no production gate. Not a bug, and no test fails on it |
 | **input economy** | How many inputs to the goal, and is each the cheapest input the surface has? | count of presses/taps/words; typing where a pick would do; a modal where a change would do |
 | **latency honesty** | Is a slow operation shaped so the wait is used, not endured? | progressive reveal; what appears while waiting; whether the user can do anything meanwhile |
 | **delight, spent once** | Is there one moment of craft, and is everything else quiet? | motion count; the one flourish; ornament with no job |
@@ -72,7 +74,9 @@ screen.
 - **Impact** `H`: the user would notice on first use, or it blocks the scenario's success signal.
   `M`: noticed on repeat use, or it costs an input every time. `L`: polish; nobody would report it.
 - **Effort** `xs`: minutes, one file. `s`: an hour, a few files. `m`: a session, a component or a
-  flow. `l`: more than a session, or it needs a design decision.
+  flow. `l`: several sessions, a cross-cutting change, or it needs a design decision. `xl`: a new
+  module, a new data model or a redesign. Grade by what the change touches; `l` and `xl` route to a
+  human (SKILL.md, Constants), so the grade is never shaded down.
 - **Order** the table by impact, then by effort ascending. An `H/xs` at the top is the point of the
   whole walk.
 

@@ -1,28 +1,39 @@
 ---
 name: explorer
-description: Wander one logical area of a codebase, surface up to 10 evidence-backed items worth fixing, build the small ones (xs/s) without asking, and triage only the larger ones with the user. Every item is premise-verified, gated and committed atomically. Daily low-friction quality sweeps with per-context coverage memory.
+description: "Short, interactive, joins-first probe sweep of one codebase area. Picks a (context, lens) pair that neither explorer nor scan-sweep has run yet (scripts/pick.mjs reads the context map, explorer's coverage ledger and scan-sweep's history), runs a catalog of one-command cross-layer probes before sampling any file (a gate matrix over a route family, the repo's own idiom where it was not applied, a test title contradicting its assertion, a comment citing a gate, Known gaps docs, flags with no readers, config keys no validator names), and surfaces up to 10 evidence-backed items whose premise is closed with claim-appropriate evidence before any edit. Builds the small ones (xs/s) without asking, triages only the larger ones with the user, and commits each atomically in the repo's own commit convention. Use for a daily 20-40 minute quality pass over one area; use scan-sweep for the long multi-lens loop over every context."
 argument-hint: "[area] [--triage-all]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 2.5.0
+version: 2.6.0
 ---
 # Explorer
 
-Wander a logical section of a codebase, surface **up to 10 evidence-backed items** worth fixing, **build the small ones without asking** and put only the larger ones to the user, then execute in-session. Designed for frequent / low-friction use — daily wandering — and pairs with `/research` (external sources) and `/architect` (heavy structural change).
+Sweep one area of a codebase through one lens, surface **up to 10 evidence-backed items**,
+**build the small ones without asking**, put only the larger ones to the user, and execute
+in-session. Explorer is the short, interactive member of the quality loops: **joins first**
+(one-command probes over the seams between layers before any file is read end to end), one
+area, one sitting. `/scan-sweep` is the long multi-lens loop over every context; explorer
+**reads** its ledger to choose a lens neither loop has run, and never writes it. Pairs with
+`/research` (external sources) and `/architect` (structural change).
 
-The method is **repo-agnostic**: it takes its area taxonomy from whatever context source the repo has, and keeps a vault for run records, coverage tracking, and cross-run learning. Everything one repository is lives in the overlay below, each key with a default, so a repo that carries no overlay still gets a full sweep.
+Bundled material, loaded when a phase reaches for it:
+`${CLAUDE_SKILL_DIR}/scripts/pick.mjs` (the picker), `references/probes.md` (probe catalog and
+lens vocabulary), `references/categories.md` (per-lens hunting lists), `references/vault.md`
+(every vault template), `references/personas-outbox.md` (app coverage outbox).
 
 ## Project overlay
 
-Everything project-specific lives in ONE overlay the run reads in Phase 0: **`.claude/explorer/config.md` in the consuming repo** (tracked, so it travels with the clone and survives the vault, which is not version-controlled). **The sweep runs with no overlay at all** — every key below has a default — but say so in the Phase 0 opening line when defaults are in force, and never paste one repo's overlay into this file.
-
-Overlay shape: YAML frontmatter for scalars, markdown `##` sections for lists and prose. Keys (default in brackets):
+Everything project-specific lives in ONE overlay read in Phase 0: **`.claude/explorer/config.md`
+in the consuming repo** (tracked, so it travels with the clone). **The sweep runs with no overlay
+at all** - every key has a default - but say so in the opening line when defaults are in force,
+and never paste one repo's overlay into this file. YAML frontmatter for scalars, `##` sections
+for lists and prose. Keys (default in brackets):
 
 ```yaml
 ---
 product: "<product name>"             # sweep-note header  [the repo directory name]
-stack: "<one-line stack description>" # what the scan expects to read  [detected from package.json / Cargo.toml / manifest, else "unknown"]
+stack: "<one-line stack description>" # what the scan expects to read  [detected from the manifest, else "unknown"]
 vault: ["<abs obsidian root>", ...]   # candidate roots, first existing wins  [<repo>/.explorer]
 vault_subdir: Explorer                # namespace inside the vault; "" = the root itself  [Explorer]
 context_map: context-map.json         # the area taxonomy's machine-readable source  [context-map.json if present, else none]
@@ -33,33 +44,25 @@ active_runs_ledger: ""                # path of a live-sessions ledger if the re
 
 | Section | What it carries | Default when absent |
 |---|---|---|
-| `## Context sources` | the documents Phase 1 reads, in order, each with one line on what it is for (area taxonomy, architecture digest, project rules) | `context-map.json` if present, else `CLAUDE.md` (then `AGENTS.md`); a missing source is **noted, never fatal** |
-| `## Area menu` | the numbered options for Q1 and what each maps to | derived from the context map's groups (or the repo's top-level source directories), capped at 8 |
+| `## Context sources` | documents Phase 1 reads, in order, one line each | `context-map.json` if present, else `CLAUDE.md` (then `AGENTS.md`); a missing source is **noted, never fatal** |
+| `## Area menu` | numbered options for Q1 and what each maps to | derived from the map's groups (or top-level source dirs), capped at 8 |
 | `## Category menu` | extra categories beyond the built-in eight | the built-in eight only |
-| `## Gates` | the validation each executed item must pass, keyed by what it touched | detect from `package.json` scripts (`check`/`typecheck`, `lint`, `test`) and the toolchain (`cargo check` when `Cargo.toml` exists, `npx tsc --noEmit` when a tsconfig does); say what was detected |
-| `## Repo law` | the conventions an executed item must honor: i18n contract (which locale files a new string lands in, by which pipeline), design tokens, shared-component catalog, error handling, boundary wrappers | "read the repo's CLAUDE.md/AGENTS.md first; reuse before building" |
-| `## Baseline exclusions` | known-noisy migrations that must never become items (a large lint baseline the repo fixes as-you-touch, a half-done extraction) | none — but if the linter reports thousands of warnings of one rule, treat that rule as a baseline and say so |
-| `## Smoke` | how to run the app and exercise a surface for visual verification | state plainly that the change was NOT visually verified |
-
-## Interaction conventions
-
-Built for parallel CLI control — every user prompt is single-keystroke answerable.
-
-- **Every prompt is a numbered menu.** Numeric input picks the option; **Enter** triggers the default; option `1. other → …` is the deviation lane (free text).
-- **Every phase output (intermediate or final) ends with a `Next?` block** of 2–5 numbered next-step actions. Replying with a digit advances the run without typing prose.
-- Long free-text answers are still accepted everywhere; the menu just makes the common case instant.
-- **The run does not ask permission for small work.** `xs`/`s` items are built as they are found
-  (§ Phase 7); the only mid-run question is about `m`/`l` items, and a run that surfaces none
-  asks nothing at all between the two opening questions and the final summary.
+| `## Gates` | validation per kind of touched file | detected from `package.json` scripts and the toolchain (`cargo check`, `npx tsc --noEmit`); say what was detected |
+| `## Repo law` | i18n contract, design tokens, shared components, error handling, boundary wrappers, commit convention | "read the repo's CLAUDE.md/AGENTS.md first; reuse before building" |
+| `## Baseline exclusions` | known-noisy migrations that never become items | none - a lint rule with thousands of warnings is a baseline; say so |
+| `## Smoke` | how to run the app and exercise a surface | state plainly that the change was NOT visually verified |
 
 ## Input
 
-Use the area and category already supplied by the user. Ask only for missing inputs
-that materially affect scope; explicit instructions override default interaction menus.
+Every prompt is single-keystroke answerable: a numbered menu where a digit picks, **Enter** takes
+the default, and `1. other -> ...` accepts free text. Every phase output ends with a `Next?` block
+of 2-5 numbered actions. **The run does not ask permission for small work**: `xs`/`s` items are
+built as found (Phase 7); the only mid-run question is about `m`/`l` items, and a run with none
+asks nothing between the opening questions and the final summary.
 
-When inputs are missing, ask **two** numbered-menu questions, in this order. Numeric input picks the option; **Enter** picks the default; option `1. other → …` is the deviation lane and accepts free text.
-
-### Q1 — Area
+Use the area and category already supplied; explicit instructions override the menus. When
+inputs are missing, ask two questions in order. `/explorer`, "go" or "wander" with no arguments
+means Enter for both.
 
 ```
 Area? (Enter = pick for me)
@@ -68,785 +71,335 @@ Area? (Enter = pick for me)
   ...
   9. {area 8}
   10. pick for me   <- default
+
+Lens? (Enter = the picked lens, or any when you named an area)
+  1. other -> describe (free-form intent)
+  2. picked / any   <- default
+  3. quality   4. dx   5. ui   6. perf   7. bug   8. i18n   9. a11y   10. sec
 ```
 
-Numeric options 2–9 are the overlay's `## Area menu`; with no overlay, derive up to 8 from the context map's groups (or the repo's top-level source directories) and print what you derived them from. Option 1's free text falls through to the Phase 2a resolver (path fragment / keyword / exact context id). Option 10 / Enter triggers Phase 2b auto-pick.
-
-### Q2 — Category
-
-```
-Category? (Enter = any)
-  1. other -> describe (free-form intent; layered onto an auto-picked category)
-  2. any            <- default
-  3. quality
-  4. dx
-  5. ui
-  6. perf
-  7. bug
-  8. i18n
-  9. a11y
-  10. sec
-```
-
-Wait for both answers. Don't ask anything else upfront — further questions only if a phase requires clarification.
-
-If the user replies just "go" or "wander" or types `/explorer` with no arguments, treat as "pick for me" + "any" (Enter defaults for both).
-
----
+Options 2-9 of Q1 are the overlay's `## Area menu` (or up to 8 derived ones, saying from what).
+Free text goes to the Phase 2a resolver; option 10 runs Phase 2b. Ask nothing else upfront.
 
 ## Constants
 
-- **Codebase reference files** (always loaded) — whatever the overlay's `## Context sources` names, in its order. With no overlay, resolve in this order and use what exists:
-  - `context-map.json` (repo root, or the overlay's `context_map`) — the machine-readable area taxonomy: contexts, file lists, keywords, entry points.
-  - `CLAUDE.md` (then `AGENTS.md`, then `.claude/CLAUDE.md`) — project rules: conventions, error handling, any lint baseline, parallel-session discipline.
-  - Any architecture digest or feature map the overlay maps in — these are what let the wander go deeper than a file listing.
-  - A missing source is **noted in the opening line, never fatal.** With none at all, derive a provisional taxonomy from the repo's top-level source directories and say the sweep is running provisional.
-- **Vault root** (resolved at Phase 0; `$VAULT/<vault_subdir>/` throughout, written below as `Explorer/` for the default subdir):
-  - `Explorer/sweeps/` — one note per run, the canonical artifact
-  - `Explorer/state.md` — informational claim board (which areas are being explored *right now*)
-  - `Explorer/coverage.md` — heatmap of last visit per area + yield density
-  - `Explorer/passes.md` — per-area "a human looked at this and said no" memory; future passes skip these
-  - `Patterns/explorer-preferences.md` — distilled rules across runs (promoted from Lessons)
-  - `Lessons/{date}-explorer.md` — append-only self-reflection
-- **Categories** — `quality | dx | ui | perf | bug | i18n | a11y | sec`
-- **Severities** — `critical | high | medium | low`
-- **Effort buckets** — `xs (<15m) | s (15-60m) | m (1-3h) | l (>3h)`. Since v2 this is
-  an APPROVAL boundary, not a label: `xs`/`s` are built without asking, `m`/`l` are the
-  only ones triaged. Size the WHOLE change (§ Phase 7).
-
----
+- **Context sources**: the overlay's list, else what exists of `context-map.json`, `CLAUDE.md` /
+  `AGENTS.md`; with none, a provisional taxonomy from top-level source dirs, said as such.
+- **Vault** (`$VAULT/<vault_subdir>/`, written `Explorer/` below): `sweeps/` (one note per run),
+  `state.md` (claim board), `coverage.md` (visits and **lenses run** per area), `passes.md`
+  (human declines), `Patterns/explorer-preferences.md`, `Lessons/{date}-explorer.md`.
+- **Lenses (categories)**: `quality | dx | ui | perf | bug | i18n | a11y | sec`. How scan-sweep's
+  and lens-scan's keys map onto them: `references/probes.md`, "Lens vocabulary". **Severities**:
+  `critical | high | medium | low`.
+- **Effort**: `xs (<15m) | s (15-60m) | m (1-3h) | l (>3h)` - an APPROVAL boundary, not a label:
+  `xs`/`s` are built without asking, `m`/`l` are triaged. Size the WHOLE change (Phase 7).
 
 ## Phase 0: Read the overlay, resolve the vault
 
-Read `.claude/explorer/config.md` if it exists (§ Project overlay). Resolve `VAULT` = the first `vault` candidate that exists; if none does, fall back to `<repo>/.explorer/` — the same schema, still an Obsidian-openable folder — and **create it**. A missing vault is never a reason to abort:
+Read `.claude/explorer/config.md` if it exists. `VAULT` = the first `vault` candidate that
+exists; else `<repo>/.explorer/` (same schema, git-ignore it if a concurrent agent shares the
+branch) - a missing vault never aborts. Open with one line: which vault won, whether an overlay
+was found. Create any missing vault file from `references/vault.md` ("Bootstrap"). **Write every
+vault note with the file-writing tool, never a shell heredoc** - the notes carry backticks,
+quotes and `${}`, and heredocs have broken on exactly that.
 
-```bash
-VAULT=""
-for c in "${VAULT_CANDIDATES[@]}"; do [ -d "$c" ] && { VAULT="$c"; break; }; done
-[ -n "$VAULT" ] || { VAULT="$PWD/.explorer"; mkdir -p "$VAULT"; echo "No configured vault found - using fallback $VAULT"; }
+## Phase 1: Load context and memory
+
+1. **Context-source check** - one line naming which sources exist. Nothing here stops the run;
+   if the overlay names a regenerate command for a stale source, offer it under `Next?`.
+2. **Read in order**: the area taxonomy; the architecture digest; the rules file plus the
+   overlay's `## Repo law`; the **feature docs** the area maps to (a "Known gaps" section is a
+   pre-verified backlog - the `known-gaps` probe); `$VAULT/Architect/strong-patterns.md` if
+   present (prefer an existing strong pattern's shape in any fix); `Patterns/explorer-preferences.md`;
+   `Explorer/state.md`, `coverage.md`, `passes.md`; the 3 newest `Lessons/*-explorer.md`.
+3. **Knowledge-sync read happens HERE**, before Phase 4 - the governing subjects and techniques
+   (§ Knowledge sync). Read after the wander, it informs nothing. **Append the consults line at
+   the end of this phase, before any commit** - a pre-commit hook may read it.
+4. **Stale claims** - drop `state.md` Active entries older than 2 hours.
+5. **Snapshot freshness** - taxonomy >30 days old or >200 commits behind HEAD: warn, continue.
+
+## Phase 2: Pick the area and the lens
+
+**The lens matters more than recency.** An area swept recently through one lens is not swept:
+four separate runs found full yields in areas with fresh dedicated passes, because each pass had
+run a different lens. So the unit of coverage is the pair (context, lens), and a lens counts as
+run when **either** explorer or scan-sweep ran it there.
+
+### 2a. The user named an area
+
+Resolve the hint: exact group name -> its contexts; exact context id -> that context; path
+fragment -> contexts whose file lists overlap; keyword -> contexts whose keywords match. More
+than 3 plausible areas -> a short numbered list, "which one?". With no lens given, run the picker
+(below) with `--all` and take the first open lens it lists for those contexts.
+
+### 2b. "Pick for me"
+
+```sh
+node ${CLAUDE_SKILL_DIR}/scripts/pick.mjs            # from the repo root; --json, --category <c>, --top N, --all
 ```
 
-Record `$VAULT` (and `vault_subdir`, default `Explorer`) for the rest of the run, and open with one line saying which vault won and whether an overlay was found. Git-ignore a fallback vault if a concurrent agent shares the branch.
+Read-only, it joins the context map (flat or grouped), `Explorer/coverage.md` (`Contexts:` and
+`Lenses:` fields, format in `references/vault.md`; legacy rows inferred from sweep notes),
+scan-sweep's `.claude/scan-history/scan-sweep.jsonl`, lens-scan's `.ai/lens-scan/scan.db` if
+present, and `state.md` claims. It prints its sources, then one row per context offering only
+lenses **neither loop has run** that have surface there. Order: >= 3 files first, then fewest
+lenses run, oldest explorer visit, most cross-references. On a **first run** (empty ledger) it
+ranks by cross-references - "smallest file count" picks the context least able to yield.
 
-### Bootstrap (one-time per vault)
+Take row 1 unless the user's scope excludes it, and quote its `pick: <context> / <lens> - <why>`
+line verbatim (the why cites both ledgers). If the script cannot run, apply the same rules by hand
+and say `pick: DEGRADED (<why>)`. `Next?`: 1 other area / 2 proceed (default) / 3 abort.
 
-If any of these are missing, create them:
-
-- `$VAULT/Explorer/` (directory)
-- `$VAULT/Explorer/sweeps/` (directory)
-- `$VAULT/Explorer/state.md` — header only:
-  ```markdown
-  # Explorer State
-
-  Active claims by `/explorer` runs. Informational only - not a hard lock.
-  Stale entries (>2h) are released automatically by the next run.
-
-  ## Active
-
-  _No active explorers._
-  ```
-- `$VAULT/Explorer/coverage.md` — header only:
-  ```markdown
-  # Explorer Coverage
-
-  Heatmap of areas explored. Used by Phase 2 to pick the staleest, highest-yield area.
-
-  ## Areas
-  ```
-- `$VAULT/Explorer/passes.md` — header only:
-  ```markdown
-  # Explorer Passes
-
-  Per-area record of items a **human was asked about and declined** in past runs.
-  Future passes over the same area skip these. Accepted items don't appear here
-  (their fix is in the codebase). Items that were not surfaced are also absent,
-  and so is anything nobody answered - an unanswered item is not a rejection.
-
-  ## Areas
-  ```
-- `$VAULT/Patterns/explorer-preferences.md` — header only:
-  ```markdown
-  # Explorer Preferences (distilled from /explorer runs)
-
-  > Rules upgraded from `Lessons/` after 3+ observations. Loaded by Phase 1.
-
-  _No patterns yet. Will be populated as runs accumulate._
-  ```
-
-Don't create `Lessons/` (already shared with `/research`).
-
----
-
-## Phase 1: Load context & memory
-
-### 1a. Context-source check
-
-Resolve the overlay's `## Context sources` (or the defaults in § Constants). Report which exist and which do not in one line. **Nothing here stops the run** — a missing source narrows the wander, and saying so is the honest opening. If the repo has a command that regenerates one and the overlay names it, offer it as a `Next?` option rather than blocking.
-
-### 1b. Read in order
-
-1. The **area taxonomy** — groups, contexts, file paths, keywords, entry points.
-2. The **architecture digest** the overlay names, if any — engine internals and conventions.
-3. The repo's **rules file** — conventions, error handling, any lint baseline; plus the overlay's `## Repo law`.
-4. `$VAULT/Architect/strong-patterns.md` (if present) — to know the canonical shapes the codebase has been observed to do well. When you propose a fix in Phase 5, **prefer the shape of an existing strong pattern** over inventing a new one. Reference the pattern in the item's `strong_pattern_ref` field.
-5. `$VAULT/Patterns/explorer-preferences.md` — to deprioritize finding shapes the user has rejected before.
-6. `$VAULT/Explorer/state.md` — to know what *other* explorers are working on right now.
-7. `$VAULT/Explorer/coverage.md` — to know last-visit dates and yield per area.
-8. `$VAULT/Explorer/passes.md` — to know which items were already rejected per area.
-9. The 3 most recent files in `$VAULT/Lessons/` matching `*-explorer.md` (sorted descending) — to absorb recent self-reflection.
-
-### 1c. Stale-claim sweep
-
-In `$VAULT/Explorer/state.md`, any entry whose `claimed_at` is older than 2 hours is **stale** — assume the run was abandoned. Remove stale entries before proceeding. This keeps the file honest without an explicit lock.
-
-### 1d. Snapshot freshness
-
-If the area taxonomy carries a generation timestamp or commit count, compare it to now. If >30 days old OR `git rev-list --count HEAD` has advanced by >200 since it was written, warn but continue:
-```
-Warning: the area taxonomy may be stale ({N} commits / {D} days since it was generated).
-Consider regenerating it after this session.
-```
-
----
-
-## Phase 2: Pick area
-
-### 2a. If user gave a hint
-
-Resolve the hint to one or more contexts in the area taxonomy:
-- Exact group name → all contexts under that group.
-- Exact context id → that single context.
-- Path fragment → contexts whose file lists overlap.
-- Keyword → contexts whose keywords match.
-
-If the resolution is ambiguous (>3 plausible areas), present a short numbered list and ask "which one?" before continuing.
-
-### 2b. If user said "pick for me"
-
-Score each context by:
-- **Staleness** — days since last visit per `coverage.md` (more days = higher score). Never-visited = max staleness.
-- **Past yield density** — items accepted / items surfaced in last 1–2 visits (higher = higher score). Tie-breaker.
-- **Active claim penalty** — if the context appears in `state.md` Active section, score = 0 (skip it; pick a different area).
-
-Pick the top-scored context. If multiple tie, pick the one with the smaller file count (faster to scan, tighter feedback loop).
-
-Tell the user which area you picked and why (one short sentence), then a `Next?` menu:
-
-```
-Next?
-  1. other -> name a different area or context id
-  2. proceed with {picked-area}   <- default
-  3. abort
-```
-
-### 2c. Category filter
-
-If the user's category filter is not `any`, narrow the scan focus accordingly. The area stays the same; the filter only changes what kind of items count toward the 10-item budget.
-
----
+The chosen lens focuses the probe pass and the hunting list. A real defect of another lens met on
+the way is still an item, but **an incidental item does not mark its lens run**: record the
+picked lens, plus any lens whose probe set ran.
 
 ## Phase 3: Claim the area
 
-Append an entry to `$VAULT/Explorer/state.md` under the `## Active` section:
-
-```markdown
-- **{area-slug}** - claimed_at: {ISO timestamp}, run_id: {short random id}, category: {filter}
-```
-
-This is **informational, not a lock.** Other explorers reading this file will pick a different area. There's no enforcement, but the user said only one explorer runs at a time, so this is sufficient for awareness.
-
-**If the overlay names an `active_runs_ledger`**, also append one entry to it under `## Active`, following the format conventions at the top of that file, declaring the area's paths as your scope. If an existing `started` entry <2h old overlaps those paths, surface the conflict to the user before scanning. With no ledger declared, `git status` is the whole coordination surface: note foreign uncommitted work and never sweep it into your commits.
-
-Print the claim line to the user so they know what's recorded.
-
----
-
-## Phase 4: Wander the code
-
-Read enough of the agreed area to identify useful items, up to a ceiling of 10. Zero findings is a valid result. Budget your tool calls — don't read every file in a 100-file area. Sample strategically.
-
-### 4a. Sampling strategy
-
-For an area with N files:
-- N ≤ 5: read all of them.
-- 5 < N ≤ 20: read all entry-point files (the taxonomy's entry points for the context; failing that, the files the rest of the area imports most) + a random sampling of the rest, capped at 10 file reads.
-- N > 20: read all entry points + grep-discover the largest files (`Glob` then sort by line count) + sample 5–8 of those.
-
-Use `Read` with offset/limit when files are >500 lines — read top + bottom + a middle slice rather than the full file.
-
-### 4b. What to look for, by category
-
-**Hard exclusion — lint-baseline migrations.** Anything the overlay's `## Baseline exclusions` lists is fix-as-you-touch, never a standalone item. With no overlay, detect the same shape: a lint rule reporting warnings in the thousands is a declared migration, not a finding. Do NOT surface "migrate the raw utility classes in X" or "extract N hardcoded strings from Y" as items. Such items must be *structural* defects (wrong mechanism, broken behavior), not baseline backlog.
-
-For `quality`:
-- Dead code, unreachable branches, unused exports.
-- Duplicated logic across files (3+ near-identical blocks).
-- Misleading names, unclear intent, leaking abstraction.
-- Comments that explain "what" instead of "why" — flag the comment, not just the code.
-- Commented-out code older than current branch.
-
-For `dx`:
-- Test setup boilerplate that could be a fixture.
-- Call sites bypassing the repo's own typed wrapper for a boundary (a raw client call where the repo law names a wrapper).
-- Repeated try/catch boilerplate that should use the repo's error helpers.
-- Build-time hot-paths (large bundles, slow rebuilds) — use recent build output if there is any.
-- Missing error context (errors thrown without enough info to debug).
-
-For `ui`:
-- Hand-rolled duplicates of shared primitives (spinner, empty state, modal backdrop, tooltip — check the repo's shared-component catalog before calling one missing).
-- Visual bugs (overflow, alignment, contrast). Only flag if you can reproduce or strongly suspect from the code.
-- Inconsistent spacing/radius/shadow vs the design tokens.
-- Missing loading / empty / error states on user-facing components.
-- Accessibility gaps that double as UX gaps (missing aria-label on icon-only buttons, focus traps, keyboard nav broken).
-
-For `perf`:
-- Unnecessary re-renders (object/array literals in deps, missing `useShallow`, missing memoization on expensive children).
-- N+1 queries / IPC calls in a loop.
-- Large lists without virtualization.
-- `useEffect` chains where one effect depends on another's state (cascade).
-- Subscriptions that don't unsubscribe.
-- Synchronous work on the render path that could be async.
-
-For `bug`:
-- Race conditions (state read-then-write without a transaction, async effects without abort).
-- Edge cases unhandled (empty arrays, null/undefined, NaN).
-- Stale closures in effects/callbacks.
-- Off-by-one, boundary errors.
-- Wrong dependency arrays in hooks.
-- Errors swallowed silently (catch with empty body or just `console.log`).
-
-For `i18n`:
-- Status tokens displayed raw where the repo law names a token-label helper.
-- Error messages bypassing the repo's translated-error path.
-- Constants carrying a literal label where the convention is a key.
-- Feature-scoped locale directories or parallel locale data that route around the repo's single catalog.
-- NOT bulk string extraction — that's the lint-baseline exclusion above.
-
-For `a11y`:
-- Missing labels on form inputs.
-- Color contrast (you can't measure it, but you can flag `text-foreground/40` on `bg-secondary/30` style stacks).
-- Keyboard navigation broken (clickable divs without role/tabIndex).
-- Missing focus styles.
-- Modal without focus trap, escape handler, or backdrop click.
-
-**The cross-layer claim — run this lens in EVERY category, not instead of one.** The lists below are
-single-artifact questions, and the highest-value defect in a mature codebase usually is not in any one
-artifact: every file is internally consistent and the bug lives in what one layer CLAIMS about another.
-Two cheap greps find them:
-
-- **A doc comment with a modal verb about a CONSUMER** — "a consumer that shows this must also show
-  X", "the caller must Y", "the term is named for what it measures". Every such sentence is a claim
-  about code the module cannot see, and it is unenforced by construction. Open the consumer and check.
-- **A rule enforced on one path of a pair** — reads but not writes, POST but not DELETE, the barrel but
-  not the deep import, the arming screen but not the receipt. When you find a guard, ask what its
-  sibling path does; the asymmetry is invisible from inside either side.
-
-Measured across two sweeps of one mature repo: this lens produced the top finding of BOTH runs and four
-of ten items in the second, and in every case the code had already been read by an earlier pass.
-
-For `sec`:
-- A visibility/ownership rule applied to reads and not to writes (see the cross-layer lens above) — a
-  rule enforced on reads alone is a display rule, not an access rule.
-- Externally-reachable surfaces (HTTP routes, IPC commands, webhooks) without auth/validation.
-- Privileged subprocess spawns without sandboxing.
-- User input directly interpolated into SQL/command strings.
-- Credentials logged or surfaced in error messages.
-- See `/research` Phase 6 "Security escalation rule" — same logic applies. Auto-promote sec findings to severity `critical`.
-
-### 4c. Honor the deprioritization signals
-
-- If `Patterns/explorer-preferences.md` contains a rule like "user rejects cosmetic CSS findings without a measurable issue," skip those.
-- If `Explorer/passes.md` for this area lists items by short fingerprint (file:line + 1-line summary), skip exact matches. A near-match is OK to surface — but note "previously passed; resurfacing because <reason>".
-- Cross-check the area's previous sweep notes (`Explorer/sweeps/*-{area-slug}.md`) — don't resurface an item a past run already surfaced, unless its status changed.
-
-### 4d. Dedupe against recent history (one command, seconds)
-
-Before finalizing candidates, run **one** git log over the area's paths:
-
-```bash
-git log --oneline -20 -- <area path globs>
-```
-
-Drop any candidate whose anchor was plausibly fixed or reworked by a recent commit (verify by reading the current code, not the commit message). If a candidate survives despite recent activity, note "still present after <sha>" in its evidence. This plus passes.md plus prior sweeps is the full dedupe — no deeper archaeology.
-
-### 4e. Stop conditions
-
-- 10 items found → stop scanning, move to Phase 5.
-- Exhausted the agreed area before 10 items → stop with the supported findings, including zero. Report what was reviewed and what remains uncertain. Widen into an adjacent context only when it is already within the user's accepted scope; a quota never authorizes expansion.
-- Tool budget exceeded (>40 file reads) → stop with what you have.
-
-**Do not pad the list** with low-value items just to hit 10. Quality over quota. If you stop short, the run record explains why.
-
----
-
-## Phase 5: Categorize and structure each item
-
-### Premise verification (hard gate — no item ships without it)
-
-Every item's `anchor` must be a `file:line` **you actually Read in this session**, and its `evidence` must quote or paraphrase the real code at that line. Before presenting, re-Read the anchor lines of any item whose premise came from a grep hit or a sampled slice, and confirm the defect is really there (the guard isn't elsewhere, the "dead" export isn't imported, the "missing" abort isn't in a wrapper — one targeted Grep settles it). Pattern-matched suspicion ("this *usually* means…") is not an item. If verification kills a candidate, replace it or run short — never pad with unverified ones.
-
-For each of the 10 (or fewer) items, capture:
-
-```yaml
-- id: 1
-  title: "<short imperative phrase, <=60 chars>"
-  category: quality | dx | ui | perf | bug | i18n | a11y | sec
-  severity: critical | high | medium | low
-  effort: xs | s | m | l
-  anchor: "<file_path>:<line_number>"
-  evidence: "<2-3 sentence explanation of the gap, with verbatim code snippet if helpful>"
-  suggested_fix: "<1-2 sentence shape of the fix - not the fix itself>"
-  strong_pattern_ref: "<wikilink to Architect/strong-patterns#... entry>" | null
-  i18n_impact: "<none | adds new strings (every locale in the same change!) | touches existing keys>"
-  cluster_hint: "<other ids that ship naturally with this one, or 'standalone'>"
-```
-
-**On `strong_pattern_ref`:** if the suggested fix matches the shape of an entry in `Architect/strong-patterns.md` (proposing a shape the digest already records as load-bearing), set `strong_pattern_ref` to the wikilink. The fix should then **conform to the canonical example** in that entry, not invent a new shape. If no strong pattern applies, leave it null.
-
-### Severity rubric (be honest)
-
-- **critical** — security gap, data loss risk, crash on common path. Drop everything and ship.
-- **high** — wrong behavior on the golden path, broken on a common edge case, regression risk if left.
-- **medium** — paper cut, confusing UX, small perf hit, latent risk.
-- **low** — polish, nice-to-have, taste-level.
-
-If you find yourself rating most items "high," recalibrate downward. A 10-item list typically lands as 0–1 critical, 2–3 high, 4–6 medium, 1–3 low.
-
-### Cluster detection
-
-After categorizing, scan for items that should ship together:
-- Same file → same PR.
-- Type/function dependency → ship in order.
-- Same i18n component bundle → one extraction PR.
-
-Note these in `cluster_hint`.
-
----
-
-## Phase 6: Present to user
-
-Print a summary table, then per-item detail.
-
-### Summary table
-
-```
-#   Cat     Sev    Effort  Title                                              Anchor
-─   ─────   ────   ──────  ─────────────────────────────────────────────────  ──────────────────────────
-1   bug     high   s       Race in session-resume effect                      src/features/agents/sub_chat/hooks/useResumeSession.ts:42
-2   perf    med    xs      Memoize ChatBubble props (renders on every tick)   src/features/agents/sub_chat/ChatBubbles.tsx:118
-3   i18n    med    s       Status badge shows raw token, bypasses tokenLabel  src/features/agents/sub_chat/SessionBadge.tsx:31
-...
-```
-
-### Per-item detail
-
-For each row:
-```
-[N] {title}
-    Category / Severity / Effort:  {cat} / {sev} / {effort}
-    Anchor:    {file:line}
-    Evidence:  {explanation + snippet}
-    Suggested: {1-2 sentence fix shape}
-    Follows:   {strong-pattern wikilink + canonical example, or "-" if none applies}
-    i18n:      {none | N new keys | touches existing}
-    Cluster:   {standalone | ships with [a, b]}
-```
-
-If any items are clustered, end the section with a short "Clusters" block:
-```
-Clusters:
-  - [2, 5, 8] - all in ChatBubbles.tsx; ship in one PR. Order: 5 -> 2 -> 8.
-  - [3] alone - tokenLabel fix, separate commit.
-```
-
----
-
-## Phase 7: Triage — the small band is auto-accepted
-
-**`xs` and `s` items are ACCEPTED WITHOUT ASKING.** A prompt whose answer is always "yes" is
-not a decision, it is a round trip. Measured across three consecutive sweeps of one codebase:
-13 of 15 items sized `xs`/`s`, and every single one was accepted. Asking cost three questions
-and changed nothing.
-
-The split is not really about size. It is about **who can answer "did this work"**. An
-`xs`/`s` item is one the repo's own gates settle — the typecheck, the test, the lint, the
-parity check either pass or they do not, and a human reading a summary adds no information.
-An `m`/`l` item is almost always one where something outside the gates has to be judged: a
-visual design decision, a change to an established pattern, a trade-off with no test. In the
-measured runs both `m` items were exactly that (a dual-theme palette redesign; a nine-site
-a11y idiom), and both genuinely deserved the conversation.
-
-Two properties make the auto band safe, and both are load-bearing — do not weaken either:
-
-- **The Phase 5 premise gate still applies in full.** Auto-accept changes who approves a
-  VERIFIED finding. It does not lower the bar for what becomes one. An item whose anchor you
-  did not read, or whose defect you did not confirm at that anchor, is not eligible for any
-  band — it is not an item.
-- **Every item is its own gated, atomic commit** (Execution rules below), so an unwanted one
-  reverts alone, by sha, without touching its neighbours.
-
-### The two bands
-
-1. **Auto band (`xs`, `s`)** — build them. Print the plan first (Option B step 1) so the user
-   can interrupt, then execute in risk-ascending order. **Built and committed, never parked**:
-   a `.patch`/`.diff` file under the vault or the repo is not a landed item, it is an unbuilt
-   one wearing a deliverable's clothes. If a small item genuinely cannot be built (the repo
-   law blocks it, the gate cannot settle it), it is deferred or re-sized to `m` and said so —
-   not written out as a patch.
-2. **Triage band (`m`, `l`)** — ask, and ask ONLY about these:
-
-```
-{N} small item(s) (xs/s) accepted automatically - building now.
-
-{M} larger item(s) need your call:
-
-  [3] {title}  (m)  {the one thing only you can decide}
-  [7] {title}  (l)  {the one thing only you can decide}
-
-Reply with numbers to action, or:
-  all     - action these too
-  none    - skip them (still written to the sweep note)
-  Enter   - same as "none"   <- default
-```
-
-With no `m`/`l` item, **ask nothing**: say what you are building, and build it.
-
-**Nobody answered is not "none".** When the run is unattended — no operator, or the question
-went out and no reply came — the triage band's outcome is `decided: unasked`, never
-`declined`. Write those items to the sweep note in full and leave `passes.md` untouched
-(§ Phase 9d), so the next pass over the area surfaces them again with a human present.
-Treating silence as rejection permanently retires findings nobody ever read; measured once
-on a `critical` security item. Say in the summary how many items went unasked and why.
-
-`/explorer <area> --triage-all` restores the pre-v2 behaviour and asks about every item. Offer
-it in the `Next?` block when a run's auto band turned out larger or riskier than the user
-seemed to expect.
-
-### Sizing is now an approval decision
-
-Because the band gates approval, `effort` must be the honest cost of the WHOLE change: the
-edit, its test, its locale parity across every catalog, its doc-sync obligation, its visual
-verification. A one-line edit that ships 28 catalog entries in four languages is not `xs`.
-**Between two buckets, take the larger one** — over-sizing costs one question, under-sizing
-costs an unasked-for change.
-
-And the rule that falls out of why the split works: **an item the repo's gates cannot settle
-is `m` at minimum, however small the diff.** If finishing it requires a browser, a credential,
-a design judgement, or a "does this look right", then "did this work" is precisely the question
-being handed to the user, and handing it over without asking is the one thing this phase must
-not do.
-
-For each accepted item, execute it **in this same session**. Same default as `/research`: discover → decide → implement → commit, all in one context window.
+Append the claim line (`references/vault.md`) under `## Active` in `Explorer/state.md` and print
+it. Informational, not a lock. If the overlay names an `active_runs_ledger`, also add an entry
+there declaring the area's paths; an overlapping `started` entry <2h old is surfaced to the user
+before scanning. With no ledger, `git status` is the coordination surface: note foreign
+uncommitted work and never sweep it into your commits.
+
+## Phase 4: Wander - joins first
+
+Up to 10 items; zero is a valid result. Budget about 40 file reads.
+
+### 4a. Probe pass - before any file is sampled
+
+Run the probes from `references/probes.md` in its run order: the always-run set (`known-gaps`,
+`gate-matrix`, `consumer-claim` - or its `stated-rule` variant when it finds nothing -
+`comment-cites-gate`, `unapplied-idiom`), then the lens's probes, `technique-first` when the area
+is registry-governed. About ten commands; note each one's hit count. A hit is a **candidate**.
+
+Measured: 5 of 5 items in one run (single-file reading: 0 of 14 files), 3 of 9 in another, 3 of
+4 high items in a third. A probe pass that finds nothing in the joins is a signal to widen the
+probes or the area, not to fall back to reading files end to end.
+
+### 4b. Sampling - what the probes pointed at, then the rest
+
+Read the files the probes flagged first. Then, for an area with N files: N <= 5 read all;
+N <= 20 the entry points plus a sample (10 reads at most); N > 20 the entry points plus 5-8 of
+the largest files. Files over 500 lines: top, bottom and a middle slice. Hunt with the chosen
+lens's list in `references/categories.md` (it also carries the **lint-baseline exclusion** -
+a declared migration is never an item). For more than ~40 files, fan out with the
+`scout-ruled-out` probe: each scout must report what it checked to rule out the guard elsewhere.
+
+### 4c. Dedupe, then stop
+
+- **Signals**: skip shapes `explorer-preferences.md` says the user rejects; skip exact `passes.md`
+  fingerprints (a near-match may resurface, saying why); skip what a prior sweep note of this area
+  already carried unless its status changed.
+- **History**: `git log --oneline -20 -- <area path globs>`. Drop a candidate a recent commit
+  plausibly fixed (confirm in the code, not the message); a survivor notes "still present after
+  <sha>". Recent commits map **which lenses already ran**; they do not mean "covered".
+- **Stop** at 10 items; or when the area is exhausted (report what is supported and what remains
+  uncertain; widen only within the user's accepted scope - a quota never authorizes expansion);
+  or when the read budget is spent. **Never pad.**
+
+## Phase 5: Close the premise, then structure the item
+
+### Premise check - a hard gate that closes BEFORE any edit to that item
+
+Every item's `anchor` is a `file:line` you Read this session, and its evidence quotes or
+paraphrases the code there. But the anchor is where a pattern-matched suspicion looks MOST
+convincing; candidates die one call site away. So the evidence required depends on the claim:
+
+| The item claims | Required evidence (read it, cite it) |
+|---|---|
+| something present or absent at the anchor (dead export, missing guard, literal) | the anchor re-read, plus one grep proving the guard/import/use is not elsewhere |
+| **lifetime, identity or reachability** (state survives a switch, a value reaches the user, a branch runs) | the **mounting parent or the caller** - the component that remounts, the branch that reaches the formatter, the button that calls the writer |
+| **locks, snapshots, ordering, concurrency** | **a failing test** - in the repo's harness, or a throwaway probe test in its own test lane, deleted before staging |
+| a rule a gate enforces ("covered by <check>") | the gate's source, showing what it actually checks |
+| one layer's claim about another (UI promises X of the server; a doc obliges a consumer) | both sides, a line quoted from each |
+| a derived flag or constant | the definition it derives from, wherever it lives |
+| a contract change (status code, return type, thrown error) | every caller that branches on it |
+
+The check closes **before you touch the file**: a written edit creates a sunk cost that argues
+for itself. A candidate the check kills is recorded under "Killed candidates" in the sweep note
+with its **deciding file:line** - the record that the gate ran. Replace it or run short.
+
+### Item fields
+
+Each item carries the fields in `references/vault.md` ("Item fields"), among them **`probe`**
+(the catalog id that surfaced it, or `sample`) and **`premise`** (claim type -> the evidence
+read). A fix matching a strong-pattern entry conforms to that entry's canonical example.
+**Severity**: critical = security gap, data loss, crash on a common path (every `sec` finding is
+promoted to critical); high = wrong on the golden path or a common edge case; medium = paper cut,
+latent risk; low = polish. Most items "high" means recalibrate; ten items typically land 0-1
+critical, 2-3 high, 4-6 medium, 1-3 low. **Clusters**: same file, a dependency order, or one
+i18n bundle ship together - note it in `cluster_hint`.
+
+## Phase 6: Present
+
+A summary table (`#`, lens, severity, effort, probe, title, anchor), then each item's fields
+(`references/vault.md`). End with a `Clusters:` block when any exist ("[2, 5, 8] - one file;
+order 5 -> 2 -> 8").
+
+## Phase 7: Triage - the small band is auto-accepted
+
+**`xs` and `s` items are accepted without asking** (13 of 15 measured were, all accepted). The
+split is **who can answer "did this work"**: the repo's gates settle an `xs`/`s` item; an `m`/`l`
+item needs a judgement outside them. Two properties keep the auto band safe; neither may weaken: **the Phase 5 premise gate applies in full** (auto-accept changes who approves a VERIFIED
+finding, not what becomes one), and **every item is its own gated atomic commit** (an unwanted
+one reverts alone, by sha).
+
+1. **Auto band (`xs`, `s`)** - print the plan (Option B step 1) so the user can interrupt, then
+   build in risk-ascending order. **Built and committed, never parked**: a `.patch` file is an
+   unbuilt item wearing a deliverable's clothes. A small item that cannot be built is deferred
+   or re-sized to `m`, and said so.
+2. **Triage band (`m`, `l`)** - ask about these only, once, each with the one thing only the
+   user can decide (prompt in `references/vault.md`); Enter means none. With no `m`/`l` item,
+   ask nothing: say what you are building, and build it.
+
+**`--triage-all` is still ONE question.** It restores asking about every item, as a single
+multi-select: the `m`/`l` items named individually, the `xs`/`s` items bundled as one option
+("the small band: [1, 2, 4, 6]") with per-number exclusion allowed. One round trip, never one
+prompt per item. Offer it under `Next?` when the auto band ran larger or riskier than expected.
+
+**Nobody answered is not "none".** Unattended - no operator, or no reply - the triage band's
+outcome is `decided: unasked`, never `declined`: written in full to the sweep note, never
+fingerprinted in `passes.md`, so the next pass resurfaces it with a human present. Silence once
+retired a `critical` security finding nobody read. Say how many went unasked and why.
+
+**Sizing is an approval decision.** `effort` is the honest cost of the WHOLE change: edit, test,
+locale parity across every catalog, doc-sync, visual verification. Between two buckets take the
+larger. **An item the gates cannot settle is `m` at minimum, however small the diff** - a browser,
+a credential or "does this look right" is the question being handed to the user. Reusing an
+established visual mark, asserted by a DOM test, keeps its size; a new visual treatment is `m`.
+`m` means "needs a decision", not "takes an hour".
 
 ### Execution rules
 
-#### Gate baseline — run it once, before the first edit
+Execute each accepted item **in this session**: decide -> implement -> gate -> commit.
 
-Run the repo's **full** gate (the overlay's `## Gates`, or the repo's own gate script when it
-declares one) before touching a file, and record the result verbatim: the command, the pass/fail
-per stage, and the counts it printed. That line is the baseline for the whole run.
+**Gate baseline, once, before the first edit.** Baseline = the overlay's `## Gates` set; with
+none, lint + typecheck + the area's tests. Name anything skipped. Record it verbatim: command,
+pass/fail per stage, counts.
+"Pre-existing" is a claim that must quote this line. Scoped runs are fine in the edit loop and
+are *named* as scoped wherever their numbers appear. If the full gate cannot run here, say so once
+and treat every later gate claim as scoped.
 
-- **"Pre-existing" is a claim that must quote the baseline.** A failure or warning disowned as
-  pre-existing cites the baseline line that shows it; without one it is this run's problem.
-- **Reported figures are the full gate's figures.** A scoped run (one crate, one package, the
-  touched files) is fine for the edit loop and must be *named* as scoped wherever its numbers
-  appear. Measured: summaries claiming a 55-warning lint baseline where the full gate reported
-  147 — a scoped number reported as the repo's.
-- If the full gate cannot run here, say so once, name the stage, and treat every later gate
-  claim as scoped.
+**One item (Option A):**
 
-**Single accepted item with a clear anchor (Option A):**
 1. Apply the edit at `anchor`.
-2. Run validation:
-   Run what the overlay's `## Gates` maps to what the item touched; with no overlay, the detected typecheck / lint / test / compile commands — print what you detected. Lint warnings at the repo's known baseline are OK; errors, and NEW warnings in the files you touched, are not.
-3. **Stage scoped + verify + commit in ONE Bash invocation** (concurrent sessions rewrite the index between separate calls):
-   ```bash
-   git add path/one path/two && git diff --cached --stat
-   ```
-   Never `git add -A`, `git add .`, or `git add -u`. If the cached stat lists **more files than you added**, the index held another session's pre-staged work — `git restore --staged <path>` each unrelated file, re-verify, THEN commit. Never trust the index.
-4. Commit atomically: `explorer: <short title>` + Co-Authored-By footer + body explaining the why.
-5. **Verify the change landed in YOUR commit**: `git log -1 --format=%h -- <path>`. The index discipline above protects other sessions from you; this protects you from them. A concurrent agent that runs a broad `git add` between your edit and your commit absorbs your working-tree change into *its* commit — your own `git commit -- <path>` then reports "no changes added" and, worse, can commit whatever that session had staged. Measured on a shared checkout, 2026-08-29. If the sha it names is not yours, the fix is already in the tree under someone else's authorship: say so in the run record and do NOT re-apply it. Keep the edit→commit window short; that is the only real mitigation.
+2. **Run the gates** the overlay maps to what the item touched (with no overlay, the detected
+   typecheck / lint / test / compile - print what you detected). Known-baseline lint warnings
+   are fine; errors and new warnings in touched files are not. **When a gate is red, classify
+   before acting** - never `--no-verify`, never `--amend`:
 
-**2+ accepted items (Option B):**
-1. Print the inline plan (one paragraph per item: file, change shape, validation).
-2. Execute in **risk-ascending order** (xs effort first, l last; severity ties broken by category — `bug` before `perf` before `i18n` before `quality`).
-3. Atomic commit per item, validation per commit, same one-invocation stage-verify-commit discipline as Option A.
-4. If validation fails → fix inline, do NOT stack failing commits. No `--no-verify`, no `--amend`.
-5. If a downstream item turns out to be redundant after an upstream commit, drop it and note the drop in the run record.
+   | Red because of | Tell | Move |
+   |---|---|---|
+   | **your change** | the failure names a file or symbol you touched | fix it before committing |
+   | **a stale generated file** | the failure names a generated artifact (type stubs, route manifests, codegen) | regenerate it (or delete it and let the build remake it); never hand-edit it |
+   | **someone else's file** | the failure is in a path you did not touch, and it reproduces on a clean export of the base SHA (`git archive <sha>` into a scratch dir, run the test there) | lint/test your own paths for a clean signal, commit, report the foreign failure in the commit body and the run record; do not touch the foreign source |
+   | **the checkout itself** | it passes in a clean `git worktree add --detach <sha>` outside the shared tree and fails here | run the gate from that worktree; the comparison baseline is a SHA, never a branch that moves |
 
-**Tracked ledger lines ride with the work.** The registry-lead line (§ Knowledge sync) lands in
-a *tracked* file, so it is committed — in the commit of the fix that earned it, or in one closing
-`explorer: ledger` commit when it is written after the last fix. Leaving it as an uncommitted
-tracked change is the run's own dirt in someone else's tree. `.ai/consults.jsonl` and the vault
-are gitignored: never stage them. End the run with nothing the run itself authored left dirty,
-and say in the summary which commit carries the lead (or that none was filed).
+3. **Stage, verify and commit in ONE shell invocation** (concurrent sessions rewrite the index
+   between calls): `git add <path> <path> && git diff --cached --stat`. Never `git add -A`, `.`
+   or `-u`. More files in the stat than you added means another session pre-staged work:
+   `git restore --staged <path>` each stranger, re-verify, then commit. An insertion count far
+   above your edit means rewritten line endings: normalize and re-stage.
+4. **Commit in the repo's own convention.** Read it once per run - the `commit-msg` hook if one
+   exists, the overlay's repo law, `git log --oneline -15` - and write the subject that way
+   (`fix(scope): ...` where conventional commits are required). **Explorer attribution goes in
+   the body** (`explorer <version>, run <id>, item <n>, probe <id>`) with the why and the
+   Co-Authored-By footer. `explorer: <title>` is the subject only when the repo has no convention.
+   A repo with a same-change doc gate gets its trailers (`Doc-sync(...)`) in every commit's
+   template - read the hook once, not after the first bounce. **Write the message with the file
+   tool and commit with `git commit -F <file>`**: context names carry shell metacharacters (`&`).
+5. **Verify the change landed in YOUR commit**: `git log -1 --format=%h -- <path>`. A concurrent
+   broad `git add` between your edit and your commit absorbs your change into its commit, and
+   your own commit then finds nothing or commits its staged work. If the sha is not yours, the fix
+   is in the tree under another author: say so, do NOT re-apply it. Keep the edit -> commit
+   window short.
 
-**Item that needs more thought (Option D — escape hatch):**
-Record it in the run record as `decided: deferred` with the reason. Do NOT write a handoff file. The run record is the future search target. Use sparingly — prefer A or B.
+**Several items (Option B):** print the inline plan (file, change shape, validation per item);
+execute risk-ascending (xs first; ties `bug` > `perf` > `i18n` > `quality`); one gated atomic
+commit per item, Option A's steps each time - two items in one region of one file still land
+sequentially, as two commits. A failing gate is fixed inline, never stacked. An item made
+redundant by an earlier commit is dropped and recorded. **Option D**: `decided: deferred` with the
+reason in the run record - no handoff file.
 
-### Read the caller before changing a contract
+**Tracked ledger lines ride with the work.** The registry-lead line (§ Knowledge sync) is a
+tracked file: commit it with the fix that earned it, or in one closing ledger commit in the repo's
+convention. `.ai/consults.jsonl` and the vault are gitignored - never stage them. End with nothing
+the run authored left dirty; the summary names the commit that carries the lead, or says none.
 
-Before an item changes a status code, a return type, a thrown error, or any other thing a caller
-branches on, open the callers and check what they do with it. An "obviously more correct" contract
-routinely breaks a caller that was written against the old one — a DELETE made to 404 on no-match
-"for symmetry" broke an optimistic UI that rolls back on `!res.ok`, restoring a row the database does
-not have. Idempotent operations in particular are usually right to stay idempotent.
+**Read the caller before changing a contract.** Before an item changes a status code, return
+type, thrown error or anything a caller branches on, read the callers: an idempotent DELETE made
+to 404 "for symmetry" broke an optimistic UI that rolls back on `!res.ok`, restoring a row the
+database no longer had. Done means the callers still mean what they meant. Also read a source
+guard's pattern before restructuring a call it pins (a guard test can pin call *shape*), and
+prefer a literal substring check over a regex in any guard you write - it survives tool
+boundaries and a reader can verify it at a glance.
 
-This costs one grep and is not optional: the item is not done because the tests pass, it is done when
-the callers still mean what they meant.
+**Repo law is non-negotiable.** Every item honors the overlay's `## Repo law` in full (i18n
+contract and pipeline, token-label and translated-error helpers, design tokens, shared
+components, boundary wrappers); with no overlay, the rules file, then the surrounding code's
+shape. An item that would add more than a handful of locale keys is a session of its own - defer
+it. An item that cannot honor the law is deferred, never shipped half-converted. File-size caps apply
+to tests too: when the existing test file is over the cap, add a new sibling test file.
 
-### Repo law — non-negotiable
-
-Every accepted item honors the overlay's `## Repo law` in full: its i18n contract (which locale files a new string must land in, and by which pipeline — a repo with a no-gap pre-commit hook will block you otherwise), its token-label and translated-error helpers, its design tokens and shared-component catalog, its boundary wrappers. With no overlay, read the repo's rules file and follow what it states; where it states nothing, match the shape of the surrounding code rather than inventing one.
-
-**A string-adding item in a many-locale repo is not a paper cut.** If an item would add more than a handful of keys, defer it — that's a session of its own.
-
-If you can't honor the repo law in the change, defer the item — don't ship it half-converted.
-
-### Frontend visual verification
-
-If a change is visually meaningful (UI category, or any change to a rendered component shape), follow the overlay's `## Smoke` to run the app and exercise the affected surface before committing. With no `## Smoke`, state explicitly that you have NOT visually verified. Don't claim "looks good" from code review alone.
-
----
+**Visual verification.** A visually meaningful change follows the overlay's `## Smoke` before
+committing - and first confirms the server it reaches is this repo's app (one `curl` of the
+page title; a busy port may belong to another project). With no `## Smoke`, say plainly the
+change was NOT visually verified. Never "looks good" from code review.
 
 ## Phase 8: Persist the sweep
 
-Write `$VAULT/Explorer/sweeps/{YYYY-MM-DD}-{area-slug}.md`:
-
-```markdown
----
-date: 2026-05-01
-run_id: {short id}
-area: {context-id or group}
-files_sampled: {N}
-category_filter: any | quality | ...
-total_items: <actual count, 0-10>
-auto_accepted: [1, 4, 5]      # the xs/s band - built without asking
-triaged: [2, 3]               # the m/l band - put to the user
-accepted: [1, 3, 4, 5]        # everything actually built (auto + triaged-in)
-declined: [2]                 # only ever a human's explicit "no"
-unasked: []                   # triage-band items nobody answered - resurface next run
-deferred: []
-commits: [<sha1>, <sha2>]
-widened: false
----
-
-# {Area title} sweep - {date}
-
-## Items
-
-### [1] {title}  ✅ accepted -> {commit sha} `{commit subject}`
-**Category / Severity / Effort:** {cat} / {sev} / {effort}
-**Anchor:** `{file:line}`
-**Evidence:** {evidence}
-**Fix shape:** {what was actually done; reference commit body for detail}
-
-### [2] {title}  ❌ declined
-**Category / Severity / Effort:** ...
-**Anchor:** ...
-**Evidence:** ...
-**Decline reason:** _filled in Phase 9_
-
-### [4] {title}  ◻ unasked (unattended run - not declined)
-**Category / Severity / Effort:** ...
-**Anchor:** ...
-**Evidence:** ...
-**Status:** `decided: unasked` - put to no one; NOT fingerprinted in passes.md.
-
-### [3] {title}  ⏸ deferred
-**Category / Severity / Effort:** ...
-**Reason:** {why deferred - concrete blocker, not vague "later"}
-
-...
-
-## Cross-references
-- Adjacent areas not yet swept: {list from coverage.md, optional}
-- Related preferences: [[Patterns/explorer-preferences]]
-```
-
----
+Write `Explorer/sweeps/{YYYY-MM-DD}-{area-slug}.md` from the template in `references/vault.md`,
+with the file tool: the pick line verbatim, the probes run, the lenses recorded, each item's probe
+and premise evidence, and every **killed candidate with its deciding file:line**.
 
 ## Phase 9: Self-reflection
 
-### 9a. Ask why for declined items
-
-Only a TRIAGE-band item can be declined, so this question is about `m`/`l` items and nothing
-else. **Skip it entirely when nothing was declined** — which, after v2, is most runs. Do not
-ask it about the auto band: those were not offered, so there is no reason to collect. An
-unattended run declines nothing, so it skips this step too.
-
-Single batched question:
-```
-For the declined items, why did you skip them?
-
-  [2] {title}
-  [5] {title}
-  ...
-
-Reply per-item ("2: too vague, 5: already planned") or one overall reason.
-
-Shortcuts:
-  skip    - record "no reason given"
-  Enter   - same as "skip"   <- default
-```
-
-### 9b. Append to Lessons
-
-Write/append `$VAULT/Lessons/{YYYY-MM-DD}-explorer.md`:
-
-```markdown
-## Run: {timestamp} - {area} ({category filter})
-
-Sampled: {N} files
-Surfaced: {M} items
-Accepted: [list]
-Declined: [list] (with reasons)
-Deferred: [list] (with blockers)
-
-### Self-reflection
-- Categories that resonated: {pattern}
-- Categories that didn't: {pattern}
-- Calibration drift: {e.g. "rated 7 items 'high' but user accepted only 2; over-weighting severity"}
-- Tools to use more / less next time: {observation}
-```
-
-### 9c. Backfill the sweep note
-
-Add the decline reasons to the Phase 8 sweep note's `[N] declined` blocks.
-
-### 9d. Update passes.md
-
-**`passes.md` records only what a human actually declined.** A fingerprint here suppresses
-the item in every future pass, so the only thing that earns one is an explicit "no" from a
-person. Items marked `decided: unasked` (§ Phase 7), deferred items, and everything from the
-auto band are never fingerprinted — an unattended run typically writes nothing to this file.
-
-For each declined item, append a fingerprint to `$VAULT/Explorer/passes.md` under the area's section (create section if missing):
-
-```markdown
-## {area}
-
-- {file:line} - {1-line summary of the rejected suggestion} - pass {date}, run {id}, reason: {short reason}
-```
-
-The fingerprint matters — future passes over the same area skip these. Keep entries short.
-
-### 9e. Pattern promotion check
-
-Read all `$VAULT/Lessons/*-explorer.md`. If a decline reason has appeared in **3+ runs** (or close synonym), propose adding it to `$VAULT/Patterns/explorer-preferences.md`:
-
-```
-I've seen this 3+ times - promote to permanent rule?
-  "{distilled rule}"
-
-Source runs: [[2026-04-12-vault-credentials]], [[2026-04-20-overview-metrics]], [[2026-04-28-agents-editor]]
-
-Next?
-  1. promote to Patterns/explorer-preferences.md   <- default
-  2. snooze (re-ask after 3 more observations)
-  3. drop (don't promote, reset the counter)
-```
-
-If the user picks 1, append to `Patterns/explorer-preferences.md`.
-
-### 9f. Update coverage.md
-
-Update or insert the row for this area:
-
-```markdown
-## Areas
-
-### {area-slug}
-
-- Last visited: {date}
-- Last run: [[Explorer/sweeps/{date}-{area-slug}]]
-- Items surfaced (last 3 runs): [10, 8, 10]
-- Items accepted (last 3 runs): [3, 5, 4]
-- Yield density: {accepted / surfaced average}
-- Notes: {anything noteworthy across runs}
-```
-
-### 9g. Release the claim
-
-Remove the entry written in Phase 3 from `$VAULT/Explorer/state.md`, and — if a ledger was used — move its entry to the top of `## Recently completed` with the resulting commit SHA(s) (or `aborted (<reason>)`).
-
----
+- **9a. Declines** - only `m`/`l` items can be declined; skip this step when none were (most runs,
+  and every unattended run). One batched question (`references/vault.md`).
+- **9b. Lessons** - append to `$VAULT/Lessons/{date}-explorer.md` (template in `vault.md`):
+  which probes paid, which came back empty, calibration drift.
+- **9c.** Backfill decline reasons into the sweep note.
+- **9d. passes.md records only an explicit human "no".** A fingerprint suppresses the item in
+  every future pass; `unasked`, deferred and auto-band items are never fingerprinted.
+- **9e. Pattern promotion** - a decline reason seen in 3+ runs is offered for
+  `Patterns/explorer-preferences.md` (prompt in `vault.md`).
+- **9f. Coverage** - update the area's row: `Last visited`, `Contexts:` (exact map names) and
+  `Lenses:` (a running union; date the picked lens and any lens whose probe set ran). This row and
+  scan-sweep's ledger are what the next pick reads; a lens written for a pass that looked at
+  nothing inflates coverage permanently.
+- **9g. Release the claim** in `state.md`; move a ledger entry to `## Recently completed` with
+  the commit SHAs (or `aborted (<reason>)`).
 
 ## Phase 10: Final summary
 
-Print:
-```
-Explorer run complete.
-
-  Area:           {name} (group: {group})
-  Category:       {filter}
-  Files sampled:  {N}
-  Items surfaced: {M} (ceiling 10)
-  Auto-accepted:  {A} (xs/s, built without asking) -> {commit shas}
-  Triaged:        {T} put to you -> {K} actioned, {L} declined
-  Unasked:        {U} (unattended - resurface next run, not recorded as declines)
-  Deferred:       {D}
-
-  Coverage update: last visit {date} -> {today}, yield density {X}/{Y}
-
-  Files updated:
-    + $VAULT/Explorer/sweeps/{date}-{slug}.md
-    + $VAULT/Lessons/{date}-explorer.md
-    ~ $VAULT/Explorer/coverage.md
-    ~ $VAULT/Explorer/passes.md  (if any declines)
-    ~ $VAULT/Explorer/state.md   (claim released)
-    {if pattern promoted:}
-    ~ $VAULT/Patterns/explorer-preferences.md
-
-  Next?
-    1. /explorer {staleest adjacent area}                <- default
-    2. /explorer {same area, different category}
-    3. /research {area}    (external-source companion run)
-    4. /architect resume   (drain backlog)
-    5. done
-```
-
-If zero items were accepted, frame the run as a successful pass over a healthy area. The point is signal, not action.
-
-**Say what you did without being asked.** The auto band is the run acting on the user's behalf,
-so the summary owes them a plain account of it: what was built, under which shas, and — for
-anything the gates could not settle — what stayed unverified. A run that quietly built five
-things and reported a tidy total has taken the round trip it saved and spent it on opacity.
-Offer `--triage-all` in the `Next?` block if the auto band ran larger than they expected.
-
----
+Print the summary block from `references/vault.md` (pick, probes, items by source, killed,
+shas, unasked, unverified, gate baseline, coverage, `Next?` defaulting to the next pick). Zero
+accepted items is a successful pass over a healthy area. **Say what you did without being
+asked**: what was built on the user's behalf, under which shas, and what the gates could not settle.
+Run log (§ Skill Reflection): with no token figure, omit `--tokens-est` - `log-run.mjs` rejects `null`.
 
 ## Notes on use
 
-- **Pair with `/research`** — run `/explorer` after a research session that touched a specific area, to immediately surface adjacent gaps the research run didn't cover.
-- **Cadence** — daily or every-other-day is a reasonable rhythm. Coverage.md will tell you when the codebase is uniformly fresh and you should switch to `/architect` instead.
-- **Coexist with uncommitted work.** Multiple CLIs and editor sessions share the working tree. Explorer never stashes, resets, or discards anything it didn't author. Each commit stages **only the specific paths** the explorer touched (`git add path/one path/two`); never `git add -A`, `git add .`, or `git add -u`. If an item's anchor file already has uncommitted changes from someone else, surface it: "this file already has changes — commit them first, or layer on top?" Default to layer-on-top if the user doesn't pick. Forbidden at all times: `git stash`, `git reset --hard`, worktree-touching `git restore` / `git checkout --` on paths the run didn't author, `git clean -f`. (`git restore --staged <path>` to unstage a foreign pre-staged file is allowed — it never touches the working tree.)
-- **The auto band changes what a decline MEANS.** Before v2, a decline was the main calibration
-  signal and `passes.md` was fed mostly by small rejected items. Now the only declinable items are
-  `m`/`l`, so `passes.md` fills slowly and a run of zero declines says nothing about calibration.
-  Read the SHORTFALL instead — how often a run stops short of 10 — and the user's reaction to the
-  auto band. A user who starts reverting auto-accepted commits is the v2 equivalent of a decline
-  streak, and it means the sizing rubric is running small, not that the findings are wrong.
-- **Drift signal** — if 3+ explorer runs in a row produce 0 accepted items, the calibration is off (severity bar too low, or area was wrong). Trigger a self-reflection: read the last 3 sweeps and ask the user "what shape would have actually been useful?"
+- **Cadence**: daily or every other day, 20-40 minutes. When `pick.mjs` reports few open pairs,
+  switch to `/architect` or a `/scan-sweep` challenge round.
+- **Coexist with uncommitted work.** Never stash, reset, discard or clean anything the run did
+  not author (`git stash`, `git reset --hard`, worktree-touching `git restore` / `git checkout --`,
+  `git clean -f`); `git restore --staged <path>` for a foreign pre-staged file is allowed. An
+  anchor file with someone else's uncommitted changes: ask "commit them first, or layer on top?"
+  (default: layer on top). After an isolated-index commit, resync only your own paths with
+  `git reset HEAD -- <own paths>`, never a bare `git reset`.
+- **Calibration under the auto band.** Declines now come only from `m`/`l` items, so zero declines
+  says little. Read the shortfall (how often a run stops short of 10), the killed-candidate count,
+  and any **revert of an auto-accepted commit** - that is the decline streak of v2, and it means
+  sizing runs small. Three runs in a row with zero accepted items, or every item always accepted,
+  are both calibration signals: read the last three sweeps and ask what would have been useful.
 
 ## App context coverage (Personas-managed repos)
 
-This skill declares `contexts: tracked` — the Personas app measures per-context memory coverage for it. When run inside a Personas-managed repo (a `.personas/` dir exists, or the app dispatched this run), before finishing append JSON lines to `.personas/memory-outbox.jsonl` at the repo root (append, never rewrite) — one node per context you meaningfully worked on:
-
-```json
-{"type":"node","kind":"progress","title":"<=200 chars: what you did in this context","body":"optional detail","context":"<exact context name the app knows>","skill":"explorer"}
-```
-
-**Which name — this is the part that silently fails.** The ingest anchors a node
-by matching `context` against the names the app actually knows, case-insensitively.
-A name it does not recognize is NOT an error: the node is stored with a null
-context and simply never counts toward coverage. Use the name set the overlay's
-`coverage_context_source` declares; with no overlay, use the context map's names.
-**A repo whose map and whose app disagree must say so in the overlay** — a
-mechanically generated map and a product-level taxonomy can share almost no names,
-and anchoring to the wrong one loses every node silently.
-
-Always set both `"skill":"explorer"` and `"context":"<name>"` — together they drive the per-skill context-coverage % (last 30 days). The app ingests and deletes the file when the session ends. Skip silently when not Personas-managed.
+`contexts: tracked`: in a repo with `.personas/`, append one progress node per context worked on
+to `.personas/memory-outbox.jsonl` - format and the name-matching trap in
+`references/personas-outbox.md`. Skip silently otherwise.
 
 ---
 

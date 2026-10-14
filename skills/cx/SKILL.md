@@ -1,12 +1,12 @@
 ---
 name: cx
-description: "Walk a product's user journeys screen by screen with a CX/UX lens. Builds the journey map once, then at each stop gives a short overview of the screen as the user meets it, proposes 3-6 specific improvements graded by impact and effort, takes the user's own read and expectation for that stop, and dispatches executor subagents to make the accepted changes - verified by gates and a screenshot, committed per stop. In `complete` mode the map is the path to the product's final output, the SEAMS between screens are stops too, and a stop that is absent is designed and built rather than deferred - so an unfinished product is walked to completion instead of polished around its holes. With `--auto` it walks the whole map unattended: reads every stop, executes every xs-m item under gates and an independent verifier, and queues only L/XL items for human triage (`/cx triage`). Resumes across sessions from an Obsidian vault. Use when a prototype or app already exists and the job is to make its experience good, or to finish it; pairs with /explorer (code quality) and /architect (structure)."
-argument-hint: "[map|complete|next|screen <id>|status|replan|triage] [--auto] [--no-dispatch] [--stops N]"
+description: "Use when a prototype or app already exists and the job is to make its user experience good, or to finish it. Walks the product's user journeys screen by screen with a CX/UX lens: at each stop a short overview of the screen as the user meets it, 3-6 specific improvements graded by impact and effort, each naming its heuristic and the project's design doc, the user's own read and expectation for that stop, then executor subagents that make the accepted changes - verified by gates and a screenshot, committed per stop. `diff [<ref>]` is the daily-sized entry: it maps the routes and components changed since a ref to at most three stops and reads them with no map, overlay or vault; `--no-dispatch` keeps it read-only. In `complete` mode the map is the path to the product's final output, the SEAMS between screens are stops too, and a stop that is absent is designed and built rather than deferred. With `--auto` it walks the whole map unattended: executes every xs-m item under gates and an independent verifier and queues only l/xl items for human triage (`/cx triage`). Resumes across sessions from an Obsidian vault. Pairs with /explorer (code quality) and /architect (structure)."
+argument-hint: "[next|diff [<ref>]|map|complete|screen <id>|status|replan|triage] [--auto] [--no-dispatch] [--stops N]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.5.1
-tags: cx, ux, journey, screens, review, dispatch, continuity, completion, autonomous, obsidian
+version: 1.6.0
+tags: cx, ux, journey, screens, review, dispatch, continuity, completion, autonomous, diff, obsidian
 ---
 # CX
 
@@ -31,7 +31,7 @@ product: "<product name>"              # [repo directory name]
 surfaces: ["tv", "phone"]              # the screens' hosts, as the user names them  [one: "app"]
 vault: ["<abs obsidian root>", ...]    # first existing wins  [<repo>/.cx]
 vault_subdir: Cx                       # namespace inside the vault  [Cx]
-design_doc: docs/DESIGN.md             # the design philosophy every proposal is judged against  [none]
+design_doc: docs/DESIGN.md             # the design philosophy every proposal is judged against  [DESIGN.md and PRODUCT.md, at the root or in docs/, whichever exist - the authority wins over a mirror (Phase 1); else none]
 screens_source: docs/SCREENS.md        # where the screen inventory lives  [derived by reading the UI code]
 executor: sonnet                       # subagent model for dispatch  [sonnet]
 stops_per_session: 3                   # how many stops one run walks before it closes  [3]
@@ -66,44 +66,34 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 | argument | does |
 |---|---|
 | *(none)* / `next` | resume: the first stop in `journey.md` not marked done; walk up to `stops_per_session` |
+| `diff [<ref>]` | the daily-sized entry: the routes and components touched since `<ref>`, read as at most 3 stops, with no map, overlay or vault needed. See **Diff mode** |
 | `map` | build the journey map (first run), or rebuild it after screens changed; confirms with the user before writing |
-| `complete` | map the **path to the product's final output** rather than a tour of what exists: every stop carries a state grade, the seams between screens are stops, and an absent stop is designed and built instead of deferred. For an unfinished product |
+| `complete` | map the **path to the product's final output** rather than a tour of what exists: every stop carries a state grade, the seams between screens are stops, and an absent stop is designed and built instead of deferred. For an unfinished product. **Read `${CLAUDE_SKILL_DIR}/references/complete-mode.md` before its map** |
 | `screen <id>` | jump to one stop out of order |
 | `status` | print the journey with each stop's state and the last three decisions; change nothing |
 | `replan` | keep decisions, re-derive the stop order from the current screens |
 | `triage` | walk the human triage queue (`Cx/triage.md`) that `--auto` filled: one menu per item, accepted items dispatched and committed against their stop |
-| `--auto` | walk unattended: every stop in the map, in order, each read, auto-triaged, built, verified and committed before the next. Only L/XL items and the gated classes wait for a human. See **Auto mode**. Combines with `next`, `complete`, `map`/`replan` (map written without confirmation) and `--stops N` |
-| `--no-dispatch` | do everything except Phase 6: write the briefs, dispatch nothing |
+| `--auto` | walk unattended: every stop in the map, in order, each read, auto-triaged, built, verified and committed before the next. Only l/xl items and the gated classes wait for a human. See **Auto mode**. Combines with `next`, `complete`, `map`/`replan` (map written without confirmation) and `--stops N` |
+| `--no-dispatch` | do everything except Phase 6: write the briefs, dispatch nothing. With `diff` it also writes nothing: proposals only, in the response |
 | `--stops N` | override `stops_per_session` for this run |
 
 ## Constants
 
 - **A stop is one screen in one scenario.** The same screen met in two journeys is two stops,
   because the user arrives with different intent and the read differs.
-- **A SEAM is a stop too** (`complete` mode). A seam is the handoff between two consecutive stops:
-  what step A produced and step B is supposed to consume. It has no screenshot, because the failure
-  is not on either screen — it is that B never reads A's output and the user's work silently stops
-  travelling. Read a seam by following the DATA, not the pixels: name the payload, the writer, the
-  reader, and which of the three is missing. A product can have every screen built and still be
-  broken end to end; the seams are where that hides, and no screen-by-screen walk will find it.
-- **Every stop carries a state grade** (`complete` mode), set when the map is built and re-checked
-  when the stop is walked:
-  | grade | means | what the stop does |
-  |---|---|---|
-  | `built` | exists and works | read and polish - the ordinary walk |
-  | `thin` | exists, but a fraction of its siblings | ask what is missing before proposing polish |
-  | `fixture` | renders convincing data it did not compute | honesty first: what would make it real |
-  | `absent` | does not exist | design it, and in `complete` mode build it |
-  Grade from evidence a reader can recheck - file and line counts against sibling surfaces, which
-  fixtures a screen imports, whether anything downstream reads what it writes - never from
-  impression. The gradient across a journey is itself a finding: state it in the map.
+- **`complete` mode adds two units**: the **seam** (the handoff between two stops, read by
+  following the data, not the pixels) and the **state grade** (`built` / `thin` / `fixture` /
+  `absent`, from evidence that answers "does this step do its job"). Both are defined in
+  `references/complete-mode.md`. A grade set from the map is a hypothesis until its stop is walked.
 - **3-6 proposals per stop.** Fewer is a screen that is already right; say so. More is a list, and
   lists are not reviewed.
 - **Grade every proposal** by *impact* (`H` the user would notice on first use / `M` on repeat use /
-  `L` polish) and *effort* (`xs` minutes / `s` an hour / `m` a session / `l` several sessions or a
-  cross-cutting change / `xl` a new module, a new data model or a redesign), and name the
-  heuristic it serves. Grade effort by what the change touches, not by how fast an executor types:
-  `l` and `xl` are where a human decides, so the grade is a routing decision and is never shaded down. A proposal without a heuristic is an opinion; keep it out.
+  `L` polish) and *effort* (`xs` minutes, one file / `s` an hour, a few files / `m` a session, a
+  component or a flow / `l` several sessions, a cross-cutting change, or a design decision / `xl` a
+  new module, a new data model or a redesign), and name the heuristic it serves. Grade effort by what
+  the change touches, not by how fast an executor types: `l` and `xl` are where a human decides, so
+  the grade is a routing decision and is never shaded down. A proposal without a heuristic is an
+  opinion; keep it out.
 - **The user's expectation outranks the read.** When the user's expectation for a stop contradicts
   a proposal, the proposal is withdrawn and the disagreement is recorded, not argued.
 - **Done for a stop** = every accepted item landed and verified, or explicitly deferred with a reason;
@@ -115,6 +105,7 @@ Built for parallel CLI control — every user prompt is single-keystroke answera
 
 Read `.claude/cx/config.md` if it exists. Resolve `VAULT` = the first `vault` candidate that exists;
 if none does, fall back to `<repo>/.cx/` and **create it**. A missing vault is never a reason to abort.
+The one exception is `diff`: it never creates a vault, and with none the read goes in the response.
 
 ```bash
 VAULT=""
@@ -126,39 +117,8 @@ Open with one line: which vault won, whether an overlay was found, which mode is
 
 ### Bootstrap (one-time per vault)
 
-Create whatever is missing:
-
-- `$VAULT/Cx/` and `$VAULT/Cx/stops/`
-- `$VAULT/Cx/journey.md` — header only (Phase 2 fills it):
-  ```markdown
-  # Journey - <product>
-
-  The ordered stops. One line per stop; state is the first character.
-  [ ] not walked   [~] walked, items open   [x] done   [-] skipped, reason in the note
-
-  ## Journeys
-  ```
-- `$VAULT/Cx/state.md` — header only:
-  ```markdown
-  # CX State
-
-  Where the walk is. Rewritten at the end of every stop.
-
-  - journey: none yet
-  - last stop: none
-  - next stop: none
-  - stops walked: 0
-  - items landed / deferred / declined: 0 / 0 / 0
-  ```
-- `$VAULT/Patterns/cx-preferences.md` — header only:
-  ```markdown
-  # CX Preferences (distilled from /cx runs)
-
-  > Rules upgraded from `Lessons/` after 3+ observations. Loaded by Phase 1.
-
-  _No patterns yet._
-  ```
-
+Create whatever is missing, with the headers in `${CLAUDE_SKILL_DIR}/references/vault-formats.md`:
+`$VAULT/Cx/`, `$VAULT/Cx/stops/`, `Cx/journey.md`, `Cx/state.md` and `$VAULT/Patterns/cx-preferences.md`.
 Don't create `Lessons/` (shared with the other vault skills).
 
 ## Phase 1: Load memory and context
@@ -169,11 +129,14 @@ Read, in order, and say in one line what was and was not found:
 2. The last two stop notes in `$VAULT/Cx/stops/` — the recent decisions, so a proposal the user
    declined at the previous screen is not made again at this one in different words.
 3. `$VAULT/Patterns/cx-preferences.md` — the promoted rules; treat them as the user's standing law.
-4. The overlay's `design_doc` — every proposal is judged against it, never against taste.
+4. The overlay's `design_doc` — every proposal is judged against it, never against taste. When one
+   design file declares another the authority, or is a generated mirror of it, judge and cite
+   against the authority. Citations are always repo-relative (`docs/DESIGN.md:<line>`).
 5. The overlay's `screens_source`, else the UI code — the inventory of what exists.
 6. `${CLAUDE_SKILL_DIR}/references/cx-heuristics.md` — the practitioner's list.
 
-If `journey.md` has no stops, the mode is `map` regardless of what was asked.
+If `journey.md` has no stops, the mode is `map` regardless of what was asked — except `diff`, which
+never builds a map.
 
 ## Phase 2: Map the journey (`map`, or a cold vault)
 
@@ -203,29 +166,9 @@ Write `journey.md`: one stop per line, `[ ] S<n> · J<k>.<i> · <screen> (<surfa
 is trying to do here>`. Stop ids are stable for the life of the vault; a `replan` reorders lines and
 never renumbers.
 
-### In `complete` mode
-
-The map is **the path to the product's final output**, not a tour of what happens to exist. Build it
-in this order, and do the measuring before the drawing:
-
-1. **Name the final output first** — the artefact the user leaves with, in their words ("a cut they
-   would show someone", "a filed return", "a booked trip"). Everything else is judged by whether it
-   carries the work toward that. If the product cannot yet produce it, THE ENDING is stop one of the
-   backlog, not a footnote.
-2. **Grade every existing stop** from recheckable evidence (see Constants), and put the grade in the
-   line. The gradient is usually the story: a front half at `built` and a back half at `fixture` is a
-   product that was demoed, not finished.
-3. **Insert the seams** between consecutive stops and grade each one too. For every seam, follow the
-   data: does B read what A wrote? Name the payload and the reader. A seam nobody reads is `absent`
-   however good both screens look.
-4. **Absent stops get a line like any other**, with `✗` for their grade and a one-line statement of
-   what the user gets instead today (an empty screen, a fixture, a dead end, nothing at all).
-
-Present the map with the grades visible and say plainly how much of the path is real. Then take the
-user's answer as usual — the user picks where to start, and starting at the break rather than at the
-front is often the right call, because polish upstream of a severed seam is spent twice.
-
-Seam lines are written `[ ] S<n> · J<k>.<i> · seam <a>→<b> · <the payload that should cross>`.
+**In `complete` mode** the map is the path to the final output: name the ending first, grade every
+stop, insert and grade the seams, give absent stops a line, and present the grades before asking
+where to start — all as `references/complete-mode.md` says.
 
 ## Phase 3: Arrive at a stop
 
@@ -233,6 +176,11 @@ For the next `[ ]` stop (or the one named), **reach the screen** using the overl
 start the product if it is not running, drive it to the screen in the scenario's state, and capture
 a PNG into `$VAULT/Cx/stops/<id>-before.png`. When the product cannot be run here, say so and read
 the screen from its code and inventory instead — a proposal made from code is marked `(from code)`.
+
+**Capture every surface the stop names.** A scenario that crosses two hosts (a big screen and the
+phone that drives it) is captured on both (`<id>-before-<surface>.png`) and read on both, each with
+its own heuristics. A second surface mentioned in one line of the read is a surface nobody reviewed,
+and the user finds it impossible to operate after the first one was accepted.
 
 **Two things make a capture worse than none, and both are silent.** A page that reveals its content
 on scroll photographs as a column of empty blocks: the full-page shot is taken before the observers
@@ -244,56 +192,58 @@ before reading it.
 
 **The user may decline capture outright**, and that is a legal mode, not a degraded one: some owners
 review the live product themselves and want the walk's attention on the read. Record it as a standing
-preference, mark the proposals `(from code)`, and never spend a turn re-asking.
+preference, mark the proposals `(from code)`, and never spend a turn re-asking. A seam or an `absent`
+stop has nothing to photograph; capture what the user meets instead (`references/complete-mode.md`).
 
-**A seam or an `absent` stop has nothing to photograph, and that is the finding.** Capture what the
-user meets *instead* — the screen that shows a fixture, the dead end, the step that starts empty —
-into `<id>-before.png`, and say in one line what a working stop would have shown there. For a seam,
-capture BOTH screens it fails to connect (`<id>-before-a.png` / `-before-b.png`): the two side by
-side are the evidence that the user's work stopped travelling. Then read the data path in code and
-name the payload, its writer, its reader, and which of the three is missing.
-
-Then write the **overview**, five lines, in the user's words not the system's:
+Then write the **overview**, six lines, in the user's words not the system's:
 
 ```
 S<n> · <screen> · <surface>                J<k> <persona>: <scenario>
 Arrives from   <previous stop>, wanting <the intent>
+Path           <what makes that arrival real: the upstream step that wrote this state>
 Sees           <the one thing the screen leads with>
 Does           <the primary action, and how many inputs it costs>
 Leaves to      <the next stop>, having <the outcome>
 Risk           <the one way this stop most plausibly fails the user>
 ```
 
+**Challenge the path before reading the screen**, in every mode. If the only way to this screen is
+a seeded fixture, a deep link, or state that nothing upstream writes, the path does not exist yet:
+the `Path` line says so, and it is the read's first finding at `H` (`the payload crosses`), not a
+polish item. In the default modes it goes to the user as a question — walk this journey in
+`complete` mode, or polish knowingly — and is never polished around in silence.
+
 ## Phase 4: The read
 
 Run the heuristics list against the screen **in this scenario** — not the screen in general. For
 each proposal record `heuristic`, `evidence` (what on the screen or in the flow triggered it — a
-pixel, a count, a missing state), `change` (one sentence a builder can act on), `impact`, `effort`.
+pixel, a count, a missing state), `change` (one sentence a builder can act on), `doc` (the design
+doc's line it is judged against, cited `<file>:<line>`, or `doc: silent`), `impact`, `effort`.
 Then present:
 
 ```
 Read of S<n> - <screen>
 
 #  Impact  Effort  Heuristic                 Proposal
-1  H       s       primary action            ...
-2  M       xs      orientation               ...
+1  H       s       primary action            ... (DESIGN.md:<line>)
+2  M       xs      orientation               ... (doc: silent)
 ...
 
-Withheld: <proposals considered and dropped, with the one-word reason - "design doc says",
-          "declined at S3", "needs data">
+Withheld:   <proposals considered and dropped, with the one-word reason - "design doc says",
+            "declined at S3", "needs data">
+Left alone: <what this stop already gets right, and why - one line each, up to four>
 ```
 
 A screen with nothing worth changing gets a read of zero proposals and one sentence saying why it
 is right. That is a legitimate and valuable outcome; do not invent items to fill the table.
 
-**On an `absent` stop or a seam the read has a different shape**, because there is no screen to run
-heuristics against. Give instead: (a) **the design** — what this stop should be, in five lines, and
-what it must carry from upstream and hand downstream; (b) **the smallest thing that proves the
-chain** — the end-to-end path real data would take, which is what gets built first; (c) **the
-proposals**, graded as always, but now they are the pieces of that build. Heuristics still apply and
-are still named — `the thread between steps`, `honesty`, `orientation` — because a new surface obeys
-the same list as an old one. What is forbidden is designing the whole feature: the stop builds the
-path to the final output and stops there.
+**Left alone, and why** is part of every read. A read that only subtracts teaches its reader that
+nothing in the product was earned, so the reader starts discounting it; and an unnamed strength is
+the thing a later stop will "improve". A pattern that is right here but was a defect at a sibling
+stop belongs in it most of all — the contrast is a distinction the table alone cannot carry.
+
+On an `absent` stop or a seam the read takes the design / smallest proof / pieces shape in
+`references/complete-mode.md`.
 
 ## Phase 5: The user's turn
 
@@ -325,12 +275,26 @@ independent item, in parallel; bundled when items touch the same files. Each bri
 - the stop's overview and the user's expectation, verbatim
 - the change, the heuristic and the evidence
 - the design doc's relevant rules and the overlay's `## Repo law`, quoted, not referenced
+- **provenance on every claim**: each quoted rule and each piece of evidence tagged
+  `[VERIFIED <date>]` (measured or read this session) or `[INHERITED]` (a code comment, an earlier
+  note, a previous stop's finding). Executors treat quoted law as binding, which is exactly what
+  makes an inherited falsehood dangerous; the tag turns *obey* into *confirm* where it matters
 - acceptance: what the after-screenshot must show; which gates must pass
 - the constraint: **change only what the brief names**; no drive-by refactors; report every file touched
+- the invitation: **report any claim found false, and challenge the brief's framing too** — an item
+  filed under the wrong heading, an acceptance word the evidence does not support. Ask what a thing
+  DOES, not where it SITS
 
-When the subagents return: run the gates yourself; re-capture the screen to
+When the subagents return: run the gates yourself, and **diff the touched files yourself and check
+each factual claim in the report** — executor reports are evidence-shaped and partly wrong, and the
+wrong claims arrive in the same register as the right ones. Re-capture the screen to
 `$VAULT/Cx/stops/<id>-after.png`; compare before/after against the acceptance line. An item that
 fails acceptance is not landed — it is `deferred - failed acceptance` with the failure described.
+
+**On a red gate, establish whose change made it red before acting**: compare against the run's
+baseline and `git log` since the run began. In a repo with concurrent sessions the answer is often
+nobody in this run; an executor that refuses to re-baseline a gate it did not break is right.
+
 Commit landed items **per stop, pathspec-scoped** (`git add <paths>` then `git diff --cached
 --stat` in the same invocation and check the list is only yours), message from the overlay's `commit_format` (default `cx(S<n>): <screen> - <what changed, in the
 user's words>`). **Check the repo's commit gate before the first commit of a run** — a repository
@@ -343,33 +307,9 @@ With `--no-dispatch`, stop after the briefs are written and say plainly that not
 
 ## Phase 7: Close the stop
 
-Write `$VAULT/Cx/stops/<id>.md`:
-
-```markdown
-# S<n> · <screen> · <surface> - <date>
-
-J<k> <persona>: <scenario>
-Before: ![[<id>-before.png]]   After: ![[<id>-after.png]]
-
-## Overview
-<the five lines>
-
-## Read
-| # | impact | effort | heuristic | proposal | decision |
-...
-
-## The user's read and expectation
-<verbatim>
-
-## Landed
-- <item> -> <commit sha> `<subject>` - <what the after-shot shows>
-
-## Deferred / declined / withdrawn
-- <item> - <reason>
-
-## Cross-references
-- previous stop [[S<n-1>]] · next [[S<n+1>]] · design doc rule invoked: <rule>
-```
+Write `$VAULT/Cx/stops/<id>.md` in the stop-note shape of `references/vault-formats.md`: the overview,
+the read with each decision, the left-alone block, the user's words verbatim, what landed (commit
+sha, subject, what the after-shot shows), what was deferred, declined or withdrawn and why.
 
 **A stop often has a second round, and it is the good case.** An owner who reviews the built screen
 comes back with what only the built thing could reveal — a line that wraps, art that wants to be
@@ -377,6 +317,12 @@ larger, a word that reads wrong. Keep the stop `[~]`, add the new items to the s
 dated round-2 heading with the user's request verbatim, dispatch, and commit them against the same
 `S<n>`. A second round is not rework; it is the first time the user has seen the screen with the
 first round's changes in it.
+
+**Before closing, ask: did this stop change the map?** Walking a stop, and building it most of all,
+can show a missing upstream step, a neighbour whose arrival is fixture-only, or a grade that was
+wrong. A found stop gets a new line with the next free id (ids never renumber). A corrected grade is
+marked on its journey line, `<new>, regraded from <old> at S<m>: <evidence>`, and never silently
+edited: the visible correction is how the next reader learns the map was a hypothesis.
 
 Update `journey.md` (`[x]` done, `[~]` items open, `[-]` skipped) and rewrite `state.md`. Then:
 
@@ -394,16 +340,8 @@ Continue until `stops_per_session` stops are closed or the user stops.
 
 **8a. Self-reflection.** For every declined or withdrawn item, one line on *why* — the design doc,
 the user's expectation, or a heuristic that did not fit this product. Append to
-`$VAULT/Lessons/<date>-cx.md`:
-
-```markdown
-## Run: <timestamp> - <journey> S<a>..S<b>
-- stops walked: <n> · proposals: <p> · landed: <l> · deferred: <d> · declined/withdrawn: <w>
-### What the declines taught
-- <one line each>
-### What the user's expectations kept saying
-- <a recurring theme, if any>
-```
+`$VAULT/Lessons/<date>-cx.md` in the session-lesson shape of `references/vault-formats.md`: the run's
+counts, what the declines taught, and what the user's expectations kept saying.
 
 **8b. Pattern promotion.** A theme that appears in 3+ stop notes or lessons becomes a rule in
 `$VAULT/Patterns/cx-preferences.md`, stated as the user would state it, with the stops that
@@ -412,61 +350,53 @@ walk gets shorter as it goes.
 
 **8c. Status.** End with the journey line-map: done / open / remaining, and the next stop by name.
 
+## Diff mode (`diff [<ref>]`)
+
+**Read `${CLAUDE_SKILL_DIR}/references/diff-mode.md` before a `diff` run.** It holds the opening
+line, the ref and change-set rules, how files map to stops without a map, the ranking, the labels
+and the read-only rules. The contract in brief:
+
+- **The daily-sized entry.** It reads only what changed since `<ref>` (default: the merge-base with
+  the default branch, else `HEAD~10`) and needs no map, overlay or vault. Uncommitted edits are
+  listed apart and read only on request - they may be another session's work.
+- **Files to stops by import statements**, at most two hops from a route; comments and strings do
+  not count. A data writer is never a stop: it goes in the `Path` line of the stop that reads it.
+- **At most 3 stops**, ranked by screens reached x whether the change alters what the user sees or
+  can do, labelled `D<n> · <route>`. The design doc and the heuristics list always load, and every
+  proposal still names its heuristic and cites the authority design doc.
+- **Writes** go to the vault only if one exists. `--no-dispatch` is read-only: reads from code
+  unless the overlay has `## Run`, no Phase 5, path questions in `Next?`, no vault write, no commit,
+  no run-log line.
+
 ## Auto mode (`--auto`)
 
 **Read `${CLAUDE_SKILL_DIR}/references/auto-mode.md` before the first stop of an `--auto` or `triage`
 run.** It holds the loop, the routing table, the verifier, the triage queue format, the stop
-conditions and the report. The contract in brief:
-
-- **Same method, minus two roles.** Map, stops, heuristics, gates, and one commit per stop are
-  unchanged. Auto-triage (A5) replaces the user's turn, and an independent verifier (A6) replaces
-  the user looking at the after-shot.
-- **The loop.** Every open stop runs in map order, strictly one at a time. Each stop is closed and
-  committed before the next opens, so the walk can resume after any interruption. `map --auto`
-  writes the map without the confirmation menu.
-- **Nothing is invented.** The stop note records `expectation: none - auto`. The standing law is the
-  promoted patterns, earlier expectations and declines, the overlay's law, the design doc and the
-  host's memory. It withdraws what it contradicts.
-- **Routing.** Effort `xs`/`s`/`m` is built. Effort `l`/`xl` goes to `Cx/triage.md` with its full
-  brief, and so does a **gated class** at any effort: a design-doc or law change, a deletion of
-  something reachable, a capability off the map, an irreversible or outward act, a reversal of a
-  recorded decision, or an owner's open question. An `l` is never split to dodge the queue.
-- **Verification.** A verifier that did not build the change checks the before and after
-  captures against each acceptance line. `fail` gets one repair round and is then deferred with
-  its files restored. `unsure` lands and queues a `review`. A new screen gets one automatic
-  second read.
-- **Stop conditions.** The run stops when the map is done, the baseline is red, gates are broken
-  and cannot be restored, the product cannot run, or three stops in a row were all queued. It never
-  pushes.
-- **`/cx triage`** walks the queue one prompt per item, highest impact first. An accepted item is
-  built and committed against its stop, and a decline becomes standing law.
+conditions and the report. In brief: the same method minus two roles — auto-triage (A5) replaces
+the user's turn and an independent verifier (A6) replaces the user looking at the after-shot. Stops
+run strictly one at a time, each closed and committed before the next, so the walk resumes after
+any interruption. Nothing is invented: the standing law (promoted patterns, earlier expectations
+and declines, the overlay's law, the design doc, the host's memory) withdraws what it contradicts.
+Effort `xs`/`s`/`m` is built; `l`/`xl` and the gated classes go to `Cx/triage.md` with their full
+brief, and an `l` is never split to dodge the queue. It never pushes. **`/cx triage`** walks the
+queue one prompt per item; an accepted item is built and committed against its stop, and a decline
+becomes standing law.
 
 ## Vault layout
 
-```
-$VAULT/
-  Cx/journey.md              the ordered stops and their state
-  Cx/state.md                where the walk is - rewritten per stop
-  Cx/triage.md               the human triage queue --auto fills (L/XL and gated items)
-  Cx/stops/S<n>.md           one note per stop: overview, read, decisions, landed, before/after
-  Cx/stops/S<n>-before.png   and -after.png
-  Patterns/cx-preferences.md promoted rules (shared Patterns/ folder)
-  Lessons/<date>-cx.md       per-run reflection (shared Lessons/ folder)
-```
+`Cx/journey.md`, `Cx/state.md`, `Cx/triage.md`, `Cx/stops/S<n>.md` with its captures, and the
+shared `Patterns/cx-preferences.md` and `Lessons/<date>-cx.md`. Shapes and the full tree are in
+`references/vault-formats.md`.
 
 ## What this skill is not
 
 Not a code sweep — `/explorer` finds defects; this finds friction. Not a redesign — proposals live
 inside the design doc, and a proposal that needs the design doc changed is raised as a question to
-the user, never enacted. Not a feature list **in the default modes** — there, a stop that
-needs a new capability records it as `deferred - new feature` and moves on, because the job is the
-experience of what exists. **`complete` mode inverts exactly this one rule and nothing else:** the
-product is unfinished, the absent stops ARE the work, and deferring them would defer the whole
-point. Everything else holds in both modes — the heuristics, the user's expectation outranking the
-read, the gates, one commit per stop. A `complete` run that starts inventing capability nobody asked
-for has stopped being this skill; the map is the contract, and a capability that is not on the path
-to the product's stated final output is still `deferred - new feature`. And not a lecture: the read is a table and five lines, the
-user's turn is one prompt, and the run's opinion never outranks the user's expectation.
+the user, never enacted. Not a feature list **in the default modes** — there, a stop that needs a
+new capability records it as `deferred - new feature` and moves on, because the job is the
+experience of what exists; `complete` mode inverts exactly this one rule and nothing else
+(`references/complete-mode.md`). And not a lecture: the read is a table and six lines, the user's
+turn is one prompt, and the run's opinion never outranks the user's expectation.
 
 ---
 

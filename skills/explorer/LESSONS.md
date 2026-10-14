@@ -347,3 +347,30 @@ recorded findings landed on this skill. Applied in 2.4.0.
   with nothing to compare against. Added a gate-baseline step before the first edit: the full
   gate once, recorded verbatim, quoted by any "pre-existing" claim, with scoped numbers named
   as scoped.
+
+## 2.6.0 - 2026-10-14 - ascent
+
+- **The per-lens pick found a context explorer had never visited.** `pick.mjs` chose a
+  charts context through the `ui` lens: explorer had never been there, and scan-sweep's two
+  rounds over it had run no lens that maps to an explorer category. Recency ranking would
+  not have surfaced it. The pick printed a table and a `next:` line, but no line that cited
+  the ledgers, so there was no single line to quote. Now it prints `pick: <ctx> / <lens> - <why>`.
+- **Probes first fed every item.** Nine probes ran before the first whole-file read; all six
+  items named a probe, and four killed candidates each carried a deciding file:line (two off
+  the anchor). `consumer-claim` found nothing in this hardened area. The `stated-rule`
+  variant (rule-stating comments, then check the sibling files comply) fed 3 items, so it
+  is now in the catalog.
+- **The full-gate baseline cost 13 of about 50 minutes.** In a daily loop that is the
+  largest single cost, and the overlay already names the gate set the area needs. The
+  baseline is now the overlay's `## Gates` set, or lint + typecheck + the area's tests, with
+  anything skipped named.
+- **Incidental lenses inflated coverage, and a recorded no-surface was ignored.** Recording
+  every lens an item happened to belong to would mark lenses as run that no probe pass ever
+  pointed at the area. Now only the picked lens and lenses whose probe set ran are recorded.
+  Separately, the picker left `dx` open where scan-sweep had recorded `dependency-auditor`
+  under `lens_no_surface`. It now reads that field.
+- **The hooks held, but only with the convention read first.** Four local commits passed on
+  the first try with `fix(<Context>): ...` subjects and explorer credited in the body. Context
+  names carry `&`, so the message now goes through a file and `git commit -F`. The consult
+  line has to exist before the first commit: the repo's consult-check hook recorded a miss on
+  the first one.

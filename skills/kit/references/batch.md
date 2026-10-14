@@ -7,7 +7,8 @@ flow is sized to his attention, not to the builders' speed.
 ## 1. Resume
 
 - Overlay, `Kit.md`, `coverage.json`, `gates.md` (read every verbatim verdict: they are the taste).
-- `git fetch`; the base's distance from its remote; `git log <base>..origin/<base> -- <candidate paths>` - a
+- `git fetch` (allowed under a never-pull / never-push rule: it only updates remote-tracking refs and touches
+  neither the branch nor the working tree); the base's distance from its remote; `git log <base>..origin/<base> -- <candidate paths>` - a
   module redesigned on another machine is a constraint before the batch, not a merge surprise after.
 - Foreign WIP in the working tree; gates' state on arrival (a red gate on arrival is inherited, attribute it).
 - Re-run divergence + reachability + join; `coverage.mjs init --inventory` folds new modules in and lists modules the
@@ -54,14 +55,23 @@ hand-roll a kit part locally, never edit the kit in a feature batch", file owner
 - Compose the family image: each module after | a kit reference page (`scripts/family.py`).
 - Collect proposed kit parts into `coverage.mjs add-kit-part` (status proposed).
 
-## 6. Gate (owner)
+## 6. Gate (by `gate_mode`)
 
-See `gate-kit.md`. One question for the batch (improvement / one more pass / degradation, per module allowed),
-plus one multi-select for the calls builders left open. Paths inside the questions. Capture verbatim.
+See `gate-kit.md`. `per-batch`: one question for the batch (improvement / one more pass / degradation, per
+module allowed), plus one multi-select for the calls builders left open. `key-decisions`: the Director
+decides each module from the pairs and the family image; only decisions meeting the key criteria (a)-(d) go
+to the owner, in one sitting. Paths inside the questions. Capture verbatim.
 
 ## 7. Close
 
 - `coverage.mjs close-batch --id ... --verdict ... --text "<verbatim>" --commits ...`; per-module statuses.
+  Under `key-decisions` the verdict is `director-approved`, the text is the Director's decision record, and
+  `--decisions <file>` (the numbered decision list) is required.
+- Builders proposed a part the owner already declined? The ledger refuses it; tell the builder, do not
+  `--replace` without new owner words. A gap the owner declines now: `add-kit-part --declined --why`.
+- `key-decisions`: `coverage.mjs status --summary-every <n>`; on `SUMMARY-DUE`, run the summary gate
+  (`gate-kit.md`) before the next batch when the owner is present, and never let more than twice `<n>`
+  batches wait.
 - Send-backs: resume the same builders with the verdict verbatim (they keep context); re-gate.
 - `gates.md` entry; a correction becomes a taste line in the overlay; a rule seen twice moves into the project
   doctrine AND the builder brief (a lesson that lives only in memory never reaches the builder who repeats it).
