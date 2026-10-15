@@ -96,6 +96,14 @@ script cannot:
 - **Systemic beats individual.** When one defect dominates the worklist across dozens
   of subjects, the fix is one systematic pass, not forty dispatches. Notice this
   before you dispatch, not after.
+- **A document dense in platform-set numbers, untouched for months, is decay without a
+  clock.** `node scripts/check-currency.mjs --volatile --json` adds a `volatile` key (the
+  default JSON is unchanged): documents ranked by dated facts scaled by age, across golden
+  paths and techniques as well as applications. Measured 2026-10-14, four documents a
+  research pass proved stale ranked 93, 260, 410 and 592 of 6862, so use it to shortlist
+  within a bundle you are already considering, not to open a dispatch on its own. Dispatch
+  the shortlisted subject to scoped `/deepen`, whose directed run starts from the same
+  command's per-subject listing.
 - **A due lead is cheaper than a fresh scan.** `librarian/sources/` holds findings a
   research run proved real and could not land, each with a return condition. Read them
   before ranking: a lead whose condition has arrived is work somebody already scoped.

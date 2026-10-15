@@ -33,12 +33,30 @@
  *   node scripts/check-currency.mjs --json          # machine-readable (this is what /librarian reads)
  *   node scripts/check-currency.mjs --horizon 60    # widen "at risk"
  *   node scripts/check-currency.mjs --fail-on-expired
+ *   node scripts/check-currency.mjs --volatile              # which documents state facts that go stale
+ *   node scripts/check-currency.mjs --volatile --subject rate-limiting   # that subject's dated facts, by line
+ *   node scripts/check-currency.mjs --volatile --json       # adds a `volatile` key; without --volatile the JSON is unchanged
+ *
+ * ## What --volatile adds, and what it does not claim
+ *
+ * The clock above is derived per STACK and exists only on applications, so it measures age.
+ * A golden path or technique has no clock, and an application whose clock is still ahead
+ * can already be wrong. --volatile counts the claims that depend on an outside party's
+ * current state (durations, multipliers, prices, volumes, years) in EVERY document, weights
+ * them, and scales by time since `verified_on` (else the last commit touching the file).
+ * It is a locator: it says where to read numbers against sources, never that one is wrong.
+ * Measured 2026-10-14 against four documents a research pass had proved stale: they ranked
+ * 93, 260, 410 and 592 of 6862 - findable in the top 9%, not in the top ten. The top of the
+ * list is dominated by documents that report their own measurements, which is why the
+ * per-subject listing (--subject) is the intended input to a directed /deepen run.
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { walkSubjects } from './lib/taxonomy.mjs';
+import { scanVolatile, volatileScore } from './lib/volatile-facts.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -47,6 +65,22 @@ const SIGNALS = path.join(ROOT, 'signals');
 const argv = process.argv.slice(2);
 const asJson = argv.includes('--json');
 const failOnExpired = argv.includes('--fail-on-expired');
+const volatileMode = argv.includes('--volatile');
+const argAfter = (flag) => {
+  const i = argv.indexOf(flag);
+  return i === -1 ? null : argv[i + 1] ?? null;
+};
+const volatileSubject = argAfter('--subject');
+const volatileTop = (() => {
+  const raw = argAfter('--top');
+  if (raw === null) return 25;
+  const n = Number(raw);
+  if (!Number.isInteger(n) || n < 1) {
+    console.error(`check-currency FATAL: --top needs a positive integer, got ${JSON.stringify(raw)}`);
+    process.exit(2);
+  }
+  return n;
+})();
 const horizonDays = (() => {
   const i = argv.indexOf('--horizon');
   if (i === -1) return 30;
@@ -275,6 +309,91 @@ const perDomain = domains.map((d) => {
   };
 });
 
+// ---------------------------------------------------------------- volatile facts
+// Opt-in: it reads every document and runs git once, so the default report and the JSON
+// that /librarian parses stay exactly what they were.
+let volatile = null;
+if (volatileMode) {
+  const lastTouched = new Map();
+  try {
+    const log = execFileSync('git', ['log', '--format=@%ct', '--name-only', '--', 'knowledge'], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      maxBuffer: 1 << 28,
+    });
+    let at = 0;
+    for (const line of log.split('\n')) {
+      if (line.startsWith('@')) at = Number(line.slice(1));
+      else if (line.trim() && !lastTouched.has(line.trim())) lastTouched.set(line.trim(), at);
+    }
+  } catch {
+    // No git history (a tarball, a shallow clone): age falls back to verified_on or zero.
+    // Said once in the report, because a score with no age is a count, not a priority.
+  }
+  const nowSec = Date.now() / 1000;
+  const rows = [];
+  const consider = (domain, slug, layer, abs) => {
+    const md = fs.readFileSync(abs, 'utf8');
+    const rel = path.relative(ROOT, abs).split(path.sep).join('/');
+    const scan = scanVolatile(md);
+    const verifiedOn = md.match(/^verified_on:\s*(\d{4}-\d{2}-\d{2})/m)?.[1] ?? null;
+    const touched = lastTouched.get(rel);
+    const ageDays = verifiedOn
+      ? (nowSec - Date.parse(`${verifiedOn}T00:00:00Z`) / 1000) / 86400
+      : touched
+        ? (nowSec - touched) / 86400
+        : 0;
+    rows.push({
+      id: `${domain}/${slug}/${path.basename(abs, '.md')}`,
+      domain,
+      subject: slug,
+      layer,
+      file: rel,
+      count: scan.count,
+      weighted: scan.weighted,
+      byKind: scan.byKind,
+      examples: scan.examples,
+      facts: scan.facts,
+      verifiedOn,
+      ageDays: Math.round(ageDays),
+      score: volatileScore({ weighted: scan.weighted, ageDays }),
+    });
+  };
+  for (const domain of domains) {
+    const dDir = path.join(KNOWLEDGE, domain);
+    const { found } = walkSubjects(dDir);
+    for (const [slug, at] of found) {
+      const sDir = path.join(dDir, at);
+      consider(domain, slug, 'golden-path', path.join(sDir, `${slug}.md`));
+      for (const [layer, sub] of [['technique', 'techniques'], ['application', 'applications']]) {
+        const d = path.join(sDir, sub);
+        if (!fs.existsSync(d)) continue;
+        for (const f of fs.readdirSync(d).filter((x) => x.endsWith('.md')).sort()) consider(domain, slug, layer, path.join(d, f));
+      }
+    }
+  }
+  const scoped = volatileSubject ? rows.filter((r) => r.subject === volatileSubject) : rows;
+  if (volatileSubject && scoped.length === 0) {
+    console.error(`check-currency FATAL: --subject ${JSON.stringify(volatileSubject)} matches no subject.`);
+    process.exit(2);
+  }
+  const ranked = scoped.filter((r) => r.count > 0).sort((a, b) => b.score - a.score || a.id.localeCompare(b.id));
+  volatile = {
+    gitAges: lastTouched.size > 0,
+    scanned: scoped.length,
+    withFacts: ranked.length,
+    byLayer: Object.fromEntries(
+      ['golden-path', 'technique', 'application'].map((l) => [l, scoped.filter((r) => r.layer === l && r.count > 0).length]),
+    ),
+    top: ranked.slice(0, volatileTop).map((r) => ({
+      ...r,
+      // The per-fact list is the input a directed /deepen run needs; a corpus-wide top list
+      // carries only the examples, so the JSON stays readable.
+      facts: volatileSubject ? r.facts : undefined,
+    })),
+  };
+}
+
 // ---------------------------------------------------------------- report
 if (asJson) {
   console.log(
@@ -299,11 +418,14 @@ if (asJson) {
         expired: expired.map((a) => ({ id: a.id, expiresOn: a.expiresOn, daysLeft: a.daysLeft, clockSource: a.clockSource })),
         atRisk: atRisk.map((a) => ({ id: a.id, expiresOn: a.expiresOn, daysLeft: a.daysLeft, clockSource: a.clockSource })),
         drift: drift.map((a) => ({ id: a.id, stack: a.stack, verifiedAgainst: a.verifiedAgainst, fleetMajor: a.now })),
+        ...(volatile ? { volatile } : {}),
       },
       null,
       2,
     ),
   );
+} else if (volatile) {
+  printVolatile(volatile);
 } else {
   console.log(`currency report — ${today}, horizon ${horizonDays}d\n`);
   const w = Math.max(...perDomain.map((d) => d.domain.length));
@@ -376,3 +498,22 @@ if (asJson) {
 }
 
 if (failOnExpired && expired.length) process.exit(1);
+
+function printVolatile(v) {
+  const scope = volatileSubject ? `subject ${volatileSubject}` : 'whole corpus';
+  console.log(`volatile facts — ${today}, ${scope}\n`);
+  console.log(
+    `  ${v.scanned} documents scanned · ${v.withFacts} state at least one dated fact ` +
+      `(${v.byLayer['golden-path']} golden paths, ${v.byLayer.technique} techniques, ${v.byLayer.application} applications)`,
+  );
+  if (!v.gitAges) console.log('  note: no git history - ages come from verified_on only, so scores are counts, not priorities.');
+  console.log('  A LOCATOR: read these numbers against their sources. A high score never says a number is wrong.\n');
+  for (const r of v.top) {
+    console.log(`  ${String(r.score).padStart(6)}  ${String(r.count).padStart(3)} facts  ${String(r.ageDays).padStart(4)}d  ${r.layer.padEnd(11)}  ${r.id}`);
+    if (volatileSubject) {
+      for (const f of r.facts) console.log(`            L${String(f.line).padEnd(4)} ${f.kind.padEnd(10)} ${f.text}`);
+    } else {
+      console.log(`            ${r.examples.join(' · ')}`);
+    }
+  }
+}
