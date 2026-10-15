@@ -56,6 +56,20 @@ one per candidate. The mechanism, the measured basis for distrusting the
 amplitude dial, and the hazards of a slate used as an evasion are
 [anchored-variation-slate](./techniques/anchored-variation-slate.md).
 
+The phase is also **priced differently**, and plans that budget it like the
+loop starve it. Inside the loop, every regeneration burns capital, so a plan of
+"two drafts per shot, one retry, then fall back" is correct there. Before a
+direction is chosen, nothing has accrued, and volume is the instrument.
+Makers of generated spots that are praised for their craft report keeping one
+take in four at the generous end and one in tens routinely. They also report
+cutting a rough animatic from early takes, a fifth or so of the way into
+generation, and generating against the cut rather than against the shot list.
+The dated numbers, with their sources and how thin each is, sit in the
+application. Volume is necessary and not sufficient. A widely reported 2025
+holiday campaign generated tens of thousands of clips and was still received
+as generic, because a selector with no concept to select against keeps the
+median. The divergence phase needs both an anchor and a reason to choose.
+
 The phase is bounded, and its boundary is what connects it to the rest of this
 subject. Divergence is free precisely while nothing has accrued against a
 version — no approval, no gate verdict, no attribution row. The moment a
