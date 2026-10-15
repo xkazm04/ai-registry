@@ -1,0 +1,200 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dle-004-1015",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "llm-observability",
+  "started_at": "2026-10-14T22:35:00Z",
+  "ended_at": "2026-10-15T00:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 6,
+    "declined": 0,
+    "idled": 0,
+    "contended": 1
+  },
+  "subjects": [
+    {
+      "id": "llm-observability/agent-session-archive",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/mcp-tools",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/retrieval",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/search",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/test-input-generation",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "llm-observability/multi-provider-event-normalization",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/concurrency-guards",
+      "at": "2026-10-15",
+      "engine": "intake",
+      "outcome": "contended",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "agent-session-archive",
+      "technique": "ingest-disposition-accounting",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-session-archive",
+      "technique": "prefix-proof-retirement",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-session-archive",
+      "technique": "capture-before-parse",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "agent-session-archive",
+      "technique": "declared-message-coordinates",
+      "verdict": "unmeasurable",
+      "mode": "code"
+    },
+    {
+      "subject": "agent-session-archive",
+      "technique": "queryable-surface-redaction",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "mcp-tools",
+      "technique": "budgeted-partial-response",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "retrieval",
+      "technique": "ranking-budgets",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/llm-observability/taxonomy.json",
+    "knowledge/llm-observability/telemetry-and-data/agent-session-archive/agent-session-archive.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
+    "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/budgeted-partial-response.md",
+    "librarian/sources/2026-10-15-coding-agent-session-search.md",
+    "librarian/handoffs/2026-10-15-agent-session-archive.md",
+    "librarian/handoffs/2026-10-14-dicklesworthstone-series.md",
+    "librarian/subjects/llm-observability/agent-session-archive.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    "librarian/harvest/evaluations.md",
+    "librarian/harvest/queue.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md",
+    "scripts/process-sessions.mjs",
+    "scripts/lib/process-sessions.mjs",
+    "scripts/tests/process-sessions.test.mjs",
+    "scripts/transcript-mirror.mjs",
+    "scripts/tests/transcript-mirror.test.mjs",
+    "scripts/ledger-read.mjs",
+    "scripts/tests/ledger-read.test.mjs"
+  ],
+  "commits": [
+    {
+      "sha": "15f2ddd6",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/techniques/budgeted-partial-response.md",
+        "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
+        "librarian/handoffs/2026-10-15-agent-session-archive.md"
+      ]
+    },
+    {
+      "sha": "22a28642",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/llm-observability/taxonomy.json",
+        "knowledge/llm-observability/telemetry-and-data/agent-session-archive"
+      ]
+    },
+    {
+      "sha": "f5fccfc5",
+      "branch": "main",
+      "pathspec": [
+        "scripts/process-sessions.mjs",
+        "scripts/lib/process-sessions.mjs",
+        "scripts/tests/process-sessions.test.mjs"
+      ]
+    },
+    {
+      "sha": "80b78ce5",
+      "branch": "main",
+      "pathspec": [
+        "scripts/ledger-read.mjs",
+        "scripts/tests/ledger-read.test.mjs"
+      ]
+    },
+    {
+      "sha": "e3ad2550",
+      "branch": "main",
+      "pathspec": [
+        "scripts/transcript-mirror.mjs",
+        "scripts/tests/transcript-mirror.test.mjs"
+      ]
+    },
+    {
+      "sha": "9bb7b656",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications",
+        "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--budgeted-partial-response--personas.md",
+        "knowledge/llm-observability/telemetry-and-data/agent-session-archive/techniques/queryable-surface-redaction.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Series DLE-004. XL fired: subject agent-session-archive (6 techniques) forged in session, plus mcp-tools/budgeted-partial-response. 3 method A/Bs better and merged (mirror not wired). Personas: redaction not-better; fold cap undercount filed."
+}

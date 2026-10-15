@@ -1,6 +1,6 @@
 ---
 spec: xl-subject
-status: DISPATCHED
+status: EXECUTED
 subject: llm-observability/telemetry-and-data/agent-session-archive
 bundle: llm-observability
 category: telemetry-and-data (4 of 10 child dirs before this subject; taxonomy.json is the authority)
@@ -157,4 +157,20 @@ is a substring of that line. No patches or task rows against the source's clone.
 
 ## Overrides recorded
 
-(filled in by the director after review)
+Executed 2026-10-15 by one Opus forge worker in `C:/t/w-dle004` (branch
+`forge/agent-session-archive`, `46c506d4`, merged `22a28642`). Reviewed on the diff: gate
+clean, purity grep against the source's vocabulary clean, `use_when` on all six
+techniques, 105 of 105 application anchors re-run by the director, taxonomy appended.
+
+- **Six techniques, not seven:** `additive-cross-machine-pull` merged into
+  `capture-before-parse` (the never-delete transfer) and `root-relative-session-identity`
+  (origin in the key, original path kept). Accepted: a standalone file would restate both.
+- **Laws link depth:** `../../_laws.md` from the golden path, not `../../../`. The spec was
+  wrong; the gate confirms the worker.
+- **Connector-crate citations** went into a separate witness application with crate-relative
+  paths instead of `fad:` prefixes. Accepted: one `--root` per file.
+- **Redaction stays in this subject** on the outbound neighbour's own picking rule. The
+  director's mid-run measurement (66 of 5,385 transcripts carry credentials, almost all in
+  tool blocks; 0 of 5,383 windows at a scoped consumer) became its "Scope and custody"
+  section. One sentence was later corrected by the director to what was measured.
+- "The archive is the record" stayed golden-path prose, as the spec leaned.

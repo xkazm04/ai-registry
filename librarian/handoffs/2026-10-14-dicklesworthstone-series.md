@@ -410,3 +410,41 @@ had nothing in scope and was not run. Clone deleted.
   reading results (probe-not-in-commit; a credential signal replacing an "API key" match
   that hit test names), and the pre-registration's literal "reproduced-fail" would have
   counted the two already-red rows and called tier 2 better. Both disclosed in the rows.
+
+### R4 - DLE-004, 2026-10-15 (run `dle-004-1015`)
+
+Source note `librarian/sources/2026-10-15-coding-agent-session-search.md`; spec
+`librarian/handoffs/2026-10-15-agent-session-archive.md` (EXECUTED). 24 design entries in
+four systems; routing count per system 3/2/1/1 after the director overturned one reader's
+NONE; five ingest entries shared one home, so the XL trigger fired and the subject was
+forged in the same session.
+
+- **R1 said this round's problem was ours, and it was.** Measured before any brief: the
+  harness keeps transcripts 30 days (primary documentation; minimum 1, nothing disables
+  it); the store is 17.1 GB; 1,773 of 3,705 sessions the registry remembers have already
+  lost their bytes; `process-sessions.mjs` read 19% of transcripts because it discovered by
+  folder. Our three transcript readers had three folder rules.
+- **Landed knowledge:** new subject `llm-observability/telemetry-and-data/agent-session-archive`
+  (6 techniques; merged `22a28642`) and `mcp-tools/budgeted-partial-response`
+  (`15f2ddd6`); 14 source-tree applications, 7 of them on catches (one a counter-example
+  the corpus wins: lenient argv against `fluent-syntax-bounded-grammar`).
+- **Method A/B, all better, all landed (operator's bar):** discovery by record
+  (`f5fccfc5`, 1,383 -> 1,440 fleet sessions, 0 lost), a transcript mirror (`e3ad2550`,
+  23.8% of raw, floor exact, **not wired: the session-end hook and daily backstop are the
+  operator's decision**), a budgeted ledger reader for the 110,000-270,000-word ledgers
+  R1 named (`80b78ce5`, 30.5% fewer bytes, 12/12 answered; an upper bound, the strong
+  arm A untested).
+- **Personas (applies only, no directions):** redaction at the session-awareness seam is
+  not-better (0 of 5,383 windows; 66 of 5,385 transcripts hold credentials, in tool blocks
+  the seam skips), and that block reaches only legacy personas. The fleet transcript
+  reader's 64 MiB fold cap returns partial rollups silently: 4 of 4 sessions above it
+  undercount tokens 11-66%. Both recorded in personas `.ai/applied.jsonl`
+  (`822f4b7aa4`, `72e5b26a81`); the cap flag is filed as personas' next change, unbuilt.
+- **Leads and routing:** E24 (lessons from repository evidence, not transcripts) to DLE-005;
+  E10 sealed generations (designed, refused by its own loader); chars/4 never validated;
+  redaction recall unmeasured anywhere. Two `concurrency-guards` candidates deferred (V5,
+  DLE-002 held it).
+- **What this round got wrong about itself:** the worktree premise in the discovery brief
+  (registry worktree work is in subagent folders already counted); one reader NONE; one
+  stack witness; a heredoc that dropped a backslash from the director's own probe, caught
+  by a zero-match sanity check before any count was used.

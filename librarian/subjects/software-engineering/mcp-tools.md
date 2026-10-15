@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: mcp-tools
-last_touched: 2026-10-06
+last_touched: 2026-10-15
 touched_by: intake
 dry_streak: 0
 ---
@@ -660,3 +660,7 @@ tool whose agent door never builds the command line's output-path option (an arb
 file write), with both doors resolved through one function after a stored preference
 once reached only one of them. Half-violation of `tool-schema-design`: two schema
 parameters no backend reads, kept and labelled "no effect yet".
+
+### 2026-10-15 - intake coding_agent_session_search (run dle-004-1015, series DLE-004)
+
+Gained `budgeted-partial-response` (one wall-clock budget per agent-facing call: shed named sections before the deadline, report uninspected sections as unknown, name a recovery probe that differs from the failed call, never let a budget-emptied result exit as success). Promoted from partial after the director opened the source lines and read `output-budget-signal` and `bounded-projection-of-external-work`, neither of which models a tool response that sheds and names its recovery. Applications: the source (`rust--budgeted-partial-response--cass.md`, it fixed the empty-success exit for one mode only) and personas (experiment, unmeasurable: a 64 MiB fold cap returns partial rollups silently, 4 of 4 sessions above it undercount tokens 11-66%). Also `rust--fluent-syntax-bounded-grammar--cass.md`: a tree with about two dozen argv correction layers whose own incident record supports the technique against itself.

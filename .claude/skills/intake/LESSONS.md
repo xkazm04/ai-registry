@@ -12640,3 +12640,12 @@ applied here - one sighting, and the honest record is in the source note.
   question.** Tier 1 (transcripts) and tier 2 (re-run plus a two-family blind read) agree
   the self-graded rows hold in their samples. The open question from R1's B1 is now
   selection and seat occupancy, not grading.
+
+## 2.15.0 - 2026-10-15 - coding-agent-session-search (practitioner series DLE-004)
+
+- **Measure the defect on our own machine before briefing anyone.** Four numbers taken in the first hour (the harness's 30-day retention, a 17 GB store, 1,773 of 3,705 remembered sessions already lost, 19% discovery coverage) became the spec's worked case, two A/B targets and the subject's opening argument. A source's mechanism is a hypothesis about our tree until our tree has been counted.
+- **The routing count's NONE is a reader's claim until the director opens the neighbour.** One of eight NONE entries was wrong: the reader searched for a word ("metamorphic") the owning subject never uses ("reference model"). Concept queries and one file read overturned it. Keep the NONE count after the director's read, not before.
+- **Choose the seam that argued against the technique.** The personas reader's documented decision not to redact was the falsifier, and it returned not-better with the exact condition the technique was missing (scope and storage decide, not consent). A second falsifier seam found a live defect (a fold cap returning partials silently). Both outranked confirming seams.
+- **Price the do-nothing setting as arm A.** "Raise the harness's retention" was the obvious alternative to a mirror and the honest baseline. Measuring it turned the mirror from a nice idea into a 4.2x storage decision with a disk-full date.
+- **Subagents cannot write report files.** Three builders were refused when their briefs asked for REPORT.md; each put the report in its final message instead. Briefs should ask for the final message and name any data files separately.
+- Mid-flight runs: nothing to change; this entry adds no rule to SKILL.md.

@@ -1,7 +1,7 @@
 ---
 subject: search
 domain: software-engineering
-last_touched: 2026-09-24
+last_touched: 2026-10-15
 dry_streak: 0
 ---
 
@@ -32,3 +32,7 @@ application, `applied: experiment`, `better`. Boundary kept: the exhaustive and 
 contracts are the golden path's Filter intent, so the golden path's opening stands and
 only the engine consequence landed. Open: nothing in the corpus owns engine internals
 (host-locator postings, page bitmaps, index-only counts) - lead L1 in the source note.
+
+### 2026-10-15 - intake coding_agent_session_search (run dle-004-1015, series DLE-004)
+
+Catch, recorded as `rust--full-text-indexing--cass.md`: count-certified publication where an unobservable count fails (a hollow index once served 3 documents against about 1M), the source count run through the index's own noise filter, and a swap-then-verify path that may leave a window (unconfirmed).
