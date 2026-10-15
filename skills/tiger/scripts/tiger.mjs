@@ -30,6 +30,13 @@ const readJson = (f) => JSON.parse(fs.readFileSync(f, 'utf8'));
 const writeJson = (f, v) => { fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, `${JSON.stringify(v, null, 2)}\n`); };
 const posix = (p) => p.split(path.sep).join('/');
 const git = (root, args, o = {}) => execFileSync('git', ['-C', root, ...args], { encoding: 'utf8', maxBuffer: 256 * 1024 * 1024, ...o });
+// A run directory is <repo>/tiger/hunts/<id>. The repo root is derived from it rather than
+// stored, so nothing committed in the vault carries a machine path (repos forbid them, and a
+// clone on another machine must still resume). Runs written before 3.3.0 stored `root`; the
+// derived path wins.
+const rootOf = (dir) => path.resolve(dir, '..', '..', '..');
+const loadRun = (dir) => ({ ...readJson(path.join(dir, 'run.json')), root: posix(rootOf(dir)) });
+const saveRun = (dir, run) => { const { root, ...rest } = run; writeJson(path.join(dir, 'run.json'), rest); };
 
 // The strongest seat each vendor's CLI offers on this machine (2026-10). A seat that does not
 // answer the probe is skipped and the round runs with whoever is left.
@@ -171,7 +178,7 @@ function init() {
   if (fs.existsSync(path.join(dir, 'run.json')) && !flag('force')) die(`${posix(dir)} exists (--force to re-init the templates)`);
   const head = git(root, ['rev-parse', 'HEAD']).trim();
   fs.mkdirSync(dir, { recursive: true });
-  writeJson(path.join(dir, 'run.json'), { id, root: posix(root), area: area.split(','), head, created: new Date().toISOString(), rounds: {} });
+  saveRun(dir, { id, area: area.split(','), head, created: new Date().toISOString(), rounds: {} });
   const tpl = (f) => fs.readFileSync(path.join(SKILL, 'references', f), 'utf8');
   if (!fs.existsSync(path.join(dir, 'brief.md')) || flag('force')) fs.writeFileSync(path.join(dir, 'brief.md'), tpl('brief-template.md').replaceAll('{{area}}', area).replaceAll('{{head}}', head.slice(0, 10)).replaceAll('{{date}}', today()));
   const gi = path.join(root, 'tiger', '.gitignore');
@@ -201,7 +208,7 @@ function worktree(run) {
 
 async function convene() {
   const dir = path.resolve(opt('run') ?? die('--run is required'));
-  const run = readJson(path.join(dir, 'run.json'));
+  const run = loadRun(dir);
   const round = Number(opt('round', '1'));
   if (![1, 2].includes(round)) die('--round is 1 or 2');
   if (round === 2 && !fs.existsSync(path.join(dir, 'pool.md'))) die('round 2 reads pool.md: run `pool` after round 1 first');
@@ -211,12 +218,15 @@ async function convene() {
   const timeoutMs = Number(opt('ceiling-min', '40')) * 60_000;
   const ws = worktree(run);
   const only = opt('only');
-  const prompt = seatPrompt(round, run, dir, ws);
-  fs.writeFileSync(path.join(dir, `prompt-r${round}.md`), prompt);
-  const short = `Read ${posix(path.join(dir, `prompt-r${round}.md`))} and follow it exactly. Work autonomously; never ask questions.`;
+  // The rendered prompt holds absolute paths (the brief, the seats' worktree), so it lives in
+  // the ignored _logs/ beside the seat output, never in the committed run directory.
+  const promptFile = path.join(dir, '_logs', `prompt-r${round}.md`);
+  fs.mkdirSync(path.dirname(promptFile), { recursive: true });
+  fs.writeFileSync(promptFile, seatPrompt(round, run, dir, ws));
+  const short = `Read ${posix(promptFile)} and follow it exactly. Work autonomously; never ask questions.`;
   run.rounds[round] = run.rounds[round] ?? { started: new Date().toISOString(), seats: {} };
   run.seats = seats.map((p) => p.spec).join(',');
-  writeJson(path.join(dir, 'run.json'), run);
+  saveRun(dir, run);
   const jobs = seats.filter((p) => !only || p.id === only).map(async (p) => {
     const logDir = path.join(dir, '_logs', `r${round}`, p.id);
     const rec = path.join(logDir, 'record.json');
@@ -237,7 +247,7 @@ async function convene() {
   const stray = git(ws, ['status', '--porcelain']).split('\n').filter(Boolean);
   run.rounds[round].finished = new Date().toISOString();
   run.rounds[round].stray_changes = stray.length;
-  writeJson(path.join(dir, 'run.json'), run);
+  saveRun(dir, run);
   if (stray.length) console.log(`WARNING: ${stray.length} change(s) in the seats' read-only worktree:\n${stray.slice(0, 10).join('\n')}`);
   console.log(`next: node ${posix(path.join(HERE, 'tiger.mjs'))} pool --run ${posix(dir)}`);
 }
@@ -257,7 +267,7 @@ function lineCounter(ws) {
 
 function pool() {
   const dir = path.resolve(opt('run') ?? die('--run is required'));
-  const run = readJson(path.join(dir, 'run.json'));
+  const run = loadRun(dir);
   const ws = worktree(run);
   const count = lineCounter(ws);
   let current = null;
@@ -290,7 +300,7 @@ function pool() {
 // =================================================================================== ledger
 function ledger() {
   const dir = path.resolve(opt('run') ?? die('--run is required'));
-  const run = readJson(path.join(dir, 'run.json'));
+  const run = loadRun(dir);
   const p = readJson(path.join(dir, 'pool.json'));
   const vf = path.join(dir, 'verdict.json');
   if (!fs.existsSync(vf)) die('verdict.json is missing - the caller writes it after judging (see references/verdict.md)');
@@ -314,15 +324,18 @@ function ledger() {
   const out = path.join(run.root, 'tiger', 'seats.jsonl');
   const lines = rows.map((r) => JSON.stringify({ run: run.id, area: run.area, at: today(), ...r }));
   fs.appendFileSync(out, `${lines.join('\n')}\n`);
-  console.log('| seat | outcome | proposals | anchors ok % | peer mean | kept | approved | landed | wall s | $ |\n|---|---|---|---|---|---|---|---|---|---|');
-  for (const r of rows) console.log(`| ${r.spec} | ${r.outcome ?? '-'} | ${r.proposals} | ${r.anchors_ok ?? '-'} | ${r.peer_mean ?? '-'} | ${r.kept} | ${r.approved} | ${r.landed} | ${r.wall_s ?? '-'} | ${r.cost_usd != null ? r.cost_usd.toFixed(2) : 'n/a'} |`);
+  // `kept / approved / landed` count pool ids, so a folded cluster member reads as landed; the
+  // items-led column credits each scope item once, to its lead's seat (n/a without verdict.items).
+  const led = (r) => (r.led_approved == null ? 'n/a' : `${r.led_approved} / ${r.led_landed ?? 'n/a'}`);
+  console.log('| seat | outcome | proposals | anchors ok % | peer mean | kept | approved | landed | items led (appr / landed) | wall s | $ |\n|---|---|---|---|---|---|---|---|---|---|---|');
+  for (const r of rows) console.log(`| ${r.spec} | ${r.outcome ?? '-'} | ${r.proposals} | ${r.anchors_ok ?? '-'} | ${r.peer_mean ?? '-'} | ${r.kept} | ${r.approved} | ${r.landed} | ${led(r)} | ${r.wall_s ?? '-'} | ${r.cost_usd != null ? r.cost_usd.toFixed(2) : 'n/a'} |`);
   console.log(`appended ${rows.length} row(s) to ${posix(out)}`);
 }
 
 // =================================================================================== clean
 function clean() {
   const dir = path.resolve(opt('run') ?? die('--run is required'));
-  const run = readJson(path.join(dir, 'run.json'));
+  const run = loadRun(dir);
   const base = process.env.TIGER_WORK ?? (WIN ? 'C:/t' : os.tmpdir());
   const ws = path.join(base, `tiger-${run.id}`);
   if (!fs.existsSync(ws)) { console.log('no worktree'); return; }

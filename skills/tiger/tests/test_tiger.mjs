@@ -166,3 +166,25 @@ test('seatStats joins the verdict and run records per seat', () => {
   assert.equal(codex.cost_usd, null);
   assert.equal(rows.find((r) => r.seat === 'grok-y').kept, 1);
 });
+
+test('seatStats credits each scope item once, to the seat whose proposal led it', () => {
+  const p = pool2();
+  const ids = p.proposals.map((x) => x.id);
+  const seatOf = Object.fromEntries(p.proposals.map((x) => [x.id, x.seat]));
+  const codexIds = ids.filter((id) => seatOf[id] === 'codex-x');
+  const grokIds = ids.filter((id) => seatOf[id] === 'grok-y');
+  const verdict = {
+    kept: ids, approved: ids, landed: ids,
+    items: { A: [codexIds[0], ...grokIds], B: [grokIds[0], codexIds[1]], C: [codexIds[2]] },
+    approved_items: ['A', 'B', 'C'], landed_items: ['A', 'B'],
+  };
+  const rows = seatStats(p, verdict, {});
+  const codex = rows.find((r) => r.seat === 'codex-x');
+  const grok = rows.find((r) => r.seat === 'grok-y');
+  assert.equal(codex.landed, codexIds.length, 'per-id count still credits every folded member');
+  assert.equal(codex.led_approved, 2);
+  assert.equal(codex.led_landed, 1);
+  assert.equal(grok.led_approved, 1);
+  assert.equal(grok.led_landed, 1);
+  assert.equal(seatStats(p, { kept: ids }, {})[0].led_landed, null, 'no items map -> not measured, never 0');
+});

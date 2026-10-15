@@ -267,8 +267,26 @@ export function poolMarkdown(pool, { title = 'Tiger pool' } = {}) {
 }
 
 /** Per-seat numbers for the ledger. verdict: { kept: [ids], approved: [ids], landed: [ids] } (ids may be merged clusters' members). */
+// Per-id counts flatter breadth: a seat whose idea was folded into a big cluster reads as fully
+// landed. When verdict.json names its scope items (`items: { C1: [lead, ...members] }` with
+// `approved_items` / `landed_items`), an item is credited once, to the seat whose proposal led it.
+function ledItems(pool, verdict, key) {
+  const items = verdict.items;
+  if (!items || !Array.isArray(verdict[key])) return null;
+  const seatOf = Object.fromEntries(pool.proposals.map((p) => [p.id, p.seat]));
+  const led = {};
+  for (const name of verdict[key]) {
+    const lead = (items[name] ?? [])[0];
+    const seat = lead && seatOf[lead];
+    if (seat) led[seat] = (led[seat] ?? 0) + 1;
+  }
+  return led;
+}
+
 export function seatStats(pool, verdict = {}, records = {}) {
   const sets = Object.fromEntries(['kept', 'approved', 'landed'].map((k) => [k, new Set(verdict[k] ?? [])]));
+  const ledApproved = ledItems(pool, verdict, 'approved_items');
+  const ledLanded = ledItems(pool, verdict, 'landed_items');
   const peers = peerScores(pool);
   return Object.entries(pool.seats).map(([seat, s]) => {
     const mine = pool.proposals.filter((p) => p.seat === seat);
@@ -283,6 +301,8 @@ export function seatStats(pool, verdict = {}, records = {}) {
       kept: mine.filter((p) => sets.kept.has(p.id)).length,
       approved: mine.filter((p) => sets.approved.has(p.id)).length,
       landed: mine.filter((p) => sets.landed.has(p.id)).length,
+      led_approved: ledApproved ? ledApproved[seat] ?? 0 : null,
+      led_landed: ledLanded ? ledLanded[seat] ?? 0 : null,
     };
   });
 }
