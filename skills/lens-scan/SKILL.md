@@ -177,7 +177,7 @@ measured by its manifest's scan block, on the manifest's own fields
 - **Harness** - screenshots, `minTextPx`, `consoleErrors` through the overlay's
   [`## Harness`](#harness): a `shot` row per screenshot; a feature that cannot be rendered
   gets `activity --kind note --text "unscreenable: <why>"` and no shot, never a stand-in.
-- **Probe** - the performance lens's `startupMs`, `interactionP95Ms`, `frameP95Ms` and
+- **Probe** - the performance lens's `startupMs`, `interactionP95Ms`, `frameP95Ms`, `blockingMs`, `jankFrames`, `idleWakeups` and
   `memoryMb` through the overlay's `## Probes` entries ([metrics.md](references/metrics.md#probes));
   its `bundleKb` is static, from `bundle_stats`.
 - **Judgement** - read the feature's files once, then judge them through the lens's
@@ -576,7 +576,7 @@ sections for the command maps.
 | `bundle_stats` | none (`bundleKb` unmeasured) | A per-feature bundle stats file, when one exists. |
 | `## Gates` | `.ai/manifest.yaml` capabilities | The verification commands phase 5 runs, verbatim. |
 | `## Harness` | none (harness metrics unmeasured) | The generic form [below](#harness): how to start and reach the front end, and a route or click steps per feature. |
-| `## Probes` | none (the performance lens's probe metrics unmeasured) | One entry per feature and metric, `<feature> <metric>: <command>`, for `startupMs`, `interactionP95Ms`, `frameP95Ms`, `memoryMb`; the command prints one JSON line of 20+ samples and the skill computes the value ([metrics.md](references/metrics.md#probes)). `bundleKb` is static (`bundle_stats`). |
+| `## Probes` | none (the performance lens's probe metrics unmeasured) | One entry per feature and metric, `<feature> <metric>: <command>`, for `startupMs`, `interactionP95Ms`, `frameP95Ms`, `blockingMs`, `jankFrames`, `idleWakeups`, `memoryMb`; the command prints one JSON line per metric (20+ samples for a distribution, 3+ passes for a per-pass total) and the skill computes the value ([metrics.md](references/metrics.md#probes)). `bundleKb` is static (`bundle_stats`). |
 | `## Skill improvement log` | none | One dated line per reflection (see below). |
 
 A feature absent from `## Harness` or `## Probes` is not measured by that method;

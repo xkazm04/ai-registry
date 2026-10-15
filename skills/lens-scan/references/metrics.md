@@ -80,6 +80,9 @@ facet's `probeEnv` names; readings from two places are two series.
 | `startupMs` | ms | down | probe | Cold start (fresh process or tab, empty cache) to the first interactive frame of the feature's entry screen. p95 of the probe's samples. |
 | `interactionP95Ms` | ms | down | probe | The feature's main interaction, input to the next paint (the Event Timing duration in a browser; input to the frame presented on a device). p95 of the samples. |
 | `frameP95Ms` | ms | down | probe | Frame time while the feature animates or scrolls through its main flow. p95 of the frame durations. Absent when the feature neither animates nor scrolls. |
+| `blockingMs` | ms | down | probe | Main-thread time lost to long tasks along the scripted path: for each long task (the browser's `longtask` entries, or a profiler's tasks over 50 ms) the time over 50 ms, summed over one pass. One sample per pass. |
+| `jankFrames` | frames | down | probe | Frames longer than 33.3 ms (twice a 60 Hz budget) along the scripted path, counted over one pass. One sample per pass. Catches the stall a p95 averages away. |
+| `idleWakeups` | callbacks/s | down | probe | Frame callbacks (`requestAnimationFrame` requests, or timers firing) the page still makes in a quiet second after its motion ends. One sample per pass. |
 | `memoryMb` | MB | down | probe | Resident memory (a browser: the tab's `performance.measureUserAgentSpecificMemory()` or the JS heap after a forced GC) after one pass of the main flow. Median of the samples; no target in the manifest, a budget is the app's own. |
 
 **A probe** is one named entry under the overlay's `## Probes`: a feature, a metric and a
@@ -95,10 +98,17 @@ booking-checkout startupMs: node scripts/probes/startup.mjs --route /book --runs
 {"metric":"interactionP95Ms","feature":"booking-checkout","samples":[84.1,91.0,77.3]}
 ```
 
-- `samples` are the raw readings in the metric's unit, **20 or more**. Fewer: the metric is
-  unmeasured for the feature (no row, a `note` activity naming the probe and the count).
-- The skill computes the value (p95 by nearest rank; the median for `memoryMb`), never the
-  command, so every probe is summarised the same way.
+- `samples` are the raw readings in the metric's unit, **20 or more** for a distribution
+  (`startupMs`, `interactionP95Ms`, `frameP95Ms`), **3 or more passes** for a per-pass total
+  (`blockingMs`, `jankFrames`, `idleWakeups`, `memoryMb`). Fewer: the metric is unmeasured
+  for the feature (no row, a `note` activity naming the probe and the count).
+- The skill computes the value, never the command, so every probe is summarised the same
+  way: p95 by nearest rank for a distribution, the median of the passes for a per-pass total.
+- **Pick the metric with headroom.** On a healthy page `frameP95Ms` sits at the display's
+  frame interval (16.7 ms at 60 Hz) and cannot show a fix; a frame-rate cap is a floor, not
+  a reading. Blocking time, jank frames and idle wake-ups keep headroom on a smooth page, so
+  a performance proposal names one of them (or `interactionP95Ms`) unless frames are
+  actually slow. One probe command may print several metrics: one JSON line per metric.
 - The row is written with `method: probe`; its evidence is the command, verbatim, and the
   sample count (`node scripts/probes/interaction.mjs --feature booking-checkout --runs 30; n=30`).
 - A `metric` or `feature` in the output that differs from the entry fails the probe: no row.

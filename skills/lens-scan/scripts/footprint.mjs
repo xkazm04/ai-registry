@@ -68,7 +68,7 @@ export const LENS_OF = { loc: 'development', files: 'development', depCount: 'de
 // writes only the static counts above; the performance units sit here so a probe row and a footprint row read one table.
 export const UNITS = {
   loc: 'lines', files: 'files', depCount: 'packages', testRatioPct: '%', secretHits: 'hits', unsafeSinks: 'sinks', rawLiterals: 'literals',
-  bundleKb: 'KB', startupMs: 'ms', interactionP95Ms: 'ms', frameP95Ms: 'ms', memoryMb: 'MB',
+  bundleKb: 'KB', startupMs: 'ms', interactionP95Ms: 'ms', frameP95Ms: 'ms', blockingMs: 'ms', jankFrames: 'frames', idleWakeups: 'callbacks/s', memoryMb: 'MB',
 };
 
 /** The package a bare specifier names, or undefined when it is not a dependency. */
