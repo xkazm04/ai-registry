@@ -1,7 +1,7 @@
 ---
 subject: cinematic-language
 domain: media-generation
-last_touched: 2026-09-01
+last_touched: 2026-10-15
 dry_streak: 0
 ---
 
@@ -78,3 +78,7 @@ pre-filter in gravity's measurement lane (`577524b`), recorded in the new
 `process--performance-direction` application. Boundary: `movement-motivation` keeps camera
 stillness, `frame-direction/motion-intent-authoring` keeps near-stillness as authored
 intent; this amendment is the performer channel between them and names both in prose.
+
+## 2026-10-15 - /deepen media-generation
+
+- `lens-effect-language`: "measurably do not honor the numbers" softened to "followed loosely at best", with the evidence listed (bundle probes, a 2025 photographic-control benchmark, a camera-setting study, one vendor's "interpreted loosely"); vendors still write mm and film stocks as register signals. Counter-evidence lane: the claim held in direction, over-stated in degree. No controlled public test of mm/f-stop on current video models exists - the operator's own measurement may be the best evidence; publish it with seeds and n if it is ever re-run.

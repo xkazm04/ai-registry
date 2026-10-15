@@ -5,6 +5,8 @@ subject: ad-concept-development
 technique: rubric-as-spine
 status: forged
 stack: process
+applied: simulation
+ab_verdict: unmeasurable
 verified_on: 2026-10-15
 refresh_by: 2026-11-10
 ---

@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 27,
   "techniques": 196,
-  "applications": 120,
+  "applications": 121,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -24,8 +24,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/ad-concept-development/ad-concept-development.md",
-   "digest": "sha256-b2:19b7f1bdc5f13e0c",
-   "revision": 1,
+   "digest": "sha256-b2:7cf0809870ef5ad4",
+   "revision": 2,
    "changedAt": "2026-10-15",
    "techniques": [
     {
@@ -100,6 +100,12 @@
      "stack": "process",
      "technique": "agency-preserving-premise",
      "file": "knowledge/media-generation/narrative-craft/ad-concept-development/applications/process--agency-preserving-premise.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "process",
+     "technique": "divergence-against-the-median",
+     "file": "knowledge/media-generation/narrative-craft/ad-concept-development/applications/process--divergence-against-the-median.md",
      "verified_on": "2026-10-15"
     },
     {

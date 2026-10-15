@@ -5,6 +5,8 @@ subject: ad-concept-development
 technique: agency-preserving-premise
 status: forged
 stack: process
+applied: simulation
+ab_verdict: better
 verified_on: 2026-10-15
 ---
 
@@ -86,7 +88,29 @@ next round and not this document's job.
 ## What the case adds
 
 The bible fails the technique, measured by reading its shot text against the
-procedure. No production comparison has been run yet. The case also marks a boundary the technique did not state before this
+procedure. No production comparison has been run yet.
+
+**The operator's reading, 2026-10-15, and where it agrees.** The operator holds that the
+concept is sound and that the execution and handling failed. The concept is four makers
+who stall, find the box, put the glasses on, and see their craft come alive. The
+technique agrees at the level it measures. It reads the *beats*, and the beats are where
+agency was lost: light completes the mural, the instruments play themselves, the maker
+watches. The same skeleton passes when the handling changes:
+
+- the glasses let the maker see or hear what their own medium could become;
+- the maker performs the transformation with their own hands and tools;
+- the effect is made of the maker's own material, not luminous particles (see the
+  image-prompt-composition subject's default-look attractor).
+
+So this case is a premise-*handling* failure, not a premise failure. The operator kept
+the concept for v3 so that v2 and v3 compare execution on one skeleton. That is the
+cleanest measurement this technique has been offered. A rival premise from the same
+day's concept round is banked in the divergence application.
+
+**Return condition:** the v3 cut. Read its magic beats with the same agency-line test,
+and record whether the panel or the operator rates v3 above v2.
+
+The case also marks a boundary the technique did not state before this
 run: **the premise failed despite exemplary control.** The identity locking, block
 compilation and end-frame editing in this bible are among the most careful in the
 fleet's media work. Control disciplines cannot detect this failure, because by their

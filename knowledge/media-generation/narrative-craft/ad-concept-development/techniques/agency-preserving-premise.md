@@ -78,6 +78,15 @@ creativity, that message cuts against the brand itself.
   takes the act too literally), replacement is allowed as the joke, with the person
   reclaiming the act at the end. That is the extreme-consequence template, and the
   reclaiming beat is not optional.
+- **Apply the agency line as a filter on generated premises, never as an
+  instruction in the generation brief.** Written into the brief, the rule becomes
+  the premise. In the technique's first application, three independent generators
+  were each told that the person must keep the act. All nine concepts they developed
+  climaxed on the same beat: the person waves off the help, or takes off the mask,
+  and says or does the decisive thing alone. The rule had become a new attractor, one
+  climax shared by every candidate. Generate without it, reject what fails it, and
+  vary the *form* of agency among the survivors: choosing, conducting, keeping one
+  thing back, or teaching the help.
 
 ## When not to use
 
