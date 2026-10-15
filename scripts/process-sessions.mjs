@@ -119,8 +119,10 @@ function placeOf(cwd) {
   if (w) r = { slug: w.slug, via: 'worktree' };
   else {
     let gone = null;
-    for (let q = c; ; q = path.dirname(q)) {
-      if (!fs.existsSync(q)) { gone = q; if (path.dirname(q) === q) break; continue; }
+    // Walk the path as recorded, not the lowercased key: on a case-sensitive file system the
+    // lowercased path does not exist, and every worktree and clone would read as vanished.
+    for (let q = path.resolve(cwd); ; q = path.dirname(q)) {
+      if (!fs.existsSync(q)) { gone = norm(q); if (path.dirname(q) === q) break; continue; }
       const dotGit = path.join(q, '.git');
       if (fs.existsSync(dotGit)) {
         // A `.git` file names its git dir; inside a fleet repo's git dir it is that repo's
@@ -133,7 +135,7 @@ function placeOf(cwd) {
         const cloned = !linked && origin && repos.find((x) => x.origin && x.origin === origin);
         if (linked) r = { slug: linked.slug, via: 'git-link' };
         else if (cloned) r = { slug: cloned.slug, via: 'clone' };
-        else r = { repo: common ? norm(common) : gd ?? q };
+        else r = { repo: common ? norm(common) : gd ?? norm(q) };
         break; // the nearest repository decides, fleet or not
       }
       if (path.dirname(q) === q) break;
