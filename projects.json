@@ -117,6 +117,7 @@
     },
     "athena-portable": {
       "checkouts": {
+        "Fox": "dolla/athena-portable",
         "Wolf": "kiro/athena-portable"
       }
     }
