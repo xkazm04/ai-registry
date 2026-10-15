@@ -86,6 +86,28 @@ shot list's distances. The prescriptive half has not been rendered. No inverted 
 has been generated on the target model, so whether the rewritten frames are better is
 open.
 
+**A second source of the attractor, found the same day.** Every v2 request carried a
+`style_ids` entry the prompts never asked for: the studio's default "Dynamic" style
+preset (`111dc692…`), applied on the form by default. Its "None" preset is also sent as
+an id (`556c1ee5…`), so checking "no style id" is not enough. Read which id is sent.
+The attractor was partly a platform default, not only a prompt.
+
+**Interim render, 2026-10-15 (bible v3 artboards).** The operator's v3 round rendered
+the rebuilt concept as 13 frames. The settings were: the same model, Style None, no
+references, quality Low, and light prompts written under steps 2 and 3. Counted on the
+contact sheet against v2's 27 frames:
+
+| Axis | v2 | v3 |
+| --- | --- | --- |
+| Camera at or near eye level | 24/27 | 2/13, and the glasses-on grid that is eye level by device |
+| Particle or light-beam magic | 5/5 | 0/4 magic frames. Paper, paint, sticky-note and cardboard crews instead |
+| Warm practical lamps on a cool night | 21/27 | still in most night frames. "Muted earth tones" rendered as warm sepia, so the light axis did **not** invert |
+
+This is an observation, not the A/B: the prompts, the style preset and the references
+all changed at once. It does say which half of step 3 lands from words. Framing and
+effect idiom inverted. The light register resisted, and needs a stronger counter-term
+or the grade.
+
 **Return condition:** the redesign's first keyframe round. Render each rewritten case
 and its original on the same model with the same references, four samples each, and
 count the step 1 axes again. Write the result here.

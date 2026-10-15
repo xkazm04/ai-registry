@@ -1974,8 +1974,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
-   "digest": "sha256-b2:15abacf952f7a3e9",
-   "revision": 13,
+   "digest": "sha256-b2:d254a22feb4a9423",
+   "revision": 14,
    "changedAt": "2026-10-15",
    "techniques": [
     {
