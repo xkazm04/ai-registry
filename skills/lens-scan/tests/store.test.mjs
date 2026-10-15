@@ -1,9 +1,9 @@
 // node --test skills/lens-scan/tests
 // Pins the store rules scripts/store.mjs owns alone: the DDL applies once, ids have their shapes,
 // absent values never print as null, latest wins per key, and the skill can never decide a proposal.
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -12,8 +12,14 @@ import {
   openStore, runStart, runEnd, activity, measure, propose, proposals, proposalUpdate, shot, coverage, latest, parseArgs,
 } from '../scripts/store.mjs';
 
+// Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
+// suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
+const madeDirs = [];
+const mkdtempTracked = (prefix) => { const d = mkdtempSync(prefix); madeDirs.push(d); return d; };
+after(() => { for (const d of madeDirs) rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
+
 const SCRIPT = fileURLToPath(new URL('../scripts/store.mjs', import.meta.url));
-const tmpDb = () => join(mkdtempSync(join(tmpdir(), 'lens-scan-store-')), 'nested', 'scan.db');
+const tmpDb = () => join(mkdtempTracked(join(tmpdir(), 'lens-scan-store-')), 'nested', 'scan.db');
 const noNulls = (v) => JSON.stringify(v).includes('null') === false;
 const cli = (db, ...args) => JSON.parse(execFileSync(process.execPath, [SCRIPT, '--db', db, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }));
 
@@ -93,7 +99,7 @@ test('cli: JSON on stdout, bulk --json, exit 2 on bad input', () => {
   const db = tmpDb();
   assert.equal(cli(db, 'init').user_version, 2);
   const { id: run } = cli(db, 'run-start', '--phase', 'measure', '--lenses', 'development');
-  const bulk = join(mkdtempSync(join(tmpdir(), 'lens-scan-bulk-')), 'm.json');
+  const bulk = join(mkdtempTracked(join(tmpdir(), 'lens-scan-bulk-')), 'm.json');
   writeFileSync(bulk, JSON.stringify([{ feature: 'a', lens: 'development', metric: 'files', value: 3 }, { feature: 'a', lens: 'development', metric: 'loc', value: -0 }]));
   assert.equal(cli(db, 'measure', '--run', run, '--json', bulk).ids.length, 2);
   const neg = cli(db, 'propose', '--run', run, '--feature', 'a', '--lens', 'development', '--title', 'T', '--kind', 'fix', '--metric', 'loc', '--expected-delta', '-5');

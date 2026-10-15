@@ -1,14 +1,20 @@
 // node --test skills/lens-scan/tests
 // Pins the static counting rules of scripts/footprint.mjs on a tiny fixture tree, and that an
 // unmeasurable metric is omitted rather than written as 0.
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { packageOf, importsOf, isTest, countFootprint, countPatterns, expandPaths, featureFiles, stemOf, main, UNITS } from '../scripts/footprint.mjs';
 import { readFileSync } from 'node:fs';
 import { openStore, runStart, latest } from '../scripts/store.mjs';
+
+// Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
+// suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
+const madeDirs = [];
+const mkdtempTracked = (prefix) => { const d = mkdtempSync(prefix); madeDirs.push(d); return d; };
+after(() => { for (const d of madeDirs) rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
 
 test('packageOf: bare specifiers only, package-name part', () => {
   assert.equal(packageOf('react'), 'react');
@@ -51,7 +57,7 @@ test('countFootprint: loc, files, depCount, testRatioPct; absent when unmeasurab
 });
 
 test('cli: writes through the store; --dry writes nothing', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'lens-scan-footprint-'));
+  const dir = mkdtempTracked(join(tmpdir(), 'lens-scan-footprint-'));
   mkdirSync(join(dir, 'src'));
   writeFileSync(join(dir, 'src', 'a.ts'), "import r from 'react';\nexport default r;\n");
   writeFileSync(join(dir, 'src', 'a.test.ts'), "import { test } from 'vitest';\n");
@@ -102,7 +108,7 @@ test('countPatterns: secrets and sinks over non-test files, raw colours over UI 
 });
 
 test('expandPaths and featureFiles: directory entries expand; the structure code tree names win', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'lens-scan-expand-'));
+  const dir = mkdtempTracked(join(tmpdir(), 'lens-scan-expand-'));
   mkdirSync(join(dir, 'src', 'x'), { recursive: true });
   writeFileSync(join(dir, 'src', 'x', 'a.ts'), 'a\n');
   writeFileSync(join(dir, 'src', 'x', 'b.ts'), 'b\n');

@@ -7,7 +7,7 @@
  *
  * Run: node --test scripts/tests/test_runs_backfill.mjs
  */
-import test from 'node:test';
+import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -22,8 +22,14 @@ import { aggregateRuns, median, catalogFields, skillResolver } from '../lib/runs
 import { backfill } from '../runs-backfill.mjs';
 import { buildReport } from '../runs-report.mjs';
 
+// Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
+// suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
+const madeDirs = [];
+const mkdtempTracked = (prefix) => { const d = fs.mkdtempSync(prefix); madeDirs.push(d); return d; };
+after(() => { for (const d of madeDirs) fs.rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
+
 const SCRIPTS = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
-const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'runs-backfill-'));
+const tmp = () => mkdtempTracked(path.join(os.tmpdir(), 'runs-backfill-'));
 const writeJsonl = (file, rows) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, rows.map((r) => `${JSON.stringify(r)}\n`).join('')); };
 const ms = (iso) => Date.parse(iso);
 

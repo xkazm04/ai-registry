@@ -54,3 +54,13 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 ## 1.5.0 - 2026-10-15 - bp
 
 - Change, from the 2026-10-14 field runs: execute merged each item into main as it went, and the doctrine's answer to a miss was a revert on main. The runs left 6 failed-but-merged items on PayPal main (gate-green fixes that did not move their pair-grain metric, kept by the operator's call) and 8 reverts on Athena main. 1.5.0 builds a pack instead: one branch `pack/<short>-<n>` cut from the release base, one squashed commit per item with `Lens-Item:`/`Lens-Pack:` trailers, before/after readings linked to the item and its commit. The pack never merges into main, so main stays clean and nothing is ever reverted there; a person triages each item (accept, rework with a note, descope) and `/lens-scan release` cherry-picks the accepted ones into one PR. Unproven in the field: no real pack or release has run yet.
+
+## 1.5.2 - 2026-10-15 - the skill's own tests leaked temp dirs
+
+- Every test file under `tests/` made its store or repo fixture with `mkdtempSync` and never
+  removed it: one run of the seven files left 44 `lens-scan-*` dirs in the OS temp dir, and the
+  machine-wide disk sweep that day counted about 1,000 of them. Each file now routes `mkdtempSync`
+  through a tracker and removes the dirs in one file-level `after()`. One test also left two
+  SQLite stores open, which on Windows makes the removal fail with EPERM; it closes them now.
+  No assertion changed; with the three registry script tests fixed the same way, the ten files
+  pass 90/90 before and after and leave nothing behind (81 dirs before).

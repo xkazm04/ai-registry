@@ -10,7 +10,7 @@
 // this checkout's machine file; tests that need a device skip when the checkout has none
 // (a CI runner has no .machine.local.json).
 
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -22,6 +22,12 @@ import {
   validateRun, validateLocal, stampRow, runId, leaksIn, assertLeakScanner, resolveIdentity,
 } from '../lib/runs.mjs';
 
+// Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
+// suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
+const madeDirs = [];
+const mkdtempTracked = (prefix) => { const d = fs.mkdtempSync(prefix); madeDirs.push(d); return d; };
+after(() => { for (const d of madeDirs) fs.rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
+
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..', '..');
 const LOG_RUN = path.join(ROOT, 'scripts', 'log-run.mjs');
 const CHECK_RUNS = path.join(ROOT, 'scripts', 'check-runs.mjs');
@@ -29,7 +35,7 @@ const IDENTITY = resolveIdentity({ cwd: ROOT, registryRoot: ROOT });
 const DEVICE = IDENTITY.device;
 const noDevice = DEVICE ? false : 'this checkout has no machine identity (.machine.local.json)';
 
-const tmp = (tag) => fs.mkdtempSync(path.join(os.tmpdir(), `rkb-runs-${tag}-`));
+const tmp = (tag) => mkdtempTracked(path.join(os.tmpdir(), `rkb-runs-${tag}-`));
 
 function goodRow(over = {}) {
   const row = {

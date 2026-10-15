@@ -2,13 +2,19 @@
 // Pins the phase-1 conversion (SKILL.md "1. Structure"): domains from group.domain, capabilities
 // from groups, one feature per context with kind and use-case tags, lenses embedded, the store's
 // latest measurements merged into facets, nulls dropped, and byte-identical output on a re-run.
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { toAppStructure, slugify, main, setApplicable, lensMethod } from '../scripts/structure.mjs';
 import { openStore, runStart, measure } from '../scripts/store.mjs';
+
+// Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
+// suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
+const madeDirs = [];
+const mkdtempTracked = (prefix) => { const d = mkdtempSync(prefix); madeDirs.push(d); return d; };
+after(() => { for (const d of madeDirs) rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
 
 const MAP = {
   version: 2,
@@ -73,7 +79,7 @@ test('conversion: counts, mapping, tags, lenses, facets', () => {
 });
 
 test('cli: store merge and idempotent re-run', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'lens-scan-structure-'));
+  const dir = mkdtempTracked(join(tmpdir(), 'lens-scan-structure-'));
   const lensDir = join(dir, 'lenses');
   mkdirSync(lensDir);
   writeFileSync(join(lensDir, 'development.json'), JSON.stringify(LENS('development')));
@@ -137,7 +143,7 @@ const JUDGED = (id, scan) => ({ ...LENS(id), fields: [
 ], ...(scan ? { scan } : {}) });
 
 test('facet: set and clear applicable; other facets and keys untouched; atomic, and no rewrite when unchanged', async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'lens-scan-facet-'));
+  const dir = mkdtempTracked(join(tmpdir(), 'lens-scan-facet-'));
   const path = join(dir, 'app-structure.json');
   const s0 = {
     $schema: 'app-structure/3', version: 3, project: { slug: 'x', name: 'X' },
@@ -197,7 +203,7 @@ test('lens: builtin keeps its method, a scan block makes judgement with the nume
   assert.equal(lensMethod({ id: 'quality', source: 'builtin', manifest: LENS('quality') }).method, 'none', 'a built-in lens-scan has no method for');
   assert.equal(lensMethod({ id: 'quality', source: 'builtin', manifest: JUDGED('quality', { method: 'judgement', instructions: 'Judge it.' }) }).method, 'judgement');
 
-  const dir = mkdtempSync(join(tmpdir(), 'lens-scan-lens-'));
+  const dir = mkdtempTracked(join(tmpdir(), 'lens-scan-lens-'));
   const path = join(dir, 's.json');
   writeFileSync(path, JSON.stringify({ features: [], lenses: [{ id: 'com.x.cost', source: 'project', manifest: LENS('com.x.cost') }, { id: 'tmp.y', source: 'project', manifest: JUDGED('tmp.y', { method: 'judgement', instructions: 'Look.' }) }] }));
   assert.equal((await main(['lens', '--structure', path, '--id', 'tmp.y'])).fields.length, 2);

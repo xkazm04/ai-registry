@@ -1,4 +1,4 @@
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -7,10 +7,16 @@ import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { checkReport, parseAnchors } from '../check-anchors.mjs';
 
+// Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
+// suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
+const madeDirs = [];
+const mkdtempTracked = (prefix) => { const d = fs.mkdtempSync(prefix); madeDirs.push(d); return d; };
+after(() => { for (const d of madeDirs) fs.rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
+
 const script = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'check-anchors.mjs');
 
 function tree() {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'check-anchors-'));
+  const root = mkdtempTracked(path.join(os.tmpdir(), 'check-anchors-'));
   fs.mkdirSync(path.join(root, 'src'));
   fs.writeFileSync(
     path.join(root, 'src', 'gate.ts'),

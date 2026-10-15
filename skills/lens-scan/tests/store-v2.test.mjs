@@ -1,9 +1,9 @@
 // node --test skills/lens-scan/tests
 // Pins the v2 store (the release train): the v1 -> v2 migration, triage with its refusals, packs settling and
 // closing, rework attempts, releases as compare-and-set chains, and the before/after pairing `compare` reads.
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -14,8 +14,14 @@ import {
   triage, reworkAttempt, packCreate, packUpdate, packs, releaseCreate, releaseAdd, releaseUpdate, releases, releaseGet, releaseItems, compare,
 } from '../scripts/store.mjs';
 
+// Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
+// suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
+const madeDirs = [];
+const mkdtempTracked = (prefix) => { const d = mkdtempSync(prefix); madeDirs.push(d); return d; };
+after(() => { for (const d of madeDirs) rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
+
 const SCRIPT = fileURLToPath(new URL('../scripts/store.mjs', import.meta.url));
-const tmpDb = () => join(mkdtempSync(join(tmpdir(), 'lens-scan-v2-')), 'nested', 'scan.db');
+const tmpDb = () => join(mkdtempTracked(join(tmpdir(), 'lens-scan-v2-')), 'nested', 'scan.db');
 const cli = (db, ...args) => JSON.parse(execFileSync(process.execPath, [SCRIPT, '--db', db, ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }));
 
 // The v1 DDL as it shipped (comments stripped), kept here so the migration is tested against the real v1 shape.
@@ -433,4 +439,5 @@ test('release run: a conflicted item leaves a building release (skill only); reg
   triage(db2, { ids: c, decision: 'accept', by: 'operator:jane' });
   const rel2 = releaseCreate(db2, { version: '0.1.0', by: 'operator:jane' });
   assert.deepEqual(releaseAdd(db2, { release: rel2.id, ids: c }).skipped, [{ id: c, status: 'accepted', reason: 'registry-target' }]);
+  db.close(); db2.close(); // an open handle keeps Windows from removing the temp dir
 });

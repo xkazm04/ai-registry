@@ -3,15 +3,21 @@
 // a script step's rows become static measurements with the manifest's unit, a metric the step does not yield is
 // refused and never written, rows outside the scope are ignored, applicable:false lands on the map, {registry}
 // with no checkout skips the step with a note; lens-add appends atomically, refuses a duplicate id and a taken look.
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, existsSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { openStore, runStart, latest } from '../scripts/store.mjs';
 import { main as structureMain, checkManifest, glyphPathProblem, takenLooks, lensMethod } from '../scripts/structure.mjs';
 import { runScriptStep, manifestRegistryLocal, resolveRegistry, fillPlaceholders, classifyRows } from '../scripts/steps.mjs';
+
+// Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
+// suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
+const madeDirs = [];
+const mkdtempTracked = (prefix) => { const d = mkdtempSync(prefix); madeDirs.push(d); return d; };
+after(() => { for (const d of madeDirs) rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
 
 const HERE = fileURLToPath(new URL('.', import.meta.url));
 const REGISTRY_LENS = JSON.parse(readFileSync(join(HERE, 'fixtures', 'registry-lens.manifest.json'), 'utf8'));
@@ -26,7 +32,7 @@ const BASE = (id, presentation, scan, fields) => ({
 
 /** A product dir with a structure holding a steps lens whose first step runs rows.mjs. */
 function product({ run = 'node rows.mjs "{features}"', rows, extraSteps = [] } = {}) {
-  const root = mkdtempSync(join(tmpdir(), 'lens-scan-steps-'));
+  const root = mkdtempTracked(join(tmpdir(), 'lens-scan-steps-'));
   const lens = BASE('com.example.steps', { glyph: 'check', line: 'solid' }, { method: 'steps', steps: [{ kind: 'script', run, yields: ['hits', 'sites'] }, ...extraSteps] }, [
     { key: 'hits', label: 'Hits', type: 'integer', unit: 'hits', metric: { better: 'down', method: 'static' } },
     { key: 'sites', label: 'Sites', type: 'integer', unit: 'sites', metric: { better: 'down', method: 'static' } },

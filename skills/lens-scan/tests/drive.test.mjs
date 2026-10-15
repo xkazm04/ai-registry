@@ -1,14 +1,20 @@
 // node --test skills/lens-scan/tests
 // Pins the headless caller's door: store.mjs gaps (what is left), decide (a caller's recorded decision) and the
 // compare-and-set on status, and drive.mjs planning and running against a fake CLI - no model, no blueprint.
-import { test } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { openStore, runStart, runEnd, measure, propose, proposals, proposalUpdate, gaps, decide, packCreate, triage, releaseCreate, releaseAdd, releaseGet } from '../scripts/store.mjs';
 import { drive } from '../scripts/drive.mjs';
+
+// Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
+// suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
+const madeDirs = [];
+const mkdtempTracked = (prefix) => { const d = mkdtempSync(prefix); madeDirs.push(d); return d; };
+after(() => { for (const d of madeDirs) rmSync(d, { recursive: true, force: true, maxRetries: 5, retryDelay: 100 }); });
 
 const STORE = fileURLToPath(new URL('../scripts/store.mjs', import.meta.url));
 const LENS = 'com.x.reg';
@@ -22,7 +28,7 @@ const structure = {
   } }],
 };
 function repo() {
-  const root = mkdtempSync(join(tmpdir(), 'lens-scan-drive-'));
+  const root = mkdtempTracked(join(tmpdir(), 'lens-scan-drive-'));
   mkdirSync(join(root, '.ai', 'lens-scan'), { recursive: true });
   const file = join(root, '.ai', 'lens-scan', 'app-structure.json');
   writeFileSync(file, JSON.stringify(structure));
