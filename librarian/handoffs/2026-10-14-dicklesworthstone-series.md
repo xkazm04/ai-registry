@@ -191,6 +191,8 @@ elsewhere (DLE-004). Each round below carries what R1 learned that bears on it.
 
 ### DLE-010 - independent verification lane (a method round)
 
+- **Done 2026-10-15** (run `dle-r10-1015`; no new source note, the tree had not moved in
+  scope). Tier 2 A/B not-better; branch deleted. See `## Outcomes`.
 - **Source:** his batch-verification policy (`frankengit` @ `142adb9098d5`:
   `.beads/policy.yaml` and the verification section of `AGENTS.md`), read with
   `/intake --delta` on that tree if it has moved; no new repository.
@@ -358,3 +360,53 @@ acquisition, resolved as a boundary); no forge handoff.
   premises and they held, while the five wrong premises came from the charter the briefs
   inherited; the personas apply row was left uncommitted for a few minutes in a tree three
   sibling rounds were writing, which is how it was swept.
+
+### DLE-010, 2026-10-15 (run `dle-r10-1015`, method round)
+
+No new source note: the policy was read as R1's practised evidence, cited at the pin
+`frankengit` @ `142adb9098d5`. The tree had moved three commits (to `b14667fa`), all
+product code; `.beads/policy.yaml` and `AGENTS.md` are byte-identical, so `/intake --delta`
+had nothing in scope and was not run. Clone deleted.
+
+- **His policy, in our words, against ours.** Only a central verifier closes work, and a
+  close must pass through a pending-verification state (`.beads/policy.yaml:2` "Only the
+  batch-verify orchestrator closes work") - **keep ours, measured**: tier 2 below found no
+  false self-grade, and his own verifier's 17-of-28 rework rate prices a seat we would have
+  to staff. A pass claim must name the revision it was observed at (`AGENTS.md:340` "MUST
+  name the commit SHA it was observed") - **adapt**: 386 of 665 `better` rows name a sha,
+  tier 2 needs it, and one named a pre-rebase sha; backlog row `dle-010-row-names-landed-sha`.
+  Evidence-bearing commands never silence stderr (`AGENTS.md:379` "Never silence stderr") -
+  **keep ours, measured**: 200 of 245 code passes were status-masked, and in the re-runnable
+  sample masking hid no breakage. Verifier independence is graded by dimension
+  (`AGENTS.md:185` "Verifier independence is classified across workspace") - **adopt as a
+  reading**: tier 2 is independent in workspace and context with the producer's oracle; the
+  blind lane is independent in context, model family and oracle. The debt cap
+  (`.beads/policy.yaml:41` "hard: 36") stays with `dle-m6-verification-debt-veto`.
+- **Method A/B, tier 2: not-better.** Built on R1's tier 1 in a worktree of
+  `ab/verdict-reverify`: `scripts/verdict-rerun.mjs` re-runs the gate a row relied on, alone
+  and unmasked, in a clean detached worktree at the row's commit (hooks off, fresh install,
+  the parent re-run on a failure), and writes scrubbed packets for a blind re-read where no
+  gate re-runs. Tier 1 on today's ledger reproduced R1 exactly. Pre-registered sample of 25
+  real rows + 4 planted: seeds 3/3, control reproduced; 18 real rows re-ran, 16 reproduced
+  their pass, 2 were red before the change with identical failure sets at the parent, 0
+  were broken by their change. Blind lane (one Claude, one GPT reader; 8 rows + 4 recorded
+  not-better decoys): 8/8 supported by both, decoys 3 refused and 1 split. 0 of 26
+  independent checks falsified a verdict. Rows: `librarian/applied.md`,
+  `librarian/harvest/evaluations.md` (impact-null 2 of 2). Branch deleted; tier 2 was
+  `213f02f6`.
+- **What the independent pass found instead.** Tier 1 credited the wrong gate in 4 of 25:
+  two arm probes the session never committed (one row says so itself), two broad suites
+  already red. One row cites a pre-rebase sha; the change is on origin with the same
+  patch-id. A gate run under a parent `node --test` exits 0 on a red suite - the planted
+  end-to-end test caught that in the instrument before any real row ran. 7 of 25 rows could
+  not be re-run at all (scratch inputs deleted, probes uncommitted, an unexpanded variable,
+  live cloud credentials).
+- **Answer to R1's B1.** The 396:4 producer grades against the blind lane's 4:6 are not
+  explained by false self-grades in these samples (tier 1 plus tier 2, 95% upper bound about
+  11.5% here). The likelier reading is selection - what reaches a code-mode A/B is small and
+  checkable - and the harvest lane measuring a different question (a landing's impact on a
+  fresh task). The verifier seat stays an occupancy problem (`dle-m6`), not a grading one.
+- **What this round got wrong about itself.** Two classification rules were written after
+  reading results (probe-not-in-commit; a credential signal replacing an "API key" match
+  that hit test names), and the pre-registration's literal "reproduced-fail" would have
+  counted the two already-red rows and called tier 2 better. Both disclosed in the rows.

@@ -12617,3 +12617,26 @@ applied here - one sighting, and the honest record is in the source note.
   blob built from the older HEAD and committed after it would have reverted the sibling's
   rows with no error. Take the commit lock first, then build the blobs, stage, commit and
   verify, so the order does not depend on luck.
+
+## 2.15.0 - 2026-10-15 - frankengit batch-verification policy (practitioner series DLE-010)
+
+- **Run an instrument's planted case end to end through the real runner, not only its pure
+  functions.** Tier 2's own seeded repository came back green on a commit whose test was
+  red: the unit suite ran the re-runner from inside `node --test`, and the inherited
+  `NODE_TEST_CONTEXT` makes a nested `node --test` exit 0 on a red suite. Any gate an
+  instrument launches from inside a test runner reads green the same way. The pure-function
+  tests all passed. One sighting.
+- **A transcript pass is evidence about a command, not about a commit.** Re-running the gate
+  tier 1 credited, at the commit the row names, showed tier 1 had credited the wrong gate in
+  4 of 25 rows: two arm probes the session deleted before committing, two broad suites that
+  were red before the change. None falsified its row, which is why a re-run needs the
+  parent beside it and a check that the change it tested is in the commit.
+- **Read every failure before counting it, and never key an environment classifier on a
+  bare word.** "API key" matched test names and labelled a real failure environmental; a
+  pre-registered "reproduced-fail" counted two suites that were already red. Both were
+  caught only because each failing log was read whole, and both are disclosed in the
+  verdict rows rather than corrected silently.
+- **Two independent nulls answer a question; a third instrument should change the
+  question.** Tier 1 (transcripts) and tier 2 (re-run plus a two-family blind read) agree
+  the self-graded rows hold in their samples. The open question from R1's B1 is now
+  selection and seat occupancy, not grading.
