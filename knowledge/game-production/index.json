@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 547,
-  "applications": 310,
+  "applications": 311,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -488,9 +488,9 @@
    "subcategory": "motion-and-audio",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/adaptive-music-authoring.md",
-   "digest": "sha256-b2:ca8a8a31c7e8c7d8",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:fccf430fd4de0e8d",
+   "revision": 5,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "intensity-mapping-from-declared-game-state",
@@ -600,6 +600,13 @@
      "technique": "stem-and-voice-budget-derivation",
      "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/applications/node--stem-and-voice-budget-derivation.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "transition-quantization-and-perceived-latency",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/applications/node--transition-quantization-and-perceived-latency.md",
+     "verified_on": "2026-10-15",
      "verified_against": "node@24"
     },
     {
