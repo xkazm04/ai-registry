@@ -3,6 +3,38 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets. Merged from every copy of this skill on 2026-08-22 when it moved into the registry lane.
 
+## 4.6.1 - 2026-10-15 - athena-portable (first --challenge run, 6 contexts, 11 of 12 cards built)
+
+Opus 5.5 in every role, a shared checkout, five waves (4, 4, 1, 1, 1). execution 9/11, idea
+score 3.83 / 4.75 / 4.08, 0 premise-false, 0 reverted.
+
+- **The critic and every builder missed a port wired only into the fake.** A card added an exit
+  handle to the CLI transport port; its eight acceptance cases all ran on `ScriptedTransport`,
+  which reports the exit by construction, and the real subprocess transport never called it -
+  every live run read exit 0. The critic graded falsifiability 4/5 and the builder's own
+  mutation checks passed. It surfaced only because a LATER card's builder read the same file.
+  Proposal: a card that changes a port (a Protocol, an adapter seam) must carry at least one
+  acceptance case that drives the production adapter, and the critic's falsifiability check
+  should ask "does any case touch the real implementation of the seam this card changes?"
+- **Concurrent builders in one checkout share the coordinator's scratchpad.** Two wave-1
+  builders overwrote each other's ADR draft and commit-message file in it. The builder brief
+  now owes each builder its own `<scratchpad>/<host>-<slot>/`; `references/challenge.md` §7
+  should say so beside the shared-surface lock.
+- **Four whole-tree pytest suites at once exhausted memory** (a 2,100-test suite, about 5 min
+  each); one builder was killed mid-gate and returned `partial`, and needed a resume to land.
+  Proposal: in a shared checkout, the builder runs its scoped tests plus the suites of the
+  surfaces it touched, and the coordinator's per-wave integration gate is the one full run -
+  or the wave plan caps concurrent full-suite builders at two.
+- **A base-red timing test had to be fixed before wave 1 could mean anything.** The baseline
+  (asserted exit codes) caught a Windows clock-resolution flake that failed 12/12 in isolation;
+  a coordinator pre-flight commit fixed it with a 0/12 vs 12/12 control. A second, rarer flake
+  (1 in 10, a 20 ms deadline) appeared at integration and the base-sha control kept it from
+  being blamed on a builder - the 2026-10-05 rule paid off on its first use here.
+- **Two context maps in one repo.** The overlay named an older UI-only map while the root map
+  (64 contexts) was the current one; the cohort differs entirely by map. Asking once at the
+  start was right; §2 of challenge.md could say "the overlay's `contextMap` wins; when a newer
+  root map exists, say so in the header".
+
 ## 4.5.0 - 2026-10-11 - fleet (backlog migration to Personas Approvals, no scan)
 
 Operator asked for every scan backlog left in fleet repos to reach Personas
