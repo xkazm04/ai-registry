@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.5.2
+version: 1.5.3
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -368,7 +368,9 @@ and record it linked: `measure --run <run> --feature <f> --lens <l> --metric <m>
 If the Before moved since the proposal, say so in the commit body; an item already moot is
 recorded `failed` with the reason.
 
-- **Design lens** (a metric the harness measures): shots of the item's feature at the base,
+- **Design lens** (every design item, whatever its metric's method: a person triages design by
+  looking, so a judged `undesignedStates` item needs its screens as much as a harness metric):
+  shots of the item's feature at the base, whenever the overlay's `## Harness` can render it,
   in every theme and size the overlay's `## Harness` declares: `harness.py --root <pack
   worktree> --overlay <main checkout>/.claude/lens-scan/config.md --run <run> --features <f>`.
   It writes under the worktree's `.ai/lens-scan/shots/<run>/`; move each PNG and its JSON into
