@@ -1,10 +1,10 @@
 # LLM observability - the subjects this registry carries
 
-`llm-observability` - 18 subjects, 128 techniques, 87 applications.
+`llm-observability` - 19 subjects, 134 techniques, 100 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### telemetry-and-data
-- analytics-store-design, llm-call-telemetry-model, multi-provider-event-normalization, trace-rollup-and-attribution
+- agent-session-archive, analytics-store-design, llm-call-telemetry-model, multi-provider-event-normalization, trace-rollup-and-attribution
 
 ### economics-and-governance
 - billing-revenue-normalization, breach-alerting-and-attribution, llm-price-book-operations, margin-and-unit-economics, usage-limit-governance

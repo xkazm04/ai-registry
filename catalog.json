@@ -1136,11 +1136,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 18,
-      "techniques": 128,
-      "applications": 87,
-      "files": 238,
-      "contentHash": "sha256-b2:a5dd5d4aacb11dd9"
+      "subjects": 19,
+      "techniques": 134,
+      "applications": 100,
+      "files": 258,
+      "contentHash": "sha256-b2:d847e37958e8aaa2"
     },
     {
       "name": "localization",
@@ -1202,10 +1202,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 235,
-      "techniques": 1873,
-      "applications": 1343,
-      "files": 3456,
-      "contentHash": "sha256-b2:bb2a91cec6a48286"
+      "techniques": 1874,
+      "applications": 1350,
+      "files": 3464,
+      "contentHash": "sha256-b2:4d1cd7be681e3446"
     },
     {
       "name": "technical-writing",

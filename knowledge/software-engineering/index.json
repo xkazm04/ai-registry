@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 235,
-  "techniques": 1873,
-  "applications": 1343,
+  "techniques": 1874,
+  "applications": 1350,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1873/1873",
+  "use_when_coverage": "1874/1874",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -20152,9 +20152,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256-b2:bf4c5f0af065bc12",
-   "revision": 32,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:ed8e615f51454325",
+   "revision": 34,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -20188,6 +20188,23 @@
       "deciding whether listing tools needs a token",
       "a caller's inbound token reaching downstream",
       "keying an audit actor quota or lease holder on a caller's token"
+     ]
+    },
+    {
+     "slug": "budgeted-partial-response",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent waits on a tool call that can run past a turn's patience",
+      "a tool returns whatever finished when its time ran out",
+      "deciding what exit status a timed-out query should carry",
+      "a partial tool result is being read as a complete one",
+      "an agent retries a slow call with the same arguments and the same deadline"
      ]
     },
     {
@@ -20615,6 +20632,19 @@
     },
     {
      "stack": "rust",
+     "technique": "budgeted-partial-response",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--budgeted-partial-response--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "budgeted-partial-response",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--budgeted-partial-response--personas.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "rust",
      "technique": "caller-differentiated-capability",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--caller-differentiated-capability--vox.md",
      "verified_on": "2026-10-14",
@@ -20633,6 +20663,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--command-audit-by-position.md",
      "verified_on": "2026-09-17",
      "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "rust",
+     "technique": "fluent-syntax-bounded-grammar",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--fluent-syntax-bounded-grammar--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
     },
     {
      "stack": "rust",
@@ -30209,9 +30246,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256-b2:bec28e0d80e3d457",
-   "revision": 18,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:a49d27f889212d3f",
+   "revision": 19,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -30496,6 +30533,13 @@
     {
      "stack": "rust",
      "technique": "ranking-budgets",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--ranking-budgets--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "ranking-budgets",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--ranking-budgets--icm.md",
      "verified_on": "2026-10-14",
      "verified_against": "rust@1.85"
@@ -30520,6 +30564,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--relevance-floors.md",
      "verified_on": "2026-09-15",
      "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "rust",
+     "technique": "retrieval-evaluation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--retrieval-evaluation--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
     },
     {
      "stack": "rust",
@@ -31561,9 +31612,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
-   "digest": "sha256-b2:b76b1bab72ccfec5",
-   "revision": 5,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:395e660a5e607abe",
+   "revision": 6,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "command-surface",
@@ -31697,6 +31748,13 @@
      "technique": "command-surface",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/react--command-surface.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "full-text-indexing",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/rust--full-text-indexing--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
     },
     {
      "stack": "rust",
@@ -36537,9 +36595,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
-   "digest": "sha256-b2:bed0cf46aa1b4567",
-   "revision": 9,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:d5ab12a92aba67c4",
+   "revision": 10,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "exhaustive-when-bounded",
@@ -36734,6 +36792,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--inside-out-invariants.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@1.93.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "model-based-oracle",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--model-based-oracle--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
     },
     {
      "stack": "rust",
@@ -40975,6 +41040,7 @@
     "maturity-ladders/migrate-on-read",
     "maturity-ladders/present-vs-enforced",
     "maturity-ladders/rung-criteria",
+    "mcp-tools/budgeted-partial-response",
     "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/server-composition",
     "mcp-tools/tool-schema-design",
@@ -41658,6 +41724,7 @@
     "markdown-vault/link-graph-extraction",
     "maturity-ladders/band-design",
     "maturity-ladders/rung-criteria",
+    "mcp-tools/budgeted-partial-response",
     "mcp-tools/orchestration-to-tool-migration",
     "measurement-honesty/co-published-numbers-must-reconcile",
     "measurement-honesty/control-failure-is-not-a-datum-state",
@@ -42048,6 +42115,7 @@
     "machine-authored-documentation/three-gate-acceptance",
     "markdown-vault/replicated-substrate",
     "mcp-tools/ambient-selection-is-not-an-argument",
+    "mcp-tools/budgeted-partial-response",
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/first-party-agent-is-a-principal",
