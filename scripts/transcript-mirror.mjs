@@ -46,17 +46,28 @@
  *   chunks/ab/<sha>.br brotli-compressed raw chunk, named by sha256 of the raw bytes
  *   captures.jsonl     one append-only record per capture
  *   retired.jsonl      one append-only line per retired capture
- *   .lock              single writer
+ *   runs.jsonl         one line per capture, retire or verify run from the CLI: its exit
+ *                      code and counts (never content); `notice` reads it
+ *   .lock              single writer; a lock whose run is gone, or that is older than any
+ *                      run could last (6 h), is stale and the next run breaks it
  *
  * Usage:
- *   node scripts/transcript-mirror.mjs capture [--root <dir>] [--archive <dir>] [--since 7d] [--budget-gb N]
+ *   node scripts/transcript-mirror.mjs capture [--root <dir>] [--archive <dir>] [--since 7d] [--budget-gb N] [--hook]
  *   node scripts/transcript-mirror.mjs retire  [--archive <dir>] [--dry-run]
  *   node scripts/transcript-mirror.mjs restore [--archive <dir>] --source <rel> [--capture <id>] [--out <file>]
  *   node scripts/transcript-mirror.mjs verify  [--archive <dir>]
  *   node scripts/transcript-mirror.mjs status  [--archive <dir>] [--root <dir>]
+ *   node scripts/transcript-mirror.mjs notice  [--archive <dir>] [--max-age-h 36]
  * Output is one JSON object of counts and sizes; it never prints transcript content.
  * Exit codes: 0 ok, 1 failure (verify mismatch, refused path, lock held), 2 usage, 3 paused at budget.
  * restore without --out rebuilds and checks the bytes and writes nothing.
+ * capture --hook is for a session-end hook: it reads the hook's JSON on stdin and captures
+ * only that session's transcript and its subagent folder (all session-end hooks share a
+ * 1.5 s default budget). A whole-store capture on a schedule covers sessions that never end
+ * cleanly; without --hook, capture walks the whole --root.
+ * notice is for a session-start hook: it prints {"systemMessage": ...} only when the mirror
+ * needs the operator (paused at or near the budget, a failed run, a damaged capture, no
+ * successful capture within --max-age-h), prints nothing otherwise, and always exits 0.
  */
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
@@ -71,13 +82,16 @@ export const FORMAT = 1;
 export const DEFAULT_CHUNK = 4 * 1024 * 1024;
 const BROTLI_QUALITY = 5;
 const CONCURRENCY = 4;
+const LOCK_STALE_MS = 6 * 3600e3;
 const brotli = promisify(zlib.brotliCompress);
 const unbrotli = promisify(zlib.brotliDecompress);
 
 const sha = (b) => crypto.createHash('sha256').update(b).digest('hex');
 const EMPTY_SHA = sha(Buffer.alloc(0));
 
-export class MirrorError extends Error {}
+export class MirrorError extends Error {
+  constructor(message, code = null) { super(message); this.code = code; }
+}
 
 // ---------- locations and guards ----------
 
@@ -120,9 +134,9 @@ export function gitWorkTreeOf(p) {
 
 export function guardArchive(archive, { root, configDir = claudeConfigDir() } = {}) {
   const tree = gitWorkTreeOf(archive);
-  if (tree) throw new MirrorError(`refused: archive is inside a git work tree (${tree}); transcripts are private and must not sit one 'git add' away`);
-  if (root && (inside(archive, root) || inside(root, archive))) throw new MirrorError('refused: archive and --root overlap');
-  if (configDir && inside(archive, configDir)) throw new MirrorError('refused: archive is inside the harness config dir; the mirror must outlive that directory');
+  if (tree) throw new MirrorError(`refused: archive is inside a git work tree (${tree}); transcripts are private and must not sit one 'git add' away`, 'REFUSED');
+  if (root && (inside(archive, root) || inside(root, archive))) throw new MirrorError('refused: archive and --root overlap', 'REFUSED');
+  if (configDir && inside(archive, configDir)) throw new MirrorError('refused: archive is inside the harness config dir; the mirror must outlive that directory', 'REFUSED');
 }
 
 // ---------- archive state ----------
@@ -132,6 +146,7 @@ const P = (archive) => ({
   chunks: path.join(archive, 'chunks'),
   captures: path.join(archive, 'captures.jsonl'),
   retired: path.join(archive, 'retired.jsonl'),
+  runs: path.join(archive, 'runs.jsonl'),
   lock: path.join(archive, '.lock'),
 });
 const chunkPath = (archive, h) => path.join(archive, 'chunks', h.slice(0, 2), `${h}.br`);
@@ -149,11 +164,22 @@ function openArchive(archive, { create = false, chunkSize } = {}) {
   return meta;
 }
 
-function readJsonl(file) {
+function readJsonl(file, tailBytes = null) {
   if (!fs.existsSync(file)) return { rows: [], broken: 0 };
+  let text;
+  const size = fs.statSync(file).size;
+  if (tailBytes != null && size > tailBytes) {
+    // The run log grows by a line per session; notice runs at every session start and needs only the end.
+    const fd = fs.openSync(file, 'r');
+    const b = Buffer.alloc(tailBytes);
+    fs.readSync(fd, b, 0, tailBytes, size - tailBytes);
+    fs.closeSync(fd);
+    text = b.toString('utf8');
+    text = text.slice(text.indexOf('\n') + 1); // drop the partial first line
+  } else text = fs.readFileSync(file, 'utf8');
   const rows = [];
   let broken = 0;
-  for (const line of fs.readFileSync(file, 'utf8').split('\n')) {
+  for (const line of text.split('\n')) {
     if (!line.trim()) continue;
     try { rows.push(JSON.parse(line)); } catch { broken++; }
   }
@@ -210,12 +236,52 @@ function scanChunks(archive) {
   return have;
 }
 
+/** Chunk writes a killed run left half-done (`<sha>.br.<pid>.tmp`). Only safe to delete under the lock. */
+function tmpLeftovers(archive) {
+  const dir = P(archive).chunks;
+  const out = [];
+  if (!fs.existsSync(dir)) return out;
+  for (const sub of fs.readdirSync(dir)) {
+    const d = path.join(dir, sub);
+    if (!fs.statSync(d).isDirectory()) continue;
+    for (const f of fs.readdirSync(d)) if (f.endsWith('.tmp')) out.push(path.join(d, f));
+  }
+  return out;
+}
+
+export function pidAlive(pid) {
+  if (!Number.isInteger(pid) || pid <= 0) return false;
+  try { process.kill(pid, 0); return true; } catch (e) { return e.code === 'EPERM'; }
+}
+
+/**
+ * A run killed mid-way (a hook cut off at session exit, a closed terminal) leaves its lock
+ * behind, and without this every later run would refuse forever. Stale: the lock's pid is
+ * gone, or the lock is older than any run could last. A lock that cannot be read yet (its
+ * writer is between open and write) is stale only by age.
+ */
+export function lockIsStale(lock, now = Date.now()) {
+  let st;
+  try { st = fs.statSync(lock); } catch { return false; }
+  if (now - st.mtimeMs > LOCK_STALE_MS) return true;
+  let rec = null;
+  try { rec = JSON.parse(fs.readFileSync(lock, 'utf8')); } catch { /* empty or partial */ }
+  return Boolean(rec && Number.isInteger(rec.pid) && !pidAlive(rec.pid));
+}
+
 function withLock(archive, fn) {
   const lock = P(archive).lock;
   let fd;
-  try { fd = fs.openSync(lock, 'wx'); } catch (e) {
-    if (e.code === 'EEXIST') throw new MirrorError('archive is locked by another run (.lock present); remove it only if no run is active');
-    throw e;
+  for (let attempt = 0; ; attempt++) {
+    try { fd = fs.openSync(lock, 'wx'); break; } catch (e) {
+      if (e.code !== 'EEXIST') throw e;
+      if (attempt === 0 && lockIsStale(lock)) {
+        try { fs.unlinkSync(lock); } catch { /* another run broke it first; the retry decides */ }
+        console.error('transcript-mirror: broke a stale lock (its run is gone or the lock is over 6 h old)');
+        continue;
+      }
+      throw new MirrorError('archive is locked by a live run (.lock present)', 'LOCKED');
+    }
   }
   fs.writeSync(fd, JSON.stringify({ pid: process.pid, at: new Date().toISOString() }));
   fs.closeSync(fd);
@@ -272,7 +338,27 @@ export function listSources(root, sinceMs) {
   return out.sort((a, b) => a.mtimeMs - b.mtimeMs || (a.src < b.src ? -1 : 1));
 }
 
-export async function capture({ root = defaultRoot(), archive = defaultArchive(), since = null, budgetBytes = null, chunkSize, configDir } = {}) {
+/**
+ * One session's transcript plus everything under its same-named folder (its subagents), for
+ * a session-end hook: the harness gives every session-end hook together 1.5 s by default, so
+ * the hook captures the session that ended, not the store. [] unless it is a .jsonl under root.
+ */
+export function sessionSources(root, transcript) {
+  root = path.resolve(root);
+  const abs = path.resolve(String(transcript));
+  if (!abs.endsWith('.jsonl') || !inside(abs, root) || norm(abs) === norm(root)) return [];
+  const rel = (p) => path.relative(root, p).split(path.sep).join('/');
+  const out = [];
+  try {
+    const st = fs.statSync(abs);
+    if (st.isFile()) out.push({ abs, src: rel(abs), size: st.size, mtimeMs: st.mtimeMs });
+  } catch { /* already gone */ }
+  const dir = abs.slice(0, -'.jsonl'.length);
+  if (fs.existsSync(dir)) for (const s of listSources(dir, null)) out.push({ ...s, src: rel(s.abs) });
+  return out;
+}
+
+export async function capture({ root = defaultRoot(), archive = defaultArchive(), since = null, budgetBytes = null, chunkSize, configDir, session = null } = {}) {
   root = path.resolve(root);
   archive = path.resolve(archive);
   if (!fs.existsSync(root)) throw new MirrorError('--root does not exist');
@@ -286,8 +372,8 @@ export async function capture({ root = defaultRoot(), archive = defaultArchive()
     const have = scanChunks(archive);
     let stored = [...have.values()].reduce((a, b) => a + b, 0);
     for (const f of [P(archive).captures, P(archive).retired, P(archive).meta]) { try { stored += fs.statSync(f).size; } catch { /* none yet */ } }
-    const sources = listSources(root, parseSince(since));
-    const r = { command: 'capture', filesSeen: sources.length, captured: 0, unchanged: 0, vanished: 0, bytesRead: 0, chunksTotal: 0, chunksNew: 0, chunksReused: 0, bytesNewRaw: 0, bytesNewStored: 0, paused: false, notCapturedAtPause: 0, budgetBytes, storedBytesAfter: 0, seconds: 0 };
+    const sources = session != null ? sessionSources(root, session) : listSources(root, parseSince(since));
+    const r = { command: 'capture', scope: session != null ? 'session' : since != null ? 'since' : 'all', filesSeen: sources.length, captured: 0, unchanged: 0, vanished: 0, bytesRead: 0, chunksTotal: 0, chunksNew: 0, chunksReused: 0, bytesNewRaw: 0, bytesNewStored: 0, paused: false, notCapturedAtPause: 0, budgetBytes, storedBytesAfter: 0, seconds: 0 };
     let seq = state.nextSeq;
     for (let fi = 0; fi < sources.length; fi++) {
       const s = sources[fi];
@@ -437,11 +523,13 @@ export async function retire({ archive = defaultArchive(), dryRun = false } = {}
     const have = scanChunks(archive);
     const drop = [...have.keys()].filter((h) => !referenced.has(h));
     const bytesFreed = drop.reduce((a, h) => a + have.get(h), 0);
-    const r = { command: 'retire', dryRun, liveBefore: state.live.length, retire: plan.length, keptOlderNotPrefix: kept, chunksUnreferenced: drop.length, bytesFreed, liveAfter: liveAfter.length };
+    const tmps = tmpLeftovers(archive);
+    const r = { command: 'retire', dryRun, liveBefore: state.live.length, retire: plan.length, keptOlderNotPrefix: kept, chunksUnreferenced: drop.length, bytesFreed, liveAfter: liveAfter.length, tmpLeftovers: tmps.length };
     if (dryRun) return r;
     const at = new Date().toISOString();
     for (const p of plan) appendLine(P(archive).retired, { id: p.id, by: p.by, at });
     for (const h of drop) { try { fs.unlinkSync(chunkPath(archive, h)); } catch { /* gone */ } }
+    for (const f of tmps) { try { fs.unlinkSync(f); } catch { /* gone */ } }
     return r;
   });
 }
@@ -526,7 +614,48 @@ export function status({ archive = defaultArchive(), root = null } = {}) {
     const rootAbs = path.resolve(root);
     r.sourcesGoneFromRoot = newest.filter((c) => !fs.existsSync(path.join(rootAbs, ...c.src.split('/')))).length;
   }
+  const runs = readJsonl(P(archive).runs, 1 << 20).rows;
+  r.lastRuns = {};
+  for (const cmd of ['capture', 'retire', 'verify']) {
+    const last = runs.filter((x) => x.command === cmd).at(-1);
+    if (last) r.lastRuns[cmd] = { at: last.at, exit: last.exit };
+  }
   return r;
+}
+
+/** Append one CLI run to runs.jsonl. Never creates an archive: a refused or absent path stays untouched. */
+export function logRun(archive, row) {
+  if (!['capture', 'retire', 'verify'].includes(row.command) || row.code === 'REFUSED') return;
+  if (!fs.existsSync(P(archive).meta)) return;
+  try { appendLine(P(archive).runs, row); } catch { /* the log is advisory; the run's own exit code still stands */ }
+}
+
+const gb = (b) => (b / 1e9).toFixed(1);
+
+/** What the operator needs to know now, as sentences; [] when the mirror is healthy. */
+export function notice({ archive = defaultArchive(), maxAgeHours = 36, now = Date.now() } = {}) {
+  archive = path.resolve(archive);
+  const p = P(archive);
+  if (!fs.existsSync(p.meta)) return [`transcript mirror: no archive at ${archive}, so nothing is kept past the harness's transcript deletion.`];
+  const out = [];
+  const runs = readJsonl(p.runs, 1 << 20).rows;
+  // A run refused because a live run held the lock says nothing about the mirror's health.
+  const caps = runs.filter((x) => x.command === 'capture' && x.code !== 'LOCKED');
+  const last = caps.at(-1);
+  if (last?.exit === 3) out.push(`transcript mirror: paused at its budget (${gb(last.storedBytesAfter || 0)} of ${gb(last.budgetBytes || 0)} GB) on ${last.at}; ${last.notCapturedAtPause ?? '?'} transcripts were not kept. Run retire, or raise --budget-gb.`);
+  else if (last?.exit === 1) out.push(`transcript mirror: the last capture failed on ${last.at}: ${last.error || 'unknown error'}.`);
+  else if (last?.exit === 0 && last.budgetBytes && last.storedBytesAfter >= 0.9 * last.budgetBytes) out.push(`transcript mirror: at ${Math.round((100 * last.storedBytesAfter) / last.budgetBytes)}% of its ${gb(last.budgetBytes)} GB budget; captures pause at 100%.`);
+  // Session-end captures skip sessions that never end cleanly (a closed terminal), so only a
+  // whole-store capture shows the scheduled sweep is alive.
+  let lastSweepAt = caps.filter((x) => x.exit === 0 && x.scope !== 'session').at(-1)?.at;
+  if (!runs.length) lastSweepAt = readJsonl(p.captures).rows.at(-1)?.at; // an archive older than the run log
+  if (!lastSweepAt) out.push('transcript mirror: no whole-store capture recorded yet.');
+  else if (now - Date.parse(lastSweepAt) > maxAgeHours * 3600e3) out.push(`transcript mirror: no whole-store capture since ${lastSweepAt} (over ${maxAgeHours} h); the scheduled capture may not be running.`);
+  const v = runs.filter((x) => x.command === 'verify').at(-1);
+  if (v?.exit === 1 && v.failed) out.push(`transcript mirror: the last verify (${v.at}) found ${v.failed} damaged captures.`);
+  const ret = runs.filter((x) => x.command === 'retire' && x.code !== 'LOCKED').at(-1);
+  if (ret?.exit === 1) out.push(`transcript mirror: the last retire failed on ${ret.at}: ${ret.error || 'unknown error'}.`);
+  return out;
 }
 
 // ---------- CLI ----------
@@ -538,7 +667,7 @@ function parseArgs(argv) {
     const a = rest[i];
     if (!a.startsWith('--')) throw new MirrorError(`unexpected argument ${a}`);
     const k = a.slice(2);
-    if (k === 'dry-run' || k === 'force') o[k] = true;
+    if (k === 'dry-run' || k === 'force' || k === 'hook') o[k] = true;
     else {
       const v = rest[++i];
       if (v == null) throw new MirrorError(`--${k} needs a value`);
@@ -551,28 +680,49 @@ function parseArgs(argv) {
 async function main() {
   let o;
   try { o = parseArgs(process.argv.slice(2)); } catch (e) { console.error(e.message); process.exit(2); }
-  const archive = o.archive || defaultArchive();
+  const archive = path.resolve(o.archive || defaultArchive());
+  if (o._ === 'notice') {
+    // A session-start hook: never fail the session, never print when there is nothing to say.
+    let msgs;
+    try { msgs = notice({ archive, maxAgeHours: o['max-age-h'] != null ? Number(o['max-age-h']) : 36 }); } catch (e) { msgs = [`transcript mirror: notice failed: ${e.message}`]; }
+    if (msgs.length) {
+      const text = msgs.join(' ');
+      // systemMessage is for the operator; the context line makes sure the session's agent can relay it.
+      console.log(JSON.stringify({ systemMessage: text, hookSpecificOutput: { hookEventName: 'SessionStart', additionalContext: `${text} (Machine notice from the transcript mirror: mention it to the operator once; do not act on it unless asked.)` } }));
+    }
+    return;
+  }
+  let session = null;
+  if (o._ === 'capture' && o.hook) {
+    // A session-end hook pipes {transcript_path, ...} on stdin. Anything unusable is not a failure of the mirror.
+    try { session = JSON.parse(fs.readFileSync(0, 'utf8').replace(/^﻿/, '')).transcript_path || null; } catch { session = null; }
+    if (!session) return;
+  }
+  const at = new Date().toISOString();
   let r;
   try {
     switch (o._) {
       case 'capture':
-        r = await capture({ root: o.root || defaultRoot(), archive, since: o.since ?? null, budgetBytes: o['budget-gb'] != null ? Math.floor(Number(o['budget-gb']) * 1e9) : null, chunkSize: o['chunk-kib'] ? Number(o['chunk-kib']) * 1024 : undefined });
+        r = await capture({ root: o.root || defaultRoot(), archive, since: o.since ?? null, session, budgetBytes: o['budget-gb'] != null ? Math.floor(Number(o['budget-gb']) * 1e9) : null, chunkSize: o['chunk-kib'] ? Number(o['chunk-kib']) * 1024 : undefined });
         break;
       case 'retire': r = await retire({ archive, dryRun: Boolean(o['dry-run']) }); break;
       case 'verify': r = await verify({ archive }); break;
       case 'restore': r = await restore({ archive, source: o.source, captureId: o.capture, out: o.out, force: Boolean(o.force) }); break;
       case 'status': r = status({ archive, root: o.root || null }); break;
       default:
-        console.error('usage: transcript-mirror.mjs <capture|retire|restore|verify|status> [options] (see header)');
+        console.error('usage: transcript-mirror.mjs <capture|retire|restore|verify|status|notice> [options] (see header)');
         process.exit(2);
     }
   } catch (e) {
+    // Every failure is logged, not only ours: a full disk (ENOSPC) is the one the operator most needs to hear about.
+    logRun(archive, { at, command: o._, exit: 1, code: e instanceof MirrorError ? e.code : (e.code || 'ERROR'), error: e.message });
     if (e instanceof MirrorError) { console.error(e.message); process.exit(1); }
     throw e;
   }
+  const exit = (r.command === 'verify' && r.failed) ? 1 : (r.command === 'capture' && r.paused) ? 3 : 0;
+  if (!(r.command === 'retire' && r.dryRun)) logRun(archive, { at, exit, ...r });
   console.log(JSON.stringify(r, null, 2));
-  if (r.command === 'verify' && r.failed) process.exit(1);
-  if (r.command === 'capture' && r.paused) process.exit(3);
+  if (exit) process.exit(exit);
 }
 
 const isMain = process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);

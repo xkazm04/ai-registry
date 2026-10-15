@@ -12,7 +12,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { capture, retire, verify, restore, status, guardArchive, parseSince, MirrorError } from '../transcript-mirror.mjs';
+import { capture, retire, verify, restore, status, notice, guardArchive, parseSince, sessionSources, lockIsStale, pidAlive, MirrorError } from '../transcript-mirror.mjs';
 
 const SCRIPT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..', 'transcript-mirror.mjs');
 const CH = 16;
@@ -234,5 +234,133 @@ test('--since keeps only recently modified files', async () => {
     assert.equal(r.filesSeen, 1);
     assert.equal(parseSince('2h', 10 * 3600e3), 8 * 3600e3);
     assert.throws(() => parseSince('soon'), MirrorError);
+  } finally { t.cleanup(); }
+});
+
+test('a stale lock (its run is gone, or over 6 h old) is broken; a live one is not', async () => {
+  const t = setup();
+  try {
+    t.put('proj-a/s.jsonl', 'abc');
+    await capture(t.opts);
+    const lock = path.join(t.archive, '.lock');
+    const dead = spawnSync(process.execPath, ['-e', '']).pid;
+    assert.equal(pidAlive(dead), false);
+    fs.writeFileSync(lock, JSON.stringify({ pid: dead, at: new Date().toISOString() }));
+    assert.equal(lockIsStale(lock), true);
+    t.append('proj-a/s.jsonl', 'def');
+    assert.equal((await capture(t.opts)).captured, 1, 'a dead run does not block the mirror');
+    assert.equal(fs.existsSync(lock), false, 'the new run released its own lock');
+    fs.writeFileSync(lock, JSON.stringify({ pid: process.pid, at: new Date().toISOString() }));
+    await assert.rejects(capture(t.opts), (e) => e instanceof MirrorError && e.code === 'LOCKED');
+    const old = new Date(Date.now() - 7 * 3600e3);
+    fs.utimesSync(lock, old, old);
+    assert.equal(lockIsStale(lock), true, 'no run lasts 6 h, so an old lock is stale even if its pid was reused');
+    assert.equal((await capture(t.opts)).unchanged, 1);
+  } finally { t.cleanup(); }
+});
+
+test('sessionSources takes one transcript and its subagent folder, and nothing outside --root', () => {
+  const t = setup();
+  try {
+    const main = t.put('proj-a/sess-1.jsonl', 'm');
+    t.put('proj-a/sess-1/subagents/agent-1.jsonl', 's1');
+    t.put('proj-a/sess-1/subagents/agent-1.meta.json', '{}');
+    t.put('proj-a/sess-2.jsonl', 'other session');
+    assert.deepEqual(sessionSources(t.root, main).map((s) => s.src).sort(), ['proj-a/sess-1.jsonl', 'proj-a/sess-1/subagents/agent-1.jsonl']);
+    assert.deepEqual(sessionSources(t.root, path.join(t.base, 'elsewhere.jsonl')), []);
+    assert.deepEqual(sessionSources(t.root, path.join(t.root, 'proj-a', 'notes.txt')), []);
+  } finally { t.cleanup(); }
+});
+
+test('capture --hook reads the session-end JSON on stdin, captures that session only, and logs the run', () => {
+  const t = setup();
+  try {
+    const main = t.put('proj-a/sess-1.jsonl', 'one');
+    t.put('proj-a/sess-1/subagents/agent-1.jsonl', 'sub');
+    t.put('proj-a/sess-2.jsonl', 'two');
+    const cli = (args, input) => spawnSync(process.execPath, [SCRIPT, ...args, '--root', t.root, '--archive', t.archive], { encoding: 'utf8', input });
+    const r = cli(['capture', '--hook'], JSON.stringify({ session_id: 'sess-1', transcript_path: main, hook_event_name: 'SessionEnd', reason: 'other' }));
+    assert.equal(r.status, 0, r.stderr);
+    const out = JSON.parse(r.stdout);
+    assert.equal(out.scope, 'session');
+    assert.equal(out.captured, 2);
+    const runs = fs.readFileSync(path.join(t.archive, 'runs.jsonl'), 'utf8').trim().split('\n').map((l) => JSON.parse(l));
+    assert.equal(runs.length, 1);
+    assert.equal(runs[0].scope, 'session');
+    assert.equal(runs[0].exit, 0);
+    const junk = cli(['capture', '--hook'], 'not json');
+    assert.equal(junk.status, 0);
+    assert.equal(junk.stdout, '', 'unusable hook input is not a mirror failure and writes nothing');
+  } finally { t.cleanup(); }
+});
+
+test('notice is silent when healthy and speaks for a pause, a failure, a missed sweep, or no archive', async () => {
+  const t = setup();
+  try {
+    const runsFile = path.join(t.archive, 'runs.jsonl');
+    assert.match(notice({ archive: t.archive })[0], /no archive/);
+    t.put('proj-a/s.jsonl', 'abc');
+    await capture(t.opts);
+    const now = Date.now();
+    const iso = (ms) => new Date(ms).toISOString();
+    const write = (rows) => fs.writeFileSync(runsFile, rows.map((x) => JSON.stringify(x)).join('\n') + '\n');
+    const sweep = { command: 'capture', scope: 'all', exit: 0, at: iso(now - 3600e3), budgetBytes: 40e9, storedBytesAfter: 4e9 };
+    write([sweep]);
+    assert.deepEqual(notice({ archive: t.archive, now }), []);
+    write([sweep, { command: 'capture', scope: 'session', exit: 1, code: 'LOCKED', at: iso(now), error: 'locked' }]);
+    assert.deepEqual(notice({ archive: t.archive, now }), [], 'a run that met a live lock is not news');
+    write([sweep, { command: 'capture', scope: 'all', exit: 3, at: iso(now), budgetBytes: 40e9, storedBytesAfter: 40e9, notCapturedAtPause: 12 }]);
+    assert.match(notice({ archive: t.archive, now }).join(' '), /paused at its budget .*12 transcripts/);
+    write([sweep, { command: 'capture', scope: 'session', exit: 1, code: 'ENOSPC', at: iso(now), error: 'no space left on device' }]);
+    assert.match(notice({ archive: t.archive, now }).join(' '), /failed .*no space left/);
+    write([{ ...sweep, at: iso(now - 48 * 3600e3) }, { command: 'capture', scope: 'session', exit: 0, at: iso(now) }]);
+    assert.match(notice({ archive: t.archive, now }).join(' '), /no whole-store capture since/, 'session captures do not prove the sweep runs');
+    write([{ ...sweep, storedBytesAfter: 37e9 }]);
+    assert.match(notice({ archive: t.archive, now }).join(' '), /93% of its 40.0 GB budget/);
+    write([sweep, { command: 'verify', exit: 1, failed: 2, at: iso(now) }]);
+    assert.match(notice({ archive: t.archive, now }).join(' '), /2 damaged captures/);
+    write([sweep]);
+    const quiet = spawnSync(process.execPath, [SCRIPT, 'notice', '--archive', t.archive], { encoding: 'utf8' });
+    assert.equal(quiet.status, 0);
+    assert.equal(quiet.stdout, '');
+    const loud = spawnSync(process.execPath, [SCRIPT, 'notice', '--archive', path.join(t.base, 'none')], { encoding: 'utf8' });
+    assert.equal(loud.status, 0, 'a notice never fails the session');
+    const j = JSON.parse(loud.stdout);
+    assert.match(j.systemMessage, /no archive/);
+    assert.equal(j.hookSpecificOutput.hookEventName, 'SessionStart');
+  } finally { t.cleanup(); }
+});
+
+test('the CLI logs a refused run but never writes into a refused or absent archive', async () => {
+  const t = setup();
+  try {
+    t.put('proj-a/s.jsonl', crypto.randomBytes(64));
+    await capture(t.opts);
+    fs.writeFileSync(path.join(t.archive, '.lock'), JSON.stringify({ pid: process.pid, at: new Date().toISOString() }));
+    const locked = spawnSync(process.execPath, [SCRIPT, 'capture', '--root', t.root, '--archive', t.archive], { encoding: 'utf8' });
+    assert.equal(locked.status, 1);
+    fs.rmSync(path.join(t.archive, '.lock'));
+    const row = JSON.parse(fs.readFileSync(path.join(t.archive, 'runs.jsonl'), 'utf8').trim().split('\n').at(-1));
+    assert.equal(row.code, 'LOCKED');
+    const repo = path.join(t.base, 'repo');
+    fs.mkdirSync(path.join(repo, '.git'), { recursive: true });
+    spawnSync(process.execPath, [SCRIPT, 'capture', '--root', t.root, '--archive', path.join(repo, 'a')], { encoding: 'utf8' });
+    assert.equal(fs.existsSync(path.join(repo, 'a')), false);
+  } finally { t.cleanup(); }
+});
+
+test('retire removes chunk writes a killed run left half-done', async () => {
+  const t = setup();
+  try {
+    t.put('proj-a/s.jsonl', 'A'.repeat(20));
+    await capture(t.opts);
+    const sub = fs.readdirSync(path.join(t.archive, 'chunks'))[0];
+    const tmp = path.join(t.archive, 'chunks', sub, 'deadbeef.br.123.tmp');
+    fs.writeFileSync(tmp, 'partial');
+    assert.equal((await retire({ archive: t.archive, dryRun: true })).tmpLeftovers, 1);
+    assert.equal(fs.existsSync(tmp), true, 'dry run deletes nothing');
+    await retire({ archive: t.archive });
+    assert.equal(fs.existsSync(tmp), false);
+    assert.equal((await verify({ archive: t.archive })).failed, 0);
   } finally { t.cleanup(); }
 });
