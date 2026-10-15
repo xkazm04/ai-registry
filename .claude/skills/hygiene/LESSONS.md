@@ -450,3 +450,45 @@ with the lesson here saying why.
 - **Fix the process that wrote it, not only the bytes.** The night's own skill (personas
   `/curator` 1.2.0) now reaps each claim's clones on settle through `hygiene-disk.mjs --reap`,
   and its workers build with `CARGO_INCREMENTAL=0`. The temp-leak rows name the suites to fix.
+
+## 1.2.0 - 2026-10-15 - the first temp-leak chase (operator: fix every leaking suite, commit on main)
+
+- **The disk lane's `temp-leak` rows were the work list, and a name family is only a lead.**
+  A per-repo `git grep -F` of each family's literal prefix (with a planted positive) mapped 80
+  of 141 families to one repo; most of the rest were assembled from variables (`` `systedo-${name}-${pid}.db` ``)
+  and went by stem. Three stems pointed at the wrong repo: `mage-*` was a sibling checkout
+  (`mage-arena-tv`), `bp-open-`/`bp-stress-` a one-off stress script no longer on disk, and two
+  families (`harvest-tail-`, `council-cmd-gate-`) are in no tracked file anywhere. The worker
+  brief's `not_this_repo` field carried those back instead of a guessed fix.
+- **Three causes covered nearly every leak.** (1) a helper or module-level `mkdtemp` with no
+  cleanup at all (most suites); (2) cleanup that FAILS SILENTLY on Windows because a SQLite
+  handle is still open - `rmSync` throws EPERM/EBUSY and a `try {} catch {}` or a Drop impl
+  swallows it (kp, the lens-scan store tests, athena's `store.rs`, whose `Drop` deleted the
+  file before its connection field dropped); (3) a hook in the wrong scope (politicas: an
+  `afterAll` inside the first `describe`, so the second recreated the store and left it).
+  Close, then remove; a swallowed removal error is the leak.
+- **Production code leaks too.** devsecops' `ledger-append.mjs` made a scratch dir on every
+  run and `die()` called `process.exit`, which skips `finally`; pof's image-to-3D dispatcher
+  wrote provider input PNGs to temp that mocked tests never consumed.
+- **A fix on main does not reach live worktrees on older commits.** 99 `belay-ledger-` dirs
+  appeared after devsecops' fix, all from a tiger run and agent worktrees cut before it. The
+  leak stops when they merge main; nothing to delete in their trees.
+- **Measure, or say you did not.** Every worker recorded the new NAMES one command left before
+  and after (counts lie when siblings run the same suite). stat-reel had no `node_modules`, so
+  its fix is honest "fixed, not run". Workers sharing one scratch directory overwrote each
+  other's snapshot scripts and two reported a false 0 before re-measuring; give each worker
+  a private scratch subfolder from the start.
+- **The director's own codemod inserted its helper inside a template string** (a test that
+  generates a child script with `import` lines), and the first verify run caught it as 7 new
+  failures. Insert after the top import block only, and run the suite before believing a diff.
+
+## 2026-10-15 - a default-branch-red worker on a 70-minute CI is a three-hour worker
+
+- **The personas worker ran 3 h 18 min on one `default-branch-red` item.**
+  - Each CI cycle is about 70 min, with the 3-OS matrix and macOS as the long pole. Each cycle showed only the next failure: Linux clippy dead_code, then a PERSONAS_HOME race, then a flaky p2p loopback test.
+  - `gh run rerun --failed` is refused until every job ends, so the flake alone cost a 36-minute wait.
+  - Cap a red-default item by CI **cycles** (two), not by minutes, and report the rest. Fixing master red in a repo whose CI no push has finished green in a week is a project, not hygiene.
+- **Ten workers polling `gh run view` every 30 s used up the 5,000/h API quota** at 08:03Z. Every worker lost about 10 minutes. Poll at 90-120 s, or have the director watch runs.
+- **A brief must not suggest a commit type without reading the repo's commit-lint.** The repair brief said `deps:`. personas allows `feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert`, so commit-lint went red on a pushed master commit that can't be amended (no force push). Use `fix(deps):` or `chore(deps):`.
+- **A new RUSTSEC batch reddens every repo that runs cargo-deny at once.** After a push-primary, paypal went red on RUSTSEC-2026-0346..0349 (rustls), which the pushed commits had nothing to do with. Before blaming a push for a red, read the deny job first. The fix is a lockfile-only `cargo update -p rustls`; pumper, paypal and personas all took it the same day.
+- Worker transcript timestamps are UTC, and the machine runs CEDT (UTC+2). A worker that looked idle for two hours was five minutes into a poll.
