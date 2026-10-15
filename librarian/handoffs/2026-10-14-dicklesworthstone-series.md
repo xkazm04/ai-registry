@@ -448,3 +448,13 @@ forged in the same session.
   (registry worktree work is in subagent folders already counted); one reader NONE; one
   stack witness; a heredoc that dropped a backslash from the director's own probe, caught
   by a zero-match sanity check before any count was used.
+- **Wired by the operator, 2026-10-15.** The first whole-store capture kept 16,585
+  transcripts, 17.9 GB raw in 4.6 GB, in 229 s; the oldest, from 2026-09-14, was one
+  cleanup away from deletion. Running unattended needed a change first (`d31dd1b5`): the
+  harness gives all session-end hooks together 1.5 s by default and force-kills past it,
+  so the session-end hook captures only the session that ended (0.4 s measured), and a
+  killed run no longer leaves a lock that blocks every later capture. A daily task sweeps
+  the whole store, a weekly one retires and verifies (first run: 13 retired,
+  16,589/16,589 verified), and a session-start notice speaks only when the mirror is
+  paused, failing or overdue. Budget 40 GB. The `capture-before-parse` instrument comes
+  due 2026-11-14: restore every session the process cache marks rolled off.
