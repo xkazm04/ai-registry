@@ -1175,11 +1175,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 26,
-      "techniques": 190,
-      "applications": 116,
-      "files": 337,
-      "contentHash": "sha256-b2:7c3f98bd60b2a90d"
+      "subjects": 27,
+      "techniques": 196,
+      "applications": 120,
+      "files": 348,
+      "contentHash": "sha256-b2:4e50bdea503092fa"
     },
     {
       "name": "recruiting",
