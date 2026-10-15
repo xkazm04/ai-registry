@@ -62,6 +62,21 @@ test('huntGroups ranks a group by use-case reach as well as churn', () => {
   assert.equal(rows[1].commits, 12);
 });
 
+test('huntGroups reads a nested groups[].contexts[] map, the group named by its parent', () => {
+  const map = {
+    groups: [
+      { name: 'desk-linga', contexts: [{ name: 'linga', file_paths: ['desk/e/a.ts', 'desk/e/b.ts'] }] },
+      { name: 'tooling', contexts: [{ name: 'uat', file_paths: ['uat/a.cjs'] }, { name: 'kpi', file_paths: ['tools/k.cjs'] }] },
+    ],
+  };
+  const touches = new Map([['desk/e/a.ts', { commits: 9, last_days: 0 }], ['uat/a.cjs', { commits: 2, last_days: 4 }]]);
+  const rows = huntGroups(map, touches, () => 1024);
+  assert.deepEqual(rows.map((r) => r.group), ['desk-linga', 'tooling']);
+  assert.equal(rows[0].contexts, 1);
+  assert.equal(rows[1].contexts, 2);
+  assert.equal(rows[1].files, 2);
+});
+
 test('parseSeatOutput reads the last fenced json block and normalises fields', () => {
   const text = 'thinking...\n```json\n{"proposals":[{"title":"old"}]}\n```\nfinal:\n```json\n' + JSON.stringify({
     proposals: [

@@ -73,9 +73,19 @@ export function huntAreas(files, touches, { minFiles = 6, maxShare = 0.25, depth
  * contexts' file_paths, plus how many declared use cases (user flows) its contexts serve.
  * Reach is a value signal git cannot give: a group every major flow runs through outranks a
  * busy group no flow names.
+ *
+ * Two shapes are read: a flat `contexts[]` whose entries carry `group`, and a nested
+ * `groups[].contexts[]` whose group is the parent's `name` (measured 2026-10-15 on firetv: the
+ * nested map printed an empty groups table, and the hunt fell back to directory areas).
  */
+export function contextsOf(contextMap) {
+  const flat = (contextMap?.contexts ?? []).map((c) => ({ ...c }));
+  const nested = (contextMap?.groups ?? []).flatMap((g) => (g?.contexts ?? []).map((c) => ({ ...c, group: c.group ?? g.name ?? g.title })));
+  return [...flat, ...nested];
+}
+
 export function huntGroups(contextMap, touches, bytesOf = () => 0, { top = 12 } = {}) {
-  const contexts = contextMap?.contexts ?? [];
+  const contexts = contextsOf(contextMap);
   const useCases = contextMap?.use_cases ?? [];
   const groups = new Map();
   for (const c of contexts) {

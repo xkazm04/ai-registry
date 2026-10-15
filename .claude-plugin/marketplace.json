@@ -488,7 +488,7 @@
       "name": "tiger",
       "source": "./skills/tiger",
       "description": "Hunt a codebase's most valuable feature area and evolve it with a cross-vendor council. Use when you want the product's strongest part made markedly more valuable - not swept for defects - and a person to choose what gets built. tiger ranks feature areas by value evidence (context-map groups and the use cases they serve, git heat, product docs, the bp product tree), writes a territory dossier for ",
-      "version": "3.0.1",
+      "version": "3.1.0",
       "category": "workflow",
       "tags": [
         "value",

@@ -3,7 +3,7 @@ name: tiger
 description: "Hunt a codebase's most valuable feature area and evolve it with a cross-vendor council. Use when you want the product's strongest part made markedly more valuable - not swept for defects - and a person to choose what gets built. tiger ranks feature areas by value evidence (context-map groups and the use cases they serve, git heat, product docs, the bp product tree), writes a territory dossier for the chosen one, and convenes the strongest available CLI seats from different labs (Gemini via agy, GPT via codex, Grok, Claude Opus - any seat that fails its probe is skipped). Round 1 each seat proposes 3-6 anchored evolutionary moves (deepen, extend, connect, leap) blind to the others; round 2 each seat rates the anonymous pool and crossbreeds stronger fusions. The caller judges blind, verifies premises in the code, clusters cross-seat agreement, composes one coherent scope with a thesis, presents it as a multi-select approval, builds only what was chosen with a verify check per item, and keeps a per-seat ledger of what was kept, approved and landed. Invoke with /tiger [<area>] [--seats engine:model@effort,...] [--rounds 1|2], /tiger hunt, /tiger resume <run>, /tiger status."
 category: workflow
 memory: vault
-version: 3.0.1
+version: 3.1.0
 tags: value, feature-area, multi-model, council, brainstorm, evolution, scope, approval
 argument-hint: "[<area> | hunt | resume <run-id> | status] [--seats engine:model@effort,...] [--rounds 1|2] [--ceiling-min 40]"
 ---
@@ -169,6 +169,11 @@ core first, up to 4 options each (`verdict.md` has the format). Nothing unselect
 Unattended runs stop here with `scope.md` written and its path reported. Write the chosen
 ids to `verdict.json` (`kept`, `approved`, `dropped`, `thesis`, `judge`).
 
+Before building, check the selection against the scope's dependencies. An approved item that
+depends on one the person left out is a decision they have not made: ask once, single-select -
+carry only the minimum the item needs, build the dependency too, or defer the item (firetv
+2026-10-15: a leap needed a core item left unticked; the person chose to add it).
+
 ## Phase 7 - build what was chosen
 
 In dependency order, for each approved item: re-read its anchors at the current HEAD (the
@@ -181,6 +186,21 @@ each diff and runs the verify check itself before counting it landed. An item wh
 check fails is `failed`, kept in `outcome.md` with the output, never quietly dropped or
 re-scoped into a pass. Stop and ask when an item turns out to need a decision the person did
 not make.
+
+- **Re-measure a decayed premise first.** A number the item stands on (a latency, a count,
+  a rate) that was measured before this run is measured again before a spike or a build is
+  scoped on it; a premise that moved is reported, and the item may stop there (firetv: a
+  "6 s CLI start-up" read 3.1 s at build time, n=10, and its spike was NO-GO).
+- **One lane per hot file.** Items whose write sets share a file every item touches (a
+  feature's core module, its view model, its types) go to ONE builder in sequence, or wait
+  for the earlier item to land; parallel lanes are for genuinely disjoint files. Measured on
+  firetv: five parallel lanes on one conversation/view/types core needed a caller-side
+  conflict resolution on every rebase, and two item interactions surfaced only there.
+- **After resolving a conflict, check the merge, not just the lines.** `node --check` (or the
+  stack's parser) on every resolved file - a hunk whose shared tail was a closing `});` drops
+  one test's closer when both sides are kept (twice in one run) - then rerun every suite of
+  the items the file belongs to. A test broken by another item's intended behaviour is
+  re-scoped in its own `test(...)` commit that says which item changed it.
 
 ## Phase 8 - record
 
@@ -212,7 +232,7 @@ not make.
 
 ## Telemetry for hardening
 
-The skill is young (3.0.0, 2026-10-14). Each run's `seats.jsonl` rows and its LESSONS entry
+The skill is young (3.0.0, 2026-10-14; 3.1.0 after its first full build run, 2026-10-15). Each run's `seats.jsonl` rows and its LESSONS entry
 are what the next version is built from. Worth recording in the reflection: which seat's
 ideas were kept / approved / landed and whether that held across areas; how often anchors
 were wrong per seat; whether round 2 fusions beat their parents in the judge's own scoring;
