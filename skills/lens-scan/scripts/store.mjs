@@ -72,7 +72,9 @@
 //   release-update --release rel-x [--status s] [--from s] [--pr-url u] [--tag t] [--notes t] [--error t] [--base-sha s]
 //             compare-and-set: draft->building->pr-open->merged->tagged, any state but tagged ->failed. On
 //             merged -> tagged (tag defaults to v<version>) the release's accepted items become `released` and
-//             every pack whose items are all released, descoped or declined is closed, in one transaction.
+//             every pack whose items are all settled is closed, in one transaction. Settled: released, descoped or
+//             declined, or a `rework` item whose rebuild (attempt_of = it) is itself settled - so the pack of a
+//             reworked item closes once its rebuild ships, from whichever pack the rebuild was built in.
 //   releases [--status s]                      releases, newest first
 //   release --id rel-x | release-items --release rel-x
 //             one release with its items | the items alone
@@ -738,13 +740,36 @@ export function releaseUpdate(db, { release, status, from, prUrl, tag, notes, er
       const items = db.prepare("SELECT id, pack_id FROM proposals WHERE release_id = ? AND status = 'accepted'").all(rid);
       db.prepare("UPDATE proposals SET status = 'released', updated_at = ? WHERE release_id = ? AND status = 'accepted'").run(at, rid);
       out.released = items.map((p) => p.id);
-      out.packs_closed = [];
-      const left = db.prepare("SELECT COUNT(*) AS n FROM proposals WHERE pack_id = ? AND status NOT IN ('released', 'descoped', 'declined')");
-      const close = db.prepare("UPDATE packs SET status = 'closed', updated_at = ? WHERE id = ? AND status IN ('open', 'triaged')");
-      for (const k of new Set(items.map((p) => p.pack_id).filter(Boolean))) if (!left.get(k).n && close.run(at, k).changes) out.packs_closed.push(k);
+      out.packs_closed = closePacks(db, items.map((p) => p.id), at);
     }
     return out;
   });
+}
+
+// a pack item that needs nothing more: it shipped, was dropped or declined
+const FINAL = ['released', 'descoped', 'declined'];
+/** Settled for closing its pack: FINAL, or a `rework` item whose rebuild (attempt_of = it) is settled, down the chain. */
+function settled(db, p, depth = 0) {
+  if (FINAL.includes(p.status)) return true;
+  if (p.status !== 'rework' || depth > 32) return false;
+  return db.prepare('SELECT id, status FROM proposals WHERE attempt_of = ?').all(p.id).some((c) => settled(db, c, depth + 1));
+}
+/**
+ * Closes every open or triaged pack whose items are all settled, among the packs of `ids` and of the items they
+ * rebuild (up the attempt_of chain: a rebuild ships from a later pack, and the reworked item's pack waits on it).
+ */
+function closePacks(db, ids, at) {
+  const row = db.prepare('SELECT id, pack_id, attempt_of FROM proposals WHERE id = ?');
+  const packsOf = new Set();
+  for (const id of ids) {
+    let p = row.get(id);
+    for (let i = 0; p && i < 32; i += 1) { if (p.pack_id) packsOf.add(p.pack_id); p = p.attempt_of ? row.get(p.attempt_of) : undefined; }
+  }
+  const members = db.prepare('SELECT id, status FROM proposals WHERE pack_id = ?');
+  const close = db.prepare("UPDATE packs SET status = 'closed', updated_at = ? WHERE id = ? AND status IN ('open', 'triaged')");
+  const closed = [];
+  for (const k of packsOf) if (members.all(k).every((p) => settled(db, p)) && close.run(at, k).changes) closed.push(k);
+  return closed;
 }
 
 export function releases(db, { status } = {}) {

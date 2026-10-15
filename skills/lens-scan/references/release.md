@@ -112,7 +112,9 @@ and they land through the registry's own flow.
      the file from the release's stored `notes` when it is gone).
    - `release-update --release rel-x --status tagged --from merged --tag v<version>`. The
      store moves the release's `accepted` items to `released` and closes every pack left
-     with only released, descoped or declined items, in one transaction: its output names
+     with only released, descoped or declined items (a `rework` item counts once its
+     rebuild does, so a reworked item's pack closes when its rebuild ships), in one
+     transaction: its output names
      them (`released`, `packs_closed`).
    - **Clean up**: remove the release worktree and the worktrees of the closed packs
      (`git worktree list`; unlink `node_modules` first), and delete the **local** branches

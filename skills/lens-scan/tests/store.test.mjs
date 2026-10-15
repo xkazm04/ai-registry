@@ -314,3 +314,30 @@ test('migration: a v2 file becomes v3 in place (one column, rows kept), the same
   assert.equal(no.status, 2);
   assert.match(no.stderr, /accept, rework, descope, reopen/);
 });
+
+test('tagged: a pack with a rework item closes once the rebuild (built in a later pack) ships; not before', () => {
+  const { db, run, ids: [a, b], pack } = train(2);
+  triage(db, { ids: a, decision: 'accept', by: jane });
+  triage(db, { ids: b, decision: 'rework', by: jane, note: 'tighten it' });
+  // first release ships a alone: b is rework with no rebuild, so k-des-1 stays open
+  releaseCreate(db, { version: '1.0.0', by: jane });
+  releaseAdd(db, { release: 'rel-1.0.0', ids: a });
+  for (const s of ['building', 'pr-open', 'merged']) releaseUpdate(db, { release: 'rel-1.0.0', status: s });
+  let out = releaseUpdate(db, { release: 'rel-1.0.0', status: 'tagged' });
+  assert.deepEqual(out.packs_closed, [], 'a rework with no rebuild keeps its pack open');
+  // the rebuild: a fresh approved copy, built into the next pack, accepted, shipped
+  const { id: b2 } = reworkAttempt(db, { id: b, run });
+  const k2 = packCreate(db, { lens: 'design', short: 'DES', baseRef: 'main', baseSha: 'b1', run });
+  proposalUpdate(db, { id: b2, status: 'executing', pack: k2.id });
+  proposalUpdate(db, { id: b2, status: 'done', commitSha: 'c-b2' });
+  triage(db, { ids: b2, decision: 'accept', by: jane });
+  releaseCreate(db, { version: '1.0.1', by: jane });
+  releaseAdd(db, { release: 'rel-1.0.1', ids: b2 });
+  for (const s of ['building', 'pr-open', 'merged']) releaseUpdate(db, { release: 'rel-1.0.1', status: s });
+  out = releaseUpdate(db, { release: 'rel-1.0.1', status: 'tagged' });
+  assert.deepEqual(out.released, [b2]);
+  assert.deepEqual(new Set(out.packs_closed), new Set([k2.id, pack]), "the rebuild's pack and the reworked item's pack both close");
+  assert.ok(packs(db).every((k) => k.status === 'closed'));
+  assert.equal(row(db, b).status, 'rework', 'the reworked row itself stays rework');
+  db.close();
+});
