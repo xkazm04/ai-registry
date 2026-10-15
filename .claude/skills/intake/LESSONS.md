@@ -12649,3 +12649,14 @@ applied here - one sighting, and the honest record is in the source note.
 - **Price the do-nothing setting as arm A.** "Raise the harness's retention" was the obvious alternative to a mirror and the honest baseline. Measuring it turned the mirror from a nice idea into a 4.2x storage decision with a disk-full date.
 - **Subagents cannot write report files.** Three builders were refused when their briefs asked for REPORT.md; each put the report in its final message instead. Briefs should ask for the final message and name any data files separately.
 - Mid-flight runs: nothing to change; this entry adds no rule to SKILL.md.
+
+## 2.16.0 - 2026-10-15 - policy change, render proofs queue for the media host
+
+- **The operator removed every local model from this machine** (238 GB: ComfyUI, Ollama,
+  Hugging Face, LM Studio and smaller caches) and ruled that a dedicated media host (image,
+  video, 3D) will process render proofs. Phase 6b's "no local instrument, no landing" lead
+  becomes a queue the media host can read: the candidate is a backlog row with
+  `status: held`, `queue: media` and a `render` object (run id, brief, where arm A's and arm
+  B's instructions live, the instrument needed). `held` already sits outside every
+  `/harvest backlog` wave, so no code changed and nothing here picks the row up. A run must
+  never pull a model to make a render proof pass on this machine.
