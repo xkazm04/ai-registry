@@ -1,15 +1,18 @@
 // node --test skills/lens-scan/tests
 // Pins the store rules scripts/store.mjs owns alone: the DDL applies once, ids have their shapes,
-// absent values never print as null, latest wins per key, and the skill can never decide a proposal.
+// absent values never print as null, latest wins per key, and the skill can never decide a proposal; and (v3)
+// triage's undo, `reopen`, with its refusals and the v2 -> v3 migration.
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, rmSync, readFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, dirname } from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { DatabaseSync } from 'node:sqlite';
 import {
   openStore, runStart, runEnd, activity, measure, propose, proposals, proposalUpdate, shot, coverage, latest, parseArgs,
+  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt, DDL_PATH,
 } from '../scripts/store.mjs';
 
 // Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
@@ -26,7 +29,7 @@ const cli = (db, ...args) => JSON.parse(execFileSync(process.execPath, [SCRIPT, 
 test('round trip: init, run, measure, propose, update, latest - and no nulls in any output', () => {
   const path = tmpDb();
   const db = openStore(path);
-  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 2);
+  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 3);
   const { id: run } = runStart(db, { phase: 'measure', lenses: 'development,security', scope: '{"feature":["a"]}' });
   assert.match(run, /^r-\d{14}-[0-9a-f]{4}$/);
 
@@ -97,7 +100,7 @@ test('refusals: no placeholder values, no writes into an ended run, no self-appr
 
 test('cli: JSON on stdout, bulk --json, exit 2 on bad input', () => {
   const db = tmpDb();
-  assert.equal(cli(db, 'init').user_version, 2);
+  assert.equal(cli(db, 'init').user_version, 3);
   const { id: run } = cli(db, 'run-start', '--phase', 'measure', '--lenses', 'development');
   const bulk = join(mkdtempTracked(join(tmpdir(), 'lens-scan-bulk-')), 'm.json');
   writeFileSync(bulk, JSON.stringify([{ feature: 'a', lens: 'development', metric: 'files', value: 3 }, { feature: 'a', lens: 'development', metric: 'loc', value: -0 }]));
@@ -172,4 +175,142 @@ test('proposals --ids: only those ids, in the order asked; an unknown id is simp
   assert.throws(() => proposals(db, { ids: ' , ' }), /at least one/);
   assert.deepEqual(cli(path, 'proposals', '--ids', p2).map((p) => p.title), ['two']);
   db.close();
+});
+
+// ------------------------------------------------------------------------------------- v3: reopen (the undo)
+/** One running execute run, `n` approved design items, the first `built` of them built into pack k-des-1 (done). */
+function train(n, built = n) {
+  const path = tmpDb();
+  const db = openStore(path);
+  const { id: run } = runStart(db, { phase: 'execute', lenses: 'design', env: {} });
+  const ids = [];
+  for (let i = 0; i < n; i += 1) ids.push(propose(db, { run, feature: 'a', lens: 'design', title: `item ${i}`, kind: 'fix', metric: 'rawLiterals', expectedDelta: -2 }).id);
+  decide(db, { ids, decision: 'approve', by: 'operator:jane' });
+  const k = packCreate(db, { lens: 'design', short: 'DES', baseRef: 'main', baseSha: 'b0', run });
+  for (const id of ids.slice(0, built)) {
+    proposalUpdate(db, { id, status: 'executing', pack: k.id });
+    proposalUpdate(db, { id, status: 'done', commitSha: `c-${id}` });
+  }
+  return { path, db, run, ids, pack: k.id };
+}
+const row = (db, id) => proposals(db, { ids: id })[0];
+const jane = 'operator:jane';
+
+test('reopen: accepted, rework and descoped go back to the status they left; the pack reopens; one step deep', () => {
+  const { db, ids: [a, b, c], pack } = train(3);
+  triage(db, { ids: a, decision: 'accept', by: jane });
+  triage(db, { ids: b, decision: 'rework', by: jane, note: 'tighten the gap' });
+  const last = triage(db, { ids: c, decision: 'descope', by: jane, note: 'out of scope' });
+  assert.deepEqual(last.packs_triaged, [pack]);
+  assert.ok(!('packs_reopened' in last), 'only a reopen answers packs_reopened');
+  assert.equal(row(db, a).triaged_from, 'done', 'every move records the status it left');
+  assert.equal(row(db, b).triaged_from, 'done');
+
+  const r = triage(db, { ids: [a, b, c], decision: 'reopen', by: 'operator:joe' });
+  assert.equal(r.decision, 'reopened');
+  assert.deepEqual(r.triaged, [a, b, c]);
+  assert.deepEqual(r.skipped, []);
+  assert.deepEqual(r.packs_reopened, [pack], 'an item back at done moves its triaged pack to open');
+  assert.equal(packs(db)[0].status, 'open');
+  for (const id of [a, b, c]) {
+    const p = row(db, id);
+    assert.equal(p.status, 'done');
+    assert.ok(!('triage_note' in p) && !('triaged_from' in p), 'the note and triaged_from are cleared, omitted in JSON');
+    assert.equal(p.triaged_by, 'operator:joe');
+  }
+  assert.ok(noNulls(r));
+  // one step deep: a second undo has nothing to go back to
+  assert.deepEqual(triage(db, { ids: a, decision: 'reopen', by: jane }).skipped, [{ id: a, status: 'done' }]);
+  triage(db, { ids: a, decision: 'accept', by: jane });
+  triage(db, { ids: a, decision: 'rework', by: jane });
+  assert.equal(row(db, a).triaged_from, 'accepted');
+  assert.deepEqual(triage(db, { ids: a, decision: 'reopen', by: jane }).triaged, [a]);
+  assert.equal(row(db, a).status, 'accepted', 'a rework from accepted reopens to accepted');
+  assert.deepEqual(triage(db, { ids: a, decision: 'reopen', by: jane }).skipped, [{ id: a, status: 'accepted', reason: 'no-prior-status' }]);
+  db.close();
+});
+
+test('reopen: a descope from the backlog (proposed, approved) goes back to the backlog', () => {
+  const { db, run, ids: [a] } = train(1, 0);
+  const p = propose(db, { run, feature: 'a', lens: 'design', title: 'later', kind: 'fix', metric: 'rawLiterals', expectedDelta: -1 }).id;
+  triage(db, { ids: [a, p], decision: 'descope', by: jane });
+  const r = triage(db, { ids: [a, p], decision: 'reopen', by: jane });
+  assert.deepEqual(r.triaged, [a, p]);
+  assert.deepEqual(r.packs_reopened, []);
+  assert.equal(row(db, a).status, 'approved');
+  assert.equal(row(db, p).status, 'proposed');
+  db.close();
+});
+
+test('reopen: refused no-prior-status, in-release, rebuilt, pack-closed; a draft release lets the item go', () => {
+  const { db, run, ids: [a, b, c, d] } = train(4);
+  // a pre-v3 decision (triaged_from NULL) has nothing to reopen to
+  triage(db, { ids: a, decision: 'accept', by: jane });
+  db.prepare('UPDATE proposals SET triaged_from = NULL WHERE id = ?').run(a);
+  assert.deepEqual(triage(db, { ids: a, decision: 'reopen', by: jane }).skipped, [{ id: a, status: 'accepted', reason: 'no-prior-status' }]);
+  // in a draft release: the undo takes it out
+  triage(db, { ids: b, decision: 'accept', by: jane });
+  releaseCreate(db, { version: '1.0.0', by: jane });
+  assert.deepEqual(releaseAdd(db, { release: 'rel-1.0.0', ids: b }).added, [b]);
+  assert.deepEqual(triage(db, { ids: b, decision: 'reopen', by: jane }).triaged, [b]);
+  assert.ok(!('release_id' in row(db, b)), 'reopen leaves a draft release');
+  // in a release past draft: refused
+  triage(db, { ids: b, decision: 'accept', by: jane });
+  releaseAdd(db, { release: 'rel-1.0.0', ids: b });
+  releaseUpdate(db, { release: 'rel-1.0.0', status: 'building' });
+  assert.deepEqual(triage(db, { ids: b, decision: 'reopen', by: jane }).skipped, [{ id: b, status: 'accepted', reason: 'in-release' }]);
+  assert.equal(row(db, b).release_id, 'rel-1.0.0');
+  // a rework with its rebuild: refused
+  triage(db, { ids: c, decision: 'rework', by: jane, note: 'again' });
+  reworkAttempt(db, { id: c, run });
+  assert.deepEqual(triage(db, { ids: c, decision: 'reopen', by: jane }).skipped, [{ id: c, status: 'rework', reason: 'rebuilt' }]);
+  // a closed pack never opens again
+  triage(db, { ids: d, decision: 'descope', by: jane });
+  db.prepare("UPDATE packs SET status = 'closed'").run();
+  assert.deepEqual(triage(db, { ids: d, decision: 'reopen', by: jane }).skipped, [{ id: d, status: 'descoped', reason: 'pack-closed' }]);
+  assert.deepEqual(triage(db, { ids: 'p-000000', decision: 'reopen', by: jane }).skipped, [{ id: 'p-000000', status: 'not-found' }]);
+  db.close();
+});
+
+test('migration: a v2 file becomes v3 in place (one column, rows kept), the same shape as a fresh file; cli reopen', () => {
+  // the v2 DDL is the v3 one without its last column
+  const v2ddl = readFileSync(DDL_PATH, 'utf8').replace(/,\s*-- v3\s*\n\s*triaged_from[^\n]*/, '').replace('PRAGMA user_version = 3;', 'PRAGMA user_version = 2;');
+  const path = tmpDb();
+  mkdirSync(dirname(path), { recursive: true });
+  const v2 = new DatabaseSync(path);
+  v2.exec(v2ddl);
+  assert.equal(v2.prepare('PRAGMA user_version').get().user_version, 2);
+  assert.ok(!v2.prepare('PRAGMA table_info(proposals)').all().some((c) => c.name === 'triaged_from'), 'the fixture is v2');
+  const at = '2026-10-01T00:00:00.000Z';
+  v2.prepare(`INSERT INTO runs (id, started_at, updated_at, phase, status, lenses) VALUES ('r-1', ?, ?, 'execute', 'done', '["design"]')`).run(at, at);
+  v2.prepare(`INSERT INTO packs (id, lens, n, branch, base_ref, base_sha, status, created_at, updated_at) VALUES ('k-des-1', 'design', 1, 'pack/des-1', 'main', 'b0', 'open', ?, ?)`).run(at, at);
+  v2.prepare(`INSERT INTO proposals (id, run_id, feature, lens, title, kind, status, pack_id, commit_sha, triaged_by, created_at, updated_at)
+    VALUES ('p-aaaaaa', 'r-1', 'a', 'design', 'Old call', 'fix', 'accepted', 'k-des-1', 'c1', 'operator:jane', ?, ?)`).run(at, at);
+  v2.prepare(`INSERT INTO proposals (id, run_id, feature, lens, title, kind, status, pack_id, commit_sha, created_at, updated_at)
+    VALUES ('p-bbbbbb', 'r-1', 'a', 'design', 'Built', 'fix', 'done', 'k-des-1', 'c2', ?, ?)`).run(at, at);
+  v2.close();
+
+  const ro = openStore(path, { readOnly: true });
+  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 3, 'a reader never meets v2');
+  ro.close();
+  const db = openStore(path);
+  assert.deepEqual(proposals(db).map((p) => [p.id, p.status, p.commit_sha, p.triaged_from]), [['p-aaaaaa', 'accepted', 'c1', undefined], ['p-bbbbbb', 'done', 'c2', undefined]]);
+  const shape = (x) => ['runs', 'measurements', 'proposals', 'activity', 'shots', 'coverage', 'packs', 'releases']
+    .map((t) => x.prepare(`PRAGMA table_info(${t})`).all().map((c) => `${t}.${c.name}:${c.type}:${c.notnull}`).join(','));
+  const fresh = openStore(tmpDb());
+  assert.deepEqual(shape(db), shape(fresh), 'a migrated v2 file and a fresh one have one shape');
+  fresh.close();
+  db.close();
+  const again = openStore(path);
+  assert.equal(again.prepare('PRAGMA user_version').get().user_version, 3, 'a second open is a no-op');
+  again.close();
+
+  // the pre-v3 call has no prior status; a v3 call reopens through the cli
+  assert.equal(cli(path, 'triage', '--ids', 'p-aaaaaa', '--decision', 'reopen', '--by', 'operator:jane').skipped[0].reason, 'no-prior-status');
+  assert.deepEqual(cli(path, 'triage', '--ids', 'p-bbbbbb', '--decision', 'accept', '--by', 'operator:jane').packs_triaged, ['k-des-1']);
+  const r = cli(path, 'triage', '--ids', 'p-bbbbbb', '--decision', 'reopen', '--by', 'operator:jane');
+  assert.deepEqual([r.decision, r.triaged, r.packs_reopened], ['reopened', ['p-bbbbbb'], ['k-des-1']]);
+  const no = spawnSync(process.execPath, [SCRIPT, '--db', path, 'triage', '--ids', 'p-bbbbbb', '--decision', 'undo', '--by', 'operator:jane'], { encoding: 'utf8' });
+  assert.equal(no.status, 2);
+  assert.match(no.stderr, /accept, rework, descope, reopen/);
 });

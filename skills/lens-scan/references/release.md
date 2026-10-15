@@ -68,7 +68,10 @@ and they land through the registry's own flow.
    Then continue with the next item. It leaves the release, and its rebuild is a later
    execute's (SKILL.md, Rework).
    `triage` lets the release run (`--by skill:lens-scan`) take a conflicted item out of a
-   `building` release; a person's triage still leaves only a draft one.
+   `building` release; a person's triage still leaves only a draft one. So does a
+   person's undo (`triage --decision reopen`, back to the item's `triaged_from`): it is
+   refused `in-release` once the release left draft, so a building release never loses
+   an item under the run except by this conflict move.
    An item whose `commit_sha` is missing (a `failed` item accepted with a note that never
    got a commit) cannot ship: fail the release naming it.
 3. **Gates and numbers.** Run the overlay's `## Gates` in the release worktree, verbatim. A

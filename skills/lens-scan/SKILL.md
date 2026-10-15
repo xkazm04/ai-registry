@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.5.4
+version: 1.6.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -64,7 +64,7 @@ overlay's `default_scope` (headless: every feature).
 ## The store
 
 One SQLite file per product: `.ai/lens-scan/scan.db` (gitignored; the DDL is
-[store.sql](references/store.sql), `user_version 2`; a v1 file is migrated in place on open). **The agent never writes SQL.**
+[store.sql](references/store.sql), `user_version 3`; a v1 or v2 file is migrated in place on open). **The agent never writes SQL.**
 `node ${CLAUDE_SKILL_DIR}/scripts/store.mjs` is the only writer; every subcommand
 prints JSON (`--help` lists them). The rules it enforces are the method's rules:
 
@@ -81,7 +81,11 @@ prints JSON (`--help` lists them). The rules it enforces are the method's rules:
   it read, so two executors (the blueprint and a headless caller) never build one item.
 - **The release train (v2).** A built item waits in its pack for a person's **triage**:
   `accepted`, `rework` (rebuild it, with the person's note as the brief) or `descoped`,
-  written by the review UI or `store.mjs triage --by <kind:name>`. `released` is written
+  written by the review UI or `store.mjs triage --by <kind:name>`. A person's call is
+  undone by `triage --decision reopen` (v3): the item goes back to the status it left
+  (`triaged_from`), out of a draft release; refused once its release left draft
+  (`in-release`), for a rework whose rebuild exists (`rebuilt`), and when nothing was
+  recorded (`no-prior-status`). `released` is written
   only by a release reaching `tagged`. The skill writes none of them, with one exception
   named in [7. Release](#7-release): a cherry-pick conflict sends an item to `rework`
   as `--by skill:lens-scan`.
@@ -503,7 +507,7 @@ from the store, starts one `claude -p` per run, and prints one JSON summary:
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs status  --lens <id> --root <product repo>
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs cover   --lens <id> --root <repo> [--retry] [--stale] [--dry]
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id> --root <repo> [--approve-proposed --by operator:<name>] [--ids a,b] [--base <ref>] [--dry]
-node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs triage  --ids a,b --decision accept|rework|descope --by operator:<name> [--note t] --root <repo>
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs triage  --ids a,b --decision accept|rework|descope|reopen --by operator:<name> [--note t] --root <repo>
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs compare --pack k-des-3 | --ids a,b --root <repo>
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs release --id rel-<version> [--finish] --root <repo> [--dry]
 ```

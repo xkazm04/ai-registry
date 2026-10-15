@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // lens-scan store - the only writer of <repo>/.ai/lens-scan/scan.db, so the agent never writes SQL.
-// The DDL is ../references/store.sql (user_version 2); this script applies it to a fresh file, migrates
-// a v1 file in place (one transaction, on any open, read-only ones included) and refuses a file it does not know. Every subcommand prints JSON on stdout; errors go to stderr with
+// The DDL is ../references/store.sql (user_version 3); this script applies it to a fresh file, migrates
+// a v1 or v2 file in place (one transaction, on any open, read-only ones included) and refuses a file it does not know. Every subcommand prints JSON on stdout; errors go to stderr with
 // exit 2 (bad input) or 1 (refused by a store rule). NULL columns are never printed.
 //
 //   node store.mjs [--db <path>] <subcommand> [flags]        (--db default .ai/lens-scan/scan.db)
@@ -49,14 +49,19 @@
 //   pack-update --pack k --status open|triaged|closed [--from s]
 //             compare-and-set: open->triaged|closed, triaged->open|closed; --from states the status expected
 //   packs [--lens l] [--status s]              packs, each with `items` {status: count}
-//   triage --ids a,b --decision accept|rework|descope --by <kind:name> [--note t]
+//   triage --ids a,b --decision accept|rework|descope|reopen --by <kind:name> [--note t]
 //             a person's call on built items, each a compare-and-set: accept done|failed (failed only with a
 //             --note, else skipped `note-required`); rework done|failed|accepted; descope
 //             done|failed|accepted|rework|proposed|approved. An item already in a release that is past draft is
 //             skipped `in-release`; one in a draft release leaves it, and so does a rework by `skill:*` while the
 //             release is building (the release run's cherry-pick conflict). A pack none of whose items is executing,
-//             done or failed any more moves open -> triaged in the same transaction.
-//             -> {decision, by, triaged: [ids], skipped: [{id, status, reason?}], packs_triaged: [ids]}
+//             done or failed any more moves open -> triaged in the same transaction. Every move records the
+//             status it left in `triaged_from` (v3).
+//             reopen (the undo): accepted|rework|descoped -> its triaged_from, clearing the note, triaged_from and a
+//             draft release. Skipped `no-prior-status` (nothing recorded), `in-release` (its release left draft),
+//             `rebuilt` (a rework item whose rebuild exists) or `pack-closed`. An item back at done|failed moves
+//             its triaged pack -> open (packs_reopened). The answer's decision is `reopened`.
+//             -> {decision, by, triaged: [ids], skipped: [{id, status, reason?}], packs_triaged: [ids], packs_reopened?: [ids]}
 //   rework-attempt --id <p in rework> --run <running run>
 //             a fresh `approved` copy of the item (attempt_of = it, no pack, sha or after-value, the decision
 //             copied) to rebuild; the old row stays `rework`. One attempt per reworked item. -> {id, attempt_of}
@@ -90,7 +95,7 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const DDL_PATH = resolve(HERE, '../references/store.sql');
 export const DEFAULT_DB = '.ai/lens-scan/scan.db';
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 
 export const PHASES = ['measure', 'propose', 'execute', 'propagate'];
 export const RUN_END = ['done', 'failed', 'aborted'];
@@ -102,11 +107,13 @@ export const COVERAGE = ['conformant', 'deviation', 'not-applicable', 'unknown']
 export const PHASE = ['before', 'after'];
 export const PACK_STATUS = ['open', 'triaged', 'closed'];
 export const RELEASE_STATUS = ['draft', 'building', 'pr-open', 'merged', 'tagged', 'failed'];
-// a person's triage of a built item: decision -> [target status, the statuses it may come from]
+// a person's triage of a built item: decision -> [target status, the statuses it may come from]. reopen's target
+// is each item's own triaged_from (null here).
 const TRIAGE = {
   accept: ['accepted', ['done', 'failed']],
   rework: ['rework', ['done', 'failed', 'accepted']],
   descope: ['descoped', ['done', 'failed', 'accepted', 'rework', 'proposed', 'approved']],
+  reopen: [null, ['accepted', 'rework', 'descoped']],
 };
 // compare-and-set chains: target -> the statuses it may come from
 const PACK_MOVE = { triaged: ['open'], open: ['triaged'], closed: ['open', 'triaged'] };
@@ -178,13 +185,14 @@ export function openStore(dbPath = DEFAULT_DB, { readOnly = false } = {}) {
     } catch (e) { db.exec('ROLLBACK'); throw e; }
   }
   if (db.prepare('PRAGMA user_version').get().user_version === 1) migrateV1(db);
+  if (db.prepare('PRAGMA user_version').get().user_version === 2) migrateV2(db);
   assertVersion(db, dbPath);
   return db;
 }
 
 /**
- * v1 -> v2 in place, in one IMMEDIATE transaction that re-reads the version (a second opener finds v2 and does
- * nothing). SQLite cannot widen a CHECK, so proposals is renamed aside, the v2 DDL creates the new proposals
+ * v1 -> v3 in place, in one IMMEDIATE transaction that re-reads the version (a second opener finds v3 and does
+ * nothing). SQLite cannot widen a CHECK, so proposals is renamed aside, the current DDL creates the new proposals
  * (and packs, releases, the new indexes) and every row is copied; measurements and shots gain their columns
  * by ALTER first, so the DDL's CREATE IF NOT EXISTS finds them already in their v2 shape. Old rows get NULL.
  */
@@ -202,12 +210,28 @@ function migrateV1(db) {
         ALTER TABLE measurements ADD COLUMN commit_sha TEXT;
         ALTER TABLE shots ADD COLUMN proposal_id TEXT;
         ALTER TABLE shots ADD COLUMN phase TEXT CHECK (phase IN ('before', 'after'));`);
-      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets user_version = 2
+      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets the current user_version (3): proposals is born with triaged_from
       // copied as they are: a v1 row's references are its own business, the migration neither checks nor fixes them
       db.exec(`INSERT INTO proposals (${cols}) SELECT ${cols} FROM proposals_v1; DROP TABLE proposals_v1;`);
     }
     db.exec('COMMIT');
   } catch (e) { db.exec('ROLLBACK'); throw e; } finally { if (fk) db.exec('PRAGMA foreign_keys = ON'); }
+}
+/**
+ * v2 -> v3 in place: one nullable column, proposals.triaged_from, the status an item left at its latest triage (what
+ * `triage --decision reopen` puts back). Additive, so an ALTER is enough; it lands as the table's last column, where
+ * the v3 DDL declares it, so a migrated and a fresh file have one shape. One IMMEDIATE transaction that re-reads the
+ * version: a second opener finds v3 and does nothing. Old rows get NULL (nothing to reopen to).
+ */
+function migrateV2(db) {
+  db.exec('BEGIN IMMEDIATE');
+  try {
+    if (db.prepare('PRAGMA user_version').get().user_version === 2) {
+      if (!db.prepare('PRAGMA table_info(proposals)').all().some((c) => c.name === 'triaged_from')) db.exec('ALTER TABLE proposals ADD COLUMN triaged_from TEXT');
+      db.exec('PRAGMA user_version = 3');
+    }
+    db.exec('COMMIT');
+  } catch (e) { db.exec('ROLLBACK'); throw e; }
 }
 function sleepSync(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); }
 function assertVersion(db, dbPath) {
@@ -580,29 +604,47 @@ export function triage(db, { ids, decision, by: who, note } = {}) {
   const person = by(who);
   if (note !== undefined && typeof note !== 'string') bad('--note needs a text');
   const text = typeof note === 'string' && note.trim() ? note : undefined;
+  const reopen = decision === 'reopen';
   const [to, from] = TRIAGE[decision];
   return tx(db, () => {
     const at = now();
-    const triaged = [], skipped = [], touched = [];
-    const read = db.prepare('SELECT p.status, p.pack_id, p.release_id, r.status AS rel FROM proposals p LEFT JOIN releases r ON r.id = p.release_id WHERE p.id = ?');
-    const upd = db.prepare(`UPDATE proposals SET status = ?, triaged_by = ?, triaged_at = ?, triage_note = ?, updated_at = ?,
+    const triaged = [], skipped = [], touched = [], reopened = [];
+    const read = db.prepare(`SELECT p.status, p.pack_id, p.release_id, p.triaged_from, r.status AS rel, k.status AS pack FROM proposals p
+      LEFT JOIN releases r ON r.id = p.release_id LEFT JOIN packs k ON k.id = p.pack_id WHERE p.id = ?`);
+    const upd = db.prepare(`UPDATE proposals SET status = ?, triaged_by = ?, triaged_at = ?, triage_note = ?, triaged_from = ?, updated_at = ?,
       release_id = CASE WHEN ? THEN NULL ELSE release_id END WHERE id = ? AND status = ?`);
+    const rebuilt = db.prepare('SELECT 1 FROM proposals WHERE attempt_of = ?');
     for (const id of list) {
       const p = read.get(id);
       if (!p) { skipped.push({ id, status: 'not-found' }); continue; }
       if (!from.includes(p.status)) { skipped.push({ id, status: p.status }); continue; }
       if (decision === 'accept' && p.status === 'failed' && !text) { skipped.push({ id, status: p.status, reason: 'note-required' }); continue; }
+      if (reopen && p.triaged_from === null) { skipped.push({ id, status: p.status, reason: 'no-prior-status' }); continue; }
       // leaving `accepted` takes the item out of its release while that is still a draft, never later
       const leaves = decision !== 'accept' && p.release_id !== null;
       // a person takes an item out of a draft release only; the release run itself (`skill:*`) may also send a
       // conflicted item back while the release is building, so the release never claims a commit it does not hold
       const mayLeave = p.rel === 'draft' || (p.rel === 'building' && decision === 'rework' && person.startsWith('skill:'));
       if (leaves && !mayLeave) { skipped.push({ id, status: p.status, reason: 'in-release' }); continue; }
-      if (!upd.run(to, person, at, text ?? null, at, leaves ? 1 : 0, id, p.status).changes) { skipped.push({ id, status: read.get(id).status }); continue; }
+      // undoing a rework whose rebuild exists would leave the rebuild with no rework behind it; a closed pack stays closed
+      if (reopen && p.status === 'rework' && rebuilt.get(id)) { skipped.push({ id, status: p.status, reason: 'rebuilt' }); continue; }
+      if (reopen && p.pack === 'closed') { skipped.push({ id, status: p.status, reason: 'pack-closed' }); continue; }
+      const target = reopen ? p.triaged_from : to;
+      // a move records the status it left (the undo's target); the undo clears it, so undo is one step deep
+      if (!upd.run(target, person, at, reopen ? null : text ?? null, reopen ? null : p.status, at, leaves ? 1 : 0, id, p.status).changes) {
+        skipped.push({ id, status: read.get(id).status });
+        continue;
+      }
       triaged.push(id);
-      if (p.pack_id) touched.push(p.pack_id);
+      if (p.pack_id && reopen && (target === 'done' || target === 'failed')) reopened.push(p.pack_id);
+      else if (p.pack_id) touched.push(p.pack_id);
     }
-    return { decision: to, by: person, triaged, skipped, packs_triaged: settlePacks(db, touched, at) };
+    // an item back at done|failed waits for triage again, so its triaged pack is open again (PACK_MOVE triaged -> open)
+    const back = [];
+    const open = db.prepare("UPDATE packs SET status = 'open', updated_at = ? WHERE id = ? AND status = 'triaged'");
+    for (const k of new Set(reopened)) if (open.run(at, k).changes) back.push(k);
+    const out = { decision: reopen ? 'reopened' : to, by: person, triaged, skipped, packs_triaged: settlePacks(db, touched, at) };
+    return reopen ? { ...out, packs_reopened: back } : out;
   });
 }
 
