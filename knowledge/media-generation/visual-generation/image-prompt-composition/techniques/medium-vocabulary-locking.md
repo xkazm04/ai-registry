@@ -46,10 +46,16 @@ Build the style block from the medium's own decision vocabulary:
    video probes alike): the model reads the *register* of camera terms,
    not their numbers — prompts differing only in f-stop render the same
    depth of field, and stated focal lengths do not produce their optical
-   geometry. Name the effect ("shallow depth of field, background softly
-   defocused", "wide low-angle framing") and treat any numeric setting as
-   an impression word in a physics costume until the project's own
-   controlled pair proves it does work on the target model.
+   geometry. Published benchmarks agree (re-checked 2026-10-15), and one
+   vendor's guide says such specs are "interpreted loosely". Name the
+   effect ("shallow depth of field, background softly defocused", "wide
+   low-angle framing") and treat any numeric setting as an impression word
+   in a physics costume until the project's own controlled pair proves it
+   does work on the target model. An impression word still moves the look,
+   which is why the camera-register words themselves ("cinematic", "large-
+   format cinema camera", "anamorphic") are a hazard of their own: they
+   pull toward the model's tuned commercial default (see
+   default-look-attractor).
 2. **Painterly styles: technique nouns plus substrate.** The named moves of
    the medium ("impasto, visible brushstrokes, glazing" for oil;
    "wet-on-wet, soft washes, translucent layers" for watercolor) and the

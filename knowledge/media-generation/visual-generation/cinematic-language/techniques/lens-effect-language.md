@@ -20,12 +20,27 @@ use_when:
 Optics shape how space feels: wide perspectives exaggerate depth and make
 environments loom; long-lens compression flattens planes, slows apparent
 motion, and detaches the viewer; depth of field decides where the eye is
-*allowed* to look. Professionals specify these with numbers; generation
-models measurably do not honor the numbers — they honor the *described
-effect*, because that is what their training captions describe. The
-craft transfers, the notation does not: name what the optics do to the
-image, and treat any numeric token as unverified style-noise until a
-controlled pair on the target model proves otherwise.
+*allowed* to look. Professionals specify these with numbers. Generation
+models follow the numbers loosely at best. They follow the *described
+effect* far more reliably, because that is what their training captions
+describe. The evidence, checked 2026-10-15:
+
+- This bundle's own probes found f-stop-only differences rendering the
+  same depth of field.
+- A 2025 benchmark of photographic control found focal length inconsistent
+  from text while bokeh wording tracked more closely.
+- A 2024-25 study of camera-setting control found text-to-image models
+  could not render scene-consistent focal-length changes.
+- One image vendor's own guide warns that detailed camera specs "may be
+  interpreted loosely", and says to use them for look and composition, not
+  physical simulation.
+
+"Loosely" is not "ignored", though. Vendors' own video guides still write
+millimetre and film-stock terms into their example prompts as register
+signals, and the same tokens move the overall look even when they miss the
+optics. The craft transfers, the notation does not: name what the optics do
+to the image, and treat any numeric token as a register word, not a
+control, until a controlled pair on the target model proves otherwise.
 
 ## Procedure — optical intents and their effect phrasing
 
