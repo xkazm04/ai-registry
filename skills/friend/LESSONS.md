@@ -39,3 +39,8 @@ Append-only reflection lane. One entry per run that taught something. Format:
 - Ranking deviations before filtering them lets rejected pairs crowd the top 5. The order is now: filter by the rejection set, then rank and keep 5. Pairs carry no technique field, so the technique is chosen from the subject's `use_when`.
 - Gitignored evidence (the scan-sweep backlog digest) exists only in the main checkout; a fresh worktree reads it as absent. Evidence reads and the consults/run logs now go to the main checkout.
 - tsc failed until the i18n type generator ran after the string catalogue changed; Phase 4 now runs codegen on any catalogue change, falling back to the generators the typecheck depends on.
+
+## 1.6.1 - 2026-10-14 - firetv
+- First adoption in firetv (linked, overlay written). Math area, one menu: the operator answered "execute all". The method had no multi-pick lane, so the five directions ran as five sequential cycles, each delegated to one subagent in the shared worktree (they shared rules files, so parallel was out); 14 commits, gate green. 1.7.0 adds the `all` / list choice and `--pick all|N,M`.
+- The operator then asked to run again "on top of the current branch"; 0d could only cut a fresh worktree from the base branch. 1.7.0 adds the continue prompt and `--on <branch>`.
+- The baseline gate was red until a second dependency directory (a tools package beside the app) was linked; 0d names one. The repo's backlog was a richer evidence source than the registry map (0 deviations), but four of its open rows had already landed - probe a row before proposing it.

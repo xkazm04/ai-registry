@@ -36,7 +36,7 @@ Shortcuts:
 
 Worktree: `{worktree_dir}/{slug}/`
 Branch: `worktree-{slug}`
-Mode: {interactive | headless --pick {N|auto} --cycles {N}}
+Mode: {interactive | headless --pick {N|auto|all|N,M} --cycles {N}}{ - continued on <branch>}
 Cycles: {N}
 Commits: {first-sha}..{last-sha}
 

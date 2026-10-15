@@ -224,7 +224,7 @@
       "name": "friend",
       "source": "./skills/friend",
       "description": "Use when the operator wants steady product momentum in ONE area of a codebase: an endless single-area companion loop that scans the area, proposes 5 development directions seeded from evidence (the area's registry-map deviation pairs and their golden-path techniques, the directions ledger, sibling passes and backlogs, and which earlier friend branches were merged), executes the picked one in a wor",
-      "version": "1.6.1",
+      "version": "1.7.0",
       "category": "workflow"
     },
     {

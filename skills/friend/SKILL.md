@@ -1,11 +1,11 @@
 ---
 name: friend
-description: "Use when the operator wants steady product momentum in ONE area of a codebase: an endless single-area companion loop that scans the area, proposes 5 development directions seeded from evidence (the area's registry-map deviation pairs and their golden-path techniques, the directions ledger, sibling passes and backlogs, and which earlier friend branches were merged), executes the picked one in a worktree with the repo's conventions as atomic commits, reports, and proposes 5 more. Interactive by default - every prompt is a numbered menu and Enter takes the default. Headless with arguments: /friend <area> [goal] [--verify] [--pick N|auto] [--cycles N] skips the matching menus; --pick auto takes the highest-value direction and states why in one line; --cycles N stops cleanly after N cycles. Development-flavored UX and product work only: stabilization goes to explorer or scan-sweep, cross-context capability sweeps to scan-sweep --develop, multi-area arcs graduate to perfect."
-argument-hint: "[area] [goal] [--verify] [--pick N|auto] [--cycles N]"
+description: "Use when the operator wants steady product momentum in ONE area of a codebase: an endless single-area companion loop that scans the area, proposes 5 development directions seeded from evidence (the area's registry-map deviation pairs and their golden-path techniques, the directions ledger, sibling passes and backlogs, and which earlier friend branches were merged), executes the picked one in a worktree with the repo's conventions as atomic commits, reports, and proposes 5 more. Interactive by default - every prompt is a numbered menu and Enter takes the default. Headless with arguments: /friend <area> [goal] [--verify] [--pick N|auto|all|N,M] [--cycles N] [--on <branch>] skips the matching menus; --pick auto takes the highest-value direction and states why in one line; --pick all (or a list) runs several of the menu's directions back to back, one cycle each; --on continues an earlier friend branch instead of cutting a fresh one; --cycles N stops cleanly after N cycles. Development-flavored UX and product work only: stabilization goes to explorer or scan-sweep, cross-context capability sweeps to scan-sweep --develop, multi-area arcs graduate to perfect."
+argument-hint: "[area] [goal] [--verify] [--pick N|auto|all|N,M] [--cycles N] [--on <branch>]"
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.6.1
+version: 1.7.0
 model: sonnet
 ---
 # Friend
@@ -23,7 +23,7 @@ Siblings - know the boundary:
 ## Interaction conventions
 
 - **Every prompt is a numbered menu.** A digit picks; **Enter** takes the default; option `1. other -> ...` is the deviation lane (free text).
-- **Every cycle ends with a `Next?` block** of 5 numbered directions plus deviation + refresh.
+- **Every cycle ends with a `Next?` block** of 5 numbered directions plus deviation, refresh and `all`. A list of numbers (`2 4 5`) or `all` picks several at once (Phase 2 "Multi-pick").
 - **Arguments skip menus.** Any question an argument answers is not asked (see Input). With `--pick`, the run is **headless**: no prompt is printed anywhere in the loop, and every place that would ask takes the documented headless default instead.
 - **No exit option in the menu.** The loop runs until `--cycles` is reached, the user interrupts, types a stop word in the deviation lane (`stop`, `done`, `bye`, `quit`, `exit`), or the context window forces a wrap. Each of those runs the clean-exit ritual (Phase 6).
 
@@ -38,7 +38,7 @@ Scalars: `product`, `stack`, `vault`, `vault_subdir`, `base_branch`, `worktree_d
 ## Input
 
 ```
-/friend [area] [goal] [--verify] [--pick N|auto] [--cycles N]
+/friend [area] [goal] [--verify] [--pick N|auto|all|N,M] [--cycles N] [--on <branch>]
 ```
 
 | Argument | Answers | Effect |
@@ -48,9 +48,11 @@ Scalars: `product`, `stack`, `vault`, `vault_subdir`, `base_branch`, `worktree_d
 | `--verify` | Q2b | verified mode on (requires `verify_url`; without it, say so once and continue checklist-only) |
 | `--pick N` | every `Next?` menu | take menu option N (2-6) each cycle, no prompt |
 | `--pick auto` | every `Next?` menu | take the highest-value direction (Phase 2 "Auto-pick") and print one line saying why |
+| `--pick all` / `--pick N,M` | every `Next?` menu | run every non-graduation direction (or the listed ones) as consecutive cycles (Phase 2 "Multi-pick") |
 | `--cycles N` | when to stop | after cycle N, skip the `Next?` menu and run Phase 6 |
+| `--on <branch>` | the 0d continue prompt | continue that earlier `worktree-friend-*` branch in its worktree instead of cutting a fresh one from `base_branch` (Phase 0d) |
 
-- With `--pick` and no `--cycles`, `--cycles 1` is implied - an unattended loop never runs unbounded.
+- With `--pick` and no `--cycles`, `--cycles 1` is implied - an unattended loop never runs unbounded. A multi-pick counts each direction it executes as one cycle and implies `--cycles` = the number picked.
 - With `--pick`, unanswered questions take their default without being printed: area = pick for me, goal = scan and propose, verify = no.
 - `/friend` with no arguments asks Q1, Q2 and (when `verify_url` is set) Q2b, in that order.
 
@@ -151,7 +153,18 @@ git worktree add "<worktree_dir>/$SLUG" -b "worktree-$SLUG" <base_branch>
 cd "<worktree_dir>/$SLUG"
 ```
 
-Always name `<base_branch>`: without it the worktree branches from whatever the main checkout has checked out. If the gates need installed dependencies, link the main checkout's dependency directory (`node_modules`) in as a junction / symlink, and at Phase 6 remove the link itself (`rmdir` the junction) - never a recursive delete through it. The whole loop runs inside it. On exit, the worktree and branch stay - the user owns the merge, and the merge is what Phase 0b learns from next time.
+Always name `<base_branch>`: without it the worktree branches from whatever the main checkout has checked out.
+
+**Continue instead of cutting.** When Phase 0b found a **pending** branch of this area (unmerged, under 14 days), or `--on <branch>` names one, the work can go on top of it so the operator merges one branch, not two:
+
+```
+Continue on worktree-friend-<area>-<hhmmss> (pending, <n> commits, last <date>)? (Enter = continue)
+  1. other -> free text
+  2. continue on it   <- default
+  3. fresh worktree from <base_branch>
+```
+
+Continuing reuses that branch's worktree (`git worktree list`; re-add it with `git worktree add <path> <branch>`, no `-b`, if it was removed), re-links the dependencies and keeps its slug for the ledger, the session note and the report. Its commits since `base_branch` are this session's starting point: they join the in-session no-repeat set, and the scan summary leads with `Since last session: <last commit title>`. Headless continues only with `--on`; without it, a fresh worktree. `--on` naming a branch that is merged, missing or not `worktree-friend-*`: say so once and cut fresh. If the gates need installed dependencies, link the main checkout's dependency directory (`node_modules`) in as a junction / symlink, and at Phase 6 remove the link itself (`rmdir` the junction) - never a recursive delete through it. The whole loop runs inside it. On exit, the worktree and branch stay - the user owns the merge, and the merge is what Phase 0b learns from next time.
 
 ### 0e - Register
 
@@ -244,6 +257,17 @@ Rank the non-graduation directions by user-visible value per hour of work. Tie-b
 auto-pick: <N> <title> - <one line: why this beats the other four>
 ```
 
+### Multi-pick (`all`, a list, `--pick all|N,M`)
+
+The operator may take several directions of one menu at once. Run them as **consecutive cycles in the same worktree**, in menu order, each a full Phase 3 -> 4 -> 4.5 -> 5 pass with its own commits and its own short report; no `Next?` menu between them.
+
+- **Gate first, then run unattended.** Judge every picked direction's Phase 3 risk before the first one starts and ask all tripped questions in one batch; after that nothing prompts until the set is done. Headless skips a tripped direction with `blocked: risk gate - <reason>` and runs the rest.
+- **Never the graduation slot** - `all` excludes it; a list naming it records the graduation and runs the others.
+- **Sequential, never concurrent in one worktree.** The cycles share its index, and directions in one area usually share files. A cycle may be delegated to a subagent (one at a time) to keep the directing context lean; the brief carries the direction block, `## Repo law`, the gates, the commit format and the commits already landed this session, and the report it returns is checked before the next cycle starts.
+- **Later cycles build on earlier ones.** A later direction's brief names what earlier cycles changed in shared files, so it reuses rather than redoes (one helper, one threaded parameter).
+- **A failure stops that cycle, not the set.** A cycle that cannot reach a green gate is reverted to its last good commit (Phase 6a rules) and reported `blocked:`; the remaining picks still run when they do not depend on it.
+- After the last one: run the `integration:` gate once over the whole set, print one combined report (one line per cycle: title, commits, standard) followed by the per-cycle `To verify:` lists, then the next `Next?` menu - or Phase 6 when `--cycles` is reached.
+
 ### Present
 
 ```
@@ -260,9 +284,10 @@ Next? (pick a number - Enter = 2)
   5. <Direction D title>
   6. <Direction E title>
   7. refresh - rescan and propose 5 new directions
+  8. all - run 2-6 back to back, one cycle each (or type several numbers: 2 4 5)
 ```
 
-Headless prints the same block (it is the evidence a reviewer reads) followed by the `auto-pick:` or `pick: <N>` line instead of waiting. From cycle 2, replace the scan summary with `Since last cycle: <last commit title>, <files touched>`.
+Headless prints the same block (it is the evidence a reviewer reads) followed by the `auto-pick:`, `pick: <N>` or `pick: all|<N,M>` line instead of waiting. From cycle 2, replace the scan summary with `Since last cycle: <last commit title>, <files touched>`.
 
 ---
 
@@ -381,11 +406,12 @@ Triggered by `--cycles` reached, a stop word, an interrupt, or a context wrap. T
 ## Quick reference
 
 ```
-/friend [area] [goal] [--verify] [--pick N|auto] [--cycles N]
+/friend [area] [goal] [--verify] [--pick N|auto|all|N,M] [--cycles N] [--on <branch>]
   Q1 area / Q2 goal / Q2b verify      asked only when no argument answers them
-  Phase 0  overlay, vault path (lazy), merge learning, collision, worktree, area -> contexts
+  Phase 0  overlay, vault path (lazy), merge learning, collision, worktree (fresh, or continue a pending branch), area -> contexts
   Phase 1  repo law + registry deviations + rejection set + taste, then scan (git log, not mtime)
-  Phase 2  5 directions: files + outcome + standard; one standards slot; rejections filtered
+  Phase 2  5 directions: files + outcome + standard; one standards slot; rejections filtered;
+           pick one, several (2 4 5) or all - several run as consecutive cycles, gated up front
 LOOP:
   Phase 3   silent risk gate (headless: skip or block, never prompt)
   Phase 4   execute -> self-review -> gates -> atomic commit(s)
