@@ -67,6 +67,45 @@ Severity follows the house profile when it defines one (`house.md`, profile
 | `consoleErrors` | errors | down | harness | Console errors and unhandled rejections logged while the harness drives the feature. |
 | `standardsPct` | % | up | judgement | See [standardsPct](#standardspct). |
 
+## performance
+
+The lens is measured before and after a change by the same command, so its numbers are
+only as good as the overlay's probes. Every probe runs against a local production build
+(never a dev server: hot reload and source maps are not what users run), on the place the
+facet's `probeEnv` names; readings from two places are two series.
+
+| Key | Unit | Better | Method | How it is measured |
+| --- | --- | --- | --- | --- |
+| `bundleKb` | KB | down | static | The same reading as development's `bundleKb`: only from the overlay's `bundle_stats` with per-feature chunk attribution, never estimated from source size. Absent without a stats file. |
+| `startupMs` | ms | down | probe | Cold start (fresh process or tab, empty cache) to the first interactive frame of the feature's entry screen. p95 of the probe's samples. |
+| `interactionP95Ms` | ms | down | probe | The feature's main interaction, input to the next paint (the Event Timing duration in a browser; input to the frame presented on a device). p95 of the samples. |
+| `frameP95Ms` | ms | down | probe | Frame time while the feature animates or scrolls through its main flow. p95 of the frame durations. Absent when the feature neither animates nor scrolls. |
+| `memoryMb` | MB | down | probe | Resident memory (a browser: the tab's `performance.measureUserAgentSpecificMemory()` or the JS heap after a forced GC) after one pass of the main flow. Median of the samples; no target in the manifest, a budget is the app's own. |
+
+**A probe** is one named entry under the overlay's `## Probes`: a feature, a metric and a
+command the skill runs in the product root. The command prints one JSON line:
+
+```
+## Probes
+booking-checkout interactionP95Ms: node scripts/probes/interaction.mjs --feature booking-checkout --runs 30
+booking-checkout startupMs: node scripts/probes/startup.mjs --route /book --runs 20
+```
+
+```json
+{"metric":"interactionP95Ms","feature":"booking-checkout","samples":[84.1,91.0,77.3]}
+```
+
+- `samples` are the raw readings in the metric's unit, **20 or more**. Fewer: the metric is
+  unmeasured for the feature (no row, a `note` activity naming the probe and the count).
+- The skill computes the value (p95 by nearest rank; the median for `memoryMb`), never the
+  command, so every probe is summarised the same way.
+- The row is written with `method: probe`; its evidence is the command, verbatim, and the
+  sample count (`node scripts/probes/interaction.mjs --feature booking-checkout --runs 30; n=30`).
+- A `metric` or `feature` in the output that differs from the entry fails the probe: no row.
+- Before and after a change, the same entry runs at the base and at the item's commit; the
+  pair is the comparison. A probe edited between the two breaks the series (say it in the
+  run's note).
+
 ## standardsPct
 
 The share of judged standards the feature conforms to, for one lens:
