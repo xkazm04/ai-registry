@@ -477,7 +477,10 @@ with the lesson here saying why.
   and after (counts lie when siblings run the same suite). stat-reel had no `node_modules`, so
   its fix is honest "fixed, not run". Workers sharing one scratch directory overwrote each
   other's snapshot scripts and two reported a false 0 before re-measuring; give each worker
-  a private scratch subfolder from the start.
+  a private scratch subfolder from the start. The firetv worker found the measurement that
+  beats name diffs: run each suite with `TEMP`, `TMP` and `TMPDIR` pointed at a private empty
+  folder, so everything that appears there is that run's (56 suites, one leak found that a
+  shared-temp diff had buried under a sibling session's concurrent runs). Brief it that way.
 - **The director's own codemod inserted its helper inside a template string** (a test that
   generates a child script with `import` lines), and the first verify run caught it as 7 new
   failures. Insert after the top import block only, and run the suite before believing a diff.
