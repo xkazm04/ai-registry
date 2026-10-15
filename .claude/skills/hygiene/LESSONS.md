@@ -417,3 +417,36 @@ with the lesson here saying why.
   one-day-old v2 redesign, not debris (no age on the row); pumper's 24 local `moonshot/*`
   rows were all strict ancestors of a remote preservation branch and could have been
   classified as contained mechanically (`merge-base --is-ancestor` against remote heads).
+
+## 1.2.0 - 2026-10-15 - disk lane, designed after a 200 GB day
+
+- **The fleet's biggest mess was never in a checkout.** The operator saw ~200 GB appear in a
+  day, with 117 GB left free, while every `git status` looked ordinary. A read-only walk of the drive (17.8 M
+  files, 17 min) put 429 GB of creation-or-write since the day before into: 337 scratch-root
+  folders from one curator night (a project clone per claim, each with its own install,
+  `.next` and cargo `target`; the night removed its registry worktree on landing, never the
+  clone), a 62 GB cargo `incremental/` cache in one checkout (135 crate dirs, one per feature set
+  ever built, 89 untouched for a day), 36 GB of Claude session temp and ~100,000 test-fixture
+  temp dirs (`pumper-server-e2e*` alone 19,147). New lane: `scripts/hygiene-disk.mjs`, its own
+  instrument and plan beside `plan.json`, so the per-checkout scanner stays what it is.
+- **Most "dirty" scratch clones were install noise.** Of 36 clones that were not plainly clean,
+  every kp one differed only by a regenerated `next-env.d.ts`, every systedo one by two untracked
+  husky shims, and four by line endings or whitespace (`git diff --ignore-all-space
+  --ignore-cr-at-eol` empty). The noise list is code (`NOISE`); real WIP stays an operator row.
+- **"Landed" for a clone has to survive another sha.** A curator clone's commit reaches its home
+  repository through an apply flow or a cherry-pick, so ancestry misses it. The lane checks each
+  local commit's `patch-id --stable` against the home's history; one systedo clone was kept on
+  exactly that, its commit found nowhere. The patch-id cache is keyed on the home's ref tips: the
+  first version cached per repository and read a commit that landed mid-run as missing.
+- **The porcelain-trim bug arrived a third time, in the new instrument, and its first test
+  caught it** (` M a.txt` read as `.txt`). The git helper now trims the end only. The one-off
+  cleanup that ran before the lane existed carried the same bug and kept six kp clones it
+  should have deleted: the wrong direction, but the bug is the same one LESSONS named twice.
+- **A recursive delete must never enter a junction.** `scripts/lib/safe-remove.mjs` removes a
+  symlink or junction as a link and clears git's read-only bit; its test plants a real junction
+  (`mklink /J`) to a sentinel tree, and a mutant that follows links fails it. 238 GB of model
+  stores, 102 GB of temp and 110+ GB of scratch clones went through it with 2 errors, both
+  files an open app held (EBUSY).
+- **Fix the process that wrote it, not only the bytes.** The night's own skill (personas
+  `/curator` 1.2.0) now reaps each claim's clones on settle through `hygiene-disk.mjs --reap`,
+  and its workers build with `CARGO_INCREMENTAL=0`. The temp-leak rows name the suites to fix.
