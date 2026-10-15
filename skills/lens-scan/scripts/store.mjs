@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // lens-scan store - the only writer of <repo>/.ai/lens-scan/scan.db, so the agent never writes SQL.
-// The DDL is ../references/store.sql (user_version 1); this script applies it to a fresh file and
-// refuses a file it does not know. Every subcommand prints JSON on stdout; errors go to stderr with
+// The DDL is ../references/store.sql (user_version 2); this script applies it to a fresh file, migrates
+// a v1 file in place (one transaction, on any open, read-only ones included) and refuses a file it does not know. Every subcommand prints JSON on stdout; errors go to stderr with
 // exit 2 (bad input) or 1 (refused by a store rule). NULL columns are never printed.
 //
 //   node store.mjs [--db <path>] <subcommand> [flags]        (--db default .ai/lens-scan/scan.db)
@@ -15,12 +15,21 @@
 //   run-end --run <id> --status done|failed|aborted [--note t]   (--note replaces the note, keeping a bp-job: prefix)
 //   activity --run <id> --kind <k> --text <t> [--feature f] [--lens l]
 //   measure --run <id> --feature f --lens l --metric m --value <num> [--unit u] [--method m] [--evidence e]
-//   measure --run <id> --json <file>          (array of {feature, lens, metric, value, unit?, method?, evidence?})
+//           [--proposal p --phase before|after] [--commit-sha s]
+//   measure --run <id> --json <file>          (array of {feature, lens, metric, value, unit?, method?, evidence?,
+//                                              proposal?, phase?, commit_sha?})
+//             --proposal and --phase go together: the reading is that item's before/after evidence. An `after`
+//             reading is taken on the pack branch, so `latest` and `gaps` never count it as the feature's state.
 //   propose --run <id> --feature f --lens l --title t --kind fix|baseline-upgrade|propagation
 //           [--metric m] [--body-file p] [--standard s] [--expected-delta n] [--size XS..XL] [--risk 1-10] [--parent id]
-//   proposals [--status s] [--feature f] [--kind k] [--ids a,b]   (--ids: those ids only, in that order)
+//   proposals [--status s] [--feature f] [--kind k] [--pack k] [--release rel] [--ids a,b]
+//             (--ids: those ids only, in that order)
 //   proposal-update --id <id> [--status executing|done|failed] [--after-value n] [--result-sha sha]
+//             [--commit-sha sha] [--pack k] [--attempt-of p] [--release rel]
+//             --pack names an open pack; a person's triage moves (accepted, rework, descoped) and `released`
+//             are never proposal-update's
 //   shot --run <id> --feature f --path <rel to store dir> [--size s] [--theme t] [--module m] [--report-file p]
+//        [--proposal p --phase before|after]
 //   coverage --run <id> --feature f --standard s --state conformant|deviation|not-applicable|unknown [--evidence e]
 //   latest [--feature f] [--lens l]           latest measurement per (feature, lens, metric)
 //   gaps --lens l [--structure <app-structure.json>]
@@ -33,6 +42,37 @@
 //             a caller's decision on `proposed` items, recorded as decided_by <kind:name> (`operator:jane`,
 //             `agent:personas`): the door a headless caller uses where no review UI runs. The skill itself
 //             never calls it; drive.mjs calls it only on its caller's --approve-proposed.
+//
+// The release train (v2): execute builds approved items into a pack, a person triages them, a release ships.
+//   pack-create --lens <id> --short <DES> --base-ref <r> --base-sha <s> [--run r]
+//             the next pack of that lens: {id: k-des-<n>, n, branch: pack/des-<n>}, status open
+//   pack-update --pack k --status open|triaged|closed [--from s]
+//             compare-and-set: open->triaged|closed, triaged->open|closed; --from states the status expected
+//   packs [--lens l] [--status s]              packs, each with `items` {status: count}
+//   triage --ids a,b --decision accept|rework|descope --by <kind:name> [--note t]
+//             a person's call on built items, each a compare-and-set: accept done|failed (failed only with a
+//             --note, else skipped `note-required`); rework done|failed|accepted; descope
+//             done|failed|accepted|rework|proposed|approved. An item already in a release that is past draft is
+//             skipped `in-release`; one in a draft release leaves it. A pack none of whose items is executing,
+//             done or failed any more moves open -> triaged in the same transaction.
+//             -> {decision, by, triaged: [ids], skipped: [{id, status, reason?}], packs_triaged: [ids]}
+//   rework-attempt --id <p in rework> --run <running run>
+//             a fresh `approved` copy of the item (attempt_of = it, no pack, sha or after-value, the decision
+//             copied) to rebuild; the old row stays `rework`. One attempt per reworked item. -> {id, attempt_of}
+//   release-create --version 1.4.1 --by <kind:name> [--base-sha s]      a draft rel-1.4.1 on release/1.4.1
+//   release-add --release rel-x --ids a,b
+//             `accepted` items with no release join it, while it is draft or building
+//             -> {release, added: [ids], skipped: [{id, status, reason?}]}
+//   release-update --release rel-x [--status s] [--from s] [--pr-url u] [--tag t] [--notes t] [--error t] [--base-sha s]
+//             compare-and-set: draft->building->pr-open->merged->tagged, any state but tagged ->failed. On
+//             merged -> tagged (tag defaults to v<version>) the release's accepted items become `released` and
+//             every pack whose items are all released, descoped or declined is closed, in one transaction.
+//   releases [--status s]                      releases, newest first
+//   release --id rel-x | release-items --release rel-x
+//             one release with its items | the items alone
+//   compare --ids a,b | --pack k
+//             per item: {proposal, before: [measurements], after: [measurements], shots: [{theme?, size?,
+//             before?, after?}]} - shots paired by (theme, size), the latest capture of each phase. Reads only.
 //
 // Store rules this script owns (SKILL.md and references/metrics.md explain why):
 //  - a measurement is a finite number; an unmeasurable metric gets NO row (never a 0 placeholder);
@@ -49,7 +89,7 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const DDL_PATH = resolve(HERE, '../references/store.sql');
 export const DEFAULT_DB = '.ai/lens-scan/scan.db';
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 
 export const PHASES = ['measure', 'propose', 'execute', 'propagate'];
 export const RUN_END = ['done', 'failed', 'aborted'];
@@ -58,6 +98,20 @@ export const KINDS = ['fix', 'baseline-upgrade', 'propagation'];
 export const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 export const ACTIVITY = ['reading', 'measured', 'proposed', 'executing', 'committed', 'note', 'error'];
 export const COVERAGE = ['conformant', 'deviation', 'not-applicable', 'unknown'];
+export const PHASE = ['before', 'after'];
+export const PACK_STATUS = ['open', 'triaged', 'closed'];
+export const RELEASE_STATUS = ['draft', 'building', 'pr-open', 'merged', 'tagged', 'failed'];
+// a person's triage of a built item: decision -> [target status, the statuses it may come from]
+const TRIAGE = {
+  accept: ['accepted', ['done', 'failed']],
+  rework: ['rework', ['done', 'failed', 'accepted']],
+  descope: ['descoped', ['done', 'failed', 'accepted', 'rework', 'proposed', 'approved']],
+};
+// compare-and-set chains: target -> the statuses it may come from
+const PACK_MOVE = { triaged: ['open'], open: ['triaged'], closed: ['open', 'triaged'] };
+const RELEASE_MOVE = { building: ['draft', 'failed'], 'pr-open': ['building'], merged: ['pr-open'], tagged: ['merged'], failed: ['draft', 'building', 'pr-open', 'merged'] };
+// statuses only a person's triage or a release writes; proposal-update never does
+const NOT_SKILL = ['accepted', 'rework', 'descoped', 'released'];
 // The skill may move an approved item through execution; it may never decide one.
 const SKILL_STATUS = { executing: ['approved'], done: ['executing', 'approved'], failed: ['executing', 'approved'] };
 // A metric key is a lens field key (lens-manifest/1 fieldKey: camelCase).
@@ -93,11 +147,16 @@ export function skillVersion() {
 }
 
 // ------------------------------------------------------------------------------------- open
-/** Opens (and on first use creates) the store. `readOnly` never creates and never migrates. */
+/**
+ * Opens (and on first use creates) the store, migrating an older schema in place. `readOnly` never creates;
+ * it reads an older file only after a short write connection has migrated it, so a reader never sees v1.
+ */
 export function openStore(dbPath = DEFAULT_DB, { readOnly = false } = {}) {
   if (readOnly) {
     if (!existsSync(dbPath)) return null;
-    const db = new DatabaseSync(dbPath, { readOnly: true });
+    let db = new DatabaseSync(dbPath, { readOnly: true });
+    const v = db.prepare('PRAGMA user_version').get().user_version;
+    if (v > 0 && v < SCHEMA_VERSION) { db.close(); openStore(dbPath).close(); db = new DatabaseSync(dbPath, { readOnly: true }); }
     assertVersion(db, dbPath);
     return db;
   }
@@ -117,8 +176,37 @@ export function openStore(dbPath = DEFAULT_DB, { readOnly = false } = {}) {
       db.exec('COMMIT');
     } catch (e) { db.exec('ROLLBACK'); throw e; }
   }
+  if (db.prepare('PRAGMA user_version').get().user_version === 1) migrateV1(db);
   assertVersion(db, dbPath);
   return db;
+}
+
+/**
+ * v1 -> v2 in place, in one IMMEDIATE transaction that re-reads the version (a second opener finds v2 and does
+ * nothing). SQLite cannot widen a CHECK, so proposals is renamed aside, the v2 DDL creates the new proposals
+ * (and packs, releases, the new indexes) and every row is copied; measurements and shots gain their columns
+ * by ALTER first, so the DDL's CREATE IF NOT EXISTS finds them already in their v2 shape. Old rows get NULL.
+ */
+function migrateV1(db) {
+  const fk = db.prepare('PRAGMA foreign_keys').get().foreign_keys;
+  if (fk) db.exec('PRAGMA foreign_keys = OFF'); // a no-op inside a transaction, so set before BEGIN
+  db.exec('BEGIN IMMEDIATE');
+  try {
+    if (db.prepare('PRAGMA user_version').get().user_version === 1) {
+      const cols = db.prepare('PRAGMA table_info(proposals)').all().map((c) => `"${c.name}"`).join(', ');
+      db.exec(`DROP INDEX IF EXISTS proposals_updated;
+        ALTER TABLE proposals RENAME TO proposals_v1;
+        ALTER TABLE measurements ADD COLUMN proposal_id TEXT;
+        ALTER TABLE measurements ADD COLUMN phase TEXT CHECK (phase IN ('before', 'after'));
+        ALTER TABLE measurements ADD COLUMN commit_sha TEXT;
+        ALTER TABLE shots ADD COLUMN proposal_id TEXT;
+        ALTER TABLE shots ADD COLUMN phase TEXT CHECK (phase IN ('before', 'after'));`);
+      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets user_version = 2
+      // copied as they are: a v1 row's references are its own business, the migration neither checks nor fixes them
+      db.exec(`INSERT INTO proposals (${cols}) SELECT ${cols} FROM proposals_v1; DROP TABLE proposals_v1;`);
+    }
+    db.exec('COMMIT');
+  } catch (e) { db.exec('ROLLBACK'); throw e; } finally { if (fk) db.exec('PRAGMA foreign_keys = ON'); }
 }
 function sleepSync(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); }
 function assertVersion(db, dbPath) {
@@ -225,8 +313,8 @@ export function measure(db, run, rows) {
   const list = Array.isArray(rows) ? rows : [rows];
   if (!list.length) bad('nothing to measure');
   const at = now();
-  const ins = db.prepare(`INSERT INTO measurements (run_id, feature, lens, metric, value, unit, method, evidence, measured_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`);
+  const ins = db.prepare(`INSERT INTO measurements (run_id, feature, lens, metric, value, unit, method, evidence, measured_at, proposal_id, phase, commit_sha)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
   const ids = [];
   db.exec('BEGIN');
   try {
@@ -236,13 +324,27 @@ export function measure(db, run, rows) {
       if (m.method !== undefined) oneOf('method', m.method, METHODS);
       const value = num('value', m.value);
       if (value === undefined) bad('--value is required');
-      const r = ins.run(id, need('feature', m.feature), need('lens', m.lens), metric, value, m.unit ?? null, m.method ?? null, m.evidence ?? null, at);
+      const link = linkage(db, m.proposal ?? m.proposal_id, m.phase);
+      const sha = m.commitSha ?? m.commit_sha;
+      if (sha !== undefined) need('commit-sha', sha);
+      const r = ins.run(id, need('feature', m.feature), need('lens', m.lens), metric, value, m.unit ?? null, m.method ?? null, m.evidence ?? null, at,
+        link.proposal ?? null, link.phase ?? null, sha ?? null);
       ids.push(Number(r.lastInsertRowid));
     }
     touchRun(db, id, at);
     db.exec('COMMIT');
   } catch (e) { db.exec('ROLLBACK'); throw e; }
   return { ids, measured_at: at };
+}
+
+/** A before/after link to one proposal: both or neither, the proposal must exist. */
+function linkage(db, proposal, phase) {
+  if (proposal === undefined && phase === undefined) return {};
+  if (proposal === undefined || phase === undefined) bad('--proposal and --phase go together: a before/after reading belongs to one item');
+  oneOf('phase', phase, PHASE);
+  const id = need('proposal', proposal);
+  if (!db.prepare('SELECT 1 FROM proposals WHERE id = ?').get(id)) refuse(`proposal ${id} does not exist`);
+  return { proposal: id, phase };
 }
 
 export function propose(db, o = {}) {
@@ -274,9 +376,11 @@ export function propose(db, o = {}) {
 
 /** Proposals by status, feature, kind; `ids` (array or comma list) keeps those ids only, in the order
  *  given - an id that is not in the result does not exist. */
-export function proposals(db, { status, feature, kind, ids } = {}) {
+export function proposals(db, { status, feature, kind, ids, pack, release } = {}) {
   const where = [], args = [];
   if (status !== undefined) { where.push('status = ?'); args.push(status); }
+  if (pack !== undefined) { where.push('pack_id = ?'); args.push(pack); }
+  if (release !== undefined) { where.push('release_id = ?'); args.push(release); }
   if (feature !== undefined) { where.push('feature = ?'); args.push(feature); }
   if (kind !== undefined) { where.push('kind = ?'); args.push(kind); }
   let order;
@@ -291,34 +395,52 @@ export function proposals(db, { status, feature, kind, ids } = {}) {
   return order ? rows.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id)) : rows;
 }
 
-export function proposalUpdate(db, { id, status, afterValue, resultSha } = {}) {
+export function proposalUpdate(db, { id, status, afterValue, resultSha, commitSha, pack, attemptOf, release } = {}) {
   const p = db.prepare('SELECT * FROM proposals WHERE id = ?').get(need('id', id));
   if (!p) refuse(`proposal ${id} does not exist`);
   if (status === 'approved' || status === 'declined') refuse(`'${status}' is a human decision the review UI records; the skill never decides a proposal`);
+  if (NOT_SKILL.includes(status)) refuse(`'${status}' is a person's triage or a release's move (triage, release-update); the skill never writes it`);
   if (status !== undefined) {
     oneOf('status', status, Object.keys(SKILL_STATUS));
     if (!SKILL_STATUS[status].includes(p.status)) refuse(`proposal ${id} is ${p.status}; it cannot move to ${status}`);
   }
   const after = num('after-value', afterValue);
-  if (status === undefined && after === undefined && resultSha === undefined) bad('nothing to update (--status, --after-value, --result-sha)');
+  for (const [k, v] of [['result-sha', resultSha], ['commit-sha', commitSha], ['pack', pack], ['attempt-of', attemptOf], ['release', release]]) if (v !== undefined) need(k, v);
+  if (pack !== undefined) {
+    const k = db.prepare('SELECT status FROM packs WHERE id = ?').get(pack);
+    if (!k) refuse(`pack ${pack} does not exist`);
+    if (k.status !== 'open') refuse(`pack ${pack} is ${k.status}; items join an open pack only`);
+  }
+  if (attemptOf !== undefined) {
+    if (attemptOf === p.id) bad('--attempt-of names the previous attempt, not the item itself');
+    if (!db.prepare('SELECT 1 FROM proposals WHERE id = ?').get(attemptOf)) refuse(`proposal ${attemptOf} does not exist`);
+  }
+  if (release !== undefined && !db.prepare('SELECT 1 FROM releases WHERE id = ?').get(release)) refuse(`release ${release} does not exist`);
+  if ([status, after, resultSha, commitSha, pack, attemptOf, release].every((v) => v === undefined)) {
+    bad('nothing to update (--status, --after-value, --result-sha, --commit-sha, --pack, --attempt-of, --release)');
+  }
   // compare-and-set on the status read above: a second executor that read the same `approved` row loses here
   const r = db.prepare(`UPDATE proposals SET status = COALESCE(?, status), after_value = COALESCE(?, after_value),
-    result_sha = COALESCE(?, result_sha), updated_at = ? WHERE id = ? AND status = ?`).run(status ?? null, after ?? null, resultSha ?? null, now(), p.id, p.status);
+    result_sha = COALESCE(?, result_sha), commit_sha = COALESCE(?, commit_sha), pack_id = COALESCE(?, pack_id),
+    attempt_of = COALESCE(?, attempt_of), release_id = COALESCE(?, release_id), updated_at = ? WHERE id = ? AND status = ?`)
+    .run(status ?? null, after ?? null, resultSha ?? null, commitSha ?? null, pack ?? null, attemptOf ?? null, release ?? null, now(), p.id, p.status);
   if (r.changes === 0) refuse(`proposal ${id} moved on while this update ran (it was ${p.status}); someone else holds it`);
-  return clean(db.prepare('SELECT * FROM proposals WHERE id = ?').get(p.id));
+  return getProposal(db, p.id);
 }
+const getProposal = (db, id) => clean(db.prepare('SELECT * FROM proposals WHERE id = ?').get(id));
 
-export function shot(db, { run, feature, path, size, theme, module, report, reportFile } = {}) {
+export function shot(db, { run, feature, path, size, theme, module, report, reportFile, proposal, phase } = {}) {
   const id = liveRun(db, run);
   const rel = need('path', path).replace(/\\/g, '/');
   if (isAbsolute(rel) || /^[A-Za-z]:/.test(rel) || normalize(rel).replace(/\\/g, '/').split('/').includes('..')) bad(`--path is relative to the store dir and stays inside it (got ${JSON.stringify(path)})`);
+  const link = linkage(db, proposal, phase);
   let rep = report;
   if (rep === undefined && reportFile !== undefined) {
     try { rep = JSON.parse(readFileSync(reportFile, 'utf8')); } catch (e) { bad(`--report-file is not readable JSON (${e.message})`); }
   }
   const at = now();
-  const r = db.prepare('INSERT INTO shots (run_id, feature, path, size, theme, harness_module, captured_at, report) VALUES (?, ?, ?, ?, ?, ?, ?, ?)')
-    .run(id, need('feature', feature), rel, size ?? null, theme ?? null, module ?? null, at, rep === undefined ? null : JSON.stringify(rep));
+  const r = db.prepare('INSERT INTO shots (run_id, feature, path, size, theme, harness_module, captured_at, report, proposal_id, phase) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)')
+    .run(id, need('feature', feature), rel, size ?? null, theme ?? null, module ?? null, at, rep === undefined ? null : JSON.stringify(rep), link.proposal ?? null, link.phase ?? null);
   touchRun(db, id, at);
   return { id: Number(r.lastInsertRowid) };
 }
@@ -336,14 +458,17 @@ export function coverage(db, { run, feature, standard: std, state, evidence } = 
   return clean(db.prepare('SELECT * FROM coverage WHERE feature = ? AND standard = ?').get(feature, s));
 }
 
-/** The latest measurement per (feature, lens, metric): newest measured_at, then newest id. */
+/**
+ * The latest measurement per (feature, lens, metric): newest measured_at, then newest id. An item's `after`
+ * reading is taken on its pack branch, not the product's main line, so it never counts here.
+ */
 export function latest(db, { feature, lens } = {}) {
-  const where = [], args = [];
+  const where = ["(phase IS NULL OR phase = 'before')"], args = [];
   if (feature !== undefined) { where.push('feature = ?'); args.push(feature); }
   if (lens !== undefined) { where.push('lens = ?'); args.push(lens); }
   const sql = `SELECT id, run_id, feature, lens, metric, value, unit, method, evidence, measured_at FROM (
       SELECT *, ROW_NUMBER() OVER (PARTITION BY feature, lens, metric ORDER BY measured_at DESC, id DESC) AS rn FROM measurements
-      ${where.length ? `WHERE ${where.join(' AND ')}` : ''}) WHERE rn = 1 ORDER BY feature, lens, metric`;
+      WHERE ${where.join(' AND ')}) WHERE rn = 1 ORDER BY feature, lens, metric`;
   return db.prepare(sql).all(...args).map(clean);
 }
 
@@ -370,6 +495,252 @@ export function decide(db, { ids, decision, by, note } = {}) {
     skipped.push({ id, status: p ? p.status : 'not-found' });
   }
   return { decision: to, by: who, decided, skipped };
+}
+
+// ------------------------------------------------------------------------------------- the release train (v2)
+const by = (v) => {
+  const who = need('by', v);
+  if (!DECIDER_RE.test(who)) bad(`--by names who decides as <kind>:<name>, e.g. operator:jane or agent:personas (got ${JSON.stringify(who)})`);
+  return who;
+};
+/** Runs `fn` in one IMMEDIATE transaction: every compare-and-set in it and its side effects land together. */
+function tx(db, fn) {
+  db.exec('BEGIN IMMEDIATE');
+  try { const out = fn(); db.exec('COMMIT'); return out; } catch (e) { db.exec('ROLLBACK'); throw e; }
+}
+const getPack = (db, id) => clean(db.prepare('SELECT * FROM packs WHERE id = ?').get(id));
+const getRelease = (db, id) => clean(db.prepare('SELECT * FROM releases WHERE id = ?').get(id));
+const SHORT_RE = /^[A-Za-z][A-Za-z0-9]*$/;
+const VERSION_RE = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
+
+/** Moves each pack open -> triaged once none of its items is executing, done or failed any more. */
+function settlePacks(db, packIds, at) {
+  const moved = [];
+  for (const k of new Set(packIds)) {
+    const left = db.prepare(`SELECT COUNT(*) AS n, SUM(status IN ('executing', 'done', 'failed')) AS busy FROM proposals WHERE pack_id = ?`).get(k);
+    if (!left.n || left.busy) continue;
+    if (db.prepare("UPDATE packs SET status = 'triaged', updated_at = ? WHERE id = ? AND status = 'open'").run(at, k).changes) moved.push(k);
+  }
+  return moved;
+}
+
+/** The next pack of a lens: n is one past the lens's highest, allocated inside the write transaction. */
+export function packCreate(db, { lens, short, baseRef, baseSha, run } = {}) {
+  const l = need('lens', lens);
+  const sh = need('short', short);
+  if (!SHORT_RE.test(sh)) bad(`--short is a letter then letters or digits, e.g. DES (got ${JSON.stringify(sh)})`);
+  const ref = need('base-ref', baseRef), sha = need('base-sha', baseSha);
+  if (run !== undefined && !db.prepare('SELECT 1 FROM runs WHERE id = ?').get(need('run', run))) refuse(`run ${run} does not exist`);
+  return tx(db, () => {
+    const n = db.prepare('SELECT COALESCE(MAX(n), 0) + 1 AS n FROM packs WHERE lens = ?').get(l).n;
+    const s = sh.toLowerCase(), id = `k-${s}-${n}`, branch = `pack/${s}-${n}`;
+    const taken = db.prepare('SELECT lens FROM packs WHERE id = ?').get(id);
+    if (taken) refuse(`pack ${id} already belongs to lens ${taken.lens}; give lens ${l} a short of its own`);
+    const at = now();
+    db.prepare(`INSERT INTO packs (id, lens, n, branch, base_ref, base_sha, run_id, status, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, 'open', ?, ?)`).run(id, l, n, branch, ref, sha, run ?? null, at, at);
+    return { id, n, branch };
+  });
+}
+
+/** A pack's status, compare-and-set on the status read (or on --from, when the caller states it). */
+export function packUpdate(db, { pack, status, from } = {}) {
+  const id = need('pack', pack);
+  oneOf('status', status, PACK_STATUS);
+  if (from !== undefined) oneOf('from', from, PACK_STATUS);
+  const cur = db.prepare('SELECT status FROM packs WHERE id = ?').get(id);
+  if (!cur) refuse(`pack ${id} does not exist`);
+  const expect = from ?? cur.status;
+  if (!PACK_MOVE[status].includes(expect)) refuse(`pack ${id}: ${expect} cannot move to ${status}`);
+  if (!db.prepare('UPDATE packs SET status = ?, updated_at = ? WHERE id = ? AND status = ?').run(status, now(), id, expect).changes) {
+    refuse(`pack ${id} is ${cur.status}, not ${expect}; it moved on`);
+  }
+  return getPack(db, id);
+}
+
+/** Packs, oldest first, each with its items counted by status. */
+export function packs(db, { lens, status } = {}) {
+  const where = [], args = [];
+  if (lens !== undefined) { where.push('lens = ?'); args.push(lens); }
+  if (status !== undefined) { where.push('status = ?'); args.push(status); }
+  const rows = db.prepare(`SELECT * FROM packs${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY created_at, lens, n`).all(...args).map(clean);
+  const count = db.prepare('SELECT status, COUNT(*) AS n FROM proposals WHERE pack_id = ? GROUP BY status');
+  for (const k of rows) k.items = Object.fromEntries(count.all(k.id).map((r) => [r.status, r.n]));
+  return rows;
+}
+
+/**
+ * A person's triage of built items (see the header), each a compare-and-set on the status it read. Refused
+ * moves land in `skipped` with the item's status, and a `reason` where the status alone does not say why.
+ */
+export function triage(db, { ids, decision, by: who, note } = {}) {
+  const list = [...new Set(listOf(need('ids', ids)))];
+  oneOf('decision', decision, Object.keys(TRIAGE));
+  const person = by(who);
+  if (note !== undefined && typeof note !== 'string') bad('--note needs a text');
+  const text = typeof note === 'string' && note.trim() ? note : undefined;
+  const [to, from] = TRIAGE[decision];
+  return tx(db, () => {
+    const at = now();
+    const triaged = [], skipped = [], touched = [];
+    const read = db.prepare('SELECT p.status, p.pack_id, p.release_id, r.status AS rel FROM proposals p LEFT JOIN releases r ON r.id = p.release_id WHERE p.id = ?');
+    const upd = db.prepare(`UPDATE proposals SET status = ?, triaged_by = ?, triaged_at = ?, triage_note = ?, updated_at = ?,
+      release_id = CASE WHEN ? THEN NULL ELSE release_id END WHERE id = ? AND status = ?`);
+    for (const id of list) {
+      const p = read.get(id);
+      if (!p) { skipped.push({ id, status: 'not-found' }); continue; }
+      if (!from.includes(p.status)) { skipped.push({ id, status: p.status }); continue; }
+      if (decision === 'accept' && p.status === 'failed' && !text) { skipped.push({ id, status: p.status, reason: 'note-required' }); continue; }
+      // leaving `accepted` takes the item out of its release while that is still a draft, never later
+      const leaves = decision !== 'accept' && p.release_id !== null;
+      if (leaves && p.rel !== 'draft') { skipped.push({ id, status: p.status, reason: 'in-release' }); continue; }
+      if (!upd.run(to, person, at, text ?? null, at, leaves ? 1 : 0, id, p.status).changes) { skipped.push({ id, status: read.get(id).status }); continue; }
+      triaged.push(id);
+      if (p.pack_id) touched.push(p.pack_id);
+    }
+    return { decision: to, by: person, triaged, skipped, packs_triaged: settlePacks(db, touched, at) };
+  });
+}
+
+/** A rebuild of a reworked item: a fresh `approved` copy that names it in attempt_of (see the header). */
+export function reworkAttempt(db, { id, run } = {}) {
+  const pid = need('id', id);
+  const r = liveRun(db, run);
+  return tx(db, () => {
+    const p = db.prepare('SELECT status FROM proposals WHERE id = ?').get(pid);
+    if (!p) refuse(`proposal ${pid} does not exist`);
+    if (p.status !== 'rework') refuse(`proposal ${pid} is ${p.status}; only an item triaged rework is rebuilt`);
+    const next = db.prepare('SELECT id FROM proposals WHERE attempt_of = ?').get(pid);
+    if (next) refuse(`proposal ${pid} already has its rebuild, ${next.id}`);
+    const at = now();
+    let nid;
+    for (let i = 0; i < 8 && (!nid || db.prepare('SELECT 1 FROM proposals WHERE id = ?').get(nid)); i += 1) nid = proposalId();
+    db.prepare(`INSERT INTO proposals (id, run_id, feature, lens, metric, title, body, standard, expected_delta, size, risk, kind, parent_id,
+        status, decided_by, decided_at, decision_note, created_at, updated_at, attempt_of)
+      SELECT ?, ?, feature, lens, metric, title, body, standard, expected_delta, size, risk, kind, parent_id,
+        'approved', decided_by, decided_at, decision_note, ?, ?, id FROM proposals WHERE id = ?`).run(nid, r, at, at, pid);
+    touchRun(db, r, at);
+    return { id: nid, attempt_of: pid };
+  });
+}
+
+export function releaseCreate(db, { version, by: who, baseSha } = {}) {
+  const v = need('version', version);
+  if (!VERSION_RE.test(v)) bad(`--version is semver without the v, e.g. 1.4.1 (got ${JSON.stringify(v)})`);
+  const person = by(who);
+  if (baseSha !== undefined) need('base-sha', baseSha);
+  const id = `rel-${v}`;
+  return tx(db, () => {
+    if (db.prepare('SELECT 1 FROM releases WHERE id = ? OR version = ?').get(id, v)) refuse(`release ${v} already exists`);
+    const at = now();
+    db.prepare(`INSERT INTO releases (id, version, branch, base_sha, status, created_by, created_at, updated_at)
+      VALUES (?, ?, ?, ?, 'draft', ?, ?, ?)`).run(id, v, `release/${v}`, baseSha ?? null, person, at, at);
+    return getRelease(db, id);
+  });
+}
+
+/** Accepted items with no release join this one, while it is draft or building; each a compare-and-set. */
+export function releaseAdd(db, { release, ids } = {}) {
+  const rid = need('release', release);
+  const list = [...new Set(listOf(need('ids', ids)))];
+  return tx(db, () => {
+    const rel = db.prepare('SELECT status FROM releases WHERE id = ?').get(rid);
+    if (!rel) refuse(`release ${rid} does not exist`);
+    if (rel.status !== 'draft' && rel.status !== 'building') refuse(`release ${rid} is ${rel.status}; items join a draft or building release only`);
+    const at = now();
+    const added = [], skipped = [];
+    const upd = db.prepare("UPDATE proposals SET release_id = ?, updated_at = ? WHERE id = ? AND status = 'accepted' AND release_id IS NULL");
+    for (const id of list) {
+      if (upd.run(rid, at, id).changes) { added.push(id); continue; }
+      const p = db.prepare('SELECT status, release_id FROM proposals WHERE id = ?').get(id);
+      if (!p) skipped.push({ id, status: 'not-found' });
+      else if (p.release_id !== null) skipped.push({ id, status: p.status, reason: p.release_id === rid ? 'already-in' : 'in-release' });
+      else skipped.push({ id, status: p.status });
+    }
+    if (added.length) db.prepare('UPDATE releases SET updated_at = ? WHERE id = ?').run(at, rid);
+    return { release: rid, added, skipped };
+  });
+}
+
+/**
+ * A release's status and fields, compare-and-set on the status read (or --from). merged -> tagged ships it:
+ * its accepted items become `released` and every pack left with only released, descoped or declined items closes.
+ */
+export function releaseUpdate(db, { release, status, from, prUrl, tag, notes, error, baseSha } = {}) {
+  const rid = need('release', release);
+  if (status !== undefined) oneOf('status', status, RELEASE_STATUS);
+  if (from !== undefined) oneOf('from', from, RELEASE_STATUS);
+  const fields = { pr_url: prUrl, tag, notes, error, base_sha: baseSha };
+  for (const [k, v] of Object.entries(fields)) if (v !== undefined) need(k.replace('_', '-'), v);
+  if (status === undefined && Object.values(fields).every((v) => v === undefined)) bad('nothing to update (--status, --pr-url, --tag, --notes, --error, --base-sha)');
+  return tx(db, () => {
+    const cur = db.prepare('SELECT status, version FROM releases WHERE id = ?').get(rid);
+    if (!cur) refuse(`release ${rid} does not exist`);
+    const expect = from ?? cur.status;
+    if (status !== undefined && !RELEASE_MOVE[status]?.includes(expect)) refuse(`release ${rid}: ${expect} cannot move to ${status}`);
+    if (status === 'tagged' && fields.tag === undefined) fields.tag = `v${cur.version}`;
+    const at = now();
+    const r = db.prepare(`UPDATE releases SET status = COALESCE(?, status), pr_url = COALESCE(?, pr_url), tag = COALESCE(?, tag), notes = COALESCE(?, notes),
+      error = COALESCE(?, error), base_sha = COALESCE(?, base_sha), updated_at = ? WHERE id = ? AND status = ?`)
+      .run(status ?? null, fields.pr_url ?? null, fields.tag ?? null, fields.notes ?? null, fields.error ?? null, fields.base_sha ?? null, at, rid, expect);
+    if (!r.changes) refuse(`release ${rid} is ${cur.status}, not ${expect}; it moved on`);
+    const out = getRelease(db, rid);
+    if (status === 'tagged') {
+      const items = db.prepare("SELECT id, pack_id FROM proposals WHERE release_id = ? AND status = 'accepted'").all(rid);
+      db.prepare("UPDATE proposals SET status = 'released', updated_at = ? WHERE release_id = ? AND status = 'accepted'").run(at, rid);
+      out.released = items.map((p) => p.id);
+      out.packs_closed = [];
+      const left = db.prepare("SELECT COUNT(*) AS n FROM proposals WHERE pack_id = ? AND status NOT IN ('released', 'descoped', 'declined')");
+      const close = db.prepare("UPDATE packs SET status = 'closed', updated_at = ? WHERE id = ? AND status IN ('open', 'triaged')");
+      for (const k of new Set(items.map((p) => p.pack_id).filter(Boolean))) if (!left.get(k).n && close.run(at, k).changes) out.packs_closed.push(k);
+    }
+    return out;
+  });
+}
+
+export function releases(db, { status } = {}) {
+  if (status !== undefined) oneOf('status', status, RELEASE_STATUS);
+  return db.prepare(`SELECT * FROM releases${status !== undefined ? ' WHERE status = ?' : ''} ORDER BY created_at DESC, id DESC`)
+    .all(...(status !== undefined ? [status] : [])).map(clean);
+}
+/** A release's items (proposals rows). */
+export function releaseItems(db, { release } = {}) {
+  const rid = need('release', release);
+  if (!db.prepare('SELECT 1 FROM releases WHERE id = ?').get(rid)) refuse(`release ${rid} does not exist`);
+  return proposals(db, { release: rid });
+}
+/** One release with its items. */
+export function releaseGet(db, { id } = {}) {
+  const rid = need('id', id);
+  const rel = getRelease(db, rid);
+  if (!rel) refuse(`release ${rid} does not exist`);
+  return { ...rel, items: proposals(db, { release: rid }) };
+}
+
+/**
+ * Per item, its before/after evidence: the proposal, its before and after measurements, and its shots
+ * paired by (theme, size) - the latest capture of each phase. Unknown ids are absent, as in `proposals --ids`.
+ */
+export function compare(db, { ids, pack } = {}) {
+  if ((ids === undefined) === (pack === undefined)) bad('compare reads --ids a,b or --pack k (one of them)');
+  let items;
+  if (pack !== undefined) {
+    if (!db.prepare('SELECT 1 FROM packs WHERE id = ?').get(need('pack', pack))) refuse(`pack ${pack} does not exist`);
+    items = proposals(db, { pack });
+  } else items = proposals(db, { ids });
+  const ms = db.prepare('SELECT * FROM measurements WHERE proposal_id = ? AND phase = ? ORDER BY lens, metric, measured_at, id');
+  const ss = db.prepare('SELECT * FROM shots WHERE proposal_id = ? AND phase IS NOT NULL ORDER BY captured_at, id');
+  return items.map((p) => {
+    const pairs = new Map();
+    for (const s of ss.all(p.id)) {
+      const k = JSON.stringify([s.theme, s.size]);
+      if (!pairs.has(k)) pairs.set(k, clean({ theme: s.theme, size: s.size }));
+      const row = clean(s);
+      if (row.report) row.report = JSON.parse(row.report);
+      pairs.get(k)[s.phase] = row; // ordered by capture: the latest of each phase wins
+    }
+    return { proposal: p, before: ms.all(p.id, 'before').map(clean), after: ms.all(p.id, 'after').map(clean), shots: [...pairs.values()] };
+  });
 }
 
 /** One lens of an app-structure file: its metric keys in manifest order, the feature slugs, the structure's date. */
@@ -467,7 +838,8 @@ export function main(argv) {
         if (a.json !== undefined) {
           try { rows = JSON.parse(readFileSync(String(a.json), 'utf8')); } catch (e) { bad(`--json is not readable JSON (${e.message})`); }
           if (!Array.isArray(rows)) bad('--json holds an array of measurements');
-        } else rows = { feature: a.feature, lens: a.lens, metric: a.metric, value: a.value, unit: a.unit, method: a.method, evidence: a.evidence };
+        } else rows = { feature: a.feature, lens: a.lens, metric: a.metric, value: a.value, unit: a.unit, method: a.method, evidence: a.evidence,
+          proposal: a.proposal, phase: a.phase, commitSha: a.commitSha };
         const r = measure(db, a.run, rows);
         const list = Array.isArray(rows) ? rows : [rows];
         const feats = [...new Set(list.map((m) => m.feature))];
@@ -488,6 +860,18 @@ export function main(argv) {
       case 'latest': return latest(db, a);
       case 'gaps': return gaps(db, { lens: a.lens, structure: typeof a.structure === 'string' ? a.structure : join(dirname(typeof a.db === 'string' ? a.db : DEFAULT_DB), 'app-structure.json') });
       case 'decide': return decide(db, a);
+      case 'triage': return triage(db, a);
+      case 'rework-attempt': return reworkAttempt(db, a);
+      case 'pack-create': return packCreate(db, a);
+      case 'pack-update': return packUpdate(db, a);
+      case 'packs': return packs(db, a);
+      case 'release-create': return releaseCreate(db, a);
+      case 'release-add': return releaseAdd(db, a);
+      case 'release-update': return releaseUpdate(db, a);
+      case 'releases': return releases(db, a);
+      case 'release': return releaseGet(db, a);
+      case 'release-items': return releaseItems(db, a);
+      case 'compare': return compare(db, a);
       default: bad(`unknown subcommand ${JSON.stringify(cmd)} - run with --help`);
     }
   } finally { db.close(); }

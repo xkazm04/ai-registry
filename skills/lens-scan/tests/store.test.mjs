@@ -20,7 +20,7 @@ const cli = (db, ...args) => JSON.parse(execFileSync(process.execPath, [SCRIPT, 
 test('round trip: init, run, measure, propose, update, latest - and no nulls in any output', () => {
   const path = tmpDb();
   const db = openStore(path);
-  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 1);
+  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 2);
   const { id: run } = runStart(db, { phase: 'measure', lenses: 'development,security', scope: '{"feature":["a"]}' });
   assert.match(run, /^r-\d{14}-[0-9a-f]{4}$/);
 
@@ -91,7 +91,7 @@ test('refusals: no placeholder values, no writes into an ended run, no self-appr
 
 test('cli: JSON on stdout, bulk --json, exit 2 on bad input', () => {
   const db = tmpDb();
-  assert.equal(cli(db, 'init').user_version, 1);
+  assert.equal(cli(db, 'init').user_version, 2);
   const { id: run } = cli(db, 'run-start', '--phase', 'measure', '--lenses', 'development');
   const bulk = join(mkdtempSync(join(tmpdir(), 'lens-scan-bulk-')), 'm.json');
   writeFileSync(bulk, JSON.stringify([{ feature: 'a', lens: 'development', metric: 'files', value: 3 }, { feature: 'a', lens: 'development', metric: 'loc', value: -0 }]));
