@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.5.3
+version: 1.5.4
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -377,6 +377,9 @@ recorded `failed` with the reason.
   the store dir as `shots/<run>/<p>-before/<feature>-<theme>-<size>.png`, then
   `shot --run <run> --feature <f> --path <that path> --theme <t> --size <s> --module harness.py
   --report-file <its json> --proposal <p> --phase before`. The after shots the same way, `-after`.
+  Shoot a worktree on a port no other server holds: `--port <free port>`. harness.py refuses
+  (exit 1) when the url already answers before its command starts, because another session's
+  server on the overlay's port would answer for it and every shot would show that checkout.
 - **Performance lens**: run the overlay's `## Probes` entry for the metric at the base, the
   method in [metrics.md](references/metrics.md#probes) (the skill computes p95 from 20+
   samples; the same entry at the base and the commit).
@@ -602,7 +605,9 @@ features:
 (Python Playwright; its docstring is the reference) captures `shots/<run>/<feature>-<theme>-<size>.png`
 and prints `shots` (-> `store.mjs shot --report-file`), `measurements` (`minTextPx`,
 `consoleErrors` -> `measure --json`) and `unscreenable` (marked so, or a navigation error,
-HTTP error or blank body -> the note). It always kills the command's process tree.
+HTTP error or blank body -> the note). It always kills the command's process tree. It refuses when the url
+already answers before the command starts (another server holds the port); `--port <n>` serves
+elsewhere. A `steps` feature whose first step is `goto /path` starts there instead of at `/`.
 
 ---
 

@@ -65,6 +65,10 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
   No assertion changed; with the three registry script tests fixed the same way, the ten files
   pass 90/90 before and after and leave nothing behind (81 dirs before).
 
+## 1.5.3 - 2026-10-15 - bp (athena design pack k-des-2)
+- Another session's `pnpm dev` held Athena's harness port (1431) and served the main checkout. `vite --strictPort` died quietly, the ready poll was answered by that server, and k-des-1's backfilled before/after shots all showed main: identical pairs that read as "the item changed nothing visible". 1.5.4: harness.py refuses when the url answers before its command starts, and `--port` serves a worktree elsewhere.
+- harness.py's `steps` form always loaded `/` first; Athena's preview answers 404 there, so a topic page plus a click needed a one-off script. A `steps` feature that opens with `goto /path` now starts there.
+
 ## 1.5.2 - 2026-10-15 - bp (athena design pack k-des-1)
 - The first design pack built 6 items that each moved `undesignedStates` and took no screenshots: the shot rule said "a metric the harness measures", and a judged metric is not one. The person triaging design looks at screens, so 1.5.3 shoots every design item's feature whenever the harness can render it.
 - The first performance measure read frameP95Ms 16.8 ms on every scene: a headless browser's frame interval is the display's, so a smooth page sits at the floor and no fix can show. 1.5.2 added blockingMs, jankFrames and idleWakeups (per-pass totals with headroom).

@@ -62,3 +62,28 @@ test('harness: bad overlays exit 2 with the reason', { skip: !PY && 'no python o
   const none = mkdtempTracked(join(tmpdir(), 'lens-scan-harness-'));
   assert.equal(harness(none).status, 2, 'no overlay');
 });
+
+test('harness refuses when the url already answers before its command starts (another checkout would be shot)', { skip: !PY && 'no python on PATH' }, async () => {
+  const { createServer } = await import('node:http');
+  const srv = createServer((_, res) => res.end('other checkout')).listen(0, '127.0.0.1');
+  await new Promise((r) => srv.once('listening', r));
+  const port = srv.address().port;
+  try {
+    const root = overlay(`command: python -c "pass" --port ${port}
+url: http://127.0.0.1:${port}
+ready: /
+features:
+  home: route /
+`);
+    const r = await new Promise((resolve) => {
+      import('node:child_process').then(({ spawn }) => {
+        const c = spawn(PY, ['-I', SCRIPT, '--root', root, '--run', 'r-20261014000000-abcd'], { encoding: 'utf8' });
+        let out = '';
+        c.stdout.on('data', (d) => (out += d));
+        c.on('close', (status) => resolve({ status, out }));
+      });
+    });
+    assert.equal(r.status, 1);
+    assert.match(JSON.parse(r.out).error, /already answers before the command started/);
+  } finally { srv.close(); }
+});
