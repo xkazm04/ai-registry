@@ -149,6 +149,9 @@ To inspect first:
   git diff {base_branch}...worktree-{slug}
 To discard:
   git worktree remove {worktree_dir}/{slug} && git branch -D worktree-{slug}
+{when 0d linked dependencies:}
+The worktree's dependency links were removed. To run the app there, re-link them
+(Phase 0d) - or merge first and run it from the main checkout.
 
 Files updated:
   + {VAULT}/{vault_subdir}/sessions/{date}-{slug}.md

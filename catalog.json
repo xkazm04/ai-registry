@@ -331,19 +331,19 @@
     },
     {
       "name": "friend",
-      "version": "1.7.0",
+      "version": "1.8.0",
       "category": "workflow",
       "path": "skills/friend/SKILL.md",
-      "contentHash": "sha256-n1:b46f1d631e1bdc45",
+      "contentHash": "sha256-n1:3e91895cce783b6c",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
       "reportedInvokes": 2,
-      "lessons": 7,
+      "lessons": 8,
       "lessonsPath": "skills/friend/LESSONS.md",
-      "lessonsHash": "sha256-n1:7ba1104078913aa9",
+      "lessonsHash": "sha256-n1:8d895fce5912982d",
       "usageContributors": [
         "wolf"
       ],
@@ -1074,7 +1074,7 @@
     "skills": 41,
     "practices": 8,
     "memory": 9,
-    "lessons": 341
+    "lessons": 342
   },
   "bundles": [
     {

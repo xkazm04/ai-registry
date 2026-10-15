@@ -5,7 +5,7 @@ argument-hint: "[area] [goal] [--verify] [--pick N|auto|all|N,M] [--cycles N] [-
 category: workflow
 memory: vault
 contexts: tracked
-version: 1.7.0
+version: 1.8.0
 model: sonnet
 ---
 # Friend
@@ -31,7 +31,7 @@ Siblings - know the boundary:
 
 This file is the **method** and is repo-agnostic. Everything a repo *is* - its areas, vault, gates, conventions, codegen, verified-mode driver - lives in ONE overlay read at Phase 0: **`.claude/friend/config.md` in the consuming repo** (tracked, so it travels with the clone). **The loop runs with no overlay at all** - every key has a default - but says `overlay: defaults` once in the first cycle header. Never paste one repo's overlay into this file.
 
-Scalars: `product`, `stack`, `vault`, `vault_subdir`, `base_branch`, `worktree_dir`, `active_runs_ledger`, `context_taxonomy`, `context_outbox`, `verify_url`, `locale_count`, `commit_types`. Sections: `## Areas`, `## Gates`, `## Repo law`, `## Codegen`, `## Docs`, `## Verified mode`, `## Context sources`, `## Direction taste`, `## Skill improvement log`. The full key table with every default is in [`references/overlay.md`](references/overlay.md) - read it at Phase 0a when the overlay omits a key you need, or when writing an overlay. Overlay writes are committed scoped: `git commit --only .claude/friend/config.md`.
+Scalars: `product`, `stack`, `vault`, `vault_subdir`, `base_branch`, `worktree_dir`, `active_runs_ledger`, `context_taxonomy`, `context_outbox`, `verify_url`, `locale_count`, `commit_types`. Sections: `## Areas`, `## Gates`, `## Contracts`, `## Repo law`, `## Codegen`, `## Docs`, `## Verified mode`, `## Context sources`, `## Direction taste`, `## Skill improvement log`. The full key table with every default is in [`references/overlay.md`](references/overlay.md) - read it at Phase 0a when the overlay omits a key you need, or when writing an overlay. Overlay writes are committed scoped: `git commit --only .claude/friend/config.md`.
 
 ---
 
@@ -164,7 +164,15 @@ Continue on worktree-friend-<area>-<hhmmss> (pending, <n> commits, last <date>)?
   3. fresh worktree from <base_branch>
 ```
 
-Continuing reuses that branch's worktree (`git worktree list`; re-add it with `git worktree add <path> <branch>`, no `-b`, if it was removed), re-links the dependencies and keeps its slug for the ledger, the session note and the report. Its commits since `base_branch` are this session's starting point: they join the in-session no-repeat set, and the scan summary leads with `Since last session: <last commit title>`. Headless continues only with `--on`; without it, a fresh worktree. `--on` naming a branch that is merged, missing or not `worktree-friend-*`: say so once and cut fresh. If the gates need installed dependencies, link the main checkout's dependency directory (`node_modules`) in as a junction / symlink, and at Phase 6 remove the link itself (`rmdir` the junction) - never a recursive delete through it. The whole loop runs inside it. On exit, the worktree and branch stay - the user owns the merge, and the merge is what Phase 0b learns from next time.
+Continuing reuses that branch's worktree (`git worktree list`; re-add it with `git worktree add <path> <branch>`, no `-b`, if it was removed), re-links the dependencies and keeps its slug for the ledger, the session note and the report. Its commits since `base_branch` are this session's starting point: they join the in-session no-repeat set, and the scan summary leads with `Since last session: <last commit title>`. Headless continues only with `--on`; without it, a fresh worktree. `--on` naming a branch that is merged, missing or not `worktree-friend-*`: say so once and cut fresh.
+
+**Dependencies.** When the gates need installed dependencies, borrow the main checkout's rather than installing:
+
+- **No workspaces:** link each dependency directory (`node_modules`, and any second one a tools or app package keeps beside the root) in as a junction / symlink.
+- **Workspaces** (npm / pnpm / yarn `workspaces`, a Cargo or Go workspace): never link the whole directory. Its entries for the repo's own packages point at the **main checkout's** sources, so every gate would build and test main's code, not the worktree's, and still pass. Make the worktree's `node_modules` a real directory, link each entry of main's into it, then point the workspace package entries (the repo's own scope, e.g. `@scope/*`) at the worktree's packages instead.
+- **Prove it** before the baseline gate: resolve one workspace package from the worktree (`node -p "require('fs').realpathSync('node_modules/@scope/pkg')"`) and confirm the path is inside the worktree.
+
+At Phase 6a remove every link one by one (`rmdir` a junction, `rm` a symlink, never recursive) - a recursive delete follows the link into the main checkout. The whole loop runs inside the worktree. On exit, the worktree and branch stay - the user owns the merge, and the merge is what Phase 0b learns from next time.
 
 ### 0e - Register
 
@@ -209,6 +217,7 @@ Inside the worktree. Budget roughly **20-40 files**, weighted toward UI surfaces
 4. `Grep` for the repo's string-lookup call (from `## Repo law`) to find text-heavy surfaces.
 5. The area's entry points from its `## Areas` row or `context_taxonomy`.
 6. The file:line each kept deviation's `evidence` names - confirm it still holds before it reaches a menu.
+7. **The tests that pin the area from outside it.** Start from the overlay's `## Contracts` rows for this area, then grep the test and harness trees outside the area paths (browser tours, smoke and evidence suites, golden / snapshot files) for the area's entry points, screen names and view fields. Each assertion they make (a control disabled, a screen a flow lands on, a view object compared field by field) is a **contract**: hold the list for the session. An adjacent `*.test.ts` names itself; these do not, and a direction that reshapes a screen or adds a field to a compared object breaks them only at the integration gate.
 
 `surprise me` also pulls two random non-trivial files. Then, unless `surprise me`, a two-sentence summary: `<Area>: <what is here>. <what has been moving>.`
 
@@ -234,6 +243,7 @@ Constraints on the 5:
 - **Deepen before adding.** At most **1 of 5** is a net-new surface (new tab, rail, page-level panel); the rest extend code already in the area.
 - **Vertical slice is the default for ambitious work:** the whole feature lands this cycle as ordered atomic commits (`feat(db)` -> `feat(api)` -> `feat(ui)` -> `polish:` states). **Stages-of-N** only when a human checkpoint mid-way genuinely helps (a risky migration to eyeball): `Stage 1 of N - ships <X>; next stage wires <Y>.` Days-long or multi-context arcs graduate instead.
 - **Honor `## Repo law`, `friend-preferences.md` (hard constraints) and `strong-patterns.md`** (reuse the canonical shape and name it).
+- **Shape around the contracts (1b.7).** A direction that touches a pinned surface keeps the asserted behavior and adds beside it (a closed place stays disabled and gains a reason; a new field goes next to a compared object, not inside it). One that must change a contract says so in its `What:` line and trips Phase 3.
 - **Never re-propose a rejection.** A candidate whose fingerprint (area + short title + one-line What, or the same subject for a ledger row) matches the rejection set (1a.3) is dropped silently. Same target file at a different angle: surface it annotated `(previously passed; resurfacing because <reason>)` - never for a `declined` ledger row or a hard reject. Count what was dropped for the header.
 - **No repeats in-session.** Do not re-propose anything executed or rejected this session. A title soft-skipped twice (or soft-rejected by 0b and skipped once) stops being proposed for the rest of the session.
 
@@ -266,6 +276,7 @@ The operator may take several directions of one menu at once. Run them as **cons
 - **Sequential, never concurrent in one worktree.** The cycles share its index, and directions in one area usually share files. A cycle may be delegated to a subagent (one at a time) to keep the directing context lean; the brief carries the direction block, `## Repo law`, the gates, the commit format and the commits already landed this session, and the report it returns is checked before the next cycle starts.
 - **Later cycles build on earlier ones.** A later direction's brief names what earlier cycles changed in shared files, so it reuses rather than redoes (one helper, one threaded parameter).
 - **A failure stops that cycle, not the set.** A cycle that cannot reach a green gate is reverted to its last good commit (Phase 6a rules) and reported `blocked:`; the remaining picks still run when they do not depend on it.
+- **Review the set as one diff.** Each cycle still runs its own self-review. Before the integration gate, one independent review subagent reads `git diff <base_branch>...HEAD` for what only the combination shows: two cycles writing the same state, a status one cycle adds and another never clears, a flag set on one screen and read on another. Its fixes land as a final `polish:` commit.
 - After the last one: run the `integration:` gate once over the whole set, print one combined report (one line per cycle: title, commits, standard) followed by the per-cycle `To verify:` lists, then the next `Next?` menu - or Phase 6 when `--cycles` is reached.
 
 ### Present
@@ -293,7 +304,7 @@ Headless prints the same block (it is the evidence a reviewer reads) followed by
 
 ## Phase 3: Risk gate
 
-Before executing, silently judge whether the path is materially risky: schema / migration / table shape; renaming or removing a public command, IPC/API contract or generated binding; credential storage or encrypted fields; cross-area scope creep; deleting >50 lines of one file or removing a module; changing an active scheduler / runner / cron path; production-only paths the user cannot verify locally; anything that breaks the lint or typecheck baseline beyond the touched file.
+Before executing, silently judge whether the path is materially risky: schema / migration / table shape; renaming or removing a public command, IPC/API contract or generated binding; changing behavior a contract test (1b.7) asserts; credential storage or encrypted fields; cross-area scope creep; deleting >50 lines of one file or removing a module; changing an active scheduler / runner / cron path; production-only paths the user cannot verify locally; anything that breaks the lint or typecheck baseline beyond the touched file.
 
 Tripped, interactive:
 
@@ -379,7 +390,7 @@ Then, unless `--cycles` is reached, the Phase 2 block with 5 new directions unde
 
 Triggered by `--cycles` reached, a stop word, an interrupt, or a context wrap. Templates for 6b-6h: [`references/exit-templates.md`](references/exit-templates.md). Create vault files lazily with the headers in `references/learning.md`.
 
-- **6a Stabilize.** Uncommitted work from an interrupted cycle is discarded (`git restore .` on your own files) rather than committed broken - interactive asks first, headless discards and says so. Remove a dependency link 0d made (`rmdir` the junction, never a recursive delete). Move the ledger entry (if any) to `## Recently completed`: `completed (branch: worktree-<slug>, commits: <count>, last: <sha>)`.
+- **6a Stabilize.** Uncommitted work from an interrupted cycle is discarded (`git restore .` on your own files) rather than committed broken - interactive asks first, headless discards and says so. Remove every dependency link 0d made, one by one (`rmdir` a junction, `rm` a symlink, never a recursive delete), and confirm the main checkout's dependency directory is intact. Move the ledger entry (if any) to `## Recently completed`: `completed (branch: worktree-<slug>, commits: <count>, last: <sha>)`.
 - **6b Rejection reasons - optional enrichment.** Ask the batched question only when a person is answering; headless records unpicked directions as soft skips. Merge learning (0b) is the signal that does not depend on it.
 - **6c Session note** - `Friend/sessions/{date}-{slug}.md`, including the evidence loaded and how each cycle was picked.
 - **6d Lessons** - append to `$VAULT/Lessons/{date}-friend.md` if the folder exists; else embed in the session note.
@@ -408,10 +419,13 @@ Triggered by `--cycles` reached, a stop word, an interrupt, or a context wrap. T
 ```
 /friend [area] [goal] [--verify] [--pick N|auto|all|N,M] [--cycles N] [--on <branch>]
   Q1 area / Q2 goal / Q2b verify      asked only when no argument answers them
-  Phase 0  overlay, vault path (lazy), merge learning, collision, worktree (fresh, or continue a pending branch), area -> contexts
+  Phase 0  overlay, vault path (lazy), merge learning, collision, worktree (fresh, or continue a pending branch),
+           dependencies (per-entry links in a workspace), area -> contexts
   Phase 1  repo law + registry deviations + rejection set + taste, then scan (git log, not mtime)
+           and the outside tests that pin the area (contracts)
   Phase 2  5 directions: files + outcome + standard; one standards slot; rejections filtered;
-           pick one, several (2 4 5) or all - several run as consecutive cycles, gated up front
+           pick one, several (2 4 5) or all - several run as consecutive cycles, gated up front,
+           reviewed as one diff before the integration gate
 LOOP:
   Phase 3   silent risk gate (headless: skip or block, never prompt)
   Phase 4   execute -> self-review -> gates -> atomic commit(s)
