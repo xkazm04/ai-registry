@@ -6,7 +6,8 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { packageOf, importsOf, isTest, countFootprint, countPatterns, expandPaths, featureFiles, stemOf, main } from '../scripts/footprint.mjs';
+import { packageOf, importsOf, isTest, countFootprint, countPatterns, expandPaths, featureFiles, stemOf, main, UNITS } from '../scripts/footprint.mjs';
+import { readFileSync } from 'node:fs';
 import { openStore, runStart, latest } from '../scripts/store.mjs';
 
 test('packageOf: bare specifiers only, package-name part', () => {
@@ -109,4 +110,12 @@ test('expandPaths and featureFiles: directory entries expand; the structure code
   const structure = { contexts: [{ name: 'x-renamed', file_paths: ['src/x'] }], features: [{ slug: 'f', contexts: ['x-renamed'] }, { slug: 'old', contexts: ['x-renamed'], status: 'archived' }] };
   const map = { contexts: [{ name: 'x', file_paths: ['nope.ts'] }] };
   assert.deepEqual(featureFiles(structure, map, dir), [{ slug: 'f', files: ['src/x/a.ts', 'src/x/b.ts'] }]);
+});
+
+test('UNITS: every metric of the performance lens carries the unit references/metrics.md gives it', () => {
+  const md = readFileSync(new URL('../references/metrics.md', import.meta.url), 'utf8');
+  const section = md.split('\n## performance')[1].split('\n## ')[0];
+  const rows = [...section.matchAll(/^\| `([a-zA-Z0-9]+)` \| ([^|]+?) \|/gm)].map((m) => [m[1], m[2].trim()]);
+  assert.ok(rows.length >= 5, 'the performance table lists its metrics');
+  for (const [metric, unit] of rows) assert.equal(UNITS[metric], unit, metric);
 });

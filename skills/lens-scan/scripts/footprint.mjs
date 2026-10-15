@@ -64,7 +64,12 @@ export const EVIDENCE = {
   rawLiterals: 'static: raw #hex / rgb() colours in UI component files (footprint.mjs --lens design)',
 };
 export const LENS_OF = { loc: 'development', files: 'development', depCount: 'development', testRatioPct: 'development', secretHits: 'security', unsafeSinks: 'security', rawLiterals: 'design' };
-const UNITS = { loc: 'lines', files: 'files', depCount: 'packages', testRatioPct: '%', secretHits: 'hits', unsafeSinks: 'sinks', rawLiterals: 'literals' };
+// The unit of every metric key this script or the performance lens's probes write (references/metrics.md). footprint
+// writes only the static counts above; the performance units sit here so a probe row and a footprint row read one table.
+export const UNITS = {
+  loc: 'lines', files: 'files', depCount: 'packages', testRatioPct: '%', secretHits: 'hits', unsafeSinks: 'sinks', rawLiterals: 'literals',
+  bundleKb: 'KB', startupMs: 'ms', interactionP95Ms: 'ms', frameP95Ms: 'ms', memoryMb: 'MB',
+};
 
 /** The package a bare specifier names, or undefined when it is not a dependency. */
 export function packageOf(spec) {

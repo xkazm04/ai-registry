@@ -7,7 +7,7 @@ import { mkdtempSync, mkdirSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { openStore, runStart, runEnd, measure, propose, proposals, proposalUpdate, gaps, decide } from '../scripts/store.mjs';
+import { openStore, runStart, runEnd, measure, propose, proposals, proposalUpdate, gaps, decide, packCreate, triage, releaseCreate, releaseAdd, releaseGet } from '../scripts/store.mjs';
 import { drive } from '../scripts/drive.mjs';
 
 const STORE = fileURLToPath(new URL('../scripts/store.mjs', import.meta.url));
@@ -68,14 +68,31 @@ test('decide: a caller decision is recorded with who, only on proposed items; st
 // scoped features; for an execute, moves each approved id to done. It never decides anything.
 const FAKE = `
 import { readFileSync } from 'node:fs';
-import { openStore, runStart, runEnd, measure, proposalUpdate, proposals } from ${JSON.stringify(pathToFileURL(STORE).href)};
+import { openStore, runStart, runEnd, measure, proposalUpdate, proposals, releaseUpdate, reworkAttempt } from ${JSON.stringify(pathToFileURL(STORE).href)};
 const prompt = readFileSync(0, 'utf8').trim();
 const db = openStore('.ai/lens-scan/scan.db');
-const m = prompt.match(/^\\/lens-scan (measure|propose|execute) --lens (\\S+)(?: --scope (\\S+))?|^\\/lens-scan execute --proposals (\\S+)/);
+// a release: building -> (a measure run noted with the release) -> pr-open; --finish: merged -> tagged
+const rel = prompt.match(/^\\/lens-scan release --id (\\S+)( --finish)?$/);
+if (rel) {
+  if (rel[2]) {
+    releaseUpdate(db, { release: rel[1], status: 'merged', from: 'pr-open' });
+    releaseUpdate(db, { release: rel[1], status: 'tagged', from: 'merged' });
+  } else {
+    releaseUpdate(db, { release: rel[1], status: 'building' });
+    const { id } = runStart(db, { phase: 'measure', lenses: 'x', note: 'release ' + rel[1] });
+    if (process.env.FAKE_DIE) process.exit(1); // dies mid-build: the release stays building, the run running
+    runEnd(db, { run: id, status: 'done' });
+    releaseUpdate(db, { release: rel[1], status: 'pr-open', prUrl: 'https://example.test/pr/1' });
+  }
+  console.log('fake release', prompt);
+  process.exit(0);
+}
+const m = prompt.match(/^\\/lens-scan (measure|propose|execute) --lens (\\S+)(?: --scope (\\S+))?|^\\/lens-scan execute --proposals (\\S+)(?: --base \\S+)?$/);
 const phase = m[1] ?? 'execute';
 const { id } = runStart(db, { phase, lenses: m[2] ?? 'x', features: m[3], scope: m[4] ? { proposals: m[4].split(',') } : undefined, knownFeatures: new Set(['a', 'b', 'c']) });
 if (phase === 'measure') measure(db, id, m[3].split(',').map((f) => ({ feature: f, lens: m[2], metric: 'judged', value: 1 })));
-if (m[4]) for (const p of proposals(db, { ids: m[4] })) {
+if (m[4]) for (let p of proposals(db, { ids: m[4] })) {
+  if (p.status === 'rework') p = proposals(db, { ids: reworkAttempt(db, { id: p.id, run: id }).id })[0]; // the rebuild is a new attempt
   if (p.status === 'approved') proposalUpdate(db, { id: p.id, status: 'executing' });
   if (process.env.FAKE_DIE) process.exit(1); // the session dies mid-build: the run stays running, the item executing
   proposalUpdate(db, { id: p.id, status: 'done', resultSha: 'abc1234' }); // a cut-off item is reconciled, never re-claimed
@@ -143,5 +160,110 @@ test('drive: a session that dies leaves its run aborted, and the next execute re
     const again = await drive(['execute', '--lens', LENS, '--root', root], { ...process.env, LENS_SCAN_CLAUDE_BIN: fake });
     assert.deepEqual(again.cut_off, [p1]);
     assert.equal(again.items[0].status, 'done');
+  } finally { process.stderr.write = quiet; }
+});
+
+test('drive: triage and compare pass through to the store; execute passes --base and rebuilds a named rework item', async () => {
+  const { root, db } = repo();
+  const { id: run } = runStart(db, { phase: 'propose', lenses: LENS });
+  const p1 = propose(db, { run, feature: 'a', lens: LENS, title: 't1', kind: 'fix', metric: 'conf', expectedDelta: 10 }).id;
+  const p2 = propose(db, { run, feature: 'b', lens: LENS, title: 't2', kind: 'fix', metric: 'conf', expectedDelta: 10 }).id;
+  runEnd(db, { run, status: 'done' });
+  decide(db, { ids: `${p1},${p2}`, decision: 'approve', by: 'operator:jane' });
+  const { id: ex } = runStart(db, { phase: 'execute', lenses: LENS });
+  const k = packCreate(db, { lens: LENS, short: 'REG', baseRef: 'main', baseSha: 'b0b0b0b', run: ex });
+  assert.equal(k.branch, 'pack/reg-1');
+  measure(db, ex, [{ feature: 'a', lens: LENS, metric: 'conf', value: 40, proposal: p1, phase: 'before', commit_sha: 'b0b0b0b' }]);
+  for (const [p, sha, st] of [[p1, 'c1c1c1c', 'done'], [p2, 'c2c2c2c', 'failed']]) {
+    proposalUpdate(db, { id: p, status: 'executing', pack: k.id });
+    proposalUpdate(db, { id: p, status: st, commitSha: sha, resultSha: sha, ...(st === 'done' ? { afterValue: 50 } : {}) });
+  }
+  measure(db, ex, [{ feature: 'a', lens: LENS, metric: 'conf', value: 50, proposal: p1, phase: 'after', commit_sha: 'c1c1c1c' }]);
+  runEnd(db, { run: ex, status: 'done' });
+  db.close();
+  const fake = join(root, 'fake-claude.mjs');
+  writeFileSync(fake, FAKE);
+  const env = { ...process.env, LENS_SCAN_CLAUDE_BIN: fake };
+  const quiet = process.stderr.write;
+  process.stderr.write = () => true;
+  try {
+    const cmp = await drive(['compare', '--pack', k.id, '--root', root], env);
+    assert.ok(cmp.ok);
+    const c1 = cmp.result.find((x) => x.proposal.id === p1);
+    assert.deepEqual([c1.before[0].value, c1.after[0].value, c1.after[0].commit_sha], [40, 50, 'c1c1c1c']);
+    await assert.rejects(drive(['compare', '--root', root], env), /one of them/);
+
+    const tr = await drive(['triage', '--ids', `${p1},${p2}`, '--decision', 'accept', '--by', 'operator:jane', '--root', root], env);
+    assert.deepEqual(tr.result.triaged, [p1]);
+    assert.deepEqual(tr.result.skipped, [{ id: p2, status: 'failed', reason: 'note-required' }], 'a failed item is accepted only with a note');
+    const rw = await drive(['triage', '--ids', p2, '--decision', 'rework', '--by', 'operator:jane', '--note', 'keep the old empty state', '--root', root], env);
+    assert.deepEqual(rw.result.triaged, [p2]);
+    assert.deepEqual(rw.result.packs_triaged, [k.id], 'nothing left building: the pack is triaged');
+    await assert.rejects(drive(['triage', '--ids', p1, '--decision', 'accept', '--by', 'nobody', '--root', root], env), /<kind>:<name>/);
+
+    const dry = await drive(['execute', '--lens', LENS, '--root', root, '--ids', p2, '--base', 'release/1.2.0', '--dry'], env);
+    assert.deepEqual(dry.plan, [`/lens-scan execute --proposals ${p2} --base release/1.2.0`]);
+    await assert.rejects(drive(['execute', '--lens', LENS, '--root', root, '--base', 'x;rm'], env), /--base/);
+    await assert.rejects(drive(['cover', '--lens', LENS, '--root', root, '--base', 'main'], env), /belongs to execute/);
+    assert.deepEqual((await drive(['execute', '--lens', LENS, '--root', root, '--dry'], env)).plan, [], 'rework is rebuilt only when named');
+    const re = await drive(['execute', '--lens', LENS, '--root', root, '--ids', p2], env);
+    assert.ok(re.ok, JSON.stringify(re.jobs));
+    assert.equal(re.items[0].status, 'rework', 'the reworked row stays rework');
+    assert.equal(re.attempts.length, 1);
+    assert.equal(re.attempts[0].attempt_of, p2);
+    assert.equal(re.attempts[0].status, 'done');
+  } finally { process.stderr.write = quiet; }
+});
+
+test('drive: release runs the session to pr-open, --finish to tagged; a dead session leaves the release failed', async () => {
+  const { root, dbPath, db } = repo();
+  const { id: run } = runStart(db, { phase: 'propose', lenses: LENS });
+  const p1 = propose(db, { run, feature: 'a', lens: LENS, title: 't1', kind: 'fix', metric: 'conf', expectedDelta: 10 }).id;
+  runEnd(db, { run, status: 'done' });
+  decide(db, { ids: p1, decision: 'approve', by: 'operator:jane' });
+  const { id: ex } = runStart(db, { phase: 'execute', lenses: LENS });
+  const k = packCreate(db, { lens: LENS, short: 'REG', baseRef: 'main', baseSha: 'b0b0b0b', run: ex });
+  proposalUpdate(db, { id: p1, status: 'executing', pack: k.id });
+  proposalUpdate(db, { id: p1, status: 'done', commitSha: 'c1c1c1c', afterValue: 50 });
+  runEnd(db, { run: ex, status: 'done' });
+  triage(db, { ids: p1, decision: 'accept', by: 'operator:jane' });
+  releaseCreate(db, { version: '1.2.0', by: 'operator:jane' });
+  releaseAdd(db, { release: 'rel-1.2.0', ids: p1 });
+  db.close();
+  const fake = join(root, 'fake-claude.mjs');
+  writeFileSync(fake, FAKE);
+  const env = { ...process.env, LENS_SCAN_CLAUDE_BIN: fake };
+  const quiet = process.stderr.write;
+  process.stderr.write = () => true;
+  try {
+    await assert.rejects(drive(['release', '--id', 'rel-1.2', '--root', root], env), /rel-<semver>/);
+    await assert.rejects(drive(['release', '--id', 'rel-1.2.0', '--finish', '--root', root], env), /starts from pr-open or merged/);
+    const dry = await drive(['release', '--id', 'rel-1.2.0', '--root', root, '--dry'], env);
+    assert.deepEqual(dry.plan, ['/lens-scan release --id rel-1.2.0']);
+    assert.equal(dry.jobs, undefined);
+
+    const died = await drive(['release', '--id', 'rel-1.2.0', '--root', root], { ...env, FAKE_DIE: '1' });
+    assert.equal(died.ok, false);
+    assert.equal(died.after.status, 'failed', 'a session that died mid-build leaves the release failed, not building');
+    assert.match(died.after.error, /ended by drive/);
+    const ro = openStore(dbPath, { readOnly: true });
+    assert.equal(ro.prepare('SELECT status FROM runs WHERE id = ?').get(died.jobs[0].run).status, 'aborted');
+    ro.close();
+
+    const cut = await drive(['release', '--id', 'rel-1.2.0', '--root', root], env); // a failed release is retried
+    assert.ok(cut.ok, JSON.stringify(cut.jobs));
+    assert.equal(cut.after.status, 'pr-open');
+    assert.equal(cut.after.pr_url, 'https://example.test/pr/1');
+    assert.match(cut.jobs[0].run, /^r-/, 'the release session found its run by the job note');
+
+    const fin = await drive(['release', '--id', 'rel-1.2.0', '--finish', '--root', root], env);
+    assert.ok(fin.ok, JSON.stringify(fin.jobs));
+    assert.equal(fin.after.status, 'tagged');
+    assert.equal(fin.after.tag, 'v1.2.0');
+    assert.deepEqual(fin.after.items, [{ id: p1, status: 'released', commit_sha: 'c1c1c1c' }]);
+    const r2 = openStore(dbPath, { readOnly: true });
+    assert.equal(releaseGet(r2, { id: 'rel-1.2.0' }).status, 'tagged');
+    assert.equal(r2.prepare('SELECT status FROM packs WHERE id = ?').get(k.id).status, 'closed');
+    r2.close();
   } finally { process.stderr.write = quiet; }
 });

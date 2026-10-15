@@ -53,7 +53,8 @@
 //             a person's call on built items, each a compare-and-set: accept done|failed (failed only with a
 //             --note, else skipped `note-required`); rework done|failed|accepted; descope
 //             done|failed|accepted|rework|proposed|approved. An item already in a release that is past draft is
-//             skipped `in-release`; one in a draft release leaves it. A pack none of whose items is executing,
+//             skipped `in-release`; one in a draft release leaves it, and so does a rework by `skill:*` while the
+//             release is building (the release run's cherry-pick conflict). A pack none of whose items is executing,
 //             done or failed any more moves open -> triaged in the same transaction.
 //             -> {decision, by, triaged: [ids], skipped: [{id, status, reason?}], packs_triaged: [ids]}
 //   rework-attempt --id <p in rework> --run <running run>
@@ -593,7 +594,10 @@ export function triage(db, { ids, decision, by: who, note } = {}) {
       if (decision === 'accept' && p.status === 'failed' && !text) { skipped.push({ id, status: p.status, reason: 'note-required' }); continue; }
       // leaving `accepted` takes the item out of its release while that is still a draft, never later
       const leaves = decision !== 'accept' && p.release_id !== null;
-      if (leaves && p.rel !== 'draft') { skipped.push({ id, status: p.status, reason: 'in-release' }); continue; }
+      // a person takes an item out of a draft release only; the release run itself (`skill:*`) may also send a
+      // conflicted item back while the release is building, so the release never claims a commit it does not hold
+      const mayLeave = p.rel === 'draft' || (p.rel === 'building' && decision === 'rework' && person.startsWith('skill:'));
+      if (leaves && !mayLeave) { skipped.push({ id, status: p.status, reason: 'in-release' }); continue; }
       if (!upd.run(to, person, at, text ?? null, at, leaves ? 1 : 0, id, p.status).changes) { skipped.push({ id, status: read.get(id).status }); continue; }
       triaged.push(id);
       if (p.pack_id) touched.push(p.pack_id);
@@ -650,7 +654,10 @@ export function releaseAdd(db, { release, ids } = {}) {
     const at = now();
     const added = [], skipped = [];
     const upd = db.prepare("UPDATE proposals SET release_id = ?, updated_at = ? WHERE id = ? AND status = 'accepted' AND release_id IS NULL");
+    const body = db.prepare('SELECT body FROM proposals WHERE id = ?');
     for (const id of list) {
+      // a registry-target item's commit lives in the ai-registry checkout: a product release cannot ship it
+      if (/^target:\s*registry\b/.test((body.get(id)?.body ?? '').trimStart())) { skipped.push({ id, status: 'accepted', reason: 'registry-target' }); continue; }
       if (upd.run(rid, at, id).changes) { added.push(id); continue; }
       const p = db.prepare('SELECT status, release_id FROM proposals WHERE id = ?').get(id);
       if (!p) skipped.push({ id, status: 'not-found' });

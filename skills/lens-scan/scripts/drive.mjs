@@ -6,7 +6,10 @@
 //
 //   node drive.mjs status  --lens <id> [--root <product repo>]
 //   node drive.mjs cover   --lens <id> [--root r] [--stale] [--retry] [--chunk n] [--max-runs n] [--no-propose]
-//   node drive.mjs execute --lens <id> [--root r] [--ids a,b] [--approve-proposed --by <kind:name>] [--batch n]
+//   node drive.mjs execute --lens <id> [--root r] [--ids a,b] [--approve-proposed --by <kind:name>] [--batch n] [--base <ref>]
+//   node drive.mjs release --id rel-<version> [--root r] [--finish]
+//   node drive.mjs triage  --ids a,b --decision accept|rework|descope --by <kind:name> [--note t] [--root r]
+//   node drive.mjs compare --pack k | --ids a,b [--root r]
 //   common: [--model m] [--timeout-min n] [--dry]
 //
 //   status   gaps and backlog (store.mjs gaps); starts nothing.
@@ -19,12 +22,21 @@
 //            item a dead run left `executing` (`cut_off`): the run reconciles it from what landed.
 //            --approve-proposed --by <kind:name> first approves the lens's `proposed` items as that decider
 //            (store.mjs decide): the caller's flag is the decision, exactly as the blueprint's Execute backlog
-//            button is. Without it nothing is approved here.
+//            button is. Without it nothing is approved here. Each run builds a pack (SKILL.md 5. Execute): one branch
+//            pack/<short>-<n> cut from the release base, one commit per item, never merged into main. --base <ref> passes
+//            a specific release base into the prompt. With --ids, a named `rework` item is in the plan too: the run
+//            rebuilds it as a new attempt (store.mjs rework-attempt).
+//   release  one `claude -p` with `/lens-scan release --id rel-x [--finish]` (references/release.md): without --finish
+//            the release goes draft|failed -> building -> pr-open; with --finish, once its PR is merged, pr-open|merged
+//            -> merged -> tagged. Done means the release reached that status. A session that ends with the release
+//            still `building` has it set `failed` (the person decides). Timeout default 60 min, never under 30.
+//   triage   store.mjs triage, no model call: one entry point for a headless caller recording a person's triage.
+//   compare  store.mjs compare, no model call: per item, its before/after measurements and shot pairs.
 //
 // The CLI: LENS_SCAN_CLAUDE_BIN, else BP_CLAUDE_BIN, else `claude` on PATH (a .js/.mjs path runs on this Node).
 // Each run gets BP_JOB_ID=drive-<id> (the store notes the run `bp-job:drive-<id>`, which is how this script
 // finds it) and a log at .ai/lens-scan/work/drive/<id>.log. stdout: one JSON summary. stderr: progress lines.
-// A run's session that ends while its run still says running (a timeout - --timeout-min, default 90 for a measure,
+// release, triage and compare take no --lens. A run's session that ends while its run still says running (a timeout - --timeout-min, default 90 for a measure,
 // 30 per item and at least 90 for an execute - or a crash) has the run closed `aborted`.
 // Exit 0 every run done, 1 a run failed or was refused, 2 bad input.
 import { spawn } from 'node:child_process';
@@ -32,10 +44,13 @@ import { createWriteStream, existsSync, mkdirSync, readFileSync, realpathSync, s
 import { delimiter, extname, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { openStore, gaps, decide, proposals, parseArgs, runEnd, StoreError } from './store.mjs';
+import { openStore, gaps, decide, proposals, parseArgs, runEnd, triage, compare, releaseGet, releaseUpdate, StoreError } from './store.mjs';
 
 const MAX_BATCH = 50;
 const SAFE_ID = /^[A-Za-z0-9._-]+$/;
+const SAFE_REF = /^[A-Za-z0-9._][A-Za-z0-9._/-]*$/;
+const REL_ID = /^rel-\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
+const VERBS = ['status', 'cover', 'execute', 'release', 'triage', 'compare'];
 const bad = (m) => { throw new StoreError(m, 2); };
 const say = (m) => process.stderr.write(`drive: ${m}\n`);
 
@@ -56,8 +71,11 @@ export function resolveCli(args, env = process.env) {
 
 const runIdOf = (db, job) => db.prepare("SELECT id FROM runs WHERE note LIKE ? ORDER BY started_at DESC LIMIT 1").get(`bp-job:${job}%`)?.id;
 
-/** One `claude -p` run of `prompt` in `root`; resolves { job, prompt, run, status, exit, error }. */
-function runJob({ root, dbPath, prompt, model, timeoutMin, env = process.env }) {
+/**
+ * One `claude -p` run of `prompt` in `root`; resolves { job, prompt, run, status, exit, error }. `outcome(r)`, when
+ * given, judges the job instead of its run (a release: its status), with r = { run, runStatus, code, last }.
+ */
+function runJob({ root, dbPath, prompt, model, timeoutMin, env = process.env, outcome }) {
   const job = `drive-${Date.now().toString(36)}-${randomBytes(2).toString('hex')}`;
   const args = ['-p', '--dangerously-skip-permissions', '--output-format', 'text', ...(model ? ['--model', model] : [])];
   const cli = resolveCli(args, env);
@@ -89,6 +107,11 @@ function runJob({ root, dbPath, prompt, model, timeoutMin, env = process.env }) 
       if (runStatus === 'running') {
         const w = openStore(dbPath);
         try { runEnd(w, { run, status: 'aborted', note: `ended by drive: ${last || `exit ${code}`}` }); runStatus = 'aborted'; } catch { /* closed meanwhile */ } finally { w.close(); }
+      }
+      if (outcome) {
+        let r;
+        try { r = outcome({ run, runStatus, code, last }); } catch (e) { r = { status: 'failed', error: e.message }; }
+        return finish({ ...(run ? { run } : {}), exit: code ?? undefined, ...r });
       }
       // lens-scan refuses before run-start and still exits 0: no run is a failure, its last line says why
       if (code !== 0) finish({ run, status: 'failed', exit: code ?? undefined, error: last || `exit ${code}` });
@@ -128,19 +151,31 @@ const intFlag = (a, k, dflt, max = Infinity) => {
 export async function drive(argv, env = process.env) {
   const a = parseArgs(argv);
   const verb = a._[0];
-  if (!['status', 'cover', 'execute'].includes(verb)) bad('usage: drive.mjs status|cover|execute --lens <id> [--root <repo>] (see the header)');
-  const lens = typeof a.lens === 'string' ? a.lens : bad('--lens is required');
-  if (!SAFE_ID.test(lens)) bad(`--lens ${JSON.stringify(lens)} may not reach a command line`);
+  if (!VERBS.includes(verb)) bad(`usage: drive.mjs ${VERBS.join('|')} ... [--root <repo>] (see the header)`);
   const root = resolve(typeof a.root === 'string' ? a.root : '.');
   const dbPath = join(root, '.ai', 'lens-scan', 'scan.db');
   const structure = join(root, '.ai', 'lens-scan', 'app-structure.json');
   if (!existsSync(dbPath)) bad(`no scan store at ${dbPath} - adopt the product first (/adopt-bp)`);
   const model = typeof a.model === 'string' ? (SAFE_ID.test(a.model) ? a.model : bad('--model may not reach a command line')) : undefined;
+  const dry = a.dry === true;
+  const read = (fn) => { const db = openStore(dbPath, { readOnly: true }); try { return fn(db); } finally { db.close(); } };
+  const write = (fn) => { const db = openStore(dbPath); try { return fn(db); } finally { db.close(); } };
+
+  // pass-throughs: no model call, the store's answer as `result`
+  if (verb === 'triage') {
+    const note = typeof a.note === 'string' ? a.note : undefined;
+    return { verb, root, result: write((db) => triage(db, { ids: a.ids, decision: a.decision, by: a.by, note })), ok: true };
+  }
+  if (verb === 'compare') return { verb, root, result: read((db) => compare(db, { ids: a.ids, pack: a.pack })), ok: true };
+  if (verb === 'release') return release(a, { root, dbPath, model, dry, read, write, env });
+
+  const lens = typeof a.lens === 'string' ? a.lens : bad('--lens is required');
+  if (!SAFE_ID.test(lens)) bad(`--lens ${JSON.stringify(lens)} may not reach a command line`);
+  const base = a.base === undefined ? undefined : (typeof a.base === 'string' && SAFE_REF.test(a.base) && !a.base.includes('..') ? a.base : bad('--base is a git ref (letters, digits, . _ / -)'));
+  if (base !== undefined && verb !== 'execute') bad('--base belongs to execute');
   // a cover run is one bounded measure; an execute run builds, gates and re-measures every item (paypal's 9 took
   // over 90 min): 30 min per item, never under 90, unless the caller says otherwise
   const timeoutFor = (items) => intFlag(a, 'timeoutMin', Math.max(90, 30 * items));
-  const dry = a.dry === true;
-  const read = (fn) => { const db = openStore(dbPath, { readOnly: true }); try { return fn(db); } finally { db.close(); } };
   const before = read((db) => gaps(db, { lens, structure }));
   const summary = { verb, lens, root, dry, before: { totals: before.totals, backlog: before.backlog } };
 
@@ -172,21 +207,57 @@ export async function drive(argv, env = process.env) {
       .flatMap((r) => { try { return JSON.parse(r.scope ?? '{}').proposals ?? ['*']; } catch { return ['*']; } })));
     const cutOff = items.filter((p) => p.status === 'executing' && !held.has(p.id) && !held.has('*')).map((p) => p.id);
     if (cutOff.length) summary.cut_off = cutOff;
-    const go = items.filter((p) => p.status === 'approved' || cutOff.includes(p.id) || (dry && summary.approved?.includes(p.id))).map((p) => p.id).filter((id) => SAFE_ID.test(id));
+    // a `rework` item is rebuilt only by an execute that names it (--ids): the run makes its new attempt
+    const named = a.ids !== undefined;
+    const go = items.filter((p) => p.status === 'approved' || cutOff.includes(p.id) || (named && p.status === 'rework') || (dry && summary.approved?.includes(p.id))).map((p) => p.id).filter((id) => SAFE_ID.test(id));
     summary.skipped = items.filter((p) => !go.includes(p.id)).map((p) => ({ id: p.id, status: p.status }));
     const batches = chunks(go, intFlag(a, 'batch', MAX_BATCH, MAX_BATCH));
-    summary.plan = batches.map((c) => `/lens-scan execute --proposals ${c.join(',')}`);
+    summary.plan = batches.map((c) => `/lens-scan execute --proposals ${c.join(',')}${base ? ` --base ${base}` : ''}`);
     if (!dry) for (const [i, prompt] of summary.plan.entries()) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin: timeoutFor(batches[i].length), env }));
     if (go.length && !dry) {
       summary.items = read((db) => proposals(db, { ids: go.join(',') })).map((p) => ({
-        id: p.id, feature: p.feature, status: p.status, metric: p.metric, expected_delta: p.expected_delta, after_value: p.after_value, result_sha: p.result_sha, title: p.title,
+        id: p.id, feature: p.feature, status: p.status, metric: p.metric, expected_delta: p.expected_delta, after_value: p.after_value, result_sha: p.result_sha,
+        commit_sha: p.commit_sha, pack: p.pack_id, title: p.title,
       }));
+      // a rework item stays `rework`; its rebuild is the new attempt that names it
+      const attempts = read((db) => db.prepare(`SELECT id, attempt_of, status, pack_id, commit_sha FROM proposals WHERE attempt_of IN (${go.map(() => '?').join(',')})`).all(...go));
+      if (attempts.length) summary.attempts = attempts.map((p) => ({ id: p.id, attempt_of: p.attempt_of, status: p.status, pack: p.pack_id ?? undefined, commit_sha: p.commit_sha ?? undefined }));
     }
   }
   summary.jobs = jobs;
   if (!dry) { const after = read((db) => gaps(db, { lens, structure })); summary.after = { totals: after.totals, backlog: after.backlog }; }
   summary.ok = jobs.every((j) => j.status === 'done');
   return summary;
+}
+
+/** One release session (references/release.md); judged by the status the release reached, not by a run. */
+async function release(a, { root, dbPath, model, dry, read, write, env }) {
+  const id = typeof a.id === 'string' ? a.id : bad('--id rel-<version> is required');
+  if (!REL_ID.test(id)) bad(`--id ${JSON.stringify(id)} is rel-<semver>`);
+  const finish = a.finish === true;
+  const rel = read((db) => releaseGet(db, { id }));
+  const from = finish ? ['pr-open', 'merged'] : ['draft', 'failed'];
+  if (!from.includes(rel.status)) throw new StoreError(`release ${id} is ${rel.status}; ${finish ? '--finish' : 'release'} starts from ${from.join(' or ')}`, 1);
+  const target = finish ? 'tagged' : 'pr-open';
+  const prompt = `/lens-scan release --id ${id}${finish ? ' --finish' : ''}`;
+  const summary = { verb: 'release', root, dry, release: id, finish, before: { status: rel.status, items: rel.items.length }, plan: [prompt] };
+  if (dry) return { ...summary, ok: true };
+  const given = intFlag(a, 'timeoutMin', 60);
+  const outcome = ({ run, runStatus, last }) => {
+    let r = read((db) => releaseGet(db, { id }));
+    // the session is gone mid-build: the release says building and nobody holds it; fail it, the person decides
+    if (r.status === 'building') {
+      try { write((w) => releaseUpdate(w, { release: id, status: 'failed', from: 'building', error: `ended by drive: ${last || 'session ended'}` })); } catch { /* moved on */ }
+      r = read((d) => releaseGet(d, { id }));
+    }
+    if (r.status !== target) return { status: 'failed', release: r.status, error: r.error ?? (last || `release ended ${r.status}`) };
+    if (run && runStatus !== 'done') return { status: 'failed', release: r.status, error: `run ended ${runStatus}` };
+    return { status: 'done', release: r.status };
+  };
+  const job = await runJob({ root, dbPath, prompt, model, timeoutMin: Math.max(30, given), env, outcome });
+  const after = read((db) => releaseGet(db, { id }));
+  const { items, ...head } = after;
+  return { ...summary, jobs: [job], after: { ...head, items: items.map((p) => ({ id: p.id, status: p.status, commit_sha: p.commit_sha })) }, ok: job.status === 'done' };
 }
 
 if (process.argv[1] && isEntry(process.argv[1], import.meta.url)) {

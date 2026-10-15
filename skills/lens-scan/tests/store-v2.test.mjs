@@ -412,3 +412,25 @@ test('cli: the new commands print JSON; bad input exits 2, a refused move exits 
   const rw = spawnSync(process.execPath, [SCRIPT, '--db', path, 'rework-attempt', '--id', p, '--run', run], { encoding: 'utf8' });
   assert.equal(rw.status, 1);
 });
+
+
+test('release run: a conflicted item leaves a building release (skill only); registry-target items never join', () => {
+  const { db, run, ids: [a, b] } = seed(2);
+  build(db, run, [a, b]);
+  triage(db, { ids: [a, b], decision: 'accept', by: 'operator:jane' });
+  const rel = releaseCreate(db, { version: '2.0.0', by: 'operator:jane' });
+  releaseAdd(db, { release: rel.id, ids: [a, b] });
+  releaseUpdate(db, { release: rel.id, status: 'building', from: 'draft' });
+  // a person cannot pull an item out of a building release
+  assert.deepEqual(triage(db, { ids: a, decision: 'rework', by: 'operator:jane' }).skipped, [{ id: a, status: 'accepted', reason: 'in-release' }]);
+  // the release run sends its conflicted item back, and it leaves the release
+  assert.deepEqual(triage(db, { ids: a, decision: 'rework', by: 'skill:lens-scan', note: 'conflict on release/2.0.0: x.ts' }).triaged, [a]);
+  assert.deepEqual(releaseItems(db, { release: rel.id }).map((p) => p.id), [b]);
+
+  const { db: db2, run: run2, ids: [c] } = seed(1);
+  db2.prepare("UPDATE proposals SET body = 'target: registry\nregister the project' WHERE id = ?").run(c);
+  build(db2, run2, [c]);
+  triage(db2, { ids: c, decision: 'accept', by: 'operator:jane' });
+  const rel2 = releaseCreate(db2, { version: '0.1.0', by: 'operator:jane' });
+  assert.deepEqual(releaseAdd(db2, { release: rel2.id, ids: c }).skipped, [{ id: c, status: 'accepted', reason: 'registry-target' }]);
+});
