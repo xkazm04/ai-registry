@@ -43,9 +43,13 @@ export function familyState(members) {
 
 const IMAGE = /\.(png|jpe?g|webp|gif)$/i;
 
-/** Screenshots of one variant: the visual pass names them `<letter>-<n>-...`. */
+/**
+ * Screenshots of one variant: the visual pass names them `<letter>-<n>-...`. A host's own probe
+ * (the landing section has hosts drive Playwright by role) often writes `<letter><n>-...`; that
+ * form counts too - the separator after n still keeps A/1 apart from A/10.
+ */
 export function shotsFor(names, letter, n) {
-  const re = new RegExp(`^${letter}-${n}[-_.]`);
+  const re = new RegExp(`^${letter}-?${n}[-_.]`);
   return names.filter((x) => IMAGE.test(x) && re.test(path.basename(x)));
 }
 

@@ -47,16 +47,25 @@ export function identityPattern(extra = []) {
 // quote of the second design contest and hit the most thorough entry hardest (125 redactions against 3).
 // Only compound identifiers are protected (a `/ @ . - _ :` or a digit beside the word); a bare vendor
 // word stays redacted even when the material uses it, because that is how a seat signs its work.
+// So is a product name the material spells with a space - `Claude Code`, `CLAUDE CODE` in an owner's
+// toolbox (xkazm04, 2026-10-15: 128 redactions, every one of them the owner's own tool name, in the
+// copies the owner reviewed). The exact casing must occur in the material, and the second word must
+// not itself be an identity word, so `Claude Opus` stays a signature.
 const IDENT_CHARS = '[A-Za-z0-9_./@:-]';
 const EDGE = /^[.:_/@-]+|[.:_/@-]+$/g;
 
-/** Compound identifiers in `texts` (the staged material) that contain an identity word, longest first. */
+/** Compound identifiers and spaced product names in `texts` (the staged material) that contain an identity word, longest first. */
 export function materialPhrases(texts, extra = []) {
   const word = identityPattern(extra);
   const inner = word.source.replace(/^\b\(\?:/, '').replace(/\)\b$/, '');
   const token = new RegExp(`${IDENT_CHARS}*(?:${inner})${IDENT_CHARS}*`, 'gi');
+  const product = new RegExp(`\\b(?:${inner}) ([A-Za-z][A-Za-z0-9]*)\\b`, 'gi');
   const found = new Set();
   for (const t of texts) {
+    for (const m of String(t).matchAll(product)) {
+      const next = m[1];
+      if (/^[A-Z]/.test(next) && !new RegExp(`^(?:${inner})$`, 'i').test(next)) found.add(m[0]);
+    }
     for (const m of String(t).matchAll(token)) {
       const phrase = m[0].replace(EDGE, '');
       const rest = phrase.replace(new RegExp(inner, 'gi'), '');
