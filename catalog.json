@@ -439,16 +439,16 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.6.1",
+      "version": "1.7.0",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:3b6e2893d65a328f",
+      "contentHash": "sha256-n1:e54a2405708dc645",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 17,
+      "lessons": 18,
       "lessonsPath": "skills/lens-scan/LESSONS.md",
-      "lessonsHash": "sha256-n1:51a52ea36ccc9ca7",
+      "lessonsHash": "sha256-n1:7c9288472de57747",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1074,7 +1074,7 @@
     "skills": 41,
     "practices": 8,
     "memory": 9,
-    "lessons": 348
+    "lessons": 349
   },
   "bundles": [
     {
@@ -1111,10 +1111,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 83,
-      "techniques": 547,
-      "applications": 311,
-      "files": 945,
-      "contentHash": "sha256-b2:a66c9552e6d056ad"
+      "techniques": 548,
+      "applications": 315,
+      "files": 950,
+      "contentHash": "sha256-b2:3b50ad0bc925a6cd"
     },
     {
       "name": "grant-funding",
