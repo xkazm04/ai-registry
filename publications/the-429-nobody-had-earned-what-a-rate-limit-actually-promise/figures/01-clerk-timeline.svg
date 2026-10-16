@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" width="680" height="400" role="img" aria-labelledby="f1t f1d">
+  <title id="f1t">Timeline of the Clerk outage on 2026-02-19</title>
+  <desc id="f1d">A time axis from 16:11 to 18:06 UTC. Onset 16:11, converted from the postmortem's 8:11 AM PST, reported 16:15, a customer-spike hypothesis from 16:32 to 16:50 with manual blocks between 16:35 and 16:37, automatic failover did not trigger at 16:55, failover issues session tokens at 17:10, root cause at 17:25 an automatic ANALYZE that read a column as 100 percent NULL against a true 99.9996 percent, re-run by hand at 17:27, systems stabilizing 17:43, stable performance confirmed 18:06. Every time except the onset is quoted UTC. A note quotes the postmortem: over 95 percent of traffic returning 429 without being handled, with no window given.</desc>
+  <style>
+    .bg{fill:#f6f4ef}
+    .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#1b1b19}
+    .lbl{font-size:14px}
+    .d{font-size:13px;fill:#3a3a36}
+    .sm{font-size:13px;fill:#57534d}
+    .h{font-size:13px;fill:#57534d;letter-spacing:.04em}
+    .ax{stroke:#3a3a36;stroke-width:2;fill:none}
+    .axh{fill:#3a3a36}
+    .tick{stroke:#8a8076;stroke-width:1.3;fill:none}
+    .box{fill:#ffffff;stroke:#8a8076;stroke-width:1.3}
+    .redbox{fill:#f4dcdc;stroke:#a4262c;stroke-width:1.5}
+    .bluebox{fill:#e7eef4;stroke:#1f4e79;stroke-width:1.5}
+    .dotred{fill:#a4262c}
+    .dotblue{fill:#1f4e79}
+    .dotgreen{fill:#2d6a4f}
+    .redt{fill:#a4262c}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1c1c1a}
+      .t{fill:#e9e6df}
+      .d{fill:#cfcac0}
+      .sm,.h{fill:#a9a397}
+      .ax{stroke:#cfcac0}
+      .axh{fill:#cfcac0}
+      .tick{stroke:#7d776c}
+      .box{fill:#121212;stroke:#7d776c}
+      .redbox{fill:#3b2222;stroke:#ef8e8e}
+      .bluebox{fill:#16303f;stroke:#8ec2e8}
+      .dotred{fill:#ef8e8e}
+      .dotblue{fill:#8ec2e8}
+      .dotgreen{fill:#79c396}
+      .redt{fill:#ef8e8e}
+    }
+  </style>
+  <rect class="bg" width="680" height="400"/>
+
+  <text class="t h" x="20" y="22">2026-02-19 UTC</text>
+
+  <line class="tick" x1="50" y1="50" x2="50" y2="204" stroke-dasharray="3 3"/>
+  <line class="tick" x1="71" y1="82" x2="71" y2="204" stroke-dasharray="3 3"/>
+  <line class="tick" x1="280" y1="114" x2="280" y2="204" stroke-dasharray="3 3"/>
+  <line class="tick" x1="358" y1="146" x2="358" y2="204" stroke-dasharray="3 3"/>
+  <line class="tick" x1="530" y1="184" x2="530" y2="204" stroke-dasharray="3 3"/>
+  <line class="tick" x1="436" y1="216" x2="436" y2="238" stroke-dasharray="3 3"/>
+
+  <text class="t lbl" x="56" y="46">16:11, converted from 8:11 AM PST: onset of errors</text>
+  <text class="t lbl" x="77" y="78">16:15 reported and escalated internally</text>
+  <text class="t lbl" x="286" y="110">16:55 automatic failover did not trigger</text>
+  <text class="t lbl" x="364" y="142">17:10 failover issues session tokens</text>
+  <text class="t lbl" x="648" y="178" text-anchor="end">17:43 systems stabilizing</text>
+  <text class="t lbl" x="648" y="200" text-anchor="end">18:06 stable performance confirmed</text>
+
+  <line class="ax" x1="50" y1="210" x2="656" y2="210"/>
+  <polygon class="axh" points="662,210 650,205 650,215"/>
+
+  <circle class="dotred" cx="50" cy="210" r="5"/>
+  <circle class="dotblue" cx="71" cy="210" r="4"/>
+  <circle class="dotblue" cx="280" cy="210" r="4"/>
+  <circle class="dotblue" cx="358" cy="210" r="4"/>
+  <circle class="dotblue" cx="436" cy="210" r="4"/>
+  <circle class="dotgreen" cx="530" cy="210" r="4"/>
+  <circle class="dotgreen" cx="650" cy="210" r="5"/>
+
+  <rect class="redbox" x="160" y="216" width="93" height="22"/>
+  <text class="t lbl" x="60" y="262">16:32 to 16:50: one customer's traffic spike suspected</text>
+  <text class="t d" x="60" y="282">16:35 to 16:37: manual blocks, no recovery</text>
+
+  <rect class="bluebox" x="400" y="238" width="250" height="68"/>
+  <text class="t d" x="412" y="260">17:25 root cause: ANALYZE read</text>
+  <text class="t d" x="412" y="278">100% NULL, true value 99.9996%</text>
+  <text class="t d" x="412" y="296">17:27 re-run by hand, plan restored</text>
+
+  <rect class="box" x="20" y="334" width="420" height="46"/>
+  <text class="t d" x="32" y="354">quoted: over 95% of traffic returning 429</text>
+  <text class="t d" x="32" y="372">without being handled; no window given</text>
+
+  <text class="sm" x="460" y="354">restored about 90 minutes after onset</text>
+  <text class="sm" x="660" y="372" text-anchor="end">source [1]</text>
+</svg>

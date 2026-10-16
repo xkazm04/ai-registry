@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 390" width="680" height="390" role="img" aria-labelledby="f4t f4d">
+  <title id="f4t">The key-derivation ladder, an illustration</title>
+  <desc id="f4d">Five descending rungs, each pairing a key source with the checkable fact that admits it: authenticated credential with a signature verified on this request; forwarded entry at hop N, a deployment-specific count, admitted by the derived key being verified on every ingress path; socket address with a direct listener and the port stripped; address prefix slash 32 to slash 64 with a subnet mask applied to real IPv6 only; and a coarse bucket under an aggregate ceiling, treated as entropy rather than identity. Three red arrows mark where rungs break: a client reaching the application on a shorter path writes the header, a rotating source port, and IPv4-mapped addresses masked to colon colon slash 56. Labelled Inference.</desc>
+  <style>
+    .bg{fill:#f6f4ef}
+    .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#1b1b19}
+    .n{font-size:15px}
+    .d{font-size:13px;fill:#3a3a36}
+    .h{font-size:13px;fill:#57534d;letter-spacing:.04em}
+    .sm{font-size:13px;fill:#57534d}
+    .box{fill:#ffffff;stroke:#8a8076;stroke-width:1.5}
+    .greenbox{fill:#eef1e9;stroke:#2d6a4f;stroke-width:1.5}
+    .bluebox{fill:#e7eef4;stroke:#1f4e79;stroke-width:1.5}
+    .bluet{fill:#1f4e79}
+    .redl{stroke:#a4262c;stroke-width:1.6;fill:none}
+    .redh{fill:#a4262c}
+    .redt{fill:#a4262c}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1c1c1a}
+      .t{fill:#e9e6df}
+      .d{fill:#cfcac0}
+      .h,.sm{fill:#a9a397}
+      .box{fill:#121212;stroke:#7d776c}
+      .greenbox{fill:#1a2d22;stroke:#79c396}
+      .bluebox{fill:#16303f;stroke:#8ec2e8}
+      .bluet{fill:#8ec2e8}
+      .redl{stroke:#ef8e8e}
+      .redh{fill:#ef8e8e}
+      .redt{fill:#ef8e8e}
+    }
+  </style>
+  <rect class="bg" width="680" height="390"/>
+
+  <rect class="bluebox" x="556" y="10" width="96" height="24"/>
+  <text class="t d bluet" x="604" y="27" text-anchor="middle">Inference</text>
+
+  <text class="t h" x="20" y="27">KEY SOURCE</text>
+  <text class="t h" x="250" y="27">ADMITTED BY</text>
+
+  <rect class="box" x="20" y="42" width="470" height="48"/>
+  <text class="t n" x="34" y="62">authenticated credential</text>
+  <text class="t d" x="34" y="80">strongest key</text>
+  <text class="t d" x="250" y="72">signature verified on this request</text>
+
+  <rect class="box" x="44" y="104" width="446" height="48"/>
+  <text class="t n" x="58" y="124">forwarded entry at hop N</text>
+  <text class="t d" x="58" y="142">count is deployment-specific</text>
+  <text class="t d" x="274" y="134">key verified on every ingress path</text>
+
+  <rect class="box" x="68" y="166" width="422" height="48"/>
+  <text class="t n" x="82" y="186">socket address</text>
+  <text class="t d" x="82" y="204">no proxy in front</text>
+  <text class="t d" x="298" y="196">direct listener, port stripped</text>
+
+  <rect class="box" x="92" y="228" width="398" height="48"/>
+  <text class="t n" x="106" y="248">address prefix /32 to /64</text>
+  <text class="t d" x="106" y="266">IPv6 clients</text>
+  <text class="t d" x="322" y="258">mask applied to real IPv6 only</text>
+
+  <rect class="greenbox" x="116" y="290" width="374" height="48"/>
+  <text class="t n" x="130" y="310">coarse bucket, aggregate ceiling</text>
+  <text class="t d" x="130" y="328">nothing attributable</text>
+  <text class="t d" x="346" y="320">entropy, not identity</text>
+
+  <path class="redl" d="M660 128 L 502 128"/>
+  <polygon class="redh" points="490,128 504,122 504,134"/>
+  <text class="t d redt" x="660" y="112" text-anchor="end">shorter path: client writes the header</text>
+
+  <path class="redl" d="M660 190 L 502 190"/>
+  <polygon class="redh" points="490,190 504,184 504,196"/>
+  <text class="t d redt" x="660" y="174" text-anchor="end">source port rotates</text>
+
+  <path class="redl" d="M660 252 L 502 252"/>
+  <polygon class="redh" points="490,252 504,246 504,258"/>
+  <text class="t d redt" x="660" y="236" text-anchor="end">::ffff: masked to ::/56</text>
+
+  <text class="sm" x="20" y="372">sources [5][15][16][17]</text>
+</svg>
