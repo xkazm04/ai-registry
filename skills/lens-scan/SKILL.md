@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.6.1
+version: 1.7.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -49,6 +49,7 @@ the only gate into execution.
 /lens-scan release --id rel-1.4.1             # cherry-pick the accepted items onto release/1.4.1, gate, open the PR
 /lens-scan release --id rel-1.4.1 --finish    # after the PR merged: tag v1.4.1, GitHub release, close the packs
 /lens-scan propagate                         # child proposals for a landed baseline upgrade
+/lens-scan propagate --lens design --proposals p-1a2b3c   # the sites of this one landed upgrade
 /lens-scan status                            # what waits for a decision, what is running; changes nothing
 /lens-scan onboard "<what the lens measures>" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]
 ```
@@ -447,7 +448,8 @@ propose phase emits a `baseline-upgrade` item: an edit to
 code) recorded in its body. Once it is approved and released, a propagation run
 (`run-start --phase propagate`) finds every similar site and emits one `propagation`
 child proposal per site (`--parent <upgrade id>`), judged against the upgraded house
-rule. When three or more sites share the shape, the first child is the extraction of
+rule. `--proposals <upgrade id>` scopes the run to that one upgrade, which must be
+`done`. When three or more sites share the shape, the first child is the extraction of
 a shared component and the others depend on it. The full flow, including how sites
 are found and what makes a signature good, is
 [propagation.md](references/propagation.md).
@@ -505,8 +507,9 @@ from the store, starts one `claude -p` per run, and prints one JSON summary:
 
 ```
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs status  --lens <id> --root <product repo>
-node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs cover   --lens <id> --root <repo> [--retry] [--stale] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs cover   --lens <id> --root <repo> [--features a,b | --retry] [--stale] [--dry]
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id> --root <repo> [--approve-proposed --by operator:<name>] [--ids a,b] [--base <ref>] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs propagate --lens <id> --root <repo> [--ids <upgrade,...> | --standard house:<subject>/<line>] [--dry]
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs triage  --ids a,b --decision accept|rework|descope|reopen --by operator:<name> [--note t] --root <repo>
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs compare --pack k-des-3 | --ids a,b --root <repo>
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs release --id rel-<version> [--finish] --root <repo> [--dry]
@@ -517,7 +520,9 @@ node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs release --id rel-<version> [--finish]
   context map the structure was built over), plus the lens's backlog by status (`store.mjs gaps`).
 - `cover` runs `measure` only over the features with gaps, in chunks. For a lens with a
   conform step, a chunk is the size of the step's budget, so each feature in a run gets a
-  pair judged. Then it runs one `propose`.
+  pair judged. Then it runs one `propose`. `--features a,b` measures exactly those features,
+  whatever their state (a person asking for a re-measure); a slug the app-structure does
+  not list is bad input.
 - `execute` builds the lens's approved items. `--approve-proposed --by <kind:name>`
   approves its `proposed` items first. The caller's flag is the person's decision,
   exactly as the blueprint's Execute backlog button is, and `decided_by` records who.
@@ -525,6 +530,11 @@ node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs release --id rel-<version> [--finish]
   Each run builds a pack, never main. `--base <ref>` reaches the prompt as `--base <ref>`
   (a release base the caller chose); with `--ids`, a named `rework` item is rebuilt as a
   new attempt.
+- `propagate` starts one `claude -p` per landed (`done`) `baseline-upgrade` of the lens,
+  `/lens-scan propagate --lens <id> --proposals <upgrade>` (6. Propagate). Its children
+  arrive `proposed` and wait for a person like any item; the summary lists them. `--ids`
+  or `--standard` names the upgrade; a named one that is not `done` is refused (exit 1),
+  because the house rule it would judge against has not landed. Timeout default 90 min.
 - `triage` and `compare` cost no model call: they are `store.mjs triage` and `store.mjs
   compare`, so a headless caller has one door. `triage --by` is the person the caller acts
   for, exactly as for `--approve-proposed`; a caller never triages on its own judgement.
@@ -536,6 +546,10 @@ node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs release --id rel-<version> [--finish]
   says how to suggest the version.
 - Exit 0 when every run is `done`, 1 when a run failed or was refused, 2 for bad input.
   The blueprint shows these runs like its own (their note is `bp-job:drive-<id>`).
+- The CLI is `LENS_SCAN_CLAUDE_BIN`, else `BP_CLAUDE_BIN`, else `claude` (a `.mjs` path runs on
+  this Node). Under Personas the caller points it at the fleet shim
+  (`personas/scripts/fleet/personas-run.mjs`): every run then waits in the Personas fleet's one
+  queue and shows in its Fleet Monitor as origin `lens_scan`, with the same output and exit code.
 
 `--dry` prints the plan and starts nothing. Use it before a first real run.
 

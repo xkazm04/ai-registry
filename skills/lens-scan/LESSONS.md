@@ -78,3 +78,6 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 
 ## 1.6.0 - 2026-10-15 - bp (release-ledger, the Kettle sample train)
 - A pack closed on tag only when every item was released, descoped or declined, so a pack holding a `rework` item never closed: the item stays `rework` for good, and its rebuild ships from a later pack. bp's sample sim (WP3) hit it. 1.6.1 counts a rework item as settled once its rebuild (attempt_of = it) is, down the chain, and the tag looks at the packs of the reworked items too, so the old pack closes with the release that ships its rebuild.
+
+## 1.6.1 - 2026-10-16 - personas (spark one-control)
+- Change (not a field lesson; unproven in the field): Personas starts lens-scan runs through drive.mjs from its Decision Center, and two of the actions the operator asked it to start had no door: a measure of chosen features (`cover` only covered every gap of the lens) and propagating a landed standard (no verb; phase 6 ran only in a person's skill session). 1.7.0 adds `cover --features a,b` (exactly those features, an explicit re-measure; unknown slugs are bad input) and `drive.mjs propagate` (one session per `done` baseline-upgrade, `--ids` or `--standard` to name one, a named one not yet landed refused), and documents `/lens-scan propagate --proposals <upgrade>` as the scoped form.

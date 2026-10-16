@@ -74,7 +74,7 @@ test('decide: a caller decision is recorded with who, only on proposed items; st
 // scoped features; for an execute, moves each approved id to done. It never decides anything.
 const FAKE = `
 import { readFileSync } from 'node:fs';
-import { openStore, runStart, runEnd, measure, proposalUpdate, proposals, releaseUpdate, reworkAttempt } from ${JSON.stringify(pathToFileURL(STORE).href)};
+import { openStore, runStart, runEnd, measure, propose, proposalUpdate, proposals, releaseUpdate, reworkAttempt } from ${JSON.stringify(pathToFileURL(STORE).href)};
 const prompt = readFileSync(0, 'utf8').trim();
 const db = openStore('.ai/lens-scan/scan.db');
 // a release: building -> (a measure run noted with the release) -> pr-open; --finish: merged -> tagged
@@ -91,6 +91,16 @@ if (rel) {
     releaseUpdate(db, { release: rel[1], status: 'pr-open', prUrl: 'https://example.test/pr/1' });
   }
   console.log('fake release', prompt);
+  process.exit(0);
+}
+// a propagation: one child per site (here: features b and c) under the named upgrade, judged against its house line
+const pg = prompt.match(/^\\/lens-scan propagate --lens (\\S+) --proposals (\\S+)$/);
+if (pg) {
+  const up = proposals(db, { ids: pg[2] })[0];
+  const { id } = runStart(db, { phase: 'propagate', lenses: pg[1] });
+  for (const f of ['b', 'c']) propose(db, { run: id, feature: f, lens: pg[1], title: 'site ' + f, kind: 'propagation', parent: up.id, standard: up.standard });
+  runEnd(db, { run: id, status: 'done' });
+  console.log('fake propagate', prompt);
   process.exit(0);
 }
 const m = prompt.match(/^\\/lens-scan (measure|propose|execute) --lens (\\S+)(?: --scope (\\S+))?|^\\/lens-scan execute --proposals (\\S+)(?: --base \\S+)?$/);
@@ -271,5 +281,47 @@ test('drive: release runs the session to pr-open, --finish to tagged; a dead ses
     assert.equal(releaseGet(r2, { id: 'rel-1.2.0' }).status, 'tagged');
     assert.equal(r2.prepare('SELECT status FROM packs WHERE id = ?').get(k.id).status, 'closed');
     r2.close();
+  } finally { process.stderr.write = quiet; }
+});
+
+test('drive: cover --features measures exactly the named features; propagate runs one session per landed upgrade', async () => {
+  const { root, dbPath, db } = repo();
+  const { id: run } = runStart(db, { phase: 'propose', lenses: LENS });
+  const up = propose(db, { run, feature: 'a', lens: LENS, title: 'one table pattern', kind: 'baseline-upgrade', standard: 'house:table/sticky-head' }).id;
+  const open = propose(db, { run, feature: 'b', lens: LENS, title: 'not landed', kind: 'baseline-upgrade', standard: 'house:form/inline-error' }).id;
+  runEnd(db, { run, status: 'done' });
+  decide(db, { ids: up, decision: 'approve', by: 'operator:jane' });
+  proposalUpdate(db, { id: up, status: 'executing' });
+  proposalUpdate(db, { id: up, status: 'done', resultSha: 'abc1234' });
+  db.close();
+  const fake = join(root, 'fake-claude.mjs');
+  writeFileSync(fake, FAKE);
+  const env = { ...process.env, LENS_SCAN_CLAUDE_BIN: fake };
+  const quiet = process.stderr.write;
+  process.stderr.write = () => true;
+  try {
+    const cov = await drive(['cover', '--lens', LENS, '--root', root, '--features', 'c,a', '--no-propose'], env);
+    assert.deepEqual(cov.plan, [`/lens-scan measure --lens ${LENS} --scope c,a`], 'the named features, in one run by the conform budget');
+    assert.ok(cov.ok, JSON.stringify(cov.jobs));
+    const again = await drive(['cover', '--lens', LENS, '--root', root, '--features', 'a', '--dry'], env);
+    assert.deepEqual(again.plan, [`/lens-scan measure --lens ${LENS} --scope a`, `/lens-scan propose --lens ${LENS}`], 'a measured feature is re-measured when named');
+    await assert.rejects(drive(['cover', '--lens', LENS, '--root', root, '--features', 'a,zz'], env), /not in the app-structure: zz/);
+    await assert.rejects(drive(['cover', '--lens', LENS, '--root', root, '--features'], env), /at least one feature/);
+    await assert.rejects(drive(['execute', '--lens', LENS, '--root', root, '--features', 'a'], env), /belongs to cover/);
+
+    const all = await drive(['propagate', '--lens', LENS, '--root', root, '--dry'], env);
+    assert.deepEqual(all.plan, [`/lens-scan propagate --lens ${LENS} --proposals ${up}`], 'only the landed upgrade');
+    await assert.rejects(drive(['propagate', '--lens', LENS, '--root', root, '--ids', open], env), (e) => e.code === 1 && /not landed/.test(e.message));
+    await assert.rejects(drive(['propagate', '--lens', LENS, '--root', root, '--ids', 'p-000000'], env), /not a baseline-upgrade/);
+    await assert.rejects(drive(['propagate', '--lens', LENS, '--root', root, '--standard', 'house:none/x'], env), /no baseline-upgrade/);
+    await assert.rejects(drive(['propagate', '--lens', LENS, '--root', root, '--standard', 'house:x;rm'], env), /house line/);
+    await assert.rejects(drive(['cover', '--lens', LENS, '--root', root, '--standard', 'house:table/sticky-head'], env), /belongs to propagate/);
+    const pr = await drive(['propagate', '--lens', LENS, '--root', root, '--standard', 'house:table/sticky-head'], env);
+    assert.ok(pr.ok, JSON.stringify(pr.jobs));
+    assert.match(pr.jobs[0].run, /^r-/, 'the propagation session found its run by the job note');
+    assert.deepEqual(pr.children.map((c) => [c.parent, c.feature, c.status]), [[up, 'b', 'proposed'], [up, 'c', 'proposed']], 'children wait for a person');
+    const ro = openStore(dbPath, { readOnly: true });
+    assert.equal(ro.prepare('SELECT phase FROM runs WHERE id = ?').get(pr.jobs[0].run).phase, 'propagate');
+    ro.close();
   } finally { process.stderr.write = quiet; }
 });

@@ -5,8 +5,9 @@
 // the same prompts the blueprint's job runner sends. The model works only inside those runs.
 //
 //   node drive.mjs status  --lens <id> [--root <product repo>]
-//   node drive.mjs cover   --lens <id> [--root r] [--stale] [--retry] [--chunk n] [--max-runs n] [--no-propose]
+//   node drive.mjs cover   --lens <id> [--root r] [--features a,b | --stale] [--retry] [--chunk n] [--max-runs n] [--no-propose]
 //   node drive.mjs execute --lens <id> [--root r] [--ids a,b] [--approve-proposed --by <kind:name>] [--batch n] [--base <ref>]
+//   node drive.mjs propagate --lens <id> [--root r] [--ids <upgrade,...> | --standard house:<subject>/<line>]
 //   node drive.mjs release --id rel-<version> [--root r] [--finish]
 //   node drive.mjs triage  --ids a,b --decision accept|rework|descope --by <kind:name> [--note t] [--root r]
 //   node drive.mjs compare --pack k | --ids a,b [--root r]
@@ -18,6 +19,8 @@
 //            feature in a run gets a pair judged), then one propose run over the lens unless --no-propose. An
 //            `unmeasurable` metric - a done run covered the feature and wrote nothing - is reported, and re-run only
 //            on --retry (the method changed, or a steps lens's conform step can fill what its script could not).
+//            --features a,b names exactly the features to measure, whatever their state (a person's re-measure):
+//            each must be in the app-structure's features, and --stale / --retry have nothing left to add.
 //   execute  the lens's approved items (or --ids), in runs of --batch (default 50, the blueprint's cap), plus any
 //            item a dead run left `executing` (`cut_off`): the run reconciles it from what landed.
 //            --approve-proposed --by <kind:name> first approves the lens's `proposed` items as that decider
@@ -26,6 +29,10 @@
 //            pack/<short>-<n> cut from the release base, one commit per item, never merged into main. --base <ref> passes
 //            a specific release base into the prompt. With --ids, a named `rework` item is in the plan too: the run
 //            rebuilds it as a new attempt (store.mjs rework-attempt).
+//   propagate one `claude -p` per landed baseline upgrade of the lens (SKILL.md 6. Propagate,
+//            references/propagation.md): `/lens-scan propagate --lens <id> --proposals <upgrade>`, which emits one
+//            `propagation` child per similar site for a person to approve. Without --ids / --standard, every `done`
+//            baseline-upgrade of the lens; a named one that is not `done` is refused (its house rule is not landed).
 //   release  one `claude -p` with `/lens-scan release --id rel-x [--finish]` (references/release.md): without --finish
 //            the release goes draft|failed -> building -> pr-open; with --finish, once its PR is merged, pr-open|merged
 //            -> merged -> tagged. Done means the release reached that status. A session that ends with the release
@@ -36,7 +43,7 @@
 // The CLI: LENS_SCAN_CLAUDE_BIN, else BP_CLAUDE_BIN, else `claude` on PATH (a .js/.mjs path runs on this Node).
 // Each run gets BP_JOB_ID=drive-<id> (the store notes the run `bp-job:drive-<id>`, which is how this script
 // finds it) and a log at .ai/lens-scan/work/drive/<id>.log. stdout: one JSON summary. stderr: progress lines.
-// release, triage and compare take no --lens. A run's session that ends while its run still says running (a timeout - --timeout-min, default 90 for a measure,
+// release, triage and compare take no --lens; a propagate run's timeout defaults to 90 min. A run's session that ends while its run still says running (a timeout - --timeout-min, default 90 for a measure,
 // 30 per item and at least 90 for an execute - or a crash) has the run closed `aborted`.
 // Exit 0 every run done, 1 a run failed or was refused, 2 bad input.
 import { spawn } from 'node:child_process';
@@ -44,13 +51,14 @@ import { createWriteStream, existsSync, mkdirSync, readFileSync, realpathSync, s
 import { delimiter, extname, join, resolve } from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
-import { openStore, gaps, decide, proposals, parseArgs, runEnd, triage, compare, releaseGet, releaseUpdate, StoreError } from './store.mjs';
+import { openStore, gaps, decide, proposals, parseArgs, runEnd, triage, compare, releaseGet, releaseUpdate, structureLens, StoreError } from './store.mjs';
 
 const MAX_BATCH = 50;
 const SAFE_ID = /^[A-Za-z0-9._-]+$/;
 const SAFE_REF = /^[A-Za-z0-9._][A-Za-z0-9._/-]*$/;
 const REL_ID = /^rel-\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/;
-const VERBS = ['status', 'cover', 'execute', 'release', 'triage', 'compare'];
+const SAFE_STANDARD = /^[A-Za-z0-9._:/-]+$/;
+const VERBS = ['status', 'cover', 'execute', 'propagate', 'release', 'triage', 'compare'];
 const bad = (m) => { throw new StoreError(m, 2); };
 const say = (m) => process.stderr.write(`drive: ${m}\n`);
 
@@ -173,6 +181,9 @@ export async function drive(argv, env = process.env) {
   if (!SAFE_ID.test(lens)) bad(`--lens ${JSON.stringify(lens)} may not reach a command line`);
   const base = a.base === undefined ? undefined : (typeof a.base === 'string' && SAFE_REF.test(a.base) && !a.base.includes('..') ? a.base : bad('--base is a git ref (letters, digits, . _ / -)'));
   if (base !== undefined && verb !== 'execute') bad('--base belongs to execute');
+  if (a.features !== undefined && verb !== 'cover') bad('--features belongs to cover');
+  if (a.standard !== undefined && verb !== 'propagate') bad('--standard belongs to propagate');
+  if (verb === 'propagate') return propagate(a, { lens, root, dbPath, model, dry, read, env, timeoutMin: intFlag(a, 'timeoutMin', 90) });
   // a cover run is one bounded measure; an execute run builds, gates and re-measures every item (paypal's 9 took
   // over 90 min): 30 min per item, never under 90, unless the caller says otherwise
   const timeoutFor = (items) => intFlag(a, 'timeoutMin', Math.max(90, 30 * items));
@@ -183,7 +194,8 @@ export async function drive(argv, env = process.env) {
 
   const jobs = [];
   if (verb === 'cover') {
-    const todo = before.features.filter((f) => f.unmeasured || (a.stale === true && f.stale) || (a.retry === true && f.unmeasurable)).map((f) => f.feature);
+    const named = a.features === undefined ? undefined : namedFeatures(a.features, structure, lens);
+    const todo = named ?? before.features.filter((f) => f.unmeasured || (a.stale === true && f.stale) || (a.retry === true && f.unmeasurable)).map((f) => f.feature);
     const budget = conformBudget(structure, lens);
     const size = intFlag(a, 'chunk', budget ?? 12, 200);
     const plan = chunks(todo, size).slice(0, intFlag(a, 'maxRuns', Infinity));
@@ -226,6 +238,45 @@ export async function drive(argv, env = process.env) {
   }
   summary.jobs = jobs;
   if (!dry) { const after = read((db) => gaps(db, { lens, structure })); summary.after = { totals: after.totals, backlog: after.backlog }; }
+  summary.ok = jobs.every((j) => j.status === 'done');
+  return summary;
+}
+
+/** `--features a,b`: the named slugs, each one a feature of the app-structure (else bad input naming the unknown). */
+function namedFeatures(flag, structure, lens) {
+  const list = typeof flag === 'string' ? [...new Set(flag.split(',').map((x) => x.trim()).filter(Boolean))] : [];
+  if (!list.length) bad('--features names at least one feature slug');
+  const known = new Set(structureLens(structure, lens).features);
+  const unknown = list.filter((f) => !known.has(f));
+  if (unknown.length) bad(`--features: not in the app-structure: ${unknown.join(', ')}`);
+  return list;
+}
+
+/** One propagation session per landed baseline upgrade (references/propagation.md); judged by its run, as a measure. */
+async function propagate(a, { lens, root, dbPath, model, dry, read, env, timeoutMin }) {
+  const standard = a.standard === undefined ? undefined : (typeof a.standard === 'string' && SAFE_STANDARD.test(a.standard) ? a.standard : bad('--standard is a house line, house:<subject>/<line>'));
+  if (standard !== undefined && a.ids !== undefined) bad('propagate takes --ids or --standard, not both');
+  const upgrades = read((db) => proposals(db, { kind: 'baseline-upgrade', ...(a.ids !== undefined ? { ids: a.ids } : {}) }))
+    .filter((p) => p.lens === lens && (standard === undefined || p.standard === standard));
+  if (a.ids !== undefined) {
+    const found = new Set(upgrades.map((p) => p.id));
+    const missing = String(a.ids).split(',').map((x) => x.trim()).filter((x) => x && !found.has(x));
+    if (missing.length) bad(`--ids: not a baseline-upgrade of lens ${lens}: ${missing.join(', ')}`);
+  }
+  if (standard !== undefined && !upgrades.length) bad(`no baseline-upgrade of lens ${lens} names ${standard}`);
+  const named = a.ids !== undefined || standard !== undefined;
+  const notLanded = upgrades.filter((p) => p.status !== 'done');
+  if (named && notLanded.length) throw new StoreError(`not landed, so its house rule does not exist yet: ${notLanded.map((p) => `${p.id} is ${p.status}`).join(', ')}`, 1);
+  const go = upgrades.filter((p) => p.status === 'done' && SAFE_ID.test(p.id));
+  const summary = { verb: 'propagate', lens, root, dry, upgrades: go.map((p) => ({ id: p.id, standard: p.standard, feature: p.feature })) };
+  summary.plan = go.map((p) => `/lens-scan propagate --lens ${lens} --proposals ${p.id}`);
+  const jobs = [];
+  if (!dry) for (const prompt of summary.plan) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin, env }));
+  summary.jobs = jobs;
+  if (go.length && !dry) {
+    summary.children = read((db) => db.prepare(`SELECT id, parent_id, feature, status FROM proposals WHERE kind = 'propagation' AND parent_id IN (${go.map(() => '?').join(',')}) ORDER BY created_at`)
+      .all(...go.map((p) => p.id))).map((p) => ({ id: p.id, parent: p.parent_id, feature: p.feature, status: p.status }));
+  }
   summary.ok = jobs.every((j) => j.status === 'done');
   return summary;
 }
