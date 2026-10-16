@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 350" width="680" height="350" role="img" aria-labelledby="f5t f5d">
+  <title id="f5t">Before and after the IPv4 key collapse in CVE-2026-30827</title>
+  <desc id="f5d">Left panel, the affected branches 8.0.0 to 8.0.1, 8.1.0 and 8.2.0 to 8.2.1: four IPv4 clients arrive as IPv4-mapped addresses, are accepted as IPv6, get a slash 56 mask, and land in one bucket keyed colon colon slash 56, which returns 429 to all four because the first 80 bits are zero. Right panel, the patched releases 8.0.2, 8.1.1 and 8.2.2: the same four clients keep four separate buckets and only the one over its limit is refused. Scored CVSS 7.5 of 10, high, and classed CWE-770, allocation without limits; the default key generator only.</desc>
+  <style>
+    .bg{fill:#f6f4ef}
+    .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#1b1b19}
+    .mono{font-family:"SFMono-Regular",Consolas,"Liberation Mono",monospace;font-size:13px}
+    .n{font-size:14px}
+    .d{font-size:13px;fill:#3a3a36}
+    .h{font-size:13px;fill:#57534d;letter-spacing:.04em}
+    .sm{font-size:13px;fill:#57534d}
+    .box{fill:#ffffff;stroke:#8a8076;stroke-width:1.3}
+    .arr{stroke:#57534d;stroke-width:1.3;fill:none}
+    .arrh{fill:#57534d}
+    .panelbad{fill:#faf0f0;stroke:#a4262c;stroke-width:1.5}
+    .panelgood{fill:#f0f5f0;stroke:#2d6a4f;stroke-width:1.5}
+    .redbox{fill:#f4dcdc;stroke:#a4262c;stroke-width:1.3}
+    .redt{fill:#a4262c}
+    .greent{fill:#2d6a4f}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1c1c1a}
+      .t{fill:#e9e6df}
+      .d{fill:#cfcac0}
+      .h,.sm{fill:#a9a397}
+      .box{fill:#121212;stroke:#7d776c}
+      .arr{stroke:#a9a397}
+      .arrh{fill:#a9a397}
+      .panelbad{fill:#2a1c1c;stroke:#ef8e8e}
+      .panelgood{fill:#1a2620;stroke:#79c396}
+      .redbox{fill:#3b2222;stroke:#ef8e8e}
+      .redt{fill:#ef8e8e}
+      .greent{fill:#79c396}
+    }
+  </style>
+  <rect class="bg" width="680" height="350"/>
+
+  <rect class="panelbad" x="12" y="40" width="322" height="258"/>
+  <rect class="panelgood" x="346" y="40" width="322" height="258"/>
+
+  <text class="t h" x="12" y="20">AFFECTED BRANCHES</text>
+  <text class="t d" x="12" y="34">8.0, 8.1, 8.2 before the patch</text>
+  <text class="t h" x="346" y="20">PATCHED</text>
+  <text class="t d" x="346" y="34">8.0.2, 8.1.1, 8.2.2</text>
+
+  <rect class="box" x="24" y="52" width="104" height="26"/><text class="t mono" x="32" y="70">::ffff:a.b.c.1</text>
+  <rect class="box" x="24" y="84" width="104" height="26"/><text class="t mono" x="32" y="102">::ffff:a.b.c.2</text>
+  <rect class="box" x="24" y="116" width="104" height="26"/><text class="t mono" x="32" y="134">::ffff:a.b.c.3</text>
+  <rect class="box" x="24" y="148" width="104" height="26"/><text class="t mono" x="32" y="166">::ffff:a.b.c.4</text>
+
+  <path class="arr" d="M128 65 L 164 112"/>
+  <path class="arr" d="M128 97 L 164 112"/>
+  <path class="arr" d="M128 129 L 164 112"/>
+  <path class="arr" d="M128 161 L 164 112"/>
+  <rect class="redbox" x="166" y="96" width="156" height="34"/>
+  <text class="t d" x="176" y="117">accepted as IPv6, /56 mask</text>
+  <path class="arr" d="M244 130 L 244 166"/><polygon class="arrh" points="244,174 239,162 249,162"/>
+  <rect class="redbox" x="166" y="176" width="156" height="40"/>
+  <text class="t n" x="244" y="201" text-anchor="middle">one bucket: ::/56</text>
+  <text class="t d redt" x="24" y="246">first 80 bits zero</text>
+  <text class="t n redt" x="24" y="276">429 to all four</text>
+
+  <rect class="box" x="358" y="52" width="100" height="26"/><text class="t mono" x="366" y="70">a.b.c.1</text>
+  <rect class="box" x="358" y="84" width="100" height="26"/><text class="t mono" x="366" y="102">a.b.c.2</text>
+  <rect class="box" x="358" y="116" width="100" height="26"/><text class="t mono" x="366" y="134">a.b.c.3</text>
+  <rect class="box" x="358" y="148" width="100" height="26"/><text class="t mono" x="366" y="166">a.b.c.4</text>
+
+  <path class="arr" d="M458 65 L 526 65"/>
+  <path class="arr" d="M458 97 L 526 97"/>
+  <path class="arr" d="M458 129 L 526 129"/>
+  <path class="arr" d="M458 161 L 526 161"/>
+  <rect class="box" x="528" y="52" width="128" height="26"/><text class="t d" x="536" y="70">bucket 1</text>
+  <rect class="box" x="528" y="84" width="128" height="26"/><text class="t d" x="536" y="102">bucket 2</text>
+  <rect class="redbox" x="528" y="116" width="128" height="26"/><text class="t d" x="536" y="134">bucket 3, over limit</text>
+  <rect class="box" x="528" y="148" width="128" height="26"/><text class="t d" x="536" y="166">bucket 4</text>
+  <text class="t d greent" x="358" y="246">mapped address unwrapped</text>
+  <text class="t n greent" x="358" y="276">429 to the one over limit</text>
+
+  <text class="sm" x="12" y="318">CVSS 7.5 of 10, high</text>
+  <text class="sm" x="12" y="336">CWE-770; default key generator only</text>
+  <text class="sm" x="668" y="344" text-anchor="end">source [17]</text>
+</svg>

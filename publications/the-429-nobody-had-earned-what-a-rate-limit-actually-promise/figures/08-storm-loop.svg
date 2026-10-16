@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 390" width="680" height="390" role="img" aria-labelledby="f8t f8d">
+  <title id="f8t">The amplification loop, its two breaks and the cost of refusing</title>
+  <desc id="f8d">A four-node cycle: a refusal is sent, the client retries, the arrival rate rises, the limiter and its log work harder, and another refusal is sent. Two breaks cut the cycle. One is server signalling: a computed wait carried in the refusal, spread past the end of the window. One is client scheduling: a client that throttles itself when its requests exceed twice its accepts. Beside the limiter node, a cost panel records that bounded aggregation, one line per key per episode, lowers what refusing costs rather than what arrives. A side note records that throttling does not stop clients sending. Labelled Inference, the post's own loop.</desc>
+  <style>
+    .bg{fill:#f6f4ef}
+    .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#1b1b19}
+    .n{font-size:15px}
+    .d{font-size:13px;fill:#3a3a36}
+    .h{font-size:13px;fill:#57534d;letter-spacing:.04em}
+    .sm{font-size:13px;fill:#57534d}
+    .box{fill:#ffffff;stroke:#8a8076;stroke-width:1.5}
+    .arr{stroke:#1f4e79;stroke-width:2;fill:none}
+    .arrh{fill:#1f4e79}
+    .cut{stroke:#a4262c;stroke-width:3}
+    .redt{fill:#a4262c}
+    .bluebox{fill:#e7eef4;stroke:#1f4e79;stroke-width:1.5}
+    .bluet{fill:#1f4e79}
+    .notebox{fill:#eceae4;stroke:#8a8076;stroke-width:1.3}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1c1c1a}
+      .t{fill:#e9e6df}
+      .d{fill:#cfcac0}
+      .h,.sm{fill:#a9a397}
+      .box{fill:#121212;stroke:#7d776c}
+      .arr{stroke:#8ec2e8}
+      .arrh{fill:#8ec2e8}
+      .cut{stroke:#ef8e8e}
+      .redt{fill:#ef8e8e}
+      .bluebox{fill:#16303f;stroke:#8ec2e8}
+      .bluet{fill:#8ec2e8}
+      .notebox{fill:#26251f;stroke:#7d776c}
+    }
+  </style>
+  <rect class="bg" width="680" height="390"/>
+
+  <rect class="bluebox" x="20" y="14" width="150" height="24"/>
+  <text class="t d bluet" x="95" y="31" text-anchor="middle">Inference: this post's loop</text>
+
+  <rect class="box" x="250" y="48" width="180" height="42"/>
+  <text class="t n" x="340" y="74" text-anchor="middle">refusal sent</text>
+
+  <rect class="box" x="470" y="168" width="180" height="42"/>
+  <text class="t n" x="560" y="194" text-anchor="middle">client retries</text>
+
+  <rect class="box" x="250" y="288" width="180" height="42"/>
+  <text class="t n" x="340" y="314" text-anchor="middle">arrival rate rises</text>
+
+  <rect class="box" x="30" y="168" width="180" height="42"/>
+  <text class="t n" x="120" y="188" text-anchor="middle">limiter and log</text>
+  <text class="t n" x="120" y="204" text-anchor="middle">work harder</text>
+
+  <path class="arr" d="M430 78 C 500 88, 540 118, 556 160"/>
+  <polygon class="arrh" points="560,168 549,160 559,156"/>
+  <path class="arr" d="M556 214 C 540 258, 500 290, 436 304"/>
+  <polygon class="arrh" points="428,306 440,298 441,308"/>
+  <path class="arr" d="M250 306 C 186 292, 142 258, 126 218"/>
+  <polygon class="arrh" points="124,210 134,220 124,222"/>
+  <path class="arr" d="M126 162 C 142 120, 186 88, 248 78"/>
+  <polygon class="arrh" points="256,76 244,84 243,74"/>
+
+  <text class="t h" x="660" y="40" text-anchor="end">BREAK 1: SIGNALLING</text>
+  <line class="cut" x1="500" y1="100" x2="530" y2="128"/>
+  <text class="t d redt" x="660" y="96" text-anchor="end">server sends the wait, spread past the window</text>
+
+  <text class="t h" x="660" y="348" text-anchor="end">BREAK 2: CLIENT SCHEDULING</text>
+  <line class="cut" x1="500" y1="294" x2="530" y2="266"/>
+  <text class="t d redt" x="660" y="304" text-anchor="end">client throttles above twice its accepts</text>
+
+  <rect class="notebox" x="20" y="238" width="250" height="56"/>
+  <text class="t h" x="32" y="258">NOT A BREAK: COST OF REFUSING</text>
+  <text class="t d" x="32" y="280">one aggregated line per key per episode</text>
+
+  <text class="t d" x="20" y="104">throttling does not stop</text>
+  <text class="t d" x="20" y="122">clients sending</text>
+
+  <text class="sm" x="20" y="368">sources [1][2][5][10][21][25]</text>
+</svg>

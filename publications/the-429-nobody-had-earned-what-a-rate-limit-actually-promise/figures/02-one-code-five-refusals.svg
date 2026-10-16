@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 360" width="680" height="360" role="img" aria-labelledby="f2t f2d">
+  <title id="f2t">One status code, five conditions, as grouped by this post</title>
+  <desc id="f2d">HTTP 429 branches to five conditions, each told apart by a different field: a rate limit, identified by x-ratelimit or RateLimit fields; a capacity shed, where no limit was evaluated and, by Stripe's rule for its own API, no rate-limit headers appear; a held lock, carrying code lock_timeout, which the SDK retries; a spend cap, carrying error code enforced_spend_limit_reached and no retry-after; and a key-derivation bug, which refused every IPv4 client from one collapsed key in CVE-2026-30827. A note records that the first four sort from the response while the fifth needs operator evidence. Labelled Inference, the post's own grouping.</desc>
+  <style>
+    .bg{fill:#f6f4ef}
+    .t{font-family:"Helvetica Neue",Arial,sans-serif;fill:#1b1b19}
+    .n{font-size:15px;font-weight:bold}
+    .d{font-size:13px;fill:#3a3a36}
+    .h{font-size:13px;fill:#57534d;letter-spacing:.04em}
+    .sm{font-size:13px;fill:#57534d}
+    .box{fill:#ffffff;stroke:#8a8076;stroke-width:1.5}
+    .arr{stroke:#57534d;stroke-width:1.5;fill:none}
+    .arrh{fill:#57534d}
+    .bluebox{fill:#e7eef4;stroke:#1f4e79;stroke-width:1.5}
+    .bluet{fill:#1f4e79}
+    .redbox{fill:#f4dcdc;stroke:#a4262c;stroke-width:1.5}
+    .redt{fill:#a4262c}
+    @media (prefers-color-scheme:dark){
+      .bg{fill:#1c1c1a}
+      .t{fill:#e9e6df}
+      .d{fill:#cfcac0}
+      .h,.sm{fill:#a9a397}
+      .box{fill:#121212;stroke:#7d776c}
+      .arr{stroke:#a9a397}
+      .arrh{fill:#a9a397}
+      .bluebox{fill:#16303f;stroke:#8ec2e8}
+      .bluet{fill:#8ec2e8}
+      .redbox{fill:#3b2222;stroke:#ef8e8e}
+      .redt{fill:#ef8e8e}
+    }
+  </style>
+  <rect class="bg" width="680" height="360"/>
+
+  <text class="t h" x="20" y="24">ONE STATUS CODE</text>
+  <text class="t h" x="236" y="24">FIVE CONDITIONS, DIFFERENT CLIENT REACTIONS</text>
+
+  <rect class="bluebox" x="20" y="140" width="110" height="52"/>
+  <text class="t n bluet" x="75" y="172" text-anchor="middle">HTTP 429</text>
+
+  <rect class="box" x="236" y="36" width="424" height="48"/>
+  <text class="t n" x="250" y="56">rate limit</text>
+  <text class="t d" x="250" y="74">x-ratelimit-* or RateLimit field present</text>
+
+  <rect class="box" x="236" y="92" width="424" height="48"/>
+  <text class="t n" x="250" y="112">capacity shed</text>
+  <text class="t d" x="250" y="130">no limit evaluated; Stripe: no headers, not a limit</text>
+
+  <rect class="box" x="236" y="148" width="424" height="48"/>
+  <text class="t n" x="250" y="168">lock held</text>
+  <text class="t d" x="250" y="186">code lock_timeout, the SDK retries it</text>
+
+  <rect class="box" x="236" y="204" width="424" height="48"/>
+  <text class="t n" x="250" y="224">spend cap reached</text>
+  <text class="t d" x="250" y="242">enforced_spend_limit_reached, no retry-after</text>
+
+  <rect class="redbox" x="236" y="260" width="424" height="48"/>
+  <text class="t n" x="250" y="280">key-derivation bug</text>
+  <text class="t d" x="250" y="298">one collapsed key refused every IPv4 client</text>
+
+  <path class="arr" d="M130 158 C 176 158, 186 60, 230 60"/>
+  <path class="arr" d="M130 162 C 176 162, 186 116, 230 116"/>
+  <path class="arr" d="M130 166 L 230 168"/>
+  <path class="arr" d="M130 172 C 176 172, 186 228, 230 228"/>
+  <path class="arr" d="M130 178 C 176 178, 186 284, 230 284"/>
+  <polygon class="arrh" points="236,60 226,55 226,65"/>
+  <polygon class="arrh" points="236,116 226,111 226,121"/>
+  <polygon class="arrh" points="236,168 226,163 226,173"/>
+  <polygon class="arrh" points="236,228 226,223 226,233"/>
+  <polygon class="arrh" points="236,284 226,279 226,289"/>
+
+  <text class="t d redt" x="236" y="326">four sort from the response; the fifth needs operator evidence</text>
+
+  <rect class="bluebox" x="20" y="320" width="150" height="24"/>
+  <text class="t d bluet" x="95" y="337" text-anchor="middle">Inference: this post's grouping</text>
+  <text class="sm" x="660" y="348" text-anchor="end">sources [1][3][10][11][17]</text>
+</svg>

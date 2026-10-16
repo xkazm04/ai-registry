@@ -1,0 +1,745 @@
+[
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The Markdown references figures/01 to 08 as .png while the assets on disk and index.html are .svg, so every figure is a broken image when the Markdown is rendered.",
+    "action": "Repoint all eight Markdown image references to the .svg files that exist, matching index.html, and re-verify the figures in the platform preview at both widths and schemes."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "The post generalises [8]'s sentence into an unqualified 'reading your limit is free', which is wider than the quoted scope and is unsafe advice for a polling caller.",
+    "action": "Scope the sentence to what [8] states and change Table C's cell to 'not against the limit it reports; secondary limit status stays unobservable', re-reading [7] and [8] for the exact wording on secondary limits before the claim is restated."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The arithmetic is checkable and wrong: 16:15 to 18:06 is 111 minutes, and the postmortem's 16:15 entry is the report and escalation, not the start of refusals.",
+    "action": "Re-read [1]'s timeline, then state onset, escalation, stabilisation and confirmation separately, carry one span consistently in prose, figure footer and Table D, and stop drawing the 95 percent band across the whole axis."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The postmortem [1] records shedding with status 429 and gives no response capture, so the header block and 'no limit had been evaluated' are the post's reading presented as the source's.",
+    "action": "Label the opening block an illustration with invented values, quote the postmortem's own words, carry the shed-evaluates-no-limit step as a labelled Inference, and keep traffic rather than callers as the population in the code comment."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "120 is RFC 9110's syntax example [4] and nothing in [1] supports a recovery estimate, so the prose claim that the wait is derived from recovery is unsupported.",
+    "action": "Label the closing block an illustration, say the value would be the service's own recovery estimate with 120 shown as the RFC's example, and drop the derivation claim."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "The report [2] names load balancers past their limits and a sidecar that did not scale as the start of 2026-08-17 and the retry bug as the amplifier, and it does state a duration for 2026-08-26.",
+    "action": "Re-read [2], then separate trigger from amplification, fill in the 2026-08-26 duration, use the heading durations consistently with a caption clause noting the shorter impact-summary figures, keep the report's own denominator wording, and stop attaching the 2026-08-26 throttle quote to the 2026-08-17 percentage."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "A continuous range 8.0.0 through 8.2.1 contradicts the same advisory's patched releases 8.0.2 and 8.1.1, so the prose and figure are internally inconsistent.",
+    "action": "Re-read [17]'s structured affected ranges and state the per-branch ranges in the prose and Figure 5 instead of one continuous span."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "The 35 percent and the at least 65 percent have different populations in [22], total pageviews against resource-consuming traffic at the core datacenters, so 'roughly half the problem' is an unlabelled inference the numbers do not carry.",
+    "action": "Cut the half-the-problem sentence and keep both denominators named beside their percentages in the prose and the figure caption."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "The research log's own quotation of [21] carries 'for example' before the 500 CPU seconds per second, so the number is the chapter's illustration rather than a reported deployment.",
+    "action": "Fold the 2017 callout into a one-clause history note on Table B's CPU row, naming the allocation as the chapter's example."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "Source [19] and [20] are Envoy's latest documentation, which does not by itself establish that a named field is available in a released version, and Table A calls the column shipping vocabularies.",
+    "action": "Name the Envoy documentation version read in the source entry and the table note, and re-read the pages to cite a released version for enable_retry_after_header or drop the shipping framing for that row."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "The research log records retry-after on GitHub secondary responses as 'when present', which Table A flattens into a default, and the Claude retry-after question is not settled by anything in claims.json.",
+    "action": "Correct the GitHub cell to the conditional wording and separate refusal reason from wait field in the column headings; re-read [11] and add its retry-after behaviour only if the page documents one."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "The count does not hold: Figure 2 shows four conditions under 429 plus a 400, the preview promises a fifth category the body never names, and the header-absence rule is Stripe's, not a general property of 429.",
+    "action": "Make the fifth 429 meaning the key-derivation bug of [17], move the 400 case to a one-line note under the figure, mark the header-absence rule as provider-specific, and qualify the sorting promise so a bug is named as the condition that arrives looking like an ordinary quota refusal."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "Matching an echoed IP on one route proves that route's hop count, and [15]'s ERR_ERL_PERMISSIVE_TRUST_PROXY exists because a client that reaches the app on a shorter path can write the header the limiter trusts.",
+    "action": "Replace the repeated raise-the-count instruction with one requirement to verify the derived key on every ingress path, and mark the example hop count as deployment-specific, resting the point on [15] and [16] rather than a page outside the sources list."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f14",
+    "disposition": "accepted",
+    "reason": "The sum bound holds only for independent parallel counters, and ranking window error below partitioning error compares a measured 2017 figure against an unquantified one.",
+    "action": "Label the sum as Derived with its assumption stated, distinguish parallel, serial and shared enforcement in one compact passage covering refill and burst, and drop the unsupported ranking sentence."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "A complexity score arrives in a response header [13], so it can only inform later admission decisions, and the post treats accurate metering as protection.",
+    "action": "Replace part of the vendor-number inventory with one sentence separating admission-time estimation, concurrency bounds and post-response accounting, naming which protects in-flight work."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "A wait computed from one window reset is the same instant for every refused caller, and [10] puts the jitter on the integration, so the recommended fix has an edge the post never states.",
+    "action": "Add two sentences after the Envoy paragraph on synchronisation and jitter, change Table E's wait cell to 'send the computed value, spread or jittered', and relabel Figure 8's cuts as server signalling against client scheduling."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f17",
+    "disposition": "accepted",
+    "reason": "Under key churn the distinct-key rate approaches the request rate, which the post's own [23] material on residential proxy ranges implies, and the assumption names no window or state bound.",
+    "action": "Rewrite the ASSUMPTION callout as bounded aggregation with a stated window and a cap on tracked keys, name key churn as where the bound fails, and keep the close explicitly hypothetical."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f18",
+    "disposition": "accepted",
+    "reason": "The preview sentence reads as covering the drawings, which are the post's own, and Table E's column calls contested behaviour a universal default.",
+    "action": "Write 'Every number below is from third-party published work', label Figures 2, 7 and 8 as the post's constructs, and rescope Table E's column from what the default does to the example or failure mode each cell names."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f19",
+    "disposition": "accepted",
+    "reason": "Sections 2 to 6 carry no trace of the opening refusal and the AWS control-plane and GitHub quota lists support no claim the post makes.",
+    "action": "Cut the AWS control-plane numbers and the GitHub quota inventory paragraph, and spend part of the space on one through-line clause per section drawn only from what [1] states."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f20",
+    "disposition": "accepted",
+    "reason": "The closing restates six numbers in one sentence that Table E immediately below lists again with citations, then repeats the actions a third time.",
+    "action": "Cut the omnibus recap sentence and let Table E carry the numbers, keeping the return to Clerk and the labelled response illustration."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f21",
+    "disposition": "rejected",
+    "reason": "The delivered page already carries both links: index.html links each preview item to its section anchor (#s1 to #s8) and every citation marker to its source entry (#src-N); only the companion Markdown has bare markers, and the .svg path defect there is handled under f1."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f22",
+    "disposition": "accepted",
+    "reason": "The post's own prose says the 5,000 per hour is shared across all of that user's tokens and apps [7], so the table cell naming the token as the owner contradicts it.",
+    "action": "Change the Table B cell to per user, shared across their tokens and apps."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f23",
+    "disposition": "accepted",
+    "reason": "The research log records the mitigation behaviour as a default and the post dropped that qualifier, and the plan-tier framing of the richer characteristics needs the product qualification checked.",
+    "action": "Restore 'by default' on the mitigation timeout with the throttling alternative noted, and re-read [12] to add the Advanced Rate Limiting qualification to the characteristics sentence."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f24",
+    "disposition": "accepted",
+    "reason": "The house rule requires every term of art in the closing table glossed in a clause, and Table E carries an unglossed CVSS 7.5 and an action that depends on remembering the ladder figure.",
+    "action": "Gloss or remove CVSS, CWE-770, JA3/JA4, FlowSchemas and seats at first use, and replace Table E's rung reference with a concrete audit action, shortening the surrounding cells to hold length."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "Confirmed against index.html, which loads figures/01-clerk-timeline.svg while the Markdown asks for .png.",
+    "action": "Repoint the eight Markdown image references to the .svg assets, as under gpt f1."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "A duration marked 'not stated in the report read' when the report states one is a factual error in a table cell.",
+    "action": "Fill in the 2026-08-26 duration from [2]'s heading and note in the caption that the impact summaries give shorter figures."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The two reviewers' counts differ (522 against about 445) because of alt text and code comments, which leaves no margin under the 450-word ceiling either way.",
+    "action": "Trim the opening: compress the ANALYZE sentence, move its statistics into the timeline figure as a labelled marker, and shorten the preview items to single clauses."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "Independently confirmed by fable f16 and by index.html, whose figure img rule hardcodes background #f6f4ef, so the figures ship one palette while the text, tables and code define two.",
+    "action": "Add a prefers-color-scheme block to each SVG using the dark variables already in the stylesheet, drop the forced light panel, and check stroke contrast in both schemes."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "Two names for each section weakens the scan the preview exists to serve.",
+    "action": "Build each outline item from the opening words of its own heading, shortened, which also serves the 450-word trim."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f6",
+    "disposition": "rejected",
+    "reason": "The close already settles the opening's trigger: the rewritten response is the 503 spelling of a capacity condition under [4] and the first Monday action gives each condition its own distinguishing field. An architectural recommendation about health checks would be new material in the close, which the house rule forbids, and the sharper version of the point is accepted under fable f8."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The post already contrasts epoch resets [7], RFC 3339 resets [11] and the draft's relative t [5] without saying why the relative form matters operationally.",
+    "action": "Add one clause, labelled Inference, that a relative delay survives client clock drift while an absolute reset does not, paid for by the cuts under fable f18."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "The research holds a documented fact the post omits that settles this better than the suggestion: [11] states a 60 requests per minute limit may be enforced as 1 per second, so short bursts fail below the published number.",
+    "action": "Replace the AWS control-plane list with one sentence on burst against smoothed enforcement, citing [11]'s per-second enforcement note and the API Gateway burst the customer cannot change [24]."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The arithmetic is wrong on its face (111 minutes, not about 90) and the caption's ninety minutes of searching contradicts a hypothesis dropped at 16:50.",
+    "action": "Re-read [1], pick one span and carry it through prose, figure footer and Table D, rewrite the caption to the hypothesis window the timeline shows, add the failover and root-cause markers, and label the 95 percent band rather than stretching it."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "The postmortem describes shedding with status 429 and never describes the response fields or states that no limit was evaluated, so the thesis sentence is cited as fact when it is the post's reasoning.",
+    "action": "Quote the postmortem's words in the opening, carry the shed-evaluates-no-limit step as a labelled Inference, and change the figure band to the quoted phrase."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "Making the retry bug the cause misreads [2] and, as the finding notes, weakens the section: the report's capacity failure amplified by retries is the same loop as Clerk's.",
+    "action": "State the load-balancer capacity failure as the start and the retry bug as the amplifier, in the prose, Table D's role cell and the close."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "Mixing heading and impact-summary durations across rows makes the column incomparable, and one row claims a duration is unstated when the report states it.",
+    "action": "Use the heading duration for all three GitHub rows, fill in 2026-08-26, and add a caption clause that the impact summaries give shorter figures."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "The subtitle, the first heading, Figure 2 and the preview count differently, and the preview's fifth category never appears in the body.",
+    "action": "Add the key-derivation bug of [17] as the fifth branch under 429 in Figure 2, open Section 3 by naming it as that branch, and move the HTTP 400 case to a note, so all four places count the same five."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "Stripe documents the jitter as the integration's job [10], which is exactly where the post's computed-wait recommendation stops holding.",
+    "action": "Add two sentences on synchronisation and jitter after the Envoy paragraph and change Table E's wait cell to 'send the computed value, spread or jittered', paid for by cutting the closing recap sentence."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The research log took ERR_ERL_STORE_REUSE and ERR_ERL_DOUBLE_COUNT from [15] and the body never uses them, and 'share state' is advised without the dependency that failure_mode_deny exists to answer.",
+    "action": "Replace the API Gateway number list with three sentences: a shared counter is a dependency with its own latency and failure, [15] names two ways a shared store miscounts, and [19]'s failure_mode_deny sits on the global filter for that reason."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "The production consequence is the strongest unstated point in the post: a proxy's capacity device returns a rate-limit status by default [19][20], so the Clerk pattern is what installing one produces rather than a mistake.",
+    "action": "In Section 8 state that [1] does not name the component and name the configurable response status and its default on [20], then change the first Monday action to finding every default that emits a 429."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "The claims log records only the 400 spelling, so if [11] documents a Claude Code workspace exception the post states the rule too absolutely.",
+    "action": "Re-read [11] and add one clause for the workspace exception if the page carries it, with the figure's fifth-row note adjusted to match."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "The research log counted seventeen ERR_ERL_ codes specifically, and the post dropped the qualifier, so 'seventeen named validation codes' is right only by an unstated exclusion.",
+    "action": "Write seventeen named error codes, confirming the warning-code count on [15] in the same pass."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "'Does not read at all' is a stronger claim than the log's 'ignores it by default' and attributes a permanent property to Express.",
+    "action": "Re-read [15] for the version and write that Express 5.1 and later ignore the Forwarded header, so the library ignores it too."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "Standards Track belongs to the draft's own header [5] and the reviewer reports the datatracker fields empty, so at minimum the callout cites the wrong source for part of its content.",
+    "action": "Re-open [6], quote the state exactly as shown or say the work has not been submitted to the IESG, and cite Standards Track to [5] in the callout and the Figure 3 footer."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "Checkable against the figure's own alt text: of the three cuts drawn, only the self-throttling client sits on the caller's side.",
+    "action": "Relabel the computed wait as a wait the client honours and correct the caption's count, which also sets up the jitter point."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f14",
+    "disposition": "accepted",
+    "reason": "The comparison sets a measured 0.003 percent against a partitioning error the post never quantifies, so the ranking is an inference with one side missing.",
+    "action": "Drop 'cheaper than the partitioning error' and let the measured approximation error and the unquantified fan-out stand side by side."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "Same defect as gpt f1 and gemini f1, confirmed against index.html's .svg references.",
+    "action": "Repoint the Markdown image references to the .svg assets."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "Confirmed in index.html: the figure img rule sets background #f6f4ef unconditionally while every other colour on the page is defined for both schemes.",
+    "action": "Add a prefers-color-scheme block to each SVG with the stylesheet's dark palette, remove the forced light panel, and record the contrast check for both schemes."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f17",
+    "disposition": "accepted",
+    "reason": "The opening block presents invented header lines as what callers received, and the closing value is RFC 9110's example while the prose calls it derived from recovery.",
+    "action": "Label both blocks as illustrations with invented values, as the Section 1 block already does, and state in the close that the value would be the service's own recovery estimate."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f18",
+    "disposition": "accepted",
+    "reason": "The four spans named are repetition rather than depth, and cutting them is what pays for the accepted insight additions without the post growing.",
+    "action": "Cut the closing recap sentence, reduce the Section 6 quota paragraph to the unauthenticated limit keyed by originating IP, reduce the API Gateway sentence to the uncontrollable burst, and fold the 2017 callout into a clause on Table B's CPU row."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f19",
+    "disposition": "accepted",
+    "reason": "The outline wording and the heading wording differ, and the opening sits at the 450-word ceiling with no margin before the timeline corrections are made.",
+    "action": "Build the outline from the headings' own wording and move the ANALYZE statistics into the figure as a labelled marker to recover margin."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f20",
+    "disposition": "accepted",
+    "reason": "'Every figure below' names the drawings, which are the post's own, and 'not history' names a contrast the post never drew.",
+    "action": "Write 'Every number below is from third-party published work' and 'because the condition was capacity, not the caller's count in a window'."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f21",
+    "disposition": "accepted",
+    "reason": "The through-line is absent from five consecutive sections, so the scene's promise is paid only at the end.",
+    "action": "Add one clause per section, restricted to what [1] states: the wait that was missing, the manual block as a hand-chosen key, the step a database-bound auth API should meter, and what callers could read before the first refusal."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f22",
+    "disposition": "accepted",
+    "reason": "Both details are counter-evidence to the post's own claim that the contract is publishable, and neither is in the claims log, so they need confirming before use.",
+    "action": "Re-read [7] and [11], then add one clause each on undisclosed point costs and on limits as maximum allowed usage rather than guaranteed minimums."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f23",
+    "disposition": "accepted",
+    "reason": "Checkable arithmetic against the post's own timeline: the blocks ran 16:35 to 16:37 and the hypothesis from 16:32 to 16:50, so thirty-five minutes of blocking by hand is wrong.",
+    "action": "Restate with the postmortem's times: the hypothesis held about eighteen minutes, two of them spent blocking a customer by hand."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The research log for [1] records that the postmortem quotes no response fields and names no component, so four sentences state as fact what the post elsewhere labels Inference; one customer's traffic spike was real, which makes the opening's flat denial too wide.",
+    "action": "Replace 'None of them had' with 'No limit had counted them', bound the 'no distinguishing field' sentence to what the postmortem quotes (status only, no fields), make the hypothesis sentence read as the post's reading rather than the source's, drop the categorical 'neither did its operators' clause, and change the closing code comment from 'no limit evaluated' to the recommended wording with the Inference label carried to it."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "Source [7] makes the GitHub cells imprecise on both counts: x-ratelimit-resource names the primary resource category and the page states there is no way to check secondary limit status, and the documented fallback is x-ratelimit-reset only when remaining is 0, otherwise at least one minute with exponential backoff; [5] defines pk as the partition key, not the policy that refused.",
+    "action": "Rewrite the GitHub, Claude, Envoy and draft cells of Table A: GitHub's resource header as the budget charged with secondary refusals unobservable, the wait cell carrying the conditional rule, the Envoy cell saying the descriptor is exchanged with the limit service and not exposed in x-envoy-ratelimited, and the draft cell naming pk as the partition counted rather than the policy violated. No table is added."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The post asserts a negative about [5] ('an edge the draft does not state') that the research log does not support, and 'least implemented' is an adoption ranking no source measures.",
+    "action": "Drop the 'the draft does not state' framing and keep the consequence (one reset instant synchronises the callers refused in that window), with the spreading advice attributed to Stripe [10] and the draft's own window rule [5]; replace 'least implemented' with 'the one none of the systems in Table A ships'."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f4",
+    "disposition": "rejected",
+    "reason": "The review records repeated internal errors on the three pinned URLs, so the claim rests on pages the reviewer could not open, and sources.json contradicts it: [26] and [27] were read on 2026-10-14 on pages headed 'envoy tag-v1.40.0 documentation' and [28] records 1.40.0 as the latest release with an initial release date of 2026-10-13."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "The sentence 'Sorting works in each case only because somebody added a field' is contradicted two sentences later by the post's own fifth case, where the fields are those of an ordinary quota refusal [17].",
+    "action": "Replace that sentence with the diagnostic boundary: a field can name the policy a server declares, while a wrong key shows only in operator evidence, so four of the five sort from the response and the fifth does not. The figure 2 caption and alt text get the same bound; the preview's promise already concerns the reader's own service and stays."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "The one caller-side lever in the storm section exists only as a figure label, and [21] carries the mechanism (requests to accepts over two minutes, local rejection once requests exceed K times accepts, K of 2 preferred) while [2] carries GitHub's own follow-up to review retry and backoff limits across gateways and clients.",
+    "action": "Add two sentences of mechanism in the storm section stating the ratio, the K of 2 and what a lower K does, cited to [21] as the 2017 chapter's method, plus one clause on bounding attempts from [2]; paid for by cutting the duration and impact figures from the two incident paragraphs that Table D repeats."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "A log line is not sent to the client, so grouping bounded aggregation with the computed wait as 'server signalling' in figure 8 is a category error; aggregation bounds the cost of refusing, not the arrival rate.",
+    "action": "Relabel figure 8 so the two breaks are signalling (the spread wait) and client scheduling, with aggregation shown as refusal cost rather than a signal, and match the caption, alt text and the Table E noise row. The paragraph reporting that no vendor or peer-reviewed figure for log amplification was found stays, because the standard requires saying what the evidence does not settle."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "Correct and the sharpest finding in the three reviews: the sample calls ipKeyGenerator, which on an affected version is the collapse path itself [17], so 'custom key generators were unaffected' cannot be read as covering a wrapper around the faulty helper.",
+    "action": "Add a version prerequisite to the snippet comment (8.0.2, 8.1.1 or 8.2.2 and later) and narrow the exemption clause to generators that do not route through the faulty masking, with a one-clause check that two distinct IPv4-mapped inputs produce two keys; paid for by cutting the sentence on the advisory's less precise prose range."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "The duplication is real: the two incident paragraphs carry the durations and impact percentages that Table D repeats immediately below, and the five closing bullets restate Table E's Monday column.",
+    "action": "Cut the repeated durations and impact figures from the incident prose, keeping only the causal chain, and compress the closing list to the actions Table E does not carry (the caller-side procedure and the key check), which pays for the additions accepted elsewhere. The list is kept because the house rules require the close to name concrete changed actions."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "Both halves check out against [2]: the 74 organisations figure is incident-wide, and the research log records the heading and summary durations disagreeing in both directions, with 2026-08-26 longer in the summary.",
+    "action": "Rename the Table D column to 'Reported impact', qualify the 74 organisations cell as incident-wide, and change the caption to 'different figures, shorter for two of the three and longer for one'."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "Source [7] gives 15,000 per hour for a GitHub App owned by a GitHub Enterprise Cloud organisation, which the callout does not scope out, and the cap is 150 increments of either kind combined, so with 100 extra users the 51st extra repository already buys nothing.",
+    "action": "Scope the callout to non-Enterprise installations and replace the closing clause with the combined-increment statement and the example's own 51st repository."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "Source [24] records thirteen named Regions whose default burst quota is 1,250, so the bare 5,000 reads as universal.",
+    "action": "Qualify the figure as the default in most Regions with 1,250 in thirteen named ones, in the same sentence, keeping the non-configurability point that the refill-shape argument uses."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f13",
+    "disposition": "rejected",
+    "reason": "The authored page already links the outline: index.html lines 122 to 131 wrap every preview item in an anchor to its section id (#s1 to #s8). post.md is the plain-text export, where the links do not survive."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f1",
+    "disposition": "rejected",
+    "reason": "The failure is in the reviewer's static retrieval of a client-rendered page, not in the claim: [24] was read on 2026-10-14 with both the 5,000 burst bucket and the quoted sentence, and a second reviewer opened the same page and quoted its regional defaults of 1,250, which corroborates the content rather than contradicting it."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "A promise the close does not settle is the structural defect the standard names: the preview announces the visibility section and Table E carries no row for it, while its sixth row comes from a callout inside the topology section.",
+    "action": "Fold the failure-mode row into the topology row and give Table E a visibility row tracing to Table C, with a Monday action of alerting on 429s that arrive while remaining is above zero, which is the limit GitHub says cannot be read [7]; the preview's count is made honest at the same time."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The term is used without the clause the standard asks for at first use, and [11] documents what it means: a sharp usage increase can be refused below the published per-minute numbers.",
+    "action": "Gloss it in the Table C cell as 'ramp-up limits, which refuse a sharp increase even below the published number'."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The callout and the paragraph around it do drift from the section's claim into allocation arithmetic, and two other findings already require that passage to be rewritten.",
+    "action": "Condense the paragraph and the callout to the corrected formula, the cap and one clause on lead time, keeping them in the section because reading a limit and raising one are both pre-refusal operations."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "Right, and already sourced: draft-11 section 6 advises that Retry-After should not reference a point in time earlier than the end of the effective window, which is the additive-only rule the post's 'spread or jittered' advice leaves open.",
+    "action": "Add one clause beside the recommendation stating that server-side spreading only adds time past the end of the window, cited to [5], unlike client-side jitter that may pick a shorter wait [10]."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f6",
+    "disposition": "deferred",
+    "reason": "Plausible and worth a piece of its own, but no source in sources.json documents proxies treating 503 as an origin failure or ejecting nodes on it, and this round may not research; the nearest sourced limit on the recommendation is being added from [4] under fable f1 instead."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f7",
+    "disposition": "rejected",
+    "reason": "Sources [19] and [20] record a dated, checkable fact, that on 2026-10-14 the /latest/ URLs rendered a 1.41.0-dev build, which is the reason the Envoy claims are pinned to [26] and [27]; dropping them would renumber nine entries and remove the evidence for pinning, as the other review's inability to open the pinned pages shows."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The post's central recommendation is given without the limit the cited section itself states: RFC 9110 section 15.6.4 notes that the existence of 503 does not imply a server has to use it when overloaded.",
+    "action": "Add the RFC's own note beside the recommendation and state the condition under which the swap helps (the wait is sent and the shed is cheap to answer). The claim that most SDKs retry 503 by default is not added, because no source in sources.json supports it."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "Same defect the other review found independently, and the count is wrong on its face: seven decisions announced, eight items listed, and the visibility section settled nowhere in the close.",
+    "action": "Make the preview's count match its list, fold the failure-mode row into the topology row, and add the visibility row and one Monday action, keeping Table E at seven rows."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "Every action in the post is server-side while the incident turns on a caller's retry behaviour, and [7] documents a caller procedure the post cites the page for but never uses.",
+    "action": "Add a compact four-row callout in the first section giving GitHub's documented order (retry-after, else reset when remaining is 0, else at least a minute with backoff and a stop) plus the post's labelled Inference for the no-field case, and one caller-side item in the closing list; paid for by cutting the paragraph that restates figure 3's field list in prose."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The client-side cut appears only as a figure label, which leaves a term of art unexplained, and [21] carries the method the label compresses.",
+    "action": "Add the mechanism in prose: requests and accepts tracked over two minutes, local rejection once requests exceed K times accepts, K of 2 preferred, labelled as the 2017 chapter's method. The Kubernetes sentence is shortened to one clause rather than removed, so [18] stays cited and the source numbers stay stable."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "The named passages do carry material no claim in the thesis needs, and cuts are how the accepted additions are paid for; the deterministic ceiling is 7,000 words rather than the recipe's default minutes, so the issue is the flat material, not the total.",
+    "action": "Cut the paragraph restating figure 3, trim the Cloudflare 2017 accuracy clause and the 2025-05-08 changelog sentence to their shortest sourced form, shorten the Kubernetes clause, and qualify rather than cut the API Gateway sentence, so every one of the 28 sources stays cited and the numbering holds."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "Correct against [2] and against the post's own research log, which records the heading and summary durations disagreeing in both directions.",
+    "action": "Change 'shorter figures' to 'different figures, shorter for two of the three and longer for one'."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The arithmetic is right and the conclusion is wrong for its own example: the cap allows 150 increments of either kind combined, and the 100 extra users consume 100 of them.",
+    "action": "Replace the closing clause with the combined-increment statement and the 51st extra repository in this example."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "The clause is not load-bearing and the reviewer's per-code count of the page is more specific than the research log's generalisation, so the safest repair is to stop asserting it.",
+    "action": "Drop 'each check individually disableable' from the sentence."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "Source [13] carries the exception the sentence omits: data centers in the same geographic location share counters, so the fan-out is per location.",
+    "action": "Add 'with co-located data centers sharing one' to the sentence."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "An adoption ranking no source measures, found independently by the other review.",
+    "action": "Replace with 'the one none of the systems in Table A ships', which the table supports."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "Source [11] says Haiku 3.5 is retired except on Google Cloud, so 'retired' alone misstates the page; the chapter's edition date cannot be checked in this phase, so the date is attached to the copy that was read.",
+    "action": "Write 'retired except on Google Cloud', and date the overload chapter as the 2017 web copy of Google's SRE book read at [21] rather than as the book's edition."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f12",
+    "disposition": "rejected",
+    "reason": "Sources [19] and [20] are the evidence for a claim the post makes, that the Envoy /latest/ URLs rendered a 1.41.0-dev build on 2026-10-14, which is why the released-version claims are cited to [26] and [27]; both pages were read, so they are not padding, and dropping them would renumber nine later entries for no gain in accuracy."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "The figure's values are invented and the standard asks that illustrations say so in the caption, as figures 2, 4 and 8 already do.",
+    "action": "Begin the figure 3 caption with 'Illustration, values invented:' and keep the rest."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f14",
+    "disposition": "rejected",
+    "reason": "The authored page links the outline: index.html lines 122 to 131 wrap each item in an anchor to the section id it names (#s1 to #s8), so a scanning reader can jump; the unlinked list the finding describes is the plain-text post.md export."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "The preview's first sentence is a verbless noun phrase with two participial tails, which the standard lists among generated-prose habits.",
+    "action": "Give it a main verb, in a form that keeps the impersonal register: 'This post sets out seven decisions a rate limiter publishes whether or not anyone wrote them down, and checks each against what shipping systems send on the wire in October 2026.'"
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "Code is text the reader copies, and the block uses two names it never imports.",
+    "action": "Add the one import line for rateLimit and ipKeyGenerator from express-rate-limit at the top of the block, with the patched version named in the comment alongside."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f17",
+    "disposition": "accepted",
+    "reason": "The label is the most visible text in the panel and it contradicts the prose and the advisory's structured ranges, in which 8.0.2 and 8.2.2 are patched [17].",
+    "action": "Change the figure 5 panel label to '8.0.0 to 8.0.1, 8.1.0, 8.2.0 to 8.2.1' and keep the alt text in step."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f18",
+    "disposition": "accepted",
+    "reason": "The postmortem gives the onset only as 8:11 AM PST, so 16:11 UTC is the post's own conversion sitting unmarked beside quoted UTC entries.",
+    "action": "Label the onset node '16:11, converted from 8:11 AM PST' in the figure and its alt text, and say so in the caption."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f19",
+    "disposition": "accepted",
+    "reason": "The section offers two postures where practitioners run three, and two of the post's own sources are instances of the third: Cloudflare's co-located data centers sharing a counter [13] and Envoy's external limit service holding one counter per descriptor [26].",
+    "action": "Add one clause naming key affinity, routing each partition key to one instance, as the third posture with its hot-key failure mode, labelled Inference, inside the existing sentence and the topology Monday action."
+  }
+]
