@@ -2231,8 +2231,8 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/cross-runtime-rules-conformance.md",
-   "digest": "sha256-b2:f44c9a5f3aa712c2",
-   "revision": 1,
+   "digest": "sha256-b2:9e418d4f3bccc2e1",
+   "revision": 2,
    "changedAt": "2026-10-16",
    "techniques": [
     {

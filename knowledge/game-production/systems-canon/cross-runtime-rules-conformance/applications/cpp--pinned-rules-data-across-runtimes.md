@@ -42,6 +42,33 @@ reference location, for example
 cap. The pin check cannot see a wrong value there. The planted fault in the sibling
 application changed exactly that constant: the pin stayed green and the vectors caught it.
 
+## The pin has to travel with the package
+
+Read against `mage-arena-vr` `master` at `7daeb25`. The kernel resolves the pinned directory
+from the project directory
+(`apps/vr/Game/Source/MageArenaVR/Kernel/KernelData.cpp:22 "../data/pinned"`), a
+location outside the packager's content tree, so a package has it only if staging says so. The
+project lists it explicitly
+(`apps/vr/Game/Config/DefaultGame.ini:16 "+DirectoriesToAlwaysStageAsNonUFS=(Path="`),
+beside the two staging lines above it for clips and the other data directory.
+
+At boot the kernel logs where it looked, how many files it read and the chained hash over them
+(`apps/vr/Game/Source/MageArenaVR/Kernel/KernelData.cpp:719 "kernel data: pinned dir %s, %d files, SHA1 %s"`),
+or, when loading fails, an error naming the directory it expected
+(`apps/vr/Game/Source/MageArenaVR/Kernel/KernelData.cpp:723 "expected pinned data in %s"`). The
+hash chains each file's text onto the previous hash
+(`apps/vr/Game/Source/MageArenaVR/Kernel/KernelData.cpp:47 "// Chain: hash = SHA1(previous hash text + this file's text)"`),
+so the order of reads is part of the value. It is a runtime fingerprint, not the manifest's
+per-file hash.
+
+Proven, recorded in the project's findings note on 2026-10-07: the Win64 editor build, the
+`MageArena.Kernel.PinHash` automation test, and a Win64 package-and-stage run whose staged
+output lists all 9 files named in the manifest.
+
+Not proven: the packaged executable was not run, so the boot line has not been read from a
+package. Whether the `../..` staged path resolves the same inside an Android package is
+unconfirmed; the project plans to prove it on the first device package.
+
 ## What this realization cannot show
 
 - Whether the pinned revision still matches the source project's current tables. The pin

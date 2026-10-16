@@ -60,6 +60,11 @@ follow them.
   that exists only in the port is a second authority.
 - **When the generator reads a file the manifest does not list, fail.** A silent extra input
   is the same drift with one more step.
+- **When the pinned data is loaded at run time from files, the pin travels with the build that
+  runs it.** Stage the pinned files into the package explicitly, because a packager ships only
+  the data it knows about, and a gate that passes in the source tree says nothing about the
+  package. At boot, log the pin's location, file count and hash, so a package missing its data
+  fails loudly instead of running on defaults.
 
 ## When not to use it
 
