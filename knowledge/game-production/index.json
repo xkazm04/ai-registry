@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 84,
   "techniques": 553,
-  "applications": 319,
+  "applications": 320,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -3510,9 +3510,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
-   "digest": "sha256-b2:ea5acd91fd795bd3",
-   "revision": 5,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:6648b55a6f14ca63",
+   "revision": 6,
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -3601,6 +3601,13 @@
      "technique": "incident-entry-shape",
      "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/cpp--incident-entry-shape.md",
      "verified_on": "2026-10-07",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "introspect-before-you-call",
+     "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/cpp--introspect-before-you-call.md",
+     "verified_on": "2026-10-16",
      "verified_against": "cpp@20"
     },
     {
