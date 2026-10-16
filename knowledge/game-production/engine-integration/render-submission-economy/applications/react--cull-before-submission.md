@@ -91,3 +91,12 @@ opacity is read off the culled count,
 change to what the cull keeps can flip the tint of every chord on a camera whose count crosses 600.
 That is a cull result deciding something other than what is drawn. It changes a style, not a rule of
 play, and it was not measured here.
+
+## Outside corroboration
+
+**Headsets.** Meta's best-practice list for Quest asks for culling as a matter of course — "Use mesh-based
+occlusion culling" (https://developers.meta.com/horizon/documentation/unity/unity-best-practices-intro/) — and its
+multiview guidance shows one submission serving both eye views, "draw calls are instanced into each corresponding
+element of the texture array" (https://developers.meta.com/horizon/documentation/native/android/mobile-multiview/),
+which is why the technique's headset bound is the union of the two views. This tree is a two-dimensional story
+renderer with no headset build, and nothing here was measured on one.

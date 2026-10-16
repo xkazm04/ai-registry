@@ -86,3 +86,13 @@ frame bound by fill, fewer submissions of off-screen objects change little, beca
 already kept them from costing pixels. And for objects whose draw is a single cheap quad from an
 already-bound page, the test can cost as much as the draw; cull the classes that compute
 something per object, not the ones that only copy four vertices.
+
+## On fixed-refresh standalone headsets
+
+The technique holds, with one change to the bound. A headset renders two views per frame, so an
+object outside one eye's volume may be inside the other's; when one submission serves both views,
+the test is against the union of the two volumes, and when each view submits separately, each culls
+against its own. The margin rule is unchanged — the farthest point a draw can reach, not its centre.
+Headset platform guidance asks for culling as a matter of course, and on a processor of the same
+tile-based class the saving is in submission, as here. No headset was run for this technique; the
+sources are cited in its applications.

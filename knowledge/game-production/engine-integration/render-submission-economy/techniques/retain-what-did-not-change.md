@@ -6,7 +6,7 @@ technique: retain-what-did-not-change
 status: forged
 laws: [one-authority-per-quantity, structural-proof-is-never-sufficient, a-number-carries-its-unit-and-basis]
 shared_with: []
-use_when: [static geometry is rebuilt from thousands of immediate-mode vertices every frame, a text layer is laid out again on every refresh although most strings did not change, deciding what a retained buffer or layout cache is keyed on]
+use_when: [static geometry is rebuilt from thousands of immediate-mode vertices every frame, a text layer is laid out again on every refresh although most strings did not change, deciding what a retained buffer or layout cache is keyed on, a static interface layer is about to be baked into a texture and drawn as one quad]
 ---
 
 # Retain what did not change
@@ -72,6 +72,13 @@ handed to it. Both are true results and both are stated
 - **When the inputs to a cached step are still rebuilt every refresh, say what was not saved.**
   Skipping layout is one saving; not building the strings is another, and claiming the second
   from the first overstates the change.
+- **When the retained form is pixels and the live draw lands in a multisampled target, the two are
+  not the same picture.** An edge that falls inside a pixel — a nine-patch seam, a frame edge, an
+  icon's border — takes samples from both sides when it is drawn live into a multisampled target,
+  and from one side when it was baked at one sample per pixel. The baked layer then differs from the
+  live draw along every such edge by more than a rounding step, and no blend mode repairs it. Retain
+  the vertices instead of the pixels, or bake at the target's sample count, and gate the change on a
+  pixel comparison against the live draw in the real target, never in a single-sampled copy of it.
 - **When the retained buffer competes for a tight memory budget, count it.** Retained geometry is
   resident memory, and on a small device it belongs in the residency table.
 
@@ -82,3 +89,15 @@ retained buffer would be refilled anyway. Not for a handful of quads, where the 
 more than the rebuild. And not for a text layer whose strings change on every refresh, such as a
 running timer, unless the stable labels around it are separated from it so that only the timer
 is rebuilt.
+
+## On fixed-refresh standalone headsets
+
+The technique holds there, and its pixel rule binds harder. Headset platform guidance recommends
+multisampled eye buffers as the normal configuration, because a tile-based processor resolves the
+samples on chip and multisampling is cheap there; a layer baked at one sample per pixel and drawn
+into such a target differs from the live draw at every edge inside a pixel, as the decision rule
+above describes. Retaining vertices — a static mesh in the processor's memory, drawn with one call —
+transfers without that hazard, and on a headset the saving is taken once per view unless the
+platform's multi-view path submits both views at once. The evidence behind this technique comes from
+a television stick whose back buffer was multisampled at two samples; no headset was run, and the
+sources are cited in the stack application.

@@ -110,3 +110,13 @@ On a renderer that already sorts by state with a depth buffer — opaque three-d
 geometry is order-independent under depth testing and is sorted for state as a matter of course.
 On a frame bound by fill rather than submission, where fewer flushes change nothing measurable.
 And where one texture serves the whole pass already: there is nothing to group.
+
+## On fixed-refresh standalone headsets
+
+The technique holds unchanged. Headset platform guidance prices a draw by the state it changes from
+the previous one — material, mesh, texture — and recommends atlased textures and draws sorted by
+material, which is this technique's page grouping; the overlap proof is what keeps the sort
+invisible, there as here. With two views per frame each flush saved is saved twice unless the
+multi-view path already submits both views at once. The blending caveat transfers too: an opaque
+layer drawn over a layer that must stay blended gives the tiler nothing to reject. No headset was
+run; the sources are cited in the stack application.

@@ -164,12 +164,37 @@ texture memory in the same pool as every other allocation, and asks for culling 
 submission. Its draw-call budgets per headset generation differ between its own pages by a factor
 of two or more, so they are indicative ceilings, not limits to design against.
 
-So the submission and residency rules here are written for that class, not for one box. The
-evidence behind this subject's applications comes from a television stick only; no headset was
-measured, and the transfer is a statement about the hardware class, supported by that guidance,
-not a measured result. Two views per frame double the submission bill unless the platform's
-multi-view path is used, which is the one place a headset changes the arithmetic rather than the
-rules.
+So the submission and residency rules here are written for that class, not for one box.
+Technique by technique, against that guidance:
+
+- **cost-per-effect-before-effect-count — holds, more strictly.** A missed refresh is replaced by
+  the previous frame, not shown late, so a submission saving and a visible cut compete for the same
+  few milliseconds, and the guidance lists the submission remedies before any visible one.
+- **batch-by-page-where-order-is-invisible — holds unchanged.** The guidance prices a draw by the
+  material, mesh or texture it changes from the previous one and recommends atlases and draws sorted
+  by material; the overlap proof is still what keeps the sort invisible.
+- **cull-before-submission — holds, with a wider bound.** Two views see more than one; a single
+  submission for both views culls against the union of their volumes.
+- **retain-what-did-not-change — holds, and its pixel rule binds harder.** The guidance makes
+  multisampled eye buffers the normal configuration, so a layer baked at one sample per pixel cannot
+  match the live draw at its edges; retained vertices transfer, retained pixels need a bake at the
+  target's sample count.
+- **spread-periodic-render-thread-bursts — holds, and binds sooner.** At ninety hertz the frame is
+  about eleven milliseconds, and the guidance's own advice is not to put the expensive work in one
+  frame.
+- **prepare-off-the-render-thread-commit-on-it — holds inside a live scene, optional behind a
+  loading layer.** The platform's compositor can keep a loading layer at full rate and the frame-rate
+  requirement exempts it; a stall inside a head-tracked scene is seen as drift.
+- **residency-budget-checked-before-decode — holds unchanged.** Textures share main memory with every
+  other allocation and the guidance asks for a total texture budget; the eye buffers are rows in the
+  table.
+
+The evidence behind this subject's applications comes from a television stick only; no headset was
+measured, and each verdict above is a statement about the hardware class, supported by that
+guidance, not a measured result. The published sources are cited, with their words, in each
+technique's stack application. Two views per frame double the submission bill unless the platform's
+multi-view path is used, which instances each draw into both views; that is the one place a headset
+changes the arithmetic rather than the rules.
 
 ## Failure modes of the naive reading
 
@@ -188,6 +213,9 @@ rules.
 - **Laziness mistaken for removal.** A build deferred from startup to first use lands on the
   first frame that touches it, which is usually the first frame of play; moved to a network or
   input thread instead, it stalls that thread's own deadline.
+- **A retained picture judged in the wrong target.** A layer baked at one sample per pixel is
+  compared in a single-sampled copy and passes, while the multisampled target the player sees
+  differs at every edge inside a pixel.
 - **A residency budget checked after the decode.** The oversized image is already in memory
   by the time the check refuses it.
 - **A refusal with no fallback.** An over-budget or malformed asset disables a visual that the

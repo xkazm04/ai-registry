@@ -99,3 +99,13 @@ it; the cheaper-shader swap or the owner's decision comes immediately. When the 
 multiple of the budget rather than a margin over it, ordered submission work will not close a
 factor of two, and the scope decision is the first one to take. And during a prototype nobody
 has profiled, where any ordering of remedies is a guess.
+
+## On fixed-refresh standalone headsets
+
+The order of moves holds there, and the case for it is stronger: a headset's frame is a fixed
+refresh period, and a frame that misses it is not shown late but replaced by the previous one, so a
+cut to what the player sees and a saving in submission compete for the same few milliseconds. The
+platform's published guidance lists the same submission remedies — fewer state changes between
+draws, atlased textures, draws sorted by material, culling — before anything visible. Two views per
+frame double the submission bill unless the platform's multi-view path is used, which changes the
+arithmetic and not the order. No headset was run; the sources are cited in the stack application.
