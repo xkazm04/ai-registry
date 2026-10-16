@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 390" width="760" height="390" role="img">
+<style>
+:root{--bg:#fbfaf7;--fg:#1a1a18;--mut:#55554f;--line:#3c3c3c;--rule:#8a8a80;--red:#a32b1c;--redf:#f2d9d3;--green:#1f6f54;--greenf:#e6f0ea;--amber:#a9780f;--amberf:#fdf1d8;--panel:#eceae3}
+@media (prefers-color-scheme:dark){:root{--bg:#16161a;--fg:#eceae4;--mut:#aaa89f;--line:#b9b7ae;--rule:#6e6e66;--red:#f0a08f;--redf:#3b2320;--green:#80d1b0;--greenf:#152a23;--amber:#e0b55f;--amberf:#2e2716;--panel:#242428}}
+text{font-family:Helvetica,Arial,sans-serif;fill:var(--fg)}
+.t{font-size:16px;font-weight:bold}
+.n{font-size:14px;font-weight:bold}
+.s{font-size:13px}
+.m{fill:var(--mut);font-size:13px}
+</style>
+<rect x="0" y="0" width="760" height="390" fill="var(--bg)"/>
+<defs>
+<marker id="a6" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="var(--line)"/></marker>
+</defs>
+<text x="24" y="28" class="t">Default thresholds on each transition</text>
+<text x="736" y="28" text-anchor="end" class="m">[11], [14]</text>
+
+<circle cx="120" cy="178" r="56" fill="var(--greenf)" stroke="var(--green)" stroke-width="1.8"/>
+<text x="120" y="183" text-anchor="middle" class="n">CLOSED</text>
+<circle cx="380" cy="178" r="56" fill="var(--redf)" stroke="var(--red)" stroke-width="1.8"/>
+<text x="380" y="183" text-anchor="middle" class="n">OPEN</text>
+<circle cx="630" cy="178" r="56" fill="var(--amberf)" stroke="var(--amber)" stroke-width="1.8"/>
+<text x="630" y="175" text-anchor="middle" class="n">HALF</text>
+<text x="630" y="192" text-anchor="middle" class="n">OPEN</text>
+
+<path d="M 168 150 C 215 104 290 104 330 146" fill="none" stroke="var(--line)" stroke-width="1.6" marker-end="url(#a6)"/>
+<text x="250" y="88" text-anchor="middle" class="s">r4j: 50 percent of 100 calls</text>
+<text x="250" y="106" text-anchor="middle" class="s">Polly: 10 percent of 100 in 30 s</text>
+
+<path d="M 428 150 C 475 104 545 104 582 146" fill="none" stroke="var(--line)" stroke-width="1.6" marker-end="url(#a6)"/>
+<text x="508" y="88" text-anchor="middle" class="s">r4j: 60 s, on a call</text>
+<text x="508" y="106" text-anchor="middle" class="s">Polly: 5 s, on Execute</text>
+<text x="508" y="68" text-anchor="middle" class="s" font-weight="bold" fill="var(--red)">no background timer</text>
+
+<path d="M 592 218 C 500 296 230 300 148 226" fill="none" stroke="var(--green)" stroke-width="1.6" marker-end="url(#a6)"/>
+<text x="375" y="284" text-anchor="middle" class="s" fill="var(--green)">r4j: 10 permitted calls, rates evaluated</text>
+<text x="375" y="302" text-anchor="middle" class="s" fill="var(--green)">Polly: a probe on Execute</text>
+
+<path d="M 578 196 C 530 226 470 222 430 200" fill="none" stroke="var(--red)" stroke-width="1.6" marker-end="url(#a6)"/>
+<text x="505" y="240" text-anchor="middle" class="s" fill="var(--red)">rate still over threshold</text>
+
+<rect x="24" y="334" width="112" height="28" rx="3" fill="var(--panel)" stroke="var(--rule)"/>
+<text x="80" y="353" text-anchor="middle" class="m">METRICS_ONLY</text>
+<rect x="144" y="334" width="86" height="28" rx="3" fill="var(--panel)" stroke="var(--rule)"/>
+<text x="187" y="353" text-anchor="middle" class="m">DISABLED</text>
+<rect x="238" y="334" width="104" height="28" rx="3" fill="var(--panel)" stroke="var(--rule)"/>
+<text x="290" y="353" text-anchor="middle" class="m">FORCED_OPEN</text>
+<text x="354" y="353" class="m">resilience4j special states</text>
+</svg>

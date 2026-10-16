@@ -1,0 +1,1067 @@
+[
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "model": "claude-fable-5-1",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post is well researched and most numbers check against their sources: the Google incident timings and quote, the Builders' Library 243x, the Brooker simulations, gRFC A6, the resilience4j and Polly defaults, Envoy outlier defaults, the RFCs and drafts, the KEPs, Temporal, Hystrix, SQS and OpenTelemetry all read as cited. One load-bearing claim is wrong on the read date: the AWS retry behaviour the post calls the 2026 SDK default is opt-in behind AWS_NEW_RETRIES_2026 until November 2026, and the page the post cites says so in its first box, so the defaults table, the preview outcome and the closing table present an opt-in as a shipped default and label the actual current default as history. Two other factual slips matter: the October 2025 DynamoDB system is said twice to have had backoff, which the AWS summary never states, and the Google remediation list has seven items, not eight. The opening incident is strong but disappears between section 1 and the close, every shipped budget the post names is scoped per client or per proxy while the heading promises a global bound, and no section says what a time budget or deadline is, though the terminal-state framework depends on one. The post also runs well past a 14-minute budget and the Markdown package points at PNG files that do not exist. No em or en dashes and no first person were found on reading; the voice is clean apart from a verbless preview sentence and an overused contrastive frame.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Preview outcome bullet 1; section 'Jitter does the work backoff alone does not', defaults table row 'AWS SDK, 2026 behaviour' and row 'AWS SDKs before 2026 (history)' with its caption 'Shipped retry defaults on the read date, 2026-10-14'; section 'The failure's class', paragraph 'The 2026 AWS SDK retry behaviour reads the error code first'; closing table row 'Jittered delay'; Monday list item 2",
+        "claim": "The post presents the 2026 AWS retry behaviour (50 ms and 1,000 ms bases, 14 and 5 token costs, full jitter under a 20 s cap, error code before status) as what the AWS SDK ships by default on 2026-10-14, and labels the pre-2026 behaviour as history. The cited reference page opens with an Important box: the behaviour requires opting in by setting AWS_NEW_RETRIES_2026=true until it becomes the default, and without it the SDK uses pre-2026 behaviour that differs in backoff timing, retry quota costs and service-specific defaults. The announcement blog the post cites as [7] says the change becomes the default in November 2026. The post's own sources.json entry 7 records this, but no sentence in the post does. A reader who reads the table and assumes their SDK already classifies and jitters this way is misled, and the 'history' row is the current default.",
+        "evidence": [
+          "https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html",
+          "https://aws.amazon.com/blogs/developer/announcing-updated-retry-behavior-for-aws-sdks-and-tools/"
+        ],
+        "suggestion": "State once, where the 2026 behaviour first appears, that it is opt-in via AWS_NEW_RETRIES_2026 until November 2026 and cite [7]. In the defaults table rename the row to 'AWS SDK, 2026 behaviour (opt-in until 2026-11)' and the other row to 'AWS SDK, current default' rather than history. Make the preview outcome and closing table say the same. Nothing else in the row needs to change."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section 'Retry traffic is the sustaining effect', paragraph 'AWS's summary of the October 2025 DynamoDB disruption ... shows the same shape in a system that did have backoff'; closing chapter, paragraph 'The June incident's final account', sentence 'reached congestive collapse in a system that did have backoff but no bound on queued work'",
+        "claim": "The AWS summary does not say the DNS Enactor or DWFM had backoff. It says one Enactor 'experienced unusually high delays needing to retry its update on several of the DNS endpoints' and that DWFM queued work to reattempt leases. 'Did have backoff' is the post's inference stated as the source's fact, twice, and it carries the closing's last argument ('Backoff without a budget is half the control').",
+        "evidence": [
+          "https://aws.amazon.com/message/101925/"
+        ],
+        "suggestion": "Either remove 'did have backoff' and say the summary names retries and queued reattempts but is silent on spacing, or keep the point as a labelled Inference with its reasoning. The closing sentence 'Backoff without a budget is half the control' then needs a basis other than this incident, or should be rephrased as what the October remediation implies."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Closing chapter, paragraph 'The June incident's final account is in its remediation list', sentence 'Of the eight items Google published'",
+        "claim": "The full incident report's 'What's our approach moving forward?' section lists seven items on the page as read on 2026-10-14, not eight. The four the post names (fail-open modularization, feature flags, incremental propagation, the backoff audit) are all present.",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Change 'eight' to 'seven', or drop the count and say 'of the remediation items Google published'."
+      },
+      {
+        "id": "f4",
+        "kind": "format",
+        "severity": "major",
+        "location": "Figure 8 (figures/08-crashloop-ladder) alt text and caption: 'the numbers for both sides are published: 5 restarts in ten minutes against 14'",
+        "claim": "The counts of 5 and 14 restarts in ten minutes are the post's own arithmetic on the two ladders (10, 20, 40, 80, 160 s sums to 310 s; 1, 2, 4, 8, 16, 32 s then 60 s steps), not numbers either KEP states. KEP-4603 publishes 'about 5 extra restarts per pod in the first five minutes' and a projected 10x in API requests, which KEP-5593 calls a theoretical estimate. The caption says both figures are published, so a construct reads as a finding.",
+        "evidence": [
+          "https://www.kubernetes.dev/resources/keps/4603/",
+          "https://www.k8s.dev/resources/keps/5593/"
+        ],
+        "suggestion": "Mark the 5 and 14 as Derived in the caption with the ladder sums shown, keep '5 extra restarts in the first five minutes' and 'about 10x API requests' as the published numbers, and say the 10x is the KEP's projection rather than a measurement."
+      },
+      {
+        "id": "f5",
+        "kind": "format",
+        "severity": "major",
+        "location": "All eight image references in the Markdown post (figures/01-opening-timeline.png through figures/08-crashloop-ladder.png)",
+        "claim": "post.md references .png files; the figures directory holds only .svg files, and index.html references the .svg files. The Markdown package, which is what a Medium-style import uses, renders eight broken images.",
+        "evidence": [],
+        "suggestion": "Point the Markdown at the .svg files, or export PNGs alongside the SVGs if the target platform cannot render SVG, and check the platform preview with the chosen format."
+      },
+      {
+        "id": "f6",
+        "kind": "format",
+        "severity": "major",
+        "location": "Whole post; specifically section 'A breaker's most consequential default', last paragraph (Hystrix); section 'Durable retry is a schedule', paragraph 'Demand for the other end is equally documented' and the Temporal Workflow Task sentence; section 'Stopping is a first-class outcome', last paragraph ('Two details catch teams out'); section 'The dependency's stated delay', paragraph 'The client advice is equally sharp'",
+        "claim": "The body runs to roughly 5,500 words including tables and code, about 20 minutes at the 238 wpm rate, against a 14-minute ceiling. The named passages carry material no claim in the thesis needs: the Hystrix maintenance notice is history that no later sentence uses; the 250 reactions and the 22/19/6 commenter counts argue the KEP's politics, not the ladder; the Temporal Workflow Task retry and the SQS back-of-queue and retention details are reference facts; the RateLimit client-advice paragraph restates the draft without a consequence.",
+        "evidence": [],
+        "suggestion": "Cut the Hystrix paragraph to one clause in the breaker section or drop it; keep the 110-pod benchmark and the KEP-5593 outcome and cut the reaction and commenter counts; cut the SQS second paragraph; fold the RateLimit client advice into one sentence. That recovers about 600 words to spend on f7, f8 and f9 without growing the post."
+      },
+      {
+        "id": "f7",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Sections 2 through 9, from 'The failure's class, not the caller's patience' to 'Stopping is a first-class outcome'",
+        "claim": "The opening incident is the through-line the preview promises, and it appears in section 1 and the close only. Eight sections pass without a sentence saying what that section's control would have done to Service Control's restarts against Spanner: which class the Spanner overload errors fall in, where a budget would have sat in a crash-looping fleet, which terminal state a throttled task creation reached. The reader carries the scene for 4,000 words waiting for it to matter again.",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Give each section one sentence that applies its control to the June incident, labelled Inference where the report is silent, and in particular tie section 8 to it explicitly: Service Control's task restarts were a restart ladder without backoff, which is the kubelet's problem in another runtime. Pay for it with the cuts in f6."
+      },
+      {
+        "id": "f8",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 'Amplification belongs to the composition, so the budget has to be global', paragraphs 'Three shipped implementations state that bound in three currencies' and the heading itself",
+        "claim": "The heading promises a global bound and every shipped bound the section then names is local: gRPC's bucket is per server name per channel, the AWS quota is per client instance and 'not shared across processes or hosts', Envoy's budget is per cluster in one proxy, and Google's 10 percent rule is per client. The post notes the AWS scope in a clause and never says why local budgets still bound the fleet: a ratio enforced by every client bounds the aggregate ratio, which an absolute per-client count does not, and that is what makes the Google rule compose where a token count does not. A practitioner who has shipped this also wants the failure of composition named: a 10 percent budget per client across N layers still compounds to 1.1^N, which is why the SRE book pairs it with 'retry only at the layer immediately above'.",
+        "evidence": [
+          "https://sre.google/sre-book/handling-overload/",
+          "https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html",
+          "https://github.com/grpc/proposal/blob/master/A6-client-retries.md"
+        ],
+        "suggestion": "Add a short paragraph or a column to the three-currencies comparison stating each bound's scope (channel, client instance, proxy cluster, client) and whether it is a ratio or a count, then state the composition rule in a labelled Inference. Retitle the heading to what the evidence shows: the bound must be a ratio and positional, not that it is global."
+      },
+      {
+        "id": "f9",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Section 'Stopping is a first-class outcome', the TERMINAL code block entry 'over_budget_wait' and the table row 'Over-budget wait'; section 'The dependency's stated delay', paragraph on grpc-retry-pushback-ms and x-amz-retry-after",
+        "claim": "The post defines a budget only in attempts and tokens, yet the terminal state 'over_budget_wait' presupposes a time budget it never names. Nothing in the post says that a retry must fit inside the caller's remaining deadline, that gRPC propagates deadlines so a retry cannot outlive the parent request, or that the Builders' Library page the post cites is titled 'Timeouts, retries, and backoff' because the timeout is the first control. A practitioner cannot act on the over-budget state without knowing what budget it is measured against.",
+        "evidence": [
+          "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter",
+          "https://github.com/grpc/proposal/blob/master/A6-client-retries.md"
+        ],
+        "suggestion": "Define the budget as attempts plus a time envelope where the five states are introduced, with gRPC's rule that a pushback delay is honoured only within maxAttempts and the caller's deadline as the sourced example, and say in the over-budget row which of the two budgets the state refers to. Pay for it with the SQS cut from f6."
+      },
+      {
+        "id": "f10",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section 'A breaker's most consequential default', Inference callout: 'On a dependency that sees fewer than 100 calls per sampling window, both defaults sit close to inert'",
+        "claim": "Polly's MinimumThroughput of 100 is measured inside a 30-second SamplingDuration, so low traffic does keep it from ever opening. Resilience4j's default window is COUNT_BASED with slidingWindowSize 100 and minimumNumberOfCalls 100, so there is no sampling window: the breaker evaluates once 100 calls have been recorded however long that takes. On a slow dependency resilience4j is slow to trip, not inert. The callout states one mechanism for both libraries.",
+        "evidence": [
+          "https://resilience4j.readme.io/docs/circuitbreaker",
+          "https://www.pollydocs.org/strategies/circuit-breaker"
+        ],
+        "suggestion": "Split the inference: Polly's default cannot open below 100 calls per 30 seconds; resilience4j's default opens only after 100 recorded calls, which on a quiet dependency can be minutes after the failures began. The second half of the callout, about a caller that routes around an open circuit, holds for both and should stay."
+      },
+      {
+        "id": "f11",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Figure 1 caption: 'one large region needed up to about 2 h 40 min more'; figure 1 band starting at the 40-minute mark",
+        "claim": "The report says 'It took up to ~2h 40 mins to fully resolve in us-central-1', a total from the start, not an additional period after the 40-minute red-button rollout. The body text and the close say 'took up to about 2 hours 40 minutes', which is right; the caption's 'more' and the band's starting point add about 40 minutes the source does not.",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Drop 'more' from the caption and start the band at the incident start, or label the band 'up to 2 h 40 min to full resolution'."
+      },
+      {
+        "id": "f12",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 'Amplification belongs to the composition', first paragraph: 'where each layer retries three times'; figure 5 alt text 'three attempts at each of five layers multiply to 3, 9, 27, 81 and 243'; closing paragraph 'Three attempts cost 243 times'",
+        "claim": "243 is 3 to the fifth, which is three attempts per layer. Three retries per layer would be four attempts and 1,024x. The prose says retries, the figure and the close say attempts.",
+        "evidence": [
+          "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter"
+        ],
+        "suggestion": "Use 'three attempts' everywhere, matching the figure, and check the Builders' Library wording once more when doing so."
+      },
+      {
+        "id": "f13",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Defaults table caption 'The two libraries most reached for in Java and .NET'; closing paragraph 'The two libraries most teams reach for'",
+        "claim": "No cited source supports a popularity ranking for resilience4j or Polly. The claim is plausible and unsourced, and it is repeated twice.",
+        "evidence": [],
+        "suggestion": "Write 'two widely used libraries' or cite a download or dependency count with its date."
+      },
+      {
+        "id": "f14",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 'Retry traffic is the sustaining effect', callout 'Metastable failure, as the study defines it' cited to [24]",
+        "claim": "The USENIX page the post cites carries only the abstract, which does not define vulnerable state, trigger or sustaining effect; it says the authors extend Bronson et al.'s model with two trigger and two amplification categories. The three-part definition originates in Bronson, Aghayev, Charapko and Zhu, 'Metastable Failures in Distributed Systems' (HotOS 2021).",
+        "evidence": [
+          "https://www.usenix.org/conference/osdi22/presentation/huang-lexiang"
+        ],
+        "suggestion": "Attribute the definition to the HotOS 2021 paper as an added dated source, or cite the OSDI paper's PDF where the definition is restated, and reword the callout tag to 'as the literature defines it'."
+      },
+      {
+        "id": "f15",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 'Amplification belongs to the composition', last paragraph: 'with no modal switch'; section 'Partial failure breaks the breaker's premise', paragraph 'Repeated across 10, 100 and 1,000 clients, a failure-rate breaker tripped at about half the expected failure rate'",
+        "claim": "Brooker writes that the adaptive strategy 'isn't modal in the same way', not that it has no modal switch. The 'around half the expected rate' figure is given for the 100-client case; the 10, 100 and 1,000 client runs are described later as 'tripping too early' without the half figure being tied to each.",
+        "evidence": [
+          "https://brooker.co.za/blog/2022/02/28/retries.html"
+        ],
+        "suggestion": "Say 'not modal in the same way' and attach the half figure to the 100-client run, with the three-size runs described as tripping early."
+      },
+      {
+        "id": "f16",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 'The dependency's stated delay', signals table, column 'Client obligation', row 'Retry-After on 503': 'wait at least that long'",
+        "claim": "RFC 9110 section 10.2.3 says the field 'indicates how long the service is expected to be unavailable'; it imposes no client obligation for 503. Only the 3xx case uses obligation language ('the minimum time that the user agent is asked to wait'). The column heading claims an obligation the RFC does not state.",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc9110.html"
+        ],
+        "suggestion": "Rename the column to 'What the client is told' or write 'expected unavailability; no client rule' for the 503 row."
+      },
+      {
+        "id": "f17",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Content preview, numbered outline of ten items",
+        "claim": "The standard asks for a linked outline built from the section headings. The ten items are plain text in both the Markdown and index.html, and they are rephrasings rather than the headings, so a scanning reader cannot jump and the preview and the headings make slightly different promises.",
+        "evidence": [],
+        "suggestion": "Link each item to its section anchor and use the heading text or a tight abbreviation of it."
+      },
+      {
+        "id": "f18",
+        "kind": "format",
+        "severity": "minor",
+        "location": "All figure SVGs (fixed fill #fbfaf7 and text #1a1a1a); figure 1 footnote text 'Mini report on the same page states 10:49 to 13:49.' and the 10:51 and 18:18 labels",
+        "claim": "The figures define one palette; index.html forces a light card behind them so they stay legible on a dark scheme, but no figure colour is defined for dark mode, which the standard requires. Figure 1 also holds a full sentence as a footnote, and carries two times (10:51 first 503s, 18:18 dashboard close) that the prose never establishes or cites.",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Give the SVGs a dark palette via CSS variables or a prefers-color-scheme block, move the mini-report note into the caption, and either establish 10:51 and 18:18 in the opening paragraph or drop them from the figure."
+      },
+      {
+        "id": "f19",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Section 'Amplification belongs to the composition', Derived callout '243 / 1.1 is about 221'",
+        "claim": "The quotient divides a load multiplier from one scenario by a traffic growth factor from another and the callout concedes it measures nothing. It interrupts the section's strongest stretch to deliver a number the reader cannot use.",
+        "evidence": [],
+        "suggestion": "Cut the callout. The figure 5 caption already sets the two numbers side by side with the caveat."
+      },
+      {
+        "id": "f20",
+        "kind": "voice",
+        "severity": "minor",
+        "location": "Content preview, first sentence: 'A tour of the failure lane, from classifying an error to naming the state a stopped retry stopped in, read against what shipping systems default to in October 2026 rather than what the pattern literature recommends.'",
+        "claim": "The sentence has no main verb, and it is the one sentence that must say what the post is. 'The state a stopped retry stopped in' also repeats 'stop' three times.",
+        "evidence": [],
+        "suggestion": "Give it a subject and a verb, for example: 'This post walks the failure lane from classifying an error to naming the state a retry ends in, against what shipping systems default to in October 2026.'"
+      },
+      {
+        "id": "f21",
+        "kind": "voice",
+        "severity": "minor",
+        "location": "Heading 'The failure's class, not the caller's patience, decides'; figure 1 caption 'The recovery, not the trigger, is where the time went'; figure 2 caption 'The loop, not the trigger, is what keeps'; figure 4 caption 'The randomization, not the doubling, is what breaks'; section 7 paragraph 'The register, not the clients, is where the gap sits'; closing 'The audit, not the null-pointer fix, is the item that generalizes'",
+        "claim": "The same contrastive frame, 'X, not Y, is what/where Z', appears six times in headings, captions and prose. One is a point; six is a tic a reader notices and discounts.",
+        "evidence": [],
+        "suggestion": "Keep it in the figure 1 and figure 4 captions where the contrast carries the message and rewrite the other four as plain statements."
+      },
+      {
+        "id": "f22",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section 'Jitter does the work backoff alone does not' or section 'The dependency's stated delay'; gRFC A6 [5] is already cited",
+        "claim": "gRFC A6 defines hedging, the one retry form sent before a failure rather than after one, and it is the counterpoint that frames the whole post: backoff trades latency for load, hedging trades load for tail latency, and A6 gates hedged RPCs on the same token bucket. The post cites A6 for retries only and never names the trade-off, which is the first thing a practitioner who has tuned tail latency will ask about.",
+        "evidence": [
+          "https://github.com/grpc/proposal/blob/master/A6-client-retries.md"
+        ],
+        "suggestion": "Add one or two sentences where the token bucket is introduced: hedged RPCs are sent only while the bucket is above the threshold, which is how A6 lets a caller buy tail latency without unbounded load. Pay for it with the Hystrix cut in f6."
+      },
+      {
+        "id": "f23",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Section 'Retry traffic is the sustaining effect', paragraph on 2025-10-19: 'after which clean-up deleted all IP addresses for that region's DynamoDB endpoint'",
+        "claim": "The summary says the clean-up process deleted the older plan, and that as a result all IP addresses for the regional endpoint were removed. The post makes the clean-up delete the addresses directly.",
+        "evidence": [
+          "https://aws.amazon.com/message/101925/"
+        ],
+        "suggestion": "Write 'after which clean-up deleted that older plan, removing every IP address for the regional endpoint'."
+      }
+    ]
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "model": "gemini-3.8-flash",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The draft technical blog post provides a rigorous, highly grounded, and authoritative treatment of retries, jittered backoff, circuit breaking, and retry budgets. It thoroughly grounds claims in verifiable sources, avoids first-person prose and typographical em dashes, and correctly labels all synthetic constructs. However, revision is required before publication to fix a factual discrepancy regarding Google's published remediation items (7 commitments, not 8), bring the opening section under the 450-word limit (currently 466 words), resolve a 332-word closing prose stretch exceeding the 300-word visual cadence threshold, and sustain the concrete through-line across the middle sections.",
+    "findings": [
+      {
+        "id": "F1",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Section 10 (What the missing jitter cost, and what changes on Monday), paragraph 2",
+        "claim": "The draft states: 'Of the eight items Google published, the one belonging to this subject is a commitment to audit its systems for randomized exponential backoff...'",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Correct 'eight items' to 'seven items'. Under the 'What’s our approach moving forward?' section of Google's official incident report, exactly seven numbered remediation commitments are listed, with item 6 addressing the audit for randomized exponential backoff across software stacks."
+      },
+      {
+        "id": "F2",
+        "kind": "format",
+        "severity": "major",
+        "location": "Post opening (Title through outcomes block, lines 1-32 before Section 1)",
+        "claim": "The opening matter preceding Section 1 contains 466 words (including title, subtitle, date, preview list, and outcomes block), exceeding the recipe limit of 450 words before the first section heading.",
+        "evidence": [],
+        "suggestion": "Trim 20-30 words across the opening hook and preview list to bring the introductory count strictly under 450 words before '## 1. Why distributed retries synchronize'."
+      },
+      {
+        "id": "F3",
+        "kind": "format",
+        "severity": "major",
+        "location": "Section 10 (What the missing jitter cost, and what changes on Monday), lines 294-322",
+        "claim": "The final portion of Section 10 contains an uninterrupted 332-word prose stretch (remediation analysis paragraph, 4-item numbered Monday checklist, and concluding takeaway paragraph) without a visual element, violating the rule that no prose stretch between visuals exceed 300 words.",
+        "evidence": [],
+        "suggestion": "Convert the 4-item Monday checklist into a formatted alert callout box or insert a structured summary card before the final takeaway paragraph to break up the 332-word block and maintain visual cadence."
+      },
+      {
+        "id": "F4",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Sections 5, 6, 7, and 9",
+        "claim": "The 2025-06-12 Google Service Control Spanner crashloop narrative established in the introduction and sections 1-3 is dropped entirely in sections 5, 6, 7, and 9 in favor of purely abstract library contract descriptions.",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Re-anchor these sections to the through-line with concise references (e.g., examining how downstream circuit breaking on Service Control or 429 Retry-After handling on Spanner sessions would have altered the failure cascade)."
+      },
+      {
+        "id": "F5",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Section 4 (Retry budgets: the math that bounds amplification)",
+        "claim": "Section 4 presents static retry token buckets (gRFC A6 14-token ratio and AWS 2026 token quotas) as sufficient to bound retry amplification, without noting their failure mode when backend capacity drops drastically.",
+        "evidence": [
+          "https://github.com/Netflix/Hystrix",
+          "https://brooker.co.za/blog/2022/02/28/retries.html"
+        ],
+        "suggestion": "Add a brief operational insight noting that static retry token budgets assume an approximately constant healthy capacity; when deep capacity degradation occurs (>50%), static budgets can still overwhelm backends, requiring adaptive concurrency limits or gradient limiters to complement client retry quotas."
+      }
+    ]
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The incident-led opening, concrete defaults and substantial primary-source research give this draft a strong foundation, but several conclusions exceed the evidence. Publication should wait for corrections to the AWS rollout date, the claimed global amplification bound, the kubelet configuration, breaker behavior and jitter summary. The five-state framework needs clearer boundaries, and the middle needs fewer catalogue details and a stronger connection to the recovery problem. All 33 cited pages were opened; local reads were blocked, so rendered figures, highlighting and viewport behavior remain unverified. No first-person narration or prohibited dash characters were found in the supplied Markdown.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Preview; classification section; shipped retry defaults table; closing comparison",
+        "claim": "The post presents the updated AWS retry behavior as the shipped default on 2026-10-14 and relegates the previous behavior to history. Sources [6] and [7] explicitly say the update requires AWS_NEW_RETRIES_2026=true until the default rollout in November 2026. This undermines the article's central promise to distinguish current defaults from recommendations.",
+        "evidence": [
+          "https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html",
+          "https://aws.amazon.com/blogs/developer/announcing-updated-retry-behavior-for-aws-sdks-and-tools/"
+        ],
+        "suggestion": "Identify these values as the opt-in 2026 behavior wherever they appear, state the November rollout, and retain current non-opted-in behavior in the comparison. Replace the historical row and existing caption rather than adding another explanatory section."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Amplification section, Figure 5, Derived callout, and closing action 3",
+        "claim": "The right-hand five-layer stack implies that a 10 percent client budget bounds the entire stack at about 1.1x. Source [4] establishes a client-level bound together with restrictions on which layer retries; it does not establish that independent budgets across five layers produce that bound. Even an illustrative 10 percent extra-attempt allowance at each layer compounds to 1.1^5, about 1.61. The 243/1.1 quotient cannot isolate a budget's benefit across different scenarios. The prose also alternates between three retries and three total attempts, which produce different powers.",
+        "evidence": [
+          "https://sre.google/sre-book/handling-overload/",
+          "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter"
+        ],
+        "suggestion": "Define the accounting scope, denominator and retry ownership before claiming an end-to-end bound. Redraw Figure 5 accordingly, remove the cross-scenario quotient, consistently distinguish attempts from retries, and retain per-request caps alongside aggregate budgets rather than instructing readers to replace them."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "blocker",
+        "location": "Durable retry section, kubelet YAML and following paragraph",
+        "claim": "The configuration uses crashloopbackoff, but the shipped KubeletConfiguration field is crashLoopBackOff. The proposal contains older spellings that are unsuitable as copyable production configuration. The accompanying 'What shipped instead' framing is also misleading: the reduced-default curve ships as an optional alpha feature, while the configurable maximum is a separate beta feature.",
+        "evidence": [
+          "https://www.k8s.dev/resources/keps/5593/",
+          "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/"
+        ],
+        "suggestion": "Correct the field name using the released API documentation and distinguish the two available feature gates and their defaults. Replace the proposal-derived configuration and transition paragraph."
+      },
+      {
+        "id": "f4",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Jitter section, paragraph beginning 'Which variant matters'; closing table, Jittered delay row",
+        "claim": "The closing assertion that jitter 'does not reduce total work, only its shape' contradicts source [3] and the article's own earlier account of substantially fewer calls. Timing changes can prevent failed attempts under contention. Also, could not verify the claim that every jittered variant retains quadratic total-work growth: the cited page establishes that growth for the initial contention model, not as an asymptotic result for every variant.",
+        "evidence": [
+          "https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/"
+        ],
+        "suggestion": "Distinguish reducing realized work from imposing a hard work budget. Correct the closing cell and remove the unsupported scaling generalization unless separately demonstrated."
+      },
+      {
+        "id": "f5",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Breaker section, low-volume Inference callout and Figure 6 alternative text",
+        "claim": "The callout treats both default windows as time windows. Resilience4j's default collects the last 100 calls regardless of elapsed time, so low request frequency delays evaluation but does not perpetually prevent it as Polly's minimum throughput can. Figure 6 also says resilience4j needs 10 passing probes; it permits 10 calls and evaluates their failure and slow-call rates, rather than requiring all 10 to pass.",
+        "evidence": [
+          "https://resilience4j.readme.io/docs/circuitbreaker",
+          "https://www.pollydocs.org/strategies/circuit-breaker"
+        ],
+        "suggestion": "Separate count-based accumulation from time-window throughput and correct the half-open transition condition in the figure and alternative text."
+      },
+      {
+        "id": "f6",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Classification section, Python classifier and Transient table row",
+        "claim": "The classifier treats every unrecognized 5xx status as transient, while source [6] lists 500, 502, 503 and 504 for the status fallback. The code consequently represents a broader policy than the AWS behavior surrounding it. The fourth 'unknown' class and its retry contract are also author-created, whereas the vendor taxonomy has three classes.",
+        "evidence": [
+          "https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html"
+        ],
+        "suggestion": "Make the fallback match the documented status set, or explicitly label the code and four-class table as an illustrative policy that differs from AWS. Replace the current classifier rather than appending caveats."
+      },
+      {
+        "id": "f7",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Jitter section, gRPC prose and defaults-table row",
+        "claim": "The table confuses configured gRPC policy behavior with a default policy. Current gRPC documentation says there is no default retry policy; transparent retries are a separate mechanism. A6's five-attempt client limit can be overridden, and its jitter can produce delays above maxBackoff. 'Unconditionally' also overlooks server pushback, which the post later correctly describes as an exact delay.",
+        "evidence": [
+          "https://github.com/grpc/proposal/blob/master/A6-client-retries.md",
+          "https://grpc.io/docs/guides/retry/"
+        ],
+        "suggestion": "Distinguish default transparent retries from explicitly configured policy retries, qualify the configurable attempt ceiling, and describe maxBackoff as the pre-jitter cap. Remove the unconditional wording."
+      },
+      {
+        "id": "f8",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Jitter section, paragraph beginning 'One refinement cuts against pure randomness'",
+        "claim": "The recommendation for consistent per-host jitter is taken out of its operational context. Source [2] applies it to scheduled and periodic work. Positioned as a refinement of retry algorithms, the paragraph invites readers to reuse one host-specific offset for retry attempts without establishing that this preserves the required decorrelation.",
+        "evidence": [
+          "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter"
+        ],
+        "suggestion": "Restrict the advice to periodic scheduling and distinguish it from retry jitter, or cut the paragraph to keep this section focused."
+      },
+      {
+        "id": "f9",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Opening Figure 1 caption and first paragraph of the closing chapter",
+        "claim": "Could not verify that the reported 2 hours 40 minutes was an additional interval after the 40-minute mitigation, as the caption's 'more' asserts. Google's report supplies both durations without explicitly defining that additional interval. It also does not quantify a counterfactual recovery time with correct jitter, so 'one absent property ... separated a 40-minute fix from a recovery' assigns more causal precision than the report establishes.",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Preserve the report's distinction between mitigation and recovery without adding durations or attributing the full difference to jitter alone. Make the opening, timeline caption and close use the same bounded interpretation."
+      },
+      {
+        "id": "f10",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Metastability section, AWS incident paragraph; closing paragraph beginning 'The June incident's final account'",
+        "claim": "Could not verify that DWFM 'did have backoff' or had 'no bound on queued work' from source [28]. The report describes lease reattempts, queue growth and throttling, but does not specify DWFM's retry-delay policy or establish that all queue bounds were absent. Its remediation describes improving an existing throttling mechanism.",
+        "evidence": [
+          "https://aws.amazon.com/message/101925/"
+        ],
+        "suggestion": "Remove the unsupported implementation claims and retain the documented queue-growth and recovery mechanism. Qualify the broader lesson as inference without treating an undocumented backoff policy as evidence."
+      },
+      {
+        "id": "f11",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Closing chapter, first paragraph; server-stated delay section, final paragraph",
+        "claim": "The closing groups RateLimit and the expired Idempotency-Key draft as fields a server uses to state a delay. Idempotency-Key is a request identifier for replay safety, not a server delay signal. The statement also obscures Retry-After, which the body correctly establishes as standardized. Separately, 'intended RFC status not yet set' mistakes an empty Datatracker metadata field for the draft's stated intention: its front matter says Standards Track.",
+        "evidence": [
+          "https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/",
+          "https://www.rfc-editor.org/rfc/rfc9110.html",
+          "https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html",
+          "https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/"
+        ],
+        "suggestion": "Keep replay safety, delay signaling and quota advertisement distinct. Correct the closing synthesis and remove the metadata-based assertion about intended status."
+      },
+      {
+        "id": "f12",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Telemetry section, heading, 'the standard conventions offer one signal', and 'On the metrics side there is nothing'",
+        "claim": "The evidence is confined to OpenTelemetry HTTP conventions, but the surrounding claims cover retry telemetry generally. gRPC documents stable per-attempt instruments and experimental retry-count, transparent-retry, hedge and retry-delay instruments. These do not provide the proposed terminal-state taxonomy, but they contradict the broader impression that telemetry offers only one resend signal.",
+        "evidence": [
+          "https://opentelemetry.io/docs/specs/semconv/http/http-spans/",
+          "https://opentelemetry.io/docs/specs/semconv/http/http-metrics/",
+          "https://grpc.io/docs/guides/opentelemetry-metrics/"
+        ],
+        "suggestion": "Scope the absence claim to standard HTTP retry-outcome attributes. Replace the categorical statements with a compact distinction between existing attempt instrumentation and missing terminal-reason conventions."
+      },
+      {
+        "id": "f13",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Classification section and server-stated delay section's sentence 'A write is retryable only when it is idempotent'",
+        "claim": "The main decision flow classifies the error before establishing whether replay is safe. A timeout can follow a committed write, and an 'unknown' error is not permission to retry. Conversely, the absolute statement about writes omits the case where the client knows the original operation was never applied, which RFC 9110 explicitly allows.",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc9110.html",
+          "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter"
+        ],
+        "suggestion": "Put replay safety before the classification gate and distinguish known non-execution from an ambiguous outcome. Move the existing idempotency material forward and shorten the standards-status discussion to pay for that explanation."
+      },
+      {
+        "id": "f14",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Amplification section, server-delay section and proposed over_budget_wait terminal state",
+        "claim": "The article treats attempt budgets, traffic budgets and elapsed-time budgets as if their relationships were obvious, but never explains the end-to-end deadline that makes a retry useful. A permitted attempt can still be futile after queueing, prior attempts and sleep consume the caller's remaining time. A retry-delay cap is not a total latency bound.",
+        "evidence": [
+          "https://github.com/grpc/proposal/blob/master/A6-client-retries.md",
+          "https://docs.temporal.io/encyclopedia/retry-policies"
+        ],
+        "suggestion": "Replace the 221x quotient callout with a compact, labelled decision rule covering remaining deadline, delay and attempt allowance. Explain that cancellation and deadline expiry stop the operation independently of retry count or server advice."
+      },
+      {
+        "id": "f15",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Stopping section, opening paragraph, TERMINAL tuple and terminal-state table",
+        "claim": "The proposed five states are presented as exhaustive but mix outcomes, policy refusals and classification changes. Caller cancellation, deadline expiry during an attempt, immediate permanent failure and explicit server prohibition do not fit cleanly. A breaker may deny a later retry after earlier attempts reached the dependency, so 'the dependency was never called' is only true of the denied attempt. The Inference label arrives after the framework has already been asserted and tabulated.",
+        "evidence": [
+          "https://github.com/grpc/proposal/blob/master/A6-client-retries.md",
+          "https://www.pollydocs.org/strategies/retry"
+        ],
+        "suggestion": "Define whether records describe a logical operation or an individual attempt, and make stopping reason separate from final outcome if necessary. Mark the proposal at first appearance and replace the existing tuple and table within their current space."
+      },
+      {
+        "id": "f16",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Partial failure section, heading, Envoy discussion and final position",
+        "claim": "Per-host ejection solves the preceding shard example only when the observed host corresponds to the failing domain and requests have healthy alternative destinations. If healthy frontends all reach the same failing shard, host-level errors can still remove healthy capacity or spread load onto the survivors. The title promises that the narrower instrument survives partial failure without establishing this alignment.",
+        "evidence": [
+          "https://www.brooker.co.za/blog/2022/02/16/circuit-breakers.html",
+          "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier"
+        ],
+        "suggestion": "Replace part of the detector-default inventory with a small comparison of host-local failure and shard failure behind shared frontends. State the routing and spare-capacity conditions under which ejection helps."
+      },
+      {
+        "id": "f17",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Amplification section's preprint result; partial-failure conclusion; closing benchmark recap",
+        "claim": "The preprint is used against naive retries while its strongest counter-evidence to the article's position is omitted. Its Standard Retry baseline already includes exponential backoff and jitter. In the same correlated scenario, the circuit-breaker strategy achieves 55.3 percent success and adaptive budgeting 54.9 percent, against 55.4 percent without retries. The authors explicitly describe the breaker as comparably effective and simpler. These are simulation results from one topology, not a general ranking of production controls.",
+        "evidence": [
+          "https://arxiv.org/html/2608.25403v1"
+        ],
+        "suggestion": "Replace the repeated two-number benchmark recital with one compact comparison carrying the baseline configuration, breaker result and model limits. Address that counter-evidence before assigning breakers only a visibility and degradation role."
+      },
+      {
+        "id": "f18",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "Middle sections from classification through durable retry",
+        "claim": "Service Control is a compelling opening object, but it largely disappears while the article tours AWS, gRPC, two libraries, Envoy, IETF drafts, Temporal and Kubernetes. The transitions increasingly connect subjects rather than advance the recovery question. The Hystrix history paragraph, Kubernetes reaction counts and late SQS retention details contribute little to the promised audit.",
+        "evidence": [],
+        "suggestion": "Use recovery control as the organizing question at section transitions, clearly separating documented incident facts from illustrative application. Cut the Hystrix paragraph, reaction-count inventory and SQS retention detour to fund those connections and the missing operational mechanisms."
+      },
+      {
+        "id": "f19",
+        "kind": "format",
+        "severity": "major",
+        "location": "Content preview and numbered citations throughout the supplied Markdown",
+        "claim": "The preview's ten-item outline is not linked and often paraphrases rather than uses the section headings. Inline citations are plain [n] text without Markdown links or reference definitions. Readers can manually match numbers to the bibliography, but the supplied article does not implement the required linked outline and in-page citation navigation.",
+        "evidence": [],
+        "suggestion": "Convert the existing outline and citations to working links without adding prose, and verify their destinations in the publication preview. Keep the three outcome promises."
+      },
+      {
+        "id": "f20",
+        "kind": "format",
+        "severity": "major",
+        "location": "Figure 8, its alternative text and caption; durable retry section's quantitative comparison",
+        "claim": "The five-versus-fourteen restart counts are presented as published operational behavior without the assumptions needed to reproduce them. They match an idealized delay-only ladder, but actual counts depend on container runtime, observation origin and whether the immediate first restart is included. The KEP explicitly discusses that immediate restart and implementation timing. Its 10x request estimate is also a model, distinct from the empirical QPS benchmark.",
+        "evidence": [
+          "https://www.kubernetes.dev/resources/keps/4603/",
+          "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/"
+        ],
+        "suggestion": "Label the ladder as Derived or Assumption, specify its timing convention and excluded overhead, and separate modeled request counts from measured QPS. Replace the current caption and repeated numerical prose rather than extending the section."
+      },
+      {
+        "id": "f21",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Closing chapter, from 'The June incident's final account' through the final paragraph",
+        "claim": "After the last table, approximately 319 words of prose and prose list items remain without another qualifying visual or callout. The closing also delivers the benchmark and incident lesson repeatedly: in its opening paragraph, comparison table, remediation paragraph and final paragraph.",
+        "evidence": [],
+        "suggestion": "Cut the repeated benchmark recap and compress the remediation paragraph so the post-table ending falls below 300 words. Preserve the actionable list and one clear return to Service Control; another decorative figure is unnecessary."
+      },
+      {
+        "id": "f22",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Metastability section, paragraph ending 'the only part whose failure mode is amplifying the outage it exists to survive'",
+        "claim": "The exclusivity claim is false and unnecessary. The cited metastability paper describes sustaining mechanisms involving garbage collection, lock contention, expensive error handling and cache behavior, not only resilience machinery.",
+        "evidence": [
+          "https://www.usenix.org/system/files/osdi22-huang-lexiang.pdf"
+        ],
+        "suggestion": "Remove the uniqueness assertion and retain the narrower, supported mechanism: retries can create positive feedback precisely when dependency capacity is impaired."
+      }
+    ]
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "model": "claude-fable-5-1",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "Round 2 is a careful, well-sourced post: 40 cited pages were opened and every shipped default (resilience4j 2.4.0, Polly 8.8.0, gRFC A6, the AWS 2026 behaviour, Envoy, Temporal, the kubelet) checks against its page, the through-line holds, the preview and close do their jobs, and no em or en dash, first-person pronoun or cadence violation was found (voice is clean). What stands between it and the standard: two citations say less than the post makes them say (the arXiv authors' 'not a forecast' warning is about their analytical bound, not the simulation rows the post attaches it to; the Builders' Library says 'three retries', not 'three attempts', and the post corrects it silently), the post is roughly five thousand words against a fourteen-minute ceiling with named cuts available, the seven 'Inference, June' callouts have become a tic, and three mechanisms a practitioner would want are missing: timeouts as the correlated retry trigger, the fact that both incidents were ended by server-side admission control the seven-control table never lists, and that an un-jittered, per-instance breaker probe is the same synchronized wave the jitter section warns about.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Budget section, caption of the four-row policy table ('which its authors say should not be read as a forecast'), and the closing paragraph 'on one simulated topology its authors warn against generalizing'",
+        "claim": "The full text attaches 'should not be treated as a forecast' to the analytical bound of 10.30x in Table II, not to the simulated rows; the limitations section says other topologies and load regimes may change absolute numbers but contains no explicit statement about generalizing. The caption transfers the authors' hedge from one object to another.",
+        "evidence": [
+          "https://arxiv.org/html/2608.25403v1"
+        ],
+        "suggestion": "Move the 'not a forecast' clause to where the 10.30x bound would belong, or drop it, and have the caption carry the authors' actual limits: one topology, instantaneous network, independent failures, Python-only corpus. Rephrase the close to 'whose authors list a single topology among their limits'."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Budget section, first paragraph ('With three attempts at each layer, the Builders' Library puts the load ... at 243 times'), and the closing recap 'Three attempts at each of five layers put 243 times'",
+        "claim": "The cited page says 'three retries at each layer'. 243 is 3^5, so the page's own arithmetic implies three attempts, but the post states the reinterpretation as the source's wording. A reader who opens the page finds a mismatch with no explanation; three retries would be 4^5, 1,024x.",
+        "evidence": [
+          "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter"
+        ],
+        "suggestion": "Add one clause at first use: the page writes 'three retries' and its walk-through counts 3, 9, 27, so the multiplier is three attempts per layer. The sources entry already records this; the page should too."
+      },
+      {
+        "id": "f3",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Classification section, class table row 'Transient: timeout, reset, 500 to 504', and the Jitter section",
+        "claim": "The post names the timeout as the ambiguous case for replay safety but never states the mechanism that makes timeouts the worst retry trigger: an overloaded dependency returns no error, its latency rises past the caller's fixed timeout, and every caller times out together, so the retries are correlated by construction and arrive while the server is still doing the original work. That is the correlation jitter is supposed to break, and the post's cited Builders' Library page carries timeouts in its title. A practitioner leaves not knowing that a timeout set below the dependency's latency under load manufactures a retry storm with a zero error rate.",
+        "evidence": [
+          "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter"
+        ],
+        "suggestion": "Spend one paragraph in the classification section on the timeout as a trigger: it is both the ambiguous replay case and the correlated one, and the budget it consumes should be charged as a transient retry (the AWS 14-token cost applies). Pay for it by cutting the Hystrix history sentence and the 'AWS SDK, current default' table row."
+      },
+      {
+        "id": "f4",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Close, the seven-control table and the paragraph beginning 'Of the seven forward-looking items Google published'",
+        "claim": "Both incidents were ended by server-side admission control: Google throttled task creation, AWS throttled incoming work and committed to rate limiting by queue size. The post's table lists seven controls and every one is client-side. The SRE chapter the post cites also carries server-side adaptive throttling (the 2x accept multiplier the sources entry records), which the post dropped. The position the evidence earns is that client-side spacing and bounds reduce the load, and a bound at the server is what breaks a metastable state, which the post gestures at with 'Spacing without a bound is half the control' and then does not state.",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW",
+          "https://aws.amazon.com/message/101925/",
+          "https://sre.google/sre-book/handling-overload/"
+        ],
+        "suggestion": "Add an eighth row, server-side admission control (queue-size rate limiting, adaptive throttling), with the two incidents as its shipped instances, and make the final paragraph's position explicit: the client controls shorten the storm, the server bound ends it. Pay for the row by cutting the 'AWS SDK, current default' row from the jitter table."
+      },
+      {
+        "id": "f5",
+        "kind": "format",
+        "severity": "major",
+        "location": "Whole post; specifically the Durable retry section, the hedging paragraph and token-bucket code block in the Budget section, and the paragraph above the 'Kind / grants / asks' table in the Partial failure section",
+        "claim": "The post runs to roughly five thousand words including tables and captions, about twenty minutes at the 238 words-per-minute rate the standard uses, against the recipe's fourteen-minute ceiling. The Durable retry section's second and third paragraphs (2,750 excess requests, 30x QPS, feature-gate version history) and the feature-gate paragraph are deep but carry nothing the thesis needs beyond what the figure and its caption already show. The hedging paragraph is a one-sentence aside. The partial-failure paragraph and the table beneath it say the same three things twice.",
+        "evidence": [],
+        "suggestion": "Cut the Durable section to the figure, one paragraph on the ladder and reset, and the code block (save about 250 words); drop the hedging paragraph and the token-bucket code block, which the bound table already carries (about 80); keep the partial-failure table and shorten the paragraph above it to the epistemic limit sentence (about 60); fold or cut the thin June callouts named in f6 (about 120)."
+      },
+      {
+        "id": "f6",
+        "kind": "engagement",
+        "severity": "major",
+        "location": "The 'Inference' callouts ending the Classification, Budget, Probe, Partial failure, Stated delay and Durable sections",
+        "claim": "Seven sections close on an 'Inference ... June' callout. The device that makes Service Control a through-line in the Sustaining section has become a formula by the fourth occurrence, and three of them add nothing a reader has not already inferred: 'No such channel existed in June' (Stated delay), 'June's failing unit was a Spanner table ... not a host' (Partial failure), and 'No budget of any kind appears in the June report' (Budget). The reader starts skipping the box, and then skips the one that matters (Probe: a restarting task needs its first call to succeed).",
+        "evidence": [],
+        "suggestion": "Keep the Sustaining mapping and the Probe callout, which carry an argument. Fold the Stated delay, Partial failure and Budget callouts into one clause each in the preceding paragraph, and vary the form: a sentence in prose reads as a through-line, a seventh identical box reads as a template."
+      },
+      {
+        "id": "f7",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Probe section, paragraph 'The non-obvious default is the exit from OPEN' and the 'Two different windows' callout",
+        "claim": "The post never applies its own jitter argument to the breaker. Breaker state is per process; resilience4j permits 10 half-open calls per instance after a fixed 60,000 ms wait. A fleet of N instances whose breakers opened on the same outage reopen on the same clock and probe together, so the dependency sees 10N calls at the 60-second mark, with none of the randomization the jitter section demanded of retries. The documented defaults make this derivable, and it is the production consequence a practitioner who has shipped breakers recognizes and the post leaves unstated.",
+        "evidence": [
+          "https://resilience4j.readme.io/docs/circuitbreaker"
+        ],
+        "suggestion": "Add two sentences after the exit-from-OPEN paragraph stating the uncoordinated probe burst, labelled Derived (10 permitted calls x N instances, same wait). Before stating that the wait is un-jittered, check the resilience4j page for a configurable wait interval function in open state and say whether the default randomizes; cite the page either way."
+      },
+      {
+        "id": "f8",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Stopping section, paragraph 'Against those five, OpenTelemetry's HTTP conventions offer one signal' and the terminal-state table",
+        "claim": "The section establishes that no standard signal names an ending, but does not tell the reader what they can compute today from the one signal that exists. The maximum resend count per logical call plus one is the attempt count, and its mean across calls is the retry amplification factor the arXiv paper defines, with the caveat that redirects inflate it. That derivation turns the section's negative finding into Monday's measurement.",
+        "evidence": [
+          "https://opentelemetry.io/docs/specs/semconv/http/http-spans/",
+          "https://arxiv.org/html/2608.25403v1"
+        ],
+        "suggestion": "Add one Derived sentence giving the formula and its redirect caveat, and reference it from action 4 in the close. Pay for it by shortening the Temporal and Envoy sentences in the 'Durable engines do better' paragraph."
+      },
+      {
+        "id": "f9",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Opening, first sentence 'At 10:45 PDT on 2025-06-12'",
+        "claim": "The report writes '~10:45am PDT'; the post states the time as exact.",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Write 'At about 10:45 PDT'."
+      },
+      {
+        "id": "f10",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Figure 6 label 'Polly: 1 probe execution' and the Probe section's description of Polly's half-open state",
+        "claim": "The Polly page says the breaker 'performs a probe' and shows one call in its diagrams, but it does not state that half-open permits exactly one execution; it describes the state only as 'actions are permitted'.",
+        "evidence": [
+          "https://www.pollydocs.org/strategies/circuit-breaker"
+        ],
+        "suggestion": "Label it 'Polly: a probe on Execute' and drop the count, or cite a Polly page that states the count."
+      },
+      {
+        "id": "f11",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Probe section, first paragraph: Hystrix 'points new internal projects at resilience4j and at adaptive concurrency limits'",
+        "claim": "The README recommends resilience4j for new internal projects; adaptive concurrency limits are named as the direction Netflix's own focus has shifted, not as a recommendation for new projects.",
+        "evidence": [
+          "https://github.com/Netflix/Hystrix"
+        ],
+        "suggestion": "Split the two: Netflix recommends resilience4j for new projects and describes its own shift toward adaptive concurrency limits. Or cut the sentence under f5."
+      },
+      {
+        "id": "f12",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Partial failure section, paragraph 'Statistics is also where a breaker misreads its own evidence': 'it trips too early at every size'",
+        "claim": "Brooker's text makes one general statement about the 10, 100 and 1,000-client runs ('is tripping too early, and approaching the performance of the no retries approach') and does not break the result down by client count; 'at every size' is the post's reading of a chart, not the page's words.",
+        "evidence": [
+          "https://brooker.co.za/blog/2022/02/28/retries.html"
+        ],
+        "suggestion": "Drop 'at every size' or attribute it to the chart in a clause."
+      },
+      {
+        "id": "f13",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Classification section, class table row 'Unknown': 'codes outside retryableStatusCodes neither retry nor spend the bucket'",
+        "claim": "gRFC A6 counts as failures RPCs whose status is retryable or a non-fatal status code under a hedging policy, or a pushback saying not to retry. A non-fatal code outside retryableStatusCodes does spend the bucket when hedging is configured, so the cell overstates the rule.",
+        "evidence": [
+          "https://raw.githubusercontent.com/grpc/proposal/master/A6-client-retries.md"
+        ],
+        "suggestion": "Write 'codes that are neither retryable nor non-fatal, such as INVALID_ARGUMENT, neither retry nor spend the bucket'."
+      },
+      {
+        "id": "f14",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Stated delay section, first paragraph: RFC 9110 'gives the field a meaning in two cases only'",
+        "claim": "Section 10.2.3 names 503 and 3xx, but the same RFC's 413 section says the server SHOULD generate Retry-After when the condition is temporary, so the field has a third defined use in the RFC. The post scopes the claim to 'the section', which is true, but the sentence reads as a claim about the RFC.",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc9110.html"
+        ],
+        "suggestion": "Say 'the Retry-After section names two cases, and the 413 definition adds a third', or scope the sentence explicitly to section 10.2.3."
+      },
+      {
+        "id": "f15",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Sustaining section, 'Metastable failure, as the literature states it' callout: 'two kinds of amplification mechanism, of which retry machinery is one'",
+        "claim": "The OSDI abstract says the authors categorize two types of amplification mechanisms; it does not say retry machinery is one of the two types. Retries are an instance of one type, not a type.",
+        "evidence": [
+          "https://www.usenix.org/conference/osdi22/presentation/huang-lexiang"
+        ],
+        "suggestion": "Write 'two kinds of amplification mechanism, with retry traffic as an instance' and cite the full paper if the type names are wanted."
+      },
+      {
+        "id": "f16",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Figure 3 caption: 'Illustration of the documented order. [6], [5]'",
+        "claim": "The figure draws only the AWS SDK classification order; nothing in it comes from gRFC A6, yet the caption credits [5].",
+        "evidence": [],
+        "suggestion": "Cite [6] alone in the caption; leave [5] on the gRPC paragraph."
+      },
+      {
+        "id": "f17",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Figures 2, 4, 5 and 8, bottom annotation lines ('Separate published scenarios: the right bound is one client at one layer.', '100 clients: jitter cut calls by more than half.', '0 s maximum: API QPS up to 30 times higher, rejected.', 'Illustration of the model, not measured data.')",
+        "claim": "Each figure carries a full sentence as a footer annotation. The standard asks that text inside figures be labels and that sentences go in the caption; three of these four sentences already appear in their captions.",
+        "evidence": [],
+        "suggestion": "Delete the footer sentences from the SVGs and keep the statements in the captions, which already carry them."
+      },
+      {
+        "id": "f18",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Close, first paragraph and the numbered list: citations written '[2] [4]' and '[12] [15]' with spaces, against the comma-separated '[34], [24]' form used everywhere else",
+        "claim": "Citation groups use two spellings in the same post, and the closing is where the difference is densest.",
+        "evidence": [],
+        "suggestion": "Use the comma-separated form throughout."
+      },
+      {
+        "id": "f19",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Close, seven-control table: 'panic mode still routes to ejected hosts' and 'gRPC's half-ceiling floor'",
+        "claim": "Two terms in the closing table are explained only in the body; a reader who reads the opening and the close, which the standard says some do, meets 'panic mode' and 'half-ceiling floor' without a gloss.",
+        "evidence": [],
+        "suggestion": "Gloss each in a clause: 'panic mode (below 50 percent healthy hosts, Envoy routes to all hosts)' and 'retries stop when the bucket falls to half its ceiling'."
+      },
+      {
+        "id": "f20",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Opening, first three sentences, and the close's second sentence 'The numbers around that absence are not close.'",
+        "claim": "The surprising number, under 40 minutes to disable the path against up to 2 h 40 min to recover, lands in the third paragraph after a callout; the first three sentences carry a time, 'seconds' and 'every region', none of which is surprising. In the close, 'The numbers around that absence are not close' is cryptic on first read: close to what?",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Put the 40-minute versus 2 h 40 min contrast in the first three sentences and let the callout follow. Replace the close's sentence with what it means: the gap between a bounded and an unbounded retry policy is not a few percent but orders of magnitude."
+      }
+    ]
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "model": "gemini-3.8-flash",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The post provides an exceptionally rigorous, mathematically grounded, and production-tested analysis of retries, backoff, and circuit breaking. All empirical data points, incident timelines, library configurations, and RFC references were verified against primary sources; no findings were identified in the factual and voice lenses, where citations, numerical claims, and third-person tone are rigorously maintained. A verdict of revise is recommended due to two major items: Heading 10 names a topic rather than stating a declarative claim as required by editorial rules, and Section 4 omits the well-documented breakdown of client-local token bucket quotas in ephemeral serverless environments. Several minor formatting and insight refinements will further sharpen the operational utility and adherence to technical-writing guidelines.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "format",
+        "severity": "major",
+        "location": "Line 333 (Section 10 heading)",
+        "claim": "Section 10 heading is phrased as a topic/question: 'What the missing jitter cost, and what changes on Monday'.",
+        "evidence": [],
+        "suggestion": "Rephrase Heading 10 into a declarative claim that summarizes the section's core takeaway, such as 'Spacing without a bound is half the control, and four audits change on Monday' or 'Unjittered retries amplify load into metastable failure, requiring four production audits'."
+      },
+      {
+        "id": "f2",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Lines 114-143 (Section 4)",
+        "claim": "Section 4 presents client-side token bucket retry quotas (e.g. AWS SDK 500-token capacity) as a complete bound on amplification, omitting the failure mode of client-local budgets in ephemeral, short-lived compute environments.",
+        "evidence": [
+          "https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html",
+          "https://brooker.co.za/blog/2022/02/28/retries.html"
+        ],
+        "suggestion": "Add a concise note in Section 4 explaining that client-local token buckets fail in serverless or highly dynamic runtimes (such as AWS Lambda or short-lived jobs) because each newly initialized execution environment starts with a fresh, full token quota. Highlight that distributed architectures with ephemeral clients must enforce retry budgets centrally at the ingress gateway or service mesh level."
+      },
+      {
+        "id": "f3",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Lines 1-32 (Introduction before Section 1)",
+        "claim": "The raw markdown word count prior to the first section heading totals 452 words, slightly exceeding the 450-word cap for pre-heading introductory material.",
+        "evidence": [],
+        "suggestion": "Trim 5 to 10 words from the opening prose paragraph or tighten the mini-postmortem box description on lines 19-20 so the raw introductory word count strictly remains below 450 words."
+      },
+      {
+        "id": "f4",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Lines 145-182 (Section 5)",
+        "claim": "Section 5 observes that standard circuit breakers remain open indefinitely if upstream callers stop sending probe traffic, but omits the practical deadlock this creates when fallback mechanisms divert 100% of calls away.",
+        "evidence": [
+          "https://www.brooker.co.za/blog/2022/02/16/circuit-breakers.html"
+        ],
+        "suggestion": "Add a brief sentence clarifying that when client fallback logic diverts all incoming traffic to cache or alternate endpoints, passive breakers cannot observe canary requests to recover, requiring explicit background health probes or configuration flags like Resilience4j's automaticTransitionFromOpenToHalfOpenEnabled."
+      },
+      {
+        "id": "f5",
+        "kind": "insight",
+        "severity": "minor",
+        "location": "Lines 226-258 (Section 7)",
+        "claim": "Section 7 details server-instructed backoff via Retry-After headers, but does not address the risk of synchronous thread or connection pool starvation when a client naively blocks for extended server-requested delays.",
+        "evidence": [
+          "https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter",
+          "https://sre.google/sre-book/handling-overload/"
+        ],
+        "suggestion": "Note that synchronous runtime clients should cap server-provided Retry-After durations against their request context deadlines; if Retry-After exceeds remaining call budget or thread lease limits, the client should fail fast rather than holding execution worker threads idle."
+      },
+      {
+        "id": "f6",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Line 172 (Section 5 callout)",
+        "claim": "The callout block uses the non-standard bold label '> **Two different windows.**' rather than an established technical-writing callout qualifier.",
+        "evidence": [],
+        "suggestion": "Normalize the callout prefix to '> **Inference.** Two different windows.' to align with standard editorial callout taxonomy."
+      },
+      {
+        "id": "f7",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Lines 347-355 (Section 10 summary table)",
+        "claim": "The summary table entry for Circuit breaker under 'Works best against' states 'Total or sustained failure' and under 'Fails or misbehaves under' states 'Partial or soft failure', which could benefit from immediate operational qualification for rapid scannability.",
+        "evidence": [],
+        "suggestion": "Expand 'Partial or soft failure' to 'Partial, brownout, or sharded node failures' in the comparison table to immediately signal to engineers why rate-based trip thresholds struggle with uneven canary routing."
+      }
+    ]
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "model": "gpt-6-astra",
+    "effort": "high",
+    "verdict": "revise",
+    "summary": "The dated incident provides a strong opening, and the article supplies substantial evidence, counter-evidence and visual structure. All 40 cited URLs opened. Revision is needed to distinguish configured defaults from ceilings, concurrency budgets from traffic bounds, and documented incident details from speculation. The five-state framework also needs broader coverage, while the closing and repeated code can be shortened. The strongest additional insight concerns restart traffic bypassing retry quotas and failure correlation changing quota depletion. No voice violations were found in the supplied Markdown; command-policy restrictions prevented inspection of the local HTML and SVG rendering.",
+    "findings": [
+      {
+        "id": "f1",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Jitter section, shipped-defaults table, gRPC row and caption",
+        "claim": "The table presents 5 as gRPC's configured attempt count. A6 requires maxAttempts explicitly; 5 is the default ceiling on that setting. The caption's claim that retries require a configured policy also overlooks transparent retries, which A6 explicitly permits without one.",
+        "evidence": [
+          "https://github.com/grpc/proposal/blob/master/A6-client-retries.md"
+        ],
+        "suggestion": "Separate the required configured value from its ceiling, and qualify the caption to distinguish policy retries from transparent retries."
+      },
+      {
+        "id": "f2",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Amplification section, paragraph beginning 'Shipped implementations state that bound' and four-bound table",
+        "claim": "The comparison treats the implementations as interchangeable ways to enforce the preceding traffic-amplification bound. Envoy's documented budget limits concurrent retries against active and pending requests, with a minimum concurrent allowance. That does not establish the same request-volume bound as Google's per-client retry ratio: short failed retries can turn over repeatedly while original requests remain active.",
+        "evidence": [
+          "https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/circuit_breaker.proto",
+          "https://sre.google/sre-book/handling-overload/"
+        ],
+        "suggestion": "Replace the common-bound framing with explicit accounting units: simultaneous requests, request counts over a window, and health-token balances. Identify the three-retry floor as concurrent capacity and avoid transferring the 1.1x guarantee to Envoy."
+      },
+      {
+        "id": "f3",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Replay-safety section, first paragraph",
+        "claim": "The RFC paraphrase omits its alternative permission for requests whose semantics are known to be idempotent, and the paragraph then says a post-send timeout is safe to retry only with a replay-safety key. RFC 9110 explicitly allows retries based on idempotent semantics, including a PUT whose response was lost, without requiring such a key.",
+        "evidence": [
+          "https://www.rfc-editor.org/rfc/rfc9110.html"
+        ],
+        "suggestion": "Restore both RFC exceptions and distinguish semantic idempotency from token-based deduplication. Remove the key-only restriction rather than adding a separate explanation."
+      },
+      {
+        "id": "f4",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Server-stated-delay section, opening sentence and comparison-table caption",
+        "claim": "The claim that server timing outranks local timing, and that both vendor headers bind clients to an exact server time, contradicts AWS's clamp. Its effective delay can differ from the advertised value.",
+        "evidence": [
+          "https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html"
+        ],
+        "suggestion": "Distinguish exact gRPC pushback from AWS's bounded override, retaining the existing clamp explanation."
+      },
+      {
+        "id": "f5",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Service Control inference callouts at the ends of Classification, Amplification, Server-stated delay and Durable retry",
+        "claim": "Could not verify the assertions that Service Control had no classifier, retried every failure immediately, had only task count bounding load, lacked any scheduling channel, or used an untuned restart ladder. The opened Google report establishes inappropriate randomized exponential backoff and overloaded infrastructure, but does not disclose those implementation details. An Inference label does not make silence evidence of absence.",
+        "evidence": [
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Remove the undisclosed implementation claims. Keep documented incident connections, and express any retained architectural alternatives as conditional examples rather than reconstructions of June."
+      },
+      {
+        "id": "f6",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Partial-failure section, paragraph beginning 'Statistics is also where a breaker misreads' and concluding total-versus-partial claim",
+        "claim": "Brooker's simulation evaluates a retry-only breaker that always sends initial calls, unlike the all-call breakers introduced immediately beforehand. Its sampling results need that qualification. Separately, the preprint's hardest scenario fails 60 percent of requests across several tiers; it does not establish the concluding rule that breakers work well for total failure and badly for partial failure.",
+        "evidence": [
+          "https://brooker.co.za/blog/2022/02/28/retries.html",
+          "https://arxiv.org/html/2608.25403v1",
+          "https://www.brooker.co.za/blog/2022/02/16/circuit-breakers.html"
+        ],
+        "suggestion": "Identify which calls each studied breaker suppresses. Narrow the conclusion to whether the breaker's scope matches the failing population, replacing the total-versus-partial generalization."
+      },
+      {
+        "id": "f7",
+        "kind": "factual",
+        "severity": "major",
+        "location": "Amplification section, simulation-results table, Standard retry row",
+        "claim": "Could not verify a consistent policy behind '3 attempts, 100, 200 and 400 ms'. The opened preprint describes three retries in section V but three attempts in section VII-A. Three total attempts ordinarily provide only two inter-attempt waits. The article combines the source's conflicting descriptions into an apparently precise configuration.",
+        "evidence": [
+          "https://arxiv.org/html/2608.25403v1"
+        ],
+        "suggestion": "Retain the reported results with an explicit configuration ambiguity, or resolve it against the simulator. Remove the precise attempt-and-delay specification until resolved."
+      },
+      {
+        "id": "f8",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Stopping section, five-state framework, code and terminal-state table",
+        "claim": "The five endings omit cancellation, quota refusal and server-directed stopping. Reclassified also excludes a permanent error on the first attempt. Breaker rejection describes an attempt and need not terminate an outer logical operation. The proposed telemetry vocabulary therefore cannot consistently describe its stated unit.",
+        "evidence": [
+          "https://github.com/grpc/proposal/blob/master/A6-client-retries.md",
+          "https://www.pollydocs.org/strategies/retry"
+        ],
+        "suggestion": "Replace the tuple and revise the table around operation outcome, stop reason and attempt count. Define precedence and scope instead of prescribing exactly five endings."
+      },
+      {
+        "id": "f9",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Amplification section and closing action 3",
+        "claim": "The proposed controls miss the opening incident's crucial boundary: first attempts bypass standard retry quotas, and new client instances receive fresh balances. A restart storm can therefore overload a dependency despite bounded retries.",
+        "evidence": [
+          "https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html",
+          "https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW"
+        ],
+        "suggestion": "Replace the hedging aside with this scope limitation and connect it to admission control over task creation."
+      },
+      {
+        "id": "f10",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Amplification section, AWS quota row stating depletion above 22 or 32 percent failures",
+        "claim": "These source-reported thresholds need a failure model. Derived counterexample: if fraction f of logical calls fails all three attempts and the rest succeeds immediately, net transient-token change is (1-f)-28f, reaching zero at 1/29, about 3.45 percent; throttling reaches zero at 1/11, about 9.09 percent. Failure correlation changes depletion materially.",
+        "evidence": [
+          "https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html"
+        ],
+        "suggestion": "Replace the unqualified percentages with the accounting rule, or specify the model that produces them."
+      },
+      {
+        "id": "f11",
+        "kind": "insight",
+        "severity": "major",
+        "location": "Classification section, Unknown row and final paragraph",
+        "claim": "The proposed unknown class promises 'few attempts' but supplies no admission rule. Its gRPC example does the opposite: unlisted statuses are not retried. Unrecognized evidence alone does not establish that another attempt is useful.",
+        "evidence": [
+          "https://github.com/grpc/proposal/blob/master/A6-client-retries.md"
+        ],
+        "suggestion": "Replace the vague contract with a bounded, explicitly inferred policy tied to replay safety and observed benefit, or retain unknown only as an observability category."
+      },
+      {
+        "id": "f12",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Classification table, Transient row",
+        "claim": "'500 to 504' includes 501. The cited AWS fallback enumerates only 500, 502, 503 and 504, as the surrounding prose correctly states.",
+        "evidence": [
+          "https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html"
+        ],
+        "suggestion": "Enumerate the four statuses consistently in the table."
+      },
+      {
+        "id": "f13",
+        "kind": "factual",
+        "severity": "minor",
+        "location": "Sustaining-effect section, paragraph beginning 'Retry traffic is the commonest sustaining effect'",
+        "claim": "Could not verify the prevalence superlative 'commonest' from the cited Brooker page. It explains retry feedback and discusses other mechanisms, but supplies no ranking or population count establishing that retries are the most common.",
+        "evidence": [
+          "https://brooker.co.za/blog/2021/05/24/metastable/"
+        ],
+        "suggestion": "Remove the ranking unless a cited study directly establishes it."
+      },
+      {
+        "id": "f14",
+        "kind": "engagement",
+        "severity": "minor",
+        "location": "Closing chapter, opening paragraph through final paragraph",
+        "claim": "The close settles the opening but then repeatedly settles the same account: a long numerical recap, seven-control table, another incident comparison, four actions and a final repeated simulation result. The survey percentage and draft-expiry details interrupt the recovery argument rather than strengthen its final decision.",
+        "evidence": [],
+        "suggestion": "Keep the incident return, required comparison table and concrete actions. Cut the repeated survey and standards-status recap, and state the simulation warning once."
+      },
+      {
+        "id": "f15",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Classification, Amplification and Stopping sections, Python blocks",
+        "claim": "Several code blocks duplicate adjacent structured material without demonstrating implementation: classify repeats the pipeline and class table, token accounting repeats the budget row, and TERMINAL typesets the following table's labels. They add length while leaving the difficult composition and stopping decisions unspecified.",
+        "evidence": [],
+        "suggestion": "Remove the redundant token-accounting and terminal-tuple blocks. Retain the classifier only if its distinct purpose is made clear, and spend the recovered space on the flagged scope and stopping mechanisms."
+      },
+      {
+        "id": "f16",
+        "kind": "format",
+        "severity": "minor",
+        "location": "Sources list, entries 2, 3, 4, 7, 18, 19, 22, 23, 25 and 27",
+        "claim": "These entries give publication or revision dates without an explicit read date, despite the preview promising that every number is cited with the date it was read. The metadata does not consistently distinguish those two dates either.",
+        "evidence": [],
+        "suggestion": "Add the actual verified access dates and distinguish publication, revision and access dates consistently, without expanding the body."
+      }
+    ]
+  }
+]

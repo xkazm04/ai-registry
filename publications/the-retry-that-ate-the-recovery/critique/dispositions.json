@@ -1,0 +1,741 @@
+[
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The research log for [7] already records that the behaviour is opt-in via AWS_NEW_RETRIES_2026 and becomes the default in November 2026, and no sentence in the post says so, which makes the current default look like history.",
+    "action": "At first appearance, name the 2026 behaviour as opt-in until the November 2026 rollout and cite [7]; rename the defaults-table rows to 'AWS SDK, 2026 behaviour (opt-in until 2026-11)' and 'AWS SDK, current default'; carry the same wording into the preview outcome and the closing table."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "Source [4] bounds a client's own retry share at about 1.1 times, which is a per-client traffic bound in one scenario, not a five-layer composition, so the right-hand stack in figure 5 and the cross-scenario quotient both claim more than the evidence.",
+    "action": "Redraw figure 5's right side as the per-client bound at one layer rather than a budgeted five-layer stack, cut the 243/1.1 callout, use 'three attempts' consistently, and change the preview outcome and Monday item 3 from replacing a per-site cap to pairing it with a ratio bound and the positional rule from [4]."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "A code block in a post is copied, so a field name taken from a proposal rather than the released KubeletConfiguration reference is a defect, and the two feature gates do need separating.",
+    "action": "Confirm the shipped field spelling against the Kubernetes KubeletConfiguration reference in the research pass and correct the YAML, and rewrite the 'What shipped instead' sentence so the alpha reduced-default gate and the beta configurable-maximum gate are named as two separate features."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The closing cell contradicts the body: [3] measured jitter cutting calls by more than half, and what did not change in that simulation was the squared growth of total work with contention, not realized work.",
+    "action": "Rewrite the closing cell to say jitter reduces realized calls but does not change the squared growth of total work in the simulated contention model, and scope the body's growth sentence to that model."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "Resilience4j's documented default is a count-based window of 100 calls with no sampling duration [11], while Polly's minimum throughput of 100 sits inside a 30-second window [14], so one mechanism is stated for two different ones.",
+    "action": "Split the callout: Polly cannot open below 100 calls per 30 seconds, resilience4j opens only after 100 recorded calls however long that takes; and correct figure 6 and its alternative text so half-open permits 10 calls whose failure and slow-call rates are evaluated, rather than requiring 10 passes."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "The classifier sits beside AWS prose while applying a broader 5xx fallback, and the fourth 'unknown' class is this post's construct, which the house rule requires labelled.",
+    "action": "Check the documented status fallback set on [6] in the research pass and narrow the code to it, and label the four-class table and the classifier as this post's taxonomy extending the vendor's three classes."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The table reads as though gRPC retries by default when A6's policy comes from service config, and A6's formula applies jitter after the cap, so maxBackoff is a pre-jitter cap.",
+    "action": "Qualify the gRPC row and prose as the behaviour of a configured retry policy, state maxBackoff as the pre-jitter cap, note the attempt ceiling is changeable through channel arguments, and keep 'unconditional' only for the computed delay while naming server pushback as the override."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "The paragraph lifts one recommendation from [2] into a refinement of retry jitter without establishing that a host-consistent offset preserves decorrelation between callers, and it carries no claim the section needs.",
+    "action": "Cut the per-host jitter paragraph, which also removes one instance of the repeated contrastive frame fable raised."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "The report gives up to about 2 hours 40 minutes as the time to full resolution, not as an interval after the 40-minute mitigation, and it states no counterfactual recovery time with backoff in place.",
+    "action": "Drop 'more' from the figure 1 caption, start the band at the incident start, and rewrite the closing sentence so the report's own attribution (restarts overloaded Spanner because randomized exponential backoff was absent) carries the point instead of a difference of durations."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "Nothing in [28] states DWFM's retry spacing or that queue bounds were absent; the summary records retries, queued lease reattempts and throttling only.",
+    "action": "Remove 'did have backoff' in both places, say the summary names retries and queued reattempts but is silent on spacing, and rest the closing point on the published remediation of rate limiting incoming work by queue size."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "Idempotency-Key is a replay-safety identifier, not a delay signal, so grouping it with RateLimit as fields for stating a delay is wrong, and the Datatracker metadata field is weak evidence about the draft's intended status.",
+    "action": "Split the closing sentence so Retry-After is named as the standardized delay signal, RateLimit as the unfinished quota field and Idempotency-Key as the unfinished replay-safety field, and delete the 'intended RFC status not yet set' clause."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "The evidence in [29] and [30] covers OpenTelemetry's HTTP conventions, while the prose claims retry telemetry generally, which other per-attempt instrumentation contradicts.",
+    "action": "Scope the heading and both sentences to OpenTelemetry's HTTP conventions, and in the research pass read gRPC's OpenTelemetry metrics page so one sentence can name the existing per-attempt and experimental retry instruments against the missing terminal-reason convention."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "Replay safety does gate the decision before the error class does, and RFC 9110 permits automatic retry of a non-idempotent request when the client can detect the original was never applied, which the absolute sentence omits.",
+    "action": "Move the idempotency material from the standards section to the front of the classification section, add the RFC 9110 exception for a request known not to have been applied, and distinguish a known non-execution from an ambiguous timeout; pay for it by shortening the standards-status discussion."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f14",
+    "disposition": "accepted",
+    "reason": "The post names attempt and token budgets but never the remaining deadline, which the proposed over-budget state depends on, and a 20-second delay cap is not a latency bound.",
+    "action": "Replace the cut 221 callout with a short labelled rule covering remaining deadline, next delay and attempt allowance, and state that deadline expiry or cancellation stops the operation independently of attempts or server advice."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "The five states are asserted as the legitimate ways to stop before the Inference label appears, and the breaker row overstates the dependency never being called when earlier attempts may have reached it.",
+    "action": "Put the Inference label at the framework's first appearance, state that the states describe one logical operation rather than a single attempt, fold deadline expiry into the over-budget state, and limit the breaker row to the denied attempt."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "Ejection acts on hosts while Brooker's objection concerns shards, so the heading promises a solution that holds only when the failing unit is the host and healthy destinations remain.",
+    "action": "Soften the heading to what the evidence shows, and replace part of the detector-default inventory with the routing and spare-capacity condition under which per-host ejection helps and the shard case where it does not."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f17",
+    "disposition": "accepted",
+    "reason": "A claim travels with its counter-evidence, and the preprint's own circuit-breaker result bears directly on the position the post takes against breakers as a load-shedding device.",
+    "action": "In the research pass read the preprint's results table for the breaker and adaptive-budgeting figures and the Standard Retry baseline configuration, then replace the repeated two-number recital with one compact comparison carrying those results and the single-topology limit, and qualify the breaker position accordingly."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f18",
+    "disposition": "accepted",
+    "reason": "The opening object appears in section 1 and the close only, and the named passages carry reference material no claim in the thesis uses.",
+    "action": "Cut the Hystrix paragraph to one clause, drop the reaction and commenter counts and the SQS back-of-queue and retention paragraph, and spend the words on one sentence per section applying that section's control to Service Control's restarts against Spanner, labelled Inference where the report is silent."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f19",
+    "disposition": "accepted",
+    "reason": "The outline is unlinked and paraphrases the headings in both files, which the standard's linked outline requires; the citation half is already implemented in index.html, where every [n] is an anchor link, but not in the Markdown.",
+    "action": "Link each outline item to its section anchor using the heading text, and add anchor links for the [n] citations in post.md so the Markdown package matches the authored page."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f20",
+    "disposition": "accepted",
+    "reason": "KEP-4603 publishes about 5 extra restarts in the first five minutes and a projected tenfold request increase; the 5 against 14 restarts in ten minutes is this post's arithmetic on the two ladders, so the caption's 'published' mislabels a construct as a finding.",
+    "action": "Label the restart counts Derived in the caption with the ladder sums shown, state the timing convention and what it excludes, and separate the KEP's modelled request estimate from the measured QPS benchmark."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f21",
+    "disposition": "accepted",
+    "reason": "The post-table stretch exceeds the 300-word prose limit between visuals, and the incident and benchmark numbers land four times in the close.",
+    "action": "Cut the repeated benchmark recital and compress the remediation paragraph so the stretch after the final table falls under 300 words while keeping the action list and one return to Service Control."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 1,
+    "findingId": "f22",
+    "disposition": "accepted",
+    "reason": "The exclusivity claim is unsupported, and the study behind [24] catalogues amplification mechanisms other than retry machinery.",
+    "action": "Delete the uniqueness assertion and keep the supported mechanism: retries feed a positive loop precisely when the dependency's capacity is impaired."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "F1",
+    "disposition": "accepted",
+    "reason": "Two reviewers who opened the incident report count seven remediation items against the eight recorded in the research log, so the count cannot stand as written.",
+    "action": "Recount the published items on [1] in the research pass and state the verified number, or drop the count and write 'of the remediation items Google published'."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "F2",
+    "disposition": "accepted",
+    "reason": "The front matter sits close to the 450-word ceiling by any counting and over it once the figure's text alternative is included, and trimming costs the post nothing.",
+    "action": "Trim the opening paragraph and the outline items, which the rewrite shortens anyway when the outline becomes linked heading text."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "F3",
+    "disposition": "accepted",
+    "reason": "The stretch from the final table to the end runs past the 300-word limit between visuals, which the same span in gpt's f21 confirms.",
+    "action": "Compress the remediation paragraph and the repeated numbers so the closing stretch falls under 300 words, rather than adding a decorative visual."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "F4",
+    "disposition": "accepted",
+    "reason": "The opening incident is the through-line the preview promises and it is absent from the middle sections, which two other reviewers also named.",
+    "action": "Give each middle section one sentence applying its control to the June incident, labelled Inference where the report is silent, paid for by the cuts listed under gpt f18 and fable f6."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 1,
+    "findingId": "F5",
+    "disposition": "rejected",
+    "reason": "The section already carries this failure mode in its sourced form from [26], that a bucket starting full depletes too slowly while a fractional deposit behaves like about 0.1 retries when unhealthy, and the suggested 50 percent degradation threshold and gradient-limiter remedy have no source in the research."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The cited reference page gates the behaviour behind AWS_NEW_RETRIES_2026 and [7] dates the default rollout to November 2026, so the post labels the current default as history.",
+    "action": "Same change as gpt f1: name the opt-in and the November rollout once at first appearance, and rename the two defaults-table rows to '2026 behaviour (opt-in until 2026-11)' and 'current default', with the preview outcome and closing table following."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "The research log for [28] records retries, queued lease reattempts and throttling but nothing about backoff being present, so 'did have backoff' is this post's inference stated as the source's fact.",
+    "action": "Remove the phrase in both places, state that the summary is silent on spacing, and rest the closing argument on the published queue-size rate limiting instead."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "Two reviewers independently count seven items on the page against the eight in the research log.",
+    "action": "Recount on [1] and state the verified figure, or drop the count entirely; the four items the post names are unaffected."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The 5 and 14 restart counts are arithmetic on the two ladders, not figures either KEP states, so a caption calling them published presents a construct as a finding.",
+    "action": "Mark them Derived in the caption with the ladder sums shown, keep the KEP's published 5 extra restarts in the first five minutes, and call the tenfold request figure the KEP's projection."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "Verified locally: the figures directory holds only .svg files, index.html points at them and post.md points at eight .png files that do not exist.",
+    "action": "Point the Markdown at the .svg files and export PNG alongside them if the target platform cannot render SVG, then check the chosen format in the platform preview."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "The body runs well past the 14-minute budget, and the named passages carry reference material no claim in the thesis uses.",
+    "action": "Cut the Hystrix paragraph to one clause naming the move to adaptive concurrency limits, drop the reaction and commenter counts, drop the SQS back-of-queue and retention paragraph, and fold the RateLimit client advice into one sentence keeping the thundering-herd point; the recovered words fund f7, f8 and f9."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The preview promises the incident as a through-line and eight sections pass without applying their control to it.",
+    "action": "One sentence per section tying the control to Service Control's restarts against Spanner, labelled Inference where the report is silent, and an explicit link from the restart-ladder section to those restarts."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "Every bound the section names is scoped locally, to a channel, a client instance, a proxy cluster or a client, so the heading's claim of a global bound is not what the evidence shows.",
+    "action": "Retitle the heading to the bound being a ratio and positional, add a scope and ratio-or-count column to the three-currencies comparison, and state the composition rule, including that a per-client ratio compounds across layers, in a labelled Inference beside the positional rule from [4]."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "The over-budget terminal state presupposes a time envelope the post never defines, which leaves a practitioner unable to act on it.",
+    "action": "Define the budget as attempts plus a time envelope where the five states are introduced, with the gRPC rule that a pushback delay is honoured only within the attempt ceiling and the caller's deadline, and say in the over-budget row which budget the state measures against."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "Resilience4j's default window is count-based with no sampling duration [11] while Polly's throughput floor sits inside a 30-second window [14], so the callout states one mechanism for two.",
+    "action": "Split the callout as suggested, keeping the second half about a caller that routes around an open circuit, which holds for both libraries."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "The report gives up to about 2 hours 40 minutes as the time to full resolution, so the caption's 'more' and the band's start add about 40 minutes the source does not.",
+    "action": "Drop 'more' and relabel the band as time to full resolution measured from the incident start."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "243 is 3 to the fifth, which is three attempts per layer, while the prose says three retries, and the figure and close say attempts.",
+    "action": "Use 'three attempts' in the prose, figure and close, and re-read the wording of [2] in the research pass when making the change."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "No cited source supports a popularity ranking for either library, and the claim appears twice.",
+    "action": "Write 'two widely used libraries' in the caption and the closing paragraph."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f14",
+    "disposition": "accepted",
+    "reason": "The page cited as [24] is the presentation page, and the three-part model originates with the HotOS 2021 paper, so attributing the definition to this study's own words overstates what that page carries.",
+    "action": "Reword the callout tag to attribute the model to the literature rather than to the study, and in the research pass either read the OSDI paper's PDF where the model is restated or add the HotOS 2021 paper as a dated source and renumber the citations in the same pass."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "Brooker writes that the adaptive scheme is not modal in the same way rather than non-modal, and the half-rate figure belongs to the 100-client run.",
+    "action": "Say 'not modal in the same way', attach the half-rate figure to the 100-client run, and describe the 10, 100 and 1,000 client runs as tripping early."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "RFC 9110 states what Retry-After indicates for a 503 and uses obligation language only for the 3xx case, so the column header claims an obligation the RFC does not impose.",
+    "action": "Rename the column to what the client is told, and write the 503 row as expected unavailability with no client rule."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f17",
+    "disposition": "accepted",
+    "reason": "The standard asks for a linked outline built from the section headings, and the ten items are unlinked paraphrases in both files.",
+    "action": "Link each item to its section anchor and use the heading text or a tight abbreviation of it, which also trims the front matter for gemini F2."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f18",
+    "disposition": "accepted",
+    "reason": "Verified locally: the SVGs hard-code a light background and dark text with no dark-scheme palette, figure 1 carries a full sentence as a footnote, and two of its times are never established in the prose.",
+    "action": "Drive the figure colours from CSS variables with a prefers-color-scheme block, move the mini-report note into the caption, and establish or drop the 10:51 and 18:18 labels."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f19",
+    "disposition": "accepted",
+    "reason": "The quotient divides a load multiplier from one published scenario by a traffic growth factor from another and the callout concedes it measures nothing.",
+    "action": "Cut the callout and use its space for the deadline and budget rule that gpt f14 and f9 ask for."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f20",
+    "disposition": "accepted",
+    "reason": "The sentence that must say what the post is has no main verb, and it repeats 'stop' three times.",
+    "action": "Rewrite the preview's first sentence with a subject and a verb, which also helps the front-matter word count."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f21",
+    "disposition": "accepted",
+    "reason": "Six instances of one contrastive frame across headings, captions and prose read as a tic rather than as emphasis.",
+    "action": "Keep the frame in the figure 1 and figure 4 captions where the contrast carries the message and rewrite the other four as plain statements; the per-host jitter cut removes a seventh instance."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f22",
+    "disposition": "accepted",
+    "reason": "The hedging policy is in the research already from [5], and the trade-off it names, load against tail latency on the same token bucket, is the question a practitioner who has tuned tail latency asks first.",
+    "action": "Add one or two sentences where the token bucket is introduced: hedged RPCs go out only while the bucket is above the threshold, though the first RPC is always sent, paid for by the Hystrix cut."
+  },
+  {
+    "reviewer": "fable",
+    "round": 1,
+    "findingId": "f23",
+    "disposition": "accepted",
+    "reason": "The summary has the clean-up deleting the stale plan, with the loss of every regional endpoint address as the consequence, so the post compresses two steps into one.",
+    "action": "Write that clean-up deleted the older plan, removing every IP address for the regional endpoint."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "A6 as recorded in the research log makes 5 a ceiling on maxAttempts ('Values greater than 5 are treated as 5'), not a configured count, and the same log records transparent retries running without a policy until success or the deadline [5].",
+    "action": "Change the gRPC cell to 'maxAttempts from the service config, capped at 5 (a channel argument raises the cap)' and add a clause to the caption that transparent retries of RPCs that never left the client need no policy."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "Envoy's budget is a concurrency ratio on active plus pending requests with a floor of 3 concurrent retries [8], so the lead-in sentence's 'two currencies, counts and ratios' puts it in the same unit as the SRE book's share of a client's request volume [4].",
+    "action": "Rewrite the lead-in to name three accounting units (concurrent retries, retries per unit of traffic, health-token balance) and relabel the Envoy row's floor as concurrent retry capacity. The 1.1x figure stays on the client-budget row, where it already is."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The paraphrase drops RFC 9110's first alternative, 'some means to know that the request semantics are actually idempotent, regardless of the method' [17], and the following sentence then makes a replay-safety key the only safe route out of a post-send timeout, which overreaches for an idempotent method.",
+    "action": "Restore both alternatives in the paraphrase and scope the key clause: a post-send timeout is ambiguous, retryable on idempotent semantics, and safe for a non-idempotent method only behind a replay-safety key such as RunInstances tokens."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "The table's own cell records the AWS clamp between the computed backoff and backoff plus 5,000 ms [6], so the caption's 'binding a client to an exact time' is inconsistent with the row above it.",
+    "action": "Rewrite the caption clause to distinguish gRPC's exact pushback from AWS's clamped override, and soften the section's opening sentence from outranking to bounding what the caller computed."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "The report establishes the missing randomized exponential backoff and the overloaded Spanner table but discloses no classifier, no budget and no restart tuning [1]; an Inference label covers reasoning from sources, not a reconstruction of code from the report's silence.",
+    "action": "Drop 'no classifier at all' and 'a ladder nobody had tuned', keep only what the report states plus its silence, and fold three of the thin June callouts into a clause each (see fable f6), with the Budget callout replaced by the first-attempt scope limit in f9."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "The simulated breaker gates retries while the library breakers introduced just above reject every call, and the preprint's single five-tier chain with injected independent failures [39] cannot carry a general total-versus-partial rule.",
+    "action": "Name the simulated breaker as one gating retries, and narrow the closing position to whether the breaker's scope matches the failing population rather than to total against partial failure."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "The preprint's own text is inconsistent between three retries and three attempts, so the cell's apparent precision is the post's resolution of a source conflict rather than the source's configuration [39].",
+    "action": "Cut the attempt count from the row label, leaving 'Standard retry: exponential 100, 200 and 400 ms, with jitter', which is what the paper's configuration states unambiguously."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "One gap is real and sourced: a negative grpc-retry-pushback-ms is a server-directed stop that none of the five glosses names [5]. Quota refusal already falls under an exhausted allowance and caller cancellation is outside a retry loop's own endings, so the set does not need replacing, only scoping.",
+    "action": "Widen the reclassified gloss to include a server-stated refusal to retry, and add one clause scoping the five to the endings the retry loop itself produces, caller cancellation excluded."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "This is the sharpest finding in either review and both cited pages support it: a retry quota is spent only by retries and is scoped to one client instance [6], so a fleet of restarting processes making first attempts spends nothing, which is why the June loop ended with engineers throttling task creation [1].",
+    "action": "Replace the thin Budget June callout with two sentences stating that first attempts spend no retry budget and a per-instance balance resets with the process, so a restart storm is bounded by admission control on task creation, not by retry policy."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "The cell states the vendor's figures bare; the page gives them for sustained failure rates at the default 3 attempts [6]. The reviewer's 3.45 percent assumes every attempt of a failing call fails, while the documented accounting restores a successful retry's own cost, so its arithmetic is a different model rather than a correction.",
+    "action": "Qualify the cell to 'drains above roughly 22 or 32 percent sustained failures at the default 3 attempts' and keep the vendor's numbers."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "Correct as a contract defect: 'few attempts' states no admission rule, and the gRPC cell beside it is the conservative opposite [5], so the post's own fourth lane reads as unearned.",
+    "action": "Rewrite the Unknown contract cell as 'at most one further attempt, only where a repeat is replay-safe, counted apart' and name the gRPC example as the conservative end of that lane."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "The documented fallback enumerates 500, 502, 503 and 504 only [6], so '500 to 504' silently adds 501 and contradicts the post's own prose.",
+    "action": "Enumerate the four statuses in the Transient row of the class table."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "Neither [35] nor the OSDI abstract [24] ranks sustaining effects by prevalence, so 'commonest' is an unsourced superlative.",
+    "action": "Replace the superlative with the mechanism the sources do carry: retry traffic feeds the overload that produced it, which is why removing the trigger leaves the system degraded."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f14",
+    "disposition": "accepted",
+    "reason": "The close settles the account and then settles it again: the standards-status sentence repeats the last row of the seven-control table, and the simulation caveat appears in both the body table caption and the final paragraph.",
+    "action": "Cut the standards-status sentence from the closing recap and state the simulation warning once. The 1-of-113 figure stays, because the close must stand alone for a reader who reads only the ends."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "The token-accounting block does repeat the gRPC row of the bound table and carries no branch the table lacks. The classifier shows a fall-through precedence no table states, and the terminal tuple is the names a practitioner would record, so those two earn their space.",
+    "action": "Remove the token-accounting code block and recount visual cadence around the gap, keeping the classifier and the terminal tuple."
+  },
+  {
+    "reviewer": "gpt",
+    "round": 2,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "The listed entries carry publication or revision dates only, which does not match the preview's promise of a read date for every number; the research log records a re-read date for some of them and not for others, so inventing access dates is not available.",
+    "action": "Change the preview clause to 'cited with its date, and with the read date where the page carries none', and add 'read 2026-10-14' to the entries whose re-read the log records, starting with [2]."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The heading quoted is the post's, and it names a topic where every other heading carries a claim the section earns.",
+    "action": "Rename the closing heading to carry its claim, 'Spacing without a bound is half the control', and update the matching preview line."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "The scope column records that the AWS quota is not shared across hosts [6], but the consequence for short-lived processes, that every new instance starts with a full balance, is never stated; gpt f9 reaches the same gap from the opening incident.",
+    "action": "Covered by the sentences accepted under gpt f9: a per-instance balance resets with the process, so ephemeral workers and restarting tasks each start full and the bound has to sit at a proxy or at admission control."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The count sits at the 450-word limit either way, and the opening has a cut available that fable f20 asks for independently.",
+    "action": "Fold the recovery-contrast paragraph into the opening two paragraphs and trim the preview clause, taking the pre-heading count clearly under 450 words."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f4",
+    "disposition": "rejected",
+    "reason": "The post already states this twice in the span the finding points at: Polly 'never reaches HalfOpen, and so never probes' [14], resilience4j's automaticTransitionFromOpenToHalfOpenEnabled is named as false [11], and the Inference callout says a caller that routes around an open circuit never supplies the probe that would close it."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f5",
+    "disposition": "deferred",
+    "reason": "Right about blocking runtimes, but no cited source carries it: neither [2] nor [4] is recorded in the research log as addressing thread or connection pool starvation, and the deadline half of the point is already made in the budget callout, which names the time left on the caller's deadline as one of three quantities [5]. Thread and concurrency budgeting is a separate piece."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f6",
+    "disposition": "rejected",
+    "reason": "The house rule puts Derived, Inference and Assumption labels on the author's own constructs, so that a construct does not read as a finding. This callout states two documented defaults with both pages cited [11], [14]; labelling it Inference would misreport measured documentation as reasoning."
+  },
+  {
+    "reviewer": "gemini",
+    "round": 2,
+    "findingId": "f7",
+    "disposition": "rejected",
+    "reason": "The quoted cells are not in this draft. The closing table's columns are Control, What it bounds, A shipped default and Where it fails, and the breaker row already reads 'partial failure: trips on one shard and punishes callers of healthy ones', which carries the sharding case the suggestion asks for."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f1",
+    "disposition": "accepted",
+    "reason": "The research log attaches 'should not be read as a forecast' to the analytical 10.30x bound against the simulated 1.34x [39], so the caption moves the authors' hedge onto rows it was not written about.",
+    "action": "Have the caption carry the paper's actual limits (one five-tier chain, idealized network, independent failures) and rephrase the close to 'whose authors list a single topology among their limits'."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f2",
+    "disposition": "accepted",
+    "reason": "The page says 'three retries at each layer' while its walk-through counts three then nine and 243 is 3 to the fifth [2]; the post states its own resolution as the source's wording, which a reader who opens the page cannot reconcile.",
+    "action": "Add one clause at first use: the page writes three retries, its walk-through counts three then nine, so the multiplier is three attempts per layer."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f3",
+    "disposition": "accepted",
+    "reason": "The mechanism is the one a practitioner would act on and the post has the inputs for it: timeout is the transient class's first evidence [6] and correlation between callers is what jitter breaks [3]. It is reasoning rather than a reported measurement, so it is stated as one labelled sentence rather than a paragraph.",
+    "action": "Add one Inference-labelled sentence in the classification section: a timeout set below the dependency's latency under load returns no error and expires on every caller's clock at once, which manufactures the correlated wave the jitter section is about."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f4",
+    "disposition": "accepted",
+    "reason": "Both incidents ended with a server-side bound, task-creation throttling [1] and work rate limited by queue size [28], and the SRE chapter the post already cites carries adaptive throttling with the 2x accept multiplier [4]; a table of seven client-side controls leaves the post's own last line unsupported.",
+    "action": "Add an eighth row, server-side admission control, with the two incidents and the 2x accept multiplier as its shipped instances, and state the position plainly: client spacing and bounds shorten the storm, a bound at the server ends it. Paid for by cutting the 'AWS SDK, current default' row from the jitter table."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f5",
+    "disposition": "accepted",
+    "reason": "Length is a ceiling and the named spans are the flat ones: the durable section's modelled-cost and feature-gate paragraphs repeat the figure and its caption, the hedging paragraph is a one-sentence aside, and the partial-failure paragraph says what the table beneath it says.",
+    "action": "Make the named cuts (durable section trimmed to the figure, the ladder and the reset; hedging paragraph and token-accounting block gone; partial-failure paragraph shortened to the epistemic limit), then recount the visual cadence rule end to end, including the share of one-line paragraphs."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f6",
+    "disposition": "accepted",
+    "reason": "Seven callouts of one shape read as a template by the fourth, and three of them restate what the reader has already inferred; gpt f5 independently asks for the same three to go on factual grounds.",
+    "action": "Keep the Sustaining mapping and the Probe callout, fold Stated delay and Partial failure into a clause each in the preceding paragraph, and replace the Budget callout with the first-attempt scope limit from gpt f9."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f7",
+    "disposition": "accepted",
+    "reason": "Derivable from the documented defaults the post already quotes: breaker state is per process, 10 calls are permitted in half-open and the wait is a fixed 60,000 ms [11], so instances that opened together probe together with none of the randomization the jitter section demands of retries.",
+    "action": "Add a two-sentence Derived callout after the exit-from-OPEN paragraph giving 10 permitted calls times N instances on one shared clock, scoped to what the page read on 2026-10-14 documents: a fixed wait duration with no randomization of it."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f8",
+    "disposition": "accepted",
+    "reason": "The section ends on an absence and leaves the reader nothing to compute, although the one stable signal supports it: the maximum resend count per logical call plus one is the attempt count [29], whose mean is the amplification factor the preprint defines [39], inflated by redirects because the counter does not separate them.",
+    "action": "Add one Derived sentence with that formula and its redirect caveat, referenced from closing action 4, paid for by shortening the Temporal and Envoy sentences in the same paragraph."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f9",
+    "disposition": "accepted",
+    "reason": "The report writes approximately 10:45am PDT and the research log records it as 'about 10:45' [1]; the post states it as exact.",
+    "action": "Write 'At about 10:45 PDT' in the opening sentence."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f10",
+    "disposition": "accepted",
+    "reason": "The Polly page is recorded as describing a probe on Execute, and a count of exactly one permitted execution is a reading of its diagram rather than a documented default [14]; dropping the count is true under either reading.",
+    "action": "Relabel figure 6 and the prose to 'Polly: a probe on Execute' with no count."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f11",
+    "disposition": "accepted",
+    "reason": "The README recommends resilience4j for new internal projects and separately describes Netflix's own shift toward adaptive implementations such as adaptive concurrency limits [32]; the sentence reads both as one recommendation.",
+    "action": "Split the clause: resilience4j for new projects, adaptive concurrency limits as the direction Netflix's own work moved."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f12",
+    "disposition": "accepted",
+    "reason": "Brooker makes one statement across the 10, 100 and 1,000-client runs and does not break the result down by client count [26], so 'at every size' is the post's reading of a chart stated as the page's words.",
+    "action": "Drop 'at every size'."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f13",
+    "disposition": "accepted",
+    "reason": "A6 decrements the bucket for retryable and non-fatal status codes and for pushback saying not to retry [5], so a non-fatal code outside retryableStatusCodes can spend the bucket under a hedging policy and the cell's rule is too broad.",
+    "action": "Rewrite the cell as 'codes that are neither retryable nor non-fatal, such as INVALID_ARGUMENT, neither retry nor spend the bucket', merged with the contract change accepted under gpt f11."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f14",
+    "disposition": "accepted",
+    "reason": "The sentence is true of section 10.2.3 but reads as a claim about RFC 9110 as a whole, and the research log records only the two cases from that section [17], so the honest repair is to scope the sentence rather than to assert a third use the log does not hold.",
+    "action": "Scope the clause explicitly to section 10.2.3 instead of to the RFC."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f15",
+    "disposition": "accepted",
+    "reason": "The abstract says the authors categorize two types of amplification mechanism and does not make retry machinery one of the two types [24]; retries are an instance of one.",
+    "action": "Write 'two kinds of amplification mechanism, with retry traffic as an instance'."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f16",
+    "disposition": "accepted",
+    "reason": "The figure draws the AWS SDK's code-before-status order and its two base delays only, with nothing from A6, so the caption and the figure's source stamp credit a source the drawing does not use.",
+    "action": "Cite [6] alone in the caption and in the figure's source stamp; [5] stays on the gRPC paragraph."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f17",
+    "disposition": "accepted",
+    "reason": "Verified in the files: figures 4, 5 and 8 each end on a full sentence set as figure text, and the same statements are already in their captions, against the rule that text inside a figure is labels.",
+    "action": "Delete the footer sentences from the four SVGs, keep the statements in the captions, and reduce the viewBox height where the removal leaves white space."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f18",
+    "disposition": "accepted",
+    "reason": "Two spellings of a citation group in one post, densest in the close, is exactly the house-sheet inconsistency a reader reads as assembled from parts.",
+    "action": "Use the comma-separated form for every citation group, in the close and the numbered list included."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f19",
+    "disposition": "accepted",
+    "reason": "The house rule requires every term of art in the closing table glossed in a clause, and a reader who reads only the ends meets both terms there for the first time.",
+    "action": "Gloss both in the cells: panic mode as Envoy routing to all hosts once fewer than half are healthy, and the half-ceiling floor as retries stopping when the bucket falls to half its ceiling."
+  },
+  {
+    "reviewer": "fable",
+    "round": 2,
+    "findingId": "f20",
+    "disposition": "accepted",
+    "reason": "The contrast between under 40 minutes to disable the path and up to about 2 h 40 min to resolve [1] is the opening's surprising number and currently lands after a callout, and the close's 'not close' has no stated comparison.",
+    "action": "End the opening's second paragraph on the 40-minute against 2 h 40 min contrast, with the report callout following it, and replace the close's sentence with what it means: the gap between a bounded and an unbounded retry policy is orders of magnitude, not percent."
+  }
+]

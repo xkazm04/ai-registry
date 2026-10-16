@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-publications-index.mjs",
   "lane": "publications",
   "source": "publications/<slug>/publication.json",
-  "publications": 2,
+  "publications": 3,
   "by_status": {
-   "approved": 2
+   "approved": 3
   },
   "excludes": "topic text, sources, claims, figures, check, run, critique reviewers and findings, critique/ - open the publication"
  },
@@ -31,6 +31,33 @@
    "primary": 30,
    "counter": 6,
    "figures": 7,
+   "critique": {
+    "reviewers": 3,
+    "rounds": 2,
+    "decision": "rewrite"
+   }
+  },
+  "the-retry-that-ate-the-recovery": {
+   "path": "publications/the-retry-that-ate-the-recovery",
+   "title": "The retry that ate the recovery",
+   "subtitle": "Classification, jitter, budgets and the five ways a retry stops, read against what resilience libraries ship in October 2026",
+   "date": "2026-10-16",
+   "readMinutes": 29,
+   "status": "approved",
+   "topic": {
+    "kind": "subject",
+    "bundle": "software-engineering",
+    "subject": "retry-backoff"
+   },
+   "standard": {
+    "recipe": "technical-blog-post-authoring",
+    "bundle": "technical-writing",
+    "version": "0.2.0"
+   },
+   "sources": 40,
+   "primary": 36,
+   "counter": 10,
+   "figures": 8,
    "critique": {
     "reviewers": 3,
     "rounds": 2,
