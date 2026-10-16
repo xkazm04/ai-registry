@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 83,
   "techniques": 548,
-  "applications": 314,
+  "applications": 315,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -8752,9 +8752,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/runtime-observation-evidence.md",
-   "digest": "sha256-b2:a73d7f7ec0bfa440",
-   "revision": 3,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:336e809d69d5be3a",
+   "revision": 4,
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "behavioural-discriminators-over-symbolic-pass",
@@ -8859,6 +8859,12 @@
      "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/node--unverifiable-is-not-fail.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "bounded-evidence-with-provenance",
+     "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/process--bounded-evidence-with-provenance.md",
+     "verified_on": "2026-10-16"
     },
     {
      "stack": "process",

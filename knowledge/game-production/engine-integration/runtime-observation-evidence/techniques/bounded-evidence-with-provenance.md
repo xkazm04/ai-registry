@@ -84,6 +84,11 @@ evidence, to be joined later, will be read without its evidence.
   reference is meaningless outside the machine that produced it. Serve it through a
   controlled reader that restricts both file type and directory, and build the reference
   with one shared helper rather than hand-assembling it at each call site.
+- When the raw observation must be kept anyway, keep it outside the store the verdicts live in
+  and bind it from there by content hash, in a manifest committed beside the bounded payload. Hold
+  the line with a check that refuses raw kinds at any size and caps every committed file; where
+  older files are exempted, exempt them by content id, not by name, or a file that grows in place
+  keeps an exemption it no longer deserves.
 - When evidence is absent because the observation was never made, store the absence as an
   explicit unmeasured marker with a reason. An empty payload and a payload proving success
   are different states and must be different values.
