@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 374" width="760" height="374" role="img">
+<style>
+:root{--bg:#fbfaf7;--fg:#1a1a18;--mut:#55554f;--line:#3c3c3c;--red:#a32b1c;--blue:#1d4e89;--bluef:#dce7f3;--green:#1f6f54;--greenf:#dcebe3}
+@media (prefers-color-scheme:dark){:root{--bg:#16161a;--fg:#eceae4;--mut:#aaa89f;--line:#b9b7ae;--red:#f0a08f;--blue:#92b8ea;--bluef:#1b2736;--green:#80d1b0;--greenf:#152a23}}
+text{font-family:Helvetica,Arial,sans-serif;fill:var(--fg)}
+.t{font-size:16px;font-weight:bold}
+.h{font-size:14px;font-weight:bold}
+.s{font-size:13px}
+.m{fill:var(--mut);font-size:13px}
+</style>
+<rect x="0" y="0" width="760" height="374" fill="var(--bg)"/>
+<text x="24" y="28" class="t">Where the first three attempts can land, by strategy</text>
+<text x="736" y="28" text-anchor="end" class="m">[3], [5], [6]</text>
+
+<text x="24" y="58" class="h" fill="var(--red)">capped exponential, no jitter</text>
+<text x="120" y="88" text-anchor="end" class="m">1st</text>
+<text x="120" y="106" text-anchor="end" class="m">2nd</text>
+<text x="120" y="124" text-anchor="end" class="m">3rd</text>
+<rect x="198" y="78" width="4" height="12" fill="var(--red)"/>
+<rect x="318" y="96" width="4" height="12" fill="var(--red)"/>
+<rect x="478" y="114" width="4" height="12" fill="var(--red)"/>
+<text x="520" y="90" class="s" fill="var(--red)">zero spread: every client at one instant</text>
+
+<text x="24" y="152" class="h" fill="var(--blue)">full jitter: random(0, 1) x window</text>
+<text x="120" y="182" text-anchor="end" class="m">1st</text>
+<text x="120" y="200" text-anchor="end" class="m">2nd</text>
+<text x="120" y="218" text-anchor="end" class="m">3rd</text>
+<rect x="130" y="172" width="70" height="12" fill="var(--bluef)" stroke="var(--blue)" stroke-width="1"/>
+<rect x="130" y="190" width="190" height="12" fill="var(--bluef)" stroke="var(--blue)" stroke-width="1"/>
+<rect x="130" y="208" width="350" height="12" fill="var(--bluef)" stroke="var(--blue)" stroke-width="1"/>
+<circle cx="144" cy="178" r="3.4" fill="var(--blue)"/><circle cx="168" cy="178" r="3.4" fill="var(--blue)"/><circle cx="191" cy="178" r="3.4" fill="var(--blue)"/>
+<circle cx="139" cy="196" r="3.4" fill="var(--blue)"/><circle cx="216" cy="196" r="3.4" fill="var(--blue)"/><circle cx="291" cy="196" r="3.4" fill="var(--blue)"/>
+<circle cx="152" cy="214" r="3.4" fill="var(--blue)"/><circle cx="262" cy="214" r="3.4" fill="var(--blue)"/><circle cx="431" cy="214" r="3.4" fill="var(--blue)"/>
+<text x="520" y="200" class="s" fill="var(--blue)">cap 20 s, base 50 ms</text>
+
+<text x="24" y="246" class="h" fill="var(--green)">gRPC policy: window x random(0.8, 1.2)</text>
+<text x="120" y="276" text-anchor="end" class="m">1st</text>
+<text x="120" y="294" text-anchor="end" class="m">2nd</text>
+<text x="120" y="312" text-anchor="end" class="m">3rd</text>
+<rect x="186" y="266" width="28" height="12" fill="var(--greenf)" stroke="var(--green)" stroke-width="1"/>
+<rect x="282" y="284" width="76" height="12" fill="var(--greenf)" stroke="var(--green)" stroke-width="1"/>
+<rect x="410" y="302" width="140" height="12" fill="var(--greenf)" stroke="var(--green)" stroke-width="1"/>
+<circle cx="190" cy="272" r="3.4" fill="var(--green)"/><circle cx="200" cy="272" r="3.4" fill="var(--green)"/><circle cx="210" cy="272" r="3.4" fill="var(--green)"/>
+<circle cx="290" cy="290" r="3.4" fill="var(--green)"/><circle cx="320" cy="290" r="3.4" fill="var(--green)"/><circle cx="350" cy="290" r="3.4" fill="var(--green)"/>
+<circle cx="420" cy="308" r="3.4" fill="var(--green)"/><circle cx="480" cy="308" r="3.4" fill="var(--green)"/><circle cx="540" cy="308" r="3.4" fill="var(--green)"/>
+<text x="580" y="290" class="s" fill="var(--green)">jitter outside the cap</text>
+
+<line x1="130" y1="340" x2="700" y2="340" stroke="var(--line)" stroke-width="1.6"/>
+<line x1="130" y1="336" x2="130" y2="346" stroke="var(--line)"/>
+<line x1="200" y1="336" x2="200" y2="346" stroke="var(--line)"/>
+<line x1="320" y1="336" x2="320" y2="346" stroke="var(--line)"/>
+<line x1="480" y1="336" x2="480" y2="346" stroke="var(--line)"/>
+<text x="130" y="362" text-anchor="middle" class="m">0</text>
+<text x="200" y="362" text-anchor="middle" class="m">50 ms</text>
+<text x="320" y="362" text-anchor="middle" class="m">100 ms</text>
+<text x="480" y="362" text-anchor="middle" class="m">200 ms</text>
+<text x="700" y="362" text-anchor="end" class="m">delay, axis not to scale</text>
+</svg>

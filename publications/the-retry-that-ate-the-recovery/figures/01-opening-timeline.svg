@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 280" width="760" height="280" role="img">
+<style>
+:root{--bg:#fbfaf7;--fg:#1a1a18;--mut:#55554f;--line:#3c3c3c;--rule:#8a8a80;--red:#a32b1c;--redf:#f2d9d3;--redt:#7a1f14;--blue:#1d4e89;--green:#1f6f54}
+@media (prefers-color-scheme:dark){:root{--bg:#16161a;--fg:#eceae4;--mut:#aaa89f;--line:#b9b7ae;--rule:#6e6e66;--red:#f0a08f;--redf:#3b2320;--redt:#f3b7a8;--blue:#92b8ea;--green:#80d1b0}}
+text{font-family:Helvetica,Arial,sans-serif;fill:var(--fg)}
+.t{font-size:16px;font-weight:bold}
+.l{font-size:13px}
+.b{font-weight:bold}
+.m{fill:var(--mut);font-size:13px}
+.ax{stroke:var(--line);stroke-width:2;fill:none}
+.tick{stroke:var(--rule);stroke-width:1}
+</style>
+<rect x="0" y="0" width="760" height="280" fill="var(--bg)"/>
+<text x="24" y="26" class="t">2025-06-12, Google Cloud Service Control (US/Pacific)</text>
+
+<line x1="60" y1="180" x2="712" y2="180" class="ax"/>
+<polygon points="712,175 726,180 712,185" fill="var(--line)"/>
+
+<line x1="95" y1="84" x2="95" y2="173" class="tick"/>
+<line x1="180" y1="140" x2="180" y2="173" class="tick"/>
+<line x1="262" y1="84" x2="262" y2="173" class="tick"/>
+<line x1="390" y1="140" x2="390" y2="173" class="tick"/>
+<line x1="530" y1="84" x2="530" y2="173" class="tick"/>
+<line x1="700" y1="140" x2="700" y2="173" class="tick"/>
+
+<circle cx="95" cy="180" r="4.5" fill="var(--red)"/>
+<circle cx="180" cy="180" r="4.5" fill="var(--red)"/>
+<circle cx="262" cy="180" r="4.5" fill="var(--red)"/>
+<circle cx="390" cy="180" r="4.5" fill="var(--blue)"/>
+<circle cx="530" cy="180" r="4.5" fill="var(--green)"/>
+<circle cx="700" cy="180" r="4.5" fill="var(--green)"/>
+
+<g class="l">
+<text x="95" y="58" text-anchor="middle" class="b">10:45</text>
+<text x="95" y="76" text-anchor="middle">policy change inserted</text>
+<text x="180" y="116" text-anchor="middle">replicated globally</text>
+<text x="180" y="134" text-anchor="middle">in seconds</text>
+<text x="262" y="58" text-anchor="middle" class="b">10:51</text>
+<text x="262" y="76" text-anchor="middle">503s across products</text>
+<text x="390" y="116" text-anchor="middle" class="b">within 40 min</text>
+<text x="390" y="134" text-anchor="middle">faulty path disabled</text>
+<text x="530" y="58" text-anchor="middle">smaller regions</text>
+<text x="530" y="76" text-anchor="middle">recover first</text>
+<text x="712" y="116" text-anchor="end" class="b">18:18</text>
+<text x="712" y="134" text-anchor="end">dashboard close</text>
+</g>
+
+<rect x="95" y="202" width="605" height="30" fill="var(--redf)" stroke="var(--red)" stroke-width="1.2"/>
+<text x="397" y="222" text-anchor="middle" font-size="13" font-weight="bold" fill="var(--redt)">us-central1: up to 2 h 40 min to full resolution</text>
+<text x="24" y="222" font-size="13" fill="var(--redt)">restarts overload Spanner</text>
+
+<text x="712" y="262" text-anchor="end" class="m">[1]</text>
+</svg>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The retry that ate the recovery</title>
+<style>
+:root{color-scheme:light dark}
+body{margin:0;font:20px/1.65 Georgia,"Times New Roman",serif}
+main{max-width:680px;margin:0 auto;padding:0 16px}
+p,li{font-size:20px}
+.callout,.callout p,aside,aside p{font-size:18px}
+@media (max-width:480px){p,li{font-size:18px}}
+figcaption,table,td,th,pre,code,.byline,nav,footer,#sources,#sources li{font-size:14px}
+sup,.cite{font-size:max(13px,0.78em)}
+
+:root{
+  --bg:#ffffff;
+  --fg:#1a1a18;
+  --muted:#55554f;
+  --rule:#d8d6cf;
+  --tint:#f5f4ef;
+  --accent:#1d4e89;
+  --warn:#8c2a1b;
+  --good:#1f6f54;
+  --codebg:#f6f5f1;
+  --tok-key:#8c2a1b;
+  --tok-str:#1f6f54;
+  --tok-com:#6a6a62;
+  --tok-num:#1d4e89;
+  --tok-fn:#5a3a8c;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --bg:#121213;
+    --fg:#eceae4;
+    --muted:#a9a79f;
+    --rule:#3a3a38;
+    --tint:#1d1d1e;
+    --accent:#8fb6e8;
+    --warn:#ef9c8c;
+    --good:#7fcfae;
+    --codebg:#1a1a1b;
+    --tok-key:#ef9c8c;
+    --tok-str:#7fcfae;
+    --tok-com:#9b9b93;
+    --tok-num:#8fb6e8;
+    --tok-fn:#c4a7ef;
+  }
+}
+body{background:var(--bg);color:var(--fg)}
+main{padding-bottom:64px}
+h1{font-size:40px;line-height:1.18;letter-spacing:-0.01em;margin:40px 0 12px;font-weight:700}
+.sub{font-size:22px;line-height:1.4;color:var(--muted);margin:0 0 24px;font-style:italic}
+.byline{color:var(--muted);border-bottom:1px solid var(--rule);padding-bottom:18px;margin-bottom:28px;letter-spacing:0.02em;text-transform:uppercase}
+h2{font-size:27px;line-height:1.25;margin:44px 0 14px;font-weight:700}
+@media (max-width:480px){
+  h1{font-size:31px}
+  .sub{font-size:19px}
+  h2{font-size:23px}
+}
+p{margin:0 0 20px}
+a{color:var(--accent)}
+sup.cite a{text-decoration:none}
+figure{margin:28px 0;padding:0}
+figure img{width:100%;height:auto;display:block;border:1px solid var(--rule);border-radius:3px}
+figcaption{color:var(--muted);line-height:1.5;margin-top:8px}
+[data-role="content-preview"]{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:18px 0 4px;margin:0 0 12px}
+[data-role="content-preview"] ol{margin:0 0 14px;padding-left:24px}
+[data-role="content-preview"] ol li{line-height:1.45;margin-bottom:4px}
+[data-role="content-preview"] ul{margin:0 0 16px;padding-left:24px}
+[data-role="content-preview"] ul li{line-height:1.5;margin-bottom:6px}
+aside.callout{border-left:3px solid var(--accent);background:var(--tint);padding:14px 16px;margin:26px 0;border-radius:2px}
+aside.callout p{margin:0;line-height:1.55}
+aside.callout .tag{display:inline-block;font-family:Helvetica,Arial,sans-serif;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);font-weight:700;margin-right:6px}
+.tablewrap{overflow-x:auto;margin:26px 0}
+table{border-collapse:collapse;width:100%;font-family:Helvetica,Arial,sans-serif;line-height:1.45}
+th,td{text-align:left;vertical-align:top;padding:8px 10px;border-bottom:1px solid var(--rule)}
+thead th{border-bottom:2px solid var(--fg);font-size:14px}
+tbody tr:nth-child(even){background:var(--tint)}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.tcap{color:var(--muted);font-size:14px;line-height:1.5;margin:8px 0 0;font-family:Georgia,"Times New Roman",serif}
+pre{background:var(--codebg);border:1px solid var(--rule);border-radius:3px;padding:14px;overflow-x:auto;margin:26px 0;line-height:1.5}
+pre code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-size:14px;white-space:pre}
+code{font-family:"SFMono-Regular",Consolas,"Liberation Mono",Menlo,monospace;font-size:14px}
+p code,li code,td code{font-size:max(13px,0.82em);background:var(--codebg);padding:1px 4px;border-radius:2px}
+.codelabel{font-family:Helvetica,Arial,sans-serif;font-size:13px;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin:26px 0 -18px}
+.tok-key{color:var(--tok-key)}
+.tok-str{color:var(--tok-str)}
+.tok-com{color:var(--tok-com);font-style:italic}
+.tok-num{color:var(--tok-num)}
+.tok-fn{color:var(--tok-fn)}
+#sources{padding-left:24px;line-height:1.5}
+#sources li{margin-bottom:10px;color:var(--fg)}
+#sources li a{word-break:break-word}
+footer{color:var(--muted);border-top:1px solid var(--rule);margin-top:36px;padding-top:16px}
+</style>
+</head>
+<body>
+<main>
+
+<h1>The retry that ate the recovery</h1>
+<p class="sub">Classification, jitter, budgets and the five ways a retry stops, read against what resilience libraries ship in October 2026</p>
+<p class="byline">2026-10-14</p>
+
+<p>At about 10:45 PDT on 2025-06-12, a policy change carrying unintended blank fields entered the regional Spanner tables that hold policies for Google Cloud's Service Control. It replicated globally within seconds, hit a null pointer, and put the Service Control binaries into a crash loop in every region.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<aside class="callout">
+<p><strong>The report's own finding.</strong> In the larger regions, restarting Service Control tasks overloaded the underlying Spanner table, and Service Control "did not have the appropriate randomized exponential backoff implemented to avoid this". <a href="#src-1">[1]</a></p>
+</aside>
+
+<p>Disabling the faulty serving path took under 40 minutes. Full resolution took far longer: up to about 2 hours 40 minutes in one of the larger regions, where engineers throttled task creation by hand and routed traffic to multi-regional databases to take load off the infrastructure underneath.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<figure>
+  <img src="figures/01-opening-timeline.svg" alt="Timeline of 2025-06-12 in US/Pacific: policy change at 10:45, global replication in seconds, 503s from 10:51, faulty path disabled within 40 minutes, smaller regions first, dashboard closed 18:18, with a band for one large region at up to 2 h 40 min.">
+  <figcaption>Time to full resolution, not the trigger, is where the day went: the faulty path was off within 40 minutes, and one large region needed up to about 2 h 40 min measured from the start. An earlier mini report on the same page gives 10:49 to 13:49. <a href="#src-1">[1]</a></figcaption>
+</figure>
+
+<div data-role="content-preview">
+<p>This post walks the failure lane, from classifying an error to naming the state a stopped retry stopped in, against what shipping systems default to in October 2026. No measurement here is first-hand: every number is published work, cited with its date, and with the read date where the page carries none, and arithmetic on those numbers is labelled as derived.</p>
+<ol>
+  <li><a href="#sustaining">Retry traffic as the sustaining effect</a></li>
+  <li><a href="#classification">Replay safety first, then the class</a></li>
+  <li><a href="#jitter">What jitter buys, and which defaults omit it</a></li>
+  <li><a href="#budget">The bound is a ratio, at one layer</a></li>
+  <li><a href="#probe">The breaker default that decides when it probes</a></li>
+  <li><a href="#partial">Partial failure, and where ejection helps</a></li>
+  <li><a href="#stated-delay">Server-stated delays and unfinished fields</a></li>
+  <li><a href="#durable">Durable retry as a schedule</a></li>
+  <li><a href="#stopping">Five terminal states, one telemetry signal</a></li>
+  <li><a href="#close">Spacing without a bound is half the control</a></li>
+</ol>
+<ul>
+  <li>Read a retry configuration against the shipped defaults of resilience4j 2.4.0, Polly 8.8.0, gRPC and the AWS 2026 behaviour, and say which error class each site treats.</li>
+  <li>Pair a per-call-site attempt cap with a ratio bound and the positional rule, and state the amplification factor the pair buys.</li>
+  <li>Name, for every retry loop, which terminal state a stopped attempt reached, and whether the telemetry in place can express it.</li>
+</ul>
+</div>
+
+<h2 id="sustaining">Retry traffic is the sustaining effect that outlives its trigger</h2>
+
+<p>That shape of failure has a name and a literature. The framework is Bronson, Aghayev, Charapko and Zhu's, from HotOS 2021.<sup class="cite"><a href="#src-34">[34]</a></sup> An OSDI '22 study extends it, examines 22 metastable failures in depth across 11 organizations from public incident reports, and reports <strong>at least 4 of 15 major AWS outages in the preceding decade as metastable</strong>.<sup class="cite"><a href="#src-24">[24]</a></sup></p>
+
+<aside class="callout">
+<p><strong>Metastable failure, as the literature states it.</strong> A system in a vulnerable state, a trigger that causes temporary overload, then a sustaining effect that keeps the system degraded after the trigger is gone. The OSDI study extends that model with two kinds of trigger and two kinds of amplification mechanism, with retry traffic as an instance. <a href="#src-34">[34]</a>, <a href="#src-24">[24]</a></p>
+</aside>
+
+<p><strong>Retry traffic feeds the overload that produced it</strong>, which is why removing the trigger leaves the system degraded. Every caller that times out adds work to a dependency already short of capacity, and the work arrives in proportion to how badly that dependency is doing. The loop turns positive precisely when capacity is impaired, which is why adding retries lowers the everyday error rate while converting small outages into internal retry storms.<sup class="cite"><a href="#src-35">[35]</a></sup></p>
+
+<figure>
+  <img src="figures/02-sustaining-effect.svg" alt="Diagram of a metastable failure: vulnerable state leads to trigger, trigger leads to overload, and overload and a box labelled retries and requeues feed each other in a loop. A dashed arrow marks the trigger as gone while a box to the right reads still degraded.">
+  <figcaption>Retries and requeued work feed the overload that produced them, so removing the cause leaves the system degraded. Illustration of the published model. <a href="#src-34">[34]</a>, <a href="#src-24">[24]</a></figcaption>
+</figure>
+
+<p>AWS's summary of the October 2025 DynamoDB disruption shows the same shape. On 2025-10-19 a DNS Enactor, delayed while retrying its update across endpoints, applied a much older plan over a newer one; clean-up then deleted that older plan, removing every IP address for the regional endpoint. Downstream, DWFM "had entered a state of congestive collapse and was unable to make forward progress in recovering droplet leases", with work queued to reattempt the droplet lease, until engineers throttled incoming work at 04:14 PDT. <strong>The summary names retries and queued reattempts and nowhere states their spacing</strong>; the published remediation rate limits incoming work by queue size.<sup class="cite"><a href="#src-28">[28]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> The two incidents are one model with two sustaining effects: task restarts against a Spanner table in June, queued lease reattempts against a lease manager in October. The sources describe each incident and the model separately; the mapping reasons from <a href="#src-1">[1]</a>, <a href="#src-24">[24]</a> and <a href="#src-28">[28]</a>.</p>
+</aside>
+
+<h2 id="classification">Replay safety gates the retry, and the failure's class decides the rest</h2>
+
+<p><strong>Before any classifier runs, one question decides whether a retry is permitted</strong>: can the request be applied twice without a second effect. RFC 9110 says an idempotent method may be repeated automatically when a communication failure arrives before the client can read the response, and that a client should not automatically retry a non-idempotent one unless it has some means to know that the request semantics are actually idempotent regardless of the method, or some means to detect that the original request was never applied; a proxy MUST NOT retry one at all.<sup class="cite"><a href="#src-17">[17]</a></sup> Those two alternatives carry the working distinction. A connection refused before any byte left the client is a known non-execution, retryable whatever the method. A timeout after the request was sent is ambiguous: retryable where the semantics are idempotent, and safe for a non-idempotent method only behind a replay-safety key such as EC2's token-based idempotency on <code>RunInstances</code>.<sup class="cite"><a href="#src-2">[2]</a></sup></p>
+
+<p>With replay safety settled, the class decides the rest. <strong>A loop that catches every exception and sleeps treats four failures as one</strong>: a rejected credential, which never heals by repetition; a rate limit, which heals when the limiter says so; a connection reset, which heals at once; and a crashed dependency, which heals on no schedule the caller can compute. Classification belongs where the structured response still exists, because an error reaching the loop as a bare string has lost the field the decision needed.</p>
+
+<figure>
+  <img src="figures/03-classification-gate.svg" alt="Pipeline diagram: a response enters a decision shaped error code known, which routes directly to transient with a 50 millisecond base, to throttling with a 1000 millisecond base, or to non-retryable. Only unlisted codes fall through to a second decision on HTTP status, where 500, 502, 503 and 504 are transient. Annotations show 400 RequestTimeout going to transient, 400 ValidationException to non-retryable and a 5XX with a throttling code to throttling.">
+  <figcaption>The code is read before the status, which is why an HTTP 400 can be retried and an HTTP 5XX can be a throttling case. Illustration of the documented order. <a href="#src-6">[6]</a></figcaption>
+</figure>
+
+<p>The 2026 AWS SDK retry behaviour, which requires opting in with <code>AWS_NEW_RETRIES_2026</code> until it becomes the default in November 2026,<sup class="cite"><a href="#src-7">[7]</a></sup> <strong>reads the error code first and the HTTP status second</strong>, inverting the habit of switching on status. An HTTP 400 carrying <code>RequestTimeout</code> is retried, an HTTP 400 carrying <code>ValidationException</code> is returned at once, and an HTTP 5XX carrying one of the 14 documented throttling codes is throttling rather than transient. The status fallback is narrow: any 500, 502, 503 or 504 without a recognized code is transient, and the throttling class has no status fallback at all.<sup class="cite"><a href="#src-6">[6]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption class="tcap" style="caption-side:bottom">The four classes, the evidence that assigns each and the contract it carries. The transient retry costs more quota than the throttling retry on purpose: a 500 or a connection failure often indicates a service-wide problem, while throttling signals that the service needs more time. <a href="#src-6">[6]</a>, <a href="#src-5">[5]</a>, <a href="#src-31">[31]</a></caption>
+<thead>
+<tr><th>Class</th><th>Evidence</th><th>Contract</th><th>How a shipped system spells it</th></tr>
+</thead>
+<tbody>
+<tr><td>Transient</td><td>timeout, reset, or 500, 502, 503 or 504 with no known code</td><td>jittered backoff, bounded attempts</td><td>AWS SDK: 50 ms base, 14 tokens per retry <a href="#src-6">[6]</a></td></tr>
+<tr><td>Rate-limited (throttling)</td><td>one of the documented limiter codes</td><td>return at the stated time, plus jitter</td><td>AWS SDK: 1,000 ms base, 5 tokens per retry <a href="#src-6">[6]</a></td></tr>
+<tr><td>Permanent</td><td>validation rejection, bad input, not found</td><td>never retry; surface at once</td><td>Temporal: a non-retryable failure type <a href="#src-31">[31]</a></td></tr>
+<tr><td>Unknown (this post's fourth lane)</td><td>a code or status the taxonomy omits</td><td>at most one further attempt, only where a repeat is replay-safe, counted apart</td><td>gRPC is the conservative end: a code that is neither retryable nor non-fatal, such as <code>INVALID_ARGUMENT</code>, neither retries nor spends the bucket <a href="#src-5">[5]</a></td></tr>
+</tbody>
+</table>
+</div>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> The fourth class extends the vendor's three: the AWS reference documents transient, throttling and non-retryable only. <a href="#src-6">[6]</a> The June report states the restarts and the missing randomized backoff and names no classifier, no budget and no restart tuning, so what that code did with each class of error is not on the record. <a href="#src-1">[1]</a></p>
+</aside>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> A timeout set below the dependency's latency under load returns no error from the dependency at all, and it expires on every caller's clock at once, which manufactures the correlated wave the next section is about. <a href="#src-3">[3]</a>, <a href="#src-6">[6]</a></p>
+</aside>
+
+<p>gRPC puts the same discipline in the service owner's hands. Its retry design recommends listing in <code>retryableStatusCodes</code> only codes indicating the server did not process the request, and errors such as <code>INVALID_ARGUMENT</code> do not decrement the throttling token count, so <strong>one malformed payload cannot spend a budget meant for a sick dependency</strong>.<sup class="cite"><a href="#src-5">[5]</a></sup></p>
+
+<p class="codelabel">Python, the documented order as a decision</p>
+<pre><code class="language-python"><span class="tok-key">def</span> <span class="tok-fn">classify</span>(error):
+    <span class="tok-com"># the SDK matches on error code first, then falls back to HTTP status</span>
+    <span class="tok-key">if</span> error.code <span class="tok-key">in</span> THROTTLING_CODES:    <span class="tok-com"># 14 codes, no status fallback</span>
+        <span class="tok-key">return</span> <span class="tok-str">"throttling"</span>               <span class="tok-com"># base 1_000 ms, 5 tokens</span>
+    <span class="tok-key">if</span> error.code <span class="tok-key">in</span> TRANSIENT_CODES:     <span class="tok-com"># RequestTimeout, InternalError, I/O</span>
+        <span class="tok-key">return</span> <span class="tok-str">"transient"</span>                <span class="tok-com"># base 50 ms, 14 tokens</span>
+    <span class="tok-key">if</span> error.code <span class="tok-key">in</span> PERMANENT_CODES:
+        <span class="tok-key">return</span> <span class="tok-str">"permanent"</span>                <span class="tok-com"># ValidationException, HTTP 400</span>
+    <span class="tok-key">if</span> error.status <span class="tok-key">in</span> (<span class="tok-num">500</span>, <span class="tok-num">502</span>, <span class="tok-num">503</span>, <span class="tok-num">504</span>):
+        <span class="tok-key">return</span> <span class="tok-str">"transient"</span>                <span class="tok-com"># the documented status fallback</span>
+    <span class="tok-key">return</span> <span class="tok-str">"unknown"</span>                      <span class="tok-com"># this post's lane: counted apart</span>
+</code></pre>
+
+<p>The boundary itself is not clean, and the vendor says so: eventual consistency blurs the classification boundary, because a client error can become a success once state propagates.<sup class="cite"><a href="#src-2">[2]</a></sup> That is the argument for an explicit unknown lane. <strong>A taxonomy whose default branch files novel failures as permanent drops recoverable work</strong>; one that files them as transient hammers a dead endpoint.</p>
+
+<h2 id="jitter">Jitter does the work backoff alone does not, and the defaults still omit it</h2>
+
+<p>Backoff is usually explained as politeness. The 2015 simulation that popularized it describes herd control instead. With no backoff, completion time grew linearly with contention while total work grew as the square of the number of clients in that simulated contention model, under a network delay with a 10 ms mean and 4 ms variance; capped exponential backoff alone reduced client work only slightly. <strong>Adding jitter at 100 contending clients cut the number of calls by more than half</strong> against an un-jittered capped ladder, and improved completion time as well.<sup class="cite"><a href="#src-3">[3]</a></sup></p>
+
+<figure>
+  <img src="figures/04-jitter-ladders.svg" alt="Three lanes on one delay axis showing where the first, second and third retry can land. Capped exponential with no jitter puts every client at a single instant per attempt. Full jitter, random zero to one times the window, spreads attempts across widening windows from a 50 millisecond base to a 20 second cap. A gRPC policy multiplies each window by random 0.8 to 1.2 outside the cap, giving narrow bands.">
+  <figcaption>The randomization, not the doubling, is what breaks the synchronized wave: an un-jittered ladder gives every caller the same instant to return. <a href="#src-3">[3]</a>, <a href="#src-5">[5]</a>, <a href="#src-6">[6]</a></figcaption>
+</figure>
+
+<p><strong>Which variant matters less than whether one is present.</strong> Full and equal jitter made roughly the same number of calls and decorrelated jitter more, and no variant changed the squared growth of total work in that model.<sup class="cite"><a href="#src-3">[3]</a></sup> The production formulas are small. A configured gRPC retry policy multiplies every computed delay by <code>random(0.8, 1.2)</code> outside the cap, so <code>maxBackoff</code> is a pre-jitter ceiling and a realized delay can land slightly above it; the multiplication is unconditional, and only a server pushback replaces the computed delay.<sup class="cite"><a href="#src-5">[5]</a></sup> The 2026 AWS SDK computes <code>random(0, 1) x min(20,000 ms, base x 2^retry)</code>, full jitter under a 20-second cap.<sup class="cite"><a href="#src-6">[6]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption class="tcap" style="caption-side:bottom">Shipped retry defaults on the read date, 2026-10-14. Two widely used libraries default to a constant delay with randomization off, while both protocol-level implementations randomize every delay; gRPC retries only where a service config supplies a policy, though transparent retries of RPCs that never left the client need no policy at all. <a href="#src-5">[5]</a>, <a href="#src-6">[6]</a>, <a href="#src-7">[7]</a>, <a href="#src-12">[12]</a>, <a href="#src-13">[13]</a>, <a href="#src-15">[15]</a>, <a href="#src-16">[16]</a></caption>
+<thead>
+<tr><th>System</th><th>Attempts</th><th>Delay shape</th><th>Jitter by default</th><th>Cap</th></tr>
+</thead>
+<tbody>
+<tr><td>resilience4j 2.4.0 <a href="#src-12">[12]</a>, <a href="#src-13">[13]</a></td><td>3 attempts</td><td>constant 500 ms</td><td>no; <code>ofRandomized()</code> is opt-in</td><td>none set</td></tr>
+<tr><td>Polly 8.8.0 <a href="#src-15">[15]</a>, <a href="#src-16">[16]</a></td><td>3 retries</td><td>constant 2 s</td><td>no; <code>UseJitter</code> is false</td><td><code>MaxDelay</code> null</td></tr>
+<tr><td>gRPC, a configured A6 policy <a href="#src-5">[5]</a></td><td><code>maxAttempts</code> from the service config, capped at 5 (a channel argument raises the cap)</td><td>exponential</td><td>yes, x <code>random(0.8, 1.2)</code></td><td><code>maxBackoff</code>, before jitter</td></tr>
+<tr><td>AWS SDK, 2026 behaviour (opt-in until 2026-11) <a href="#src-6">[6]</a>, <a href="#src-7">[7]</a></td><td>3 (4 for DynamoDB)</td><td>exponential, full jitter</td><td>yes</td><td>20 s</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>What the field ships is further from the documentation than the documentation suggests. A preprint dated 2026-08-26 surveyed 200 open-source Python microservice projects and detected explicit retry logic in 11.5 percent, with its authors estimating true prevalence near 41 percent after auditing their own false negatives. Among the projects where it was detected, 60.9 percent carried at least one configuration with no backoff, and <strong>exactly 1 of 113 manually verified production configurations randomized its delay</strong>.<sup class="cite"><a href="#src-27">[27]</a></sup> Service Control is the same gap outside a library: the correction Google published for it is an audit for randomized exponential backoff.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Assumption</span> Jitter is the cheapest control in this post, because it adds no mode, no shared state and no new failure path, only a multiplication inside a delay that already exists. The sources measure what jitter does <a href="#src-3">[3]</a> and what libraries default to <a href="#src-12">[12]</a>, <a href="#src-15">[15]</a>; ranking it first by cost is this post's bet.</p>
+</aside>
+
+<h2 id="budget">Amplification is bounded by a ratio, and only at the layer above the failure</h2>
+
+<p><strong>A per-call-site attempt cap bounds a call site; amplification is a property of the composition.</strong> In a five-deep stack of service calls, the Builders' Library puts the load a struggling database at the bottom sees at 243 times normal, which makes it unlikely ever to recover, and recommends retrying at a single point in the stack for low-cost operations.<sup class="cite"><a href="#src-2">[2]</a></sup> The page writes three retries at each layer and its own walk-through counts three tries then nine, so the multiplier is three attempts per layer: 3 to the fifth.</p>
+
+<figure>
+  <img src="figures/05-amplification-funnel.svg" alt="Left: a stack of five layers where three attempts at each multiply to 3, 9, 27, 81 and 243 times, with the bottom box reading database sees 243x. Right: one client at one layer, with a bar at just under 3x of its own request rate for three attempts with no budget, and a bar at about 1.1x once retries are held under 10 percent of its requests.">
+  <figcaption>Three attempts per layer compound to 243x across five layers, while a 10 percent retry budget holds one client's own traffic to about 1.1x at one layer. Separate published scenarios, which do not compose. <a href="#src-2">[2]</a>, <a href="#src-4">[4]</a></figcaption>
+</figure>
+
+<p>Google's SRE book reaches the bound from the traffic side. A per-request limit of three attempts alone pushes a client's attempted traffic to just under 3 times its request rate in the worst case, where a datacenter accepts few requests and rejects most; adding a rule that retries continue only while they stay under 10 percent of that client's requests reduces the growth of its own traffic to about 1.1 times. The companion rule is positional: <strong>retry only at the layer immediately above the one rejecting</strong>. The same chapter puts a bound on the other side of the call as well, client-side adaptive throttling, where a client begins rejecting its own requests locally once they reach twice the accepts it has seen over the last two minutes.<sup class="cite"><a href="#src-4">[4]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Derived</span> A ratio composes better than a count but does not vanish: five layers each holding their own traffic to 1.1 times give 1.1 to the fifth, about 1.6 times, against 3 to the fifth, 243. The 1.1 figure bounds one client at one layer <a href="#src-4">[4]</a>; the exponentiation is this post's, and it is why the positional rule exists.</p>
+</aside>
+
+<p><strong>Shipped implementations state that bound in three accounting units</strong>, each scoped below the stack: retries in flight as a concurrency, retries as a share of a caller's own traffic, and a health-token balance that a failure spends and a success refills. Not one of the four below counts across a fleet.</p>
+
+<div class="tablewrap">
+<table>
+<caption class="tcap" style="caption-side:bottom">Four bounds, their accounting unit and their scope. None is global: a token balance protects one client's view of one dependency, a concurrency bound one proxy's cluster, a share one caller's own traffic. <a href="#src-4">[4]</a>, <a href="#src-5">[5]</a>, <a href="#src-6">[6]</a>, <a href="#src-8">[8]</a></caption>
+<thead>
+<tr><th>Bound</th><th>Accounting unit</th><th>Scope</th><th>Default</th></tr>
+</thead>
+<tbody>
+<tr><td>gRPC retry throttling <a href="#src-5">[5]</a></td><td>token balance: minus 1 per failure, plus <code>tokenRatio</code> per success</td><td>one channel, per server name</td><td><code>maxTokens</code> up to 1000; stops at half the ceiling</td></tr>
+<tr><td>AWS SDK retry quota <a href="#src-6">[6]</a></td><td>token balance: 14 tokens per transient retry, 5 per throttling</td><td>one SDK client instance, not shared across hosts</td><td>500 tokens; drains above roughly 22 or 32 percent sustained failures at the default 3 attempts</td></tr>
+<tr><td>Envoy retry budget <a href="#src-8">[8]</a></td><td>concurrency: share of active plus pending requests</td><td>one proxy's upstream cluster</td><td>20 percent, with a floor of 3 concurrent retries</td></tr>
+<tr><td>Client retry budget <a href="#src-4">[4]</a></td><td>share of traffic: retries against the client's own requests</td><td>one client's traffic at one layer</td><td>10 percent, about 1.1x growth</td></tr>
+</tbody>
+</table>
+</div>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> A retry quota is spent only by retries: a first-try success restores a token, a first attempt costs none, and the balance is typically scoped to one SDK client instance rather than shared across processes or hosts. <a href="#src-6">[6]</a> So a fleet of restarting processes, each making first attempts against a fresh balance, spends no retry budget at all, which is why June's loop was ended by engineers throttling task creation rather than by any retry policy. <a href="#src-1">[1]</a></p>
+</aside>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> A usable budget is three quantities: the attempts still allowed, the delay the next attempt would wait, and the time left on the caller's deadline. gRPC states the hard part, that the call deadline applies across all attempts and the RPC then fails "regardless of how many attempts were configured or attempted", whatever a server advised. <a href="#src-5">[5]</a> Naming the three together is this post's rule; A6 is silent on a deadline expiring mid-backoff.</p>
+</aside>
+
+<p><strong>The counter-evidence is strong enough to move the default.</strong> Brooker's simulation of one failing service with 100 Poisson clients found three retries the most robust option and the most expensive, costing four times the work at a 100 percent failure rate, while a bucket that starts full depletes too slowly and a 0.1-token deposit per success behaves like about 0.1 retries when unhealthy, a scheme he calls "not modal in the same way".<sup class="cite"><a href="#src-26">[26]</a></sup> A 2026 preprint pushes further: in its hardest scenario, retrying measured worse than not retrying.</p>
+
+<div class="tablewrap">
+<table>
+<caption class="tcap" style="caption-side:bottom">A naive policy lost 14 points of success rate and the two bounded policies recovered nearly all of it. Every row is 100 trials on one 5-tier linear chain at 50 percent utilization, with an idealized network and independently injected failures. <a href="#src-39">[39]</a></caption>
+<thead>
+<tr><th>Policy</th><th class="num">Success rate</th><th class="num">Amplification</th></tr>
+</thead>
+<tbody>
+<tr><td>No retries</td><td class="num">55.4 percent</td><td class="num">1.00</td></tr>
+<tr><td>Standard retry: exponential 100, 200 and 400 ms, with jitter</td><td class="num">41.5 percent</td><td class="num">1.34</td></tr>
+<tr><td>Standard retry with a breaker over it, tripping at 50 percent, open 30 s</td><td class="num">55.3 percent</td><td class="num">1.00</td></tr>
+<tr><td>Adaptive retry budgeting from 0.2 of base load</td><td class="num">54.9 percent</td><td class="num">1.01</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="probe">A breaker's most consequential default decides when it probes</h2>
+
+<p>A circuit breaker turns accumulated evidence into a stated position: this dependency is believed dead, and it will be probed deliberately rather than pestered continuously. Resilience4j's breaker holds three normal states, CLOSED, OPEN and HALF_OPEN, plus METRICS_ONLY, DISABLED and FORCED_OPEN, the last of which always rejects calls.<sup class="cite"><a href="#src-11">[11]</a></sup> <strong>Hystrix, the library that made the pattern famous, is in maintenance mode at 1.5.18</strong> and points new internal projects at resilience4j; separately, it describes Netflix's own shift toward adaptive implementations such as adaptive concurrency limits.<sup class="cite"><a href="#src-32">[32]</a></sup></p>
+
+<figure>
+  <img src="figures/06-breaker-states.svg" alt="State machine with CLOSED, OPEN and HALF OPEN. Closed to open is labelled resilience4j 50 percent of 100 calls and Polly 10 percent of 100 calls in 30 seconds. Open to half open is labelled resilience4j 60 seconds on a call and Polly 5 seconds on Execute, annotated no background timer. Half open to closed is labelled resilience4j 10 permitted calls whose rates are evaluated and Polly a probe on Execute. A grey row lists the resilience4j special states METRICS_ONLY, DISABLED and FORCED_OPEN.">
+  <figcaption>Both libraries wait for a caller to supply the probe: the clock makes an open breaker eligible for half-open, and an arriving call makes the transition happen. <a href="#src-11">[11]</a>, <a href="#src-14">[14]</a></figcaption>
+</figure>
+
+<p><strong>The defaults decide more than the design does.</strong> Resilience4j ships a count-based sliding window of 100 calls, a <code>failureRateThreshold</code> of 50 percent, a <code>minimumNumberOfCalls</code> of 100 before that rate is evaluated at all, a <code>waitDurationInOpenState</code> of 60,000 ms, and 10 permitted calls in half-open whose failure and slow-call rates are then evaluated against the same thresholds.<sup class="cite"><a href="#src-11">[11]</a></sup> Polly breaks on a <code>FailureRatio</code> of 0.1 over a <code>MinimumThroughput</code> of 100 executions inside a 30-second sampling window, breaks for 5 seconds, and ignores the ratio when that throughput is not reached.<sup class="cite"><a href="#src-14">[14]</a></sup></p>
+
+<aside class="callout">
+<p><strong>Two different windows.</strong> Polly cannot open below 100 executions inside a 30-second sampling window; resilience4j opens only after 100 recorded calls, however long they take to arrive. <a href="#src-11">[11]</a>, <a href="#src-14">[14]</a></p>
+</aside>
+
+<p>The non-obvious default is the exit from OPEN. Resilience4j's <code>automaticTransitionFromOpenToHalfOpenEnabled</code> is false, so <strong>an open breaker moves to half-open only when a call is attempted</strong>, not on a timer.<sup class="cite"><a href="#src-11">[11]</a></sup> Polly runs no background timer at all and documents the consequence: an application that calls <code>Execute</code> only when the circuit is closed never reaches HalfOpen, and so never probes.<sup class="cite"><a href="#src-14">[14]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Derived</span> Resilience4j's documented wait in OPEN is a fixed 60,000 ms with no randomization of it, and half-open permits 10 calls. <a href="#src-11">[11]</a> Instances whose breakers opened within the same second therefore become eligible on one clock, so the probe wave is 10 calls times the number of instances, with none of the spreading the jitter section asks of a retry ladder.</p>
+</aside>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> On a dependency quieter than either window both defaults sit close to inert, and a caller that routes around an open circuit never supplies the probe that would close it. The same inertia is why a breaker fits June badly: a restarting Service Control task needs its first call to Spanner to succeed. <a href="#src-1">[1]</a>, <a href="#src-11">[11]</a>, <a href="#src-14">[14]</a></p>
+</aside>
+
+<h2 id="partial">Partial failure breaks the breaker's premise, and ejection helps only where the host is the failing unit</h2>
+
+<p>In sharded or cell-based systems failure is partial: <strong>a breaker that trips on one overloaded shard's failures also hurts customers of the healthy shards</strong>, and a breaker that does not trip does nothing useful. Underneath sits an epistemic limit. A client cannot reliably predict whether a specific call with specific parameters will succeed, and should not need to know the server's internals to decide.<sup class="cite"><a href="#src-25">[25]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption class="tcap" style="caption-side:bottom">The two benefits a breaker still earns under partial failure, and the three fixes proposed for it, each with what it asks of someone. <a href="#src-25">[25]</a>, <a href="#src-26">[26]</a></caption>
+<thead>
+<tr><th>Kind</th><th>What the argument grants</th><th>What it asks for</th></tr>
+</thead>
+<tbody>
+<tr><td>Benefit</td><td>failing early instead of spending resources on calls that will fail</td><td>a prediction about a specific call, which a client cannot make reliably</td></tr>
+<tr><td>Benefit</td><td>progressive degradation, dropping optional features whose service is down</td><td>a feature the product can run without</td></tr>
+<tr><td>Three fixes</td><td>sharding-aware clients, per-key-range overload signals, statistical inference</td><td>server internals, a new server signal, or a per-client sample that trips at around half the expected rate <a href="#src-26">[26]</a></td></tr>
+</tbody>
+</table>
+</div>
+
+<p><strong>Statistics is also where a breaker misreads its own evidence.</strong> In the 100-client model it "starts tripping a little early: around half the expected rate", because each client samples failures independently; across runs splitting the same traffic over 10, 100 and 1,000 clients it trips too early, approaching the performance of no retries at all.<sup class="cite"><a href="#src-26">[26]</a></sup></p>
+
+<figure>
+  <img src="figures/07-ejection-decay.svg" alt="Step chart of Envoy ejection time against consecutive ejections of one host: 30 seconds, 60, 90 and so on in 30 second steps, flattening at a dashed maximum of 300 seconds. A dotted descending path marks one step down per 10 second interval while the host stays healthy. A band across the top reads never more than 10 percent of hosts ejected, and a box notes that panic mode still routes to ejected hosts.">
+  <figcaption>Ejection escalates per host and unwinds on a clock, which is the part a fleet-wide trip cannot do: the penalty is proportional to one host's record and bounded to a tenth of the fleet. <a href="#src-9">[9]</a>, <a href="#src-10">[10]</a></figcaption>
+</figure>
+
+<p>Envoy's outlier detection is the narrower instrument. Its defaults eject a host after 5 consecutive 5xx responses, check every 10 s, eject for a base of 30 s, never eject more than 10 percent of hosts, and cap ejection at 300 s;<sup class="cite"><a href="#src-9">[9]</a></sup> ejection time is that base multiplied by the host's consecutive ejections, falling one step per interval while the host stays healthy.<sup class="cite"><a href="#src-10">[10]</a></sup> The precondition is routing: <strong>ejection helps only while the balancer has somewhere else to send the request</strong> and the fleet has capacity to absorb it. Envoy's panic threshold names where that stops, at 50 percent of healthy hosts by default, below which it stops using health status and balances across all hosts, to "avoid a situation in which host failures cascade throughout the cluster as load increases".<sup class="cite"><a href="#src-36">[36]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Derived</span> A host that has reached the 300-second cap needs about 300 / 30 x 10 s, roughly 100 seconds of health, to decay back to the 30-second base, since the multiplier drops one step per 10-second interval. The formula and the defaults are Envoy's <a href="#src-9">[9]</a>, <a href="#src-10">[10]</a>; the arithmetic is this post's.</p>
+</aside>
+
+<p>Where the failing unit is not a host, ejection removes nothing: a shard or key range that every host fronts fails through all of them, which is the case Brooker's objection is about,<sup class="cite"><a href="#src-25">[25]</a></sup> and the case June presented, a Spanner table every Service Control task shared.<sup class="cite"><a href="#src-1">[1]</a></sup> The Builders' Library argues against the modal instrument on principle, holding that breakers add modal behaviour that is hard to test and can significantly lengthen recovery, with a token bucket as the lower-risk alternative.<sup class="cite"><a href="#src-2">[2]</a></sup> The position the evidence earns is narrower than either side. In the preprint's single five-tier topology a breaker layered over the retry policy recovered almost the whole loss and matched adaptive budgeting,<sup class="cite"><a href="#src-39">[39]</a></sup> while the objection that defeats breakers concerns sharded systems that topology does not model, so what decides the instrument is <strong>whether the breaker's scope matches the population that is actually failing</strong>.</p>
+
+<h2 id="stated-delay">The dependency's stated delay bounds the local ladder, where there is one</h2>
+
+<p>When a dependency states when to come back, that time bounds what the caller computed, and the oldest form of the signal is the thinnest. RFC 9110 defines <code>Retry-After</code> as an HTTP-date or delay-seconds, sent "to indicate how long the user agent ought to wait", and section 10.2.3 gives the field a meaning in two cases only: on a 503 it states how long the service expects to be unavailable, and on a 3xx it states the minimum time the user agent is asked to wait before reissuing. 429 is not mentioned in that section.<sup class="cite"><a href="#src-17">[17]</a></sup> The status code that most needs it was defined elsewhere: RFC 6585 says a 429 response MAY include <code>Retry-After</code>, so <strong>a rate-limited client has no guarantee of being told when to return</strong>.<sup class="cite"><a href="#src-18">[18]</a></sup></p>
+
+<p class="codelabel">HTTP, the two forms RFC 9110 allows</p>
+<pre><code class="language-http"><span class="tok-fn">Retry-After</span>: <span class="tok-num">120</span>
+<span class="tok-fn">Retry-After</span>: Wed, 14 Oct 2026 19:00:00 GMT
+</code></pre>
+
+<p>The draft meant to close that gap is careful about clocks. The IETF RateLimit header fields define a <code>RateLimit</code> field whose <code>r</code> parameter is the remaining quota and whose <code>t</code> parameter is the effective window in seconds, an integer rather than a timestamp, which avoids clock-sync problems, alongside a <code>RateLimit-Policy</code> field whose parameters clients MAY ignore. Where both appear, <code>Retry-After</code> MUST take precedence, and <strong>the specification mandates no retry or backoff algorithm</strong>.<sup class="cite"><a href="#src-19">[19]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption class="tcap" style="caption-side:bottom">Five ways a dependency can state its own delay, and what each tells the client. Only two sit in published RFCs and the broadest of the five is a draft; of the two vendor signals, gRPC's pushback binds the client to an exact delay while the AWS header only clamps the delay the client computed. <a href="#src-5">[5]</a>, <a href="#src-6">[6]</a>, <a href="#src-17">[17]</a>, <a href="#src-18">[18]</a>, <a href="#src-19">[19]</a>, <a href="#src-20">[20]</a></caption>
+<thead>
+<tr><th>Signal</th><th>What it carries</th><th>Standards status</th><th>What the client is told</th><th>Who jitters</th></tr>
+</thead>
+<tbody>
+<tr><td><code>Retry-After</code> on 503 <a href="#src-17">[17]</a></td><td>HTTP-date or delay-seconds</td><td>RFC 9110, 2022-06</td><td>how long the service expects to be unavailable; no client rule</td><td>unstated</td></tr>
+<tr><td><code>Retry-After</code> on 429 <a href="#src-18">[18]</a></td><td>the same grammar, if sent</td><td>RFC 6585, 2012-04, MAY include</td><td>nothing guaranteed; the field may be absent</td><td>unstated</td></tr>
+<tr><td><code>RateLimit</code> <code>r</code> and <code>t</code> <a href="#src-19">[19]</a></td><td>remaining quota, window in seconds</td><td>Internet-Draft 11, expires 2026-11-24 <a href="#src-20">[20]</a></td><td>quota state; no algorithm mandated, and <code>Retry-After</code> wins</td><td>server, per the draft</td></tr>
+<tr><td><code>grpc-retry-pushback-ms</code> <a href="#src-5">[5]</a></td><td>exact delay in ms; negative means stop</td><td>gRFC A6, 2024-08-23</td><td>retry after exactly that, then reset the ladder</td><td>server</td></tr>
+<tr><td><code>x-amz-retry-after</code> <a href="#src-6">[6]</a></td><td>delay in milliseconds</td><td>vendor header</td><td>clamp between the computed backoff and backoff plus 5,000 ms</td><td>server; the SDK adds none</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The draft also names the failure a stated time creates. Delay-seconds rather than a timestamp mitigates the risk related to thundering herd, and the security considerations warn that <strong>many throttled clients would otherwise return at the same moment</strong>, with jitter on the effective window as the mitigation. Its client advice fits one line: a positive remaining quota guarantees nothing, and advertised windows beyond ten minutes deserve their own threshold.<sup class="cite"><a href="#src-19">[19]</a></sup></p>
+
+<p class="codelabel">HTTP, a rate-limited response that states both</p>
+<pre><code class="language-http"><span class="tok-key">HTTP</span>/1.1 <span class="tok-num">429</span> Too Many Requests
+<span class="tok-fn">RateLimit</span>: <span class="tok-str">"default"</span>;r=<span class="tok-num">0</span>;t=<span class="tok-num">12</span>
+<span class="tok-fn">RateLimit-Policy</span>: <span class="tok-str">"default"</span>;q=<span class="tok-num">100</span>;w=<span class="tok-num">60</span>
+<span class="tok-fn">Retry-After</span>: <span class="tok-num">12</span>
+</code></pre>
+
+<p><strong>Two of the three fields a careful client would want are unfinished.</strong> The RateLimit fields are an active Internet-Draft at revision 11 of 2026-05-23, IESG state "I-D Exists", expiring 2026-11-24.<sup class="cite"><a href="#src-20">[20]</a></sup> The <code>Idempotency-Key</code> header draft, whose abstract offers fault tolerance for non-idempotent methods such as POST and PATCH, reached revision 07 on 2025-10-15 and is now Expired.<sup class="cite"><a href="#src-21">[21]</a></sup> The delay signal is standardized, the quota signal is a draft with a month left on it, and the replay-safety signal has expired. No such channel existed in June, where the signal in that path was a process exit, which carries no schedule.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<h2 id="durable">Durable retry is a schedule, and the restart ladder is its loudest instance</h2>
+
+<p><strong>A retry that must survive the process is a scheduled item</strong>: a persisted next-attempt time and an attempt count, compared against a clock. Temporal makes that the default for Activities, with a 1 second initial interval, a coefficient of 2.0, a maximum interval of 100 times the initial and unlimited attempts, while Workflow Executions carry no retry policy at all and Workflow Tasks back off outside the policy up to 10 minutes.<sup class="cite"><a href="#src-31">[31]</a></sup></p>
+
+<figure>
+  <img src="figures/08-crashloop-ladder.svg" alt="Two restart ladders on one ten minute axis. The kubelet default, 10 seconds doubling to a 300 second cap, places 5 restarts in ten minutes and resets only after 10 minutes healthy. The alpha proposal, 1 second initial with a 60 second cap, places 14 restarts in the same window and costs about 10 times more pod state transition requests at peak in the KEP's model.">
+  <figcaption>Derived: 5 restarts against 14 in the first ten minutes, from the cumulative ladders (10, 30, 70, 150 and 310 s against 1, 3, 7, 15, 31, 63 s and then every 60 s), counted from the first crash and excluding container start time. The 10x request figure is the KEP's model, the QPS figures below its measured benchmark. <a href="#src-22">[22]</a>, <a href="#src-23">[23]</a></figcaption>
+</figure>
+
+<p>The kubelet's CrashLoopBackOff ladder is the same machinery with a louder argument around it. It grows exponentially from 10 s through 20 s and 40 s, is capped at five minutes, and resets only after a container has run 10 minutes, twice the maximum, without problems. The cost of the fast end is measured: a benchmark of 110 instantly crashing single-container pods on one node saw <code>/pods</code> API traffic peak near the kubelet's roughly 5 QPS client limit before settling around 2 QPS, with container runtime CPU about 10 times higher and kubelet and API server CPU each about twice. The counter-argument sits in the same document: exponential decay mainly protects against unrecoverable failures, and <strong>frequent restarts can starve the kubelet and in extreme cases crash nodes</strong>.<sup class="cite"><a href="#src-22">[22]</a></sup></p>
+
+<p class="codelabel">YAML, the per-node maximum, field names per the shipped reference</p>
+<pre><code class="language-yaml"><span class="tok-com"># KubeletConfiguration, kubelet.config.k8s.io/v1beta1</span>
+<span class="tok-key">crashLoopBackOff</span>:
+  <span class="tok-key">maxContainerRestartPeriod</span>: <span class="tok-str">60s</span>      <span class="tok-com"># minimum 1s, maximum 300s</span>
+<span class="tok-key">featureGates</span>:
+  <span class="tok-key">KubeletCrashLoopBackOffMax</span>: <span class="tok-num">true</span>    <span class="tok-com"># beta and on by default since 1.35</span>
+</code></pre>
+
+<p><strong>What shipped is two features rather than one proposal</strong>: the configurable per-node maximum is beta and on by default since 1.35, while the cluster-wide cut to a 1 s initial and 60 s maximum delay is alpha and off by default since 1.33.<sup class="cite"><a href="#src-40">[40]</a></sup> The field is <code>crashLoopBackOff.maxContainerRestartPeriod</code>, documented with a minimum of 1 second and a maximum of 300 seconds,<sup class="cite"><a href="#src-37">[37]</a></sup> and zero was ruled invalid on evidence: a 0 second maximum raised API server QPS up to 30 times in a stress test.<sup class="cite"><a href="#src-23">[23]</a></sup></p>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> Service Control's crash loop is this machinery one level up: binaries restarting against a shared database rather than against a node's kubelet, where the restart rate was the load. The report records the restarts and the missing randomized backoff, not the ladder they ran on. <a href="#src-1">[1]</a>, <a href="#src-22">[22]</a></p>
+</aside>
+
+<h2 id="stopping">Stopping is a first-class outcome, and the HTTP conventions can barely name it</h2>
+
+<p>Retry machinery is judged by how it stops, and five endings are distinguishable in design. They describe one logical operation, the call the caller asked for, rather than a single attempt, and they cover the endings the retry loop itself produces; a caller that cancels ends the call from outside the loop. Succeeding after N attempts is one of them, and N still matters, because <strong>a dependency needing three attempts per call is degraded even when every call eventually lands</strong>.</p>
+
+<aside class="callout">
+<p><span class="tag">Inference</span> The five-state set is this post's framework, reasoned from the sources rather than measured: each state appears in some system's behaviour <a href="#src-5">[5]</a>, <a href="#src-6">[6]</a>, <a href="#src-8">[8]</a>, <a href="#src-31">[31]</a>, but no source enumerates them and no convention names them. The budget they are measured against is the pair named earlier: attempts still allowed, and time left on the caller's deadline.</p>
+</aside>
+
+<p class="codelabel">Python, the five endings given names</p>
+<pre><code class="language-python"><span class="tok-com"># the five ways one logical operation stops, named so it can be recorded</span>
+TERMINAL = (<span class="tok-str">"succeeded_after_n"</span>,   <span class="tok-com"># N attempts, and N is itself a signal</span>
+            <span class="tok-str">"exhausted"</span>,           <span class="tok-com"># the attempt allowance ran out</span>
+            <span class="tok-str">"over_budget"</span>,         <span class="tok-com"># next delay or deadline, whichever ends it</span>
+            <span class="tok-str">"reclassified"</span>,        <span class="tok-com"># permanence arrived, or a server said stop</span>
+            <span class="tok-str">"denied_by_breaker"</span>)   <span class="tok-com"># policy refused this attempt</span>
+</code></pre>
+
+<p>Against those five, OpenTelemetry's HTTP conventions offer one signal. The span conventions define <code>http.request.resend_count</code>, stable, as "the ordinal number of request resending attempt (for any reason, including redirects)", recommended if and only if the request was retried and counted regardless of cause.<sup class="cite"><a href="#src-29">[29]</a></sup> <strong>The HTTP metrics conventions carry nothing</strong>: searching them for "resend", "retry" and "attempt" on 2026-10-14 returns no match, and the page does not say whether <code>http.client.request.duration</code> includes time spent on retries.<sup class="cite"><a href="#src-30">[30]</a></sup> The gap belongs to those conventions rather than to telemetry at large: gRPC measures per attempt as well as per call, and adds four per-call retry instruments including <code>grpc.client.call.retries</code>, all experimental and off by default.<sup class="cite"><a href="#src-38">[38]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption class="tcap" style="caption-side:bottom">The five terminal states against what a standard HTTP pipeline can record today. One signal counts attempts, nothing standard names an ending, and the counter cannot separate a retry from a redirect. <a href="#src-5">[5]</a>, <a href="#src-8">[8]</a>, <a href="#src-29">[29]</a>, <a href="#src-31">[31]</a>, <a href="#src-33">[33]</a></caption>
+<thead>
+<tr><th>Terminal state</th><th>Evidence that produces it</th><th>What exists today</th></tr>
+</thead>
+<tbody>
+<tr><td>Succeeded after N attempts</td><td>a later attempt returned success</td><td><code>http.request.resend_count</code>, counted for any resend <a href="#src-29">[29]</a></td></tr>
+<tr><td>Exhausted</td><td>the attempt allowance ran out</td><td>no standard signal; in SQS, a dead-letter queue after <code>maxReceiveCount</code> receives <a href="#src-33">[33]</a></td></tr>
+<tr><td>Over budget</td><td>the next delay, or the caller's deadline, ends it first</td><td>no standard signal; gRPC fails the call once the deadline passes <a href="#src-5">[5]</a></td></tr>
+<tr><td>Reclassified</td><td>an attempt returned evidence of permanence, or the server stated a refusal to retry</td><td>no standard signal; Temporal records a non-retryable type <a href="#src-31">[31]</a>, and a negative <code>grpc-retry-pushback-ms</code> means stop <a href="#src-5">[5]</a></td></tr>
+<tr><td>Denied by a breaker</td><td>policy refused this attempt, whatever earlier ones reached</td><td>the breaker's state; under an Envoy retry budget, capacity is not in stats <a href="#src-8">[8]</a></td></tr>
+</tbody>
+</table>
+</div>
+
+<aside class="callout">
+<p><span class="tag">Derived</span> With no standard signal for an ending, the nearest available amplification figure is arithmetic on the counter that does exist: per logical call, the largest <code>http.request.resend_count</code> plus one is the attempt count, and the mean of that across calls is the retry amplification factor the preprint defines. <a href="#src-27">[27]</a>, <a href="#src-29">[29]</a> Because the counter also counts redirects and authorization challenges, the figure runs high wherever those occur.</p>
+</aside>
+
+<p><strong>Durable engines do better and still hide the middle of the ladder</strong>: Temporal keeps Activity attempts out of Event History until the Activity ends,<sup class="cite"><a href="#src-31">[31]</a></sup> and Envoy stops tracking remaining retry capacity in stats once a budget replaces the count.<sup class="cite"><a href="#src-8">[8]</a></sup> June's loop reached none of the five states, because the restarts ended when engineers throttled task creation by hand.<sup class="cite"><a href="#src-1">[1]</a></sup></p>
+
+<h2 id="close">Spacing without a bound is half the control</h2>
+
+<p>The report's own account of 2025-06-12 is the argument in one clause: restarting Service Control tasks overloaded the underlying Spanner table, and "Service Control did not have the appropriate randomized exponential backoff implemented to avoid this", with full resolution in one of the larger regions taking up to about 2 hours 40 minutes from the start.<sup class="cite"><a href="#src-1">[1]</a></sup> <strong>The gap between a bounded and an unbounded policy is orders of magnitude, not percent</strong>: three attempts at each of five layers put 243 times the load on the database at the bottom, while a 10 percent per-client budget holds one client's own traffic to about 1.1 times at one layer.<sup class="cite"><a href="#src-2">[2]</a>, <a href="#src-4">[4]</a></sup> Exactly 1 of 113 verified production retry configurations randomized its delay,<sup class="cite"><a href="#src-27">[27]</a></sup> and two widely used libraries still default to a constant delay with randomization off.<sup class="cite"><a href="#src-12">[12]</a>, <a href="#src-15">[15]</a></sup></p>
+
+<div class="tablewrap">
+<table>
+<caption class="tcap" style="caption-side:bottom">The eight controls this post compared, each with a shipped default and the case it does not cover. Nothing here is new; every number was established above. <a href="#src-1">[1]</a>, <a href="#src-2">[2]</a>, <a href="#src-3">[3]</a>, <a href="#src-4">[4]</a>, <a href="#src-5">[5]</a>, <a href="#src-6">[6]</a>, <a href="#src-7">[7]</a>, <a href="#src-9">[9]</a>, <a href="#src-10">[10]</a>, <a href="#src-11">[11]</a>, <a href="#src-18">[18]</a>, <a href="#src-19">[19]</a>, <a href="#src-25">[25]</a>, <a href="#src-26">[26]</a>, <a href="#src-28">[28]</a>, <a href="#src-39">[39]</a></caption>
+<thead>
+<tr><th>Control</th><th>What it bounds</th><th>A shipped default</th><th>Where it fails</th></tr>
+</thead>
+<tbody>
+<tr><td>Bounded attempts (a cap on tries per call)</td><td>work at one call site</td><td>3 attempts (resilience4j, AWS SDK)</td><td>says nothing about the stack: 243x across five layers <a href="#src-2">[2]</a></td></tr>
+<tr><td>Jittered delay (randomized spacing)</td><td>correlation between callers</td><td>off in resilience4j and Polly; on in gRPC and in the AWS 2026 behaviour, opt-in until November 2026 <a href="#src-7">[7]</a></td><td>cuts realized calls by more than half at 100 clients, but the squared growth of total work with contention is unchanged in that model <a href="#src-3">[3]</a></td></tr>
+<tr><td>Client retry budget (retries as a share of a caller's own traffic)</td><td>one client's amplification at one layer</td><td>10 percent per client, about 1.1x growth <a href="#src-4">[4]</a></td><td>needs per-client accounting a call site does not have</td></tr>
+<tr><td>Token bucket (a balance spent per retry, refilled per success)</td><td>sustained retry rate per client or channel</td><td>500 tokens, 14 per transient retry; gRPC stops retrying once the bucket falls to half its ceiling <a href="#src-5">[5]</a>, <a href="#src-6">[6]</a></td><td>a bucket that starts full drains too slowly, and first attempts spend nothing <a href="#src-6">[6]</a>, <a href="#src-26">[26]</a></td></tr>
+<tr><td>Circuit breaker (a stated position that a dependency is down)</td><td>calls to a dependency believed dead</td><td>50 percent of 100 calls, 60 s open (resilience4j) <a href="#src-11">[11]</a></td><td>partial failure: trips on one shard and punishes callers of healthy ones <a href="#src-25">[25]</a>; strong where its scope matches the failing population <a href="#src-39">[39]</a></td></tr>
+<tr><td>Per-host ejection (removing one bad host from load balancing)</td><td>blast radius, to one host</td><td>5 consecutive 5xx, 30 s base, max 10 percent of hosts <a href="#src-9">[9]</a></td><td>panic mode, Envoy routing to all hosts once fewer than half are healthy, still routes to ejected ones <a href="#src-10">[10]</a>, and a shared shard is not a host</td></tr>
+<tr><td>Server-stated delay (the dependency names the wait)</td><td>when the client returns</td><td><code>Retry-After</code>, <code>grpc-retry-pushback-ms</code>, <code>x-amz-retry-after</code></td><td>a 429 MAY carry no <code>Retry-After</code> <a href="#src-18">[18]</a>; the RateLimit fields are unfinished <a href="#src-19">[19]</a></td></tr>
+<tr><td>Admission control where work enters (a cap on work accepted)</td><td>the work the failing system takes in</td><td>no library default: task creation throttled <a href="#src-1">[1]</a>, work rate limited by queue size <a href="#src-28">[28]</a>, adaptive throttling, a client rejecting locally at twice the accepts it saw <a href="#src-4">[4]</a></td><td>refuses work a caller still needs, and only a point that sees every caller can apply it</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>Both incidents ended where the work enters rather than where it is retried: task creation throttled by hand in June,<sup class="cite"><a href="#src-1">[1]</a></sup> incoming work throttled in October and then rate limited by the size of the waiting queue in the published remediation.<sup class="cite"><a href="#src-28">[28]</a></sup> Of the seven forward-looking items Google published, the one belonging to this subject is a commitment to audit its systems for randomized exponential backoff.<sup class="cite"><a href="#src-1">[1]</a></sup> <strong>Client spacing and client bounds shorten a storm; a bound where the work enters is what ends it.</strong></p>
+
+<ol>
+  <li>List every retry site and write two things beside it: whether a repeat is safe to apply twice, and which of the four classes it treats. A site with no class treats all four alike.<sup class="cite"><a href="#src-6">[6]</a>, <a href="#src-17">[17]</a></sup></li>
+  <li>Turn jitter on where the library ships it off: <code>IntervalFunction.ofRandomized()</code> in resilience4j 2.4.0, <code>UseJitter</code> true in Polly 8.8.0. Neither adds a mode or shared state.<sup class="cite"><a href="#src-12">[12]</a>, <a href="#src-15">[15]</a></sup></li>
+  <li>Keep the per-site cap and add what it cannot give: a ratio on retries as a share of a caller's traffic, about 1.1 times at 10 percent, and retries only at the layer above the rejecting one.<sup class="cite"><a href="#src-4">[4]</a></sup></li>
+  <li>Name which terminal state each loop's stopped attempt reaches, then check what records it. The HTTP conventions offer a resend counter and no ending, and the mean of the largest resend count plus one is the nearest amplification figure.<sup class="cite"><a href="#src-29">[29]</a>, <a href="#src-30">[30]</a></sup></li>
+</ol>
+
+<p>The uncomfortable part of the evidence is that retrying can be the worse choice: in the preprint's hardest scenario a naive policy measured 41.5 percent success against 55.4 percent with no retries, on one simulated five-tier chain whose authors list a single topology among their limits.<sup class="cite"><a href="#src-27">[27]</a>, <a href="#src-39">[39]</a></sup> That is not an argument for removing retries, but for what the Service Control report asked for in one clause: <strong>a system-level audit of how every lane in the failure path spaces, counts and stops its attempts</strong>.</p>
+
+<h2>Sources</h2>
+<ol id="sources">
+<li id="src-1">Google Cloud, "Google Cloud Service Health incident ow5i3PPK96RduMcb1SsW: multiple GCP products returned 503 errors (full Incident Report)", 2025-06-13, read 2026-10-14. <a href="https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW">https://status.cloud.google.com/incidents/ow5i3PPK96RduMcb1SsW</a></li>
+<li id="src-2">Amazon Web Services, "Timeouts, retries, and backoff with jitter" (Amazon Builders' Library), 2026-06-15, read 2026-10-14. <a href="https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter">https://builder.aws.com/content/3EumjoZascWd1oZiEgL8ORlv3qE/timeouts-retries-and-backoff-with-jitter</a></li>
+<li id="src-3">Marc Brooker, "Exponential Backoff And Jitter", AWS Architecture Blog, 2015-03-04 (updated 2023-05). <a href="https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/">https://aws.amazon.com/blogs/architecture/exponential-backoff-and-jitter/</a></li>
+<li id="src-4">Google, "Site Reliability Engineering, chapter 21: Handling Overload", 2016. <a href="https://sre.google/sre-book/handling-overload/">https://sre.google/sre-book/handling-overload/</a></li>
+<li id="src-5">gRPC (grpc/proposal), "gRFC A6: gRPC Retry Design", last updated 2024-08-23, re-read 2026-10-14. <a href="https://github.com/grpc/proposal/blob/master/A6-client-retries.md">https://github.com/grpc/proposal/blob/master/A6-client-retries.md</a></li>
+<li id="src-6">Amazon Web Services, "Retry behavior" (AWS SDKs and Tools Reference Guide), read 2026-10-14. <a href="https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html">https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html</a></li>
+<li id="src-7">Matthew Miller, "Announcing updated retry behavior for AWS SDKs and Tools", AWS Developer Tools Blog, 2026-05-20. <a href="https://aws.amazon.com/blogs/developer/announcing-updated-retry-behavior-for-aws-sdks-and-tools/">https://aws.amazon.com/blogs/developer/announcing-updated-retry-behavior-for-aws-sdks-and-tools/</a></li>
+<li id="src-8">Envoy Proxy, "Circuit breakers" (v3 API reference, build 1.41.0-dev-35ef06), read 2026-10-14. <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/circuit_breaker.proto">https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/circuit_breaker.proto</a></li>
+<li id="src-9">Envoy Proxy, "Outlier detection" (v3 API reference, build 1.41.0-dev-35ef06), read 2026-10-14. <a href="https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/outlier_detection.proto">https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/cluster/v3/outlier_detection.proto</a></li>
+<li id="src-10">Envoy Proxy, "Outlier detection" (architecture overview), read 2026-10-14. <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier">https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier</a></li>
+<li id="src-11">Resilience4j, "Getting started with resilience4j-circuitbreaker", read 2026-10-14. <a href="https://resilience4j.readme.io/docs/circuitbreaker">https://resilience4j.readme.io/docs/circuitbreaker</a></li>
+<li id="src-12">Resilience4j, "Getting started with resilience4j-retry", read 2026-10-14. <a href="https://resilience4j.readme.io/docs/retry">https://resilience4j.readme.io/docs/retry</a></li>
+<li id="src-13">GitHub, "Releases, resilience4j/resilience4j" (v2.4.0 latest), read 2026-10-14. <a href="https://github.com/resilience4j/resilience4j/releases">https://github.com/resilience4j/resilience4j/releases</a></li>
+<li id="src-14">Polly, "Circuit breaker resilience strategy", read 2026-10-14. <a href="https://www.pollydocs.org/strategies/circuit-breaker">https://www.pollydocs.org/strategies/circuit-breaker</a></li>
+<li id="src-15">Polly, "Retry resilience strategy", read 2026-10-14. <a href="https://www.pollydocs.org/strategies/retry">https://www.pollydocs.org/strategies/retry</a></li>
+<li id="src-16">GitHub, "Releases, App-vNext/Polly" (8.8.0 latest), read 2026-10-14. <a href="https://github.com/App-vNext/Polly/releases">https://github.com/App-vNext/Polly/releases</a></li>
+<li id="src-17">IETF (RFC Editor), "RFC 9110: HTTP Semantics", sections 9.2.2 (Idempotent Methods) and 10.2.3 (Retry-After), 2022-06, read 2026-10-14. <a href="https://www.rfc-editor.org/rfc/rfc9110.html">https://www.rfc-editor.org/rfc/rfc9110.html</a></li>
+<li id="src-18">IETF (RFC Editor), "RFC 6585: Additional HTTP Status Codes", section 4 (429 Too Many Requests), 2012-04. <a href="https://www.rfc-editor.org/rfc/rfc6585.html">https://www.rfc-editor.org/rfc/rfc6585.html</a></li>
+<li id="src-19">IETF HTTPAPI Working Group, "RateLimit header fields for HTTP, draft-ietf-httpapi-ratelimit-headers-11", 2026-05-23. <a href="https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html">https://www.ietf.org/archive/id/draft-ietf-httpapi-ratelimit-headers-11.html</a></li>
+<li id="src-20">IETF, "draft-ietf-httpapi-ratelimit-headers" (Datatracker document page), revision 11 of 2026-05-23, read 2026-10-14. <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/</a></li>
+<li id="src-21">IETF, "draft-ietf-httpapi-idempotency-key-header" (Datatracker document page), revision 07 of 2025-10-15, read 2026-10-14. <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/">https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/</a></li>
+<li id="src-22">Kubernetes (SIG Node), "KEP-4603: Tune CrashLoopBackOff", 2025-10-29. <a href="https://www.kubernetes.dev/resources/keps/4603/">https://www.kubernetes.dev/resources/keps/4603/</a></li>
+<li id="src-23">Kubernetes (SIG Node), "KEP-5593: Configure the max CrashLoopBackOff delay", 2025-10. <a href="https://www.k8s.dev/resources/keps/5593/">https://www.k8s.dev/resources/keps/5593/</a></li>
+<li id="src-24">USENIX, "Metastable Failures in the Wild" (OSDI '22), 2022-07, abstract re-read 2026-10-14. <a href="https://www.usenix.org/conference/osdi22/presentation/huang-lexiang">https://www.usenix.org/conference/osdi22/presentation/huang-lexiang</a></li>
+<li id="src-25">Marc Brooker, "Will circuit breakers solve my problems?", Marc's Blog, 2022-02-16. <a href="https://www.brooker.co.za/blog/2022/02/16/circuit-breakers.html">https://www.brooker.co.za/blog/2022/02/16/circuit-breakers.html</a></li>
+<li id="src-26">Marc Brooker, "Fixing retries with token buckets and circuit breakers", Marc's Blog, 2022-02-28, re-read 2026-10-14. <a href="https://brooker.co.za/blog/2022/02/28/retries.html">https://brooker.co.za/blog/2022/02/28/retries.html</a></li>
+<li id="src-27">Rishabh Mehan and Jasmit Kaur Saluja, "Retry Amplification in Distributed Systems: A Systematic Analysis of Retry Policies and Their Role in Cascading Failures" (abstract page), arXiv, 2026-08-26. <a href="https://arxiv.org/abs/2608.25403">https://arxiv.org/abs/2608.25403</a></li>
+<li id="src-28">Amazon Web Services, "Summary of the Amazon DynamoDB Service Disruption in Northern Virginia (US-EAST-1)", 2025-10, re-read 2026-10-14. <a href="https://aws.amazon.com/message/101925/">https://aws.amazon.com/message/101925/</a></li>
+<li id="src-29">OpenTelemetry, "Semantic conventions for HTTP spans" (links to specification v1.59.0), read 2026-10-14. <a href="https://opentelemetry.io/docs/specs/semconv/http/http-spans/">https://opentelemetry.io/docs/specs/semconv/http/http-spans/</a></li>
+<li id="src-30">OpenTelemetry, "Semantic conventions for HTTP metrics", read 2026-10-14. <a href="https://opentelemetry.io/docs/specs/semconv/http/http-metrics/">https://opentelemetry.io/docs/specs/semconv/http/http-metrics/</a></li>
+<li id="src-31">Temporal, "Retry Policies" (Temporal documentation), read 2026-10-14. <a href="https://docs.temporal.io/encyclopedia/retry-policies">https://docs.temporal.io/encyclopedia/retry-policies</a></li>
+<li id="src-32">GitHub / Netflix, "Netflix/Hystrix" (repository README), read 2026-10-14. <a href="https://github.com/Netflix/Hystrix">https://github.com/Netflix/Hystrix</a></li>
+<li id="src-33">Amazon Web Services, "Using dead-letter queues in Amazon SQS", read 2026-10-14. <a href="https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html</a></li>
+<li id="src-34">Nathan Bronson, Abutalib Aghayev, Aleksey Charapko and Timothy Zhu, "Metastable failures in distributed systems", HotOS 2021, ACM, pages 221 to 227, doi:10.1145/3458336.3465286, 2021-06-01; bibliographic record read 2026-10-14. <a href="https://pure.psu.edu/en/publications/metastable-failures-in-distributed-systems/">https://pure.psu.edu/en/publications/metastable-failures-in-distributed-systems/</a></li>
+<li id="src-35">Marc Brooker, "Metastability and Distributed Systems", Marc's Blog, 2021-05-24, read 2026-10-14. <a href="https://brooker.co.za/blog/2021/05/24/metastable/">https://brooker.co.za/blog/2021/05/24/metastable/</a></li>
+<li id="src-36">Envoy Proxy, "Panic threshold" (architecture overview, load balancing), read 2026-10-14. <a href="https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/panic_threshold">https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/load_balancing/panic_threshold</a></li>
+<li id="src-37">Kubernetes, "Kubelet Configuration (v1beta1) API reference", CrashLoopBackOffConfig, read 2026-10-14. <a href="https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/">https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/</a></li>
+<li id="src-38">gRPC, "OpenTelemetry Metrics" (gRPC documentation), read 2026-10-14. <a href="https://grpc.io/docs/guides/opentelemetry-metrics/">https://grpc.io/docs/guides/opentelemetry-metrics/</a></li>
+<li id="src-39">Rishabh Mehan and Jasmit Kaur Saluja, "Retry Amplification in Distributed Systems" (full text, v1), arXiv, 2026-08-26, read 2026-10-14. <a href="https://arxiv.org/html/2608.25403v1">https://arxiv.org/html/2608.25403v1</a></li>
+<li id="src-40">Kubernetes, "Feature Gates" (reference), read 2026-10-14. <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/">https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/</a></li>
+</ol>
+
+<footer>Figures are drawn for this post from the cited values; figures marked as illustrations carry no measured data.</footer>
+
+</main>
+</body>
+</html>
