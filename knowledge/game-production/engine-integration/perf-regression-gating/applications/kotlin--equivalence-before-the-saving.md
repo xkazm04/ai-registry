@@ -5,13 +5,13 @@ subject: perf-regression-gating
 technique: equivalence-before-the-saving
 stack: kotlin
 status: forged
-verified_on: 2026-10-07
+verified_on: 2026-10-16
 verified_against: kotlin@2.0.21
 ---
 
 # A simulation step from 77 to 16.5 microseconds, bit-identical, and four ideas that lost
 
-Source tree: `firetv-deathride` on branch `deathride/main` at `86cb512d`, read 2026-10-07; paths are
+Source tree: `firetv-deathride` on branch `deathride/main` at `86cb512d`, read 2026-10-07 and re-resolved 2026-10-16; paths are
 relative to its root. The simulation core is plain Kotlin 2.0.21 with a fixed step. The wave is the S
 (simulation and startup) context of the 2026-10-06 optimize sweep, findings in
 `.claude/scan-sweep/runs/optimize-2026-10-06-deathride/findings-S.jsonl`, with related equivalence work
@@ -84,6 +84,25 @@ finding with its figure:
 One candidate was refused as an optimisation altogether:
 `.claude/scan-sweep/runs/optimize-2026-10-06-deathride/findings-S.jsonl:15 "needs a behaviour decision and a replay baseline, not a bit-identical edit"`
 — fewer road samples change which cars see each other, so it is a behaviour change.
+
+## The same oracle on the link: input packets read from the bytes
+
+The wave's link stream applied the same discipline to the television's receive path. Each 30–60 Hz input
+packet from a phone went through a JSON tree before reaching the game; the replacement reads the frame in
+place, `deathride/link/src/main/kotlin/dev/deathride/link/InputPacket.kt:5 "It reads the frame's bytes in place: no String, CharBuffer, JSON tree or regex per packet."`,
+and refuses rather than guesses, so anything unusual takes the old path with its old semantics. The oracle is
+the old parser, stated as the test's contract:
+`deathride/link/src/test/kotlin/dev/deathride/link/InputPacketTest.kt:10 "The byte reader must agree with the JSON tree on every packet it accepts, and refuse (so the JSON path runs) anything it cannot prove."`
+It is driven by 20,000 generated packets of the shapes the phone and the probe send,
+`deathride/link/src/test/kotlin/dev/deathride/link/InputPacketTest.kt:26 "repeat(20000) {"`, and by 50,000 packets with one to
+three corrupted bytes or a truncation,
+`deathride/link/src/test/kotlin/dev/deathride/link/InputPacketTest.kt:45 "repeat(50000){"`, each one the reader accepts
+checked field by field against the tree. The saving was then measured on a real socket at 300 packets a second:
+`.claude/scan-sweep/runs/optimize-2026-10-06-deathride/findings-L.jsonl:1 "31.7 KB/packet"` of server-thread allocation
+before, `.claude/scan-sweep/runs/optimize-2026-10-06-deathride/findings-L.jsonl:1 "5.6-7.7 KB/packet"` after (desktop JVM,
+`ThreadMXBean`), the rest being the socket library's own. The mutation arm is what this technique adds over a
+round-trip test: a fast path that is only fed well-formed input is never asked the question that decides
+whether it may refuse.
 
 ## Deviations
 

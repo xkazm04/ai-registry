@@ -6065,8 +6065,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/perf-regression-gating/perf-regression-gating.md",
-   "digest": "sha256-b2:9afae4aa07238daa",
-   "revision": 4,
+   "digest": "sha256-b2:173f001a43e00fb7",
+   "revision": 5,
    "changedAt": "2026-10-16",
    "techniques": [
     {
@@ -6221,7 +6221,7 @@
      "stack": "kotlin",
      "technique": "equivalence-before-the-saving",
      "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/kotlin--equivalence-before-the-saving.md",
-     "verified_on": "2026-10-07",
+     "verified_on": "2026-10-16",
      "verified_against": "kotlin@2.0.21"
     },
     {
