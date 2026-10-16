@@ -24,11 +24,11 @@ compute the same thing, how close "the same" has to be, how anyone knows the evi
 fail, and what happens on the day it does.
 
 It is not where thresholds and tables are authored. That belongs to
-[design-canon-as-executable-law](../../systems-canon/design-canon-as-executable-law/design-canon-as-executable-law.md),
+[design-canon-as-executable-law](../design-canon-as-executable-law/design-canon-as-executable-law.md),
 which owns one source for every number. This subject starts after that source exists and
 asks whether two consumers of it agree. It is also not an optimisation proof. Showing that a
 faster version of one runtime still computes what the slower version did is
-[equivalence-before-the-saving](../perf-regression-gating/techniques/equivalence-before-the-saving.md).
+[equivalence-before-the-saving](../../engine-integration/perf-regression-gating/techniques/equivalence-before-the-saving.md).
 Here the two sides are different programs, in different languages, maintained by different
 people at different speeds.
 
@@ -72,7 +72,7 @@ ceiling the replayer refuses to exceed. A tolerance that can be loosened to make
 has stopped being a tolerance.
 
 **A suite that has never failed is unmeasured.** That rule is owned by
-[flag-your-own-shipped-defaults](../../systems-canon/design-canon-as-executable-law/techniques/flag-your-own-shipped-defaults.md)
+[flag-your-own-shipped-defaults](../design-canon-as-executable-law/techniques/flag-your-own-shipped-defaults.md)
 and holds here unchanged. What this subject adds is where to plant the fault for a
 conformance suite: in the port's rules, one constant or one branch at a time, followed by a
 record of which vectors caught it and a restored run that returns to green. The result is a
@@ -122,17 +122,17 @@ information.
 
 1. Declare which runtime is the reference for the rules, in writing. The other is the port.
 2. Pin the rules data both runtimes load: one revision, a content hash per file, and a check
-   that fails on any byte difference ([pinned-rules-data-across-runtimes](techniques/pinned-rules-data-across-runtimes.md)).
+   that fails on any byte difference ([pinned-rules-data-across-runtimes](./techniques/pinned-rules-data-across-runtimes.md)).
 3. Generate vectors from the reference: seed, per-tick inputs, checkpoints, final state and
    event log, covering each rule family and running each scenario long enough to reach the
-   limits it is meant to test ([golden-trace-conformance-vectors](techniques/golden-trace-conformance-vectors.md)).
+   limits it is meant to test ([golden-trace-conformance-vectors](./techniques/golden-trace-conformance-vectors.md)).
 4. Write the tolerance into each vector, enforce it in the replayer, and put a ceiling on it
-   ([declared-numeric-tolerance](techniques/declared-numeric-tolerance.md)).
+   ([declared-numeric-tolerance](./techniques/declared-numeric-tolerance.md)).
 5. Run the suite green on the unmodified port, then plant a fault in the port, record which
    vectors fail and with what, restore the port and run green again
-   ([planted-mutation-proves-the-suite](techniques/planted-mutation-proves-the-suite.md)).
+   ([planted-mutation-proves-the-suite](./techniques/planted-mutation-proves-the-suite.md)).
 6. Keep a divergence log. Every mismatch gets an entry with a verdict before either runtime
-   changes ([divergence-log-not-silent-correction](techniques/divergence-log-not-silent-correction.md)).
+   changes ([divergence-log-not-silent-correction](./techniques/divergence-log-not-silent-correction.md)).
 7. Report what the suite does not cover: rule families no planted fault has reached, vectors
    not regenerated since the pin last moved, and any runtime or device the suite did not run on.
 

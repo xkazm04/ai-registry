@@ -1,10 +1,10 @@
 # Game production - the subjects this registry carries
 
-`game-production` - 83 subjects, 548 techniques, 315 applications.
+`game-production` - 84 subjects, 553 techniques, 319 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### systems-canon
-- agent-behaviour-authoring, arpg-systems-canon, design-canon-as-executable-law, game-economy-tuning, racing-career-economy, realtime-combat-semantics
+- agent-behaviour-authoring, arpg-systems-canon, cross-runtime-rules-conformance, design-canon-as-executable-law, game-economy-tuning, racing-career-economy, realtime-combat-semantics
 
 ### balance-validation
 - combat-pacing-and-dramatic-arc, difficulty-design-and-adaptation, encounter-balance-simulation, learning-curve-and-teaching-design, procedural-level-planning, terrain-synthesis-acceptance

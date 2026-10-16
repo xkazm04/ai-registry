@@ -27,7 +27,7 @@ by step.
   applies, and at the end. Each checkpoint is compared field by field.
 - **The event log.** The ordered list of what happened, with ticks. Many rule differences
   show up as an extra or missing event long before they move a total.
-- **The tolerance**, declared per vector ([declared-numeric-tolerance](declared-numeric-tolerance.md)).
+- **The tolerance**, declared per vector ([declared-numeric-tolerance](./declared-numeric-tolerance.md)).
 
 The reference runtime writes all of it. Expected values saved from the port are not golden;
 they are a snapshot of the port.

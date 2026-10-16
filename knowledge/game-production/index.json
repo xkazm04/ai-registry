@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 83,
-  "techniques": 548,
-  "applications": 315,
+  "subjects": 84,
+  "techniques": 553,
+  "applications": 319,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "548/548",
+  "use_when_coverage": "553/553",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1619,9 +1619,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/condition-tagged-line-tables.md",
-   "digest": "sha256-b2:81ed4490fb7292f7",
-   "revision": 3,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:c2ce9d61f6567e46",
+   "revision": 4,
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "line-table-schema",
@@ -2223,6 +2223,122 @@
      "technique": "root-cause-to-fix-prompt",
      "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/process--root-cause-to-fix-prompt.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "cross-runtime-rules-conformance": {
+   "category": "systems-canon",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/cross-runtime-rules-conformance.md",
+   "digest": "sha256-b2:f44c9a5f3aa712c2",
+   "revision": 1,
+   "changedAt": "2026-10-16",
+   "techniques": [
+    {
+     "slug": "declared-numeric-tolerance",
+     "status": "draft",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "floating-point results differ between runtimes",
+      "a vector fails by a rounding difference",
+      "deciding which quantities must match exactly"
+     ]
+    },
+    {
+     "slug": "divergence-log-not-silent-correction",
+     "status": "draft",
+     "laws": [
+      "one-authority-per-quantity",
+      "every-effect-on-the-rules-is-visible",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the runtimes disagree in a live session",
+      "a port quietly adopts the reference's value",
+      "deciding which runtime is authoritative after a mismatch"
+     ]
+    },
+    {
+     "slug": "golden-trace-conformance-vectors",
+     "status": "draft",
+     "laws": [
+      "no-gate-self-certifies",
+      "an-instrument-proves-it-had-input",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving a port computes what the reference computes",
+      "a conformance suite checks only final states",
+      "choosing scenarios for a vector set"
+     ]
+    },
+    {
+     "slug": "pinned-rules-data-across-runtimes",
+     "status": "draft",
+     "laws": [
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two runtimes load the same rules data",
+      "one runtime is on an older revision of the tables",
+      "a port begins from a copy of the data"
+     ]
+    },
+    {
+     "slug": "planted-mutation-proves-the-suite",
+     "status": "draft",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a conformance suite has never failed",
+      "a suite is about to be cited as evidence of equivalence",
+      "the vectors were generated from the port itself"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "cpp",
+     "technique": "declared-numeric-tolerance",
+     "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/cpp--declared-numeric-tolerance.md",
+     "verified_on": "2026-10-16",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "golden-trace-conformance-vectors",
+     "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/cpp--golden-trace-conformance-vectors.md",
+     "verified_on": "2026-10-16",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "pinned-rules-data-across-runtimes",
+     "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/cpp--pinned-rules-data-across-runtimes.md",
+     "verified_on": "2026-10-16",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "planted-mutation-proves-the-suite",
+     "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/cpp--planted-mutation-proves-the-suite.md",
+     "verified_on": "2026-10-16",
+     "verified_against": "cpp@20"
     }
    ]
   },
@@ -4873,9 +4989,9 @@
    "subcategory": "surface-and-imagery",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/imported-material-conformance.md",
-   "digest": "sha256-b2:1a78990f85143545",
-   "revision": 3,
-   "changedAt": "2026-10-10",
+   "digest": "sha256-b2:ea32a2326d2c666f",
+   "revision": 4,
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "a-fixer-script-is-the-edge-in-the-wrong-place",
@@ -11102,6 +11218,8 @@
     "controller-latency-instrumentation/tick-sampled-versus-event-recorded-age",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "cross-runtime-rules-conformance/declared-numeric-tolerance",
+    "cross-runtime-rules-conformance/planted-mutation-proves-the-suite",
     "depth-ordered-layered-art/texture-ends-on-an-edge-or-fades",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
     "design-canon-as-executable-law/shape-check-vs-content-invariant",
@@ -11338,6 +11456,8 @@
     "crash-forensics-attribution/crash-signature-over-id-equality",
     "crash-forensics-attribution/engine-crash-vocabulary",
     "crash-forensics-attribution/weighted-evidence-directory-file-symbol",
+    "cross-runtime-rules-conformance/divergence-log-not-silent-correction",
+    "cross-runtime-rules-conformance/pinned-rules-data-across-runtimes",
     "debt-and-loss-stakes-staging/ledger-after-every-event",
     "debt-and-loss-stakes-staging/the-leash-can-be-rewritten",
     "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
@@ -11516,6 +11636,7 @@
     "crash-forensics-attribution/caller-chain-decay",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "crash-forensics-attribution/weighted-evidence-directory-file-symbol",
+    "cross-runtime-rules-conformance/declared-numeric-tolerance",
     "debt-and-loss-stakes-staging/ledger-after-every-event",
     "depth-ordered-layered-art/measured-draw-order",
     "design-canon-as-executable-law/archetype-aware-envelopes",
@@ -11711,6 +11832,8 @@
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "cross-runtime-rules-conformance/golden-trace-conformance-vectors",
+    "cross-runtime-rules-conformance/planted-mutation-proves-the-suite",
     "depth-ordered-layered-art/the-record-must-cover-the-drawing",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
@@ -11785,6 +11908,7 @@
     "content-acceptance-tiering/tier-ladder-design",
     "controller-latency-instrumentation/optical-flash-frame-count-protocol",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "cross-runtime-rules-conformance/golden-trace-conformance-vectors",
     "debt-and-loss-stakes-staging/survive-the-lean-stretch",
     "depth-ordered-layered-art/order-across-every-reachable-pose",
     "depth-ordered-layered-art/texture-ends-on-an-edge-or-fades",
@@ -11907,6 +12031,7 @@
     "condition-tagged-line-tables/line-table-schema",
     "content-acceptance-tiering/never-fail-silently-reason-strings",
     "content-acceptance-tiering/plain-language-tier-glossary",
+    "cross-runtime-rules-conformance/pinned-rules-data-across-runtimes",
     "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
     "design-canon-as-executable-law/parse-thresholds-from-prose",
     "difficulty-design-and-adaptation/tier-changes-decisions-not-specs-test",
@@ -11959,6 +12084,8 @@
     "controller-latency-instrumentation/exact-window-plus-histogram-quantiles",
     "controller-latency-instrumentation/tick-sampled-versus-event-recorded-age",
     "controller-latency-instrumentation/window-percentiles-are-not-poolable",
+    "cross-runtime-rules-conformance/golden-trace-conformance-vectors",
+    "cross-runtime-rules-conformance/planted-mutation-proves-the-suite",
     "depth-ordered-layered-art/order-across-every-reachable-pose",
     "depth-ordered-layered-art/the-record-must-cover-the-drawing",
     "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
@@ -12013,6 +12140,7 @@
     "content-drift-and-revision/content-hash-vs-status-drift",
     "content-drift-and-revision/produce-direction-stamping",
     "crash-forensics-attribution/crash-signature-over-id-equality",
+    "cross-runtime-rules-conformance/pinned-rules-data-across-runtimes",
     "design-doc-compliance-scoring/evidence-age-envelope",
     "encounter-balance-simulation/per-cell-seed-derivation-for-order-independence",
     "engine-integration-safety/transport-failure-taxonomy",
@@ -12143,6 +12271,8 @@
     "content-drift-and-revision/orphaned-artifact-visibility",
     "content-drift-and-revision/typed-operator-inheritance",
     "crash-forensics-attribution/confidence-gates-report-unknown",
+    "cross-runtime-rules-conformance/declared-numeric-tolerance",
+    "cross-runtime-rules-conformance/divergence-log-not-silent-correction",
     "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
     "engine-integration-safety/crash-truncated-batch-resume",
     "engine-integration-safety/pid-scoped-teardown",
@@ -12233,6 +12363,7 @@
   "every-effect-on-the-rules-is-visible": {
    "statement": "Anything that changes what the player can do, what an opponent can do, or what an outcome costs is shown, whether it helps or hurts. A handicap, a boost, a stake that drains, a rubber band, a hidden bias in who is targeted: if it alters the rules it is either disclosed where the player can see it or it is presentation only and demonstrably cannot reach the simulation. There is no third category. An invisible help is the same fault as an invisible penalty, because the player's model of the game is wrong either way and every later decision inherits the error. A presentation layer that merely looks as though it affects play is held to the same standard from the other side: it must never seem to.",
    "techniques": [
+    "cross-runtime-rules-conformance/divergence-log-not-silent-correction",
     "hand-tracked-timing-windows/tracking-loss-as-a-game-state",
     "render-submission-economy/cull-before-submission"
    ]

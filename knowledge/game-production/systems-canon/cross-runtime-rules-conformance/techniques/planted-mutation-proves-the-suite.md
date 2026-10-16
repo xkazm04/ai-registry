@@ -13,7 +13,7 @@ use_when: [a conformance suite has never failed, a suite is about to be cited as
 
 The general rule, that a check which has never failed anything is unmeasured rather than
 passing, is owned by
-[flag-your-own-shipped-defaults](../../../systems-canon/design-canon-as-executable-law/techniques/flag-your-own-shipped-defaults.md).
+[flag-your-own-shipped-defaults](../../design-canon-as-executable-law/techniques/flag-your-own-shipped-defaults.md).
 It is not restated here. This technique applies that rule to a cross-runtime conformance
 suite, where the question is narrower: **which vectors would notice if the port got a rule
 wrong?**
