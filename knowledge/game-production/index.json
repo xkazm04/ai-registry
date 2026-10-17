@@ -3,8 +3,8 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 84,
-  "techniques": 553,
+  "subjects": 85,
+  "techniques": 556,
   "applications": 320,
   "laws": 14,
   "categories": [
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "553/553",
+  "use_when_coverage": "556/556",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -10507,6 +10507,60 @@
     }
    ]
   },
+  "tracked-input-record-and-replay": {
+   "category": "couch-and-tv-play",
+   "subcategory": "immersive-interaction",
+   "status": "draft",
+   "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/tracked-input-record-and-replay.md",
+   "digest": "sha256-b2:db115fd937887dd5",
+   "revision": 1,
+   "changedAt": "2026-10-17",
+   "techniques": [
+    {
+     "slug": "headless-replay-against-the-rules",
+     "status": "draft",
+     "laws": [
+      "no-gate-self-certifies",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an input rule must be regression-tested without a device",
+      "a replay diverges from the live session it recorded",
+      "wiring recorded input into an automated gate"
+     ]
+    },
+    {
+     "slug": "proxy-corpus-miss-ledger",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "synthetic or mouse-drawn input stands in for real hands before the device arrives",
+      "real-hand results contradict the proxy numbers",
+      "deciding when a proxy corpus may be retired"
+     ]
+    },
+    {
+     "slug": "versioned-input-corpus",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "recording real hand or controller sessions for later tests",
+      "a corpus was recorded on an older tracking runtime",
+      "a test passes on a clip nobody can identify"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "two-thumb-touch-layout-design": {
    "category": "couch-and-tv-play",
    "subcategory": "couch-and-tv",
@@ -11407,6 +11461,8 @@
     "tiling-texture-acceptance/texel-density-and-uv-tiling",
     "tiling-texture-acceptance/wrap-around-edge-diff",
     "top-down-vehicle-handling-model/drift-state-hysteresis",
+    "tracked-input-record-and-replay/proxy-corpus-miss-ledger",
+    "tracked-input-record-and-replay/versioned-input-corpus",
     "two-thumb-touch-layout-design/cruise-fire-drives-throttle",
     "two-thumb-touch-layout-design/pad-vertical-throttle-neutral-start",
     "unattended-build-loop/budget-reservation-and-drain-not-kill",
@@ -11812,6 +11868,7 @@
     "top-down-vehicle-handling-model/slip-restoring-yaw-stability",
     "top-down-vehicle-handling-model/speed-attenuated-steering-authority",
     "top-down-vehicle-handling-model/surface-grip-drag-ladder",
+    "tracked-input-record-and-replay/proxy-corpus-miss-ledger",
     "unattended-build-loop/completed-with-gaps-excluded-from-the-numerator",
     "unattended-build-loop/verified-vs-self-reported-pass-rate",
     "vehicle-archetype-balance/linear-stat-to-physics-mapping",
@@ -11887,6 +11944,7 @@
     "subsystem-review-doctrine/four-pass-ordering",
     "subsystem-review-doctrine/ground-truth-pass-before-proposals",
     "tiling-texture-acceptance/derive-only-what-the-source-encodes",
+    "tracked-input-record-and-replay/headless-replay-against-the-rules",
     "unattended-build-loop/confirmation-inherits-the-gates-limits",
     "unattended-build-loop/no-gate-self-certifies",
     "unattended-build-loop/review-at-the-fan-out-point",
@@ -12012,6 +12070,7 @@
     "tiling-texture-acceptance/luminance-heightfield-normal-derivation",
     "tiling-texture-acceptance/wrap-around-edge-diff",
     "top-down-vehicle-handling-model/kerb-verge-inside-hard-wall",
+    "tracked-input-record-and-replay/headless-replay-against-the-rules",
     "two-thumb-touch-layout-design/pointer-capture-per-control",
     "unattended-build-loop/no-gate-self-certifies",
     "unattended-build-loop/verifier-coverage-review-agenda",
@@ -12184,7 +12243,8 @@
     "ship-pipeline-gating/validator-log-classification",
     "speech-synthesis-script-writing/change-the-text-before-the-settings",
     "speech-synthesis-script-writing/tags-depend-on-the-model-generation",
-    "subsystem-review-doctrine/regression-diff-new-persisting-resolved"
+    "subsystem-review-doctrine/regression-diff-new-persisting-resolved",
+    "tracked-input-record-and-replay/versioned-input-corpus"
    ]
   },
   "compiling-is-not-wiring": {
