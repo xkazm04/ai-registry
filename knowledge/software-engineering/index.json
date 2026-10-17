@@ -1928,7 +1928,7 @@
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
    "digest": "sha256-b2:4f054116d66a9495",
    "revision": 51,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -3746,7 +3746,7 @@
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
    "digest": "sha256-b2:154304c5d9578971",
    "revision": 10,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -6951,7 +6951,7 @@
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
    "digest": "sha256-b2:ccc991958e998a93",
    "revision": 16,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "atomic-file-publish",
@@ -7285,8 +7285,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
    "digest": "sha256-b2:de557423d4cf3016",
-   "revision": 8,
-   "changedAt": "2026-10-17",
+   "revision": 9,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "commit-time-claim-guard",
@@ -9227,7 +9227,7 @@
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
    "digest": "sha256-b2:2dba94be6400dea1",
    "revision": 19,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -15745,8 +15745,8 @@
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
    "digest": "sha256-b2:93bd71853ab468b1",
-   "revision": 27,
-   "changedAt": "2026-10-17",
+   "revision": 28,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -20153,8 +20153,8 @@
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
    "digest": "sha256-b2:ed8e615f51454325",
-   "revision": 33,
-   "changedAt": "2026-10-17",
+   "revision": 34,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -30248,7 +30248,7 @@
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
    "digest": "sha256-b2:a49d27f889212d3f",
    "revision": 19,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -31614,7 +31614,7 @@
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
    "digest": "sha256-b2:395e660a5e607abe",
    "revision": 6,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "command-surface",
@@ -36597,7 +36597,7 @@
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
    "digest": "sha256-b2:d5ab12a92aba67c4",
    "revision": 10,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "exhaustive-when-bounded",

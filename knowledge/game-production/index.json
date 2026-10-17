@@ -490,7 +490,7 @@
    "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/adaptive-music-authoring.md",
    "digest": "sha256-b2:fccf430fd4de0e8d",
    "revision": 5,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "intensity-mapping-from-declared-game-state",
@@ -1621,7 +1621,7 @@
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/condition-tagged-line-tables.md",
    "digest": "sha256-b2:c2ce9d61f6567e46",
    "revision": 4,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "line-table-schema",
@@ -2232,8 +2232,8 @@
    "status": "draft",
    "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/cross-runtime-rules-conformance.md",
    "digest": "sha256-b2:9e418d4f3bccc2e1",
-   "revision": 1,
-   "changedAt": "2026-10-17",
+   "revision": 2,
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "declared-numeric-tolerance",
@@ -3512,7 +3512,7 @@
    "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
    "digest": "sha256-b2:6648b55a6f14ca63",
    "revision": 6,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -4998,7 +4998,7 @@
    "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/imported-material-conformance.md",
    "digest": "sha256-b2:ea32a2326d2c666f",
    "revision": 4,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "a-fixer-script-is-the-edge-in-the-wrong-place",
@@ -6189,8 +6189,8 @@
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/perf-regression-gating/perf-regression-gating.md",
    "digest": "sha256-b2:173f001a43e00fb7",
-   "revision": 4,
-   "changedAt": "2026-10-17",
+   "revision": 5,
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "allocation-gate-on-the-shipped-configuration",
@@ -8485,7 +8485,7 @@
    "file": "knowledge/game-production/engine-integration/render-submission-economy/render-submission-economy.md",
    "digest": "sha256-b2:f78c32cc64fd8ff7",
    "revision": 4,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "batch-by-page-where-order-is-invisible",
@@ -8877,7 +8877,7 @@
    "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/runtime-observation-evidence.md",
    "digest": "sha256-b2:336e809d69d5be3a",
    "revision": 4,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-16",
    "techniques": [
     {
      "slug": "behavioural-discriminators-over-symbolic-pass",

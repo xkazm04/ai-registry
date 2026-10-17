@@ -24,8 +24,8 @@
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/agent-session-archive.md",
    "digest": "sha256-b2:3e3f46ad2c0269f1",
-   "revision": 1,
-   "changedAt": "2026-10-17",
+   "revision": 2,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "capture-before-parse",
@@ -2007,7 +2007,7 @@
    "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/multi-provider-event-normalization.md",
    "digest": "sha256-b2:a0932e26160bfd85",
    "revision": 7,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "attribute-precedence-lists",

@@ -1082,7 +1082,7 @@
    "file": "knowledge/media-generation/research-grounding/evidence-bound-visuals/evidence-bound-visuals.md",
    "digest": "sha256-b2:a3b657bb0d44f7d8",
    "revision": 9,
-   "changedAt": "2026-10-17",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "anchor-removal-ablation",
