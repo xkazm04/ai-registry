@@ -1,0 +1,48 @@
+{
+  "title": "Fixture film",
+  "voice": {
+    "voiceId": "fixtureVoice01",
+    "settings": { "stability": 0.6, "similarity": 0.75, "style": 0 }
+  },
+  "maxMs": 20000,
+  "music": {
+    "cues": [
+      { "id": "bed", "from": { "beat": "open", "edge": "start" }, "to": { "beat": "close", "edge": "end" }, "prompt": "Warm minimal electronic bed, soft pulse, no vocals" }
+    ]
+  },
+  "style": {
+    "palette": { "bg": "#0b1f24", "fg": "#f4f1ea", "accent": "#1fb5a8", "accent2": "#e0b84a", "muted": "#6b7f84" },
+    "fonts": { "display": "Inter", "body": "Inter", "mono": "JetBrains Mono" },
+    "logo": "logo.svg",
+    "radius": 12,
+    "easing": [0.2, 0.8, 0.2, 1]
+  },
+  "beats": [
+    {
+      "id": "open",
+      "chapter": "cold-open",
+      "line": "Every deal starts with a number.",
+      "settleMs": 1200,
+      "moments": [
+        { "id": "open-title", "tier": 1, "kind": "plate", "component": "TitleSlam", "props": { "text": "Haggle" } }
+      ]
+    },
+    {
+      "id": "trade",
+      "chapter": "haggle",
+      "line": "The agent counters, and never goes past your ceiling.",
+      "settleMs": 2500,
+      "capture": { "beat": "haggle-trade", "targets": ["[data-testid=offer]"] },
+      "moments": [
+        { "id": "trade-zoom", "tier": 2, "kind": "treatment", "component": "ZoomToRect", "props": { "target": "[data-testid=offer]" }, "claim": "never exceeds the ceiling" },
+        { "id": "trade-stat", "tier": 3, "kind": "plate", "component": "StatCounter", "props": { "to": 340 }, "at": 500, "durMs": 1500 }
+      ]
+    },
+    {
+      "id": "close",
+      "chapter": "end-card",
+      "line": "Your money, negotiated.",
+      "settleMs": 2000
+    }
+  ]
+}
