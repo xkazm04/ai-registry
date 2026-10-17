@@ -1110,11 +1110,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 85,
-      "techniques": 556,
+      "subjects": 86,
+      "techniques": 561,
       "applications": 320,
-      "files": 965,
-      "contentHash": "sha256-b2:656a62e28e31d9bd"
+      "files": 971,
+      "contentHash": "sha256-b2:12c18adc27d2ec4e"
     },
     {
       "name": "grant-funding",

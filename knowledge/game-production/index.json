@@ -3,8 +3,8 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 85,
-  "techniques": 556,
+  "subjects": 86,
+  "techniques": 561,
   "applications": 320,
   "laws": 14,
   "categories": [
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "556/556",
+  "use_when_coverage": "561/561",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -9765,6 +9765,98 @@
     }
    ]
   },
+  "standalone-headset-frame-budgets": {
+   "category": "couch-and-tv-play",
+   "subcategory": "immersive-interaction",
+   "status": "draft",
+   "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
+   "digest": "sha256-b2:14f3efe1eb7189db",
+   "revision": 1,
+   "changedAt": "2026-10-17",
+   "techniques": [
+    {
+     "slug": "forward-path-feature-allowance",
+     "status": "draft",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "one-authority-per-quantity",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing the shading path for a mobile-class head-worn target",
+      "a material feature assumes a deferred path",
+      "costing post-processing on a tile-based GPU",
+      "a feature works on the desk build and is missing or broken on the headset"
+     ]
+    },
+    {
+     "slug": "overdraw-and-transparency-ceiling",
+     "status": "draft",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "particles or translucent effects fill the view",
+      "a scene is fill-rate bound on a tile-based GPU",
+      "an effect that was cheap on a desktop drops frames on the headset",
+      "choosing between an additive",
+      "an alpha-blended and an alpha-tested effect"
+     ]
+    },
+    {
+     "slug": "per-content-class-frame-budget",
+     "status": "draft",
+     "laws": [
+      "a-budget-shapes-the-output",
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting authoring limits for a headset with a fixed refresh rate",
+      "one content class is consuming the whole frame",
+      "a budget is stated as one frame time for everything",
+      "one budget must hold on more than one headset"
+     ]
+    },
+    {
+     "slug": "stereo-draw-call-budget",
+     "status": "draft",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "an-instrument-proves-it-had-input",
+      "a-budget-shapes-the-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "counting draw calls for a two-eye render",
+      "draw calls doubled when stereo rendering was enabled",
+      "deciding what to batch for a multi-view render",
+      "a draw-call cap does not say whether a draw counts once or once per eye"
+     ]
+    },
+    {
+     "slug": "thermal-headroom-reserve",
+     "status": "draft",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-verdict-is-bound-to-its-content",
+      "grade-against-what-ships-not-on-a-curve"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a budget holds early in a session and fails later in it",
+      "the device lowers its clocks in sustained play",
+      "deciding how much of the frame to leave unspent",
+      "the game requests the highest performance level the platform offers"
+     ]
+    }
+   ],
+   "applications": []
+  },
   "steering-feel-profile-shaping": {
    "category": "racing-vehicles",
    "subcategory": null,
@@ -11226,6 +11318,7 @@
     "reference-parity-gating/no-average-hides-a-failure",
     "short-form-cards-and-barks/three-line-card-image-trade-turn",
     "sprite-and-atlas-production/palette-discipline-across-frames",
+    "standalone-headset-frame-budgets/thermal-headroom-reserve",
     "subsystem-review-doctrine/severity-by-consequence"
    ]
   },
@@ -11447,6 +11540,9 @@
     "sprite-and-atlas-production/lossy-compression-acceptance-for-flat-art",
     "sprite-and-atlas-production/palette-discipline-across-frames",
     "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
+    "standalone-headset-frame-budgets/forward-path-feature-allowance",
+    "standalone-headset-frame-budgets/overdraw-and-transparency-ceiling",
+    "standalone-headset-frame-budgets/thermal-headroom-reserve",
     "steering-feel-profile-shaping/throttle-instant-release-progressive-rise",
     "subsystem-review-doctrine/regression-diff-new-persisting-resolved",
     "subtext-and-voice-differentiation/distinguish-by-rhythm-and-refusal",
@@ -11627,6 +11723,8 @@
     "speech-synthesis-script-writing/text-carries-the-emotion-not-the-settings",
     "sprite-and-atlas-production/palette-discipline-across-frames",
     "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
+    "standalone-headset-frame-budgets/forward-path-feature-allowance",
+    "standalone-headset-frame-budgets/per-content-class-frame-budget",
     "steering-feel-profile-shaping/asymmetric-steer-slew-rise-return",
     "steering-feel-profile-shaping/baseline-preset-preserved",
     "steering-feel-profile-shaping/brake-never-reverses",
@@ -11853,6 +11951,8 @@
     "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
     "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
     "sprite-and-atlas-production/sprite-sequence-timing-and-pivot-stability",
+    "standalone-headset-frame-budgets/per-content-class-frame-budget",
+    "standalone-headset-frame-budgets/stereo-draw-call-budget",
     "steering-feel-profile-shaping/asymmetric-steer-slew-rise-return",
     "steering-feel-profile-shaping/five-profile-trace-bands",
     "steering-feel-profile-shaping/throttle-instant-release-progressive-rise",
@@ -12189,6 +12289,7 @@
     "rigid-body-simulation-stability/replicated-environments-share-unbounded-geometry",
     "speech-synthesis-script-writing/hesitation-marks-can-silence-a-line",
     "sprite-and-atlas-production/autotile-rule-set-completeness",
+    "standalone-headset-frame-budgets/stereo-draw-call-budget",
     "steering-feel-profile-shaping/five-profile-trace-bands",
     "terrain-synthesis-acceptance/biome-mask-cross-consistency",
     "unattended-build-loop/confirmation-inherits-the-gates-limits",
@@ -12243,6 +12344,7 @@
     "ship-pipeline-gating/validator-log-classification",
     "speech-synthesis-script-writing/change-the-text-before-the-settings",
     "speech-synthesis-script-writing/tags-depend-on-the-model-generation",
+    "standalone-headset-frame-budgets/thermal-headroom-reserve",
     "subsystem-review-doctrine/regression-diff-new-persisting-resolved",
     "tracked-input-record-and-replay/versioned-input-corpus"
    ]
@@ -12419,6 +12521,10 @@
     "speech-synthesis-script-writing/length-and-breath-budget",
     "sprite-and-atlas-production/atlas-packing-and-bleed-margins",
     "sprite-and-atlas-production/pixel-grid-and-resolution-contract",
+    "standalone-headset-frame-budgets/forward-path-feature-allowance",
+    "standalone-headset-frame-budgets/overdraw-and-transparency-ceiling",
+    "standalone-headset-frame-budgets/per-content-class-frame-budget",
+    "standalone-headset-frame-budgets/stereo-draw-call-budget",
     "subtext-and-voice-differentiation/subtext-in-few-words",
     "terrain-synthesis-acceptance/playable-area-versus-backdrop-ratio",
     "unattended-build-loop/budget-reservation-and-drain-not-kill",
