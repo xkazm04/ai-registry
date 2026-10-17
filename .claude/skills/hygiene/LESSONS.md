@@ -495,3 +495,10 @@ with the lesson here saying why.
 - **A brief must not suggest a commit type without reading the repo's commit-lint.** The repair brief said `deps:`. personas allows `feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert`, so commit-lint went red on a pushed master commit that can't be amended (no force push). Use `fix(deps):` or `chore(deps):`.
 - **A new RUSTSEC batch reddens every repo that runs cargo-deny at once.** After a push-primary, paypal went red on RUSTSEC-2026-0346..0349 (rustls), which the pushed commits had nothing to do with. Before blaming a push for a red, read the deny job first. The fix is a lockfile-only `cargo update -p rustls`; pumper, paypal and personas all took it the same day.
 - Worker transcript timestamps are UTC, and the machine runs CEDT (UTC+2). A worker that looked idle for two hours was five minutes into a poll.
+
+## 2026-10-17 - push-primary can ship a red; the 10-16 triage finding repeats
+
+- **push-primary of already-committed work turned paypal red.** The 88 commits were type-clean only under the local, looser check. CI's `client` job (typecheck, then test, then build) failed on `listingCode.ts`/`tableDraft.ts`, and the type errors hid four failing test files. A repair worker fixed both in one commit (`f73ffbab`). Phase 4 step 2 caught it, so it is working. The push itself has no pre-check: a repo with no pre-push hook pushes whatever the primary holds.
+- **9 of 11 workers changed nothing, the same rows as on 10-16** (`ascent/*`, `skillbench/*`, `salvage/*`, `backup/*`, `tri/*`, majors on #20/#30/#37/#71, pumper #39). The classifier change proposed on 10-16 is now two runs of evidence: about 8 of the day's 11 worker spawns are spent re-reading operator decisions.
+- **Re-applying from the after-scan needs `--out <plan dir>/after`.** A bare `--apply` re-reads the morning plan and SKIPs its stale `push-primary` rows as "diverged". The `ff-primary` rows that worker merges create appear only in the after plan.
+- **The temp-leak families `gpu-lease-pw-*`, `gt-store-pw-*` and `gt-frames-*` (about 930 dirs) come from gravitone's Playwright config and next-server tests.** That is the repo to fix.
