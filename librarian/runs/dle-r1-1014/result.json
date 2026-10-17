@@ -1,0 +1,124 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "dle-r1-1014",
+  "skill": "intake",
+  "skill_version": "2.15.0",
+  "mode": "source",
+  "domain": "software-engineering",
+  "started_at": "2026-10-14T18:57:33Z",
+  "ended_at": "2026-10-14T22:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 3,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/concurrent-vcs",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/fleet-orchestration",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "agent-operations/harness-fault-attribution",
+      "at": "2026-10-14",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "concurrent-vcs",
+      "technique": "physical-isolation",
+      "verdict": "not-better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "fleet-orchestration",
+      "technique": "verifier-seat-capacity",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "harness-fault-attribution",
+      "technique": "clear-the-environment-first",
+      "verdict": "unmeasurable",
+      "mode": "experiment"
+    },
+    {
+      "subject": "concurrent-vcs",
+      "technique": "intent-ledgers",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "concurrent-vcs",
+      "technique": "commit-verification",
+      "verdict": "better",
+      "mode": "experiment"
+    },
+    {
+      "subject": "fleet-orchestration",
+      "technique": "completion-claim-verification",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/techniques/physical-isolation.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--physical-isolation--practitioner-swarm.md",
+    "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--physical-isolation--ai-registry.md",
+    "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
+    "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/techniques/verifier-seat-capacity.md",
+    "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/techniques/parallel-dispatch.md",
+    "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/techniques/completion-claim-verification.md",
+    "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/process--verifier-seat-capacity--practitioner-swarm.md",
+    "knowledge/agent-operations/measurement/harness-fault-attribution/harness-fault-attribution.md",
+    "knowledge/agent-operations/measurement/harness-fault-attribution/techniques/clear-the-environment-first.md",
+    "knowledge/agent-operations/measurement/harness-fault-attribution/applications/process--clear-the-environment-first--practitioner-swarm.md",
+    "librarian/sources/2026-10-14-agentic-coding-flywheel-setup.md",
+    "librarian/handoffs/2026-10-14-dicklesworthstone-series.md",
+    "scripts/run-board.mjs",
+    "scripts/run-board.test.mjs",
+    "scripts/commit-inventory-replay.mjs",
+    "scripts/tests/commit-inventory-replay.test.mjs"
+  ],
+  "commits": [
+    {
+      "sha": "bdb7dbf2",
+      "branch": "main",
+      "pathspec": [
+        "scripts/run-board.mjs",
+        "scripts/run-board.test.mjs"
+      ]
+    },
+    {
+      "sha": "e148ad7d",
+      "branch": "main",
+      "pathspec": [
+        "scripts/commit-inventory-replay.mjs",
+        "scripts/tests/commit-inventory-replay.test.mjs"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Series R1 (practitioner fleet method). 1 technique + 4 amendments, 4 apps, 6 untriaged; 3 method A/Bs: claim better shipped, commit replay better at path level shipped as instrument, re-verify tier 1 not-better kept on a branch."
+}

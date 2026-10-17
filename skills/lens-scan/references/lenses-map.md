@@ -1,4 +1,4 @@
-# Lens map - three measured lenses over the scan-sweep lens prose
+# Lens map - four measured lenses over the scan-sweep lens prose
 
 Read from `SKILL.md` phase 2 (judgement). A lens-scan lens is a **measurement lens**:
 it owns metric keys (see [metrics.md](metrics.md)). The judging prose - what to look
@@ -11,6 +11,7 @@ below for the lens in scope, and only those.
 | `development` | `code-optimizer`, `architecture-analyst`, `test-strategist`, `dependency-auditor`, `tech-debt-tracker`, `risk-assessor`, `devops-optimizer` | `dupSites`, `standardsPct`; context for `loc`, `depCount`, `testRatioPct`, `p50Ms`, `p95Ms` proposals |
 | `security` | `security-auditor` | `findingsCritical`, `findingsHigh`, `findingsMedium`, `findingsLow`, `standardsPct`; false-positive review of `secretHits`, `unsafeSinks` |
 | `design` (the UI/UX lens) | `ux-reviewer`, `accessibility-checker`, `mobile-specialist`, `error-handler`, `visual-craft` | `undesignedStates`, `standardsPct`; context for `axeViolations`, `rawLiterals`, `minTextPx`, `consoleErrors` proposals |
+| `performance` | `code-optimizer` (render, bundle and query findings only) | none: every metric is probed or static ([metrics.md](metrics.md#performance)); context for `bundleKb`, `startupMs`, `interactionP95Ms`, `frameP95Ms`, `memoryMb` proposals |
 
 Every other scan-sweep lens is **out of scope for v1** (product, growth, docs,
 onboarding, the challenge lenses, registry-conformance as a lens - conformance is what
@@ -25,7 +26,7 @@ the table above does not list - is measurable when its manifest declares
 [lens-manifest-scan.md](lens-manifest-scan.md)). It reads **no** scan-sweep lens: the
 author's `instructions` are the whole judging prose, and the fields with a `metric`
 block and a numeric type (`integer`, `number`, `percent`, `money`) are its metric keys.
-`structure.mjs lens --id <id>` prints both. The three lenses in the table keep their
+`structure.mjs lens --id <id>` prints both. The lenses in the table keep their
 methods even when their manifest carries a scan block.
 
 Such a lens also judges **impact**: a feature the instructions do not touch at all gets

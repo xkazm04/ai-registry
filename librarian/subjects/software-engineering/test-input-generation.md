@@ -1,7 +1,7 @@
 ---
 subject: test-input-generation
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-10-15
 dry_streak: 0
 ---
 
@@ -235,3 +235,7 @@ runs property-based or randomized testing at all, verified against every
 `Cargo.toml`). Catches recorded so nobody re-proposes them: `io-free-core` owns
 the sans-io core completely, and `seed-is-not-a-reproduction` already says to
 record the configuration with the seed.
+
+### 2026-10-15 - intake coding_agent_session_search (run dle-004-1015, series DLE-004)
+
+Catch, recorded as `rust--model-based-oracle--cass.md`: a set-algebra reference for Boolean query semantics through the real binary, with seeded random expressions and an echo round trip. A design reader called it unowned ("no registry file mentions metamorphic testing"); the director overturned that by opening this subject. Rung 3 of the ladder; misses shrinking and runs one seed.

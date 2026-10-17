@@ -17,7 +17,7 @@ proof: ab-paired
 ## What was opened
 
 The same game-production pipeline as the
-[node application](node--a-fixer-script-is-the-edge-in-the-wrong-place.md), at a different
+[node application](./node--a-fixer-script-is-the-edge-in-the-wrong-place.md), at a different
 edge. Its local 3D stage turns a dense generated mesh into a game-ready low-poly. A
 TypeScript runner builds the argv, and a headless Blender Python script decimates,
 unwraps and bakes the high-poly detail into normal, AO, base-colour and roughness PNGs,

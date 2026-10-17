@@ -1,7 +1,7 @@
 ---
 subject: audit-logging
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-10-15
 dry_streak: 0
 ---
 
@@ -85,3 +85,12 @@ counterpart remains the reconcile target.
 ### 2026-09-17 - `/harvest backlog` wave 6, nothing landed
 
 A claim that containment maturity does not imply accountability maturity was measured over the 13 fleet trees and **refuted** - four independent scorings put the correlation between 0.45 and 0.75, with one tree in an off-diagonal quadrant. Recorded here because the negative is worth as much as a landing would have been, and because the reasoning transfers. About a third of the co-movement is tree maturity rather than any implication between the axes: the partial correlation given commit count is 0.343. A single-owner fleet's maturity is one habit, so cross-project distributional claims measured on it will tend to correlate whatever the axes are. Any future attempt at this shape needs a population with more than one owner. Two instrument facts from the run, for anyone measuring this subject mechanically. **A ledger sweep scoped by filename misses trees whose ledger is named for its domain** - witnessed, 92 files masked out of a high-accountability tree with zero change to any signal, because its hash-chained ledger lives in files named after what they record rather than after recording. And a per-signal match cap turns a measurement into a presence test: capped at 12 over trees of 872 to 11,016 files, a tree whose matches were game-engine scene objects scored identically to one with 254 real sealed-decision attributions. The mirror of this finding already exists one subject over, in the extension-trust boundary's thesis that containment is not on offer and the boundary is the operator's knowledge of what they granted - worth citing if this is attempted again.
+
+## 2026-10-15 - intake `mcp_agent_mail_rust` (run dle-002-1015, practitioner series DLE-002)
+
+Source note [[2026-10-15-mcp-agent-mail-rust]]. New application
+`rust--best-effort-with-accounting--agent-mail`: a version-controlled mirror of agent mail
+that never fails a send and counts its drops, and is also the source the database is
+rebuilt from. A counted gap in a recovery source is a known loss, not a disclosed blind
+spot; counters live in memory and reset on restart; one disk-pressure skip is uncounted on
+the queue path. Candidate amendment banked untriaged (U3).

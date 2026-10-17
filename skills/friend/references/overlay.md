@@ -30,6 +30,7 @@ commit_types: "feat, polish"       # allowed commit types for this loop  [feat, 
 |---|---|---|
 | `## Areas` | the area menu - one row per area, `name -> paths -> entry points`. Q1 offers these rows; Phase 0f resolves the ledger's `Paths:`, the scan scope and the registry-map contexts from them | derive one area per top-level source directory and say the menu was derived |
 | `## Gates` | `builder:` (what every cycle passes before each commit) and `integration:` (what passes before the exit summary), each an exact command with a when-clause | detect from `package.json` scripts (`typecheck`/`check`, `lint`, `test`) or the build manifest; else `npx tsc --noEmit` when a tsconfig exists - say what was detected |
+| `## Contracts` | per area, the tests outside it that pin its surface (browser tours, evidence / golden suites) and what each asserts; Phase 1b.7 starts from these and Phase 2 shapes around them | found each session by Phase 1b.7's grep |
 | `## Repo law` | the convention digest Phase 4 treats as binding: the reusable-component catalog, string/i18n rules, design tokens, call/error wrappers, staging discipline, max-lines - and where the authoritative rules file lives | "read the repo's CLAUDE.md / AGENTS.md first; reuse before building" |
 | `## Codegen` | commands a change can oblige (binding export, command-name generation, catalog regeneration, locale merge), each with its trigger and whether a hook enforces it | none; nothing is generated |
 | `## Docs` | source-area -> doc-file map, and whether a hook enforces it | none; no doc obligation |

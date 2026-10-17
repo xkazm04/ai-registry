@@ -67,13 +67,72 @@ export function toolKind(name, input) {
 const textOf = (c) => (typeof c === 'string' ? c : Array.isArray(c) ? c.filter((x) => x?.type === 'text').map((x) => x.text).join(' ') : '');
 
 /**
+ * Every transcript the store holds gets exactly one of these. `in-flight` is decided by the
+ * caller from the file's mtime (it is about the clock, not the content); the rest come from
+ * `summarizeFile`.
+ */
+export const DISPOSITIONS = ['read', 'outside-fleet', 'empty', 'unparseable', 'in-flight'];
+
+/**
  * Summarise one transcript. `lines` is an iterable of raw JSONL lines; `projectOf(cwd)` maps a
  * working directory to a fleet slug (or null for a session outside the fleet, which is dropped).
  * Returns null when the transcript holds no session worth keeping.
  */
-export function summarize(lines, { projectOf, id }) {
+export function summarize(lines, opts) {
+  return summarizeFile(lines, opts).session;
+}
+
+const NEEDLE = '"cwd":"';
+/**
+ * The distinct `cwd` values a raw transcript buffer carries, in order of first appearance,
+ * without parsing a single record. A superset of what `summarizeFile` attributes by (it also
+ * sees sidechain records), so "none of these resolves" is a safe reason to skip the full
+ * parse. The values never leave the caller's memory.
+ */
+export function cwdsIn(buf) {
+  const out = []; const seen = new Set();
+  const needle = Buffer.from(NEEDLE);
+  for (let i = buf.indexOf(needle); i >= 0; i = buf.indexOf(needle, i + 1)) {
+    let j = i + needle.length, esc = false;
+    for (; j < buf.length; j++) {
+      const b = buf[j];
+      if (esc) esc = false;
+      else if (b === 0x5c) esc = true;
+      else if (b === 0x22 || b === 0x0a) break;
+    }
+    if (buf[j] !== 0x22) continue;
+    let v; try { v = JSON.parse(buf.toString('utf8', i + needle.length - 1, j + 1)); } catch { continue; }
+    if (typeof v === 'string' && v && !seen.has(v)) { seen.add(v); out.push(v); }
+  }
+  return out;
+}
+
+/**
+ * `summarize` with an account of what happened to the transcript.
+ *
+ * Without `placeOf` this is `summarize`'s rule, unchanged: the first record whose cwd
+ * `projectOf` resolves (a fleet checkout, longest prefix).
+ *
+ * With `placeOf(cwd)` - `{ slug, via }` for a fleet checkout, worktree or clone, `{ repo }` for a
+ * repository outside the fleet or a directory that no longer exists, null for an existing
+ * directory no repository holds (the home folder, a launch pad) - the records decide:
+ *   1. launch: the FIRST record's cwd. In a checkout it is that checkout (the old rule gives
+ *      the same answer there); else a fleet worktree or clone it lies in.
+ *   2. launched outside the fleet: every record's cwd votes for the place it lies in; records
+ *      in an existing directory no repository holds do not vote. The fleet slug with the most
+ *      votes wins, but only if no place outside the fleet has as many (ties go to the first
+ *      seen) - a persona run in its own repo that reads one registry file is not registry work.
+ *
+ * Returns `{ session, disp, via }`: disp is `read` (attributed), `outside-fleet` (cwds seen,
+ * no fleet attribution), `empty` (no record carries a cwd or a timestamp) or `unparseable`
+ * (non-empty lines, none of them JSON). `via` names the rule that attributed: `checkout`,
+ * `worktree`, `git-link`, `clone` (launch) or `vote`.
+ */
+export function summarizeFile(lines, { projectOf, placeOf = null, id }) {
   const s = { id, project: null, wt: 0, mode: null, model: null, effort: null, start: null, end: null,
     tok: { in: 0, out: 0, cr: 0, cw: 0 }, prompts: 0, interrupts: 0, compactions: 0, errors: 0, commits: 0, skills: [], steps: [] };
+  const cwds = new Map(); // cwd -> records carrying it, in first-seen order; never leaves this function
+  let nonEmpty = 0, records = 0;
   const pending = new Map();
   const push = (k, t, extra) => {
     const last = s.steps[s.steps.length - 1];
@@ -83,10 +142,13 @@ export function summarize(lines, { projectOf, id }) {
     return st;
   };
   for (const line of lines) {
+    if (line && /\S/.test(line)) nonEmpty++;
     if (!line || line.length > 2_000_000) continue;
     let o; try { o = JSON.parse(line); } catch { continue; }
+    records++;
     if (o.isSidechain) continue;
     const t = o.timestamp ? Date.parse(o.timestamp) : null;
+    if (o.cwd) cwds.set(o.cwd, (cwds.get(o.cwd) || 0) + 1);
     if (o.cwd && !s.project) { s.project = projectOf(o.cwd); s.wt = /[\\/]worktrees?[\\/]/i.test(o.cwd) ? 1 : 0; }
     if (o.entrypoint && !s.mode) s.mode = o.entrypoint === 'cli' ? 'interactive' : 'headless';
     if (t) { if (s.start == null || t < s.start) s.start = t; if (s.end == null || t > s.end) s.end = t; }
@@ -130,10 +192,33 @@ export function summarize(lines, { projectOf, id }) {
       }
     }
   }
-  if (!s.project || s.start == null) return null;
+  let via = s.project ? 'checkout' : null;
+  const first = cwds.keys().next().value;
+  if (placeOf && first != null && !projectOf(first)) {
+    // Launched outside every checkout: the old rule's answer does not stand on its own.
+    s.project = null; via = null;
+    const launch = placeOf(first);
+    if (launch?.slug) { s.project = launch.slug; s.wt = 1; via = launch.via ?? 'worktree'; }
+    else {
+      const votes = new Map(); // place -> { n, slug, wt }, insertion order = first seen
+      for (const [c, n] of cwds) {
+        const p = projectOf(c) ? { slug: projectOf(c), via: 'checkout' } : placeOf(c);
+        const key = p?.slug ? `fleet:${p.slug}` : p?.repo ? `repo:${p.repo}` : null;
+        if (!key) continue;
+        const v = votes.get(key) ?? { n: 0, slug: p.slug ?? null, wt: p.via === 'checkout' ? (/[\\/]worktrees?[\\/]/i.test(c) ? 1 : 0) : 1 };
+        v.n += n; votes.set(key, v);
+      }
+      let best = null;
+      for (const v of votes.values()) if (!best || v.n > best.n) best = v;
+      if (best?.slug) { s.project = best.slug; s.wt = best.wt; via = 'vote'; }
+    }
+  }
+  if (nonEmpty && !records) return { session: null, disp: 'unparseable', via: null };
+  if (!cwds.size || s.start == null) return { session: null, disp: 'empty', via: null };
+  if (!s.project) return { session: null, disp: 'outside-fleet', via: null };
   s.commits = s.steps.filter((x) => x.k === 'commit').reduce((a, x) => a + Math.max(0, x.n - x.e), 0);
   s.skills = [...new Set(s.skills)];
-  return s;
+  return { session: s, disp: 'read', via };
 }
 
 /** Tool steps that are work on the task (not prompts, notifications or harness events). */

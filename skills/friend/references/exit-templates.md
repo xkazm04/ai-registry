@@ -36,7 +36,7 @@ Shortcuts:
 
 Worktree: `{worktree_dir}/{slug}/`
 Branch: `worktree-{slug}`
-Mode: {interactive | headless --pick {N|auto} --cycles {N}}
+Mode: {interactive | headless --pick {N|auto|all|N,M} --cycles {N}}{ - continued on <branch>}
 Cycles: {N}
 Commits: {first-sha}..{last-sha}
 
@@ -149,6 +149,9 @@ To inspect first:
   git diff {base_branch}...worktree-{slug}
 To discard:
   git worktree remove {worktree_dir}/{slug} && git branch -D worktree-{slug}
+{when 0d linked dependencies:}
+The worktree's dependency links were removed. To run the app there, re-link them
+(Phase 0d) - or merge first and run it from the main checkout.
 
 Files updated:
   + {VAULT}/{vault_subdir}/sessions/{date}-{slug}.md

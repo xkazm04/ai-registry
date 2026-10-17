@@ -116,5 +116,5 @@ Nothing was changed in the project. The finding and its measurement are the owne
 - **Memory.** Every rival the player wrecks gets a grudge that lasts until that driver joins as an ally
   (`deathride/core/src/main/kotlin/dev/deathride/core/AshCircuit.kt:140 "if(r.playerWrecked)p.grudges[r.index]=1"`),
   and the grudge feeds the hit rows. That is a long-horizon cause carried in the save, as the
-  technique asks. The [line-table-schema application](kotlin--line-table-schema.md) records
+  technique asks. The [line-table-schema application](./kotlin--line-table-schema.md) records
   how the grudge row and the plain row tie on specificity.

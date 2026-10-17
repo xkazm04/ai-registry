@@ -25,6 +25,7 @@ techniques:
   - ambient-selection-is-not-an-argument
   - command-audit-by-position
   - first-party-agent-is-a-principal
+  - budgeted-partial-response
 ---
 
 # Tool protocols (MCP)
@@ -361,6 +362,11 @@ same obligations as the wire itself:
   — the product's own agent as a caller with a grant rather than a code path:
   one door when it can present the external credential, one admission when it
   cannot, and admission by grant so a new scoped tool is never its by default.
+- [budgeted-partial-response](./techniques/budgeted-partial-response.md) - a
+  call an agent waits on gets one wall-clock budget: shed named optional
+  sections before the deadline, report what was not inspected as unknown, hand
+  back a recovery probe that differs from the failed call, and never let a
+  budget-emptied result exit as success.
 
 ## What a removed boundary was silently scoping
 

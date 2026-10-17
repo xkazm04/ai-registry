@@ -417,3 +417,88 @@ with the lesson here saying why.
   one-day-old v2 redesign, not debris (no age on the row); pumper's 24 local `moonshot/*`
   rows were all strict ancestors of a remote preservation branch and could have been
   classified as contained mechanically (`merge-base --is-ancestor` against remote heads).
+
+## 1.2.0 - 2026-10-15 - disk lane, designed after a 200 GB day
+
+- **The fleet's biggest mess was never in a checkout.** The operator saw ~200 GB appear in a
+  day, with 117 GB left free, while every `git status` looked ordinary. A read-only walk of the drive (17.8 M
+  files, 17 min) put 429 GB of creation-or-write since the day before into: 337 scratch-root
+  folders from one curator night (a project clone per claim, each with its own install,
+  `.next` and cargo `target`; the night removed its registry worktree on landing, never the
+  clone), a 62 GB cargo `incremental/` cache in one checkout (135 crate dirs, one per feature set
+  ever built, 89 untouched for a day), 36 GB of Claude session temp and ~100,000 test-fixture
+  temp dirs (`pumper-server-e2e*` alone 19,147). New lane: `scripts/hygiene-disk.mjs`, its own
+  instrument and plan beside `plan.json`, so the per-checkout scanner stays what it is.
+- **Most "dirty" scratch clones were install noise.** Of 36 clones that were not plainly clean,
+  every kp one differed only by a regenerated `next-env.d.ts`, every systedo one by two untracked
+  husky shims, and four by line endings or whitespace (`git diff --ignore-all-space
+  --ignore-cr-at-eol` empty). The noise list is code (`NOISE`); real WIP stays an operator row.
+- **"Landed" for a clone has to survive another sha.** A curator clone's commit reaches its home
+  repository through an apply flow or a cherry-pick, so ancestry misses it. The lane checks each
+  local commit's `patch-id --stable` against the home's history; one systedo clone was kept on
+  exactly that, its commit found nowhere. The patch-id cache is keyed on the home's ref tips: the
+  first version cached per repository and read a commit that landed mid-run as missing.
+- **The porcelain-trim bug arrived a third time, in the new instrument, and its first test
+  caught it** (` M a.txt` read as `.txt`). The git helper now trims the end only. The one-off
+  cleanup that ran before the lane existed carried the same bug and kept six kp clones it
+  should have deleted: the wrong direction, but the bug is the same one LESSONS named twice.
+- **A recursive delete must never enter a junction.** `scripts/lib/safe-remove.mjs` removes a
+  symlink or junction as a link and clears git's read-only bit; its test plants a real junction
+  (`mklink /J`) to a sentinel tree, and a mutant that follows links fails it. 238 GB of model
+  stores, 102 GB of temp and 110+ GB of scratch clones went through it with 2 errors, both
+  files an open app held (EBUSY).
+- **Fix the process that wrote it, not only the bytes.** The night's own skill (personas
+  `/curator` 1.2.0) now reaps each claim's clones on settle through `hygiene-disk.mjs --reap`,
+  and its workers build with `CARGO_INCREMENTAL=0`. The temp-leak rows name the suites to fix.
+
+## 1.2.0 - 2026-10-15 - the first temp-leak chase (operator: fix every leaking suite, commit on main)
+
+- **The disk lane's `temp-leak` rows were the work list, and a name family is only a lead.**
+  A per-repo `git grep -F` of each family's literal prefix (with a planted positive) mapped 80
+  of 141 families to one repo; most of the rest were assembled from variables (`` `systedo-${name}-${pid}.db` ``)
+  and went by stem. Three stems pointed at the wrong repo: `mage-*` was a sibling checkout
+  (`mage-arena-tv`), `bp-open-`/`bp-stress-` a one-off stress script no longer on disk, and two
+  families (`harvest-tail-`, `council-cmd-gate-`) are in no tracked file anywhere. The worker
+  brief's `not_this_repo` field carried those back instead of a guessed fix.
+- **Three causes covered nearly every leak.** (1) a helper or module-level `mkdtemp` with no
+  cleanup at all (most suites); (2) cleanup that FAILS SILENTLY on Windows because a SQLite
+  handle is still open - `rmSync` throws EPERM/EBUSY and a `try {} catch {}` or a Drop impl
+  swallows it (kp, the lens-scan store tests, athena's `store.rs`, whose `Drop` deleted the
+  file before its connection field dropped); (3) a hook in the wrong scope (politicas: an
+  `afterAll` inside the first `describe`, so the second recreated the store and left it).
+  Close, then remove; a swallowed removal error is the leak.
+- **Production code leaks too.** devsecops' `ledger-append.mjs` made a scratch dir on every
+  run and `die()` called `process.exit`, which skips `finally`; pof's image-to-3D dispatcher
+  wrote provider input PNGs to temp that mocked tests never consumed.
+- **A fix on main does not reach live worktrees on older commits.** 99 `belay-ledger-` dirs
+  appeared after devsecops' fix, all from a tiger run and agent worktrees cut before it. The
+  leak stops when they merge main; nothing to delete in their trees.
+- **Measure, or say you did not.** Every worker recorded the new NAMES one command left before
+  and after (counts lie when siblings run the same suite). stat-reel had no `node_modules`, so
+  its fix is honest "fixed, not run". Workers sharing one scratch directory overwrote each
+  other's snapshot scripts and two reported a false 0 before re-measuring; give each worker
+  a private scratch subfolder from the start. The firetv worker found the measurement that
+  beats name diffs: run each suite with `TEMP`, `TMP` and `TMPDIR` pointed at a private empty
+  folder, so everything that appears there is that run's (56 suites, one leak found that a
+  shared-temp diff had buried under a sibling session's concurrent runs). Brief it that way.
+- **The director's own codemod inserted its helper inside a template string** (a test that
+  generates a child script with `import` lines), and the first verify run caught it as 7 new
+  failures. Insert after the top import block only, and run the suite before believing a diff.
+
+## 2026-10-15 - a default-branch-red worker on a 70-minute CI is a three-hour worker
+
+- **The personas worker ran 3 h 18 min on one `default-branch-red` item.**
+  - Each CI cycle is about 70 min, with the 3-OS matrix and macOS as the long pole. Each cycle showed only the next failure: Linux clippy dead_code, then a PERSONAS_HOME race, then a flaky p2p loopback test.
+  - `gh run rerun --failed` is refused until every job ends, so the flake alone cost a 36-minute wait.
+  - Cap a red-default item by CI **cycles** (two), not by minutes, and report the rest. Fixing master red in a repo whose CI no push has finished green in a week is a project, not hygiene.
+- **Ten workers polling `gh run view` every 30 s used up the 5,000/h API quota** at 08:03Z. Every worker lost about 10 minutes. Poll at 90-120 s, or have the director watch runs.
+- **A brief must not suggest a commit type without reading the repo's commit-lint.** The repair brief said `deps:`. personas allows `feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert`, so commit-lint went red on a pushed master commit that can't be amended (no force push). Use `fix(deps):` or `chore(deps):`.
+- **A new RUSTSEC batch reddens every repo that runs cargo-deny at once.** After a push-primary, paypal went red on RUSTSEC-2026-0346..0349 (rustls), which the pushed commits had nothing to do with. Before blaming a push for a red, read the deny job first. The fix is a lockfile-only `cargo update -p rustls`; pumper, paypal and personas all took it the same day.
+- Worker transcript timestamps are UTC, and the machine runs CEDT (UTC+2). A worker that looked idle for two hours was five minutes into a poll.
+
+## 2026-10-17 - push-primary can ship a red; the 10-16 triage finding repeats
+
+- **push-primary of already-committed work turned paypal red.** The 88 commits were type-clean only under the local, looser check. CI's `client` job (typecheck, then test, then build) failed on `listingCode.ts`/`tableDraft.ts`, and the type errors hid four failing test files. A repair worker fixed both in one commit (`f73ffbab`). Phase 4 step 2 caught it, so it is working. The push itself has no pre-check: a repo with no pre-push hook pushes whatever the primary holds.
+- **9 of 11 workers changed nothing, the same rows as on 10-16** (`ascent/*`, `skillbench/*`, `salvage/*`, `backup/*`, `tri/*`, majors on #20/#30/#37/#71, pumper #39). The classifier change proposed on 10-16 is now two runs of evidence: about 8 of the day's 11 worker spawns are spent re-reading operator decisions.
+- **Re-applying from the after-scan needs `--out <plan dir>/after`.** A bare `--apply` re-reads the morning plan and SKIPs its stale `push-primary` rows as "diverged". The `ff-primary` rows that worker merges create appear only in the after plan.
+- **The temp-leak families `gpu-lease-pw-*`, `gt-store-pw-*` and `gt-frames-*` (about 930 dirs) come from gravitone's Playwright config and next-server tests.** That is the repo to fix.

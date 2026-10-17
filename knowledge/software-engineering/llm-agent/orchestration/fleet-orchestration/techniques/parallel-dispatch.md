@@ -216,10 +216,25 @@ A door that admits past it has not gone faster; it has converted rendered verdic
 into a sweep, and the conversion is invisible because every individual admission was
 legal.
 
-Nothing enforces this bound on any door yet observed, and a bound nothing enforces is
-absent ([absent guard is loud](../../../../_laws.md#absent-guard-is-loud)). Its
-absence is silent in *both* directions, which is what makes it expensive: the fleet
-reports full throughput, and the supervisor reports having approved everything.
+One door has since been observed enforcing a form of this bound, keyed on a
+verification seat rather than on a person. It was a declarative task-state policy
+that forbade a producer to close its own work, capped work in progress, and
+separately capped *verification debt*, counted over work in progress plus work
+awaiting a verdict, refusing claims at the hard level. It did what the paragraph above
+prescribes, and what happened there marks the limit of that prescription. When the
+seat the verdicts were owed to emptied, the refusal stopped every producer at once.
+The work meant to restore trust queued behind an item that only the missing verifier
+was allowed to close. The policy had no rule that reached whoever could fill the seat,
+and the vacancy was named only by an audit written after the stall. Refusal is still
+the only honest response at the door. But where the stock is released by a single
+seat, the door also owes an occupancy check that escalates to whoever staffs that seat,
+and the seat's own output owes a second reader. Both are covered in
+[verifier-seat-capacity](./verifier-seat-capacity.md).
+
+Where no door enforces the bound, it is absent
+([absent guard is loud](../../../../_laws.md#absent-guard-is-loud)), and the absence
+is silent in *both* directions, which is what makes it expensive: the fleet reports
+full throughput, and the supervisor reports having approved everything.
 
 The neighbours, in both directions. The *rate* at which verdicts are demanded of a
 person, the overload signature that rate produces, and what may be recorded about the

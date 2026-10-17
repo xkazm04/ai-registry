@@ -2,7 +2,7 @@
 kind: harvest-queue
 created: 2026-08-28
 updated: 2026-10-14
-entries: 305
+entries: 306
 statuses: mixed
 ---
 
@@ -365,22 +365,23 @@ a bundle.
 | KOP-014 | 1 | https://arxiv.org/abs/2212.01479 | paper | first-party practitioner account | software-engineering/engineering-process/codebase-stewardship/docs-sync | Tan, Wagner & Treude, DOCER (EMSE / ICSE 2024 journal-first): 28.9% of popular GitHub projects hold an outdated code reference in docs, 82.3% did at some point | content | queued |
 | KOP-015 | 2 | https://arxiv.org/abs/1903.12282 | paper | first-party practitioner account | software-engineering/engineering-process/codebase-stewardship/docs-sync | Zhang et al., Obsolete Answers on Stack Overflow (IEEE TSE 2019): 58.4% obsolete when posted, only 20.5% ever updated - decay in a large public knowledge corpus | content | queued |
 
-## agent-fleet practitioner series (9)
+## agent-fleet practitioner series (10)
 
 One author's agent-fleet stack, studied method-first as a series of intake rounds. The
 charter holds the operator's rulings (license posture, scope, the measured-A/B bar for
 our own method) and a cold-start brief per row:
 [`handoffs/2026-10-14-dicklesworthstone-series.md`](../handoffs/2026-10-14-dicklesworthstone-series.md).
-Order is provisional until DLE-001 re-ranks it.
+Order set by DLE-001 (2026-10-14): DLE-002, DLE-004, DLE-005 and DLE-010 are batched and may run in parallel; DLE-003 waits for backlog row `dle-m5-brief-review-before-fanout`; DLE-006 last.
 
 | id | pri | source | type | class | target | why it is here | yield | status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| DLE-001 | 1 | https://github.com/Dicklesworthstone/agentic_coding_flywheel_setup | code-repo | first-party practitioner account | agent-operations/* + llm-agent/orchestration + our own skills | R1: the operating method behind a fleet shaped like ours (planning loop, task records, review rotation, honesty rules), compared point by point against our method; ranks the later rows | content | batched |
-| DLE-002 | 1 | https://github.com/Dicklesworthstone/mcp_agent_mail_rust | code-repo | first-party practitioner account | llm-agent/orchestration/fleet-orchestration + engineering-process/codebase-stewardship/concurrent-vcs | coordination fabric: inter-agent mail with expiring advisory file leases enforced at commit; peers personas fleet, run-board, tracklight relay | content | queued |
-| DLE-003 | 1 | https://github.com/Dicklesworthstone/beads_rust | code-repo | first-party practitioner account | backend-platform/work-execution + llm-agent/orchestration | task graph with a text log as truth, read with its triage viewer (beads_viewer); peers pof task DAG, personas Run Desk | content | queued |
-| DLE-004 | 2 | https://github.com/Dicklesworthstone/coding_agent_session_search | code-repo | first-party practitioner account | llm-agent/prompt-and-context/retrieval + llm-agent/orchestration/session-continuation | one schema over many harness session formats, index-time redaction, token-budgeted agent output; peers personas transcript reader, process-sessions.mjs | content | queued |
-| DLE-005 | 1 | https://github.com/Dicklesworthstone/cass_memory_system | code-repo | first-party practitioner account | llm-agent/prompt-and-context/agent-memory (memory lane) | procedural memory distilled from session history, with eidetic_engine_cli as its successor; mechanisms become memory-year arms first | content | queued |
+| DLE-001 | 1 | https://github.com/Dicklesworthstone/agentic_coding_flywheel_setup | code-repo | first-party practitioner account | agent-operations/* + llm-agent/orchestration + our own skills | R1: the operating method behind a fleet shaped like ours (planning loop, task records, review rotation, honesty rules), compared point by point against our method; ranks the later rows | content | mined: 3c/0cur/1L/8cat (dle-r1-1014; 1 technique, 4 amendments, 4 apps, 6 untriaged; 2 tooling ships) |
+| DLE-002 | 1 | https://github.com/Dicklesworthstone/mcp_agent_mail_rust | code-repo | first-party practitioner account | llm-agent/orchestration/fleet-orchestration + engineering-process/codebase-stewardship/concurrent-vcs | coordination fabric: inter-agent mail with expiring advisory file leases enforced at commit; peers personas fleet, run-board, tracklight relay | content | mined: 1c/0cur/2L/6cat (dle-002-1015; 1 technique, 7 apps, 4 untriaged, 5 backlog rows; lease-guard A/B not-better; 5 charter premises corrected) |
+| DLE-003 | 2 | https://github.com/Dicklesworthstone/beads_rust | code-repo | first-party practitioner account | backend-platform/work-execution + llm-agent/orchestration | task graph with a text log as truth, read with its triage viewer (beads_viewer); peers pof task DAG, personas Run Desk | content | queued |
+| DLE-004 | 1 | https://github.com/Dicklesworthstone/coding_agent_session_search | code-repo | first-party practitioner account | llm-agent/prompt-and-context/retrieval + llm-agent/orchestration/session-continuation | one schema over many harness session formats, index-time redaction, token-budgeted agent output; peers personas transcript reader, process-sessions.mjs | content | mined: 9c/1cur/4L/10cat (dle-004-1015; 1 subject forged in session with 6 techniques, 1 technique, 14 apps-vs-source, 7 applied rows, 4 untriaged; 3 tooling ships) |
+| DLE-005 | 1 | https://github.com/Dicklesworthstone/cass_memory_system | code-repo | first-party practitioner account | llm-agent/prompt-and-context/agent-memory (memory lane) | procedural memory distilled from session history, with eidetic_engine_cli as its successor; mechanisms become memory-year arms first | content | mined: 4c/0cur/4L/9cat (dle-r5-1015; 1 technique, 3 amendments, 2 apps, 6 untriaged; personas: 1 experiment not-better, peer study 34 points, 3 commits) |
 | DLE-006 | 3 | https://github.com/Dicklesworthstone/ntm | code-repo | first-party practitioner account | llm-agent/runtime-and-io/terminal-multiplexing | swarm launcher over a terminal multiplexer; lowest gap (personas pairs already conformant) | currency | queued |
 | DLE-007 | 2 | https://github.com/Dicklesworthstone/destructive_command_guard | code-repo | first-party practitioner account | llm-agent/orchestration/hitl-approval + security | command guard for agent shells | content | parked: operator excluded the safety ring 2026-10-14 |
 | DLE-008 | 3 | https://github.com/Dicklesworthstone/slb | code-repo | first-party practitioner account | llm-agent/orchestration/hitl-approval | two-person approval bound to the exact command | content | parked: operator excluded the safety ring 2026-10-14 |
 | DLE-009 | 3 | https://github.com/Dicklesworthstone/remote_compilation_helper | code-repo | first-party practitioner account | agent-operations/run-safety | builds routed off-box from clean overlays of HEAD | content | parked: operator excluded the safety ring 2026-10-14 |
+| DLE-010 | 1 | https://github.com/Dicklesworthstone/frankengit | code-repo | first-party practitioner account | llm-agent/orchestration/fleet-orchestration + our own verdict ledgers | method round: his batch-verification policy (no self-close, one verifier, a debt cap) against our self-graded verdicts; builds tier 2 on R1's tier-1 re-verify (local branch ab/verdict-reverify) | content | done: method round (dle-r10-1015; tier 2 A/B not-better: 0 of 26 independent checks falsify a verdict, seeds 3/3; tree moved 3 commits past 142adb9098d5 with the policy files byte-identical, so no --delta; 1 backlog row; branch ab/verdict-reverify deleted) |

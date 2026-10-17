@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 83,
-  "techniques": 547,
-  "applications": 310,
+  "subjects": 84,
+  "techniques": 553,
+  "applications": 320,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "547/547",
+  "use_when_coverage": "553/553",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -488,9 +488,9 @@
    "subcategory": "motion-and-audio",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/adaptive-music-authoring.md",
-   "digest": "sha256-b2:ca8a8a31c7e8c7d8",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:fccf430fd4de0e8d",
+   "revision": 5,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "intensity-mapping-from-declared-game-state",
@@ -600,6 +600,13 @@
      "technique": "stem-and-voice-budget-derivation",
      "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/applications/node--stem-and-voice-budget-derivation.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "transition-quantization-and-perceived-latency",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/adaptive-music-authoring/applications/node--transition-quantization-and-perceived-latency.md",
+     "verified_on": "2026-10-15",
      "verified_against": "node@24"
     },
     {
@@ -1612,9 +1619,9 @@
    "subcategory": "line-craft",
    "status": "forged",
    "file": "knowledge/game-production/narrative-and-dialogue/line-craft/condition-tagged-line-tables/condition-tagged-line-tables.md",
-   "digest": "sha256-b2:81ed4490fb7292f7",
-   "revision": 3,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:c2ce9d61f6567e46",
+   "revision": 4,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "line-table-schema",
@@ -2216,6 +2223,122 @@
      "technique": "root-cause-to-fix-prompt",
      "file": "knowledge/game-production/engine-integration/crash-forensics-attribution/applications/process--root-cause-to-fix-prompt.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "cross-runtime-rules-conformance": {
+   "category": "systems-canon",
+   "subcategory": null,
+   "status": "draft",
+   "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/cross-runtime-rules-conformance.md",
+   "digest": "sha256-b2:9e418d4f3bccc2e1",
+   "revision": 1,
+   "changedAt": "2026-10-17",
+   "techniques": [
+    {
+     "slug": "declared-numeric-tolerance",
+     "status": "draft",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "refuse-rather-than-destroy",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "floating-point results differ between runtimes",
+      "a vector fails by a rounding difference",
+      "deciding which quantities must match exactly"
+     ]
+    },
+    {
+     "slug": "divergence-log-not-silent-correction",
+     "status": "draft",
+     "laws": [
+      "one-authority-per-quantity",
+      "every-effect-on-the-rules-is-visible",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "the runtimes disagree in a live session",
+      "a port quietly adopts the reference's value",
+      "deciding which runtime is authoritative after a mismatch"
+     ]
+    },
+    {
+     "slug": "golden-trace-conformance-vectors",
+     "status": "draft",
+     "laws": [
+      "no-gate-self-certifies",
+      "an-instrument-proves-it-had-input",
+      "structural-proof-is-never-sufficient"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "proving a port computes what the reference computes",
+      "a conformance suite checks only final states",
+      "choosing scenarios for a vector set"
+     ]
+    },
+    {
+     "slug": "pinned-rules-data-across-runtimes",
+     "status": "draft",
+     "laws": [
+      "one-authority-per-quantity",
+      "law-and-check-share-one-source",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "two runtimes load the same rules data",
+      "one runtime is on an older revision of the tables",
+      "a port begins from a copy of the data"
+     ]
+    },
+    {
+     "slug": "planted-mutation-proves-the-suite",
+     "status": "draft",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a conformance suite has never failed",
+      "a suite is about to be cited as evidence of equivalence",
+      "the vectors were generated from the port itself"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "cpp",
+     "technique": "declared-numeric-tolerance",
+     "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/cpp--declared-numeric-tolerance.md",
+     "verified_on": "2026-10-16",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "golden-trace-conformance-vectors",
+     "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/cpp--golden-trace-conformance-vectors.md",
+     "verified_on": "2026-10-16",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "pinned-rules-data-across-runtimes",
+     "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/cpp--pinned-rules-data-across-runtimes.md",
+     "verified_on": "2026-10-16",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "planted-mutation-proves-the-suite",
+     "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/cpp--planted-mutation-proves-the-suite.md",
+     "verified_on": "2026-10-16",
+     "verified_against": "cpp@20"
     }
    ]
   },
@@ -3387,9 +3510,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/engine-pitfall-corpus.md",
-   "digest": "sha256-b2:ea5acd91fd795bd3",
-   "revision": 5,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:6648b55a6f14ca63",
+   "revision": 6,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "binary-content-wall",
@@ -3478,6 +3601,13 @@
      "technique": "incident-entry-shape",
      "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/cpp--incident-entry-shape.md",
      "verified_on": "2026-10-07",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "introspect-before-you-call",
+     "file": "knowledge/game-production/engine-integration/engine-pitfall-corpus/applications/cpp--introspect-before-you-call.md",
+     "verified_on": "2026-10-16",
      "verified_against": "cpp@20"
     },
     {
@@ -4866,9 +4996,9 @@
    "subcategory": "surface-and-imagery",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/surface-and-imagery/imported-material-conformance/imported-material-conformance.md",
-   "digest": "sha256-b2:1a78990f85143545",
-   "revision": 3,
-   "changedAt": "2026-10-10",
+   "digest": "sha256-b2:ea32a2326d2c666f",
+   "revision": 4,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "a-fixer-script-is-the-edge-in-the-wrong-place",
@@ -6058,9 +6188,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/perf-regression-gating/perf-regression-gating.md",
-   "digest": "sha256-b2:219857d97967cd85",
-   "revision": 3,
-   "changedAt": "2026-10-07",
+   "digest": "sha256-b2:173f001a43e00fb7",
+   "revision": 4,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "allocation-gate-on-the-shipped-configuration",
@@ -6106,6 +6236,22 @@
       "a symptom lasts a second inside a long session",
       "a capture is started and stopped by hand or by an automated agent",
       "a warm-up cost is polluting a steady-state number"
+     ]
+    },
+    {
+     "slug": "delivery-bar-at-the-display",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a bar is written in what the player sees on a fixed-refresh display and the run measures the render thread",
+      "the render-thread percentile fails while players report a smooth picture",
+      "deciding which clock a frame bar is read on",
+      "a soak passes a percentile line and misses a maximum line"
      ]
     },
     {
@@ -6198,7 +6344,7 @@
      "stack": "kotlin",
      "technique": "equivalence-before-the-saving",
      "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/kotlin--equivalence-before-the-saving.md",
-     "verified_on": "2026-10-07",
+     "verified_on": "2026-10-16",
      "verified_against": "kotlin@2.0.21"
     },
     {
@@ -6221,6 +6367,12 @@
      "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/node--per-thread-budgets-not-one-frame-time.md",
      "verified_on": "2026-10-01",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "delivery-bar-at-the-display",
+     "file": "knowledge/game-production/engine-integration/perf-regression-gating/applications/process--delivery-bar-at-the-display.md",
+     "verified_on": "2026-10-16"
     },
     {
      "stack": "process",
@@ -8331,9 +8483,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/render-submission-economy/render-submission-economy.md",
-   "digest": "sha256-b2:63820d1b69bd0903",
-   "revision": 3,
-   "changedAt": "2026-10-10",
+   "digest": "sha256-b2:f78c32cc64fd8ff7",
+   "revision": 4,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "batch-by-page-where-order-is-invisible",
@@ -8422,7 +8574,8 @@
      "use_when": [
       "static geometry is rebuilt from thousands of immediate-mode vertices every frame",
       "a text layer is laid out again on every refresh although most strings did not change",
-      "deciding what a retained buffer or layout cache is keyed on"
+      "deciding what a retained buffer or layout cache is keyed on",
+      "a static interface layer is about to be baked into a texture and drawn as one quad"
      ]
     },
     {
@@ -8436,7 +8589,9 @@
      "use_when": [
       "a job that runs every few frames sits exactly on the frame-time high percentile",
       "the render thread builds data that only a diagnostic or remote reader consumes",
-      "a periodic refresh allocates a burst that later triggers a collection"
+      "a periodic refresh allocates a burst that later triggers a collection",
+      "one draw over a whole render target stalls the frame it lands on",
+      "a request frame rebuilds every output it touched"
      ]
     }
    ],
@@ -8467,6 +8622,20 @@
      "technique": "residency-budget-checked-before-decode",
      "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/kotlin--residency-budget-checked-before-decode.md",
      "verified_on": "2026-10-07",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "retain-what-did-not-change",
+     "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/kotlin--retain-what-did-not-change.md",
+     "verified_on": "2026-10-16",
+     "verified_against": "kotlin@2.0.21"
+    },
+    {
+     "stack": "kotlin",
+     "technique": "spread-periodic-render-thread-bursts",
+     "file": "knowledge/game-production/engine-integration/render-submission-economy/applications/kotlin--spread-periodic-render-thread-bursts.md",
+     "verified_on": "2026-10-16",
      "verified_against": "kotlin@2.0.21"
     },
     {
@@ -8706,9 +8875,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/runtime-observation-evidence.md",
-   "digest": "sha256-b2:a73d7f7ec0bfa440",
-   "revision": 3,
-   "changedAt": "2026-10-01",
+   "digest": "sha256-b2:336e809d69d5be3a",
+   "revision": 4,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "behavioural-discriminators-over-symbolic-pass",
@@ -8813,6 +8982,12 @@
      "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/node--unverifiable-is-not-fail.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "bounded-evidence-with-provenance",
+     "file": "knowledge/game-production/engine-integration/runtime-observation-evidence/applications/process--bounded-evidence-with-provenance.md",
+     "verified_on": "2026-10-16"
     },
     {
      "stack": "process",
@@ -11050,6 +11225,8 @@
     "controller-latency-instrumentation/tick-sampled-versus-event-recorded-age",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "cross-runtime-rules-conformance/declared-numeric-tolerance",
+    "cross-runtime-rules-conformance/planted-mutation-proves-the-suite",
     "depth-ordered-layered-art/texture-ends-on-an-edge-or-fades",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
     "design-canon-as-executable-law/shape-check-vs-content-invariant",
@@ -11145,6 +11322,7 @@
     "on-device-verification-harness/keep-the-failed-baseline",
     "on-device-verification-harness/separate-active-race-from-transition-windows",
     "perf-regression-gating/allocation-gate-on-the-shipped-configuration",
+    "perf-regression-gating/delivery-bar-at-the-display",
     "perf-regression-gating/equivalence-before-the-saving",
     "perf-regression-gating/host-independent-work-counts",
     "perf-regression-gating/noise-floor-before-the-threshold",
@@ -11285,6 +11463,8 @@
     "crash-forensics-attribution/crash-signature-over-id-equality",
     "crash-forensics-attribution/engine-crash-vocabulary",
     "crash-forensics-attribution/weighted-evidence-directory-file-symbol",
+    "cross-runtime-rules-conformance/divergence-log-not-silent-correction",
+    "cross-runtime-rules-conformance/pinned-rules-data-across-runtimes",
     "debt-and-loss-stakes-staging/ledger-after-every-event",
     "debt-and-loss-stakes-staging/the-leash-can-be-rewritten",
     "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
@@ -11463,6 +11643,7 @@
     "crash-forensics-attribution/caller-chain-decay",
     "crash-forensics-attribution/confidence-gates-report-unknown",
     "crash-forensics-attribution/weighted-evidence-directory-file-symbol",
+    "cross-runtime-rules-conformance/declared-numeric-tolerance",
     "debt-and-loss-stakes-staging/ledger-after-every-event",
     "depth-ordered-layered-art/measured-draw-order",
     "design-canon-as-executable-law/archetype-aware-envelopes",
@@ -11540,6 +11721,7 @@
     "on-device-verification-harness/meminfo-local-to-avoid-forced-gc",
     "on-device-verification-harness/separate-active-race-from-transition-windows",
     "perf-regression-gating/baseline-bound-to-build-and-machine",
+    "perf-regression-gating/delivery-bar-at-the-display",
     "perf-regression-gating/equivalence-before-the-saving",
     "perf-regression-gating/host-independent-work-counts",
     "perf-regression-gating/noise-floor-before-the-threshold",
@@ -11657,6 +11839,8 @@
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "cross-runtime-rules-conformance/golden-trace-conformance-vectors",
+    "cross-runtime-rules-conformance/planted-mutation-proves-the-suite",
     "depth-ordered-layered-art/the-record-must-cover-the-drawing",
     "design-canon-as-executable-law/flag-your-own-shipped-defaults",
     "design-doc-compliance-scoring/no-neutral-constant-for-unmeasured",
@@ -11731,6 +11915,7 @@
     "content-acceptance-tiering/tier-ladder-design",
     "controller-latency-instrumentation/optical-flash-frame-count-protocol",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
+    "cross-runtime-rules-conformance/golden-trace-conformance-vectors",
     "debt-and-loss-stakes-staging/survive-the-lean-stretch",
     "depth-ordered-layered-art/order-across-every-reachable-pose",
     "depth-ordered-layered-art/texture-ends-on-an-edge-or-fades",
@@ -11853,6 +12038,7 @@
     "condition-tagged-line-tables/line-table-schema",
     "content-acceptance-tiering/never-fail-silently-reason-strings",
     "content-acceptance-tiering/plain-language-tier-glossary",
+    "cross-runtime-rules-conformance/pinned-rules-data-across-runtimes",
     "design-canon-as-executable-law/canon-as-single-source-of-thresholds",
     "design-canon-as-executable-law/parse-thresholds-from-prose",
     "difficulty-design-and-adaptation/tier-changes-decisions-not-specs-test",
@@ -11905,6 +12091,8 @@
     "controller-latency-instrumentation/exact-window-plus-histogram-quantiles",
     "controller-latency-instrumentation/tick-sampled-versus-event-recorded-age",
     "controller-latency-instrumentation/window-percentiles-are-not-poolable",
+    "cross-runtime-rules-conformance/golden-trace-conformance-vectors",
+    "cross-runtime-rules-conformance/planted-mutation-proves-the-suite",
     "depth-ordered-layered-art/order-across-every-reachable-pose",
     "depth-ordered-layered-art/the-record-must-cover-the-drawing",
     "difficulty-design-and-adaptation/skill-swap-cross-tier-test",
@@ -11926,6 +12114,7 @@
     "on-device-verification-harness/poll-ready-signal-not-fixed-delay",
     "perf-regression-gating/allocation-gate-on-the-shipped-configuration",
     "perf-regression-gating/bracketed-capture-window",
+    "perf-regression-gating/delivery-bar-at-the-display",
     "perf-regression-gating/noise-floor-before-the-threshold",
     "perf-regression-gating/percentile-and-hitch-gate",
     "phone-controller-input-protocol/neutralise-on-every-loss-path",
@@ -11958,6 +12147,7 @@
     "content-drift-and-revision/content-hash-vs-status-drift",
     "content-drift-and-revision/produce-direction-stamping",
     "crash-forensics-attribution/crash-signature-over-id-equality",
+    "cross-runtime-rules-conformance/pinned-rules-data-across-runtimes",
     "design-doc-compliance-scoring/evidence-age-envelope",
     "encounter-balance-simulation/per-cell-seed-derivation-for-order-independence",
     "engine-integration-safety/transport-failure-taxonomy",
@@ -12088,6 +12278,8 @@
     "content-drift-and-revision/orphaned-artifact-visibility",
     "content-drift-and-revision/typed-operator-inheritance",
     "crash-forensics-attribution/confidence-gates-report-unknown",
+    "cross-runtime-rules-conformance/declared-numeric-tolerance",
+    "cross-runtime-rules-conformance/divergence-log-not-silent-correction",
     "encounter-balance-simulation/goal-seek-on-a-seeded-monotonic-lever",
     "engine-integration-safety/crash-truncated-batch-resume",
     "engine-integration-safety/pid-scoped-teardown",
@@ -12178,6 +12370,7 @@
   "every-effect-on-the-rules-is-visible": {
    "statement": "Anything that changes what the player can do, what an opponent can do, or what an outcome costs is shown, whether it helps or hurts. A handicap, a boost, a stake that drains, a rubber band, a hidden bias in who is targeted: if it alters the rules it is either disclosed where the player can see it or it is presentation only and demonstrably cannot reach the simulation. There is no third category. An invisible help is the same fault as an invisible penalty, because the player's model of the game is wrong either way and every later decision inherits the error. A presentation layer that merely looks as though it affects play is held to the same standard from the other side: it must never seem to.",
    "techniques": [
+    "cross-runtime-rules-conformance/divergence-log-not-silent-correction",
     "hand-tracked-timing-windows/tracking-loss-as-a-game-state",
     "render-submission-economy/cull-before-submission"
    ]

@@ -1,9 +1,9 @@
 ---
 name: hygiene
-description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot), plus invalid Claude Code project settings via `claude doctor`. Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, or when branches, PRs and alerts have piled up across the fleet."
+description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot), plus invalid Claude Code project settings via `claude doctor`, and the disk debris agent runs leave on the machine (landed scratch clones, build output, stale compiler caches, session and test-fixture temp). Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, when branches, PRs and alerts have piled up across the fleet, or when the disk is filling."
 category: ai-native
 memory: project
-version: 1.1.1
+version: 1.2.0
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -34,6 +34,7 @@ because it did not know where to put its working files.
 /hygiene scan             # plan only, touches nothing
 /hygiene kp,ascent        # full run limited to these project slugs
 /hygiene status           # print today's plan.md and applied.jsonl, touch nothing
+/hygiene disk             # the disk lane alone: scan, apply mechanical, report (no GitHub, no workers)
 /hygiene reflect          # land what the last runs taught into this file and LESSONS.md
 ```
 
@@ -139,6 +140,11 @@ a harness upgrade) is NOT part of this sweep: its findings are a source to verif
 `librarian/sources/2026-10-08-claude-code-doctor.md`, never cleanups to apply.
 `--no-harness` skips Tier 1 on a machine without `claude` on PATH.
 
+Then the disk lane: `node scripts/hygiene-disk.mjs` (minutes: it walks the scratch root and
+temp in full, because a liveness gate on a deletion has to see every file). Spot-check one
+`remove-scratch-checkout` row from git (`git -C <dir> rev-list HEAD --not --remotes`, `git -C <dir>
+status --porcelain`) before trusting the class.
+
 `/hygiene scan` ends here: print the table and the operator list.
 
 ## Debris - what counts and what never does
@@ -157,6 +163,34 @@ entry showing the name was never content. The rule for the operator triage: ask 
 and, once made, either delete it, add it to `.gitignore` if the tool keeps recreating it, or
 fix the process that wrote it there.
 
+## Disk lane - what runs leave on the machine
+
+A checkout's `git status` never shows where the bytes went. On 2026-10-15 one curator night
+had left 337 folders in the scratch root in thirteen hours, about 200 GB: a clone of a fleet
+project per claim, each with its own install, `.next` and cargo `target`, because the run
+removed its registry worktree on landing and never the project clone. Beside it sat a 62 GB
+cargo `incremental/` cache (one entry per feature set ever built), 36 GB of Claude session
+temp and about 100,000 test-fixture temp dirs, one suite alone 19,147. `scripts/hygiene-disk.mjs`
+is the instrument for that surface; it writes `disk.json`/`disk.md` beside `plan.json`.
+
+| area | mechanical | operator |
+|---|---|---|
+| scratch root (`<drive>/t`) | a checkout idle past `--idle-hours` whose HEAD is landed (worktree: on another ref of its repo; clone: every commit on its remotes, or each local commit's patch-id in its fleet home) and whose dirty paths are noise only (`next-env.d.ts`, `*.generated.ts`, untracked husky shims, a whitespace or line-ending diff); a build-output folder (`*target*`, `tgt*`, `cargo-target-*`) once idle | a checkout with WIP or unlanded commits; any `hyg-*` entry (the dead-worker rule); an unknown folder after `--temp-days` |
+| build caches | cargo `incremental/` crate dirs in fleet checkouts untouched past `--idle-hours`; an out-of-tree build-output sibling of a checkout after `--temp-days` | the same sibling before `--temp-days` |
+| temp | a user-temp entry or a Claude session dir untouched `--temp-days` (7), or 48 h and 100 MB | `temp-leak`: a name family with hundreds of members - a suite that never removes its `mkdtemp` dirs; fix it in that repo |
+| models | - | a local model store over 1 GB (operator 2026-10-15: none wanted on this machine) |
+
+Everything inside `--idle-hours` is `hands-off` (`.git/index` is not activity: scanners refresh
+it). Deletion goes through `scripts/lib/safe-remove.mjs`, which removes a symlink or junction as
+a link and never enters it, and clears the read-only bit git puts on objects. `--apply`
+re-measures and re-classifies each row immediately before deleting and requires the same answer
+(the same HEAD for a checkout). A run that makes scratch entries cleans its own with
+`node scripts/hygiene-disk.mjs --reap <dir>...` at the end of each task: the same rules at idle
+floor 0, kept entries printed with the reason. curator's night does this per claim.
+
+`/hygiene disk` is this lane alone: the Phase 0 claim, `hygiene-disk.mjs`, the spot-check,
+`--apply`, and the report's **Disk** section. No GitHub calls, no workers.
+
 ## Phase 2 - Mechanical
 
 ```
@@ -170,6 +204,9 @@ still idle, still clean, not now the base of a PR) and logs DONE or SKIP to
 
 Recovery, if ever needed: `git for-each-ref refs/hygiene-archive/` in the checkout, then
 `git branch <name> <sha>` or `git push origin <sha>:refs/heads/<name>`.
+
+Then `node scripts/hygiene-disk.mjs --apply`; it appends to `disk-applied.jsonl`. Disk deletions
+are not recoverable, which is why a checkout goes only when its commits are provably elsewhere.
 
 ## Phase 3 - Dispatch
 
@@ -275,6 +312,8 @@ Write `<plan dir>/report.md` and print it:
 
 - **Shipped** - PRs merged, commits pushed, alerts fixed, each with the default-branch CI result.
 - **Removed** - branch and worktree counts per project (archive refs noted).
+- **Disk** - GB freed per area and free space after; every `temp-leak` family (repo and suite
+  to fix) and scratch checkout kept for WIP.
 - **Needs you** - every `operator` row plus every worker `operator` item, one line each,
   most urgent first (secret alerts, then red CI the workers could not fix, then WIP).
 - **Left alone** - hands-off counts and why.

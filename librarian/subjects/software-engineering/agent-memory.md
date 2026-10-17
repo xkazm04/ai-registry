@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: agent-memory
-last_touched: 2026-10-14
+last_touched: 2026-10-15
 touched_by: deepen, intake
 dry_streak: 0
 ---
@@ -924,3 +924,24 @@ One amendment, three source-tree applications, memory lane entered on judgement.
   rewritten. Memory lane: arm first.
 - Untriaged: bulk import wants a stricter capture bar than live capture (promoted to a real gap,
   scored +1); side requests of a harness must not write memory.
+
+## 2026-10-15 - intake procedural memory from session history ([[2026-10-15-cass-memory-system]], run `dle-r5-1015`, intake 2.15.0, series DLE-005)
+
+- New technique `exposure-is-not-credit`: a run's verdict copied onto every delivered item is
+  signed per run and unsigned per item. Measured, model-free, on the ladder's recorded
+  service-arm contexts (both read modes): the source's rule tracked delivery 0.82/0.81 and
+  carrying an answer 0.06/0.05; 25 of 36 and 23 of 33 proven items never carried one. Symmetric
+  blame was worse. Use credit raised top-25 precision to 0.92/0.96 and failed its floor (blame
+  through use: 5 two-value records, 9 applied procedures graded wrong, 4 changed values), so the
+  apply row is `not-better` and the technique states the boundary. Instrument personas
+  `d9343ca762`, row `c3cc02dcd0`.
+- Amendments: `memory-value-model` (the shared verdict is not the signed signal), the golden path
+  (the credit edge is the substrate, not the estimator), `decay-and-forgetting` (a value-keyed bar
+  also bars the negation).
+- Leads, memory lane: interval-bound trust transitions with hysteresis; inverting a harmful rule
+  into a retrievable warning; use credit without blame, pre-registered on a second store. The
+  harness cannot rank any feedback-driven arm: outcomes are drawn at generation. Recorded in its
+  backlog as the closed-loop world a feedback arm needs.
+- Catches: nine, including polarity-blind dedup (`consolidation` already orders contradiction
+  before duplicate) and the always-include degeneration `recall-injection` names, which the
+  personas brain still has.

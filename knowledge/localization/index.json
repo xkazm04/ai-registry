@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 72,
+  "applications": 73,
   "laws": 8,
   "categories": [
    "european",
@@ -652,9 +652,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/european/czech/czech.md",
-   "digest": "sha256-b2:c02d0abf167c5100",
-   "revision": 8,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:f204eb17a3f1278e",
+   "revision": 9,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "de-anglicization-constructions",
@@ -762,6 +762,12 @@
      "technique": "plural-and-count-agreement",
      "file": "knowledge/localization/european/czech/applications/process--plural-and-count-agreement.md",
      "verified_on": "2026-08-24"
+    },
+    {
+     "stack": "process",
+     "technique": "typography-and-spacing",
+     "file": "knowledge/localization/european/czech/applications/process--typography-and-spacing.md",
+     "verified_on": "2026-10-15"
     },
     {
      "stack": "spec",

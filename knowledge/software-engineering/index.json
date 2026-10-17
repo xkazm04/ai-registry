@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 235,
-  "techniques": 1870,
-  "applications": 1331,
+  "techniques": 1874,
+  "applications": 1350,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1870/1870",
+  "use_when_coverage": "1874/1874",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1926,9 +1926,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/agent-memory.md",
-   "digest": "sha256-b2:44a563d27a28f342",
-   "revision": 50,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:4f054116d66a9495",
+   "revision": 51,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "addresses-before-compression",
@@ -2111,6 +2111,23 @@
       "two writers claiming the same sequential id",
       "a model swap silently thins what capture writes down",
       "one oversized item crowds a distillation batch"
+     ]
+    },
+    {
+     "slug": "exposure-is-not-credit",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a memory or rule store learns helpful or harmful from task outcomes",
+      "a session verdict is applied to every item the session was shown",
+      "items are promoted to a trusted or proven class by accumulated credit",
+      "an always-on or generic tier collects feedback",
+      "retrieval weights are tuned offline from outcome labels",
+      "a passive harvester joins delivered items to later success or failure"
      ]
     },
     {
@@ -2430,6 +2447,13 @@
      "verified_against": "bun@1.3.13"
     },
     {
+     "stack": "bun",
+     "technique": "exposure-is-not-credit",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/bun--exposure-is-not-credit--practitioner-memory.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "bun@1"
+    },
+    {
      "stack": "claude-code",
      "technique": "cross-context-promotion",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/claude-code--cross-context-promotion.md",
@@ -2539,6 +2563,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--baseline-ladder.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "python",
+     "technique": "exposure-is-not-credit",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/agent-memory/applications/python--exposure-is-not-credit--personas.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "python@3"
     },
     {
      "stack": "python",
@@ -3713,9 +3744,9 @@
    "subcategory": "governance-and-records",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/audit-logging.md",
-   "digest": "sha256-b2:1fadfb8d9819f243",
-   "revision": 9,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:154304c5d9578971",
+   "revision": 10,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "append-only-design",
@@ -3905,6 +3936,13 @@
      "technique": "tamper-evidence",
      "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/node--tamper-evidence.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "best-effort-with-accounting",
+     "file": "knowledge/software-engineering/operations/governance-and-records/audit-logging/applications/rust--best-effort-with-accounting--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
     },
     {
      "stack": "rust",
@@ -6911,9 +6949,9 @@
    "subcategory": "work-execution",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/concurrency-guards.md",
-   "digest": "sha256-b2:a22cbe60c40eb259",
-   "revision": 15,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:ccc991958e998a93",
+   "revision": 16,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "atomic-file-publish",
@@ -7210,6 +7248,13 @@
     {
      "stack": "rust",
      "technique": "cross-process-exclusion",
+     "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
+    },
+    {
+     "stack": "rust",
+     "technique": "cross-process-exclusion",
      "file": "knowledge/software-engineering/backend-platform/work-execution/concurrency-guards/applications/rust--cross-process-exclusion--symbol-lock-store.md",
      "verified_on": "2026-10-14"
     },
@@ -7239,10 +7284,30 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/concurrent-vcs.md",
-   "digest": "sha256-b2:cf6a232689bde3b6",
-   "revision": 7,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:de557423d4cf3016",
+   "revision": 8,
+   "changedAt": "2026-10-17",
    "techniques": [
+    {
+     "slug": "commit-time-claim-guard",
+     "status": "forged",
+     "laws": [
+      "gate-sees-target",
+      "failure-not-empty-success",
+      "absent-guard-is-loud",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "many sessions share one checkout and a commit can carry another session's work",
+      "choosing what a pre-commit hook refuses in a shared tree",
+      "deciding whether claims or each session's own write record should gate a commit",
+      "a shared ledger every session appends to keeps carrying a sibling's rows",
+      "a commit hook reads a claim record that another store owns",
+      "deciding how a commit guard fails when it cannot read its own state",
+      "pricing a commit guard before installing it"
+     ]
+    },
     {
      "slug": "commit-verification",
      "status": "forged",
@@ -7323,13 +7388,20 @@
      "slug": "physical-isolation",
      "status": "forged",
      "laws": [
-      "creation-names-reaper"
+      "creation-names-reaper",
+      "gate-sees-target",
+      "absent-guard-is-loud"
      ],
      "shared_with": [],
      "use_when": [
       "deciding whether a task needs its own worktree",
       "a cleanup deleted the main checkout's dependencies",
-      "registry and disk disagree about worktrees"
+      "registry and disk disagree about worktrees",
+      "deciding whether implementer sessions may share one checkout instead of taking worktrees",
+      "many writers land small changes and every worktree branch is dozens of commits stale by the time it integrates",
+      "two branches merged cleanly and the result broke",
+      "one session's half-created directory broke every session's build",
+      "a verification or audit run must produce evidence while siblings edit the tree"
      ]
     },
     {
@@ -7383,6 +7455,12 @@
     },
     {
      "stack": "process",
+     "technique": "commit-time-claim-guard",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--commit-time-claim-guard--ai-registry.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "process",
      "technique": "commit-verification",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--commit-verification.md",
      "verified_on": "2026-08-22"
@@ -7407,15 +7485,41 @@
     },
     {
      "stack": "process",
+     "technique": "physical-isolation",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--physical-isolation--ai-registry.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "physical-isolation",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--physical-isolation--practitioner-swarm.md",
+     "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
      "technique": "shared-resource-arbitration",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/process--shared-resource-arbitration.md",
      "verified_on": "2026-09-17"
     },
     {
      "stack": "rust",
+     "technique": "commit-time-claim-guard",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--commit-time-claim-guard--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
+    },
+    {
+     "stack": "rust",
      "technique": "integration-door",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--integration-door.md",
      "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "rust",
+     "technique": "sub-file-claim-scope",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/concurrent-vcs/applications/rust--sub-file-claim-scope--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
     },
     {
      "stack": "rust",
@@ -9121,9 +9225,9 @@
    "subcategory": "data-layer",
    "status": "reconciled",
    "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/data-access.md",
-   "digest": "sha256-b2:b67182492821d592",
-   "revision": 18,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:2dba94be6400dea1",
+   "revision": 19,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "batching-and-n-plus-one",
@@ -9371,6 +9475,13 @@
      "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/python--layering-rules.md",
      "verified_on": "2026-10-06",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "rust",
+     "technique": "existence-authority-written-last",
+     "file": "knowledge/software-engineering/backend-platform/data-layer/data-access/applications/rust--existence-authority-written-last--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
     },
     {
      "stack": "rust",
@@ -15633,9 +15744,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/fleet-orchestration.md",
-   "digest": "sha256-b2:3eafb649495c9498",
-   "revision": 26,
-   "changedAt": "2026-10-13",
+   "digest": "sha256-b2:93bd71853ab468b1",
+   "revision": 27,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "absent-status-passthrough",
@@ -15919,6 +16030,28 @@
      ]
     },
     {
+     "slug": "verifier-seat-capacity",
+     "status": "forged",
+     "laws": [
+      "absent-guard-is-loud",
+      "count-carries-predicate",
+      "limits-are-derived",
+      "creation-names-reaper",
+      "failure-not-empty-success",
+      "silent-state-is-ungoverned"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a verification-debt cap is refusing every new claim and only the missing verifier could clear it",
+      "nothing has closed for days while producers keep finishing work",
+      "the appointed verifier also produces work and its own items sit unverified",
+      "a verdict lane almost never says no",
+      "deciding who reads the verifier's output",
+      "choosing what to measure about a verification or review queue",
+      "each producer reports owing nothing while the queue still holds a backlog"
+     ]
+    },
+    {
      "slug": "worker-trajectory-anatomy",
      "status": "forged",
      "laws": [
@@ -15965,6 +16098,12 @@
      "verified_on": "2026-09-17"
     },
     {
+     "stack": "process",
+     "technique": "verifier-seat-capacity",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/process--verifier-seat-capacity--practitioner-swarm.md",
+     "verified_on": "2026-10-14"
+    },
+    {
      "stack": "python",
      "technique": "completion-claim-verification",
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/python--completion-claim-verification.md",
@@ -16005,6 +16144,13 @@
      "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--completion-claim-verification.md",
      "verified_on": "2026-09-02",
      "verified_against": "rust@1.97"
+    },
+    {
+     "stack": "rust",
+     "technique": "evidence-outranks-a-liveness-claim",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/fleet-orchestration/applications/rust--evidence-outranks-a-liveness-claim--agent-mail.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@1.100"
     },
     {
      "stack": "rust",
@@ -20006,9 +20152,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/mcp-tools.md",
-   "digest": "sha256-b2:bf4c5f0af065bc12",
-   "revision": 32,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:ed8e615f51454325",
+   "revision": 33,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "ambient-selection-is-not-an-argument",
@@ -20042,6 +20188,23 @@
       "deciding whether listing tools needs a token",
       "a caller's inbound token reaching downstream",
       "keying an audit actor quota or lease holder on a caller's token"
+     ]
+    },
+    {
+     "slug": "budgeted-partial-response",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "count-carries-predicate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an agent waits on a tool call that can run past a turn's patience",
+      "a tool returns whatever finished when its time ran out",
+      "deciding what exit status a timed-out query should carry",
+      "a partial tool result is being read as a complete one",
+      "an agent retries a slow call with the same arguments and the same deadline"
      ]
     },
     {
@@ -20469,6 +20632,19 @@
     },
     {
      "stack": "rust",
+     "technique": "budgeted-partial-response",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--budgeted-partial-response--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "budgeted-partial-response",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--budgeted-partial-response--personas.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "rust",
      "technique": "caller-differentiated-capability",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--caller-differentiated-capability--vox.md",
      "verified_on": "2026-10-14",
@@ -20487,6 +20663,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--command-audit-by-position.md",
      "verified_on": "2026-09-17",
      "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "rust",
+     "technique": "fluent-syntax-bounded-grammar",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/mcp-tools/applications/rust--fluent-syntax-bounded-grammar--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
     },
     {
      "stack": "rust",
@@ -30063,9 +30246,9 @@
    "subcategory": "prompt-and-context",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/retrieval.md",
-   "digest": "sha256-b2:bec28e0d80e3d457",
-   "revision": 18,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:a49d27f889212d3f",
+   "revision": 19,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "chunking-and-indexing",
@@ -30350,6 +30533,13 @@
     {
      "stack": "rust",
      "technique": "ranking-budgets",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--ranking-budgets--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "ranking-budgets",
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--ranking-budgets--icm.md",
      "verified_on": "2026-10-14",
      "verified_against": "rust@1.85"
@@ -30374,6 +30564,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--relevance-floors.md",
      "verified_on": "2026-09-15",
      "verified_against": "rust@1.80"
+    },
+    {
+     "stack": "rust",
+     "technique": "retrieval-evaluation",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/retrieval/applications/rust--retrieval-evaluation--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
     },
     {
      "stack": "rust",
@@ -31415,9 +31612,9 @@
    "subcategory": "data-display",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/data-display/search/search.md",
-   "digest": "sha256-b2:b76b1bab72ccfec5",
-   "revision": 5,
-   "changedAt": "2026-09-24",
+   "digest": "sha256-b2:395e660a5e607abe",
+   "revision": 6,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "command-surface",
@@ -31551,6 +31748,13 @@
      "technique": "command-surface",
      "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/react--command-surface.md",
      "verified_on": "2026-08-18"
+    },
+    {
+     "stack": "rust",
+     "technique": "full-text-indexing",
+     "file": "knowledge/software-engineering/ui-surfaces/data-display/search/applications/rust--full-text-indexing--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
     },
     {
      "stack": "rust",
@@ -36391,9 +36595,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/test-input-generation.md",
-   "digest": "sha256-b2:bed0cf46aa1b4567",
-   "revision": 9,
-   "changedAt": "2026-09-25",
+   "digest": "sha256-b2:d5ab12a92aba67c4",
+   "revision": 10,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "exhaustive-when-bounded",
@@ -36588,6 +36792,13 @@
      "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--inside-out-invariants.md",
      "verified_on": "2026-09-04",
      "verified_against": "rust@1.93.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "model-based-oracle",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/test-input-generation/applications/rust--model-based-oracle--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
     },
     {
      "stack": "rust",
@@ -40038,9 +40249,11 @@
     "concurrency-guards/preparation-is-the-staleness-window",
     "concurrency-guards/renewal-deadline-two-thirds-ttl",
     "concurrency-guards/shared-claims-by-announce-and-verify",
+    "concurrent-vcs/commit-time-claim-guard",
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/integration-door",
     "concurrent-vcs/isolated-index-commits",
+    "concurrent-vcs/physical-isolation",
     "concurrent-vcs/sub-file-claim-scope",
     "conformance-checking/checker-false-positive-discipline",
     "conformance-checking/claim-write-back",
@@ -40626,6 +40839,7 @@
     "concurrency-guards/renewal-deadline-two-thirds-ttl",
     "concurrency-guards/shared-claims-by-announce-and-verify",
     "concurrency-guards/single-flight-primitives",
+    "concurrent-vcs/commit-time-claim-guard",
     "concurrent-vcs/commit-verification",
     "concurrent-vcs/integration-door",
     "concurrent-vcs/intent-ledgers",
@@ -40765,6 +40979,7 @@
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/soft-budget-under-the-hard-cap",
     "fleet-orchestration/substrate-reconciliation",
+    "fleet-orchestration/verifier-seat-capacity",
     "form/server-error-mapping",
     "generated-workflow-candidates/stage-level-result-caching",
     "guest-execution-bounding/grace-for-the-uninterruptible-host-call",
@@ -40825,6 +41040,7 @@
     "maturity-ladders/migrate-on-read",
     "maturity-ladders/present-vs-enforced",
     "maturity-ladders/rung-criteria",
+    "mcp-tools/budgeted-partial-response",
     "mcp-tools/fluent-syntax-bounded-grammar",
     "mcp-tools/server-composition",
     "mcp-tools/tool-schema-design",
@@ -41299,6 +41515,7 @@
     "agent-memory/coverage-instrumentation",
     "agent-memory/cross-context-promotion",
     "agent-memory/diagnosis-withheld-from-the-executor",
+    "agent-memory/exposure-is-not-credit",
     "agent-memory/lane-reconciliation",
     "agent-memory/loss-site-inventory",
     "agent-memory/probe-without-write-back",
@@ -41457,6 +41674,7 @@
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/result-harvest",
     "fleet-orchestration/soft-budget-under-the-hard-cap",
+    "fleet-orchestration/verifier-seat-capacity",
     "fleet-orchestration/worker-trajectory-anatomy",
     "form/error-aggregation-and-focus",
     "generated-workflow-candidates/score-keyed-candidate-selection",
@@ -41506,6 +41724,7 @@
     "markdown-vault/link-graph-extraction",
     "maturity-ladders/band-design",
     "maturity-ladders/rung-criteria",
+    "mcp-tools/budgeted-partial-response",
     "mcp-tools/orchestration-to-tool-migration",
     "measurement-honesty/co-published-numbers-must-reconcile",
     "measurement-honesty/control-failure-is-not-a-datum-state",
@@ -41809,6 +42028,7 @@
     "companion-runtime/metered-llm-seam",
     "companion-runtime/operative-working-set",
     "concurrency-guards/cache-value-not-handle",
+    "concurrent-vcs/commit-time-claim-guard",
     "conditional-service-composition/intent-and-environment-in-one-namespace",
     "conditional-service-composition/requirement-closure-before-selection",
     "conformance-checking/edition-stratified-conformance",
@@ -41895,6 +42115,7 @@
     "machine-authored-documentation/three-gate-acceptance",
     "markdown-vault/replicated-substrate",
     "mcp-tools/ambient-selection-is-not-an-argument",
+    "mcp-tools/budgeted-partial-response",
     "mcp-tools/command-audit-by-position",
     "mcp-tools/egress-argument-gating",
     "mcp-tools/first-party-agent-is-a-principal",
@@ -42711,6 +42932,7 @@
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/session-registry",
     "fleet-orchestration/substrate-reconciliation",
+    "fleet-orchestration/verifier-seat-capacity",
     "fleet-orchestration/worker-trajectory-anatomy",
     "guest-execution-bounding/one-terminator-many-armed-slots",
     "guided-tours/tour-lifecycle",
@@ -43332,6 +43554,7 @@
     "agent-instruction-files/machine-owned-regions",
     "agent-memory/baseline-ladder",
     "agent-memory/consolidation",
+    "agent-memory/exposure-is-not-credit",
     "agent-memory/lane-reconciliation",
     "agent-memory/memory-value-model",
     "agent-memory/observation-clock",
@@ -43613,6 +43836,7 @@
     "engine-string-representation/compile-time-static-string-table",
     "fleet-orchestration/parallel-dispatch",
     "fleet-orchestration/soft-budget-under-the-hard-cap",
+    "fleet-orchestration/verifier-seat-capacity",
     "guest-execution-bounding/bounded-shadow-backtrace",
     "guest-execution-bounding/budget-tier-from-observed-output",
     "guest-execution-bounding/cost-budget-cooperative-yield",
@@ -43815,6 +44039,8 @@
     "companion-identity/operator-profile-synthesis",
     "companion-runtime/autonomous-cycle-hosting",
     "concurrency-guards/fence-inside-write-transaction",
+    "concurrent-vcs/commit-time-claim-guard",
+    "concurrent-vcs/physical-isolation",
     "conformance-checking/declared-deviation-register",
     "contested-acquisition/no-surface-no-rung",
     "convergence-loop-and-requeue/own-writes-are-not-triggers",
@@ -43865,6 +44091,7 @@
     "fleet-orchestration/brief-carries-the-session",
     "fleet-orchestration/deliberation-as-an-elected-turn",
     "fleet-orchestration/parallel-dispatch",
+    "fleet-orchestration/verifier-seat-capacity",
     "guest-execution-bounding/nested-liveness-ceilings",
     "guest-execution-bounding/terminate-from-outside-when-you-cannot-count",
     "guest-execution-bounding/uncatchable-limit-errors",
@@ -44014,6 +44241,7 @@
     "fleet-orchestration/deliberation-as-an-elected-turn",
     "fleet-orchestration/inherited-state-provenance",
     "fleet-orchestration/parallel-dispatch",
+    "fleet-orchestration/verifier-seat-capacity",
     "fleet-orchestration/worker-trajectory-anatomy",
     "hitl-approval/fixed-policy-amendable-plan",
     "index-free-random-access/sorted-data-as-a-read-only-index",

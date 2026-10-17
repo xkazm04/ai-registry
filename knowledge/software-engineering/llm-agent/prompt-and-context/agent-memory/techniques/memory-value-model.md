@@ -177,6 +177,14 @@ consumer's uncertainty, so this term joins the conjunction and never replaces
 trust. And where the consumer's distribution is not observable, nothing here
 applies and the bounded count remains the honest instrument.
 
+One look-alike is not a signed signal, and it is the one most stores actually have: a
+verdict on the whole run, copied onto every item the run delivered. It is signed per
+run and unsigned per item, so at a high base rate of success it is the delivery count
+again, and replacing the bounded count with it removes the bound from the very
+quantity the bound exists to contain. The signal this section means names the item -
+a with-and-without probe, a deliberate use, a propensity-weighted choice - and the
+shared verdict does not ([exposure-is-not-credit](./exposure-is-not-credit.md)).
+
 ## When not to use it
 
 A value model is not a relevance model. It answers "what is this worth?", not

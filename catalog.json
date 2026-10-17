@@ -331,19 +331,19 @@
     },
     {
       "name": "friend",
-      "version": "1.6.1",
+      "version": "1.8.0",
       "category": "workflow",
       "path": "skills/friend/SKILL.md",
-      "contentHash": "sha256-n1:8bc340a8b187af20",
+      "contentHash": "sha256-n1:3e91895cce783b6c",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"
       ],
       "invokes30d": 2,
       "reportedInvokes": 2,
-      "lessons": 6,
+      "lessons": 8,
       "lessonsPath": "skills/friend/LESSONS.md",
-      "lessonsHash": "sha256-n1:4543b5f52178c0a6",
+      "lessonsHash": "sha256-n1:8d895fce5912982d",
       "usageContributors": [
         "wolf"
       ],
@@ -439,16 +439,16 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.4.4",
+      "version": "1.7.0",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:79b88ede1e063974",
+      "contentHash": "sha256-n1:e54a2405708dc645",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 11,
+      "lessons": 18,
       "lessonsPath": "skills/lens-scan/LESSONS.md",
-      "lessonsHash": "sha256-n1:95602a2d61b81fc9",
+      "lessonsHash": "sha256-n1:7c9288472de57747",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -734,9 +734,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 62,
+      "lessons": 64,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:b3c77b590affdd88",
+      "lessonsHash": "sha256-n1:ffa973cf4baf3ffe",
       "usageContributors": [
         "wolf"
       ],
@@ -841,10 +841,10 @@
     },
     {
       "name": "tiger",
-      "version": "3.0.1",
+      "version": "3.3.0",
       "category": "workflow",
       "path": "skills/tiger/SKILL.md",
-      "contentHash": "sha256-n1:34b1e4eb99e673be",
+      "contentHash": "sha256-n1:2b2228aebd904d0e",
       "adopters": [
         "ascent@plugin:2.1.0",
         "kp@plugin:2.1.0",
@@ -853,9 +853,9 @@
       ],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 9,
+      "lessons": 12,
       "lessonsPath": "skills/tiger/LESSONS.md",
-      "lessonsHash": "sha256-n1:7da6a084251cb5b6",
+      "lessonsHash": "sha256-n1:87859e34ccf673c9",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1074,7 +1074,7 @@
     "skills": 41,
     "practices": 8,
     "memory": 9,
-    "lessons": 338
+    "lessons": 352
   },
   "bundles": [
     {
@@ -1086,9 +1086,9 @@
       "purity": "agent-ops",
       "subjects": 9,
       "techniques": 40,
-      "applications": 34,
-      "files": 87,
-      "contentHash": "sha256-b2:a4e8fc4d34d2e98a"
+      "applications": 35,
+      "files": 88,
+      "contentHash": "sha256-b2:3a6640af604a21df"
     },
     {
       "name": "civic-intelligence",
@@ -1110,11 +1110,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "game",
-      "subjects": 83,
-      "techniques": 547,
-      "applications": 310,
-      "files": 944,
-      "contentHash": "sha256-b2:c0f2fd6eb2ae2a67"
+      "subjects": 84,
+      "techniques": 553,
+      "applications": 320,
+      "files": 961,
+      "contentHash": "sha256-b2:887f229f12c2a175"
     },
     {
       "name": "grant-funding",
@@ -1136,11 +1136,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 18,
-      "techniques": 128,
-      "applications": 87,
-      "files": 238,
-      "contentHash": "sha256-b2:a5dd5d4aacb11dd9"
+      "subjects": 19,
+      "techniques": 134,
+      "applications": 100,
+      "files": 258,
+      "contentHash": "sha256-b2:5e8f38f4c4b61c92"
     },
     {
       "name": "localization",
@@ -1151,9 +1151,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 72,
-      "files": 212,
-      "contentHash": "sha256-b2:7bfc636d75207636"
+      "applications": 73,
+      "files": 213,
+      "contentHash": "sha256-b2:9f039847cbea91ef"
     },
     {
       "name": "marketing",
@@ -1177,9 +1177,9 @@
       "purity": "media",
       "subjects": 27,
       "techniques": 196,
-      "applications": 121,
-      "files": 349,
-      "contentHash": "sha256-b2:0409517453fafed3"
+      "applications": 122,
+      "files": 350,
+      "contentHash": "sha256-b2:1b9cc2fd18fc7708"
     },
     {
       "name": "recruiting",
@@ -1202,10 +1202,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 235,
-      "techniques": 1870,
-      "applications": 1331,
-      "files": 3441,
-      "contentHash": "sha256-b2:98e8986a48838202"
+      "techniques": 1874,
+      "applications": 1350,
+      "files": 3464,
+      "contentHash": "sha256-b2:71819ce54f713896"
     },
     {
       "name": "technical-writing",

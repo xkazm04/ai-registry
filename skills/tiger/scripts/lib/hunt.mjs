@@ -73,9 +73,19 @@ export function huntAreas(files, touches, { minFiles = 6, maxShare = 0.25, depth
  * contexts' file_paths, plus how many declared use cases (user flows) its contexts serve.
  * Reach is a value signal git cannot give: a group every major flow runs through outranks a
  * busy group no flow names.
+ *
+ * Two shapes are read: a flat `contexts[]` whose entries carry `group`, and a nested
+ * `groups[].contexts[]` whose group is the parent's `name` (measured 2026-10-15 on firetv: the
+ * nested map printed an empty groups table, and the hunt fell back to directory areas).
  */
+export function contextsOf(contextMap) {
+  const flat = (contextMap?.contexts ?? []).map((c) => ({ ...c }));
+  const nested = (contextMap?.groups ?? []).flatMap((g) => (g?.contexts ?? []).map((c) => ({ ...c, group: c.group ?? g.name ?? g.title })));
+  return [...flat, ...nested];
+}
+
 export function huntGroups(contextMap, touches, bytesOf = () => 0, { top = 12 } = {}) {
-  const contexts = contextMap?.contexts ?? [];
+  const contexts = contextsOf(contextMap);
   const useCases = contextMap?.use_cases ?? [];
   const groups = new Map();
   for (const c of contexts) {
@@ -257,8 +267,26 @@ export function poolMarkdown(pool, { title = 'Tiger pool' } = {}) {
 }
 
 /** Per-seat numbers for the ledger. verdict: { kept: [ids], approved: [ids], landed: [ids] } (ids may be merged clusters' members). */
+// Per-id counts flatter breadth: a seat whose idea was folded into a big cluster reads as fully
+// landed. When verdict.json names its scope items (`items: { C1: [lead, ...members] }` with
+// `approved_items` / `landed_items`), an item is credited once, to the seat whose proposal led it.
+function ledItems(pool, verdict, key) {
+  const items = verdict.items;
+  if (!items || !Array.isArray(verdict[key])) return null;
+  const seatOf = Object.fromEntries(pool.proposals.map((p) => [p.id, p.seat]));
+  const led = {};
+  for (const name of verdict[key]) {
+    const lead = (items[name] ?? [])[0];
+    const seat = lead && seatOf[lead];
+    if (seat) led[seat] = (led[seat] ?? 0) + 1;
+  }
+  return led;
+}
+
 export function seatStats(pool, verdict = {}, records = {}) {
   const sets = Object.fromEntries(['kept', 'approved', 'landed'].map((k) => [k, new Set(verdict[k] ?? [])]));
+  const ledApproved = ledItems(pool, verdict, 'approved_items');
+  const ledLanded = ledItems(pool, verdict, 'landed_items');
   const peers = peerScores(pool);
   return Object.entries(pool.seats).map(([seat, s]) => {
     const mine = pool.proposals.filter((p) => p.seat === seat);
@@ -273,6 +301,8 @@ export function seatStats(pool, verdict = {}, records = {}) {
       kept: mine.filter((p) => sets.kept.has(p.id)).length,
       approved: mine.filter((p) => sets.approved.has(p.id)).length,
       landed: mine.filter((p) => sets.landed.has(p.id)).length,
+      led_approved: ledApproved ? ledApproved[seat] ?? 0 : null,
+      led_landed: ledLanded ? ledLanded[seat] ?? 0 : null,
     };
   });
 }

@@ -92,3 +92,12 @@ bookkeeping without a constraint behind it; a total and a growth check suffice. 
 whose image loader exposes no header read, the check still belongs before upload — measure the
 decoded image immediately and release it — but say that the protection is weaker, because the peak
 was already paid.
+
+## On fixed-refresh standalone headsets
+
+The technique holds unchanged. A standalone headset's textures sit in the same main memory as every
+other allocation the process holds, as on a stick, and its published guidance asks for a total
+texture budget. The per-class table, the check before decode and the fallback for a refusal
+transfer; the eye buffers are rows in that table too, because their resolution and sample count
+are resident allocations the team chose. No headset was run; the sources are cited in the stack
+application.

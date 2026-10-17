@@ -59,7 +59,7 @@ import { fileURLToPath } from 'node:url';
 
 export const DEFAULT_OUT = '.ai/lens-scan/app-structure.json';
 /** The lenses lens-scan measures with its own methods (metrics.md). Any other lens needs a manifest scan block. */
-export const BUILTIN_METHODS = ['development', 'security', 'design'];
+export const BUILTIN_METHODS = ['development', 'security', 'design', 'performance'];
 /** Field types a judgement reading may fill: the store holds numbers only. */
 export const NUMERIC_TYPES = ['integer', 'number', 'percent', 'money'];
 /** The skills a `skill` scan step may run (1.3.0): conform judges registry-map pairs. */

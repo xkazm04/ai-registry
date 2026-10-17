@@ -22,6 +22,7 @@ techniques:
   - deliberation-as-an-elected-turn
   - soft-budget-under-the-hard-cap
   - evidence-outranks-a-liveness-claim
+  - verifier-seat-capacity
 ---
 
 # Agent fleet orchestration
@@ -372,3 +373,8 @@ into a sweep. The bound itself is a dispatch-door concern and lives with
   work stamped a second ago, the report loses: derived predicates answer whether a
   session may be touched, liveness becomes a separate three-valued observation, and
   an expired staleness budget lands on unknown rather than on death.
+- [verifier-seat-capacity](./techniques/verifier-seat-capacity.md) - the closer
+  separated from the producer is a seat with a queue: debt counted at the seat with
+  its oldest age, a cap paired with an occupancy check that escalates instead of
+  stalling, a second reader for the verifier's own work, and self-grading read from a
+  verdict distribution that almost never says no.

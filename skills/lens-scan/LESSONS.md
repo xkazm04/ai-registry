@@ -50,3 +50,34 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 ## 1.4.4 - 2026-10-14 - bp (the athena-portable headless execute)
 
 - Field lesson: the athena execute (12 registry items, 5 builder worktrees, parallel conform judges) ended its `claude -p` turn with "waiting on the remaining judges". In print mode that ends the process: the judges died, drive closed the run `aborted`, and 11 items were cut off (4 merged, 7 never built). Headless now says never end the turn while agents run. The same run showed every one of its single-technique items failing to flip its pair (the 1.4.3 grain lesson again, at proposal time). So execute now re-checks each item against Propose as it reads today, and records an item that cannot meet it `failed` with `re-propose: <why>` instead of building it.
+
+## 1.5.0 - 2026-10-15 - bp
+
+- Change, from the 2026-10-14 field runs: execute merged each item into main as it went, and the doctrine's answer to a miss was a revert on main. The runs left 6 failed-but-merged items on PayPal main (gate-green fixes that did not move their pair-grain metric, kept by the operator's call) and 8 reverts on Athena main. 1.5.0 builds a pack instead: one branch `pack/<short>-<n>` cut from the release base, one squashed commit per item with `Lens-Item:`/`Lens-Pack:` trailers, before/after readings linked to the item and its commit. The pack never merges into main, so main stays clean and nothing is ever reverted there; a person triages each item (accept, rework with a note, descope) and `/lens-scan release` cherry-picks the accepted ones into one PR. Unproven in the field: no real pack or release has run yet.
+
+## 1.5.2 - 2026-10-15 - the skill's own tests leaked temp dirs
+
+- Every test file under `tests/` made its store or repo fixture with `mkdtempSync` and never
+  removed it: one run of the seven files left 44 `lens-scan-*` dirs in the OS temp dir, and the
+  machine-wide disk sweep that day counted about 1,000 of them. Each file now routes `mkdtempSync`
+  through a tracker and removes the dirs in one file-level `after()`. One test also left two
+  SQLite stores open, which on Windows makes the removal fail with EPERM; it closes them now.
+  No assertion changed; with the three registry script tests fixed the same way, the ten files
+  pass 90/90 before and after and leave nothing behind (81 dirs before).
+
+## 1.5.3 - 2026-10-15 - bp (athena design pack k-des-2)
+- Another session's `pnpm dev` held Athena's harness port (1431) and served the main checkout. `vite --strictPort` died quietly, the ready poll was answered by that server, and k-des-1's backfilled before/after shots all showed main: identical pairs that read as "the item changed nothing visible". 1.5.4: harness.py refuses when the url answers before its command starts, and `--port` serves a worktree elsewhere.
+- harness.py's `steps` form always loaded `/` first; Athena's preview answers 404 there, so a topic page plus a click needed a one-off script. A `steps` feature that opens with `goto /path` now starts there.
+
+## 1.5.2 - 2026-10-15 - bp (athena design pack k-des-1)
+- The first design pack built 6 items that each moved `undesignedStates` and took no screenshots: the shot rule said "a metric the harness measures", and a judged metric is not one. The person triaging design looks at screens, so 1.5.3 shoots every design item's feature whenever the harness can render it.
+- The first performance measure read frameP95Ms 16.8 ms on every scene: a headless browser's frame interval is the display's, so a smooth page sits at the floor and no fix can show. 1.5.2 added blockingMs, jankFrames and idleWakeups (per-pass totals with headroom).
+
+## 1.5.4 - 2026-10-15 - bp
+- Change (not a field lesson; unproven in the field): the blueprint's findings ledger ports a release manager whose triage has an undo (U), and nothing in the store could move an item back from `accepted`, `rework` or `descoped`. store.mjs is the one owner of transitions, so the undo lives here, not in bp: 1.6.0 adds store v3 (`proposals.triaged_from`, an additive migration on open; a v1 file goes straight to v3), every triage records the status it left, and `triage --decision reopen` puts it back, one step deep. Refused `in-release` once the release left draft (the same rule as leaving a release), `rebuilt` for a rework whose rebuild exists, `pack-closed`, and `no-prior-status` for a call made before v3. An item back at done|failed reopens its triaged pack.
+
+## 1.6.0 - 2026-10-15 - bp (release-ledger, the Kettle sample train)
+- A pack closed on tag only when every item was released, descoped or declined, so a pack holding a `rework` item never closed: the item stays `rework` for good, and its rebuild ships from a later pack. bp's sample sim (WP3) hit it. 1.6.1 counts a rework item as settled once its rebuild (attempt_of = it) is, down the chain, and the tag looks at the packs of the reworked items too, so the old pack closes with the release that ships its rebuild.
+
+## 1.6.1 - 2026-10-16 - personas (spark one-control)
+- Change (not a field lesson; unproven in the field): Personas starts lens-scan runs through drive.mjs from its Decision Center, and two of the actions the operator asked it to start had no door: a measure of chosen features (`cover` only covered every gap of the lens) and propagating a landed standard (no verb; phase 6 ran only in a person's skill session). 1.7.0 adds `cover --features a,b` (exactly those features, an explicit re-measure; unknown slugs are bad input) and `drive.mjs propagate` (one session per `done` baseline-upgrade, `--ids` or `--standard` to name one, a named one not yet landed refused), and documents `/lens-scan propagate --proposals <upgrade>` as the scoped form.

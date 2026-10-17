@@ -1,10 +1,10 @@
 ---
 name: lens-scan
-description: "Measure a product feature by feature through one lens - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review UI. Use when a team needs the current state of a product measured with care (company setting, history, human approval) rather than a solo backlog mass-resolved: before a hardening milestone, to baseline a lens, to turn a better pattern into a house standard and propagate it to every similar site. Sibling of scan-sweep, which lands what it can prove on its own; lens-scan never decides, it measures, proposes and executes what was approved. Modes: measure, propose, execute, propagate, status, onboard (draft a new lens with a free icon and add it to the map)."
-argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
+description: "Measure a product feature by feature through one lens - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execute only the items a person approved in the review UI - into a pack branch a person triages item by item, never into main - then cut a release of the accepted items as one pull request. Use when a team needs the current state of a product measured with care (company setting, history, human approval) rather than a solo backlog mass-resolved: before a hardening milestone, to baseline a lens, to turn a better pattern into a house standard and propagate it to every similar site. Sibling of scan-sweep, which lands what it can prove on its own; lens-scan never decides, it measures, proposes and executes what was approved. Modes: measure, propose, execute, release, propagate, status, onboard (draft a new lens with a free icon and add it to the map)."
+argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.4.4
+version: 1.7.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -43,9 +43,13 @@ the only gate into execution.
 /lens-scan measure --lens design --scope <capability>
 /lens-scan measure --lens tmp.drop-moment --scope invoice-ocr,receipts   # a project lens with a scan block
 /lens-scan propose --lens development        # backlog items from the latest measurements
-/lens-scan execute                           # only approved items, one worktree each
-/lens-scan execute --proposals p-1a2b3c,p-4d5e6f   # only these items (each must be approved)
+/lens-scan execute                           # approved items into one pack branch per lens, never into main
+/lens-scan execute --proposals p-1a2b3c,p-4d5e6f   # only these items (approved, or rework: rebuilt as a new attempt)
+/lens-scan execute --proposals p-1a2b3c --base release/1.4.1   # cut the pack from a given release base
+/lens-scan release --id rel-1.4.1             # cherry-pick the accepted items onto release/1.4.1, gate, open the PR
+/lens-scan release --id rel-1.4.1 --finish    # after the PR merged: tag v1.4.1, GitHub release, close the packs
 /lens-scan propagate                         # child proposals for a landed baseline upgrade
+/lens-scan propagate --lens design --proposals p-1a2b3c   # the sites of this one landed upgrade
 /lens-scan status                            # what waits for a decision, what is running; changes nothing
 /lens-scan onboard "<what the lens measures>" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]
 ```
@@ -61,7 +65,7 @@ overlay's `default_scope` (headless: every feature).
 ## The store
 
 One SQLite file per product: `.ai/lens-scan/scan.db` (gitignored; the DDL is
-[store.sql](references/store.sql), `user_version 1`). **The agent never writes SQL.**
+[store.sql](references/store.sql), `user_version 3`; a v1 or v2 file is migrated in place on open). **The agent never writes SQL.**
 `node ${CLAUDE_SKILL_DIR}/scripts/store.mjs` is the only writer; every subcommand
 prints JSON (`--help` lists them). The rules it enforces are the method's rules:
 
@@ -76,6 +80,16 @@ prints JSON (`--help` lists them). The rules it enforces are the method's rules:
   `proposal-update` refuses them. The skill moves an approved item to `executing`,
   `done` or `failed`, and nothing else; every move is a compare-and-set on the status
   it read, so two executors (the blueprint and a headless caller) never build one item.
+- **The release train (v2).** A built item waits in its pack for a person's **triage**:
+  `accepted`, `rework` (rebuild it, with the person's note as the brief) or `descoped`,
+  written by the review UI or `store.mjs triage --by <kind:name>`. A person's call is
+  undone by `triage --decision reopen` (v3): the item goes back to the status it left
+  (`triaged_from`), out of a draft release; refused once its release left draft
+  (`in-release`), for a rework whose rebuild exists (`rebuilt`), and when nothing was
+  recorded (`no-prior-status`). `released` is written
+  only by a release reaching `tagged`. The skill writes none of them, with one exception
+  named in [7. Release](#7-release): a cherry-pick conflict sends an item to `rework`
+  as `--by skill:lens-scan`.
 
 `activity` rows are the scan's live feed. Write one at every step a person watching
 would want to see: `reading` when you open a feature, `measured`, `proposed`,
@@ -168,7 +182,9 @@ measured by its manifest's scan block, on the manifest's own fields
 - **Harness** - screenshots, `minTextPx`, `consoleErrors` through the overlay's
   [`## Harness`](#harness): a `shot` row per screenshot; a feature that cannot be rendered
   gets `activity --kind note --text "unscreenable: <why>"` and no shot, never a stand-in.
-- **Probe** - timed paths (`p50Ms`, `p95Ms`) through the overlay's `## Probes` commands.
+- **Probe** - the performance lens's `startupMs`, `interactionP95Ms`, `frameP95Ms`, `blockingMs`, `jankFrames`, `idleWakeups` and
+  `memoryMb` through the overlay's `## Probes` entries ([metrics.md](references/metrics.md#probes));
+  its `bundleKb` is static, from `bundle_stats`.
 - **Judgement** - read the feature's files once, then judge them through the lens's
   mapped scan-sweep lenses ([lenses-map.md](references/lenses-map.md)) and the
   governing techniques and house rules. Write the counts (`findingsHigh`,
@@ -292,56 +308,136 @@ node ${CLAUDE_SKILL_DIR}/scripts/store.mjs proposals --status approved
 ```
 
 and prints, per item, the title, `metric: before -> expected`, the standard and the
-age. A decline note is input to the next propose phase; read it.
+age. A decline note is input to the next propose phase; read it. After Execute, `status`
+also lists what waits for triage (`packs --status open`, `proposals --status done`,
+`proposals --status failed`), what is reworked (`proposals --status rework`) and the
+releases (`releases`).
 
 ## 5. Execute
 
-`run-start --phase execute`, then for each `approved` item, highest expected value per
-size first, under the [Lane B worktree doctrine](../scan-sweep/references/ab-lane.md)
-(one worktree per item or write-set group, never `npm ci` through a junction, the
-director merges). **Unlink the `node_modules` junction before removing a worktree**:
-`cmd /c rmdir <worktree>\node_modules`, then `git worktree remove`. On Windows
-`git worktree remove --force` deletes through the junction and empties the base
-checkout's `node_modules`.
+An execute builds a **pack**: one branch `pack/<short>-<n>` in one worktree, cut from the
+**release base**, holding **one squashed commit per item**, stacked in run order. **A pack
+never merges into main.** The run ends with every item `done` (built, measured, waiting
+for a person's triage) or `failed` (did not build, broke a gate, or did not move its
+metric), each with exact evidence; nothing is reverted on main, because nothing lands
+there. A person then triages each item (`accepted`, `rework`, `descoped`) and a
+[release](#7-release) ships the accepted ones.
 
-**`--proposals a,b,c`** narrows the run to those ids: read them with
+**Which items.** `run-start --phase execute`. Without `--proposals`, every `approved` item
+of the lens is in the run. **`--proposals a,b,c`** narrows it: read them with
 `store.mjs proposals --ids a,b,c` and record the run as
-`run-start --phase execute --scope '{"proposals":["a","b","c"]}'`. Only items whose
-status is `approved` are executed, plus a **cut-off** item: one left `executing` by a run
-that is no longer `running` (a killed or crashed session; no running execute run's scope
-names it). Reconcile a cut-off item from what landed before building anything:
-`git log --grep <id>` on the base branch, and the worktrees its run left (`git worktree list`).
-Landed: skip step 3, re-measure after, and record `done` or `failed` as in steps 4-5 (its
-merge sha is the result). Half-built in a worktree: finish it there or discard the worktree
-and build again. Nothing: build it. Never move it back to `approved`. Every other id is skipped with a `note` activity
-saying why (`p-1a2b3c: not found`, `p-4d5e6f: proposed, not approved`, `... done
-already`) and named in the report; an id that is missing from the output does not
-exist. Never approve one to make it eligible. Without `--proposals`, every approved
-item is in the run. An item whose body starts `target: registry` is built in a worktree of
-the **registry checkout** (found as for `{registry}`), refused with `lens-scan refused: registry
-checkout has uncommitted changes` while its `git status --porcelain --untracked-files=no` prints
-anything (untracked files are other work and never block it). Each item:
+`run-start --phase execute --scope '{"proposals":["a","b","c"]}'`. In scope are:
+
+- `approved` items;
+- **rework** items the list names: the person sent them back. `rework-attempt --id <p>
+  --run <run>` creates the new attempt (`approved`, `attempt_of` = p; the old row stays
+  `rework`), and that **new id** is the one built, in this run's pack. The person's
+  `triage_note` on the old row is the brief for the rebuild: read it, and build what it
+  asks within the approved item's scope. The store refuses a second attempt of one item;
+- a **cut-off** item: one left `executing` by a run that is no longer `running` (a killed
+  or crashed session; no running execute run's scope names it). Reconcile it first (below).
+
+Every other id is skipped with a `note` activity saying why (`p-1a2b3c: not found`,
+`p-4d5e6f: proposed, not approved`, `... done already`) and named in the report; an id
+missing from the output does not exist. Never approve one to make it eligible.
+
+**The release base.** `--base <ref>` when the caller passed one. Else the open release's
+branch: `releases --status draft` and `releases --status building`; when one exists and
+`release/<version>` exists (locally or on origin), that branch. Else the default branch
+(`main`). Record which in the pack and the run's note.
+
+**The pack.** `git fetch`, read the base sha, then
+`pack-create --lens <id> --short <SHORT> --base-ref <ref> --base-sha <sha> --run <run>`
+-> `{id: k-<short>-<n>, n, branch: pack/<short>-<n>}`. `SHORT` is the lens manifest's
+`short` (2-4 capitals), else the first three letters of the id's last segment, upper-cased.
+One worktree for the pack, `git worktree add -b pack/<short>-<n> <dir> <base sha>`, under
+the [Lane B worktree doctrine](../scan-sweep/references/ab-lane.md) (one worktree per pack,
+never `npm ci` through a junction). **Unlink the `node_modules` junction before removing a
+worktree**: `cmd /c rmdir <worktree>\node_modules`, then `git worktree remove`. On Windows
+`git worktree remove --force` deletes through the junction and empties the base checkout's
+`node_modules`. The pack's worktree stays after the run, so the person can run it during
+triage; `release --finish` removes it once the pack closes. An item whose body starts
+`target: registry` goes into a pack of its own cut in the **registry checkout** (found as
+for `{registry}`), refused with `lens-scan refused: registry checkout has uncommitted
+changes` while its `git status --porcelain --untracked-files=no` prints anything (untracked
+files are other work and never block it).
+
+**Never** `git stash`, `git add -A` (or `git add .`), a force push, or a checkout, reset or
+commit in the main working tree. Everything happens in the pack worktree; stage only the
+files the item changed, by name.
+
+**Before, at the base, for every item** (before any item is applied): re-measure the
+item's metric with the method it was measured with, in the pack worktree at the base sha,
+and record it linked: `measure --run <run> --feature <f> --lens <l> --metric <m> --value <n>
+--unit <u> --method <m> --evidence <e> --proposal <p> --phase before --commit-sha <base sha>`.
+If the Before moved since the proposal, say so in the commit body; an item already moot is
+recorded `failed` with the reason.
+
+- **Design lens** (every design item, whatever its metric's method: a person triages design by
+  looking, so a judged `undesignedStates` item needs its screens as much as a harness metric):
+  shots of the item's feature at the base, whenever the overlay's `## Harness` can render it,
+  in every theme and size the overlay's `## Harness` declares: `harness.py --root <pack
+  worktree> --overlay <main checkout>/.claude/lens-scan/config.md --run <run> --features <f>`.
+  It writes under the worktree's `.ai/lens-scan/shots/<run>/`; move each PNG and its JSON into
+  the store dir as `shots/<run>/<p>-before/<feature>-<theme>-<size>.png`, then
+  `shot --run <run> --feature <f> --path <that path> --theme <t> --size <s> --module harness.py
+  --report-file <its json> --proposal <p> --phase before`. The after shots the same way, `-after`.
+  Shoot a worktree on a port no other server holds: `--port <free port>`. harness.py refuses
+  (exit 1) when the url already answers before its command starts, because another session's
+  server on the overlay's port would answer for it and every shot would show that checkout.
+- **Performance lens**: run the overlay's `## Probes` entry for the metric at the base, the
+  method in [metrics.md](references/metrics.md#probes) (the skill computes p95 from 20+
+  samples; the same entry at the base and the commit).
+
+**Each item**, in run order (highest expected value per size first):
 
 0. **Re-check the item against Propose as it reads today** (a cut-off item too, after its
    landed work is reconciled). An item that cannot meet those rules (a delta at the wrong
    grain, a metric that no longer exists) is not built: record it `failed` with a `note`
    activity `re-propose: <why>`.
-1. `proposal-update --id <p> --status executing` (a cut-off item is already `executing`: skip the update); `activity --kind executing`.
-2. **Re-measure before** with the same method the item's metric was measured with. If
-   the Before has moved since the proposal, say so in the body of the commit; if the
-   item is already moot, record `failed` with the reason.
-3. Build the change in the worktree, judged against the item's `standard` as it
-   reads today (the house rule wins where one exists).
-4. **Re-measure after on the real change**, run the overlay's gates.
-5. Record `--after-value <n> --result-sha <sha>` and `--status done`, with a
-   `committed` activity.
+1. `proposal-update --id <p> --status executing --pack <k>` (a cut-off item is already
+   `executing`: skip it); `activity --kind executing`.
+2. Build the change in the pack worktree, on top of the items before it, judged against
+   the item's `standard` as it reads today (the house rule wins where one exists). Run the
+   overlay's gates there.
+3. **Did not build, or broke a gate**: not committed. Discard its changes in the pack
+   worktree (`git restore --staged --worktree -- <its files>`, delete the files it created),
+   so the next item stacks on a green head. `proposal-update --id <p> --status failed` with
+   no sha, and an `error` activity carrying the failing command and its first failing line.
+4. **Built and green**: one commit, the item's files staged by name:
+   ```
+   <type>(<ctx>): <title>
 
-A change that does not move its metric in the expected direction, or breaks a gate,
-is reverted and recorded `failed` with the measured after value. **Never tune a
-change silently until it passes**, never edit a test or a gate to make a metric move,
-and never widen an item past what was approved: a second change is a new proposal.
-Re-run phases 1 and 2 on the touched features so the store holds the post-change
-numbers.
+   <what changed and why; the Before if it moved since the proposal>
+
+   Lens-Item: p-<id>
+   Lens-Pack: k-<short>-<n>
+   Co-Authored-By: <the model, as the repo's attribution rule says>
+   ```
+   `<type>` is `fix`, `feat` or `refactor` as the change is, `<ctx>` the feature's context.
+5. **After, at the item's commit**: the same method as before, recorded
+   `--proposal <p> --phase after --commit-sha <sha>` (shots and probes as above). **An
+   item's after includes the earlier items of the same pack** (stacked): say so in the
+   report, and in the run's closing note (`run-end --note "pack k-x: afters are stacked on
+   earlier items"`).
+6. Record it: moved its metric in the expected direction -> `proposal-update --id <p>
+   --status done --after-value <n> --commit-sha <sha> --result-sha <sha> --pack <k>`, with a
+   `committed` activity. Did not move it -> the same with `--status failed`: **the commit
+   stays on the pack**, so the person can look and still accept it with a note.
+
+**Cut-off reconciliation**, before building anything: the item's pack is its `pack_id`
+(`packs`); look for its commit by trailer, `git log pack/<short>-<n> --grep "Lens-Item:
+p-<id>"`, and at the pack's worktree (`git worktree list`). Committed: skip the build,
+measure the after at that commit if no after row exists, and record `done` or `failed` as
+in step 6. Half-built in the worktree: discard the uncommitted change and build it again on
+its pack's head. Nothing: build it. Never move it back to `approved`. A cut-off item is
+finished in its own pack (when that pack is still `open`); new items go into this run's pack.
+
+**Never tune a change silently until it passes**, never edit a test or a gate to make a
+metric move, and never widen an item past what was approved: a second change is a new
+proposal. The store's current numbers (`latest`, `gaps`) ignore `after` readings, because a
+pack is not main; the touched features' numbers move when a release ships and re-measures
+them.
 
 ## 6. Propagate
 
@@ -349,19 +445,58 @@ When a finding generalizes (a better table pattern, a shared error boundary), th
 propose phase emits a `baseline-upgrade` item: an edit to
 `.ai/house/standards/<subject>.md` that adds or changes one rule line, with the
 **site signature** (a grep pattern and/or the structure query that finds similar
-code) recorded in its body. Once it is approved and landed, a propagation run
+code) recorded in its body. Once it is approved and released, a propagation run
 (`run-start --phase propagate`) finds every similar site and emits one `propagation`
 child proposal per site (`--parent <upgrade id>`), judged against the upgraded house
-rule. When three or more sites share the shape, the first child is the extraction of
+rule. `--proposals <upgrade id>` scopes the run to that one upgrade, which must be
+`done`. When three or more sites share the shape, the first child is the extraction of
 a shared component and the others depend on it. The full flow, including how sites
 are found and what makes a signature good, is
 [propagation.md](references/propagation.md).
+
+## 7. Release
+
+`/lens-scan release --id rel-<version>` ships what people accepted; `--finish` closes it
+after the PR is merged. The full procedure is [release.md](references/release.md); in short:
+
+0. **Refuse first.** `gh auth status` must succeed, else `lens-scan refused: gh not
+   authenticated` and the release is set `failed` with that error. Refuse, too, when the
+   base checkout has tracked uncommitted changes in a file the release touches. Never
+   stash; never touch the main checkout's index.
+1. `release-update --release rel-x --status building --from draft` (`--from failed` on a
+   retry). A worktree for `release/<version>`, from the default branch when the branch does
+   not exist yet (`--base-sha` recorded), else checked out as it is.
+2. Cherry-pick each `accepted` item's `commit_sha`, by pack id and in pack order. A conflict:
+   `git cherry-pick --abort`, `triage --ids <p> --decision rework --by skill:lens-scan --note
+   "conflict on release/<v>: <files>"`, continue (release.md says what to do while the store
+   refuses that move on a building release).
+3. The overlay's gates on the release head, then a measure run of the touched features
+   whose note names the release.
+4. Release notes in markdown (title, lens, feature, before -> after with unit, the person's
+   triage note - always for an item accepted from `failed` - and the commit; the rework list;
+   the gates), stored with `release-update --notes`.
+5. `git push -u origin release/<version>`, `gh pr create --base main --head
+   release/<version> --title "Release <version>" --body-file <notes>`,
+   `release-update --status pr-open --pr-url <url>`.
+6. `--finish`: `gh pr view <url> --json state,mergeCommit` must say `MERGED`;
+   `release-update --status merged`; tag `v<version>` on the merge commit and push the tag;
+   `gh release create`; `release-update --status tagged --tag v<version>`, which moves the
+   items to `released` and closes the packs. Remove the release and closed packs' worktrees
+   and their local pack branches; never a remote branch this flow did not create.
+
+Any failure: `release-update --status failed --error "<what>"` and stop; the person
+decides. **Never `git stash`, `git add -A`, a force push, or a checkout in the main working
+tree.** A caller suggests the version as [release.md](references/release.md#version-suggestion-for-callers-such-as-bp) says.
 
 ## Reporting
 
 End every phase with: the run id, lenses, scope, features measured per method, the
 metrics written, items proposed or executed with their deltas, what was skipped and
 why (no mapping, unmeasurable, house rule missing), and the header lines from phase 0.
+An execute also names its pack (id, branch, base ref and sha) and, per item, `done` or
+`failed`, its commit (or "no commit"), `before -> after unit` and whether the after is
+stacked on earlier items; it never says an item "landed" or "merged": nothing of a pack
+reaches main until a release. A release reports as [release.md](references/release.md#reporting) says.
 Never report a metric you did not store.
 
 ## Headless (the blueprint, or any caller)
@@ -372,8 +507,12 @@ from the store, starts one `claude -p` per run, and prints one JSON summary:
 
 ```
 node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs status  --lens <id> --root <product repo>
-node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs cover   --lens <id> --root <repo> [--retry] [--stale] [--dry]
-node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id> --root <repo> [--approve-proposed --by operator:<name>] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs cover   --lens <id> --root <repo> [--features a,b | --retry] [--stale] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id> --root <repo> [--approve-proposed --by operator:<name>] [--ids a,b] [--base <ref>] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs propagate --lens <id> --root <repo> [--ids <upgrade,...> | --standard house:<subject>/<line>] [--dry]
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs triage  --ids a,b --decision accept|rework|descope|reopen --by operator:<name> [--note t] --root <repo>
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs compare --pack k-des-3 | --ids a,b --root <repo>
+node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs release --id rel-<version> [--finish] --root <repo> [--dry]
 ```
 
 - `status` costs no model call: per feature, the metrics still `unmeasured`,
@@ -381,13 +520,36 @@ node ${CLAUDE_SKILL_DIR}/scripts/drive.mjs execute --lens <id> --root <repo> [--
   context map the structure was built over), plus the lens's backlog by status (`store.mjs gaps`).
 - `cover` runs `measure` only over the features with gaps, in chunks. For a lens with a
   conform step, a chunk is the size of the step's budget, so each feature in a run gets a
-  pair judged. Then it runs one `propose`.
+  pair judged. Then it runs one `propose`. `--features a,b` measures exactly those features,
+  whatever their state (a person asking for a re-measure); a slug the app-structure does
+  not list is bad input.
 - `execute` builds the lens's approved items. `--approve-proposed --by <kind:name>`
   approves its `proposed` items first. The caller's flag is the person's decision,
   exactly as the blueprint's Execute backlog button is, and `decided_by` records who.
   A caller passes it only when the person it acts for asked for the backlog to be built.
+  Each run builds a pack, never main. `--base <ref>` reaches the prompt as `--base <ref>`
+  (a release base the caller chose); with `--ids`, a named `rework` item is rebuilt as a
+  new attempt.
+- `propagate` starts one `claude -p` per landed (`done`) `baseline-upgrade` of the lens,
+  `/lens-scan propagate --lens <id> --proposals <upgrade>` (6. Propagate). Its children
+  arrive `proposed` and wait for a person like any item; the summary lists them. `--ids`
+  or `--standard` names the upgrade; a named one that is not `done` is refused (exit 1),
+  because the house rule it would judge against has not landed. Timeout default 90 min.
+- `triage` and `compare` cost no model call: they are `store.mjs triage` and `store.mjs
+  compare`, so a headless caller has one door. `triage --by` is the person the caller acts
+  for, exactly as for `--approve-proposed`; a caller never triages on its own judgement.
+- `release` starts one `claude -p` with `/lens-scan release --id rel-x [--finish]` (same
+  `BP_JOB_ID` note, log and exit codes; timeout default 60 min, never under 30). It is done
+  when the release reads `pr-open` (cut) or `tagged` (finish); a session that dies with the
+  release still `building` has it set `failed`. The caller creates the release first
+  (`store.mjs release-create`, `release-add`); [release.md](references/release.md#version-suggestion-for-callers-such-as-bp)
+  says how to suggest the version.
 - Exit 0 when every run is `done`, 1 when a run failed or was refused, 2 for bad input.
   The blueprint shows these runs like its own (their note is `bp-job:drive-<id>`).
+- The CLI is `LENS_SCAN_CLAUDE_BIN`, else `BP_CLAUDE_BIN`, else `claude` (a `.mjs` path runs on
+  this Node). Under Personas the caller points it at the fleet shim
+  (`personas/scripts/fleet/personas-run.mjs`): every run then waits in the Personas fleet's one
+  queue and shows in its Fleet Monitor as origin `lens_scan`, with the same output and exit code.
 
 `--dry` prints the plan and starts nothing. Use it before a first real run.
 
@@ -397,7 +559,8 @@ nobody watching the terminal. Its prompts:
 
 ```
 /lens-scan measure --lens <id> [--scope <feature-slug,feature-slug,...>]
-/lens-scan execute --proposals <id,id,...>
+/lens-scan execute --proposals <id,id,...> [--base <ref>]
+/lens-scan release --id rel-<version> [--finish]
 /lens-scan onboard "<description>" --draft-only     # the lens chat, with --resume per turn
 ```
 
@@ -436,7 +599,7 @@ sections for the command maps.
 | `bundle_stats` | none (`bundleKb` unmeasured) | A per-feature bundle stats file, when one exists. |
 | `## Gates` | `.ai/manifest.yaml` capabilities | The verification commands phase 5 runs, verbatim. |
 | `## Harness` | none (harness metrics unmeasured) | The generic form [below](#harness): how to start and reach the front end, and a route or click steps per feature. |
-| `## Probes` | none (`p50Ms`/`p95Ms` unmeasured) | `feature -> timed path command`; the command prints the timings. |
+| `## Probes` | none (the performance lens's probe metrics unmeasured) | One entry per feature and metric, `<feature> <metric>: <command>`, for `startupMs`, `interactionP95Ms`, `frameP95Ms`, `blockingMs`, `jankFrames`, `idleWakeups`, `memoryMb`; the command prints one JSON line per metric (20+ samples for a distribution, 3+ passes for a per-pass total) and the skill computes the value ([metrics.md](references/metrics.md#probes)). `bundleKb` is static (`bundle_stats`). |
 | `## Skill improvement log` | none | One dated line per reflection (see below). |
 
 A feature absent from `## Harness` or `## Probes` is not measured by that method;
@@ -460,7 +623,9 @@ features:
 (Python Playwright; its docstring is the reference) captures `shots/<run>/<feature>-<theme>-<size>.png`
 and prints `shots` (-> `store.mjs shot --report-file`), `measurements` (`minTextPx`,
 `consoleErrors` -> `measure --json`) and `unscreenable` (marked so, or a navigation error,
-HTTP error or blank body -> the note). It always kills the command's process tree.
+HTTP error or blank body -> the note). It always kills the command's process tree. It refuses when the url
+already answers before the command starts (another server holds the port); `--port <n>` serves
+elsewhere. A `steps` feature whose first step is `goto /path` starts there instead of at `/`.
 
 ---
 

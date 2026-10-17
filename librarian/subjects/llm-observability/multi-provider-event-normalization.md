@@ -1,7 +1,7 @@
 ---
 domain: llm-observability
 subject: multi-provider-event-normalization
-last_touched: 2026-09-10
+last_touched: 2026-10-15
 ---
 
 # multi-provider-event-normalization
@@ -245,3 +245,7 @@ them.
   }
 }
 ```
+
+### 2026-10-15 - intake coding_agent_session_search (run dle-004-1015, series DLE-004)
+
+Catch, recorded as `rust--per-provider-usage-extractors--cass.md`: three-state usage provenance (reported, estimated, suppressed because counted elsewhere), with one extractor breaking the disjoint-tuple convention. Untriaged amendment banked: a suppressed state for rows whose usage is counted elsewhere. Boundary named in the new sibling `agent-session-archive`, the at-rest form of this subject.

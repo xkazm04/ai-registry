@@ -80,6 +80,9 @@ a cluster that was kept / approved / landed):
   "kept": ["P03", "P09", "P14", "P05"],
   "approved": ["P03", "P09", "P14"],
   "landed": ["P03", "P09"],
+  "items": { "C1": ["P03", "P14"], "C2": ["P09"], "L1": ["P05"] },
+  "approved_items": ["C1", "C2"],
+  "landed_items": ["C1"],
   "dropped": { "P07": "false premise: retry already exists at src/a.ts:40" },
   "thesis": "one sentence",
   "judge": "claude-opus-5-5"

@@ -20,7 +20,7 @@ any row works in play.
 
 Re-read on 2026-10-09 at `10974fa3`: every anchor below still holds. The search result above no
 longer does. The game now ships a 518-row line table and a runtime that queries it, and the
-[kotlin application](kotlin--line-table-schema.md) reads that table against this schema. This page
+[kotlin application](./kotlin--line-table-schema.md) reads that table against this schema. This page
 stays a reading of the proposal.
 
 Anchors are root-relative to that tree.

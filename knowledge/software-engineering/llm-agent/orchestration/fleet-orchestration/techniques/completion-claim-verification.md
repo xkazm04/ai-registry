@@ -256,3 +256,10 @@ is a judgment, which belongs to a reviewing seat or to re-execution in a
 fresh environment, and which this checklist should never be extended to
 imitate. The boundary is the strength: a checker that only answers the
 questions it can answer is the one whose "held" means something.
+
+The reviewing seat that this hands correctness to is itself a capacity. It has an
+occupancy, a queue and a recursion of its own: who reads the reviewer? A fleet that
+makes that seat the only way work reaches closed has made the seat's vacancy a stop
+for everything. A seat filled by the producer is a seat whose verdicts almost never say
+no. [verifier-seat-capacity](./verifier-seat-capacity.md) covers how to budget that
+seat.

@@ -12548,3 +12548,115 @@ applied here - one sighting, and the honest record is in the source note.
   (0/73 changes reachable from a project+day pool, 73/73 from the read scope), and it became a
   harness check. The fixture tell in `scope-before-similarity` applies to the registry's own
   instruments, not only to a project's test suite. One sighting; a rule at three.
+
+## 2.15.0 - 2026-10-14 - agentic-coding-flywheel-setup (practitioner series R1)
+
+- **When an amendment states a trade the registry itself is subject to, price it on the
+  registry's own history before it lands.** The concurrent-vcs amendment said a long
+  package should isolate. A merge-tree replay of 1,129 of our own commits, each change
+  replayed onto a branch point half an hour to two hours earlier, said the opposite for
+  additive work: isolation's paid conflicts per landing exceeded the shared checkout's
+  recorded incidents at every lead. The clause was rewritten before landing and the apply
+  row reads `not-better`. Git history is a free instrument for any claim about checkouts,
+  commits or ledgers. Kin to tencentdb's lesson (our own instrument); one sighting.
+- **A practitioner's audits outrank his published method.** Twelve statements in the
+  method are contradicted by the audits of the projects it ran on, and its strongest
+  practices (a no-self-close policy with a debt cap, a claim contract that can fail) live
+  in one tree each and nowhere in the method. Read the operating half before the tour
+  half, and pin the evidence trees beside the method's repository.
+- **Check each premise a builder brief states against its record before dispatch.** Five
+  premises in this run's briefs were wrong, and builders found them only after dispatch: a
+  "race" that was two spellings of one source, transcripts that had rolled off, registry
+  commits made from sessions in other project folders, a direction for host contention,
+  and read-only workers briefed to run git. Each would have taken one lookup. Backlog row
+  `dle-m5-brief-review-before-fanout` measures whether one review pass catches them.
+- **The A/B bar decides landing, not the effort spent.** Of three method builds, one
+  landed as code, one as an instrument with its target missed and said so, and one (two
+  hours of building, floor met) did not land because it changed no real verdict. Kept on
+  a local branch that the next round's brief names, with its verdict recorded, it is that
+  round's starting point rather than discarded work.
+
+## 2.15.0 - 2026-10-15 - cass-memory-system (dle-r5-1015, series DLE-005)
+
+- Write the target and the floor into the instrument before its first run. This run looked at arms A and B on an incomplete ground truth and then wrote the floor; the floor failed B, which kept the verdict honest, but a floor written after a look could as easily be written to pass. Say so in the row when it happens.
+- Print mid-state on your own ground truth, not only on the arms. The first truth left procedure and fix probes out and made the source's procedure records look useless (top-10 precision 0.2, 0.6 once fixed). The conclusion survived; the first number would not have.
+- Read the rows before a sentence that says every. The application first said every item blamed through use was a two-value record; the 18 rows split 5 / 9 / 4, and the technique's rule changed with the split.
+- Recorded contexts plus graded verdicts are a model-free instrument for any attribution or credit claim in the memory lane, and they exist for one arm already. A feedback mechanism that cannot be an arm (outcomes drawn at generation) can still have its measurement-validity half priced this way.
+- A fleet project's append-only ledger is shared even when status shows it clean: a sibling appended to personas `.ai/applied.jsonl` between this run's status check and its write, and a whole-file stage carried the row. Stage only your hunk there too, as in the registry.
+
+## 2.15.0 - 2026-10-15 - mcp-agent-mail-rust (practitioner series DLE-002)
+
+- **A charter's premises are briefs too.** The declared focus (check each brief premise
+  against its record) was applied to four briefs and every checked premise held. Five
+  premises were still wrong, all stated by the series charter about the source and its
+  peers (persistence order, where enforcement happens, which repository is canonical,
+  what the peers have). Workers found them only because the briefs told them to treat
+  the charter's claims as claims to test. Put the charter's statements about the source
+  on the premise list, not only the brief's own.
+- **A rewrite read beside its predecessor is an in-tree A/B.** The two versions made
+  opposite choices on what decides success, whether a conflicting claim is granted, and
+  which way the guard fails, and the rewrite's comments name the incident behind each
+  reversal. Cloning the predecessor cost one command and settled what neither tree's prose
+  did. When a source says it replaced an earlier version, clone both.
+- **An instrument tuned on one tree false-flags on the next.** The commit replay's
+  inventory knows the registry's generators; on a fleet tree it flagged 6.2% of commits,
+  nearly all regenerated maps, scripted deletions and locale files. Reading the rows
+  (foreign lines carried or not) turned a would-be "the guard pays here" into a boundary
+  for the technique. Before applying a registry instrument to a fleet tree, assume its
+  first high count is an unmodelled generator.
+- **Append and commit a fleet ledger row in one hold.** This run's row in a fleet tree's
+  apply ledger sat uncommitted for minutes, and a sibling round's pathspec commit of the
+  same ledger carried it. The registry's ledger lock does not cover a fleet tree. Append
+  and commit in one command, or take the lock on that tree's own board (the board lives
+  in each repository's git common directory).
+- **Build a HEAD-plus-mine blob inside the commit lock, from the HEAD you commit on.** This
+  run took the ledger lock, staged its ledger blobs from HEAD, and committed under the
+  commit lock a step later. Meanwhile a sibling round committed the same eight ledgers
+  under the commit lock alone. The diff of the two commits shows nothing reverted, and the
+  record cannot say whether the blobs were built before or after the sibling's commit. A
+  blob built from the older HEAD and committed after it would have reverted the sibling's
+  rows with no error. Take the commit lock first, then build the blobs, stage, commit and
+  verify, so the order does not depend on luck.
+
+## 2.15.0 - 2026-10-15 - frankengit batch-verification policy (practitioner series DLE-010)
+
+- **Run an instrument's planted case end to end through the real runner, not only its pure
+  functions.** Tier 2's own seeded repository came back green on a commit whose test was
+  red: the unit suite ran the re-runner from inside `node --test`, and the inherited
+  `NODE_TEST_CONTEXT` makes a nested `node --test` exit 0 on a red suite. Any gate an
+  instrument launches from inside a test runner reads green the same way. The pure-function
+  tests all passed. One sighting.
+- **A transcript pass is evidence about a command, not about a commit.** Re-running the gate
+  tier 1 credited, at the commit the row names, showed tier 1 had credited the wrong gate in
+  4 of 25 rows: two arm probes the session deleted before committing, two broad suites that
+  were red before the change. None falsified its row, which is why a re-run needs the
+  parent beside it and a check that the change it tested is in the commit.
+- **Read every failure before counting it, and never key an environment classifier on a
+  bare word.** "API key" matched test names and labelled a real failure environmental; a
+  pre-registered "reproduced-fail" counted two suites that were already red. Both were
+  caught only because each failing log was read whole, and both are disclosed in the
+  verdict rows rather than corrected silently.
+- **Two independent nulls answer a question; a third instrument should change the
+  question.** Tier 1 (transcripts) and tier 2 (re-run plus a two-family blind read) agree
+  the self-graded rows hold in their samples. The open question from R1's B1 is now
+  selection and seat occupancy, not grading.
+
+## 2.15.0 - 2026-10-15 - coding-agent-session-search (practitioner series DLE-004)
+
+- **Measure the defect on our own machine before briefing anyone.** Four numbers taken in the first hour (the harness's 30-day retention, a 17 GB store, 1,773 of 3,705 remembered sessions already lost, 19% discovery coverage) became the spec's worked case, two A/B targets and the subject's opening argument. A source's mechanism is a hypothesis about our tree until our tree has been counted.
+- **The routing count's NONE is a reader's claim until the director opens the neighbour.** One of eight NONE entries was wrong: the reader searched for a word ("metamorphic") the owning subject never uses ("reference model"). Concept queries and one file read overturned it. Keep the NONE count after the director's read, not before.
+- **Choose the seam that argued against the technique.** The personas reader's documented decision not to redact was the falsifier, and it returned not-better with the exact condition the technique was missing (scope and storage decide, not consent). A second falsifier seam found a live defect (a fold cap returning partials silently). Both outranked confirming seams.
+- **Price the do-nothing setting as arm A.** "Raise the harness's retention" was the obvious alternative to a mirror and the honest baseline. Measuring it turned the mirror from a nice idea into a 4.2x storage decision with a disk-full date.
+- **Subagents cannot write report files.** Three builders were refused when their briefs asked for REPORT.md; each put the report in its final message instead. Briefs should ask for the final message and name any data files separately.
+- Mid-flight runs: nothing to change; this entry adds no rule to SKILL.md.
+
+## 2.16.0 - 2026-10-15 - policy change, render proofs queue for the media host
+
+- **The operator removed every local model from this machine** (238 GB: ComfyUI, Ollama,
+  Hugging Face, LM Studio and smaller caches) and ruled that a dedicated media host (image,
+  video, 3D) will process render proofs. Phase 6b's "no local instrument, no landing" lead
+  becomes a queue the media host can read: the candidate is a backlog row with
+  `status: held`, `queue: media` and a `render` object (run id, brief, where arm A's and arm
+  B's instructions live, the instrument needed). `held` already sits outside every
+  `/harvest backlog` wave, so no code changed and nothing here picks the row up. A run must
+  never pull a model to make a render proof pass on this machine.

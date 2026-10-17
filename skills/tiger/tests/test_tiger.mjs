@@ -62,6 +62,21 @@ test('huntGroups ranks a group by use-case reach as well as churn', () => {
   assert.equal(rows[1].commits, 12);
 });
 
+test('huntGroups reads a nested groups[].contexts[] map, the group named by its parent', () => {
+  const map = {
+    groups: [
+      { name: 'desk-linga', contexts: [{ name: 'linga', file_paths: ['desk/e/a.ts', 'desk/e/b.ts'] }] },
+      { name: 'tooling', contexts: [{ name: 'uat', file_paths: ['uat/a.cjs'] }, { name: 'kpi', file_paths: ['tools/k.cjs'] }] },
+    ],
+  };
+  const touches = new Map([['desk/e/a.ts', { commits: 9, last_days: 0 }], ['uat/a.cjs', { commits: 2, last_days: 4 }]]);
+  const rows = huntGroups(map, touches, () => 1024);
+  assert.deepEqual(rows.map((r) => r.group), ['desk-linga', 'tooling']);
+  assert.equal(rows[0].contexts, 1);
+  assert.equal(rows[1].contexts, 2);
+  assert.equal(rows[1].files, 2);
+});
+
 test('parseSeatOutput reads the last fenced json block and normalises fields', () => {
   const text = 'thinking...\n```json\n{"proposals":[{"title":"old"}]}\n```\nfinal:\n```json\n' + JSON.stringify({
     proposals: [
@@ -150,4 +165,26 @@ test('seatStats joins the verdict and run records per seat', () => {
   assert.equal(codex.anchors_ok, 50);
   assert.equal(codex.cost_usd, null);
   assert.equal(rows.find((r) => r.seat === 'grok-y').kept, 1);
+});
+
+test('seatStats credits each scope item once, to the seat whose proposal led it', () => {
+  const p = pool2();
+  const ids = p.proposals.map((x) => x.id);
+  const seatOf = Object.fromEntries(p.proposals.map((x) => [x.id, x.seat]));
+  const codexIds = ids.filter((id) => seatOf[id] === 'codex-x');
+  const grokIds = ids.filter((id) => seatOf[id] === 'grok-y');
+  const verdict = {
+    kept: ids, approved: ids, landed: ids,
+    items: { A: [codexIds[0], ...grokIds], B: [grokIds[0], codexIds[1]], C: [codexIds[2]] },
+    approved_items: ['A', 'B', 'C'], landed_items: ['A', 'B'],
+  };
+  const rows = seatStats(p, verdict, {});
+  const codex = rows.find((r) => r.seat === 'codex-x');
+  const grok = rows.find((r) => r.seat === 'grok-y');
+  assert.equal(codex.landed, codexIds.length, 'per-id count still credits every folded member');
+  assert.equal(codex.led_approved, 2);
+  assert.equal(codex.led_landed, 1);
+  assert.equal(grok.led_approved, 1);
+  assert.equal(grok.led_landed, 1);
+  assert.equal(seatStats(p, { kept: ids }, {})[0].led_landed, null, 'no items map -> not measured, never 0');
 });

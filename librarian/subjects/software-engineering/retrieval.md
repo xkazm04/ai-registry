@@ -1,7 +1,7 @@
 ---
 domain: software-engineering
 subject: retrieval
-last_touched: 2026-10-14
+last_touched: 2026-10-15
 touched_by: intake
 dry_streak: 0
 ---
@@ -283,3 +283,7 @@ consolidation and this subject's own retirement re-imposition.
 Untriaged here, with anchors in the source note: overfetch sized by saturation rather than a
 fixed factor (`ranking-budgets`); a lexical floor on the same indexed unit beside any
 published recall figure (`retrieval-evaluation`).
+
+### 2026-10-15 - intake coding_agent_session_search (run dle-004-1015, series DLE-004)
+
+Catches, recorded as applications: `rust--retrieval-evaluation--cass.md` (counter-example: CI qrels are single invented tokens, recall 1.0 by construction, no should-be-empty stratum; the manual bake-off peaked at NDCG@10 0.118 against its own 0.25 floor) and `rust--ranking-budgets--cass.md` (packs admit on the measured rendered output; search still sums per-hit sizes and calls its budget soft). Lead banked in the source note: sealed embedding generations behind an epoch compare-and-swap pointer, designed but refused by the source's own loader.

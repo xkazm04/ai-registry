@@ -79,7 +79,10 @@ A cluster is read by the axis its failures share, because the axis names the sus
 A benchmark that runs every configuration on a task in the same window has confounded the
 two axes. Re-run the item in a different window before reading its cluster either way.
 
-A **singleton** that disappears on rerun is *intermittent*, not environmental. Agents fail
+A **singleton** that disappears on a rerun under the original contention is
+*intermittent*, not environmental; one that disappears only on a quieter host is
+load-confounded until a rerun at matched load decides
+([clear-the-environment-first](./techniques/clear-the-environment-first.md)). Agents fail
 some tasks some of the time as a property of the model, and even at zero temperature a
 served model does not repeat itself. A singleton that survives a rerun is a candidate
 model finding only if the rerun drew a fresh sample. A rerun that hit a response cache,

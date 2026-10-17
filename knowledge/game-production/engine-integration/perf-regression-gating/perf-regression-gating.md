@@ -13,6 +13,7 @@ techniques:
   - equivalence-before-the-saving
   - allocation-gate-on-the-shipped-configuration
   - host-independent-work-counts
+  - delivery-bar-at-the-display
 ---
 
 # Performance regression gating
@@ -187,6 +188,16 @@ of stability. It also hides things that only a paced, real-time run exhibits —
 frame feeds back into a variable step, how presentation interacts with the display, what a
 sustained load does to a clock that throttles. Those are separate lanes with their own
 baselines, and a result from one is never offered as a result from the other.
+
+The presented interval has one legitimate use, and it is a different question. Whether the
+player saw a missed refresh is a delivery bar, not a cost gate, and it is read where the
+player reads it: on the interval between frames the display actually showed, taken from the
+compositor rather than from the game. A render that ran long and still presented one refresh
+after the last frame was absorbed by the presentation queue and nobody saw it; a render that
+made the display repeat a frame is a miss, and only the misses are attributed and graded.
+Reading a delivery bar on the render thread fails builds the player found smooth, and reading a
+cost gate at the display passes builds that are spending their headroom; each line names its
+clock ([delivery-bar-at-the-display](./techniques/delivery-bar-at-the-display.md)).
 
 ## A baseline is a verdict bound to what it judged
 

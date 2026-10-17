@@ -2,7 +2,7 @@
 """lens-scan harness - the generic browser capture behind the overlay's `## Harness` section (SKILL.md "Harness").
 
     python -I harness.py --root <product root> --run <run id> [--overlay .claude/lens-scan/config.md]
-                         [--features a,b] [--lens design] [--dry]
+                         [--features a,b] [--lens design] [--port n] [--dry]
 
 Reads the generic `## Harness` form from the overlay:
 
@@ -17,7 +17,8 @@ Reads the generic `## Harness` form from the overlay:
       <slug>: steps click "Text" > click "Other"   # Playwright text selectors, from the url's root
       <slug>: unscreenable "native window only"
 
-starts the command (cwd = the product root), waits for ready, then per scoped feature, size and theme loads the
+refuses (exit 1) when the url already answers before the command starts: another server holds the port and the shots
+would show its checkout, not this root (pass --port to serve a worktree elsewhere). Otherwise starts the command (cwd = the product root), waits for ready, then per scoped feature, size and theme loads the
 feature and captures a PNG into <root>/.ai/lens-scan/shots/<run>/<feature>-<theme>-<size>.png, with a JSON report
 beside it (same name, .json: url, size, theme, minTextPx, console errors). A feature marked unscreenable, or one
 whose route fails to render (navigation error, HTTP >= 400, blank body), gets no shot and is listed under
@@ -245,13 +246,17 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
 
     try:
         try:
-            first = spec['route'] if spec['kind'] == 'route' else '/'
+            steps = spec['steps'] if spec['kind'] == 'steps' else []
+            # steps that open with a goto start there, not at '/', which a preview entry may not serve
+            first = spec['route'] if spec['kind'] == 'route' else (steps[0][1] if steps and steps[0][0] == 'goto' else '/')
+            if steps and steps[0][0] == 'goto':
+                steps = steps[1:]
             why = goto(first)
             if why:
                 return None, why
             apply_class()
             if spec['kind'] == 'steps':
-                for kind, arg in spec['steps']:
+                for kind, arg in steps:
                     if kind == 'goto':
                         why = goto(arg)
                         if why:
@@ -302,9 +307,19 @@ def run(args):
     if args.dry or not live:
         return out, 0
     store_dir = os.path.join(root, '.ai', 'lens-scan')
+    if args.port:
+        cfg['url'] = re.sub(r'^(\w+://[^/:]+)(:\d+)?', lambda m: f'{m.group(1)}:{args.port}', cfg['url'])
+        if cfg['command']:
+            cfg['command'] = re.sub(r'(--port[ =])\d+', lambda m: f'{m.group(1)}{args.port}', cfg['command'])
+    ready_url = urljoin(cfg['url'].rstrip('/') + '/', cfg['ready'].lstrip('/'))
+    if cfg['command'] and wait_ready(ready_url, None, cap_s=0.01) is None:
+        # Something already serves the url. The command's own server would fail to bind (or --strictPort would exit
+        # quietly) and every shot would show that other checkout, not this root: refuse instead.
+        out['error'] = f'{ready_url} already answers before the command started: another server holds the port, so the shots would not show {root}. Free the port or pass --port <free port>.'
+        return out, 1
     proc = start(cfg['command'], root)
     try:
-        why = wait_ready(urljoin(cfg['url'].rstrip('/') + '/', cfg['ready'].lstrip('/')), proc)
+        why = wait_ready(ready_url, proc)
         if why:
             out['error'] = why
             return out, 1
@@ -368,6 +383,7 @@ def main(argv=None):
     ap.add_argument('--overlay', default=os.path.join('.claude', 'lens-scan', 'config.md'))
     ap.add_argument('--features', default='')
     ap.add_argument('--lens', default='design')
+    ap.add_argument('--port', type=int, default=0, help="serve on this port instead of the overlay's (rewrites --port N in the command and the url's port)")
     ap.add_argument('--dry', action='store_true', help='parse the overlay and print the plan; start nothing')
     args = ap.parse_args(argv)
     try:

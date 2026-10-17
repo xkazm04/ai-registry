@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "llm-observability",
   "source": "knowledge/llm-observability/ (frontmatter only)",
-  "subjects": 18,
-  "techniques": 128,
-  "applications": 87,
+  "subjects": 19,
+  "techniques": 134,
+  "applications": 100,
   "laws": 9,
   "categories": [
    "telemetry-and-data",
@@ -14,10 +14,178 @@
    "federation-and-surfaces"
   ],
   "layout": "nested",
-  "use_when_coverage": "128/128",
+  "use_when_coverage": "134/134",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
+  "agent-session-archive": {
+   "category": "telemetry-and-data",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/agent-session-archive.md",
+   "digest": "sha256-b2:3e3f46ad2c0269f1",
+   "revision": 1,
+   "changedAt": "2026-10-17",
+   "techniques": [
+    {
+     "slug": "capture-before-parse",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when an archive copies a transcript relative to parsing it",
+      "a harness changed its transcript format and sessions stopped appearing",
+      "pulling session history from another machine"
+     ]
+    },
+    {
+     "slug": "declared-message-coordinates",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "returning a citation into an archived session from search",
+      "an agent opened the wrong part of a transcript from a search hit",
+      "writing a lesson or memory that cites a transcript"
+     ]
+    },
+    {
+     "slug": "ingest-disposition-accounting",
+     "status": "forged",
+     "laws": [
+      "never-present-absence-as-an-answer",
+      "estimation-announces-itself"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an ingest run reports a session count and nothing else",
+      "a transcript that was being written got parsed half-way",
+      "deciding which sources an incremental ingest may skip",
+      "several tools disagree about how many sessions exist"
+     ]
+    },
+    {
+     "slug": "prefix-proof-retirement",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "an archive of transcript captures is growing faster than its content",
+      "choosing what automatic retention may delete from a store of captures",
+      "the capture store hit its byte budget"
+     ]
+    },
+    {
+     "slug": "queryable-surface-redaction",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding where secrets are removed in an archive of agent sessions",
+      "choosing which secret detectors run at ingest and which before sharing",
+      "a team declines to redact session content read into a prompt",
+      "deciding whether to keep tool inputs and outputs from transcripts"
+     ]
+    },
+    {
+     "slug": "root-relative-session-identity",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing the unique key for archived sessions",
+      "the archive shows the same session twice or two sessions as one",
+      "a harness moved its transcript layout",
+      "merging session history from several machines"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "node",
+     "technique": "capture-before-parse",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/node--capture-before-parse--ai-registry.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "node",
+     "technique": "declared-message-coordinates",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/node--declared-message-coordinates--ai-registry.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "node",
+     "technique": "ingest-disposition-accounting",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/node--ingest-disposition-accounting--ai-registry.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "node",
+     "technique": "prefix-proof-retirement",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/node--prefix-proof-retirement--ai-registry.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "rust",
+     "technique": "capture-before-parse",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/rust--capture-before-parse.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "declared-message-coordinates",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/rust--declared-message-coordinates.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "ingest-disposition-accounting",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/rust--ingest-disposition-accounting--franken-agent-detection.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "ingest-disposition-accounting",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/rust--ingest-disposition-accounting.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "prefix-proof-retirement",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/rust--prefix-proof-retirement.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "queryable-surface-redaction",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/rust--queryable-surface-redaction--personas.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "rust",
+     "technique": "queryable-surface-redaction",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/rust--queryable-surface-redaction.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    },
+    {
+     "stack": "rust",
+     "technique": "root-relative-session-identity",
+     "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/rust--root-relative-session-identity.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
+    }
+   ]
+  },
   "analytics-store-design": {
    "category": "telemetry-and-data",
    "subcategory": null,
@@ -1837,9 +2005,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/multi-provider-event-normalization.md",
-   "digest": "sha256-b2:a5ce1f39d220f750",
-   "revision": 6,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:a0932e26160bfd85",
+   "revision": 7,
+   "changedAt": "2026-10-17",
    "techniques": [
     {
      "slug": "attribute-precedence-lists",
@@ -1939,6 +2107,13 @@
      "technique": "attribute-precedence-lists",
      "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/applications/rust--attribute-precedence-lists.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "rust",
+     "technique": "per-provider-usage-extractors",
+     "file": "knowledge/llm-observability/telemetry-and-data/multi-provider-event-normalization/applications/rust--per-provider-usage-extractors--cass.md",
+     "verified_on": "2026-10-15",
+     "verified_against": "rust@2026.08.31"
     },
     {
      "stack": "rust",
@@ -2618,33 +2793,12 @@
   }
  },
  "laws": {
-  "server-owns-the-accounting-clock": {
-   "statement": "Clients own their event time for debugging; the server stamps its own receipt time and every budget, window and enforcement decision keys on the server's clock. Any client-writable field that feeds accounting or attribution is either re-stamped from the authenticated principal or stripped — otherwise a caller can launder spend onto someone else's budget with one JSON key.",
-   "techniques": [
-    "analytics-store-design/analytical-copy-partitioning",
-    "analytics-store-design/dashboard-driven-composite-indexes",
-    "analytics-store-design/flat-events-plus-json-linkage",
-    "billing-revenue-normalization/signature-is-the-auth",
-    "breach-alerting-and-attribution/notification-channel-security",
-    "breach-alerting-and-attribution/scoped-dedup-keys",
-    "federated-benchmark-sharing/hub-ingest-plausibility-gates",
-    "llm-call-telemetry-model/dual-clock-event-time",
-    "llm-call-telemetry-model/ingest-skew-rejection",
-    "llm-call-telemetry-model/metadata-attribution-keys",
-    "llm-call-telemetry-model/server-owned-fields",
-    "llm-price-book-operations/hot-swap-price-book",
-    "multi-provider-event-normalization/deterministic-span-derived-ids",
-    "multi-provider-event-normalization/two-doors-one-pipeline",
-    "production-trace-scoring/unscored-work-queue",
-    "production-trace-scoring/verdict-coverage-receipt",
-    "trace-rollup-and-attribution/tenant-scoped-trace-ids",
-    "usage-limit-governance/dimension-scoped-caps",
-    "usage-limit-governance/incremental-window-accounting"
-   ]
-  },
   "never-present-absence-as-an-answer": {
    "statement": "An unported filter returns \"unsupported\", never an unfiltered page presented as honored. An empty capability returns a refusal, never an empty list that reads as \"nobody spent anything\". A cap whose window holds no priced evidence is unpriceable and refuses — it does not read the missing data as zero headroom. A currency with no exchange rate is stored flagged, never silently treated as the base currency. Absence is a state to disclose, not a value to substitute.",
    "techniques": [
+    "agent-session-archive/capture-before-parse",
+    "agent-session-archive/declared-message-coordinates",
+    "agent-session-archive/ingest-disposition-accounting",
     "analytics-store-design/backend-parity-as-contract",
     "analytics-store-design/capability-flags-and-refusal",
     "billing-revenue-normalization/contract-version-is-provenance",
@@ -2701,6 +2855,7 @@
   "estimation-announces-itself": {
    "statement": "Every imputed, truncated, filtered, or simulated number carries its own disclosure: imputation reported beside the total it entered, truncation flagged with a deterministic tie-break, a filtered response echoing its predicate so a cohort subtotal cannot read as a business total, a what-if stamped as simulated with its assumptions attached. The reader learns what was estimated from the payload itself, never from documentation.",
    "techniques": [
+    "agent-session-archive/ingest-disposition-accounting",
     "analytics-store-design/backend-parity-as-contract",
     "breach-alerting-and-attribution/pre-breach-forecasting",
     "cross-provider-benchmark-operations/axes-and-caveats-live-at-the-surface",
@@ -2746,6 +2901,30 @@
     "trace-rollup-and-attribution/span-cap-truncation-signal",
     "usage-limit-governance/cost-evidence-and-imputation",
     "usage-limit-governance/enforcement-placement-and-reconciliation"
+   ]
+  },
+  "server-owns-the-accounting-clock": {
+   "statement": "Clients own their event time for debugging; the server stamps its own receipt time and every budget, window and enforcement decision keys on the server's clock. Any client-writable field that feeds accounting or attribution is either re-stamped from the authenticated principal or stripped — otherwise a caller can launder spend onto someone else's budget with one JSON key.",
+   "techniques": [
+    "analytics-store-design/analytical-copy-partitioning",
+    "analytics-store-design/dashboard-driven-composite-indexes",
+    "analytics-store-design/flat-events-plus-json-linkage",
+    "billing-revenue-normalization/signature-is-the-auth",
+    "breach-alerting-and-attribution/notification-channel-security",
+    "breach-alerting-and-attribution/scoped-dedup-keys",
+    "federated-benchmark-sharing/hub-ingest-plausibility-gates",
+    "llm-call-telemetry-model/dual-clock-event-time",
+    "llm-call-telemetry-model/ingest-skew-rejection",
+    "llm-call-telemetry-model/metadata-attribution-keys",
+    "llm-call-telemetry-model/server-owned-fields",
+    "llm-price-book-operations/hot-swap-price-book",
+    "multi-provider-event-normalization/deterministic-span-derived-ids",
+    "multi-provider-event-normalization/two-doors-one-pipeline",
+    "production-trace-scoring/unscored-work-queue",
+    "production-trace-scoring/verdict-coverage-receipt",
+    "trace-rollup-and-attribution/tenant-scoped-trace-ids",
+    "usage-limit-governance/dimension-scoped-caps",
+    "usage-limit-governance/incremental-window-accounting"
    ]
   },
   "nullable-never-zero": {

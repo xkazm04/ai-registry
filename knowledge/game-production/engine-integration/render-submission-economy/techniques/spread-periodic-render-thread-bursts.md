@@ -6,7 +6,7 @@ technique: spread-periodic-render-thread-bursts
 status: forged
 laws: [a-number-carries-its-unit-and-basis, one-authority-per-quantity]
 shared_with: []
-use_when: [a job that runs every few frames sits exactly on the frame-time high percentile, the render thread builds data that only a diagnostic or remote reader consumes, a periodic refresh allocates a burst that later triggers a collection]
+use_when: [a job that runs every few frames sits exactly on the frame-time high percentile, the render thread builds data that only a diagnostic or remote reader consumes, a periodic refresh allocates a burst that later triggers a collection, one draw over a whole render target stalls the frame it lands on, a request frame rebuilds every output it touched]
 ---
 
 # Spread periodic render-thread bursts
@@ -66,9 +66,24 @@ it was taken there ([a-number-carries-its-unit-and-basis](../../../_laws.md#a-nu
   frames.
 - **When the remedy proposed is to lower the job's rate, treat it as a cut.** Fresher data was a
   feature somebody relied on; spreading keeps it.
-- **When a job cannot be divided — a single upload, a single large allocation — move it to a
+- **When a job looks indivisible, look for a spatial split before a phase change.** One draw that
+  covers a whole render target can be drawn as several scissored bands, one band per frame, each
+  forced to complete before its frame ends. Without that completion wait a driver that defers work
+  on off-screen targets may hold the bands and run them together, and the burst is back on one
+  frame; a flush that only submits the work is not the same as a wait for it, and which one the
+  driver honours is a device measurement. Report what the split costs: more passes, and a result
+  that is ready later.
+- **When a job cannot be divided at all — a single upload, a single large allocation — move it to a
   phase change.** A loading screen, a countdown or a menu transition can absorb a cost that an
-  active frame cannot.
+  active frame cannot, but only if that phase is not under a frame bar of its own.
+- **When one request frame dirties many outputs, publish one per frame from the next frame.** The
+  request marks what it changed; a step at the top of each later frame builds at most one output, by
+  the same builder from the same state, so the bytes a reader receives are those an immediate publish
+  would have written, a frame or two later.
+- **When work moves to the reader, its garbage stays in the same heap.** A managed runtime collects
+  for every thread, so a reader that allocates many times its reply's size per request sets the
+  collection cadence the render thread pays for. Build the reply in place into pooled blocks below the
+  runtime's large-object threshold, and count the allocation per request beside the bytes served.
 
 ## When not to use
 
@@ -77,3 +92,16 @@ adds state and buys nothing. Not where the reader's thread is itself time-critic
 thread that must answer inputs promptly should not inherit a serialiser that was too slow for
 the render thread. And not as a substitute for removing work: if a refresh rebuilds what did not
 change, retaining it is cheaper than scheduling it.
+
+## On fixed-refresh standalone headsets
+
+The technique holds unchanged, and the shorter interval makes it bind sooner. A headset's frame is
+the refresh period at the rate the application requested — about eleven milliseconds at ninety hertz
+— so a burst that a sixty-hertz frame could carry inside its headroom misses a refresh there, and the
+missed frame is shown as the previous one re-projected. Headset platform guidance gives the same
+advice in its own words: do not put the expensive work in one frame. The spatial split of a large
+render-target draw, the one-output-per-frame publish and the reader-side build all transfer, because
+they depend on a few shared cores and a deferring driver, which a standalone headset also has. The
+phase-change escape is wider there: the platform's compositor can keep a loading layer at full rate
+while the application blocks behind it. No headset was run; the sources are cited in the stack
+application.

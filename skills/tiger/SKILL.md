@@ -3,7 +3,7 @@ name: tiger
 description: "Hunt a codebase's most valuable feature area and evolve it with a cross-vendor council. Use when you want the product's strongest part made markedly more valuable - not swept for defects - and a person to choose what gets built. tiger ranks feature areas by value evidence (context-map groups and the use cases they serve, git heat, product docs, the bp product tree), writes a territory dossier for the chosen one, and convenes the strongest available CLI seats from different labs (Gemini via agy, GPT via codex, Grok, Claude Opus - any seat that fails its probe is skipped). Round 1 each seat proposes 3-6 anchored evolutionary moves (deepen, extend, connect, leap) blind to the others; round 2 each seat rates the anonymous pool and crossbreeds stronger fusions. The caller judges blind, verifies premises in the code, clusters cross-seat agreement, composes one coherent scope with a thesis, presents it as a multi-select approval, builds only what was chosen with a verify check per item, and keeps a per-seat ledger of what was kept, approved and landed. Invoke with /tiger [<area>] [--seats engine:model@effort,...] [--rounds 1|2], /tiger hunt, /tiger resume <run>, /tiger status."
 category: workflow
 memory: vault
-version: 3.0.1
+version: 3.3.0
 tags: value, feature-area, multi-model, council, brainstorm, evolution, scope, approval
 argument-hint: "[<area> | hunt | resume <run-id> | status] [--seats engine:model@effort,...] [--rounds 1|2] [--ceiling-min 40]"
 ---
@@ -39,7 +39,7 @@ creates `tiger/hunts/` at the first `init`.
 |---|---|---|
 | `tiger/config.md` | optional overlay: `seats:` (spec list), `exclude:` (areas never hunted), `constraints:` (copied into every dossier), `ceiling_min:`, `rounds:` | the default roster below, no exclusions, ceiling 40, rounds 2 |
 | `tiger/hunts.md` | home note: one row per hunt - date, area, thesis, approved / landed counts, link | created at the first record step |
-| `tiger/hunts/<date>-<slug>/` | one run: `run.json`, `brief.md`, `prompt-r1.md`, `prompt-r2.md`, `pool.json`, `pool.md`, `verdict.md`, `verdict.json`, `scope.md`, `outcome.md`; `_logs/` (raw seat output, gitignored) | created by `init` |
+| `tiger/hunts/<date>-<slug>/` | one run: `run.json`, `brief.md`, `pool.json`, `pool.md`, `verdict.md`, `verdict.json`, `scope.md`, `outcome.md`; `_logs/` (raw seat output and the rendered `prompt-r1.md` / `prompt-r2.md`, which hold absolute paths; gitignored). Nothing committed carries a machine path: the repo root is derived from the run directory | created by `init` |
 | `tiger/seats.jsonl` | the seat ledger, one row per seat per run (`ledger` appends) | created by the first `ledger` |
 | `tiger/backlog.md` | approved-not-landed items and kept-not-chosen items, rolled forward | created at the first record step |
 
@@ -128,6 +128,14 @@ rejected directions so no seat re-proposes them. Subagents may gather facts in p
 `constraints:` verbatim. If the area is LLM-powered, append a pointer to `llm-lens.md` and
 any 2.x engine notes for its call sites.
 
+**Measured state is re-run, not quoted.** A committed evidence or report file is a reading
+from the commit that wrote it. For each number a proposal could stand on (a ladder, a rate,
+a census median), run the repo's own script at the dossier's commit when it has one. Cite the
+command, or label the number with the commit and date it came from. Measured on
+mage-arena-tv: the dossier quoted an AI ladder from W4 evidence (443 / 287 / 115 / 184).
+Two waves of tuning later the live ladder was 176 / 218 / 163 / 204. The approved item built
+on it failed its verify check and needed an owner decision mid-build.
+
 ## Phase 3 - council round 1 (variation)
 
 `tiger.mjs convene --run tiger/hunts/<id> --round 1 --seats <live roster>` - every seat runs
@@ -167,9 +175,20 @@ round 1 rather than presenting a timid scope.
 Present the thesis in two sentences, then the scope as multi-select questions - one per tier,
 core first, up to 4 options each (`verdict.md` has the format). Nothing unselected is built.
 Unattended runs stop here with `scope.md` written and its path reported. Write the chosen
-ids to `verdict.json` (`kept`, `approved`, `dropped`, `thesis`, `judge`).
+ids to `verdict.json` (`kept`, `approved`, `dropped`, `thesis`, `judge`), plus the scope's
+items - `items: { "C1": [lead id, ...member ids] }` and `approved_items` - so the ledger can
+credit each item once, to the seat whose proposal led it.
+
+Before building, check the selection against the scope's dependencies. An approved item that
+depends on one the person left out is a decision they have not made: ask once, single-select -
+carry only the minimum the item needs, build the dependency too, or defer the item (firetv
+2026-10-15: a leap needed a core item left unticked; the person chose to add it).
 
 ## Phase 7 - build what was chosen
+
+Build on a run branch in a short-path worktree (`git worktree add C:/t/<short> -b
+tiger/<slug>`), never by switching the main checkout's branch: other sessions work in it, and
+some repos guard against the switch outright (athena-portable 2026-10-15).
 
 In dependency order, for each approved item: re-read its anchors at the current HEAD (the
 tree may have moved since the dossier), implement, run its `verify` check and the repo's
@@ -182,17 +201,85 @@ check fails is `failed`, kept in `outcome.md` with the output, never quietly dro
 re-scoped into a pass. Stop and ask when an item turns out to need a decision the person did
 not make.
 
+- **Re-measure a decayed premise first.** A number the item stands on (a latency, a count,
+  a rate) that was measured before this run is measured again before a spike or a build is
+  scoped on it; a premise that moved is reported, and the item may stop there (firetv: a
+  "6 s CLI start-up" read 3.1 s at build time, n=10, and its spike was NO-GO).
+- **One lane per hot file.** Items whose write sets share a file every item touches (a
+  feature's core module, its view model, its types) go to ONE builder in sequence, or wait
+  for the earlier item to land; parallel lanes are for genuinely disjoint files. Measured on
+  firetv: five parallel lanes on one conversation/view/types core needed a caller-side
+  conflict resolution on every rebase, and two item interactions surfaced only there.
+- **After resolving a conflict, check the merge, not just the lines.** `node --check` (or the
+  stack's parser) on every resolved file - a hunk whose shared tail was a closing `});` drops
+  one test's closer when both sides are kept (twice in one run) - then rerun every suite of
+  the items the file belongs to. A test broken by another item's intended behaviour is
+  re-scoped in its own `test(...)` commit that says which item changed it.
+- **Builder worktrees test their own code.** In a workspaces repo (npm / pnpm / yarn
+  `workspaces`, a Cargo or Go workspace), never link the whole dependency directory into a
+  builder's worktree.
+  - **Why:** its entries for the repo's own packages point at the main checkout. The gates
+    then build and test main's code and still pass. Measured on mage-arena-tv: a game
+    package imported `@mage/core` from main while its builder changed the worktree's core.
+  - **How:** make the worktree's `node_modules` a real directory, link each entry of main's
+    into it, then point the workspace package entries at the worktree's packages. Prove it
+    with `node -p "require('fs').realpathSync('node_modules/@scope/pkg')"` before the
+    baseline gate.
+  - **Never** create anything inside a dependency directory that is itself a link into the
+    main checkout.
+- **Gate the branch after every merge, even a clean one.** Git merges text, not meaning.
+  Two clean merges on mage-arena-tv broke the build:
+  - two parallel items each added an `ArenaGame.practice` field with a different shape;
+  - one item added a required field to a shared type that another item's new code did not
+    set.
+
+  Run the full gate on the integration branch after each item merges, not once at the end.
+  Run the item's measured checks too (census, ladder) where its change could move them.
+- **Builders stop at the repo's law.** A builder never edits the agent instruction or law
+  files (`AGENTS.md`, `CLAUDE.md`, a constitution or law directory, `.claude/rules/`) unless
+  its item names them. When the feature contradicts one, it stops and reports; the caller
+  asks the person. Measured on athena-portable: a cross-tab item rewrote two sentences of the
+  agent's law file unasked - coherent with the feature, but it changed the law hash every
+  session reads, a decision the person had not made.
+- **A defect found while building is its own commit, never an item.** When a builder finds a
+  pre-existing defect inside the area that no approved item names, the caller lands it as a
+  separate `fix(...)` commit only if it is small and provable from the code, records it in
+  `outcome.md` as found (not as an item), and names it in the report; anything larger goes to
+  `backlog.md`. Measured on athena-portable: a card-legibility builder noticed one shell
+  command lacked the argument casing every sibling declared, so every generic hand and card
+  capture would fail in the live shell - a one-line fix worth more than the item.
+- **Builders leave processes behind.** Before removing a builder's worktree, stop the
+  processes whose command line or working directory is inside it. A background census a
+  builder had started outlived it and held its worktree directory open (`Device or resource
+  busy`).
+
 ## Phase 8 - record
 
-1. `verdict.json` gains `landed`; `tiger.mjs ledger --run ...` appends per-seat rows to
-   `tiger/seats.jsonl` (proposals, anchor accuracy, peer mean, kept, approved, landed, wall
-   time, cost where the CLI reports it - codex and agy report none; say "n/a", never imply
-   parity) and prints the table for the report.
+1. `verdict.json` gains `landed` and `landed_items`; `tiger.mjs ledger --run ...` appends
+   per-seat rows to `tiger/seats.jsonl` (proposals, anchor accuracy, peer mean, kept,
+   approved, landed, items led, wall time, cost where the CLI reports it - codex and agy
+   report none; say "n/a", never imply parity) and prints the table for the report.
+   `kept / approved / landed` count pool ids, so a seat whose ideas were folded into big
+   clusters reads as fully landed; report the items-led column beside them (athena-portable:
+   landed ids read 5 / 5 / 6 / 5 across four seats, items led read 4 / 2 / 2 / 0, and the
+   leader was the judge's own family - say so when it happens).
 2. `tiger/hunts.md` gains the run's row; `tiger/backlog.md` gains approved-not-landed items
    and kept-not-chosen items with their pool ids and run link.
-3. `tiger.mjs clean --run ...` removes the seats' worktree.
-4. Commit the vault (unless it is ignored - see privacy) with the repo's convention.
-5. Report: area and why, live seats (and skipped ones with reasons), thesis, approved and
+3. `tiger.mjs clean --run ...` removes the seats' worktree. Remove each builder worktree
+   too, after stopping its processes (Phase 7), and delete item branches only once
+   `git branch --merged <run branch>` lists them.
+4. Commit the vault (unless it is ignored - see privacy) with the repo's convention. Commit
+   it on the run's branch, not in the main checkout, so shipping is a single fast-forward.
+5. **Ship only when the person asks, and only a branch that is current.** Other sessions
+   commit to the base branch during a multi-hour run: mage-arena-tv's `main` moved twice,
+   including a rewrite of a file one item had changed.
+   - **Bring it current:** merge the base into the run's branch in a scratch worktree. Rerun
+     the gate and the measured checks there, then fast-forward the base.
+   - **Uncommitted work:** the main checkout may hold someone's uncommitted work. Touch only
+     the files the branch also changes: save them, fast-forward, then re-apply their diff.
+   - **Shared append-only logs:** stage only the run's own lines in a log other sessions
+     also append to (consults, leads).
+6. Report: area and why, live seats (and skipped ones with reasons), thesis, approved and
    landed items with verify results, the seat table, cost and wall time, what was left out.
 
 ## Rules
@@ -212,7 +299,7 @@ not make.
 
 ## Telemetry for hardening
 
-The skill is young (3.0.0, 2026-10-14). Each run's `seats.jsonl` rows and its LESSONS entry
+The skill is young (3.0.0, 2026-10-14; 3.1.0 after its first full build run, 2026-10-15). Each run's `seats.jsonl` rows and its LESSONS entry
 are what the next version is built from. Worth recording in the reflection: which seat's
 ideas were kept / approved / landed and whether that held across areas; how often anchors
 were wrong per seat; whether round 2 fusions beat their parents in the judge's own scoring;

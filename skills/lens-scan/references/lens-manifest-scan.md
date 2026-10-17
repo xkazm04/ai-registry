@@ -31,7 +31,8 @@ instructions or the steps, and those fields with their `unit`.
 
 ## Which lenses use it
 
-- `development`, `security`, `design` keep their built-in methods ([metrics.md](metrics.md));
+- `development`, `security`, `design` and `performance` keep their built-in methods
+  ([metrics.md](metrics.md); performance's are the overlay's `## Probes` and `bundle_stats`);
   a scan block on them is ignored and the `lens` output says so.
 - `business`, `operations`, `quality` are built-in ids **without** a built-in method: their
   manifest's scan block measures them exactly as it measures a project lens. Without one they
