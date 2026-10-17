@@ -722,10 +722,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.6.1",
+      "version": "4.6.2",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:0a7533724a436818",
+      "contentHash": "sha256-n1:38788d3cdbc6786c",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -1088,7 +1088,7 @@
       "techniques": 40,
       "applications": 35,
       "files": 88,
-      "contentHash": "sha256-b2:3a6640af604a21df"
+      "contentHash": "sha256-b2:09153cfbb59d8e1a"
     },
     {
       "name": "civic-intelligence",
@@ -1114,7 +1114,7 @@
       "techniques": 553,
       "applications": 320,
       "files": 961,
-      "contentHash": "sha256-b2:887f229f12c2a175"
+      "contentHash": "sha256-b2:b90f5465244cd77d"
     },
     {
       "name": "grant-funding",
@@ -1140,7 +1140,7 @@
       "techniques": 134,
       "applications": 100,
       "files": 258,
-      "contentHash": "sha256-b2:5e8f38f4c4b61c92"
+      "contentHash": "sha256-b2:d847e37958e8aaa2"
     },
     {
       "name": "localization",
@@ -1153,7 +1153,7 @@
       "techniques": 119,
       "applications": 73,
       "files": 213,
-      "contentHash": "sha256-b2:9f039847cbea91ef"
+      "contentHash": "sha256-b2:21a03cda6537b7e8"
     },
     {
       "name": "marketing",
@@ -1179,7 +1179,7 @@
       "techniques": 196,
       "applications": 122,
       "files": 350,
-      "contentHash": "sha256-b2:1b9cc2fd18fc7708"
+      "contentHash": "sha256-b2:221ffa1be69c1898"
     },
     {
       "name": "recruiting",
@@ -1205,7 +1205,7 @@
       "techniques": 1874,
       "applications": 1350,
       "files": 3464,
-      "contentHash": "sha256-b2:71819ce54f713896"
+      "contentHash": "sha256-b2:4d1cd7be681e3446"
     },
     {
       "name": "technical-writing",
