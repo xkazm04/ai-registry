@@ -25,3 +25,8 @@ Append-only reflection lane. `## <version used> - <YYYY-MM-DD> - <project>` then
 
 - Field lesson: `adopt.mjs measure` passed the feature COUNT as `scope.features`, but the lens-scan store (since 1.2.0) wants the list of feature slugs and checks them against the map, so the first adoption after lens-scan 1.2.0 crashed at the static baseline. It now passes the slugs and the known set. The headless run patched a temp copy to finish; this is the real fix.
 - Field lesson: a context map kept from before a burst of commits can miss whole folders (athena-portable: 111 of 257 desktop source files covered, the depth scenes absent), and adopt then reads those features as having no UI. Counting dead paths (27 of 831) hid it; check coverage of tracked source, not just dead entries, before trusting an old map.
+
+## 1.2.2 - 2026-10-18 - personas-web (design lens, full app)
+- The curated context map was Vibeman-shaped (groups[].contexts[], camelCase filePaths); seed refused it and the run needed a fs.readFileSync preload shim to project it as v2. 1.3.0 reads it through lens-scan's flattenContextMap, so lens-scan phase 1 reads the same shape too.
+- judge had no path for the design manifest's status/a11y/specDrift or for proposal tier/risk_class: the agent wrote a post-judge script (facets into the map, store.mjs rank per proposal). judge now takes every non-derived enum/boolean manifest field and passes triage to propose.
+- register appended .ai/lens-scan/ to a clean .gitignore although .git/info/exclude already ignored it; the agent reverted it by hand. register now asks git check-ignore first.

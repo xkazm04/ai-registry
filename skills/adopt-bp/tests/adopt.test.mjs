@@ -8,6 +8,9 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ADOPT = path.join(HERE, '..', 'scripts', 'adopt.mjs');
@@ -112,5 +115,69 @@ test('adopts a tiny repo end to end', { skip: !BP && 'no bp checkout' }, () => {
   doc.products = doc.products.filter((p) => p.slug !== 'tiny-adopt-test');
   fs.writeFileSync(reg, `${JSON.stringify(doc, null, 2)}
 `);
+  fs.rmSync(root, { recursive: true, force: true });
+});
+
+test('a nested context map is read as v2; a judge sets choice facets and triage; register respects info/exclude', { skip: !BP && 'no bp checkout' }, () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'adopt-bp-nested-'));
+  const git = (...a) => execFileSync('git', ['-C', root, ...a], { encoding: 'utf8' });
+  git('init', '-q');
+  git('config', 'user.email', 't@t'); git('config', 'user.name', 't');
+  write(root, 'src/app/page.tsx', "import { List } from '../list/List';\nexport default function P() { return <List />; }\n");
+  write(root, 'src/list/List.tsx', "export function List() { return <ul />; }\n");
+  write(root, 'src/lib/util.ts', 'export const x = 1;\n');
+  // Vibeman's shape: contexts nested in their group, camelCase keys, an ungrouped one
+  write(root, 'context-map.json', JSON.stringify({ projectName: 'Nested', version: '2.0.0',
+    groups: [{ name: 'App', domain: 'feature', contexts: [
+      { name: 'list', category: 'ui', businessFeature: 'Lists', filePaths: ['src/app/page.tsx', 'src/list/List.tsx'] }] }],
+    ungrouped: [{ name: 'util', category: 'lib', filePaths: ['src/lib/util.ts'] }] }));
+  git('add', '-A'); git('commit', '-qm', 'init');
+  fs.appendFileSync(path.join(root, '.git', 'info', 'exclude'), '.ai/lens-scan/\n');
+
+  let r = run(root, 'check');
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /nested groups\[\]\.contexts\[\], read as v2\), 2 contexts/);
+  r = run(root, 'seed', '--slug', 'nested', '--name', 'Nested');
+  assert.equal(r.status, 0, r.stderr);
+  const inv = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/work/inventory.json'), 'utf8'));
+  assert.deepEqual(inv.contexts.map((c) => [c.name, c.group, c.files]), [['list', 'App', 2], ['util', undefined, 1]]);
+  assert.deepEqual(inv.contexts[0].entry_points, ['src/app/page.tsx'], 'a framework entry file stands in for undeclared entry points');
+
+  write(root, '.ai/lens-scan/work/product-tree.json', JSON.stringify({
+    domains: [{ slug: 'app', name: 'App' }], capabilities: [{ slug: 'see', name: 'See', domain: 'app' }],
+    features: [{ slug: 'list', name: 'List', summary: 's', capability: 'see', contexts: ['list', 'util'], stage: 'live' }] }));
+  for (const c of ['tree', 'events', 'measure']) { r = run(root, c); assert.equal(r.status, 0, `${c}: ${r.stderr}`); }
+
+  // an enum value outside the manifest's list, or a tier outside 0..3, is refused by name
+  write(root, '.ai/lens-scan/work/judgement/01.json', JSON.stringify({ features: { list: { design: { undesignedStates: 1, a11y: 'great' } } } }));
+  r = run(root, 'judge', '--model', 'test');
+  assert.notEqual(r.status, 0);
+  assert.match(r.stderr, /list\.design\.a11y = "great" is not unknown \| fail \| partial \| pass/);
+  write(root, '.ai/lens-scan/work/judgement/01.json', JSON.stringify({ features: {}, proposals: [{ feature: 'list', lens: 'design', metric: 'undesignedStates', title: 'x', expected_delta: -1, tier: 5 }] }));
+  r = run(root, 'judge', '--model', 'test');
+  assert.match(r.stderr, /proposal tier 5 is not 0\.\.3/);
+
+  write(root, '.ai/lens-scan/work/judgement/01.json', JSON.stringify({
+    features: { list: { development: { dupSites: 0 }, security: { findingsCritical: 0, findingsHigh: 0, findingsMedium: 0, findingsLow: 0, dataClass: 'internal' },
+      design: { undesignedStates: 1, status: 'implemented', a11y: 'partial', specDrift: true, evidence: 'src/list/List.tsx:1 no empty state' } } },
+    proposals: [{ feature: 'list', lens: 'design', metric: 'undesignedStates', title: 'Give the list an empty state', body: 'src/list/List.tsx:1', expected_delta: -1, size: 'S', risk: 2, tier: 2, risk_class: 'ux' }] }));
+  r = run(root, 'judge', '--model', 'test');
+  assert.equal(r.status, 0, r.stderr);
+  const m = JSON.parse(fs.readFileSync(path.join(root, '.ai/lens-scan/app-structure.json'), 'utf8'));
+  const d = m.facets.list.design.values;
+  assert.deepEqual([d.status, d.a11y, d.specDrift], ['implemented', 'partial', true]);
+  assert.equal(m.facets.list.security.values.dataClass, 'internal');
+  const db = new (require('node:sqlite').DatabaseSync)(path.join(root, '.ai/lens-scan/scan.db'), { readOnly: true });
+  assert.deepEqual({ ...db.prepare('SELECT tier, risk_class FROM proposals').get() }, { tier: 2, risk_class: 'ux' });
+  db.close();
+
+  r = run(root, 'register', '--slug', 'nested-adopt-test', '--name', 'Nested');
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /already ignored \(.*info\/exclude\); \.gitignore left as it is/);
+  assert.equal(fs.existsSync(path.join(root, '.gitignore')), false);
+  const reg = path.join(BP, 'bp.products.local.json');
+  const doc = JSON.parse(fs.readFileSync(reg, 'utf8'));
+  doc.products = doc.products.filter((p) => p.slug !== 'nested-adopt-test');
+  fs.writeFileSync(reg, `${JSON.stringify(doc, null, 2)}\n`);
   fs.rmSync(root, { recursive: true, force: true });
 });
