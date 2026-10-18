@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 26,
-  "techniques": 190,
-  "applications": 117,
+  "subjects": 27,
+  "techniques": 194,
+  "applications": 119,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -15,10 +15,86 @@
    "production-ops"
   ],
   "layout": "nested",
-  "use_when_coverage": "190/190",
+  "use_when_coverage": "194/194",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
+  "animatable-character-design": {
+   "category": "visual-generation",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/visual-generation/animatable-character-design/animatable-character-design.md",
+   "digest": "sha256-b2:f3944760b18a47ce",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "animatability-trial",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing between shortlisted character stills before committing to one",
+      "a face or landmark detector rejected a non-human character",
+      "deciding which animation route a chosen still should take"
+     ]
+    },
+    {
+     "slug": "default-attractor-rejection",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the brief for a product's companion or presenter character",
+      "a concept round came back as interchangeable human portraits",
+      "several writers or models produced the same answer independently"
+     ]
+    },
+    {
+     "slug": "form-from-product-language",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing the material palette and structure of a product's companion character",
+      "a character concept looks striking but could belong to any product",
+      "the being's colour must change with the product's runtime state"
+     ]
+    },
+    {
+     "slug": "functional-animation-slots",
+     "status": "forged",
+     "laws": [
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the constraint section of a brief for a character still that will be animated",
+      "a non-human direction keeps coming back with a human face",
+      "a chosen still needs hand-painting before it can be rigged"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "animatability-trial",
+     "file": "knowledge/media-generation/visual-generation/animatable-character-design/applications/process--animatability-trial.md",
+     "verified_on": "2026-10-18"
+    },
+    {
+     "stack": "process",
+     "technique": "functional-animation-slots",
+     "file": "knowledge/media-generation/visual-generation/animatable-character-design/applications/process--functional-animation-slots.md",
+     "verified_on": "2026-10-18"
+    }
+   ]
+  },
   "character-identity-continuity": {
    "category": "visual-generation",
    "subcategory": null,
@@ -3834,6 +3910,7 @@
   "unmeasured-is-not-pass": {
    "statement": "A quality gate may never report pass for something it did not check. \"Unmeasured\" is a first-class verdict, distinct from pass and fail, and enforcement coverage — what fraction of the promise is actually checked — is reported alongside the verdict. Craft parameters ship only with measurements behind them; an impression is not a number.",
    "techniques": [
+    "animatable-character-design/animatability-trial",
     "character-identity-continuity/camera-position-not-focal-length",
     "character-identity-continuity/identity-ruler-calibration",
     "character-identity-continuity/reference-admitted-late",
@@ -3925,6 +4002,7 @@
   "refusal-is-a-state": {
    "statement": "Generative providers refuse, and a refusal is a routing decision: re-route to another provider or surface it honestly — never blind-retry the same request, and never let a refusal masquerade as an empty success. No elimination is silent; the trail of who declined and why is part of the output.",
    "techniques": [
+    "animatable-character-design/animatability-trial",
     "character-identity-continuity/identity-ruler-calibration",
     "frame-direction/per-beat-rejection",
     "generated-speech-acceptance/published-number-comparability",
@@ -3942,6 +4020,68 @@
     "sound-effect-generation/loop-seam-acceptance",
     "video-assembly/gap-and-refusal-honesty",
     "video-assembly/generated-shot-sourcing"
+   ]
+  },
+  "cost-per-usable-output": {
+   "statement": "Generation economics are computed over usable outputs, not renders. A cheaper render that fails the brief more often is the more expensive plate; price per usable unit inverts price per call often enough that the naive metric misroutes real money.",
+   "techniques": [
+    "animatable-character-design/default-attractor-rejection",
+    "data-video-virality/series-repeatability",
+    "generated-music-acceptance/brief-conformance-listen",
+    "generated-music-acceptance/generated-audio-defect-taxonomy",
+    "generated-output-grading/cross-provider-flip-analysis",
+    "generated-output-grading/input-channel-parity",
+    "generated-output-grading/regrade-without-regenerate",
+    "generative-provider-routing/capability-to-vendor-plan",
+    "generative-provider-routing/cost-per-usable-economics",
+    "generative-provider-routing/resolution-as-stage-property",
+    "generative-provider-routing/unspent-budget-is-a-defect",
+    "generative-provider-routing/vendor-fact-ledger",
+    "image-prompt-composition/identity-split-from-state",
+    "image-prompt-composition/prompt-budget-limits",
+    "image-prompt-composition/prompt-dialect-matching",
+    "live-system-demo-film/retake-without-an-edit-session",
+    "multi-speaker-speech-production/line-addressed-re-render",
+    "multi-speaker-speech-production/voice-asset-model-generation-binding",
+    "music-video-production/coverage-across-the-phrase",
+    "music-video-production/form-follows-what-the-track-gives",
+    "narrative-engine-selection/fit-vs-hazard-axes",
+    "production-pipeline-phasing/asset-vs-disposable-render",
+    "production-pipeline-phasing/delivery-promise-lock",
+    "production-pipeline-phasing/phase-order-and-graduation",
+    "review-iteration-loops/partial-regeneration-seams",
+    "sound-effect-generation/layered-element-assembly",
+    "video-assembly/generated-shot-sourcing",
+    "video-assembly/motion-plate-library",
+    "video-assembly/storyboard-grid-conditioning",
+    "visual-style-locking/approved-reference-sheet",
+    "visual-style-locking/rejections-as-negative-evidence"
+   ]
+  },
+  "edit-do-not-regenerate": {
+   "statement": "Once a creator has reviewed work, feedback is answered with the smallest set of edits — never a regeneration. A regenerated artifact voids every review, gate, and verification computed against the version it silently replaced, even when it is \"better\". Touch what the notes are about; leave everything else byte-identical.",
+   "techniques": [
+    "animatable-character-design/functional-animation-slots",
+    "creator-voice-and-tone/spoken-delivery-direction",
+    "frame-direction/motif-establish-vary-payoff",
+    "generated-music-acceptance/generated-audio-defect-taxonomy",
+    "generated-output-grading/regrade-without-regenerate",
+    "generative-provider-routing/resolution-as-stage-property",
+    "live-system-demo-film/retake-without-an-edit-session",
+    "multi-speaker-speech-production/line-addressed-re-render",
+    "multi-speaker-speech-production/world-lexicon-as-pronunciation-dictionary",
+    "music-prompt-composition/section-plan-as-the-brief",
+    "production-pipeline-phasing/asset-vs-disposable-render",
+    "review-iteration-loops/anchored-variation-slate",
+    "review-iteration-loops/edit-plan-over-regeneration",
+    "review-iteration-loops/partial-regeneration-seams",
+    "sound-effect-generation/layered-element-assembly",
+    "video-assembly/cut-compiled-from-source",
+    "video-assembly/drift-correction",
+    "video-assembly/motion-plate-library",
+    "video-assembly/pinned-frame-notes",
+    "video-assembly/seek-stable-composition-authoring",
+    "visual-style-locking/draft-proofing-locked-ratchet"
    ]
   },
   "style-is-restated-not-remembered": {
@@ -4092,31 +4232,6 @@
     "visual-style-locking/motion-sampled-under-a-frame-budget"
    ]
   },
-  "edit-do-not-regenerate": {
-   "statement": "Once a creator has reviewed work, feedback is answered with the smallest set of edits — never a regeneration. A regenerated artifact voids every review, gate, and verification computed against the version it silently replaced, even when it is \"better\". Touch what the notes are about; leave everything else byte-identical.",
-   "techniques": [
-    "creator-voice-and-tone/spoken-delivery-direction",
-    "frame-direction/motif-establish-vary-payoff",
-    "generated-music-acceptance/generated-audio-defect-taxonomy",
-    "generated-output-grading/regrade-without-regenerate",
-    "generative-provider-routing/resolution-as-stage-property",
-    "live-system-demo-film/retake-without-an-edit-session",
-    "multi-speaker-speech-production/line-addressed-re-render",
-    "multi-speaker-speech-production/world-lexicon-as-pronunciation-dictionary",
-    "music-prompt-composition/section-plan-as-the-brief",
-    "production-pipeline-phasing/asset-vs-disposable-render",
-    "review-iteration-loops/anchored-variation-slate",
-    "review-iteration-loops/edit-plan-over-regeneration",
-    "review-iteration-loops/partial-regeneration-seams",
-    "sound-effect-generation/layered-element-assembly",
-    "video-assembly/cut-compiled-from-source",
-    "video-assembly/drift-correction",
-    "video-assembly/motion-plate-library",
-    "video-assembly/pinned-frame-notes",
-    "video-assembly/seek-stable-composition-authoring",
-    "visual-style-locking/draft-proofing-locked-ratchet"
-   ]
-  },
   "checkability-routes-the-pixel": {
    "statement": "If a viewer could check an element against a fact, deterministic code must draw it. If it only has to feel right, a model may. Charts, exact values, and labels are drawn and composited; atmosphere and illustrative scenes are generated. A generated glyph is not a nicer glyph — it is an unusable one.",
    "techniques": [
@@ -4144,41 +4259,6 @@
     "video-assembly/silent-defects-get-a-code-or-an-error",
     "video-assembly/storyboard-grid-conditioning",
     "video-assembly/verify-cheapest-artifact-first"
-   ]
-  },
-  "cost-per-usable-output": {
-   "statement": "Generation economics are computed over usable outputs, not renders. A cheaper render that fails the brief more often is the more expensive plate; price per usable unit inverts price per call often enough that the naive metric misroutes real money.",
-   "techniques": [
-    "data-video-virality/series-repeatability",
-    "generated-music-acceptance/brief-conformance-listen",
-    "generated-music-acceptance/generated-audio-defect-taxonomy",
-    "generated-output-grading/cross-provider-flip-analysis",
-    "generated-output-grading/input-channel-parity",
-    "generated-output-grading/regrade-without-regenerate",
-    "generative-provider-routing/capability-to-vendor-plan",
-    "generative-provider-routing/cost-per-usable-economics",
-    "generative-provider-routing/resolution-as-stage-property",
-    "generative-provider-routing/unspent-budget-is-a-defect",
-    "generative-provider-routing/vendor-fact-ledger",
-    "image-prompt-composition/identity-split-from-state",
-    "image-prompt-composition/prompt-budget-limits",
-    "image-prompt-composition/prompt-dialect-matching",
-    "live-system-demo-film/retake-without-an-edit-session",
-    "multi-speaker-speech-production/line-addressed-re-render",
-    "multi-speaker-speech-production/voice-asset-model-generation-binding",
-    "music-video-production/coverage-across-the-phrase",
-    "music-video-production/form-follows-what-the-track-gives",
-    "narrative-engine-selection/fit-vs-hazard-axes",
-    "production-pipeline-phasing/asset-vs-disposable-render",
-    "production-pipeline-phasing/delivery-promise-lock",
-    "production-pipeline-phasing/phase-order-and-graduation",
-    "review-iteration-loops/partial-regeneration-seams",
-    "sound-effect-generation/layered-element-assembly",
-    "video-assembly/generated-shot-sourcing",
-    "video-assembly/motion-plate-library",
-    "video-assembly/storyboard-grid-conditioning",
-    "visual-style-locking/approved-reference-sheet",
-    "visual-style-locking/rejections-as-negative-evidence"
    ]
   }
  }

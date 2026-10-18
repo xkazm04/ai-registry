@@ -268,6 +268,25 @@
       "tokensBasis30d": null
     },
     {
+      "name": "demo-film",
+      "version": "0.1.3",
+      "category": "workflow",
+      "path": "skills/demo-film/SKILL.md",
+      "contentHash": "sha256-n1:51069ccdf1105c93",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 1,
+      "lessonsPath": "skills/demo-film/LESSONS.md",
+      "lessonsHash": "sha256-n1:f8dbaa4a7bcdaf1a",
+      "usageContributors": [],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
+    },
+    {
       "name": "dojo",
       "version": "1.5.1",
       "category": "ai-native",
@@ -781,9 +800,9 @@
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 32,
+      "lessons": 33,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:354b8e79c13ba4ec",
+      "lessonsHash": "sha256-n1:9908fc40214ddcfd",
       "usageContributors": [
         "wolf"
       ],
@@ -1071,10 +1090,10 @@
     }
   ],
   "counts": {
-    "skills": 41,
+    "skills": 42,
     "practices": 8,
     "memory": 9,
-    "lessons": 349
+    "lessons": 351
   },
   "bundles": [
     {
@@ -1175,11 +1194,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "media",
-      "subjects": 26,
-      "techniques": 190,
-      "applications": 117,
-      "files": 338,
-      "contentHash": "sha256-b2:ad10ef51d53a2f0b"
+      "subjects": 27,
+      "techniques": 194,
+      "applications": 119,
+      "files": 345,
+      "contentHash": "sha256-b2:aa21861fa44eb014"
     },
     {
       "name": "recruiting",
@@ -1201,11 +1220,11 @@
       "okfVersion": "0.1",
       "profile": "rkb/0.1",
       "purity": "software",
-      "subjects": 235,
-      "techniques": 1874,
-      "applications": 1350,
-      "files": 3464,
-      "contentHash": "sha256-b2:4d1cd7be681e3446"
+      "subjects": 236,
+      "techniques": 1882,
+      "applications": 1354,
+      "files": 3477,
+      "contentHash": "sha256-b2:933dea0eb7774716"
     },
     {
       "name": "technical-writing",

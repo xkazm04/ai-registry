@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
-  "subjects": 235,
-  "techniques": 1874,
-  "applications": 1350,
+  "subjects": 236,
+  "techniques": 1882,
+  "applications": 1354,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1874/1874",
+  "use_when_coverage": "1882/1882",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -35433,6 +35433,134 @@
     }
    ]
   },
+  "talking-avatar": {
+   "category": "llm-agent",
+   "subcategory": "companion",
+   "status": "forged",
+   "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/talking-avatar.md",
+   "digest": "sha256-b2:78d16c10151c0331",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "motion-route-selection",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how an avatar will be animated before building it",
+      "a talking-head model that worked on its sample fails on the product's art",
+      "comparing animation routes for a verdict a person will make"
+     ]
+    },
+    {
+     "slug": "neural-motion-retargeting",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "driving a rig with motion predicted by an audio-to-motion model",
+      "a model's motion output has no named channels",
+      "learned head motion looks busy or blinks too often"
+     ]
+    },
+    {
+     "slug": "paced-realtime-measurement",
+     "status": "forged",
+     "laws": [
+      "limits-are-derived",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether an avatar route is realtime",
+      "a talking-head model is fast on a benchmark and falls behind the voice",
+      "reporting what an avatar costs to run"
+     ]
+    },
+    {
+     "slug": "procedural-presence-motion",
+     "status": "forged",
+     "laws": [
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an avatar looks frozen or restless between utterances",
+      "choosing blink timing and idle amplitude for a character",
+      "a gesture should come from the text rather than the audio"
+     ]
+    },
+    {
+     "slug": "rig-parameter-contract",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "more than one thing will produce avatar motion",
+      "comparing two motion sources on the same renderer",
+      "a renderer shows a frozen feature that the motion source never produced"
+     ]
+    },
+    {
+     "slug": "single-image-layer-decomposition",
+     "status": "forged",
+     "laws": [
+      "derivation-names-recomputation"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "splitting one portrait into parts a rig can move",
+      "a head turn reveals a ghost copy or a pale band",
+      "the art is glow or particles on black rather than paint"
+     ]
+    },
+    {
+     "slug": "viseme-drive",
+     "status": "forged",
+     "laws": [
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "making a mouth or speaking element follow synthesized speech",
+      "lip-sync reads as dubbed or as flapping",
+      "the speaking element is not a mouth"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "motion-route-selection",
+     "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/applications/process--motion-route-selection.md",
+     "verified_on": "2026-10-18"
+    },
+    {
+     "stack": "python",
+     "technique": "neural-motion-retargeting",
+     "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/applications/python--neural-motion-retargeting.md",
+     "verified_on": "2026-10-18",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "single-image-layer-decomposition",
+     "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/applications/python--single-image-layer-decomposition.md",
+     "verified_on": "2026-10-18",
+     "verified_against": "python@3.12"
+    }
+   ]
+  },
   "telemetry-pii-redaction": {
    "category": "security",
    "subcategory": "data-and-transport",
@@ -38929,9 +39057,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256-b2:fa03abeab38c89c7",
-   "revision": 21,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:87be312d121ea670",
+   "revision": 22,
+   "changedAt": "2026-10-18",
    "techniques": [
     {
      "slug": "authored-voice-identity",
@@ -39133,6 +39261,21 @@
      ]
     },
     {
+     "slug": "speech-timing-timeline",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success",
+      "unknown-is-not-a-value"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "something on screen must move in time with synthesized speech",
+      "a talking face or a caption drifts away from the voice it follows",
+      "adding per-sound or per-word timings to a synthesis stream"
+     ]
+    },
+    {
      "slug": "spoken-intent-parsing",
      "status": "forged",
      "laws": [
@@ -39291,6 +39434,13 @@
      "technique": "render-acceptance",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/python--render-acceptance.md",
      "verified_on": "2026-09-03",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "speech-timing-timeline",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/applications/python--speech-timing-timeline.md",
+     "verified_on": "2026-10-18",
      "verified_against": "python@3.12"
     },
     {
@@ -41281,6 +41431,9 @@
     "sync-replication/conflict-detection-and-policy",
     "sync-replication/sync-observability",
     "table/loading-and-empty-states",
+    "talking-avatar/motion-route-selection",
+    "talking-avatar/neural-motion-retargeting",
+    "talking-avatar/paced-realtime-measurement",
     "telemetry-pii-redaction/redact-at-the-cap",
     "telemetry-pii-redaction/redaction-invariants-as-tests",
     "templates-scaffolding/instance-upgrade",
@@ -41349,6 +41502,7 @@
     "voice-io/on-device-vs-cloud",
     "voice-io/portable-provider-package",
     "voice-io/render-acceptance",
+    "voice-io/speech-timing-timeline",
     "voice-io/spoken-intent-parsing",
     "voice-io/stt-pipeline",
     "voice-io/transcript-handoff-receipts",
@@ -42217,6 +42371,9 @@
     "supply-chain/license-reach-follows-integration-form",
     "supply-chain/reading-is-not-running",
     "supply-chain/review-attestation-ledger",
+    "talking-avatar/paced-realtime-measurement",
+    "talking-avatar/rig-parameter-contract",
+    "talking-avatar/viseme-drive",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
     "tenant-scoped-agent-runtime/fail-direction-follows-deployment-mode",
     "tenant-scoped-agent-runtime/stamp-ownership-before-the-router",
@@ -42238,6 +42395,7 @@
     "usage-pricing-models/grouping-key-reruns-the-ladder",
     "usage-pricing-models/inferred-tier-boundary-convention",
     "voice-io/caller-scoped-voice-binding",
+    "voice-io/speech-timing-timeline",
     "watch-cache-and-resync/desync-is-a-state",
     "watch-cache-and-resync/initial-read-strategy-behind-a-gate",
     "web-scraping/negotiated-representation-probe",
@@ -43062,6 +43220,7 @@
     "supply-chain/archive-extraction-safety",
     "supply-chain/vendored-fork-ledger",
     "sync-replication/tombstone-propagation",
+    "talking-avatar/procedural-presence-motion",
     "templates-scaffolding/adoption-lifecycle",
     "templates-scaffolding/catalog-curation",
     "tenant-scoped-agent-runtime/task-local-tenant-scope",
@@ -43489,6 +43648,7 @@
     "sync-replication/conflict-detection-and-policy",
     "sync-replication/topology-declaration",
     "table/export-escapes-for-its-consumer",
+    "talking-avatar/rig-parameter-contract",
     "telemetry-pii-redaction/denylist-plus-pattern-pass",
     "templates-scaffolding/readiness-prerequisites",
     "templates-scaffolding/template-anatomy",
@@ -43526,6 +43686,7 @@
     "voice-io/duplex-agent-sessions",
     "voice-io/engine-abstraction",
     "voice-io/portable-provider-package",
+    "voice-io/speech-timing-timeline",
     "voice-io/voice-setup-experience",
     "web-scraping/extraction-rule-dsl",
     "windowed-inference-over-oversized-inputs/schedule-parity-by-realized-cut",
@@ -43776,6 +43937,8 @@
     "table/filtering",
     "table/pagination",
     "table/performance",
+    "talking-avatar/neural-motion-retargeting",
+    "talking-avatar/single-image-layer-decomposition",
     "templates-scaffolding/adoption-lifecycle",
     "templates-scaffolding/instance-upgrade",
     "templates-scaffolding/template-anatomy",
@@ -43884,6 +44047,7 @@
     "structured-output/enumerable-domain-decoding",
     "subscription-billing-periods/boundary-stitch-on-timezone-change",
     "table/compressed-scroll-space",
+    "talking-avatar/paced-realtime-measurement",
     "untrusted-extension-host/host-api-import-budget",
     "usage-event-ingestion/dedupe-key-survives-soft-delete",
     "usage-pricing-models/exact-money-with-one-rounding-boundary",

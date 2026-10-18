@@ -24,6 +24,7 @@ techniques:
   - real-time-synthesis-budget
   - voice-setup-experience
   - bounded-playback-wait
+  - speech-timing-timeline
 ---
 
 # Voice input and output
@@ -500,3 +501,9 @@ seven rules.
   sent before the device is released, stopping generation when the device is not
   opening, the stall measured on the playback position where a pause can happen, and
   measuring whether a mediated engine has already bounded the device.
+- [speech-timing-timeline](./techniques/speech-timing-timeline.md) — when
+  something must move with the voice: per-sound timings from the model's own
+  durations before an aligner or amplitude, tokens from the frontend that made
+  the audio, post-processing replayed as a monotone time map, the measured
+  offset, the token check that fails a render, and one event per sentence in
+  sample offsets of the audio stream.

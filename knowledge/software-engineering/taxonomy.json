@@ -162,7 +162,8 @@
           "subjects": [
             "companion-identity",
             "companion-runtime",
-            "conversation-orchestration"
+            "conversation-orchestration",
+            "talking-avatar"
           ]
         }
       ]
