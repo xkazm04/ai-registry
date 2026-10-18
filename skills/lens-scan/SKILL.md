@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.9.0
+version: 1.10.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -640,8 +640,12 @@ storage: cookie-consent essential        # optional, repeatable: a localStorage 
 dismiss: "Accept"                        # optional: visible buttons clicked away before each shot
 full_page: true                          # optional: the whole page, scrolled through once so in-view sections render
 ready_timeout: 300                       # optional: a longer cap than 120 s for a slow cold start
+click_timeout: 30                        # optional: seconds a step's click waits (default 10)
+nav_timeout: 60                          # optional: seconds a navigation or screenshot may take (default 30)
+linked_command: npx next dev --webpack --port 4173   # optional: serves a root whose node_modules is a link
 features:
   <slug>: route /path                    # or: steps click "Text" > click "Other" (Playwright text selectors)
+  <slug>: route /missing expect 404      # a page whose designed state is an error status
   <slug>: unscreenable "native window only"
 ```
 
@@ -652,6 +656,11 @@ and prints `shots` (-> `store.mjs shot --report-file`), `measurements` (`minText
 HTTP error or blank body -> the note). It always kills the command's process tree. It refuses when the url
 already answers before the command starts (another server holds the port); `--port <n>` serves
 elsewhere. A `steps` feature whose first step is `goto /path` starts there instead of at `/`.
+A pack worktree links the base checkout's `node_modules` (a junction), which Turbopack refuses:
+with `linked_command:` set, harness.py serves such a root with it and prints `served_by:
+"linked_command"`; name that in the run's note, since a different dev server rendered the shots.
+A webpack dev server compiles each route on first visit, so a `steps` click that opens one may
+need `click_timeout:` above the 10 s default.
 
 **Check one shot per theme before trusting a run.** A persisted store usually reads JSON, not
 the bare theme name (`theme: storage personas-theme {"state":{"themeId":"{theme}"},"version":0}`);

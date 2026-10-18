@@ -18,8 +18,13 @@ Reads the generic `## Harness` form from the overlay:
                                              #   before the page's scripts (a consent already given, a flag)
     dismiss: "Essential Only"                # optional: visible buttons clicked away before each shot
     full_page: true                          # optional: capture the whole page, not only the viewport
+    click_timeout: 30                        # optional: seconds a step's click waits for its target (default 10)
+    nav_timeout: 60                          # optional: seconds a navigation or a screenshot may take (default 30)
+    linked_command: npx next dev --webpack --port 4173   # optional: used instead of command when the root's
+                                             #   node_modules is a symlink or junction (a pack worktree)
     features:
       <slug>: route /path
+      <slug>: route /missing expect 404      # a page whose designed state is an error status (a not-found page)
       <slug>: steps click "Text" > click "Other"   # Playwright text selectors, from the url's root
       <slug>: unscreenable "native window only"
 
@@ -27,7 +32,7 @@ refuses (exit 1) when the url already answers before the command starts: another
 would show its checkout, not this root (pass --port to serve a worktree elsewhere). Otherwise starts the command (cwd = the product root), waits for ready, then per scoped feature, size and theme loads the
 feature and captures a PNG into <root>/.ai/lens-scan/shots/<run>/<feature>-<theme>-<size>.png, with a JSON report
 beside it (same name, .json: url, size, theme, minTextPx, console errors). A feature marked unscreenable, or one
-whose route fails to render (navigation error, HTTP >= 400, blank body), gets no shot and is listed under
+whose route fails to render (navigation error, HTTP >= 400 other than its `expect`, blank body), gets no shot and is listed under
 `unscreenable` with why. The command's whole process tree is killed at the end, whatever happened.
 
 Prints one JSON object; the skill records it, this script writes no store row:
@@ -36,6 +41,8 @@ Prints one JSON object; the skill records it, this script writes no store row:
     measurements  [{feature, lens, metric: minTextPx|consoleErrors, value, unit?, method: "harness", evidence}]
                   -> store.mjs measure --run <run> --json <file>   (unit = the lens manifest field's, read from the map)
     unscreenable  [{feature, why}]  -> store.mjs activity --kind note --text "unscreenable: <why>"
+    served_by     "linked_command", present when that command served the shots instead of `command`: name it in the
+                  run's note, because a different dev server (webpack, not Turbopack) rendered them
 minTextPx is the smallest computed font-size of visible text over every capture of the feature; consoleErrors is
 the number of distinct console errors and page errors over them. Exit 2 bad input, 1 when the front end never got
 ready (nothing captured), else 0. Needs Python Playwright (`pip install playwright && playwright install chromium`).
@@ -61,7 +68,8 @@ SCROLL_THROUGH = '''async () => {
   }
   window.scrollTo(0, 0);
 }'''
-NAV_TIMEOUT_MS = 30000
+NAV_TIMEOUT_S = 30
+CLICK_TIMEOUT_S = 10
 SETTLE_S = 0.6
 MODULE = 'harness.py'
 
@@ -95,7 +103,8 @@ def strip_comment(v):
 def parse_harness(body):
     """The generic form as a dict: command, url, ready, sizes [(w, h)], themes [..], theme_mode, features {slug: spec}."""
     cfg = {'command': None, 'url': None, 'ready': '/', 'sizes': [(1280, 800)], 'themes': ['light'], 'theme_values': {},
-           'theme': 'media', 'storage': [], 'dismiss': [], 'full_page': False, 'ready_timeout': READY_CAP_S, 'features': {}}
+           'theme': 'media', 'storage': [], 'dismiss': [], 'full_page': False, 'ready_timeout': READY_CAP_S,
+           'click_timeout': CLICK_TIMEOUT_S, 'nav_timeout': NAV_TIMEOUT_S, 'linked_command': None, 'features': {}}
     in_features = False
     for raw in body.splitlines():
         line = raw.rstrip()
@@ -115,7 +124,7 @@ def parse_harness(body):
         key, val = m.group(1), strip_comment(m.group(2))
         if key == 'features':
             in_features = True
-        elif key in ('command', 'url', 'ready'):
+        elif key in ('command', 'url', 'ready', 'linked_command'):
             cfg[key] = val or None
         elif key == 'sizes':
             sizes = []
@@ -152,6 +161,11 @@ def parse_harness(body):
             if not re.fullmatch(r'\d+', val) or not 10 <= int(val) <= 1800:
                 raise InputError(f'## Harness ready_timeout: {val!r} is not 10..1800 seconds')
             cfg['ready_timeout'] = int(val)
+        elif key in ('click_timeout', 'nav_timeout'):
+            lo, hi = (1, 120) if key == 'click_timeout' else (5, 300)
+            if not re.fullmatch(r'\d+', val) or not lo <= int(val) <= hi:
+                raise InputError(f'## Harness {key}: {val!r} is not {lo}..{hi} seconds')
+            cfg[key] = int(val)
         elif key == 'full_page':
             if val not in ('true', 'false'):
                 raise InputError(f'## Harness full_page: {val!r} is not true | false')
@@ -166,9 +180,12 @@ def parse_harness(body):
 
 
 def parse_feature(spec):
-    """`route /path` | `steps click "A" > click "B"` (optionally starting with `goto /path`) | `unscreenable "why"`."""
+    """`route /path [expect <status>]` | `steps click "A" > click "B"` (optionally starting with `goto /path`) | `unscreenable "why"`."""
     if spec.startswith('route '):
-        return {'kind': 'route', 'route': spec[6:].strip()}
+        m = re.fullmatch(r'(\S+)(?:\s+expect\s+(\S+))?', spec[6:].strip())
+        if not m or (m.group(2) and not re.fullmatch(r'[1-5]\d\d', m.group(2))):
+            raise InputError(f'## Harness route: {spec!r} is not route /path [expect <HTTP status>]')
+        return {'kind': 'route', 'route': m.group(1), 'expect': int(m.group(2)) if m.group(2) else None}
     if spec.startswith('unscreenable'):
         why = spec[len('unscreenable'):].strip().strip('"').strip()
         return {'kind': 'unscreenable', 'why': why or 'marked unscreenable in the overlay'}
@@ -201,6 +218,12 @@ def manifest_units(structure_path, lens):
 
 
 # ------------------------------------------------------------------------------------------- process
+def node_modules_linked(root):
+    """True when <root>/node_modules is a symlink or (Windows) a junction, as in a pack worktree."""
+    p = os.path.join(root, 'node_modules')
+    return os.path.islink(p) or bool(getattr(os.path, 'isjunction', lambda _: False)(p))
+
+
 def start(command, cwd):
     if not command:
         return None
@@ -285,17 +308,22 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
             cls = tm.split(' ', 1)[1]
             page.evaluate("([c, on]) => document.documentElement.classList.toggle(c, on)", [cls, theme == 'dark'])
 
-    def goto(path):
+    nav_ms = cfg['nav_timeout'] * 1000
+
+    def goto(path, expect=None):
         url = themed(urljoin(cfg['url'].rstrip('/') + '/', path.lstrip('/')))
         try:
-            resp = page.goto(url, wait_until='load', timeout=NAV_TIMEOUT_MS)
+            resp = page.goto(url, wait_until='load', timeout=nav_ms)
         except Exception as e:
             if 'Timeout' not in type(e).__name__:
                 raise
             # a dev server compiles a route on its first request, which can outlast one timeout
-            resp = page.goto(url, wait_until='load', timeout=NAV_TIMEOUT_MS)
-        if resp is not None and resp.status >= 400:
-            return f'HTTP {resp.status} at {path}'
+            resp = page.goto(url, wait_until='load', timeout=nav_ms)
+        status = resp.status if resp is not None else None
+        if expect is not None and status != expect:
+            return f'HTTP {status} at {path}, expected {expect}'
+        if expect is None and status is not None and status >= 400:
+            return f'HTTP {status} at {path}'
         return None
 
     try:
@@ -305,7 +333,7 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
             first = spec['route'] if spec['kind'] == 'route' else (steps[0][1] if steps and steps[0][0] == 'goto' else '/')
             if steps and steps[0][0] == 'goto':
                 steps = steps[1:]
-            why = goto(first)
+            why = goto(first, spec.get('expect'))
             if why:
                 return None, why
             apply_class()
@@ -317,7 +345,7 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
                             return None, why
                         apply_class()
                     else:
-                        page.get_by_text(arg, exact=True).first.click(timeout=10000)
+                        page.get_by_text(arg, exact=True).first.click(timeout=cfg['click_timeout'] * 1000)
             try:
                 page.wait_for_load_state('networkidle', timeout=10000)
             except Exception:
@@ -339,7 +367,7 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
             if page.evaluate(BLANK):
                 return None, f'blank body at {first}'
             os.makedirs(os.path.dirname(out_png), exist_ok=True)
-            page.screenshot(path=out_png, full_page=cfg['full_page'])
+            page.screenshot(path=out_png, full_page=cfg['full_page'], timeout=nav_ms)
             px, where, n = page.evaluate(MINFONT)
             return {'feature': slug, 'url': page.url, 'size': f'{w}x{h}', 'theme': theme, 'minTextPx': px, 'minTextAt': where,
                     'textElements': n, 'consoleErrors': sorted(set(errors))}, None
@@ -371,6 +399,11 @@ def run(args):
         if spec['kind'] == 'unscreenable':
             out['unscreenable'].append({'feature': slug, 'why': spec['why']})
     live = [(s, sp) for s, sp in targets if sp['kind'] != 'unscreenable']
+    if cfg['linked_command'] and node_modules_linked(root):
+        # a pack worktree links the base checkout's node_modules; Turbopack refuses a node_modules that points out
+        # of the project root, so the overlay names the command that serves such a root
+        cfg['command'] = cfg['linked_command']
+        out['served_by'] = 'linked_command'
     if args.dry or not live:
         return out, 0
     store_dir = os.path.join(root, '.ai', 'lens-scan')
