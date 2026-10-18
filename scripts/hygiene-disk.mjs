@@ -285,7 +285,9 @@ function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
   if (fs.existsSync(claudeTmp)) {
     for (const proj of fs.readdirSync(claudeTmp, { withFileTypes: true })) {
       if (!proj.isDirectory() || proj.isSymbolicLink()) continue;
-      for (const s of fs.readdirSync(path.join(claudeTmp, proj.name), { withFileTypes: true })) {
+      // a session dir can vanish between the two listings (a live session cleans up)
+      let sessions; try { sessions = fs.readdirSync(path.join(claudeTmp, proj.name), { withFileTypes: true }); } catch { continue; }
+      for (const s of sessions) {
         if (s.isSymbolicLink()) continue;
         const abs = path.join(claudeTmp, proj.name, s.name);
         let m; try { m = entryMeasure(abs, !s.isDirectory()); } catch { continue; }
