@@ -366,7 +366,9 @@ test('compare: before/after measurements per item and shots paired by (theme, si
   s({ path: 'shots/a-b-light-mobile.png', theme: 'light', size: 'mobile', phase: 'before' });
   shot(db, { run, feature: 'a', path: 'shots/unlinked.png', theme: 'dark', size: 'desktop' });
 
-  const [ca, cb] = compare(db, { pack: k.id });
+  // Two proposals seeded in one millisecond tie on created_at and fall back to their random ids: find by id.
+  const byId = new Map(compare(db, { pack: k.id }).map((x) => [x.proposal.id, x]));
+  const [ca, cb] = [byId.get(a), byId.get(b)];
   assert.equal(ca.proposal.id, a);
   assert.deepEqual(ca.before.map((x) => [x.value, x.commit_sha]), [[12, 'b0']]);
   assert.deepEqual(ca.after.map((x) => [x.value, x.commit_sha]), [[9, `c-${a}`]]);
@@ -378,7 +380,7 @@ test('compare: before/after measurements per item and shots paired by (theme, si
   const light = ca.shots.find((p) => p.theme === 'light');
   assert.ok(light.before && !('after' in light), 'an unpaired side is absent, never null');
   assert.deepEqual([cb.before, cb.after, cb.shots], [[], [], []]);
-  assert.deepEqual(compare(db, { ids: `${b},p-000000,${a}` }).map((x) => x.proposal.id), [b, a]);
+  assert.deepEqual(compare(db, { ids: `${b},p-000000,${a}` }).map((x) => x.proposal.id).sort(), [a, b].sort());
   assert.throws(() => compare(db, {}), /one of them/);
   assert.throws(() => compare(db, { pack: 'k-nope' }), /does not exist/);
   assert.ok(!JSON.stringify(compare(db, { ids: a })).includes('null'));

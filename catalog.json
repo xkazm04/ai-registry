@@ -439,10 +439,10 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.8.0",
+      "version": "1.8.1",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:c27a08352a778b20",
+      "contentHash": "sha256-n1:33620a449454bcdc",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
