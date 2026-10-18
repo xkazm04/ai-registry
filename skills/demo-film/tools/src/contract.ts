@@ -109,6 +109,7 @@ export const TakeBeat = z.object({
   startMs: z.number().int().nonnegative(),
   endMs: z.number().int().nonnegative(),
   rects: z.record(z.string(), Rect).default({}),
+  /** atMs is relative to the beat's startMs, not to the take. */
   clicks: z.array(z.object({ x: z.number(), y: z.number(), atMs: z.number().int().nonnegative() })).default([]),
   /** Values reduced from the run (figures a plate may show). */
   record: z.record(z.string(), z.unknown()).optional(),

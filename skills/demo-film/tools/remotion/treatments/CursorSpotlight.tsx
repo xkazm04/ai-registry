@@ -19,7 +19,7 @@ export function waypoints(ctx: MomentCtx, selectors: unknown): Waypoint[] {
   const k = displayScale(ctx.take);
   if (tb && tb.clicks.length) {
     return tb.clicks
-      .map((c) => ({ p: { x: c.x * k, y: c.y * k }, at: msToFrames(c.atMs - tb.startMs) - offset }))
+      .map((c) => ({ p: { x: c.x * k, y: c.y * k }, at: msToFrames(c.atMs) - offset }))
       .sort((a, b) => a.at - b.at);
   }
   const names = Array.isArray(selectors) ? selectors.filter((x): x is string => typeof x === 'string') : [];

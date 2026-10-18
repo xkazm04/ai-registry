@@ -130,6 +130,20 @@ export function serveDir(root) {
   return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve({ server, url: `http://127.0.0.1:${server.address().port}/` })));
 }
 
+// ---- media outside the film dir: the loopback server only serves the film dir, so a StyleLock logo
+// that lives elsewhere in the repo (contract: "relative to the script file", e.g. ../branding/logo.svg)
+// would 404 and fail the render. Inline it as a data: URI (mediaResolver passes data: through).
+export function inlineOutsideMedia(script, filmDir) {
+  const logo = script.style.logo;
+  if (/^(https?:|data:|blob:)/.test(logo)) return script;
+  const root = path.resolve(filmDir);
+  const abs = path.resolve(root, logo);
+  if (abs.startsWith(root + path.sep)) return script;
+  if (!existsSync(abs)) throw new Error(`style.logo not found: ${abs}`);
+  const mime = TYPES[path.extname(abs).toLowerCase()] ?? 'application/octet-stream';
+  return { ...script, style: { ...script.style, logo: `data:${mime};base64,${readFileSync(abs).toString('base64')}` } };
+}
+
 // ---- fx: a procedural whoosh (band-limited pink noise, swelled into the cut); no downloaded assets
 async function ensureWhoosh(filmDir) {
   const rel = 'out/.fx/whoosh-v1.wav';
@@ -235,7 +249,7 @@ async function main() {
     const { ensureBrowser, renderMedia, renderStill, selectComposition } = req('@remotion/renderer');
     await ensureBrowser();
     const serveUrl = await getBundle(localEntry, log);
-    const inputProps = { script: film.script, manifest: film.manifest, ...(film.take ? { take: film.take } : {}), balance: o.balance, baseDir: url, ...(fx ? { fx } : {}) };
+    const inputProps = { script: inlineOutsideMedia(film.script, film.dir), manifest: film.manifest, ...(film.take ? { take: film.take } : {}), balance: o.balance, baseDir: url, ...(fx ? { fx } : {}) };
     const composition = await selectComposition({ serveUrl, id: 'Film', inputProps, logLevel: 'warn' });
     if (composition.durationInFrames !== timeline.totalFrames) throw new Error(`composition ${composition.durationInFrames} frames != timeline ${timeline.totalFrames}`);
 

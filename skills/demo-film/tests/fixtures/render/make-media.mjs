@@ -50,12 +50,12 @@ const take = {
   beats: [
     {
       id: 'haggle-open', startMs: 500, endMs: 4900, rects,
-      clicks: [{ x: 1390, y: 480, atMs: 2400 }, { x: 1390, y: 660, atMs: 3900 }],
+      clicks: [{ x: 1390, y: 480, atMs: 1900 }, { x: 1390, y: 660, atMs: 3400 }],
       record: { askMe: 250, ceiling: 340, offers: [285] },
     },
     {
       id: 'haggle-close', startMs: 5200, endMs: 8600, rects: { '#offer': rects['#offer'], '#ceiling': rects['#ceiling'] },
-      clicks: [{ x: 1390, y: 660, atMs: 6400 }],
+      clicks: [{ x: 1390, y: 660, atMs: 1200 }],
       record: { askMe: 250, ceiling: 340, offers: [285, 310, 330] },
     },
   ],
