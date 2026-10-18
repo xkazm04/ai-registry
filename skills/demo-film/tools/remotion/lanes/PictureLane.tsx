@@ -40,7 +40,7 @@ function BeatPicture({ beat }: { beat: TBeat }) {
   const d = deviceAt(timeline, beat, frame, s.ease);
   const dm = timeline.moments.find((m) => m.beatIndex === beat.index && m.component === 'DeviceFrame' && frame >= m.startFrame && frame < m.startFrame + m.durFrames);
   const footage = (
-    <ZoomLayer z={z}>
+    <ZoomLayer z={z} radius={s.radius}>
       <Footage beat={beat} />
     </ZoomLayer>
   );

@@ -45,6 +45,10 @@ export const FilmBeat = z.object({
       beat: z.string(),
       /** Selectors whose rendered rects the adapter logs for this beat. */
       targets: z.array(z.string()).optional(),
+      /** Where the beat's footage begins: "played" (default) when its action starts, so the action
+       *  is seen; "ready" once its end state is on screen, for a beat whose action is only a page
+       *  change or a load (the switch would read as a blink). The adapter logs startMs accordingly. */
+      from: z.enum(['played', 'ready']).optional(),
     })
     .optional(),
   moments: z.array(Moment).optional(),

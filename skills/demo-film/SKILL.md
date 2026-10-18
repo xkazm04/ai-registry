@@ -3,7 +3,7 @@ name: demo-film
 description: Make a voice-first demo film or product video of a working app, compiled by Remotion from one film script - real app footage on one lane, motion graphics (a typed plate library plus 1-3 bespoke hero compositions) on another, ElevenLabs narration measured before anything is recorded, and cue-spotted ElevenLabs music beneath. Use when asked for a demo film, product video, launch or explainer video, motion graphics over app recordings, ElevenLabs narration for a screen recording, a Remotion cut of a live system, or an ad cut of an existing film. The cut is a command, not an editing session - narrate, music, capture (consumer adapter that asserts its claims and logs element rects), check, render at a balance (overlay, sandwich, led). Spend-guarded, key never printed. Invoke with /demo-film <film-dir> [narrate|music|check|render] [--balance b].
 category: workflow
 memory: project
-version: 0.1.4
+version: 0.1.5
 argument-hint: "<film-dir> [narrate|music|check|render] [--balance overlay|sandwich|led]"
 ---
 
@@ -75,6 +75,20 @@ film/
 - The capture adapter is the consumer's code (it knows the app). It reads `film.json` and
   the manifest for holds, drives each `capture.beat`, logs the rects of `capture.targets`,
   and writes `take/take.json`. A beat without `capture` is a pure motion beat.
+- **Clean cuts are the adapter's job.** Lessons from the first consumer:
+  - **Never let a jump land in a window.** When the next film beat is not the app's next beat,
+    the adapter jumps to the beat before it first, off-window, then plays the target in place.
+  - **Time the take by the video, not the wall clock.** Real-time recorders drift seconds
+    behind over a long take. Draw a tiny per-beat sync mark in the app (a grey level per beat
+    index, clear of video black), read it back from the frames, and shift each window. Clamp a
+    window's end to the last frame that still shows its own mark, then paint the mark out.
+  - **Start page-change beats when ready.** `capture.from: "ready"` starts a beat's footage
+    once its end state is on screen and its windows are still, for a beat whose action is only
+    a page change, a load or a window opening.
+- **Isolate small windows.** `ZoomToRect` with `isolate: true` cuts the footage to the element
+  on the ground from the first frame and centres it. Use it when the rest of the frame is empty
+  or distracting (a closed window's placeholder), since a 1.6x zoom alone cannot fill the frame
+  with a small window.
 
 ## Commands
 

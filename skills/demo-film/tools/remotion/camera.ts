@@ -14,7 +14,8 @@ export const ZOOM_EASE_FRAMES = 18;
 export const DEVICE = { scale: 0.78, bar: 46, perspective: 2600, enterFrames: 22 } as const;
 
 export type Pt = { x: number; y: number };
-export type Zoom = { s: number; tx: number; ty: number };
+/** `clip`: the screen-space window footage is cut to (isolate), as insets from each edge in px. */
+export type Zoom = { s: number; tx: number; ty: number; clip?: { top: number; right: number; bottom: number; left: number } };
 export type Device = { amt: number; scale: number; bar: number; rx: number; ry: number };
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
@@ -55,9 +56,23 @@ export function zoomAt(tl: Timeline, take: Take | undefined, beat: TBeat, frame:
     const S = clamp(fit, 1.15, max) * (1 - 0.025 + 0.025 * hold);
     const cx = r.x + r.w / 2;
     const cy = r.y + r.h / 2;
-    const Tx = clamp(W / 2 - cx * S, W - W * S, 0);
-    const Ty = clamp(H / 2 - cy * S, H - H * S, 0);
-    return { s: 1 + (S - 1) * amt, tx: Tx * amt, ty: Ty * amt };
+    const isolate = m.props.isolate === true;
+    // full-bleed footage may not pan past its own edge; an isolated element sits on the ground, so it
+    // is centred whatever corner of the take it came from
+    const Tx = isolate ? W / 2 - cx * S : clamp(W / 2 - cx * S, W - W * S, 0);
+    const Ty = isolate ? H / 2 - cy * S : clamp(H / 2 - cy * S, H - H * S, 0);
+    const z: Zoom = { s: 1 + (S - 1) * amt, tx: Tx * amt, ty: Ty * amt };
+    if (isolate) {
+      // isolate: the footage is cut to the element (plus a margin) from the first frame, so whatever
+      // surrounds it in the take never shows; the cut element then lifts from its place to the centre
+      const pad = typeof m.props.pad === 'number' ? m.props.pad : 18;
+      const x0 = r.x * z.s + z.tx - pad;
+      const y0 = r.y * z.s + z.ty - pad;
+      const x1 = (r.x + r.w) * z.s + z.tx + pad;
+      const y1 = (r.y + r.h) * z.s + z.ty + pad;
+      z.clip = { top: Math.max(0, y0), left: Math.max(0, x0), right: Math.max(0, W - x1), bottom: Math.max(0, H - y1) };
+    }
+    return z;
   }
   return { s: 1, tx: 0, ty: 0 };
 }

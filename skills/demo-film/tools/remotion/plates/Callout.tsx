@@ -22,7 +22,11 @@ export function Callout({ props, ctx }: MomentProps) {
   ].map((p) => ctx.toScreen(p, f));
   const midL = ctx.toScreen({ x: r.x - pad, y: r.y + r.h / 2 }, f);
   const midR = ctx.toScreen({ x: r.x + r.w + pad, y: r.y + r.h / 2 }, f);
-  const side = props.side === 'left' || props.side === 'right' ? props.side : (midL.x + midR.x) / 2 > 960 ? 'left' : 'right';
+  // the side is decided once, where the element sits at the middle of the moment: read per frame,
+  // it flipped as a zoom carried the element across the centre and the label blinked side to side
+  const mid = Math.floor(ctx.durFrames / 2);
+  const centreAtMid = (ctx.toScreen({ x: r.x - pad, y: r.y }, mid).x + ctx.toScreen({ x: r.x + r.w + pad, y: r.y }, mid).x) / 2;
+  const side = props.side === 'left' || props.side === 'right' ? props.side : centreAtMid > 960 ? 'left' : 'right';
   const anchor = side === 'right' ? midR : midL;
   const dir = side === 'right' ? 1 : -1;
   const lead = 120;
