@@ -47,6 +47,20 @@ features:
   assert.deepEqual([out.shots, out.measurements], [[], []], '--dry captures nothing');
 });
 
+test('harness --dry: a storage seed template, theme values, dismiss and full_page parse', { skip: !PY && 'no python on PATH' }, () => {
+  const root = overlay(`url: http://localhost:4173
+themes: light, dark=dark-midnight          # the label names the shot, the value is what the app stores
+theme: storage personas-theme {"state":{"themeId":"{theme}"},"version":0}
+dismiss: "Essential Only", "Close"
+full_page: true
+features:
+  home: route /
+`);
+  const r = harness(root);
+  assert.equal(r.status, 0, r.stderr);
+  assert.deepEqual(JSON.parse(r.stdout).unmapped, []);
+});
+
 test('harness: bad overlays exit 2 with the reason', { skip: !PY && 'no python on PATH' }, () => {
   for (const [body, why] of [
     ['features:\n  a: route /\n', /needs url/],
@@ -54,6 +68,9 @@ test('harness: bad overlays exit 2 with the reason', { skip: !PY && 'no python o
     ['url: http://x\ntheme: colour\n', /not media/],
     ['url: http://x\nfeatures:\n  a: hover "x"\n', /not route, steps or unscreenable/],
     ['url: http://x\nfeatures:\n  a: steps press "x"\n', /click "Text" or goto/],
+    ['url: http://x\ntheme: storage app-theme {"mode":"dark"}\n', /not media/],
+    ['url: http://x\ndismiss: Accept\n', /quote each button text/],
+    ['url: http://x\nfull_page: yes\n', /not true \| false/],
   ]) {
     const r = harness(overlay(body));
     assert.equal(r.status, 2, body);

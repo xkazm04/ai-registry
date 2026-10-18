@@ -10,8 +10,11 @@ Reads the generic `## Harness` form from the overlay:
     url: http://localhost:4173
     ready: /                                 # polled until HTTP 200, 120 s cap
     sizes: 1280x800                          # one or more WxH, comma-separated
-    themes: light, dark
-    theme: media                             # how a theme is set: media (default) | query ?theme= | class dark | storage <key>
+    themes: light, dark                      # a label may carry the app's own value: dark=dark-midnight
+    theme: media                             # how a theme is set: media (default) | query ?theme= | class dark
+                                             #   | storage <key> [<value template with {theme}>]
+    dismiss: "Essential Only"                # optional: buttons clicked away before each shot (consent banners)
+    full_page: true                          # optional: capture the whole page, not only the viewport
     features:
       <slug>: route /path
       <slug>: steps click "Text" > click "Other"   # Playwright text selectors, from the url's root
@@ -80,7 +83,8 @@ def strip_comment(v):
 
 def parse_harness(body):
     """The generic form as a dict: command, url, ready, sizes [(w, h)], themes [..], theme_mode, features {slug: spec}."""
-    cfg = {'command': None, 'url': None, 'ready': '/', 'sizes': [(1280, 800)], 'themes': ['light'], 'theme': 'media', 'features': {}}
+    cfg = {'command': None, 'url': None, 'ready': '/', 'sizes': [(1280, 800)], 'themes': ['light'], 'theme_values': {},
+           'theme': 'media', 'dismiss': [], 'full_page': False, 'features': {}}
     in_features = False
     for raw in body.splitlines():
         line = raw.rstrip()
@@ -113,15 +117,31 @@ def parse_harness(body):
                 sizes.append((int(sm.group(1)), int(sm.group(2))))
             cfg['sizes'] = sizes or cfg['sizes']
         elif key == 'themes':
-            cfg['themes'] = [t for t in re.split(r'[,\s]+', val) if t] or cfg['themes']
+            labels = []
+            for t in re.split(r'[,\s]+', val):
+                if not t:
+                    continue
+                label, _, value = t.partition('=')
+                labels.append(label)
+                if value:
+                    cfg['theme_values'][label] = value
+            cfg['themes'] = labels or cfg['themes']
         elif key == 'theme':
             cfg['theme'] = val
+        elif key == 'dismiss':
+            cfg['dismiss'] = re.findall(r'"([^"]+)"', val)
+            if val and not cfg['dismiss']:
+                raise InputError(f'## Harness dismiss: quote each button text, e.g. dismiss: "Accept" (got {val!r})')
+        elif key == 'full_page':
+            if val not in ('true', 'false'):
+                raise InputError(f'## Harness full_page: {val!r} is not true | false')
+            cfg['full_page'] = val == 'true'
     if not cfg['url']:
         raise InputError('## Harness needs url: <base url>')
     tm = cfg['theme']
     if not (tm == 'media' or re.fullmatch(r'query \??[A-Za-z0-9_-]+=?', tm) or re.fullmatch(r'class [A-Za-z0-9_-]+', tm)
-            or re.fullmatch(r'storage [A-Za-z0-9_.:-]+', tm)):
-        raise InputError(f'## Harness theme: {tm!r} is not media | query ?<param>= | class <name> | storage <localStorage key>')
+            or re.fullmatch(r'storage [A-Za-z0-9_.:-]+( .*\{theme\}.*)?', tm)):
+        raise InputError(f'## Harness theme: {tm!r} is not media | query ?<param>= | class <name> | storage <localStorage key> [<template with {{theme}}>]')
     return cfg
 
 
@@ -218,9 +238,13 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
     w, h = size
     ctx = browser.new_context(viewport={'width': w, 'height': h},
                               color_scheme=('dark' if theme == 'dark' else 'light') if cfg['theme'] == 'media' else None)
+    value = cfg['theme_values'].get(theme, theme)  # the app's own name for the theme the shot is labelled with
     if cfg['theme'].startswith('storage '):
-        # the app reads its theme from localStorage at start: write it before any of the page's own scripts run
-        ctx.add_init_script('try { localStorage.setItem(%s, %s) } catch (e) {}' % (json.dumps(cfg['theme'].split(' ', 1)[1]), json.dumps(theme)))
+        # the app reads its theme from localStorage at start: write it before any of the page's own scripts run.
+        # A persisted store usually wants JSON, not the bare name - with a wrong seed an app may fall back to any theme.
+        _, key, *template = cfg['theme'].split(' ', 2)
+        stored = template[0].replace('{theme}', value) if template else value
+        ctx.add_init_script('try { localStorage.setItem(%s, %s) } catch (e) {}' % (json.dumps(key), json.dumps(stored)))
     page = ctx.new_page()
     errors = []
     page.on('console', lambda m: errors.append(m.text[:300]) if m.type == 'error' else None)
@@ -229,7 +253,7 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
 
     def themed(url):
         if tm.startswith('query'):
-            return with_query(url, tm.split(' ', 1)[1].lstrip('?').rstrip('='), theme)
+            return with_query(url, tm.split(' ', 1)[1].lstrip('?').rstrip('='), value)
         return url
 
     def apply_class():
@@ -269,10 +293,17 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
             except Exception:
                 pass  # a page that keeps a socket open still renders
             time.sleep(SETTLE_S)
+            for text in cfg['dismiss']:
+                # a consent banner covers the bottom of every shot; absent on this page is fine
+                try:
+                    page.get_by_role('button', name=text, exact=True).first.click(timeout=1500)
+                    time.sleep(0.3)
+                except Exception:
+                    pass
             if page.evaluate(BLANK):
                 return None, f'blank body at {first}'
             os.makedirs(os.path.dirname(out_png), exist_ok=True)
-            page.screenshot(path=out_png)
+            page.screenshot(path=out_png, full_page=cfg['full_page'])
             px, where, n = page.evaluate(MINFONT)
             return {'feature': slug, 'url': page.url, 'size': f'{w}x{h}', 'theme': theme, 'minTextPx': px, 'minTextAt': where,
                     'textElements': n, 'consoleErrors': sorted(set(errors))}, None

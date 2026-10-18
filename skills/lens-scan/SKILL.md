@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.8.1
+version: 1.9.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -634,7 +634,10 @@ command: npm run dev -- --port 4173      # starts the front end
 url: http://localhost:4173
 ready: /                                 # polled until HTTP 200, 120 s cap
 sizes: 1280x800
-themes: light, dark                      # how a theme is set: `theme: query ?theme=` | `theme: class dark` | `theme: storage <localStorage key>` | `theme: media`
+themes: light, dark                      # a label may carry the app's value: dark=dark-midnight
+theme: media                             # or: query ?theme= | class dark | storage <localStorage key> [<template with {theme}>]
+dismiss: "Accept"                        # optional: buttons clicked away before each shot (consent banners)
+full_page: true                          # optional: the whole page, so a change below the fold shows
 features:
   <slug>: route /path                    # or: steps click "Text" > click "Other" (Playwright text selectors)
   <slug>: unscreenable "native window only"
@@ -647,6 +650,12 @@ and prints `shots` (-> `store.mjs shot --report-file`), `measurements` (`minText
 HTTP error or blank body -> the note). It always kills the command's process tree. It refuses when the url
 already answers before the command starts (another server holds the port); `--port <n>` serves
 elsewhere. A `steps` feature whose first step is `goto /path` starts there instead of at `/`.
+
+**Check one shot per theme before trusting a run.** A persisted store usually reads JSON, not
+the bare theme name (`theme: storage personas-theme {"state":{"themeId":"{theme}"},"version":0}`);
+with a wrong seed the app silently picks another theme. A consent banner left open covers the
+bottom of every shot, before and after alike, and a viewport shot cannot show a change below the
+fold, so an identical before/after pair proves nothing.
 
 ---
 
