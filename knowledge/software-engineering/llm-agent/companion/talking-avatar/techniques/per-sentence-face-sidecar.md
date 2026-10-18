@@ -105,6 +105,17 @@ plays ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-succes
 - **When a request arrives for a line that was interrupted,** cancel its queued
   sentences in the sidecar; work for audio nobody will hear is the cost a
   barge-in should not pay.
+- **When the sidecar loads a model that chooses its own device,** set the device
+  explicitly from what is present — the CPU when no accelerator is — and test the
+  load with the accelerator hidden. A capability that silently requires an
+  accelerator is reported as "motion: no" on every machine without one, and
+  nobody reads that as a bug.
+- **When the expensive capability may be too slow on this machine,** the sidecar
+  measures itself during its warm-up — one timed pass of the unit the cost is
+  made of — and reports the result with the capability: on, with the settings it
+  chose and the time it measured, or off, with the measured time and the budget it
+  missed as the reason. The voice side shows that, and a person's explicit
+  setting overrides it.
 - **When the sidecar is set up but not yet ready,** the voice speaks without a
   face rather than waiting for it; the first start of a model can take tens of
   seconds.

@@ -81,17 +81,39 @@ computed from its finished audio while the sentence before it played. This
 corrects the spike-era claim that the hybrid was "offline per utterance" with
 "at least 4 s" of latency.
 
-## Pending measurements
+## Measured without the accelerator, and the default
 
-A measurement track is running at the time of writing; its numbers go here, and
-none is assumed until they land:
+The follow-up measurement (`main` at `0d1baaec`, `spikes/avatar-measure/`,
+2026-10-18, the same Ryzen 7 7800X3D + RTX 4090 desktop) ran the shipped
+`Motion.frames` on the CPU and on the 4090. The box was shared and
+`spikes/avatar-measure/README.md:18 "kept it at 92-100 % busy for the whole run"`,
+so every CPU figure is relative between configurations, not a specification;
+each row records its load. It does not repeat the product-path run above, so
+that run stays the operator's record; its isolated 4090 bench agrees in size
+(`spikes/avatar-measure/README.md:99 "0.67 (0.65-0.86)"` s for a 3.26 s sentence,
+n = 9).
 
-- JoyVASA motion per sentence on CPU only (no accelerator) — *pending*;
-- the same on a small machine (laptop class, integrated graphics) — *pending*;
-- the rule for whether motion is on by default, decided from those two rows —
-  *pending*;
-- faster motion models compared on the same line and the same retarget —
-  *pending*.
+- **Motion on CPU only**, warm, one 3.26 s sentence, n = 9 per cell: 3.02 s at 4
+  threads (RTF 0.93), 1.78 s at 8 (0.55), 1.35 s at 16 (0.41), against 0.67 s on
+  the 4090 (0.21) — rows at `spikes/avatar-measure/README.md:94-99 "RTX 4090"`. Cost is one
+  step per 4 s window
+  (`spikes/avatar-measure/README.md:30 "**Cost is a step function of 4 s windows.**"`).
+- **Live coverage**, Kokoro rendering on the same CPU, 3 lines of 5 sentences:
+  2 % / 44 % / 67 % / 82 % for 4 / 8 / 16 threads / the 4090
+  (`spikes/avatar-measure/README.md:40 "said 2-44 % of speech got neural motion."`),
+  and 80 % at 4 threads with a lean load and 10 DDIM steps
+  (`spikes/avatar-measure/README.md:45 "Together: 80 % of speech covered live and 96 % when Kokoro runs ahead, against CUDA's 82 % and"`).
+- **Small machine**: unmeasured. The pinned-core proxy was withdrawn under the
+  background load (`spikes/avatar-measure/README.md:121 "**The pinned rows are not a laptop measurement and not even a good proxy on this box.**"`).
+- **Mouth timelines stay cheap everywhere**, n = 21:
+  `spikes/avatar-measure/README.md:138 "2-core proxy. They are linear in tokens, and the daemon's 1 s deadline holds with margin. No action"`.
+- **Default-on rule (proposed)**: the helper probes one 4 s window during its
+  warm-up and turns motion on when
+  `spikes/avatar-measure/README.md:229 "Neural motion is on by default when the helper's own probe measures **W ≤ 1.0 s**"`,
+  choosing steps from {50, 25, 10}, leaving two cores to the voice
+  (`spikes/avatar-measure/README.md:241 "threads to the physical core count minus 2, leaving room for Kokoro's 2."`),
+  and reporting `{"motion": true, "steps": K, "window_s": W_K}` in `caps`
+  (`spikes/avatar-measure/README.md:248 "The daemon's"`). Not shipped at `0d1baaec`.
 
 ## Deviations
 
@@ -102,3 +124,13 @@ none is assumed until they land:
   full second.
 - The product-path measurement above is not committed with the code; until it is,
   the figures are the operator's record, n = 6 sentences on one machine.
+- **The helper cannot run motion without CUDA** (recorded 2026-10-18, a fix is in
+  progress). It builds the motion model's config without forcing the CPU
+  (`src/athena/channels/voice/face_helper/motion.py:86` "inference = InferenceConfig(**{k: v for k, v in kw.items() if hasattr(InferenceConfig, k)})"),
+  and the wrapper then picks `cuda:0` whenever MPS is absent:
+  `spikes/avatar-measure/README.md:25 "**The shipped helper cannot run motion on a CPU at all.**"`
+  — on a machine without CUDA the load fails and the helper reports
+  `caps motion:false`. Every CPU figure above came from a bench that set
+  `flag_force_cpu`; the product path reaches none of them until
+  `spikes/avatar-measure/README.md:28 "a one-line fix: "` lands. The technique's rule — test the load with the
+  accelerator hidden — is what found it.

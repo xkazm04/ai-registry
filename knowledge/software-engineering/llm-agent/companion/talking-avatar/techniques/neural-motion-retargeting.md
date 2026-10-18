@@ -6,7 +6,7 @@ technique: neural-motion-retargeting
 status: forged
 laws: [derivation-names-recomputation, failure-not-empty-success]
 shared_with: []
-use_when: [driving a rig with motion predicted by an audio-to-motion model, a model's motion output has no named channels, learned head motion looks busy or blinks too often]
+use_when: [driving a rig with motion predicted by an audio-to-motion model, a model's motion output has no named channels, learned head motion looks busy or blinks too often, speeding up or distilling a sampling motion model]
 ---
 
 # Neural motion retargeting
@@ -113,6 +113,63 @@ anywhere without one. A hybrid whose playback is light but whose motion needs an
 accelerator is not yet an accelerator-free path, and saying otherwise is
 reporting the cheap half as the whole
 ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+
+## Making the motion source cheaper
+
+The motion model is usually the one part of a hybrid that needs an accelerator,
+and the cheapest way to widen where it runs is to make it cheaper, not to find a
+bigger machine. Two families of change, one yardstick.
+
+**The yardstick is the model against itself.** A sampling model (diffusion,
+anything seeded) does not have one right answer: two seeds of the unchanged model
+disagree by a measurable amount on the same audio. Measure that gap first — head
+error in degrees, per-channel correlation, amplitude ratio, blink onsets matched
+within a short tolerance — on held-out sentences, after the retarget, because the
+retarget is what the viewer sees. A faster variant or a distilled student is
+judged by how far it sits beyond that gap, with a no-motion reference beside it
+for scale. A variant at the gap is another sample of the teacher; a variant near
+no-motion is not motion. Report amplitude separately: a variant can track the
+teacher's timing and still damp it, and a damped channel can be restored with a
+gain in the retarget, which a wrong-timed one cannot.
+
+**Cheap changes inside the model come first.** Profile the stages: in a diffusion
+motion model the denoising loop is typically most of the CPU time and the audio
+encoder a tenth. A model trained to predict the clean sample can be sampled with
+a few deterministic steps instead of its full schedule without retraining;
+fewer steps cost amplitude before they cost timing, so pick the count by the
+yardstick, not by speed. Do not load the parts of a release the motion path
+never calls (a bundled renderer is the usual one). Export the networks to a graph
+runtime and check it against the original on identical inputs before trusting
+its speed. Reduced-precision modes are measured, not assumed: on a CPU they can
+be slower.
+
+**Distilling the model, when the cheap changes are not enough.** A small causal
+sequence model trained on the teacher's outputs can replace the expensive loop.
+Three choices decide whether it learns anything:
+
+- **Keep an audio encoder of the teacher's kind** and train on its features
+  (the teacher's own, or a permissively licensed one of the same family when the
+  teacher's carries a licence or data risk — the student keeps whatever encoder
+  it is trained on). A student fed
+  generic spectral features has to rediscover what the encoder already knew and
+  tends to regress to the mean — near-zero correlation and a tenth of the
+  amplitude, no better than no motion.
+- **Train on whole sequences from their start**, not on random crops. A model
+  that generates fixed windows produces a track that depends on where each window
+  starts; a crop teaches the student a different problem from the one it will be
+  asked.
+- **Target only the channels the retarget reads** — the pose and the few decoded
+  projections — and rebuild anything else from them (a decoder matrix's
+  pseudo-inverse rebuilds a full expression vector from its projections), so the
+  shipped retarget runs unchanged and the evaluation is the product's own output.
+
+Changing those three turned a student whose head correlation with the teacher
+was 0.1-0.3 into one at 0.75-0.87, with blink timing matching the teacher as well
+as two teacher seeds match each other — with the teacher's own encoder; a
+swapped encoder is a new student and is judged afresh by the same yardstick. A student that overfits quickly is short
+of teacher data, which a teacher can generate for the cost of running it. The
+student is not finished until a person has compared it with the teacher on the
+product's real art; the numbers bound it, the eye accepts it.
 
 ## When not to use this
 

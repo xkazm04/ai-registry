@@ -6,7 +6,7 @@ technique: paced-realtime-measurement
 status: forged
 laws: [limits-are-derived, failure-not-empty-success, unknown-is-not-a-value]
 shared_with: []
-use_when: [deciding whether an avatar route is realtime, a talking-head model is fast on a benchmark and falls behind the voice, reporting what an avatar costs to run]
+use_when: [deciding whether an avatar route is realtime, a talking-head model is fast on a benchmark and falls behind the voice, reporting what an avatar costs to run, measuring a motion model on a machine without an accelerator]
 ---
 
 # Paced realtime measurement
@@ -78,6 +78,50 @@ including no accelerator at all — before any default is decided. A number from
 the development machine decides nothing about a laptop, and an unmeasured class
 is reported as unmeasured
 ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+
+## Measuring the class without an accelerator
+
+The no-accelerator row is where a motion source's cost is most often misread.
+Five rules, each learned from a figure that would otherwise have been reported:
+
+- **Hide the accelerator before claiming a fallback.** A model that picks its own
+  device — falling back from one accelerator to another, never to the CPU — can
+  look CPU-capable on a development machine and fail to load on a machine without
+  the accelerator. Run the product's own load path with the accelerator made
+  invisible to the process, and only then write "runs without one". A bench that
+  forces the CPU through its own flag measures the cost; it does not prove the
+  product's path reaches the CPU.
+- **Measure the live schedule with the upstream producer on the same cores.**
+  Without an accelerator, the synthesizer and the motion model share the CPU: the
+  voice renders slower, sentences start the moment they are rendered, and motion
+  is late by its whole compute time on every sentence. Isolated compute against
+  sentence length (a real-time factor well under one) says nothing about that.
+  Replay a multi-sentence line through the product's real schedule with the real
+  synthesizer running as a sibling, and report **coverage** — the share of speech
+  time that carries the learned motion, each sentence counted as one minus its
+  lateness over its duration, floored at zero. Report it in two regimes: the
+  synthesizer live beside the model, and all audio rendered ahead (the queue's
+  worst case). Isolated factors of a half to nine tenths can become coverage of a
+  few per cent to under half; only the replay shows it.
+- **A fixed-window model is predicted by one window.** When a model always
+  generates a fixed window of output, its cost is a step function of windows, not
+  linear in seconds: a sentence shorter than one window costs a whole window, and
+  a sentence of n windows costs about n of them. Confirm the step on a few lengths
+  once; after that, a warm one-window probe predicts every sentence on that
+  machine, and the probe is cheap enough to run at start-up.
+- **On a shared machine, record the background load per row.** When the bench box
+  cannot be emptied, sample the machine's busy share during every row and print it
+  beside the figure; read CPU figures under heavy background load as relative
+  between configurations, not as a specification of a dedicated machine, and say
+  so above the table.
+- **Distrust pinned-core proxies under contention.** Pinning a process to a few
+  cores to imitate a small machine fails when the background already occupies
+  those cores: the pinned process cannot move, a thread pool that synchronises
+  every step degrades far worse than the work itself, and the "small machine"
+  comes out slower than fewer cores would. Check the proxy's cores actually used
+  (CPU time over wall time) before believing it; if it is far below the cores it
+  was given, drop the row and use unpinned thread counts as the stand-in, labelled
+  as a stand-in. A real small machine stays unmeasured until one is measured.
 
 ## Budgets for the drawing side
 

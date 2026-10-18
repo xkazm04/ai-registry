@@ -35438,8 +35438,8 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/talking-avatar.md",
-   "digest": "sha256-b2:3fba738ffcfb4a6d",
-   "revision": 2,
+   "digest": "sha256-b2:f96c1d7ea0398677",
+   "revision": 3,
    "changedAt": "2026-10-18",
    "techniques": [
     {
@@ -35468,7 +35468,8 @@
      "use_when": [
       "deciding how an avatar will be animated before building it",
       "a talking-head model that worked on its sample fails on the product's art",
-      "comparing animation routes for a verdict a person will make"
+      "comparing animation routes for a verdict a person will make",
+      "deciding on which machines learned motion is on by default"
      ]
     },
     {
@@ -35482,7 +35483,8 @@
      "use_when": [
       "driving a rig with motion predicted by an audio-to-motion model",
       "a model's motion output has no named channels",
-      "learned head motion looks busy or blinks too often"
+      "learned head motion looks busy or blinks too often",
+      "speeding up or distilling a sampling motion model"
      ]
     },
     {
@@ -35497,7 +35499,8 @@
      "use_when": [
       "deciding whether an avatar route is realtime",
       "a talking-head model is fast on a benchmark and falls behind the voice",
-      "reporting what an avatar costs to run"
+      "reporting what an avatar costs to run",
+      "measuring a motion model on a machine without an accelerator"
      ]
     },
     {

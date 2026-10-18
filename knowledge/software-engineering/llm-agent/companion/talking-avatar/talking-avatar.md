@@ -189,6 +189,13 @@ asking for frames. Face-signal-across-surfaces holds these rules.
 - **The window read as a floor** — a hybrid ruled "offline only" because its
   model analyses seconds of audio, when the voice renders whole sentences ahead
   of playback and the window never waits on the clock.
+- **The isolated-factor verdict** — learned motion declared viable without an
+  accelerator because it computes faster than real time alone, when on that
+  machine the voice shares the same cores and the share of speech that actually
+  carries the motion is a few per cent.
+- **The accidental accelerator** — a motion model that picks its own device and
+  never falls back to the CPU, so "runs anywhere" quietly means "runs where there
+  is an accelerator".
 - **The ghost layer** — a static part holding a copy of a moving one, visible the
   first time the head turns.
 - **The smoothed-away closure** — a mouth timeline merged for smoothness until the
@@ -211,7 +218,8 @@ asking for frames. Face-signal-across-surfaces holds these rules.
 
 - [motion-route-selection](./techniques/motion-route-selection.md) — choosing rig,
   neural or hybrid on the product's own art, hardware and pacing, with a common
-  bench and a blinded verdict.
+  bench and a blinded verdict; a self-probe for the motion default, and distil
+  before switching models.
 - [single-image-layer-decomposition](./techniques/single-image-layer-decomposition.md) —
   splitting one still into drivable parts, filling what lay behind them, and the
   light-on-black variant.
@@ -223,11 +231,12 @@ asking for frames. Face-signal-across-surfaces holds these rules.
 - [procedural-presence-motion](./techniques/procedural-presence-motion.md) — idle,
   blinks, saccades, text-driven gestures and the amplitude that suits a character.
 - [neural-motion-retargeting](./techniques/neural-motion-retargeting.md) — turning a
-  model's unnamed motion latent into rig parameters, and filtering it into
-  something a viewer believes.
+  model's unnamed motion latent into rig parameters, filtering it into
+  something a viewer believes, and making the model cheaper against its own
+  seed-to-seed gap.
 - [paced-realtime-measurement](./techniques/paced-realtime-measurement.md) — lag
-  against the audio clock, per-stage profiles, warm processes, and the honest
-  cost of each route.
+  against the audio clock, per-stage profiles, warm processes, coverage with the
+  voice on the same cores, and the honest cost of each route.
 - [per-sentence-face-sidecar](./techniques/per-sentence-face-sidecar.md) — the
   face's heavy half as a helper process beside the voice: capability probe,
   deadlines, backoff, and a voice that is identical with and without it.

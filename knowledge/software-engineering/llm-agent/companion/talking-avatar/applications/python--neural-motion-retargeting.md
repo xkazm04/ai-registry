@@ -73,6 +73,47 @@ model kept warm with a throwaway second first
 The text-driven question tilt did not come along:
 `src/athena/channels/voice/face_helper/motion.py:17` "borrowed from the text: this track is predicted from the audio alone. Runs in the face helper's".
 
+## Making it cheaper, judged against JoyVASA's own seed gap
+
+The follow-up spike (athena-portable `main` at `0d1baaec`, `spikes/avatar-measure/`,
+2026-10-18, Ryzen 7 7800X3D + RTX 4090; CPU timings relative, the box
+`spikes/avatar-measure/README.md:18 "kept it at 92-100 % busy for the whole run"`)
+measured every variant after the shipped retarget, against seed 7 of the
+unchanged model, with seeds 8 and 9 as the floor:
+`spikes/avatar-measure/README.md:85-86 "The **noise floor** is"`.
+
+- **Stage profile**: `spikes/avatar-measure/README.md:34 "**The denoiser is 85 % of CPU time.**"`.
+- **10 DDIM steps, no retraining** (the model predicts x0):
+  `spikes/avatar-measure/README.md:42 "A 10-step DDIM sampler, which needs no retraining because the model predicts x0."`;
+  3.1x faster at 0.66° head error against the 0.51-0.56° floor, roll amplitude
+  0.66x (`spikes/avatar-measure/README.md:189 "**DDIM 10 steps**"`; timing n = 3 at 8
+  threads, quality on 30 held-out sentences).
+- **onnxruntime**: `spikes/avatar-measure/README.md:197 "They match torch to within 3e-5 (audio features) and 5e-6 (denoiser output) on identical inputs."`,
+  then `spikes/avatar-measure/README.md:209 "onnxruntime is 2.5-2.7x faster than torch at 4-8 threads."` (n = 5).
+- **bf16 on this CPU** halved the speed:
+  `spikes/avatar-measure/README.md:184 "slower on Zen 4: drop"`.
+
+**Distillation** (`spikes/avatar-measure/distill/`; 480 sentences, 408 / 24 / 48
+train / validation / test, teacher on the 4090). Attempt 1 (log-mel to 66 values)
+regressed to the mean:
+`spikes/avatar-measure/README.md:308 "**Attempt 1 failed honestly.** It regressed to the mean, keeping about 11 % of the head amplitude,"`.
+Attempt 2 changed the three things the technique now names —
+`spikes/avatar-measure/README.md:311 "the teacher's own features;"`,
+`spikes/avatar-measure/README.md:312 "only the 7 values"`,
+`spikes/avatar-measure/README.md:314 "whole sentences from their first frame instead of random 4 s crops"` —
+and reached head correlation 0.81 / 0.87 / 0.75 (yaw / pitch / roll) against
+0.11 / 0.18 / 0.29 (`spikes/avatar-measure/README.md:300 "**0.81 / 0.87 / 0.75**"`),
+head error 0.74° against the 0.53° floor and 1.28° for no motion
+(`spikes/avatar-measure/README.md:299 "**0.74°**"`), blinks 0.58 / 0.61 recall /
+precision against the teacher's 0.61 / 0.56 seed-to-seed. The pseudo-inverse
+rebuild is in `spikes/avatar-measure/distill/student2.py:16 "with the decoder matrix's pseudo-inverse, so the shipped ``retarget`` runs unchanged."`.
+Not verified: how it looks on the owl and origami rigs
+(`spikes/avatar-measure/README.md:324 "**Not verified:** how the attempt-2 motion *looks* on the owl and origami rigs."`).
+The student keeps JoyVASA's chinese-hubert-base encoder at inference, which the
+licence check (2026-10-18) flags as pretrained on non-commercial data; a clean
+student re-extracts with an Apache-2.0 HuBERT and is measured again (see
+[process--motion-route-selection](./process--motion-route-selection.md)).
+
 ## Deviations
 
 - **"Not live" was wrong, and is corrected.** The spike wrote
@@ -83,8 +124,11 @@ The text-driven question tilt did not come along:
   0.57-0.75 s per ~2.5 s sentence warm, every motion event in time (RTX 4090,
   2026-10-18, n = 6 sentences; see
   [python--per-sentence-face-sidecar](./python--per-sentence-face-sidecar.md)).
-  The window bounds latency only for streamed audio. Generating it still needs
-  the model on the accelerator (peak 1.3 GB in the spike).
+  The window bounds latency only for streamed audio. On the CPU the shipped model
+  covers 2-67 % of speech at 4-16 threads with the voice on the same cores, and
+  the shipped helper does not reach the CPU at all yet (see
+  [python--per-sentence-face-sidecar](./python--per-sentence-face-sidecar.md));
+  lean load + 10 DDIM steps brought 4 threads to 80 %.
 - The calibration script's own docstring still says features are "relative to the
   clip's first frame" (`spikes/avatar/t4-hybrid/t4/calibrate.py:6 "relative to the clip's first frame"`)
   while the code fits absolute features — a stale comment beside the fix it
