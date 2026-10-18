@@ -1,0 +1,71 @@
+{
+  "title": "Tally render fixture",
+  "fps": 30,
+  "size": { "w": 1920, "h": 1080 },
+  "voice": { "role": "narrator", "model": "eleven_multilingual_v2", "settings": { "stability": 0.5, "similarity": 0.75, "style": 0.2 } },
+  "breathMs": 350,
+  "maxMs": 20000,
+  "music": {
+    "cues": [{ "id": "bed", "from": { "beat": "open", "edge": "start" }, "to": { "beat": "end", "edge": "end" }, "prompt": "warm minimal pulse", "gainDb": -18 }]
+  },
+  "style": {
+    "palette": { "bg": "#0b1416", "fg": "#f3efe6", "accent": "#e3b341", "accent2": "#1f8a84", "muted": "#8aa09e" },
+    "fonts": { "display": "Bahnschrift", "body": "Segoe UI", "mono": "Cascadia Mono" },
+    "logo": "logo.svg",
+    "radius": 14,
+    "easing": [0.22, 1, 0.36, 1]
+  },
+  "beats": [
+    {
+      "id": "open",
+      "chapter": "open",
+      "line": "Meet Tally. It haggles, so you don't have to.",
+      "settleMs": 2800,
+      "moments": [
+        { "id": "slam", "tier": 1, "kind": "plate", "component": "TitleSlam", "props": { "title": "Haggle less.\nPay right.", "kicker": "Tally", "meta": "Render fixture · demo-film" } }
+      ]
+    },
+    {
+      "id": "haggle-open",
+      "chapter": "haggle",
+      "line": "Every offer lands between your ask-me line and your ceiling, and you watch it happen.",
+      "settleMs": 3500,
+      "capture": { "beat": "haggle-open", "targets": ["#offer", "#ceiling", "#ask"] },
+      "moments": [
+        { "id": "through", "tier": 2, "kind": "treatment", "component": "ZoomThrough" },
+        { "id": "frame", "tier": 2, "kind": "treatment", "component": "DeviceFrame", "props": { "title": "tally.app/haggle", "tilt": "left" } },
+        { "id": "cursor", "tier": 1, "kind": "treatment", "component": "CursorSpotlight" },
+        { "id": "claim", "tier": 3, "kind": "plate", "component": "KineticClaim", "durMs": 1500, "claim": "offers stay under your ceiling", "props": { "text": "Every offer under your ceiling.", "emphasis": "ceiling" } },
+        { "id": "l3", "tier": 2, "kind": "plate", "component": "LowerThird", "at": 1600, "durMs": 1500, "props": { "title": "Haggle", "subtitle": "Offers between $250 and $340" } },
+        { "id": "offer", "tier": 1, "kind": "plate", "component": "Callout", "at": 3150, "props": { "selector": "#offer", "label": "$285 offered", "note": "inside your corridor" } },
+        { "id": "badge", "tier": 1, "kind": "hero", "component": "SampleBadge" }
+      ]
+    },
+    {
+      "id": "haggle-close",
+      "chapter": "haggle",
+      "line": "The seller pushes. The ceiling holds at three forty.",
+      "settleMs": 3500,
+      "capture": { "beat": "haggle-close", "targets": ["#offer", "#ceiling"] },
+      "moments": [
+        { "id": "whip", "tier": 2, "kind": "treatment", "component": "WhipPan", "durMs": 400 },
+        { "id": "frame2", "tier": 2, "kind": "treatment", "component": "DeviceFrame", "props": { "title": "tally.app/haggle", "tilt": "right" } },
+        { "id": "zoom", "tier": 2, "kind": "treatment", "component": "ZoomToRect", "durMs": 2400, "props": { "selector": "#ceiling" } },
+        { "id": "ceil", "tier": 1, "kind": "plate", "component": "Callout", "at": 300, "durMs": 2000, "props": { "selector": "#ceiling", "label": "Ceiling $340", "note": "set by you, never crossed" } },
+        { "id": "ripple", "tier": 1, "kind": "treatment", "component": "ClickRipple" },
+        { "id": "held", "tier": 3, "kind": "plate", "component": "StatCounter", "at": "end", "durMs": 1700, "claim": "the ceiling holds", "props": { "record": "ceiling", "prefix": "$", "label": "Ceiling held", "max": 340, "note": "Offers converged at $330" } },
+        { "id": "badge2", "tier": 1, "kind": "hero", "component": "SampleBadge" }
+      ]
+    },
+    {
+      "id": "end",
+      "chapter": "close",
+      "line": "Tally. Haggle less, pay right.",
+      "settleMs": 3000,
+      "moments": [
+        { "id": "wipe", "tier": 1, "kind": "treatment", "component": "MaskWipe", "durMs": 560 },
+        { "id": "card", "tier": 1, "kind": "plate", "component": "EndCard", "props": { "line": "Haggle less. Pay right.", "cta": "Try the preview", "url": "tally.example" } }
+      ]
+    }
+  ]
+}
