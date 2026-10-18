@@ -184,6 +184,13 @@
       ]
     },
     {
+      "name": "demo-film",
+      "source": "./skills/demo-film",
+      "description": "Make a voice-first demo film or product video of a working app, compiled by Remotion from one film script - real app footage on one lane, motion graphics (a typed plate library plus 1-3 bespoke hero compositions) on another, ElevenLabs narration measured before anything is recorded, and cue-spotted ElevenLabs music beneath. Use when asked for a demo film, product video, launch or explainer video, ",
+      "version": "0.1.2",
+      "category": "workflow"
+    },
+    {
       "name": "dojo",
       "source": "./skills/dojo",
       "description": "Autonomous infinite training loop for media-generation craft: each cycle reflects prior human verdicts into the consuming repo's prompt surfaces, scans the registry for the weakest knowledge dimension, researches one candidate technique, generates seed-matched A/B pairs with the LOCAL image/video stack, machine-judges them pairwise, and parks the cycle for human gating in the app's Foundry -> Dojo",
@@ -278,7 +285,7 @@
       "name": "lens-scan",
       "source": "./skills/lens-scan",
       "description": "Measure a product feature by feature through one lens - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execut",
-      "version": "1.6.1",
+      "version": "1.7.0",
       "category": "workflow",
       "tags": [
         "measure",
