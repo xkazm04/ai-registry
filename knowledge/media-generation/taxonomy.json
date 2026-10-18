@@ -65,6 +65,34 @@
         "video-assembly",
         "music-video-production"
       ]
+    },
+    {
+      "id": "streaming",
+      "title": "Live streaming",
+      "order": 6,
+      "subcategories": [
+        {
+          "id": "live-show",
+          "title": "Live show",
+          "subjects": [
+            "show-segment-format-design",
+            "audience-absorption-at-scale",
+            "audience-steering-economies",
+            "live-response-latency-budgeting",
+            "on-stream-persona-continuity",
+            "stream-moment-capture"
+          ]
+        },
+        {
+          "id": "trust-and-evaluation",
+          "title": "Trust & evaluation",
+          "subjects": [
+            "live-chat-moderation-and-anti-bait",
+            "live-safety-rails",
+            "simulated-audience-testing"
+          ]
+        }
+      ]
     }
   ]
 }

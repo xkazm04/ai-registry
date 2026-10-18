@@ -4,15 +4,16 @@ okf_bundle_name: media-generation
 okf_bundle_title: Media generation
 profile: rkb/0.1
 purity: media
-stacks: [next, python, go]
+stacks: [next, python, go, rust]
 ---
 
 # Media generation
 
 The craft of producing factual audiovisual content with generative models: narrative
 construction, research grounding, image generation and prompting, frame direction,
-audio generation — music, effects, and their acceptance — and the production pipeline
-that sequences them. One bundle on purpose — image, video and audio generation share
+audio generation — music, effects, and their acceptance — the production pipeline
+that sequences them, and the live show a generated host performs in front of a chat
+audience (the `streaming` category). One bundle on purpose — image, video and audio generation share
 their narrative spine, their evidence discipline, and most of their prompting craft;
 the split boundary (see `knowledge/README.md`) has not been earned yet. Categories
 keep it visible.

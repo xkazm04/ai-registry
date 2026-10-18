@@ -93,4 +93,31 @@ Format: `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets.
   technique check is what made a mid-air failure diagnosable in one command. Repair agents were
   told to review before integrating, since an orphan was written by an agent that never
   reconciled it - one was kept unedited, one gained nothing (its anchors were already covered).
-
+
+## 1.4.0 - 2026-10-19 - overlord / Shadowrunr OS (streaming category, harvest into media-generation)
+
+- **Measured results are a fourth input to reconciliation.** The owner timed the wave to run
+  after a 120-run simulated tournament. The director put a 10-lesson measured digest into the
+  proposal as an appendix and gave each worker its candidate lessons by number. Workers turned
+  them into techniques: care-state-after-disclosure exists only because a run showed a host
+  roasting a viewer 165 s after a crisis handoff. "Confirmed / deviation / upward lesson" held
+  unchanged, and measured lessons landed as upward lessons with n and date. When the source
+  repo has an evaluation harness, wait for its data and ship it in the dispatch.
+- **A purity-floor extension must be grepped against the whole bundle first.** The obvious
+  streaming denylist included a video platform that an existing neighbour already names as an
+  example. Adding it would have failed a subject outside the wave. Grep before extending, and
+  leave a collided name to the workers' own discipline.
+- **Recurring rules in a new category are usually category-scoped, and `_laws.md` has no
+  scope.** Eight rules recurred across 2-4 subjects each, but only three would hold bundle-wide.
+  The director minted none and recorded all eight with their scope. A category-scoped laws file
+  (or a `scope:` field on a law) is the missing primitive.
+- **Plan subcategories at 9.** Nine subjects in one category is legal but leaves one slot. Two
+  subcategories (6 + 3) cost nothing but a path depth, which the dispatch states explicitly
+  (`../../../_laws.md`).
+- **The link-upgrade pass needs aliases.** Workers name siblings in prose as "audience
+  absorption" or "the safety rails", rarely by slug, so a slug-only upgrade found almost
+  nothing. Matching the slug, its spaced form and a short alias list inside the boundary
+  section found 19 links in one scripted pass (plus one by hand).
+- Scale: 1 scout, 9 workers all at once (under the cap of 10), about 13 minutes per worker,
+  every worker gate-clean on its first report, 311/311 anchors held at director
+  verification.
