@@ -439,10 +439,10 @@
     },
     {
       "name": "lens-scan",
-      "version": "1.7.0",
+      "version": "1.8.0",
       "category": "workflow",
       "path": "skills/lens-scan/SKILL.md",
-      "contentHash": "sha256-n1:e54a2405708dc645",
+      "contentHash": "sha256-n1:c27a08352a778b20",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
@@ -815,6 +815,23 @@
       "tokensBasis30d": null
     },
     {
+      "name": "takeover-app",
+      "version": "1.0.0",
+      "category": "workflow",
+      "path": "skills/takeover-app/SKILL.md",
+      "contentHash": "sha256-n1:1e3b5c3951b492e5",
+      "adopters": [],
+      "invokes30d": 0,
+      "reportedInvokes": 0,
+      "lessons": 0,
+      "usageContributors": [],
+      "runs30d": 0,
+      "outcomes30d": {},
+      "difficulty30d": null,
+      "tokensMedian30d": null,
+      "tokensBasis30d": null
+    },
+    {
       "name": "test-before-commit",
       "version": "2.5.2",
       "category": "testing",
@@ -1071,7 +1088,7 @@
     }
   ],
   "counts": {
-    "skills": 41,
+    "skills": 42,
     "practices": 8,
     "memory": 9,
     "lessons": 352

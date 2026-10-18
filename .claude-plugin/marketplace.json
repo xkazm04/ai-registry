@@ -278,7 +278,7 @@
       "name": "lens-scan",
       "source": "./skills/lens-scan",
       "description": "Measure a product feature by feature through one lens - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execut",
-      "version": "1.7.0",
+      "version": "1.8.0",
       "category": "workflow",
       "tags": [
         "measure",
@@ -469,6 +469,23 @@
         "orphans",
         "fleet",
         "version-debt"
+      ]
+    },
+    {
+      "name": "takeover-app",
+      "source": "./skills/takeover-app",
+      "description": "Take over an unknown or vibecoded fullstack app and bring it under control toward production readiness: a phased, gated sequencer over the registry's existing skills. Recon the stack, boot it, map it, score readiness, scan it through the built-in lenses plus four takeover lenses (API and LLM call hygiene, security depth, backend performance, money and privacy) with an Opus judge, import the Azure ",
+      "version": "1.0.0",
+      "category": "workflow",
+      "tags": [
+        "takeover",
+        "onboarding",
+        "production-readiness",
+        "triage",
+        "azure-devops",
+        "lens-scan",
+        "security",
+        "llm"
       ]
     },
     {
