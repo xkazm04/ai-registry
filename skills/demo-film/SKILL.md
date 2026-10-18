@@ -3,7 +3,7 @@ name: demo-film
 description: Make a voice-first demo film or product video of a working app, compiled by Remotion from one film script - real app footage on one lane, motion graphics (a typed plate library plus 1-3 bespoke hero compositions) on another, ElevenLabs narration measured before anything is recorded, and cue-spotted ElevenLabs music beneath. Use when asked for a demo film, product video, launch or explainer video, motion graphics over app recordings, ElevenLabs narration for a screen recording, a Remotion cut of a live system, or an ad cut of an existing film. The cut is a command, not an editing session - narrate, music, capture (consumer adapter that asserts its claims and logs element rects), check, render at a balance (overlay, sandwich, led). Spend-guarded, key never printed. Invoke with /demo-film <film-dir> [narrate|music|check|render] [--balance b].
 category: workflow
 memory: project
-version: 0.1.3
+version: 0.1.4
 argument-hint: "<film-dir> [narrate|music|check|render] [--balance overlay|sandwich|led]"
 ---
 

@@ -165,6 +165,13 @@ export async function measureLoudness(file) {
 }
 
 async function master(raw, out) {
+  // a draft with no voice clip and no music renders with no audio stream at all; lay a silent
+  // AAC bed under it so the film is still a complete, playable file and the gates can read it
+  if (!(await probe(raw)).streams.some((s) => s.codec_type === 'audio')) {
+    await execFileP('ffmpeg', ['-hide_banner', '-loglevel', 'error', '-y', '-i', raw, '-f', 'lavfi', '-i', 'anullsrc=r=48000:cl=stereo',
+      '-map', '0:v', '-map', '1:a', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-shortest', '-movflags', '+faststart', out]);
+    return { skipped: 'no audio yet (estimate-only draft); a silent bed was laid under the picture' };
+  }
   const m = await measureLoudness(raw);
   const I = Number(m.input_i);
   if (!Number.isFinite(I) || I < -60) {
