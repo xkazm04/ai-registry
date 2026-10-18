@@ -31,7 +31,8 @@ Reads the generic `## Harness` form from the overlay:
 refuses (exit 1) when the url already answers before the command starts: another server holds the port and the shots
 would show its checkout, not this root (pass --port to serve a worktree elsewhere). Otherwise starts the command (cwd = the product root), waits for ready, then per scoped feature, size and theme loads the
 feature and captures a PNG into <root>/.ai/lens-scan/shots/<run>/<feature>-<theme>-<size>.png, with a JSON report
-beside it (same name, .json: url, size, theme, minTextPx, console errors). A feature marked unscreenable, or one
+beside it (same name, .json: url, size, theme, minTextPx, console errors), staged outside the root while the server
+runs and moved in once it stops (a watching dev server recompiles on every file written). A feature marked unscreenable, or one
 whose route fails to render (navigation error, HTTP >= 400 other than its `expect`, blank body), gets no shot and is listed under
 `unscreenable` with why. The command's whole process tree is killed at the end, whatever happened.
 
@@ -51,9 +52,11 @@ import argparse
 import json
 import os
 import re
+import shutil
 import signal
 import subprocess
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.request
@@ -418,6 +421,10 @@ def run(args):
         out['error'] = f'{ready_url} already answers before the command started: another server holds the port, so the shots would not show {root}. Free the port or pass --port <free port>.'
         return out, 1
     proc = start(cfg['command'], root)
+    # Captures are staged outside the served root and moved into the store once the server is gone: a dev server
+    # watches its root, and under webpack every PNG written there starts a recompile whose half-written manifest
+    # answers the next request with a 500 or a blank page ("Unexpected end of JSON input").
+    stage = tempfile.mkdtemp(prefix='lens-scan-shots-')
     try:
         why = wait_ready(ready_url, proc, cap_s=cfg['ready_timeout'])
         if why:
@@ -438,7 +445,7 @@ def run(args):
                     for (w, h) in cfg['sizes']:
                         for theme in cfg['themes']:
                             rel = f'shots/{args.run}/{slug}-{theme}-{w}x{h}.png'
-                            png = os.path.join(store_dir, *rel.split('/'))
+                            png = os.path.join(stage, *rel.split('/'))
                             rep, why = capture(browser, cfg, slug, spec, theme, (w, h), png)
                             if why:
                                 failed = why
@@ -448,7 +455,7 @@ def run(args):
                                 json.dump(rep, f, indent=2)
                             reports.append(rep)
                             out['shots'].append({'feature': slug, 'path': rel, 'size': f'{w}x{h}', 'theme': theme, 'module': MODULE,
-                                                 'report_file': os.path.relpath(rep_file, root).replace(os.sep, '/')})
+                                                 'report_file': os.path.relpath(os.path.join(store_dir, *rel[:-4].split('/')) + '.json', root).replace(os.sep, '/')})
                         if failed:
                             break
                     if failed:
@@ -457,7 +464,7 @@ def run(args):
                             out['shots'].remove(s)
                             for ext in ('.png', '.json'):
                                 try:
-                                    os.remove(os.path.join(store_dir, *s['path'][:-4].split('/')) + ext)
+                                    os.remove(os.path.join(stage, *s['path'][:-4].split('/')) + ext)
                                 except OSError:
                                     pass
                         out['unscreenable'].append({'feature': slug, 'why': failed})
@@ -480,6 +487,12 @@ def run(args):
         return out, 0
     finally:
         kill_tree(proc)
+        for s in out['shots']:
+            for ext in ('.png', '.json'):
+                dest = os.path.join(store_dir, *s['path'][:-4].split('/')) + ext
+                os.makedirs(os.path.dirname(dest), exist_ok=True)
+                shutil.move(os.path.join(stage, *s['path'][:-4].split('/')) + ext, dest)
+        shutil.rmtree(stage, ignore_errors=True)
 
 
 def main(argv=None):
