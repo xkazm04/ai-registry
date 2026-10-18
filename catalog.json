@@ -1198,7 +1198,7 @@
       "techniques": 194,
       "applications": 119,
       "files": 345,
-      "contentHash": "sha256-b2:aa21861fa44eb014"
+      "contentHash": "sha256-b2:a4b588b94ec8cac8"
     },
     {
       "name": "recruiting",
@@ -1221,10 +1221,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 236,
-      "techniques": 1882,
-      "applications": 1354,
-      "files": 3477,
-      "contentHash": "sha256-b2:933dea0eb7774716"
+      "techniques": 1884,
+      "applications": 1356,
+      "files": 3481,
+      "contentHash": "sha256-b2:91fb4fc22e13e94b"
     },
     {
       "name": "technical-writing",

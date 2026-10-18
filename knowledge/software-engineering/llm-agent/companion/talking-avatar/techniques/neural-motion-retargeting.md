@@ -18,7 +18,8 @@ keypoint offsets or a latent with no semantic names — tuned for their own
 renderer. A rig speaks a different language: degrees, lid closure, brow raise.
 Retargeting is the translation, plus the filtering and character-specific
 scaling that turn what the model predicts into what a viewer believes. It is
-also where the model's offline nature gets dealt with honestly.
+also where the model's analysis window gets placed honestly: against the
+synthesizer's unit of output, not against the clock of a conversation.
 
 ## Decoding an unnamed motion space
 
@@ -78,16 +79,40 @@ opening**: normalise it to a mean of one over the speech span and let it scale t
 timeline's opening part-way, so the timeline keeps the average opening and the
 network only redistributes it toward stressed syllables.
 
-## Latency is a property of the model, not the pipeline
+## The window bounds latency only where audio is streamed
 
 A model that analyses fixed audio windows cannot emit motion before a window has
-been heard: its window length is a latency floor. When that floor is seconds,
-the model is an offline source — run it per utterance ahead of playback where
-speech is synthesised before it is spoken, and let procedural motion play
-everything else. State this in the route verdict; a hybrid whose playback is
-light but whose motion needs an accelerator and seconds per window is not yet a
-live, accelerator-free path, and saying otherwise is reporting the cheap half as
-the whole ([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
+been heard, and it is tempting to read that window length as a latency floor
+under any live use. It is a floor only when the audio reaches the model as it
+is produced. Many synthesizers render a whole sentence before any of it plays,
+and a voice pipeline worth having renders sentence n+1 while sentence n plays.
+Then the model never waits for audio: the whole sentence exists when its motion
+is asked for, and the time that matters is **compute per sentence against the
+playback time of the sentence before it**.
+
+- **When the synthesizer renders whole sentences before playback,** compute
+  motion per finished sentence while the previous one plays, and send it to the
+  face as soon as it is ready, timed in the audio's own clock. The first
+  sentence of a line is the only one with nothing playing in front of it; let
+  it start on procedural motion and cross-fade the learned track in when it
+  lands, rather than delay the first audio for motion. Never hold the audio for
+  motion; the mouth timeline, which is cheap, is the only face artifact worth a
+  short, bounded wait before a sentence plays.
+- **When the audio is streamed** (the synthesizer emits samples before the
+  sentence is complete), the window is a real floor: motion for any instant
+  arrives at least one window after it is heard. Then the model can drive only
+  speech rendered ahead of playback, and procedural motion plays the rest.
+- **Report the three numbers that decide it:** motion compute per sentence
+  against the sentence's own length, the delay the face adds to the first audio,
+  and how many sentences' motion arrived while that sentence was still being
+  heard. A track that lands after its sentence ended is not late, it is lost;
+  count it as such.
+
+In both cases name the accelerator the motion model needs and whether it runs
+anywhere without one. A hybrid whose playback is light but whose motion needs an
+accelerator is not yet an accelerator-free path, and saying otherwise is
+reporting the cheap half as the whole
+([failure-not-empty-success](../../../../_laws.md#failure-not-empty-success)).
 
 ## When not to use this
 

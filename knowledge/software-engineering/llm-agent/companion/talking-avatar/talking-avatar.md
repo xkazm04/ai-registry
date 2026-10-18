@@ -12,6 +12,8 @@ techniques:
   - procedural-presence-motion
   - neural-motion-retargeting
   - paced-realtime-measurement
+  - per-sentence-face-sidecar
+  - face-signal-across-surfaces
 ---
 
 # Talking avatar
@@ -61,8 +63,9 @@ because its idea of "a mouth" is anatomical.
 head pose, lids and brows from the audio, the prediction is decoded into the
 rig's parameters, and the rig draws. It keeps the rig's playback cost and art
 fidelity and borrows the network's motion vocabulary. Its cost moves upstream:
-the motion model still runs somewhere, and its window length is a latency floor
-that decides whether the hybrid can be live at all.
+the motion model still runs somewhere, on an accelerator more often than not,
+and whether it keeps up is decided by the voice's unit of output — whole
+sentences rendered ahead of playback, or audio streamed as it is made.
 
 None of these wins in general. Motion-route-selection holds the decision rules;
 the principle under them is that **the route is chosen on the product's own art,
@@ -73,14 +76,18 @@ sample image and never on throughput alone.
 
 The commonest misreading of a hybrid is to quote its playback cost as its cost.
 Drawing a rig frame is nearly free; producing the motion the rig plays may need
-the same accelerator the neural route needed, offline, once per utterance, with
-seconds of latency set by the model's analysis window. Both numbers belong in the
-verdict, side by side, with what each one rules out: a pipeline that must see four
-seconds of audio before it emits motion can drive pre-synthesised replies, not a
-conversation. The honest architecture then has two motion sources — learned motion
-where it was precomputed, procedural motion everywhere else (idle, listening,
-thinking, and as the live fallback) — blended through one parameter seam so the
-viewer never sees the handover.
+the same accelerator the neural route needed. Both numbers belong in the
+verdict, side by side. What the motion side rules out depends on the voice, not
+the model. A synthesizer that renders each sentence whole before it plays — and
+renders the next while this one plays — hands the motion model finished audio
+with a sentence of playback time to spare, so a model that analyses seconds of
+audio at a time still keeps up, sentence by sentence, as long as it computes
+faster than the sentence before it plays. Only a voice streamed as it is
+synthesised turns the model's analysis window into a latency floor. Either way
+there are two motion sources: learned motion where it is ready in time,
+procedural motion everywhere else (idle, listening, thinking, the first moments
+of a line, and whenever the learned source is absent or late), blended through
+one parameter seam so the viewer never sees the handover.
 
 ## The parameter seam is the product's real interface
 
@@ -144,6 +151,30 @@ presence motion owns this, together with the gestures that come from the text
 rather than the audio — the tilt at the end of a question — which no audio-only
 model produces.
 
+## The face is optional, and the voice must not notice
+
+A face is an addition to a voice that already works, and it ships as one. The
+heavy half — a motion model, its numeric stack, its accelerator — runs beside
+the voice process, in an environment of its own, and is asked per sentence for
+what it can do. When it is missing, slow or broken, the voice plays the same
+samples it always did and the face falls back to loudness-driven speech and
+procedural motion; no face artifact is ever worth holding a sentence for longer
+than a short, bounded wait. Per-sentence-face-sidecar holds the shape of that
+process boundary.
+
+## One face, wherever she appears
+
+A companion that shows its face on several surfaces shows one face. Exactly one
+place produces the face signal, and it is the place that owns the audio clock —
+the player whose position says which sound is sounding now. Every other surface
+draws a mirror of that signal, sent at a capped rate with phase changes sent at
+once, so two windows never disagree about whether she is speaking. The face
+follows the player, not the voice pipeline's events: synthesis runs ahead of
+playback, so a "done" can arrive while the last words are still sounding, and a
+mouth that shuts on the event reads as a recording. The renderer and everything
+that feeds it stay out of a surface's first paint, and a face at rest stops
+asking for frames. Face-signal-across-surfaces holds these rules.
+
 ## Failure modes the standard exists to prevent
 
 - **The sample-image verdict** — a route chosen because it looked good on the
@@ -153,7 +184,11 @@ model produces.
   while the lag against the audio clock grows by a second every few seconds of
   speech.
 - **The playback-only cost** — a hybrid sold as light because its renderer is,
-  with the motion model's accelerator, memory and window latency left off the page.
+  with the motion model's accelerator, memory and per-sentence compute left off
+  the page.
+- **The window read as a floor** — a hybrid ruled "offline only" because its
+  model analyses seconds of audio, when the voice renders whole sentences ahead
+  of playback and the window never waits on the clock.
 - **The ghost layer** — a static part holding a copy of a moving one, visible the
   first time the head turns.
 - **The smoothed-away closure** — a mouth timeline merged for smoothness until the
@@ -165,6 +200,12 @@ model produces.
   freezing a feature that another source would have animated.
 - **The licence inside the model** — a permissively licensed talking-head model
   that ships a face detector licensed for research only.
+- **The face that holds the voice** — a sentence that waits on the face's helper
+  without a deadline, or audio that differs depending on whether the face is on.
+- **The mouth that shuts early** — a face that stops speaking on the pipeline's
+  "done" while the player is still sounding the line.
+- **Two faces** — each surface computing its own face from its own copy of the
+  events, so they disagree about phase and mouth.
 
 ## The techniques
 
@@ -187,3 +228,9 @@ model produces.
 - [paced-realtime-measurement](./techniques/paced-realtime-measurement.md) — lag
   against the audio clock, per-stage profiles, warm processes, and the honest
   cost of each route.
+- [per-sentence-face-sidecar](./techniques/per-sentence-face-sidecar.md) — the
+  face's heavy half as a helper process beside the voice: capability probe,
+  deadlines, backoff, and a voice that is identical with and without it.
+- [face-signal-across-surfaces](./techniques/face-signal-across-surfaces.md) —
+  one producer on the audio clock, a capped mirror, speaking until the player
+  has, absent channels as no say, out of the first paint, and settling at rest.

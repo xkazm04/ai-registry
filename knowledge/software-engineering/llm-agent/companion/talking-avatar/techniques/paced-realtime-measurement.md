@@ -57,6 +57,28 @@ first live frame slow, and a cold first call from several worker threads can
 deadlock. Leave convolution autotuning off unless it buys measured frames; it can
 multiply peak memory for nothing.
 
+## Measuring a motion source that runs per sentence
+
+When motion is computed per sentence beside a voice that renders sentences ahead
+of playback, frame lag is the wrong question; the motion either lands while its
+sentence is still sounding or it does not. Measure on the product's own path —
+the real synthesizer, the real helper process, a multi-sentence line — and
+report, per round and per sentence:
+
+- **compute per sentence**, warm, next to the sentence's own length;
+- **the delay added to the first audio** with the face on against off, which
+  should be only the mouth timeline's cost, never the motion's;
+- **motion events arrived against sentences spoken**, and for each, whether it
+  landed before its sentence ended;
+- **that the timeline still ends on the sentence's last sample** with the face
+  on.
+
+Then repeat on the slowest hardware class the product will offer motion on —
+including no accelerator at all — before any default is decided. A number from
+the development machine decides nothing about a laptop, and an unmeasured class
+is reported as unmeasured
+([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
+
 ## Budgets for the drawing side
 
 A rig's per-frame budget is derived from the host's frame budget, not chosen
@@ -74,7 +96,7 @@ A route's cost is the sum of what it needs to run, wherever it runs:
 | Route | Playback | Motion generation |
 | --- | --- | --- |
 | rig, procedural | a few draws per frame | none |
-| hybrid | the same as the rig | the motion model's accelerator, memory, load time and window latency, per utterance |
+| hybrid | the same as the rig | the motion model's accelerator, memory and load time; compute per sentence against the playback it hides behind; window latency only when audio is streamed |
 | neural | the model resident, warm, on an accelerator | inside playback |
 
 Writing only the left column for a hybrid is the most common way a report

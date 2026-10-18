@@ -48,6 +48,14 @@ producer responsible for something only one renderer draws.
   The renderer then fills the group from a declared fallback source — usually
   procedural motion — so a learned model with no gaze channel still gets
   saccades instead of a fixed stare. Zero means "eyes centred, on purpose".
+- **Absent survives every hop.** A channel a source does not model stays
+  "no say" — omitted in a frame, a null in a reduced per-instant value — through
+  the wire, the interpolation between frames, any mirror to another surface and
+  the validator at each boundary. The usual leak is a convenience default at one
+  hop: a lid value defaulted to zero (open) because the source had no lids turns
+  "no say" into "eyes held open", and the face stops blinking for as long as the
+  learned track plays. Interpolating between a known value and an absent one
+  yields absent, not the known one.
 - **Opening is authoritative; shape is advisory.** When opening and shape weights
   disagree, the opening wins and the shapes modulate width, rounding, lip press
   and teeth. Only the derivation from shapes to opening is allowed, never the

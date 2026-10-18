@@ -68,9 +68,14 @@ column decided between two routes the owner judged comparable.
 The trial ran on the two stills the owner had already chosen as art, not on
 the whole shortlist, so beauty was decided before drivability was known — the
 order the technique warns against. Both happened to survive, so nothing was
-lost this time. And the hybrid's motion generation is not yet live or
-light: the director's caveat records about 1.3 GB of graphics memory and at
-least four seconds of latency per utterance
+lost this time. And the hybrid's motion generation is not light: the
+director's caveat records about 1.3 GB of graphics memory
 (`.spark/Spark/ideas/athena-avatar.md:236` "~1.3 GB VRAM, 4 s windows => >= 4 s latency) per utterance; not yet live or GPU-free.").
-The owner's "without being GPU demanding" judged playback only; the cost
-column for that route is incomplete.
+The latency half of that caveat was wrong and is corrected: the voice renders
+whole sentences before they play, so motion is computed per finished sentence
+while the previous one plays, and the shipped product measured 0.57-0.75 s of
+motion compute per ~2.5 s sentence with every motion track in time (one RTX
+4090, 2026-10-18, n = 6 sentences); the four-second window would bound latency
+only for audio streamed before its sentence is complete. The owner's "without
+being GPU demanding" still judged playback only; the cost column for that route
+lacks every hardware class but one, and those rows are pending.

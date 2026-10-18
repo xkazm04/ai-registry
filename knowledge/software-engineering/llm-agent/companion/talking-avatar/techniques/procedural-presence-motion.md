@@ -66,6 +66,21 @@ elapsed interval. Timers, loops and listeners it creates are reaped with it
 ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)), because a
 presence never unmounts and a leaked loop costs forever.
 
+## Settling at rest is a trade-off, not a free win
+
+A host that forbids frames when nothing moves pushes the presence toward a
+**settle**: after its last state change and a short linger, every motion eases to
+zero, the renderer holds its rest frame, and nothing is drawn until a new signal
+wakes it. That buys an idle cost of zero — no frame loop, no wakeups, no battery —
+and it costs exactly what this technique warns about: a presence at rest becomes
+a photograph, with no breath to say it is on. Neither answer is correct in
+general. Make it a stated choice with its cost written next to it (frames per
+second and power while idle with perpetual breath, against zero), decided by the
+person who owns how the presence should feel, and leave it switchable rather than
+buried in a constant. Settling must still be complete: a pending blink, a nod or
+a fading learned track keeps the presence awake until it has played out, so the
+still frame is a rest pose and not a frozen mid-gesture.
+
 ## Decision rules
 
 - **When learned motion is available for an utterance,** use it for drift, lids

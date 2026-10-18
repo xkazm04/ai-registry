@@ -86,32 +86,58 @@ Replayed against the old snap map it fails at the first character,
 `spikes/avatar/voice/README.md:118` "question at char 0". Seeding the decoder's two random ops
 gives byte-identical renders, `spikes/avatar/voice/README.md:20` "two runs give byte-identical WAVs and JSON".
 
-## Transport: designed, not built
+## Transport: designed in the spike, shipped in the product
 
-`spikes/avatar/voice/docs/wire-proposal.md` designs one event per sentence before its first
+`spikes/avatar/voice/docs/wire-proposal.md` designed one event per sentence before its first
 chunk (`spikes/avatar/voice/docs/wire-proposal.md:27` "One event per sentence, sent **before that sentence's first PCM chunk**"),
 in sample offsets because the client player shifts every later sample on an underrun
 (`spikes/avatar/voice/docs/wire-proposal.md:23` "every underrun. A timeline in *sample offsets of the generation's PCM stream* does not."),
-with the client holding silence between chunks (`spikes/avatar/voice/docs/wire-proposal.md:67` "Between chunks (during an underrun) hold `sil`"),
-adding output latency (`spikes/avatar/voice/docs/wire-proposal.md:70` "Add `context.outputLatency`"), and leaving anticipation to the renderer
+with anticipation left to the renderer
 (`spikes/avatar/voice/docs/wire-proposal.md:107` "Shifting the timeline to anticipate articulation in the daemon. The daemon reports the truth,").
-Backends without timings send nothing and the avatar falls back to amplitude
-(`spikes/avatar/voice/docs/wire-proposal.md:58` "Piper and other backends simply never yield one, and the avatar falls back to amplitude").
+
+The design landed in athena-portable's `main` at commits `350419a0..d5bb49cd` (2026-10-18,
+ADR `docs/adr/0120-athena-has-a-face.md`); the anchors below are resolved against `d5bb49cd`,
+paths relative to the repository root.
+
+- **The event.** `src/athena/contracts/channel.py:191` "The mouth shapes of one sentence of ``generation``, sent before that sentence's audio."
+  and `src/athena/contracts/channel.py:193` "``offset`` is where the sentence starts, in samples from the line's first audio sample, and".
+- **The host's audio kept, its edit replayed.** The production route is the spike's option B:
+  the durations-only subgraph on the host's own token ids
+  (`src/athena/channels/voice/face_helper/visemes.py:7` "subgraph that computes only that runs in about 70 ms warm. Each batch's token edges are moved"),
+  with sherpa's silence cut switched off and replayed in the daemon so one implementation
+  produces the audio and the time map
+  (`src/athena/channels/voice/face.py:19` "**Exact timings, same audio** (the spike's wire proposal, option B). The engine already knows how").
+- **The measured offset travelled with it.** `src/athena/channels/voice/face_helper/visemes.py:27` "LEAD_S = 0.055".
+- **Before the sentence's first audio, in order.** `src/athena/channels/voice/kokoro.py:426` "The sentence is about to be played at ``offset``: its visemes go out now, ahead of its",
+  and the gateway stamps each with its line and lets nothing follow `voice.stopped`
+  (`src/athena/channels/voice/gateway.py:24` "a face event is sent under, so nothing of a line follows its ``voice.stopped``.").
+- **End on the last sample, exactly.** `src/athena/channels/voice/kokoro.py:575` "if visemes is not None and visemes[-1][2] == len(pcm) // 2:"
+  — a timeline that misses by one sample is not sent, and the sentence plays without it.
+- **The consumer maps samples through its own chunk schedule and output latency.**
+  `apps/desktop/src/lib/voice.ts:469` "* How far `generation`'s line has played, in samples of the line from its first sample: the"
+  and `apps/desktop/src/lib/voice.ts:479` "const latency = (context as { outputLatency?: number }).outputLatency;";
+  the renderer picks its own lead, `apps/desktop/src/lib/face-signal.ts:35` "export const VISEME_LEAD_S = 0.035;".
+- **No timeline, no event.** `src/athena/contracts/channel.py:198` "a surface without them drives the mouth from playback level.".
+
+Measured on the product path (operator's run, 2026-10-18, RTX 4090, real Kokoro and helper, one
+3-sentence 7.2 s line, 2 rounds, n = 6 sentences): 41-94 ms per sentence for the timeline, the
+first audio delayed by < 0.1 s, and every timeline ending exactly on its sentence's last sample.
 
 ## Deviations
 
-- **The live event is a design only.** `spikes/avatar/voice/docs/wire-proposal.md:3` "Nothing in `src/` or `apps/` was changed."
-  No producer or consumer of per-sentence timings exists in the daemon or the desktop client.
-- **Client tolerance is not shipped.** Today an unknown event kind raises,
-  `spikes/avatar/voice/docs/wire-proposal.md:53` "`event_from_dict` raises on an unknown kind"; the proposal names the
-  same-release requirement but nothing enforces it yet.
-- **The end check is looser than the claim.** The validator allows 40 ms at the end,
-  `spikes/avatar/voice/avatar_voice/render.py:136` "n_samples / SR) > 0.04:",
-  while the README reports the timelines end to the sample (`spikes/avatar/voice/README.md:89` "the audio end (to the sample)"); the measurement is
-  right, the gate would not catch a regression under 40 ms.
-- **The token check is skippable.** It runs only on a full render with check images,
-  `spikes/avatar/voice/avatar_voice/render.py:182` "if not args.no_check and not args.only:", so a subset render ships unverified.
-- **The timeline does not record its source.** Timeline v1 carries version, rate and segments
-  but no field saying engine durations versus aligner (`spikes/avatar/CONTRACT.md:45` "## Timeline (version 1)"),
-  and stores seconds rather than samples (`spikes/avatar/CONTRACT.md:59` "Times are seconds from the first audio sample.");
-  acceptable for the offline file, and the wire design moves to samples.
+- **The spike's deviations, as the product resolved them.** The live event is no longer a
+  design only (above). The end check is now exact rather than the spike validator's 40 ms
+  (`spikes/avatar/voice/avatar_voice/render.py:136` "n_samples / SR) > 0.04:"). Client
+  tolerance was met by ordering rather than by a tolerant reader: the event kinds entered both
+  readers in the feature's first commit (`350419a0`), before the daemon commit that emits them
+  (`f566f962`); the Python reader still raises on an unknown kind by design
+  (`src/athena/contracts/channel.py:10` "An unknown ``kind`` raises rather than being skipped: a surface that silently drops"),
+  so a future face event kind needs the same ordering.
+- **The token check is not on the live path.** The product checks order, coverage and the end
+  sample of every timeline (`src/athena/channels/voice/face.py:577` "The helper's ``[[v, start, end], ...]``, checked: ordered, not overlapping, not empty.")
+  but does not compare it to the engine's token string by independent code per sentence; the
+  spike's independent check (`spikes/avatar/voice/avatar_voice/verify.py:54` "character by character, independently of the grouping code, so a dropped or collapsed token")
+  stayed in the spike.
+- **The timeline does not record its source.** Neither the spike's timeline v1
+  (`spikes/avatar/CONTRACT.md:45` "## Timeline (version 1)") nor the product's event carries a field
+  saying engine durations versus aligner; today only one source exists.

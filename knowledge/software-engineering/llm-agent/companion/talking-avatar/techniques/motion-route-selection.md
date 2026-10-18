@@ -48,8 +48,10 @@ cut by hand for that rig. Neither says anything about the product's art.
    owns the decision rank them before the names and numbers are revealed. Then
    put the ranking next to the cost table.
 6. **Write the verdict with both halves of the cost.** For a hybrid, playback
-   cost and motion-generation cost are reported separately, with the motion
-   model's window latency named as what decides whether it can be live.
+   cost and motion-generation cost are reported separately, with the voice's unit
+   of output named beside the motion model's window: against whole sentences
+   rendered ahead of playback, per-sentence compute decides whether it keeps up;
+   only against streamed audio is the window a latency floor.
 
 ## Decision rules
 
@@ -63,9 +65,14 @@ cut by hand for that rig. Neither says anything about the product's art.
 - **When the target hardware has no accelerator to spare,** the frames must come
   from a rig; learned motion is admissible only if it can be produced ahead of
   playback or on the same machine without contending with everything else.
-- **When the best motion source is offline-only,** it does not disqualify the
-  route — it assigns it: learned motion for pre-synthesised speech, procedural
-  motion for idle, listening and live fallback, one seam for both.
+- **When the best motion source needs a window of audio before it emits,** check
+  what the voice hands it before calling it offline. If sentences are rendered
+  whole before they play, compute motion per finished sentence while the previous
+  one plays; the route is live as long as compute per sentence stays under the
+  playback time it hides behind. If audio is streamed, the window is a floor and
+  learned motion is confined to speech rendered ahead. Either way procedural
+  motion owns idle, listening, the start of a line and every fallback, through
+  one seam.
 - **When the person ranking says two routes look comparable,** the cheaper one
   to run wins; resource cost is a quality the viewer pays for, not a footnote.
 - **When a route produces no usable clip after two serious attempts on the real

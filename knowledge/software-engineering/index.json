@@ -4,8 +4,8 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
-  "techniques": 1882,
-  "applications": 1354,
+  "techniques": 1884,
+  "applications": 1356,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1882/1882",
+  "use_when_coverage": "1884/1884",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -35438,10 +35438,26 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/talking-avatar.md",
-   "digest": "sha256-b2:78d16c10151c0331",
-   "revision": 1,
+   "digest": "sha256-b2:3fba738ffcfb4a6d",
+   "revision": 2,
    "changedAt": "2026-10-18",
    "techniques": [
+    {
+     "slug": "face-signal-across-surfaces",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "unknown-is-not-a-value",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a companion's face appears on more than one window or surface",
+      "a face's mouth shuts before the voice has finished",
+      "two surfaces show the same face doing different things",
+      "a face renderer threatens a window's first paint or idle cost"
+     ]
+    },
     {
      "slug": "motion-route-selection",
      "status": "forged",
@@ -35482,6 +35498,21 @@
       "deciding whether an avatar route is realtime",
       "a talking-head model is fast on a benchmark and falls behind the voice",
       "reporting what an avatar costs to run"
+     ]
+    },
+    {
+     "slug": "per-sentence-face-sidecar",
+     "status": "forged",
+     "laws": [
+      "failure-not-empty-success",
+      "unknown-is-not-a-value",
+      "creation-names-reaper"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding a face to a voice pipeline that already ships",
+      "the face needs a numeric or accelerator stack the voice process must not import",
+      "a talking face must never delay or change the voice it follows"
      ]
     },
     {
@@ -35554,10 +35585,24 @@
     },
     {
      "stack": "python",
+     "technique": "per-sentence-face-sidecar",
+     "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/applications/python--per-sentence-face-sidecar.md",
+     "verified_on": "2026-10-18",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
      "technique": "single-image-layer-decomposition",
      "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/applications/python--single-image-layer-decomposition.md",
      "verified_on": "2026-10-18",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "react",
+     "technique": "face-signal-across-surfaces",
+     "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/applications/react--face-signal-across-surfaces.md",
+     "verified_on": "2026-10-18",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -39057,8 +39102,8 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/voice-io/voice-io.md",
-   "digest": "sha256-b2:87be312d121ea670",
-   "revision": 22,
+   "digest": "sha256-b2:29f8b158c4d44054",
+   "revision": 23,
    "changedAt": "2026-10-18",
    "techniques": [
     {
@@ -41434,6 +41479,7 @@
     "talking-avatar/motion-route-selection",
     "talking-avatar/neural-motion-retargeting",
     "talking-avatar/paced-realtime-measurement",
+    "talking-avatar/per-sentence-face-sidecar",
     "telemetry-pii-redaction/redact-at-the-cap",
     "telemetry-pii-redaction/redaction-invariants-as-tests",
     "templates-scaffolding/instance-upgrade",
@@ -42371,7 +42417,9 @@
     "supply-chain/license-reach-follows-integration-form",
     "supply-chain/reading-is-not-running",
     "supply-chain/review-attestation-ledger",
+    "talking-avatar/face-signal-across-surfaces",
     "talking-avatar/paced-realtime-measurement",
+    "talking-avatar/per-sentence-face-sidecar",
     "talking-avatar/rig-parameter-contract",
     "talking-avatar/viseme-drive",
     "telemetry-pii-redaction/exclusion-bounds-reads-not-output",
@@ -43220,6 +43268,8 @@
     "supply-chain/archive-extraction-safety",
     "supply-chain/vendored-fork-ledger",
     "sync-replication/tombstone-propagation",
+    "talking-avatar/face-signal-across-surfaces",
+    "talking-avatar/per-sentence-face-sidecar",
     "talking-avatar/procedural-presence-motion",
     "templates-scaffolding/adoption-lifecycle",
     "templates-scaffolding/catalog-curation",
@@ -43648,6 +43698,7 @@
     "sync-replication/conflict-detection-and-policy",
     "sync-replication/topology-declaration",
     "table/export-escapes-for-its-consumer",
+    "talking-avatar/face-signal-across-surfaces",
     "talking-avatar/rig-parameter-contract",
     "telemetry-pii-redaction/denylist-plus-pattern-pass",
     "templates-scaffolding/readiness-prerequisites",
