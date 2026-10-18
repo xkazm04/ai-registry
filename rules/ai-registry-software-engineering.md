@@ -1,6 +1,6 @@
 # Software engineering - the subjects this registry carries
 
-`software-engineering` - 235 subjects, 1874 techniques, 1350 applications.
+`software-engineering` - 236 subjects, 1884 techniques, 1356 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### ui-surfaces
@@ -14,7 +14,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 - client-fetch-cache, client-state, demo-data-plane, hash-pinned-translation-pipeline, i18n, ipc-contract, native-shell-integration, page-load-pipeline, realtime-events, render-mount-pipeline
 
 ### llm-agent
-- **companion** - companion-identity, companion-runtime, conversation-orchestration
+- **companion** - companion-identity, companion-runtime, conversation-orchestration, talking-avatar
 - **evaluation-and-cost** - cost-metering, eval-harness, judgment-guardbands, model-call-outcome-integrity, time-travel-replay, tracing
 - **orchestration** - agent-chaining, durable-agent-operations, fleet-orchestration, hitl-approval, model-routing, plan-review, proactive-nudges, remediation-handoff, session-continuation, tenant-scoped-agent-runtime
 - **prompt-and-context** - agent-instruction-files, agent-memory, context-hierarchy, llm-extracted-entity-graph, prompt-assembly, prompt-safety, retrieval, structured-output, tool-result-economy
