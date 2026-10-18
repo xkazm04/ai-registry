@@ -9,11 +9,14 @@ Reads the generic `## Harness` form from the overlay:
     command: npm run dev -- --port 4173      # starts the front end (optional when url is already served)
     url: http://localhost:4173
     ready: /                                 # polled until HTTP 200, 120 s cap
+    ready_timeout: 300                       # optional: a longer cap for a slow cold start (seconds)
     sizes: 1280x800                          # one or more WxH, comma-separated
     themes: light, dark                      # a label may carry the app's own value: dark=dark-midnight
     theme: media                             # how a theme is set: media (default) | query ?theme= | class dark
                                              #   | storage <key> [<value template with {theme}>]
-    dismiss: "Essential Only"                # optional: buttons clicked away before each shot (consent banners)
+    storage: personas-cookie-consent essential   # optional, repeatable: a localStorage key and value seeded
+                                             #   before the page's scripts (a consent already given, a flag)
+    dismiss: "Essential Only"                # optional: visible buttons clicked away before each shot
     full_page: true                          # optional: capture the whole page, not only the viewport
     features:
       <slug>: route /path
@@ -50,6 +53,14 @@ import urllib.request
 from urllib.parse import urlencode, urljoin, urlsplit, urlunsplit, parse_qsl
 
 READY_CAP_S = 120
+SCROLL_THROUGH = '''async () => {
+  const step = Math.max(200, Math.floor(window.innerHeight * 0.8));
+  for (let y = 0; y < document.documentElement.scrollHeight && y < 40000; y += step) {
+    window.scrollTo(0, y);
+    await new Promise((r) => setTimeout(r, 120));
+  }
+  window.scrollTo(0, 0);
+}'''
 NAV_TIMEOUT_MS = 30000
 SETTLE_S = 0.6
 MODULE = 'harness.py'
@@ -84,7 +95,7 @@ def strip_comment(v):
 def parse_harness(body):
     """The generic form as a dict: command, url, ready, sizes [(w, h)], themes [..], theme_mode, features {slug: spec}."""
     cfg = {'command': None, 'url': None, 'ready': '/', 'sizes': [(1280, 800)], 'themes': ['light'], 'theme_values': {},
-           'theme': 'media', 'dismiss': [], 'full_page': False, 'features': {}}
+           'theme': 'media', 'storage': [], 'dismiss': [], 'full_page': False, 'ready_timeout': READY_CAP_S, 'features': {}}
     in_features = False
     for raw in body.splitlines():
         line = raw.rstrip()
@@ -128,10 +139,19 @@ def parse_harness(body):
             cfg['themes'] = labels or cfg['themes']
         elif key == 'theme':
             cfg['theme'] = val
+        elif key == 'storage':
+            k, _, v = val.partition(' ')
+            if not k or not v.strip():
+                raise InputError(f'## Harness storage: {val!r} is not <localStorage key> <value>')
+            cfg['storage'].append((k, v.strip()))
         elif key == 'dismiss':
             cfg['dismiss'] = re.findall(r'"([^"]+)"', val)
             if val and not cfg['dismiss']:
                 raise InputError(f'## Harness dismiss: quote each button text, e.g. dismiss: "Accept" (got {val!r})')
+        elif key == 'ready_timeout':
+            if not re.fullmatch(r'\d+', val) or not 10 <= int(val) <= 1800:
+                raise InputError(f'## Harness ready_timeout: {val!r} is not 10..1800 seconds')
+            cfg['ready_timeout'] = int(val)
         elif key == 'full_page':
             if val not in ('true', 'false'):
                 raise InputError(f'## Harness full_page: {val!r} is not true | false')
@@ -217,7 +237,9 @@ def wait_ready(url, proc, cap_s=READY_CAP_S):
         if proc is not None and proc.poll() is not None:
             return f'the command exited with {proc.returncode} before {url} answered'
         try:
-            with urllib.request.urlopen(url, timeout=5) as r:
+            # a dev server compiles the first page on this request; a short timeout aborts it and the
+            # next poll starts the compile over, so wait as long as the deadline allows (60 s at most)
+            with urllib.request.urlopen(url, timeout=max(1, min(60, deadline - time.time()))) as r:
                 if r.status == 200:
                     return None
         except (urllib.error.URLError, OSError, ValueError):
@@ -245,6 +267,8 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
         _, key, *template = cfg['theme'].split(' ', 2)
         stored = template[0].replace('{theme}', value) if template else value
         ctx.add_init_script('try { localStorage.setItem(%s, %s) } catch (e) {}' % (json.dumps(key), json.dumps(stored)))
+    for k, v in cfg['storage']:
+        ctx.add_init_script('try { localStorage.setItem(%s, %s) } catch (e) {}' % (json.dumps(k), json.dumps(v)))
     page = ctx.new_page()
     errors = []
     page.on('console', lambda m: errors.append(m.text[:300]) if m.type == 'error' else None)
@@ -263,7 +287,13 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
 
     def goto(path):
         url = themed(urljoin(cfg['url'].rstrip('/') + '/', path.lstrip('/')))
-        resp = page.goto(url, wait_until='load', timeout=NAV_TIMEOUT_MS)
+        try:
+            resp = page.goto(url, wait_until='load', timeout=NAV_TIMEOUT_MS)
+        except Exception as e:
+            if 'Timeout' not in type(e).__name__:
+                raise
+            # a dev server compiles a route on its first request, which can outlast one timeout
+            resp = page.goto(url, wait_until='load', timeout=NAV_TIMEOUT_MS)
         if resp is not None and resp.status >= 400:
             return f'HTTP {resp.status} at {path}'
         return None
@@ -296,10 +326,16 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
             for text in cfg['dismiss']:
                 # a consent banner covers the bottom of every shot; absent on this page is fine
                 try:
-                    page.get_by_role('button', name=text, exact=True).first.click(timeout=1500)
-                    time.sleep(0.3)
+                    # a hidden match (a mobile menu, a policy page) would time out: click the visible one
+                    page.get_by_role('button', name=text, exact=True).locator('visible=true').first.click(timeout=1500)
+                    time.sleep(0.6)  # let an exit animation finish
                 except Exception:
                     pass
+            if cfg['full_page']:
+                # sections that animate in when scrolled into view stay blank in a full-page capture
+                # unless the page was scrolled through once
+                page.evaluate(SCROLL_THROUGH)
+                time.sleep(SETTLE_S)
             if page.evaluate(BLANK):
                 return None, f'blank body at {first}'
             os.makedirs(os.path.dirname(out_png), exist_ok=True)
@@ -350,11 +386,17 @@ def run(args):
         return out, 1
     proc = start(cfg['command'], root)
     try:
-        why = wait_ready(ready_url, proc)
+        why = wait_ready(ready_url, proc, cap_s=cfg['ready_timeout'])
         if why:
             out['error'] = why
             return out, 1
-        from playwright.sync_api import sync_playwright
+        try:
+            from playwright.sync_api import sync_playwright
+        except ImportError:
+            # `python -I` drops the user site, where `pip install --user playwright` puts it
+            import site
+            sys.path.append(site.getusersitepackages())
+            from playwright.sync_api import sync_playwright
         with sync_playwright() as p:
             browser = p.chromium.launch()
             try:

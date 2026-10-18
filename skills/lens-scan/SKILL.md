@@ -636,8 +636,10 @@ ready: /                                 # polled until HTTP 200, 120 s cap
 sizes: 1280x800
 themes: light, dark                      # a label may carry the app's value: dark=dark-midnight
 theme: media                             # or: query ?theme= | class dark | storage <localStorage key> [<template with {theme}>]
-dismiss: "Accept"                        # optional: buttons clicked away before each shot (consent banners)
-full_page: true                          # optional: the whole page, so a change below the fold shows
+storage: cookie-consent essential        # optional, repeatable: a localStorage seed (a consent already given)
+dismiss: "Accept"                        # optional: visible buttons clicked away before each shot
+full_page: true                          # optional: the whole page, scrolled through once so in-view sections render
+ready_timeout: 300                       # optional: a longer cap than 120 s for a slow cold start
 features:
   <slug>: route /path                    # or: steps click "Text" > click "Other" (Playwright text selectors)
   <slug>: unscreenable "native window only"
@@ -654,8 +656,10 @@ elsewhere. A `steps` feature whose first step is `goto /path` starts there inste
 **Check one shot per theme before trusting a run.** A persisted store usually reads JSON, not
 the bare theme name (`theme: storage personas-theme {"state":{"themeId":"{theme}"},"version":0}`);
 with a wrong seed the app silently picks another theme. A consent banner left open covers the
-bottom of every shot, before and after alike, and a viewport shot cannot show a change below the
-fold, so an identical before/after pair proves nothing.
+bottom of every shot, before and after alike (seeding the consent with `storage:` is more reliable
+than clicking it away), and a viewport shot cannot show a change below the fold, so an identical
+before/after pair proves nothing. A section that hides again when scrolled out of view stays blank
+even in a full-page shot: shoot it with a route or steps that land on it.
 
 ---
 

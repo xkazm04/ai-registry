@@ -51,8 +51,10 @@ test('harness --dry: a storage seed template, theme values, dismiss and full_pag
   const root = overlay(`url: http://localhost:4173
 themes: light, dark=dark-midnight          # the label names the shot, the value is what the app stores
 theme: storage personas-theme {"state":{"themeId":"{theme}"},"version":0}
+storage: personas-cookie-consent essential   # a consent already given
 dismiss: "Essential Only", "Close"
 full_page: true
+ready_timeout: 420
 features:
   home: route /
 `);
@@ -71,6 +73,8 @@ test('harness: bad overlays exit 2 with the reason', { skip: !PY && 'no python o
     ['url: http://x\ntheme: storage app-theme {"mode":"dark"}\n', /not media/],
     ['url: http://x\ndismiss: Accept\n', /quote each button text/],
     ['url: http://x\nfull_page: yes\n', /not true \| false/],
+    ['url: http://x\nstorage: lonely-key\n', /not <localStorage key> <value>/],
+    ['url: http://x\nready_timeout: 5\n', /not 10\.\.1800 seconds/],
   ]) {
     const r = harness(overlay(body));
     assert.equal(r.status, 2, body);
