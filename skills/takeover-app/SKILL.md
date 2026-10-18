@@ -3,7 +3,7 @@ name: takeover-app
 description: "Take over an unknown or vibecoded fullstack app and bring it under control toward production readiness: a phased, gated sequencer over the registry's existing skills. Recon the stack, boot it, map it, score readiness, scan it through the built-in lenses plus four takeover lenses (API and LLM call hygiene, security depth, backend performance, money and privacy) with an Opus judge, import the Azure DevOps backlog into the same queue, rank every item by severity tier (0 stop-ship .. 3 backlog), write a stakeholder control report, then build approved tier 0-1 fixes in gated batches while a parallel UX track polishes the top screens. Three operator gates are the only path to builds; a run ledger makes it resumable. Use when you inherit a codebase you did not write and must quickly know what is dangerous, what is slow, and what to fix first. Invoke with /takeover-app [<repo>], /takeover-app resume, or /takeover-app status."
 category: workflow
 memory: project
-version: 1.0.0
+version: 1.1.0
 tags: takeover, onboarding, production-readiness, triage, azure-devops, lens-scan, security, llm
 argument-hint: "[<repo path>] | resume | status"
 ---
@@ -64,6 +64,9 @@ list); builds only after a gate.
    yours: stop and name the files; never commit, stash or reset it.
 3. **The ledger.** Open or create `<repo>/.ai/takeover/ledger.md` (below) and exclude
    `.ai/takeover/` locally (`.git/info/exclude`, so the repo's `.gitignore` is untouched).
+   Sibling skills may still write tracked files when they register (adopt-bp edits
+   `.gitignore` and creates `.claude/lens-scan/`): list every such file in the ledger's
+   `## Side effects` as it appears, so committing or dropping them is the operator's call.
 
 ## The run ledger
 
@@ -78,6 +81,9 @@ skill: takeover-app 1.0.0   repo: <name>   branch: takeover/2026-10-18   started
 | P0 recon | done | <ISO> | <ISO> | .ai/takeover/recon.md | Next 15, Supabase, 41 routes |
 | P1 boot | done | ... | ... | capability matrix in recon.md | 2 groups degraded |
 | P2 map | running | ... | | context-map.json | coverage 78% |
+
+## Side effects
+- .gitignore (adopt-bp registration), .claude/lens-scan/ - uncommitted, operator's call
 
 ## Gates
 - GATE 1 <ISO> - go - operator:<name> - "map is good enough, skip the legacy/ folder"
@@ -159,7 +165,10 @@ is `docs/takeover/readiness.md`: 15 dimensions, a level and the evidence for eac
 
    and the same for `ai.takeover.security-depth`, `ai.takeover.backend-perf`,
    `ai.takeover.money-privacy`. An id the map already has is refused (exit 1): that lens
-   is in, move on.
+   is in, move on. **Any other refusal is a defect in the bp manifest** (lens-scan's
+   validator is stricter than bp's, e.g. glyphs must use absolute path commands): stop,
+   name the manifest and the validator's message, and get it fixed in bp. Never patch the
+   lens into `app-structure.json` by hand - the next adopt would drop it again.
 3. Measure each takeover lens over every feature with the **judge model** (overlay
    `judge_model`, default the strongest Opus available): `/lens-scan measure --lens <id>`,
    or headless `node <lens-scan>/scripts/drive.mjs cover --lens <id> --root <repo> --model <judge>`.
@@ -169,6 +178,12 @@ is `docs/takeover/readiness.md`: 15 dimensions, a level and the evidence for eac
    or three riskiest contexts (it changes no code). A finding it makes that the lenses
    missed enters the store as a work item: `store.mjs propose --kind work-item --origin
    sweep --external-ref sweep:<context>/<n>`.
+
+5. **Give execute its gates and a baseline now.** lens-scan execute reads its own overlay
+   (`.claude/lens-scan/config.md`), not this one: copy this overlay's `## Gates` there when
+   it has none. Then run the test gate once at the base commit and save the failing files to
+   `.ai/takeover/test-baseline.txt` - an inherited app rarely starts green, and without the
+   baseline every pre-existing failure is blamed on the first pack.
 
 **Jobs run with permissions skipped** (lens-scan headless starts `claude -p` that way).
 That is accepted on a clone or a takeover branch; it is not on a shared main.
@@ -241,11 +256,27 @@ Approved tier 0 first, then tier 1, one lens at a time:
 
 Each run builds a pack branch (never main) and records before/after evidence. A
 `work-item` has no metric: it is built against the acceptance criteria in its body and the
-gates (overlay `## Gates`), and its evidence is the gate output. After each batch, **GATE**:
-show the pack, its items done/failed with evidence; the operator triages each item
-(accept / rework / descope) in the bp review UI or through
-`drive.mjs triage ... --by operator:<name>`. Then `/lens-scan release` ships the accepted
-items. The next batch starts only after the gate.
+gates (overlay `## Gates`), and its evidence is the gate output. Packs are cut **per
+lens**, so one approved batch becomes several branches from the same base.
+
+**Before the batch gate, gate the combination.** In a scratch worktree, cherry-pick every
+pack of the batch onto the base, resolve conflicts (keep both sides; never drop a pack's
+change to make another apply), and run the full gates on that integration head against the
+baseline. Packs that are each green can fail together - a test that mocks a module without
+the export another pack added fails only on the combined head. Fix such failures there,
+in a separate commit naming both packs.
+
+**GATE**: show each pack, its items done/failed with evidence, the integration head's gate
+results, the conflicts you resolved, and every **deploy-order** step the item commits name
+(an env var to set before a migration, a view to create before the code ships). The
+operator triages each item (accept / rework / descope) in the bp review UI or through
+`drive.mjs triage ... --by operator:<name>`. The next batch starts only after the gate.
+
+**Landing.** Ship the accepted items with `/lens-scan release`, or, when the run worked on
+a clone, replay the integration head onto the real default branch. That branch keeps
+moving during a takeover (the team does not stop for you), so rebase onto its current
+head, re-run the gates there, and fast-forward only when the operator says so. Never push
+without asking.
 
 ## P9 - UX track (parallel with P8)
 
@@ -255,9 +286,15 @@ files at the same time:
 1. A design harness: lens-scan's `## Harness` overlay (start command, base URL, a route per
    feature) so every route can be reached headless.
 2. Screenshots of every route, light and dark, phone and desktop, recorded as before shots
-   (`store.mjs shot`).
+   (`store.mjs shot`). Before trusting them, open one per theme: seed the theme in the
+   format the app actually reads (a persisted store usually wants JSON, not the bare name -
+   a wrong seed silently falls back to another theme), and dismiss the consent banner that
+   would otherwise cover the bottom of every shot.
 3. `/perfect` on the top 2-3 screens of the shortlist: its loop proposes, the operator
    gates, its builders build.
+4. **Prove each change in the after shots.** A viewport shot misses a change below the
+   fold, and an identical before/after pair proves nothing. For each change, take a
+   full-page or element-scoped shot that shows it, and look at it before the gate.
 
 A P9 change that touches a file a P8 pack touches waits for that pack's release.
 
