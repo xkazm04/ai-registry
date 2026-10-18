@@ -16,6 +16,8 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { AudioManifest, FilmScript, MAX_TIER, Take, momentsFor } from './src/contract.ts';
 import { FOOTAGE_COMPONENTS, RECT_COMPONENTS, buildTimeline, momentWindow, roleOf } from './remotion/timeline.ts';
+import { isMain } from './lib/entry.mjs';
+import { localImports } from './lib/imports.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const KIT_REMOTION = path.join(here, 'remotion');
@@ -53,9 +55,10 @@ export function sourceFiles(dir) {
 /** Strip comments so documentation may name what it forbids. */
 export const stripComments = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:"'`\\])\/\/.*$/gm, '$1');
 
-export function lintSources(dirs) {
+export function lintSources(dirs, extraFiles = []) {
   const hits = [];
-  for (const f of dirs.flatMap(sourceFiles)) {
+  const files = [...new Set([...dirs.flatMap(sourceFiles), ...extraFiles.filter((f) => /\.(tsx?|jsx?|mjs)$/.test(f))])];
+  for (const f of files) {
     const lines = stripComments(readFileSync(f, 'utf8')).split('\n');
     lines.forEach((line, i) => {
       for (const rule of FORBIDDEN) if (rule.re.test(line)) hits.push(`${f}:${i + 1} ${rule.name}: ${line.trim()}`);
@@ -168,7 +171,9 @@ export function runCheck(filmDir, balance) {
   const film = loadFilm(filmDir);
   const { script, manifest, take, localDir } = film;
   const timeline = buildTimeline({ script, manifest, take, balance });
-  const lint = lintSources([KIT_REMOTION, localDir]).map((h) => `seek lint: ${h}`);
+  // shared code a hero imports from outside local/ renders too, so it is linted too
+  const localEntry = ['index.tsx', 'index.ts'].map((n) => path.join(localDir, n)).find((p) => existsSync(p));
+  const lint = lintSources([KIT_REMOTION, localDir], localEntry ? localImports(localEntry) : []).map((h) => `seek lint: ${h}`);
   const errors = [
     ...lint,
     ...collisions({ script, take, balance, timeline, localDir }),
@@ -202,4 +207,4 @@ function main(argv) {
   return r.ok ? 0 : 1;
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) process.exitCode = main(process.argv);
+if (isMain(import.meta.url)) process.exitCode = main(process.argv);

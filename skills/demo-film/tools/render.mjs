@@ -20,6 +20,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { KIT_REMOTION, runCheck } from './check.mjs';
+import { isMain } from './lib/entry.mjs';
+import { localImports } from './lib/imports.mjs';
 
 const execFileP = promisify(execFile);
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -62,7 +64,7 @@ function walk(dir, out = []) {
 export function bundleKey(localEntry) {
   const h = createHash('sha256');
   const files = [...walk(KIT_REMOTION), ...walk(path.join(KIT, 'tools', 'src')), path.join(KIT, 'package-lock.json')];
-  if (localEntry) files.push(...walk(path.dirname(localEntry)));
+  if (localEntry) files.push(...walk(path.dirname(localEntry)), ...localImports(localEntry));
   h.update(`local:${localEntry ?? '-'}\n`);
   for (const f of files) if (existsSync(f)) h.update(f).update(readFileSync(f));
   return h.digest('hex').slice(0, 16);
@@ -317,4 +319,4 @@ async function main() {
   }
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) process.exitCode = await main();
+if (isMain(import.meta.url)) process.exitCode = await main();

@@ -26,6 +26,7 @@ import { pathToFileURL } from 'node:url';
 
 import { AudioManifest, FilmScript, clipHashInput, estimateMs, holdMs } from './src/contract.ts';
 import { resolveEnv } from './lib/env.mjs';
+import { isMain } from './lib/entry.mjs';
 import {
   API, fail, ffprobeMs, formatMs, loadScript, pad, padLeft, pool, postAudio, readManifest,
   sha256, withinBudget, writeManifest,
@@ -283,7 +284,7 @@ export async function main(argv = process.argv.slice(2)) {
   return 0;
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+if (isMain(import.meta.url)) {
   main().catch((err) => {
     console.error(String(err?.stack ?? err));
     process.exit(1);
