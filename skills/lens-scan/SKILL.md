@@ -4,7 +4,7 @@ description: "Measure a product feature by feature through one lens - developmen
 argument-hint: "[measure|propose|execute|propagate|status|onboard] [--lens development|security|design|performance|<lens id with a scan block>] [--scope <group|context|feature[,feature...]>] [--proposals <id,id>] [--base <ref>] | release --id rel-<version> [--finish] | onboard \"<description>\" [--id com.x.y] [--temporary] [--draft-only] [--first-scan]"
 category: workflow
 memory: project
-version: 1.7.0
+version: 1.8.0
 tags: measure, metrics, lens, backlog, approval, house-standards, propagation, sqlite
 ---
 # Lens scan
@@ -65,7 +65,7 @@ overlay's `default_scope` (headless: every feature).
 ## The store
 
 One SQLite file per product: `.ai/lens-scan/scan.db` (gitignored; the DDL is
-[store.sql](references/store.sql), `user_version 3`; a v1 or v2 file is migrated in place on open). **The agent never writes SQL.**
+[store.sql](references/store.sql), `user_version 4`; a v1, v2 or v3 file is migrated in place on open). **The agent never writes SQL.**
 `node ${CLAUDE_SKILL_DIR}/scripts/store.mjs` is the only writer; every subcommand
 prints JSON (`--help` lists them). The rules it enforces are the method's rules:
 
@@ -90,6 +90,19 @@ prints JSON (`--help` lists them). The rules it enforces are the method's rules:
   only by a release reaching `tagged`. The skill writes none of them, with one exception
   named in [7. Release](#7-release): a cherry-pick conflict sends an item to `rework`
   as `--by skill:lens-scan`.
+- **Origin and severity (v4).** Every proposal carries `origin` (`scan`, the default;
+  `ado` or `sweep` for an imported item), and an imported one its `external_ref`
+  (`<origin>:<id>`, unique: the import's idempotency key) and `external_url`. A
+  `--kind work-item` is such an import: no metric or delta, an origin other than `scan`
+  and an `--external-ref`; a second propose of the same ref is refused (exit 1) with
+  `{"refused", "existing": "<id>"}` on stdout, so the importer refreshes the existing item
+  with `update-external --id <id> [--title] [--body-file] [--external-url]` instead
+  (refused for an `origin scan` item). How bad the problem is lives in `tier` (0
+  stop-ship .. 3 backlog, NULL untriaged) and `risk_class`, set at propose or later by
+  `rank --id <id> --tier <0-3> --risk-class <c> [--by <kind:name>] [--note t]` at any
+  status ([triage.md](references/triage.md) is the rubric). `risk` (1-10) stays the
+  risk of the *change*, never the severity. `proposals` sorts by tier (untriaged last),
+  then age, and filters by `--origin`, `--tier <n>` or `--untriaged`.
 
 `activity` rows are the scan's live feed. Write one at every step a person watching
 would want to see: `reading` when you open a feature, `measured`, `proposed`,
@@ -270,7 +283,11 @@ Every item names:
   catalog metric is not a lens-scan item; leave it to another skill.
 - `standard`: `<subject>/<technique>` for a registry technique,
   `house:<subject>/<line-id>` for a house rule, `none` when nothing governs it.
-- `size` (`XS..XL`) and `risk` (1-10).
+- `size` (`XS..XL`) and `risk` (1-10) - the risk of making the change.
+- `tier` and `risk_class`, **when the product carries [triage.md](references/triage.md)
+  tiers (a takeover): every proposal passes `--tier` and `--risk-class`**, picked by that
+  rubric (a tier 0 names its `file:line` and the entry point that reaches it). Without
+  tiers, leave both unset.
 - `body` in scan-sweep's five sections, in order: **Summary / Description / Flow /
   Expected impact / Evaluation**. The Evaluation's Before is the stored measurement;
   its After is the expected value and the rung that predicts it
@@ -424,6 +441,10 @@ recorded `failed` with the reason.
    --status done --after-value <n> --commit-sha <sha> --result-sha <sha> --pack <k>`, with a
    `committed` activity. Did not move it -> the same with `--status failed`: **the commit
    stays on the pack**, so the person can look and still accept it with a note.
+   **A `work-item` has no metric** (an imported ticket, a sweep finding): it is `done` when its
+   acceptance criteria (in its body) are met and the product's gates are green at its commit,
+   `failed` otherwise, with no `--after-value`; name in the `committed` activity which criteria
+   you checked and how.
 
 **Cut-off reconciliation**, before building anything: the item's pack is its `pack_id`
 (`packs`); look for its commit by trailer, `git log pack/<short>-<n> --grep "Lens-Item:

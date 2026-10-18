@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 // lens-scan store - the only writer of <repo>/.ai/lens-scan/scan.db, so the agent never writes SQL.
-// The DDL is ../references/store.sql (user_version 3); this script applies it to a fresh file, migrates
-// a v1 or v2 file in place (one transaction, on any open, read-only ones included) and refuses a file it does not know. Every subcommand prints JSON on stdout; errors go to stderr with
-// exit 2 (bad input) or 1 (refused by a store rule). NULL columns are never printed.
+// The DDL is ../references/store.sql (user_version 4); this script applies it to a fresh file, migrates
+// a v1, v2 or v3 file in place (one transaction per step, on any open, read-only ones included) and refuses a file it
+// does not know. Every subcommand prints JSON on stdout; errors go to stderr with exit 2 (bad input) or 1 (refused by
+// a store rule) - a refusal that names an existing row also prints {"refused", "existing"} on stdout. NULL columns
+// are never printed.
 //
 //   node store.mjs [--db <path>] <subcommand> [flags]        (--db default .ai/lens-scan/scan.db)
 //   init
@@ -20,10 +22,21 @@
 //                                              proposal?, phase?, commit_sha?})
 //             --proposal and --phase go together: the reading is that item's before/after evidence. An `after`
 //             reading is taken on the pack branch, so `latest` and `gaps` never count it as the feature's state.
-//   propose --run <id> --feature f --lens l --title t --kind fix|baseline-upgrade|propagation
+//   propose --run <id> --feature f --lens l --title t --kind fix|baseline-upgrade|propagation|work-item
 //           [--metric m] [--body-file p] [--standard s] [--expected-delta n] [--size XS..XL] [--risk 1-10] [--parent id]
-//   proposals [--status s] [--feature f] [--kind k] [--pack k] [--release rel] [--ids a,b]
-//             (--ids: those ids only, in that order)
+//           [--origin scan|ado|sweep] [--external-ref <origin>:<id>] [--external-url u] [--tier 0-3] [--risk-class c]
+//             (v4) a work-item is an imported item: no metric or delta, an --origin other than scan and an
+//             --external-ref. A duplicate --external-ref is refused (exit 1) with {"refused", "existing": <id>} on
+//             stdout, so an importer updates the existing item instead. `risk` is the risk of the CHANGE; how bad
+//             the PROBLEM is goes in --tier (0 stop-ship .. 3 backlog) and --risk-class (references/triage.md).
+//   proposals [--status s] [--feature f] [--kind k] [--pack k] [--release rel] [--origin o] [--tier n | --untriaged]
+//             [--ids a,b]
+//             ordered by tier (untriaged last), then created_at, id (--ids: those ids only, in that order)
+//   rank --id <id> --tier 0-3 --risk-class secret|authz|money|data|llm|perf|reliability|ux|debt [--by <kind:name>] [--note t]
+//             (v4) an item's severity, at any status: sets tier, risk_class, ranked_by, ranked_at (--note goes to
+//             triage_note). -> {id, tier, risk_class}
+//   update-external --id <id> [--title t] [--body-file p] [--external-url u]
+//             (v4) an importer refreshes an imported item's text; refused for an origin-scan item
 //   proposal-update --id <id> [--status executing|done|failed] [--after-value n] [--result-sha sha]
 //             [--commit-sha sha] [--pack k] [--attempt-of p] [--release rel]
 //             --pack names an open pack; a person's triage moves (accepted, rework, descoped) and `released`
@@ -97,12 +110,15 @@ import { fileURLToPath } from 'node:url';
 const HERE = dirname(fileURLToPath(import.meta.url));
 export const DDL_PATH = resolve(HERE, '../references/store.sql');
 export const DEFAULT_DB = '.ai/lens-scan/scan.db';
-const SCHEMA_VERSION = 3;
+const SCHEMA_VERSION = 4;
 
 export const PHASES = ['measure', 'propose', 'execute', 'propagate'];
 export const RUN_END = ['done', 'failed', 'aborted'];
 export const METHODS = ['static', 'probe', 'harness', 'judgement'];
-export const KINDS = ['fix', 'baseline-upgrade', 'propagation'];
+export const KINDS = ['fix', 'baseline-upgrade', 'propagation', 'work-item'];
+// v4: where an item came from, and the severity of the problem it addresses (never the change's `risk`)
+export const ORIGINS = ['scan', 'ado', 'sweep'];
+export const RISK_CLASSES = ['secret', 'authz', 'money', 'data', 'llm', 'perf', 'reliability', 'ux', 'debt'];
 export const SIZES = ['XS', 'S', 'M', 'L', 'XL'];
 export const ACTIVITY = ['reading', 'measured', 'proposed', 'executing', 'committed', 'note', 'error'];
 export const COVERAGE = ['conformant', 'deviation', 'not-applicable', 'unknown'];
@@ -130,7 +146,8 @@ const METRIC_RE = /^[a-z][A-Za-z0-9]*$/;
 const STANDARD_RE = /^(?:none|(?:house:)?[a-z0-9][a-z0-9.-]*\/[a-z0-9][a-z0-9.-]*)$/;
 
 export class StoreError extends Error {
-  constructor(message, code = 1) { super(message); this.code = code; }
+  /** `detail`, when given, is printed as JSON on stdout by the cli (e.g. {refused, existing}). */
+  constructor(message, code = 1, detail = undefined) { super(message); this.code = code; if (detail !== undefined) this.detail = detail; }
 }
 const bad = (m) => { throw new StoreError(m, 2); };
 const refuse = (m) => { throw new StoreError(m, 1); };
@@ -188,12 +205,13 @@ export function openStore(dbPath = DEFAULT_DB, { readOnly = false } = {}) {
   }
   if (db.prepare('PRAGMA user_version').get().user_version === 1) migrateV1(db);
   if (db.prepare('PRAGMA user_version').get().user_version === 2) migrateV2(db);
+  if (db.prepare('PRAGMA user_version').get().user_version === 3) migrateV3(db);
   assertVersion(db, dbPath);
   return db;
 }
 
 /**
- * v1 -> v3 in place, in one IMMEDIATE transaction that re-reads the version (a second opener finds v3 and does
+ * v1 -> v4 (the current version) in place, in one IMMEDIATE transaction that re-reads the version (a second opener finds v3 and does
  * nothing). SQLite cannot widen a CHECK, so proposals is renamed aside, the current DDL creates the new proposals
  * (and packs, releases, the new indexes) and every row is copied; measurements and shots gain their columns
  * by ALTER first, so the DDL's CREATE IF NOT EXISTS finds them already in their v2 shape. Old rows get NULL.
@@ -212,7 +230,7 @@ function migrateV1(db) {
         ALTER TABLE measurements ADD COLUMN commit_sha TEXT;
         ALTER TABLE shots ADD COLUMN proposal_id TEXT;
         ALTER TABLE shots ADD COLUMN phase TEXT CHECK (phase IN ('before', 'after'));`);
-      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets the current user_version (3): proposals is born with triaged_from
+      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets the current user_version (4): proposals is born with the v3 and v4 columns
       // copied as they are: a v1 row's references are its own business, the migration neither checks nor fixes them
       db.exec(`INSERT INTO proposals (${cols}) SELECT ${cols} FROM proposals_v1; DROP TABLE proposals_v1;`);
     }
@@ -234,6 +252,29 @@ function migrateV2(db) {
     }
     db.exec('COMMIT');
   } catch (e) { db.exec('ROLLBACK'); throw e; }
+}
+/**
+ * v3 -> v4 in place: proposals gains origin, external_ref, external_url, tier, risk_class, ranked_by, ranked_at, and
+ * its kind CHECK takes 'work-item'. SQLite cannot change a CHECK, so it is migrateV1's rebuild: foreign keys off for
+ * the copy, one IMMEDIATE transaction that re-reads the version (a second opener finds v4 and does nothing), the
+ * old proposals renamed aside, the DDL creates the v4 one (and its indexes), every v3 column is copied; the new
+ * columns take their defaults (origin 'scan', the rest NULL: untriaged, unclassified).
+ */
+function migrateV3(db) {
+  const fk = db.prepare('PRAGMA foreign_keys').get().foreign_keys;
+  if (fk) db.exec('PRAGMA foreign_keys = OFF'); // a no-op inside a transaction, so set before BEGIN
+  db.exec('BEGIN IMMEDIATE');
+  try {
+    if (db.prepare('PRAGMA user_version').get().user_version === 3) {
+      const cols = db.prepare('PRAGMA table_info(proposals)').all().map((c) => `"${c.name}"`).join(', ');
+      // the indexes move with a renamed table; drop them so the DDL creates them on the new one
+      db.exec(`DROP INDEX IF EXISTS proposals_updated; DROP INDEX IF EXISTS proposals_pack; DROP INDEX IF EXISTS proposals_release;
+        ALTER TABLE proposals RENAME TO proposals_v3;`);
+      db.exec(readFileSync(DDL_PATH, 'utf8')); // sets user_version 4
+      db.exec(`INSERT INTO proposals (${cols}) SELECT ${cols} FROM proposals_v3; DROP TABLE proposals_v3;`);
+    }
+    db.exec('COMMIT');
+  } catch (e) { db.exec('ROLLBACK'); throw e; } finally { if (fk) db.exec('PRAGMA foreign_keys = ON'); }
 }
 function sleepSync(ms) { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); }
 function assertVersion(db, dbPath) {
@@ -374,9 +415,23 @@ function linkage(db, proposal, phase) {
   return { proposal: id, phase };
 }
 
+/** A tier is an integer 0-3: 0 stop-ship .. 3 backlog (references/triage.md). */
+const tierOf = (v) => {
+  const t = num('tier', v);
+  if (t !== undefined && (!Number.isInteger(t) || t < 0 || t > 3)) bad('--tier is an integer 0-3 (0 stop-ship .. 3 backlog)');
+  return t;
+};
+
 export function propose(db, o = {}) {
   const run = liveRun(db, o.run);
   const kind = oneOf('kind', o.kind, KINDS);
+  const origin = oneOf('origin', o.origin ?? 'scan', ORIGINS);
+  const ref = o.externalRef === undefined ? undefined : need('external-ref', o.externalRef);
+  if (kind === 'work-item' && (origin === 'scan' || ref === undefined)) bad('a work-item is imported: it names its --origin (ado, sweep, not scan) and its --external-ref');
+  if (ref !== undefined && !(ref.startsWith(`${origin}:`) && ref.length > origin.length + 1)) bad(`--external-ref is '<origin>:<id>' (${origin}:<id> here, got ${JSON.stringify(ref)})`);
+  const url = o.externalUrl === undefined ? undefined : need('external-url', o.externalUrl);
+  const tier = tierOf(o.tier);
+  if (o.riskClass !== undefined) oneOf('risk-class', o.riskClass, RISK_CLASSES);
   const std = standard(o.standard ?? 'none');
   if (o.size !== undefined) oneOf('size', o.size, SIZES);
   const risk = num('risk', o.risk);
@@ -390,21 +445,68 @@ export function propose(db, o = {}) {
     if (kind === 'propagation' && p.kind !== 'baseline-upgrade') refuse(`a propagation's parent is a baseline-upgrade (${o.parent} is a ${p.kind})`);
   } else if (kind === 'propagation') bad('a propagation names its baseline-upgrade (--parent)');
   const body = o.body ?? (o.bodyFile !== undefined ? readFileSync(o.bodyFile, 'utf8') : undefined);
-  const at = now();
-  let id;
-  for (let i = 0; i < 8 && (!id || db.prepare('SELECT 1 FROM proposals WHERE id = ?').get(id)); i += 1) id = proposalId();
-  db.prepare(`INSERT INTO proposals (id, run_id, feature, lens, metric, title, body, standard, expected_delta, size, risk, kind, parent_id, status, created_at, updated_at)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'proposed', ?, ?)`).run(
-    id, run, need('feature', o.feature), need('lens', o.lens), o.metric ?? null, need('title', o.title), body ?? null, std,
-    delta ?? null, o.size ?? null, risk ?? null, kind, o.parent ?? null, at, at);
-  touchRun(db, run, at);
-  return { id };
+  const feature = need('feature', o.feature), lens = need('lens', o.lens), title = need('title', o.title);
+  // the duplicate check and the insert are one IMMEDIATE transaction: two importers never both insert one external_ref
+  return tx(db, () => {
+    if (ref !== undefined) {
+      const dup = db.prepare('SELECT id FROM proposals WHERE external_ref = ?').get(ref);
+      if (dup) throw new StoreError(`external ref ${ref} is already proposal ${dup.id}; update it instead`, 1, { refused: `duplicate external_ref ${ref}`, existing: dup.id });
+    }
+    const at = now();
+    let id;
+    for (let i = 0; i < 8 && (!id || db.prepare('SELECT 1 FROM proposals WHERE id = ?').get(id)); i += 1) id = proposalId();
+    db.prepare(`INSERT INTO proposals (id, run_id, feature, lens, metric, title, body, standard, expected_delta, size, risk, kind, parent_id, status, created_at, updated_at,
+        origin, external_ref, external_url, tier, risk_class)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'proposed', ?, ?, ?, ?, ?, ?, ?)`).run(
+      id, run, feature, lens, o.metric ?? null, title, body ?? null, std,
+      delta ?? null, o.size ?? null, risk ?? null, kind, o.parent ?? null, at, at,
+      origin, ref ?? null, url ?? null, tier ?? null, o.riskClass ?? null);
+    touchRun(db, run, at);
+    return { id };
+  });
 }
 
-/** Proposals by status, feature, kind; `ids` (array or comma list) keeps those ids only, in the order
- *  given - an id that is not in the result does not exist. */
-export function proposals(db, { status, feature, kind, ids, pack, release } = {}) {
+/**
+ * (v4) The severity of the problem an item addresses, at any status: tier and risk_class, who ranked it and when.
+ * `note` goes to triage_note only when given. Never touches `risk` (the change's risk).
+ */
+export function rank(db, { id, tier, riskClass, by: who, note } = {}) {
+  const pid = need('id', id);
+  const t = tierOf(need('tier', tier));
+  const rc = oneOf('risk-class', need('risk-class', riskClass), RISK_CLASSES);
+  const ranker = who === undefined ? undefined : by(who);
+  if (note !== undefined) need('note', note);
+  const at = now();
+  const r = db.prepare(`UPDATE proposals SET tier = ?, risk_class = ?, ranked_by = ?, ranked_at = ?, triage_note = COALESCE(?, triage_note), updated_at = ?
+    WHERE id = ?`).run(t, rc, ranker ?? null, at, note ?? null, at, pid);
+  if (!r.changes) refuse(`proposal ${pid} does not exist`);
+  return { id: pid, tier: t, risk_class: rc };
+}
+
+/** (v4) An importer refreshes an imported item's title, body or link; an origin-scan item is the skill's own, never refreshed. */
+export function updateExternal(db, { id, title, body, bodyFile, externalUrl } = {}) {
+  const pid = need('id', id);
+  if (title !== undefined) need('title', title);
+  if (externalUrl !== undefined) need('external-url', externalUrl);
+  const text = body ?? (bodyFile !== undefined ? readFileSync(need('body-file', bodyFile), 'utf8') : undefined);
+  if ([title, text, externalUrl].every((v) => v === undefined)) bad('nothing to update (--title, --body-file, --external-url)');
+  const p = db.prepare('SELECT origin FROM proposals WHERE id = ?').get(pid);
+  if (!p) refuse(`proposal ${pid} does not exist`);
+  if (p.origin === 'scan') refuse(`proposal ${pid} is the scan's own (origin scan); only an imported item is refreshed from its source`);
+  db.prepare(`UPDATE proposals SET title = COALESCE(?, title), body = COALESCE(?, body), external_url = COALESCE(?, external_url), updated_at = ?
+    WHERE id = ?`).run(title ?? null, text ?? null, externalUrl ?? null, now(), pid);
+  return getProposal(db, pid);
+}
+
+/** Proposals by status, feature, kind, origin, tier (or `untriaged`: no tier), ordered by tier with untriaged last,
+ *  then created_at, id; `ids` (array or comma list) keeps those ids only, in the order given - an id that is not in
+ *  the result does not exist. */
+export function proposals(db, { status, feature, kind, ids, pack, release, origin, tier, untriaged } = {}) {
   const where = [], args = [];
+  if (origin !== undefined) { where.push('origin = ?'); args.push(oneOf('origin', origin, ORIGINS)); }
+  if (tier !== undefined && untriaged !== undefined) bad('--tier and --untriaged are two answers to one question; pass one');
+  if (tier !== undefined) { where.push('tier = ?'); args.push(tierOf(need('tier', tier))); }
+  if (untriaged !== undefined && untriaged !== false) where.push('tier IS NULL');
   if (status !== undefined) { where.push('status = ?'); args.push(status); }
   if (pack !== undefined) { where.push('pack_id = ?'); args.push(pack); }
   if (release !== undefined) { where.push('release_id = ?'); args.push(release); }
@@ -417,7 +519,7 @@ export function proposals(db, { status, feature, kind, ids, pack, release } = {}
     where.push(`id IN (${order.map(() => '?').join(', ')})`);
     args.push(...order);
   }
-  const sql = `SELECT * FROM proposals${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY created_at, id`;
+  const sql = `SELECT * FROM proposals${where.length ? ` WHERE ${where.join(' AND ')}` : ''} ORDER BY tier IS NULL, tier, created_at, id`;
   const rows = db.prepare(sql).all(...args).map(clean);
   return order ? rows.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id)) : rows;
 }
@@ -663,10 +765,11 @@ export function reworkAttempt(db, { id, run } = {}) {
     const at = now();
     let nid;
     for (let i = 0; i < 8 && (!nid || db.prepare('SELECT 1 FROM proposals WHERE id = ?').get(nid)); i += 1) nid = proposalId();
+    // the rebuild keeps the item's origin, link and severity; never its external_ref, the original's idempotency key
     db.prepare(`INSERT INTO proposals (id, run_id, feature, lens, metric, title, body, standard, expected_delta, size, risk, kind, parent_id,
-        status, decided_by, decided_at, decision_note, created_at, updated_at, attempt_of)
+        status, decided_by, decided_at, decision_note, created_at, updated_at, attempt_of, origin, external_url, tier, risk_class, ranked_by, ranked_at)
       SELECT ?, ?, feature, lens, metric, title, body, standard, expected_delta, size, risk, kind, parent_id,
-        'approved', decided_by, decided_at, decision_note, ?, ?, id FROM proposals WHERE id = ?`).run(nid, r, at, at, pid);
+        'approved', decided_by, decided_at, decision_note, ?, ?, id, origin, external_url, tier, risk_class, ranked_by, ranked_at FROM proposals WHERE id = ?`).run(nid, r, at, at, pid);
     touchRun(db, r, at);
     return { id: nid, attempt_of: pid };
   });
@@ -929,6 +1032,8 @@ export function main(argv) {
       }
       case 'proposals': return proposals(db, a);
       case 'proposal-update': return proposalUpdate(db, a);
+      case 'rank': return rank(db, a);
+      case 'update-external': return updateExternal(db, { id: a.id, title: a.title, bodyFile: a.bodyFile, externalUrl: a.externalUrl });
       case 'shot': return shot(db, a);
       case 'coverage': return coverage(db, a);
       case 'latest': return latest(db, a);
@@ -958,6 +1063,7 @@ if (process.argv[1] && isEntry(process.argv[1], import.meta.url)) {
     if (out?.help) process.stdout.write(out.help);
     else process.stdout.write(`${JSON.stringify(out, null, 2)}\n`);
   } catch (e) {
+    if (e instanceof StoreError && e.detail !== undefined) process.stdout.write(`${JSON.stringify(e.detail, null, 2)}\n`);
     process.stderr.write(`store: ${e.message}\n`);
     process.exit(e instanceof StoreError ? e.code : 1);
   }
