@@ -204,3 +204,11 @@ Phase 4's `### Work packages` schema should carry a doc-ownership field alongsid
 ## 1.7.1 - 2026-10-09 - bp
 - When a spark turns a sample-driven prototype into one that shows real data, ask a scout explicitly what in the consumer is keyed to the sample (lookup tables, named milestones, steering presets, placeholders). The data-path scout traced loader, routes and types correctly but never asked it; the wing table keyed to the sample's domains collapsed a real product of 215 features into one wing, and only the real-data smoke test on the built app found it.
 - Committing the wire types, client stubs and a byte-identical store DDL in BOTH repos before the fan-out (verified with `cmp`) let a standard package, a data-plane package and a cross-repo skill package build in parallel with zero contract drift; the UI package ran after, with the data-plane builder's findings appended to its scratch brief before dispatch.
+
+## 1.7.2 - 2026-10-18 - paypal
+
+- Cross-repo spark (new registry skill + pilot consumer): reading the registry subject and scouting the registry's REMOTE before wave 1 turned a newly landed subject (ad-concept-development) into a design constraint; the Phase-2 rules held across repos, not only for the code repo.
+- Contract completeness missed one class: the reference frame of time fields. The capture wrote click `atMs` beat-relative and the renderer read it take-relative; both packages were green alone. Proposal (not applied): add "every time/offset field names its zero" to the Phase-4 contract bullets.
+- A worktree cut from `origin/<base>` (because local `<base>` had diverged with foreign unpushed commits) must land with `git rebase --onto <base> origin/<base>`; plain `git rebase <base>` replays the remote's commits and conflicts on foreign work.
+- When two parallel builders share one package directory, the Director installs every dependency before fan-out; neither builder ran npm, so there was no race on the lockfile.
+- An operator doctrine answer ("prototype all three") converted an aesthetic fork into a render parameter; offer "build all variants" as an explicit option when a question's options differ only in taste.
