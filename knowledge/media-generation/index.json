@@ -3,19 +3,20 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 27,
-  "techniques": 194,
-  "applications": 119,
+  "subjects": 36,
+  "techniques": 245,
+  "applications": 136,
   "laws": 9,
   "categories": [
    "narrative-craft",
    "research-grounding",
    "visual-generation",
    "audio-generation",
-   "production-ops"
+   "production-ops",
+   "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "194/194",
+  "use_when_coverage": "245/245",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -92,6 +93,212 @@
      "technique": "functional-animation-slots",
      "file": "knowledge/media-generation/visual-generation/animatable-character-design/applications/process--functional-animation-slots.md",
      "verified_on": "2026-10-18"
+    }
+   ]
+  },
+  "audience-absorption-at-scale": {
+   "category": "streaming",
+   "subcategory": "live-show",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/audience-absorption-at-scale.md",
+   "digest": "sha256-b2:3c3a43147f059caa",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "attention-share-cap",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "high-rank or paying viewers dominating a host's replies",
+      "deciding how much priority rank or gifts should buy",
+      "auditing whether a picker is fair across viewer classes"
+     ]
+    },
+    {
+     "slug": "first-contact-exemptions",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a first-time chatter should jump the queue",
+      "newcomers chatting once and never again",
+      "defining which messages may bypass picking caps"
+     ]
+    },
+    {
+     "slug": "raid-group-greeting",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "another channel's audience arriving at once",
+      "the room multiplying in a single moment",
+      "deciding how to greet a large group of newcomers"
+     ]
+    },
+    {
+     "slug": "room-scaled-rate-caps",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "limiting how many messages or answers one viewer gets",
+      "a few viewers dominating a busy room",
+      "a lone engaged viewer going unheard in a quiet room"
+     ]
+    },
+    {
+     "slug": "size-tiered-picking-mode",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing how a live host selects chat messages",
+      "a host that is fine in small rooms and lost in big ones or the reverse",
+      "choosing thresholds between answering",
+      "choosing and aggregating"
+     ]
+    },
+    {
+     "slug": "wave-collapse-to-crowd-voice",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "many viewers posting the same phrase",
+      "emote or question at once",
+      "a host repeating itself answering near-identical messages",
+      "reporting what a large chat is saying"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "attention-share-cap",
+     "file": "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/applications/rust--attention-share-cap.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "room-scaled-rate-caps",
+     "file": "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/applications/rust--room-scaled-rate-caps.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
+  "audience-steering-economies": {
+   "category": "streaming",
+   "subcategory": "live-show",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/live-show/audience-steering-economies/audience-steering-economies.md",
+   "digest": "sha256-b2:ffd0efc8502d504a",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "binding-votes",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "calling a vote on a live show",
+      "handing a vote result to a generative host",
+      "checking that a host honours results its character dislikes"
+     ]
+    },
+    {
+     "slug": "gift-as-in-world-tribute",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "designing how a host acknowledges gifts and paid support",
+      "deciding what a gift may and may not unlock",
+      "handling a burst of gifts given to other viewers"
+     ]
+    },
+    {
+     "slug": "rank-gated-proposals-with-climb-path",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which viewers may author ballot options or nominations",
+      "wording the reply to a viewer who tries a power their rank does not hold",
+      "setting the rank at which a power unlocks"
+     ]
+    },
+    {
+     "slug": "red-lines-outside-the-economy",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "deciding what an audience power may change",
+      "screening viewer proposals before they become ballot options",
+      "checking that no rank",
+      "vote or gift can reach the show's red lines or its core"
+     ]
+    },
+    {
+     "slug": "sublinear-vote-weight",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing how much a rank multiplies a viewer's vote",
+      "tallying a weighted ballot and breaking its ties",
+      "checking whether a few heavy voters can carry a ballot against the room"
+     ]
+    },
+    {
+     "slug": "visible-consequence-of-steering",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence",
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a vote or proposal should be allowed to change",
+      "announcing and crediting a result on air",
+      "diagnosing a room whose turnout falls although votes are honoured"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "binding-votes",
+     "file": "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/rust--binding-votes.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "sublinear-vote-weight",
+     "file": "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/rust--sublinear-vote-weight.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
     }
    ]
   },
@@ -2143,6 +2350,317 @@
     }
    ]
   },
+  "live-chat-moderation-and-anti-bait": {
+   "category": "streaming",
+   "subcategory": "trust-and-evaluation",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/live-chat-moderation-and-anti-bait.md",
+   "digest": "sha256-b2:2a3062edee97acb3",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "authority-from-metadata-only",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a viewer claims to be the owner",
+      "a moderator or the system",
+      "deciding where a host learns who outranks whom in chat",
+      "designing rank-gated powers that chat text could impersonate"
+     ]
+    },
+    {
+     "slug": "in-character-refusal-substitution",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how a host declines a viewer on air",
+      "a host whose refusals sound like the model rather than the character",
+      "tuning a host that lectures or refuses safe edge"
+     ]
+    },
+    {
+     "slug": "injection-as-tag-not-payload",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a host's prompt contains when a chat message is hostile",
+      "designing the pre-filter's output format",
+      "a host that declined an injection but still did part of it"
+     ]
+    },
+    {
+     "slug": "no-decode-no-repeat-no-assemble",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a viewer asks the host to read",
+      "spell",
+      "translate or combine chat text",
+      "designing which operations the host may perform on viewer text",
+      "coordinated multi-message bait"
+     ]
+    },
+    {
+     "slug": "path-independent-output-gate",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "placing the output check for a live host",
+      "adding a new path that produces spoken or on-screen text",
+      "a persona that leaked its own instructions or internal markup on air"
+     ]
+    },
+    {
+     "slug": "persistence-penalty",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a viewer repeats the same bait many times",
+      "deciding how repeated attempts change a viewer's standing",
+      "a refusal that varies enough to be resampled"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "injection-as-tag-not-payload",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/applications/rust--injection-as-tag-not-payload.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "path-independent-output-gate",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/applications/rust--path-independent-output-gate.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
+  "live-response-latency-budgeting": {
+   "category": "streaming",
+   "subcategory": "live-show",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/live-response-latency-budgeting.md",
+   "digest": "sha256-b2:86997f9644956258",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "dual-lane-fast-voice-slow-beats",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a live host needs work that takes far longer than the response budget",
+      "planning or memory calls are silencing the host",
+      "deciding whether a slow result should still be voiced"
+     ]
+    },
+    {
+     "slug": "first-word-budget-decomposition",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting a response-time target for a live generated host",
+      "replies feel late and nobody can say which stage is slow",
+      "adding a new stage between chat and speech"
+     ]
+    },
+    {
+     "slug": "fleet-loss-grace-signoff",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "every generation route of a live host is failing",
+      "a provider outage or exhausted quota hits mid-stream",
+      "deciding how a generated show ends when it cannot generate"
+     ]
+    },
+    {
+     "slug": "in-character-stalling",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a live host must wait for slow generation work",
+      "a reply missed its budget and something must be said now",
+      "deciding what a host may say while it waits"
+     ]
+    },
+    {
+     "slug": "latency-class-per-role",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "assigning a model tier",
+      "effort or timeout to a role in a live show",
+      "a background or offline role keeps timing out",
+      "choosing between a cheaper fast tier and a slower capable one for the host's voice"
+     ]
+    },
+    {
+     "slug": "say-gap-ceiling",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a live host's pacing is acceptable",
+      "the stream goes quiet when chat is quiet",
+      "building a rehearsal gate or a live watchdog for dead air"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "fleet-loss-grace-signoff",
+     "file": "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/applications/rust--fleet-loss-grace-signoff.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "latency-class-per-role",
+     "file": "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/applications/rust--latency-class-per-role.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
+  "live-safety-rails": {
+   "category": "streaming",
+   "subcategory": "trust-and-evaluation",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/live-safety-rails.md",
+   "digest": "sha256-b2:41f8ecf0a098dbc8",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "care-state-after-disclosure",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a viewer has disclosed a crisis or sincere distress and the stream continues",
+      "deciding how long the host's care for one viewer must last",
+      "enforcing that a host never roasts a viewer about what they disclosed"
+     ]
+    },
+    {
+     "slug": "crisis-handoff-one-kind-line",
+     "status": "forged",
+     "laws": [
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a viewer discloses self-harm or suicidal intent in live chat",
+      "writing the host's crisis response rule or template",
+      "deciding how far a host should drop character for a sincere viewer"
+     ]
+    },
+    {
+     "slug": "detector-biased-to-false-positive",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "tuning a crisis or sincerity detector for live chat",
+      "placing safety detection relative to rate caps",
+      "flood collapse and pick limits",
+      "deciding whether a borderline message should trigger the safety path"
+     ]
+    },
+    {
+     "slug": "no-crowd-action",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a viewer proposes a raid",
+      "pile-on or mass report",
+      "writing the host's rules on calls to action",
+      "checking whether a host line points the audience at anyone"
+     ]
+    },
+    {
+     "slug": "real-people-boundary",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a viewer asks the host to roast",
+      "impersonate or comment on a real person",
+      "deciding what a host may say about other creators or public figures",
+      "handling personal data that surfaces in live chat"
+     ]
+    },
+    {
+     "slug": "sincere-ai-disclosure-then-return",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a viewer asks whether the live host is a real person",
+      "writing the persona rule on claims about its own nature",
+      "distinguishing an in-fiction taunt from a sincere question about the host"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "crisis-handoff-one-kind-line",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/applications/process--crisis-handoff-one-kind-line.md",
+     "verified_on": "2026-10-19"
+    },
+    {
+     "stack": "rust",
+     "technique": "detector-biased-to-false-positive",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/applications/rust--detector-biased-to-false-positive.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
   "live-system-demo-film": {
    "category": "production-ops",
    "subcategory": null,
@@ -2692,6 +3210,106 @@
     }
    ]
   },
+  "on-stream-persona-continuity": {
+   "category": "streaming",
+   "subcategory": "live-show",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/on-stream-persona-continuity.md",
+   "digest": "sha256-b2:0593f8383299d9b9",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "anti-repetition-window",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a generated live host repeats openers",
+      "insults or catchphrases over a long stream",
+      "designing a catchphrase or signature line for a host",
+      "choosing where a repetition check runs"
+     ]
+    },
+    {
+     "slug": "byte-stable-persona-prefix",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "composing the per-turn prompt of a generated live host",
+      "adding an optional section to a persona prompt",
+      "tracing a transcript back to the persona that produced it"
+     ]
+    },
+    {
+     "slug": "cited-memory-with-tombstones",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what a generated live host may remember between streams",
+      "writing the consolidation pass that turns transcripts into persona memory",
+      "handling a request to forget something said on stream"
+     ]
+    },
+    {
+     "slug": "immutable-core-swappable-tone",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "writing the identity documents of a generated live host",
+      "deciding whether a persona line belongs in the core or in a tone layer",
+      "giving an optimiser or tuning pass write access near a persona"
+     ]
+    },
+    {
+     "slug": "owner-brief-below-the-constitution",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "letting an owner direct a generated live host during or before a stream",
+      "feeding a chosen plan or standing directives into the host's prompt",
+      "deciding whether a viewer's request may become direction"
+     ]
+    },
+    {
+     "slug": "tone-as-falsifiable-bet",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "adding or retiring a tone variant for a generated live host",
+      "choosing which tone to run by default",
+      "reading a tone comparison across model tiers"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "tone-as-falsifiable-bet",
+     "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/process--tone-as-falsifiable-bet.md",
+     "verified_on": "2026-10-19"
+    },
+    {
+     "stack": "rust",
+     "technique": "owner-brief-below-the-constitution",
+     "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/rust--owner-brief-below-the-constitution.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
   "platform-format-adaptation": {
    "category": "production-ops",
    "subcategory": null,
@@ -3234,6 +3852,206 @@
     }
    ]
   },
+  "show-segment-format-design": {
+   "category": "streaming",
+   "subcategory": "live-show",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/live-show/show-segment-format-design/show-segment-format-design.md",
+   "digest": "sha256-b2:2adaa7129ea57239",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "guest-line-cap-host-last-word",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "a format puts a foil",
+      "guest character or called-up viewer on stage",
+      "a second voice starts dominating the host",
+      "two generated voices trade lines without end"
+     ]
+    },
+    {
+     "slug": "metric-gated-handover",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding when a live segment ends",
+      "a segment cuts away from its best moment or outstays a dead room",
+      "adding an extend-on-success reflex"
+     ]
+    },
+    {
+     "slug": "quiet-room-premise-deck",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "chat goes quiet during a live segment",
+      "a small room leaves the host with nothing to respond to",
+      "a host fills silence with filler"
+     ]
+    },
+    {
+     "slug": "segment-as-state-table",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing a new live segment format",
+      "a host improvises outside a segment's purpose",
+      "audience commands misfire in the wrong segment"
+     ]
+    },
+    {
+     "slug": "segment-portfolio-lifecycle",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding which live formats to keep",
+      "introducing a new format without risking the show",
+      "a format survives on habit rather than evidence"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "segment-as-state-table",
+     "file": "knowledge/media-generation/streaming/live-show/show-segment-format-design/applications/rust--segment-as-state-table.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "segment-portfolio-lifecycle",
+     "file": "knowledge/media-generation/streaming/live-show/show-segment-format-design/applications/rust--segment-portfolio-lifecycle.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
+  "simulated-audience-testing": {
+   "category": "streaming",
+   "subcategory": "trust-and-evaluation",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/trust-and-evaluation/simulated-audience-testing/simulated-audience-testing.md",
+   "digest": "sha256-b2:df005c95186d0c4f",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "blind-judge-on-another-tier",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing and prompting the model that judges simulated streams",
+      "deciding what the judge may see",
+      "sizing judge timeouts and judge cost"
+     ]
+    },
+    {
+     "slug": "cheapest-passing-tier-selection",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing which model tier and configuration go live from tournament results",
+      "weighing safety failures against quality and cost",
+      "reading small-n safety rates"
+     ]
+    },
+    {
+     "slug": "instrument-hash-never-merge",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "storing and comparing results across tournaments",
+      "changing the rubric",
+      "judge",
+      "audience or situation bank",
+      "reporting a slice that had to be measured differently"
+     ]
+    },
+    {
+     "slug": "situation-bank-with-near-misses",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the provocations a simulated stream must contain",
+      "measuring over-refusal alongside violation",
+      "deciding which rules a simulated run actually tested"
+     ]
+    },
+    {
+     "slug": "sourced-population-calibration",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "building a synthetic chat audience",
+      "deciding message rates and archetype mix for a simulated stream",
+      "judging whether a simulated result will transfer to a real room"
+     ]
+    },
+    {
+     "slug": "verdict-states-beyond-pass-fail",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "refusal-is-a-state"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "designing how a simulated run records its outcome",
+      "handling judge timeouts or provider outages in a tournament",
+      "reporting coverage beside a pass rate"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "cheapest-passing-tier-selection",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/simulated-audience-testing/applications/rust--cheapest-passing-tier-selection.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "verdict-states-beyond-pass-fail",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/simulated-audience-testing/applications/rust--verdict-states-beyond-pass-fail.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
+    }
+   ]
+  },
   "sound-effect-generation": {
    "category": "audio-generation",
    "subcategory": null,
@@ -3343,6 +4161,79 @@
      "file": "knowledge/media-generation/audio-generation/sound-effect-generation/applications/node--trailer-punctuation-grammar.md",
      "verified_on": "2026-08-27",
      "verified_against": "node@24"
+    }
+   ]
+  },
+  "stream-moment-capture": {
+   "category": "streaming",
+   "subcategory": "live-show",
+   "status": "forged",
+   "file": "knowledge/media-generation/streaming/live-show/stream-moment-capture/stream-moment-capture.md",
+   "digest": "sha256-b2:fbcc64471985d6f6",
+   "revision": 1,
+   "changedAt": "2026-10-18",
+   "techniques": [
+    {
+     "slug": "evidence-gated-clip-publish",
+     "status": "forged",
+     "laws": [
+      "output-never-outruns-evidence",
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding whether a clip cut from a stream may publish",
+      "designing the checks a clip pipeline runs before posting",
+      "handling a clip that involves a viewer",
+      "a real person or a sensitive moment"
+     ]
+    },
+    {
+     "slug": "host-emitted-moment-markers",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "letting a live host flag clip-worthy moments as they happen",
+      "adding a mark-moment action to a generated host's action vocabulary",
+      "deciding how much a host's own mark should count toward a clip"
+     ]
+    },
+    {
+     "slug": "multi-signal-moment-scoring",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "ranking moments of a recorded or live stream for clipping",
+      "choosing signals and weights for a highlight scorer",
+      "diagnosing a clip queue full of raids or empty on quiet nights"
+     ]
+    },
+    {
+     "slug": "peak-minus-preroll-window",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding where a clip cut from a stream starts and ends",
+      "turning a scored peak into a clip interval",
+      "diagnosing clips that open on a reaction without its cause"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "rust",
+     "technique": "host-emitted-moment-markers",
+     "file": "knowledge/media-generation/streaming/live-show/stream-moment-capture/applications/rust--host-emitted-moment-markers.md",
+     "verified_on": "2026-10-19",
+     "verified_against": "rust@1.97.1"
     }
    ]
   },
@@ -3911,6 +4802,11 @@
    "statement": "A quality gate may never report pass for something it did not check. \"Unmeasured\" is a first-class verdict, distinct from pass and fail, and enforcement coverage — what fraction of the promise is actually checked — is reported alongside the verdict. Craft parameters ship only with measurements behind them; an impression is not a number.",
    "techniques": [
     "animatable-character-design/animatability-trial",
+    "audience-absorption-at-scale/attention-share-cap",
+    "audience-absorption-at-scale/room-scaled-rate-caps",
+    "audience-absorption-at-scale/size-tiered-picking-mode",
+    "audience-steering-economies/binding-votes",
+    "audience-steering-economies/sublinear-vote-weight",
     "character-identity-continuity/camera-position-not-focal-length",
     "character-identity-continuity/identity-ruler-calibration",
     "character-identity-continuity/reference-admitted-late",
@@ -3958,6 +4854,13 @@
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/verbatim-text-locking",
+    "live-chat-moderation-and-anti-bait/path-independent-output-gate",
+    "live-response-latency-budgeting/first-word-budget-decomposition",
+    "live-response-latency-budgeting/fleet-loss-grace-signoff",
+    "live-response-latency-budgeting/latency-class-per-role",
+    "live-response-latency-budgeting/say-gap-ceiling",
+    "live-safety-rails/detector-biased-to-false-positive",
+    "live-safety-rails/no-crowd-action",
     "live-system-demo-film/audio-first-beat-pacing",
     "live-system-demo-film/recording-that-asserts-its-claims",
     "live-system-demo-film/script-as-single-source",
@@ -3971,6 +4874,7 @@
     "music-video-production/track-map-before-treatment",
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/no-engine-means-no-video",
+    "on-stream-persona-continuity/tone-as-falsifiable-bet",
     "platform-format-adaptation/format-as-measured-template",
     "platform-format-adaptation/image-led-vs-narration-led",
     "platform-format-adaptation/sound-off-first-design",
@@ -3985,7 +4889,16 @@
     "review-iteration-loops/gate-record-outlives-the-media",
     "review-iteration-loops/partial-regeneration-seams",
     "review-iteration-loops/refusal-as-valid-outcome",
+    "show-segment-format-design/metric-gated-handover",
+    "show-segment-format-design/segment-portfolio-lifecycle",
+    "simulated-audience-testing/blind-judge-on-another-tier",
+    "simulated-audience-testing/cheapest-passing-tier-selection",
+    "simulated-audience-testing/situation-bank-with-near-misses",
+    "simulated-audience-testing/sourced-population-calibration",
+    "simulated-audience-testing/verdict-states-beyond-pass-fail",
     "sound-effect-generation/loop-seam-acceptance",
+    "stream-moment-capture/evidence-gated-clip-publish",
+    "stream-moment-capture/multi-signal-moment-scoring",
     "video-assembly/alignment-names-its-text",
     "video-assembly/cut-compiled-from-source",
     "video-assembly/derived-turn-markers",
@@ -4003,6 +4916,7 @@
    "statement": "Generative providers refuse, and a refusal is a routing decision: re-route to another provider or surface it honestly — never blind-retry the same request, and never let a refusal masquerade as an empty success. No elimination is silent; the trail of who declined and why is part of the output.",
    "techniques": [
     "animatable-character-design/animatability-trial",
+    "audience-steering-economies/rank-gated-proposals-with-climb-path",
     "character-identity-continuity/identity-ruler-calibration",
     "frame-direction/per-beat-rejection",
     "generated-speech-acceptance/published-number-comparability",
@@ -4010,6 +4924,10 @@
     "generative-provider-routing/non-silent-elimination",
     "generative-provider-routing/refusal-reroute-hop",
     "image-prompt-composition/reference-role-map",
+    "live-chat-moderation-and-anti-bait/in-character-refusal-substitution",
+    "live-chat-moderation-and-anti-bait/injection-as-tag-not-payload",
+    "live-response-latency-budgeting/fleet-loss-grace-signoff",
+    "live-safety-rails/crisis-handoff-one-kind-line",
     "production-pipeline-phasing/long-run-as-background-job",
     "production-pipeline-phasing/shared-clock-across-phases",
     "production-pipeline-phasing/worst-news-first-progress",
@@ -4017,6 +4935,7 @@
     "review-iteration-loops/partial-regeneration-seams",
     "review-iteration-loops/refusal-as-valid-outcome",
     "review-iteration-loops/scope-vs-preference-signals",
+    "simulated-audience-testing/verdict-states-beyond-pass-fail",
     "sound-effect-generation/loop-seam-acceptance",
     "video-assembly/gap-and-refusal-honesty",
     "video-assembly/generated-shot-sourcing"
@@ -4040,17 +4959,21 @@
     "image-prompt-composition/identity-split-from-state",
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/prompt-dialect-matching",
+    "live-response-latency-budgeting/latency-class-per-role",
     "live-system-demo-film/retake-without-an-edit-session",
     "multi-speaker-speech-production/line-addressed-re-render",
     "multi-speaker-speech-production/voice-asset-model-generation-binding",
     "music-video-production/coverage-across-the-phrase",
     "music-video-production/form-follows-what-the-track-gives",
     "narrative-engine-selection/fit-vs-hazard-axes",
+    "on-stream-persona-continuity/tone-as-falsifiable-bet",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/delivery-promise-lock",
     "production-pipeline-phasing/phase-order-and-graduation",
     "review-iteration-loops/partial-regeneration-seams",
+    "simulated-audience-testing/cheapest-passing-tier-selection",
     "sound-effect-generation/layered-element-assembly",
+    "stream-moment-capture/multi-signal-moment-scoring",
     "video-assembly/generated-shot-sourcing",
     "video-assembly/motion-plate-library",
     "video-assembly/storyboard-grid-conditioning",
@@ -4084,89 +5007,11 @@
     "visual-style-locking/draft-proofing-locked-ratchet"
    ]
   },
-  "style-is-restated-not-remembered": {
-   "statement": "Visual consistency across many generation calls comes from restating the full style contract on every call. Reference images alone measurably drift within a single batch; there is no short form, and no call may opt out of the style half of its prompt.",
-   "techniques": [
-    "character-identity-continuity/reference-admitted-late",
-    "cinematic-language/genre-visual-contracts",
-    "cinematic-language/lighting-as-dramatic-instrument",
-    "data-video-art-direction/leader-adaptive-theme",
-    "evidence-bound-visuals/epistemic-draw-routing",
-    "generated-output-grading/trial-matrix-design",
-    "image-prompt-composition/assigned-colour-roles",
-    "image-prompt-composition/identity-split-from-state",
-    "image-prompt-composition/medium-vocabulary-locking",
-    "image-prompt-composition/negative-prompting",
-    "image-prompt-composition/prompt-dialect-matching",
-    "image-prompt-composition/reference-role-map",
-    "image-prompt-composition/style-first-token-ordering",
-    "image-prompt-composition/two-block-style-and-action",
-    "multi-speaker-speech-production/inline-direction-dialect",
-    "music-prompt-composition/reference-track-anchoring",
-    "music-prompt-composition/section-plan-as-the-brief",
-    "music-prompt-composition/sonic-style-vocabulary",
-    "review-iteration-loops/partial-regeneration-seams",
-    "sound-effect-generation/envelope-first-briefing",
-    "video-assembly/generated-shot-sourcing",
-    "video-assembly/motion-plate-library",
-    "visual-style-locking/approved-reference-sheet",
-    "visual-style-locking/consistency-control-arm",
-    "visual-style-locking/motion-sampled-under-a-frame-budget",
-    "visual-style-locking/style-block-restated-every-call",
-    "visual-style-locking/style-onboarding-from-sample"
-   ]
-  },
-  "typed-input-owns-its-channel": {
-   "statement": "When a generator takes a dimension of the output as a typed input — a camera path, a music track as the beat grid, a per-character emotion dial — the prose stops describing that dimension and directs within it. Two authorities over one channel do not average: the exact input and the suggestive sentence resolve into a compromise that matches neither, and the symptom reads as under-direction, inviting more prose and making it worse. The craft the prose carried does not evaporate; it moves upstream, to whoever authors the typed input. The discriminating question is always the same: does anything other than the prose set this channel?",
-   "techniques": [
-    "character-identity-continuity/reference-shows-only-invariants",
-    "cinematic-language/movement-motivation",
-    "cinematic-language/performance-direction",
-    "generated-output-grading/input-channel-parity",
-    "image-prompt-composition/reference-role-map",
-    "live-system-demo-film/audio-first-beat-pacing",
-    "music-video-production/track-map-before-treatment",
-    "sound-effect-generation/picture-as-timing-brief",
-    "video-assembly/alignment-names-its-text"
-   ]
-  },
-  "causality-over-sequence": {
-   "statement": "Between any two adjacent beats of a factual narrative you must be able to say \"but\" or \"therefore\". If the only honest connector is \"and then\", the beats have no causal relationship and what you have is a list, not a story. The same facts arranged causally give the viewer a reason to stay; arranged sequentially they give a reason to leave. Every structural choice — engine, act architecture, frame order — inherits this test.",
-   "techniques": [
-    "cinematic-language/movement-motivation",
-    "cinematic-language/performance-direction",
-    "cinematic-language/scene-grammar-progression",
-    "content-research-grounding/pre-linked-causal-mechanisms",
-    "content-research-grounding/tension-finding-taxonomy",
-    "creator-voice-and-tone/engine-tone-separation",
-    "data-video-virality/accelerator-events",
-    "data-video-virality/continuity-gate",
-    "data-video-virality/path-over-conclusion",
-    "data-video-virality/recognizable-cast",
-    "evidence-bound-visuals/causal-arrow-discipline",
-    "evidence-bound-visuals/generous-strawman-rendering",
-    "frame-direction/motif-establish-vary-payoff",
-    "frame-direction/one-function-per-visual",
-    "frame-direction/visual-function-vocabulary",
-    "music-prompt-composition/duration-and-tempo-locking",
-    "music-prompt-composition/lyrics-for-singability",
-    "narrative-engine-selection/engine-catalogue-by-viewer-pleasure",
-    "narrative-engine-selection/no-engine-means-no-video",
-    "platform-format-adaptation/derived-short-contract",
-    "platform-format-adaptation/one-anchor-per-clip",
-    "review-iteration-loops/note-taxonomy-focus-scope-order",
-    "short-form-narrative-structure/but-therefore-beat-linking",
-    "short-form-narrative-structure/question-stack-architecture",
-    "short-form-narrative-structure/reversal-anatomy",
-    "sound-effect-generation/trailer-punctuation-grammar",
-    "trailer-structure/escalation-without-mechanism",
-    "video-assembly/derived-turn-markers",
-    "video-assembly/music-spotting-against-picture"
-   ]
-  },
   "output-never-outruns-evidence": {
    "statement": "A rendered artifact may never be more precise, more certain, or more causal than the fact behind it. A crisp axis is a precision claim; an arrow is a causal claim; a chart launders confidence unless the confidence propagates into the drawing. Every figure on screen must trace to a sourced fact, and the fact's grade caps the rendering.",
    "techniques": [
+    "audience-absorption-at-scale/wave-collapse-to-crowd-voice",
+    "audience-steering-economies/visible-consequence-of-steering",
     "content-research-grounding/evidence-grading-ladder",
     "content-research-grounding/pre-linked-causal-mechanisms",
     "content-research-grounding/provenance-signal-asymmetry",
@@ -4211,6 +5056,7 @@
     "generated-speech-acceptance/published-number-comparability",
     "generated-speech-acceptance/three-axes-beside-intelligibility",
     "generative-provider-routing/extraction-model-bake-off",
+    "live-safety-rails/real-people-boundary",
     "live-system-demo-film/recorder-owned-overlay",
     "live-system-demo-film/recording-that-asserts-its-claims",
     "live-system-demo-film/script-as-single-source",
@@ -4221,15 +5067,104 @@
     "narrative-engine-selection/adjudication-honesty-tells",
     "narrative-engine-selection/engine-arbitration-order",
     "narrative-engine-selection/fit-vs-hazard-axes",
+    "on-stream-persona-continuity/cited-memory-with-tombstones",
     "review-iteration-loops/attribution-share-accounting",
     "review-iteration-loops/critique-carries-its-fix",
     "review-iteration-loops/follow-up-that-can-kill-a-fact",
     "review-iteration-loops/gate-record-outlives-the-media",
+    "show-segment-format-design/quiet-room-premise-deck",
+    "simulated-audience-testing/instrument-hash-never-merge",
+    "stream-moment-capture/evidence-gated-clip-publish",
     "trailer-structure/concealment-and-its-tells",
     "trailer-structure/promise-ledger",
     "video-assembly/gap-and-refusal-honesty",
     "video-assembly/multitrack-timeline-discipline",
     "visual-style-locking/motion-sampled-under-a-frame-budget"
+   ]
+  },
+  "causality-over-sequence": {
+   "statement": "Between any two adjacent beats of a factual narrative you must be able to say \"but\" or \"therefore\". If the only honest connector is \"and then\", the beats have no causal relationship and what you have is a list, not a story. The same facts arranged causally give the viewer a reason to stay; arranged sequentially they give a reason to leave. Every structural choice — engine, act architecture, frame order — inherits this test.",
+   "techniques": [
+    "audience-steering-economies/visible-consequence-of-steering",
+    "cinematic-language/movement-motivation",
+    "cinematic-language/performance-direction",
+    "cinematic-language/scene-grammar-progression",
+    "content-research-grounding/pre-linked-causal-mechanisms",
+    "content-research-grounding/tension-finding-taxonomy",
+    "creator-voice-and-tone/engine-tone-separation",
+    "data-video-virality/accelerator-events",
+    "data-video-virality/continuity-gate",
+    "data-video-virality/path-over-conclusion",
+    "data-video-virality/recognizable-cast",
+    "evidence-bound-visuals/causal-arrow-discipline",
+    "evidence-bound-visuals/generous-strawman-rendering",
+    "frame-direction/motif-establish-vary-payoff",
+    "frame-direction/one-function-per-visual",
+    "frame-direction/visual-function-vocabulary",
+    "music-prompt-composition/duration-and-tempo-locking",
+    "music-prompt-composition/lyrics-for-singability",
+    "narrative-engine-selection/engine-catalogue-by-viewer-pleasure",
+    "narrative-engine-selection/no-engine-means-no-video",
+    "platform-format-adaptation/derived-short-contract",
+    "platform-format-adaptation/one-anchor-per-clip",
+    "review-iteration-loops/note-taxonomy-focus-scope-order",
+    "short-form-narrative-structure/but-therefore-beat-linking",
+    "short-form-narrative-structure/question-stack-architecture",
+    "short-form-narrative-structure/reversal-anatomy",
+    "sound-effect-generation/trailer-punctuation-grammar",
+    "stream-moment-capture/peak-minus-preroll-window",
+    "trailer-structure/escalation-without-mechanism",
+    "video-assembly/derived-turn-markers",
+    "video-assembly/music-spotting-against-picture"
+   ]
+  },
+  "style-is-restated-not-remembered": {
+   "statement": "Visual consistency across many generation calls comes from restating the full style contract on every call. Reference images alone measurably drift within a single batch; there is no short form, and no call may opt out of the style half of its prompt.",
+   "techniques": [
+    "character-identity-continuity/reference-admitted-late",
+    "cinematic-language/genre-visual-contracts",
+    "cinematic-language/lighting-as-dramatic-instrument",
+    "data-video-art-direction/leader-adaptive-theme",
+    "evidence-bound-visuals/epistemic-draw-routing",
+    "generated-output-grading/trial-matrix-design",
+    "image-prompt-composition/assigned-colour-roles",
+    "image-prompt-composition/identity-split-from-state",
+    "image-prompt-composition/medium-vocabulary-locking",
+    "image-prompt-composition/negative-prompting",
+    "image-prompt-composition/prompt-dialect-matching",
+    "image-prompt-composition/reference-role-map",
+    "image-prompt-composition/style-first-token-ordering",
+    "image-prompt-composition/two-block-style-and-action",
+    "multi-speaker-speech-production/inline-direction-dialect",
+    "music-prompt-composition/reference-track-anchoring",
+    "music-prompt-composition/section-plan-as-the-brief",
+    "music-prompt-composition/sonic-style-vocabulary",
+    "on-stream-persona-continuity/byte-stable-persona-prefix",
+    "review-iteration-loops/partial-regeneration-seams",
+    "sound-effect-generation/envelope-first-briefing",
+    "video-assembly/generated-shot-sourcing",
+    "video-assembly/motion-plate-library",
+    "visual-style-locking/approved-reference-sheet",
+    "visual-style-locking/consistency-control-arm",
+    "visual-style-locking/motion-sampled-under-a-frame-budget",
+    "visual-style-locking/style-block-restated-every-call",
+    "visual-style-locking/style-onboarding-from-sample"
+   ]
+  },
+  "typed-input-owns-its-channel": {
+   "statement": "When a generator takes a dimension of the output as a typed input — a camera path, a music track as the beat grid, a per-character emotion dial — the prose stops describing that dimension and directs within it. Two authorities over one channel do not average: the exact input and the suggestive sentence resolve into a compromise that matches neither, and the symptom reads as under-direction, inviting more prose and making it worse. The craft the prose carried does not evaporate; it moves upstream, to whoever authors the typed input. The discriminating question is always the same: does anything other than the prose set this channel?",
+   "techniques": [
+    "character-identity-continuity/reference-shows-only-invariants",
+    "cinematic-language/movement-motivation",
+    "cinematic-language/performance-direction",
+    "generated-output-grading/input-channel-parity",
+    "image-prompt-composition/reference-role-map",
+    "live-chat-moderation-and-anti-bait/authority-from-metadata-only",
+    "live-system-demo-film/audio-first-beat-pacing",
+    "music-video-production/track-map-before-treatment",
+    "show-segment-format-design/segment-as-state-table",
+    "sound-effect-generation/picture-as-timing-brief",
+    "video-assembly/alignment-names-its-text"
    ]
   },
   "checkability-routes-the-pixel": {

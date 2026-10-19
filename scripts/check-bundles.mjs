@@ -145,6 +145,8 @@ const PURITY_PROFILES = {
     [/\b(?:assets|projects|renders|footage)\//, 'project asset path'],
     [/\.(?:mp4|mov|prproj|aep|psd|wav)\b/, 'asset file extension'],
     [/\b(?:Premiere|Resolve|After Effects|Photoshop|Blender|Midjourney|Runway|Gravitone)\b/, 'tool/product identifier'],
+    // Live streaming (2026-10-19 harvest): broadcast tools and platforms, and the source show.
+    [/\b(?:Twitch|OBS|Streamlabs|StreamElements|Shadowrunr|Malakor)\b/, 'streaming platform/product identifier'],
   ],
   // Civic/political-intelligence domains: the analogue of a repo path is a dataset or
   // registry endpoint; the analogue of a framework name is a product or portal name.
