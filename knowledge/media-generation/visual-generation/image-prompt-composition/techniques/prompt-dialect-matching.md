@@ -48,8 +48,19 @@ ordering or weighting trick can recover:
   unspecified slot is filled with a plausible invention rather than left
   blank, and why the contract must close every slot it cares about (see
   [verbatim-text-locking](./verbatim-text-locking.md)). And they expose
-  **no negative channel**: exclusions are positive prose, as on the
-  distilled class, and the model will otherwise helpfully "improve" the
+  **no negative channel**: exclusions live in the prose, as on the
+  distilled class. On this class "in the prose" includes plain negation:
+  one vendor's own guide for its brief-reading image model writes
+  exclusions as "no watermark", "no extra text" and "avoid cinematic
+  lighting", and the model honours them as instructions. The
+  "phrase it positively" rule ("an empty street" rather than "no cars")
+  belongs to the classes where a negated noun still pulls its concept in:
+  a video vendor warns that negative phrasing there may produce the
+  opposite. Some video models also expose a dedicated negative field,
+  which takes a plain list of nouns with no "no" or "don't" in it
+  (verified 2026-10-15; see negative-prompting for the field's own rules).
+  Classify the exclusion style per model, as with every other part of the
+  dialect. The model will otherwise helpfully "improve" the
   brief — including by returning a board of variants where one image was
   wanted, unless the brief states the output's cardinality.
 

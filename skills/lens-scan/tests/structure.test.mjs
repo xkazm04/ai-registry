@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, readdirSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { toAppStructure, slugify, main, setApplicable, lensMethod } from '../scripts/structure.mjs';
+import { toAppStructure, slugify, main, setApplicable, lensMethod, flattenContextMap } from '../scripts/structure.mjs';
 import { openStore, runStart, measure } from '../scripts/store.mjs';
 
 // Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
@@ -39,6 +39,21 @@ const MAP = {
   ],
 };
 const LENS = (id) => ({ $schema: 'lens-manifest/1', id, version: '1.1.0', name: id, reader: { density: 'simple' }, fields: [], health: { rules: [], default: 'good', rollup: { method: 'worst-of' } }, presentation: { glyph: 'bars', line: 'solid' } });
+
+test('a nested context map (groups[].contexts[], camelCase) converts as its v2 flattening; a v2 map is untouched', () => {
+  const nested = { projectName: 'N', groups: [{ name: 'App', domain: 'feature', contexts: [
+    { name: 'list', category: 'ui', filePaths: ['src/app/page.tsx', 'src/list/List.tsx'], businessFeature: 'Lists' }] }],
+    ungrouped: [{ name: 'util', filePaths: ['src/lib/util.ts'] }] };
+  const { map, nested: was } = flattenContextMap(nested);
+  assert.equal(was, true);
+  assert.deepEqual(map.contexts, [
+    { name: 'list', group: 'App', category: 'ui', business_feature: 'Lists', file_paths: ['src/app/page.tsx', 'src/list/List.tsx'], entry_points: ['src/app/page.tsx'] },
+    { name: 'util', file_paths: ['src/lib/util.ts'], entry_points: [] }]);
+  assert.deepEqual(map.groups, [{ name: 'App', domain: 'feature', context_count: 1 }]);
+  assert.deepEqual(map.project, { name: 'N' });
+  assert.deepEqual(toAppStructure(nested).structure.contexts, toAppStructure(map).structure.contexts);
+  assert.equal(flattenContextMap(MAP).map, MAP, 'a v2 map comes back as it is');
+});
 
 test('slugify', () => {
   assert.equal(slugify('Automation & Pipelines'), 'automation-pipelines');

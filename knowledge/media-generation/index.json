@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
-  "subjects": 36,
-  "techniques": 245,
-  "applications": 136,
+  "subjects": 37,
+  "techniques": 251,
+  "applications": 141,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -16,10 +16,108 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "245/245",
+  "use_when_coverage": "251/251",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
+  "ad-concept-development": {
+   "category": "narrative-craft",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/media-generation/narrative-craft/ad-concept-development/ad-concept-development.md",
+   "digest": "sha256-b2:7cf0809870ef5ad4",
+   "revision": 1,
+   "changedAt": "2026-10-19",
+   "techniques": [
+    {
+     "slug": "agency-preserving-premise",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "choosing the premise for a spot about a tool",
+      "an assistant or any product that helps people make things",
+      "reviewing a concept where the product's power is the climax",
+      "a technology spot that tests well on craft and badly on feeling"
+     ]
+    },
+    {
+     "slug": "creativity-template-mechanisms",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "generating premises for a short spot",
+      "a concept that is pleasant and unsurprising",
+      "choosing between sincere and comic registers for a generated spot"
+     ]
+    },
+    {
+     "slug": "divergence-against-the-median",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "using a language model to generate concepts",
+      "titles",
+      "premises or visual ideas",
+      "a set of generated ideas that all feel like variations of one",
+      "choosing a model or prompt for ideation"
+     ]
+    },
+    {
+     "slug": "llm-seat-assignment",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning where a language model sits in an ad or short-film pipeline",
+      "a team expects a stronger model to fix creatively generic output",
+      "writing per-shot prompts for image or video engines from a script"
+     ]
+    },
+    {
+     "slug": "rubric-as-spine",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a spot will be judged against stated criteria such as a contest",
+      "a pitch or a client scorecard",
+      "a brief that mandates an element like a jingle",
+      "a mascot or a line",
+      "deciding whether sound or picture leads a concept"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "agency-preserving-premise",
+     "file": "knowledge/media-generation/narrative-craft/ad-concept-development/applications/process--agency-preserving-premise.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "process",
+     "technique": "divergence-against-the-median",
+     "file": "knowledge/media-generation/narrative-craft/ad-concept-development/applications/process--divergence-against-the-median.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "process",
+     "technique": "rubric-as-spine",
+     "file": "knowledge/media-generation/narrative-craft/ad-concept-development/applications/process--rubric-as-spine.md",
+     "verified_on": "2026-10-15",
+     "refresh_by": "2026-11-10"
+    }
+   ]
+  },
   "animatable-character-design": {
    "category": "visual-generation",
    "subcategory": null,
@@ -103,7 +201,7 @@
    "file": "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/audience-absorption-at-scale.md",
    "digest": "sha256-b2:3c3a43147f059caa",
    "revision": 1,
-   "changedAt": "2026-10-18",
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "attention-share-cap",
@@ -206,7 +304,7 @@
    "file": "knowledge/media-generation/streaming/live-show/audience-steering-economies/audience-steering-economies.md",
    "digest": "sha256-b2:ffd0efc8502d504a",
    "revision": 1,
-   "changedAt": "2026-10-18",
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "binding-votes",
@@ -399,9 +497,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
-   "digest": "sha256-b2:86e2ba6d29102c9a",
-   "revision": 10,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:b0a6b6d577cdcffc",
+   "revision": 11,
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "camera-position-semantics",
@@ -2165,9 +2263,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
-   "digest": "sha256-b2:ab55ca3342630ee1",
-   "revision": 12,
-   "changedAt": "2026-09-21",
+   "digest": "sha256-b2:d254a22feb4a9423",
+   "revision": 13,
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "assigned-colour-roles",
@@ -2179,6 +2277,20 @@
      "use_when": [
       "specifying a palette in a generation prompt",
       "the right colours appear in outputs but land on the wrong elements"
+     ]
+    },
+    {
+     "slug": "default-look-attractor",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-pass",
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "every frame of a project is consistent and none of them is distinctive",
+      "a style block is being written from words like cinematic, premium or epic",
+      "generated frames could be swapped with another project's without anyone noticing"
      ]
     },
     {
@@ -2331,6 +2443,12 @@
     },
     {
      "stack": "process",
+     "technique": "default-look-attractor",
+     "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/process--default-look-attractor.md",
+     "verified_on": "2026-10-15"
+    },
+    {
+     "stack": "process",
      "technique": "style-first-token-ordering",
      "file": "knowledge/media-generation/visual-generation/image-prompt-composition/applications/process--style-first-token-ordering.md",
      "verified_on": "2026-08-19"
@@ -2357,7 +2475,7 @@
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/live-chat-moderation-and-anti-bait.md",
    "digest": "sha256-b2:2a3062edee97acb3",
    "revision": 1,
-   "changedAt": "2026-10-18",
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "authority-from-metadata-only",
@@ -2461,7 +2579,7 @@
    "file": "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/live-response-latency-budgeting.md",
    "digest": "sha256-b2:86997f9644956258",
    "revision": 1,
-   "changedAt": "2026-10-18",
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "dual-lane-fast-voice-slow-beats",
@@ -2565,7 +2683,7 @@
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/live-safety-rails.md",
    "digest": "sha256-b2:41f8ecf0a098dbc8",
    "revision": 1,
-   "changedAt": "2026-10-18",
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "care-state-after-disclosure",
@@ -3217,7 +3335,7 @@
    "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/on-stream-persona-continuity.md",
    "digest": "sha256-b2:0593f8383299d9b9",
    "revision": 1,
-   "changedAt": "2026-10-18",
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "anti-repetition-window",
@@ -3558,9 +3676,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
-   "digest": "sha256-b2:d73259dd3f3260df",
-   "revision": 10,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:a3bbc2c5b531b8d5",
+   "revision": 11,
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "anchored-variation-slate",
@@ -3729,6 +3847,13 @@
     },
     {
      "stack": "process",
+     "technique": "anchored-variation-slate",
+     "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--anchored-variation-slate.md",
+     "verified_on": "2026-10-15",
+     "refresh_by": "2027-01-15"
+    },
+    {
+     "stack": "process",
      "technique": "edit-plan-over-regeneration",
      "file": "knowledge/media-generation/production-ops/review-iteration-loops/applications/process--edit-plan-over-regeneration.md",
      "verified_on": "2026-08-19"
@@ -3859,7 +3984,7 @@
    "file": "knowledge/media-generation/streaming/live-show/show-segment-format-design/show-segment-format-design.md",
    "digest": "sha256-b2:2adaa7129ea57239",
    "revision": 1,
-   "changedAt": "2026-10-18",
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "guest-line-cap-host-last-word",
@@ -3950,7 +4075,7 @@
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/simulated-audience-testing/simulated-audience-testing.md",
    "digest": "sha256-b2:df005c95186d0c4f",
    "revision": 1,
-   "changedAt": "2026-10-18",
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "blind-judge-on-another-tier",
@@ -4171,7 +4296,7 @@
    "file": "knowledge/media-generation/streaming/live-show/stream-moment-capture/stream-moment-capture.md",
    "digest": "sha256-b2:fbcc64471985d6f6",
    "revision": 1,
-   "changedAt": "2026-10-18",
+   "changedAt": "2026-10-19",
    "techniques": [
     {
      "slug": "evidence-gated-clip-publish",
@@ -4801,6 +4926,8 @@
   "unmeasured-is-not-pass": {
    "statement": "A quality gate may never report pass for something it did not check. \"Unmeasured\" is a first-class verdict, distinct from pass and fail, and enforcement coverage — what fraction of the promise is actually checked — is reported alongside the verdict. Craft parameters ship only with measurements behind them; an impression is not a number.",
    "techniques": [
+    "ad-concept-development/divergence-against-the-median",
+    "ad-concept-development/rubric-as-spine",
     "animatable-character-design/animatability-trial",
     "audience-absorption-at-scale/attention-share-cap",
     "audience-absorption-at-scale/room-scaled-rate-caps",
@@ -4851,6 +4978,7 @@
     "generative-provider-routing/non-silent-elimination",
     "generative-provider-routing/unspent-budget-is-a-defect",
     "generative-provider-routing/vendor-fact-ledger",
+    "image-prompt-composition/default-look-attractor",
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/prompt-budget-limits",
     "image-prompt-composition/verbatim-text-locking",
@@ -4912,38 +5040,10 @@
     "visual-style-locking/rejections-as-negative-evidence"
    ]
   },
-  "refusal-is-a-state": {
-   "statement": "Generative providers refuse, and a refusal is a routing decision: re-route to another provider or surface it honestly — never blind-retry the same request, and never let a refusal masquerade as an empty success. No elimination is silent; the trail of who declined and why is part of the output.",
-   "techniques": [
-    "animatable-character-design/animatability-trial",
-    "audience-steering-economies/rank-gated-proposals-with-climb-path",
-    "character-identity-continuity/identity-ruler-calibration",
-    "frame-direction/per-beat-rejection",
-    "generated-speech-acceptance/published-number-comparability",
-    "generative-provider-routing/capability-to-vendor-plan",
-    "generative-provider-routing/non-silent-elimination",
-    "generative-provider-routing/refusal-reroute-hop",
-    "image-prompt-composition/reference-role-map",
-    "live-chat-moderation-and-anti-bait/in-character-refusal-substitution",
-    "live-chat-moderation-and-anti-bait/injection-as-tag-not-payload",
-    "live-response-latency-budgeting/fleet-loss-grace-signoff",
-    "live-safety-rails/crisis-handoff-one-kind-line",
-    "production-pipeline-phasing/long-run-as-background-job",
-    "production-pipeline-phasing/shared-clock-across-phases",
-    "production-pipeline-phasing/worst-news-first-progress",
-    "review-iteration-loops/follow-up-that-can-kill-a-fact",
-    "review-iteration-loops/partial-regeneration-seams",
-    "review-iteration-loops/refusal-as-valid-outcome",
-    "review-iteration-loops/scope-vs-preference-signals",
-    "simulated-audience-testing/verdict-states-beyond-pass-fail",
-    "sound-effect-generation/loop-seam-acceptance",
-    "video-assembly/gap-and-refusal-honesty",
-    "video-assembly/generated-shot-sourcing"
-   ]
-  },
   "cost-per-usable-output": {
    "statement": "Generation economics are computed over usable outputs, not renders. A cheaper render that fails the brief more often is the more expensive plate; price per usable unit inverts price per call often enough that the naive metric misroutes real money.",
    "techniques": [
+    "ad-concept-development/llm-seat-assignment",
     "animatable-character-design/default-attractor-rejection",
     "data-video-virality/series-repeatability",
     "generated-music-acceptance/brief-conformance-listen",
@@ -4979,6 +5079,35 @@
     "video-assembly/storyboard-grid-conditioning",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/rejections-as-negative-evidence"
+   ]
+  },
+  "refusal-is-a-state": {
+   "statement": "Generative providers refuse, and a refusal is a routing decision: re-route to another provider or surface it honestly — never blind-retry the same request, and never let a refusal masquerade as an empty success. No elimination is silent; the trail of who declined and why is part of the output.",
+   "techniques": [
+    "animatable-character-design/animatability-trial",
+    "audience-steering-economies/rank-gated-proposals-with-climb-path",
+    "character-identity-continuity/identity-ruler-calibration",
+    "frame-direction/per-beat-rejection",
+    "generated-speech-acceptance/published-number-comparability",
+    "generative-provider-routing/capability-to-vendor-plan",
+    "generative-provider-routing/non-silent-elimination",
+    "generative-provider-routing/refusal-reroute-hop",
+    "image-prompt-composition/reference-role-map",
+    "live-chat-moderation-and-anti-bait/in-character-refusal-substitution",
+    "live-chat-moderation-and-anti-bait/injection-as-tag-not-payload",
+    "live-response-latency-budgeting/fleet-loss-grace-signoff",
+    "live-safety-rails/crisis-handoff-one-kind-line",
+    "production-pipeline-phasing/long-run-as-background-job",
+    "production-pipeline-phasing/shared-clock-across-phases",
+    "production-pipeline-phasing/worst-news-first-progress",
+    "review-iteration-loops/follow-up-that-can-kill-a-fact",
+    "review-iteration-loops/partial-regeneration-seams",
+    "review-iteration-loops/refusal-as-valid-outcome",
+    "review-iteration-loops/scope-vs-preference-signals",
+    "simulated-audience-testing/verdict-states-beyond-pass-fail",
+    "sound-effect-generation/loop-seam-acceptance",
+    "video-assembly/gap-and-refusal-honesty",
+    "video-assembly/generated-shot-sourcing"
    ]
   },
   "edit-do-not-regenerate": {
@@ -5128,6 +5257,7 @@
     "evidence-bound-visuals/epistemic-draw-routing",
     "generated-output-grading/trial-matrix-design",
     "image-prompt-composition/assigned-colour-roles",
+    "image-prompt-composition/default-look-attractor",
     "image-prompt-composition/identity-split-from-state",
     "image-prompt-composition/medium-vocabulary-locking",
     "image-prompt-composition/negative-prompting",

@@ -20,6 +20,7 @@ techniques:
   - verbatim-text-locking
   - identity-split-from-state
   - reference-role-map
+  - default-look-attractor
 ---
 
 # Image prompt composition
@@ -149,8 +150,50 @@ And because the budget is finite, the style block is written tight (roughly
 100–250 words; longer crowds out the subject's share of attention) and the
 subject block spends its tokens on the countable elements, earliest first.
 
+## Locking is a cost, and the open slot is not empty
+
+The anatomy above is a machine for sameness, and that is its job only for the
+things that must be the same. Two facts bound it.
+
+**What the contract does not pin, the model fills from its tuned default.**
+Preference and aesthetic-reward tuning collapse image and video models onto a
+narrow, high-scoring register. Published work names it as convergence on
+monolithic styles and overexposure, and as generator loops settling on a dozen
+commercially safe motifs. An unspecified light, framing or effect idiom is
+therefore not left open. It is filled with that register, the same way in every
+call. Words that name the *category* of a good image ("cinematic", "epic", "film
+still from a premium commercial") do not specify anything. They summon the
+register by name. See default-look-attractor.
+
+**What the contract does pin, it pins for every shot.** A style block that holds
+framing distance, camera height, lens character or the effect idiom copies one
+shot's composition across the project, and the project reads as one frame
+repeated. Constraint is conserved, too. Pinning every slot does not remove the
+model's freedom; it pushes that freedom into whatever is left unpinned, and it
+gives up the engine's own direction. A vendor's own video guide states the
+trade-off: detailed prompts buy control and consistency, while lighter prompts
+leave room for creative outcomes. A 2025 benchmark across four open image models
+measured diversity falling as prompts got longer.
+
+So the lock has a scope rule and a phase rule:
+
+- **Scope.** The style block carries the *look*: medium, palette by role, the
+  character of the light, finish and grain. Composition, camera height,
+  distance and the shot's effect vocabulary belong to the action block, and
+  they vary on purpose from shot to shot. A recurring formal device ("every
+  shot is a locked-off symmetrical tableau") is the exception: it is a project
+  rule, so it lives in the style block and is designed rather than inherited.
+- **Phase.** Explore before you ratify. Sample the brief on light prompts and
+  in volume until the look is chosen, then lock it. A fully compiled prompt
+  written before anyone has seen the engine's range locks in its default.
+
 ## Failure modes of the naive reading
 
+- **The locked default.** A style block assembled from category-quality words
+  ("cinematic", "premium", "anamorphic", "bokeh", "flares") passes every
+  consistency test and produces the model's median frame, the same in every
+  shot. The tell: the project's frames could be swapped with another project's
+  that used the same words.
 - **Per-image style re-derivation.** Free prose per image; every image its own
   look. The tell: no two outputs could be mistaken for the same project.
 - **The unmapped attachment pile.** Several references of different kinds sent
@@ -182,7 +225,9 @@ subject block spends its tokens on the countable elements, earliest first.
 
 Take a project's prompt set. Swap every subject block into a different
 prompt's style block. If every result still reads as its style block's
-project, the styles are locked. Then truncate any prompt at its model's
+project, the styles are locked. Then lay the frames side by side. If camera
+height, distance and the effect idiom repeat across shots whose action blocks
+never asked them to, the lock is holding what it should not. Then truncate any prompt at its model's
 window: if what survives is the look, the ordering is right. Then search the
 outputs for glyphs: if any image contains a letter, the constraint block or
 the subject's nouns failed, and that image is discarded regardless of how

@@ -39,7 +39,7 @@ import { parseParticipants, engineCommand, parseEnvelope, classifyOutcome } from
 import { blindMap, unblind, scrubIdentity, materialPhrases, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown, feedbackSection } from './lib/judging.mjs';
 import { renderRouter, fileHref } from './lib/router.mjs';
 import { renderContestNote, upsertIndex, upsertPatterns, readPatterns, slugify } from './lib/vault.mjs';
-import { resolveInit, reviewLines } from './lib/presets.mjs';
+import { resolveInit, reviewLines, deliverableLines } from './lib/presets.mjs';
 import { familyState, shotsFor, renderedTextFor, extractById, pageText, duplicateShots, upsertSection, human, treeBytes, removeTree, findRebuildable, listFiles, label } from './lib/wrap.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -217,16 +217,17 @@ function init() {
     : '';
   const template = read(path.join(REFERENCES, 'participant-brief.md'));
   const lines = reviewLines(shape.review);
-  const dataLine = hasData
-    ? 'The input data is in `data/` beside the variant directories, with `data/SCHEMA.md` describing it. Reference it by relative path from `index.html` (for example `<script src="../data/knowledge.js">`), or inline it. Never modify `data/`.'
-    : 'No input data is provided; build your own realistic dataset inside the variant and say in `NOTES.md` how it was made.';
+  let deliver;
+  try { deliver = deliverableLines(opts.deliverable ? read(path.resolve(cwd, opts.deliverable)) : null, { variants, hasData }); } catch (e) { die(e.message); }
   for (const p of participants) {
     const ws = path.join(dir, 'entries', p.id);
     fs.mkdirSync(ws, { recursive: true });
     if (hasData) copyDir(path.join(dir, 'data'), path.join(ws, 'data'));
     const text = template
       .replaceAll('{{title}}', title).replaceAll('{{brief}}', brief).replaceAll('{{variants}}', String(variants))
-      .replaceAll('{{data_line}}', dataLine).replaceAll('{{patterns_section}}', patternsSection)
+      .replaceAll('{{layout}}', deliver.layout).replaceAll('{{entry_line}}', deliver.entry_line)
+      .replaceAll('{{data_line}}', deliver.data_line).replaceAll('{{test_line}}', deliver.test_line)
+      .replaceAll('{{patterns_section}}', patternsSection)
       .replaceAll('{{timeout}}', String(c.timeout_min))
       .replaceAll('{{review_line}}', lines.review_line).replaceAll('{{rubric_intro}}', lines.rubric_intro);
     fs.writeFileSync(path.join(ws, 'PARTICIPANT.md'), text);

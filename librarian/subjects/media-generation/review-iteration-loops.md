@@ -1,7 +1,7 @@
 ---
 domain: media-generation
 subject: review-iteration-loops
-last_touched: 2026-08-31
+last_touched: 2026-10-15
 touched_by: intake
 dry_streak: 0
 ---
@@ -102,3 +102,12 @@ not at the one where they become schedule.
 Whether the demotion's routing claim holds where both consumers exist. That tree has
 one consumer of a settled replica; a pipeline surfacing investigations to a human
 alongside blocking findings would exercise the half nothing has tested.
+
+## 2026-10-15 - /deepen media-generation
+
+- Golden path's divergence section gained **pricing**: loop economics ("two drafts, one retry") starve the phase before a direction is chosen; volume is the instrument there, cut an animatic early and generate against the cut; volume without a concept keeps the median (a 70k-clip campaign received as generic).
+- NEW application `process--anchored-variation-slate`: practitioner anchors (all named outside references, none prompt-craft terms) and keep ratios, each graded; several figures single-source and flagged.
+
+## Impact
+
+- gravitone: 2 judged deviations stale; personas: 1 not-applicable stale. Maps regenerated and committed (dbad5b0, c5e4bf0890).

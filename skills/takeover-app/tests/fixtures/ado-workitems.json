@@ -1,0 +1,114 @@
+{
+  "_note": "A recorded WIQL + workitemsbatch answer (api-version 7.1), anonymised: the org, people and items are invented. Six items: a P1 bug, a P2 story, a P3 task, a security-tagged item, a severity-critical bug and one whose area path matches no feature.",
+  "wiql": {
+    "queryType": "flat",
+    "queryResultType": "workItem",
+    "asOf": "2026-10-18T09:00:00.000Z",
+    "columns": [{ "referenceName": "System.Id", "name": "ID" }],
+    "workItems": [
+      { "id": 101, "url": "https://dev.azure.com/contoso/_apis/wit/workItems/101" },
+      { "id": 102, "url": "https://dev.azure.com/contoso/_apis/wit/workItems/102" },
+      { "id": 103, "url": "https://dev.azure.com/contoso/_apis/wit/workItems/103" },
+      { "id": 104, "url": "https://dev.azure.com/contoso/_apis/wit/workItems/104" },
+      { "id": 105, "url": "https://dev.azure.com/contoso/_apis/wit/workItems/105" },
+      { "id": 106, "url": "https://dev.azure.com/contoso/_apis/wit/workItems/106" }
+    ]
+  },
+  "batches": [
+    {
+      "count": 6,
+      "value": [
+        {
+          "id": 101, "rev": 4,
+          "fields": {
+            "System.Id": 101,
+            "System.WorkItemType": "Bug",
+            "System.Title": "Invoice totals double-count credit notes",
+            "System.State": "Active",
+            "System.AreaPath": "Ledger\\Invoices",
+            "System.Tags": "finance; regression",
+            "System.AssignedTo": { "displayName": "Jane Doe", "uniqueName": "jane@example.com", "id": "00000000-0000-0000-0000-000000000001" },
+            "Microsoft.VSTS.TCM.ReproSteps": "<div>1. Create an invoice of 100</div><div>2. Add a credit note of 20</div><div>Total shows 140 &amp; not 80</div>",
+            "Microsoft.VSTS.Common.Priority": 1,
+            "Microsoft.VSTS.Common.Severity": "2 - High",
+            "System.ChangedDate": "2026-10-10T12:00:00Z"
+          },
+          "_links": { "html": { "href": "https://dev.azure.com/contoso/Ledger/_workitems/edit/101" } },
+          "url": "https://dev.azure.com/contoso/_apis/wit/workItems/101"
+        },
+        {
+          "id": 102, "rev": 2,
+          "fields": {
+            "System.Id": 102,
+            "System.WorkItemType": "User Story",
+            "System.Title": "Export supplier list to CSV",
+            "System.State": "New",
+            "System.AreaPath": "Ledger\\Suppliers",
+            "System.Description": "<p>As a buyer I want the supplier list as <b>CSV</b>.</p>",
+            "Microsoft.VSTS.Common.AcceptanceCriteria": "<ul><li>All columns exported</li><li>UTF-8 with BOM</li></ul>",
+            "Microsoft.VSTS.Common.Priority": 2,
+            "System.ChangedDate": "2026-10-11T12:00:00Z"
+          },
+          "url": "https://dev.azure.com/contoso/_apis/wit/workItems/102"
+        },
+        {
+          "id": 103, "rev": 1,
+          "fields": {
+            "System.Id": 103,
+            "System.WorkItemType": "Task",
+            "System.Title": "Rename CRM contact fields",
+            "System.State": "New",
+            "System.AreaPath": "Ledger\\crm contacts",
+            "System.Description": "Align field names with the API.",
+            "Microsoft.VSTS.Common.Priority": 3,
+            "System.ChangedDate": "2026-10-12T12:00:00Z"
+          },
+          "url": "https://dev.azure.com/contoso/_apis/wit/workItems/103"
+        },
+        {
+          "id": 104, "rev": 3,
+          "fields": {
+            "System.Id": 104,
+            "System.WorkItemType": "User Story",
+            "System.Title": "Supplier portal shows other suppliers' bank details",
+            "System.State": "Active",
+            "System.AreaPath": "Ledger\\Suppliers",
+            "System.Tags": "Security; portal",
+            "System.Description": "<p>Changing the id in the URL shows another supplier.</p>",
+            "Microsoft.VSTS.Common.Priority": 2,
+            "System.ChangedDate": "2026-10-13T12:00:00Z"
+          },
+          "url": "https://dev.azure.com/contoso/_apis/wit/workItems/104"
+        },
+        {
+          "id": 105, "rev": 7,
+          "fields": {
+            "System.Id": 105,
+            "System.WorkItemType": "Bug",
+            "System.Title": "Payment run posts twice on retry",
+            "System.State": "New",
+            "System.AreaPath": "Ledger\\Invoices",
+            "System.Description": "A timeout during the payment run re-posts the batch.",
+            "Microsoft.VSTS.Common.Priority": 2,
+            "Microsoft.VSTS.Common.Severity": "1 - Critical",
+            "System.ChangedDate": "2026-10-14T12:00:00Z"
+          },
+          "url": "https://dev.azure.com/contoso/_apis/wit/workItems/105"
+        },
+        {
+          "id": 106, "rev": 1,
+          "fields": {
+            "System.Id": 106,
+            "System.WorkItemType": "Feature",
+            "System.Title": "Quarterly board pack",
+            "System.State": "New",
+            "System.AreaPath": "Ledger\\Reporting\\Board",
+            "System.Description": "Monthly numbers rolled into a board pack.",
+            "System.ChangedDate": "2026-10-15T12:00:00Z"
+          },
+          "url": "https://dev.azure.com/contoso/_apis/wit/workItems/106"
+        }
+      ]
+    }
+  ]
+}

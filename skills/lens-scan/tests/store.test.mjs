@@ -4,7 +4,7 @@
 // triage's undo, `reopen`, with its refusals and the v2 -> v3 migration.
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync, rmSync, readFileSync, mkdirSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -12,8 +12,9 @@ import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
 import {
   openStore, runStart, runEnd, activity, measure, propose, proposals, proposalUpdate, shot, coverage, latest, parseArgs,
-  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt, DDL_PATH,
+  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt,
 } from '../scripts/store.mjs';
+import { legacyDdl } from './legacy-ddl.mjs';
 
 // Every temp dir this file makes is removed when its tests are done: on 2026-10-15 these
 // suites had left hundreds in the OS temp dir (hygiene disk lane, temp-leak rows).
@@ -29,7 +30,7 @@ const cli = (db, ...args) => JSON.parse(execFileSync(process.execPath, [SCRIPT, 
 test('round trip: init, run, measure, propose, update, latest - and no nulls in any output', () => {
   const path = tmpDb();
   const db = openStore(path);
-  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 3);
+  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 4);
   const { id: run } = runStart(db, { phase: 'measure', lenses: 'development,security', scope: '{"feature":["a"]}' });
   assert.match(run, /^r-\d{14}-[0-9a-f]{4}$/);
 
@@ -100,7 +101,7 @@ test('refusals: no placeholder values, no writes into an ended run, no self-appr
 
 test('cli: JSON on stdout, bulk --json, exit 2 on bad input', () => {
   const db = tmpDb();
-  assert.equal(cli(db, 'init').user_version, 3);
+  assert.equal(cli(db, 'init').user_version, 4);
   const { id: run } = cli(db, 'run-start', '--phase', 'measure', '--lenses', 'development');
   const bulk = join(mkdtempTracked(join(tmpdir(), 'lens-scan-bulk-')), 'm.json');
   writeFileSync(bulk, JSON.stringify([{ feature: 'a', lens: 'development', metric: 'files', value: 3 }, { feature: 'a', lens: 'development', metric: 'loc', value: -0 }]));
@@ -272,9 +273,9 @@ test('reopen: refused no-prior-status, in-release, rebuilt, pack-closed; a draft
   db.close();
 });
 
-test('migration: a v2 file becomes v3 in place (one column, rows kept), the same shape as a fresh file; cli reopen', () => {
-  // the v2 DDL is the v3 one without its last column
-  const v2ddl = readFileSync(DDL_PATH, 'utf8').replace(/,\s*-- v3\s*\n\s*triaged_from[^\n]*/, '').replace('PRAGMA user_version = 3;', 'PRAGMA user_version = 2;');
+test('migration: a v2 file becomes current in place (the v3 column, then the v4 rebuild; rows kept), the same shape as a fresh file; cli reopen', () => {
+  // the v2 DDL: the current one without its v4 and v3 additions
+  const v2ddl = legacyDdl(2);
   const path = tmpDb();
   mkdirSync(dirname(path), { recursive: true });
   const v2 = new DatabaseSync(path);
@@ -291,7 +292,7 @@ test('migration: a v2 file becomes v3 in place (one column, rows kept), the same
   v2.close();
 
   const ro = openStore(path, { readOnly: true });
-  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 3, 'a reader never meets v2');
+  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 4, 'a reader never meets v2');
   ro.close();
   const db = openStore(path);
   assert.deepEqual(proposals(db).map((p) => [p.id, p.status, p.commit_sha, p.triaged_from]), [['p-aaaaaa', 'accepted', 'c1', undefined], ['p-bbbbbb', 'done', 'c2', undefined]]);
@@ -302,7 +303,7 @@ test('migration: a v2 file becomes v3 in place (one column, rows kept), the same
   fresh.close();
   db.close();
   const again = openStore(path);
-  assert.equal(again.prepare('PRAGMA user_version').get().user_version, 3, 'a second open is a no-op');
+  assert.equal(again.prepare('PRAGMA user_version').get().user_version, 4, 'a second open is a no-op');
   again.close();
 
   // the pre-v3 call has no prior status; a v3 call reopens through the cli

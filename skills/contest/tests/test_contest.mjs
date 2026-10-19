@@ -1,4 +1,4 @@
-// Deterministic tests for the pure half of scripts/contest.mjs: `node --test skills/contest/tests`.
+// Deterministic tests for the pure half of scripts/contest.mjs: `node --test skills/contest/tests/test_contest.mjs`.
 // Builtins only; nothing here spawns a CLI or touches the arena.
 //
 // What is worth pinning is the three promises the method makes and a reader could not
@@ -142,6 +142,18 @@ test('identifiers the staged material uses survive blinding; a signature does no
   assert.deepEqual(scrubIdentity('Built by Claude.', extra), { text: 'Built by [redacted].', count: 1, kept: 0 }, 'no material means the old behaviour');
 });
 
+test('a product name the material spells with a space survives blinding; a model name does not', () => {
+  const data = ['{"tools": [["Claude Code", "claude.svg"]], "stack": "NEXT.JS 16 · CLAUDE CODE · OLLAMA", "note": "the claude engine, Claude Opus"}'];
+  const extra = ['claude-claude-opus-5-5_xhigh', 'claude-opus-5-5'];
+  const protect = materialPhrases(data, extra);
+  assert.ok(protect.includes('Claude Code') && protect.includes('CLAUDE CODE'));
+  assert.ok(!protect.includes('Claude Opus'), 'a second identity word makes it a signature');
+  assert.ok(!protect.some((p) => /^claude engine$/i.test(p)), 'a lower-case next word is prose, not a product');
+  const r = scrubIdentity('Claude Code runs headless. NEXT.JS 16 · CLAUDE CODE. Made with Claude Opus. claude code', extra, protect);
+  assert.equal(r.text, 'Claude Code runs headless. NEXT.JS 16 · CLAUDE CODE. Made with [redacted] [redacted]. [redacted] code');
+  assert.equal(r.kept, 2);
+});
+
 test('the router links blinded copies, marks eliminated variants and keeps them clickable', async () => {
   const { renderRouter, fileHref } = await import('../scripts/lib/router.mjs');
   assert.equal(fileHref(['C:', 'a b', 'x.html'].join(String.fromCharCode(92))), 'file:///C:/a%20b/x.html');
@@ -263,6 +275,24 @@ test('plan hands seats to an outside dispatcher, and the other steps accept what
   }
 });
 
+test('deliverable: the default is the page-from-disk brief; an override file replaces only its sections', async () => {
+  const { deliverableLines } = await import('../scripts/lib/presets.mjs');
+  const def = deliverableLines(null, { variants: 3, hasData: true });
+  assert.equal(def.layout.split('\n').length, 3);
+  assert.match(def.layout, /^variant-1\/index\.html {5}variant-1\/NOTES\.md$/m);
+  assert.match(def.entry_line, /opens directly from disk/);
+  assert.match(def.data_line, /^The input data is in `data\/`/);
+  assert.match(deliverableLines(null, { variants: 2, hasData: false }).data_line, /^No input data is provided/);
+  const o = deliverableLines('## Layout\nvariant-N/README.md   variant-N/assets/\n\n## Test\n`build.py` runs; the lint flags nothing.\n', { variants: 3, hasData: true });
+  assert.equal(o.layout, 'variant-N/README.md   variant-N/assets/');
+  assert.equal(o.test_line, '`build.py` runs; the lint flags nothing.');
+  assert.equal(o.entry_line, def.entry_line, 'a section the file omits keeps its default');
+  assert.throws(() => deliverableLines('## Layuot\nx', { variants: 3, hasData: true }), /unknown section/);
+  const { readFileSync } = await import('node:fs');
+  const tpl = readFileSync(new URL('../references/participant-brief.md', import.meta.url), 'utf8');
+  for (const k of ['{{layout}}', '{{entry_line}}', '{{data_line}}', '{{test_line}}']) assert.ok(tpl.includes(k), `template carries ${k}`);
+});
+
 test('presets: --landing brings the UI seats, owner review and the landing bar; a named option still wins', async () => {
   const { resolveInit, reviewLines, UI_DEFAULT_PARTICIPANTS } = await import('../scripts/lib/presets.mjs');
   const landing = resolveInit({ landing: true });
@@ -297,6 +327,8 @@ test('wrap: a family is decided only when its last round is, and the winner keep
 
   assert.deepEqual(shotsFor(['visual/A-1-1280x800-load.png', 'visual/A-10-1280x800-load.png', 'keyboard/A-1-2-help.png', 'visual/A-1-notes.md', 'B-1-load.png'], 'A', 1),
     ['visual/A-1-1280x800-load.png', 'keyboard/A-1-2-help.png'], 'A/1 is not A/10, and only images count');
+  assert.deepEqual(shotsFor(['visual/A1-dark-desktop.png', 'visual/A10-dark-desktop.png', 'visual/AB1-x.png'], 'A', 1),
+    ['visual/A1-dark-desktop.png'], 'a host probe\'s undashed name counts; A10 and AB1 do not');
   assert.ok(isRebuildable('node_modules', []));
   assert.ok(!isRebuildable('build', ['index.html']), 'a variant\'s own build/ is content, not output');
   assert.ok(isRebuildable('dist', ['package.json', 'src']));

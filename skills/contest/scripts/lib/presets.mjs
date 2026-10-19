@@ -35,6 +35,39 @@ export function resolveInit(opts) {
   };
 }
 
+// What a seat delivers, in the brief's words. The default is a page that opens from disk; a contest
+// whose artefact is something else (a GitHub README and its SVGs, a report rendered by a staged
+// tool) passes `--deliverable <file>` with any of `## Layout`, `## Entry`, `## Data`, `## Test`.
+// `index.html` stays the page the owner and the router open, so a non-page deliverable must still
+// say how each variant's index.html is produced. Measured on xkazm04 2026-10-15: without this, five
+// identical hand edits to every PARTICIPANT.md.
+const DELIVERABLE_DEFAULTS = {
+  layout: (n) => Array.from({ length: n }, (_, i) => `variant-${i + 1}/index.html     variant-${i + 1}/NOTES.md`).join('\n'),
+  entry: () => '`index.html` opens directly from disk (`file://`), with no build step and no server. Inline\n  your CSS and JS, or keep them in files beside it. Libraries only from a public CDN\n  (jsdelivr, cdnjs, unpkg) and only when they earn their weight; a variant that also works\n  offline is worth more than one that does not.',
+  data: (_, hasData) => (hasData
+    ? 'The input data is in `data/` beside the variant directories, with `data/SCHEMA.md` describing it. Reference it by relative path from `index.html` (for example `<script src="../data/knowledge.js">`), or inline it. Never modify `data/`.'
+    : 'No input data is provided; build your own realistic dataset inside the variant and say in `NOTES.md` how it was made.'),
+  test: () => 'Test what you can without a browser: the file exists, the script parses, the data path\n  resolves relative to `index.html`.',
+};
+
+/**
+ * The deliverable lines of the participant brief: the defaults, with any section of an override
+ * file (`## Layout`, `## Entry`, `## Data`, `## Test`) replacing its line. Unknown sections throw.
+ */
+export function deliverableLines(override, { variants, hasData }) {
+  const sections = {};
+  if (override) {
+    for (const part of String(override).split(/^## +/m).slice(1)) {
+      const [head, ...body] = part.split('\n');
+      const key = head.trim().toLowerCase();
+      if (!(key in DELIVERABLE_DEFAULTS)) throw new Error(`--deliverable: unknown section "## ${head.trim()}" (Layout, Entry, Data, Test)`);
+      sections[key] = body.join('\n').trim();
+    }
+  }
+  const line = (k) => sections[k] || DELIVERABLE_DEFAULTS[k](variants, hasData);
+  return { layout: line('layout'), entry_line: line('entry'), data_line: line('data'), test_line: line('test') };
+}
+
 /** The two template sentences that depend on who decides: a blind panel, or the owner alone. */
 export function reviewLines(review) {
   return review === 'owner'

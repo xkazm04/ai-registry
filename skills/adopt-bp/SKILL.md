@@ -5,7 +5,7 @@ memory: project
 tags: onboarding, blueprint, app-structure, lens-scan, product-tree, benchmark, providers
 description: "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets, proposals and coverage; then validates with bp's own validator and registers the repo so bp's project switcher shows it. Deterministic work runs in scripts/adopt.mjs; the model only names the product tree and judges code, in batches that can fan out or be benchmarked across providers with scripts/bench.mjs. Invoke with /adopt-bp [<repo path>] [--check] [--slug s --name n]."
 argument-hint: "[<repo path>] [--check] [--slug <slug>] [--name <name>] [--bp <bp checkout>]"
-version: 1.2.2
+version: 1.3.0
 ---
 
 # adopt-bp - a repo in, a blueprint out
@@ -34,7 +34,7 @@ changed; run `/lens-scan` to re-measure, propose against standards and execute w
 | events (feature-added, stage) from git history | `<repo>/.ai/lens-scan/events.jsonl` (append-only) | events |
 | lens-scan store: runs, measurements, proposals, coverage, activity | `<repo>/.ai/lens-scan/scan.db` (lens-scan's DDL, identical to `<bp>/docs/standard/lens-scan-store.sql`) | measure + judge, through lens-scan `store.mjs` |
 | working files (inventory, tree, batches, judgement, report) | `<repo>/.ai/lens-scan/work/` | all |
-| `.ai/lens-scan/` in `.gitignore` (or `.git/info/exclude` when `.gitignore` has uncommitted edits); the product in `<bp>/bp.products.local.json`; a lens-scan overlay `.claude/lens-scan/config.md` when absent | repo, bp | register |
+| `.ai/lens-scan/` in `.gitignore` (left alone when git already ignores it, e.g. via `.git/info/exclude`; the exclude file instead when `.gitignore` has uncommitted edits); the product in `<bp>/bp.products.local.json`; a lens-scan overlay `.claude/lens-scan/config.md` when absent | repo, bp | register |
 | `ADOPT.md` summary | `<repo>/.ai/lens-scan/` | report |
 
 Nothing else in the repo changes. Never commit in the target repo unless the operator asks; its
@@ -50,6 +50,12 @@ tree may carry another session's work.
      (`groups[]` with `name`, `domain`; `contexts[]` with `name`, `group`, `category`, `description`,
      `file_paths[]`, `entry_points[]`), 1 context per cohesive module of roughly 5-40 files, covering
      every source file that ships. Then continue.
+   - **A nested map** (`groups[].contexts[]` with camelCase keys such as `filePaths`, as Vibeman
+     writes it) is read as v2 through lens-scan's `structure.mjs` (`ungrouped[]` contexts keep no
+     group; with no declared entry points, a `page`/`layout`/`route` file among a context's own files
+     stands in). The file is never rewritten. Contexts the curated map owns nowhere (shipping files no
+     context lists) go in `work/context-supplement.json` (`{"contexts": [...]}`, v2 shape); every
+     command appends them. Never hand-edit a curated map to make adoption fit.
    - **Stale map** (over 10% of mapped files gone): say so and rebuild the code tree first.
 1. **Seed.** `adopt.mjs seed [--slug s --name n]`: skeleton v3 map (code tree from the context map,
    the six built-in lenses copied from bp) and `work/inventory.json` (per context: files, lines,
@@ -68,7 +74,9 @@ tree may carry another session's work.
    Fan out to subagents when your harness has them. Then `adopt.mjs judge --model <your model id>`:
    one lens-scan measure run per lens, `standardsPct` derived from that run's coverage rows
    (lens-scan's rule; no standard, no number), one propose run that never re-proposes an open or
-   declined item.
+   declined item. A judgement also sets each lens's choice fields that the manifest declares (design
+   `status`, `a11y`, `specDrift`; security `dataClass`, `review`; development `humanReviewed`) and
+   each proposal's triage (`tier` 0-3, `risk_class`); a value outside the manifest's list is refused.
 6. **Validate.** `adopt.mjs validate`: bp's validator (schema, references, facet types, events) plus
    coverage, placement and staging checks. Do not finish on a failing validate.
 7. **Register.** `adopt.mjs register [--slug s --name n]` (skip with `--no-register` in a benchmark

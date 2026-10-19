@@ -16,7 +16,7 @@ features with their biggest files, entry points and static values. Write one res
                        "evidence": "Store logic duplicated in src/x/A.tsx:40 and src/x/B.tsx:88; no error boundary around the editor." },
       "security":    { "findingsCritical": 0, "findingsHigh": 0, "findingsMedium": 1, "findingsLow": 2,
                        "evidence": "API route src/app/api/x/route.ts:12 passes user input to fs.readFile without a path guard (medium)." },
-      "design":      { "undesignedStates": 2,
+      "design":      { "undesignedStates": 2, "status": "implemented", "a11y": "partial", "specDrift": false,
                        "evidence": "No empty state in src/x/List.tsx:20; error is a raw alert() at src/x/Form.tsx:55." }
       // a feature with no UI: "design": { "applicable": false }
     }
@@ -24,7 +24,7 @@ features with their biggest files, entry points and static values. Write one res
   "proposals": [
     { "feature": "<slug>", "lens": "security", "metric": "findingsMedium", "title": "Guard the file path in the export route",
       "body": "## Summary\n...\n## Description\n...\n## Flow\n...\n## Expected impact\n...\n## Evaluation\nBefore 1 (this run), after 0 ...",
-      "standard": "none", "expected_delta": -1, "size": "S", "risk": 3 }
+      "standard": "none", "expected_delta": -1, "size": "S", "risk": 3, "tier": 2, "risk_class": "authz" }
   ],
   "coverage": [
     { "feature": "<slug>", "lens": "development", "standard": "<subject>/<technique>", "state": "deviation", "evidence": "src/x/A.tsx:40" }
@@ -55,6 +55,14 @@ features with their biggest files, entry points and static values. Write one res
   low = hygiene. A local developer tool with no network exposure rarely has a critical.
 - `undesignedStates`: user-visible states with no designed treatment (loading, empty, error,
   overflow, disabled) in the feature's screens.
+- **Choice fields.** Beside the numbers, set the lens's enum and boolean fields its manifest declares
+  (bp `docs/standard/lenses/<lens>.json`): design `status` (none .. polished), `a11y` (unknown, fail,
+  partial, pass) and `specDrift`; security `dataClass` and `review`; development `humanReviewed`.
+  `judge` refuses a value outside the manifest's list. Stage, development `status` and `stalled` are
+  derived, never judged.
+- **Triage** on every proposal: `tier` 0 stop-ship, 1 before production, 2 soon after, 3 backlog, and a
+  `risk_class` (secret, authz, money, data, llm, perf, reliability, ux, debt), as lens-scan's
+  `references/triage.md` defines them. The review UI sorts by them; an untriaged item sinks.
 - **Proposals** follow /lens-scan's contract, so the review UI and `/lens-scan execute` can take
   them: only for real problems you saw; each names the catalog `metric` it moves and by how much
   (`expected_delta` in the metric's unit, negative for `down`-is-better metrics; a fix that moves no

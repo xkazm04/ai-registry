@@ -102,6 +102,29 @@ export function dedupeContexts(contexts) {
   });
   return { contexts: out, renamed };
 }
+const ENTRY_RE = /(^|\/)(page|layout|route)\.[cm]?[jt]sx?$/;
+/**
+ * A nested context map (groups[].contexts[] with camelCase keys, as Vibeman writes it) read as v2: top-level
+ * contexts[] in snake_case, each naming its group; `ungrouped[]` contexts keep no group. A v2 map comes back
+ * unchanged. Returns { map, nested }; the file on disk is never rewritten.
+ */
+export function flattenContextMap(m) {
+  if (Array.isArray(m?.contexts) || !Array.isArray(m?.groups) || !m.groups.some((g) => Array.isArray(g?.contexts))) return { map: m, nested: false };
+  const ctx = (c, group) => {
+    const files = c.file_paths ?? c.filePaths ?? [];
+    return dropNulls({ name: c.name, ...(group === undefined ? {} : { group }), category: c.category ?? null, description: c.description ?? null,
+      business_feature: c.business_feature ?? c.businessFeature ?? null, file_paths: files,
+      // no entry points declared: a framework entry file (page, layout, route) among its own files stands in
+      entry_points: c.entry_points ?? c.entryPoints ?? files.filter((f) => ENTRY_RE.test(f)),
+      ...(c.db_tables ?? c.dbTables ? { db_tables: c.db_tables ?? c.dbTables } : {}) });
+  };
+  const { groups, contexts: _flat, ungrouped, ...rest } = m;
+  return { nested: true, map: { ...rest,
+    project: m.project ?? dropNulls({ name: m.projectName ?? null, id: m.projectId ?? null }),
+    groups: groups.map(({ contexts: cs, ...g }) => ({ ...g, context_count: (cs ?? []).length })),
+    contexts: [...groups.flatMap((g) => (g.contexts ?? []).map((c) => ctx(c, g.name))), ...(Array.isArray(ungrouped) ? ungrouped.map((c) => ctx(c, undefined)) : [])],
+  } };
+}
 const iso = (v) => { const d = new Date(v); return Number.isNaN(d.getTime()) ? undefined : d.toISOString(); };
 
 /** Reads every lens-manifest/1 JSON file in a directory, sorted by file name. */
@@ -121,7 +144,8 @@ export function readLenses(dir) {
  * The pure conversion. `latest` is the store's latest-per-key rows ({feature, lens, metric, value,
  * measured_at}); `lenses` are parsed manifests. Returns { structure, report }.
  */
-export function toAppStructure(map, { lenses = [], latest = [], projectSlug, projectName, generator, existing } = {}) {
+export function toAppStructure(source, { lenses = [], latest = [], projectSlug, projectName, generator, existing } = {}) {
+  const { map } = flattenContextMap(source);
   const groups = dropNulls(map.groups ?? []);
   const { contexts, renamed } = dedupeContexts(dropNulls(map.contexts ?? []));
   const declared = Array.isArray(existing?.features) && existing.features.length > 0 && existing.provenance?.product_tree !== 'contexts';

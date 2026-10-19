@@ -3,6 +3,38 @@
 Append-only reflection lane. One entry per run that taught something. Format:
 `## <version used> - <YYYY-MM-DD> - <project>` followed by `- ` bullets. Merged from every copy of this skill on 2026-08-22 when it moved into the registry lane.
 
+## 4.6.1 - 2026-10-15 - athena-portable (first --challenge run, 6 contexts, 11 of 12 cards built)
+
+Opus 5.5 in every role, a shared checkout, five waves (4, 4, 1, 1, 1). execution 9/11, idea
+score 3.83 / 4.75 / 4.08, 0 premise-false, 0 reverted.
+
+- **The critic and every builder missed a port wired only into the fake.** A card added an exit
+  handle to the CLI transport port; its eight acceptance cases all ran on `ScriptedTransport`,
+  which reports the exit by construction, and the real subprocess transport never called it -
+  every live run read exit 0. The critic graded falsifiability 4/5 and the builder's own
+  mutation checks passed. It surfaced only because a LATER card's builder read the same file.
+  Proposal: a card that changes a port (a Protocol, an adapter seam) must carry at least one
+  acceptance case that drives the production adapter, and the critic's falsifiability check
+  should ask "does any case touch the real implementation of the seam this card changes?"
+- **Concurrent builders in one checkout share the coordinator's scratchpad.** Two wave-1
+  builders overwrote each other's ADR draft and commit-message file in it. The builder brief
+  now owes each builder its own `<scratchpad>/<host>-<slot>/`; `references/challenge.md` §7
+  should say so beside the shared-surface lock.
+- **Four whole-tree pytest suites at once exhausted memory** (a 2,100-test suite, about 5 min
+  each); one builder was killed mid-gate and returned `partial`, and needed a resume to land.
+  Proposal: in a shared checkout, the builder runs its scoped tests plus the suites of the
+  surfaces it touched, and the coordinator's per-wave integration gate is the one full run -
+  or the wave plan caps concurrent full-suite builders at two.
+- **A base-red timing test had to be fixed before wave 1 could mean anything.** The baseline
+  (asserted exit codes) caught a Windows clock-resolution flake that failed 12/12 in isolation;
+  a coordinator pre-flight commit fixed it with a 0/12 vs 12/12 control. A second, rarer flake
+  (1 in 10, a 20 ms deadline) appeared at integration and the base-sha control kept it from
+  being blamed on a builder - the 2026-10-05 rule paid off on its first use here.
+- **Two context maps in one repo.** The overlay named an older UI-only map while the root map
+  (64 contexts) was the current one; the cohort differs entirely by map. Asking once at the
+  start was right; §2 of challenge.md could say "the overlay's `contextMap` wins; when a newer
+  root map exists, say so in the header".
+
 ## 4.5.0 - 2026-10-11 - fleet (backlog migration to Personas Approvals, no scan)
 
 Operator asked for every scan backlog left in fleet repos to reach Personas
@@ -1625,3 +1657,13 @@ that check stays cheap.
 - **Cross-context duplicates need deduping at routing, not at build.** In pass 1, four analysts found the same light-theme text-contrast failure in four contexts, and two found the same tab-strip keyboard defect. The director merged them into one shared-token contract plus waves ordered by dependency (the context that owns the token builds first). Without that step, four executors would have each invented a token.
 - **Worktree rounds and package installs.** Four parallel `npm ci` runs took about 12 minutes and stalled two executors on the stream watchdog (resumed cleanly). A `node_modules` junction to one install runs the node gates but not a Turbopack dev server, and in git-bash an unquoted `cmd //c mklink //J` loses its backslashes and links nowhere, so worktree gates silently resolved the parent checkout's packages. Repo-specific detail went to the overlay; the general point: verify what a worktree's gates actually load (§7.9 already says so for configs).
 - **A gate that cannot fail was the most common optimize finding.** Three rounds independently found checks that exited 0 on a seeded failure (a health check below its own target, screenshot probes, a manifest gate missing from the always-list). Seeding the failure (§7.6) is what found each of them.
+
+## 4.6.1 - 2026-10-16 - athena-portable (first --stabilize loop under the root map: 60 contexts in 12 waves)
+
+- **Run shape:** 45 rounds over 60 of the map's 64 contexts (small ones paired or tripled; the 4 test-only contexts skipped by the overlay's `neverSweep`), 11 waves of 4 round-agents and a closing wave of 1, all Opus 5.5, ONE shared checkout, scoped pytest per agent and the full suite only at each wave's integration gate. Result: 413 built, 78 rejected with figures, fp 2, 155 Lane B and 58 Lane C left open, 9 registry leads, 2 director integration fixes, 0 reverts; every wave's combined-tree gate green (full pytest, workspace TS, desktop vitest 1475 -> 1688, cargo, and `perf:all` on waves that touched motion).
+- **Folding Lane B cards into the next wave as assigned items drained 15 of them without `--ab`.** A card a round could not build because its site sat in another context's files became an assigned item for the round that owned those files, a wave or two later (screenshot ids, an origin rule, a no-law daemon, a propose_slots tightening, a CLI key leak). Proposal for §5: under a director fan-out, before choosing the next wave, route every open `out-of-scope` B card whose site lies in a context of that wave to that context's round as an assigned item - it is the cheapest drain there is, and it uses the owner's own gate.
+- **A director's prompt authorized a widening.** I gave a round an accept/refuse table for a page-origin rule and listed `http://127.0.0.1` as accepted; the old rule refused it, the round built it, and only its own report flagged it. Fixed forward and carded as `policy-loosen`. Proposal for the director checklist in §7: an assigned item's spec is checked against "does this admit, grant or send anything the code refuses today" before it is sent - the method forbids building a loosening unasked, and the director is the one place no reviewer reads.
+- **Scoped pytest must follow function names, not imports.** A CLI round changed `cmd_reconcile`'s exit code and ran `tests/test_*.py tests/contracts`; two tests in `tests/core` call `cmd_reconcile` directly and went red at integration. Proposal for the round brief template: "the tests of every function whose behaviour you changed: `git grep -l <name> tests`".
+- **Timing gates lie under sibling load.** Three rounds saw `perf:chores` fail with a 52-96 ms long task while other agents ran suites; on a quiet machine the same build read 0 ms every time. Proposal: under fan-out, rounds run a perf gate only on the scene they touched and report it as advisory; the director's quiet-machine `perf:all` at integration is the gate.
+- **Windows path forms leak through agents.** A round passed a Bash-form scratch path (`/c/Users/...`) to a Windows program, which created `C:\c\Users\...` outside the scratchpad. The brief gained a line; the general rule belongs in the template.
+- **The registry knowledge paid off most in two lenses:** tools whose declared class was never tested (two example apps had zero tests running any tool handler; a voiding "read" would have passed both suites) and gates that could not fail (first-paint, a design-law check, the Gauntlet's own checks at 1 of 7 planted bugs caught). Seeding the failure (§7.6) found every one.

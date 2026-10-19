@@ -14,7 +14,7 @@
       "name": "adopt-bp",
       "source": "./skills/adopt-bp",
       "description": "Onboard any codebase into the bp product blueprint. Checks which artifacts the repo already has (context map, app-structure v3 map, events, lens-scan store, registration) and produces only what is missing: a v3 map with domains, capabilities, features and evidence-based stages; an events log from git history; static metrics in the lens-scan store; LLM judgement facets, proposals and coverage; then",
-      "version": "1.2.2",
+      "version": "1.3.0",
       "category": "workflow",
       "tags": [
         "onboarding",
@@ -134,7 +134,7 @@
       "name": "contest",
       "source": "./skills/contest",
       "description": "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual ",
-      "version": "1.11.0",
+      "version": "1.12.0",
       "category": "workflow",
       "tags": [
         "contest",
@@ -285,7 +285,7 @@
       "name": "lens-scan",
       "source": "./skills/lens-scan",
       "description": "Measure a product feature by feature through one lens - development, security, design, or any lens whose manifest declares a scan block (judgement, or composed script / conform / judgement steps) - and record hard numbers over time in a local store inside the repo, then propose backlog items that each name the metric they move and the expected delta against a registry or house standard, and execut",
-      "version": "1.7.0",
+      "version": "1.10.1",
       "category": "workflow",
       "tags": [
         "measure",
@@ -427,7 +427,7 @@
       "name": "scan-sweep",
       "source": "./skills/scan-sweep",
       "description": "Long-running quality sweep that walks a repository context by context, reads each area's code once, judges it through every scan lens, and lands what it can PROVE itself with atomic commits. With no arguments it runs the STABILIZE loop - bug hunting, UI perfection, performance - picking the least-covered context each round and keeping a per-context lens-coverage ledger so a codebase gets swept eve",
-      "version": "4.6.1",
+      "version": "4.6.2",
       "category": "workflow",
       "tags": [
         "sweep",
@@ -476,6 +476,23 @@
         "orphans",
         "fleet",
         "version-debt"
+      ]
+    },
+    {
+      "name": "takeover-app",
+      "source": "./skills/takeover-app",
+      "description": "Take over an unknown or vibecoded fullstack app and bring it under control toward production readiness: a phased, gated sequencer over the registry's existing skills. Recon the stack, boot it, map it, score readiness, scan it through the built-in lenses plus four takeover lenses (API and LLM call hygiene, security depth, backend performance, money and privacy) with an Opus judge, import the Azure ",
+      "version": "1.1.0",
+      "category": "workflow",
+      "tags": [
+        "takeover",
+        "onboarding",
+        "production-readiness",
+        "triage",
+        "azure-devops",
+        "lens-scan",
+        "security",
+        "llm"
       ]
     },
     {

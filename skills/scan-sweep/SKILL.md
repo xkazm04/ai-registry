@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--r
 category: workflow
 contexts: tracked
 memory: project
-version: 4.6.1
+version: 4.6.2
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep

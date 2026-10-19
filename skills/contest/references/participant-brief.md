@@ -15,15 +15,10 @@ metaphor, a different information architecture, a different bet on what the user
 Three skins of one idea will lose to one strong idea and two honest alternatives.
 
 ```
-variant-1/index.html     variant-1/NOTES.md
-variant-2/index.html     variant-2/NOTES.md
-variant-3/index.html     variant-3/NOTES.md
+{{layout}}
 ```
 
-- `index.html` opens directly from disk (`file://`), with no build step and no server. Inline
-  your CSS and JS, or keep them in files beside it. Libraries only from a public CDN
-  (jsdelivr, cdnjs, unpkg) and only when they earn their weight; a variant that also works
-  offline is worth more than one that does not.
+- {{entry_line}}
 - {{data_line}}
 - `NOTES.md` per variant, under 300 words, with these headings: `# <Concept name>`,
   `## Philosophy` (the one idea this variant bets on), `## How it stays readable at scale`,
@@ -60,8 +55,7 @@ promised in a comment.
   variant's `NOTES.md` under `## Known limits`.
 - Read `data/SCHEMA.md` first when it exists. Load the real data; a prototype on fake data is
   scored as if it were empty.
-- Test what you can without a browser: the file exists, the script parses, the data path
-  resolves relative to `index.html`.
+- {{test_line}}
 
 When all variants and notes are in place, stop. Your final message is one line per variant:
 its concept name and the one sentence that sells it.

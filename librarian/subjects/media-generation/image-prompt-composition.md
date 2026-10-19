@@ -1,7 +1,7 @@
 ---
 subject: image-prompt-composition
 domain: media-generation
-last_touched: 2026-08-31
+last_touched: 2026-10-15
 dry_streak: 0
 ---
 
@@ -65,3 +65,17 @@ First note: [[2026-08-25-awesome-gpt-image-2]] - /intake run 11. Subject predate
 - Catch worth recording, because it will be re-proposed: **holding the paragraph and rewriting only the identity line** is `identity-split-from-state` with the purity requirement already stated, and **a fixed two-tone grade block in every location prompt** is `assigned-colour-roles` plus the law. Both are the same source's rules and both are this subject's existing material.
 - Untriaged, with an anchor, nobody verified it: the source splits *video* prompts into N labelled blocks with some locked across generations and some varied [00:06:30]. `two-block-style-and-action` is two blocks with two lifetimes for images. Whether the n-block generalization earns its own material or is that technique read at a different arity was not checked - and the lifetimes axis is the same one, which is why it is untriaged rather than a lead.
 
+## 2026-10-15 - /deepen media-generation (operator-directed: a consistent, generic spec ad)
+
+- Golden path gained **"Locking is a cost, and the open slot is not empty"**: a scope rule (style block carries the look; framing, height, distance and effect idiom vary per shot by design) and a phase rule (explore on light prompts, ratify, then compile). This closes the banked "constraint is conserved" lead from run 35, on a vendor's own guide plus a 2025 diversity-vs-length benchmark plus the blind lane.
+- NEW technique `default-look-attractor`: the tuned default is what every open slot and every category-quality word returns; measure it, strip the words, invert by name, one formal device, sample wide then lock, finish in post. Application: the Personas bible v2.2 style block counted against its 27 frames (21/27 warm-on-cool, 24/27 eye level, 5/5 particle magic). Unmeasurable until a keyframe round.
+- `prompt-dialect-matching` corrected: "no negative channel" stands, but exclusion *phrasing* is per model - brief-readers honour plain "no X", some video models invert negation, some expose a noun-list field.
+- `medium-vocabulary-locking`: numbers "followed loosely", re-cited; camera-register words named as an attractor hazard.
+
+## Impact
+
+- gravitone: 1 judged deviation now stale (map regenerated, committed dbad5b0). Queue: `/conform --stale`.
+
+## Open leads
+
+- Render the three rewritten v2 frames against their originals (4 samples each) - the technique's first measured A/B. The operator is producing v3 of the same concept, so the comparison is native.

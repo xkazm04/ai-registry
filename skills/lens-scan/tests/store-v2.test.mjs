@@ -154,11 +154,11 @@ test('migration: a v1 file becomes v2 in place, rows kept, new statuses and colu
 
   // a read-only open migrates first, so a reader never meets v1
   const ro = openStore(path, { readOnly: true });
-  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 3, 'v1 goes straight to the current version');
+  assert.equal(ro.prepare('PRAGMA user_version').get().user_version, 4, 'v1 goes straight to the current version');
   ro.close();
 
   const db = openStore(path);
-  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 3);
+  assert.equal(db.prepare('PRAGMA user_version').get().user_version, 4);
   const rows = proposals(db);
   assert.deepEqual(rows.map((p) => [p.id, p.status]), [['p-aaaaaa', 'done'], ['p-bbbbbb', 'proposed']]);
   assert.equal(rows[0].decided_by, 'blueprint');
@@ -170,11 +170,11 @@ test('migration: a v1 file becomes v2 in place, rows kept, new statuses and colu
   const cols = (t) => db.prepare(`PRAGMA table_info(${t})`).all().map((c) => c.name);
   assert.ok(['proposal_id', 'phase', 'commit_sha'].every((c) => cols('measurements').includes(c)));
   assert.ok(['proposal_id', 'phase'].every((c) => cols('shots').includes(c)));
-  assert.equal(cols('proposals').length, 29, 'proposals carries the 21 v1 + 7 v2 + 1 v3 columns');
+  assert.equal(cols('proposals').length, 36, 'proposals carries the 21 v1 + 7 v2 + 1 v3 + 7 v4 columns');
   const tables = db.prepare("SELECT name FROM sqlite_master WHERE type = 'table' ORDER BY name").all().map((r) => r.name);
   assert.deepEqual(tables, ['activity', 'coverage', 'measurements', 'packs', 'proposals', 'releases', 'runs', 'shots'], 'no proposals_v1 left behind');
   const idx = db.prepare("SELECT name FROM sqlite_master WHERE type = 'index' AND tbl_name = 'proposals' AND name NOT LIKE 'sqlite_%' ORDER BY name").all().map((r) => r.name);
-  assert.deepEqual(idx, ['proposals_pack', 'proposals_release', 'proposals_updated']);
+  assert.deepEqual(idx, ['proposals_external_ref', 'proposals_pack', 'proposals_release', 'proposals_tier', 'proposals_updated']);
   assert.deepEqual(triage(db, { ids: 'p-aaaaaa', decision: 'accept', by: 'operator:jane' }).triaged, ['p-aaaaaa'], 'the widened CHECK takes accepted');
   assert.ok(db.prepare('PRAGMA foreign_keys').get().foreign_keys, 'foreign keys are back on');
   db.close();
@@ -183,7 +183,7 @@ test('migration: a v1 file becomes v2 in place, rows kept, new statuses and colu
   assert.equal(proposals(again).length, 2, 'a v2 file opened again is untouched');
   assert.equal(status(again, 'p-aaaaaa'), 'accepted');
   again.close();
-  assert.equal(cli(path, 'init').user_version, 3);
+  assert.equal(cli(path, 'init').user_version, 4);
 });
 
 test('a fresh v2 file and a migrated v1 file have the same schema', () => {
@@ -366,7 +366,9 @@ test('compare: before/after measurements per item and shots paired by (theme, si
   s({ path: 'shots/a-b-light-mobile.png', theme: 'light', size: 'mobile', phase: 'before' });
   shot(db, { run, feature: 'a', path: 'shots/unlinked.png', theme: 'dark', size: 'desktop' });
 
-  const [ca, cb] = compare(db, { pack: k.id });
+  // Two proposals seeded in one millisecond tie on created_at and fall back to their random ids: find by id.
+  const byId = new Map(compare(db, { pack: k.id }).map((x) => [x.proposal.id, x]));
+  const [ca, cb] = [byId.get(a), byId.get(b)];
   assert.equal(ca.proposal.id, a);
   assert.deepEqual(ca.before.map((x) => [x.value, x.commit_sha]), [[12, 'b0']]);
   assert.deepEqual(ca.after.map((x) => [x.value, x.commit_sha]), [[9, `c-${a}`]]);
@@ -378,7 +380,7 @@ test('compare: before/after measurements per item and shots paired by (theme, si
   const light = ca.shots.find((p) => p.theme === 'light');
   assert.ok(light.before && !('after' in light), 'an unpaired side is absent, never null');
   assert.deepEqual([cb.before, cb.after, cb.shots], [[], [], []]);
-  assert.deepEqual(compare(db, { ids: `${b},p-000000,${a}` }).map((x) => x.proposal.id), [b, a]);
+  assert.deepEqual(compare(db, { ids: `${b},p-000000,${a}` }).map((x) => x.proposal.id).sort(), [a, b].sort());
   assert.throws(() => compare(db, {}), /one of them/);
   assert.throws(() => compare(db, { pack: 'k-nope' }), /does not exist/);
   assert.ok(!JSON.stringify(compare(db, { ids: a })).includes('null'));

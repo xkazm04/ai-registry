@@ -95,13 +95,22 @@ function findContextMap() {
     const p = path.join(ROOT, f);
     if (!exists(p)) continue;
     try {
-      const m = readJson(p);
-      const version = m.$schema === 'app-structure/3' ? 3 : m.version ?? (Array.isArray(m.contexts) ? 2 : null);
-      return { file: f, path: p, map: m, version, contexts: (m.contexts ?? []).length, groups: (m.groups ?? []).length };
+      const raw = readJson(p);
+      const { map: m, nested } = flattenContextMap(raw);
+      const sup = path.join(WORK, 'context-supplement.json');
+      const extra = exists(sup) ? (readJson(sup).contexts ?? []) : [];
+      if (extra.length) m.contexts = [...m.contexts, ...extra];
+      const version = m.$schema === 'app-structure/3' ? 3 : raw.version ?? (Array.isArray(m.contexts) ? 2 : null);
+      return { file: f, path: p, map: m, version, nested, supplement: extra.length, contexts: (m.contexts ?? []).length, groups: (m.groups ?? []).length };
     } catch (e) { return { file: f, path: p, error: e.message }; }
   }
   return null;
 }
+// a nested map (groups[].contexts[]) is read as v2 by lens-scan's own reader, so both skills see one code tree;
+// `check` must still report without lens-scan beside it, so a missing sibling reads the map as it is
+const flattenContextMap = fs.existsSync(path.join(LENS_SCAN, 'structure.mjs'))
+  ? (await import(pathToFileURL(path.join(LENS_SCAN, 'structure.mjs')).href)).flattenContextMap
+  : (m) => ({ map: m, nested: false });
 
 // ------------------------------------------------------------------------------------- file facts
 // Inventory and batch rows only (what the model reads). The measured numbers come from footprint.mjs.
@@ -149,7 +158,7 @@ function check() {
   else {
     let tracked = true;
     try { tracked = git('ls-files', cm.file).trim() !== ''; } catch { /* not git */ }
-    add('context-map', 'ok', `${cm.file} v${cm.version}, ${cm.contexts} contexts, ${cm.groups} groups${tracked ? '' : ', UNTRACKED'}`, tracked ? null : 'commit the context map so a fresh clone can be adopted');
+    add('context-map', 'ok', `${cm.file} v${cm.version}${cm.nested ? ' (nested groups[].contexts[], read as v2)' : ''}, ${cm.contexts} contexts${cm.supplement ? ` (${cm.supplement} from work/context-supplement.json)` : ''}, ${cm.groups} groups${tracked ? '' : ', UNTRACKED'}`, tracked ? null : 'commit the context map so a fresh clone can be adopted');
     if (cm.map.contexts) {
       const names = cm.map.contexts.map((c) => c.name);
       const dups = [...new Set(names.filter((n, i) => names.indexOf(n) !== i))];
@@ -199,7 +208,7 @@ async function seed() {
   const LS = await lensScan();
   FP = LS.footprint;
   const cm = findContextMap();
-  if (!cm || cm.error || !Array.isArray(cm.map.contexts) || !cm.map.contexts.length) die('no usable context map (contexts[]): run phase 0 first (SKILL.md), writing context-map.json in v2 shape');
+  if (!cm || cm.error || !Array.isArray(cm.map.contexts) || !cm.map.contexts.length) die('no usable context map (contexts[], or groups[].contexts[]): run phase 0 first (SKILL.md), writing context-map.json in v2 shape');
   const prev = exists(MAP) ? readJson(MAP) : null;
   const slug = opt('slug') ?? prev?.project?.slug ?? slugify(cm.map.project?.name ?? path.basename(ROOT));
   const name = opt('name') ?? prev?.project?.name ?? cm.map.project?.name ?? path.basename(ROOT);
@@ -429,6 +438,15 @@ const RANGES = {
 };
 const JUDGED_KEY = { development: 'dupSites', security: 'findingsCritical', design: 'undesignedStates' };
 const FIELDS = { development: { techDebt: [0, 3] } };
+// Non-metric facet values a judge may set: every enum or boolean field the lens manifest declares, except one
+// read from the feature (`source`) and the ones measure derives from git and the stage.
+const DERIVED = { development: ['status', 'stalled'] };
+const choiceFields = (manifests) => Object.fromEntries(Object.keys(RANGES).map((lens) => {
+  const m = manifests.find((x) => x.id === lens);
+  return [lens, Object.fromEntries((m?.fields ?? []).filter((f) => ['enum', 'boolean'].includes(f.type) && !f.source && !(DERIVED[lens] ?? []).includes(f.key))
+    .map((f) => [f.key, f.type === 'boolean' ? 'boolean' : f.values ?? f.enum ?? []]))];
+}));
+const TIERS = [0, 1, 2, 3];
 const STANDARD_RE = /^(?:house:)?[a-z0-9][a-z0-9.-]*\/[a-z0-9][a-z0-9.-]*$/;
 const norm = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 async function judge() {
@@ -438,6 +456,7 @@ async function judge() {
   const files = exists(dir) ? fs.readdirSync(dir).filter((f) => f.endsWith('.json')).sort() : [];
   if (!files.length) die(`no ${dir}/*.json - phase B writes them (references/judgement.md)`);
   const slugs = new Set((map.features ?? []).map((x) => x.slug));
+  const CHOICES = choiceFields(builtinLenses(bpRoot()));
   // 1. validate everything first: a refused file writes nothing
   const metrics = { development: [], security: [], design: [] }, cov = { development: [], security: [], design: [] }, props = [], fields = [], na = [];
   for (const file of files) {
@@ -456,6 +475,11 @@ async function judge() {
           metrics[lens].push({ feature: slug, lens, metric: k, value: Math.round(x), method: 'judgement', unit: k.startsWith('findings') ? 'findings' : k === 'dupSites' ? 'sites' : 'states', evidence: typeof v.evidence === 'string' ? v.evidence.slice(0, 2000) : undefined });
         }
         for (const [k, [lo, hi]] of Object.entries(FIELDS[lens] ?? {})) if (v?.[k] !== undefined) { const x = Number(v[k]); if (Number.isInteger(x) && x >= lo && x <= hi) fields.push([slug, lens, k, x]); else err(`${file}: ${slug}.${lens}.${k} = ${v[k]} out of ${lo}..${hi}`); }
+        for (const [k, allowed] of Object.entries(CHOICES[lens] ?? {})) {
+          if (v?.[k] === undefined) continue;
+          if (allowed === 'boolean' ? typeof v[k] === 'boolean' : allowed.includes(v[k])) fields.push([slug, lens, k, v[k]]);
+          else err(`${file}: ${slug}.${lens}.${k} = ${JSON.stringify(v[k])} is not ${allowed === 'boolean' ? 'true | false' : allowed.join(' | ')}`);
+        }
       }
     }
     for (const c of j.coverage ?? []) {
@@ -465,6 +489,8 @@ async function judge() {
     for (const p of j.proposals ?? []) {
       if (!slugs.has(p.feature) || !RANGES[p.lens] || !p.title || !p.metric || !Number.isFinite(p.expected_delta)) { err(`${file}: proposal refused - a fix names feature, lens, title, the metric it moves and expected_delta: ${JSON.stringify(p).slice(0, 140)}`); continue; }
       if (p.standard && p.standard !== 'none' && !STANDARD_RE.test(p.standard)) { err(`${file}: proposal standard "${p.standard}" is not '<subject>/<technique>', 'house:...' or 'none'`); continue; }
+      if (p.tier !== undefined && !TIERS.includes(p.tier)) { err(`${file}: proposal tier ${JSON.stringify(p.tier)} is not 0..3 (0 stop-ship .. 3 backlog): ${p.title}`); continue; }
+      if (p.risk_class !== undefined && !LS.store.RISK_CLASSES.includes(p.risk_class)) { err(`${file}: proposal risk_class ${JSON.stringify(p.risk_class)} is not ${LS.store.RISK_CLASSES.join(' | ')}: ${p.title}`); continue; }
       props.push(p);
     }
   }
@@ -495,7 +521,7 @@ async function judge() {
     for (const p of props) {
       // lens-scan rule: never re-propose an open or declined item (same feature, lens, metric and title)
       if (open.some((x) => x.feature === p.feature && x.lens === p.lens && x.metric === p.metric && norm(x.title) === norm(p.title))) { skipped += 1; continue; }
-      LS.store.propose(db, { run, feature: p.feature, lens: p.lens, kind: 'fix', metric: p.metric, expectedDelta: p.expected_delta, standard: p.standard || 'none', size: ['XS', 'S', 'M', 'L', 'XL'].includes(p.size) ? p.size : undefined, risk: Number.isInteger(p.risk) && p.risk >= 1 && p.risk <= 10 ? p.risk : undefined, title: String(p.title).slice(0, 200), body: p.body });
+      LS.store.propose(db, { run, feature: p.feature, lens: p.lens, kind: 'fix', metric: p.metric, expectedDelta: p.expected_delta, standard: p.standard || 'none', size: ['XS', 'S', 'M', 'L', 'XL'].includes(p.size) ? p.size : undefined, risk: Number.isInteger(p.risk) && p.risk >= 1 && p.risk <= 10 ? p.risk : undefined, tier: p.tier, riskClass: p.risk_class, title: String(p.title).slice(0, 200), body: p.body });
       LS.store.activity(db, { run, kind: 'proposed', feature: p.feature, lens: p.lens, text: String(p.title).slice(0, 200) });
       proposed += 1;
     }
@@ -562,7 +588,11 @@ function register() {
   writeJson(reg, doc);
   const gi = path.join(ROOT, '.gitignore');
   const txt = exists(gi) ? fs.readFileSync(gi, 'utf8') : '';
-  if (!/^\/?\.ai\/lens-scan\/?$/m.test(txt) && !/^\/?\.ai\/?$/m.test(txt)) {
+  // already ignored some other way (.git/info/exclude, a global excludes file, a broader pattern): leave .gitignore alone
+  let ignoredBy = null;
+  try { ignoredBy = git('check-ignore', '-v', '.ai/lens-scan/app-structure.json').trim().split('\t')[0].replace(/:\d+:.*$/, '') || null; } catch { /* not ignored, or no git */ }
+  if (ignoredBy) console.log(`.ai/lens-scan/ already ignored (${posix(ignoredBy)}); .gitignore left as it is`);
+  else if (!/^\/?\.ai\/lens-scan\/?$/m.test(txt) && !/^\/?\.ai\/?$/m.test(txt)) {
     // A .gitignore with uncommitted edits may be another session's work in progress: never touch it,
     // ignore the store locally instead (.git/info/exclude is per-clone and untracked).
     let dirty = false;

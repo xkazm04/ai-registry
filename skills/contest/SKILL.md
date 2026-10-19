@@ -3,7 +3,7 @@ name: contest
 description: "Blind design contest between CLI agent seats (Claude Code, Codex CLI, Grok CLI, Antigravity agy). Each participant you name - engine:model@effort - builds three genuinely different prototype variants of one idea in its own workspace; a cross-family panel scores every variant blind on seven dimensions (wow, clarity at scale, wayfinding, interaction, craft, concept, utility); the host adds a visual pass in a browser; an optional reveal round lets every seat see the whole field, keep one of its own variants and master it with a comparison matrix; a router page links every blinded variant across the vault's contests; the owner declares the winner or sends a shortlist into a refinement round with their review; the winner and the design philosophies behind it land in an Obsidian vault, a promotion is held to a fidelity contract and a code-quality-and-performance contract (port-quality.md), whose pattern ledger becomes the bar in the next brief; a wrap step then keeps every variant as notes and screenshots and the winner's source. Built for UI prototypes with a wow factor, usable for any solution design. Invoke with /contest \"<idea>\" [--participants <specs>] for a full round (the UI roster sonnet-5.5@max + opus-5.5@xhigh when none are named), /contest --landing \"<idea>\" for a graphically dominant landing or representative page decided by the owner without a panel, or /contest init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id> to drive one step."
 category: workflow
 memory: vault
-version: 1.11.0
+version: 1.12.0
 tags: contest, prototyping, ui, landing, multi-model, blind-judging, vault
 argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] | init|run|collect|judge|reveal|router|verdict|refine|wrap|status <id>"
 ---
@@ -18,7 +18,7 @@ argument-hint: "\"<idea>\" [--landing] [--participants engine:model@effort,...] 
 > the floor rises.
 
 Everything runs through one file-backed instrument, `scripts/contest.mjs` (Node, builtins
-only; `node --test tests/` pins its pure half). Each step is idempotent: a killed session
+only; `node --test tests/test_contest.mjs` pins its pure half). Each step is idempotent: a killed session
 resumes by re-running the same command.
 
 ## Roles
@@ -86,6 +86,11 @@ Host work that made the first landing contest land:
 - **Consider a fixed shape**: variant-1 is the direct successor (keep the concepts and upgrade every
   one), and variants 2 and 3 succeed the concept, not the layout. The owner fused the two successors
   and took three of the four free variants forward as parallel views.
+- **Keep the successor slot when the complaint is legibility, not identity.** On a GitHub-profile
+  brief whose fault was 6 px type in too many figures, the owner chose a successor over five new
+  art directions, two of them the host's own top picks: "Other went into art directions which
+  degraded the results". Recommend the successor first when the owner's words name a fault in the
+  page rather than in its look, and say which free variant's ideas could be fused into it.
 - **Give the honesty rule for imagery**: only real screenshots may be presented as real, and
   designed key art is labelled as stylised. Warn that a `file://` image cannot become a WebGL
   texture.
@@ -146,8 +151,18 @@ in a browser. What changes is host work, all of it outside the instrument:
 
 ```
 node <skill>/scripts/contest.mjs init --id <slug> --title "<title>" --brief BRIEF.md \
-  [--participants <specs>] [--landing] [--review panel|owner] [--variants 3] [--data <dir>] [--timeout-min 60] [--vault <root>]
+  [--participants <specs>] [--landing] [--review panel|owner] [--variants 3] [--data <dir>] [--timeout-min 60] [--vault <root>] \
+  [--deliverable <file>]
 ```
+
+**When a variant is not a page that opens from disk** (a GitHub README and its SVGs, a document
+rendered by a staged tool), pass `--deliverable <file>`: a Markdown file with any of `## Layout`
+(the directory listing), `## Entry` (what the artefact is), `## Data` (how it reads `data/`) and
+`## Test` (what the seat checks before stopping). Each replaces the matching line of the
+participant brief; an omitted section keeps the page default. `index.html` stays the page the
+owner, the router and `wrap` open, so the Entry section must say how each variant's `index.html`
+is produced - for a README contest, a preview tool staged in `data/` that renders it the way the
+platform does.
 
 `init` writes `contest.json`, the participants' workspaces, and each `PARTICIPANT.md` from
 `references/participant-brief.md` - the idea, the deliverable contract, the rubric, and **What
@@ -246,7 +261,10 @@ python <skill>/scripts/visual-pass.py .contest/arena/<id> [--widths 1280x800,192
 which needs Playwright for Python and writes, per blinded variant and width, a load screenshot,
 a screenshot after one neutral probe (centre hover, one zoom tick, one click, a typed query) and
 `runs/visual/report.json` with page errors and structural counts - under `runs/`, not `judging/`,
-because a judge working in `judging/` must never see the host's eyes. The host reads the images
+because a judge working in `judging/` must never see the host's eyes. A host that drives its own
+probe instead (the landing section's Playwright-by-role pass) writes under `runs/visual/` too and
+names every image `<letter>-<n>-<what>.png` (or `<letter><n>-<what>.png`): `wrap` finds a variant's
+screenshots by that prefix and keeps a variant's source until it does. The host reads the images
 and writes its own verdict on the panel's schema to `runs/verdict-host-visual.json` -
 `judge: "host-visual"`, `broken: true` for anything that does not render, the screenshot name in
 `strengths`. The host knows who made what, so it scores **before** reading the panel's verdicts

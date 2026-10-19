@@ -9,19 +9,31 @@ Reads the generic `## Harness` form from the overlay:
     command: npm run dev -- --port 4173      # starts the front end (optional when url is already served)
     url: http://localhost:4173
     ready: /                                 # polled until HTTP 200, 120 s cap
+    ready_timeout: 300                       # optional: a longer cap for a slow cold start (seconds)
     sizes: 1280x800                          # one or more WxH, comma-separated
-    themes: light, dark
-    theme: media                             # how a theme is set: media (default) | query ?theme= | class dark | storage <key>
+    themes: light, dark                      # a label may carry the app's own value: dark=dark-midnight
+    theme: media                             # how a theme is set: media (default) | query ?theme= | class dark
+                                             #   | storage <key> [<value template with {theme}>]
+    storage: personas-cookie-consent essential   # optional, repeatable: a localStorage key and value seeded
+                                             #   before the page's scripts (a consent already given, a flag)
+    dismiss: "Essential Only"                # optional: visible buttons clicked away before each shot
+    full_page: true                          # optional: capture the whole page, not only the viewport
+    click_timeout: 30                        # optional: seconds a step's click waits for its target (default 10)
+    nav_timeout: 60                          # optional: seconds a navigation or a screenshot may take (default 30)
+    linked_command: npx next dev --webpack --port 4173   # optional: used instead of command when the root's
+                                             #   node_modules is a symlink or junction (a pack worktree)
     features:
       <slug>: route /path
+      <slug>: route /missing expect 404      # a page whose designed state is an error status (a not-found page)
       <slug>: steps click "Text" > click "Other"   # Playwright text selectors, from the url's root
       <slug>: unscreenable "native window only"
 
 refuses (exit 1) when the url already answers before the command starts: another server holds the port and the shots
 would show its checkout, not this root (pass --port to serve a worktree elsewhere). Otherwise starts the command (cwd = the product root), waits for ready, then per scoped feature, size and theme loads the
 feature and captures a PNG into <root>/.ai/lens-scan/shots/<run>/<feature>-<theme>-<size>.png, with a JSON report
-beside it (same name, .json: url, size, theme, minTextPx, console errors). A feature marked unscreenable, or one
-whose route fails to render (navigation error, HTTP >= 400, blank body), gets no shot and is listed under
+beside it (same name, .json: url, size, theme, minTextPx, console errors), staged outside the root while the server
+runs and moved in once it stops (a watching dev server recompiles on every file written). A feature marked unscreenable, or one
+whose route fails to render (navigation error, HTTP >= 400 other than its `expect`, blank body), gets no shot and is listed under
 `unscreenable` with why. The command's whole process tree is killed at the end, whatever happened.
 
 Prints one JSON object; the skill records it, this script writes no store row:
@@ -30,6 +42,8 @@ Prints one JSON object; the skill records it, this script writes no store row:
     measurements  [{feature, lens, metric: minTextPx|consoleErrors, value, unit?, method: "harness", evidence}]
                   -> store.mjs measure --run <run> --json <file>   (unit = the lens manifest field's, read from the map)
     unscreenable  [{feature, why}]  -> store.mjs activity --kind note --text "unscreenable: <why>"
+    served_by     "linked_command", present when that command served the shots instead of `command`: name it in the
+                  run's note, because a different dev server (webpack, not Turbopack) rendered them
 minTextPx is the smallest computed font-size of visible text over every capture of the feature; consoleErrors is
 the number of distinct console errors and page errors over them. Exit 2 bad input, 1 when the front end never got
 ready (nothing captured), else 0. Needs Python Playwright (`pip install playwright && playwright install chromium`).
@@ -38,16 +52,27 @@ import argparse
 import json
 import os
 import re
+import shutil
 import signal
 import subprocess
 import sys
+import tempfile
 import time
 import urllib.error
 import urllib.request
 from urllib.parse import urlencode, urljoin, urlsplit, urlunsplit, parse_qsl
 
 READY_CAP_S = 120
-NAV_TIMEOUT_MS = 30000
+SCROLL_THROUGH = '''async () => {
+  const step = Math.max(200, Math.floor(window.innerHeight * 0.8));
+  for (let y = 0; y < document.documentElement.scrollHeight && y < 40000; y += step) {
+    window.scrollTo(0, y);
+    await new Promise((r) => setTimeout(r, 120));
+  }
+  window.scrollTo(0, 0);
+}'''
+NAV_TIMEOUT_S = 30
+CLICK_TIMEOUT_S = 10
 SETTLE_S = 0.6
 MODULE = 'harness.py'
 
@@ -80,7 +105,9 @@ def strip_comment(v):
 
 def parse_harness(body):
     """The generic form as a dict: command, url, ready, sizes [(w, h)], themes [..], theme_mode, features {slug: spec}."""
-    cfg = {'command': None, 'url': None, 'ready': '/', 'sizes': [(1280, 800)], 'themes': ['light'], 'theme': 'media', 'features': {}}
+    cfg = {'command': None, 'url': None, 'ready': '/', 'sizes': [(1280, 800)], 'themes': ['light'], 'theme_values': {},
+           'theme': 'media', 'storage': [], 'dismiss': [], 'full_page': False, 'ready_timeout': READY_CAP_S,
+           'click_timeout': CLICK_TIMEOUT_S, 'nav_timeout': NAV_TIMEOUT_S, 'linked_command': None, 'features': {}}
     in_features = False
     for raw in body.splitlines():
         line = raw.rstrip()
@@ -100,7 +127,7 @@ def parse_harness(body):
         key, val = m.group(1), strip_comment(m.group(2))
         if key == 'features':
             in_features = True
-        elif key in ('command', 'url', 'ready'):
+        elif key in ('command', 'url', 'ready', 'linked_command'):
             cfg[key] = val or None
         elif key == 'sizes':
             sizes = []
@@ -113,22 +140,55 @@ def parse_harness(body):
                 sizes.append((int(sm.group(1)), int(sm.group(2))))
             cfg['sizes'] = sizes or cfg['sizes']
         elif key == 'themes':
-            cfg['themes'] = [t for t in re.split(r'[,\s]+', val) if t] or cfg['themes']
+            labels = []
+            for t in re.split(r'[,\s]+', val):
+                if not t:
+                    continue
+                label, _, value = t.partition('=')
+                labels.append(label)
+                if value:
+                    cfg['theme_values'][label] = value
+            cfg['themes'] = labels or cfg['themes']
         elif key == 'theme':
             cfg['theme'] = val
+        elif key == 'storage':
+            k, _, v = val.partition(' ')
+            if not k or not v.strip():
+                raise InputError(f'## Harness storage: {val!r} is not <localStorage key> <value>')
+            cfg['storage'].append((k, v.strip()))
+        elif key == 'dismiss':
+            cfg['dismiss'] = re.findall(r'"([^"]+)"', val)
+            if val and not cfg['dismiss']:
+                raise InputError(f'## Harness dismiss: quote each button text, e.g. dismiss: "Accept" (got {val!r})')
+        elif key == 'ready_timeout':
+            if not re.fullmatch(r'\d+', val) or not 10 <= int(val) <= 1800:
+                raise InputError(f'## Harness ready_timeout: {val!r} is not 10..1800 seconds')
+            cfg['ready_timeout'] = int(val)
+        elif key in ('click_timeout', 'nav_timeout'):
+            lo, hi = (1, 120) if key == 'click_timeout' else (5, 300)
+            if not re.fullmatch(r'\d+', val) or not lo <= int(val) <= hi:
+                raise InputError(f'## Harness {key}: {val!r} is not {lo}..{hi} seconds')
+            cfg[key] = int(val)
+        elif key == 'full_page':
+            if val not in ('true', 'false'):
+                raise InputError(f'## Harness full_page: {val!r} is not true | false')
+            cfg['full_page'] = val == 'true'
     if not cfg['url']:
         raise InputError('## Harness needs url: <base url>')
     tm = cfg['theme']
     if not (tm == 'media' or re.fullmatch(r'query \??[A-Za-z0-9_-]+=?', tm) or re.fullmatch(r'class [A-Za-z0-9_-]+', tm)
-            or re.fullmatch(r'storage [A-Za-z0-9_.:-]+', tm)):
-        raise InputError(f'## Harness theme: {tm!r} is not media | query ?<param>= | class <name> | storage <localStorage key>')
+            or re.fullmatch(r'storage [A-Za-z0-9_.:-]+( .*\{theme\}.*)?', tm)):
+        raise InputError(f'## Harness theme: {tm!r} is not media | query ?<param>= | class <name> | storage <localStorage key> [<template with {{theme}}>]')
     return cfg
 
 
 def parse_feature(spec):
-    """`route /path` | `steps click "A" > click "B"` (optionally starting with `goto /path`) | `unscreenable "why"`."""
+    """`route /path [expect <status>]` | `steps click "A" > click "B"` (optionally starting with `goto /path`) | `unscreenable "why"`."""
     if spec.startswith('route '):
-        return {'kind': 'route', 'route': spec[6:].strip()}
+        m = re.fullmatch(r'(\S+)(?:\s+expect\s+(\S+))?', spec[6:].strip())
+        if not m or (m.group(2) and not re.fullmatch(r'[1-5]\d\d', m.group(2))):
+            raise InputError(f'## Harness route: {spec!r} is not route /path [expect <HTTP status>]')
+        return {'kind': 'route', 'route': m.group(1), 'expect': int(m.group(2)) if m.group(2) else None}
     if spec.startswith('unscreenable'):
         why = spec[len('unscreenable'):].strip().strip('"').strip()
         return {'kind': 'unscreenable', 'why': why or 'marked unscreenable in the overlay'}
@@ -161,6 +221,12 @@ def manifest_units(structure_path, lens):
 
 
 # ------------------------------------------------------------------------------------------- process
+def node_modules_linked(root):
+    """True when <root>/node_modules is a symlink or (Windows) a junction, as in a pack worktree."""
+    p = os.path.join(root, 'node_modules')
+    return os.path.islink(p) or bool(getattr(os.path, 'isjunction', lambda _: False)(p))
+
+
 def start(command, cwd):
     if not command:
         return None
@@ -197,7 +263,9 @@ def wait_ready(url, proc, cap_s=READY_CAP_S):
         if proc is not None and proc.poll() is not None:
             return f'the command exited with {proc.returncode} before {url} answered'
         try:
-            with urllib.request.urlopen(url, timeout=5) as r:
+            # a dev server compiles the first page on this request; a short timeout aborts it and the
+            # next poll starts the compile over, so wait as long as the deadline allows (60 s at most)
+            with urllib.request.urlopen(url, timeout=max(1, min(60, deadline - time.time()))) as r:
                 if r.status == 200:
                     return None
         except (urllib.error.URLError, OSError, ValueError):
@@ -218,9 +286,15 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
     w, h = size
     ctx = browser.new_context(viewport={'width': w, 'height': h},
                               color_scheme=('dark' if theme == 'dark' else 'light') if cfg['theme'] == 'media' else None)
+    value = cfg['theme_values'].get(theme, theme)  # the app's own name for the theme the shot is labelled with
     if cfg['theme'].startswith('storage '):
-        # the app reads its theme from localStorage at start: write it before any of the page's own scripts run
-        ctx.add_init_script('try { localStorage.setItem(%s, %s) } catch (e) {}' % (json.dumps(cfg['theme'].split(' ', 1)[1]), json.dumps(theme)))
+        # the app reads its theme from localStorage at start: write it before any of the page's own scripts run.
+        # A persisted store usually wants JSON, not the bare name - with a wrong seed an app may fall back to any theme.
+        _, key, *template = cfg['theme'].split(' ', 2)
+        stored = template[0].replace('{theme}', value) if template else value
+        ctx.add_init_script('try { localStorage.setItem(%s, %s) } catch (e) {}' % (json.dumps(key), json.dumps(stored)))
+    for k, v in cfg['storage']:
+        ctx.add_init_script('try { localStorage.setItem(%s, %s) } catch (e) {}' % (json.dumps(k), json.dumps(v)))
     page = ctx.new_page()
     errors = []
     page.on('console', lambda m: errors.append(m.text[:300]) if m.type == 'error' else None)
@@ -229,7 +303,7 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
 
     def themed(url):
         if tm.startswith('query'):
-            return with_query(url, tm.split(' ', 1)[1].lstrip('?').rstrip('='), theme)
+            return with_query(url, tm.split(' ', 1)[1].lstrip('?').rstrip('='), value)
         return url
 
     def apply_class():
@@ -237,11 +311,22 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
             cls = tm.split(' ', 1)[1]
             page.evaluate("([c, on]) => document.documentElement.classList.toggle(c, on)", [cls, theme == 'dark'])
 
-    def goto(path):
+    nav_ms = cfg['nav_timeout'] * 1000
+
+    def goto(path, expect=None):
         url = themed(urljoin(cfg['url'].rstrip('/') + '/', path.lstrip('/')))
-        resp = page.goto(url, wait_until='load', timeout=NAV_TIMEOUT_MS)
-        if resp is not None and resp.status >= 400:
-            return f'HTTP {resp.status} at {path}'
+        try:
+            resp = page.goto(url, wait_until='load', timeout=nav_ms)
+        except Exception as e:
+            if 'Timeout' not in type(e).__name__:
+                raise
+            # a dev server compiles a route on its first request, which can outlast one timeout
+            resp = page.goto(url, wait_until='load', timeout=nav_ms)
+        status = resp.status if resp is not None else None
+        if expect is not None and status != expect:
+            return f'HTTP {status} at {path}, expected {expect}'
+        if expect is None and status is not None and status >= 400:
+            return f'HTTP {status} at {path}'
         return None
 
     try:
@@ -251,7 +336,7 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
             first = spec['route'] if spec['kind'] == 'route' else (steps[0][1] if steps and steps[0][0] == 'goto' else '/')
             if steps and steps[0][0] == 'goto':
                 steps = steps[1:]
-            why = goto(first)
+            why = goto(first, spec.get('expect'))
             if why:
                 return None, why
             apply_class()
@@ -263,16 +348,29 @@ def capture(browser, cfg, slug, spec, theme, size, out_png):
                             return None, why
                         apply_class()
                     else:
-                        page.get_by_text(arg, exact=True).first.click(timeout=10000)
+                        page.get_by_text(arg, exact=True).first.click(timeout=cfg['click_timeout'] * 1000)
             try:
                 page.wait_for_load_state('networkidle', timeout=10000)
             except Exception:
                 pass  # a page that keeps a socket open still renders
             time.sleep(SETTLE_S)
+            for text in cfg['dismiss']:
+                # a consent banner covers the bottom of every shot; absent on this page is fine
+                try:
+                    # a hidden match (a mobile menu, a policy page) would time out: click the visible one
+                    page.get_by_role('button', name=text, exact=True).locator('visible=true').first.click(timeout=1500)
+                    time.sleep(0.6)  # let an exit animation finish
+                except Exception:
+                    pass
+            if cfg['full_page']:
+                # sections that animate in when scrolled into view stay blank in a full-page capture
+                # unless the page was scrolled through once
+                page.evaluate(SCROLL_THROUGH)
+                time.sleep(SETTLE_S)
             if page.evaluate(BLANK):
                 return None, f'blank body at {first}'
             os.makedirs(os.path.dirname(out_png), exist_ok=True)
-            page.screenshot(path=out_png)
+            page.screenshot(path=out_png, full_page=cfg['full_page'], timeout=nav_ms)
             px, where, n = page.evaluate(MINFONT)
             return {'feature': slug, 'url': page.url, 'size': f'{w}x{h}', 'theme': theme, 'minTextPx': px, 'minTextAt': where,
                     'textElements': n, 'consoleErrors': sorted(set(errors))}, None
@@ -304,6 +402,11 @@ def run(args):
         if spec['kind'] == 'unscreenable':
             out['unscreenable'].append({'feature': slug, 'why': spec['why']})
     live = [(s, sp) for s, sp in targets if sp['kind'] != 'unscreenable']
+    if cfg['linked_command'] and node_modules_linked(root):
+        # a pack worktree links the base checkout's node_modules; Turbopack refuses a node_modules that points out
+        # of the project root, so the overlay names the command that serves such a root
+        cfg['command'] = cfg['linked_command']
+        out['served_by'] = 'linked_command'
     if args.dry or not live:
         return out, 0
     store_dir = os.path.join(root, '.ai', 'lens-scan')
@@ -318,12 +421,22 @@ def run(args):
         out['error'] = f'{ready_url} already answers before the command started: another server holds the port, so the shots would not show {root}. Free the port or pass --port <free port>.'
         return out, 1
     proc = start(cfg['command'], root)
+    # Captures are staged outside the served root and moved into the store once the server is gone: a dev server
+    # watches its root, and under webpack every PNG written there starts a recompile whose half-written manifest
+    # answers the next request with a 500 or a blank page ("Unexpected end of JSON input").
+    stage = tempfile.mkdtemp(prefix='lens-scan-shots-')
     try:
-        why = wait_ready(ready_url, proc)
+        why = wait_ready(ready_url, proc, cap_s=cfg['ready_timeout'])
         if why:
             out['error'] = why
             return out, 1
-        from playwright.sync_api import sync_playwright
+        try:
+            from playwright.sync_api import sync_playwright
+        except ImportError:
+            # `python -I` drops the user site, where `pip install --user playwright` puts it
+            import site
+            sys.path.append(site.getusersitepackages())
+            from playwright.sync_api import sync_playwright
         with sync_playwright() as p:
             browser = p.chromium.launch()
             try:
@@ -332,7 +445,7 @@ def run(args):
                     for (w, h) in cfg['sizes']:
                         for theme in cfg['themes']:
                             rel = f'shots/{args.run}/{slug}-{theme}-{w}x{h}.png'
-                            png = os.path.join(store_dir, *rel.split('/'))
+                            png = os.path.join(stage, *rel.split('/'))
                             rep, why = capture(browser, cfg, slug, spec, theme, (w, h), png)
                             if why:
                                 failed = why
@@ -342,7 +455,7 @@ def run(args):
                                 json.dump(rep, f, indent=2)
                             reports.append(rep)
                             out['shots'].append({'feature': slug, 'path': rel, 'size': f'{w}x{h}', 'theme': theme, 'module': MODULE,
-                                                 'report_file': os.path.relpath(rep_file, root).replace(os.sep, '/')})
+                                                 'report_file': os.path.relpath(os.path.join(store_dir, *rel[:-4].split('/')) + '.json', root).replace(os.sep, '/')})
                         if failed:
                             break
                     if failed:
@@ -351,7 +464,7 @@ def run(args):
                             out['shots'].remove(s)
                             for ext in ('.png', '.json'):
                                 try:
-                                    os.remove(os.path.join(store_dir, *s['path'][:-4].split('/')) + ext)
+                                    os.remove(os.path.join(stage, *s['path'][:-4].split('/')) + ext)
                                 except OSError:
                                     pass
                         out['unscreenable'].append({'feature': slug, 'why': failed})
@@ -374,6 +487,12 @@ def run(args):
         return out, 0
     finally:
         kill_tree(proc)
+        for s in out['shots']:
+            for ext in ('.png', '.json'):
+                dest = os.path.join(store_dir, *s['path'][:-4].split('/')) + ext
+                os.makedirs(os.path.dirname(dest), exist_ok=True)
+                shutil.move(os.path.join(stage, *s['path'][:-4].split('/')) + ext, dest)
+        shutil.rmtree(stage, ignore_errors=True)
 
 
 def main(argv=None):

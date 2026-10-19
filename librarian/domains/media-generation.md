@@ -88,6 +88,14 @@ in six days, and no installation has ever reported consulting it. Whether that i
 
 ## Dispatched
 
+### 2026-10-15 - `/deepen media-generation`, operator-directed, landed
+
+- Trigger: an operator spec ad (contest entry) that applied every control subject and came out generic. Gap thesis: **the bundle owns control, nothing owns what to ask for**. Five lanes (four web incl. counter-evidence, one blind).
+- Landed: NEW subject [[ad-concept-development]] (5 techniques, 3 applications); [[image-prompt-composition]] golden-path condition (lock scope + phase) and NEW technique `default-look-attractor`; [[review-iteration-loops]] divergence-phase pricing + field application; corrections in `prompt-dialect-matching`, `medium-vocabulary-locking`, `lens-effect-language`.
+- Applied: 7 rows in applied.md, all on the operator's ad (outside the fleet); one `better` with a **condition gained** (agency rule as filter, not brief).
+- Stale verdicts: gravitone 3, personas 1; maps regenerated and committed.
+- Source classes this run: maker-primary production write-ups beat listicles for workflow; vendor prompt guides are the only current source for model behaviour and disagree with each other (exclusion phrasing, timestamps); peer-reviewed work carried the counter-evidence lane entirely.
+
 ### 2026-09-26 - `/deepen` on one subject, landed
 
 - [[narrative-engine-selection]] - dispatched on "single stack (process)",

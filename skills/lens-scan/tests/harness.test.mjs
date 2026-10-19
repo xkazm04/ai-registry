@@ -4,7 +4,7 @@
 // is shown by hand (a static fixture site, one route missing -> unscreenable).
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { spawnSync } from 'node:child_process';
@@ -47,6 +47,44 @@ features:
   assert.deepEqual([out.shots, out.measurements], [[], []], '--dry captures nothing');
 });
 
+test('harness --dry: a storage seed template, theme values, dismiss and full_page parse', { skip: !PY && 'no python on PATH' }, () => {
+  const root = overlay(`url: http://localhost:4173
+themes: light, dark=dark-midnight          # the label names the shot, the value is what the app stores
+theme: storage personas-theme {"state":{"themeId":"{theme}"},"version":0}
+storage: personas-cookie-consent essential   # a consent already given
+dismiss: "Essential Only", "Close"
+full_page: true
+ready_timeout: 420
+features:
+  home: route /
+`);
+  const r = harness(root);
+  assert.equal(r.status, 0, r.stderr);
+  assert.deepEqual(JSON.parse(r.stdout).unmapped, []);
+});
+
+test('harness --dry: click/nav timeouts and an expected status parse; linked_command serves a root whose node_modules is a link', { skip: !PY && 'no python on PATH' }, () => {
+  const body = `command: npx next dev --port 4173
+linked_command: npx next dev --webpack --port 4173   # Turbopack refuses a junctioned node_modules
+url: http://localhost:4173
+click_timeout: 30
+nav_timeout: 90
+features:
+  not-found: route /this-page-does-not-exist expect 404
+  home: route /
+`;
+  const plain = overlay(body);
+  const r = harness(plain);
+  assert.equal(r.status, 0, r.stderr);
+  assert.equal(JSON.parse(r.stdout).served_by, undefined, 'a real node_modules keeps command');
+  const linked = overlay(body);
+  const target = mkdtempTracked(join(tmpdir(), 'lens-scan-harness-nm-'));
+  symlinkSync(target, join(linked, 'node_modules'), 'junction');
+  const l = harness(linked);
+  assert.equal(l.status, 0, l.stderr);
+  assert.equal(JSON.parse(l.stdout).served_by, 'linked_command');
+});
+
 test('harness: bad overlays exit 2 with the reason', { skip: !PY && 'no python on PATH' }, () => {
   for (const [body, why] of [
     ['features:\n  a: route /\n', /needs url/],
@@ -54,6 +92,14 @@ test('harness: bad overlays exit 2 with the reason', { skip: !PY && 'no python o
     ['url: http://x\ntheme: colour\n', /not media/],
     ['url: http://x\nfeatures:\n  a: hover "x"\n', /not route, steps or unscreenable/],
     ['url: http://x\nfeatures:\n  a: steps press "x"\n', /click "Text" or goto/],
+    ['url: http://x\ntheme: storage app-theme {"mode":"dark"}\n', /not media/],
+    ['url: http://x\ndismiss: Accept\n', /quote each button text/],
+    ['url: http://x\nfull_page: yes\n', /not true \| false/],
+    ['url: http://x\nstorage: lonely-key\n', /not <localStorage key> <value>/],
+    ['url: http://x\nready_timeout: 5\n', /not 10\.\.1800 seconds/],
+    ['url: http://x\nclick_timeout: 0\n', /click_timeout: '0' is not 1\.\.120 seconds/],
+    ['url: http://x\nnav_timeout: soon\n', /nav_timeout: 'soon' is not 5\.\.300 seconds/],
+    ['url: http://x\nfeatures:\n  a: route /gone expect gone\n', /not route \/path \[expect <HTTP status>\]/],
   ]) {
     const r = harness(overlay(body));
     assert.equal(r.status, 2, body);

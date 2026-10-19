@@ -1,0 +1,144 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "mg-deepen-1015",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-15T00:00:00Z",
+  "ended_at": "2026-10-15T00:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 1,
+    "landed": 4,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/ad-concept-development",
+      "at": "2026-10-15",
+      "engine": "forge",
+      "outcome": "dispatched",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/ad-concept-development",
+      "at": "2026-10-15",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/image-prompt-composition",
+      "at": "2026-10-15",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/review-iteration-loops",
+      "at": "2026-10-15",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/cinematic-language",
+      "at": "2026-10-15",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "media-generation/ad-concept-development",
+      "technique": "divergence-against-the-median",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "media-generation/ad-concept-development",
+      "technique": "agency-preserving-premise",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "media-generation/ad-concept-development",
+      "technique": "rubric-as-spine",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "media-generation/ad-concept-development",
+      "technique": "creativity-template-mechanisms",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "media-generation/ad-concept-development",
+      "technique": "llm-seat-assignment",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "media-generation/image-prompt-composition",
+      "technique": "default-look-attractor",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "media-generation/review-iteration-loops",
+      "technique": "anchored-variation-slate",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [],
+  "commits": [
+    {
+      "sha": "86c2b51e",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/visual-generation/image-prompt-composition",
+        "knowledge/media-generation/visual-generation/cinematic-language/techniques/lens-effect-language.md"
+      ]
+    },
+    {
+      "sha": "79700e57",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/production-ops/review-iteration-loops"
+      ]
+    },
+    {
+      "sha": "7efd7aaf",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/narrative-craft/ad-concept-development",
+        "knowledge/media-generation/taxonomy.json",
+        "docs/subject-proposal-ad-concept-development.md"
+      ]
+    },
+    {
+      "sha": "b76b71c2",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/narrative-craft/ad-concept-development",
+        "librarian/applied.md",
+        "librarian/subjects/media-generation"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Operator-directed from a generic contest spec ad. Forged ad-concept-development; default-look-attractor; divergence-phase pricing; 3 corrections. No source credits an LLM as creative director. v2 concept kept for v3: the A/B."
+}
