@@ -119,6 +119,11 @@
       "checkouts": {
         "Wolf": "kiro/athena-portable"
       }
+    },
+    "overlord": {
+      "checkouts": {
+        "Wolf": "kiro/overlord"
+      }
     }
   }
 }
