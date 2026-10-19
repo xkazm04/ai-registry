@@ -7,6 +7,9 @@
     },
     "Wolf": {
       "note": "primary dev box"
+    },
+    "Lynx": {
+      "note": "third dev box - ASUS ProArt P16, NVIDIA RTX Spark N1X (Windows on ARM64, 64 GB unified memory); local media-model bench"
     }
   },
   "projects": {
@@ -59,7 +62,8 @@
     },
     "pof": {
       "checkouts": {
-        "Wolf": "kiro/pof"
+        "Wolf": "kiro/pof",
+        "Lynx": "kiro/pof"
       }
     },
     "personas-web": {

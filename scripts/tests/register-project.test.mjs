@@ -53,8 +53,11 @@ test('addCheckout appends without disturbing the real file\'s formatting or key 
   assert.ok(out.startsWith(head));
   assert.deepEqual(Object.keys(JSON.parse(out).projects).slice(0, -1), Object.keys(JSON.parse(text).projects));
   // A second machine on an existing project goes last among its checkouts.
+  // Derived from the real file, so registering pof on another machine does not break it.
+  const before = Object.keys(JSON.parse(text).projects.pof.checkouts);
+  assert.ok(!before.includes('Fox'), 'fixture premise: pof has no Fox checkout yet');
   const added = JSON.parse(addCheckout(text, { slug: 'pof', machine: 'Fox', rel: 'dolla/pof' }).text).projects.pof.checkouts;
-  assert.deepEqual(Object.keys(added), ['Wolf', 'Fox']);
+  assert.deepEqual(Object.keys(added), [...before, 'Fox']);
 });
 
 test('addCheckout is idempotent and refuses a re-point or a second slug on one path', () => {
