@@ -1,6 +1,6 @@
 # Media generation - the subjects this registry carries
 
-`media-generation` - 27 subjects, 194 techniques, 119 applications.
+`media-generation` - 36 subjects, 245 techniques, 136 applications.
 Slugs only; resolve one through `index.json` as the access rule beside this file describes.
 
 ### narrative-craft
@@ -17,3 +17,7 @@ Slugs only; resolve one through `index.json` as the access rule beside this file
 
 ### production-ops
 - live-system-demo-film, music-video-production, platform-format-adaptation, production-pipeline-phasing, review-iteration-loops, video-assembly
+
+### streaming
+- **live-show** - audience-absorption-at-scale, audience-steering-economies, live-response-latency-budgeting, on-stream-persona-continuity, show-segment-format-design, stream-moment-capture
+- **trust-and-evaluation** - live-chat-moderation-and-anti-bait, live-safety-rails, simulated-audience-testing
