@@ -62,10 +62,20 @@ What the authorization does NOT cover, for the director and every worker:
   work, and syncing that is exactly what a start-of-day sweep is for - so a clean
   fast-forward push (not diverged, checkout idle, repo does not deny push, default branch
   not a production-deploy target) is `mechanical` (`push-primary`), not a worker action.
-  What still goes to the operator as `primary-unpushed`: diverged history (needs a
-  merge/rebase judgment call), a live checkout, a push-denied repo, or a production-deploy
-  default branch (see below). The dispatch prompt remains the explicit ask for anything a
-  worker itself authors - merges, deletions, fixes.
+  Operator decision 2026-10-20 extends it: **diverged history is merged too**
+  (`merge-primary-baseline`, a worker action: merge origin into the local commits in a
+  worktree, gate, push; the next apply fast-forwards the primary). Setting the baseline is
+  one of the reasons this skill runs first thing in the morning. What still goes to the
+  operator as `primary-unpushed`: a live checkout, a push-denied repo, or a
+  production-deploy default branch (see below). The dispatch prompt remains the explicit ask
+  for anything a worker itself authors - merges, deletions, fixes.
+- **Leaving branches standing.** Operator decision 2026-10-20: every unmerged branch the scan
+  lists is analysed and **harvested** - its progress landed through a PR, or its ideas
+  recorded in a `Harvest:` issue - and then deleted (tip archived under
+  `refs/hygiene-archive/<date>/`). Historic branches (`backup/*`, `salvage/*`, stash
+  snapshots, the history of a merged PR, closed experiment arms) are deleted after the same
+  check. Only a branch with uncommitted WIP in its worktree, a hands-off target, or a
+  Personas-app branch stays. See the triage playbook in `references/worker-brief.md`.
 
 Merging **or pushing** to `master` on ascent or systedo-case **is a production deploy**
 (Vercel Git integration). CI green before either is not optional there, and there is no CI
@@ -88,8 +98,8 @@ classes:
 | class | who | examples |
 |---|---|---|
 | `mechanical` | the script's `--apply` | delete branches whose content is on the default branch (tip archived to `refs/hygiene-archive/<date>/` first), remove clean idle Claude Code/temp worktrees, prune missing worktrees, set `origin/HEAD`, fast-forward an idle primary checkout, **push an idle primary's clean fast-forward-able unpushed commits** (`push-primary` - skipped if diverged, live, push-denied, or a production-deploy default branch), **delete untracked junk-named debris** (`*.stackdump`, `__pycache__`, `*.pyc`, `*.orig/.rej/.swp`, `Thumbs.db`, `.DS_Store`, `nul`, editor `~` files) |
-| `worker` | one Sonnet per project | ship or repair open PRs, fix a red default branch, triage unmerged branches, fix code-scanning/Dependabot alerts |
-| `operator` | the human, in the final report | `debris-candidate` (untracked top-level scratch-looking entries: `tmp*`, `out`, `backup*`, `*.bak/.log/.tmp`, an unknown dot-directory), `tracked-junk` (a junk name that is committed), secret alerts, stale uncommitted WIP, a primary checkout parked on a feature branch, `primary-unpushed` that is diverged/live/push-denied/production-deploy, Personas-app worktree backlog, security posture (scanning not configured) |
+| `worker` | one Sonnet per project | ship or repair open PRs, fix a red default branch, merge a diverged primary's commits (`merge-primary-baseline`), harvest then delete unmerged branches, fix code-scanning/Dependabot alerts |
+| `operator` | the human, in the final report | `debris-candidate` (untracked top-level scratch-looking entries: `tmp*`, `out`, `backup*`, `*.bak/.log/.tmp`, an unknown dot-directory), `tracked-junk` (a junk name that is committed), secret alerts, stale uncommitted WIP, a primary checkout parked on a feature branch, `primary-unpushed` that is live/push-denied/production-deploy, Personas-app worktree backlog, security posture (scanning not configured) |
 | `hands-off` | nobody | anything with reflog, commit or dirty-file activity inside `--live-minutes` (default 120), and PRs updated inside it |
 
 If the plan looks wrong, fix `scripts/hygiene-scan.mjs` - never override a class by

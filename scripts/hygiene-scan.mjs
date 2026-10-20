@@ -62,6 +62,7 @@ import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadFleet } from './lib/projects.mjs';
+import { removeTree } from './lib/safe-remove.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -755,11 +756,15 @@ function planActions(P) {
     const diverged = P.primary.behind > 0;
     const isProdDeploy = PRODUCTION_DEPLOY_DEFAULT.has(`${P.slug}:${P.defaultBranch}`);
     const detail = `${P.primary.ahead} unpushed commit(s) on ${P.defaultBranch}${diverged ? `, ${P.primary.behind} behind origin (diverged)` : ''} - newest: ${P.primary.unpushed.join(' | ')}`;
+    // Operator decision 2026-10-20: a diverged primary is merged too. Setting the baseline is
+    // what the morning run is for, so a worker merges origin into the local commits in its own
+    // worktree, gates, and pushes; the next apply fast-forwards the primary (ff-primary).
     if (!diverged && !P.primary.live && !P.pushDenied && !isProdDeploy) {
       add('mechanical', 'push-primary', P.defaultBranch, detail, { ahead: P.primary.ahead, behind: P.primary.behind });
+    } else if (diverged && !P.primary.live && !P.pushDenied && !isProdDeploy) {
+      add('worker', 'merge-primary-baseline', P.defaultBranch, detail, { sha: P.primary.headSha, ahead: P.primary.ahead, behind: P.primary.behind });
     } else {
-      const why = diverged ? 'diverged - needs a merge/rebase decision'
-        : P.primary.live ? `checkout live, active ${P.primary.lastActivityMin} min ago`
+      const why = P.primary.live ? `checkout live, active ${P.primary.lastActivityMin} min ago`
         : P.pushDenied ? 'repo settings deny git push'
         : 'production-deploy default branch - CI green before push is not optional';
       add('operator', 'primary-unpushed', P.defaultBranch, `${detail} (${why})`, { ahead: P.primary.ahead, behind: P.primary.behind });
@@ -874,10 +879,15 @@ async function applyAction(P, a) {
       if (act.lastActivityMin < IDLE_H * 60) return { skipped: `became active ${act.lastActivityMin} min ago` };
       const head = await gitOut(a.target, ['rev-parse', 'HEAD']);
       if (a.sha && head !== a.sha) return { skipped: 'HEAD moved' };
-      // core.longpaths: without it Windows deletes half a node_modules tree, drops the
-      // admin entry, and fails with "Filename too long" (athena-everywhere, 2026-10-10).
-      const r = await git(cwd, ['-c', 'core.longpaths=true', 'worktree', 'remove', a.target], { timeout: 600_000 });
-      if (!r.ok) return { skipped: r.stderr.trim() };
+      const wtNow = parseWorktrees(await gitOut(cwd, ['worktree', 'list', '--porcelain']) ?? '');
+      if (wtNow.find((w) => path.resolve(w.path) === path.resolve(a.target))?.locked) return { skipped: 'worktree is locked' };
+      // Never `git worktree remove`: Git for Windows follows junctions while deleting, and a
+      // worktree whose node_modules holds per-package junctions into the primary's emptied the
+      // primary's node_modules and 608 tracked files of its workspace packages (gravitone,
+      // 2026-10-20). removeTree unlinks every link without entering it; prune drops the admin entry.
+      const rm = removeTree(a.target);
+      if (fs.existsSync(a.target)) return { skipped: `could not empty the worktree (${rm.errors} error(s): ${rm.firstErrors.join('; ')})` };
+      await git(cwd, ['worktree', 'prune']);
       if (a.deleteBranch && a.branch) {
         const sha = await gitOut(cwd, ['rev-parse', '--verify', '-q', `refs/heads/${a.branch}`]);
         if (sha) { await archive(a.branch, sha); await git(cwd, ['branch', '-D', a.branch]); }
@@ -901,7 +911,10 @@ async function applyAction(P, a) {
       const behind = Number(await gitOut(cwd, ['rev-list', '--count', `${branch}..origin/${branch}`]));
       if (behind > 0) return { skipped: `diverged - ${behind} behind origin now` };
       const r = await git(cwd, ['push', 'origin', branch], { timeout: 300_000 });
-      return r.ok ? { done: true } : { skipped: (r.stderr || r.stdout).trim().split('\n').slice(0, 3).join(' ') };
+      if (r.ok) return { done: true };
+      // A pre-push gate prints its warnings first and its verdict last: keep both ends.
+      const lines = `${r.stderr}\n${r.stdout}`.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+      return { skipped: [lines[0], '...', ...lines.slice(-6)].join(' | ') };
     }
     case 'delete-debris': {
       // Irreversible, so every guard is re-checked now: inside the repo, still untracked and

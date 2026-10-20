@@ -103,10 +103,20 @@ test('clean unpushed commits on an idle primary are a mechanical push, never a w
   assert.equal(A.find((a) => a.kind === 'primary-unpushed'), undefined);
 });
 
-test('unpushed commits stay an operator row when diverged, live, push-denied or a production deploy', () => {
+test('a diverged idle primary is a worker baseline merge, never mechanical', () => {
+  // Operator decision 2026-10-20: the morning run sets the baseline.
   const diverged = project({ primary: { branch: 'main', onDefault: true, dirty: 0, live: false, ahead: 2, behind: 1, unpushed: ['abc fix: x'] } });
-  assert.deepEqual(kinds(planActions(diverged), 'mechanical'), []);
-  assert.equal(planActions(diverged).find((a) => a.kind === 'primary-unpushed')?.class, 'operator');
+  const A = planActions(diverged);
+  assert.deepEqual(kinds(A, 'mechanical'), []);
+  assert.deepEqual(kinds(A, 'worker'), ['merge-primary-baseline main']);
+  assert.equal(A.find((a) => a.kind === 'primary-unpushed'), undefined);
+
+  const divergedDeploy = project({ slug: 'ascent', defaultBranch: 'master', primary: { branch: 'master', onDefault: true, dirty: 0, live: false, ahead: 2, behind: 1, unpushed: ['abc fix: x'] } });
+  assert.equal(planActions(divergedDeploy).find((a) => a.kind === 'primary-unpushed')?.class, 'operator');
+  assert.equal(planActions(divergedDeploy).find((a) => a.kind === 'merge-primary-baseline'), undefined);
+});
+
+test('unpushed commits stay an operator row when live, push-denied or a production deploy', () => {
 
   const live = project({ primary: { branch: 'main', onDefault: true, dirty: 0, live: true, lastActivityMin: 3, ahead: 2, behind: 0, unpushed: ['abc fix: x'] } });
   assert.deepEqual(kinds(planActions(live), 'mechanical'), []);

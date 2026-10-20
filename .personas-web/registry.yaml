@@ -1,0 +1,67 @@
+# personas-web's consumer overlay — how the Personas *web* app uses this registry.
+#
+# The root `registry.yaml` beside it is the vendor-neutral authority on which lanes this
+# repository carries and what governs them; this file only says what ONE consumer does with
+# them. It sits beside `.ascent/registry.yaml` and `.personas/registry.yaml` per the root
+# file's rule: a second consumer adds its own overlay, it does not rewrite the first.
+# Unknown fields MUST be ignored.
+#
+# Why this is NOT `.personas/registry.yaml`: that path was already taken by the Personas
+# DESKTOP app's overlay (`consumer: personas-desktop`, written 2026-08-23). Desktop and web
+# are different consumers with different lane roles, so web gets its own file rather than
+# overwriting desktop's. If the intent was one shared Personas overlay, merge these two by
+# hand — a pairing ritual must not do it silently.
+#
+# Written at pairing time (2026-09-21) from the personas-web checkout.
+
+registry: 1
+consumer: personas-web
+
+# The consuming repo and the declaration it pairs through. `.ai/manifest.yaml` there names
+# this clone (`registry.local: ../ai-registry`), the bundles it consumes
+# (`knowledge.domains`) and the shared skills it links (`skills:`). That manifest is the
+# reviewable list; this file is the role map.
+consumes:
+  repo: personas-web
+  manifest: .ai/manifest.yaml
+  knowledge_domains: [software-engineering, localization]
+
+# personas-web's role in each lane the root registry.yaml declares. `reader` means the repo
+# reads the lane and never writes to it in place. A lane absent from this list is left alone.
+lanes:
+  # knowledge/ — read two ways, both read-only. (1) AMBIENT: the generated
+  # `rules/ai-registry-*.md` are LINKED into personas-web/.claude/rules/, so the subject
+  # maps for software-engineering and localization load in every session without a skill
+  # being invoked. (2) DELIBERATE: /consult and /conform resolve a subject through
+  # `knowledge/<domain>/index.json` -> subjects["<slug>"].file and read the golden path +
+  # techniques out of this clone. Nothing is extracted or copied into personas-web;
+  # improvements travel back as pull requests.
+  knowledge: reader
+  # skills/ — the shared skill library. personas-web LINKS the names in its manifest's
+  # `skills:` block into .claude/skills/<name> (one file on this machine; editing a shared
+  # skill from personas-web edits the registry's file). A real directory under
+  # .claude/skills/ is project-owned and never shadows a lane name. Publishing is a pull
+  # request, never an in-place write.
+  skills: reader
+  # practices/ — read for repo-law questions; personas-web declares no practice of its own.
+  practices: reader
+  # memory/ — read only. personas-web keeps its own session memory outside this repo.
+  memory: reader
+  # usage/ — one usage/<contributor>.json per contributing INSTALLATION, counts only.
+  # Deliberately `reader`, not `contributor`: personas-desktop already contributes
+  # `usage/kazda-dev-box.json` for this same box, and two writers on one installation's
+  # counts is the exact double-count the per-contributor file shape exists to prevent.
+  usage: reader
+
+# Consumer-local by design (docs/rkb-profile.md §5): the evidence layer — which file in
+# personas-web proves a claim — is never published here. It lives in that repo at
+# `.ai/registry-map.json`, the generated join between its contexts and this registry's
+# subjects, with per-pair verdicts written by /conform.
+evidence: consumer-local
+map: .ai/registry-map.json
+
+# Counts and consult logs go nowhere off this machine from personas-web.
+telemetry: off
+
+owners:
+  - xkazm04

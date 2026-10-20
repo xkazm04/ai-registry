@@ -12,11 +12,13 @@ Your job: take every `worker` action in your project block to a terminal state -
 The repo's CLAUDE.md/AGENTS.md says "commit, never push, unless this session's prompt
 asks for it". **This prompt is that ask** - for PR merges, pushes of branches and fixes
 you author in this run, and branch deletions. It does NOT extend to commits you did not
-author: a clean fast-forward of the primary's unpushed default-branch commits is a
-mechanical `push-primary` action the director applies itself (not yours to touch); a
-diverged, live, push-denied, or production-deploy case stays in your `operator` list
-instead, unpushed, for the reason given there. Your fixes start from
-`origin/<default>`, never from the primary's local default branch.
+author, with one exception: a clean fast-forward of the primary's unpushed default-branch
+commits is a mechanical `push-primary` action the director applies itself (not yours to
+touch), and a **diverged** primary is yours as `merge-primary-baseline` (operator decision
+2026-10-20: the morning run sets the baseline). A live, push-denied, or production-deploy
+case stays in your `operator` list, unpushed, for the reason given there. Your fixes start
+from `origin/<default>` (after the baseline merge, if you have one), never from the
+primary's local default branch.
 
 ## Hard rules
 
@@ -25,8 +27,11 @@ instead, unpushed, for the reason given there. Your fixes start from
    git commands against it (`log`, `rev-parse`, `fetch`) are fine.
 2. **Every change happens in your own worktree** at a short path:
    `git -C <path> worktree add C:/t/hyg-<slug>-<topic> <start-point>` (add `-b <branch>`
-   or `--detach`). Remove every worktree you created before you report
-   (`git -C <path> worktree remove C:/t/hyg-<slug>-<topic>`). Long Windows paths fail
+   or `--detach`). Remove every worktree you created before you report with
+   `node scripts/remove-worktree.mjs C:/t/hyg-<slug>-<topic>`, run from the ai-registry
+   checkout you start in - never `git worktree remove`, which follows directory junctions on
+   Windows (gravitone, 2026-10-20: a worktree's node_modules junctions took 608 tracked files
+   and the whole node_modules of the primary with it). Long Windows paths fail
    under deeper prefixes. **Always include your slug** in the worktree name, and name any
    local helper branch `hyg/<slug>/<topic>` - a bare `hyg-pr14` on 2026-09-15 could not be
    attributed to its repo without opening it. Before reporting, delete every local helper
@@ -44,7 +49,10 @@ instead, unpushed, for the reason given there. Your fixes start from
    anything you did not create; touching any path under
    `AppData/Roaming/com.personas.desktop/worktrees/`; touching a `hands-off` target;
    resolving or dismissing a secret-scanning alert; weakening a check (skipping a test,
-   loosening a lint rule, lowering a threshold) to get green.
+   loosening a lint rule, lowering a threshold, or adding an ignore, allowlist or baseline
+   entry - `deny.toml` advisories, event allowlists, census upward moves) to get green,
+   unless your project block's director addendum authorizes that specific one. Without it,
+   the located cause goes in your `operator` list.
 5. **A blocking gate is an answer.** If the pre-push hook or CI fails, find the first
    cause. Fix it if it is yours or bounded (below). If it fails identically on a clean
    worktree of `origin/<default>`, it is pre-existing: ship through a PR instead of a
@@ -60,7 +68,11 @@ instead, unpushed, for the reason given there. Your fixes start from
    `gh pr checks <n> -R <repo> --watch`, with a long Bash timeout. Do not end your turn
    on a polling Monitor or background task - every wake of an idle worker notifies the
    director with a non-report, and your final message must be the JSON block.
-9. **Time box: ~90 minutes of work.** Stop starting new actions after that; report the rest
+   The GitHub API budget is shared by every worker in the run (exhausted twice on
+   2026-10-20): never poll `gh` in a loop. One `watch` per run; for status checks at most one
+   call a minute. On a 403 rate limit, `gh api repos/<repo>/actions/runs/<id>` often still
+   answers; otherwise wait for the reset rather than retrying.
+9. **Time box: ~150 minutes of work** (branch harvests take longer than triage). Stop starting new actions after that; report the rest
    as `skipped` with reason `time box`.
 
 ## Precedence
@@ -85,7 +97,7 @@ manager the lockfile names** (`pnpm-lock.yaml` -> `pnpm install --frozen-lockfil
 manager silently rewrites the lockfile (personas, 2026-09-15). After any install run
 `git status` and restore lockfile churn you did not intend before staging. A populated
 `node_modules` in a fresh worktree is not a complete one - install before trusting a gate.
-Run `npm ci` (or the repo's installer) IN the worktree. Never junction or symlink the primary's `node_modules` into it: `git worktree remove --force` and `rm -rf` follow the link and wipe the primary's copy (pof, 2026-09-30). Likewise never delete a directory you have not checked for a `.git` entry and for links.
+Run `npm ci` (or the repo's installer) IN the worktree. Never junction or symlink the primary's `node_modules` into it: `git worktree remove` (with or without `--force`) and `rm -rf` follow the link and wipe the primary's copy (pof, 2026-09-30; gravitone, 2026-10-20). Likewise never delete a directory you have not checked for a `.git` entry and for links.
 Installs are slow, so batch shippable work into one worktree where you can.
 
 **Reproduce CI versions in an isolated environment, never the machine's.** To pin the
@@ -105,10 +117,12 @@ Two command rules that have produced wrong answers before:
 
 1. `default-branch-red` first - everything else lands on top of the default branch, and a
    PR blocked by the same failing checks as the default branch unblocks once it is fixed.
-2. `pr-ship` in ascending PR number, then `pr-repair-then-ship`. For stacked PRs, the base
+2. `merge-primary-baseline` - the primary's unpushed commits join the default branch before
+   anything else is judged against it (branches cut from the local default ride on them).
+3. `pr-ship` in ascending PR number, then `pr-repair-then-ship`. For stacked PRs, the base
    first.
-3. `code-scanning`, `dependabot`.
-4. `triage-branch`, `triage-worktree-branch`, `pr-draft`.
+4. `code-scanning`, `dependabot`.
+5. `triage-branch`, `triage-worktree-branch`, `pr-draft`.
 
 After each merge or push, the next item starts from a freshly fetched `origin/<default>`.
 
@@ -197,40 +211,81 @@ Alerts, not PRs. For each open alert with a `patched` version: bump to the patch
 version (lockfile included) in one worktree, grouped per ecosystem, gate, push, watch CI.
 A bump that crosses a major version and breaks: leave, report the located breakage.
 
+### merge-primary-baseline
+Only when your block lists this exact `worker` row: a `primary-unpushed` **operator** row
+(live checkout, push-denied, production deploy) is never merged or pushed by you, whatever
+anyone said in prose (personas, 2026-10-20). The primary's local default branch holds commits
+origin does not have (registry-map verdicts, another session's or machine's work) and origin
+moved on too. Operator decision
+2026-10-20: merge them, do not leave them. The primary itself stays untouched; the
+director fast-forwards it afterwards.
+1. `git -C <path> fetch origin`, then
+   `git -C <path> worktree add --detach C:/t/hyg-<slug>-baseline <row sha>` (the row's
+   `sha` is the primary's local tip; if `refs/heads/<default>` moved since, use the new tip
+   only if it still contains the row sha).
+2. Read `git log --oneline origin/<default>..HEAD` - it is committed work, so it ships; you
+   are checking only for something that must not be published (a secret, an env file, a
+   giant binary). Found one: stop, `operator` item, nothing pushed.
+3. `git merge origin/<default>` (never rebase: these commits may exist in other clones).
+   Resolve conflicts by reading both sides; a registry-map/ledger JSON conflict is resolved
+   by keeping both sides' entries. Run the gate.
+4. `git push origin HEAD:<default>`. Rejected because origin moved again: fetch, merge, retry.
+   Red gate that also fails on a clean `origin/<default>`: hard rule 5 (ship via a PR from
+   `hyg/<slug>/baseline`). Watch CI as for any push.
+5. Report the push with every commit sha it carried. Never touch the primary checkout.
+
 ### triage-branch / triage-worktree-branch
-The branch carries commits that are not on the default branch and no open PR.
+The branch carries commits that are not on the default branch and no open PR. Operator
+decision 2026-10-20: **no branch is left standing as "unclear"**. The morning run harvests
+what a branch holds and then deletes it, so every row ends in exactly one of: shipped
+(harvested into the default branch), recorded-and-deleted, or deleted as superseded.
 1. `git -C <path> log --oneline origin/<default>..<sha>` and
    `git -C <path> diff origin/<default>...<sha> --stat`. Check `git cherry`, and whether a
-   later commit on the default branch already did the same thing (search the log for the
-   subject keywords).
-2. Decide one of:
-   - **superseded or obsolete** (already landed another way, reverted on purpose, an
-     experiment the default branch moved past): delete. Remote:
-     `git -C <path> update-ref refs/hygiene-archive/<date>/origin/<name> <sha>` then
-     `git -C <path> push origin --delete <name>`. Local (no worktree):
-     `update-ref refs/hygiene-archive/<date>/<name> <sha>` then `git branch -D <name>`.
-     A `triage-worktree-branch` that is superseded: `git -C <path> worktree remove <wt>`
-     (only if still clean) first. List every deletion with its SHA and one-line reason.
-   - **complete and valuable** (coherent change, gate green after merging the default
-     branch): push it if needed, open a PR (`gh pr create -R <repo> --base <default>`) with
-     a body saying hygiene revived it, and ship it via **pr-ship**.
-   - **unfinished or unclear**: leave it. Report a one-line summary of what it contains.
+   later commit on the default branch already did the same thing. Also compare against the
+   primary's local default branch (`git merge-base --is-ancestor <sha> refs/heads/<default>`).
+   Branches of one family chain (`ascent/loop-*` are prefixes or alternates of
+   `ascent/runner`): judge the chain together and harvest from its most complete member.
+2. Classify, then act:
+   - **superseded** (patch-equivalent, or named default-branch commits cover each area by
+     SHA and subject - a keyword hit is not evidence): delete.
+   - **historic** (`backup/*`, `salvage/*`, stash snapshots, pre-rewrite backups, history of
+     a merged PR, an experiment arm such as `skillbench/*` whose run is closed): check for
+     anything unique and still useful; harvest that (below) if there is any, then delete.
+   - **progress** (coherent work the default branch lacks - a tool, a test suite, docs, a
+     fix): **harvest** it. Worktree off `origin/<default>`, bring the change over (merge the
+     branch, or cherry-pick and adapt where it was written against old code), resolve
+     against current code, run the gate, PR it (`gh pr create -R <repo> --base <default>`,
+     body: "hygiene harvest of <branch> <sha>", what it adds, what was left out and why) and
+     ship it via **pr-ship**. The ~150-line bound does not apply to a harvest; what applies
+     is: coherent, gate green, and no product behaviour change that contradicts the default
+     branch. Parts that fail that test are left out and recorded. **Every check on the
+     harvest PR must be green before it merges, including workflows the harvest itself
+     adds**: a new workflow that fails (on this code, on Linux runners, or on a repo setting
+     such as a disabled dependency graph) is left out of the PR and recorded, never merged
+     red. A harvest must not leave the default branch or future PRs redder than it found them
+     (firetv 2026-10-20: a harvest merged three always-red PR workflows and a supply-chain job
+     that needs a disabled repo setting).
+   - **ideas not landable now** (unfinished, conflicts with a later redesign, needs a product
+     decision): record, then delete. Record = one GitHub issue per branch family
+     (`gh issue create -R <repo> --title "Harvest: <branch>" --body ...`) listing what it
+     tried, the key commit SHAs, the archive ref name, and why it was not landed.
+   Then delete every triaged branch: remote
+   `git -C <path> update-ref refs/hygiene-archive/<date>/origin/<name> <sha>` then
+   `gh api -X DELETE repos/<repo>/git/refs/heads/<name>`; local
+   `update-ref refs/hygiene-archive/<date>/<name> <sha>` then `git branch -D <name>`.
+   A worktree branch: `node scripts/remove-worktree.mjs <wt>` first (it refuses a dirty or
+   locked worktree - dirty WIP stays an `operator` item and its branch stays). List every
+   deletion with its SHA, its class, and where its content went (PR, issue, or superseding
+   commits).
 3. Never delete a branch whose commits exist nowhere else without the archive ref and the
    SHA in your report.
-4. **"Re-implemented differently" is a judgment, so it needs named evidence.** When no
-   commit is patch-equivalent (`git cherry` shows `+`), a superseded verdict must cite the
-   specific default-branch commits that cover each area the branch touched (by SHA and
-   subject), not a keyword hit. If you cannot name them, the branch is **unclear**: leave it.
-   Also compare against the primary's local default branch
-   (`git merge-base --is-ancestor <sha> refs/heads/<default>`) - unpushed local commits
-   can already contain the branch.
-5. **A row with `ridesUnpushed > 0` is never pushed or PR'd.** The branch was cut from the
-   primary's local default branch while it was ahead of origin, so pushing it ships that
-   many commits the owner has not read (pof `backlog/c26` 2026-09-19: 82 "not on master",
-   2 its own). Judge only its own commits (`git log refs/heads/<default>..<sha>`): if they
-   are superseded, delete (archive ref first); otherwise leave it and report the own-commit
-   summary as an `operator` item. Never cherry-pick its own commits onto origin either:
-   they were written against code origin does not have yet.
+4. **A row with `ridesUnpushed > 0`** was cut from the primary's local default branch while it
+   was ahead of origin. Do `merge-primary-baseline` first; once it lands, those riding
+   commits are on origin and the row is an ordinary one. Without a baseline merge (live or
+   push-denied primary), judge only its own commits (`git log refs/heads/<default>..<sha>`)
+   and never push or PR it.
+5. A branch checked out in a worktree with uncommitted changes, a `hands-off` target, or a
+   Personas-app worktree branch is never deleted.
 
 ## Report
 
