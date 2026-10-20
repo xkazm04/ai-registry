@@ -26,8 +26,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/narrative-craft/ad-concept-development/ad-concept-development.md",
    "digest": "sha256-b2:7cf0809870ef5ad4",
-   "revision": 1,
-   "changedAt": "2026-10-19",
+   "revision": 2,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "agency-preserving-premise",
@@ -499,7 +499,7 @@
    "file": "knowledge/media-generation/visual-generation/cinematic-language/cinematic-language.md",
    "digest": "sha256-b2:b0a6b6d577cdcffc",
    "revision": 11,
-   "changedAt": "2026-10-19",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "camera-position-semantics",
@@ -2264,8 +2264,8 @@
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/image-prompt-composition/image-prompt-composition.md",
    "digest": "sha256-b2:d254a22feb4a9423",
-   "revision": 13,
-   "changedAt": "2026-10-19",
+   "revision": 14,
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "assigned-colour-roles",
@@ -3678,7 +3678,7 @@
    "file": "knowledge/media-generation/production-ops/review-iteration-loops/review-iteration-loops.md",
    "digest": "sha256-b2:a3bbc2c5b531b8d5",
    "revision": 11,
-   "changedAt": "2026-10-19",
+   "changedAt": "2026-10-15",
    "techniques": [
     {
      "slug": "anchored-variation-slate",
