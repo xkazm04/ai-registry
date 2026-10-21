@@ -1137,9 +1137,9 @@
       "purity": "civic",
       "subjects": 15,
       "techniques": 92,
-      "applications": 65,
-      "files": 177,
-      "contentHash": "sha256-b2:0ee3f866924e2ffc"
+      "applications": 66,
+      "files": 178,
+      "contentHash": "sha256-b2:4f64d66b515bb51e"
     },
     {
       "name": "game-production",

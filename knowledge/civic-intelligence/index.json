@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 65,
+  "applications": 66,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -1714,9 +1714,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/roll-call-vote-analysis.md",
-   "digest": "sha256-b2:e23e5487572025b1",
-   "revision": 6,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:1fb04612acd77185",
+   "revision": 7,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "club-line-and-rebellion",
@@ -1840,6 +1840,13 @@
      "technique": "tally-reconciliation",
      "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--tally-reconciliation.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "vote-choice-vocabulary-mapping",
+     "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--vote-choice-vocabulary-mapping.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     }
    ]
