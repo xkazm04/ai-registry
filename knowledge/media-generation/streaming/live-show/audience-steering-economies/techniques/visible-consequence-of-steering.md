@@ -57,6 +57,17 @@ rather than a recollection. A judge reading a host transcript will find the reco
 failing in exactly the way described: the right option announced, the wrong viewer
 thanked for it.
 
+The screen is a second announcer and is held to the same rule. A bar marked as the winner, a
+margin drawn as a bar length, or a tag saying the room disagrees with the host is a claim
+about the tally. The screen reads it from the decision the tally made: the winner, the tie,
+the per-viewer count. It never recomputes it from the raw numbers by a rule of its own. A
+renderer that recomputes keeps whichever parts of the rule its author copied. It crowns
+both sides of a weight tie the runtime broke by heads, or the earlier option after the
+runtime started calling level ties honestly, or it counts a repeated message as a second
+vote. The room then watches the screen and the host name different winners for one ballot.
+Where the decision is not in the record yet, the tally should carry it. Until it does, one
+shared function that mirrors the deciding rule, with tests, is the floor.
+
 Margins carry their own honesty. "By a hair" and "by a mile" are both good television when
 they are true and both corrosive when they are not. If the host cannot read the margin, the
 host does not characterise it.
@@ -85,6 +96,8 @@ staged.
   cause; if enactment must wait, say when and call back to the vote when it lands.
 - **When crediting**, read names and margins from the record; credit the room for room
   wins and the author for proposal wins; never credit by impression.
+- **When a screen draws a ballot**, it shows the tally's decision (winner, tie, one vote
+  per viewer) and never re-derives it; a second copy of the winner rule is a second result.
 - **After the stream**, keep the ballot history where the host can cite it next time.
 
 ## When not to use it

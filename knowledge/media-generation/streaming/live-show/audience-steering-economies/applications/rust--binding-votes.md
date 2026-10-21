@@ -103,3 +103,15 @@ report the unwelcome slice beside the total rather than instead of it — an **u
 lesson**. Model tier mattered here, unlike chat responsiveness, which was flat across tiers
 in the same tournament: binding is partly a model capability, which is exactly why it should
 not be left to one.
+
+## Since 4025231 (read 2026-10-21 at e143ccd)
+
+The crowd-poll deviation above is closed upstream. Commit 2aa6c08 (2026-10-20) keeps the
+last crowd poll's result in the host's state summary after the close. It reads "last poll
+<id> closed: winner <option>" and persists until the next crowd poll closes. The result is
+kept even when a segment switch closes the poll without resolving it. Commit b1b5774 (the
+same day) made level ties explicit. A tie is no longer settled by option order; the summary
+names the tied options and tells the host to break the tie and say so. Both match the
+technique's "a fact that persists until acted on". The citations above stay pinned to
+4025231; this note was read at e143ccd and is not re-anchored. The foil vote cut short by a
+switch was not re-checked.

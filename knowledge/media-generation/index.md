@@ -4,7 +4,7 @@ okf_bundle_name: media-generation
 okf_bundle_title: Media generation
 profile: rkb/0.1
 purity: media
-stacks: [next, python, go, rust]
+stacks: [next, python, go, rust, typescript]
 ---
 
 # Media generation

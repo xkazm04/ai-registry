@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 251,
-  "applications": 142,
+  "applications": 143,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -309,9 +309,9 @@
    "subcategory": "live-show",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/live-show/audience-steering-economies/audience-steering-economies.md",
-   "digest": "sha256-b2:ffd0efc8502d504a",
-   "revision": 1,
-   "changedAt": "2026-10-19",
+   "digest": "sha256-b2:52a00fd35be5322a",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "binding-votes",
@@ -404,6 +404,13 @@
      "file": "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/rust--sublinear-vote-weight.md",
      "verified_on": "2026-10-19",
      "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "typescript",
+     "technique": "visible-consequence-of-steering",
+     "file": "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/typescript--visible-consequence-of-steering.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "typescript@6"
     }
    ]
   },

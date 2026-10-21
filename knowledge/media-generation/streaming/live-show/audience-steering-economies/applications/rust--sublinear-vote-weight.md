@@ -94,3 +94,14 @@ proposal gate: proposing opens at
 a year at the lowest paid tier, six months at the middle one, any time at the top, or five
 gifted subscriptions. The character
 bible's warm refusal, which "tells them how to climb", can only ever name a purchase.
+
+## Since 4025231 (read 2026-10-21 at e143ccd)
+
+The tie rule changed upstream in b1b5774 (2026-10-20). Equal weight still goes to more
+voters. Options level on both are now a tie, which the host is told to break on air "and
+say you are breaking it". The earlier-option rule is gone. That meets the technique's "the
+host's choice announced as such", and it closes the "stated in code, not to the room" gap
+above for the moment of the tie. The rule is still not stated before the ballot opens. The
+weight table and the paid-only ladder did not change between the two commits. The
+TypeScript overlays had copied the old rule and now read the runtime's rule; see
+[typescript--visible-consequence-of-steering](./typescript--visible-consequence-of-steering.md).

@@ -68,6 +68,15 @@ once at the weight of the viewer's rank when the ballot closes. Repeated message
 options and alternate accounts must collapse to one vote per identity, because otherwise
 the cheapest way to steer is to type more, which the economy never meant to sell.
 
+A platform's built-in poll may offer the opposite design as a switch: extra votes on top
+of the free one, each costing a flat price in a currency viewers earn by watching. The
+currency is participation, which is what the ladder asks for. The curve over it is linear
+and has no ceiling, and the extra votes are copies of one voice. A show that turns it on has
+dropped one-voice-per-viewer for that ballot. It has to run the two-thirds check on how the
+currency is spread, not on rank. Use it on a ballot where how much people care is the point,
+and say so when the ballot opens. Otherwise leave it off, and keep the show's own weighted
+ballot.
+
 ## The tally
 
 The weighted total decides. A tie in weight goes to the option with **more distinct
