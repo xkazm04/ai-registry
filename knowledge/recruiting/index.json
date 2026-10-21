@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 313,
+  "applications": 314,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -8096,9 +8096,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/silver-medalist-rediscovery.md",
-   "digest": "sha256-b2:02b33939b6fbed96",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:97a511057c0bde11",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "band-limited-prior-depth-boost",
@@ -8207,6 +8207,13 @@
      "technique": "read-time-relevance-refilter",
      "file": "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/applications/node--read-time-relevance-refilter.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "python",
+     "technique": "fit-floor-for-readmission",
+     "file": "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/applications/python--fit-floor-for-readmission.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "python@3.12"
     }
    ]
   },
