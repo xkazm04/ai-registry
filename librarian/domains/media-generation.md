@@ -449,3 +449,31 @@ Source-class tally (post-hoc):
   ("may sound quite different").
 - Secondary summaries of union agreements and statutes were not enough to land
   anything. The primary PDF returned 403.
+
+## 2026-10-21 - deepen, on-stream-persona-continuity (ospc-deepen-1021)
+
+Dispatched on "never swept by the librarian". Landed in eb0a0c45. One new technique,
+per-turn-persona-anchor, earned on three-lane convergence (two drift studies, the blind
+lane, and the consumer's rotated line bank). One absolute was refuted: a byte-identical
+prefix gives identity of input, not identity, because a persona present every turn
+still drifts. Conditions were added. Feeding the window back is a hypothesis that can
+prime what it names. Precedence stated in text is the fallback, and code enforces what
+it can. The outage case no longer claims the recast caused the audience loss. The two
+applications were re-checked and 46 of 46 anchors held at the cited sha. Applied rows:
+two `code` / `unmeasurable` (one confounded before/after per arm in the consumer) and
+one `simulation` / `unmeasurable`. Detail in [[on-stream-persona-continuity]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| on-stream-persona-continuity | L2 | 1 technique, 1 refutation, 4 conditions, 1 application added, 2 re-verified | 0 stale (overlord brain-composition-memory and character-package join, none judged) | 0 |
+
+Source-class tally (post-hoc):
+- arXiv abstracts fetched raw settled every research claim. The web lane's summarizer
+  extracts were capped and were re-read before landing.
+- Measurement papers beat prompting guides for what a mitigation buys. The guides
+  said "restate" and "say what to do"; only the studies gave a ceiling (35-38%, none
+  eliminated).
+- Trade press (Kotaku) carried the case facts, and no source carried the causation.
+  A public incident supports what happened, not why the audience left.
+- The consumer's own build record was the only before/after available, and it was
+  confounded. Release notes that bundle five changes cannot grade one.

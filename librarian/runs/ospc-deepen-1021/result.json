@@ -1,0 +1,88 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ospc-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-21T21:15:00Z",
+  "ended_at": "2026-10-21T22:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/on-stream-persona-continuity",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "technique": "per-turn-persona-anchor",
+      "subject": "media-generation/on-stream-persona-continuity",
+      "mode": "code",
+      "verdict": "unmeasurable"
+    },
+    {
+      "technique": "anti-repetition-window",
+      "subject": "media-generation/on-stream-persona-continuity",
+      "mode": "code",
+      "verdict": "unmeasurable"
+    },
+    {
+      "technique": "owner-brief-below-the-constitution",
+      "subject": "media-generation/on-stream-persona-continuity",
+      "mode": "simulation",
+      "verdict": "unmeasurable"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/on-stream-persona-continuity.md",
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/per-turn-persona-anchor.md",
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/anti-repetition-window.md",
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/byte-stable-persona-prefix.md",
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/cited-memory-with-tombstones.md",
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/immutable-core-swappable-tone.md",
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/owner-brief-below-the-constitution.md",
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/rust--per-turn-persona-anchor.md",
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/process--tone-as-falsifiable-bet.md",
+    "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/rust--owner-brief-below-the-constitution.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/on-stream-persona-continuity.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "eb0a0c45",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/media-generation/index.json",
+        "rules/ai-registry-media-generation.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/on-stream-persona-continuity.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/per-turn-persona-anchor.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/anti-repetition-window.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/byte-stable-persona-prefix.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/cited-memory-with-tombstones.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/immutable-core-swappable-tone.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/techniques/owner-brief-below-the-constitution.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/rust--per-turn-persona-anchor.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/process--tone-as-falsifiable-bet.md",
+        "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/rust--owner-brief-below-the-constitution.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Never swept; 1 new technique (3-lane convergence), 1 refutation, 4 conditions, outage case de-causalized. 46/46 anchors held at 4025231, 15/15 on the new app. 3 applied rows, all unmeasurable. 0 stale. Fleet maps committed locally (one by a sibling round), not pushed."
+}
