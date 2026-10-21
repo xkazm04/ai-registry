@@ -52,8 +52,13 @@ the moment it fires, and never treated as a publish decision on its own.
 
 ## Independent signals, normalised to the room, fused before ranking
 
-Fusion beats any single signal; the published highlight-detection work on live streams
-agrees on that much and on little else. The practitioner's set is small: the host's
+Fusion beats any single signal, though by less than the argument for it suggests. In the
+published highlight-detection work on live streams that reports each modality alone,
+adding the chat to a model of the picture moved accuracy by a point or two, and the chat
+on its own was the weaker of the two; no published study tests the set below. The case for
+several signals therefore rests less on accuracy than on failure: each one is wrong in a
+different way, and a forged or confounded signal is caught only by another that does not
+share its blind spot. The practitioner's set is small: the host's
 marker; the crowd's reaction rate, measured as unique chatters per window against the
 stream's own rolling baseline; the room's audio energy against its own baseline; and a
 read of the transcript window for whether it contains a self-contained hook. Each is
@@ -87,7 +92,13 @@ reacting to, then closed forward past the payoff and one beat of reaction
 (peak-minus-preroll-window). The pre-roll is not one number. A host's marker lags the line
 by a beat or two; the crowd lags by the delivery delay to viewers plus the time to read and
 type, which on a live-streaming platform can run to many seconds; so a window anchored on
-a crowd peak needs a longer reach back than one anchored on a marker.
+a crowd peak needs a longer reach back than one anchored on a marker. The sturdier design
+never anchors on the crowd's timestamp at all. A scorer that scores units of the show, a
+beat or an exchange, and credits each with the reaction in a window *after* it has already
+paid the lag: its anchor is the unit's own line, the cause, and moving it back again would
+pay the lag twice. Wherever the reaction's clock and the cut's clock differ, as when a
+simulated stream ticks faster than its speech or a platform's delay varies by viewer, this
+is the only form in which a lag in seconds cannot be misapplied.
 
 Two rules keep the window honest. The edges snap to speech: a clip never opens mid-word or
 mid-sentence, and the opening edge moves earlier to the start of the setup, not later.

@@ -56,7 +56,10 @@ Run them in order; the first failure holds the clip.
    correction against that claim is open.
 4. **Disclosure.** A clip of a generated host, or of generated material, carries the
    disclosure the publishing surface requires, applied by the pipeline rather than left to
-   whoever posts.
+   whoever posts. Surfaces draw that line differently, some requiring it only where the
+   generated material could pass for real, so a visibly non-realistic host may owe a
+   surface nothing; the show's own disclosure is set by the show, for the same reason its
+   gate is stricter than any platform's.
 5. **Provenance.** The clip keeps its link back to the stream: the in-point, the
    out-point, the signals that carried it, the marker label if any.
 

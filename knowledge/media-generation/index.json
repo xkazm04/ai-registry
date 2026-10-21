@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 251,
-  "applications": 147,
+  "applications": 150,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -4337,9 +4337,9 @@
    "subcategory": "live-show",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/live-show/stream-moment-capture/stream-moment-capture.md",
-   "digest": "sha256-b2:fbcc64471985d6f6",
-   "revision": 1,
-   "changedAt": "2026-10-19",
+   "digest": "sha256-b2:ac9b45455bb38636",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "evidence-gated-clip-publish",
@@ -4400,8 +4400,29 @@
      "stack": "rust",
      "technique": "host-emitted-moment-markers",
      "file": "knowledge/media-generation/streaming/live-show/stream-moment-capture/applications/rust--host-emitted-moment-markers.md",
-     "verified_on": "2026-10-19",
+     "verified_on": "2026-10-21",
      "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "multi-signal-moment-scoring",
+     "file": "knowledge/media-generation/streaming/live-show/stream-moment-capture/applications/rust--multi-signal-moment-scoring.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "peak-minus-preroll-window",
+     "file": "knowledge/media-generation/streaming/live-show/stream-moment-capture/applications/rust--peak-minus-preroll-window.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "typescript",
+     "technique": "evidence-gated-clip-publish",
+     "file": "knowledge/media-generation/streaming/live-show/stream-moment-capture/applications/typescript--evidence-gated-clip-publish.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "typescript@7"
     }
    ]
   },

@@ -33,7 +33,10 @@ room.
 
 1. **Anchor on the peak, corrected for its signal's lag.** If the peak was driven mainly
    by the host's marker, the anchor sits close to the line; if mainly by the crowd, move
-   the anchor back by the crowd's measured lag before applying any pre-roll.
+   the anchor back by the crowd's measured lag before applying any pre-roll. When the
+   scorer scored units of the show (beats, exchanges) and credited each with the reaction
+   in a window after it, the lag is already paid: the anchor is the unit's line, and it is
+   not moved again.
 2. **Open backward by the pre-roll.** Start from a default reach that covers a typical
    setup, on the order of ten seconds or so before a marker-driven anchor and longer
    before a crowd-driven one, then extend it to the start of the setup the transcript
@@ -50,7 +53,9 @@ room.
    moment for re-authoring or drop it. Never meet the band by cutting the setup.
 6. **Record provenance.** Store the in-point and out-point on the stream's own clock, with
    the anchor, the lag applied and the pre-roll used, so the cut can be audited against
-   the transcript and re-derived if the defaults change.
+   the transcript and re-derived if the defaults change. Record the lag the code actually
+   applied, and how: a field that names a correction nobody made is provenance with
+   nothing behind it, and an audit that trusts it re-derives the wrong cut.
 
 ## The defaults are craft, not measurement
 
@@ -66,7 +71,9 @@ date.
 ## Decision rules
 
 - **When the peak is crowd-driven**, apply the crowd lag before the pre-roll, because
-  otherwise the pre-roll is spent recovering latency instead of setup.
+  otherwise the pre-roll is spent recovering latency instead of setup; unless the crowd
+  was credited forward to the unit it answered, because then the anchor is already the
+  cause and a second shift lands on the line before it.
 - **When the setup spans more than the band allows**, hand the moment on as a
   re-authoring case rather than a cut, because a derived short needs a whole question
   answered inside it and a trimmed setup does not answer one.

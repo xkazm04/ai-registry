@@ -21,7 +21,9 @@ weights treated as a hypothesis until a measurement replaces them**.
 ## The signals
 
 Four signals cover the ground, and each is chosen because it fails differently from the
-others.
+others. That is a reason about robustness, not a measured ranking: the published work on
+live-stream highlights fuses chat with the picture, finds fusion ahead by a point or two,
+and finds chat alone the weaker signal; it has not tested this set.
 
 - **Host marker.** Whether the host marked this moment, and how recently. Precise and
   intentional; biased toward the host's own set-pieces.
@@ -47,7 +49,11 @@ others.
    of magnitude: they never fire in a small room and always fire in a large one.
 2. **Align the clocks.** Each signal lags the moment by a different amount; shift each
    series by its known lag before fusing, or the signals will agree about a moment that
-   none of them is centred on.
+   none of them is centred on. Where the candidates are units of the show rather than
+   instants, the alternative is to credit each unit with the reaction in a window after
+   it, sized to cover the lag, as published chat models of live streams read the comments
+   in the seconds following each frame. That form needs no lag estimate on the cut's
+   clock, which matters when the reaction runs on a different clock from the speech.
 3. **Fuse with explicit weights.** A weighted sum is enough; the weights live in
    configuration, named, versioned and labelled with their provenance. When a signal is
    absent (no host, no audio), redistribute its weight explicitly instead of letting a
