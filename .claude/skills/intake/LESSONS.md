@@ -12660,3 +12660,8 @@ applied here - one sighting, and the honest record is in the source note.
   B's instructions live, the instrument needed). `held` already sits outside every
   `/harvest backlog` wave, so no code changed and nothing here picks the row up. A run must
   never pull a model to make a render proof pass on this machine.
+
+## 2.16.0 - 2026-10-21 - apply:headless-replay-against-the-rules
+
+- A delegated reader's absence claim is bounded by the files it was handed, not by the rule it was asked about. Scoped to the five suites named after the gestures, the reader reported "no reject clip" for one detector. The defence suite, which it never opened, asserts exactly that case. Before an absence claim about a rule lands, grep for the rule's class and event names across the whole test tree. A rule's coverage is the union over every suite that drives it. This is the truncated-output rule from Phase 4, applied to the brief's own scope.
+- A test-oracle technique is best falsified by classifying where each expected value comes from, across a whole suite. A 27-row oracle table took one reader pass and refuted a decision rule that read as obviously right: a differential oracle is not circular. No engine build was needed. That is the cheap experiment for any "how to test X" technique in a tree too heavy to run.
