@@ -57,6 +57,10 @@ not allow it, the desk result for that feature is unmeasured for the headset.
   application.
 - **When two content classes want different allowances, the stricter one is the default** and
   the looser one is an exception with its owner.
+- **When the allowance is written in a plan, each row names the setting or the code line that
+  enforces it.** A row with no such line is marked unenforced, and until it has one, the code
+  is the allowance. A list nobody checks against the configuration is a second authority, and
+  the code drifts from it within one phase.
 
 ## When not to use it
 

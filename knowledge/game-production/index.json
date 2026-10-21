@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 86,
   "techniques": 561,
-  "applications": 321,
+  "applications": 322,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -9770,9 +9770,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
-   "digest": "sha256-b2:14f3efe1eb7189db",
-   "revision": 1,
-   "changedAt": "2026-10-17",
+   "digest": "sha256-b2:559b15da64446e2f",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "forward-path-feature-allowance",
@@ -9855,7 +9855,15 @@
      ]
     }
    ],
-   "applications": []
+   "applications": [
+    {
+     "stack": "cpp",
+     "technique": "forward-path-feature-allowance",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--forward-path-feature-allowance.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "cpp@20"
+    }
+   ]
   },
   "steering-feel-profile-shaping": {
    "category": "racing-vehicles",
