@@ -1,0 +1,64 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "lrl-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "unknown",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-21T14:20:00Z",
+  "ended_at": "2026-10-21T15:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/live-response-latency-budgeting",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "live-response-latency-budgeting",
+      "technique": "first-word-budget-decomposition",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/applications/typescript--first-word-budget-decomposition.md",
+    "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/techniques/first-word-budget-decomposition.md",
+    "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/techniques/latency-class-per-role.md",
+    "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/live-response-latency-budgeting.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/live-response-latency-budgeting.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "d25c2fa1",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/media-generation/index.json",
+        "rules/ai-registry-media-generation.md",
+        "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/live-response-latency-budgeting.md",
+        "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/techniques/first-word-budget-decomposition.md",
+        "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/techniques/latency-class-per-role.md",
+        "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/applications/typescript--first-word-budget-decomposition.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second stack: overlord TS console showed engine first text as first words (2.7/7.4 s); reply wait on 10 sandbox sessions 6.1/11.5 s, all over 4 s. Fixed 222a13a (code, better). Reasoning-off absolute refuted. 2 stale verdicts; map e4266cc."
+}

@@ -294,3 +294,21 @@ incident: on record, the moderation "was not successful" on the fallback,
 which is not the same as "unwired". No stale verdict (the overlord pair is
 unjudged). The stage contexts are not joined to the subject, which is the
 same matcher gap banked twice today. Detail in [[live-chat-moderation-and-anti-bait]].
+
+## 2026-10-21 - deepen, live-response-latency-budgeting
+
+Dispatched on "single stack (rust)". A second stack exists: overlord's
+TypeScript console reads the brain's latency, and its one figure was the
+engine's first text, labelled "first words". On the 10 wall-clock sandbox
+sessions the wait from a viewer's line to the reply is p50 6.1 s / p95
+11.5 s (n=741). The gauge shows 2.7 s / 7.4 s, and every session misses the
+project's 4 s budget top. Fixed in overlord 222a13a (applied row: code,
+better): Session review shows the reply wait, and the gauge names its
+stage. New `typescript` application. `first-word-budget-decomposition`
+gained "find which stage a dashboard's figure measures". The counter lane
+refuted the reasoning-off absolute: the project's live voice runs at the
+lowest effort level, which has no off, and the provider page lists most
+models without an off. A tier is now admitted on its measured tail at the
+level it runs at. 2 stale `not-applicable` verdicts in overlord. The
+console contexts are unjoined, which is the matcher gap's third bank today.
+Detail in [[live-response-latency-budgeting]].
