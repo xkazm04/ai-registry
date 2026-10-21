@@ -18,10 +18,18 @@ newer generation may refuse it, may accept it and render a different person, or
 may accept it only after it has been rebuilt from its source audio. Vendor
 documents state this in their own terms; for one current engine family the
 facts, read from its documents at the time of writing, are that a professional
-clone was not supported on the previous generation and that clones made before
-the newest generation must be retrained to work well on it. Those are the
-vendor's statements and are dated; the rule is general and the facts are
-re-read on every upgrade.
+clone was not fully optimized for the previous generation, with lower clone
+quality than on earlier ones, and that a clone made before the newest
+generation is not moved to it automatically: its owner has to start a separate
+fine-tune for that generation. Those are the vendor's statements and are dated;
+the rule is general and the facts are re-read on every upgrade.
+
+The rebuild need not be a re-upload. When the vendor offers a per-generation
+fine-tune from the training audio it already holds, the rebuild is one click
+and easy to mistake for a setting. It is still the step this technique gates.
+It produces a new asset under the same identifier, so the consent check and the
+acceptance pass below apply to it, and any control the new generation adds to
+a clone (a strength or similarity setting) joins the render key.
 
 ## Boundary with authored voice identity
 

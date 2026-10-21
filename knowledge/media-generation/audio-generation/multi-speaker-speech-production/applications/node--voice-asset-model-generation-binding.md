@@ -5,7 +5,7 @@ subject: multi-speaker-speech-production
 technique: voice-asset-model-generation-binding
 stack: node
 status: forged
-verified_on: 2026-09-30
+verified_on: 2026-10-21
 verified_against: node@22
 ---
 

@@ -2980,9 +2980,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/multi-speaker-speech-production.md",
-   "digest": "sha256-b2:7bc754e857597539",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:7ea2b5e416115e6b",
+   "revision": 3,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "chunk-boundary-continuity",
@@ -3065,29 +3065,29 @@
      "stack": "node",
      "technique": "chunk-boundary-continuity",
      "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/applications/node--chunk-boundary-continuity.md",
-     "verified_on": "2026-09-30",
+     "verified_on": "2026-10-21",
      "verified_against": "node@22"
     },
     {
      "stack": "node",
      "technique": "line-addressed-re-render",
      "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/applications/node--line-addressed-re-render.md",
-     "verified_on": "2026-09-30",
+     "verified_on": "2026-10-21",
      "verified_against": "node@22"
     },
     {
      "stack": "node",
      "technique": "voice-asset-model-generation-binding",
      "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/applications/node--voice-asset-model-generation-binding.md",
-     "verified_on": "2026-09-30",
+     "verified_on": "2026-10-21",
      "verified_against": "node@22"
     },
     {
      "stack": "process",
      "technique": "chunk-boundary-continuity",
      "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/applications/process--chunk-boundary-continuity.md",
-     "verified_on": "2026-10-14",
-     "refresh_by": "2027-01-14"
+     "verified_on": "2026-10-21",
+     "refresh_by": "2027-01-21"
     }
    ]
   },
