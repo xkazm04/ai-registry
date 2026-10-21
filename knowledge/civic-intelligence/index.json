@@ -1111,7 +1111,7 @@
    "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/parliamentary-data-modeling.md",
    "digest": "sha256-b2:8694b54aa1c6544b",
    "revision": 7,
-   "changedAt": "2026-10-21",
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "cross-term-registry-loading",
