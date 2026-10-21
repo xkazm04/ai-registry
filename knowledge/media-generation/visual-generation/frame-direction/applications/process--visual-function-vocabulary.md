@@ -5,7 +5,7 @@ subject: frame-direction
 technique: visual-function-vocabulary
 stack: process
 status: forged
-verified_on: 2026-08-19
+verified_on: 2026-10-21
 ---
 
 # Process: the direction prompts of a script→frames pipeline
@@ -47,7 +47,7 @@ fewer words here and let the picture land"), not a mode change.
 
 ## The brief that consumes the vocabulary
 
-`FRAMES-SCENE-PROMPT.md:8-31` is the downstream half: the directing model is
+`FRAMES-SCENE-PROMPT.md:9-30` is the downstream half: the directing model is
 told "You are not illustrating sentences. You are deciding what a viewer
 should be looking at while a sentence is spoken," and both attractor failures
 are named — the template-per-rhetorical-role slide deck (with its
@@ -71,9 +71,26 @@ resolutions/escalations for every unresolved beat and the actual still count
 
 ## Lessons this realization surfaced
 
-Worked over a real 34-beat render (:283-299), the vocabulary fired in ways a
+Worked over a real 34-beat render (:281-321), the vocabulary fired in ways a
 design-only doc would not predict: the one-function rule split the cut's most
 important beat (b4 → b4a/b4b) and revealed that the strongest image in the
 video is a *continuation* of an established picture, not a new one; and beat
 b15's metaphor-shaped closing line was deliberately declined because the
 analogy budget was spent — "Declining it is the discipline."
+
+## Re-verified 2026-10-21
+
+At `main` `9c3cdac8` the contract sections of `DIRECTOR-DIMENSION.md` sit at
+the same lines. `FRAMES-SCENE-PROMPT.md` has since grown five dated,
+human-gated rules for the plate subject: light source, optics, genre and
+performance. It has also grown a format section that treats runtime as
+already-spent budget and refuses to pace to an unmeasured cut rate. Those
+belong to neighbouring subjects. The vocabulary is still only in the prompt
+documents: the project's own conform pass (2026-10-15) records that the
+app's plate generation has no function labels. Until a direction pass runs,
+`subjectFor` (`lib/frames/frames.ts:518-537`) seeds each plate with one canned
+shape for each of nine rhetorical kinds. Its comment says the role-keyed
+lookup was chosen over the literal sentence for a reason: the sentence leaked
+text on 6 of 6 styles. That fallback is the template attractor this vocabulary
+exists to replace. It now serves as the seed state, and the direction pass
+overwrites it.

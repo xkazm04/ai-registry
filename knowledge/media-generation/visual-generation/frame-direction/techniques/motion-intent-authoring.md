@@ -24,6 +24,12 @@ rates, no easing vocabulary. The frame's hold comes from the gap to the next
 beat, which the script already decided; restating timing in the motion is a
 second, contradicting clock.
 
+The ban is on *absolute* time, not on order. Relative speed ("slowly",
+"almost still") and the order of events within the beat ("the right stack
+holds, then topples") are intent, and they survive a change of medium.
+Video-model prompt guides now ask for exactly this: actions described in
+beats or counts, while clip length is a parameter set outside the prose.
+
 ## The four rules of a well-formed move
 
 1. **Say what moves, in what direction, how far.** "The right stack topples
@@ -32,7 +38,13 @@ second, contradicting clock.
    nobody can shoot it, so it directs nothing.
 2. **One move per frame.** A push in *and* a pan *and* a reveal is three
    moves; a viewer listening to a sentence resolves none of them. The move
-   inherits the frame's one-function economy.
+   inherits the frame's one-function economy. Video-model vendors reach the
+   same rule for their own reason: a stacked camera instruction renders
+   unstably. Read it as one *semantic* change per frame, not as a mandate to
+   stage every change in separate steps. Animated-transition research found
+   that aggressive one-thing-at-a-time staging tested worse than simple
+   staging. Splitting an axis change from a value change helps; five
+   sequential sub-moves do not.
 3. **Never move text.** Kickers, figures and captions belong to the vector
    layer; a motion that animates a label is asking the generated layer to
    carry glyphs — the same defect as a plate that spells a word, arrived at

@@ -37,9 +37,12 @@ elements and texts assert; only the asserting layers are held to evidence.
    one unconditional defect: a plate that comes back carrying letters is not
    a slightly worse plate, it is an unusable one. The practical corollary is
    to write **form-only descriptions**: named objects are text magnets — ask
-   a model for a "reservation book" and it writes the word on the cover,
-   measured to leak on every style tested — while shapes are not. Say what
-   the shapes do, not what the objects are called.
+   a model for a "reservation book" and it writes the word on the cover.
+   One pipeline saw this leak on every style it tested. No published study
+   isolates the mechanism, and current models still add unrequested text to
+   text-bearing genres, so treat it as an observed risk that is cheap to
+   avoid, not as a settled property of any one model. Shapes do not attract
+   it. Say what the shapes do, not what the objects are called.
 2. **Reserve the text zone.** Captions and figures need ground to land on;
    the subject description explicitly leaves a region (typically the lower
    third) empty, so the layers compose instead of colliding.

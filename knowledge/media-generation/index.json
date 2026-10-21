@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
-  "techniques": 251,
-  "applications": 151,
+  "techniques": 252,
+  "applications": 152,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "251/251",
+  "use_when_coverage": "252/252",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1583,10 +1583,25 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/frame-direction/frame-direction.md",
-   "digest": "sha256-b2:a6a34384ba8aa499",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:b936a9a456cd5767",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
+    {
+     "slug": "boundary-transition-class",
+     "status": "forged",
+     "laws": [
+      "causality-over-sequence",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding what survives the cut from one beat's frame to the next",
+      "directing a hold or a quiet beat",
+      "making a reveal by subtraction legible",
+      "reviewing a cut whose frames each work but whose joins jolt"
+     ]
+    },
     {
      "slug": "motif-establish-vary-payoff",
      "status": "forged",
@@ -1673,15 +1688,22 @@
    "applications": [
     {
      "stack": "process",
+     "technique": "boundary-transition-class",
+     "file": "knowledge/media-generation/visual-generation/frame-direction/applications/process--boundary-transition-class.md",
+     "verified_on": "2026-10-21"
+    },
+    {
+     "stack": "process",
      "technique": "visual-function-vocabulary",
      "file": "knowledge/media-generation/visual-generation/frame-direction/applications/process--visual-function-vocabulary.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-21"
     },
     {
      "stack": "react",
      "technique": "per-beat-rejection",
      "file": "knowledge/media-generation/visual-generation/frame-direction/applications/react--per-beat-rejection.md",
-     "verified_on": "2026-08-19"
+     "verified_on": "2026-10-21",
+     "verified_against": "react@19"
     }
    ]
   },
@@ -5186,6 +5208,7 @@
    "techniques": [
     "animatable-character-design/functional-animation-slots",
     "creator-voice-and-tone/spoken-delivery-direction",
+    "frame-direction/boundary-transition-class",
     "frame-direction/motif-establish-vary-payoff",
     "generated-music-acceptance/generated-audio-defect-taxonomy",
     "generated-output-grading/regrade-without-regenerate",
@@ -5298,6 +5321,7 @@
     "data-video-virality/recognizable-cast",
     "evidence-bound-visuals/causal-arrow-discipline",
     "evidence-bound-visuals/generous-strawman-rendering",
+    "frame-direction/boundary-transition-class",
     "frame-direction/motif-establish-vary-payoff",
     "frame-direction/one-function-per-visual",
     "frame-direction/visual-function-vocabulary",
