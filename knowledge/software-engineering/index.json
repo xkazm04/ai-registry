@@ -35438,9 +35438,9 @@
    "subcategory": "companion",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/talking-avatar.md",
-   "digest": "sha256-b2:f96c1d7ea0398677",
-   "revision": 3,
-   "changedAt": "2026-10-18",
+   "digest": "sha256-b2:72517c45ca8e4198",
+   "revision": 4,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "face-signal-across-surfaces",

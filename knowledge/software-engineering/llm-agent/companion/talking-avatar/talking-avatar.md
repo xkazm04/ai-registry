@@ -202,7 +202,7 @@ asking for frames. Face-signal-across-surfaces holds these rules.
   lips never meet.
 - **Blinks taken literally** — a learned lid signal mapped one-to-one onto full
   blinks, producing sixty a minute.
-- **The busy head** — learned head pose played unfiltered, bobbing at syllable rate.
+- **The busy head** — learned head pose played unfiltered, bobbing with every beat of the speech.
 - **The zero-filled channel** — a motion source's missing group written as zero,
   freezing a feature that another source would have animated.
 - **The licence inside the model** — a permissively licensed talking-head model
