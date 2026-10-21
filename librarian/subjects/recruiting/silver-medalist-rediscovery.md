@@ -1,3 +1,11 @@
+---
+subject: silver-medalist-rediscovery
+domain: recruiting
+last_touched: 2026-10-22
+touched_by: deepen
+dry_streak: 0
+---
+
 # silver-medalist-rediscovery (recruiting / sourcing-and-intake)
 
 Forged 2026-08-21 from kp's Node rediscovery path: six techniques, three node applications
@@ -33,3 +41,11 @@ literals 70 and 55 in `automation.py` (screening, not rediscovery). Banked: an i
 reply-rate or re-hire-quality study for rediscovery outreach. Return: a vendor publishes
 the underlying benchmark data, or a peer-reviewed study appears. Dry-streak 0; depth L2
 plus one L3 boundary measurement.
+
+Idled 2026-10-22 (curator, /deepen subject form, run smr-idle-1022). Dispatched on "never swept by
+the librarian" at HEAD 31a77631, a day after smr-deepen-1021 landed the python stack and a kp fix.
+The finding was an instrument artifact: this note had no frontmatter, so librarian-scan read
+last_touched as null and scored the subject 3 points on that reason alone (0 expired, 0 at-risk,
+0 deviations over 11 consults). Volatile scan re-read: the same illustrative durations, none
+platform-set. Frontmatter added; no research rerun, no clock or event to point at. Return
+conditions unchanged.
