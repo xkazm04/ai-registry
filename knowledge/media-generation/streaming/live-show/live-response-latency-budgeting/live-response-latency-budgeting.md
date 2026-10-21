@@ -150,8 +150,11 @@ rather than per call ([cost per usable output](../../../_laws.md#cost-per-usable
 Read only the median and you route the voice to the tier that will go quiet
 on stream. Reasoning effort is part of the same decision: a model that
 reasons before it answers has a first-token time that varies with the input,
-so the live classes run with reasoning off, and a tier that cannot switch it
-off is not a live voice.
+so the live classes run with reasoning off where the tier offers an off, and
+at its lowest level where it does not. Many current tiers have no off level,
+only a lowest one, so the switch alone cannot admit or refuse a tier. The
+tier is admitted on its measured first-text tail at the level it will run at.
+A tier whose reasoning cannot be lowered is not a live voice.
 
 ## The silence ceiling is a gate and a watchdog
 

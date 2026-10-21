@@ -94,6 +94,16 @@ whatever each stage's benchmark says.
 
 - When the end-to-end figure misses, attack the scheduling wait first; a tick
   or batch window is free to shorten and often costs more than the model.
+- When a dashboard shows one latency figure for replies, find out which line it
+  measures before trusting it. The engine's time to first token is line 4, the
+  figure every stack records first, and it is the smallest part of the wait
+  whenever a beat sits before it. If the stack airs a reply only when the call
+  returns, the call's whole duration is on the path, and its first-token time
+  understates the wait by everything that follows. Shown under the budget's
+  name, a stage figure certifies the stage and hides the budget. The
+  end-to-end figure comes from the transcript: a reply's time minus the
+  arrival of the earliest line it answers, on a run whose clock is the wall
+  clock.
 - When a stage needs the whole reply, move it to operate on the first unit or
   move it after voicing begins; never let it hold the first word.
 - When a new stage is proposed, it brings its own allowance and the stage it

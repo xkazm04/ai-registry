@@ -41,9 +41,12 @@ class.
 Reasoning effort belongs to the class as much as the tier does. A model that
 reasons before it answers has a first-token time that varies with how hard it
 finds the input, which is the opposite of what a live budget needs; the live
-classes run with reasoning off or at its minimum, and a tier whose reasoning
-cannot be switched off is not eligible for the live voice however fast its
-output streams once it starts.
+classes run with reasoning off or at its minimum. Many current tiers offer no
+off level, only a lowest one, and a host can run well at that level, so the
+admission test is the measured first-text tail at the level the role will
+run at, not the presence of a switch. A tier whose reasoning cannot be
+lowered is not eligible for the live voice however fast its output streams
+once it starts.
 
 ## Timeouts come from measured percentiles
 

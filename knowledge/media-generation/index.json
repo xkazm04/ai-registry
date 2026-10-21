@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 251,
-  "applications": 144,
+  "applications": 145,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2599,9 +2599,9 @@
    "subcategory": "live-show",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/live-response-latency-budgeting.md",
-   "digest": "sha256-b2:86997f9644956258",
-   "revision": 1,
-   "changedAt": "2026-10-19",
+   "digest": "sha256-b2:7fea21bc36859e81",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "dual-lane-fast-voice-slow-beats",
@@ -2695,6 +2695,13 @@
      "file": "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/applications/rust--latency-class-per-role.md",
      "verified_on": "2026-10-19",
      "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "typescript",
+     "technique": "first-word-budget-decomposition",
+     "file": "knowledge/media-generation/streaming/live-show/live-response-latency-budgeting/applications/typescript--first-word-budget-decomposition.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "typescript@7"
     }
    ]
   },
