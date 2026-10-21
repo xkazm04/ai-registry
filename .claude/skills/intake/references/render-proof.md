@@ -170,7 +170,14 @@ through the same sheet, distance and blind triage as a Blender still.
   per second against the same reel held on twos at a motion amplitude where holding is
   invisible. The operator: *"The outputs are basically identical ... It seems like we run two
   times the same process."* So before any sheet:
-  1. Render the **same approach at a second seed** - the seed control.
+  1. Render the **same approach at a second seed** - the seed control. Pick the arm that
+     holds the measured channel fixed **by design**, which is usually the TREATED one. A
+     seed control drawn from the arm where nothing conditions that channel re-samples it
+     wholesale, so the "floor" is the treatment's own effect size and the ratio can never
+     clear - a voice pair refused at 0.60x on exactly this, then cleared at 7.11x once the
+     control was re-rendered in the arm with the reference attached. If neither arm pins
+     the channel on purpose, the pair has no floor yet: render the missing cell, and write
+     down what each possible result will mean before it finishes.
   2. Measure the arms' distance from each other (`between`) and the approach's distance from
      itself at the other seed (`within`); mean absolute pixel difference over matched frames
      is enough for a floor - it cannot say which arm is better, only whether there are two
