@@ -389,3 +389,32 @@ Source-class tally (post-hoc, from the commit's citations):
   not seconds). Their wording beat the summary the technique had carried.
 - The consumer's own worked plan was the instrument. A gitignored run file
   it cited was state, not evidence.
+
+## 2026-10-21 - deepen, live-safety-rails (lsr-deepen-1021)
+
+Dispatched on "never swept by the librarian". Landed in 3dd25ae7. There is no
+new technique. Five conditions were added, each checked against a source
+opened that day or against the consumer's own tree. The crisis line asks
+nothing in public because the guidance asks in private (#chatsafe; the blind
+lane converged). Recall-first stops at the stream's edge (STAT 2019 wellness
+checks). A safety answer counts when it airs. The care seal covers allusion.
+A realism-scoped platform label is not the duty to say you are an AI. The
+applications were rebased from shadowrunr 4025231 to a9d8c33, and 44 anchors
+held. Applied as a simulation, verdict `better`: 92 of 204 recorded crisis
+replies lose the help pointer to the new pace trim, and 0 do under the guard.
+Detail in [[live-safety-rails]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| live-safety-rails | L2 | 0 techniques, 5 corrections, 2 applications re-verified, 1 simulation | 0 stale (1 shadowrunr context joins, none judged) | 0 |
+
+Source-class tally (post-hoc):
+- Peer-support guidance PDFs (#chatsafe) were the richest counter-evidence.
+  They refuted a summary that the technique had stated as convergence.
+- Journalism on a deployed system (STAT on automated suicide flags) supplied
+  the false-positive cost that clinical guidance does not state.
+- Platform help pages settled label scope (YouTube). Twitch's pages did not
+  render in either lane. Prefer a real browser next time.
+- The consumer's own run transcripts were the instrument. Field fixes landed
+  after the applications were written, and that is where two of the five
+  conditions came from.
