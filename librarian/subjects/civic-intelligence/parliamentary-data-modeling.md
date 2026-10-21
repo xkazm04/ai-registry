@@ -1,7 +1,7 @@
 ---
 domain: civic-intelligence
 subject: parliamentary-data-modeling
-last_touched: 2026-10-10
+last_touched: 2026-10-22
 touched_by: intake
 dry_streak: 0
 ---
@@ -110,3 +110,26 @@ verdict `better`. The run picked two seams because each could falsify the techni
   neither a missing pre-oath code nor an excuse row proves seating.
 - **Not moved:** the single-stack attention point. The only civic project in the
   fleet is node.
+
+## Apply - 2026-10-22 (intake, run intake-apply-tacs-1022)
+
+`term-and-chamber-scoping`, first application, on politicas, mode `task`, verdict
+`better`, proof `ab-paired`.
+
+- **Ingest half held.** One term-code function, a visibly synthetic fallback, ids and
+  codes stamped on mandates and roll calls, and identity never term-scoped. A source
+  test pins the single definition.
+- **Read half refuted, at the seam chosen to falsify.** The store's term-scoped
+  membership read implemented "ancestor" as "parent". On the public dump it returns
+  1,345 of 3,260 current-term membership rows, and terms 4 to 9 show the same shape.
+  The dropped rows (subcommittees, interparliamentary groups) had been recorded as
+  "0 subcommittee memberships" in three comments and a prose-gate exclusion, while the
+  contribution formula lists subcommittees as a committee type.
+- **Shipped:** corrected comments, the owner decision and a plan on politicas master,
+  pushed (`a0f83cb`). The read fix and its fixture test (A 8/9, B 9/9) are on a local
+  branch (`401150a`). They wait because the next recompute through a depth-correct read
+  would move the committee component for 51 of 207 members (+361.3 points).
+- **Technique gained** a boundary section: ancestry is transitive, and a body type that
+  never receives a row is a scope defect until proven otherwise.
+- **Not moved:** the single-stack attention point. The only civic project in the
+  fleet is node. Return: when a second-stack civic consumer joins the fleet.

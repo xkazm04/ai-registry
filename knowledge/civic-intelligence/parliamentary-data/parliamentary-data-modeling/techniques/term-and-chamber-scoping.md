@@ -69,6 +69,26 @@ mandate in the scoped term has *no value* for the metric — they are outside
 the population, not at zero. The population line of every published table
 ("all N members of term X") is the check that the scope held.
 
+## Ancestry is transitive, and an unscoped row is not a zero
+
+Rows that carry no stamped term code are scoped through the body tree. A membership
+names a body, and the body's ancestry decides the term. "Ancestor" means at any depth.
+A read that checks only "is the chamber, or has the chamber as parent" re-derives the
+scope with a shortcut. It silently drops every body two levels down: a subcommittee
+under its committee, a delegation group under the union that hosts it. In one
+legislature's dump that was 59% of a term's membership rows, and the share was the same
+in every term with a nested tree.
+
+The dropped rows do not announce themselves. Every count taken through that read
+reports them as zero, and the zero then gets written down as a finding about the data.
+Two checks catch it. First, state the population line for every term-scoped table, not
+only for the published ones: "N membership rows in term X" against the unscoped count
+for the same term's body tree. Second, when a body type in your own formula never
+receives a single row, treat that as a scope defect until a read that cannot be the
+cause confirms it. If you can, stamp the term onto the relationship row at ingest, as
+you already do for mandates and roll calls. Then the tree walk happens once instead of
+on every read.
+
 ## When not to term-scope
 
 The person registry and the body registry themselves are cross-term by
