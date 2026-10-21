@@ -248,3 +248,16 @@ and movement modulation weakly supported; perceptual mismatch well supported,
 Kätsyri et al. 2015), corrected with a mixed-register condition; applied row
 `unmeasurable` over three stills. No project map joins the subject, so
 nothing went stale. Detail in [[animatable-character-design]].
+
+## 2026-10-21 - deepen, audience-absorption-at-scale
+
+Dispatched on "single stack (rust)". No second stack exists. A per-repo seam
+search over every checkout found one chat allocator, overlord's Rust brain.
+The TS stage-kit only displays chat, so the finding stays open with a return
+condition. The counter lane corrected the golden path's chatting-share
+figures from observation to estimate, because the source research calls them
+assumptions. `size-tiered-picking-mode` gained the one published overload
+anchor (about 40 messages per 5 minutes, Nematzadeh et al. 2019, read
+verbatim). No rule flipped and no row is owed. No map joins the subject,
+including overlord's map, which holds the picker. That miss is banked as an
+instrument gap. Detail in [[audience-absorption-at-scale]].

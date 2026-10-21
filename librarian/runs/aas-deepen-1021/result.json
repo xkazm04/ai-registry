@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "aas-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "unknown",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-21T13:30:00Z",
+  "ended_at": "2026-10-21T14:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/audience-absorption-at-scale",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/audience-absorption-at-scale.md",
+    "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/techniques/size-tiered-picking-mode.md",
+    "librarian/subjects/media-generation/audience-absorption-at-scale.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "5259c9bd",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/media-generation/index.json",
+        "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/audience-absorption-at-scale.md",
+        "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/techniques/size-tiered-picking-mode.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single stack not curable: no second chat allocator in the fleet. Counter lane: chatting share relabelled estimate; Nematzadeh 2019 overload anchor added. No technique, no flip, no row owed. No map joins the subject (overlord picker context unpaired, banked). No blind lane."
+}
