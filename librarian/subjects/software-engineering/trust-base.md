@@ -1,3 +1,11 @@
+---
+subject: trust-base
+domain: software-engineering
+last_touched: 2026-10-22
+touched_by: deepen
+dry_streak: 0
+---
+
 # trust-base
 
 Founded 2026-10-14 by intake run duvet-1014 from one verified-core repository (n=1) plus
@@ -47,3 +55,11 @@ Review condition from founding (a second verifier or unsafe-heavy tree) still op
 pass widens census-counts-unmarked-members only; verifier-side techniques still rest on one
 tree. Banked: kp direction, a typed-lint ratchet line; return when kp adds it. Dry-streak 0;
 depth L3 (an instrument run against a tree plus a fixture).
+
+Idled 2026-10-22 (curator, /deepen subject form, run tb-idle-1022). Dispatched on "never swept by
+the librarian" at HEAD a00b9d2f, a day after tb-deepen-1021 landed the next stack. The finding
+was an instrument artifact: this note had no frontmatter, so librarian-scan read last_touched as
+null and scored the subject 3 points on that reason alone (0 expired, 0 at-risk, oldest
+verified_on 2026-10-14). Volatile scan re-read: years and illustrative durations only, none
+platform-set. Frontmatter added; no research rerun, no clock or event to point at. Return
+conditions unchanged (a second verifier or unsafe-heavy tree; kp adds a typed-lint ratchet line).
