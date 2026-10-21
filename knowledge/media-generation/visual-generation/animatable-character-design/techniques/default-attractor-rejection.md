@@ -34,7 +34,9 @@ banned outcome without its reason gets reinvented one adjective away.
   a mouth that opens a frame late, a blink without the lids folding right —
   reads as wrongness rather than as style. Behavioural realism matters more
   than photographic realism, and a photoreal still demands both. A stylised
-  or non-human being earns forgiveness the human face never gets.
+  or non-human being earns forgiveness the human face never gets — while
+  its parts sit at one level of realism. The unease the evidence supports
+  best is cue mismatch, and a stylised body with photoreal eyes has one.
 - **It carries an honesty cost.** A convincing person presenting software
   invites users to treat it as a person. A being that is plainly not human
   keeps the boundary visible without a disclaimer.

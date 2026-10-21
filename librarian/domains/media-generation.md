@@ -234,3 +234,17 @@ fail-fast policy gave the carry-on rule its economic condition. The bundle now d
 unsourced 10-15% pause figure was labelled folklore. Map not regenerated: both joined
 projects carried a sibling's uncommitted rebuild; joins are unjudged, so nothing went
 stale. Points 5 -> 3. Detail in [[live-system-demo-film]].
+
+## 2026-10-21 - deepen, animatable-character-design
+
+Dispatched on "single stack (process)". The second stack was a second tree:
+overlord built its villain's face on athena-portable's parametric rig three
+days after the forge, from a brief applying this subject's own rules. New
+`python` application: fixed-route trial collapsed to the split; the speech
+probe decomposes into signal test plus asset check on a parametric route;
+a light-on-light occlusion cost an inpaint, not a regeneration (banked, n=1).
+Counter lane refuted the golden path's uncanny-valley reason (near-human dip
+and movement modulation weakly supported; perceptual mismatch well supported,
+Kätsyri et al. 2015), corrected with a mixed-register condition; applied row
+`unmeasurable` over three stills. No project map joins the subject, so
+nothing went stale. Detail in [[animatable-character-design]].

@@ -39,10 +39,19 @@ the writer's imagination, and it arrives without anyone deciding it.
 
 It is the wrong default for this job on three counts that compound. It has no
 relation to the product it is supposed to embody, so it could front any
-product and therefore fronts none. It sits squarely where animated faces
-fail: viewers forgive a great deal of crudeness in a stylised being and
-forgive almost nothing in a near-human face that moves slightly wrong, so a
-realistic human locks the execution into the hardest possible bar. And a
+product and therefore fronts none. It sits where animated faces most often
+fail, though not for the reason usually given. The empirical record does not
+reliably show a dip in comfort at "almost human": a 2015 review of the
+studies (Kätsyri and colleagues, Frontiers in Psychology) found that shape
+only under specific conditions, and no consistent support for movement
+deepening it. What it did support well is **perceptual mismatch** — unease
+tracks cues that disagree, such as eyes, skin or motion at a different level
+of realism from the face around them. A realistic human sets every cue to
+human, so every cue the pipeline renders imperfectly becomes a mismatch, and
+that locks the execution into the hardest possible bar. A stylised being is
+forgiven because it promises less, and only while its parts agree: photoreal
+eyes in a stylised body bring back the mismatch the form was chosen to
+avoid. And a
 convincing human face presenting software carries an honesty cost — a
 non-human presence cannot be mistaken for a person, and a near-human one is
 designed to be.
@@ -154,6 +163,9 @@ ends where that one's inputs begin.
 - **The unchosen portrait** — a round of realistic or painted humans nobody
   asked for, judged on which human is nicest, because the brief never named
   the default.
+- **The mixed register** — a stylised being with one part rendered at a
+  different level of realism (photoreal eyes, skin-textured lips), so the
+  form escapes the human default and keeps the mismatch.
 - **The mascot in costume** — a stock character wearing the namesake's
   emblem, where the brand is a prop on a body rather than the structure of
   the being.

@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 251,
-  "applications": 141,
+  "applications": 142,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -123,9 +123,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/visual-generation/animatable-character-design/animatable-character-design.md",
-   "digest": "sha256-b2:d8903fbffde8188a",
-   "revision": 2,
-   "changedAt": "2026-10-18",
+   "digest": "sha256-b2:349109881c8614f6",
+   "revision": 3,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "animatability-trial",
@@ -191,6 +191,13 @@
      "technique": "functional-animation-slots",
      "file": "knowledge/media-generation/visual-generation/animatable-character-design/applications/process--functional-animation-slots.md",
      "verified_on": "2026-10-18"
+    },
+    {
+     "stack": "python",
+     "technique": "animatability-trial",
+     "file": "knowledge/media-generation/visual-generation/animatable-character-design/applications/python--animatability-trial.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "python@3.10"
     }
    ]
   },
