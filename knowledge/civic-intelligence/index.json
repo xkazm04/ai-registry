@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 66,
+  "applications": 67,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -1716,7 +1716,7 @@
    "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/roll-call-vote-analysis.md",
    "digest": "sha256-b2:1fb04612acd77185",
    "revision": 7,
-   "changedAt": "2026-10-21",
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "club-line-and-rebellion",
@@ -1856,9 +1856,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/state-budget-analysis.md",
-   "digest": "sha256-b2:950ba8b9dd844d1f",
-   "revision": 3,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:894841ad3b2aa9a9",
+   "revision": 4,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "consolidated-vs-headline-figures",
@@ -1943,6 +1943,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "consolidated-vs-headline-figures",
+     "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--consolidated-vs-headline-figures.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
     {
      "stack": "node",
      "technique": "municipal-money-trail",
