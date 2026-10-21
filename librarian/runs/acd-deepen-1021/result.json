@@ -1,0 +1,65 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "acd-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "unknown",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-21T10:30:00Z",
+  "ended_at": "2026-10-21T11:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/animatable-character-design",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "animatable-character-design",
+      "technique": null,
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/visual-generation/animatable-character-design/applications/python--animatability-trial.md",
+    "knowledge/media-generation/visual-generation/animatable-character-design/animatable-character-design.md",
+    "knowledge/media-generation/visual-generation/animatable-character-design/techniques/default-attractor-rejection.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/animatable-character-design.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "8e9f0a17",
+      "branch": "main",
+      "pathspec": [
+        "knowledge/media-generation/visual-generation/animatable-character-design/applications/python--animatability-trial.md",
+        "knowledge/media-generation/visual-generation/animatable-character-design/animatable-character-design.md",
+        "knowledge/media-generation/visual-generation/animatable-character-design/techniques/default-attractor-rejection.md",
+        "librarian/applied.md",
+        "librarian/subjects/media-generation/animatable-character-design.md",
+        "librarian/domains/media-generation.md",
+        "catalog.json",
+        "knowledge/media-generation/index.json",
+        "rules/ai-registry-media-generation.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second tree (overlord) cured single-stack; python application. Counter lane corrected the uncanny reason to perceptual mismatch (Katsyri 2015); applied simulation unmeasurable. No map joins the subject, maps not regenerated. Gate 25/25 clean worktree. No blind lane."
+}
