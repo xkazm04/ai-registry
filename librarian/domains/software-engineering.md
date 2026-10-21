@@ -1289,3 +1289,29 @@ Source-class tally (post-hoc, this run):
 - The blind lane agreed with the counter lane on the filter/refusal split and on SDK caps
   on retry waits. Where it gave figures (an SDK cap of about 60 s), the source agreed with
   them for one library and contradicted them for the two others.
+
+## Run tb-deepen-1021 - trust-base, the census that recorded `any` as zero
+
+A Curator dispatch on "single stack (rust)". Second stack is kp's TypeScript. Its
+suppression ratchet ceilings every type-checker directive and records explicit `any` as
+zero. In TypeScript the unchecked type is a value that standard decoders return, so it
+arrives with nothing spelled at the call site. Over three feature packages the directive
+census read 0 and the type-aware unsafe-flow lint found 30. Four more members were invisible
+to both: a callback parameter annotated on a promise of `any` is an assertion with no
+assertion keyword, and a fixture outside the tree reproduced the lint's silence. No new
+technique. Condition:
+- **where the unchecked type is a value, count its flow with the type-aware lint beside the
+  directives, and count annotated callbacks separately** (census-counts-unmarked-members).
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| trust-base | L3 | 1 condition, 1 golden-path widening, 1 application (experiment A/B) | 0 stale (18 pairs across 12 projects, none judged) | 0 |
+
+Source-class tally (post-hoc, this run):
+- A consumer tree's own gate header is a claim to test, not a source. Its reasoning ("the
+  checker is the gate for `any`") was the thing the census refuted.
+- A standalone fixture beat reasoning from the lint's documentation: it settled in one run
+  which shapes the lint visits.
+- Two of my own text instruments were wrong on first draft, one overcounting and one
+  undercounting. Both were caught by carrying a known negative. Text stand-ins need a
+  negative as well as a positive.

@@ -1,0 +1,62 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "tb-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-10-21T19:15:00Z",
+  "ended_at": "2026-10-21T20:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/trust-base",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "trust-base",
+      "technique": "census-counts-unmarked-members",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/trust-base.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/techniques/census-counts-unmarked-members.md",
+    "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/next--census-counts-unmarked-members--kp.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/trust-base.md",
+    "librarian/domains/software-engineering.md"
+  ],
+  "commits": [
+    {
+      "sha": "e99b187e",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/software-engineering/index.json",
+        "rules/ai-registry-software-engineering.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/trust-base.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/techniques/census-counts-unmarked-members.md",
+        "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/next--census-counts-unmarked-members--kp.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "kp next at 4ca15eb79: directive census 0 vs no-unsafe-* lint 30 over 3 packages, plus 4 annotated .then callbacks the lint misses (fixture-confirmed), 13 tree-wide. Census condition added. 0 judged trust-base verdicts fleet-wide. kp 5cb4844f7, 7d4fe1192 pushed."
+}
