@@ -9779,7 +9779,7 @@
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
    "digest": "sha256-b2:75b2a991f4be514f",
    "revision": 3,
-   "changedAt": "2026-10-21",
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "forward-path-feature-allowance",
