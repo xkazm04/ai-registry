@@ -83,6 +83,28 @@ in one sentence and offer the approach, not to supply activity that did not occu
 evidence](../../../_laws.md#absence-of-evidence-is-not-evidence): a development area with
 no action behind it is shown as exactly that.
 
+## When a tool writes the scaffold
+
+A generator that hands the candidate an answer outline is making the row choice on their
+behalf, and it can only choose from what it can see. Two rules follow.
+
+**A tool that cannot see per-experience evidence must not pre-pick a row.** Without it, a
+generator falls back to one row for every gap, and the row it reaches for is nearly
+always the bridge ("name your closest analog"), because it reads well in a template. The
+bridge presupposes adjacent experience. For a candidate who has none, the outline asks for
+the stretch this technique forbids. Such a tool either carries the evidence the selector
+needs, or shows the candidate the selector itself, top row first, and lets them take the
+first true row.
+
+**A prompt must not name an experience the record does not hold.** "Take the production
+feature you shipped with this tool" asked of a record with no such feature has supplied the
+story before the candidate speaks, and the scaffold beneath it coaches the delivery of it.
+The test is mechanical: every experience a generated question or scaffold presupposes is
+either found in the record the tool read, or the question is rewritten into the
+no-experience row (how they would approach it, what they would learn first). This is
+[say only what the record holds](../../../_laws.md#say-only-what-the-record-holds)
+applied to the tool rather than the speaker.
+
 ## Do not over-explain
 
 An apology for the gap, or a long account of why it exists, spends the time the answer

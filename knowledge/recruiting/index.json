@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 311,
+  "applications": 313,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -5187,9 +5187,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/interview-story-portfolio.md",
-   "digest": "sha256-b2:afe5da6c1cf11dd9",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:7266ebdd13504f5e",
+   "revision": 3,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "earned-secret-needs-proof",
@@ -5311,6 +5311,20 @@
      "technique": "practice-score-needs-outcomes-before-it-is-trusted",
      "file": "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/process--practice-score-needs-outcomes-before-it-is-trusted.md",
      "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "python",
+     "technique": "gap-response-chosen-by-story-strength",
+     "file": "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/python--gap-response-chosen-by-story-strength.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "portfolio-assignment-before-per-question-pick",
+     "file": "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/python--portfolio-assignment-before-per-question-pick.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "python@3.12"
     }
    ]
   },

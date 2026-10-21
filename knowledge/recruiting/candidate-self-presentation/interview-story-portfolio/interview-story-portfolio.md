@@ -152,6 +152,12 @@ learned first) and a known development area (say what has really been started). 
 rules never bend: nothing is fabricated, and a plural pronoun is never used to cover a
 singular gap. The interviewer asks what *you* did.
 
+A tool that writes answer outlines for the candidate carries the same duty one step
+earlier. If it cannot see how strong each experience is, it cannot pick the row, and a
+template that always says "bridge from your closest analog" assumes an analog exists. A
+question that presupposes an experience the record does not hold ("the production feature
+you shipped with X") has supplied the story before the candidate says a word.
+
 ## What makes an answer distinctive
 
 An answer is distinctive when it contains something only this person could say. The
@@ -198,9 +204,10 @@ prepares for is thinner than the technique vocabulary suggests. Two dated findin
 what the portfolio may claim.
 
 **Impression management is common and weakly rewarded in the interview, not strongly.** A
-meta-analysis of 18 articles (42 effect sizes, pooled n = 8,635) puts the corrected
-correlation between impression-management use and interview ratings at about 0.22
-(self-focused tactics 0.24, k = 20, n = 2,515; other-focused 0.17, k = 12, n = 1,277), with
+meta-analysis of 18 articles (42 effect sizes, n = 8,635 across all its analyses) puts the
+corrected correlation between impression-management use and interview ratings at about
+0.22 on the subset that reports ratings (k = 32, n = 3,792; self-focused tactics 0.24,
+k = 20, n = 2,515; other-focused 0.17, k = 12, n = 1,277), with
 a larger link in lab studies than field studies (0.24 vs 0.18) and in working applicants
 than students (0.36 vs 0.15) ([Peck and Levashina, 2017](https://doi.org/10.3389/fpsyg.2017.00201)).
 The honest-versus-deceptive split was not analysed there. The use for this subject: a
@@ -211,7 +218,8 @@ evidence is about ratings, in samples dominated by students and mock settings.
 
 **Applicants vary their presentation from one interview to the next, and not evenly.** In
 80 business students across 448 interviews (mean 5.8 each, 71 analysed for variability),
-honest defensive tactics varied most between interviews, honest self-promotion least
+honest defensive tactics varied most between interviews, and honest self-promotion and
+extensive image creation varied least, with overlapping intervals
 ([Roulin and Bourdage, 2017](https://doi.org/10.3389/fpsyg.2017.00029)). Impression
 management there was self-reported and the paper reports no ratings or offers, so it says
 nothing about whether variation helps. It does mean the portfolio's facts, not its
@@ -219,9 +227,19 @@ framing, are the part a candidate must hold constant: the framing of an experien
 drift between rounds whatever the plan says, and the plan should pin the verifiable
 particulars (dates, roles, numbers, who did what) so that drift stays in emphasis.
 
-**What the evidence does not reach.** Both studies are of impression management in
-general; neither tests story allocation, fit tiers or gap responses, so those remain this
-subject's reasoned practice rather than measured effects (the open measurement is recorded
+**Preparation on real content did not cost the interview its validity, in one field
+sample.** In 146 public-safety incumbents scored in a structured situational panel
+interview, coaching aimed at core, interview-relevant content and conveying it accurately
+(as opposed to manipulating scores by peripheral means) went with higher predictive
+validity and reliability in the coached group than the uncoached one ([Maurer, Solamon and
+Lippstreu, 2008](https://doi.org/10.1002/job.512)). The groups were not randomised and the
+criterion is job performance, not offers; it is the closest primary evidence that
+content-first preparation, which is what a portfolio is, does not work by fooling the
+interviewer. It says nothing about allocation.
+
+**What the evidence does not reach.** These studies are of impression management and
+coaching in general; none tests story allocation, fit tiers or gap responses, so those
+remain this subject's reasoned practice rather than measured effects (the open measurement is recorded
 in the subject note). Evidence on candidates using generative tools during live
 interviews was, as of 2026-10-14, practitioner surveys and trade reporting, not
 peer-reviewed; this subject takes no position on detection and keeps its rule that a
