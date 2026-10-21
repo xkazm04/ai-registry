@@ -5,7 +5,7 @@ subject: on-stream-persona-continuity
 technique: owner-brief-below-the-constitution
 stack: rust
 status: forged
-verified_on: 2026-10-19
+verified_on: 2026-10-21
 verified_against: rust@1.97.1
 ---
 

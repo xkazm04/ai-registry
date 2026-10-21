@@ -11,6 +11,7 @@ techniques:
   - cited-memory-with-tombstones
   - anti-repetition-window
   - owner-brief-below-the-constitution
+  - per-turn-persona-anchor
 ---
 
 # On-stream persona continuity
@@ -47,9 +48,12 @@ has; it is something the system enforces against each of these channels by name.
 A fifth channel is the infrastructure itself. When the main model path fails and
 a fallback takes over, or the show comes back after an outage, the character
 that returns must be the character that left. A public case of an automated show
-that came back from a platform suspension with its cast changed lost most of its
-concurrent audience in the return; the show survived the suspension and did not
-survive the recast. Every path that can put words in the host's mouth composes
+was suspended after a fallback to a weaker model aired a line the main path would
+have caught, and it came back with its cast replaced and a fraction of its earlier
+audience, while fans asked where the old character had gone. The drop cannot be
+split between the recast, a month off air and novelty that had already peaked, so
+the case shows how the fallback broke the character, not how much the recast cost.
+Every path that can put words in the host's mouth composes
 the same persona, and a recovery plan that swaps the character to get back on
 air faster has traded the asset for the airtime.
 
@@ -76,7 +80,12 @@ conflict between them is a model reading them all at once. The core says it
 outranks the character bible, the tone, the owner's brief and anything
 remembered; the bible says it is subordinate to the core. Left unstated, the
 ordering is re-decided every turn by whichever text is most vivid, which is
-usually the most recent and the least authoritative.
+usually the most recent and the least authoritative. Stated precedence is
+necessary and it is not enough: models resolve conflicts between instruction levels
+inconsistently even when the levels are marked, so the rank written in the text is
+the fallback, and code enforces it wherever code can check (a scope filter before
+memory enters the prompt, a check of tonight's directives against the core before
+the stream, an output gate after the reply).
 
 Tuning is legitimate and is fenced by an allowlist rather than a denylist. An
 automated pass that studies past streams and proposes persona changes may propose
@@ -94,9 +103,9 @@ four-hour stream "slightly" compounds. The prefix that carries the core, the
 bible and the active tone is assembled from the same files, in the same order,
 with the same separators, every turn, and nothing that changes per turn (the chat
 window, the viewer's name, the clock, the memory recall, tonight's brief) is
-allowed above it. The rule has three payoffs, and identity is the first, not the
-third: the character the model reads at minute 200 is exactly the character it
-read at minute one; any transcript can be traced to the exact persona that
+allowed above it. The rule has three payoffs: the persona text the model reads at
+minute 200 is exactly the text it read at minute one, so composition adds no drift
+of its own; any transcript can be traced to the exact persona that
 produced it by a hash of the prefix; and the stable prefix is what makes provider
 caching pay, which on a live show is first-word latency as much as cost.
 
@@ -106,6 +115,18 @@ tonight" a different persona from "no brief last night" and breaks every cache
 and every comparison that assumed otherwise. Absent means byte-absent.
 [byte-stable-persona-prefix](./techniques/byte-stable-persona-prefix.md) owns the
 ordering, the hashing, and the empty-section rule.
+
+Identical text is not identical behaviour. Instructed chatbots drift from a system
+prompt that is present on every turn, within a handful of rounds, and the measured
+mechanism is attention fading from the head of a growing context. So the head
+carries the persona in full and the per-turn band carries a short anchor next to
+the message being answered: the voice invariants in the same words every time, and
+a few example lines for the beat's situation, rotated so that no example becomes a
+line the host repeats. Re-inserting the persona near the newest turn reduces drift
+by about a third in the one controlled comparison at hand, and nothing measured
+removes it, so the in-character rate is measured all stream, not assumed.
+[per-turn-persona-anchor](./techniques/per-turn-persona-anchor.md) owns what the
+anchor holds, the rotation and its ceiling.
 
 ## Tone is an experiment, never a preference
 
@@ -228,6 +249,9 @@ the character; this subject owns what the character is.
   to be a little nicer, until the menace that brought the audience is gone.
 - **The tuning pass that edits the soul**: an optimiser or reconciler allowed to
   rewrite the core because the metric it was chasing improved.
+- **The anchor at the top only**: a perfect persona prompt at the head of a
+  four-hour context and nothing near the newest turn, so the character holds for
+  the first segment and fades through the rest.
 - **The drifting prefix**: a persona re-rendered per turn, so no two transcripts
   were produced by the same character and nothing can be compared or cached.
 - **Tone by feel**: variants swapped after one stream, with no control arm, and a
@@ -263,3 +287,6 @@ the character; this subject owns what the character is.
 - [owner-brief-below-the-constitution](./techniques/owner-brief-below-the-constitution.md):
   owner direction fenced below the core, unable to permit what the core forbids,
   and byte-absent when unused.
+- [per-turn-persona-anchor](./techniques/per-turn-persona-anchor.md): a short
+  restatement and rotated example lines near the newest turn, because a persona at
+  the head of a long context fades.

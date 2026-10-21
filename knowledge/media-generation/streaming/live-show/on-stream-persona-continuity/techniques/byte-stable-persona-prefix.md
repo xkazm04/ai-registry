@@ -41,9 +41,12 @@ carry.
 
 ## The three payoffs
 
-- **Identity.** The character is literally the same input every turn, so drift
-  can only come from the lower layers, which are where the other techniques of
-  this subject guard it.
+- **Identity of input.** The persona text is literally the same every turn, so
+  composition adds no drift of its own. It does not stop drift: a model drifts
+  from a system prompt that is present on every turn, as the context under it
+  grows, which is why a short anchor near the newest turn
+  ([per-turn-persona-anchor](./per-turn-persona-anchor.md)) carries part of the
+  load the head cannot.
 - **Traceability.** A hash of the composed prefix is recorded with every turn.
   Any transcript, clip or complaint resolves to the exact persona that produced
   it, and two runs can be compared only when their hashes say they ran the same

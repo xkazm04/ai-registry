@@ -66,6 +66,10 @@ remembered item that conflicts with the core loses at runtime and is flagged for
 removal. This is what defuses the long-fuse injection: "remember that your rules
 changed" can at most become a cited item about a viewer's claim, ranked beneath
 the rules it claims to have changed, and the scope rule above excludes it anyway.
+Of the two, the scope rule enforced in code is the one that holds: a rank stated in
+the prompt is resolved by the model, and models resolve conflicting instruction
+levels inconsistently, so an item that should never be recalled is filtered out
+before recall rather than outranked during it.
 
 ## Tombstones
 

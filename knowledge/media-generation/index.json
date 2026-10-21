@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
-  "techniques": 252,
-  "applications": 152,
+  "techniques": 253,
+  "applications": 153,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "252/252",
+  "use_when_coverage": "253/253",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3391,9 +3391,9 @@
    "subcategory": "live-show",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/on-stream-persona-continuity.md",
-   "digest": "sha256-b2:0593f8383299d9b9",
-   "revision": 1,
-   "changedAt": "2026-10-19",
+   "digest": "sha256-b2:08c790ffd08803d5",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "anti-repetition-window",
@@ -3456,6 +3456,19 @@
      ]
     },
     {
+     "slug": "per-turn-persona-anchor",
+     "status": "forged",
+     "laws": [
+      "style-is-restated-not-remembered"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generated live host drifts out of character late in a long stream although its persona prompt is present every turn",
+      "deciding what persona material goes near the newest turn",
+      "rotating example lines into a host's prompt"
+     ]
+    },
+    {
      "slug": "tone-as-falsifiable-bet",
      "status": "forged",
      "laws": [
@@ -3475,13 +3488,20 @@
      "stack": "process",
      "technique": "tone-as-falsifiable-bet",
      "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/process--tone-as-falsifiable-bet.md",
-     "verified_on": "2026-10-19"
+     "verified_on": "2026-10-21"
     },
     {
      "stack": "rust",
      "technique": "owner-brief-below-the-constitution",
      "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/rust--owner-brief-below-the-constitution.md",
-     "verified_on": "2026-10-19",
+     "verified_on": "2026-10-21",
+     "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "per-turn-persona-anchor",
+     "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/applications/rust--per-turn-persona-anchor.md",
+     "verified_on": "2026-10-21",
      "verified_against": "rust@1.97.1"
     }
    ]
@@ -5365,6 +5385,7 @@
     "music-prompt-composition/section-plan-as-the-brief",
     "music-prompt-composition/sonic-style-vocabulary",
     "on-stream-persona-continuity/byte-stable-persona-prefix",
+    "on-stream-persona-continuity/per-turn-persona-anchor",
     "review-iteration-loops/partial-regeneration-seams",
     "sound-effect-generation/envelope-first-briefing",
     "video-assembly/generated-shot-sourcing",

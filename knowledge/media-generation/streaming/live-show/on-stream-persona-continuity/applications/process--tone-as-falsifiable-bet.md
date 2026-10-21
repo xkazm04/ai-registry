@@ -5,7 +5,7 @@ subject: on-stream-persona-continuity
 technique: tone-as-falsifiable-bet
 stack: process
 status: forged
-verified_on: 2026-10-19
+verified_on: 2026-10-21
 ---
 
 # Process: five tone bets, a control arm, and a tone-by-tier tournament
