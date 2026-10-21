@@ -1,0 +1,64 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "deepen-crrc-1021",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "game-production",
+  "started_at": "2026-10-21T15:00:00Z",
+  "ended_at": "2026-10-21T16:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/cross-runtime-rules-conformance",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "cross-runtime-rules-conformance",
+      "technique": "golden-path: share-the-source-before-porting",
+      "verdict": "not-better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/cross-runtime-rules-conformance.md",
+    "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/dotnet--pinned-rules-data-across-runtimes.md",
+    "knowledge/game-production/index.md",
+    "knowledge/game-production/index.json",
+    "catalog.json",
+    "rules/ai-registry-game-production.md",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/cross-runtime-rules-conformance.md"
+  ],
+  "commits": [
+    {
+      "sha": "5133030f",
+      "pathspec": [
+        "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/cross-runtime-rules-conformance.md",
+        "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/dotnet--pinned-rules-data-across-runtimes.md",
+        "knowledge/game-production/index.md",
+        "knowledge/game-production/index.json",
+        "catalog.json",
+        "rules/ai-registry-game-production.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single stack widened to dotnet from garden-vr (one source compiled twice, not a port). Golden path gained a scope rule and margin condition; simulation not-better (A and B agree on 3 branches). No fleet map joins the subject: mage-arena-vr and garden-vr declare no domains."
+}
