@@ -1379,3 +1379,19 @@ No new technique. Conditions on the golden path and five techniques:
 Applications re-verified against kp at `60aab8088` (every line re-resolved; a fourth added for the observation technique). kp closed the 80-hour approve bound and the 4.0 default and records the clamp. Executed against the committed modules: one paste of 640 characters after 400 edits takes a 100 "authentic" session to 35 "suspect" and holds it, though the intro names neither paste nor its use and says any tool including AI is fine; the local draft key is per posting, so a second candidate on one browser profile is handed the first's name, contact, session and files; the TypeScript and Python fallbacks disagree on five of fourteen inputs. Nothing landed in kp; five rows in `applied.md`, none better or not-better.
 
 Impact: kp only, no stale verdicts on this subject; the map was dry-run and not written. Yield high, dry_streak 0, depth L2 for the applications and L1 for the golden path. Cross-subject lead for a sweep of `ai-assistance-detection-and-fairness`: kp's fixed 600-character paste rule against that subject's own "unreviewed bulk" and no-threshold guidance. See [[work-sample-timeboxing-and-cost]].
+
+## 2026-10-21 - deepen: candidate-consent-and-retention
+
+Dispatched from the attention scan ("single stack (node)"). The run was justified by kp's 2026-10-18 deviation verdict on `consent-erasure-privacy`. That deviation is kp's: the techniques already cover the null expiry, withdrawal and the carve-out's end date.
+
+No new technique. Conditions:
+- **a store the scrub cannot key into must be unable to receive the person** (one-transaction-scrub): by signature or at the write door, or else bounded, inventoried and named in the receipt. Converged from three kp instances and the blind lane. Also added: make the inventory a test, and handle racing erasure doors;
+- **an unreadable retention setting resolves to the shipped default window** (retention-ttl): never unbounded, never zero. kp's `inf` TTL bug was found by running the function and fixed red-first in kp `47fd18d35`;
+- **regulator windows re-sourced**: the specific-role band is two tiers (ICO: the statutory claim period; CNIL: three months active, archive up to five years), not "six to twelve months";
+- **consent is the preferred pool basis, not the only one** (CNIL accepts legitimate interest with a simple objection); withdrawal is prospective (Art. 7(3));
+- **pseudonymised data qualified by C-413/23 P**;
+- **legal obligation joins the carve-out**: Art. 17(3)(b), and AI Act Art. 26(6) logs from 2 December 2027 per the Omnibus.
+
+Two new python applications from kp's engine; the node scrub application re-verified at `efa2089f1` (anchors moved about 1,100 lines). Two `applied.md` rows: one simulation (better), one code (better).
+
+Impact: kp only, 2 contexts, 1 stale verdict on this subject (the deviation). kp's map was rebuilt in full from a clean worktree and pushed. Yield high, dry_streak 0, depth L2. Source classes: regulator guidance and court text beat commentary again. cnil.fr and EUR-Lex served errors, so the Wayback and Publications Office routes carried them. See [[candidate-consent-and-retention]].
