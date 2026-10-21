@@ -78,6 +78,16 @@ treating a starting event as a fact produces a table that cannot say no.
   belong in the declaration, restated each time, not remembered from the opening.
   Generate the direction from the table where you can (the guests available
   tonight, the case being audited), so prose and data cannot disagree.
+- **When anyone but the runtime shows the table, generate the view from the
+  declaration and check it against the declaration.** An operator's console, a rules
+  overlay or a format sheet is a copy of the table, like the host's direction. A copy
+  projected by hand keeps the table's shape on the day it was written: each rule added
+  afterwards (a floor, a per-state narrowing, a new clock) is enforced on air and absent
+  from the screen the owner judges the format by. The check that holds walks every key
+  the table declares and fails on any the view does not carry; reading the projection
+  to test the projection inherits its gaps. A view's own sentence restating a rule's
+  semantics drifts the same way, so it is rendered from the rule's fields, not written
+  beside them.
 - **When a host action is refused, record why.** Host actions outside the table
   are rejected with the rule that refused them, and the record goes where
   evaluation can see it; a host that keeps reaching for a closed action is a
@@ -119,6 +129,9 @@ a format that cannot be described cannot be compared.
 - **Prose duplicating the table** — the dispatcher closes a command and the
   direction also forbids it in different words; the host follows whichever was
   more recent in its context.
+- **The frozen view** — an operator screen that projected the table when it had six
+  kinds of rule, still showing six after the table grew to ten, so the owner reviews a
+  simpler format than the one on air.
 - **No fallback exit** — a handover condition that never fires on a small night,
   and a segment that runs until someone notices.
 - **Silent declines** — out-of-state commands swallowed with no acknowledgement,

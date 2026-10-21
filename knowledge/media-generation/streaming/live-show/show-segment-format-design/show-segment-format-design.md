@@ -51,7 +51,10 @@ participate better every time it recurs.
 Declared, they become data rather than prose, and data can do what prose cannot:
 be validated before air (does every state have an exit?), be enforced during air
 (a command outside the open set is declined, not improvised around), and be
-compared afterwards (did the segment hand over on its rule or on its ceiling?).
+compared afterwards (did the segment hand over on its rule or on its ceiling?). Every
+other place the table is shown, an operator's console or a rules overlay, is then a
+copy generated from it and checked against it, because a view written by hand keeps the
+rules the table had on the day it was written.
 The state-table discipline (segment-as-state-table) is what turns a segment from a
 suggestion to the host into a machine the host runs.
 
@@ -180,6 +183,8 @@ to [audience absorption at scale](../audience-absorption-at-scale/audience-absor
   The host improvises until bored, and no two runs are comparable.
 - **The rundown** — every handover on the clock. The show leaves its hit early and
   outstays its flop, and the audience learns the schedule instead of the format.
+- **The frozen view** — an operator screen projected from the table by hand, still
+  showing the rules it had when the screen was built while the runtime enforces more.
 - **The flapping handover** — a metric gate with no sustain window, so one burst or
   one lull moves the show and the next sample moves it back.
 - **The guest who took the show** — an uncapped foil trading lines with the host

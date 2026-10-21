@@ -99,6 +99,10 @@ The guest rule and the quiet-room rule are declared as direction:
 
 ## Deviations (the standard stands)
 
+*Two of these narrowed after this read (cold-open floor, per-state op narrowing for the
+cold open; b1b5774, 2026-10-20). See the typescript application of this technique, read
+at a later commit.*
+
 - **Out-of-segment viewer commands are dropped silently.** The command check is
   followed by a bare `continue`, with no event and no acknowledgement; host ops
   outside the table, by contrast, are recorded. The technique asks for an in-world
