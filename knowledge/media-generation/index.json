@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 251,
-  "applications": 143,
+  "applications": 144,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -2487,9 +2487,9 @@
    "subcategory": "trust-and-evaluation",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/live-chat-moderation-and-anti-bait.md",
-   "digest": "sha256-b2:2a3062edee97acb3",
-   "revision": 1,
-   "changedAt": "2026-10-19",
+   "digest": "sha256-b2:86ca3bd8344844c1",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "authority-from-metadata-only",
@@ -2554,7 +2554,8 @@
      "use_when": [
       "placing the output check for a live host",
       "adding a new path that produces spoken or on-screen text",
-      "a persona that leaked its own instructions or internal markup on air"
+      "a persona that leaked its own instructions or internal markup on air",
+      "drawing viewer chat on the broadcast canvas"
      ]
     },
     {
@@ -2583,6 +2584,13 @@
      "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/applications/rust--path-independent-output-gate.md",
      "verified_on": "2026-10-19",
      "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "typescript",
+     "technique": "path-independent-output-gate",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/applications/typescript--path-independent-output-gate.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "typescript@6"
     }
    ]
   },

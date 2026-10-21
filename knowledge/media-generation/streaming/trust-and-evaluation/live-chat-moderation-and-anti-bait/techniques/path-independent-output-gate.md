@@ -6,7 +6,7 @@ technique: path-independent-output-gate
 status: forged
 laws: [unmeasured-is-not-pass]
 shared_with: []
-use_when: [placing the output check for a live host, adding a new path that produces spoken or on-screen text, a persona that leaked its own instructions or internal markup on air]
+use_when: [placing the output check for a live host, adding a new path that produces spoken or on-screen text, a persona that leaked its own instructions or internal markup on air, drawing viewer chat on the broadcast canvas]
 ---
 
 # Path-independent output gate
@@ -26,8 +26,12 @@ someone thinking about its own job. A filter attached per path is a filter some 
 forgot, and the forgotten path is where the bait goes, because a baiter does not need
 to know your architecture, only to find the one way to make the host speak that nobody
 screened. Outages find it for them: the fallback model switched in when the primary
-times out is, historically, the path that reaches air unfiltered, because it was built
-in a hurry for availability and nobody thought of it as a speaking path.
+times out is, historically, the path that reaches air unscreened. It was built in a hurry
+for availability, and nobody tested the moderation against it. In the best-known case,
+the operators first said their moderation tools had worked with the primary model "but
+were not successful" with the fallback. Later they said they had not been using those
+tools correctly. Either way, the screening had only been tested on the path that was
+always running.
 **Moderation must be path-independent**: placed where all paths converge, so
 a new path is gated by default and opting out takes a deliberate change someone can
 review.
@@ -75,6 +79,14 @@ benefit: the gate can be tested once and trusted across a roster.
 - **When reporting moderation health**, report coverage — which paths and what fraction
   of broadcast lines the gate saw — beside the block rate. A path the gate never saw is
   unmeasured, never clean.
+- **When a surface reproduces viewer text** — a chat lane on the broadcast canvas, a
+  highlighted message, a "heard" card — it is a speaking path that no output gate sees,
+  because nobody composed the line. Its door is the input filter's verdict: draw a line only
+  after the verdict that judged it has arrived, and only once every verdict of that pass is in
+  (verdicts for one pass arrive as several events, and a renderer that releases on the first
+  leaks between them). Mark a line as removed only when the filter withheld it, and treat a
+  verdict the renderer does not recognise as withholding. The cost is that a line shows up
+  when its pass closes rather than when it arrives, and that cost is part of the design.
 - **When the gate blocks a scripted, owner-authored line**, it still blocks. The fix is
   to edit the script, not to exempt authored text, because authored text interpolates
   viewer names and vote results.

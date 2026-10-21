@@ -124,9 +124,12 @@ come from verified platform metadata attached to the message, and any message th
 An output gate is only as strong as its coverage, and live hosts have more speaking
 paths than anyone inventories: replies to chat, segment narration, scripted
 interstitials, fallback lines when a model call times out, pre-generated greetings,
-on-screen captions, the text-to-speech queue itself. The documented way an automated
-show loses its channel is not a clever jailbreak of the main path; it is a fallback
-model, switched in during an outage, that nobody had wired to the filter. **Moderation
+on-screen captions, the text-to-speech queue itself, and the chat lane that reprints
+viewers' messages on the canvas. The documented way an automated show loses its channel
+is not a clever jailbreak of the main path. It is a fallback model, switched in during an
+outage, on which the show's moderation had never been shown to hold. The operators first
+said the tools that worked on the primary "were not successful" with the fallback, and
+later that they had not been using them correctly. **Moderation
 must be path-independent**: one gate, at the last door before broadcast, that every path
 passes through and none can opt out of. It strips what the persona must never leak
 (its own instructions, internal tags, the names of its hidden sections), blocks
@@ -135,7 +138,9 @@ has one obligation that points the other way: a line that leaked the machinery w
 also honestly saying the host is an AI must not lose the honesty, so its substitute is
 an in-voice disclosure, never a deflection. Its coverage —
 which paths it sees — is reported as a number, because a path the gate never saw is
-unmeasured, not clean. That is
+unmeasured, not clean. A surface that reprints viewer text has no composed line for the gate
+to see. Its door is the input filter's verdict, and the line waits until that verdict has
+arrived. That is
 [path-independent-output-gate](./techniques/path-independent-output-gate.md).
 
 ## Refuse in character, in one line, then move on
