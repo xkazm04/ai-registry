@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 86,
   "techniques": 561,
-  "applications": 322,
+  "applications": 323,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -2231,9 +2231,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/cross-runtime-rules-conformance.md",
-   "digest": "sha256-b2:9e418d4f3bccc2e1",
-   "revision": 2,
-   "changedAt": "2026-10-16",
+   "digest": "sha256-b2:d3f37f0cc44ed59e",
+   "revision": 3,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "declared-numeric-tolerance",
@@ -2339,6 +2339,13 @@
      "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/cpp--planted-mutation-proves-the-suite.md",
      "verified_on": "2026-10-16",
      "verified_against": "cpp@20"
+    },
+    {
+     "stack": "dotnet",
+     "technique": "pinned-rules-data-across-runtimes",
+     "file": "knowledge/game-production/systems-canon/cross-runtime-rules-conformance/applications/dotnet--pinned-rules-data-across-runtimes.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "dotnet@9.0.308"
     }
    ]
   },
