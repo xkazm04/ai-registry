@@ -1,0 +1,68 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ase-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "unknown",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-21T13:40:00Z",
+  "ended_at": "2026-10-21T14:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/audience-steering-economies",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "audience-steering-economies",
+      "technique": "visible-consequence-of-steering",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/typescript--visible-consequence-of-steering.md",
+    "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/rust--binding-votes.md",
+    "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/rust--sublinear-vote-weight.md",
+    "knowledge/media-generation/streaming/live-show/audience-steering-economies/techniques/visible-consequence-of-steering.md",
+    "knowledge/media-generation/streaming/live-show/audience-steering-economies/techniques/sublinear-vote-weight.md",
+    "knowledge/media-generation/index.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/audience-steering-economies.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "1073862e",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/media-generation/index.json",
+        "knowledge/media-generation/index.md",
+        "rules/ai-registry-media-generation.md",
+        "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/rust--binding-votes.md",
+        "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/rust--sublinear-vote-weight.md",
+        "knowledge/media-generation/streaming/live-show/audience-steering-economies/techniques/sublinear-vote-weight.md",
+        "knowledge/media-generation/streaming/live-show/audience-steering-economies/techniques/visible-consequence-of-steering.md",
+        "knowledge/media-generation/streaming/live-show/audience-steering-economies/applications/typescript--visible-consequence-of-steering.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second stack: overlord TS overlays crowned their own winners; fixed ad898bb (code, better). Screen-as-announcer rule added; platform native extra-vote exception added (unapplied). Rust apps got upstream notes. No map joins the subject. No blind lane."
+}

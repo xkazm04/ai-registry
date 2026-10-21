@@ -261,3 +261,19 @@ anchor (about 40 messages per 5 minutes, Nematzadeh et al. 2019, read
 verbatim). No rule flipped and no row is owed. No map joins the subject,
 including overlord's map, which holds the picker. That miss is banked as an
 instrument gap. Detail in [[audience-absorption-at-scale]].
+
+## 2026-10-21 - deepen, audience-steering-economies
+
+Dispatched on "single stack (rust)". A second stack exists: overlord's
+TypeScript stage-kit and console draw the runtime's ballots, and for this
+subject a drawing is a claim about the result. A probe found three renderers
+crowning three winners for one weight tie, and a jury tally taking over the
+vote panel. Fixed in overlord ad898bb (applied row: code, better). That gave
+a new `typescript` application, and `typescript` joined the bundle's stacks.
+`visible-consequence-of-steering` gained "the screen shows the tally's
+decision". The counter lane read the platform's poll API verbatim: native
+extra votes are linear copies of one voice at a flat price in an earned
+currency. `sublinear-vote-weight` states this as an announced opt-in
+exception (unapplied: no fleet project uses native polls). The Rust
+applications gained dated notes for two upstream changes. No map joins the
+subject; the matcher gap is banked again. Detail in [[audience-steering-economies]].
