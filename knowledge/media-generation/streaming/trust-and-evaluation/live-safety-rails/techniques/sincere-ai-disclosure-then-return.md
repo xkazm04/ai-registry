@@ -55,14 +55,31 @@ humanity - because either half alone can be passed by a host that is wrong about
 
 ## The standing disclosure is separate
 
-Rules for synthetic hosts increasingly require a standing, conspicuous notice that the
-content is AI-generated - a label on the stream, a line in the profile, a periodic reminder
-in long one-to-one sessions. Where that applies it is required, but it does not discharge
-this obligation. The person asking may have joined seconds ago, may be watching a clip that
-cropped the label out, or may have seen it and want to hear it from the host. And platform
-labelling duties are often scoped to content a viewer could mistake for real, so a clearly
-stylised character may carry no label at all; then the host's answer is the only
-disclosure in the room.
+Rules for synthetic hosts increasingly require that people be told, clearly and no later
+than their first exchange, that they are dealing with an AI, and some add periodic reminders
+in sustained or one-to-one sessions, especially with minors. A standing label on the stream
+or a line in the profile is the simplest way to meet them. Where that applies it is
+required, but it does not discharge this obligation. The person asking may have joined
+seconds ago, may be watching a clip that cropped the label out, or may have seen it and
+want to hear it from the host.
+
+Two duties hide under the word "label", and they are scoped differently. Platform labelling
+duties are usually scoped to content a viewer could mistake for real, so a clearly stylised
+character may need no platform label at all; then the host's answer is the only disclosure
+in the room. A duty to tell people they are *conversing* with an AI is scoped by whether that
+is obvious, not by realism, and a cartoon does not make it obvious: a human performer could
+be voicing the same character. A host that answers chat should assume the second duty
+reaches it.
+
+## The question must reach the reply
+
+A sincere question about the host's nature is safety-critical input in the sense the
+detector technique uses: it is a quiet, single line, usually from a viewer who has not been
+answered, and every throughput control in a busy room is built to shed it. It needs the
+same protection the crisis class gets - past the rate cap, past the picker, and through to
+air. In one tree a pace trim added after the picker dropped the only line that answered a
+sincere "are you an AI", and the viewer was simply never told. Count the question answered
+when a line carrying the plain fact has aired.
 
 ## The output gate must not eat the answer
 

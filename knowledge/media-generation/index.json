@@ -2739,9 +2739,9 @@
    "subcategory": "trust-and-evaluation",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/live-safety-rails.md",
-   "digest": "sha256-b2:41f8ecf0a098dbc8",
-   "revision": 1,
-   "changedAt": "2026-10-19",
+   "digest": "sha256-b2:1e0067bcd2638872",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "care-state-after-disclosure",
@@ -2826,13 +2826,13 @@
      "stack": "process",
      "technique": "crisis-handoff-one-kind-line",
      "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/applications/process--crisis-handoff-one-kind-line.md",
-     "verified_on": "2026-10-19"
+     "verified_on": "2026-10-21"
     },
     {
      "stack": "rust",
      "technique": "detector-biased-to-false-positive",
      "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/applications/rust--detector-biased-to-false-positive.md",
-     "verified_on": "2026-10-19",
+     "verified_on": "2026-10-21",
      "verified_against": "rust@1.97.1"
     }
    ]

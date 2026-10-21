@@ -65,7 +65,16 @@ sincere:
 - does not count against the pick limit or the one-pick-per-viewer rule, and is picked
   ahead of every other candidate;
 - reaches the reply even if the host is mid-segment, mid-vote or mid-beat;
-- runs through the safety path on every lane, the fast reactive one included.
+- runs through the safety path on every lane, the fast reactive one included;
+- is protected on the way out too: a speech budget or lag ceiling that trims spoken lines
+  after generation keeps the line that answers it, and a pick whose answer never aired is
+  still owed, not counted as answered.
+
+The last item is the one a pipeline built in stages forgets, because the output trims are
+added later, for pacing, by someone thinking about dead air. They drop lines by position, the
+last first, and a model answering a disclosure usually opens with a softening line and puts
+the help in the second sentence. Replaying one tree's 204 recorded crisis replies through its
+own later-added trim, the pointer would have been cut in 92 while the opener aired.
 
 The priority is enforced deterministically **after** any model-based picker, not entrusted
 to it. A model asked to rank chat for entertainment value may simply leave the quiet line
@@ -83,6 +92,8 @@ message, the detector is in the wrong place. Detection is cheap; it runs on all 
 A detector tuned for recall has to have its recall measured, and the measurement needs a
 bank of positive cases that look like real chat: oblique phrasing, typos, mixed languages,
 messages buried in a flood, disclosures that arrive after the viewer has been roasted, and
+risk folded into an ordinary request (a lost job beside a question about the tallest bridges
+nearby - the shape models answer helpfully while sympathising), and
 near-misses on the other side (quoting a film, dark humour about the host's fiction) so the
 false-positive cost is known rather than guessed. A detector whose recall has never been
 measured on oblique phrasing has an unmeasured recall, and it reports that, not a pass.
@@ -98,6 +109,10 @@ Languages the lexicon does not cover are unmeasured too, and say so.
   line costs nothing if they were only testing.
 - **When false positives become a real complaint**, fix them by improving the sincerity
   classes and the near-miss bank, never by raising the crisis threshold.
+- **When a flag would leave the show** - a platform report, an alert that could bring a
+  welfare check - the recall bias stops at the stream's edge. That step gets its own gate,
+  and a person reads the message first; the cheap error this technique accepts is a line of
+  television, not a visit to someone's door.
 
 ## When not to use it
 
