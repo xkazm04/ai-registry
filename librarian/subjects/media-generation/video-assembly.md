@@ -325,8 +325,9 @@ untreated arm nothing conditions the voice, so two seeds re-sample it wholesale,
 that number is not noise around the treatment, it IS the variable under test. A floor
 has to come from a cell where the channel is held fixed by design. That cell - the
 treated arm at a second seed - had never been rendered. One more clip, and the three
-readings written down before it finished (`PREREG-B1s.md`, 20:15, against the render's
-21:01) with the run author predicting the technique would fail.
+readings written down before it finished (20:15, against the render's 21:01; reproduced
+in full in the source note, since the run's scratch is deleted with the run) and the run
+author predicting the technique would fail.
 
 It did not. Treated spread 0.0623 against untreated 0.4432, **7.11x**; the operator,
 shown the two arms blind and asked only whether each sounded like one person twice,

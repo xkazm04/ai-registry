@@ -236,10 +236,20 @@ evidence of drift.
 
 One more clip settled both (`B1s`: arm B's beat 1 at seed 70999, matching `A1s`; diffed
 against `B1` to confirm exactly two fields differ, the seed and the output name). Before
-it rendered, the three permitted readings were written to `PREREG-B1s.md` at 20:15 - the
-render landed 21:01 - and the run author recorded a prediction **that the technique would
-fail**, on the strength of an already-visible null: attaching the reference had not pulled
-any output closer to the reference.
+it rendered, the three permitted readings were pre-registered in the run's scratch at
+20:15 - the render landed 21:01 - and the run author recorded a prediction **that the
+technique would fail**, on the strength of an already-visible null: attaching the
+reference had not pulled any output closer to the reference. The scratch is deleted with
+the run, so the readings are reproduced here in full rather than cited:
+
+| `d(B1, B1s)` | reading | outcome |
+| --- | --- | --- |
+| **< 0.10** | the reference pins register across seeds; the untreated arm's 0.4432 is the unpinned range, and the across-BEAT observable was simply the wrong one | land, observable corrected to across-seed |
+| **0.10 - 0.30** | directional at best, inside the spread of the cross-arm pairs already measured (0.0685, 0.0949) | do not land; lead with the numbers |
+| **> 0.30** | the reference does not pin the channel on this stack as wired, despite correct wiring | do not land; record a measured refutation |
+
+It came back **0.0623**. No reading but the first lands the technique, and the first is
+the one the run author had argued against.
 
 ### Result
 
