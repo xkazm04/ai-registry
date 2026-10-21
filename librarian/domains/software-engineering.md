@@ -1315,3 +1315,24 @@ Source-class tally (post-hoc, this run):
 - Two of my own text instruments were wrong on first draft, one overcounting and one
   undercounting. Both were caught by carrying a known negative. Text stand-ins need a
   negative as well as a positive.
+
+## Run ta-deepen-1022 - talking-avatar, the closure that was the fast tail
+
+A Curator dispatch on "never swept". The subject was 4 days old and its volatile facts were
+all local measurements, so the pass checked the general figures in the upper layers. Three
+corrections, no new technique. Conditions:
+- **the closure merge minimum is a visibility floor; real bilabial closures average ~70 ms**
+  (closure-floor-is-visibility).
+- **the 2 Hz head cut is a design choice over a 0.2-7 Hz natural band, and the nods it
+  removes come from text** (head-cut-is-a-design-choice).
+- Blink phases were widened and the conversational rate (~26/min) was added.
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| talking-avatar | L2 | 3 corrections, 4 confirmed untouched, 2 applied rows (unmeasurable, seam conforms) | stale in 6 projects (17 contexts) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Phonetics corpus papers and kinematics studies beat lip-sync folklore. The code comment's
+  "syllable rate" was folklore and the corpus figure corrected it.
+- The blind lane converged with the web lane on every figure here. These are physiological,
+  not vendor-set, which is the class where training data holds up.
