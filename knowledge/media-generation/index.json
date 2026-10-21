@@ -206,9 +206,9 @@
    "subcategory": "live-show",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/audience-absorption-at-scale.md",
-   "digest": "sha256-b2:3c3a43147f059caa",
-   "revision": 1,
-   "changedAt": "2026-10-19",
+   "digest": "sha256-b2:80d8a808286f7999",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "attention-share-cap",

@@ -62,7 +62,10 @@ a hope; a cap applied to the model's output is a guarantee.
 Every threshold in this subject is keyed to the number of people **talking** in a recent
 window, never to the viewer count. Most of any audience lurks, and the share of viewers who
 chat falls as rooms grow: a third of a three-viewer room may be talking, under a tenth of
-a three-hundred-viewer room. A room of three hundred viewers can hold two dozen active
+a three-hundred-viewer room. Those shares are estimates, and thin ones. Chat logs record
+only the people who post, so the published ratios for small rooms are secondhand
+estimates, not first-party counts. Treat the ratio as a calibration input to test, not a constant,
+which is one more reason to count chatters directly. A room of three hundred viewers can hold two dozen active
 chatters, the same as a much smaller room with an unusually chatty crowd, and it wants the
 same picking mode. The chat itself shows where the regimes change: small chats are
 conversational, with viewers addressing one another in full sentences, while large chats
