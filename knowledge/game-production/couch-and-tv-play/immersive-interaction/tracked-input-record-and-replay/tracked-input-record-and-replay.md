@@ -8,6 +8,7 @@ techniques:
   - versioned-input-corpus
   - headless-replay-against-the-rules
   - proxy-corpus-miss-ledger
+  - record-below-the-rule
 ---
 
 # Tracked input record and replay
@@ -69,6 +70,13 @@ latency, confidence and smoothing. A clip recorded under one is not a sample of 
 The corpus keeps the runtime it was made under beside each clip, and a rule is judged on
 clips from the runtime it will ship on, or the gap is stated.
 
+**A recording sits at one layer, and replay is blind beneath it.** Raw sensor data re-runs
+the tracker on playback, tracked poses bypass it, and decided values such as a contact
+strength bypass the recogniser that decided them. A frame of joints often carries such a
+decided value too, and a rule that reads it is regressed only on its use of the verdict. The
+layer each rule reads says which changes a replay can catch, and which a runtime update leaves
+unmeasured.
+
 **Replay is headless and runs the real rules.** The replay feeds recorded samples into the
 same rule code the game runs, with no rendering and no device. A replay that re-implements
 the rule in a test double proves the double. When a replay diverges from the live session
@@ -87,6 +95,9 @@ to a person is the open question named above, and the answer is measured, not as
 
 - **Recorded versus synthetic input.** The first is a sample of real hands. The second is
   an author's idea of them.
+- **A measured field versus a decided field.** Joints are samples of the hand. A contact
+  strength or a gesture flag is the runtime's verdict about the hand, carried in the same
+  frame.
 - **Replay of the rules versus replay of the device.** Headless replay exercises the
   rules. It says nothing about the sensor.
 - **A divergence versus a failure.** A failure is a rule that gives a wrong verdict. A
@@ -98,6 +109,8 @@ to a person is the open question named above, and the answer is measured, not as
 
 - **It keeps clips without provenance**, so no one can say which runtime a pass belongs to.
 - **It records once and never retires a clip**, so an old runtime's input judges new rules.
+- **It tests a rule that reads the runtime's decided value as if the joints decided it**, and
+  a runtime update moves the verdict while every clip stays green.
 - **It replays against a copy of the rule**, so the test passes while the game is wrong.
 - **It reports an emulator pass as device evidence.**
 - **It trusts proxy numbers after real hands contradict them**, and never records the

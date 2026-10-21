@@ -4,8 +4,8 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 86,
-  "techniques": 561,
-  "applications": 323,
+  "techniques": 562,
+  "applications": 324,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "561/561",
+  "use_when_coverage": "562/562",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -10619,8 +10619,8 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/tracked-input-record-and-replay.md",
-   "digest": "sha256-b2:97a51f3f85dcfabf",
-   "revision": 2,
+   "digest": "sha256-b2:daf59e2c8d7c9083",
+   "revision": 3,
    "changedAt": "2026-10-21",
    "techniques": [
     {
@@ -10652,6 +10652,20 @@
      ]
     },
     {
+     "slug": "record-below-the-rule",
+     "status": "draft",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "choosing what a tracked-input recorder writes",
+      "a recorded frame carries values the tracking runtime already decided",
+      "a tracking runtime update lands and the replay suite stays green"
+     ]
+    },
+    {
      "slug": "versioned-input-corpus",
      "status": "draft",
      "laws": [
@@ -10671,6 +10685,13 @@
      "stack": "cpp",
      "technique": "headless-replay-against-the-rules",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/applications/cpp--headless-replay-against-the-rules.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "record-below-the-rule",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/applications/cpp--record-below-the-rule.md",
      "verified_on": "2026-10-21",
      "verified_against": "cpp@20"
     }
@@ -11581,6 +11602,7 @@
     "tiling-texture-acceptance/wrap-around-edge-diff",
     "top-down-vehicle-handling-model/drift-state-hysteresis",
     "tracked-input-record-and-replay/proxy-corpus-miss-ledger",
+    "tracked-input-record-and-replay/record-below-the-rule",
     "tracked-input-record-and-replay/versioned-input-corpus",
     "two-thumb-touch-layout-design/cruise-fire-drives-throttle",
     "two-thumb-touch-layout-design/pad-vertical-throttle-neutral-start",
@@ -12369,6 +12391,7 @@
     "speech-synthesis-script-writing/tags-depend-on-the-model-generation",
     "standalone-headset-frame-budgets/thermal-headroom-reserve",
     "subsystem-review-doctrine/regression-diff-new-persisting-resolved",
+    "tracked-input-record-and-replay/record-below-the-rule",
     "tracked-input-record-and-replay/versioned-input-corpus"
    ]
   },

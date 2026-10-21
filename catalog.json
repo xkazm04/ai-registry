@@ -1149,10 +1149,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 86,
-      "techniques": 561,
-      "applications": 323,
-      "files": 974,
-      "contentHash": "sha256-b2:664a64bf3755a790"
+      "techniques": 562,
+      "applications": 324,
+      "files": 976,
+      "contentHash": "sha256-b2:5c819e57f94982c7"
     },
     {
       "name": "grant-funding",
