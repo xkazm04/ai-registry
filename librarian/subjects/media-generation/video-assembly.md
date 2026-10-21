@@ -1,7 +1,7 @@
 ---
 subject: video-assembly
 domain: media-generation
-last_touched: 2026-10-14
+last_touched: 2026-10-21
 dry_streak: 0
 ---
 
@@ -11,7 +11,7 @@ First note: [[2026-08-26-joyai-echo]] - /intake run 23. Subject predates the not
 
 ## State
 
-11 techniques, 8 applications (node, process, python, react). The subject's posture is that a timeline is a document of record and a generated clip is a candidate held to the same bar as delivered footage. Two techniques took amendments in one run and they are related: both are places where the subject's rules assumed a *separated* pipeline.
+12 techniques, 9 applications (node, process, python, react). The subject now owns a rule about a channel it cannot see: sound the model generates alongside the picture. The subject's posture is that a timeline is a document of record and a generated clip is a candidate held to the same bar as delivered footage. Two techniques took amendments in one run and they are related: both are places where the subject's rules assumed a *separated* pipeline.
 
 ## 2026-08-26 - /intake run 23 ([[2026-08-26-joyai-echo]])
 
@@ -303,3 +303,56 @@ expanded token and nowhere after it.
 - Open lead: a per-frame CPU cost table by model size from the same engine's skill (a dated fact). Return when a second engine publishes a comparable measurement.
 - Two techniques have no application yet. Return when a connected project grows a render ladder or a review surface over a cut.
 
+
+## 2026-10-21 - /intake, a sponsored video walkthrough ([[../../sources/2026-10-21-laziest-cinematic-ai-video]])
+
+Gained `unreferenced-channels-resample`, the subject's first rule about a channel
+nothing in it can see. The corpus **names** the voice channel - `reference-role-map`'s
+own concern paragraph lists "whose voice speaks the line" among the ambiguities a role
+map resolves - and then every rule, role and example in that file is an image.
+`generated-shot-sourcing` § baked-in audio answers the *mix* question (keep, demote or
+strip the sound a model shipped with a clip) and never the prior *identity* question:
+whether it is the same voice as the last clip's. Found by the asymmetry hunt, not by
+the source, which supplied only the occasion.
+
+Render-bound, and it went to Phase 6b rather than landing on argument - its only
+observable is the output's sound. Six arms on the local bench, then a seventh.
+
+**The proof's first design was wrong and the gate caught it.** The pre-registered
+discrimination floor was the untreated arm at a second seed, which came back 0.4432
+against a between-arms 0.2671 - refused at 0.60x. The refusal was correct: in the
+untreated arm nothing conditions the voice, so two seeds re-sample it wholesale, and
+that number is not noise around the treatment, it IS the variable under test. A floor
+has to come from a cell where the channel is held fixed by design. That cell - the
+treated arm at a second seed - had never been rendered. One more clip, and the three
+readings written down before it finished (`PREREG-B1s.md`, 20:15, against the render's
+21:01) with the run author predicting the technique would fail.
+
+It did not. Treated spread 0.0623 against untreated 0.4432, **7.11x**; the operator,
+shown the two arms blind and asked only whether each sounded like one person twice,
+picked the treated arm on consistency. Instrument and ear agree without having seen
+each other. Verdict **better**, application `python--unreferenced-channels-resample`
+(server 0.42.1 / Python 3.14.8, witnessed from the running status endpoint).
+
+Two results constrain the technique rather than confirming it, and both are in the
+file. The same prose voice direction was in **both** arms and pinned nothing - a
+description names a class, not an instance. And the reference pins *stability without
+likeness*: distance from each output to the attached sample was identical across arms
+(0.210 either way), so the sample is an anchor repeated on every call, not a target the
+model imitates. A pipeline grading a candidate sample for likeness grades the wrong
+property.
+
+### Still open
+
+- The cross-beat axis - the one production actually buys - is directional only
+  (0.2973 untreated / 0.2158 treated) at n=1 and is **not** established. Every cell in
+  this proof is a single render, so the mechanism exists and is audible, and nothing
+  here prices it. Return with repeated seeds per cell and a multi-beat sequence before
+  any effect size is quoted.
+- `reference-role-map` still models no non-image reference. The one-bullet amendment -
+  an attached voice sample gets a role line and a negative scope exactly as a
+  choreography clip does - was left unlanded this run because it is one sentence in a
+  neighbouring subject and the run already held the content lock once. Carry it.
+- The operator's own observation that one untreated take had the clearest sound of the
+  four is recorded as a trade in the technique. It is unmeasured: the instrument reads
+  register and spectrum, not intelligibility.

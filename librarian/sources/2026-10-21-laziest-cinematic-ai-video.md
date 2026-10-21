@@ -171,8 +171,9 @@ its `audio_vae` tooltip says in as many words that *without it, reference audio 
 conditions the text encoder*. The reference class exists in the implementation; the corpus
 had no technique for it. Then the render proof below.
 
-Draft held at `<scratch>/unreferenced-channels-resample.draft.md` pending the operator's
-blind verdict; it does not land on this run's say-so.
+Landed as `video-assembly/techniques/unreferenced-channels-resample.md` on the operator's
+blind verdict, not on this run's say-so - and amended by what the proof measured, which
+was not what the draft predicted. See **Render proof** below.
 
 ## Render proof (Phase 6b)
 
@@ -218,7 +219,57 @@ identity and scenario legibility must not degrade when an audio reference is add
 a reference that fixes the voice by wrecking the shot is `not-better` whatever the target
 says.
 
-**Verdict:** _pending the operator's blind listen; this section is completed on reveal._
+### The floor was mis-specified, and the gate caught it
+
+The pre-registered floor above - arm A's beat 1 at a third seed - came back **0.4432**,
+against a between-arms distance of **0.2671**. `render-triage sheet` refused the pair at
+**0.60x** and would not build a sheet.
+
+The refusal was right and the design was wrong. In arm A *nothing conditions the voice*,
+so two seeds re-sample it wholesale; that number is not noise around the treatment, it is
+the full range of the variable under test, and no treatment can clear its own effect
+size. A floor has to come from a cell where the measured channel is held fixed **by
+design** - arm B at a second seed - and that cell had never been rendered. Worse, the
+chosen target was itself the weaker instrument: two *beats* move the line, the delivery
+and often the register for legitimate reasons, so a cross-beat difference is not yet
+evidence of drift.
+
+One more clip settled both (`B1s`: arm B's beat 1 at seed 70999, matching `A1s`; diffed
+against `B1` to confirm exactly two fields differ, the seed and the output name). Before
+it rendered, the three permitted readings were written to `PREREG-B1s.md` at 20:15 - the
+render landed 21:01 - and the run author recorded a prediction **that the technique would
+fail**, on the strength of an already-visible null: attaching the reference had not pulled
+any output closer to the reference.
+
+### Result
+
+| | distance |
+| --- | --- |
+| unreferenced arm, two seeds | **0.4432** (125.0 Hz vs 92.5 Hz) |
+| referenced arm, two seeds | **0.0623** (106.0 Hz vs 101.9 Hz) |
+| ratio | **7.11x** (gate: 1.5x) |
+| cross-beat, unreferenced / referenced | 0.2973 / 0.2158 - directional, n=1, not established |
+
+Picture floor held: frame 48 of each arm carries the same character, the forge mouth, the
+anvil and the hammer, with no loss of identity or legibility in the treated arm.
+
+**Verdict: better.** The operator, shown both arms as neutrally-named clips with the key
+sealed and asked only whether each sounded like one person twice, picked the treated arm
+and named consistency as the reason - adding, unprompted, that the *other* arm had the
+clearer sound in one clip. Instrument and ear agree without having seen each other, and
+the dissent is recorded in the technique as a trade rather than discounted, because the
+instrument reads register and spectrum and cannot see intelligibility at all.
+
+Two results constrain the technique rather than confirming it, and both are in the landed
+file:
+
+- **The prose direction pinned nothing.** Both arms were briefed *"in a low gravelly older
+  man's voice"*. The adjectives were honoured; the identity still moved four tenths of an
+  octave. The draft argued this from the law; the proof measured it.
+- **The reference pins stability without likeness.** Distance from each output to the
+  attached sample was unchanged by attaching it - mean 0.210 in both arms. The sample is
+  an anchor repeated identically on every call, not a target the model imitates. This
+  reverses the natural reading of the word *reference* and was not in the draft at all.
 
 ### An instrument this run had to build
 

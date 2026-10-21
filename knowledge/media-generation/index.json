@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
-  "techniques": 252,
-  "applications": 150,
+  "techniques": 253,
+  "applications": 151,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "252/252",
+  "use_when_coverage": "253/253",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -4551,9 +4551,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:6bb352204d334af5",
-   "revision": 19,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:5f548f222df2e692",
+   "revision": 20,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "alignment-names-its-text",
@@ -4759,6 +4759,23 @@
      ]
     },
     {
+     "slug": "unreferenced-channels-resample",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel",
+      "style-is-restated-not-remembered",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generator emits sound along with picture and a character speaks in more than one clip",
+      "deciding what to attach to a generation call besides images",
+      "a recurring subject sounds like a different person from clip to clip while every visual check passes",
+      "minting and grading a voice sample for a sequence",
+      "a platform offers a reference input for a channel the model would otherwise invent"
+     ]
+    },
+    {
      "slug": "verify-cheapest-artifact-first",
      "status": "forged",
      "laws": [
@@ -4828,6 +4845,13 @@
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/python--generated-shot-sourcing.md",
      "verified_on": "2026-09-22",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "unreferenced-channels-resample",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/python--unreferenced-channels-resample.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "python@3.14"
     },
     {
      "stack": "react",
@@ -5216,6 +5240,7 @@
     "video-assembly/motion-plate-library",
     "video-assembly/pinned-frame-notes",
     "video-assembly/seek-stable-composition-authoring",
+    "video-assembly/unreferenced-channels-resample",
     "visual-style-locking/draft-proofing-locked-ratchet"
    ]
   },
@@ -5357,6 +5382,7 @@
     "sound-effect-generation/envelope-first-briefing",
     "video-assembly/generated-shot-sourcing",
     "video-assembly/motion-plate-library",
+    "video-assembly/unreferenced-channels-resample",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/consistency-control-arm",
     "visual-style-locking/motion-sampled-under-a-frame-budget",
@@ -5377,7 +5403,8 @@
     "music-video-production/track-map-before-treatment",
     "show-segment-format-design/segment-as-state-table",
     "sound-effect-generation/picture-as-timing-brief",
-    "video-assembly/alignment-names-its-text"
+    "video-assembly/alignment-names-its-text",
+    "video-assembly/unreferenced-channels-resample"
    ]
   },
   "checkability-routes-the-pixel": {

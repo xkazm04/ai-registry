@@ -1,0 +1,68 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-r7g-1021",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "source",
+  "domain": "media-generation",
+  "started_at": "2026-10-21T15:40:00Z",
+  "ended_at": "2026-10-21T22:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 2,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/production-pipeline-phasing",
+      "at": "2026-10-21",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "media-generation/video-assembly",
+      "at": "2026-10-21",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "production-pipeline-phasing",
+      "technique": "approval-reads-forward",
+      "verdict": "better",
+      "mode": "simulation"
+    },
+    {
+      "subject": "video-assembly",
+      "technique": "unreferenced-channels-resample",
+      "verdict": "better",
+      "mode": "render"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/production-ops/production-pipeline-phasing/techniques/approval-reads-forward.md",
+    "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
+    "knowledge/media-generation/production-ops/video-assembly/techniques/unreferenced-channels-resample.md",
+    "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
+    "knowledge/media-generation/production-ops/video-assembly/applications/python--unreferenced-channels-resample.md",
+    "librarian/sources/2026-10-21-laziest-cinematic-ai-video.md",
+    "librarian/subjects/media-generation/production-pipeline-phasing.md",
+    "librarian/subjects/media-generation/video-assembly.md",
+    ".claude/skills/intake/references/render-proof/voice-distance.mjs",
+    ".claude/skills/intake/references/render-proof.md",
+    "scripts/render-triage.mjs"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Two techniques, both applied, both better: a simulation naming 3 forward dependencies on a cutscene beat sheet, and a render proof on the local media bench (7.11x, operator blind verdict). The proof's first floor was mis-specified; the gate refused it, a seventh render fixed it."
+}

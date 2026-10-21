@@ -1214,10 +1214,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 37,
-      "techniques": 252,
-      "applications": 150,
-      "files": 444,
-      "contentHash": "sha256-b2:60570aa9597ed66f"
+      "techniques": 253,
+      "applications": 151,
+      "files": 446,
+      "contentHash": "sha256-b2:a8f268304615aff3"
     },
     {
       "name": "recruiting",
