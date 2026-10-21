@@ -50,6 +50,7 @@ also proves the generation instruments before Phase 5 scores anything:
 | Video, first frame or first+last frame | ComfyUI + MiniMax H3 FL2VA (turbo LoRA), Wan 2.2 TI2V 5B | `comfy_extras/nodes_minimax_h3.py` inputs, model files present |
 | 3D mesh, rig, animation | Blender headless renders a **pose sheet** (`render-proof/pose_sheet.py`): key poses in columns, fixed orthographic cameras in rows, framing from the subject's rest bounds - one still per arm. Rigs first pass `render-proof/rig_check.py` | `blender --version`, then each instrument's `--selftest` |
 | Sheet discrimination | `render-proof/sheet_distance.py`: foreground-masked distance + silhouette distance, the numbers `render-triage.mjs sheet` gates on | its `--selftest` |
+| **A jointly generated channel** (a voice, room tone, a score the model emits with the picture) | `render-proof/voice-distance.mjs`: compares the SPEAKERS of two recordings, over the long-term average spectrum of the voiced frames plus the median fundamental, both averaged across the clip so two different lines do not read as two different speakers. Supplies `discrimination` for an audio pair exactly as `sheet_distance.py` does for an image one, and the within-arm cross-clip distance that is usually the target | its `--selftest`, plus `ffmpeg -version` (decode only) |
 | Real-time engine view (opt-in) | Editor screenshots of the asset in its usage context - only when the question cannot be asked without the engine (a material, lighting, a socket on a shipping skeleton) | see "Engine screenshots" below |
 | Sprite sheet / atlas | Flux 2 stills + a deterministic packer; triage the packed sheet, not the cells | - |
 
@@ -191,6 +192,27 @@ through the same sheet, distance and blind triage as a Blender still.
 - **Arm count travels with the verdict.** n=1 per arm is admissible and is written as n=1.
   Two shots of different kinds (an empty establishing plate and a character shot) beat two
   seeds of one shot, because the contested rules usually fail on different content.
+
+### When the variable is a channel you cannot see (v2.16)
+
+A model that emits sound with the picture can put the pair's whole variable in the
+audio - a voice reference attached or not, a score pinned or resampled - and three
+things in this lane were written for pixels and quietly break:
+
+- **The arm is a pair of clips, not a clip.** A consistency claim about a channel cannot
+  be shown in one generation; concatenate the arm's two beats into one file so the
+  operator hears the same character twice inside one player, and say in the brief that
+  the cut is halfway through.
+- **`voice-distance.mjs` supplies both numbers**, and the energy gate it carries is not
+  optional: autocorrelation finds a confident pitch in silence. Measured on this stack,
+  a 2.5-second tail that is 97% room tone reported 326 Hz for a 122 Hz speaker - a whole
+  octave and a half of "drift" authored by nothing. Below about 0.8 s of voiced material
+  the instrument refuses rather than reports, which is what `unmeasured-is-not-pass`
+  asks of it.
+- **Check the brief leaves enough speech to measure.** A five-second clip with one short
+  line is about three seconds of voiced material and two of ambience. That is enough; a
+  clip whose line ends in the first second is not, and it is cheaper to find out from
+  the positive control than from the pair.
 
 ## The triage
 

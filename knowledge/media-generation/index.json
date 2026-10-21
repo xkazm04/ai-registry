@@ -4,7 +4,7 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
-  "techniques": 251,
+  "techniques": 252,
   "applications": 150,
   "laws": 9,
   "categories": [
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "251/251",
+  "use_when_coverage": "252/252",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3579,10 +3579,27 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
-   "digest": "sha256-b2:369bb547120f6c56",
-   "revision": 4,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:f1762f69eb77b8d3",
+   "revision": 5,
+   "changedAt": "2026-10-21",
    "techniques": [
+    {
+     "slug": "approval-reads-forward",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "approving a location plate",
+      "character sheet",
+      "style contract or any other asset that later requests will be conditioned on",
+      "a later beat depends on where a light source or a landmark sits",
+      "deciding whether a shared asset is ready to graduate",
+      "a payoff shot cannot be made from an upstream artifact every reviewer already approved"
+     ]
+    },
     {
      "slug": "asset-vs-disposable-render",
      "status": "forged",
@@ -5131,6 +5148,7 @@
     "music-video-production/form-follows-what-the-track-gives",
     "narrative-engine-selection/fit-vs-hazard-axes",
     "on-stream-persona-continuity/tone-as-falsifiable-bet",
+    "production-pipeline-phasing/approval-reads-forward",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/delivery-promise-lock",
     "production-pipeline-phasing/phase-order-and-graduation",
@@ -5187,6 +5205,7 @@
     "multi-speaker-speech-production/line-addressed-re-render",
     "multi-speaker-speech-production/world-lexicon-as-pronunciation-dictionary",
     "music-prompt-composition/section-plan-as-the-brief",
+    "production-pipeline-phasing/approval-reads-forward",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "review-iteration-loops/anchored-variation-slate",
     "review-iteration-loops/edit-plan-over-regeneration",
