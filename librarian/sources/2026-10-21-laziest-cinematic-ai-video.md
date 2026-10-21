@@ -271,6 +271,10 @@ file:
   an anchor repeated identically on every call, not a target the model imitates. This
   reverses the natural reading of the word *reference* and was not in the draft at all.
 
+Cleanup after the verdict, never before: 31 paths, 15.9 MB, every one carrying the run id
+as its prefix. The foreign 3D batch's output directories were in the same tree and are
+untouched.
+
 ### An instrument this run had to build
 
 `voice-distance.mjs` - dependency-free, ffmpeg for decode only - compares the *speakers*
