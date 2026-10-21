@@ -418,3 +418,34 @@ Source-class tally (post-hoc):
 - The consumer's own run transcripts were the instrument. Field fixes landed
   after the applications were written, and that is where two of the five
   conditions came from.
+
+## 2026-10-21 - deepen, multi-speaker-speech-production (msp-deepen-1021)
+
+Dispatched on "never swept by the librarian". Landed in 2d634e14. There is no
+new technique. One statement was refuted: the field read said a grouped
+multi-voice call documents no per-turn timing, and the vendor now returns
+segments tagged with their script line. Three conditions were added. Segments
+address a line in the output and not in re-rendering. Continuity references
+expire (two hours on one engine, and the expressive previous generation has
+none), so a later revision counts on text context. An unnamed dictionary
+version takes the latest. The clone-binding facts were sharpened from the
+vendor's own page. The four applications were re-checked and 15 of 15 anchors
+held. Applied rows: three `unapplied`. No fleet tree calls a grouped endpoint,
+sends request references or attaches a dictionary. Detail in
+[[multi-speaker-speech-production]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| multi-speaker-speech-production | L2 | 0 techniques, 1 refutation, 3 conditions, 4 applications re-verified | 0 stale (overlord voice-sidecar and gravitone landing-cosmos-scenes join, none judged) | 0 |
+
+Source-class tally (post-hoc):
+- The vendor's raw page markdown (`<page>.md`) was the instrument that settled
+  every volatile fact. It also exposed a summarizer quote the counter-evidence
+  lane could not confirm. Fetch raw before quoting.
+- API reference pages beat capability pages for what an endpoint returns. The
+  per-turn timing was on a sibling reference page that the first read never
+  opened.
+- Model-launch pages state compatibility premises in the vendor's own words
+  ("may sound quite different").
+- Secondary summaries of union agreements and statutes were not enough to land
+  anything. The primary PDF returned 403.
