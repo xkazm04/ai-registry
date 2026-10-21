@@ -277,3 +277,20 @@ currency. `sublinear-vote-weight` states this as an announced opt-in
 exception (unapplied: no fleet project uses native polls). The Rust
 applications gained dated notes for two upstream changes. No map joins the
 subject; the matcher gap is banked again. Detail in [[audience-steering-economies]].
+
+## 2026-10-21 - deepen, live-chat-moderation-and-anti-bait
+
+Dispatched on "single stack (rust)". A second stack exists: overlord's
+TypeScript stage draws the broadcast chat lane, and it drew each message
+before the brain's 5 s input filter judged it. A replay of 372 recorded
+transcripts through the real reducer found 64,869 withheld lines on the
+canvas with their text first and 5,435 let-through lines labelled purged.
+Fixed in overlord 56da5cf (applied row: code, better). After the fix the
+counts are 26 and 0. That gave a new `typescript` application.
+`path-independent-output-gate` gained "a surface that reprints viewer text
+waits for the input filter's verdict, released once the pass closes". The
+counter lane corrected the golden path's account of the fallback-model
+incident: on record, the moderation "was not successful" on the fallback,
+which is not the same as "unwired". No stale verdict (the overlord pair is
+unjudged). The stage contexts are not joined to the subject, which is the
+same matcher gap banked twice today. Detail in [[live-chat-moderation-and-anti-bait]].

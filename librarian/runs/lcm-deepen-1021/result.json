@@ -1,0 +1,62 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "lcm-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "unknown",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-21T13:50:00Z",
+  "ended_at": "2026-10-21T14:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/live-chat-moderation-and-anti-bait",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "live-chat-moderation-and-anti-bait",
+      "technique": "path-independent-output-gate",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/applications/typescript--path-independent-output-gate.md",
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/techniques/path-independent-output-gate.md",
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/live-chat-moderation-and-anti-bait.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/live-chat-moderation-and-anti-bait.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "34ad08eb",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/media-generation/index.json",
+        "rules/ai-registry-media-generation.md",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/live-chat-moderation-and-anti-bait.md",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/techniques/path-independent-output-gate.md",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-chat-moderation-and-anti-bait/applications/typescript--path-independent-output-gate.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Second stack: overlord TS chat lane drew lines before the input filter judged them (64,869 over 372 transcripts); fixed 56da5cf (code, better: 26). Output-gate rule added; fallback-incident cause corrected. No stale verdict."
+}
