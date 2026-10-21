@@ -359,3 +359,33 @@ per-modality figures (chat alone the weaker signal; margin 0.8-2.5 F).
 2 applied rows, both unmeasurable: owner feedback 0 of 180, and the
 anchor simulation was confounded at n = 5. No project's map joins the
 subject; 0 stale verdicts. Detail in [[stream-moment-capture]].
+
+## 2026-10-21 - deepen, frame-direction (fd-deepen-1021)
+
+Dispatched on "never swept by the librarian". The content landed in
+93b5c349. That session stopped before the record, and a second dispatch
+wrote it from the commit and the application without re-researching. There
+is one new technique, `boundary-transition-class` (web and blind lanes
+converged on object constancy across the cut), plus four corrections
+checked against sources: absolute time, not order, in
+`motion-intent-authoring`; attribute drift, not lookalikes, in
+`motif-establish-vary-payoff`; one pipeline's n, not "every style", in
+`plate-elements-text-split`; and the gate's own failure cases and unit in
+`per-beat-rejection`. Applications were re-verified at gravitone-gcloud
+9c3cdac8. Applied as a simulation, verdict `better`: thread operations
+settle 28 of 34 joins in the project's real plan, and all 6 they cannot
+settle are holds or subtractions. 5 gravitone contexts join the subject and
+none is judged, so there are 0 stale verdicts. Detail in [[frame-direction]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| frame-direction | L2 | 1 technique, 4 corrections, 1 application (simulation) | 0 stale (5 gravitone contexts join, none judged) | 0 |
+
+Source-class tally (post-hoc, from the commit's citations):
+- A coded corpus of professional clips gave the base rate (refresh in about
+  half of all transitions). That is the measurement that kept the
+  declaration from pulling every cut toward continuity.
+- Vendor prompting guides settled the motion correction (beats and counts,
+  not seconds). Their wording beat the summary the technique had carried.
+- The consumer's own worked plan was the instrument. A gitignored run file
+  it cited was state, not evidence.
