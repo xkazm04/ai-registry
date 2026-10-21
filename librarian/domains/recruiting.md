@@ -1395,3 +1395,20 @@ No new technique. Conditions:
 Two new python applications from kp's engine; the node scrub application re-verified at `efa2089f1` (anchors moved about 1,100 lines). Two `applied.md` rows: one simulation (better), one code (better).
 
 Impact: kp only, 2 contexts, 1 stale verdict on this subject (the deviation). kp's map was rebuilt in full from a clean worktree and pushed. Yield high, dry_streak 0, depth L2. Source classes: regulator guidance and court text beat commentary again. cnil.fr and EUR-Lex served errors, so the Wayback and Publications Office routes carried them. See [[candidate-consent-and-retention]].
+
+## 2026-10-21 - deepen: interview-story-portfolio
+
+Ranked by single stack (process). Second stack from kp's Python mock-interview kit, the
+subject's first runtime, so its gap rules could be counted, not read: over 66 seed kits the
+bridge row is fixed by template, and a shipped-AI question reaches every candidate (at least
+49 records name no AI). No new technique. Condition:
+- **a tool that writes the scaffold must not pre-pick a row it cannot see evidence for, nor
+  presuppose an experience the record lacks** (gap-response), simulation better 3/3 on
+  hand-read records.
+
+Golden path corrections from the counter-evidence lane, re-read at source: the 0.22 IM-ratings
+correlation rests on k = 32 / n = 3,792; the least-varying tactic is a tie; Maurer et al. 2008
+added as the content-first coaching evidence. Impact: kp, 0 stale verdicts on this subject;
+kp map pushed d60e934e9. Yield medium, dry_streak 0, depth L2. Source classes: Frontiers
+full text and Crossref abstracts open; Wiley and Taylor & Francis pages return 403, so the
+counter-evidence lane must cite metadata abstracts or bank. See [[interview-story-portfolio]].

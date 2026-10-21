@@ -1,0 +1,64 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "isp-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-10-21T16:00:00Z",
+  "ended_at": "2026-10-21T17:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/interview-story-portfolio",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "interview-story-portfolio",
+      "technique": "gap-response-chosen-by-story-strength",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/interview-story-portfolio.md",
+    "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/techniques/gap-response-chosen-by-story-strength.md",
+    "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/python--gap-response-chosen-by-story-strength.md",
+    "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/python--portfolio-assignment-before-per-question-pick.md",
+    "librarian/applied.md",
+    "librarian/subjects/recruiting/interview-story-portfolio.md",
+    "librarian/domains/recruiting.md"
+  ],
+  "commits": [
+    {
+      "sha": "ee01659b",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/recruiting/index.json",
+        "rules/ai-registry-recruiting.md",
+        "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/interview-story-portfolio.md",
+        "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/techniques/gap-response-chosen-by-story-strength.md",
+        "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/python--gap-response-chosen-by-story-strength.md",
+        "knowledge/recruiting/candidate-self-presentation/interview-story-portfolio/applications/python--portfolio-assignment-before-per-question-pick.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Single-stack finding. kp python kit read at 8e9cc25ea: 2 python apps, 21 anchors held. Gap-response condition added (tool-written scaffolds). Two golden-path citations corrected at source, Maurer 2008 added. kp map d60e934e9 pushed; 0 stale verdicts on this subject."
+}
