@@ -35440,7 +35440,7 @@
    "file": "knowledge/software-engineering/llm-agent/companion/talking-avatar/talking-avatar.md",
    "digest": "sha256-b2:72517c45ca8e4198",
    "revision": 4,
-   "changedAt": "2026-10-21",
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "face-signal-across-surfaces",
