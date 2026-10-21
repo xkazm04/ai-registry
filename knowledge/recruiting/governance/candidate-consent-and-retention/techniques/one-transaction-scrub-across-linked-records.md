@@ -63,6 +63,32 @@ because they are where the person hides in plain sight:
   real per-person key is the durable fix, so the compromise stays visible
   instead of becoming the design.
 
+Make the inventory executable. A test that enumerates the store's actual tables
+and fails on any table that is neither scrubbed nor listed with its reason turns
+"a new table gets added to the inventory" from a convention into a gate. The
+newest table is the one most likely to be forgotten.
+
+## A store the scrub cannot key into must be unable to receive the person
+
+The inventory rule covers what can be joined to the person. A third shape sits
+outside the graph altogether: stores keyed by something the scrub never walks.
+Examples are a job or an opening, a request id, a metering ledger, a file on
+disk. The person-keyed scrub has no address for them, so "it holds nothing about
+the candidate" is a claim, and it stays true only if it is enforced where the
+store is written.
+
+**Decision rule.** A store the scrub cannot key into must be unable to receive
+the person. The strongest form is the writer's signature: the function that
+builds it takes no candidate input, so nothing about a person can reach it. The
+next form is a check at the store's single write door. The check refuses a
+payload that carries a name, contact or document text, or reduces a free-text
+field to a closed vocabulary before it lands, because a provider's error message
+can echo the prompt it was given. Where a store genuinely must receive the person
+and cannot be keyed to them, it needs three things. It is bounded by a clock
+shorter than the time the organisation takes to answer an erasure request. It
+is named in the inventory as a residual. And it is named in the receipt.
+Otherwise the receipt claims an erasure the store did not take part in.
+
 ## Scope by the owning boundary, and prove the scope
 
 The most damaging erasure bug is not a missed table. It is a query scoped to
@@ -130,6 +156,14 @@ transport failure, must produce the same end state and a second consent event,
 not an error and not a partial re-scrub of a record that is already a shell.
 Write the scrub so that running it on an already-erased person is a no-op that
 still returns a valid receipt.
+
+Re-requests are not only sequential. A retention sweep and the candidate's own
+request reach the same scrub through different doors, and both can read "not yet
+erased" before either writes. A check at the top of the scrub does not make it
+idempotent under that race. Take the write lock before the read, or re-assert the
+not-yet-erased condition in the write that claims the record and treat zero rows
+claimed as "already done". Otherwise the consent history records one person
+erased twice.
 
 ## When not to use this
 

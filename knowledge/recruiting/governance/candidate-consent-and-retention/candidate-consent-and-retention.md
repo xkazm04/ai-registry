@@ -48,9 +48,13 @@ and must say so.
 **The pool clock** covers everything the organisation wants afterwards:
 keeping the profile for future roles, re-contacting on a new opening,
 including the record in a rediscovery sweep. This is the classic optional
-purpose, and it is the one place in recruiting where consent is genuinely the
-right basis — it is separable, refusable without penalty, and withdrawable
-without breaking anything the candidate wanted.
+purpose, and it is the place in recruiting where consent fits best. It is
+separable, refusable without penalty, and withdrawable without breaking anything
+the candidate wanted. Consent is the preferred basis here, not the only one. At
+least one EU regulator also accepts the employer's legitimate interest for a
+talent pool. Its conditions are that the candidate is told expressly that they
+are being kept, and can object simply and without giving a reason. Either way,
+the pool has its own basis and its own clock, separate from the application's.
 
 The inversion of this — asking for blanket consent at application time and
 treating it as the basis for the core screening — is worse than useless. It is
@@ -82,10 +86,14 @@ never opened is not contact. If a bulk sweep can reset the clock on a whole
 database, the retention policy is unbounded with extra steps.
 
 Common defensible windows, and the reasoning that makes them defensible rather
-than the numbers themselves: unsuccessful applicants for a specific role are
-typically held six to twelve months past the decision, because that spans the
-period in which the decision could be challenged and in which reopening the
-requisition is realistic. Pool retention on explicit consent typically runs
+than the numbers themselves. Unsuccessful applicants for a specific role are
+held for the period in which the decision could be challenged, and regulators
+split that into two tiers. The live record stays a short time, measured in
+months: one regulator's guide gives up to three months after the process ends,
+and another gives no number beyond the statutory claim period. After that, only
+a restricted evidence archive remains, bounded by the local limitation period
+for a recruitment claim, which can run to years. That archive is the carve-out
+below, not the full profile kept longer. Pool retention on explicit consent typically runs
 twelve to twenty-four months from last contact, with renewal before expiry;
 past twenty-four months of silence the claim that the person still wants to be
 in your database is not credible and will not be believed. Pick a number,
@@ -145,7 +153,8 @@ person. **The shell survives, de-identified**: enough of the record to keep
 the pipeline coherent, the person reduced to a stable non-identifying handle —
 initials and a surrogate id — so that a recruiter looking at a historical
 funnel sees a coherent entry rather than a hole. **A narrow, enumerated set
-survives intact** on the legal-claims basis: the sealed record of what was
+survives intact** on the legal-claims basis, or because a law obliges the
+organisation to keep it: the sealed record of what was
 decided and why, which is precisely the artifact that protects the candidate
 in a challenge as much as it protects the organisation.
 
@@ -167,7 +176,10 @@ Three rules make that decomposition safe:
   provenance dossiers and the export bundles — usually as verbatim quotes
   from the very document that was deleted. A scrub that stops at the columns
   it knows about leaves the résumé alive in a nested field and re-exports it
-  next quarter.
+  next quarter. Stores the scrub cannot key into are the far end of the same
+  problem: a job-level artifact, a request-keyed log, a prompt captured to
+  disk. Those must be unable to receive the person in the first place, or be
+  bounded and named in the receipt.
 
 ## Anonymisation is a claim; make it one you can defend
 
@@ -175,8 +187,12 @@ Masking a name to initials is not anonymisation. Neither is dropping the name
 while keeping the employer, the graduation year, the salary expectation and
 the town — that record identifies a person to anyone with the roster it came
 from. The honest position is that most "anonymised" hiring records are
-pseudonymised: re-identification is harder, not impossible, and the data stays
-personal data.
+pseudonymised: re-identification is harder, not impossible. For the
+organisation that still holds the roster, the data stays personal data. A
+recipient with no reasonable means to re-identify may be in a different
+position, and the EU Court of Justice accepted that in 2025. That is a reason to
+be precise about who holds what. It is not a way to call the retained shell
+anonymous.
 
 Say which one you achieved. A record reduced to initials plus a surrogate id,
 with free text stripped and quantities kept, is a defensible *retained,
@@ -207,7 +223,9 @@ asked" — three states with different downstream permissions that a nullable
 flag collapses into one.
 
 Withdrawal and expiry are not the same event and must not route the same way.
-Withdrawal is an instruction and takes effect immediately. Expiry is the
+Withdrawal is an instruction. It is possible at any time and takes effect
+from the moment it is received. It applies forward: it does not make unlawful
+the processing already done while consent stood. Expiry is the
 absence of renewal and should be preceded by a notice with real time to act —
 a person who never received the notice has not declined, they have been
 defaulted, and

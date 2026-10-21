@@ -48,6 +48,17 @@ For a hiring system the defensible enumeration is small and stable:
 - **Records under an explicit legal hold**, which is a distinct, actively
   applied state with a named owner, not an inference.
 
+A second ground sits beside legal claims and is often left out: records that a
+law obliges the organisation to keep, which the GDPR exempts from erasure under
+Art. 17(3)(b) as well as (e). For hiring, the coming instance is the EU AI
+Act. A deployer of a high-risk system must keep the logs the system generates
+automatically for at least six months, unless other law says otherwise, and
+recruitment and selection systems are high-risk. Under the 2026 AI Omnibus those
+obligations apply from 2 December 2027. An obligation like that is enumerated
+the same way as everything else here. It names the record type, the instrument
+that requires it, and its end date, and it covers the logs. It does not cover
+the candidate profile the logs were written about.
+
 Everything else goes: the source document, the parsed profile, the free-text
 analyses, the transcripts, the notes, the messages. A defence does not require
 the candidate's CV; it requires the record of what was decided and on what
@@ -60,7 +71,10 @@ paperwork. Each entry carries its own clock, anchored to the local limitation
 period for the claim it defends against, and enters the ordinary sweep when the
 clock expires. Where the deployment cannot know its own limitation period, that
 is a per-deployment configuration with a conservative default — not a licence
-to keep forever.
+to keep forever. Regulators do give such bounds. The French regulator's
+recruitment guide allows a restricted evidence archive of up to five years from
+the hiring decision, held apart from the active database. A figure like that is
+an end date to configure, and it is not a reason to keep the whole profile.
 
 **Decision rule.** If a carve-out entry has no end date, it is not a carve-out;
 it is a retention policy someone declined to write down.

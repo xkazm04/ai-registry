@@ -135,6 +135,10 @@ total of 5 discloses the fifth.
   Destroying the attributes that would answer a claim is not privacy, it is
   spoliation.
 - **Do not treat de-identification as a reason to relax access control.**
-  Pseudonymised data is personal data. If a table full of surrogate ids and
+  Pseudonymised data is personal data for the organisation that still holds
+  the means to re-identify it. The EU Court of Justice held in 2025 (C-413/23 P)
+  that the same data may not be personal data for a recipient with no reasonable
+  means to re-identify anyone. That judgment concerns who a record identifies
+  someone to. It does not loosen what the holder of the roster owes. If a table full of surrogate ids and
   stages is exposed more widely than the original because "it's anonymised",
   the transformation has increased exposure rather than reduced it.

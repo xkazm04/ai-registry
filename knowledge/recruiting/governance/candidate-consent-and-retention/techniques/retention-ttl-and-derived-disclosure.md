@@ -31,14 +31,27 @@ Two rationales cover almost every case:
 - **Defence tail.** How long after an adverse decision could that decision be
   challenged, and how long would reopening the requisition be realistic? This
   is what justifies holding an unsuccessful applicant with no consent at all.
-  Six to twelve months past decision is the commonly defensible band in most
-  markets; the number tracks the local limitation period for employment
-  claims, which is why the default belongs to the deployment and not to the
-  vendor.
+  Its length is the local limitation period for a recruitment claim, not a
+  market convention, which is why the default belongs to the deployment and not
+  to the vendor. Regulators frame it as two tiers rather than one number. The
+  UK regulator says unsuccessful applicants' records should not be kept beyond
+  the statutory period in which a claim may be brought, unless there is a clear
+  business reason. The French regulator's recruitment guide gives up to three
+  months in the active database after the process ends, then a restricted
+  archive of up to five years from the hiring decision. Two windows follow from
+  that. The live record, which recruiters search and rediscovery ranks, gets a
+  short window measured in months. What outlives it for a possible claim is the
+  narrow, enumerated set the legal-claims carve-out names, held apart from the
+  working database and ending at the limitation period. A single
+  six-to-twelve-month window over the full record fits neither tier: it is
+  longer than one regulator's figure for the live record, and it keeps the wrong
+  content for the archive.
 - **Pool freshness.** How long is it credible that this person still wants to
   be in your database? Twelve to twenty-four months from last meaningful
-  contact, with a renewal prompt before expiry. Past two years of silence, the
-  claim is not credible and will not be believed by anyone assessing it.
+  contact, with a renewal prompt before expiry. The French guide caps a pool at
+  two years from last contact, renewable on the candidate's fresh agreement.
+  Past two years of silence, the claim is not credible and will not be believed
+  by anyone assessing it.
 
 **Decision rule.** When the record is held on the necessity of the application
 itself, the window is the defence tail and it starts at the decision. When it
@@ -73,6 +86,19 @@ the TTL must be configurable. Configure it with a floor-shaped contract:
   one. Defaults are what most deployments run, and a default chosen for the
   most retention-hungry customer becomes the behaviour of everyone who never
   looked.
+
+**An unreadable setting is not an instruction.** A window read from
+configuration may be missing, unparseable, non-positive or non-finite. In each
+case it resolves to the shipped default window, and the deployment is told that
+it did. It never resolves to "no retention", which is the indefinite hoard
+caused by a typo. It never resolves to zero either, because that destroys the
+defence-tail record a candidate may need to contest their own outcome. Test the
+parser as well as the policy. A float parse accepts infinity, which passes a
+"greater than zero" check and yields a window that sweeps nothing while
+reporting that it is set. A store whose owner has decided it is unbounded by
+default, such as an opt-in capture of model prompts for debugging, says so in
+its own documentation. It has no place in a deployment that tells candidates
+their data is erased.
 
 ## Derive the disclosure, and round it up
 

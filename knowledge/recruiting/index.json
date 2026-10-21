@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 309,
+  "applications": 311,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -1580,9 +1580,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/governance/candidate-consent-and-retention/candidate-consent-and-retention.md",
-   "digest": "sha256-b2:3c9042dc4cd9f910",
-   "revision": 2,
-   "changedAt": "2026-09-20",
+   "digest": "sha256-b2:91e3d4803a9e6e60",
+   "revision": 3,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "anonymise-but-retain-the-aggregate-signal",
@@ -1674,7 +1674,8 @@
      "stack": "node",
      "technique": "one-transaction-scrub-across-linked-records",
      "file": "knowledge/recruiting/governance/candidate-consent-and-retention/applications/node--one-transaction-scrub-across-linked-records.md",
-     "verified_on": "2026-08-20"
+     "verified_on": "2026-10-21",
+     "verified_against": "node@24"
     },
     {
      "stack": "node",
@@ -1687,6 +1688,20 @@
      "technique": "retention-ttl-and-derived-disclosure",
      "file": "knowledge/recruiting/governance/candidate-consent-and-retention/applications/node--retention-ttl-and-derived-disclosure.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "python",
+     "technique": "one-transaction-scrub-across-linked-records",
+     "file": "knowledge/recruiting/governance/candidate-consent-and-retention/applications/python--one-transaction-scrub-across-linked-records.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "retention-ttl-and-derived-disclosure",
+     "file": "knowledge/recruiting/governance/candidate-consent-and-retention/applications/python--retention-ttl-and-derived-disclosure.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "python@3.12"
     }
    ]
   },
