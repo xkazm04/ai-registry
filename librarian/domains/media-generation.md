@@ -344,3 +344,18 @@ against the tree and the subject's statistics claims: the rule of three,
 score intervals and the Rust per-rule bounds held. 2 stale `deviation`
 verdicts (overlord `sim-runner-judging`, `sim-instruments`). Detail in
 [[simulated-audience-testing]].
+
+## 2026-10-21 - deepen, stream-moment-capture
+
+Dispatched on "single stack (rust)". The event was bigger than the
+ranking: overlord's clip factory (scorer, window, owner gate) landed the
+afternoon after the marker application was read, and that application
+still said none of it existed. Re-read at b1740fc. 3 new applications
+(rust scoring, rust window, typescript owner gate), the marker one
+re-verified; 72 anchors held. `peak-minus-preroll-window` gained "a
+forward-credited anchor is not shifted again" (tree + a published chat
+model converge). The fusion claim was qualified against the published
+per-modality figures (chat alone the weaker signal; margin 0.8-2.5 F).
+2 applied rows, both unmeasurable: owner feedback 0 of 180, and the
+anchor simulation was confounded at n = 5. No project's map joins the
+subject; 0 stale verdicts. Detail in [[stream-moment-capture]].
