@@ -327,3 +327,20 @@ key". The counter lane ran against the tree. It found the console's
 handover sentence out of step with the interpreter, and two Rust
 deviations narrowed since their read. 1 stale verdict (overlord
 `segments-runtime`). Detail in [[show-segment-format-design]].
+
+## 2026-10-21 - deepen, simulated-audience-testing
+
+Dispatched on "single stack (rust)". A second stack exists: overlord's
+TypeScript console reads the tournament results on its Simulator
+heatmap. Its main column drew a 95% bound over every rule check in a
+cell, pooled across rules, so each cell claimed the precision of its
+check count. Across the 10 local tournaments, 107 of 107 cells drew a
+bound whose n exceeded their judged runs (worst: 2 runs drawn as n=95).
+Fixed in overlord 82c2c29 (applied row: code, better), and the count is
+now 0. That gave a new `typescript` application.
+`cheapest-passing-tier-selection` gained "a total over rules is counted,
+not bounded, unless run identity reaches the view". The counter lane ran
+against the tree and the subject's statistics claims: the rule of three,
+score intervals and the Rust per-rule bounds held. 2 stale `deviation`
+verdicts (overlord `sim-runner-judging`, `sim-instruments`). Detail in
+[[simulated-audience-testing]].
