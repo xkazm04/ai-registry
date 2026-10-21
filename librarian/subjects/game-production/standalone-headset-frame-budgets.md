@@ -1,7 +1,7 @@
 ---
 domain: game-production
 subject: standalone-headset-frame-budgets
-last_touched: 2026-10-21
+last_touched: 2026-10-22
 touched_by: intake
 dry_streak: 0
 depth: L1
@@ -53,3 +53,25 @@ renders with it off.
 Not applied this run: `per-content-class-frame-budget`, `overdraw-and-transparency-ceiling`,
 `stereo-draw-call-budget`, `thermal-headroom-reserve`. The project's D-G4 budget proxy (draw
 calls, particles, triangles) is the nearest seam for the first and third.
+
+### 2026-10-22 - apply: overdraw-and-transparency-ceiling (run intake-apply-overdraw-1022)
+
+First application, on mage-arena-vr at `c1b94cc`, mode `experiment`, verdict `better`.
+Application: `cpp--overdraw-and-transparency-ceiling.md`.
+
+**The seam was chosen to falsify.** The project's D-G4 budget judges particles by count, and
+its plan already asks for small screen coverage in words. If count tracked fill on content
+authored small, the ceiling would be redundant here. It did not.
+- The two palm-height rows are 12% of the count and 89% of the fill.
+- Moving two rows at a fixed count doubles the mean fill.
+- The closed comfort vignette is three times the whole particle proxy, and the budget files
+  it inside a particle row.
+
+**Decision rule added to the technique.** A comfort overlay counts in the ceiling at its own
+coverage.
+
+**Still owed:** a device capture. The figures are geometry, and the burst spread that sets
+the gaze-region peak is not readable from source. Return at the V1 device sprint.
+
+Still not applied: `per-content-class-frame-budget`, `stereo-draw-call-budget`,
+`thermal-headroom-reserve`.

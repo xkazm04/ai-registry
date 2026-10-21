@@ -1,0 +1,63 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-overdraw-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-22T00:50:00Z",
+  "ended_at": "2026-10-22T01:55:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/standalone-headset-frame-budgets",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "standalone-headset-frame-budgets",
+      "technique": "overdraw-and-transparency-ceiling",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--overdraw-and-transparency-ceiling.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/techniques/overdraw-and-transparency-ceiling.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/standalone-headset-frame-budgets.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "dc76b573",
+      "pathspec": [
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--overdraw-and-transparency-ceiling.md",
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/techniques/overdraw-and-transparency-ceiling.md",
+        "knowledge/game-production/index.json",
+        "catalog.json",
+        "rules/ai-registry-game-production.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only from the attention scan. D-G4 count row vs blended layers per pixel: palm-height rows 12% of count, 89% of fill; closed vignette 3x the proxy. Floor held, no config change. mage-arena-vr 4e95212 pushed from an origin/master worktree."
+}
