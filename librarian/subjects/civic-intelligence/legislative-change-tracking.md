@@ -1,8 +1,8 @@
 ---
 domain: civic-intelligence
 subject: legislative-change-tracking
-last_touched: 2026-09-09
-touched_by: architecture-review
+last_touched: 2026-10-22
+touched_by: intake-apply
 dry_streak: 0
 ---
 
@@ -80,3 +80,17 @@ Retain the subject with bounded extraction and explicit historical/current disti
   }
 }
 ```
+
+## Intake apply - 2026-10-22
+
+sponsorship-and-rapporteur-roles, second application (politicas, code, better,
+pushed). The seam was chosen to falsify the contradictory-duplicate rule and
+found one live case. The replay also showed that the register numbers
+joined-later signatures from 1 again (21 of 23 mixed bills), so "rank 1"
+alone gave 21 bills a second first signatory. The technique gained a boundary
+section: rank restarts per partition, and a list with no submission-time row
+cannot supply the proposer. The application is
+`applications/node--sponsorship-and-rapporteur-roles.md`. Open: the six bills
+whose table lacks the named proposer, and the authored-bill total that still
+counts rows. Still a single stack (node). No second stack in the fleet carries
+this seam.
