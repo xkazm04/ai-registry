@@ -164,8 +164,12 @@ carry no spelling at all. A standard function that a later language revision re-
 as needing the escape marker is called with no marker by code pinned to the earlier
 revision, and the checker accepts the call without deriving its safety. A census by
 marker cannot see these, and in one tree it reported a base of zero over forty-nine of
-them. [census-counts-unmarked-members](./techniques/census-counts-unmarked-members.md)
-adds them to the count with the revision's own migration lint.
+them. The same holds without any revision where the checker's escape is a type rather
+than a keyword: a standard decoder that returns the unchecked type hands typed code a
+member nobody spelled, and a census of directives in one tree reported zero over
+thirty. [census-counts-unmarked-members](./techniques/census-counts-unmarked-members.md)
+adds them to the count with the revision's own migration lint, or the checker's
+type-aware lint, and names the members that lint does not visit.
 
 ## What the golden path does not claim
 
@@ -205,4 +209,6 @@ what it asserts, and give it a witness the checker is not.
   — functions a later language revision re-marks as unsafe are members with no
   marker in older-revision code; the migration lint counts them, their argument
   quotes the function's own thread precondition, and removal (move the write before
-  the first thread, or replace the global) comes before documentation.
+  the first thread, or replace the global) comes before documentation; where the
+  unchecked type is a value, the type-aware lint counts its flow and annotated
+  callbacks are counted beside it.

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1356,
+  "applications": 1357,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -37774,9 +37774,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/trust-base.md",
-   "digest": "sha256-b2:1fc34d69d60e7f63",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:3ad9d5604e9627ce",
+   "revision": 5,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "assumptions-are-build-errors",
@@ -37805,7 +37805,9 @@
       "code writes the process environment while other threads may be running",
       "an automated revision migration wrapped calls in the escape marker with a note to audit later",
       "a justification says a call is fine because it compiles",
-      "tests that change the process environment run on a parallel test runner"
+      "tests that change the process environment run on a parallel test runner",
+      "the checker's unchecked type is a type that standard decoders return",
+      "a suppression ceiling records explicit uses of the unchecked type as zero"
      ]
     },
     {
@@ -37873,6 +37875,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "census-counts-unmarked-members",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/trust-base/applications/next--census-counts-unmarked-members--kp.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "next@16"
+    },
     {
      "stack": "rust",
      "technique": "assumptions-are-build-errors",
