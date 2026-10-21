@@ -209,7 +209,10 @@ share a host, a seed and a room, so they are not independent observations. A
 bound computed over pooled facts overstates precision; the honest effective
 sample size is much nearer the number of runs than the number of facts, and
 the per-run spread is the figure to look at before believing a pooled
-difference.
+difference. The trap reopens downstream: a rule judged once per run has a
+sound bound, but a total over a cell's rules does not, and a view that reads
+only tallies cannot tell which checks shared a run. Such a total is counted,
+not bounded (cheapest-passing-tier-selection).
 
 A measure that stays flat across model tiers is set by the machinery around
 the model — message picking, rate caps — and a larger model will not move it.

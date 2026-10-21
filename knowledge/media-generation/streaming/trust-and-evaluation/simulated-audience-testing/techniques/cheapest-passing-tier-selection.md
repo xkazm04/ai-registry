@@ -63,6 +63,15 @@ thousands of facts from a few dozen runs looks precise and is not; compare
 per-run quality distributions, or bound over runs, before calling a
 difference real.
 
+The pooled bound comes back wherever a figure sums across rules or facts:
+a cell total, a tier total, a show-wide health score. A tally of one rule
+judged once per run has n equal to runs, and its bound is sound. A total over
+rules does not, and a view that reads only tallies cannot repair it, because
+it cannot see which checks shared a run. **A total over rules is counted, not
+bounded, unless run identity reaches the code that draws the interval.** A
+dashboard downstream of a careful report is the usual place this breaks: the
+report states no cell bound, and the view computes one from the same numbers.
+
 ## When the expensive tier wins
 
 Often the gate itself picks the tier: a small, fast tier that fails red lines

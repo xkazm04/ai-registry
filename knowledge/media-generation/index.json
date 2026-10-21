@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 251,
-  "applications": 146,
+  "applications": 147,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -4109,9 +4109,9 @@
    "subcategory": "trust-and-evaluation",
    "status": "forged",
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/simulated-audience-testing/simulated-audience-testing.md",
-   "digest": "sha256-b2:df005c95186d0c4f",
-   "revision": 1,
-   "changedAt": "2026-10-19",
+   "digest": "sha256-b2:4405726297c57547",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "blind-judge-on-another-tier",
@@ -4210,6 +4210,13 @@
      "file": "knowledge/media-generation/streaming/trust-and-evaluation/simulated-audience-testing/applications/rust--verdict-states-beyond-pass-fail.md",
      "verified_on": "2026-10-19",
      "verified_against": "rust@1.97.1"
+    },
+    {
+     "stack": "typescript",
+     "technique": "cheapest-passing-tier-selection",
+     "file": "knowledge/media-generation/streaming/trust-and-evaluation/simulated-audience-testing/applications/typescript--cheapest-passing-tier-selection.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "typescript@7"
     }
    ]
   },
