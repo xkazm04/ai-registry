@@ -1412,3 +1412,20 @@ added as the content-first coaching evidence. Impact: kp, 0 stale verdicts on th
 kp map pushed d60e934e9. Yield medium, dry_streak 0, depth L2. Source classes: Frontiers
 full text and Crossref abstracts open; Wiley and Taylor & Francis pages return 403, so the
 counter-evidence lane must cite metadata abstracts or bank. See [[interview-story-portfolio]].
+
+## 2026-10-21 - deepen: silver-medalist-rediscovery
+
+Ranked by single stack (node). First subject note. Second stack is kp's Python engine. The
+fit floor was already one expression across the language boundary for the sweep, pool
+filter and badge. Rematch, rediscovery run in the other direction, was not: its floor was a
+free literal compared with `<=`, so a score exactly on the floor was promising to the band and
+the sweep, and refused by rematch. Fixed in kp (code, better, boundary test red on the old
+code). No new technique. Condition:
+- **a floor is a value and a comparator; a name-enumerating sync test sees neither fork;
+  test every caller at the floor and one below** (fit-floor-for-readmission).
+
+Counter-evidence lane: the reply-rate claim has only vendor-blog attributions behind it, so it
+stays directional and no number landed. Impact: kp, 3 contexts stale on this subject; kp map
+pushed a5bab54df. Yield medium, dry_streak 0, depth L2 plus one L3 boundary probe. Source
+classes: recruiting-vendor blogs quote each other's benchmarks without links; treat them as
+listicles that need the original report. See [[silver-medalist-rediscovery]].
