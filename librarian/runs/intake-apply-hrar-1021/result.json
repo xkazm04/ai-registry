@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-hrar-1021",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-21T10:00:00Z",
+  "ended_at": "2026-10-21T11:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/tracked-input-record-and-replay",
+      "at": "2026-10-21",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "tracked-input-record-and-replay",
+      "technique": "headless-replay-against-the-rules",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/applications/cpp--headless-replay-against-the-rules.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/techniques/headless-replay-against-the-rules.md",
+    "knowledge/game-production/index.json",
+    "rules/ai-registry-game-production.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/game-production/tracked-input-record-and-replay.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only, dispatched from the attention scan (no application). mage-arena-vr rows c62a958 + d25ecc7 pushed from an origin/master worktree; local master untouched (behind, owner .gitignore WIP). No code change: the reference-guard A/B needs a headless engine build."
+}
