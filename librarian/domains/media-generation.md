@@ -312,3 +312,18 @@ models without an off. A tier is now admitted on its measured tail at the
 level it runs at. 2 stale `not-applicable` verdicts in overlord. The
 console contexts are unjoined, which is the matcher gap's third bank today.
 Detail in [[live-response-latency-budgeting]].
+
+## 2026-10-21 - deepen, show-segment-format-design
+
+Dispatched on "single stack (rust)". A second stack exists: overlord's
+TypeScript console prints the segment tables from a hand-written daemon
+projection. That projection had frozen at the rules the tables had when
+it was written. A daemon test that walks the TOML declarations found 26
+declared key paths (9 rule blocks) missing. Fixed in overlord 5258d9c
+(applied row: code, better), and the count is now 0. That gave a new
+`typescript` application. `segment-as-state-table` gained "a view of the
+table is generated from the declaration and checked against it, key by
+key". The counter lane ran against the tree. It found the console's
+handover sentence out of step with the interpreter, and two Rust
+deviations narrowed since their read. 1 stale verdict (overlord
+`segments-runtime`). Detail in [[show-segment-format-design]].
