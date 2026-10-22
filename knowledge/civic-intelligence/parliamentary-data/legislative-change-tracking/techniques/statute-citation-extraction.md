@@ -57,6 +57,18 @@ by things that are *not* the statute collection.
   not assumed: harvest cases where the naive pattern linked a bill to a
   treaty or regulation of the same number, and keep those cases as regression
   fixtures next to the pattern.
+- **When a title names a target's amendment history, those citations are not
+  targets.** Drafting conventions often follow each amended statute with the
+  acts that last amended it ("as amended by act N/YYYY"). Narrowing to the title
+  does not remove them. Separate them by the title's own grammar, not by the
+  citation shape: the clause that opens the history, the grammatical case the
+  history list takes, and the phrases that reopen a target list. Case alone is
+  not enough, because a target named "on the amendment of act N" after a
+  generic "as amended" phrase takes the same case as history. Drop history
+  citations from the edge set and keep them countable. In one national register
+  replay they were about one title edge in eight across all terms and one in
+  ninety in the current term. The current-term figure would have hidden the
+  class from a sample.
 - **When extraction runs over titles only, say so at the published surface.**
   Title extraction undercounts omnibus bills by construction — a title
   summarizes, and long amendment lists get abbreviated to "and other related

@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 67,
+  "applications": 68,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -835,8 +835,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/legislative-change-tracking.md",
-   "digest": "sha256-b2:deeae7f2035a1619",
-   "revision": 6,
+   "digest": "sha256-b2:a63c6d5f390c3952",
+   "revision": 7,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -945,6 +945,13 @@
      "stack": "node",
      "technique": "sponsorship-and-rapporteur-roles",
      "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/applications/node--sponsorship-and-rapporteur-roles.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "statute-citation-extraction",
+     "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/applications/node--statute-citation-extraction.md",
      "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
