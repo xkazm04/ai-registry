@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-fit-effort-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "marketing",
+  "started_at": "2026-10-22T08:05:00Z",
+  "ended_at": "2026-10-22T08:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "marketing/zero-budget-channel-planning",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "zero-budget-channel-planning",
+      "technique": "fit-effort-quick-win-rule",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/applications/node--fit-effort-quick-win-rule.md",
+    "knowledge/marketing/index.json",
+    "catalog.json",
+    "librarian/subjects/marketing/zero-budget-channel-planning.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. The overview rec's fallback re-picked a tracked channel with every channel tracked, calling it unstarted. Now no rec. Paired 10/30 to 0/30, other 20 cases identical. Branch cur/quick-win-no-tracked-fallback pushed; master blocked by base red."
+}

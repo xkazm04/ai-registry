@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 133,
+  "applications": 134,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -3808,9 +3808,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/zero-budget-channel-planning.md",
-   "digest": "sha256-b2:335031007b658d38",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:1745e32526772396",
+   "revision": 5,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "admissibility-before-fit-and-effort",
@@ -3941,6 +3941,13 @@
      "technique": "channel-family-taxonomy-by-lifecycle-kind",
      "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/applications/node--channel-family-taxonomy-by-lifecycle-kind.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "fit-effort-quick-win-rule",
+     "file": "knowledge/marketing/local-and-zero-budget/zero-budget-channel-planning/applications/node--fit-effort-quick-win-rule.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
     {
