@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 134,
+  "applications": 135,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -3405,8 +3405,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/search-term-mining/search-term-mining.md",
-   "digest": "sha256-b2:5a3f9585156c4f1b",
-   "revision": 4,
+   "digest": "sha256-b2:6fc858e75afb3f3b",
+   "revision": 5,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -3520,6 +3520,13 @@
      "technique": "never-mine-demo-data",
      "file": "knowledge/marketing/paid-advertising/search-term-mining/applications/node--never-mine-demo-data.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "spend-and-click-floors-before-negation",
+     "file": "knowledge/marketing/paid-advertising/search-term-mining/applications/node--spend-and-click-floors-before-negation.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
     {

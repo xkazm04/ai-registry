@@ -47,5 +47,7 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   subject for it. Of the two fleet projects declaring `marketing`, only one reads a
   search-terms report; the other holds freelance gig documents and no ads code. The
   return condition is a second tree that mines search terms.
-- Unapplied (no `librarian/applied.md` row): spend-and-click-floors-before-negation, and never-mine-demo-data and
+- Unapplied (no `librarian/applied.md` row): never-mine-demo-data and
   zero-conversions-on-unrounded-count, which have applications but no A/B row.
+  spend-and-click-floors-before-negation was applied 2026-10-22 (click floor only; the
+  spend floor and the lag allowance wait on a target CPA field and per-day term clicks).
