@@ -6,7 +6,7 @@ technique: allocation-threshold-growth-policy
 status: forged
 laws: [limits-are-derived, count-carries-predicate]
 shared_with: []
-use_when: [deciding when an embedded collector runs, a collector under a growing live set runs more and more often for less and less, sizing what the collector keeps between cycles]
+use_when: [deciding when an embedded collector runs, a collector under a growing live set runs more and more often for less and less, sizing what the collector keeps between cycles, a bounded cache or key map walks every entry on insert once it is full]
 ---
 
 # Allocation threshold growth policy
@@ -106,6 +106,27 @@ footprint tracks the current heap rather than the historical maximum. The
 rule generalises to any structure the collector keeps across cycles: keep it
 sized to the heap it serves, not to the heap it once served.
 
+## When the threshold is a hard cap
+
+The growth rule assumes the threshold is a *trigger* and that the memory above
+the live set is the engine's to spend. Some reclaim policies have the same shape
+and a different contract: a bounded memo, a dedupe set or a rate limiter's key
+map. Inserts add to a count, a reclaim pass fires when the count reaches a
+constant, and the constant is the memory bound the structure promises. The
+failure above holds there unchanged. Once the live set sits on the bound, every
+insert pays a full walk that reclaims nothing. The remedy does not hold, because
+raising a bound to make room for survivors breaks the promise the bound was
+written to keep.
+
+So under a hard cap, **leave the threshold alone and make the reclaim cost
+proportional to its yield.** If every entry ages on one schedule, insertion order
+is expiry order and the dead entries are a prefix: pop it and stop at the first
+live one. If entries age on their own schedules, there is no prefix, so put the
+walk on a cadence with a per-pass budget and a cursor that resumes where the
+last pass stopped. Either way, no single insert pays for the whole structure.
+Both remedies keep the bound, and both remove the walk whose cost was linear in
+the live set and whose yield was linear in the margin.
+
 ## Decision rules
 
 - Trigger collection from the allocator when allocated bytes exceed the
@@ -119,6 +140,9 @@ sized to the heap it serves, not to the heap it once served.
 - Count bytes in traced cells, recorded at allocation and released at sweep;
   never resident size, never arena size.
 - Shrink the collector's own vectors to fit after every cycle.
+- Where the threshold is a promised memory bound, never grow it; make the
+  reclaim pop an expiry-ordered prefix, or run it on a budgeted, resumable
+  cadence.
 
 ## When not to use it
 

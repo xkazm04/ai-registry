@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-atgp-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-22T21:30:00Z",
+  "ended_at": "2026-10-22T23:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/embedded-tracing-collector",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "embedded-tracing-collector",
+      "technique": "allocation-threshold-growth-policy",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/language-runtime/embedded-tracing-collector/applications/node--allocation-threshold-growth-policy.md",
+    "knowledge/software-engineering/backend-platform/language-runtime/embedded-tracing-collector/techniques/allocation-threshold-growth-policy.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "librarian/subjects/software-engineering/embedded-tracing-collector.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. kp TTL memo reclaim at a constant 256 bound walked every entry per miss; prefix reclaim cut visits per get 254.7 to 1.97 with floor identical. Boundary amendment: hard-cap thresholds cannot grow. Subject no longer single-stack (node)."
+}

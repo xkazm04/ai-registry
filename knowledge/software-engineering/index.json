@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1399,
+  "applications": 1400,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -13753,9 +13753,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/embedded-tracing-collector/embedded-tracing-collector.md",
-   "digest": "sha256-b2:a1c32239e53083cd",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:4d3918bd3b3f9518",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "allocation-threshold-growth-policy",
@@ -13768,7 +13768,8 @@
      "use_when": [
       "deciding when an embedded collector runs",
       "a collector under a growing live set runs more and more often for less and less",
-      "sizing what the collector keeps between cycles"
+      "sizing what the collector keeps between cycles",
+      "a bounded cache or key map walks every entry on insert once it is full"
      ]
     },
     {
@@ -13830,6 +13831,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "allocation-threshold-growth-policy",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/embedded-tracing-collector/applications/node--allocation-threshold-growth-policy.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
     {
      "stack": "rust",
      "technique": "mark-finalize-remark-sweep",
