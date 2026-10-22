@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1361,
+  "applications": 1362,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -4011,9 +4011,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/authoring-block-vocabulary/authoring-block-vocabulary.md",
-   "digest": "sha256-b2:2a061e427ef67238",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:de27c1967ac4f8dc",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "blocks-as-machine-readable-source",
@@ -4099,6 +4099,13 @@
      "technique": "closed-directive-set",
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/authoring-block-vocabulary/applications/react--closed-directive-set.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "enum-guarded-block-payloads",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/authoring-block-vocabulary/applications/react--enum-guarded-block-payloads.md",
+     "verified_on": "2026-10-22",
      "verified_against": "react@19"
     },
     {
