@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 127,
+  "applications": 128,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -1725,8 +1725,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/landing-page-experiment-statistics.md",
-   "digest": "sha256-b2:0bb7482b95a6e14d",
-   "revision": 3,
+   "digest": "sha256-b2:a5b8d7e67242d3cb",
+   "revision": 4,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -1837,6 +1837,13 @@
      "stack": "node",
      "technique": "multi-arm-alpha-correction",
      "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--multi-arm-alpha-correction.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "peeking-guard",
+     "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--peeking-guard.md",
      "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },

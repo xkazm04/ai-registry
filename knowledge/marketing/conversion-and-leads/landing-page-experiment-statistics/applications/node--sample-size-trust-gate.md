@@ -29,9 +29,12 @@ const significant = exp.status === "done"
   : meetsConfidence && hasEnoughData;
 ```
 
-A `done` experiment is read on confidence alone; a `running` one must clear the
-corrected confidence bar *and* the sample gate. That conjunction is the peeking guard
-as a predicate rather than as an instruction, exactly the standard's shape.
+A `running` experiment must clear the corrected confidence bar *and* the sample gate -
+the peeking guard as a predicate rather than as an instruction. At this commit a
+`done` one is read on confidence alone, and that half is a side door: closing a test
+the morning it crossed the bar made it a winner and a mined lesson. The gate was
+extended to closed tests on 2026-10-22, with a paired replay behind it; see
+[the peeking-guard application](node--peeking-guard.md).
 
 **Sizing reads the corrected threshold.** `correctedAlpha(alpha, comparisons)`
 (`compute.ts:108-111`) is the Sidak product form, `1 - (1 - α)^(1/m)`, with

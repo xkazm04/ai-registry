@@ -2,7 +2,7 @@
 subject: landing-page-experiment-statistics
 domain: marketing
 last_touched: 2026-10-22
-touched_by: intake-apply-maac-1022 (apply)
+touched_by: intake-apply-peeking-guard-1022 (apply)
 dry_streak: 0
 ---
 
@@ -35,11 +35,26 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   trust-gate application, which had carried the same sentence. Also measured: a surface
   that declares only an arm above control spends about half its two-sided budget.
 
+- 2026-10-22, intake-apply-peeking-guard-1022: `peeking-guard` applied to systedo-case
+  in code, verdict `better`. The procedure said a closed test is read on confidence
+  alone, and the tree did exactly that. A null test closed on its first crossing became
+  a winner 0.19-0.22 of the time, against 0.04-0.05 with the gate on closed tests too;
+  closing when the gate opens was unchanged at 0.027-0.029. The procedure was inverted,
+  and the golden-path summary and the trust-gate application were corrected. Also
+  refuted, and not fixed in the tree: "the badge is a single look". Waiting for the
+  badge gave 0.094-0.107 null winners in both arms, because the gate moves with the
+  observed control rate and the looks continue after it opens. Written up as "What the
+  gate does not close".
+
 ## Owed
 
 - Single-stack debt: born with the stacks above; an external reconcile against a
   second tree is the next pass.
-- Unapplied: `distinct-hypothesis-per-arm`, `peeking-guard`, `sample-size-trust-gate`,
+- Single stack stays: on 2026-10-22 the only other marketing tree in the fleet had no
+  experiment surface, so the second stack waits for a tree that grows one.
+- Badge-wait leak: the consumer recomputes its horizon on every read; return when it
+  stores a horizon at test start or a gate-open snapshot.
+- Unapplied: `distinct-hypothesis-per-arm`, `sample-size-trust-gate`,
   `uniform-split-disclosed-no-ramping` have no `librarian/applied.md` row unless the
   ledger says otherwise.
 - Mid-test arm change: the consumer swaps a running test's arm list in place with no
