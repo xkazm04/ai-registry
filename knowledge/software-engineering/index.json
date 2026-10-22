@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1374,
+  "applications": 1375,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -19429,9 +19429,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/llm-extracted-entity-graph/llm-extracted-entity-graph.md",
-   "digest": "sha256-b2:bd7032bc2fb05c3b",
-   "revision": 2,
-   "changedAt": "2026-09-16",
+   "digest": "sha256-b2:906ab379a7b1e8f5",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "accumulate-then-threshold-merge",
@@ -19512,6 +19512,13 @@
      "file": "knowledge/software-engineering/llm-agent/prompt-and-context/llm-extracted-entity-graph/applications/python--surface-form-identity-and-its-risk.md",
      "verified_on": "2026-09-02",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "rust",
+     "technique": "accumulate-then-threshold-merge",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/llm-extracted-entity-graph/applications/rust--accumulate-then-threshold-merge.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "rust@1.96"
     }
    ]
   },

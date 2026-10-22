@@ -61,6 +61,24 @@ endpoint pair. Keying on the ordered pair mints two edges for one relation, spli
 evidence across both, and leaves the query plane traversing whichever one the extraction
 happened to phrase first.
 
+## When order-dependence is the purpose
+
+The contract above is for a store whose consumer needs the **evidence** back: a description
+that can be rebuilt, a graph that must survive a re-parse. A store that answers *what is
+true now* has the opposite requirement, and it is entitled to it. A per-key outcome row that
+keeps success and failure counts as sums and its rate as a moving average is correct to be
+order-dependent in the average: thirty successes followed by ten failures should read as a
+regression, and the lifetime mean (0.75) would hide it where the recency-weighted figure
+(0.11) shows it. Replaying 40 such outcomes in 200 random orders left the sums identical
+every time and the average spread across 0.39 to 0.98.
+
+So the rule is narrower than "make every attribute order-independent": **keep the sums
+order-independent, make each recency-weighted attribute say that it is one, and never let
+a recency-weighted figure stand in for a rate over the evidence.** Test the sums with the
+two-order ingest and leave the averages out of that test by name. What a recency store
+still owes is the idempotence half of the first section: a merge that adds counts without
+comparing an execution identity doubles them on a replay.
+
 ## The threshold, denominated in the budget it defends
 
 Unbounded accumulation has a failure of its own. The entity the corpus discusses most
