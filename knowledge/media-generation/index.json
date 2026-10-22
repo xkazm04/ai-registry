@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 253,
-  "applications": 158,
+  "applications": 159,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -1232,8 +1232,8 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/media-generation/narrative-craft/data-video-virality/data-video-virality.md",
-   "digest": "sha256-b2:4a7607eb3b5a5dab",
-   "revision": 5,
+   "digest": "sha256-b2:be3b20bed1be0343",
+   "revision": 6,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -1400,6 +1400,12 @@
      "stack": "process",
      "technique": "series-repeatability",
      "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--series-repeatability.md",
+     "verified_on": "2026-10-22"
+    },
+    {
+     "stack": "process",
+     "technique": "speculative-grounding",
+     "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--speculative-grounding.md",
      "verified_on": "2026-10-22"
     }
    ]
