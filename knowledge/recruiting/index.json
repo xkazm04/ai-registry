@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 315,
+  "applications": 316,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3484,9 +3484,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/cv-presentation-and-parseability.md",
-   "digest": "sha256-b2:938f0a3f26e90176",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:cbb04b8f25d312db",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "export-format-and-round-trip-verification",
@@ -3566,6 +3566,13 @@
      "technique": "export-format-and-round-trip-verification",
      "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--export-format-and-round-trip-verification.md",
      "verified_on": "2026-10-14",
+     "verified_against": "react@19.3"
+    },
+    {
+     "stack": "react",
+     "technique": "market-conventions-and-personal-data",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--market-conventions-and-personal-data.md",
+     "verified_on": "2026-10-22",
      "verified_against": "react@19.3"
     },
     {

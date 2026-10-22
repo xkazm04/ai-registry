@@ -64,6 +64,15 @@ are arguably special-category data wherever they are processed for that.
 - **Default every protected-attribute field to off, in every market.** Photo, birth date,
   age, marital status, number of children, nationality (unless work authorisation is
   asked for), religion, health. A template slot is not a reason to fill it.
+- **A tool that reads the candidate's own document keeps the default only by recognising
+  the data.** Removing the field governs what a tool writes. An imported CV still
+  volunteers these lines, and above the first section heading there is no "personal
+  details" block to drop them with. Recognise each market's own label for each attribute,
+  including the combined forms ("date and place of birth") and the standard European
+  format's colon-less label-and-value. Test the recogniser in both directions: every
+  label in every market the tool writes is dropped, and a real title that begins with the
+  same word ("Gender Studies ...") survives. One consumer's recogniser, built from a
+  partial list, printed 18 of 24 such header lines as the headline under the name.
 - **Offer the market's convention as an owner choice, stated with its trade-off.** "In
   this market a photo is common; field experiments show photos carry appearance and
   religion effects. Include one?" The choice and its default are recorded. When the market

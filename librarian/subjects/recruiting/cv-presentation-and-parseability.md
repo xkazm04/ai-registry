@@ -1,8 +1,8 @@
 ---
 domain: recruiting
 subject: cv-presentation-and-parseability
-last_touched: 2026-09-26
-touched_by: forge
+last_touched: 2026-10-22
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -17,6 +17,17 @@ Subject note. Part of [[index]]; graded against [[standard]].
 Proposal: `docs/subject-proposal-cv-construction-and-presentation.md`. The organising
 rule - *reading order is content* - is the writing-side mirror of the career-reading
 subject's text-extraction damage catalogue.
+
+### 2026-10-22 - applied `market-conventions-and-personal-data` to kp (intake-apply-mcpd-1022)
+
+The attention scan ranked the subject for a single stack (react). This run added a react
+application for the one technique that had none. It used a seam chosen to falsify: the
+CV header, where a volunteered personal line sits in no block. Arm A printed 18 of 24
+real header forms as the headline, and arm B printed 0. No title controls were lost
+(0 of 12). The technique gained a decision rule: a tool that reads the candidate's own
+document keeps the default only by recognising each market's label. The stack count did
+not change (still react only). The return condition is a second consumer that renders a
+CV outside react.
 
 ## Sources the standard rests on (grade, n, counter)
 
