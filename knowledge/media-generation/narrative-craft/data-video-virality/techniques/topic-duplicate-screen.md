@@ -33,6 +33,12 @@ the loop is optimizing.
   numbers) or form (map vs race) is not a duplicate.
 - Duplicates are failed visibly with a reason, never silently dropped.
   The report counts them.
+- The screen is only mechanical if the idea record **declares its measure**.
+  Subject and span alone fail every sibling of the same subject, including
+  the different-measure ones the first rule protects (a paired probe on five
+  ideas flagged all five). Without a stored measure the screen stays a
+  reading task, and a title-equality check is not a substitute: it passed
+  all three true duplicates in the same probe.
 - If the newer framing is clearly better, record that as a suggested
   edit to the older idea instead of passing both.
 
