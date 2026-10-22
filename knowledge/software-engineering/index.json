@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1371,
+  "applications": 1372,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -19017,9 +19017,9 @@
    "subcategory": "standards-and-gates",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/knowledge-registry.md",
-   "digest": "sha256-b2:08227ed9be7fc676",
-   "revision": 11,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:3dc9f1dec5aa4282",
+   "revision": 12,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "catalog-as-sync-key",
@@ -19157,6 +19157,13 @@
      "technique": "deterministic-seeding",
      "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--deterministic-seeding.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "node",
+     "technique": "lane-contracts",
+     "file": "knowledge/software-engineering/engineering-process/standards-and-gates/knowledge-registry/applications/node--lane-contracts.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@22"
     },
     {
      "stack": "node",
