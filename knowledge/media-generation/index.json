@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 253,
-  "applications": 156,
+  "applications": 157,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -4293,9 +4293,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/audio-generation/sound-effect-generation/sound-effect-generation.md",
-   "digest": "sha256-b2:1cbc518525da855c",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:4138f0757b58efac",
+   "revision": 5,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "envelope-first-briefing",
@@ -4397,6 +4397,13 @@
      "file": "knowledge/media-generation/audio-generation/sound-effect-generation/applications/node--trailer-punctuation-grammar.md",
      "verified_on": "2026-08-27",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "react",
+     "technique": "picture-as-timing-brief",
+     "file": "knowledge/media-generation/audio-generation/sound-effect-generation/applications/react--picture-as-timing-brief.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "react@19"
     }
    ]
   },

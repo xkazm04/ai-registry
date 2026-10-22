@@ -49,10 +49,29 @@ per clip, at generation time.
   right — grade character with the same defect discipline as any
   generated audio.
 
+## When the picture is rendered from a plan
+
+The picture is only the best timing brief when nobody wrote the timing
+down. Where the picture is itself computed from a timeline the project
+owns (a programmatic composition, a data-driven animation, a replay),
+that plan carries every event's frame before a single frame renders,
+and the picture is a lossy copy of it. Spot from the plan: place each
+effect at its planned frame and brief its character in text, one
+generation per event. Sync is then exact rather than approximate, every
+event stays its own stem, the window limit never binds, and audio no
+longer waits on a render. A dense plan makes the gap concrete: a
+41-second cut with eleven sync points under eight-second windows puts
+ten of them in a clip shared with another event, each pair mixed into
+one track nobody can level apart. Name in the plan which frame the sound
+anchors to. An entrance has an onset and a settle a dozen frames later,
+and a carry wants the onset where a hit wants the settle.
+
 ## When not to use this
 
 Anything whose timing the picture does not determine: music (spotting is
-a creative decision), narration, off-screen ambience. And check the
+a creative decision), narration, off-screen ambience. Picture rendered
+from a timeline the project owns, where the plan is the brief (above).
+And check the
 license class of a research-grade model before it touches commercial
 delivery — synced-generation releases commonly ship non-commercial
 weights, which is a production-ops fact, not a craft one.

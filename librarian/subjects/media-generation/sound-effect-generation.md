@@ -1,8 +1,8 @@
 ---
 domain: media-generation
 subject: sound-effect-generation
-last_touched: 2026-08-27
-touched_by: librarian
+last_touched: 2026-10-22
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -75,3 +75,23 @@ chokepoint that exists to enforce doctrine does not enforce it.
   cannot supply the second column.
 - **Unexercised:** four of five bench presets have never been rendered; the
   vocabulary's cutoff and tape-stop elements do not ship at all.
+
+### 2026-10-22 - `/intake apply picture-as-timing-brief`, first application, first non-node stack
+
+Run `intake-apply-ptb-1022`, dispatched from the attention scan ("single
+stack (node)"). Applied to `stat-reel` as an `experiment`, verdict
+`not-better`: the consumer's picture is computed from a timing plan before
+rendering, so the plan, not the picture, is the timing authority. Over the
+committed sample plan (41 s, 11 sync points), 8 s conditioning windows put
+10 of 11 events in a shared mixed clip; plan-spotted cues keep 11 stems at
+0-frame error. Landed: a boundary section in the technique ("When the
+picture is rendered from a plan") and `react--picture-as-timing-brief`,
+the subject's first application off the node stack.
+
+Read-back (declared focus): the 2026-10-14 `layered-element-assembly`
+return condition has not fired - `mage-arena-vr` still carries `mixLayers`
+in its self-test only, `cues.json` has no layers, no spend was approved.
+
+- **Return:** when the consumer wires its first SFX cue into a
+  composition, check its frame is read from the plan's event frame and its
+  anchor (onset vs settle, 14 frames apart for a card) is declared.
