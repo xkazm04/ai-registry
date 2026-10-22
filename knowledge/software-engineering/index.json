@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1387,
+  "applications": 1388,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -888,8 +888,8 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/agent-addressable-ui.md",
-   "digest": "sha256-b2:71d91d42eaa3e355",
-   "revision": 5,
+   "digest": "sha256-b2:fcac6e51b4916eeb",
+   "revision": 6,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -1008,6 +1008,13 @@
      "stack": "react",
      "technique": "opt-in-instrumentation-gate",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/applications/react--opt-in-instrumentation-gate.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "uninstrumented-degradation",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/applications/react--uninstrumented-degradation.md",
      "verified_on": "2026-10-22",
      "verified_against": "react@19"
     }

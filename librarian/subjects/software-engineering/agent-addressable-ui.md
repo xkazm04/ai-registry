@@ -17,3 +17,5 @@ First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: NEW.
 
 - **produce the fact, do not read it from someone's internals** (proposed law, not added). When a private debug surface is the only source of a fact you need, generate it yourself at build time. Sightings here and in `embedded-preview`/convention-discovery.
 - Secondary proposal: *a gate removes code from an artifact; a switch chooses a branch inside one*. Recurs across `build-economics`. Cheaper to state as a technique-level distinction than a law.
+
+- 2026-10-22 `uninstrumented-degradation` first application (react, personas-web): idle and resolved-to-nothing collided in the overlay; fixed and paired (see applications/react--uninstrumented-degradation.md). Lead: armed state lacks the timeout and copy-disarm obligations; return when a browser-driven check exists.
