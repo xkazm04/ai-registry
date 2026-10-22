@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 317,
+  "applications": 318,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3490,8 +3490,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/cv-presentation-and-parseability.md",
-   "digest": "sha256-b2:cbb04b8f25d312db",
-   "revision": 3,
+   "digest": "sha256-b2:ada9340a75aa0816",
+   "revision": 4,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -3586,6 +3586,13 @@
      "technique": "parse-safe-reading-order",
      "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--parse-safe-reading-order.md",
      "verified_on": "2026-09-26",
+     "verified_against": "react@19.3"
+    },
+    {
+     "stack": "react",
+     "technique": "scan-path-hierarchy",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--scan-path-hierarchy.md",
+     "verified_on": "2026-10-22",
      "verified_against": "react@19.3"
     }
    ]
