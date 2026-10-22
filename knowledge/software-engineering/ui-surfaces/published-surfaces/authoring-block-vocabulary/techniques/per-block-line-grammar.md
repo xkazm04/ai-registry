@@ -107,6 +107,15 @@ or indented line becomes harmless instead of becoming a new empty item.
 The rule needs one guard: a continuation line arriving before any item has
 started is discarded, not attached to nothing.
 
+The rule has one boundary where it inverts. When the block's marker is a *closed
+label set* (a bracketed kind, a numbered and emphasised title), a line that is
+shaped like a marker but is not one is a mistyped item, not prose, and folding
+it into the item above prints the typo as text and reports nothing: the
+continuation rule and the enum guard meet at exactly that line. Fold only what
+cannot be read as a marker; report what can, as a skipped line to the same
+build-time count. A link that merely begins with a bracket is prose, so the
+test is the marker's shape followed by what a link would put next.
+
 ## Failure is per item, and per item is not per nothing
 
 A malformed line loses that line. It does not throw, it does not abort the body,
