@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1401,
+  "applications": 1402,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -14107,9 +14107,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-string-representation/engine-string-representation.md",
-   "digest": "sha256-b2:70121ae88b78b37e",
-   "revision": 2,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:9b9ecd6e50ba4e51",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "compile-time-static-string-table",
@@ -14178,6 +14178,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "dual-encoding-symbol-interner",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-string-representation/applications/node--dual-encoding-symbol-interner.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
     {
      "stack": "rust",
      "technique": "compile-time-static-string-table",
