@@ -1,0 +1,63 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-usps-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "marketing",
+  "started_at": "2026-10-22T05:20:00Z",
+  "ended_at": "2026-10-22T05:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "marketing/product-feed-and-catalog-spine",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "product-feed-and-catalog-spine",
+      "technique": "usps-become-ad-benefits",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/applications/node--usps-become-ad-benefits.md",
+    "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/techniques/usps-become-ad-benefits.md",
+    "knowledge/marketing/index.json",
+    "catalog.json",
+    "rules/ai-registry-marketing.md",
+    "librarian/subjects/marketing/product-feed-and-catalog-spine.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "6f5c629c",
+      "pathspec": [
+        "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/applications/node--usps-become-ad-benefits.md",
+        "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/techniques/usps-become-ad-benefits.md",
+        "knowledge/marketing/index.json",
+        "catalog.json",
+        "rules/ai-registry-marketing.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. The deterministic ad floor filled short USP lists with filler reviews and gave unavailable products preorder copy; B drops both: 30/240 filler lines to 0/216. Branch cur/usps-floor pushed; master blocked by the base red."
+}

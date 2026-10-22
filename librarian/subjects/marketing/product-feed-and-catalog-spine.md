@@ -48,3 +48,18 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   (patterns-embeddings), measured on a clean base before the arms ran.
 - Owed: still single-stack. Rows with no localities, no rivals or a zero price pass the
   routes, and each consumer decides what to do with them.
+
+## 2026-10-22 - apply: usps-become-ad-benefits (run intake-apply-usps-1022)
+
+- First application, `code`, `better`, ab-paired on systedo-case. The ad request, the
+  typed claims object and the blank-fragment filter held on reading. The deterministic
+  floor still invented proofs through its fallbacks: filler headlines for a short USP
+  list, and preorder and restock promises for an unavailable product. Filler lines:
+  A 30/240, B 0/216, with no empty or over-limit assets.
+- Application: `node--usps-become-ad-benefits`. One decision rule added: an omission
+  can empty a packed asset, so the blank filter runs on the asset too.
+- Project commits sit on pushed branch cur/usps-floor. Master waits on the base suite's
+  single red (patterns-embeddings).
+- Owed: still single-stack. gigs, the fleet's only other marketing project, has no
+  catalog or ad-copy seam. The keyless demo generator is a second unfixed instance. A
+  selling point that is itself an availability claim is not checked.
