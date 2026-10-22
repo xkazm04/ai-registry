@@ -1,7 +1,7 @@
 ---
 subject: guest-language-introspection
 domain: software-engineering
-last_touched: 2026-09-03
+last_touched: 2026-10-23
 dry_streak: 0
 ---
 
@@ -12,3 +12,7 @@ Born 2026-09-03 from the forge wave `forge-boa-0903`, executed in-session from t
 Engine internals exposed to the guest language behind a flag: a modular non-enumerable debug global (in the CLI, not the engine, so embedders cannot receive it), a per-function trace bit on the code block that survives suspension, representation probes (shape identity, element storage kind, string encoding), guest-settable limits and optimiser switches, a realm factory. Structural fact: the debug global appears in no test file anywhere in the checkout, so the recorded purpose - engine tests written in the guest language - is unrealized. Deviations: a one-call trace clears the persistent mark; the realm factory builds a throwaway context.
 
 No fleet consumer yet: no managed project embeds a language runtime. Return condition in `librarian/applied.md` (2026-09-03).
+
+## 2026-10-23 - first fleet application, second stack (node)
+
+`/intake apply realm-factory-for-cross-realm-tests` (run `intake-apply-realm-factory-1023`, dispatched by Curator on "single stack (rust)"). Node's `vm` module is the fleet's realm factory: personas-web evaluates every locale in a second realm, and the walker over those trees was tested only with this-realm literals. One real-second-realm test, opening with the realm-is-real assertion, took realm-naive mutants caught from 0/4 to 4/4 (code, better, shipped in the project). Boundary learned: for a tree walker the realm hazard sits in the plain-object test, not the array brand check - the `instanceof Array` mutant was equivalent. Subject is no longer single-stack. Open: the coverage check's private comparator, which does split arrays from objects, is still unguarded.
