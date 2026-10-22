@@ -105,4 +105,23 @@ thread split by system, and particles. It has none for quantities every class lo
 **Still owed:** every share's size, a thermal reserve, and a GPU and render-thread capture
 with one class hidden per run. Return at the V1 device sprint.
 
-Still not applied: `stereo-draw-call-budget`, `thermal-headroom-reserve`.
+Still not applied: `thermal-headroom-reserve`.
+
+### 2026-10-22 - `/intake apply stereo-draw-call-budget` (run `ia-stereo-dcb`)
+
+**Tree.** `mage-arena-vr` `origin/master` at `be9a81b`, read in a short-path worktree; the
+primary checkout is 120 commits behind. Project commit `3ee293a` (`.ai/applied.jsonl` only).
+
+**Mode.** `experiment`, a static audit of every place the draw-call cap is stated. Verdict
+`unmeasurable`. The seam was chosen to falsify "a cap with no path, side and unit is
+incomplete": it would have fired if the research's per-frame reading had reached the cap rows.
+It did not reach them: 12 statements, 0 carry all three terms, and the capture gate prints no
+path. The technique held and is unamended.
+
+**Structural fact.** The project derived the right reading in a research file and nothing that
+decides a verdict inherited it. No document asks a device to report that multiview ran.
+
+**Still owed:** a V1 checklist row logging the active stereo path, and the audit re-run once
+the cap text carries its terms.
+
+Still not applied: `thermal-headroom-reserve`.
