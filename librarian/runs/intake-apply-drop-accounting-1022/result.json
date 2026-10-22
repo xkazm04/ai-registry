@@ -1,0 +1,62 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-drop-accounting-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-22T15:00:00Z",
+  "ended_at": "2026-10-22T16:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/edge-queue-policy",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "edge-queue-policy",
+      "technique": "drop-accounting",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/applications/next--drop-accounting.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "rules/ai-registry-software-engineering.md",
+    "librarian/subjects/software-engineering/edge-queue-policy.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "8b8a6f83",
+      "pathspec": [
+        "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/applications/next--drop-accounting.md",
+        "librarian/applied.md",
+        "librarian/subjects/software-engineering/edge-queue-policy.md",
+        "knowledge/software-engineering/index.json",
+        "catalog.json"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. kp director channel dropped observations uncounted at two sites; outage residual A 40 B 0, hang-up A 5 B 0, delivered set unchanged, suite 16/16. Subject no longer single-stack (next)."
+}
