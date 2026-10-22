@@ -237,3 +237,21 @@ the subject's one technique with no `applied.md` row.
   passing-source names travel with the result from the profile and are never looked up again
   in a display table. Still open: the identity form's client-side list of sources with a Verify
   control.
+
+## Intake apply - 2026-10-22 (run intake-apply-vpass-1022)
+
+Dispatched from the attention scan ("single stack (node)"). The only consumer is a node tree,
+so the stack count stays put. `verification-passport` was the subject's last technique with
+no `applied.md` row.
+
+- `verification-passport`: first application, `code` / `better`. The verdict, the
+  determinate-only score, expiry, the stub signature and the summary projection were all
+  built, so the seam was chosen to falsify the roster and denominator claims. Both failed.
+  The public passport built its roster from the live-only fan-out, so declared sources with
+  no adapter were absent: 8 of 11 across the four profiles, and 0 of 11 after the change.
+  The score was a bare number, and "nothing decided" printed 0 like an all-fail run: 4 of 4
+  offline rosters before, 0 after. The floor held: verdict and score were identical across
+  arms, and tsc, eslint and vitest 3684/3684 passed. Shipped grant 72f7d57 + a25216c. One
+  decision rule was appended: build the roster from the declaration, not from the fan-out's
+  output. Still open: the passport is minted live and never persisted, so expiry has no
+  consumer yet.
