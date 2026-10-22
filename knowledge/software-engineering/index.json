@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1372,
+  "applications": 1373,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -19190,9 +19190,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/lazy-section-addressability.md",
-   "digest": "sha256-b2:7932d7ba8929c786",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:bc574aa9e5f8c74c",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "always-present-anchor-wrappers",
@@ -19275,6 +19275,13 @@
      "technique": "anchor-coverage-guard",
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/applications/react--anchor-coverage-guard.md",
      "verified_on": "2026-10-14",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "external-anchor-vs-internal-id",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/lazy-section-addressability/applications/react--external-anchor-vs-internal-id.md",
+     "verified_on": "2026-10-22",
      "verified_against": "react@19"
     },
     {
