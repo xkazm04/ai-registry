@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 129,
+  "applications": 130,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -2510,8 +2510,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/performance-root-cause-diagnosis.md",
-   "digest": "sha256-b2:2fced7a37b0db082",
-   "revision": 3,
+   "digest": "sha256-b2:a5973514c8c89bfe",
+   "revision": 4,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -2634,6 +2634,13 @@
      "stack": "node",
      "technique": "thresholds-mirror-the-prompt",
      "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/applications/node--thresholds-mirror-the-prompt.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "wasted-spend-ranking",
+     "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/applications/node--wasted-spend-ranking.md",
      "verified_on": "2026-10-22",
      "verified_against": "node@24"
     }

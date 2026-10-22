@@ -69,7 +69,14 @@ campaign, so the ledger keys stay stable.
 - When a campaign's conversions are positive but its value is zero (a lead campaign
   with no value assigned), treat it as wasting all of its spend and say why: the target
   is a value share, and without value the target cannot justify anything. The owner's
-  fix may be to assign a value, not to pause.
+  fix may be to assign a value, not to pause. Where the surface has no place to say
+  why (a one-line pattern, a budget move), leave the campaign out as not measured
+  rather than ranking it as waste without the reason.
+- When a product ranks waste in more than one place (a diagnosis, a pattern library, a
+  budget recommender), every ranking calls one definition of waste and one target. A
+  copied formula agrees on the converting rows and drifts at the edges: a filter that
+  admits only a positive return makes the zero-conversion spender, the biggest waste by
+  construction, impossible to name.
 - When the target is absent, fall back to the scope's default target and label the
   fallback; never rank against no target, and never invent one.
 - When the worst set contains a campaign the model was not shown, the ranking and the
