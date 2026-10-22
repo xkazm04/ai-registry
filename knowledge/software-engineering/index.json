@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1396,
+  "applications": 1397,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -12173,8 +12173,8 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
-   "digest": "sha256-b2:100ec2ef89127244",
-   "revision": 3,
+   "digest": "sha256-b2:74839e7c9eeb3728",
+   "revision": 4,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -12276,6 +12276,13 @@
      "stack": "react",
      "technique": "per-topic-freshness-metadata",
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/applications/react--per-topic-freshness-metadata.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "product-location-mapping",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/applications/react--product-location-mapping.md",
      "verified_on": "2026-10-22",
      "verified_against": "react@19"
     }
