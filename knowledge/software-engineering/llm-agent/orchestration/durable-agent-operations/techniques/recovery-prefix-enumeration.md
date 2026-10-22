@@ -51,6 +51,17 @@ The list is therefore maintained by construction: a new state with no case is a
 gap the vocabulary itself reveals. That is the payoff for having defined the
 vocabulary once.
 
+Two boundaries on the construction. First, **build a state the way its
+transition commits it**, not as the bare enum value: when a transition writes a
+second durable row in the same transaction (a hold on a shared resource, a
+spend row), the state a crash leaves is the record and that row together, and a
+fixture that writes only the record exercises a state production never
+produces. Second, a suite that enumerates the *effect prefixes* of one scenario
+is a different derivation and does not stand in for this one: it can only reopen
+the states that scenario passes through, so a machine can have a thorough crash
+suite and still never reopen half its leaves. Keep both; neither implies the
+other.
+
 ## Every half-completed prefix is its own case
 
 The sharp rule, and the one most suites get wrong: **invoking recovery twice

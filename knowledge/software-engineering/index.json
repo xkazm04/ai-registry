@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1397,
+  "applications": 1398,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -13012,8 +13012,8 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/durable-agent-operations.md",
-   "digest": "sha256-b2:45f6e2d985792d12",
-   "revision": 5,
+   "digest": "sha256-b2:2939cd03f8f3a4d1",
+   "revision": 6,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -13109,6 +13109,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "recovery-prefix-enumeration",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/durable-agent-operations/applications/node--recovery-prefix-enumeration.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
     {
      "stack": "rust",
      "technique": "close-is-a-controlled-crash",
