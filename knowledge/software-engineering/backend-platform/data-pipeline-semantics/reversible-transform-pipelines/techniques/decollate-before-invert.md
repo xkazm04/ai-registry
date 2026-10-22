@@ -110,3 +110,14 @@ the working frame — collates for the model and never needs the reverse
 trip. The technique applies exactly when a batched output must return to
 per-instance original frames, which is every inference path and every
 test-time augmentation.
+
+A batch whose outputs return as identity only — one vector per input, no
+frame to restore — does not need the decollate-and-reattach loop either. The
+output rows carry no geometry the inverse could get wrong, so pairing them
+back to their instances by position is sound, provided the pairing is guarded:
+assert that the output count equals the input count before zipping, and fail
+the whole batch on a mismatch rather than truncating to the shorter side. That
+guard is the degenerate form of this technique's padding rule, and it is
+enough exactly while the model neither pads nor drops instances. The moment an
+output has to be mapped back through a per-instance parameter, the positional
+pairing stops being enough and the full rule above applies.

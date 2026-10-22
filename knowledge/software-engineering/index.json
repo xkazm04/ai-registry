@@ -30943,9 +30943,9 @@
    "subcategory": "data-pipeline-semantics",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/data-pipeline-semantics/reversible-transform-pipelines/reversible-transform-pipelines.md",
-   "digest": "sha256-b2:6b1454a123540e65",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:7389a1aaa9b7fce8",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "decollate-before-invert",
