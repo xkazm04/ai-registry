@@ -1,0 +1,64 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-rac-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "grant-funding",
+  "started_at": "2026-10-22T02:00:00Z",
+  "ended_at": "2026-10-22T02:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "grant-funding/nonprofit-verification",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "nonprofit-verification",
+      "technique": "registry-adapter-contract",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--registry-adapter-contract.md",
+    "knowledge/grant-funding/grant-operations/nonprofit-verification/techniques/registry-adapter-contract.md",
+    "knowledge/grant-funding/index.json",
+    "catalog.json",
+    "rules/ai-registry-grant-funding.md",
+    "librarian/subjects/grant-funding/nonprofit-verification.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "a199803a",
+      "pathspec": [
+        "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--registry-adapter-contract.md",
+        "knowledge/grant-funding/grant-operations/nonprofit-verification/techniques/registry-adapter-contract.md",
+        "knowledge/grant-funding/index.json",
+        "catalog.json",
+        "rules/ai-registry-grant-funding.md",
+        "librarian/subjects/grant-funding/nonprofit-verification.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only from the attention scan. Two display surfaces re-labelled source keys from tables of the five built adapters; over 11 declared sources raw-key chips 6 to 0, label agreement 1 to 11. grant 7b4e4c5 pushed. Single-stack point unmoved: one node consumer."
+}
