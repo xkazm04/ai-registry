@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1388,
+  "applications": 1389,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -1025,8 +1025,8 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/agent-browser-control.md",
-   "digest": "sha256-b2:2df1c9cb997274e8",
-   "revision": 4,
+   "digest": "sha256-b2:a5e059a866a49108",
+   "revision": 5,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -1121,6 +1121,13 @@
      "technique": "persistent-browser-daemon",
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/applications/node--persistent-browser-daemon.md",
      "verified_on": "2026-09-02"
+    },
+    {
+     "stack": "rust",
+     "technique": "effect-classed-commands",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-browser-control/applications/rust--effect-classed-commands.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
