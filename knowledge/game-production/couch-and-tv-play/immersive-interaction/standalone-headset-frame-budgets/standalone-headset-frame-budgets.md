@@ -91,7 +91,8 @@ budget that does not say which side of that line a number sits on cannot be chec
 
 **The most demanding device binds, per quantity.** When one budget must hold on more than
 one headset, each quantity is bound by the device that finds it hardest. For fill, that is
-the device with the larger per-eye display, because the same GPU class shades more pixels.
+the device that renders the larger eye buffer, because the same GPU class shades more pixels.
+The eye buffer is set by the runtime, not by the panel, so two displays can tie.
 For CPU submission, it is the device with the slower CPU. "The weakest device binds" is
 right only when one device is weakest on every quantity, and that is rarely true.
 
@@ -128,7 +129,7 @@ the week before submission.
 - **It proves the budget in the first minutes of a session**, then the device warms, drops
   its clocks, and the budget fails well into a session of ordinary play.
 - **It lets the weakest headset bind everything**, and is surprised when the device with the
-  larger display runs out of fill first.
+  larger eye buffer runs out of fill first.
 
 ## Seams with neighbouring craft
 

@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 86,
   "techniques": 562,
-  "applications": 325,
+  "applications": 326,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -9777,8 +9777,8 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
-   "digest": "sha256-b2:75b2a991f4be514f",
-   "revision": 3,
+   "digest": "sha256-b2:31b21eb324cc5ce5",
+   "revision": 4,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -9874,6 +9874,13 @@
      "stack": "cpp",
      "technique": "overdraw-and-transparency-ceiling",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--overdraw-and-transparency-ceiling.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "per-content-class-frame-budget",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--per-content-class-frame-budget.md",
      "verified_on": "2026-10-22",
      "verified_against": "cpp@20"
     }
