@@ -1,7 +1,7 @@
 ---
 subject: edge-queue-policy
 domain: software-engineering
-last_touched: 2026-09-02
+last_touched: 2026-10-22
 touched_by: intake
 dry_streak: 0
 ---
@@ -39,3 +39,20 @@ that stale rule and was corrected in this wave.
 Proposed law from the forger (not added): *measurement lives at the site of the
 decision* - a sender's handoff is not evidence of delivery; possibly a corollary
 of `gate-sees-target`.
+
+## 2026-10-22 - drop-accounting applied, first `next` application
+
+`/intake apply drop-accounting` (run `intake-apply-drop-accounting-1022`), dispatched
+on the scan's single-stack finding. The subject is no longer single-stack: an
+application against a browser-to-server observation queue (cap 60, drop-oldest) in a
+hiring app's live voice call. Reconciliation: a 100-observation outage acknowledged 60
+with residual 40 and no counter; a hang-up lost 5 of 5 the same way. With per-cause
+counters (evicted, flushed) the residual was 0 in both, and the delivered set was
+unchanged. Shipped as code with a reconciliation test that fails on the old arm.
+
+What the seam added to the technique, with no amendment needed: the reconciliation
+found a discard site nobody had listed (close), and a test named for the eviction
+order that never asserted it. The run's own first draft of the test also computed
+delivered from the send side and missed by one. A third site, the server's
+per-session storage ceiling answering `ok` while storing nothing, is the
+send-side-blindness case, and it stays open in that tree.

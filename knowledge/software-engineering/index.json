@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1398,
+  "applications": 1399,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -13271,8 +13271,8 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/edge-queue-policy.md",
-   "digest": "sha256-b2:4bcf18e3326984d9",
-   "revision": 2,
+   "digest": "sha256-b2:7c5ede012311eb86",
+   "revision": 3,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -13362,6 +13362,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "drop-accounting",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/applications/next--drop-accounting.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "next@16.4.2"
+    },
     {
      "stack": "rust",
      "technique": "control-channel-headroom",
