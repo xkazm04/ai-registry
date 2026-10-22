@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1391,
+  "applications": 1392,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -7617,9 +7617,9 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
-   "digest": "sha256-b2:4501f7f3299769cc",
-   "revision": 4,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:ae08af0dee75a668",
+   "revision": 5,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "conjunction-activated-fragments",
@@ -7705,6 +7705,13 @@
      "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/applications/docker-compose--requirement-closure-before-selection.md",
      "verified_on": "2026-10-06",
      "verified_against": "docker-compose@2.40.3"
+    },
+    {
+     "stack": "node",
+     "technique": "intent-and-environment-in-one-namespace",
+     "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/applications/node--intent-and-environment-in-one-namespace.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
     }
    ]
   },
