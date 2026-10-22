@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1378,
+  "applications": 1379,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -26503,9 +26503,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/proactive-nudges.md",
-   "digest": "sha256-b2:b74b09e6bda5ece0",
-   "revision": 6,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:d8e246ede358e289",
+   "revision": 7,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "attention-budgets",
@@ -26601,6 +26601,12 @@
      "technique": "efficacy-feedback",
      "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/applications/rust--efficacy-feedback.md",
      "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "rust",
+     "technique": "notice-delivery-decoupling",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/proactive-nudges/applications/rust--notice-delivery-decoupling.md",
+     "verified_on": "2026-10-22"
     },
     {
      "stack": "rust",
