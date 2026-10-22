@@ -1,7 +1,7 @@
 ---
 subject: audience-absorption-at-scale
 domain: media-generation
-last_touched: 2026-10-21
+last_touched: 2026-10-22
 dry_streak: 0
 ---
 
@@ -68,6 +68,25 @@ but not this subject. The matcher misses the subject's own origin tree.
 Return: the next map-matcher pass, or a `/conform` on overlord that judges
 the picker.
 
+## 2026-10-22 - /intake apply first-contact-exemptions (Curator)
+
+First application of first-contact-exemptions. Mode `code`, verdict
+`better`, run `intake-apply-fce-1022`. Steps 1-4 already conformed in the
+tree. Step 5, suppressing the boost during a raid, was missing: the tree
+detected a raid but only used the flag to expire the queued bit. The seam
+was chosen to falsify that step. A paired offline replay over the
+simulator's raid room (8 seeds, 92 raid-beat slots) gave these room picks:
+26 as the tree was, 31 with single raiders unboosted, 34 with only the
+largest wave boosted. The last arm shipped (overlord 645bb06, local main,
+not pushed). The floor held: ungreeted raid episodes 2/20 in every arm, and
+non-raid beats were unchanged.
+
+The middle arm is the finding. The raid ritual arrives as several phrases,
+and each phrase collapses into its own wave, so the slot taken from single
+raiders went to a second wave of the same raid. raid-group-greeting step 3
+now says to keep the boost on one wave. The single-stack ranking still
+holds: no second fleet tree runs a chat picker.
+
 ## Open leads
 
 - **Second stack.** Return: a fleet project grows a chat allocator in
@@ -77,3 +96,8 @@ the picker.
 - **Small-room chatting share.** Return: a first-party count of chatters per
   viewer at under 30 viewers (overlord's own recorded shows would do). Then
   the golden path can state a measured ratio.
+- **Raid versus fill surge.** The tree calls five first-timers in one beat
+  a raid, and it has no platform raid event. raid-group-greeting says a
+  room filling up is not a raid and should be greeted one by one, and this
+  run did not separate the two cases. Return: a platform adapter that
+  carries the raid event, or a sandbox recording with a labelled raid.

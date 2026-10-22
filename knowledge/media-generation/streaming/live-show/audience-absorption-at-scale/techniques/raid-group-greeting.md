@@ -35,7 +35,12 @@ dropped without a word.
    the show is doing right now. The greeting is a short, scripted-shape beat with the host's
    voice on top, not an improvised paragraph.
 3. **Collapse the raid ritual.** The raiders' arrival phrase is a wave by definition;
-   collapse it and let the greeting serve as its answer.
+   collapse it and let the greeting serve as its answer. Expect the ritual to be several
+   phrases, not one: a hype line, a salute and a "who is this" each collapse into their own
+   wave. A picker that still boosts every first-contact wave then greets the raid two or
+   three times, and the slot that was taken away from individual raiders goes to a second
+   wave rather than back to the regulars. Keep the boost on one wave, the largest, and let
+   the rest compete on ordinary terms.
 4. **Pick no raider individually at first, then make raiders a tier.** For roughly the
    first minute after the raid, no raider is picked as an individual; the greeting is the
    answer to all of them. After that, raiders are not individually first-contact boosted;
