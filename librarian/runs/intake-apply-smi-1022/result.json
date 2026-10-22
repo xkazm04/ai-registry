@@ -1,0 +1,63 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-smi-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "grant-funding",
+  "started_at": "2026-10-22T03:50:00Z",
+  "ended_at": "2026-10-22T04:40:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "grant-funding/jurisdiction-modelling",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "jurisdiction-modelling",
+      "technique": "supranational-membership-inheritance",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--supranational-membership-inheritance.md",
+    "knowledge/grant-funding/grant-operations/jurisdiction-modelling/techniques/supranational-membership-inheritance.md",
+    "knowledge/grant-funding/index.json",
+    "catalog.json",
+    "rules/ai-registry-grant-funding.md",
+    "librarian/subjects/grant-funding/jurisdiction-modelling.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "a9d8824e",
+      "pathspec": [
+        "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--supranational-membership-inheritance.md",
+        "knowledge/grant-funding/grant-operations/jurisdiction-modelling/techniques/supranational-membership-inheritance.md",
+        "catalog.json",
+        "knowledge/grant-funding/index.json",
+        "rules/ai-registry-grant-funding.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Falsifying seam: tree called the supranational level optional polish once memberOf existed; it was not (countries covered A 4, B 3). Rule added: a retrofit makes level dispatch exhaustive. grant 5ed5fca + e5414a7 pushed to origin main."
+}
