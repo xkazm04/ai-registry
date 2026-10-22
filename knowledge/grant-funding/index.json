@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 69,
+  "applications": 70,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -1433,8 +1433,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/jurisdiction-modelling.md",
-   "digest": "sha256-b2:c756428f519eeb4b",
-   "revision": 4,
+   "digest": "sha256-b2:050abc894f0eedeb",
+   "revision": 5,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -1552,6 +1552,13 @@
      "technique": "market-claim-truthfulness",
      "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--market-claim-truthfulness.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "supranational-membership-inheritance",
+     "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--supranational-membership-inheritance.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
     }
    ]
   },
