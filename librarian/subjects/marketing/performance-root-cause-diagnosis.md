@@ -2,7 +2,7 @@
 subject: performance-root-cause-diagnosis
 domain: marketing
 last_touched: 2026-10-22
-touched_by: intake-apply-tmtp-1022 (apply)
+touched_by: intake-apply-wsr-1022 (apply)
 dry_streak: 0
 ---
 
@@ -46,3 +46,20 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   suite's two reds.
 - Owed: the cohort diagnosis still states an LTV:CAC target of three as fact and has no
   deterministic check on the cohort the model picks (the technique's benchmark case).
+
+## 2026-10-22 - apply: wasted-spend-ranking (run intake-apply-wsr-1022)
+
+- First application, `code`, `better`, ab-paired on systedo-case. The ads diagnosis
+  still matches the technique (it is the tree the technique came from), so the seam was
+  the pattern miner's money pit, a second ranking of waste in the same tree. It admitted
+  only a positive return, so a zero-conversion spender could never be named. B calls the
+  diagnosis's own definition. On the fixture the pit was off the top waster A 1/1, B 0/1.
+  On the sample spines it was 0/120 in both arms, because the spine has no
+  zero-conversion campaign.
+- Application: `node--wasted-spend-ranking`. Two decision rules were added to the
+  technique: a surface that cannot say why leaves a value-less converter out as not
+  measured, and every ranking of waste in one product calls one definition and one target.
+- The project commit sits on a pushed branch. The master fast-forward waits on the base
+  suite's two reds.
+- Owed: the budget recommender ranks donors against the module's portfolio target, not
+  the tenant goal the badges use (a one-target-one-threshold breach on a money path).
