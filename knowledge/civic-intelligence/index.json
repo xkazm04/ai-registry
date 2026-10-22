@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 69,
+  "applications": 70,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -1863,8 +1863,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/state-budget-analysis.md",
-   "digest": "sha256-b2:eae0ab14345e327b",
-   "revision": 5,
+   "digest": "sha256-b2:0be7dd2ac953f10d",
+   "revision": 6,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -1976,6 +1976,13 @@
      "technique": "peer-group-construction",
      "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--peer-group-construction.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "per-capita-normalisation",
+     "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--per-capita-normalisation.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     }
    ]

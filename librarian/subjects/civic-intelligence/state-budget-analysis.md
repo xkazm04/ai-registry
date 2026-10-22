@@ -119,3 +119,14 @@ count. A fixture test fails on A and passes on B, and no verdict on the real
 batch moves. No technique edit: its rule already says "after permissible
 widening". Residual: the trend line and the peer table carry no sample guard
 of their own.
+
+## Application - 2026-10-22 (per-capita-normalisation, politicas, experiment)
+
+Seam chosen to falsify the finite-positive divisor rule: the shared routine
+guards null and non-positive but not NaN or infinity. Real batch, 660 cells:
+both arms identical, because the live client and the snapshot parser filter
+non-finite values upstream. The rule holds by composition, so no technique
+edit and no tree change; the first node application for this technique is
+`applications/node--per-capita-normalisation.md`. Lead: one town's divisor
+steps -15.7% between 2021 and 2022 and the technique says nothing about a
+divisor that breaks between periods; wait for a second town before amending.
