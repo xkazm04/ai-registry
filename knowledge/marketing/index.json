@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 131,
+  "applications": 132,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -3160,8 +3160,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/responsive-search-ad-craft.md",
-   "digest": "sha256-b2:d951c28c63eda22c",
-   "revision": 4,
+   "digest": "sha256-b2:119e1bd28a1fb722",
+   "revision": 5,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -3280,6 +3280,13 @@
      "technique": "over-limit-omitted-not-truncated",
      "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--over-limit-omitted-not-truncated.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "platform-limits-stay-slightly-under",
+     "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--platform-limits-stay-slightly-under.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     }
    ]
