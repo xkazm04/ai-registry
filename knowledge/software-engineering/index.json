@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1363,
+  "applications": 1364,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -8517,9 +8517,9 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/correlated-exchange-over-broadcast.md",
-   "digest": "sha256-b2:0fcc9ffc5f2fa559",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:97a7077cc4685d8a",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "binding-parity-floor",
@@ -8629,6 +8629,13 @@
      "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--orphaned-correlation-on-peer-restart.md",
      "verified_on": "2026-09-02",
      "verified_against": "rust@1.95"
+    },
+    {
+     "stack": "rust",
+     "technique": "passthrough-buffered-wait",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--passthrough-buffered-wait.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },
