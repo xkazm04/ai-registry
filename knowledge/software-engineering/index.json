@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1393,
+  "applications": 1394,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -8573,8 +8573,8 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/correlated-exchange-over-broadcast.md",
-   "digest": "sha256-b2:cb24fee464d729d8",
-   "revision": 4,
+   "digest": "sha256-b2:6bbdc63b0d248ecd",
+   "revision": 5,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -8697,6 +8697,13 @@
      "stack": "rust",
      "technique": "reply-fan-out-filtering",
      "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--reply-fan-out-filtering.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "rust@1.96.1"
+    },
+    {
+     "stack": "rust",
+     "technique": "terminal-status-set",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/correlated-exchange-over-broadcast/applications/rust--terminal-status-set.md",
      "verified_on": "2026-10-22",
      "verified_against": "rust@1.96.1"
     }
