@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 86,
   "techniques": 562,
-  "applications": 326,
+  "applications": 327,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -10633,9 +10633,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/tracked-input-record-and-replay.md",
-   "digest": "sha256-b2:daf59e2c8d7c9083",
-   "revision": 3,
-   "changedAt": "2026-10-21",
+   "digest": "sha256-b2:21f89af4f65d5c8b",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "headless-replay-against-the-rules",
@@ -10700,6 +10700,13 @@
      "technique": "headless-replay-against-the-rules",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/applications/cpp--headless-replay-against-the-rules.md",
      "verified_on": "2026-10-21",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "proxy-corpus-miss-ledger",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/applications/cpp--proxy-corpus-miss-ledger.md",
+     "verified_on": "2026-10-22",
      "verified_against": "cpp@20"
     },
     {
