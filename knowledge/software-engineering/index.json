@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1362,
+  "applications": 1363,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -4555,9 +4555,9 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/batch-undo-commit-window.md",
-   "digest": "sha256-b2:0a97dbb3f9411b0d",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:78fa6b0ff14ec0b1",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "bounded-fanout-commit",
@@ -4650,6 +4650,13 @@
      "technique": "bounded-fanout-commit",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/applications/react--bounded-fanout-commit.md",
      "verified_on": "2026-10-14",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "deferred-write-window",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/applications/react--deferred-write-window.md",
+     "verified_on": "2026-10-22",
      "verified_against": "react@19"
     },
     {
