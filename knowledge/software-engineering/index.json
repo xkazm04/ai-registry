@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1366,
+  "applications": 1367,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -4018,8 +4018,8 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/authoring-block-vocabulary/authoring-block-vocabulary.md",
-   "digest": "sha256-b2:de27c1967ac4f8dc",
-   "revision": 3,
+   "digest": "sha256-b2:4f4a3dce2857ef73",
+   "revision": 4,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -4562,8 +4562,8 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/batch-undo-commit-window.md",
-   "digest": "sha256-b2:78fa6b0ff14ec0b1",
-   "revision": 3,
+   "digest": "sha256-b2:b4174848ed633dc1",
+   "revision": 4,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -4671,6 +4671,13 @@
      "technique": "flush-on-teardown",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/applications/react--flush-on-teardown.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "freeze-refresh-during-window",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/applications/react--freeze-refresh-during-window.md",
+     "verified_on": "2026-10-22",
      "verified_against": "react@19"
     },
     {
