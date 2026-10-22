@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 253,
-  "applications": 154,
+  "applications": 155,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -960,9 +960,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/media-generation/visual-generation/data-video-art-direction/data-video-art-direction.md",
-   "digest": "sha256-b2:5007da65e6caab0e",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:134dbb149a8d18c6",
+   "revision": 6,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "case-native-chart-form",
@@ -1194,6 +1194,12 @@
      "technique": "ending-sequence",
      "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/process--ending-sequence.md",
      "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "event-card-stack",
+     "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/process--event-card-stack.md",
+     "verified_on": "2026-10-22"
     },
     {
      "stack": "process",
