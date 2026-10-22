@@ -105,7 +105,13 @@ thread split by system, and particles. It has none for quantities every class lo
 **Still owed:** every share's size, a thermal reserve, and a GPU and render-thread capture
 with one class hidden per run. Return at the V1 device sprint.
 
-Still not applied: `thermal-headroom-reserve`.
+## 2026-10-22 - thermal-headroom-reserve (apply, mage-arena-vr)
+
+Mode `experiment`, `structural-only`, verdict `unmeasurable`. The seam was chosen to falsify "the verdict is the late windows, not the mean": it would have fired if the capture path already kept time-ordered windows. It does not: the proxy samples 60 s after a 10 s warm-up against a 7-10 minute session, the frame ceiling is the whole 72 Hz interval (reserve 0%), and 0 of 17 committed summaries hold a frame series (the per-frame file sits in an ignored directory). The technique held and is unamended. The request-level clause had nothing to lower: no performance level is set, so the plugin default (sustained levels) applies.
+
+**Still owed:** the first device capture split into early and late windows, with levels and temperature per window, and the reserve row written with its measured gap.
+
+Every technique in this subject now has an application row.
 
 ### 2026-10-22 - `/intake apply stereo-draw-call-budget` (run `ia-stereo-dcb`)
 

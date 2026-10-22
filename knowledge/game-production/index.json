@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 86,
   "techniques": 562,
-  "applications": 329,
+  "applications": 330,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -9777,8 +9777,8 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
-   "digest": "sha256-b2:2b598fb356fbed23",
-   "revision": 5,
+   "digest": "sha256-b2:8787cb1df62c7cec",
+   "revision": 6,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -9888,6 +9888,13 @@
      "stack": "cpp",
      "technique": "stereo-draw-call-budget",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--stereo-draw-call-budget.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "thermal-headroom-reserve",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--thermal-headroom-reserve.md",
      "verified_on": "2026-10-22",
      "verified_against": "cpp@20"
     }
