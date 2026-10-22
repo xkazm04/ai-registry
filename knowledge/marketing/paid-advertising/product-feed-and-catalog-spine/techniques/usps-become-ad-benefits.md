@@ -60,6 +60,10 @@ it and a fabricated promise if a template added it.
 - When two currencies appear in the catalog, the price band is computed within the
   dominant one and the others are omitted from the band, because a band across
   currencies is not a range.
+- When omitting a proof line leaves a packed asset with no clause at all (an
+  unavailable item with no selling points), drop the asset rather than emit it blank,
+  because the blank filter in step 4 runs on fragments and an omission can empty the
+  whole line.
 - When the source of a selling-point field is a feed, its first entry is often the
   manufacturer, not a benefit; read it as the importer wrote it, and do not advertise
   a brand name as a selling point.
