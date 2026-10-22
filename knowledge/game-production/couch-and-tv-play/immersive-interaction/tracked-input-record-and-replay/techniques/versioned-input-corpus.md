@@ -37,6 +37,10 @@ count them. Each gating test names the clips it reads, by identifier, in its out
 
 ## Decision rules
 
+- **When the clip format is a closed schema, keep the provenance in the manifest** and key
+  it by clip path with a content hash, rather than widening the header. A check that fails on
+  an unlisted clip or a changed hash makes the quarantine rule mechanical. A format validator
+  cannot do this: an edited clip is still well formed.
 - **When a clip is edited, trimmed or smoothed, it is a new clip** with a new identifier and
   a note of what was done.
 - **When the rules revision changes the fields it reads, check the corpus still carries

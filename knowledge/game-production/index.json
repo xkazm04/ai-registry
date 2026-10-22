@@ -5,7 +5,7 @@
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 86,
   "techniques": 562,
-  "applications": 328,
+  "applications": 329,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -10640,8 +10640,8 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/tracked-input-record-and-replay.md",
-   "digest": "sha256-b2:21f89af4f65d5c8b",
-   "revision": 4,
+   "digest": "sha256-b2:1fc15cf2f3e3b36d",
+   "revision": 5,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -10721,6 +10721,13 @@
      "technique": "record-below-the-rule",
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/applications/cpp--record-below-the-rule.md",
      "verified_on": "2026-10-21",
+     "verified_against": "cpp@20"
+    },
+    {
+     "stack": "cpp",
+     "technique": "versioned-input-corpus",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/applications/cpp--versioned-input-corpus.md",
+     "verified_on": "2026-10-22",
      "verified_against": "cpp@20"
     }
    ]
