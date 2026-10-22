@@ -2,7 +2,7 @@
 subject: responsive-search-ad-craft
 domain: marketing
 last_touched: 2026-10-22
-touched_by: intake-apply-lbscp-1022 (apply)
+touched_by: intake-apply-plsu-1022 (apply)
 dry_streak: 0
 ---
 
@@ -33,6 +33,13 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   clamped over-limit headlines. That became one decision rule. Two techniques in this
   subject pull against each other at the generator: staying under the limit empties the
   short bucket.
+- 2026-10-22 (intake-apply-plsu-1022): platform-limits-stay-slightly-under applied,
+  `code`, `better`. Five of the six steps were already in the tree. Step 4 had been
+  removed deliberately: to save a model call, a pure length overrun went to the clamp,
+  which cut the asset mid-word. In a paired real-model run, 8 truncated descriptions
+  became 0 on the fast tier at 2 extra calls in 12. The quality tier never overran.
+  The rule is a cost question only for tiers that overrun, and those are the tiers
+  where the clamp hides the failure.
 
 ## Owed
 
@@ -42,5 +49,6 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   is a second tree that writes or rates a search-ad asset set.
 - Preview step 5 (narrow-width view) is unrealised in the one tree that has a preview.
 - Unapplied (no `librarian/applied.md` row): ad-strength-is-a-proxy-not-relevance,
-  headline-angle-coverage and over-limit-omitted-not-truncated, which have
-  applications, and platform-limits-stay-slightly-under, which has none.
+  headline-angle-coverage and over-limit-omitted-not-truncated.
+- platform-limits-stay-slightly-under step 6 (count the way the platform counts) is
+  unrealised: the tree counts UTF-16 units.
