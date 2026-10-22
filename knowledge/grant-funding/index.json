@@ -1048,7 +1048,7 @@
    "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/grant-source-landscape.md",
    "digest": "sha256-b2:77f47d13fe985d09",
    "revision": 6,
-   "changedAt": "2026-10-21",
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "close-date-normalization",
