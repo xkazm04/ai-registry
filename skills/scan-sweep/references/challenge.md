@@ -197,7 +197,21 @@ signature other cards call runs ALONE in its wave, first (LESSONS 2.8.0 lighttra
   hand-typed literals, a source-guard test in a sibling feature folder, a
   per-route import budget. Measured on the first run (kp, 2026-09-22): all six
   integration breaks were exactly that class, every builder's folder-scoped run was
-  green, and the wave after this clause was added had zero test failures;
+  green, and the wave after this clause was added had zero test failures.
+  **The brief names those whole-tree commands verbatim, per surface** - "the full
+  suite" is read as "my package's tests". A change to a shared package (a contract, a
+  UI kit, a scene engine) owes the build and budget check of EVERY app that bundles
+  it, not only its own suite. Measured on overlord (2026-10-21, 65 builders): every
+  route-budget overrun of the run surfaced at integration or in a sibling's build,
+  never in the builder whose diff caused it - a stage-kit change that pushed a console
+  route over had run the stage-kit gates and stopped there.
+  **When the repo states how a ratchet is raised, the brief quotes that rule and
+  supersedes any blanket "never raise" instruction.** A repo whose budget file says
+  "the page builder who needs more raises its own line, measured, in the same change"
+  expects exactly that; a brief that forbids it makes every honest overrun a red
+  hand-off and a coordinator fix (measured: the same run's first wave). The builder
+  raises only the line its own diff pushed over, to the measured figure, with the
+  measurement written where the repo keeps it, after trying to trim first;
   **(5)** commit as a short series (`test(<ctx>): ...` then `feat|refactor(<ctx>): ...`),
   each commit green;
 - the demotion rule: past the write set, past L, or a gate it cannot turn green in
@@ -229,11 +243,50 @@ repo's gates - the overlay says so), two rules replace isolation:
 - **The shared-surface lock.** Before editing any `shared_surfaces` file, a builder
   takes the lock with an atomic `mkdir <git-dir>/scan-sweep-challenge.lock`
   (retry every few seconds; stale after 10 minutes), makes the edit, commits it
-  IMMEDIATELY and alone, and `rmdir`s the lock. Append at the END of a list, never
-  reflow a file (LESSONS 2.8.0: that is what keeps additive hunks unionable).
+  IMMEDIATELY, and `rmdir`s the lock. Append at the END of a list, never reflow a
+  file (LESSONS 2.8.0: that is what keeps additive hunks unionable).
+- **Every commit leaves the committed branch compiling.** "Commit the shared edit
+  immediately" means immediately WITH every caller and initializer it breaks, in one
+  commit - never alone. A shared type that gains a required field, committed without
+  the constructor that must set it, leaves the branch uncompilable for as long as the
+  builder keeps working; anyone who builds, branches or merges from it in that window
+  inherits a red tree. Measured on overlord (2026-10-21): a lone `RuleState.locked`
+  commit left `main` failing `cargo check` for a peer session that was waiting to
+  merge. The tree that must typecheck is the one the commit creates, not the
+  working tree around it: when unsure, check it in a throwaway worktree outside the
+  repo before handing off.
 - A whole-tree gate that goes red on a path the builder did not touch is a
   sibling's in-flight work: re-run it once after a short wait, then report it
   rather than "fixing" a file outside the write set.
+
+**A peer session on the same branch.** Another session - an unrelated agent, a
+human, a second skill - may be committing to, or merging into, the branch the run
+builds on. Check for it before wave 1 (`git worktree list`, the session roster when
+the harness has one, commits on the branch that no builder made) and again whenever
+an integration gate goes red on paths no write set names. Its uncommitted edits in
+the shared checkout make every whole-tree gate lie for every builder, in both
+directions. So:
+
+- **Ask, do not guess.** Message the peer with the dirty paths that are not the
+  run's, and ask whether they are its. A peer that works in its own worktree and
+  merges only when green is the arrangement to ask for.
+- **Offer merge windows.** A peer's `git merge` into the shared checkout aborts while
+  any path it touches is dirty, and the run's builders keep paths dirty all wave. So
+  between waves - after the integration gate, before the next wave starts - tell the
+  peer the checkout is clean and hold the next wave until it says it has merged. Its
+  merge then lands inside the next integration gate, where it is measured like any
+  wave.
+- **Tell the peer what the next wave touches,** and ask it to name what it will
+  touch; sequence the overlapping cards behind its merge rather than racing it.
+- **Never revert, reformat or "fix" a peer's lines,** committed or not; a peer commit
+  that turns the integration gate red is reported to the peer, not reverted by the
+  run. Builders re-verify their premise at HEAD, which already includes the peer's
+  merges.
+
+Measured on overlord (2026-10-21): a peer session merged six branches into `main`
+during a 65-card run. Three merge windows were negotiated by message, one peer edit
+set was moved out of the shared checkout into the peer's worktree on request, and
+every integration gate after a peer merge was green.
 
 With worktrees available (a repo whose gates run in one), give each builder its own
 worktree from the base sha and let the coordinator merge; the LESSONS 2.8.0

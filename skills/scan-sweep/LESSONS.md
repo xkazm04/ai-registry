@@ -1667,3 +1667,44 @@ that check stays cheap.
 - **Timing gates lie under sibling load.** Three rounds saw `perf:chores` fail with a 52-96 ms long task while other agents ran suites; on a quiet machine the same build read 0 ms every time. Proposal: under fan-out, rounds run a perf gate only on the scene they touched and report it as advisory; the director's quiet-machine `perf:all` at integration is the gate.
 - **Windows path forms leak through agents.** A round passed a Bash-form scratch path (`/c/Users/...`) to a Windows program, which created `C:\c\Users\...` outside the scratchpad. The brief gained a line; the general rule belongs in the template.
 - **The registry knowledge paid off most in two lenses:** tools whose declared class was never tested (two example apps had zero tests running any tool handler; a voiding "read" would have passed both suites) and gates that could not fail (first-paint, a design-law check, the Gauntlet's own checks at 1 of 7 planted bugs caught). Seeding the failure (§7.6) found every one.
+
+## 4.6.1 - 2026-10-22 - overlord (--challenge over every context: 36 contexts, 70 cards, 65 built)
+
+Opus 5.5 in every role, a shared checkout, the context map rescanned first (259 unowned files,
+28 -> 36 contexts). 65 of 65 approved cards landed, 59 flawless (execution 0.91), idea score
+about 3.8 / 4.7 / 4.1, 0 premise-false, 0 reverted, 489 acceptance cases green; every
+integration gate green at the end of each wave. Applied in 4.7.0: the compile-safe
+shared-surface commit, the per-surface whole-tree gate list and repo ratchet rule in the
+builder brief, and the peer-session section.
+
+- **"Commit the shared edit alone" broke the branch.** A builder committed a types change that
+  added a required field without its initializer, as the lock rule said; committed `main`
+  failed `cargo check` until the builder's next commit, and a peer session waiting to merge
+  noticed first. Fixed in 4.7.0: the shared edit is committed immediately WITH every caller
+  it breaks.
+- **Budget overruns surfaced one builder late.** Builders ran their own package's gates; the
+  console's route-budget check went red in a sibling's build or at integration, never in the
+  builder whose diff caused it (a stage-kit change pushing a console route over, a data-layer
+  change pushing the entry over). The brief's "never raise a budget" made the first one a
+  coordinator fix even though the repo's own budget file says a builder raises its line,
+  measured. Fixed in 4.7.0: the brief names whole-tree commands per surface, and quotes the
+  repo's ratchet rule.
+- **A peer session merged six branches into main during the run.** Its uncommitted edits in
+  the shared checkout turned whole-tree gates red for every builder, and its merges aborted
+  on the builders' dirty paths. Messaging fixed both: it moved its work to a worktree and
+  merged in windows the coordinator opened between waves. Added in 4.7.0.
+- **Two load-only flakes were test fixtures racing on an appended log.** A Python fake worker
+  and a Rust fake CLI each appended records to a file the test polled, and a split write was
+  read mid-line. My first reading of one of them was a product concurrency defect; a finisher
+  agent's trace corrected it (seeded red 20/20, fixed 30/30). Filed as a registry lead
+  (test-harness). Keep the attribution clause as is: measure, then write the verdict.
+- **Packing the remaining cards into one wave plan across cohorts** (A before B per context,
+  one contract regenerator per wave) finished 18 cards in 5 waves instead of 7, against
+  §2.2's one-run-at-a-time rule; each cohort still got its own scorecard row. Proposal: allow
+  it explicitly once every remaining card is critic-graded.
+- **The critic earned its place.** 5 of 70 cards were voided, among them a disguised
+  policy-loosen (writing model output built from viewer chat into the owner's character files)
+  and a change to a payload another repository consumes. 20 revisions each fixed one case
+  that would have passed on the old tree.
+- **A heredoc ate a regex backslash twice** (a wave planner, a tally). §7.6 already says to
+  author patterns with the file tool; both times the file tool fixed it at once.

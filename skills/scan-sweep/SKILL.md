@@ -5,7 +5,7 @@ argument-hint: "[--stabilize|--develop|--optimize|--challenge] [--cohort N] [--r
 category: workflow
 contexts: tracked
 memory: project
-version: 4.6.2
+version: 4.7.0
 tags: sweep, quality, stabilization, backlog, coverage, registry, atomic-commits
 ---
 # Context Sweep
@@ -872,8 +872,14 @@ first, then this round's, highest-reward first - one finding at a time:
   staged list is exactly your files.
 - Shared or generated surfaces other sessions also write (locale bundles,
   generated types, checksum manifests): make the edit and its regen, commit
-  IMMEDIATELY, and keep that commit minimal. Shared files must never sit
-  uncommitted while you work on the next finding.
+  IMMEDIATELY, and keep that commit minimal - but never smaller than what keeps
+  the committed tree compiling: a shared type change goes in with every caller it
+  breaks, in the same commit. Shared files must never sit uncommitted while you
+  work on the next finding.
+- **A peer session on the same branch** is a coordination partner, not noise:
+  ask it whose dirty paths are whose, offer it a merge window between rounds or
+  waves, and never revert its lines (`references/challenge.md` §7, "A peer
+  session on the same branch").
 
 **Director-run fan-out**: one session runs the loop and hands rounds to
 round-agents, all working in one checkout. The rules above cover each agent. The
