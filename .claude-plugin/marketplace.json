@@ -238,7 +238,7 @@
       "name": "i18n-translate",
       "source": "./skills/i18n-translate",
       "description": "Copywriting-grade, context-aware localization for any managed app - a transcreation loop (draft -> typed MQM estimate -> gated refine) with an engineering guardrail. Portable across i18n stacks via a per-repo contract artifact; keeps a glossary, per-locale style guides, and gold exemplar pairs in the target repo so run N+1 stays consistent with run N. Invoke with /i18n-translate <mode> [locale] [s",
-      "version": "1.6.3",
+      "version": "1.7.0",
       "category": "workflow"
     },
     {
