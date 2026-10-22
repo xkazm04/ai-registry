@@ -46,6 +46,12 @@ deliver. The whole technique rests on one denominator being right.
   projection and the prescription now use different denominators and a reader who
   divides the gap by the displayed "days remaining" will get a different answer than
   the tile shows.
+  The count the surface labels "remaining" is the future-day count. The gap-inclusive
+  count is the projection's denominator, and it never reaches the screen; the lost days
+  are named beside the future ones and are never folded into them. When the data reaches
+  the month's last day with interior days still missing, there are no future days and
+  the required tile hides. The month is still not complete, so only the missing-day count
+  explains the empty slot.
 - When the series stopped before today, the future-day count is from the last data
   point, not from the wall clock; a stale series prescribes from its own last day and
   the staleness is labelled beside it

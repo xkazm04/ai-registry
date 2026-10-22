@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 126,
+  "applications": 127,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -1256,8 +1256,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/goal-pacing-and-forecast.md",
-   "digest": "sha256-b2:7cdd90f88fd7b916",
-   "revision": 4,
+   "digest": "sha256-b2:4ffe64f12ef56c8f",
+   "revision": 5,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -1352,6 +1352,13 @@
      "stack": "node",
      "technique": "implied-extra-spend-capped",
      "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--implied-extra-spend-capped.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "required-pace-divides-by-future-days",
+     "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--required-pace-divides-by-future-days.md",
      "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },

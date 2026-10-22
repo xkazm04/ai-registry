@@ -81,7 +81,9 @@ missing day contributes nothing to the banked amount and something to the expect
 total; the prescription may not. Two different denominators, one for the forecast and
 one for the operating target, and the difference between them is the number of days the
 data lost. When there are no future days, or the goal is already banked, the required
-pace is zero, never negative and never "not applicable" in a cell that arithmetic feeds.
+pace is zero, never negative and never "not applicable" in a cell that arithmetic feeds. The surface prints the
+second denominator, never the first. The days it labels "remaining" are the days the
+pace divides by, and the days the data lost are named beside them.
 
 **The gap is priced in spend, and the price is honest about saturation.** A shortfall in
 revenue per day becomes extra spend per day by dividing by a return - and which return is
@@ -168,6 +170,12 @@ is a convention, stated as one wherever a surface colours a cell by it
   average that reads the record.
 - **Revenue only.** The efficiency goal is left to the month-end reckoning, which is
   when it is too late to steer.
+- **The right number among the wrong neighbours.** The arithmetic is correct and the card
+  around it is not. The days shown are not the days divided by, a gated figure is quoted
+  ungated on another surface, or a capped answer is worded as an estimate. Every figure
+  printed beside a computed number must be the figure that number was computed from, and
+  must carry its state. A module test sees none of this, so the check is a reader
+  dividing what the card shows.
 - **The pace becomes a spend change.** The implied extra spend is a steering number.
   The moment it turns into a budget edit, it belongs to the gated reallocation lane.
 
