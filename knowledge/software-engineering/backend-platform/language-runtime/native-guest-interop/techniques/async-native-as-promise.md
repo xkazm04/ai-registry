@@ -84,6 +84,8 @@ settled; a job that can be dropped without settling has created a promise
 that stays pending forever, which is a leak the guest cannot observe and the
 host cannot reclaim ([creation-names-reaper](../../../../_laws.md#creation-names-reaper)).
 
+When the host failure is a bound the guest must not outlive - a call ceiling, a wall-clock deadline, a payload cap - end the guest with a trap, not a rejection: a script that can catch its own ceiling can loop on it. The typed rejection is for failures the script is entitled to handle, and the two channels should be visibly separate in the interface, so a reader can tell which failures are catchable.
+
 When the executor is cancelled or shut down with jobs pending, reject every
 pending promise with a cancellation reason before the context is torn down,
 because a promise that is simply dropped has an outcome nobody recorded.
