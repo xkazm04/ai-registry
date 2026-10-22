@@ -36,6 +36,13 @@ monitor. These are floors to check on every frame, not targets.
 ## Decision rules
 
 - When text does not fit at 26 px, cut words, never size.
+- A renderer that shrinks text to fit enforces nothing: its lower stop is
+  usually the credit size, and a token that cannot break (a URL, a handle, a
+  long compound) goes under 26 px or out of the safe box, never both right.
+  Clamping the stop at 26 does not help, because the box then fails. Decide
+  upstream: reject the token, replace it, or move it to the credit line.
+  Prose is the easy case, so measure the unbreakable token, not the average
+  line.
 - Two timelines on one frame (a zoomed strip and a full-run bar) must look
   clearly different, or one goes.
 - The empty band at the bottom of a vertical is the platform's, on purpose.

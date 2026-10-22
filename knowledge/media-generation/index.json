@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 253,
-  "applications": 159,
+  "applications": 160,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -960,8 +960,8 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/media-generation/visual-generation/data-video-art-direction/data-video-art-direction.md",
-   "digest": "sha256-b2:376df9af78cd4c75",
-   "revision": 7,
+   "digest": "sha256-b2:9e140bec9e8eb951",
+   "revision": 8,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -1165,6 +1165,12 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "legibility-floor",
+     "file": "knowledge/media-generation/visual-generation/data-video-art-direction/applications/node--legibility-floor.md",
+     "verified_on": "2026-10-22"
+    },
     {
      "stack": "process",
      "technique": "case-native-chart-form",
