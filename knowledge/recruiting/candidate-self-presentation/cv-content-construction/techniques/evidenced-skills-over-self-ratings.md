@@ -45,6 +45,12 @@ what the rating *is*, not on a callback penalty.
   or drop them - never re-draw them.** Keep the owner's stated level as a word if one
   exists ("advanced"); a bare graphic with no word has no recoverable content and is
   dropped with a note to the owner.
+- **Strip the meter before the item is read, not after.** A tool that takes a skill line
+  apart by looking only for a trailing level *word* leaves a pip run, stars, "85%" or
+  "4/5" inside the skill's name, so the graphic is printed as drawn and a percentage
+  also breaks the evidence match and raises a false "where did you use it?" flag. Remove
+  the trailing meter first, keep a level word if one sits beside it, and never map a
+  number to a word - that is the inferred level the next section forbids.
 - **When a listed skill appears nowhere in the experience, flag it to the owner**
   ("where did you use X?") rather than removing it. A self-asserted skill is real
   information - the person said it - and deleting it converts a discountable claim into
