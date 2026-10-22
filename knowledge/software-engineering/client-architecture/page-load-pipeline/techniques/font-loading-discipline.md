@@ -81,6 +81,17 @@ nothing. This is what makes the swap strategy compatible with
 [layout-stability-by-reservation](./layout-stability-by-reservation.md), and it
 is the step most often skipped.
 
+## The declared weights are the weights the design asks for
+
+The budget counts files, but the browser matches on **descriptors**. A family
+declared at weights 400, 500 and 600 has no face for 300, so a rule that asks for
+300 is matched to 400 without a warning, and the page shows a heavier headline
+than the one designed. When a family is a variable font the three declarations
+may even resolve to one file, so the list looks like a cost and is free, while
+the missing weight is the real fault. Declare the family as its variable range
+instead of an enumerated list, and check the set of weights the stylesheets
+request against the set of faces declared.
+
 ## Decision rules
 
 - Choose the display strategy per family and write the reason; default body
@@ -93,6 +104,8 @@ is the step most often skipped.
 - Keep font declarations off foreign origins on the critical path; when they
   cannot move, warm both connections.
 - Preload at most the one font file the first screen certainly draws.
+- Declare a variable family as its range; every weight the styles request must
+  have a face.
 
 ## When not to use this
 

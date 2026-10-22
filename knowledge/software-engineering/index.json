@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1376,
+  "applications": 1377,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -25039,9 +25039,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/page-load-pipeline.md",
-   "digest": "sha256-b2:f51109a4fa17ac48",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:449e36ca8d3fe3a6",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "discoverable-critical-resources",
@@ -25160,6 +25160,13 @@
      "technique": "field-measured-load-budget",
      "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/applications/next--field-measured-load-budget.md",
      "verified_on": "2026-09-24",
+     "verified_against": "next@16.3.3"
+    },
+    {
+     "stack": "next",
+     "technique": "font-loading-discipline",
+     "file": "knowledge/software-engineering/client-architecture/page-load-pipeline/applications/next--font-loading-discipline.md",
+     "verified_on": "2026-10-22",
      "verified_against": "next@16.3.3"
     },
     {
