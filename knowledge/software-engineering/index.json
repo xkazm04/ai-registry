@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1400,
+  "applications": 1401,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -13986,9 +13986,9 @@
    "subcategory": "language-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-host-contract/engine-host-contract.md",
-   "digest": "sha256-b2:08d3fea13f40733a",
-   "revision": 2,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:dcbd96d1274205ef",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "contained-async-module-loader",
@@ -14079,6 +14079,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "contained-async-module-loader",
+     "file": "knowledge/software-engineering/backend-platform/language-runtime/engine-host-contract/applications/node--contained-async-module-loader.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@22"
+    },
     {
      "stack": "rust",
      "technique": "null-and-blocking-executors",

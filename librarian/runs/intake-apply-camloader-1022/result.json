@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-camloader-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-22T22:00:00Z",
+  "ended_at": "2026-10-22T22:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/engine-host-contract",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "engine-host-contract",
+      "technique": "contained-async-module-loader",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/language-runtime/engine-host-contract/applications/node--contained-async-module-loader.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json",
+    "librarian/subjects/software-engineering/engine-host-contract.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    ".claude/skills/intake/LESSONS.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Node vm sandbox idle require in personas-web build scripts: specifier named 6 of 7 runtime imports filled vs 0 of 7 unset, floor 14 of 14 locale exports identical. Lead: deferred and uncalled-closure import() escape an idle loader. Now two stacks (node)."
+}
