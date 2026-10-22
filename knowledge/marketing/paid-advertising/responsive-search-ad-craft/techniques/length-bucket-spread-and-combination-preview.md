@@ -72,6 +72,14 @@ mirrors.
   because** one view of hundreds is not a review of the ad.
 - **When a combination pairs two headlines that only make sense in sequence, split or
   rewrite them, because** the combiner does not know they were a pair.
+- **When a generator writes the set, ask it for the missing bucket by name and at the
+  rater's own edge, and do not ask for the buckets it already fills, because** "stay
+  slightly under the limit" pulls every headline toward the long end, so the short
+  bucket is the one that goes empty. Asking for long headlines as well pushes some past
+  the limit and into the clamp. In one paired run, asking for all three buckets filled
+  the spread in half the sets and produced over-limit headlines. Asking only for short
+  ones (brand, call to action, or the product in a word or two, written fresh) filled it
+  in every set and produced none.
 
 ## When NOT to use
 

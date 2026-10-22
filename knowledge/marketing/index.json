@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 123,
+  "applications": 124,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -3125,9 +3125,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/responsive-search-ad-craft.md",
-   "digest": "sha256-b2:d2cab286b86071cc",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:d951c28c63eda22c",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "ad-strength-is-a-proxy-not-relevance",
@@ -3231,6 +3231,13 @@
      "technique": "keyword-coverage-half-not-all",
      "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--keyword-coverage-half-not-all.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "length-bucket-spread-and-combination-preview",
+     "file": "knowledge/marketing/paid-advertising/responsive-search-ad-craft/applications/node--length-bucket-spread-and-combination-preview.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
     {
