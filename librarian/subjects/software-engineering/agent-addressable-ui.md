@@ -11,7 +11,7 @@ First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: NEW.
 
 ## State
 
-6 techniques, 2 react applications. Web-hardened before drafting. The forger independently confirmed the scout's call that this is a subject rather than one technique inside `embedded-preview`.
+6 techniques, 4 react applications (2026-10-22: framework-internals-independence applied on personas, enforcement guard). Web-hardened before drafting. The forger independently confirmed the scout's call that this is a subject rather than one technique inside `embedded-preview`.
 
 ## Open leads (banked, with return conditions)
 

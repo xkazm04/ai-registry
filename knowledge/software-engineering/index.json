@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1359,
+  "applications": 1360,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -888,9 +888,9 @@
    "subcategory": "runtime-and-io",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/agent-addressable-ui.md",
-   "digest": "sha256-b2:eeacc7371e042d65",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:5345f9c633ffefe3",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "agent-pasteable-reference-format",
@@ -996,6 +996,13 @@
      "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/applications/react--call-site-vs-implementation-resolution.md",
      "verified_on": "2026-08-22",
      "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "framework-internals-independence",
+     "file": "knowledge/software-engineering/llm-agent/runtime-and-io/agent-addressable-ui/applications/react--framework-internals-independence.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "react@19.2"
     }
    ]
   },
