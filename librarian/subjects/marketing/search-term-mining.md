@@ -1,8 +1,8 @@
 ---
 subject: search-term-mining
 domain: marketing
-last_touched: 2026-09-09
-touched_by: intake-marketing-0909 (forge wave)
+last_touched: 2026-10-22
+touched_by: apply-exact-promote-1022 (apply)
 dry_streak: 0
 ---
 
@@ -16,7 +16,7 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
 
 **Techniques (6):** campaign-level-phrase-negative, exact-promote-into-serving-ad-group, negatives-before-promotes, never-mine-demo-data, spend-and-click-floors-before-negation, zero-conversions-on-unrounded-count.
 
-**Applications (2; stacks: node):** node--never-mine-demo-data, node--zero-conversions-on-unrounded-count.
+**Applications (4; stacks: node):** node--campaign-level-phrase-negative, node--exact-promote-into-serving-ad-group, node--never-mine-demo-data, node--zero-conversions-on-unrounded-count.
 
 ## Sightings
 
@@ -26,10 +26,18 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
 - Deviations of the reconciled trees are recorded in the applications with the standard
   kept; the source note `librarian/sources/2026-09-09-seo-agent.md` carries the
   deviation backlog by area.
+- 2026-10-22 (apply-exact-promote-1022): exact-promote-into-serving-ad-group applied,
+  `code`, `better`. The tree kept unknown match types distinct in its mapper and then
+  let them through with a "not exact" gate in another file. Paired A/B: an unknown-type
+  row with 3 conversions promoted 1/1 before, 0/1 after an allowlist gate. That became
+  one decision rule: list the match types a promote may come from.
 
 ## Owed
 
-- Single-stack debt: born with the stacks above; an external reconcile against a
-  second tree is the next pass.
-- No `librarian/applied.md` row yet except where the source note says so; the
-  unapplied backlog is every technique here without a row.
+- Single-stack debt, still open after 2026-10-22. The attention scan ranked this
+  subject for it. Of the two fleet projects declaring `marketing`, only one reads a
+  search-terms report; the other holds freelance gig documents and no ads code. The
+  return condition is a second tree that mines search terms.
+- Unapplied (no `librarian/applied.md` row): negatives-before-promotes,
+  spend-and-click-floors-before-negation, and never-mine-demo-data and
+  zero-conversions-on-unrounded-count, which have applications but no A/B row.
