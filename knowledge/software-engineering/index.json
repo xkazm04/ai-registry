@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1364,
+  "applications": 1365,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -10092,9 +10092,9 @@
    "subcategory": "code-provenance",
    "status": "forged",
    "file": "knowledge/software-engineering/security/code-provenance/decentralized-artifact-distribution/decentralized-artifact-distribution.md",
-   "digest": "sha256-b2:12246adf5edf5427",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:73cd603a9565e95c",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "fail-closed-trust-dependency",
@@ -10216,6 +10216,13 @@
      "file": "knowledge/software-engineering/security/code-provenance/decentralized-artifact-distribution/applications/node--split-admit-state-and-redact-authority.md",
      "verified_on": "2026-09-03",
      "verified_against": "node@22.16"
+    },
+    {
+     "stack": "rust",
+     "technique": "publisher-declared-verification-floor",
+     "file": "knowledge/software-engineering/security/code-provenance/decentralized-artifact-distribution/applications/rust--publisher-declared-verification-floor.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "rust@1.96.1"
     }
    ]
   },

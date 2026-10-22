@@ -158,4 +158,10 @@ assumed.
   substantial build for a publisher who releases twice a year from a laptop, and
   a short-lived credential minted at release time by a person is already most of
   the property.
-</content>
+- **When no release has met the floor yet.** A floor at or below the newest
+  release rejects every install that exists, so the first declaration has to name
+  a version ahead of the last unsigned one: releases below it are admissible and
+  labelled unattested, releases from it onward are required-and-missing without
+  a bundle. A floor protects from its declaration forward and cannot repair a
+  history that was never signed; a publisher with zero signed releases should
+  measure that number before describing the apparatus as in force.
