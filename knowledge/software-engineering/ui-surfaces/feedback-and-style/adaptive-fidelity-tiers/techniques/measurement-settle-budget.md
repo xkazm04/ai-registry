@@ -108,6 +108,36 @@ where the budget is defined, because a sparse re-probe is a different
 system from a settled one and the difference should be a decision somebody
 made rather than a loop somebody forgot to stop.
 
+## The boundary: a sampler that serves a reader, not a decision
+
+The rule above settles a probe whose output is a *verdict*. The use-when
+line that brings a reader here, a per-frame sampler running all session,
+also matches a different instrument: a frame-time distribution kept so
+that a person or a test harness can pull percentiles and the maximum from
+it later. That instrument has no verdict to settle on, and both of the
+reasons above fail for it.
+
+- **Its cost is not a wake-up.** When the sample is one fixed-size write
+  inside a frame callback the application runs anyway, there is no clock
+  subscription to cancel. The teardown would remove a few nanoseconds of
+  arithmetic and nothing else. The cost worth budgeting there is the
+  reader's sort, and a pulled reader already pays it only when someone
+  asks.
+- **Its information does not decay.** A diagnostic exists to catch the
+  rare event, and rare events come late: the first transition into a heavy
+  view, the tenth session minute, the stall that happens only after the
+  caches turned over. A deadline that ends the sampler before those events
+  removes the one signal it was kept for.
+
+So the question at a whole-session sampler is what reads it. If a fidelity
+decision reads it, settle it as above. If a pulled diagnostic reads it,
+keep the hot-path write fixed-size and allocation-free, make the reader pay
+for its own aggregation, and state in the code that the sampler is
+permanent on purpose. That statement is the same decision the sparse
+re-probe asks for: someone chose this, and no loop was simply left running.
+When one sampler feeds both, split it. The decision side gets a settle
+budget, and the diagnostic side keeps recording.
+
 ## When not to use this
 
 If the probe is genuinely free — a signal the platform already computes and

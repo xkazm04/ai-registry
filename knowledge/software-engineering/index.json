@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1358,
+  "applications": 1359,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -297,9 +297,9 @@
    "subcategory": "feedback-and-style",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/adaptive-fidelity-tiers.md",
-   "digest": "sha256-b2:f86168141a75e96a",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:02a551a058d8874c",
+   "revision": 5,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "asymmetric-tier-transitions",
@@ -383,6 +383,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "kotlin",
+     "technique": "measurement-settle-budget",
+     "file": "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/applications/kotlin--measurement-settle-budget.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "kotlin@2.0.21"
+    },
     {
      "stack": "react",
      "technique": "asymmetric-tier-transitions",

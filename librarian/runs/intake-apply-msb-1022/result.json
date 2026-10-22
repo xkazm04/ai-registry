@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-msb-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-22T16:00:00Z",
+  "ended_at": "2026-10-22T17:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/adaptive-fidelity-tiers",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "adaptive-fidelity-tiers",
+      "technique": "measurement-settle-budget",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/applications/kotlin--measurement-settle-budget.md",
+    "knowledge/software-engineering/ui-surfaces/feedback-and-style/adaptive-fidelity-tiers/techniques/measurement-settle-budget.md",
+    "librarian/subjects/software-engineering/adaptive-fidelity-tiers.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "firetv deathride session-long frame sampler: settle budget saves ~6 ns/frame and hides 5 of 6 race-start hitch bursts; boundary amended into the technique (decision-read vs diagnostic-read sampler). Project row firetv daa61f0c pushed to deathride/main."
+}
