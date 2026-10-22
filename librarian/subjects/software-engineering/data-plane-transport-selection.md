@@ -44,3 +44,9 @@ count.
 Proposed law (third sighting across this wave, not added): *a guarantee stated
 for one path must be re-proved on every other path a message can take, or
 documented as lost*.
+
+2026-10-22 (intake apply): `moved-payload-has-no-fallback` gains its second stack, next,
+as an application document (simulation, unmeasurable) against a browser raster worker:
+the only fallback sits before the transferred send, in-flight jobs are failed to null and
+never re-run, queued ones go to the main thread. The loss is not counted; that half of the
+technique is unmet in the tree. The subject is no longer single-stack.

@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1394,
+  "applications": 1395,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -9634,9 +9634,9 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/data-plane-transport-selection.md",
-   "digest": "sha256-b2:0b29d5d6d98509f2",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:258f60841392a710",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "control-plane-off-the-data-path",
@@ -9728,6 +9728,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "moved-payload-has-no-fallback",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/data-plane-transport-selection/applications/next--moved-payload-has-no-fallback.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "next@16"
+    },
     {
      "stack": "rust",
      "technique": "control-plane-off-the-data-path",
