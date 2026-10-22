@@ -12679,3 +12679,9 @@ applied here - one sighting, and the honest record is in the source note.
 - An apply over an implemented technique found its defect in the copy, not the arithmetic,
   for the second time in one subject. When the number is right, hunt the sentence printed
   beside it in each of its states.
+
+## 2.16.0 - 2026-10-22 - apply:supranational-membership-inheritance
+
+- A tree comment saying a technique's rule is optional ("optional polish") is the falsifier to test, and it is cheap. Enumerate the readers the rule governs and render one A/B. Here it was wrong (4 to 3 countries covered). Its claim was plausible, because the mechanism beside the rule was already built.
+- Measure a retrofit's intermediate arm too. Add the new enum value alone and run the type check before fixing the readers. A clean type check over a default-arm branch is the evidence that the dispatch must be made exhaustive, and it costs one tsc run.
+- A scratch measurement test kept under the consumer's test glob runs again in every later directory-scoped run, and it overwrites its own arm-A output with arm-B values. Write arm outputs keyed by an ARM env var from the first run, or keep the arm-A capture outside the tree.
