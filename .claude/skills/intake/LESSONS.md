@@ -12665,3 +12665,17 @@ applied here - one sighting, and the honest record is in the source note.
 
 - A delegated reader's absence claim is bounded by the files it was handed, not by the rule it was asked about. Scoped to the five suites named after the gestures, the reader reported "no reject clip" for one detector. The defence suite, which it never opened, asserts exactly that case. Before an absence claim about a rule lands, grep for the rule's class and event names across the whole test tree. A rule's coverage is the union over every suite that drives it. This is the truncated-output rule from Phase 4, applied to the brief's own scope.
 - A test-oracle technique is best falsified by classifying where each expected value comes from, across a whole suite. A 27-row oracle table took one reader pass and refuted a decision rule that read as obviously right: a differential oracle is not circular. No engine build was needed. That is the cheap experiment for any "how to test X" technique in a tree too heavy to run.
+
+## 2.16.0 - 2026-10-22 - apply-implied-extra-spend-capped
+
+- A push from a fresh worktree of a husky project runs NO hook. core.hooksPath is the
+  relative `.husky/_`, which only the install step generates, so a new worktree has none,
+  and pre-commit, commit-msg and pre-push are silently absent. No bypass flag is involved
+  and nothing prints. The push looks gated and is not. Before pushing from a worktree, run
+  the project's install (or its hook installer) there and confirm the hook prints its
+  banner. A junctioned node_modules does not run the prepare step, so it does not help.
+  Repair when it has already happened: run the full gate on the pushed commit and report
+  the result. A default branch is never force-pushed.
+- An apply over an implemented technique found its defect in the copy, not the arithmetic,
+  for the second time in one subject. When the number is right, hunt the sentence printed
+  beside it in each of its states.
