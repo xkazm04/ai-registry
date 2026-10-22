@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1380,
+  "applications": 1381,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -30267,9 +30267,9 @@
    "subcategory": "codebase-stewardship",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/repository-landing-document.md",
-   "digest": "sha256-b2:7f83bf34fe6f34be",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:6f6a6c4541bc949b",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "caption-carrying-figures",
@@ -30391,6 +30391,12 @@
      "technique": "evidence-linked-badges",
      "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/applications/process--evidence-linked-badges.md",
      "verified_on": "2026-09-01"
+    },
+    {
+     "stack": "process",
+     "technique": "host-metadata-is-a-second-document",
+     "file": "knowledge/software-engineering/engineering-process/codebase-stewardship/repository-landing-document/applications/process--host-metadata-is-a-second-document.md",
+     "verified_on": "2026-10-22"
     },
     {
      "stack": "process",
