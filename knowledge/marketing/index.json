@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 118,
+  "applications": 119,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -1256,9 +1256,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/goal-pacing-and-forecast.md",
-   "digest": "sha256-b2:bec4680a570b45fe",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:7cdd90f88fd7b916",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "band-and-suppressed-early-probability",
@@ -1346,6 +1346,13 @@
      "technique": "goal-in-force-per-month",
      "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--goal-in-force-per-month.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "implied-extra-spend-capped",
+     "file": "knowledge/marketing/measurement-and-economics/goal-pacing-and-forecast/applications/node--implied-extra-spend-capped.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
     {

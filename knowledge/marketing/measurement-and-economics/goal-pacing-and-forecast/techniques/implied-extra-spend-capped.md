@@ -41,7 +41,10 @@ steering number from a fabricated one.
 4. **Guard the unknowns.** No spend in the window, or a return that is zero or
    undefined, yields zero implied spend with the basis marked unknown - the surface
    then hides the spend line rather than printing "+0 / day", which would read as
-   "nothing needed".
+   "nothing needed". Hiding the line is half of it: the copy that replaces it must
+   say the spend cannot be priced, because a fallback that reuses the on-pace wording
+   ("the current pace is enough") says "nothing needed" in words, beside a tile that
+   says behind.
 5. **Say which basis produced the number.** "At the current return that is about +X
    per day" and "along the account's response curve that is about +X per day" are
    different promises, and the hover, the footnote and the assistive text all state
@@ -56,7 +59,9 @@ steering number from a fabricated one.
   goal is often the one that already spent up to its ceiling.
 - When the curve answer hits the cap, the card shows the cap with "at least" and does
   not show a probability of success for the extra spend, because the curve has no
-  information above the band it was fitted on.
+  information above the band it was fitted on. The solver returns the capped state as
+  a field beside the number. A cap a surface has to infer by comparing the number with
+  three times the spend gets quoted as an estimate.
 - When the trailing-average and curve answers differ by more than a factor of two,
   that difference is itself a finding (the account is saturated) and belongs in the
   narrative, not just in the smaller number.
