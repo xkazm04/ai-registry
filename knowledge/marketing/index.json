@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 122,
+  "applications": 123,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -2863,9 +2863,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/product-feed-and-catalog-spine.md",
-   "digest": "sha256-b2:87c95e6f88bf1dba",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:fd8647dcd315ecbd",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "custom-labels-as-bidding-buckets",
@@ -2979,6 +2979,13 @@
      "technique": "paused-sku-never-advertised",
      "file": "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/applications/node--paused-sku-never-advertised.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "product-plan-service-routing",
+     "file": "knowledge/marketing/paid-advertising/product-feed-and-catalog-spine/applications/node--product-plan-service-routing.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     }
    ]
