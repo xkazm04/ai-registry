@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 121,
+  "applications": 122,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -2489,9 +2489,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/performance-root-cause-diagnosis.md",
-   "digest": "sha256-b2:afbd4fa8af69140b",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:2fced7a37b0db082",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "advice-ledger-scores-past-advice",
@@ -2607,6 +2607,13 @@
      "technique": "outcome-closed-by-own-metric-with-dead-band",
      "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/applications/node--outcome-closed-by-own-metric-with-dead-band.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "thresholds-mirror-the-prompt",
+     "file": "knowledge/marketing/measurement-and-economics/performance-root-cause-diagnosis/applications/node--thresholds-mirror-the-prompt.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     }
    ]
