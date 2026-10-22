@@ -97,3 +97,29 @@ only through the applications.
 - Banked, untested: the replay clock (timestamps versus one frame per update). The web lane
   found both documented. The deterministic headless timestep owns most of it, so it was not
   minted here.
+
+## 2026-10-22 - intake apply, proxy-corpus-miss-ledger (run intake-apply-pcml-1022)
+
+Dispatched by Curator from the attention scan, "single stack (cpp)". The single stack is
+not addressable: mage-arena-vr is the only fleet project with tracked-hand input.
+
+**Applied.** mage-arena-vr at `aea4226`, experiment, `better`, structural-only. The seam was
+chosen to falsify: the plan already requires October figures labelled "mouse or synthetic",
+and if that rule held, a basis label would add nothing. Over 31 hand-input figure statements
+in ten documents, 0 carried their basis in the number's own field, and 4 used wording that
+named the wrong basis ("recorded corpus", and "mouse" for generator output). The 90 mouse
+clips come from the corpus generator, so the D-G2 "mouse" figures are in-distribution. The
+feasibility report holds 25 of the 31 figures and never says its clips are generated. Project
+change `9ebdf43` (pushed to origin master from a detached worktree; primary checkout behind
+by 80 with owner WIP, untouched) adds `docs/PROXY-LEDGER.md`, relabels three cells in the
+submission draft, and links the ledger from the clip schema. The miss ledger is empty and
+says so: 0 recorded clips, 0 human mouse draws.
+
+**Landed.** One decision rule in `proxy-corpus-miss-ledger`: a label that names the channel
+("mouse", "recorded") is not a basis label; the label names what produced the input.
+
+**Return conditions.**
+- The owner's first D-G2 mouse draws, or V2 recordings (2026-11-05 to 11-08): the first
+  ledger row where a human figure disagrees with a generated one.
+- Retire the generated corpus per rule only by the ledger's section 4. The sigil stroke
+  bounds (`InnerTailRatio`, `MinInnerStrokeRatio`) were set entirely on stand-ins.
