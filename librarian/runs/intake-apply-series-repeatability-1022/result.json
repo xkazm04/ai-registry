@@ -1,0 +1,50 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-series-repeatability-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "media-generation",
+  "started_at": "2026-10-22T12:30:00Z",
+  "ended_at": "2026-10-22T13:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/data-video-virality",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "data-video-virality",
+      "technique": "series-repeatability",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--series-repeatability.md",
+    "knowledge/media-generation/narrative-craft/data-video-virality/techniques/series-repeatability.md",
+    "knowledge/media-generation/index.json",
+    "catalog.json",
+    "librarian/subjects/media-generation/data-video-virality.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Cases could not declare their template; server dropped the field. Rule: a declared series needs a template and 3+ distinct further episodes; malformed series accepted 4/4 -> 0/4, floor green, opa not run. Shipped to stat-reel origin main from a worktree."
+}

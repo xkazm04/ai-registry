@@ -5,7 +5,7 @@
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
   "techniques": 253,
-  "applications": 155,
+  "applications": 156,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -1226,9 +1226,9 @@
    "subcategory": null,
    "status": "draft",
    "file": "knowledge/media-generation/narrative-craft/data-video-virality/data-video-virality.md",
-   "digest": "sha256-b2:a919e67f58aae209",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:4a7607eb3b5a5dab",
+   "revision": 5,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "accelerator-events",
@@ -1389,6 +1389,12 @@
      "technique": "saturation-check",
      "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--saturation-check.md",
      "verified_on": "2026-10-03"
+    },
+    {
+     "stack": "process",
+     "technique": "series-repeatability",
+     "file": "knowledge/media-generation/narrative-craft/data-video-virality/applications/process--series-repeatability.md",
+     "verified_on": "2026-10-22"
     }
    ]
   },

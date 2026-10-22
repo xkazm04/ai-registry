@@ -33,6 +33,12 @@ the data pipeline and the audience the first episode found.
   for the top idea.
 - A series doesn't excuse a weak episode. Every instance still passes the
   precedent gate on its own.
+- Where a person judges ideas and no score exists, the bonus has nowhere
+  to go. Make the template a declared field instead: the template's name
+  plus three or more further instances, distinct from the idea and from
+  each other. Refuse a series that names fewer. A rule against slicing one
+  dataset many ways in one batch still holds, because the sibling episodes
+  go in the series, not in the batch.
 
 ## When not to use it
 
