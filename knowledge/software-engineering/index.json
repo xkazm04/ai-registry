@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1390,
+  "applications": 1391,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -4583,8 +4583,8 @@
    "subcategory": "input-and-editing",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/batch-undo-commit-window.md",
-   "digest": "sha256-b2:b4174848ed633dc1",
-   "revision": 4,
+   "digest": "sha256-b2:9b545924fd10cf36",
+   "revision": 5,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -4706,6 +4706,13 @@
      "technique": "partial-failure-reselect",
      "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/applications/react--partial-failure-reselect.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "single-pending-batch-invariant",
+     "file": "knowledge/software-engineering/ui-surfaces/input-and-editing/batch-undo-commit-window/applications/react--single-pending-batch-invariant.md",
+     "verified_on": "2026-10-22",
      "verified_against": "react@19"
     }
    ]
