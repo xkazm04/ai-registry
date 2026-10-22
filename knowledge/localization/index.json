@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 74,
+  "applications": 75,
   "laws": 8,
   "categories": [
    "european",
@@ -2057,8 +2057,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
-   "digest": "sha256-b2:3ab12fb3fe02b254",
-   "revision": 7,
+   "digest": "sha256-b2:a50db88f6aef4acb",
+   "revision": 8,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -2243,6 +2243,12 @@
      "file": "knowledge/localization/craft/translation-quality-measurement/applications/node--engine-quality-from-reviewer-corrections--kp.md",
      "verified_on": "2026-10-22",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "process",
+     "technique": "error-typology-over-a-single-score",
+     "file": "knowledge/localization/craft/translation-quality-measurement/applications/process--error-typology-over-a-single-score--kp.md",
+     "verified_on": "2026-10-22"
     }
    ]
   },

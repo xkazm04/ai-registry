@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-etoss-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "localization",
+  "started_at": "2026-10-22T03:17:52Z",
+  "ended_at": "2026-10-22T04:32:52Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "localization/translation-quality-measurement",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "translation-quality-measurement",
+      "technique": "error-typology-over-a-single-score",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/localization/craft/translation-quality-measurement/applications/process--error-typology-over-a-single-score--kp.md",
+    "knowledge/localization/index.json",
+    "catalog.json",
+    "rules/ai-registry-localization.md",
+    "skills/i18n-translate/SKILL.md",
+    "skills/i18n-translate/LESSONS.md",
+    "librarian/subjects/localization/translation-quality-measurement.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Phase 7.5 alone. Seam: kp native-review queues (process stack). Shipped as skills/i18n-translate 1.7.0; kp ledger row committed locally, kp main diverged, not pushed."
+}

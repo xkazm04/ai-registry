@@ -2,7 +2,7 @@
 subject: translation-quality-measurement
 domain: localization
 last_touched: 2026-10-22
-touched_by: intake apply (intake-apply-eqfrc-1022)
+touched_by: intake apply (apply-etoss-1022)
 dry_streak: 0
 ---
 
@@ -180,3 +180,25 @@ sentence stands. Weak point, stated in the application: three locales give a wea
 ranking, and the reviewer is a model. Still owed, unchanged: the golden-path trim and
 the per-language exemption blocks. **Stack count:** no fleet tree outside node carries
 a translated catalog, so the "single stack" point is not addressable by apply.
+
+### 2026-10-22 - `/intake apply`: a review queue that changed format halfway (apply-etoss-1022)
+
+First application of `error-typology-over-a-single-score`, and the first in this
+subject outside the node stack. The stack is `process`, because the seam is a
+reviewer's record format rather than a catalog's runtime. That answers the
+previous entry's "not addressable": the single-stack point was addressable,
+just not through a second catalog runtime. kp's three native-review queues hold
+533 findings. The older sections are untyped, and the newer ones carry an MQM
+category. Read as two arms, owner routing without reading the note went from
+0 of 122 to 411 of 411. Anchor citation rose from 23-28% to 44%, but that rise
+is confounded with the method that added the column.
+
+The seam was chosen to falsify the claim, and the technique held. Its two
+boundaries showed up as measured defects in the method that writes those
+queues, which this registry publishes. A bespoke `leftover-source` slot sent 3
+of its 4 glossary calls to translation. A reviewer filed a rule artifact's name
+as a category. The anchor rule, read literally, would have dropped accuracy
+findings, which cite the source span and not a rule. `i18n-translate` 1.7.0
+fixes all three. No technique text changed. A candidate amendment is held as a
+lead: "for accuracy the anchor is the source span and its call site". Return
+when a second store shows accuracy findings dropped for lacking a rule anchor.

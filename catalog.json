@@ -374,10 +374,10 @@
     },
     {
       "name": "i18n-translate",
-      "version": "1.6.3",
+      "version": "1.7.0",
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
-      "contentHash": "sha256-n1:048e1340f86cce35",
+      "contentHash": "sha256-n1:d23a4830c2ed512e",
       "adopters": [
         "kp@plugin:1.1.0",
         "personas@plugin:1.1.0",
@@ -385,9 +385,9 @@
       ],
       "invokes30d": 2,
       "reportedInvokes": 2,
-      "lessons": 4,
+      "lessons": 5,
       "lessonsPath": "skills/i18n-translate/LESSONS.md",
-      "lessonsHash": "sha256-n1:490a72e16667384a",
+      "lessonsHash": "sha256-n1:e149e415195c07d9",
       "usageContributors": [
         "wolf"
       ],
@@ -1112,7 +1112,7 @@
     "skills": 43,
     "practices": 8,
     "memory": 9,
-    "lessons": 357
+    "lessons": 358
   },
   "bundles": [
     {
@@ -1189,9 +1189,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 74,
-      "files": 214,
-      "contentHash": "sha256-b2:fb8e0b4e901c80dc"
+      "applications": 75,
+      "files": 215,
+      "contentHash": "sha256-b2:6fea74053381b673"
     },
     {
       "name": "marketing",
