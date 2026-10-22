@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1377,
+  "applications": 1378,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -26247,9 +26247,9 @@
    "subcategory": "orchestration",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/plan-review.md",
-   "digest": "sha256-b2:53b4cdb9f8d08966",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:c9a78a4c9faf0799",
+   "revision": 5,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "decision-sized-slicing",
@@ -26349,6 +26349,13 @@
      "technique": "objection-before-artifacts",
      "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/applications/process--objection-before-artifacts.md",
      "verified_on": "2026-08-28"
+    },
+    {
+     "stack": "react",
+     "technique": "informational-fold-in",
+     "file": "knowledge/software-engineering/llm-agent/orchestration/plan-review/applications/react--informational-fold-in.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "react@19.2"
     }
    ]
   },
