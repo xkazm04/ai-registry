@@ -1,8 +1,8 @@
 ---
 subject: lead-quality-and-source-diagnosis
 domain: marketing
-last_touched: 2026-09-09
-touched_by: intake-marketing-0909 (forge wave)
+last_touched: 2026-10-22
+touched_by: intake-apply-junk-source-rule
 dry_streak: 0
 ---
 
@@ -16,7 +16,7 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
 
 **Techniques (6):** cause-taxonomy-spam-mistargeting-pricing-volume, cheap-cpl-splits-spam-from-mistargeting, junk-source-rule, minimum-sample-before-verdict, quality-score-qualification-and-win, two-axis-fit-engagement.
 
-**Applications (3; stacks: node):** node--cause-taxonomy-spam-mistargeting-pricing-volume, node--quality-score-qualification-and-win, node--two-axis-fit-engagement.
+**Applications (5; stacks: node):** node--cause-taxonomy-spam-mistargeting-pricing-volume, node--cheap-cpl-splits-spam-from-mistargeting--peers-and-prior, node--junk-source-rule, node--quality-score-qualification-and-win, node--two-axis-fit-engagement.
 
 ## Sightings
 
@@ -26,10 +26,20 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
 - Deviations of the reconciled trees are recorded in the applications with the standard
   kept; the source note `librarian/sources/2026-09-09-seo-agent.md` carries the
   deviation backlog by area.
+- 2026-10-22, intake-apply-junk-source-rule: `junk-source-rule` applied to systedo-case
+  in code, verdict better. The junk badge had no sample floor while the diagnosis reads
+  under 30 leads as volume, and the diagnosis kept its own copy of the 0.35 threshold.
+  B shares both constants: rows junk while the diagnosis says volume went from 3 of 5 to 0
+  on a small live tier, and the demo spine was unchanged. The commits are on a local
+  branch, unpushed: the project's pre-push suite is red outside the change.
 
 ## Owed
 
 - Single-stack debt: born with the stacks above; an external reconcile against a
   second tree is the next pass.
-- No `librarian/applied.md` row yet except where the source note says so; the
-  unapplied backlog is every technique here without a row.
+- Unapplied: `cause-taxonomy-spam-mistargeting-pricing-volume`,
+  `minimum-sample-before-verdict`, `quality-score-qualification-and-win`,
+  `two-axis-fit-engagement` have no `librarian/applied.md` row.
+- junk-source-rule, unmet in the consumer: the threshold is an absolute fraction, not
+  relative to the blended qualification rate. The junk copy calls a non-cheap junk
+  source cheap. The alert names neither the source nor its two numbers.
