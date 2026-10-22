@@ -70,6 +70,25 @@ they arrive and never asks a set-shaped question, progressive application is
 fine and the buffer is waste. The test is whether any consumer can conclude
 *absence* from the collection. If one can, the swap is mandatory.
 
+**A second case, narrower, where the test above is answered by direction.** The
+half-installed set does not lie in a random way; it lies in the direction the
+variant's *order* chose. Apply-then-remove-the-unseen leaves, for the length of
+the gap, the **union** of the two snapshots: nothing live has gone missing, and
+only entries deleted while away are still present. A consumer that concludes
+absence from that set and acts destructively on it errs toward keeping, and the
+next pass corrects it; a consumer that counts, digests or concludes presence is
+wrong. Remove-then-apply leaves the opposite set, and the destructive consumer
+is the one it damages. So when the store must publish per-entry transitions to
+its own consumers (a revision log, a change feed), and so cannot swap without
+discarding the transitions it exists to publish, the order is a design
+decision: apply first, remove after, and say at the read interface that the gap
+is a union. Two conditions keep it honest. The removal pass must be guaranteed to
+follow, and where it is deliberately withheld (a short or degrading snapshot
+that must not delete) the union is no longer a gap but a standing state, which
+has to be reported as unconverged rather than served as current. And any
+consumer that digests or counts the set must be willing to be wrong for the
+length of the gap, or must be told the sync is in flight.
+
 ## The delete you never see
 
 The reason the swap must *replace* rather than *merge* is deletion. A change
