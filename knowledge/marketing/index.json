@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 125,
+  "applications": 126,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -3618,9 +3618,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/speed-to-lead-and-assisted-reply.md",
-   "digest": "sha256-b2:5e8bf55d63a99e73",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:e0b6ab46f1c003e0",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "answer-in-first-sentence-never-promise",
@@ -3729,6 +3729,13 @@
      "technique": "delivery-fails-closed-cap-consent",
      "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--delivery-fails-closed-cap-consent.md",
      "verified_on": "2026-09-09",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "first-reply-promises-channel-not-minutes",
+     "file": "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--first-reply-promises-channel-not-minutes.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
     {
