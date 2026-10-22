@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1370,
+  "applications": 1371,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -13194,9 +13194,9 @@
    "subcategory": "process-graph-runtime",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/edge-queue-policy.md",
-   "digest": "sha256-b2:b3e96fa159f5a35a",
-   "revision": 1,
-   "changedAt": "2026-09-02",
+   "digest": "sha256-b2:4bcf18e3326984d9",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "control-channel-headroom",
@@ -13285,6 +13285,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "rust",
+     "technique": "control-channel-headroom",
+     "file": "knowledge/software-engineering/backend-platform/process-graph-runtime/edge-queue-policy/applications/rust--control-channel-headroom.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "rust@1.95"
+    },
     {
      "stack": "rust",
      "technique": "eviction-priority-classes",
