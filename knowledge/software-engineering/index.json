@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1386,
+  "applications": 1387,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -39806,9 +39806,9 @@
    "subcategory": "control-plane-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/control-plane-operations/watch-cache-and-resync/watch-cache-and-resync.md",
-   "digest": "sha256-b2:8c44d83601ed45b3",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:45a3dd6e4f6b4055",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "atomic-swap-at-initial-sync",
@@ -40447,9 +40447,9 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/workflow-property-contracts.md",
-   "digest": "sha256-b2:3007baaff69ec912",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:c9f25f65f6b94068",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "attribute-protocol-over-accessors",
@@ -40535,6 +40535,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "next",
+     "technique": "attribute-protocol-over-accessors",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/workflow-property-contracts/applications/next--attribute-protocol-over-accessors.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "next@16"
+    },
     {
      "stack": "python",
      "technique": "mid-iteration-event-seams",
