@@ -1,8 +1,8 @@
 ---
 domain: grant-funding
 subject: jurisdiction-modelling
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-10-22
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -160,3 +160,20 @@ citations are unverified rather than confirmed.
   }
 }
 ```
+
+## Intake apply - 2026-10-22 (run intake-apply-etcm-1022)
+
+Dispatched from the attention scan ("single stack (node)"). The subject's only consumer is a
+node tree, so the stack count is unmoved; the run applied the one technique with no
+`applied.md` row instead.
+
+- `entity-type-code-mapping`: first application, `code` / `better`. The curated subset, the
+  null-as-unconfirmed rule and the three-way reconciliation were already met in the tree.
+  The broken rule was the last one, key the map by registry: the verify step resolved every
+  source's code through the one Czech map, so a declared-but-unbuilt registry (two more in
+  the Czech profile, two in the UK one) would have borrowed it. A/B over 13 real cases:
+  correct 8 to 13, out-of-profile suggestions 3 to 0, ARES and IRS cases unchanged. Still
+  unbuilt: the unmapped-code log the technique calls the curation queue.
+- No technique edit. The finding is a boundary the technique already states; the application
+  records the one non-obvious form of it, a resolver passed as a function that receives the
+  code without its source.
