@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1381,
+  "applications": 1382,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -31051,9 +31051,9 @@
    "subcategory": "continuous-integration",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/continuous-integration/runner-fleet/runner-fleet.md",
-   "digest": "sha256-b2:9f9c2122f589ed3d",
-   "revision": 2,
-   "changedAt": "2026-08-31",
+   "digest": "sha256-b2:8119510164547576",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "capability-typed-queues",
@@ -31153,6 +31153,13 @@
      "technique": "capability-typed-queues",
      "file": "knowledge/software-engineering/engineering-process/continuous-integration/runner-fleet/applications/process--capability-typed-queues.md",
      "verified_on": "2026-08-21"
+    },
+    {
+     "stack": "rust",
+     "technique": "ephemeral-versus-warm-runners",
+     "file": "knowledge/software-engineering/engineering-process/continuous-integration/runner-fleet/applications/rust--ephemeral-versus-warm-runners.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "rust@1.96"
     }
    ]
   },
