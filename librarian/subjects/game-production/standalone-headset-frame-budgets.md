@@ -75,3 +75,34 @@ the gaze-region peak is not readable from source. Return at the V1 device sprint
 
 Still not applied: `per-content-class-frame-budget`, `stereo-draw-call-budget`,
 `thermal-headroom-reserve`.
+
+### 2026-10-22 - apply: per-content-class-frame-budget (run apply-pccfb-1022)
+
+First application, on mage-arena-vr at `4e95212`, mode `experiment`, verdict `better`.
+Application: `cpp--per-content-class-frame-budget.md`. Project commit `aea4226` on origin master.
+
+**The seam was chosen to falsify.** The project's budget table already looks like a partial
+class split: the particle row belongs to effects, and the triangle row names its classes. The
+test asked whether the table named a payer in the three D-G4 budget events. It named none:
+- The draw row's fail was settled by file ownership.
+- Turning occlusion off was paid from triangle headroom, taking the row from 84% to 92% with
+  no counterparty.
+- Six particle systems passed their own row and added 11 draws to a failing one.
+
+A class split names a payer in all three. The per-part ranking also shows the draw overrun
+was projectiles first and interface second. It read as a character cost only because one
+presentation file draws all three classes.
+
+**The falsifier fired on the device clause.** The two declared headsets share chip, RAM and
+the default eye buffer, so they tie on fill. "The larger display binds fill" is corrected to
+"the larger eye buffer binds fill", in the technique, the golden path and the overdraw
+technique. **Two decision rules added:** a class with its own count row still owes a share on
+every shared row, and a fix paid from another row's headroom is a written trade.
+
+**Structural fact.** The table grows a share only where one module owns a number: the game
+thread split by system, and particles. It has none for quantities every class loads.
+
+**Still owed:** every share's size, a thermal reserve, and a GPU and render-thread capture
+with one class hidden per run. Return at the V1 device sprint.
+
+Still not applied: `stereo-draw-call-budget`, `thermal-headroom-reserve`.

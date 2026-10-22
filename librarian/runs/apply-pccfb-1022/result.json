@@ -1,0 +1,67 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-pccfb-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-22T08:00:00Z",
+  "ended_at": "2026-10-22T09:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/standalone-headset-frame-budgets",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "standalone-headset-frame-budgets",
+      "technique": "per-content-class-frame-budget",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--per-content-class-frame-budget.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/techniques/per-content-class-frame-budget.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/techniques/overdraw-and-transparency-ceiling.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
+    "knowledge/game-production/index.json",
+    "catalog.json",
+    "rules/ai-registry-game-production.md",
+    "librarian/subjects/game-production/standalone-headset-frame-budgets.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "52367cf6",
+      "pathspec": [
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--per-content-class-frame-budget.md",
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/techniques/per-content-class-frame-budget.md",
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/techniques/overdraw-and-transparency-ceiling.md",
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Falsifying seam: class clause held (0/3 D-G4 events had a payer, 3/3 split); device clause fired (Quest 3/3S share the default eye buffer) and was corrected. mage-arena-vr aea4226 pushed to origin master. No second stack."
+}
