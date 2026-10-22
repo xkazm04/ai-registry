@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1368,
+  "applications": 1369,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -12110,9 +12110,9 @@
    "subcategory": "published-surfaces",
    "status": "forged",
    "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/docs-content-model.md",
-   "digest": "sha256-b2:95cdaebc076df84d",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:100ec2ef89127244",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "catalog-referential-invariants",
@@ -12207,6 +12207,13 @@
      "technique": "draft-visibility-gating",
      "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/applications/react--draft-visibility-gating.md",
      "verified_on": "2026-08-22",
+     "verified_against": "react@19"
+    },
+    {
+     "stack": "react",
+     "technique": "per-topic-freshness-metadata",
+     "file": "knowledge/software-engineering/ui-surfaces/published-surfaces/docs-content-model/applications/react--per-topic-freshness-metadata.md",
+     "verified_on": "2026-10-22",
      "verified_against": "react@19"
     }
    ]

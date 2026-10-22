@@ -96,6 +96,16 @@ the backfill must never do is write into the same field a human review writes
 into, because after that no consumer can tell the two apart and the honest
 report is gone.
 
+A backfill that chooses conservatively fails differently, and the difference
+is a boundary of this rule rather than a reprieve from it. Dates deliberately
+set old make the detector flag instead of falsely pass, so the dangerous
+direction is closed. Two failures remain. The coverage figure still counts a
+date as a review unless the record says otherwise, so a corpus with no human
+review at all reports full review coverage beside a fully stale reading. And a
+detector over a corpus where everything is flagged separates nothing, so the
+signal is saturated until earned reviews begin to differ from derived ones.
+Mark the basis on the record even when the derived value is pessimistic.
+
 Any figure computed over these fields carries its predicate
 ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)).
 "Ninety-two percent reviewed" is not a finding until it says whether the
