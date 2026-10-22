@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1383,
+  "applications": 1384,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -34679,9 +34679,9 @@
    "subcategory": "metered-billing",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/metered-billing/subscription-billing-periods/subscription-billing-periods.md",
-   "digest": "sha256-b2:e5bcae321ac53d1d",
-   "revision": 1,
-   "changedAt": "2026-09-07",
+   "digest": "sha256-b2:3a0a03da985229a4",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "anchor-re-derived-not-chained",
@@ -37433,9 +37433,9 @@
    "subcategory": "prompt-and-context",
    "status": "forged",
    "file": "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/tool-result-economy.md",
-   "digest": "sha256-b2:be0cc5b605e3f7cb",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:89b6a4c78a49c5f0",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "compressibility-follows-the-producer",
@@ -37516,6 +37516,13 @@
     }
    ],
    "applications": [
+    {
+     "stack": "node",
+     "technique": "compressibility-follows-the-producer",
+     "file": "knowledge/software-engineering/llm-agent/prompt-and-context/tool-result-economy/applications/node--compressibility-follows-the-producer--ingest-reader.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@20"
+    },
     {
      "stack": "rust",
      "technique": "escape-hatch-usage-as-the-safety-metric",
