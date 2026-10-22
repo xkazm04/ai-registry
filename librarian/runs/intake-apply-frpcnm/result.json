@@ -1,0 +1,63 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-frpcnm",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "marketing",
+  "started_at": "2026-10-22T05:00:00Z",
+  "ended_at": "2026-10-22T05:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "marketing/speed-to-lead-and-assisted-reply",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "speed-to-lead-and-assisted-reply",
+      "technique": "first-reply-promises-channel-not-minutes",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--first-reply-promises-channel-not-minutes.md",
+    "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/techniques/first-reply-promises-channel-not-minutes.md",
+    "knowledge/marketing/index.json",
+    "catalog.json",
+    "rules/ai-registry-marketing.md",
+    "librarian/subjects/marketing/speed-to-lead-and-assisted-reply.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "26f95a58",
+      "pathspec": [
+        "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/applications/node--first-reply-promises-channel-not-minutes.md",
+        "knowledge/marketing/conversion-and-leads/speed-to-lead-and-assisted-reply/techniques/first-reply-promises-channel-not-minutes.md",
+        "knowledge/marketing/index.json",
+        "catalog.json",
+        "rules/ai-registry-marketing.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Channel table and no-minutes promise held; callers passed a CRM label or filler word as the name. Nameless greetings wrong A 8/8, B 0/8. Branch cur/frpcnm-greeting pushed; master not. gigs has no lead-reply code."
+}
