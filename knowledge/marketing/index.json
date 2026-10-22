@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 124,
+  "applications": 125,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -3363,9 +3363,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/paid-advertising/search-term-mining/search-term-mining.md",
-   "digest": "sha256-b2:1621d4afd9f6763b",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:266aded5a63dff34",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "campaign-level-phrase-negative",
@@ -3457,6 +3457,13 @@
      "technique": "campaign-level-phrase-negative",
      "file": "knowledge/marketing/paid-advertising/search-term-mining/applications/node--campaign-level-phrase-negative.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "exact-promote-into-serving-ad-group",
+     "file": "knowledge/marketing/paid-advertising/search-term-mining/applications/node--exact-promote-into-serving-ad-group.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
     {
