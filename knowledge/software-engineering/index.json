@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1357,
+  "applications": 1358,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -196,9 +196,9 @@
    "subcategory": "model-workflow-contracts",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/accumulate-then-aggregate-metrics/accumulate-then-aggregate-metrics.md",
-   "digest": "sha256-b2:ea4763c3df4dd4c8",
-   "revision": 1,
-   "changedAt": "2026-09-03",
+   "digest": "sha256-b2:a9ddc355691fe12f",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "detached-buffer-reads",
@@ -282,6 +282,13 @@
      "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/accumulate-then-aggregate-metrics/applications/python--nan-as-undefined-not-zero.md",
      "verified_on": "2026-09-03",
      "verified_against": "python@3.10"
+    },
+    {
+     "stack": "react",
+     "technique": "detached-buffer-reads",
+     "file": "knowledge/software-engineering/backend-platform/model-workflow-contracts/accumulate-then-aggregate-metrics/applications/react--detached-buffer-reads.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "react@19.2"
     }
    ]
   },

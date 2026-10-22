@@ -1,0 +1,49 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-dbr-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "software-engineering",
+  "started_at": "2026-10-22T14:00:00Z",
+  "ended_at": "2026-10-22T15:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/accumulate-then-aggregate-metrics",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "accumulate-then-aggregate-metrics",
+      "technique": "detached-buffer-reads",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/backend-platform/model-workflow-contracts/accumulate-then-aggregate-metrics/applications/react--detached-buffer-reads.md",
+    "librarian/subjects/software-engineering/accumulate-then-aggregate-metrics.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "knowledge/software-engineering/index.json",
+    "catalog.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "personas IPC ring: a copied array still shared its row objects; outside writes reaching the ring 3/3 -> 0/3, pushed as personas b7bbe8c35d. Boundary banked, not amended."
+}
