@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1385,
+  "applications": 1386,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -39089,9 +39089,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/vendored-patch-stack.md",
-   "digest": "sha256-b2:9bb039229d852897",
-   "revision": 2,
-   "changedAt": "2026-10-05",
+   "digest": "sha256-b2:1ae671738a90f0a1",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "collapse-patch-axes-that-share-hunks",
@@ -39176,6 +39176,13 @@
      "technique": "collapse-patch-axes-that-share-hunks",
      "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/applications/node--collapse-patch-axes-that-share-hunks.md",
      "verified_on": "2026-10-05",
+     "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "least-invasive-carrier",
+     "file": "knowledge/software-engineering/engineering-process/build-and-release/vendored-patch-stack/applications/node--least-invasive-carrier.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@22"
     }
    ]
