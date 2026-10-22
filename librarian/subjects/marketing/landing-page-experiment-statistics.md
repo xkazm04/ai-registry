@@ -1,8 +1,8 @@
 ---
 subject: landing-page-experiment-statistics
 domain: marketing
-last_touched: 2026-09-09
-touched_by: intake-marketing-0909 (forge wave)
+last_touched: 2026-10-22
+touched_by: intake-apply-maac-1022 (apply)
 dry_streak: 0
 ---
 
@@ -16,7 +16,7 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
 
 **Techniques (6):** distinct-hypothesis-per-arm, experiment-pages-print-no-numbers, multi-arm-alpha-correction, peeking-guard, sample-size-trust-gate, uniform-split-disclosed-no-ramping.
 
-**Applications (3; stacks: node):** node--distinct-hypothesis-per-arm, node--sample-size-trust-gate, node--uniform-split-disclosed-no-ramping.
+**Applications (5; stacks: node):** node--distinct-hypothesis-per-arm, node--experiment-pages-print-no-numbers, node--multi-arm-alpha-correction, node--sample-size-trust-gate, node--uniform-split-disclosed-no-ramping.
 
 ## Sightings
 
@@ -27,9 +27,20 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   kept; the source note `librarian/sources/2026-09-09-seo-agent.md` carries the
   deviation backlog by area.
 
+- 2026-10-22, intake-apply-maac-1022: `multi-arm-alpha-correction` applied to systedo-case
+  as an experiment (null replay over the real evaluator, two seeds of 100k tests). The
+  shared-control caveat was inverted: the product form measured conservative on a shared
+  control (0.046/0.044/0.042 at 3/4/6 arms vs 0.050 independent), so switching to the
+  division form is `not-better`. Corrected in the technique, the golden path and the
+  trust-gate application, which had carried the same sentence. Also measured: a surface
+  that declares only an arm above control spends about half its two-sided budget.
+
 ## Owed
 
 - Single-stack debt: born with the stacks above; an external reconcile against a
   second tree is the next pass.
-- No `librarian/applied.md` row yet except where the source note says so; the
-  unapplied backlog is every technique here without a row.
+- Unapplied: `distinct-hypothesis-per-arm`, `peeking-guard`, `sample-size-trust-gate`,
+  `uniform-split-disclosed-no-ramping` have no `librarian/applied.md` row unless the
+  ledger says otherwise.
+- Mid-test arm change: the consumer swaps a running test's arm list in place with no
+  restart disclosure; the technique's rule is unmet there.
