@@ -1,7 +1,7 @@
 ---
 subject: remote-capability-probing
 domain: software-engineering
-last_touched: 2026-09-04
+last_touched: 2026-10-22
 dry_streak: 0
 ---
 
@@ -40,7 +40,7 @@ machine is adaptive-fidelity-tiers'. The stranger's store was nobody's.
 
 ## State
 
-0 → 6 techniques, 0 → 1 application (`cpp`).
+0 → 6 techniques, 0 → 2 applications (`cpp`, `rust`; the rust one, 2026-10-22, is a tool-capability gate minted per provider id rather than per model, `experiment`, `unmeasurable`).
 
 - `advertised-support-is-not-evidence` — acceptance is a three-term conjunction,
   and absence of an advertisement is not absence of the capability.

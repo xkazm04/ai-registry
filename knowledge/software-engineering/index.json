@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1379,
+  "applications": 1380,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -29807,9 +29807,9 @@
    "subcategory": "resilience",
    "status": "forged",
    "file": "knowledge/software-engineering/backend-platform/resilience/remote-capability-probing/remote-capability-probing.md",
-   "digest": "sha256-b2:a4c05c585323b3c3",
-   "revision": 1,
-   "changedAt": "2026-09-04",
+   "digest": "sha256-b2:da91f70424ef3b9b",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "advertised-support-is-not-evidence",
@@ -29909,6 +29909,13 @@
      "file": "knowledge/software-engineering/backend-platform/resilience/remote-capability-probing/applications/cpp--assertion-permission-and-bypass-are-three-switches.md",
      "verified_on": "2026-09-04",
      "verified_against": "cpp@17"
+    },
+    {
+     "stack": "rust",
+     "technique": "advertised-support-is-not-evidence",
+     "file": "knowledge/software-engineering/backend-platform/resilience/remote-capability-probing/applications/rust--advertised-support-is-not-evidence.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "rust@2021"
     }
    ]
   },
