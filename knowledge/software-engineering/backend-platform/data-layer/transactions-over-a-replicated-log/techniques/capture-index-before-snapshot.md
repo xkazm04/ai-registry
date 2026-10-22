@@ -109,6 +109,23 @@ implementation, find the two lines - the index read and the snapshot open -
 and check their order; the defect is one line long and survives every test
 that does not race the apply loop.
 
+## When the label is derived from the contents
+
+A reader that cannot ask the log "where are we" may take its label from the
+snapshot itself: the largest stamp among the rows it received. That is
+the same claim made after the read instead of before it, and it is a floor
+only if the walk's order key is the stamp. A walk ordered newest-first meets the
+head of the store on its first page, so the derived label equals the
+index captured before the read, and any write landing mid-walk is stamped
+above it. A walk ordered oldest-first revisits a row that is rewritten
+ahead of the cursor, so it also converges. A walk ordered by a stable key
+does neither: a row rewritten behind the cursor keeps its place, a row
+added ahead of it is read, and the label becomes the newest stamp seen,
+which is above the rewrite. The follow-up that asks for changes after the
+label then skips the rewrite for good, with no error. Check which key a
+snapshot walk is ordered by before trusting a label derived from it; where
+it is not the stamp, capture the head before the first page.
+
 ## When not to reach for this
 
 Where no fast path is keyed on the index and every verification runs in
