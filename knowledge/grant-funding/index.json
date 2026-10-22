@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 68,
+  "applications": 69,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -1560,9 +1560,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/nonprofit-verification.md",
-   "digest": "sha256-b2:c86ddeeb343afef0",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:af76ed213a827952",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "determinate-vs-inconclusive-outcomes",
@@ -1670,6 +1670,13 @@
      "technique": "identifier-checksum-prevalidation",
      "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--identifier-checksum-prevalidation.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "registry-adapter-contract",
+     "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--registry-adapter-contract.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
     {

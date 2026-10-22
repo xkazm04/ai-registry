@@ -1,8 +1,8 @@
 ---
 domain: grant-funding
 subject: nonprofit-verification
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-10-22
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -220,3 +220,20 @@ missing.
   }
 }
 ```
+
+## Intake apply - 2026-10-22 (run intake-apply-rac-1022)
+
+Dispatched from the attention scan ("single stack (node)"). The subject's only consumer is a
+node tree, so the stack count stays where it was. The run applied `registry-adapter-contract`,
+the subject's one technique with no `applied.md` row.
+
+- `registry-adapter-contract`: first application, `code` / `better`. The tree already has the
+  contract through to the verdict: one constructor, the implemented flag, the shared id+name
+  subject, a branch-free settled fan-out, and a declarative adapter factory. The seam was chosen
+  to falsify the health test ("zero lines of display code"), and the test failed. Two surfaces
+  named passing sources from hand-kept key tables that listed the five built adapters. Replay
+  over all 11 declared sources: raw-key chips went from 6 to 0, and agreement with the profile
+  label went from 1 to 11. Floor green. One decision rule was appended to the technique:
+  passing-source names travel with the result from the profile and are never looked up again
+  in a display table. Still open: the identity form's client-side list of sources with a Verify
+  control.
