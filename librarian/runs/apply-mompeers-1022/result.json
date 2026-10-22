@@ -1,0 +1,61 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "apply-mompeers-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "civic-intelligence",
+  "started_at": "2026-10-22T05:15:00Z",
+  "ended_at": "2026-10-22T06:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "civic-intelligence/state-budget-analysis",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "state-budget-analysis",
+      "technique": "median-over-mean-for-peers",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--median-over-mean-for-peers.md",
+    "knowledge/civic-intelligence/index.json",
+    "catalog.json",
+    "rules/ai-registry-civic-intelligence.md",
+    "librarian/subjects/civic-intelligence/state-budget-analysis.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "67e13796",
+      "pathspec": [
+        "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--median-over-mean-for-peers.md",
+        "catalog.json",
+        "knowledge/civic-intelligence/index.json",
+        "rules/ai-registry-civic-intelligence.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Seam chosen to falsify decision rule 1: the minimum gated only widening. Smallest batch sample is exactly 5, so it held by data; guard added with a no-move pin. Sub-floor verdict A worse, B incomparable. politicas master pushed, 4,219 green. No second stack."
+}

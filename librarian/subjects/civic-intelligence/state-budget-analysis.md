@@ -105,3 +105,17 @@ sentence: the non-comparable flag is usually dropped at the caption, and provena
 should be built from the source's per-indicator declaration, not a naming suffix.
 Residual: the debt perimeter (town alone or with its organizations) is the owner's
 decision and is recorded in the project's route doc.
+
+## 2026-10-22 - median-over-mean-for-peers applied to politicas (run apply-mompeers-1022)
+
+Applied in `code` mode, verdict `better`, proof `ab-paired`. The null rules were
+already held, and a pin test already guarded the debt-only sample count. So the
+seam targeted the first decision rule: the minimum belongs on each metric's
+reporting peers after widening. The tree applied it only as a widening trigger,
+so nothing stopped a red verdict against a sub-floor median. Over the batch the
+smallest sample is exactly 5, so the rule held by data, not construction. B
+withholds the verdict below the floor and still prints the median with its
+count. A fixture test fails on A and passes on B, and no verdict on the real
+batch moves. No technique edit: its rule already says "after permissible
+widening". Residual: the trend line and the peer table carry no sample guard
+of their own.
