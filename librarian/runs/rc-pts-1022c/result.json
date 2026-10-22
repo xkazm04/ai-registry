@@ -1,0 +1,27 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-pts-1022c",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "llm-observability",
+  "started_at": "2026-10-22T17:00:00Z",
+  "ended_at": "2026-10-22T17:05:00Z",
+  "exit": 0,
+  "counts": { "dispatched": 0, "landed": 0, "declined": 1, "idled": 0, "contended": 0 },
+  "subjects": [
+    { "id": "llm-observability/production-trace-scoring", "at": "2026-10-22", "engine": "reconcile", "outcome": "declined", "points_before": 2, "points_after": 2 }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "id": "llm-observability/production-trace-scoring",
+      "reason": "Third dispatch on the same clock reason as rc-pts-1022 and rc-pts-1022b. HEAD 2119bea0 equals origin/main (0/0), so the checkout is not stale. The subject has no single-stack reason (node row sourced from langfuse/langfuse, rust rows). The two at-risk rows, rust--drift-classified-rescoring and rust--unscored-work-queue (refresh_by 2026-11-20), carry verified_against: rust@1.96, which the brief bars external workers from writing. Route: deepen(currency) or librarian re-verification against the tracklight checkout."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "Nothing re-profiled, nothing dispatched. The loop is not braked because a declined row moves nothing in the scan's dry-streak count. It ends when the two rust rows are re-verified (refresh_by moves out of the window)."
+}
