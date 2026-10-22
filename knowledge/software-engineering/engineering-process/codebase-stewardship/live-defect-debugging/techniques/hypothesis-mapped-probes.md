@@ -47,7 +47,17 @@ how expensive your reproductions are.
 
 Make the set distinct on purpose. Five variants of one idea are one hypothesis
 five times and give one hypothesis's coverage. Draw them from different layers or
-stages: input, state, ordering, environment, dependency.
+stages: input, state, ordering, environment, dependency, and the instrument itself.
+
+The last layer is the one a set forgets, because the author of the set also wrote or
+chose the reproduction and the probes, and cannot see them as suspects. When the
+defect is only ever observed through a driver (a scripted session, an injected
+script, a measuring hook), one hypothesis names the driver: it performed a different
+action than intended, it stopped delivering input partway, or its own measurement
+adds load to what it measures. Three investigations of one end-to-end driver put
+a cause or a distortion there, and no layer in the original list could hold it. This
+hypothesis is cheap to discriminate with the entry probe below, which says whether
+the intended action ran at all.
 
 ## Probes: the minimum that settles all of them
 
