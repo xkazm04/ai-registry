@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 119,
+  "applications": 120,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -1718,9 +1718,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/landing-page-experiment-statistics.md",
-   "digest": "sha256-b2:2b8c2b20525b7030",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:0bb7482b95a6e14d",
+   "revision": 3,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "distinct-hypothesis-per-arm",
@@ -1824,6 +1824,13 @@
      "technique": "experiment-pages-print-no-numbers",
      "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--experiment-pages-print-no-numbers.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "multi-arm-alpha-correction",
+     "file": "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--multi-arm-alpha-correction.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
     {

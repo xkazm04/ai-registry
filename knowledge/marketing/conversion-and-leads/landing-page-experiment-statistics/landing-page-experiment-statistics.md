@@ -66,8 +66,8 @@ per-comparison threshold is tightened so the family-wise rate stays where the
 business set it, and the tighter threshold is fed back into the sizing, so a third arm
 honestly costs more traffic - which is the true price of asking a third question. The
 technique is `multi-arm-alpha-correction`; it also says why a shared-control design
-makes the elegant correction slightly optimistic and when the blunt one is the safer
-choice.
+leaves the elegant correction conservative rather than optimistic, and when the blunt
+one is the safer choice.
 
 **No verdict while the test runs, unless the gate is closed too.** A running test
 whose confidence is checked every morning and stopped on the first good morning has a

@@ -94,11 +94,11 @@ the winner's visitor count as its basis. A leader on a collecting test cannot be
   rows and clamps negatives to zero, which is integrity, not a ratio check.
 - **No sequential option.** The design is fixed-horizon only; a business that needs
   daily reads has no always-valid path.
-- **Sidak on a shared control.** The product form assumes independent comparisons;
-  with every challenger sharing one control it is slightly optimistic. At the
-  workspace's `VARIANT_MAX = 6` (`src/lib/lp-exp/types.ts:31`) the difference is in
-  the third decimal, but the technique's caveat applies and the module does not
-  state it.
+- **Sidak on a shared control, stated without its reason.** The module names the
+  product form but not why it holds here. A null replay on 2026-10-22 measured it
+  conservative on a shared control (family-wise 0.042-0.046 up to the workspace's
+  `VARIANT_MAX = 6`, `src/lib/lp-exp/types.ts:31`), so the earlier reading of this
+  bullet - slightly optimistic - was wrong; see `node--multi-arm-alpha-correction`.
 - **One undifferentiated conversion beacon.** A single `conversions` counter
   (`counts.ts:20`) cannot separate a form start from a submit, so only one primary
   metric is possible - which happens to satisfy the one-primary-metric rule, but by
