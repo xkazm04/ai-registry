@@ -1,8 +1,8 @@
 ---
 subject: performance-root-cause-diagnosis
 domain: marketing
-last_touched: 2026-09-09
-touched_by: intake-marketing-0909 (forge wave)
+last_touched: 2026-10-22
+touched_by: intake-apply-tmtp-1022 (apply)
 dry_streak: 0
 ---
 
@@ -16,7 +16,7 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
 
 **Techniques (6):** advice-ledger-scores-past-advice, cause-ladder-tracking-gap-first, one-lever-from-supplied-entities, outcome-closed-by-own-metric-with-dead-band, thresholds-mirror-the-prompt, wasted-spend-ranking.
 
-**Applications (3; stacks: node):** node--advice-ledger-scores-past-advice, node--cause-ladder-tracking-gap-first, node--outcome-closed-by-own-metric-with-dead-band.
+**Applications (stacks: node):** node--advice-ledger-scores-past-advice, node--cause-ladder-tracking-gap-first, node--outcome-closed-by-own-metric-with-dead-band.
 
 ## Sightings
 
@@ -33,3 +33,16 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   second tree is the next pass.
 - No `librarian/applied.md` row yet except where the source note says so; the
   unapplied backlog is every technique here without a row.
+
+## 2026-10-22 - apply: thresholds-mirror-the-prompt (run intake-apply-tmtp-1022)
+
+- First application, `code`, `better`, ab-paired on systedo-case. The ads and
+  lead-source diagnoses coerced an out-of-set model cause to a fixed catch-all, the
+  ladder's last rung. B falls back to the deterministic pick: cause off the pick 27/36
+  to 0/36, severity 18/36 to 0/36, in-set causes unchanged.
+- Application: `node--thresholds-mirror-the-prompt`. The technique's rule held; no
+  amendment.
+- Project commits sit on a pushed branch. The master fast-forward waits on the base
+  suite's two reds.
+- Owed: the cohort diagnosis still states an LTV:CAC target of three as fact and has no
+  deterministic check on the cohort the model picks (the technique's benchmark case).
