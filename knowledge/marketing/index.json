@@ -5,7 +5,7 @@
   "source": "knowledge/marketing/ (frontmatter only)",
   "subjects": 30,
   "techniques": 184,
-  "applications": 128,
+  "applications": 129,
   "laws": 10,
   "categories": [
    "search-and-content",
@@ -1868,8 +1868,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/lead-quality-and-source-diagnosis.md",
-   "digest": "sha256-b2:5f97c4d533d5e399",
-   "revision": 3,
+   "digest": "sha256-b2:e5af2603bf125987",
+   "revision": 4,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -1981,6 +1981,13 @@
      "stack": "node",
      "technique": "junk-source-rule",
      "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/applications/node--junk-source-rule.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "minimum-sample-before-verdict",
+     "file": "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/applications/node--minimum-sample-before-verdict.md",
      "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
