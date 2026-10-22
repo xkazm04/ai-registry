@@ -5,7 +5,7 @@
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
   "techniques": 1884,
-  "applications": 1392,
+  "applications": 1393,
   "laws": 15,
   "categories": [
    "ui-surfaces",
@@ -7617,7 +7617,7 @@
    "subcategory": "service-operations",
    "status": "forged",
    "file": "knowledge/software-engineering/operations/service-operations/conditional-service-composition/conditional-service-composition.md",
-   "digest": "sha256-b2:ae08af0dee75a668",
+   "digest": "sha256-b2:01b18ee0f6715450",
    "revision": 5,
    "changedAt": "2026-10-22",
    "techniques": [
@@ -8115,9 +8115,9 @@
    "subcategory": "acquisition-and-ingest",
    "status": "forged",
    "file": "knowledge/software-engineering/integration/acquisition-and-ingest/contested-acquisition/contested-acquisition.md",
-   "digest": "sha256-b2:0b6cb286efe2e421",
-   "revision": 1,
-   "changedAt": "2026-09-05",
+   "digest": "sha256-b2:46a5915085bf7fca",
+   "revision": 2,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "classify-before-you-respond",
@@ -8198,6 +8198,13 @@
      "file": "knowledge/software-engineering/integration/acquisition-and-ingest/contested-acquisition/applications/node--classify-before-you-respond.md",
      "verified_on": "2026-09-04",
      "verified_against": "node@20"
+    },
+    {
+     "stack": "rust",
+     "technique": "holder-reconstructed-binding",
+     "file": "knowledge/software-engineering/integration/acquisition-and-ingest/contested-acquisition/applications/rust--holder-reconstructed-binding.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "rust@1.80"
     }
    ]
   },
