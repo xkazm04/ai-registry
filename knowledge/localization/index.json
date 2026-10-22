@@ -5,7 +5,7 @@
   "source": "knowledge/localization/ (frontmatter only)",
   "subjects": 17,
   "techniques": 119,
-  "applications": 73,
+  "applications": 74,
   "laws": 8,
   "categories": [
    "european",
@@ -2057,9 +2057,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/localization/craft/translation-quality-measurement/translation-quality-measurement.md",
-   "digest": "sha256-b2:126898c163a402a3",
-   "revision": 6,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:3ab12fb3fe02b254",
+   "revision": 7,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "context-sufficiency-signals",
@@ -2236,6 +2236,13 @@
      "file": "knowledge/localization/craft/translation-quality-measurement/applications/node--deterministic-checks-before-estimates--personas.md",
      "verified_on": "2026-10-14",
      "verified_against": "node@22"
+    },
+    {
+     "stack": "node",
+     "technique": "engine-quality-from-reviewer-corrections",
+     "file": "knowledge/localization/craft/translation-quality-measurement/applications/node--engine-quality-from-reviewer-corrections--kp.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
     }
    ]
   },
