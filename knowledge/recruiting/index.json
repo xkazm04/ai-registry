@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 314,
+  "applications": 315,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3240,9 +3240,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/cv-content-construction.md",
-   "digest": "sha256-b2:17519f5f3da58534",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:4521c2c05f4f24e1",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "accomplishment-statements-without-invention",
@@ -3343,6 +3343,12 @@
      "technique": "accomplishment-statements-without-invention",
      "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--accomplishment-statements-without-invention.md",
      "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "career-change-framing",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--career-change-framing.md",
+     "verified_on": "2026-10-22"
     },
     {
      "stack": "process",

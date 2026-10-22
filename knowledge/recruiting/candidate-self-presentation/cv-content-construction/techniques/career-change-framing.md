@@ -66,6 +66,15 @@ QA engineer did not "build evaluation pipelines for models" unless they did.
 - **When bridging evidence exists outside employment, promote it and date it.** A project
   with a link, a course with a delivered artifact, a certification with its date - each is
   stronger than any adjective about aptitude.
+- **When deciding whether the projects section goes above the history, ask two
+  questions, in order.** First, does any held title speak to the target? If one does,
+  the reader meets the bridge in the entry heads, and the history leads. Second, if none
+  does, where is the stronger evidence? If a held role's bullets outweigh every project,
+  the bridge is the part of the old job that was already the new job: the history leads,
+  and those bullets lead their role. Only when the strongest evidence is outside paid
+  work do the projects go first. A tool that collects the bridge and then always prints
+  it after the experience has done the gathering half and skipped the placement. A tool
+  that reads titles alone moves a course above the paid work that holds the real bridge.
 - **When no bridging evidence exists, the honest document is a prior-career CV with a
   target line**, and the useful output is telling the owner which one or two pieces of
   evidence would change it. Do not write a bridge that is not there; [say only what the

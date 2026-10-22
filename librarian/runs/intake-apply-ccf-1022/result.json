@@ -1,0 +1,52 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-ccf-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "recruiting",
+  "started_at": "2026-10-22T17:00:00Z",
+  "ended_at": "2026-10-22T18:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/cv-content-construction",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "recruiting/cv-content-construction",
+      "technique": "career-change-framing",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/candidate-self-presentation/cv-content-construction/techniques/career-change-framing.md",
+    "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--career-change-framing.md",
+    "knowledge/recruiting/index.json",
+    "catalog.json",
+    "rules/ai-registry-recruiting.md",
+    "librarian/applied.md",
+    "librarian/subjects/recruiting/cv-content-construction.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/intake-apply-ccf-1022/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Code A/B on the tailored CV: projects now lead when the bridge is outside paid work. The first rule (titles only) was refuted by kp's pre-push review; the corrected rule shipped. Teaching-only changer 14 -> 9 lines before the bridge."
+}
