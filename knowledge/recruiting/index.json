@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 316,
+  "applications": 317,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3240,8 +3240,8 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/cv-content-construction.md",
-   "digest": "sha256-b2:bcd4de13161a6a63",
-   "revision": 5,
+   "digest": "sha256-b2:89891dbe52530c41",
+   "revision": 6,
    "changedAt": "2026-10-22",
    "techniques": [
     {
@@ -3348,6 +3348,12 @@
      "stack": "process",
      "technique": "career-change-framing",
      "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--career-change-framing.md",
+     "verified_on": "2026-10-22"
+    },
+    {
+     "stack": "process",
+     "technique": "evidenced-skills-over-self-ratings",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--evidenced-skills-over-self-ratings.md",
      "verified_on": "2026-10-22"
     },
     {
