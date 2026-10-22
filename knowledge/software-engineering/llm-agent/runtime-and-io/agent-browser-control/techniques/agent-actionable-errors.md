@@ -68,6 +68,14 @@ text. The second half of that is a maintained liability, as it is anywhere
 prose is matched: each pattern is a bet that upstream wording holds, so the
 patterns live only in the door and are ordered specific-before-general.
 
+Key each pattern on the failure's **class marker**, never on the name of the
+driver call that raised it. A table that lists the actions it was written for
+(three of the dozen that wait on an element) rewrites those and passes every
+sibling through as a generic timeout; replayed over thirteen real driver
+failures, such a table made 7 actionable, and one class-keyed pattern made all
+13. Pin the table with a test over *recorded* driver errors, not hand-written
+ones, because the wording is the bet.
+
 What must survive the rewrite is the **class**. A stale reference, a timeout,
 an ambiguity, an unknown command: each is a distinct verdict that the agent —
 and any tool wrapping the agent — should be able to branch on, and a verdict
