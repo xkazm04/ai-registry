@@ -70,3 +70,5 @@ applications' accessibility trees. Return condition in `applied.md`.
 ## 2026-10-14 - light-c (intake lightc-1014)
 
 Added technique native-side-owns-the-target-set (entitlement of a command to touch the filesystem or spawn, upstream of ipc-contract call shape) with one application against the source tree. Leads banked in the source note: exact exemptions from a protected root, mode-detection ladder that fails toward the cheaper wrong guess. Return condition for both: a second independent source.
+
+2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique host-forwarded-key-contract (tested key table, consumption readback, back leaves only when the page did not take it). Unapplied: no managed project wraps a page for a remote-driven host. Boundary named in the technique: script-created key events carry no default action, which keyboard-navigation-models should say too (banked rows 5 and 26).

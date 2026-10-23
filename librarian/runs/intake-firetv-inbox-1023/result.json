@@ -1,0 +1,168 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-firetv-inbox-1023",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "batch",
+  "domain": "software-engineering",
+  "started_at": "2026-10-23T16:10:00Z",
+  "ended_at": "2026-10-23T18:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 6,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/subprocess-lifecycle",
+      "at": "2026-10-23",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/test-harness",
+      "at": "2026-10-23",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "software-engineering/native-shell-integration",
+      "at": "2026-10-23",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/fire-tv-device-realities",
+      "at": "2026-10-23",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/phone-controller-input-protocol",
+      "at": "2026-10-23",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    },
+    {
+      "id": "game-production/on-device-verification-harness",
+      "at": "2026-10-23",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "subprocess-lifecycle",
+      "technique": "spawn-contract",
+      "verdict": "better",
+      "mode": "code"
+    },
+    {
+      "subject": "test-harness",
+      "technique": "assert-the-schedule-not-the-stopwatch",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "native-shell-integration",
+      "technique": "host-forwarded-key-contract",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "fire-tv-device-realities",
+      "technique": "price-the-open-audio-stream",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "phone-controller-input-protocol",
+      "technique": "answer-the-open-ask-by-id",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    },
+    {
+      "subject": "on-device-verification-harness",
+      "technique": "borrow-and-return-the-shared-device",
+      "verdict": "unmeasurable",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/techniques/spawn-contract.md",
+    "knowledge/software-engineering/engineering-process/build-and-release/test-harness/techniques/assert-the-schedule-not-the-stopwatch.md",
+    "knowledge/software-engineering/client-architecture/native-shell-integration/techniques/host-forwarded-key-contract.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/techniques/price-the-open-audio-stream.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/phone-controller-input-protocol/techniques/answer-the-open-ask-by-id.md",
+    "knowledge/game-production/couch-and-tv-play/couch-and-tv/on-device-verification-harness/techniques/borrow-and-return-the-shared-device.md",
+    "knowledge/software-engineering/index.json",
+    "knowledge/game-production/index.json",
+    "catalog.json",
+    "librarian/inbox.md",
+    "librarian/sources/2026-10-23-firetv-inbox-harvest.md",
+    "librarian/sources/index.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "c6d76c44",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/techniques/spawn-contract.md"
+    },
+    {
+      "sha": "b6423f69",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/techniques/assert-the-schedule-not-the-stopwatch.md knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md"
+    },
+    {
+      "sha": "d00015b8",
+      "branch": "main",
+      "pathspec": "knowledge/software-engineering/client-architecture/native-shell-integration/native-shell-integration.md knowledge/software-engineering/client-architecture/native-shell-integration/techniques/host-forwarded-key-contract.md"
+    },
+    {
+      "sha": "2474ec06",
+      "branch": "main",
+      "pathspec": "knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/fire-tv-device-realities.md knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/techniques/price-the-open-audio-stream.md"
+    },
+    {
+      "sha": "3e6f55c0",
+      "branch": "main",
+      "pathspec": "knowledge/game-production/couch-and-tv-play/couch-and-tv/phone-controller-input-protocol/phone-controller-input-protocol.md knowledge/game-production/couch-and-tv-play/couch-and-tv/phone-controller-input-protocol/techniques/answer-the-open-ask-by-id.md"
+    },
+    {
+      "sha": "e7620b67",
+      "branch": "main",
+      "pathspec": "knowledge/game-production/couch-and-tv-play/couch-and-tv/on-device-verification-harness/on-device-verification-harness.md knowledge/game-production/couch-and-tv-play/couch-and-tv/on-device-verification-harness/techniques/borrow-and-return-the-shared-device.md"
+    },
+    {
+      "sha": "8bd30ab4",
+      "branch": "main",
+      "pathspec": "catalog.json knowledge/game-production/index.json knowledge/software-engineering/index.json rules/ai-registry-game-production.md rules/ai-registry-software-engineering.md"
+    }
+  ],
+  "pr": null,
+  "declined": [
+    {
+      "subject": "device-pairing",
+      "reason": "firetv inbox row 40 contradicts token-binding-and-transport: a secret carried in a launch link's query string"
+    }
+  ],
+  "failure_signature": null,
+  "notes": "60 firetv inbox rows at retirement: 6 landed (5 techniques, 1 amendment shipped on gravitone), 11 covered, 4 leads, 1 declined, 36 banked by the gate. Source left the fleet: 5 of 6 apply rows unapplied."
+}

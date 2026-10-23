@@ -68,3 +68,5 @@ the write-behind risk transfer; no headset storage timing was found or taken.
 - **The owner decision on S18.** **Return:** the owner picks an alternative; then a stick A/B and a kill/power-cut
   recovery test.
 - **Cold-start trace** (carried from the previous entry).
+
+2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique price-the-open-audio-stream (three arms: no stream, silent stream, full mix). Unapplied. Banked as a 2/1/2 technique: device-screen-recorder-contract (row 50). Catch: row 42 against server-socket-portability-hedge, whose Evidence status says the relay was never measured; the source tree now holds a relay test.

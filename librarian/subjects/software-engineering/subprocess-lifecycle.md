@@ -151,3 +151,5 @@ touched). Applications `rust--decode-child-output-per-line--rtk` (source,
 not-better for the fallback page) and `--personas` (code, better, ab-paired,
 personas 5ab86317e9, not pushed). Untriaged: a buffering proxy relays the
 signal, flushes, re-raises (`termination-and-reaping`).
+
+2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): spawn-contract gained a stream-wiring paragraph: a strict-failure script host turns a merged child stderr line into a terminating error, losing output and exit status; scope the strict mode to the one call. Applied on gravitone (code, better, 6c19345a, not pushed); two other managed trees already conform. firetv row 14 (absolute path through the command interpreter) was a catch against the same technique.

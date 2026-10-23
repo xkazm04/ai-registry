@@ -45,3 +45,5 @@ the pump flags lateness over 100 ms but the heartbeat only gaps over 150 ms; the
 **Open, with return conditions.**
 - **Move the sampling off the pump loop.** **Return:** one run with sampling in its own process and the stall count.
 - **A known positive for the heartbeat.** **Return:** an injected host stall that the heartbeat reports.
+
+2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique borrow-and-return-the-shared-device (lock mechanics stay with cross-process-exclusion in software-engineering; this owns when and the proven give-back). Unapplied. Banked: meminfo-local-to-avoid-forced-gc gains the in-process probe that allocates in the measured heap (row 38); row 55 re-homed to live-system-demo-film.

@@ -35,3 +35,5 @@ whatwg/dom 1106).
 **Deviations recorded.** The page keeps its 4 Hz heartbeat and 1 Hz ping running while hidden; no handset was
 measured, so no battery or radio figure exists. **Open:** a handset session. **Return:** one phone, menu idle,
 hidden and visible, frames and battery drain.
+
+2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique answer-the-open-ask-by-id: the subject had only continuous-input techniques; a turn-based, host-led companion writes only by answering the open ask. Unapplied.

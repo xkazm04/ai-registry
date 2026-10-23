@@ -294,3 +294,5 @@ client's timeout out of reach) is banked untriaged at GAIN 1 in the source note.
   against the fix, not against a repeated read" is already the first bullet of
   `negative-control-tests` under "A regression test's control is its own fix", including the
   no-op-repair case. The lead is the incident that bullet was written from. No edit.
+
+2026-10-23 (intake-firetv-inbox-1023, [[2026-10-23-firetv-inbox-harvest]]): new technique assert-the-schedule-not-the-stopwatch (in-flight counts, start barriers, per-fixture clocks). Unapplied, no seam in 10 node trees. Banked: unreached-decisions-pin-nothing gains the overlay-key-that-names-nothing case (row 22). Catches: row 4 (capability-detection), row 18 (secret-scanning-architecture). Row 60 re-homed as a lead under live-system-demo-film.
