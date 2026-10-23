@@ -14,6 +14,7 @@ techniques:
   - layout-resolved-input-synthesis
   - native-owned-stream
   - native-side-owns-the-target-set
+  - host-forwarded-key-contract
 ---
 
 # Native shell integration
