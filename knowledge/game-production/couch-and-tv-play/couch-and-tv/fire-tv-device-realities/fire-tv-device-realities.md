@@ -14,6 +14,7 @@ techniques:
   - startup-work-belongs-at-first-use
   - read-the-priority-before-requesting-one
   - price-the-durable-save-on-the-device
+  - price-the-open-audio-stream
 ---
 
 # Streaming-stick device realities
