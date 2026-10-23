@@ -70,6 +70,13 @@ instead of trusting a boolean.
   adapter before any network call** (see the checksum technique) **and
   return an input-shaped status, because** callers should not need to know
   which sources have validatable identifiers.
+- **When a surface names which sources passed, carry the profile's label
+  along the result path and render that, never a display table keyed by
+  source key, because** such a table lists only the sources built when it
+  was written. Every source added later falls through to its raw key, and
+  the badge names a source differently from the per-source rows beside it.
+  The contract can be clean all the way to the verdict and still leak back
+  in at the presentation layer.
 
 ## Aggregation stays dumb on purpose
 

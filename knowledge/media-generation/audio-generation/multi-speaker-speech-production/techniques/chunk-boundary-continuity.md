@@ -53,11 +53,15 @@ model conditions the read on what surrounds it. Three rules:
    conditioning without the duplicate speech.
 3. **Treat the continuity mechanism as bounded and perishable.** It accepts a
    small fixed number of prior samples; it depends on the engine keeping request
-   history, so a zero-retention or privacy mode disables it; and support varies
-   by engine generation. Each of those is a fact to read from the current
-   documentation for the engine actually in use, and a production run in a
-   privacy mode gets no continuity from it. Verify by listening: unsupported
-   context inputs may be ignored without error.
+   history, so a zero-retention or privacy mode disables it; references to
+   earlier samples expire, so a chunk re-rendered after the limit cannot
+   condition on the samples its accepted neighbours came from; and support
+   varies by engine generation, to the point that a generation chosen for
+   expressiveness may have none. Each of those is a fact to read from the
+   current documentation for the engine actually in use, and a production run
+   in a privacy mode gets no continuity from it. Text context does not expire,
+   which makes it the input a later revision can count on. Verify by
+   listening: unsupported context inputs may be ignored without error.
 
 Concatenating independently rendered files is not continuity. It is the
 absence of it, and a gap or crossfade cannot restore a shared contour.

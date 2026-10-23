@@ -6,7 +6,7 @@ argument-hint: <mode> [locale] [scope]
 memory: project
 contexts: tracked
 listing: on
-version: 1.6.3
+version: 1.7.0
 ---
 
 # i18n-translate — copywriting-grade, context-aware localization
@@ -289,16 +289,26 @@ Categories (MQM-derived):
   straight `...` for `…`, missing NBSP, wrong/missing plural handling per the
   contract.
 - **format** — lost/renamed placeholder, brace imbalance, translated syntax
-  keyword, changed tag name. Always **critical**.
-- **length** — visibly longer than source in a tight control.
-- **leftover-source** — untranslated source text or a wrongly-translated brand
-  term.
+  keyword, changed tag name (MQM design and markup). Always **critical**.
+- **length** — visibly longer than source in a tight control (MQM design and
+  markup: text expansion).
+- **untranslated** — source text left in the target (MQM accuracy). A brand or
+  do-not-translate term rendered wrong is **terminology**, not this: it goes to
+  the glossary owner, not to a translator. (Queues before 1.7.0 say
+  `leftover-source` for both; 3 of 4 such rows in one fleet catalog were glossary calls.)
+- Use no other category. A rule artifact (`constructions-<locale>.md`) is the
+  anchor, never the category.
 
 Severity: **critical** (wrong meaning, format break, legal/consent distortion) ·
 **major** (a native speaker would stumble or be confused) · **minor** (polish).
+Critical is a release rule, not a bigger weight: it blocks, it is never summed.
+A finding that is a defect of the English source or of the code (an
+English-only parser, a placeholder no case frame fits) is not a translation
+category at all: route it to the source-defect register.
 
 **Every finding must cite an anchor** — a glossary row, a style-guide rule, an
-exemplar, the contract's placeholder rules, a call-site length budget. A
+exemplar, the contract's placeholder rules, a call-site length budget; for
+**accuracy**, the quoted source span and the call site that fixes its meaning. A
 finding with no anchor is taste, not an error; drop it or queue it for a
 native. For high-visibility surfaces (nav, landing, empty states), ask one
 extra localizer question per string: *would a native product team ship this

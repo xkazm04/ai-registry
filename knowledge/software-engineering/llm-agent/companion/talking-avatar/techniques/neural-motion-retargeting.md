@@ -47,9 +47,12 @@ usual one) is reported weak and filled from procedural motion rather than played
 
 ## Filtering and scaling
 
-- **Low-pass head pose around 2 Hz, zero-phase.** Raw predicted pose bobs at
-  syllable rate, and a head that moves with every syllable reads as busy.
-  Resample to the render rate after filtering.
+- **Low-pass head pose around 2 Hz, zero-phase.** Raw predicted pose bobs with
+  the rhythm of the speech, and a head that moves on every beat reads as busy.
+  The cut is a design choice, not nature's limit: natural head motion in
+  conversation runs up to several hertz, and 2 Hz keeps only its slow band, so
+  let the quick nods it removes come from text-driven gestures rather than
+  from the model. Resample to the render rate after filtering.
 - **Centre each channel** on the clip's median so a model's resting bias does not
   become a permanent tilt.
 - **Map signs and axes to the rig's convention** explicitly, measured, not assumed.

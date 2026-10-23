@@ -5,7 +5,7 @@
   "source": "knowledge/recruiting/ (frontmatter only)",
   "subjects": 67,
   "techniques": 416,
-  "applications": 313,
+  "applications": 318,
   "laws": 11,
   "categories": [
    "role-definition",
@@ -3240,9 +3240,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/cv-content-construction.md",
-   "digest": "sha256-b2:17519f5f3da58534",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:89891dbe52530c41",
+   "revision": 6,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "accomplishment-statements-without-invention",
@@ -3343,6 +3343,18 @@
      "technique": "accomplishment-statements-without-invention",
      "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--accomplishment-statements-without-invention.md",
      "verified_on": "2026-10-14"
+    },
+    {
+     "stack": "process",
+     "technique": "career-change-framing",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--career-change-framing.md",
+     "verified_on": "2026-10-22"
+    },
+    {
+     "stack": "process",
+     "technique": "evidenced-skills-over-self-ratings",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-content-construction/applications/process--evidenced-skills-over-self-ratings.md",
+     "verified_on": "2026-10-22"
     },
     {
      "stack": "process",
@@ -3478,9 +3490,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/cv-presentation-and-parseability.md",
-   "digest": "sha256-b2:938f0a3f26e90176",
-   "revision": 2,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:ada9340a75aa0816",
+   "revision": 4,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "export-format-and-round-trip-verification",
@@ -3564,9 +3576,23 @@
     },
     {
      "stack": "react",
+     "technique": "market-conventions-and-personal-data",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--market-conventions-and-personal-data.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "react@19.3"
+    },
+    {
+     "stack": "react",
      "technique": "parse-safe-reading-order",
      "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--parse-safe-reading-order.md",
      "verified_on": "2026-09-26",
+     "verified_against": "react@19.3"
+    },
+    {
+     "stack": "react",
+     "technique": "scan-path-hierarchy",
+     "file": "knowledge/recruiting/candidate-self-presentation/cv-presentation-and-parseability/applications/react--scan-path-hierarchy.md",
+     "verified_on": "2026-10-22",
      "verified_against": "react@19.3"
     }
    ]
@@ -8096,9 +8122,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/silver-medalist-rediscovery.md",
-   "digest": "sha256-b2:02b33939b6fbed96",
-   "revision": 1,
-   "changedAt": "2026-08-21",
+   "digest": "sha256-b2:97a511057c0bde11",
+   "revision": 2,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "band-limited-prior-depth-boost",
@@ -8207,6 +8233,13 @@
      "technique": "read-time-relevance-refilter",
      "file": "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/applications/node--read-time-relevance-refilter.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "python",
+     "technique": "fit-floor-for-readmission",
+     "file": "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/applications/python--fit-floor-for-readmission.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "python@3.12"
     }
    ]
   },

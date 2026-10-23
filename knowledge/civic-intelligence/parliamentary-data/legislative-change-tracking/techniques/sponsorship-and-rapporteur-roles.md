@@ -43,6 +43,35 @@ afterward). This structure is the attribution:
 - **When rank is missing, keep it unknown** unless the publisher guarantees
   that list order carries rank; storage order alone is not attribution evidence.
 
+### When the rank restarts, and when the list lacks the proposer
+
+Rank is only comparable inside the population it was numbered in. A register
+can number later joiners in their **own** sequence starting again at 1, so a
+joined-later row at rank 1 is the first person to sign on after submission,
+not the bill's responsible signatory. In one national register's full dump,
+21 of the 23 bills that carried both submission-time and joined-later rows
+restarted the joiners at 1. A rule reading "rank 1" alone gave each of those
+bills a second first signatory, and every sampled bill's own proposer text
+named the submission-time signatory. Before attributing rank 1, check the
+numbering empirically: per bill, does the joined-later sequence start at 1
+or continue after the submission list? Then treat first-signatory status as
+**rank 1 on a submission-time row**, and order the list as the submission
+list followed by the joiners.
+
+The opposite boundary sits beside it. A bill whose signature list holds only
+joined-later rows has no submission-time signatory in the table at all. In
+the same dump, six bills looked like this, and their proposer text named a
+member who was not in the list. The "structured multi-row table wins" rule
+below assumes the table carries the submission. When it carries none, the
+table cannot supply the proposer. Name no first signatory from it, and take
+the bill row's proposer field as a separately sourced, lower-confidence
+claim rather than promoting the first joiner.
+
+A duplicate (bill, member) pair whose rows give two different ranks is the
+contradictory case the dedupe rule above means. Collapse it to rank unknown,
+carry the conflicting values, and count it in the run, so that a split which
+no longer sums to an authored-bill total is a named row rather than drift.
+
 **Resolve the publisher's source-selection contract.** Registers commonly carry
 an author field on the bill record that is empty for whole classes of bills
 (typically recent-term member bills) while the signature table is complete —
@@ -83,7 +112,9 @@ silently attributes across terms or not at all.
 - **When two sources disagree** (signature table versus bill-row author
   field), the maintained, structured, multi-row table wins, and the
   disagreement is worth a note — it usually reveals which field the
-  publisher abandoned.
+  publisher abandoned. The exception is a table with no submission-time
+  row for the bill: it does not carry the proposer, so it cannot outvote
+  the field that does.
 - **Cover the whole chamber or nothing.** Sponsorship counts and rapporteur
   workloads are comparative metrics; computing them for a shortlist of
   interesting members is an editorial act dressed as measurement.

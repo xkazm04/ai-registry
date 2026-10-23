@@ -89,6 +89,47 @@ time and queue age sit beside the mean: a rising approved-unchanged rate togethe
 with falling time per unit, or a growing unreviewed queue, is a reviewing problem
 dressed as an engine improvement.
 
+## When the rulebook moved, not the engine
+
+A correction made because a house rule was adopted *after* the unit was
+translated is not evidence about the engine. Typography is the usual case: a
+quotation-mark convention, an apostrophe glyph, a no-dash rule, a space before
+punctuation. A review pass that enforces a new rule rejects every unit that
+predates it. Those rejections count toward the mean exactly as engine errors do,
+and they fall hardest on whichever language's rule changed most.
+
+One replay of a version-controlled catalog measured the size of this. Three
+locales, about 6,000 units each, were run through a full review pass under a
+new rulebook. On the raw rejection count, approved-unchanged was 78, 82 and 68
+percent, and the third locale ranked worst. For that locale, 1,685 of its 1,829
+rejections changed nothing except rule-governed glyphs and spacing. With those
+removed, the rates were 93.5, 97.3 and 97.5, and the third locale ranked best.
+That is the order an independent signal gave: the count of major and critical
+errors in each locale's native-review queue. A later full review with no
+rulebook change gave the same order on the raw count. Three locales are a weak
+ranking, since one in six orders agrees by chance. The 14-point spread made of
+glyphs is not weak.
+
+So, before averaging:
+
+- **Normalize the rule-governed surface and drop rejections that vanish under
+  it.** Normalize dashes, quote and apostrophe glyphs, whitespace classes, and
+  spacing around punctuation. Keep the dropped count beside the mean as the cost
+  of the rule change. It is real work, but it measures the rulebook.
+- **Compare rates within one rulebook epoch.** A wave that introduced a rule is
+  not comparable with a wave that only enforced one, for the same reason an
+  early-phase rate is not comparable with a large-corpus rate.
+
+A store under version control already keeps the record this technique needs.
+The machine text is the value at the commit that introduced the unit, and the
+reviewer's text is the value after a review commit that left the source
+unchanged. That commit also supplies the denominator, which a diff alone never
+shows: the units that existed at its parent. The same replay found 63 percent of
+current units introduced after the last full review. They read 99 percent
+"unchanged" because nobody had opened them, and that lifted the store-wide rate
+by 9 to 13 points above the reviewed population's. The coverage trap above,
+measured.
+
 The last bias is selection. Reviewers open what they choose, which is rarely
 random, so the rate describes the reviewed population; a statement about the
 whole store still needs the random draw of

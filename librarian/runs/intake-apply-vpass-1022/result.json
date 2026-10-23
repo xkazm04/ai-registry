@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-vpass-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "grant-funding",
+  "started_at": "2026-10-22T06:05:00Z",
+  "ended_at": "2026-10-22T06:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "grant-funding/nonprofit-verification",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "nonprofit-verification",
+      "technique": "verification-passport",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--verification-passport.md",
+    "knowledge/grant-funding/grant-operations/nonprofit-verification/techniques/verification-passport.md",
+    "knowledge/grant-funding/index.json",
+    "catalog.json",
+    "rules/ai-registry-grant-funding.md",
+    "librarian/subjects/grant-funding/nonprofit-verification.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only from the attention scan. The public passport built its roster from the live-only fan-out; declared sources missing 8/11 to 0/11, bare-0 scores 4/4 to 0/4, verdict unchanged. grant 72f7d57 pushed. Single-stack point unmoved: one node consumer."
+}

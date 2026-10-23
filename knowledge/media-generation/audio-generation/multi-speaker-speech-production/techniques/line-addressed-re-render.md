@@ -113,6 +113,27 @@ a single-turn call can stand in for one turn of a grouped call without an
 identity break is the same ten-take check, run on a single-turn render placed
 beside grouped neighbours. If it fails, regroup rather than patch.
 
+Some grouped calls return per-turn segments: start and end times and the index
+of the script line each span belongs to. Keep them in the render record under
+the call's key. They give every line of the call an address in the output, so
+review notes, subtitles and timeline placement can still point at a line. They
+do not make a turn replaceable. Splicing a single-turn render into the gap a
+segment marks is the patch the paragraph above tests for, and it passes only on
+that check and on the seam audit at both of its joins.
+
+## Continuity references expire
+
+Conditioning a re-render on its neighbours' earlier generations, by passing
+their request identifiers, works only while the engine still holds those
+requests. On at least one engine the reference has an age limit measured in
+hours, it works best when the neighbours were rendered on the same generation,
+and some generations do not offer it at all. A revision made the next day
+therefore cannot condition on the requests that produced the accepted
+neighbours. Pass the neighbours' text, which does not expire, and record which
+of the two the re-render actually got, because that input is part of the key
+above. Read the age limit and per-generation support from the current
+documentation; they are dated facts.
+
 ## When not to use it
 
 - **Identity does not hold** (above): re-render the scene.

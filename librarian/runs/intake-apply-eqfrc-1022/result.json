@@ -1,0 +1,63 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-eqfrc-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "localization",
+  "started_at": "2026-10-22T03:00:00Z",
+  "ended_at": "2026-10-22T04:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "localization/translation-quality-measurement",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "translation-quality-measurement",
+      "technique": "engine-quality-from-reviewer-corrections",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/localization/craft/translation-quality-measurement/applications/node--engine-quality-from-reviewer-corrections--kp.md",
+    "knowledge/localization/craft/translation-quality-measurement/techniques/engine-quality-from-reviewer-corrections.md",
+    "knowledge/localization/index.json",
+    "catalog.json",
+    "rules/ai-registry-localization.md",
+    "librarian/subjects/localization/translation-quality-measurement.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "bc6e6aab",
+      "pathspec": [
+        "knowledge/localization/craft/translation-quality-measurement/applications/node--engine-quality-from-reviewer-corrections--kp.md",
+        "knowledge/localization/craft/translation-quality-measurement/techniques/engine-quality-from-reviewer-corrections.md",
+        "knowledge/localization/index.json",
+        "catalog.json",
+        "rules/ai-registry-localization.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Catalog git history replayed as a correction log; store-wide rate and the raw rate at a rulebook-change pass misranked locales against the review queues, policy-split rate matched. One amendment. kp row local (diverged). Single-stack point not addressable."
+}

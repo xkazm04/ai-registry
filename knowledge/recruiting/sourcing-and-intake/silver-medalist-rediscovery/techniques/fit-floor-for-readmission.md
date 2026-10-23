@@ -63,6 +63,19 @@ spends attention without being asked — then express that as one predicate with
 an explicit level parameter, so the relationship between the two is visible in
 one place and a change to the shared part cannot miss a caller.
 
+Sharing the number does not mean sharing the predicate. A floor has a value and a
+comparator, and a caller can fork either. When the scorer lives in one language and
+the sweep in another, the value is usually declared twice and bound by a test that
+compares the named constants. That test sees only the names it enumerates. A caller
+that types its own literal is invisible to it, even when the literal is correct
+today. So is a caller that holds the shared constant and compares with `>` where
+every other caller uses `>=`. At a score exactly on the floor, that caller refuses
+someone the band labels a promising fit and the sweep admits. The fork usually comes
+from history, not a decision: the caller was written to a spec before the shared
+constant existed, and nobody re-pointed it. The instrument that catches both forks
+is a boundary case, not a name check: drive a score of exactly the floor, and one
+point under it, through every caller, and assert that each agrees with the band.
+
 ## Choosing the value
 
 The floor is a policy number, and it should be chosen by what it costs to be
@@ -98,6 +111,9 @@ policy decisions name their actor
   influence.
 - Use one shared expression of the predicate for the sweep, the pool view and
   every count; parameterise strictness rather than forking the rule.
+- Define the floor as inclusive or exclusive in one place, and test every caller at
+  the floor and one below it. A caller whose comparator differs has a different
+  floor with no name.
 - Apply the eligibility gates — terminal outcomes, suppression, anonymisation —
   before the floor, not after, so a high score can never bring an ineligible
   person into view even momentarily.

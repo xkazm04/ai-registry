@@ -1,0 +1,40 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "rc-pts-1022",
+  "skill": "reconcile",
+  "skill_version": "1.0.1",
+  "mode": "wave",
+  "domain": "llm-observability",
+  "started_at": "2026-10-22T08:00:00Z",
+  "ended_at": "2026-10-22T08:15:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 1,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "llm-observability/production-trace-scoring",
+      "at": "2026-10-22",
+      "engine": "reconcile",
+      "outcome": "declined",
+      "points_before": 2,
+      "points_after": 2
+    }
+  ],
+  "verdicts": [],
+  "files": [],
+  "commits": [],
+  "pr": null,
+  "declined": [
+    {
+      "id": "llm-observability/production-trace-scoring",
+      "reason": "Dispatched on a clock reason this lane cannot act on. librarian-scan's only reason is '2 application(s) near their clock'; the subject has no single-stack reason (stacks node + rust, status reconciled, node row sourced from langfuse/langfuse). The clock is genuine, not stale: the primary is at origin/main 20ee5481, and check-currency reports rust--drift-classified-rescoring and rust--unscored-work-queue at refresh_by 2026-11-20 (29 days). Both cite LightTrack's own tree and carry verified_against: rust@1.96, the consumer-runtime witness the reconcile brief bars external workers from writing. Refreshing them is a deepen(currency) or librarian re-verification against the tracklight checkout, not a second-source job."
+    }
+  ],
+  "failure_signature": null,
+  "notes": "No work for reconcile. Route: re-verify the two rust rows against tracklight before 2026-11-20 (deepen currency / librarian). Lead for that lane, not acted on here: node--stable-hash-sampling has source: langfuse/langfuse (an external tree) yet carries verified_against: node@24, which the brief reserves for consumer runtimes. Not at risk and not edited. No new lesson; the 1.0.1 entry of 2026-09-25 (dispatched on a clock reason) already covers this. No prior rc-* decline of this subject exists."
+}

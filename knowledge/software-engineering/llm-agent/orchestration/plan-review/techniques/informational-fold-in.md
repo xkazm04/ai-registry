@@ -43,6 +43,13 @@ rendering "we do not know" as a definite number is the laundering
 misleads hardest at exactly the gate where a person is deciding. An absent field that
 looks the same as a zero field is the version of this that ships most often.
 
+Unavailable has a **scope**, and the scope is part of the state. A figure computed for one
+item in a list — the next milestone, the oldest pending request — and rendered on a
+surface that can be opened for any item is unavailable for every other item, not
+absent from them. A surface that shows the project-wide half of the line and drops the
+item-specific half, with nothing in its place, reads as complete for an item it says
+nothing about. Say which item the figure covers, or say that this item has none.
+
 **The predicate travels with the number.** *What* was counted, over what window, under
 what assumption
 ([count-carries-predicate](../../../../_laws.md#count-carries-predicate)). A figure on an

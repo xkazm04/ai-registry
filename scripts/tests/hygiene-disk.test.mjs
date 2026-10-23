@@ -104,6 +104,7 @@ test('checkoutFacts: install noise is not work; a real untracked or modified fil
     g(r.clone, 'push', '-q', 'origin', 'HEAD:hooks'); // on its remote, so still landed
     fs.writeFileSync(path.join(r.clone, 'next-env.d.ts'), 'generated');
     fs.writeFileSync(path.join(r.clone, '.husky', 'commit-msg'), 'shim');
+    fs.writeFileSync(path.join(r.clone, 'grep.exe.stackdump'), 'crash'); // C:/t/dp-* 2026-10-21
     assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, []);
     fs.writeFileSync(path.join(r.clone, 'a.txt'), 'one\r\n'); // line-ending-only change
     assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, []);

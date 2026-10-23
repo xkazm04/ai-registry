@@ -57,10 +57,23 @@ rather than relying on the guard to keep catching the loop.
 ## Feeding the window back
 
 The window can also be shown to the model as "lines you have just said; do not
-reuse their openings or punchlines". That reduces how often the deterministic
-check fires, and it does not replace the check: the model's compliance with a
-"do not repeat" instruction degrades over exactly the long stretches where
-repetition happens.
+reuse their openings or punchlines". Whether that reduces how often the check
+fires is a hypothesis, not a given, and it can cut the other way. A sentence
+already in the context is more likely to be generated again the more often it
+appears there, and naming a thing in a prompt raises the chance it is mentioned
+even under an instruction not to; quoting the host's tics back to it puts both
+effects in play. Where it is tried:
+
+- prefer a positive instruction ("open differently from these lines") or an
+  abstract one ("already used tonight: the sealed-rules refusal") over a quoted
+  "do not say" list;
+- measure it as an arm: the window's fire rate and the tic share of aired lines,
+  with the feedback present and absent, on the same matrix;
+- expect the tic to move rather than vanish, and read the next most frequent
+  phrase as well as the one that was named.
+
+It never replaces the check: the model's compliance with a "do not repeat"
+instruction degrades over exactly the long stretches where repetition happens.
 
 ## Across streams
 

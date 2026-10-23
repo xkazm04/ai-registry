@@ -1,0 +1,69 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "ta-deepen-1022",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "software-engineering",
+  "started_at": "2026-10-22T00:05:00Z",
+  "ended_at": "2026-10-22T00:50:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "software-engineering/talking-avatar",
+      "at": "2026-10-22",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "technique": "neural-motion-retargeting",
+      "subject": "software-engineering/talking-avatar",
+      "mode": "code",
+      "verdict": "unmeasurable"
+    },
+    {
+      "technique": "viseme-drive",
+      "subject": "software-engineering/talking-avatar",
+      "mode": "simulation",
+      "verdict": "unmeasurable"
+    }
+  ],
+  "files": [
+    "knowledge/software-engineering/llm-agent/companion/talking-avatar/talking-avatar.md",
+    "knowledge/software-engineering/llm-agent/companion/talking-avatar/techniques/viseme-drive.md",
+    "knowledge/software-engineering/llm-agent/companion/talking-avatar/techniques/procedural-presence-motion.md",
+    "knowledge/software-engineering/llm-agent/companion/talking-avatar/techniques/neural-motion-retargeting.md",
+    "librarian/applied.md",
+    "librarian/subjects/software-engineering/talking-avatar.md",
+    "librarian/domains/software-engineering.md"
+  ],
+  "commits": [
+    {
+      "sha": "c27f73d0",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/software-engineering/index.json",
+        "knowledge/software-engineering/llm-agent/companion/talking-avatar/talking-avatar.md",
+        "knowledge/software-engineering/llm-agent/companion/talking-avatar/techniques/neural-motion-retargeting.md",
+        "knowledge/software-engineering/llm-agent/companion/talking-avatar/techniques/procedural-presence-motion.md",
+        "knowledge/software-engineering/llm-agent/companion/talking-avatar/techniques/viseme-drive.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Never swept; 3 corrections (closure ~70 ms, blink phases + 26/min, head cut is a design choice), 4 claims confirmed untouched; 2-lane convergence. 2 applied rows unmeasurable, athena-portable already conforms. 13 fleet maps committed locally, not pushed."
+}

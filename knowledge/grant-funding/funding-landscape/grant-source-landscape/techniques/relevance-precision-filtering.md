@@ -99,6 +99,11 @@ the gate.
   broad positive signal.
 - When tuning any screen, measure it: rows in, rows dropped per rule, and
   a handful of named true-positive survivors as regression fixtures.
+- When the store only upserts, the gate governs what enters and nothing
+  else: a call admitted while open and cancelled later keeps its row.
+  Pair the gate with per-source retirement, where a row that a complete
+  fetch no longer admits is retired, or the corpus keeps the publisher's
+  past opinion of its calls.
 
 ## When not to apply
 

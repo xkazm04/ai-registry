@@ -10,6 +10,7 @@ techniques:
   - plate-elements-text-split
   - motion-intent-authoring
   - motif-establish-vary-payoff
+  - boundary-transition-class
   - per-beat-rejection
 ---
 
@@ -52,8 +53,9 @@ reservation book. This fails twice. First, nouns are not arguments — the beat
 about the reservation book is arguing that a booking is not a meal, and the
 noun alone carries none of that. Second, and more mechanically: nouns are
 **text magnets**. Ask a diffusion model for a named object and it will
-helpfully write the name on it — a defect measured to leak across every style
-tested. Shapes do not attract glyphs; named objects do. Describing what the
+helpfully write the name on it. One pipeline saw this on every style it
+tested, though no published study yet isolates the mechanism. Shapes do not
+attract glyphs; named objects do. Describing what the
 shapes *do* rather than what the objects are *called* avoids both failures at
 once.
 
@@ -110,6 +112,15 @@ the previous and next frame must change camera, count, or axis when a
 composition repeats one of them. A cut is a rhythm, and three centred
 symmetrical frames in a row is a stall.
 
+Threads say what the viewer has seen; they do not say what is *still on
+screen* at each join. Every boundary between adjacent frames is therefore
+declared too: **carry** (elements persist and guide the eye), **agent** (the
+data mark itself becomes the next picture) or **refresh** (a clean
+replacement, kept for new topics). The declaration matters most where thread
+bookkeeping is silent. A hold beat's "nothing new" can mean "keep the last
+picture" or "clear the screen", and those make different films. A reveal by
+subtraction reads as one only when something was carried to subtract from.
+
 ## The division of labour with the script
 
 Direction sits between a script step (which knows what each beat argues) and a
@@ -148,7 +159,10 @@ applied — fifteen good scenes are worth having when the sixteenth never
 arrived, and a rejected beat keeps whatever it had before, which is usually
 the template output the pass exists to replace. That asymmetry is itself a
 pressure toward care: a doubtful choice costs one beat; sixteen careless ones
-cost the run. Second, **restraint**: the validator enforces only what has
+cost the run. The granularity has limits. A response with nothing to salvage,
+or a crash in the gate itself, still fails the whole pass. The gate's unit
+must also match the direction step's unit: a gate that allows one scene per
+beat forbids splitting a beat into several stills. Second, **restraint**: the validator enforces only what has
 been measured to be a defect — text requested of the generative layer, a
 figure with no cited fact, a motion that merely restates the subject. It does
 not enforce taste it cannot measure; a validator built on an impression

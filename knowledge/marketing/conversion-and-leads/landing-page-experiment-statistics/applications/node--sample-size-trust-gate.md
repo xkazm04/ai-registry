@@ -29,9 +29,12 @@ const significant = exp.status === "done"
   : meetsConfidence && hasEnoughData;
 ```
 
-A `done` experiment is read on confidence alone; a `running` one must clear the
-corrected confidence bar *and* the sample gate. That conjunction is the peeking guard
-as a predicate rather than as an instruction, exactly the standard's shape.
+A `running` experiment must clear the corrected confidence bar *and* the sample gate -
+the peeking guard as a predicate rather than as an instruction. At this commit a
+`done` one is read on confidence alone, and that half is a side door: closing a test
+the morning it crossed the bar made it a winner and a mined lesson. The gate was
+extended to closed tests on 2026-10-22, with a paired replay behind it; see
+[the peeking-guard application](node--peeking-guard.md).
 
 **Sizing reads the corrected threshold.** `correctedAlpha(alpha, comparisons)`
 (`compute.ts:108-111`) is the Sidak product form, `1 - (1 - α)^(1/m)`, with
@@ -94,11 +97,11 @@ the winner's visitor count as its basis. A leader on a collecting test cannot be
   rows and clamps negatives to zero, which is integrity, not a ratio check.
 - **No sequential option.** The design is fixed-horizon only; a business that needs
   daily reads has no always-valid path.
-- **Sidak on a shared control.** The product form assumes independent comparisons;
-  with every challenger sharing one control it is slightly optimistic. At the
-  workspace's `VARIANT_MAX = 6` (`src/lib/lp-exp/types.ts:31`) the difference is in
-  the third decimal, but the technique's caveat applies and the module does not
-  state it.
+- **Sidak on a shared control, stated without its reason.** The module names the
+  product form but not why it holds here. A null replay on 2026-10-22 measured it
+  conservative on a shared control (family-wise 0.042-0.046 up to the workspace's
+  `VARIANT_MAX = 6`, `src/lib/lp-exp/types.ts:31`), so the earlier reading of this
+  bullet - slightly optimistic - was wrong; see `node--multi-arm-alpha-correction`.
 - **One undifferentiated conversion beacon.** A single `conversions` counter
   (`counts.ts:20`) cannot separate a form start from a submit, so only one primary
   metric is possible - which happens to satisfy the one-primary-metric rule, but by

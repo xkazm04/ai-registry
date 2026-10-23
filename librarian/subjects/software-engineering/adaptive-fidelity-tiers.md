@@ -1,7 +1,7 @@
 ---
 subject: adaptive-fidelity-tiers
 domain: software-engineering
-last_touched: 2026-09-06
+last_touched: 2026-10-22
 dry_streak: 0
 ---
 
@@ -63,3 +63,18 @@ express the constraint. That inverts a stated rule but makes the technique's fla
 a +2 threshold, so it was banked rather than landed. The smaller one: a class
 boundary that needs a tolerance because the reported figure is not the nominal one.
 See the source note's "Row 3" section for the full argument and anchors.
+
+## 2026-10-22 - measurement-settle-budget applied outside React (intake-apply-msb-1022)
+
+The first application in a stack other than React, and the first seam with a
+whole-session per-frame sampler and no tier at all: a Kotlin game's frame-time ring,
+written every frame and pulled by a stats endpoint. The seam was chosen to falsify,
+because the technique's use_when matches it word for word. Experiment: the write cost
+5.6-5.7 ns per call on a desktop JIT, and it rides a callback the game runs anyway. A
+60 s deadline replayed over the project's five recorded 360 s runs would have hidden
+5 of the 6 race-start hitch bursts in every run, and those bursts are the evidence the
+project's own optimize card used to find and fix them. Verdict not-better. The
+technique gained a boundary section: settle a sampler that a decision reads, keep one
+that a pulled diagnostic reads, and split a sampler that feeds both. Return condition:
+a second tree with a decision-read sampler outside React tests the settle rule itself
+rather than its boundary.

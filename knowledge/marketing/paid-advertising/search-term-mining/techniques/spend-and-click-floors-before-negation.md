@@ -92,6 +92,11 @@ told apart, from the row alone, from a correct one.
 - When neither is available, keep the absolute constants and label them convention,
   because an unlabelled constant becomes documented behaviour in the next reader's
   mind.
+- When the window holds only a handful of conversions in total, expect the derived click
+  floor to approach the window's total clicks (about `3 / r` is the clicks taken once
+  the account has three conversions), so nothing is negated. That is the rule working,
+  not failing: a thin window has not measured a rate, and a fixture or a new account
+  must carry enough conversions to describe one before its zeros can count.
 - When the window ends within the conversion lag, shorten it or exclude tail-heavy
   queries, because a click without its conversion yet is a false zero.
 - When an aggregate (an n-gram token) is mined instead of a row, apply the same floors

@@ -6,7 +6,7 @@ technique: census-counts-unmarked-members
 status: forged
 laws: [count-carries-predicate, failure-not-empty-success]
 shared_with: []
-use_when: [auditing the trust base of a package pinned to an earlier language revision, a census by the escape keyword reports zero or a small number, code writes the process environment while other threads may be running, an automated revision migration wrapped calls in the escape marker with a note to audit later, a justification says a call is fine because it compiles, tests that change the process environment run on a parallel test runner]
+use_when: [auditing the trust base of a package pinned to an earlier language revision, a census by the escape keyword reports zero or a small number, code writes the process environment while other threads may be running, an automated revision migration wrapped calls in the escape marker with a note to audit later, a justification says a call is fine because it compiles, tests that change the process environment run on a parallel test runner, the checker's unchecked type is a type that standard decoders return, a suppression ceiling records explicit uses of the unchecked type as zero]
 ---
 
 # The census counts members the marker does not spell
@@ -53,6 +53,34 @@ and it is valid only after it has been checked against the lint on one package: 
 the package checked here, the text search and the compiler lint named the same nine
 calls on the same nine lines. The text search miscounts calls written inside a
 multi-line marked block, so it is a census instrument for older-revision code only.
+
+## Where the unchecked type is a value, not a marker
+
+Some checkers spell their escape as a type rather than as a keyword: a type that is
+assignable to and from every other type, so a value of it reaches typed code without
+anything being derived. There, standard functions are unspelled members without any
+revision re-marking them. A text decoder that returns the unchecked type, a network
+response whose body resolves to it, and an array guard that narrows the safe unknown
+type to an array of it all hand the program an unchecked value with nothing at the call
+site to count, and no rule has to be switched off to use one. A census of directives
+and explicit uses of the type then reports zero. In one tree it reported zero over three
+packages where the type-aware lint found thirty members.
+
+The instrument is the checker's type-aware lint for unsafe flow of that type
+(assignment, return, argument, member access, call), counted per package beside the
+directives. **That lint has a predicate too, and it does not cover every member.** A
+callback whose parameter is annotated with a concrete shape, attached to a promise of
+the unchecked type, is an assertion with no assertion keyword. The language lets a
+function taking the shape stand in for one taking the unchecked type, and the lint
+visits arguments, not the parameter types of the function passed. In the same tree two
+of thirteen members in one package were of this kind, and a fixture outside the tree
+reproduced the silence. Count that shape by text, validated against known sites and
+against callbacks annotated with the safe unknown type, which are the cure and not
+members. Name what the lint does not visit when you report its count.
+
+Removal comes before documentation here too: decode into the safe unknown type and pass
+the value through one function that checks it. In that tree the one package that
+already did this had no members.
 
 ## A migration is not an audit
 
@@ -130,6 +158,9 @@ member on every other target the package ships to.
   report its count beside the marker count,** each with its predicate.
 - **Validate any text stand-in against the lint on one package** before using it
   across trees.
+- **Where the unchecked type is a value, count its unsafe flow with the type-aware
+  lint beside the directives, and count annotated callbacks on it separately,** since
+  the lint does not visit them.
 - **Count audit-reminder notes as unargued.**
 - **Quote the function's precondition in the argument;** never argue from what the
   checker accepts, and never from a narrower reading scoped to one variable.

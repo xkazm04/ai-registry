@@ -63,9 +63,17 @@ lexicon behaves as written. Read and record these for the engine in use:
   applied in order, with a small cap on how many attach to one request. A world
   larger than the cap needs the entries consolidated, or split by scene.
 - **Versioning**: a change to a dictionary produces a new version; a request
-  that names an old version still gets the old behaviour. The lexicon version a
-  render used is therefore recordable, and must be recorded.
-- **Generation support**: which rule kinds a given engine generation honors. A
+  that names an old version still gets the old behaviour, and a request that
+  names no version may get the latest. An unpinned request therefore changes
+  its pronunciation the moment someone edits the dictionary, with no line
+  marked stale. Name the version on every request; the version a render used
+  is then recordable, and must be recorded.
+- **Generation support, per mechanism**: which rule kinds a given engine
+  generation honors, read separately for each way a rule can reach the engine.
+  One engine can support phonetic rules in an attached dictionary on a
+  generation that ignores the same rule written inline, or accept an inline
+  notation of its own on the newest generation, and a generation that does not
+  support a phonetic rule may skip it silently and use its default reading. A
   phonetic alphabet supported on one generation may be replaced by a different
   notation on the next; a lexicon of phonetic entries is a dialect problem of
   the same shape as inline direction, and its aliases are the portable layer.

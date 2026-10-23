@@ -65,7 +65,12 @@ consolidation variant is its answer for the single-body case.
 
 - When only the gross variant exists for some indicator, use it — but flag the
   indicator as non-comparable with consolidated ones and keep it out of mixed
-  ratios.
+  ratios. The flag is most often dropped at the caption: one "consolidated
+  figures" line under a panel that also shows a stock without a consolidated
+  variant, from a different statement or a narrower perimeter, mislabels that
+  stock while every number stays correct. Where the source declares a variant
+  per indicator, build the provenance from that declaration, not from a naming
+  suffix; a missing suffix does not tell you which variant you have.
 - When the source revises its consolidation methodology between periods, treat
   the boundary as a series break and disclose it; do not splice.
 - When a surface has room for one number, label the metric and perimeter

@@ -119,3 +119,14 @@ compares names rarely enough that content equality with a cached hash suffices. 
 language with one encoding needs one interner and no sentinel. A language with no fixed
 vocabulary - no reserved words, no specification-defined property names - has no prefix
 to build, and the perfect hash is machinery without an input.
+
+A fixed vocabulary is necessary for the prefix but not sufficient. The prefix pays when
+something reads the integers: symbols compared across contexts, emitted into storage that
+outlives the table, or tested as a range. Where indices never leave the table, nothing
+tests a range, and a memo of the inputs sits in front of the interner, the prefix saves a
+cost that the memo already absorbs. A paired measurement of a closed-vocabulary key
+interner behind such a memo found steady-state cost unchanged, with only the once-per-input
+miss path cheaper. Keep the unused zero symbol anyway when the integers live in storage
+that starts zeroed. In the same measurement, a reader seeded to run past the fill mark
+charged every unwritten slot to whichever key had been interned first, silently. With zero
+unused, the same slots surfaced as one unnamed row, and every real key stayed intact.

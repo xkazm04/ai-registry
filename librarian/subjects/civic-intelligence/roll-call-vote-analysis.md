@@ -1,7 +1,7 @@
 ---
 domain: civic-intelligence
 subject: roll-call-vote-analysis
-last_touched: 2026-10-10
+last_touched: 2026-10-22
 touched_by: intake
 dry_streak: 0
 ---
@@ -99,3 +99,20 @@ and the duplicate-ballot rule are latent on this corpus (0 pairs pruned,
 0 duplicates).
 
 The application documents carry the measurements.
+
+## Apply - 2026-10-22 (intake, run intake-apply-vcvm-1022)
+
+First application of `vote-choice-vocabulary-mapping`: a code change on politicas
+with verdict `better`, proof ab-paired, shipped and pushed (f4c09cd). The run was
+dispatched for the single-stack point, and a sixth node application does not move
+it. The seam was chosen to falsify rule 3. The ingest half conforms: the schema
+quoted, the raw code kept, unknown reserved, the merged code kept merged. The
+display bucketer one layer up re-listed the presence set, and its default arm
+filed `unknown` as away, pinned by a test. Away is the slot reconciliation never
+compares, so the error would have surfaced nowhere. Fixture: A filed 2 of 2
+unknown ballots as absences, B 0 of 2, counted in `coverage.unknownChoice`. A first
+draft of B dropped the seat with the ballot (3 to 2), and the paired print caught
+it before landing. Live term-10 ballots: 495,800, all documented codes, 0 unknown,
+so no figure moved. The technique gains one paragraph: every mapping built on the
+vocabulary owes rule 3, with typed input, imported sets and no default arm.
+Residual: the count is not yet rendered on the page.

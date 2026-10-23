@@ -76,6 +76,30 @@ confidence — the false rejection is invisible precisely because the gate
 looks rigorous. What is *not* checked should be as deliberate, and as
 documented, as what is.
 
+## What still fails the run, and what the unit is
+
+Per-beat collection applies only to the gate's own refusals. Three things
+are not beat defects:
+
+- **A response with nothing to salvage.** No parseable object, malformed
+  structure, or no scene list at all. Applying part of garbage is worse than
+  applying none of it, so these fail the whole pass.
+- **The validator's own crash.** Catch only the refusal type the gate
+  raises. An unexpected exception is a bug in the gate, and swallowing it
+  turns one crash into a column of identical, inexplicable rejections.
+- **A rejection rate that is not independent.** When most beats fail for the
+  same reason, the cause is the prompt or the schema, not the beats. Report
+  it as one finding before re-directing beat by beat.
+
+Key the verdicts by the beat's **identity**, not its position. Timecodes
+repeat when two beats share a moment, and a gate keyed by timecode merges
+them. The duplicate guard ("a second scene for this beat, the first one
+stands") also fixes the gate's unit at one scene per beat. That forbids the
+move one-function-per-visual prescribes when screen time is short: more
+stills under the same narration. If the direction step may split a beat into
+several stills, the gate's unit is the still, carrying a reference to its
+beat, and the duplicate guard counts per still.
+
 ## Decision rules
 
 - Report the **first** defect per beat and move on. A cascade of five errors

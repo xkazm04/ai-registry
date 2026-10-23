@@ -114,7 +114,12 @@ nobody can trace back to a layout refactor.
   headings in a rendered document, for instance. There the address is a
   function of the text, the stability contract belongs to the text, and the
   right move is to make that derivation deterministic and documented rather
-  than to layer a second namespace over it.
+  than to layer a second namespace over it. The exemption holds only while the
+  text is frozen or machine-regenerated. Where a person edits the text that
+  the address is derived from - a question, a title - every edit is a rename
+  of a published address, and one consumer agreeing with another proves
+  nothing about stability. Author the address once, equal to the value
+  already in circulation, and keep the derivation for text nobody rewords.
 
 ## What this technique refuses
 

@@ -1,0 +1,63 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-pcml-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "game-production",
+  "started_at": "2026-10-22T10:00:00Z",
+  "ended_at": "2026-10-22T11:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/tracked-input-record-and-replay",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "tracked-input-record-and-replay",
+      "technique": "proxy-corpus-miss-ledger",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/applications/cpp--proxy-corpus-miss-ledger.md",
+    "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/techniques/proxy-corpus-miss-ledger.md",
+    "knowledge/game-production/index.json",
+    "catalog.json",
+    "rules/ai-registry-game-production.md",
+    "librarian/subjects/game-production/tracked-input-record-and-replay.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "4852bb06",
+      "pathspec": [
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/applications/cpp--proxy-corpus-miss-ledger.md",
+        "knowledge/game-production/couch-and-tv-play/immersive-interaction/tracked-input-record-and-replay/techniques/proxy-corpus-miss-ledger.md",
+        "catalog.json",
+        "knowledge/game-production/index.json",
+        "rules/ai-registry-game-production.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Falsifying seam: the plan's mouse-or-synthetic label rule did not hold (0/31 hand figures with basis in-field; mouse clips are generator output). Decision rule added: a channel label is not a basis label. mage-arena-vr 9ebdf43 pushed to origin master. No second stack."
+}

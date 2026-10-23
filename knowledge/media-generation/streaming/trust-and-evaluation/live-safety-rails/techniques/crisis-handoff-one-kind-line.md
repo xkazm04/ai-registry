@@ -52,6 +52,14 @@ The line has four properties, and each one is a decision rule.
   were, and a blind judge scored it as soliciting private data. Helpfulness pulls the line
   toward specifics; the rule has to pull it back to the generic.
 
+The last property is a rule for the public channel, not a reading of crisis guidance, which
+says the opposite about private conversation. Peer-support guidance for young people talking
+about suicide online encourages contacting the person in private and, there, asking directly
+whether they are thinking of suicide, noting that there is no evidence asking raises the
+risk. A host cannot have that conversation on a broadcast. A person can, so the escalation
+below hands any follow-up to a human through a private channel where the platform has one,
+and the public line stays a pointer.
+
 Write the pointer as a vetted fixed core that the model may not paraphrase away, with at
 most a short natural lead-in around it. Free generation of the help pointer is where the
 location question, the specific-but-wrong hotline and the paragraph of advice come from. A
@@ -91,6 +99,21 @@ and is recorded as a safety event with its outcome. A safety event that only exi
 line in a transcript has no owner and no follow-up. If the host cannot produce the line -
 the model refuses, times out or returns nothing - the fallback is the vetted fixed line
 spoken as is, never silence; a missed handoff is a state to surface, not an empty success.
+The line is delivered when it airs, not when it is written: a speech budget or lag ceiling
+that trims spoken lines after generation will, left alone, keep a softening opener ("I'm
+setting the bit down for a moment") and drop the sentence that carried the pointer. So the
+trim keeps the pointer line or speaks the fixed line in its place, and whatever treats the
+handoff as done - the care state, a removal from chat, the safety record - checks that a
+pointer aired.
+
+The escalation is not tuned like the detector. Recall-first is right for the line, which
+costs a moment of flat television when wrong. A step that leaves the show - a platform
+self-harm report, a request for a welfare check - acts on a person's life outside it, and
+there a false positive has a real victim: one platform's automated suicide flags sent
+first responders on wellness checks more than 3,500 times, and its critics pointed out that
+people who were not suicidal could be made to undergo psychiatric evaluation against their
+will. The detector fires the line and the care state on its own; anything that leaves the
+show waits for a person who has read the message.
 When the disclosure arrives tangled with an injection attempt, the injected payload is
 withheld from the model as usual, but the distress is still answered: the reply refuses
 nothing about the viewer's safety because the message was also manipulative.

@@ -128,6 +128,14 @@ Three properties make the chain safe, and all three are commonly missing:
 - **Internal reporting.** A dashboard read by one team wants one fixed zone so
   that everyone reading it together means the same day. That is a different
   problem with a different right answer, and the two must not share a resolver.
+- **A calendar window the customer was promised.** An allowance that the terms
+  and the pricing page both say resets on the first of the month, in one fixed
+  zone, is metered correctly by a calendar key: the window the customer was
+  sold and the window the meter uses are the same window. The anchor is only
+  the authority when the contract says "per paid period". The residue is a
+  bounded first-month double allowance, which is a pricing decision to record
+  beside the key, not a period-date defect. Read the published copy before
+  calling a calendar key a violation.
 
 ## Smells
 

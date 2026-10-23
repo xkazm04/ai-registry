@@ -85,6 +85,17 @@ The same rule covers the sets built *on* the vocabulary (the positional set,
 the present set): they are exported constants next to the mapping, never
 re-listed at call sites.
 
+It also covers every mapping built on the vocabulary, and this is where it is
+usually broken. A metric layer often reduces the choices again, to display
+buckets such as yes, no, present-without-position and away. That reduction is
+a second mapping, and rule 3 binds it too: it takes the vocabulary's type,
+reads its sets from the vocabulary module, and has no default arm. A bucketer
+that ends in "everything else is away" turns `unknown` back into a fact, an
+absence, one layer after the ingest kept it honest. Away is usually the bucket
+no published total is compared against, so the error surfaces nowhere. Return
+nothing for unknown and count it. A ballot with an unknown code is still a
+member in a seat, so seat counts keep it even though no choice tally does.
+
 ## When not to use it
 
 - Do not build the vocabulary for outcome codes, procedural-motion types, or

@@ -1,0 +1,67 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-maac-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "marketing",
+  "started_at": "2026-10-22T02:30:00Z",
+  "ended_at": "2026-10-22T03:20:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "marketing/landing-page-experiment-statistics",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "landing-page-experiment-statistics",
+      "technique": "multi-arm-alpha-correction",
+      "verdict": "not-better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--multi-arm-alpha-correction.md",
+    "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--sample-size-trust-gate.md",
+    "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/landing-page-experiment-statistics.md",
+    "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/techniques/multi-arm-alpha-correction.md",
+    "knowledge/marketing/index.json",
+    "catalog.json",
+    "rules/ai-registry-marketing.md",
+    "librarian/subjects/marketing/landing-page-experiment-statistics.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "be9d2197",
+      "pathspec": [
+        "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--multi-arm-alpha-correction.md",
+        "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/applications/node--sample-size-trust-gate.md",
+        "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/landing-page-experiment-statistics.md",
+        "knowledge/marketing/conversion-and-leads/landing-page-experiment-statistics/techniques/multi-arm-alpha-correction.md",
+        "knowledge/marketing/index.json",
+        "catalog.json",
+        "rules/ai-registry-marketing.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. Null replay over the real evaluator falsified the shared-control caveat: product form conservative (0.042-0.046 vs 0.050). Division form not-better; corrected in three files. No product code shipped; consumer ledger row local."
+}

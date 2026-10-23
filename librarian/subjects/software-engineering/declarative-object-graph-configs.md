@@ -15,3 +15,7 @@ First touch: [[2026-09-02-monai-v2]] via the forge wave over `librarian/handoffs
 sigil grammar, cycle-detecting resolution, escape-hatch expressions with a kill switch, textual macro prepass, merge-vs-override marking, directive-key namespace; 6 techniques. Boundary vs settings: values-into-known-code vs objects-decided-by-the-file. Upward lessons: per-request inspection flags; longest-first reference rewrite; log a non-default trust switch at load. Deviations: disabled is the host null so a legitimately-null target is dropped; macro splice does not re-resolve relative ids. Two source-tree applications (python@3.10, commit 02201b8). Worker's gate: clean for
 this subject; director's gate over the wave: bundle integrity OK. No fleet apply row yet -
 the subject is in the `/intake apply` backlog.
+
+## 2026-10-22 - first fleet application (run dkn-0xa)
+
+directive-key-namespace applied to pumper's rule node (rust): the typed node accepts a mistyped directive and drops it; the transact guard in the same tree already has the technique's underscore rule. Experiment, better, nothing shipped. Subject is no longer single-stack (python, rust).

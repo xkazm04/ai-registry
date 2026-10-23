@@ -44,3 +44,12 @@ consumer workspace at `2893314` and the SEO prompt pipeline at `a47c1ecd`.
   second tree is the next pass.
 - No `librarian/applied.md` row yet except where the source note says so; the
   unapplied backlog is every technique here without a row.
+
+## 2026-10-22 - intake-apply-frpcnm
+
+- New application `node--first-reply-promises-channel-not-minutes` (applied: code,
+  better, ab-paired). The function held the channel table and the no-minutes rule;
+  two callers passed a row label or a filler word as the name.
+- Decision rule added to `first-reply-promises-channel-not-minutes`: greet without a
+  name when the field holds none, and carry the person's name apart from the label.
+- Single-stack debt unchanged: the only other marketing project has no lead-reply seam.

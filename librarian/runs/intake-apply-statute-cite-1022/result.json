@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-statute-cite-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "civic-intelligence",
+  "started_at": "2026-10-22T03:05:00Z",
+  "ended_at": "2026-10-22T03:45:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "civic-intelligence/legislative-change-tracking",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "legislative-change-tracking",
+      "technique": "statute-citation-extraction",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/applications/node--statute-citation-extraction.md",
+    "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/techniques/statute-citation-extraction.md",
+    "knowledge/civic-intelligence/index.json",
+    "rules/ai-registry-civic-intelligence.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/civic-intelligence/legislative-change-tracking.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only (single stack: not addressable). Titles name each target's amendment history; the extractor read those acts as targets (live term 2 false edges, all terms 856 of 6890). Fixed by clause and case. politicas 7c1e748 + 0799203 pushed."
+}

@@ -1,8 +1,8 @@
 ---
 subject: zero-budget-channel-planning
 domain: marketing
-last_touched: 2026-09-20
-touched_by: intake-ltcwn-0920 (intake)
+last_touched: 2026-10-22
+touched_by: intake-apply-fit-effort-1022 (intake)
 dry_streak: 0
 ---
 
@@ -93,3 +93,18 @@ enumeration hunt run twice over this subject's own declarations.
   tree has no advisory field, which is a direction rather than coverage.
 
 dry_streak: 0
+
+## 2026-10-22 - intake apply (run intake-apply-fit-effort-1022)
+
+- First application of `fit-effort-quick-win-rule`, at `systedo-case`, `code`, verdict
+  `better`. The seam was chosen to falsify the "show no quick win rather than promote"
+  rule. A dashboard that always wants one item looked like the case where the rule is
+  too strict. It held: what the overview filled the slot with, once every channel was
+  tracked, was a started channel described as unstarted. 10/30 -> 0/30, floor
+  byte-identical on the other 20 cases.
+- **Boundary recorded in the application, not the technique.** Falling back past the
+  bar to an *untracked* channel is fine when the label changes to describe the pick.
+  The technique's reason is a false label, not an empty slot, and its text already
+  says so. That is a GAIN 1 append and was not worth a technique edit from one tree.
+- Single stack (node) is not addressable: no second fleet tree renders a free-channel
+  plan.

@@ -1,8 +1,8 @@
 ---
 domain: civic-intelligence
 subject: state-budget-analysis
-last_touched: 2026-09-09
-touched_by: architecture-review
+last_touched: 2026-10-22
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -86,3 +86,47 @@ remain reverify work. No maturity or application witness dates changed.
   }
 }
 ```
+
+## Apply - 2026-10-22 (intake, run intake-apply-cvhf-1022)
+
+First application of `consolidated-vs-headline-figures`: a code change on politicas,
+verdict `better`, proof ab-paired, shipped and pushed (ab72023). The run was
+dispatched for the single-stack point, and a third node application does not move
+it. The seam was chosen to falsify rules 1 and 3, because the ingest half already
+conforms on expenditure (it reads the consolidated variants, records the gap and
+takes the ratio from one variant). The source's own per-indicator metadata, fetched
+for all 132 batch towns over 2021-2025, showed that debt is a balance-sheet stock
+with no consolidated variant and covers the town alone: organization debt is a
+separate indicator in 330 of 660 town-years and 90 of 132 towns. The page captioned
+all of it "consolidated FIN 2-12 M". B names each field's variant from one
+definition, pinned to a live capture. Two tests fail on A and pass on B, no figure
+moves, and the pre-push gate passed 4,215 tests. The technique gains one boundary
+sentence: the non-comparable flag is usually dropped at the caption, and provenance
+should be built from the source's per-indicator declaration, not a naming suffix.
+Residual: the debt perimeter (town alone or with its organizations) is the owner's
+decision and is recorded in the project's route doc.
+
+## 2026-10-22 - median-over-mean-for-peers applied to politicas (run apply-mompeers-1022)
+
+Applied in `code` mode, verdict `better`, proof `ab-paired`. The null rules were
+already held, and a pin test already guarded the debt-only sample count. So the
+seam targeted the first decision rule: the minimum belongs on each metric's
+reporting peers after widening. The tree applied it only as a widening trigger,
+so nothing stopped a red verdict against a sub-floor median. Over the batch the
+smallest sample is exactly 5, so the rule held by data, not construction. B
+withholds the verdict below the floor and still prints the median with its
+count. A fixture test fails on A and passes on B, and no verdict on the real
+batch moves. No technique edit: its rule already says "after permissible
+widening". Residual: the trend line and the peer table carry no sample guard
+of their own.
+
+## Application - 2026-10-22 (per-capita-normalisation, politicas, experiment)
+
+Seam chosen to falsify the finite-positive divisor rule: the shared routine
+guards null and non-positive but not NaN or infinity. Real batch, 660 cells:
+both arms identical, because the live client and the snapshot parser filter
+non-finite values upstream. The rule holds by composition, so no technique
+edit and no tree change; the first node application for this technique is
+`applications/node--per-capita-normalisation.md`. Lead: one town's divisor
+steps -15.7% between 2021 and 2022 and the technique says nothing about a
+divisor that breaks between periods; wait for a second town before amending.

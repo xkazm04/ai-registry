@@ -86,6 +86,19 @@ Two reinforcements are cheap and worth adding where the surface is important:
   suspension is visible in it for free: a timestamp that stops advancing is a
   frozen refresh a human can notice.
 
+## When the view is derived, there is nothing to freeze
+
+The freeze exists because the visible collection is stored state that a refresh
+overwrites. A surface can avoid that by never storing the optimistic verdict in
+that collection: keep fetched rows and the window's verdicts apart, keyed by
+stable row id, and compute the view from both on every arrival. The response in
+flight then lands neutral, nothing is suspended, and the release problem above
+cannot occur because no flag exists. Measured on one review queue built this
+way, a freezing arm hid a row created elsewhere for the whole window while the
+derived view showed it, and both held the verdict. Prefer the derivation when
+identity is stable and the merge is a pure function; keep the freeze when it is
+not, or when rows must not move under the pointer.
+
 ## Ownership, not nesting
 
 With the single-pending-batch invariant holding, exactly one window can own

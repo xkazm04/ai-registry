@@ -704,3 +704,25 @@ Source-class notes:
   which loaded client-side and stayed secondary.
 - **The blind lane derived the start-event bias's sign and size before the web lane found the
   measurements.** A derivation plus a measurement is the convergence that earned the flip.
+
+## 2026-10-21 - deepen tracked-input-record-and-replay (trr-deepen-1021)
+
+A Curator dispatch on "3 techniques (design floor is 4)". There is now one new technique and
+the floor is met. `record-below-the-rule` holds that the recording layer decides which changes
+a replay can regress, and that a pose frame carrying a runtime-decided value tests a rule that
+reads it only on its use of the verdict. Applied to mage-arena-vr as an experiment, verdict
+`better`: 4 runtime-decided reads were named, and the synthetic pinch matches the joints by
+construction (0 of 8,995 frames disagree).
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| tracked-input-record-and-replay | L2 | 1 technique, 1 qualification, 1 application (experiment) | 0 stale (no map joins it; mage-arena-vr declares no domains) | 0 |
+
+Source-class tally (post-hoc, this run):
+- Vendor record and playback docs were rich on the layer and the clock. None of them stated
+  the layer rule; it came from reading them side by side.
+- The consumer tree's own test comments held the decisive measurement: 30 casts against 9
+  with pinch extrapolated. A mature tree's "unknown" is a lead, not a gap to fill from
+  literature.
+- The counter lane's forum and talk-notes sources arrived through search summaries. They
+  corroborated claims and landed nothing on their own.

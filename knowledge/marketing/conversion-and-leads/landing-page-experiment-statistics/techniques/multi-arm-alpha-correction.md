@@ -47,12 +47,29 @@ rather than in honesty.
 
 In a several-challengers-against-one-control design the comparisons are not
 independent: every one of them shares the control's noise. A lucky control drags every
-comparison the same way. The product-form correction assumes independence and is
-therefore very slightly optimistic in this design; the division form does not assume it
-and is the safe bound. With two or three challengers the difference is negligible and
-practitioners use either; state which one the surface uses and why. Where the arms are
-many - six is a sensible cap for a landing page, because the per-arm sample at six
-becomes a quarter's traffic for most businesses - prefer the bound.
+comparison the same way. That dependence is *positive*, and for two-sided tests on
+normally distributed statistics positive dependence works in the correction's favour:
+the comparisons tend to be wrong together, so the chance that at least one is wrong is
+*lower* than under independence. The product form is exact under independence and
+conservative under a shared control; it is not optimistic there. Its known
+optimism is for other dependence shapes - one-sided tests with negatively correlated
+statistics are the usual example - and the division form is the bound that holds under
+any dependence at all. A null replay of a real six-arm evaluator (two seeds, 100,000
+tests each, every arm converting at one rate) measured the product form's family-wise
+rate at about 0.046, 0.044 and 0.042 for two, three and five challengers on a shared
+control, against 0.050 when every comparison had its own control. The division form
+was lower by under a thousandth and cost 0.3 to 0.4 percent more traffic per arm.
+State which form the surface uses and why. Six arms is a sensible cap for a landing
+page, because the per-arm sample at six becomes a quarter's traffic for most
+businesses - and that cap is a traffic argument, not a reason to switch forms.
+
+Direction is a second, quieter source of slack. A surface that declares only a
+challenger that *beats* the control, against a two-sided threshold, spends half its
+budget: the same replay put the false-winner rate at about 0.025 for one challenger and
+0.021 to 0.023 for several. That is conservative and it is paid for in traffic,
+because the sizing used the two-sided quantile. Whether to keep it is a choice: a
+two-sided test also reports a losing challenger honestly. Say on the result which one
+was made.
 
 The correction controls *false winners*. It does not correct for reading several
 metrics at once (rate, revenue per visit, form starts); a test declares one primary
@@ -64,8 +81,10 @@ reading the test repeatedly over time, which is the peeking guard's job.
 - When there is more than one challenger, use the corrected threshold for both sizing
   and verdict, because a verdict at a threshold the sizing did not use is a verdict on
   a sample that was never large enough for it.
-- When the arms share one control, prefer the division form or say the product form is
-  slightly optimistic, because the independence the product form assumes is not there.
+- When the arms share one control and the test is two-sided, either form holds the
+  family-wise rate, because the shared control's dependence is positive and makes both
+  conservative; prefer the division form only when the dependence is unknown or can be
+  negative, such as one-sided comparisons between challengers.
 - When an operator adds an arm mid-test, the comparison count rises for the whole test
   and the requirement rises with it; the added arm does not start from the same
   population as the others and the honest surface says the test was restarted.

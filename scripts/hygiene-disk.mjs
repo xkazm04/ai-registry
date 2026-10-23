@@ -18,8 +18,8 @@
  *   scratch      each top-level entry of the scratch root.
  *                A checkout (`.git` file or dir) is `mechanical` (remove-scratch-checkout)
  *                only when idle past --idle-hours, its dirty paths are known noise
- *                (next-env.d.ts, *.generated.ts, untracked .husky hooks, a whitespace- or
- *                line-ending-only diff), and its HEAD is landed: a worktree's HEAD is on a
+ *                (next-env.d.ts, *.generated.ts, untracked .husky hooks, a crash *.stackdump,
+ *                a whitespace- or line-ending-only diff), and its HEAD is landed: a worktree's HEAD is on a
  *                ref of its main repository other than its own branch; a clone's commits are
  *                all on its remotes, or each local commit's patch-id is in its fleet home.
  *                Anything else is `operator` with the reason. `hyg-*` entries belong to the
@@ -78,8 +78,8 @@ const H = 3600e3;
 
 // ---------------------------------------------------------------------------- pure rules
 
-/** Dirty paths that are never work: regenerated on every install/dev run, or hook shims. */
-export const NOISE = [/(^|\/)next-env\.d\.ts$/, /\.generated\.ts$/, /^\.husky\/(commit-msg|prepare-commit-msg|pre-commit|pre-push)$/];
+/** Dirty paths that are never work: regenerated on every install/dev run, hook shims, or an MSYS crash dump. */
+export const NOISE = [/(^|\/)next-env\.d\.ts$/, /\.stackdump$/i, /\.generated\.ts$/, /^\.husky\/(commit-msg|prepare-commit-msg|pre-commit|pre-push)$/];
 export const BUILD_OUTPUT = /(^|[-_.])(target|tgt)([-_.]|$)|^cargo-target|^node_modules$/i;
 const isNoise = (p) => NOISE.some((re) => re.test(p.replace(/\\/g, '/')));
 

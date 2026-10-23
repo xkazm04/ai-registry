@@ -61,7 +61,9 @@ sponsor or a metric will try to move.
    does and never does.
 2. State precedence inside the core and repeat the subordination at the top of
    each lower document. The model reading them together is what resolves
-   conflicts, so the order must be in the text it reads.
+   conflicts, so the order must be in the text it reads. That makes the stated
+   order necessary, not sufficient: wherever a conflict can be detected in code
+   (a tone that adds a rule, a directive that names a hard line), detect it there.
 3. Make the core immutable to the running system mechanically, not by
    convention. Any automated pass that proposes persona changes goes through a
    verifier that works from an **allowlist** of what tuning may touch (the bible

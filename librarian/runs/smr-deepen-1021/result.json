@@ -1,0 +1,60 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "smr-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "recruiting",
+  "started_at": "2026-10-21T17:55:00Z",
+  "ended_at": "2026-10-21T19:10:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "recruiting/silver-medalist-rediscovery",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "silver-medalist-rediscovery",
+      "technique": "fit-floor-for-readmission",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/techniques/fit-floor-for-readmission.md",
+    "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/applications/python--fit-floor-for-readmission.md",
+    "librarian/applied.md",
+    "librarian/subjects/recruiting/silver-medalist-rediscovery.md",
+    "librarian/domains/recruiting.md"
+  ],
+  "commits": [
+    {
+      "sha": "0f769449",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/recruiting/index.json",
+        "rules/ai-registry-recruiting.md",
+        "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/techniques/fit-floor-for-readmission.md",
+        "knowledge/recruiting/sourcing-and-intake/silver-medalist-rediscovery/applications/python--fit-floor-for-readmission.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "kp python at d60e934e9: rematch floor a free literal with a strict comparator, outside the band sync test; fixed kp 53678ce01 (code, better). fit-floor condition added. Reply-rate claim vendor-only, left. kp map a5bab54df pushed; 3 kp contexts stale."
+}

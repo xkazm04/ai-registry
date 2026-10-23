@@ -81,6 +81,13 @@ consumer eventually renders the body as a peer of a nation.
   don't, because** parent/region inheritance implies incorporation nesting
   (a region's organizations are the country's organizations), which is false
   here and poisons every level-based rule.
+- **When retrofitting the level into a tree that already models membership,
+  make every dispatch on level exhaustive in the same change, because** a
+  branch written for country/region/locality sends the new level to its
+  default arm and still type-checks. Membership alone does not make the
+  level optional: inheritance carries the corpus, but only the level stops a
+  country count or a coverage sentence from listing the body beside the
+  members that already reach it.
 
 ## When not to use
 

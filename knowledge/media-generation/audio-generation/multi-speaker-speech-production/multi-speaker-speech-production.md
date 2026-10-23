@@ -141,6 +141,16 @@ between calls, and measure identity per voice exactly as before. Which engines
 behave this way is a dated fact in the applications, not a property of the
 subject.
 
+Where the call also returns **per-turn segments**, timed spans each tagged with
+the script line they came from, the line gets its address back in the
+*output*: each turn can be cut from the clip and reviewed, subtitled and placed
+on a timeline as a line. It does not get it back in *re-rendering*. A turn cut
+from one performance and replaced with a turn from another is a seam inside a
+take that was rendered as a whole, so it is audited as a seam and not trusted
+because the segment boundaries line up. Store the segments with the render
+record; a call that returns none leaves per-line timing to a forced-alignment
+pass, and that pass is a measurement, not a given.
+
 ## How the five compose
 
 The line address is the join key for everything else. A line's render is keyed
@@ -166,6 +176,8 @@ after delivery.
   eleven.
 - It caches renders by text and voice alone, so a changed engine serves stale
   audio that looks fresh.
+- It splices a new turn into a grouped take because the returned segment
+  times line up, and never listens to the join.
 
 ## Where this subject ends
 

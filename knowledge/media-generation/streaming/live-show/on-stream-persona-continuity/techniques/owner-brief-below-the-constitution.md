@@ -53,6 +53,15 @@ exists and what kind of thing gets through it, which is an invitation to probe.
 The owner, not the audience, is the one who needs to know: a voided directive is
 a signal for the operator surface and the post-stream review.
 
+The rank in the text is the last line of defence, not the first. Models do not
+resolve conflicts between instruction levels reliably even when the levels are
+marked, and an authoritative framing inside the lower level can outweigh the
+marking. So a check that code can run happens before the model reads anything:
+directives are compared against the core's hard lines and the platform rules when
+the brief is built, and a conflicting directive is withheld from the prompt and
+shown to the owner before the stream starts, rather than composed and left for the
+model to void.
+
 ## Absence
 
 When there is no brief, the section is byte-absent: no header, no empty fence.

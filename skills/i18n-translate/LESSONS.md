@@ -91,3 +91,11 @@ concept index the artifacts do not yet carry.
 - **The source-defect register** now has a mechanical finder (failures in two or more locales route to the source) and a relative-staleness queue order (`source-defects-from-cross-language-agreement`). Before this it filled only when someone happened to notice.
 - **New read-only `check` mode**, added rather than renamed, because the skill is linked into live fleet sessions; `review` still means "audit and write". Engine quality from reviewer corrections, register as a locale modifier and pseudo-locale readiness each landed as a pointer, not a restatement.
 - Compressed the Pass A, consolidation, coverage and guardrail prose to hold the body near its line budget; no rule was removed.
+
+## 1.7.0 - 2026-10-22 - kp (read-only replay of the native-review queues, intake apply-etoss-1022)
+
+- **Measured on a real catalog, not proposed.** kp's three native-review queues hold 533 findings in three formats: 43 key|note, 79 with severity, and 411 with a Pass B category. Owner routing without reading the note went from 0 of 122 to 411 of 411. 400 of the 411 sat in a published MQM top-level slot.
+- **Two category defects, both fixed in 1.7.0.** `leftover-source` merged two owners. 3 of its 4 rows were do-not-translate or brand-term calls for the glossary owner, not translator work. It is now `untranslated` (MQM accuracy), and a wrong brand term is terminology. Reviewers also invented `construction`, which is the Czech rule artifact's name, and `other`. Pass B now forbids categories outside the list: a rule artifact is the anchor, never the category.
+- **The anchor rule would have dropped accuracy.** Only 4 of 40 accuracy rows named a rule artifact. The rest cited the English span and the call site, which is the right anchor for a meaning error, but the anchor list did not name it. It does now.
+- **Critical was already a release rule.** All 4 critical rows were uncategorized. 3 were source or code defects that reached the source-defect register. Pass C gates on them, and nothing in the skill sums severities. 1.7.0 says so explicitly, so a later scoring step cannot turn critical into a weight.
+- Still open: 87 of 139 style rows cite no anchor. A typed category with no anchor is still taste, just better filed. Return when a review run under 1.7.0 can be recounted.

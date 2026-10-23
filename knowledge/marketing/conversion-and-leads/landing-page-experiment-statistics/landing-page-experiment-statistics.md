@@ -66,8 +66,8 @@ per-comparison threshold is tightened so the family-wise rate stays where the
 business set it, and the tighter threshold is fed back into the sizing, so a third arm
 honestly costs more traffic - which is the true price of asking a third question. The
 technique is `multi-arm-alpha-correction`; it also says why a shared-control design
-makes the elegant correction slightly optimistic and when the blunt one is the safer
-choice.
+leaves the elegant correction conservative rather than optimistic, and when the blunt
+one is the safer choice.
 
 **No verdict while the test runs, unless the gate is closed too.** A running test
 whose confidence is checked every morning and stopped on the first good morning has a
@@ -76,9 +76,11 @@ continuous monitoring at roughly a quarter false positives for a nominal one in
 twenty, and stopping at the first crossing has, in the limit, no error control at all.
 The practitioner either fixes the horizon and refuses to read before it, or uses a
 sequential method whose thresholds are built for repeated looks. The technique is
-`peeking-guard`, and its central distinction is that a deliberately stopped test is
-read on confidence alone, while a running one must clear confidence *and* the sample
-gate, because the gate is what removes the reward for looking.
+`peeking-guard`, and its central distinction is that a stopped test is *read* at the
+stop and labelled, but is *significant* only if it cleared confidence and the sample
+gate like a running one, because the gate is what removes the reward for looking and
+closing a test is not a way past it. The gate closes the looks before the horizon,
+not after: a test left running until the badge appears is still being peeked at.
 
 ## The arithmetic assumes the split it was promised
 

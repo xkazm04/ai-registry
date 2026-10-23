@@ -5,7 +5,7 @@
   "source": "knowledge/grant-funding/ (frontmatter only)",
   "subjects": 17,
   "techniques": 105,
-  "applications": 65,
+  "applications": 71,
   "laws": 8,
   "categories": [
    "funding-landscape",
@@ -1046,9 +1046,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/grant-source-landscape.md",
-   "digest": "sha256-b2:a68a0cd9e0c26a9d",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:77f47d13fe985d09",
+   "revision": 6,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "close-date-normalization",
@@ -1178,6 +1178,20 @@
      "technique": "open-call-vs-awarded-history",
      "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/applications/node--open-call-vs-awarded-history.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "relevance-precision-filtering",
+     "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/applications/node--relevance-precision-filtering.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "stable-dedup-key-selection",
+     "file": "knowledge/grant-funding/funding-landscape/grant-source-landscape/applications/node--stable-dedup-key-selection.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     }
    ]
@@ -1419,9 +1433,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/jurisdiction-modelling.md",
-   "digest": "sha256-b2:8d994cb436f70ad4",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:050abc894f0eedeb",
+   "revision": 5,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "compliance-document-taxonomy",
@@ -1522,6 +1536,13 @@
     },
     {
      "stack": "node",
+     "technique": "entity-type-code-mapping",
+     "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--entity-type-code-mapping.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "jurisdiction-profile-schema",
      "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--jurisdiction-profile-schema.md",
      "verified_on": "2026-08-19"
@@ -1531,6 +1552,13 @@
      "technique": "market-claim-truthfulness",
      "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--market-claim-truthfulness.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "supranational-membership-inheritance",
+     "file": "knowledge/grant-funding/grant-operations/jurisdiction-modelling/applications/node--supranational-membership-inheritance.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -1539,9 +1567,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/nonprofit-verification.md",
-   "digest": "sha256-b2:c86ddeeb343afef0",
-   "revision": 3,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:247c9dd2beeb2f4d",
+   "revision": 5,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "determinate-vs-inconclusive-outcomes",
@@ -1653,9 +1681,23 @@
     },
     {
      "stack": "node",
+     "technique": "registry-adapter-contract",
+     "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--registry-adapter-contract.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "registry-name-binding",
      "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--registry-name-binding.md",
      "verified_on": "2026-08-19"
+    },
+    {
+     "stack": "node",
+     "technique": "verification-passport",
+     "file": "knowledge/grant-funding/grant-operations/nonprofit-verification/applications/node--verification-passport.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
     }
    ]
   },

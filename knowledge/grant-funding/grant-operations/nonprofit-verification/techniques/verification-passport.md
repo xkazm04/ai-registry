@@ -94,6 +94,15 @@ consumer treats an expired passport exactly like an absent one.
   unconfirmed) in the summary and surface mismatch for correction,
   because** entity type feeds eligibility gates downstream, and a silently
   wrong self-declaration poisons every later verdict.
+- **When building the roster, enumerate the jurisdiction's declared sources
+  and fill in each one's result, rather than mapping over the results the
+  fan-out returned, because** a fan-out runs only the sources that have a
+  live adapter. A roster derived from its output drops every unbuilt or
+  switched-off check without a trace, and a one-row credential with a
+  perfect score then reads as full coverage. Keep the run-only list for the
+  question it answers, "did anything run", and print the score as passes
+  over decided checks beside the declared count. When nothing decided,
+  print no number, because a bare zero reads as every check failing.
 
 ## When not to use
 

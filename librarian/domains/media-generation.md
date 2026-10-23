@@ -359,3 +359,121 @@ per-modality figures (chat alone the weaker signal; margin 0.8-2.5 F).
 2 applied rows, both unmeasurable: owner feedback 0 of 180, and the
 anchor simulation was confounded at n = 5. No project's map joins the
 subject; 0 stale verdicts. Detail in [[stream-moment-capture]].
+
+## 2026-10-21 - deepen, frame-direction (fd-deepen-1021)
+
+Dispatched on "never swept by the librarian". The content landed in
+93b5c349. That session stopped before the record, and a second dispatch
+wrote it from the commit and the application without re-researching. There
+is one new technique, `boundary-transition-class` (web and blind lanes
+converged on object constancy across the cut), plus four corrections
+checked against sources: absolute time, not order, in
+`motion-intent-authoring`; attribute drift, not lookalikes, in
+`motif-establish-vary-payoff`; one pipeline's n, not "every style", in
+`plate-elements-text-split`; and the gate's own failure cases and unit in
+`per-beat-rejection`. Applications were re-verified at gravitone-gcloud
+9c3cdac8. Applied as a simulation, verdict `better`: thread operations
+settle 28 of 34 joins in the project's real plan, and all 6 they cannot
+settle are holds or subtractions. 5 gravitone contexts join the subject and
+none is judged, so there are 0 stale verdicts. Detail in [[frame-direction]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| frame-direction | L2 | 1 technique, 4 corrections, 1 application (simulation) | 0 stale (5 gravitone contexts join, none judged) | 0 |
+
+Source-class tally (post-hoc, from the commit's citations):
+- A coded corpus of professional clips gave the base rate (refresh in about
+  half of all transitions). That is the measurement that kept the
+  declaration from pulling every cut toward continuity.
+- Vendor prompting guides settled the motion correction (beats and counts,
+  not seconds). Their wording beat the summary the technique had carried.
+- The consumer's own worked plan was the instrument. A gitignored run file
+  it cited was state, not evidence.
+
+## 2026-10-21 - deepen, live-safety-rails (lsr-deepen-1021)
+
+Dispatched on "never swept by the librarian". Landed in 3dd25ae7. There is no
+new technique. Five conditions were added, each checked against a source
+opened that day or against the consumer's own tree. The crisis line asks
+nothing in public because the guidance asks in private (#chatsafe; the blind
+lane converged). Recall-first stops at the stream's edge (STAT 2019 wellness
+checks). A safety answer counts when it airs. The care seal covers allusion.
+A realism-scoped platform label is not the duty to say you are an AI. The
+applications were rebased from shadowrunr 4025231 to a9d8c33, and 44 anchors
+held. Applied as a simulation, verdict `better`: 92 of 204 recorded crisis
+replies lose the help pointer to the new pace trim, and 0 do under the guard.
+Detail in [[live-safety-rails]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| live-safety-rails | L2 | 0 techniques, 5 corrections, 2 applications re-verified, 1 simulation | 0 stale (1 shadowrunr context joins, none judged) | 0 |
+
+Source-class tally (post-hoc):
+- Peer-support guidance PDFs (#chatsafe) were the richest counter-evidence.
+  They refuted a summary that the technique had stated as convergence.
+- Journalism on a deployed system (STAT on automated suicide flags) supplied
+  the false-positive cost that clinical guidance does not state.
+- Platform help pages settled label scope (YouTube). Twitch's pages did not
+  render in either lane. Prefer a real browser next time.
+- The consumer's own run transcripts were the instrument. Field fixes landed
+  after the applications were written, and that is where two of the five
+  conditions came from.
+
+## 2026-10-21 - deepen, multi-speaker-speech-production (msp-deepen-1021)
+
+Dispatched on "never swept by the librarian". Landed in 2d634e14. There is no
+new technique. One statement was refuted: the field read said a grouped
+multi-voice call documents no per-turn timing, and the vendor now returns
+segments tagged with their script line. Three conditions were added. Segments
+address a line in the output and not in re-rendering. Continuity references
+expire (two hours on one engine, and the expressive previous generation has
+none), so a later revision counts on text context. An unnamed dictionary
+version takes the latest. The clone-binding facts were sharpened from the
+vendor's own page. The four applications were re-checked and 15 of 15 anchors
+held. Applied rows: three `unapplied`. No fleet tree calls a grouped endpoint,
+sends request references or attaches a dictionary. Detail in
+[[multi-speaker-speech-production]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| multi-speaker-speech-production | L2 | 0 techniques, 1 refutation, 3 conditions, 4 applications re-verified | 0 stale (overlord voice-sidecar and gravitone landing-cosmos-scenes join, none judged) | 0 |
+
+Source-class tally (post-hoc):
+- The vendor's raw page markdown (`<page>.md`) was the instrument that settled
+  every volatile fact. It also exposed a summarizer quote the counter-evidence
+  lane could not confirm. Fetch raw before quoting.
+- API reference pages beat capability pages for what an endpoint returns. The
+  per-turn timing was on a sibling reference page that the first read never
+  opened.
+- Model-launch pages state compatibility premises in the vendor's own words
+  ("may sound quite different").
+- Secondary summaries of union agreements and statutes were not enough to land
+  anything. The primary PDF returned 403.
+
+## 2026-10-21 - deepen, on-stream-persona-continuity (ospc-deepen-1021)
+
+Dispatched on "never swept by the librarian". Landed in eb0a0c45. One new technique,
+per-turn-persona-anchor, earned on three-lane convergence (two drift studies, the blind
+lane, and the consumer's rotated line bank). One absolute was refuted: a byte-identical
+prefix gives identity of input, not identity, because a persona present every turn
+still drifts. Conditions were added. Feeding the window back is a hypothesis that can
+prime what it names. Precedence stated in text is the fallback, and code enforces what
+it can. The outage case no longer claims the recast caused the audience loss. The two
+applications were re-checked and 46 of 46 anchors held at the cited sha. Applied rows:
+two `code` / `unmeasurable` (one confounded before/after per arm in the consumer) and
+one `simulation` / `unmeasurable`. Detail in [[on-stream-persona-continuity]].
+
+| subject | rung | last-pass yield | demand after | dry |
+| --- | --- | --- | --- | --- |
+| on-stream-persona-continuity | L2 | 1 technique, 1 refutation, 4 conditions, 1 application added, 2 re-verified | 0 stale (overlord brain-composition-memory and character-package join, none judged) | 0 |
+
+Source-class tally (post-hoc):
+- arXiv abstracts fetched raw settled every research claim. The web lane's summarizer
+  extracts were capped and were re-read before landing.
+- Measurement papers beat prompting guides for what a mitigation buys. The guides
+  said "restate" and "say what to do"; only the studies gave a ceiling (35-38%, none
+  eliminated).
+- Trade press (Kotaku) carried the case facts, and no source carried the causation.
+  A public incident supports what happened, not why the audience left.
+- The consumer's own build record was the only before/after available, and it was
+  confounded. Release notes that bundle five changes cannot grade one.

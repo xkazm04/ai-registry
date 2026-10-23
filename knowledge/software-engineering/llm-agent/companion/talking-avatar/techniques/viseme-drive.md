@@ -41,9 +41,14 @@ families from open to rounded. The mapping rules that make it read:
   neighbours**, not turned into silence — there is no mouth closure between
   words in running speech.
 - **Merge segments shorter than a frame or two into a neighbour — except
-  closures.** Lip closures and lip-to-teeth contacts last 25-50 ms and are the
-  one shape the eye checks against the audio. They are never merged away; they
-  grow to the minimum by borrowing time from neighbours that can spare it.
+  closures.** Lip closures and lip-to-teeth contacts are the one shape the eye
+  checks against the audio. They are never merged away; they grow to the minimum
+  by borrowing time from neighbours that can spare it. That minimum is a
+  visibility floor (a few frames), not the closure's natural length: a bilabial
+  stop's closure in running speech averages about 70 ms with a wide spread, and
+  only its fast tail is as short as 25-50 ms. A synthesizer's segment for a stop
+  often covers the burst more than the silent hold, which is why the quiet
+  before a closure joins it.
 - **Unknown sounds fall back to a neutral mid vowel and are counted**, not
   silently dropped ([unknown-is-not-a-value](../../../../_laws.md#unknown-is-not-a-value)).
 

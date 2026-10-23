@@ -85,6 +85,12 @@ it and omits it where it does not.
 - When a query has at least two conversions and is not already exact, promote it into
   the serving ad group, because that group's ad and page are the evidence.
 - When the match type is unknown, do not promote, because unknown is not "not exact".
+- When writing that gate, list the match types a promote may come from (broad,
+  phrase) rather than excluding exact, because the mapper's distinct unknown value
+  passes a "not exact" test. The mapper and the gate usually live in different files,
+  and each reads as correct alone. In one recommender, the mapper kept unknown
+  distinct so it could never earn a keyword, and the gate's "not exact" test promoted
+  it anyway; an allowlist also fails closed on a match type the platform adds later.
 - When the platform does not prefer exact over broad within an account, add the
   counter-negative in the same change-set, because otherwise the promote changes
   nothing.

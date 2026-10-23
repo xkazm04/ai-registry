@@ -114,3 +114,12 @@ And a pipeline that needs a genuine merge of provenance from several inputs —
 a fusion stage that combines modalities and must record all their sources —
 has a domain operation, not a propagation question; it writes a transform that
 constructs the combined metadata explicitly and pushes its own journal entry.
+
+"Explicitly" includes the inputs' journals. A join that validates its operands
+and writes a fresh journal containing only its own entry has done the hard half
+and still destroys provenance: concatenating two archives that carried a
+retarget and a retime produced an archive whose journal read as a raw capture.
+The join's journal is the inputs' entries in input order, without repeats, then
+its own. Paired on one tree, the only change to the output was the journal
+(none of two inputs' ops survived before, both after; every data array
+identical).

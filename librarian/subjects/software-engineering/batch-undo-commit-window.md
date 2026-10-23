@@ -1,7 +1,7 @@
 ---
 subject: batch-undo-commit-window
 domain: software-engineering
-last_touched: 2026-08-22
+last_touched: 2026-10-22
 dry_streak: 0
 ---
 
@@ -11,7 +11,7 @@ First touch: [[2026-08-22-4]] — the 2026-08-22 harvest wave. Class: NEW.
 
 ## State
 
-6 techniques, 2 react applications. Golden path 197 lines — the shortest of the wave and closest to the brief's stated range.
+6 techniques, 4 react applications (deferred-write-window applied 2026-10-22, experiment, better). Golden path 197 lines — the shortest of the wave and closest to the brief's stated range.
 
 ## Open leads (banked, with return conditions)
 

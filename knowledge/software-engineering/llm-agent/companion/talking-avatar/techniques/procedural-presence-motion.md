@@ -29,9 +29,10 @@ costs nothing, starts instantly, and is the motion the viewer sees most.
   different periods per axis, not a stack of sines — sines repeat visibly within
   a minute. Use roll; heads that only yaw and pitch look mounted on a pole.
   Ease every start; a motion that begins at full velocity reads as a twitch.
-- **Blinks.** Full blinks with an asymmetric shape — a fast close (around 75 ms),
-  a short hold (around 35 ms), a slower open (around 170 ms) — at a believable
-  rate with a minimum spacing, an occasional double, and placement biased toward
+- **Blinks.** Full blinks with an asymmetric shape — a fast close (around
+  75-100 ms), a brief hold, a slower open (around 170-220 ms) — at a believable
+  rate with a minimum spacing (people blink about 17 times a minute at rest and
+  about 26 while talking, far fewer while reading), an occasional double, and placement biased toward
   phrase ends and gaze shifts rather than mid-word. Partial lid drops are a
   separate, smaller channel; they are not blinks and must not be counted as such.
 - **Saccades.** Gaze jumps quickly and then holds; a gaze that drifts smoothly

@@ -374,10 +374,10 @@
     },
     {
       "name": "i18n-translate",
-      "version": "1.6.3",
+      "version": "1.7.0",
       "category": "workflow",
       "path": "skills/i18n-translate/SKILL.md",
-      "contentHash": "sha256-n1:048e1340f86cce35",
+      "contentHash": "sha256-n1:d23a4830c2ed512e",
       "adopters": [
         "kp@plugin:1.1.0",
         "personas@plugin:1.1.0",
@@ -385,9 +385,9 @@
       ],
       "invokes30d": 2,
       "reportedInvokes": 2,
-      "lessons": 4,
+      "lessons": 5,
       "lessonsPath": "skills/i18n-translate/LESSONS.md",
-      "lessonsHash": "sha256-n1:490a72e16667384a",
+      "lessonsHash": "sha256-n1:e149e415195c07d9",
       "usageContributors": [
         "wolf"
       ],
@@ -741,10 +741,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.6.2",
+      "version": "4.7.0",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:38788d3cdbc6786c",
+      "contentHash": "sha256-n1:1da208a8f4c420d3",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
@@ -753,9 +753,9 @@
       ],
       "invokes30d": 15,
       "reportedInvokes": 15,
-      "lessons": 64,
+      "lessons": 65,
       "lessonsPath": "skills/scan-sweep/LESSONS.md",
-      "lessonsHash": "sha256-n1:ffa973cf4baf3ffe",
+      "lessonsHash": "sha256-n1:fba1bbc1955152ab",
       "usageContributors": [
         "wolf"
       ],
@@ -1121,7 +1121,7 @@
     "skills": 43,
     "practices": 8,
     "memory": 10,
-    "lessons": 358
+    "lessons": 360
   },
   "bundles": [
     {
@@ -1146,9 +1146,9 @@
       "purity": "civic",
       "subjects": 15,
       "techniques": 92,
-      "applications": 63,
-      "files": 175,
-      "contentHash": "sha256-b2:5039b30da12b96c6"
+      "applications": 70,
+      "files": 182,
+      "contentHash": "sha256-b2:da62c8e743b9bf99"
     },
     {
       "name": "game-production",
@@ -1158,10 +1158,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 86,
-      "techniques": 561,
-      "applications": 323,
-      "files": 974,
-      "contentHash": "sha256-b2:664a64bf3755a790"
+      "techniques": 562,
+      "applications": 330,
+      "files": 982,
+      "contentHash": "sha256-b2:0654760b7da784da"
     },
     {
       "name": "grant-funding",
@@ -1172,9 +1172,9 @@
       "purity": "funding",
       "subjects": 17,
       "techniques": 105,
-      "applications": 65,
-      "files": 192,
-      "contentHash": "sha256-b2:f86c9f838ce13f48"
+      "applications": 71,
+      "files": 198,
+      "contentHash": "sha256-b2:88eb8838833e1ca9"
     },
     {
       "name": "llm-observability",
@@ -1198,9 +1198,9 @@
       "purity": "localization",
       "subjects": 17,
       "techniques": 119,
-      "applications": 73,
-      "files": 213,
-      "contentHash": "sha256-b2:21a03cda6537b7e8"
+      "applications": 75,
+      "files": 215,
+      "contentHash": "sha256-b2:23656ca41c25ad54"
     },
     {
       "name": "marketing",
@@ -1211,9 +1211,9 @@
       "purity": "marketing",
       "subjects": 30,
       "techniques": 184,
-      "applications": 117,
-      "files": 335,
-      "contentHash": "sha256-b2:02aa81e33544c83e"
+      "applications": 136,
+      "files": 354,
+      "contentHash": "sha256-b2:803f9847d658c450"
     },
     {
       "name": "media-generation",
@@ -1223,10 +1223,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 37,
-      "techniques": 253,
-      "applications": 151,
-      "files": 446,
-      "contentHash": "sha256-b2:a8f268304615aff3"
+      "techniques": 255,
+      "applications": 162,
+      "files": 459,
+      "contentHash": "sha256-b2:4853bcf5d8f2dcc5"
     },
     {
       "name": "recruiting",
@@ -1237,9 +1237,9 @@
       "purity": "recruiting",
       "subjects": 67,
       "techniques": 416,
-      "applications": 313,
-      "files": 800,
-      "contentHash": "sha256-b2:0ed4fc60c379d900"
+      "applications": 318,
+      "files": 805,
+      "contentHash": "sha256-b2:23679e6b82b49a8f"
     },
     {
       "name": "software-engineering",
@@ -1250,9 +1250,9 @@
       "purity": "software",
       "subjects": 236,
       "techniques": 1884,
-      "applications": 1356,
-      "files": 3481,
-      "contentHash": "sha256-b2:48f5c1f6311e26bf"
+      "applications": 1403,
+      "files": 3528,
+      "contentHash": "sha256-b2:a42b1413b1100735"
     },
     {
       "name": "technical-writing",

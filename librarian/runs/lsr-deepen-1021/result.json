@@ -1,0 +1,69 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "lsr-deepen-1021",
+  "skill": "deepen",
+  "skill_version": "1.5.0",
+  "mode": "interactive",
+  "domain": "media-generation",
+  "started_at": "2026-10-21T21:05:00Z",
+  "ended_at": "2026-10-21T21:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/live-safety-rails",
+      "at": "2026-10-21",
+      "engine": "deepen",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "live-safety-rails",
+      "technique": "detector-biased-to-false-positive",
+      "verdict": "better",
+      "mode": "simulation"
+    }
+  ],
+  "files": [
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/live-safety-rails.md",
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/techniques/care-state-after-disclosure.md",
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/techniques/crisis-handoff-one-kind-line.md",
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/techniques/detector-biased-to-false-positive.md",
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/techniques/sincere-ai-disclosure-then-return.md",
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/applications/process--crisis-handoff-one-kind-line.md",
+    "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/applications/rust--detector-biased-to-false-positive.md",
+    "librarian/applied.md",
+    "librarian/subjects/media-generation/live-safety-rails.md",
+    "librarian/domains/media-generation.md"
+  ],
+  "commits": [
+    {
+      "sha": "3dd25ae7",
+      "branch": "main",
+      "pathspec": [
+        "catalog.json",
+        "knowledge/media-generation/index.json",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/live-safety-rails.md",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/techniques/care-state-after-disclosure.md",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/techniques/crisis-handoff-one-kind-line.md",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/techniques/detector-biased-to-false-positive.md",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/techniques/sincere-ai-disclosure-then-return.md",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/applications/process--crisis-handoff-one-kind-line.md",
+        "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/applications/rust--detector-biased-to-false-positive.md"
+      ]
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Never swept; 5 conditions, no new technique. Delivered means aired: 92/204 crisis pointers lost to the new pace trim, 0 with guard (simulation). Apps rebased shadowrunr 4025231->a9d8c33, 44 anchors held. 0 stale. Fleet maps committed locally, not pushed."
+}

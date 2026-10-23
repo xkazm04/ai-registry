@@ -12675,3 +12675,32 @@ applied here - one sighting, and the honest record is in the source note.
 - **An audio instrument must gate on energy before it reports a pitch.** Autocorrelation finds a confident fundamental in room tone: the first form of `voice-distance.mjs` reported one speaker as 1.4 octaves from himself (326 Hz for a 122 Hz man) because the clip's last 2.5 s is near-silence. A relative energy floor plus a refusal below ~0.8 s of voiced material fixed it. A measurement instrument that cannot refuse will publish a number for anything.
 - **A machine joining the fleet does not inherit the ingest's dependencies.** `research-ingest.mjs` exited 2 (`yt-dlp is not runnable`) because yt-dlp had never been installed here. One `uv tool install` away, but exit 2 is the instrument failing, not the source being thin, and the two lead opposite directions.
 - **Players on a triage sheet must not be muted.** Models now generate sound with picture, so a pair's variable can BE the sound, and a muted player hides the one thing the operator was asked to judge. Fixed in `render-triage.mjs`; `loop` went with it, since a looping clip restarts over the tail of its own line.
+## 2.16.0 - 2026-10-22 - apply-implied-extra-spend-capped
+
+- A push from a fresh worktree of a husky project runs NO hook. core.hooksPath is the
+  relative `.husky/_`, which only the install step generates, so a new worktree has none,
+  and pre-commit, commit-msg and pre-push are silently absent. No bypass flag is involved
+  and nothing prints. The push looks gated and is not. Before pushing from a worktree, run
+  the project's install (or its hook installer) there and confirm the hook prints its
+  banner. A junctioned node_modules does not run the prepare step, so it does not help.
+  Repair when it has already happened: run the full gate on the pushed commit and report
+  the result. A default branch is never force-pushed.
+- An apply over an implemented technique found its defect in the copy, not the arithmetic,
+  for the second time in one subject. When the number is right, hunt the sentence printed
+  beside it in each of its states.
+
+## 2.16.0 - 2026-10-22 - apply:supranational-membership-inheritance
+
+- A tree comment saying a technique's rule is optional ("optional polish") is the falsifier to test, and it is cheap. Enumerate the readers the rule governs and render one A/B. Here it was wrong (4 to 3 countries covered). Its claim was plausible, because the mechanism beside the rule was already built.
+- Measure a retrofit's intermediate arm too. Add the new enum value alone and run the type check before fixing the readers. A clean type check over a default-arm branch is the evidence that the dispatch must be made exhaustive, and it costs one tsc run.
+- A scratch measurement test kept under the consumer's test glob runs again in every later directory-scoped run, and it overwrites its own arm-A output with arm-B values. Write arm outputs keyed by an ARM env var from the first run, or keep the arm-A capture outside the tree.
+
+## 2.16.0 - 2026-10-22 - apply:allocation-threshold-growth-policy
+- An apply hunt that searches for the technique's MECHANISM can miss a seam that carries its POLICY. Three runs grepped the fleet for a traced heap and idled. The fourth ran the strip test on the technique itself ("a reclaim fired on insert at a constant threshold pays a walk linear in the live set for a yield linear in the margin"), grepped for that shape (a size check against a constant followed by a full loop), and found it in two node trees, one live and one already fixed. Before writing a third "no seam in the fleet" row for a technique, grep for its stripped decision rule, not its subject's nouns. The landing that results is usually a boundary amendment, because the analog's contract differs; here the threshold was a memory bound, so the growth rule could not apply.
+
+## 2.16.0 - 2026-10-22 - apply:contained-async-module-loader
+- A seam hunt that greps manifests cannot see a capability the runtime ships as a builtin. Two runs grepped Cargo.toml and package.json for an embedded engine and idled. Node's vm module has no manifest entry, and a source grep for its import found three sandboxes that fill the loader hook. When the technique's mechanism can come from a standard library (vm, ast, subprocess, a regex engine), grep the source for the builtin's import too, and carry a positive control for it.
+
+## 2.16.0 - 2026-10-22 - apply:dual-encoding-symbol-interner
+- This is the third run today to find a seam after an earlier hunt idled, and each time the change was the same: drop the technique's home domain from the query and grep for its shape. Here the home was a compiler, which no fleet project has. The shape was an interner over a closed vocabulary whose integers sit in zeroed storage, and a word grep for `intern` found it in a database instrument. With allocation-threshold-growth-policy and contained-async-module-loader, that makes three independent runs. Before the next hunt, strip the technique down to its data shape and grep for that. If the three agree on a fourth run, this is a candidate rule for Phase 7.5 step 1.
+- When a technique bundles several rules, falsify each rule on its own seam. Here the fixed prefix came back not-better and the unused zero held under a seeded defect, in the same module. A single verdict over both would have read as a wash, and the amendment would have lost the half that held.

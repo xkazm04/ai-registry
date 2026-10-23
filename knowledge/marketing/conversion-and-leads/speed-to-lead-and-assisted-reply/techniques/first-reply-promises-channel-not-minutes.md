@@ -73,6 +73,14 @@ business, not a person of known gender.
   commitment is worse than no commitment.
 - When no brand name is configured, sign as the team, because a placeholder in a sent
   message is the enquiry's first proof that nobody is home.
+- When the name field is empty or holds something that is not a person's name, greet
+  without a name, because callers pass whatever identifies the lead. Keep the person's
+  name in its own field, separate from the row's display label. In one inbox, a CRM
+  row's label fell back from the person to the company, the e-mail and the phone. The
+  assisted reply's floor filled a missing recipient with a filler word. Every nameless
+  lead was then greeted by that label, by the filler word, or by a stray comma. The
+  greeting is the same placeholder failure as the sign-off, at the other end of the
+  message.
 - When this reply is used as a fallback under an assisted draft, mark it as
   not-send-ready with a risk naming itself, because a canned draft must never clear an
   autonomy gate ([a gate before money and copy](../../../_laws.md#a-gate-before-money-and-copy)).

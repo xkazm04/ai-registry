@@ -53,6 +53,9 @@ and limits on how far the model may reach.
   battle) fails. A counterfactual that recombines or extends real series
   (redistributing a company's sales, holding a growth rate at its
   pre-event trend) can pass.
+- Make the limits checkable where cases are proposed: a case records the year its real data ends,
+  and a proposal with under the baseline floor, a stretch past twice the baseline, or a horizon past
+  2100 is refused before it reaches a person. A bound that lives only in the brief gets skipped.
 - Prefer published models over your own when one exists, and name it.
 - A speculative case that reuses a fact case's data is a sequel. Record
   the link, and consider shipping it as a coda to the fact video.

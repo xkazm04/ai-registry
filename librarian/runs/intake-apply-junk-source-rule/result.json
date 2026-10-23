@@ -1,0 +1,61 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-junk-source-rule",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "marketing",
+  "started_at": "2026-10-22T09:00:00Z",
+  "ended_at": "2026-10-22T10:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "marketing/lead-quality-and-source-diagnosis",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "lead-quality-and-source-diagnosis",
+      "technique": "junk-source-rule",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/applications/node--junk-source-rule.md",
+    "knowledge/marketing/index.json",
+    "catalog.json",
+    "rules/ai-registry-marketing.md",
+    "librarian/subjects/marketing/lead-quality-and-source-diagnosis.md",
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [
+    {
+      "sha": "a75be4a1",
+      "pathspec": [
+        "knowledge/marketing/conversion-and-leads/lead-quality-and-source-diagnosis/applications/node--junk-source-rule.md",
+        "knowledge/marketing/index.json",
+        "catalog.json",
+        "rules/ai-registry-marketing.md"
+      ],
+      "branch": "main"
+    }
+  ],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only. The junk badge had no sample floor and the diagnosis copied the threshold; B shares both: junk-but-volume 3/5 to 0, demo unchanged. Project commits sit on a local branch, unpushed: pre-push suite red outside the change."
+}

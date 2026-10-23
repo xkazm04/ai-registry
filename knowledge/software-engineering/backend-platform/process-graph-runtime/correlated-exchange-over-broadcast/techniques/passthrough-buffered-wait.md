@@ -124,6 +124,20 @@ order) and make the pipelining scan wrong (the reply the inner wait needs may
 sit in the outer wait's private queue). One buffer per event stream, shared
 by every wait over it, is the only arrangement that keeps both properties.
 
+## Boundary: events the node only needs as a fact
+
+The buffer exists because the main loop may want an event's body. When the only
+thing it wants from a class of events is that one happened, there is a cheaper
+correct shape: fold the event into state on the single path every receive
+passes through, ahead of the correlation test, and let the wait discard the
+event itself. A load or ready notification becomes a counter; the caller records
+the count before it sends and compares afterwards, so a notification that lands
+inside the wait, even ahead of the reply, is still seen. Three conditions keep
+this honest. The fold sits on the one receive path, not in the waiter. The state
+is monotonic, so a late read cannot see it cleared. And no caller reads the
+event body, because the first one that does turns the sink back into silent
+input loss. A plain discard with no fold is the naive helper again.
+
 ## When not to use this
 
 If the waiting code owns a stream that carries *only* replies — a dedicated

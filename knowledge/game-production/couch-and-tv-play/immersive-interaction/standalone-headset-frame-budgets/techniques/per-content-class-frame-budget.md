@@ -41,17 +41,28 @@ but it does not set a device share.
 
 ## When one budget must hold on more than one headset, bind each quantity on the device that finds it hardest, because the weakest device overall is rarely the weakest on every quantity
 
-Write each limit once per quantity and name its binding device. Fill binds on the device with
-the larger per-eye display, because the same GPU class shades more pixels. Submission binds
-on the device with the slower CPU. Memory binds on the device with the lower per-app ceiling,
+Write each limit once per quantity and name its binding device. Fill binds on the device that
+renders the larger eye buffer, because the same GPU class then shades more pixels. That is not
+always the device with the larger display. The runtime sets the eye buffer, and two headsets
+on one chip can share a default eye buffer over different panels. They tie on fill until a
+per-device pixel density breaks the tie, so write the tie and name the setting that would
+break it. Submission binds on the device with the slower CPU. Memory binds on the device with the lower per-app ceiling,
 set under [residency budget checked before decode](../../../../engine-integration/render-submission-economy/techniques/residency-budget-checked-before-decode.md).
-A single "lower device binds" rule silently picks the wrong device for at least one of these.
+Where the devices differ on more than one of these, a single "lower device binds" rule
+silently picks the wrong device for at least one. Where they differ on none, it picks a tie
+and gives no reason, and the first per-device setting moves the binding without anyone noticing.
 
 ## Decision rules
 
 - **When the refresh rate changes, every share is re-derived.** A share is a fraction of an
   interval, not a fixed amount.
 - **When a class is added, the reserve is not where its share comes from.**
+- **When a class has its own count row, it still owes a share on every shared row it draws
+  from.** Passing its own row says nothing about the draw, triangle or fill rows it also loads.
+  A class can pass its own row while it adds cost to a shared row that is already failing.
+- **When a fix for one row is paid in another row's headroom, write the trade.** Headroom on a
+  shared row belongs to the classes that draw from it. Spending it to repay a different row is
+  a trade between their owners, not a free margin.
 - **When a share has never been read on the device, it is labelled a plan figure** in its
   application, never a measured one.
 

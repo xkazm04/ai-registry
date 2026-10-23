@@ -1,8 +1,8 @@
 ---
 domain: grant-funding
 subject: grant-source-landscape
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-10-22
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -224,3 +224,18 @@ dates stand as of 2026-08-19 and I did not refresh them. Settling them requires 
   }
 }
 ```
+
+## Intake apply - 2026-10-22 (run intake-apply-rpf-1022)
+
+Dispatched from the attention scan ("single stack (node)"). The subject's only consumer is a
+node tree, so the stack count is unmoved; the run applied the one unapplied technique instead.
+
+- `relevance-precision-filtering`: first application, `code` / `better`, replayed over a real
+  national export. The architecture review's open question on the "roughly three quarters
+  terminal" figure now has a witness: 667 of 821 (81 percent). Its other reverify point,
+  that an ingest-only gate cannot expire stored calls, was confirmed in the tree (upsert-only
+  store) and landed as a decision rule in the technique.
+- `stable-dedup-key-selection`: application row from the same replay. The ladder was coded
+  correctly and its first rung never fired on live data because of a field-name mismatch.
+  Candidate amendment for a later run, not written here: onboarding asserts the identifier
+  rung against one captured real payload.

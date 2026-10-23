@@ -43,6 +43,9 @@ reacts.
   card (event-card-stack).
 - Card headline text at 26 px or more. Sub-captions at 22 px or more, or cut
   them. Credit micro-lines are the only exception.
+- The date on the card must agree with the clock or axis the viewer reads at that
+  moment. A card dated to a different year than the chart shows contradicts itself on
+  one frame; check it mechanically against the beat's period.
 - A tilt of a few degrees sells "physical object". More than about 6° costs
   legibility.
 - No photo of the event exists? A typographic card (a clipping or a

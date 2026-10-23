@@ -41,6 +41,11 @@ corpus. If real recordings never arrive, the proxy is never promoted.
   lacked.
 - **When the device is still absent, state which claims wait for it** instead of leaving
   silence that reads as coverage.
+- **When a label names the channel the input entered through, it is not a basis label.**
+  "Mouse" or "recorded" says what the input pretends to come from. A generator can write
+  clips in a mouse shape, and a figure on them is still the generator's figure. The label
+  names what produced the input: a generator, a model of a stream, a person, or a device.
+  A label rule written in channel words passes this check and hides the proxy.
 
 ## When not to use it
 

@@ -1,8 +1,8 @@
 ---
 subject: translation-quality-measurement
 domain: localization
-last_touched: 2026-09-14
-touched_by: deepen (market harvest, wave 1)
+last_touched: 2026-10-22
+touched_by: intake apply (apply-etoss-1022)
 dry_streak: 0
 ---
 
@@ -158,3 +158,47 @@ The seam hunt produced the run's landing: the catalog's translator notes never r
 the translator. It is recorded under translation-pipeline-topology. The "no
 application layer" owed item above is closed. Still owed: the golden-path trim and the
 per-language exemption blocks.
+
+### 2026-10-22 - `/intake apply`: the correction log a git store already keeps (intake-apply-eqfrc-1022)
+
+`engine-quality-from-reviewer-corrections` gained its first application, on kp, and an
+amendment. The seam was chosen to falsify the technique: the reviewers are model passes
+and the store is git, with no review tool. The history turned out to be the correction
+log. The machine text is the value at the commit that introduced a unit, and the
+reviewer's text is the value after a review commit that left the source unchanged. The
+review commit's parent gives the denominator. Checked against the per-locale
+native-review queues, which the replay does not read, the naive store-wide rate ranked
+the locales wrongly. So did the technique as written, at the one pass that introduced a
+new rulebook: most of one locale's rejections were quote, apostrophe and spacing
+glyphs. Split out, the order matched. It also matched on the raw count at a pass with
+no rule change. The coverage trap was measured too: 63 percent of current units
+postdate the last full review and lift the store-wide rate 9 to 13 points.
+
+Amendment: "When the rulebook moved, not the engine". It normalizes the rule-governed
+surface before averaging and compares rates within one rulebook epoch. Every existing
+sentence stands. Weak point, stated in the application: three locales give a weak
+ranking, and the reviewer is a model. Still owed, unchanged: the golden-path trim and
+the per-language exemption blocks. **Stack count:** no fleet tree outside node carries
+a translated catalog, so the "single stack" point is not addressable by apply.
+
+### 2026-10-22 - `/intake apply`: a review queue that changed format halfway (apply-etoss-1022)
+
+First application of `error-typology-over-a-single-score`, and the first in this
+subject outside the node stack. The stack is `process`, because the seam is a
+reviewer's record format rather than a catalog's runtime. That answers the
+previous entry's "not addressable": the single-stack point was addressable,
+just not through a second catalog runtime. kp's three native-review queues hold
+533 findings. The older sections are untyped, and the newer ones carry an MQM
+category. Read as two arms, owner routing without reading the note went from
+0 of 122 to 411 of 411. Anchor citation rose from 23-28% to 44%, but that rise
+is confounded with the method that added the column.
+
+The seam was chosen to falsify the claim, and the technique held. Its two
+boundaries showed up as measured defects in the method that writes those
+queues, which this registry publishes. A bespoke `leftover-source` slot sent 3
+of its 4 glossary calls to translation. A reviewer filed a rule artifact's name
+as a category. The anchor rule, read literally, would have dropped accuracy
+findings, which cite the source span and not a rule. `i18n-translate` 1.7.0
+fixes all three. No technique text changed. A candidate amendment is held as a
+lead: "for accuracy the anchor is the source span and its call site". Return
+when a second store shows accuracy findings dropped for lacking a rule anchor.

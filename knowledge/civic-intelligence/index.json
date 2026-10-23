@@ -5,7 +5,7 @@
   "source": "knowledge/civic-intelligence/ (frontmatter only)",
   "subjects": 15,
   "techniques": 92,
-  "applications": 63,
+  "applications": 70,
   "laws": 9,
   "categories": [
    "parliamentary-data",
@@ -835,9 +835,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/legislative-change-tracking.md",
-   "digest": "sha256-b2:b340fecc484dd980",
-   "revision": 5,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:a63c6d5f390c3952",
+   "revision": 7,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "amendment-instruction-grammar",
@@ -939,6 +939,20 @@
      "technique": "committee-routing-reconstruction",
      "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/applications/node--committee-routing-reconstruction.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "sponsorship-and-rapporteur-roles",
+     "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/applications/node--sponsorship-and-rapporteur-roles.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "statute-citation-extraction",
+     "file": "knowledge/civic-intelligence/parliamentary-data/legislative-change-tracking/applications/node--statute-citation-extraction.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     },
     {
@@ -1102,9 +1116,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/parliamentary-data-modeling.md",
-   "digest": "sha256-b2:127bbeee60e64648",
-   "revision": 6,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:8694b54aa1c6544b",
+   "revision": 7,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "cross-term-registry-loading",
@@ -1224,6 +1238,13 @@
      "technique": "party-club-vs-electoral-list",
      "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--party-club-vs-electoral-list.md",
      "verified_on": "2026-10-14",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "term-and-chamber-scoping",
+     "file": "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--term-and-chamber-scoping.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     }
    ]
@@ -1700,9 +1721,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/roll-call-vote-analysis.md",
-   "digest": "sha256-b2:e23e5487572025b1",
-   "revision": 6,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:1fb04612acd77185",
+   "revision": 7,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "club-line-and-rebellion",
@@ -1827,6 +1848,13 @@
      "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--tally-reconciliation.md",
      "verified_on": "2026-08-30",
      "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "vote-choice-vocabulary-mapping",
+     "file": "knowledge/civic-intelligence/parliamentary-data/roll-call-vote-analysis/applications/node--vote-choice-vocabulary-mapping.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
     }
    ]
   },
@@ -1835,9 +1863,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/state-budget-analysis.md",
-   "digest": "sha256-b2:950ba8b9dd844d1f",
-   "revision": 3,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:0be7dd2ac953f10d",
+   "revision": 6,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "consolidated-vs-headline-figures",
@@ -1924,6 +1952,20 @@
    "applications": [
     {
      "stack": "node",
+     "technique": "consolidated-vs-headline-figures",
+     "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--consolidated-vs-headline-figures.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "median-over-mean-for-peers",
+     "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--median-over-mean-for-peers.md",
+     "verified_on": "2026-10-22",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
      "technique": "municipal-money-trail",
      "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--municipal-money-trail.md",
      "verified_on": "2026-08-30",
@@ -1934,6 +1976,13 @@
      "technique": "peer-group-construction",
      "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--peer-group-construction.md",
      "verified_on": "2026-08-30",
+     "verified_against": "node@24"
+    },
+    {
+     "stack": "node",
+     "technique": "per-capita-normalisation",
+     "file": "knowledge/civic-intelligence/public-money/state-budget-analysis/applications/node--per-capita-normalisation.md",
+     "verified_on": "2026-10-22",
      "verified_against": "node@24"
     }
    ]

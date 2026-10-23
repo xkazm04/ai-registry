@@ -44,6 +44,13 @@ A viewer in care state:
 - **has their disclosure sealed.** The details they shared never reappear in any host line,
   for any reason, including affectionate callbacks. The output gate checks lines addressed
   to or naming the viewer against the roast classifier and against the sealed details.
+- **is not alluded to.** Their silence, their absence, their empty seat and, where the show
+  removes them from chat, their removal are sealed with the detail, and so is their name
+  inside a line about someone else. This is the failure that follows a well-sealed detail:
+  a host barred from the disclosure found the gap beside it, joking about a removed viewer's
+  "empty chair" and then, told not to allude, still naming them or announcing that it would
+  not ("I won't answer for that name"). The seal covers any line that makes the room think of the viewer, not only
+  the line that repeats what they said.
 - **is out of the steering economy's reach.** No vote, gift or proposal can target them for
   a punishment, a bit or a spotlight.
 - **survives every path.** The fast lane, scripted beats and canned lines all read the same
@@ -59,6 +66,12 @@ me" does not lift it within the same stream: a person who disclosed danger minut
 not in a position to consent to being the bit, and the room cannot tell whether the
 retraction is sincere. Only the owner or a human moderator may clear it early, and doing so
 is a recorded act.
+
+A timed window shorter than the stream is the tempting alternative, and it fails at the
+moment it ends: in a three-hour simulated stream the host began joking about a removed
+viewer's absence in the very minute their thirty-minute care window lapsed. Whatever follows
+from the disclosure for the rest of the stream - a removal, a sealed name - needs a seal
+that lasts as long.
 
 Whether the state carries into the next stream is a privacy decision as much as a safety
 one. If it carries, store the minimal flag and an expiry, never the content of the

@@ -74,6 +74,10 @@ kind-specific fields are what each specialised module reads.
 - When a business has offerings of more than one kind, its marketing surfaces are a
   union of routes, not a single generic one; a shop that also offers installation has
   a feed for the products and a coverage matrix for the service.
+- When the active filter lives on the product adapter, give every other kind's route the
+  same filter, because a route that needs no adapter has no seam to inherit it from. A
+  tree that filtered only at the adapter still seeded comparison queries from a paused
+  plan and filled the coverage matrix with a paused service.
 
 ## When NOT to use
 

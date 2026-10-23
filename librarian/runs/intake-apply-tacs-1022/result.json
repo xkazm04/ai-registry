@@ -1,0 +1,51 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-tacs-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "civic-intelligence",
+  "started_at": "2026-10-21T22:50:00Z",
+  "ended_at": "2026-10-22T00:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "civic-intelligence/parliamentary-data-modeling",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "parliamentary-data-modeling",
+      "technique": "term-and-chamber-scoping",
+      "verdict": "better",
+      "mode": "code"
+    }
+  ],
+  "files": [
+    "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/applications/node--term-and-chamber-scoping.md",
+    "knowledge/civic-intelligence/parliamentary-data/parliamentary-data-modeling/techniques/term-and-chamber-scoping.md",
+    "knowledge/civic-intelligence/index.json",
+    "rules/ai-registry-civic-intelligence.md",
+    "catalog.json",
+    "librarian/applied.md",
+    "librarian/subjects/civic-intelligence/parliamentary-data-modeling.md",
+    ".claude/skills/intake/SCORECARD.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only (single stack node: not addressable). One-level term read dropped 1,915 of 3,260 PSP10 membership rows. politicas a0f83cb pushed (comments, plan, row); read fix 401150a on a local branch pending the owner committee-breadth decision."
+}

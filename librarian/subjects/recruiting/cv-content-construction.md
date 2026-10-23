@@ -1,8 +1,8 @@
 ---
 domain: recruiting
 subject: cv-content-construction
-last_touched: 2026-09-26
-touched_by: forge
+last_touched: 2026-10-22
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -11,6 +11,20 @@ dry_streak: 0
 Subject note. Part of [[index]]; graded against [[standard]].
 
 ## Touch log
+
+### 2026-10-22 - intake apply: career-change-framing (run intake-apply-ccf-1022)
+
+First application of the technique. Code A/B on kp: the tailoring pass gathered the
+career changer's projects and always printed them after the experience. The first fix
+(titles only) was refuted by kp's own pre-push agent review. On the tree's reference CV
+the teacher's paid role already holds the data work, and a course was moved above it. The
+corrected rule asks for titles first, then evidence strength. Three arms: the teaching-only
+changer read 14 lines before its bridge on A and 9 on A' and B. The reference teacher
+flipped wrongly on A' and was correct on B. Verdict `better`. The technique gained a
+two-question decision rule; the refuted title-only half is named in it.
+The scan finding that dispatched this run ("single stack (process)") is
+not reduced by it, because this is a second `process` application. No other fleet project
+declares the recruiting domain (checked with loadFleet), so a second stack waits for one.
 
 ### 2026-09-26 - forged, with its sibling `cv-presentation-and-parseability`
 

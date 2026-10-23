@@ -38,11 +38,18 @@ five operations:
 
 Two operations are constrained: **change and reprise require an earlier
 establish on the same thread**, checkable by machine. And both mean the
-viewer must *recognise* the earlier asset — a reprise rendered as a merely
-similar image destroys the payoff, because recognition is the payoff. This is
-the cut-level face of edit-don't-regenerate: modifying an established asset
-preserves what the viewer has already invested in it; regenerating a
-lookalike silently voids that investment.
+viewer must *recognise* the earlier asset, because recognition is the
+payoff. Reusing the asset itself is the safe default. It is the cut-level form
+of edit-don't-regenerate: modifying an established asset keeps what the viewer
+has already invested in it. Recognition research bounds how strict this has
+to be. Viewers recognised scene parts they had seen twice about equally well
+whether the second view was the identical photograph or one with overlapping
+content, and they also falsely recognised many parts they had never seen. A
+close lookalike will usually pass as "the same". The real risk is drift in
+the attributes the argument rests on: the line's shape, the count of objects,
+the height ratio. A regenerated lookalike that keeps the gist and changes
+those attributes is read as the same picture saying something different, and
+nobody notices the claim moved.
 
 Thread names should name *subjects*, not positions — a thread named for what
 it depicts survives beats being reordered, merged, or dropped, where an

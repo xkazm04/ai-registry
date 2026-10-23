@@ -1,0 +1,217 @@
+From 70b8db6e4de28fe1866a910617a61fdd4933f68c Mon Sep 17 00:00:00 2001
+From: xkazm04 <kazdanm@gmail.com>
+Date: Thu, 22 Oct 2026 16:46:22 +0200
+Subject: [PATCH] test(browse): pin wrapError against recorded Playwright
+ errors; cover every locator wait and non-timeout goto failure
+
+---
+ browse/src/error-rewrite.ts                   | 36 +++++++++++++
+ browse/src/server.ts                          | 24 +--------
+ browse/test/error-rewrite.test.ts             | 48 +++++++++++++++++
+ .../fixtures/playwright-1.62.1-errors.json    | 54 +++++++++++++++++++
+ 4 files changed, 139 insertions(+), 23 deletions(-)
+ create mode 100644 browse/src/error-rewrite.ts
+ create mode 100644 browse/test/error-rewrite.test.ts
+ create mode 100644 browse/test/fixtures/playwright-1.62.1-errors.json
+
+diff --git a/browse/src/error-rewrite.ts b/browse/src/error-rewrite.ts
+new file mode 100644
+index 0000000..988e6b1
+--- /dev/null
++++ b/browse/src/error-rewrite.ts
+@@ -0,0 +1,36 @@
++/**
++ * Translate Playwright errors into actionable messages for AI agents.
++ *
++ * Side-effect-free on purpose: server.ts has load-time effects, and a rewrite
++ * table that cannot be imported cannot be pinned by a test.
++ */
++export function wrapError(err: any): string {
++  const msg = err.message || String(err);
++  // Timeout errors
++  if (err.name === 'TimeoutError' || msg.includes('Timeout') || msg.includes('timeout')) {
++    // Any action that waits on a locator or selector, not only click/fill/hover.
++    if (/^(locator|frame|page)\.\w+: Timeout/.test(msg) && /waiting for (locator|selector)|waitForSelector/.test(msg)) {
++      return `Element not found or not interactable within timeout. Check your selector or run 'snapshot' for fresh refs.`;
++    }
++    if (msg.includes('page.goto') || msg.includes('Navigation')) {
++      return `Page navigation timed out. The URL may be unreachable or the page may be loading slowly.`;
++    }
++    return `Operation timed out: ${msg.split('\n')[0]}`;
++  }
++  // Multiple elements matched
++  if (msg.includes('resolved to') && msg.includes('elements')) {
++    return `Selector matched multiple elements. Be more specific or use @refs from 'snapshot'.`;
++  }
++  // Navigation that failed outright (not a timeout): keep the net error, drop the call log.
++  if (msg.startsWith('page.goto:')) {
++    return `Navigation failed: ${stripInternals(msg).replace(/^page\.goto: /, '')}. Check the URL.`;
++  }
++  // Pass through other errors, minus driver internals
++  return stripInternals(msg);
++}
++
++/** Drop the driver's call log and ANSI codes; any other lines of the message are the tool's own and stay. */
++function stripInternals(msg: string): string {
++  const cut = msg.indexOf('\nCall log:');
++  return (cut === -1 ? msg : msg.slice(0, cut)).replace(/\u001b\[[0-9;]*m/g, '').trimEnd();
++}
+diff --git a/browse/src/server.ts b/browse/src/server.ts
+index 3bcaeab..b5bb4cc 100644
+--- a/browse/src/server.ts
++++ b/browse/src/server.ts
+@@ -14,6 +14,7 @@
+  */
+ 
+ import { BrowserManager, markDaemonProcess } from './browser-manager';
++import { wrapError } from './error-rewrite';
+ import { handleReadCommand, hasOutArg } from './read-commands';
+ import { handleWriteCommand } from './write-commands';
+ import { handleMetaCommand } from './meta-commands';
+@@ -927,29 +928,6 @@ function findPort(): Promise<number> {
+   return findAvailablePort(BROWSE_PORT);
+ }
+ 
+-/**
+- * Translate Playwright errors into actionable messages for AI agents.
+- */
+-function wrapError(err: any): string {
+-  const msg = err.message || String(err);
+-  // Timeout errors
+-  if (err.name === 'TimeoutError' || msg.includes('Timeout') || msg.includes('timeout')) {
+-    if (msg.includes('locator.click') || msg.includes('locator.fill') || msg.includes('locator.hover')) {
+-      return `Element not found or not interactable within timeout. Check your selector or run 'snapshot' for fresh refs.`;
+-    }
+-    if (msg.includes('page.goto') || msg.includes('Navigation')) {
+-      return `Page navigation timed out. The URL may be unreachable or the page may be loading slowly.`;
+-    }
+-    return `Operation timed out: ${msg.split('\n')[0]}`;
+-  }
+-  // Multiple elements matched
+-  if (msg.includes('resolved to') && msg.includes('elements')) {
+-    return `Selector matched multiple elements. Be more specific or use @refs from 'snapshot'.`;
+-  }
+-  // Pass through other errors
+-  return msg;
+-}
+-
+ /** Internal command result — used by handleCommand and chain subcommand routing */
+ interface CommandResult {
+   status: number;
+diff --git a/browse/test/error-rewrite.test.ts b/browse/test/error-rewrite.test.ts
+new file mode 100644
+index 0000000..cb657d0
+--- /dev/null
++++ b/browse/test/error-rewrite.test.ts
+@@ -0,0 +1,48 @@
++import { describe, test, expect } from 'bun:test';
++import * as fs from 'fs';
++import * as path from 'path';
++import { wrapError } from '../src/error-rewrite';
++
++// Errors recorded from a real Chromium run on playwright 1.62.1, not hand-written:
++// the rewrite table is a bet on the driver's wording, so the pin has to be the wording.
++const recorded: Record<string, { name: string; message: string }> = JSON.parse(
++  fs.readFileSync(path.join(__dirname, 'fixtures', 'playwright-1.62.1-errors.json'), 'utf8'),
++);
++const wrap = (k: string) => wrapError(Object.assign(new Error(recorded[k].message), { name: recorded[k].name }));
++
++// An agent-actionable message carries no driver internals (call log, ANSI) and, where the
++// recovery is a command, names it.
++const noInternals = (m: string) => !m.includes('Call log') && !m.includes('\u001b');
++const ELEMENT_TIMEOUTS = ['click_missing', 'fill_missing', 'check_missing', 'press_missing',
++  'type_missing', 'select_missing', 'wait_selector'];
++const STRICT = ['strict_click', 'strict_text', 'strict_fill'];
++const NAVIGATION = ['goto_refused', 'goto_timeout', 'goto_dns'];
++
++describe('wrapError against recorded driver errors', () => {
++  test('the pre-existing rewrites keep their text', () => {
++    expect(wrap('click_missing')).toContain("run 'snapshot'");
++    expect(wrap('fill_missing')).toContain("run 'snapshot'");
++    expect(wrap('goto_timeout')).toBe('Page navigation timed out. The URL may be unreachable or the page may be loading slowly.');
++    for (const k of STRICT) expect(wrap(k)).toContain("use @refs from 'snapshot'");
++  });
++
++  test('every element-wait timeout names snapshot and hides the call log', () => {
++    for (const k of ELEMENT_TIMEOUTS) {
++      const m = wrap(k);
++      expect(m, k).toContain("'snapshot'");
++      expect(noInternals(m), k).toBe(true);
++    }
++  });
++
++  test('a navigation failure that is not a timeout keeps the net error and drops the call log', () => {
++    for (const k of NAVIGATION) expect(noInternals(wrap(k)), k).toBe(true);
++    expect(wrap('goto_refused')).toContain('ERR_UNSAFE_PORT');
++  });
++
++  test("the tool's own errors pass through untouched, multi-line included", () => {
++    const usage = 'Usage: goto <url>\n  e.g. goto https://example.com';
++    expect(wrapError(new Error('Unknown ref @e9'))).toBe('Unknown ref @e9');
++    expect(wrapError(new Error(usage))).toBe(usage);
++    expect(wrapError('plain string')).toBe('plain string');
++  });
++});
+diff --git a/browse/test/fixtures/playwright-1.62.1-errors.json b/browse/test/fixtures/playwright-1.62.1-errors.json
+new file mode 100644
+index 0000000..435492a
+--- /dev/null
++++ b/browse/test/fixtures/playwright-1.62.1-errors.json
+@@ -0,0 +1,54 @@
++{
++ "click_missing": {
++  "name": "TimeoutError",
++  "message": "locator.click: Timeout 800ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#nope')\u001b[22m\n"
++ },
++ "fill_missing": {
++  "name": "TimeoutError",
++  "message": "locator.fill: Timeout 800ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#nope')\u001b[22m\n"
++ },
++ "check_missing": {
++  "name": "TimeoutError",
++  "message": "locator.check: Timeout 800ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#nope')\u001b[22m\n"
++ },
++ "press_missing": {
++  "name": "TimeoutError",
++  "message": "locator.press: Timeout 800ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#nope')\u001b[22m\n"
++ },
++ "type_missing": {
++  "name": "TimeoutError",
++  "message": "locator.type: Timeout 800ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#nope')\u001b[22m\n"
++ },
++ "select_missing": {
++  "name": "TimeoutError",
++  "message": "locator.selectOption: Timeout 800ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#nope')\u001b[22m\n"
++ },
++ "wait_selector": {
++  "name": "TimeoutError",
++  "message": "page.waitForSelector: Timeout 800ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#nope') to be visible\u001b[22m\n"
++ },
++ "strict_click": {
++  "name": "Error",
++  "message": "locator.click: Error: strict mode violation: locator('button') resolved to 2 elements:\n    1) <button>a</button> aka getByRole('button', { name: 'a' }).first()\n    2) <button>a</button> aka getByRole('button', { name: 'a' }).nth(1)\n\nCall log:\n\u001b[2m  - waiting for locator('button')\u001b[22m\n"
++ },
++ "strict_text": {
++  "name": "Error",
++  "message": "locator.textContent: Error: strict mode violation: locator('button') resolved to 2 elements:\n    1) <button>a</button> aka getByRole('button', { name: 'a' }).first()\n    2) <button>a</button> aka getByRole('button', { name: 'a' }).nth(1)\n\nCall log:\n\u001b[2m  - waiting for locator('button')\u001b[22m\n"
++ },
++ "strict_fill": {
++  "name": "Error",
++  "message": "locator.fill: Error: strict mode violation: locator('button') resolved to 2 elements:\n    1) <button>a</button> aka getByRole('button', { name: 'a' }).first()\n    2) <button>a</button> aka getByRole('button', { name: 'a' }).nth(1)\n\nCall log:\n\u001b[2m  - waiting for locator('button')\u001b[22m\n"
++ },
++ "goto_refused": {
++  "name": "Error",
++  "message": "page.goto: net::ERR_UNSAFE_PORT at http://127.0.0.1:1/\nCall log:\n\u001b[2m  - navigating to \"http://127.0.0.1:1/\", waiting until \"load\"\u001b[22m\n"
++ },
++ "goto_timeout": {
++  "name": "TimeoutError",
++  "message": "page.goto: Timeout 800ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://10.255.255.1/\", waiting until \"load\"\u001b[22m\n"
++ },
++ "goto_dns": {
++  "name": "TimeoutError",
++  "message": "page.goto: Timeout 800ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"http://nonexistent.invalid/\", waiting until \"load\"\u001b[22m\n"
++ }
++}
+-- 
+2.43.0.windows.1
+

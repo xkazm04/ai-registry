@@ -1,3 +1,11 @@
+---
+subject: interview-story-portfolio
+domain: recruiting
+last_touched: 2026-10-21
+touched_by: deepen
+dry_streak: 0
+---
+
 # interview-story-portfolio (recruiting / candidate-self-presentation)
 
 Created 2026-10-14 by intake run icoach-1014 from a prompt-only candidate coach (commit
@@ -39,3 +47,9 @@ kp `results-detail-tabs` deviation (InterviewTab.tsx:220) is the UI face of the 
 finding and stands. kp map pushed d60e934e9. Applied: one simulation row (better). Dry-streak
 0; depth L2 plus one L3 count over seeds. Return: a candidate-side record with per-experience
 strength, or kp gating the shipped-AI question; AI-assisted-interview literature ~2027-01.
+
+Idled 2026-10-21 (curator, /deepen subject form, run isp-idle-1021). Dispatched on "never swept by
+the librarian" at HEAD 33a8a076, hours after isp-deepen-1021 ran five lanes with a counter-evidence
+lane read at source. The finding was an instrument artifact: this note had no frontmatter, so
+librarian-scan read last_touched as null and scored the subject 3 points on that reason alone.
+Frontmatter added; no research rerun, no clock or event to point at. Return conditions unchanged.

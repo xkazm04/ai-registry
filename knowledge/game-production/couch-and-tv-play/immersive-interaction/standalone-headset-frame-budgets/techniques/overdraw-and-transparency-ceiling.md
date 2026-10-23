@@ -34,7 +34,7 @@ them. Prefer a cut-out shaped by geometry over one shaped by discard.
 ## When an effect that was cheap on a desktop drops frames on the headset, cost it on the device at the largest screen coverage it can reach, because a desk GPU hides fill that a tiler pays for
 
 A desk capture measures a different bill. The device reading is taken with the effect at its
-nearest legal distance, on the device with the larger per-eye display when more than one must
+nearest legal distance, on the device that renders the larger eye buffer when more than one must
 hold, and under the measurement rules of
 [fresh state per check](../../../couch-and-tv/on-device-verification-harness/techniques/fresh-state-per-check.md).
 Until that reading exists the effect's cost is unmeasured, not small.
@@ -53,6 +53,11 @@ ceiling before the effect is built.
   was authored at.
 - **When the interface is drawn as world-space panels, count it in the ceiling** like any
   other blended layer.
+- **When a comfort overlay covers the view, count it in the ceiling at its own coverage.** A
+  vignette or a fade drawn over most of the display is a blended layer over most of the
+  pixels. A budget that files it inside a particle row has costed it at that row's coverage,
+  and on one measured tree the closed overlay outweighed every particle in the scene three
+  times over.
 
 ## When not to use it
 

@@ -129,6 +129,8 @@ a genuinely separate channel — at which point the ordering guarantee above is
 gone and must be reconstructed explicitly, usually by having the closure notice
 carry the sequence number of the last payload it follows.
 
+Measured on a bounded queue behind a wedged writer (60 jobs, 180 lifecycle messages), a reserve alone kept 72 of them against 58 for drop-oldest, while evicting data before lifecycle kept all 180 at the same total loss: where the consumer can stop, the ladder is the mechanism and the reserve is its minor half.
+
 Nor does the reserve survive a consumer that has stopped reading entirely. Then
 the channel fills, the reserve fills behind it, and the design that saves the
 situation is not headroom but the eviction ladder: the queue sacrifices ordinary

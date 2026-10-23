@@ -71,12 +71,21 @@ disclosure roasted, a sincere question deceived, an audience sent at a stranger,
 person defamed in a clip that outlives the stream - costs something that cannot be recalled
 and lands on someone who never agreed to be part of the show. A detector tuned the way
 moderation is usually tuned, to keep false positives rare, is tuned for the wrong error.
+The cheapness has an edge, though: it holds while the action is a line on stream. A step
+that leaves the show - a report to the platform, an alert that could send emergency
+responders to someone who was joking - acts on a person's life outside it, and its false
+positives are not flat television. The detector's bias decides what the host says; a person
+decides what leaves the room.
 
 The asymmetry has a second consequence that teams miss: **safety-critical input must not
 compete for attention.** A live room sheds most of what it says - rate caps, flood
 collapse, pick limits, attention-share caps all exist to keep a busy chat watchable - and a
 crisis message is exactly the kind of quiet, single, low-engagement line those controls
 discard first. Detection that runs after throughput control has already lost the message.
+The same holds on the way out. A host also sheds lines after writing them - a speech budget
+trims a long reply, a lag ceiling drops a line queued too far behind - and those controls do
+not know which line was the help. A safety answer is given when the line that carries it
+airs, not when the message was picked or the reply was written.
 
 ## Care happens in public
 
@@ -91,11 +100,20 @@ invites personal data into a public room), **free of the bit** (no character voi
 around it, no joke on either side), and **followed by a return** to the show, because a
 host that stops the stream to perform concern has made the moment about itself.
 
+The silence is about the room, not a reading of crisis guidance. Peer-support guidance does
+recommend asking someone directly whether they are thinking of suicide, and checking in -
+and it puts that conversation in private. A broadcast cannot hold it, so the public line
+asks nothing, and the follow-up belongs to a person, through a private channel where the
+platform has one.
+
 The handoff is not the end of the obligation. A host whose care lasts exactly one reply
 will, minutes later, roast the same viewer about the very thing they disclosed - a model's
 memory of the moment is a prompt-window accident, not a commitment. The disclosure has to
 set a **care state** on that viewer that outlives the moment and is enforced by the
-machinery that picks targets and gates output, not by the model's recollection.
+machinery that picks targets and gates output, not by the model's recollection. And it must
+seal more than the detail: a host told never to mention what a viewer shared will still joke
+about their silence, their empty seat or their removal from chat, or drop their name into a
+roast of someone else, and the allusion lands as surely as the detail would.
 
 Below crisis sits sincerity of a lesser kind: a viewer who is plainly, genuinely sad
 without any sign of danger. That is the hardest case in the subject because both failure
@@ -126,8 +144,11 @@ but nothing it says in voice may assert that it is human. Ambiguity resolves tow
 sincere reading, by the same asymmetry as everything else. A standing label on the stream
 does not discharge this obligation: the person asking may have arrived three seconds ago
 and never seen it, and platform labelling duties are often scoped to *realistic* synthetic
-content, so a plainly stylised character may legitimately carry no label at all - in which
-case the host's own answer is the only disclosure there is. One quiet failure belongs here
+content, so a plainly stylised character may legitimately carry no platform label at all -
+in which case the host's own answer is the only disclosure there is. A realism-scoped label
+is not the only duty, either: some law requires that a person conversing with an AI be told
+so unless that is obvious, and stylisation does not make it obvious, because a human
+performer could be voicing the same cartoon. One quiet failure belongs here
 too: an output filter that strips lines breaking character will, unless told otherwise,
 strip the honest answer along with them.
 

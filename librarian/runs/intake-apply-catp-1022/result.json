@@ -1,0 +1,39 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-apply-catp-1022",
+  "skill": "intake",
+  "skill_version": "2.16.0",
+  "mode": "apply",
+  "domain": "media-generation",
+  "started_at": "2026-10-22T15:00:00Z",
+  "ended_at": "2026-10-22T15:30:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 0,
+    "declined": 0,
+    "idled": 1,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "media-generation/music-video-production",
+      "at": "2026-10-22",
+      "engine": "intake",
+      "outcome": "idled",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [],
+  "files": [
+    "librarian/applied.md",
+    ".claude/skills/intake/SCORECARD.md",
+    "librarian/runs/intake-apply-catp-1022/result.json"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "Apply-only, no seam. Return condition of 2026-10-07 not fired: the only music-video tree still renders one still under an audio-reactive overlay; its clip generator takes image + motion, no audio. Single-stack finding needs a tree that does not exist yet."
+}

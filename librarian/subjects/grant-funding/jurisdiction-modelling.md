@@ -1,8 +1,8 @@
 ---
 domain: grant-funding
 subject: jurisdiction-modelling
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-10-22
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -160,3 +160,44 @@ citations are unverified rather than confirmed.
   }
 }
 ```
+
+## Intake apply - 2026-10-22 (run intake-apply-etcm-1022)
+
+Dispatched from the attention scan ("single stack (node)"). The subject's only consumer is a
+node tree, so the stack count is unmoved; the run applied the one technique with no
+`applied.md` row instead.
+
+- `entity-type-code-mapping`: first application, `code` / `better`. The curated subset, the
+  null-as-unconfirmed rule and the three-way reconciliation were already met in the tree.
+  The broken rule was the last one, key the map by registry: the verify step resolved every
+  source's code through the one Czech map, so a declared-but-unbuilt registry (two more in
+  the Czech profile, two in the UK one) would have borrowed it. A/B over 13 real cases:
+  correct 8 to 13, out-of-profile suggestions 3 to 0, ARES and IRS cases unchanged. Still
+  unbuilt: the unmapped-code log the technique calls the curation queue.
+- No technique edit. The finding is a boundary the technique already states; the application
+  records the one non-obvious form of it, a resolver passed as a function that receives the
+  code without its source.
+
+## Intake apply - 2026-10-22 (run intake-apply-smi-1022)
+
+Dispatched from the attention scan ("single stack (node)"). The subject still has one node
+consumer, so the stack count stays where it was. This run applied the next technique with no
+`applied.md` row.
+
+- `supranational-membership-inheritance`: first application, `code` / `better`. Membership
+  inheritance was built in the tree: declared on the member, merged at resolution, one corpus,
+  and the body can be onboarded directly. The level was not built. The EU was typed as a
+  country, with a comment calling the supranational level optional polish. The level and the
+  countries-only list existed only on an unmerged work-in-progress branch. A/B: countries
+  covered went from 4 to 3. The onboarding sentence stopped naming the EU beside a member that
+  inherits it. The floor held.
+- Technique amended with one decision rule. A retrofit must make every dispatch on level
+  exhaustive in the same change. The tree's one level reader sent the new level to its
+  `local` default and still type-checked.
+- Currency note on `node--market-claim-truthfulness`: it cites the supranational level and the
+  countries-only list as present. The default branch did not carry them until this run's
+  commit. Its line citations should be re-resolved at the next reverify. Its date was left
+  unchanged, because this run did not re-check that document's other claims.
+- Open, not this technique's rule: a member's per-market count of inherited calls, and
+  programme association for a non-member (the UK and Horizon-family programmes). The
+  architecture review's second counterexample still stands.

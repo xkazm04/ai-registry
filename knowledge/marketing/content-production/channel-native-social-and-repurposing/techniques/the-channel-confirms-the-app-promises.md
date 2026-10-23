@@ -99,6 +99,14 @@ channel is removed rather than simulated.
 - When counting anything that reads as "went out", count only the confirmed state,
   because every other state is a promise, and promises are not
   measurements ([not measured is not zero](../../../_laws.md#not-measured-is-not-zero)).
+- When a second surface reads the board (a merged calendar, a cadence cap, a report),
+  reconcile the stored board there too, and let a handed-over slot appear once, as the
+  channel's post. The stored board is a snapshot of an earlier derivation. If both the
+  slot and its post are listed, one promise uses two places in a weekly cap, and the
+  cap refuses the next real post.
+- When the channel read failed or came back full at its limit, treat a missing linked
+  post as unknown, not withdrawn, because the withdrawal is the one derived state that
+  is persisted. Read off a failed or truncated read, it strips live links for good.
 
 ## When NOT to use
 
