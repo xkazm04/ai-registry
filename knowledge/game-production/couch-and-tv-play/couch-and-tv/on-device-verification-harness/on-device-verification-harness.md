@@ -13,6 +13,7 @@ techniques:
   - keep-the-failed-baseline
   - emulated-touch-is-not-physical-touch
   - attribute-every-stall-before-judging-it
+  - borrow-and-return-the-shared-device
 ---
 
 # On-device verification harness
