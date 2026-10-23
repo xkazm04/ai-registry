@@ -13,6 +13,7 @@ techniques:
   - indexed-not-toggled-commands
   - link-rate-follows-the-phase
   - send-on-change-with-a-heartbeat-floor
+  - answer-the-open-ask-by-id
 ---
 
 # Phone controller input protocol
