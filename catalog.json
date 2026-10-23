@@ -1149,10 +1149,10 @@
       "profile": "rkb/0.1",
       "purity": "game",
       "subjects": 86,
-      "techniques": 562,
+      "techniques": 565,
       "applications": 330,
-      "files": 982,
-      "contentHash": "sha256-b2:3f591beef13e3b00"
+      "files": 985,
+      "contentHash": "sha256-b2:987e9c5522742a1c"
     },
     {
       "name": "grant-funding",
@@ -1240,10 +1240,10 @@
       "profile": "rkb/0.1",
       "purity": "software",
       "subjects": 236,
-      "techniques": 1884,
+      "techniques": 1886,
       "applications": 1403,
-      "files": 3528,
-      "contentHash": "sha256-b2:4fb6c538ebfb7b22"
+      "files": 3530,
+      "contentHash": "sha256-b2:2347cffd152494b9"
     },
     {
       "name": "technical-writing",

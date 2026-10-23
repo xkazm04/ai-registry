@@ -4,7 +4,7 @@
   "bundle": "software-engineering",
   "source": "knowledge/software-engineering/ (frontmatter only)",
   "subjects": 236,
-  "techniques": 1884,
+  "techniques": 1886,
   "applications": 1403,
   "laws": 15,
   "categories": [
@@ -20,7 +20,7 @@
    "secret-custody-and-issuance"
   ],
   "layout": "nested",
-  "use_when_coverage": "1884/1884",
+  "use_when_coverage": "1886/1886",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -16808,7 +16808,7 @@
    "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/guest-language-introspection.md",
    "digest": "sha256-b2:d9a0bca3698f0a65",
    "revision": 3,
-   "changedAt": "2026-10-22",
+   "changedAt": "2026-10-23",
    "techniques": [
     {
      "slug": "flag-gated-debug-global",
@@ -23956,9 +23956,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/software-engineering/client-architecture/native-shell-integration/native-shell-integration.md",
-   "digest": "sha256-b2:0ab230f2977430e7",
-   "revision": 4,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:9034ad02704d9c88",
+   "revision": 5,
+   "changedAt": "2026-10-23",
    "techniques": [
     {
      "slug": "capability-presence-contract",
@@ -23975,6 +23975,21 @@
       "deciding between a runtime guard and compiling the call out entirely",
       "a host implementation of an interface member is a throw or a silent no-op",
       "a control is offered on a host where pressing it can only fail"
+     ]
+    },
+    {
+     "slug": "host-forwarded-key-contract",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-vocabulary",
+      "failure-not-empty-success"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a page must be driven by a remote or controller whose keys the host browser keeps for itself",
+      "a native wrapper passes hardware keys into an embedded page",
+      "deciding when the back key leaves the application",
+      "a back press either traps the user or exits mid-flow"
      ]
     },
     {
@@ -34588,9 +34603,9 @@
    "subcategory": "runtime-and-io",
    "status": "reconciled",
    "file": "knowledge/software-engineering/llm-agent/runtime-and-io/subprocess-lifecycle/subprocess-lifecycle.md",
-   "digest": "sha256-b2:c9b34849dd8fed39",
-   "revision": 14,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:bad19520d32fbc43",
+   "revision": 15,
+   "changedAt": "2026-10-23",
    "techniques": [
     {
      "slug": "cancellation-needs-a-terminable-unit",
@@ -36531,9 +36546,9 @@
    "subcategory": "build-and-release",
    "status": "forged",
    "file": "knowledge/software-engineering/engineering-process/build-and-release/test-harness/test-harness.md",
-   "digest": "sha256-b2:5521806124d93882",
-   "revision": 26,
-   "changedAt": "2026-10-06",
+   "digest": "sha256-b2:c96e1ee699a88119",
+   "revision": 27,
+   "changedAt": "2026-10-23",
    "techniques": [
     {
      "slug": "approval-snapshots-with-guarded-update",
@@ -36549,6 +36564,21 @@
       "deciding how a snapshot suite may be re-baselined",
       "a pipeline run went green after a change that should have altered recorded output",
       "choosing between an environment flag and a source constant for record mode"
+     ]
+    },
+    {
+     "slug": "assert-the-schedule-not-the-stopwatch",
+     "status": "forged",
+     "laws": [
+      "count-carries-predicate",
+      "gate-sees-target"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a test claims work runs concurrently or is cut off at a deadline",
+      "a timing assertion fails only when the machine is busy",
+      "deciding how a runner's parallelism or timeout option is proved",
+      "a flake register keeps listing a test whose bound is a number of milliseconds"
      ]
     },
     {
@@ -41194,6 +41224,7 @@
     "terminal-multiplexing/occupant-state-detection",
     "terminal-multiplexing/readiness-edge-detection",
     "test-harness/approval-snapshots-with-guarded-update",
+    "test-harness/assert-the-schedule-not-the-stopwatch",
     "test-harness/assert-through-the-reader",
     "test-harness/configuration-axes-cross-the-ladder",
     "test-harness/constraint-injection-for-unreachable-tiers",
@@ -41613,6 +41644,7 @@
     "multi-provider-gateway-plane/router-versus-candidate-failure",
     "narrative-scroll-surface/reveal-without-loss",
     "native-shell-integration/capability-presence-contract",
+    "native-shell-integration/host-forwarded-key-contract",
     "native-shell-integration/native-owned-stream",
     "native-shell-integration/observer-perturbation",
     "native-shell-integration/query-transparent-overlay",
@@ -42453,6 +42485,7 @@
     "templates-scaffolding/catalog-curation",
     "templates-scaffolding/integrity-and-provenance",
     "terminal-multiplexing/bounded-replay-buffers",
+    "test-harness/assert-the-schedule-not-the-stopwatch",
     "test-harness/configuration-axes-cross-the-ladder",
     "test-harness/constraint-injection-for-unreachable-tiers",
     "test-harness/derived-selection-must-be-measured",
@@ -43908,6 +43941,7 @@
     "narrative-scroll-surface/sequence-as-spine",
     "native-document-format/format-is-the-engines-input",
     "native-document-format/one-writer-per-fact",
+    "native-shell-integration/host-forwarded-key-contract",
     "native-shell-integration/layout-resolved-input-synthesis",
     "native-shell-integration/permission-gate-vector",
     "node-boot-and-declarative-bootstrap/config-objects-are-api-immutable",

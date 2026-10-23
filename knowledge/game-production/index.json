@@ -4,7 +4,7 @@
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
   "subjects": 86,
-  "techniques": 562,
+  "techniques": 565,
   "applications": 330,
   "laws": 14,
   "categories": [
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "562/562",
+  "use_when_coverage": "565/565",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3644,9 +3644,9 @@
    "subcategory": "couch-and-tv",
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/fire-tv-device-realities/fire-tv-device-realities.md",
-   "digest": "sha256-b2:48e890c1185a0247",
-   "revision": 1,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:fc37d71f0a5437da",
+   "revision": 2,
+   "changedAt": "2026-10-23",
    "techniques": [
     {
      "slug": "abi-inspect-the-apk",
@@ -3701,6 +3701,21 @@
       "a save that must survive power loss runs on the thread that draws frames",
       "slow frames line up with a purchase a race result or a settings change",
       "someone proposes moving a save that holds money or progress to a background thread"
+     ]
+    },
+    {
+     "slug": "price-the-open-audio-stream",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a game's sound is suspected of costing frames on a streaming stick",
+      "deciding whether to cut the mix or change how audio output is opened",
+      "a low-latency or deep-buffer audio request is assumed to change the device's audio path",
+      "frames over budget persist after the mix was trimmed"
      ]
     },
     {
@@ -6049,9 +6064,9 @@
    "subcategory": "couch-and-tv",
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/on-device-verification-harness/on-device-verification-harness.md",
-   "digest": "sha256-b2:c93684a45025e912",
-   "revision": 1,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:4e6008f98b11b159",
+   "revision": 2,
+   "changedAt": "2026-10-23",
    "techniques": [
     {
      "slug": "absolute-due-time-load-pump",
@@ -6080,6 +6095,20 @@
       "a soak reports input stalls or slow frames and nobody knows which machine produced them",
       "the harness samples the device from the same process that drives the load",
       "a bar failed and the fix is about to be chosen from the failing figure alone"
+     ]
+    },
+    {
+     "slug": "borrow-and-return-the-shared-device",
+     "status": "forged",
+     "laws": [
+      "refuse-rather-than-destroy",
+      "an-instrument-proves-it-had-input"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a capture or test run needs a device that other agents or sessions also drive",
+      "an unattended run might take over or stop someone else's session on the device",
+      "a measurement was taken on a device another process was also driving"
      ]
     },
     {
@@ -6400,9 +6429,9 @@
    "subcategory": "couch-and-tv",
    "status": "forged",
    "file": "knowledge/game-production/couch-and-tv-play/couch-and-tv/phone-controller-input-protocol/phone-controller-input-protocol.md",
-   "digest": "sha256-b2:fd87c0b2445d94f9",
-   "revision": 1,
-   "changedAt": "2026-10-09",
+   "digest": "sha256-b2:b747f08e5c83e69d",
+   "revision": 2,
+   "changedAt": "2026-10-23",
    "techniques": [
     {
      "slug": "absolute-state-over-event-frames",
@@ -6416,6 +6445,21 @@
       "designing the message a handheld controller sends to a host",
       "a held control is stuck after a dropped packet",
       "choosing between press-release events and periodic snapshots"
+     ]
+    },
+    {
+     "slug": "answer-the-open-ask-by-id",
+     "status": "forged",
+     "laws": [
+      "every-effect-on-the-rules-is-visible",
+      "refuse-rather-than-destroy"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a phone assists a turn-based session that the television leads",
+      "a companion screen could navigate or change session state",
+      "a companion request arrives after the host stopped asking",
+      "two screens can both move what the room is looking at"
      ]
     },
     {
@@ -11493,6 +11537,7 @@
     "fire-tv-device-realities/dhcp-scan-for-device",
     "fire-tv-device-realities/keep-screen-on-flag",
     "fire-tv-device-realities/price-the-durable-save-on-the-device",
+    "fire-tv-device-realities/price-the-open-audio-stream",
     "fire-tv-device-realities/read-the-priority-before-requesting-one",
     "fire-tv-device-realities/server-socket-portability-hedge",
     "fire-tv-device-realities/startup-work-belongs-at-first-use",
@@ -11908,6 +11953,7 @@
     "engine-pitfall-corpus/incident-entry-shape",
     "engine-pitfall-corpus/provenance-on-every-entry",
     "fire-tv-device-realities/price-the-durable-save-on-the-device",
+    "fire-tv-device-realities/price-the-open-audio-stream",
     "fire-tv-device-realities/startup-work-belongs-at-first-use",
     "game-dialogue-voice-pipeline/localized-voice-timing-budget",
     "game-economy-tuning/cost-curve-object-audit",
@@ -12356,6 +12402,7 @@
     "llm-dialogue-quality-control/measured-banned-pattern-list",
     "mesh-finishing-for-engine-readiness/export-proven-by-read-back",
     "on-device-verification-harness/attribute-every-stall-before-judging-it",
+    "on-device-verification-harness/borrow-and-return-the-shared-device",
     "on-device-verification-harness/meminfo-local-to-avoid-forced-gc",
     "on-device-verification-harness/poll-ready-signal-not-fixed-delay",
     "perf-regression-gating/allocation-gate-on-the-shipped-configuration",
@@ -12547,6 +12594,8 @@
     "mesh-finishing-for-engine-readiness/headless-dcc-capability-limits",
     "mesh-finishing-for-engine-readiness/pack-existing-vs-smart-unwrap",
     "mesh-finishing-for-engine-readiness/unwrap-only-the-low-poly",
+    "on-device-verification-harness/borrow-and-return-the-shared-device",
+    "phone-controller-input-protocol/answer-the-open-ask-by-id",
     "regeneration-vs-repair-economics/refuse-the-fix-that-cannot-help",
     "shader-budget-authoring/forbidden-feature-combinations",
     "ship-pipeline-gating/post-cook-process-liveness-smoke",
@@ -12626,6 +12675,7 @@
    "techniques": [
     "cross-runtime-rules-conformance/divergence-log-not-silent-correction",
     "hand-tracked-timing-windows/tracking-loss-as-a-game-state",
+    "phone-controller-input-protocol/answer-the-open-ask-by-id",
     "render-submission-economy/cull-before-submission"
    ]
   }
