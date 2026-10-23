@@ -1148,7 +1148,7 @@
       "techniques": 92,
       "applications": 70,
       "files": 182,
-      "contentHash": "sha256-b2:da62c8e743b9bf99"
+      "contentHash": "sha256-b2:1de626260492c7f1"
     },
     {
       "name": "game-production",
@@ -1161,7 +1161,7 @@
       "techniques": 562,
       "applications": 330,
       "files": 982,
-      "contentHash": "sha256-b2:0654760b7da784da"
+      "contentHash": "sha256-b2:3f591beef13e3b00"
     },
     {
       "name": "grant-funding",
@@ -1174,7 +1174,7 @@
       "techniques": 105,
       "applications": 71,
       "files": 198,
-      "contentHash": "sha256-b2:88eb8838833e1ca9"
+      "contentHash": "sha256-b2:085b766eca815106"
     },
     {
       "name": "llm-observability",
@@ -1200,7 +1200,7 @@
       "techniques": 119,
       "applications": 75,
       "files": 215,
-      "contentHash": "sha256-b2:23656ca41c25ad54"
+      "contentHash": "sha256-b2:6fea74053381b673"
     },
     {
       "name": "marketing",
@@ -1213,7 +1213,7 @@
       "techniques": 184,
       "applications": 136,
       "files": 354,
-      "contentHash": "sha256-b2:803f9847d658c450"
+      "contentHash": "sha256-b2:12c7fca4df51df7b"
     },
     {
       "name": "media-generation",
@@ -1226,7 +1226,7 @@
       "techniques": 255,
       "applications": 162,
       "files": 459,
-      "contentHash": "sha256-b2:4853bcf5d8f2dcc5"
+      "contentHash": "sha256-b2:ff789a92f79782c0"
     },
     {
       "name": "recruiting",
@@ -1239,7 +1239,7 @@
       "techniques": 416,
       "applications": 318,
       "files": 805,
-      "contentHash": "sha256-b2:23679e6b82b49a8f"
+      "contentHash": "sha256-b2:8096754041957d3c"
     },
     {
       "name": "software-engineering",
@@ -1252,7 +1252,7 @@
       "techniques": 1884,
       "applications": 1403,
       "files": 3528,
-      "contentHash": "sha256-b2:a42b1413b1100735"
+      "contentHash": "sha256-b2:62ccbeb0c20ac273"
     },
     {
       "name": "technical-writing",

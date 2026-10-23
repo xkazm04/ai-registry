@@ -27,7 +27,7 @@
    "file": "knowledge/media-generation/narrative-craft/ad-concept-development/ad-concept-development.md",
    "digest": "sha256-b2:58a150de2683c915",
    "revision": 3,
-   "changedAt": "2026-10-23",
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "agency-preserving-premise",
@@ -215,7 +215,7 @@
    "file": "knowledge/media-generation/streaming/live-show/audience-absorption-at-scale/audience-absorption-at-scale.md",
    "digest": "sha256-b2:10c4a251c835d294",
    "revision": 3,
-   "changedAt": "2026-10-23",
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "attention-share-cap",
@@ -961,8 +961,8 @@
    "status": "draft",
    "file": "knowledge/media-generation/visual-generation/data-video-art-direction/data-video-art-direction.md",
    "digest": "sha256-b2:9e140bec9e8eb951",
-   "revision": 6,
-   "changedAt": "2026-10-23",
+   "revision": 8,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "case-native-chart-form",
@@ -1239,8 +1239,8 @@
    "status": "draft",
    "file": "knowledge/media-generation/narrative-craft/data-video-virality/data-video-virality.md",
    "digest": "sha256-b2:857308a4204852e8",
-   "revision": 5,
-   "changedAt": "2026-10-23",
+   "revision": 7,
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "accelerator-events",
@@ -1628,7 +1628,7 @@
    "file": "knowledge/media-generation/visual-generation/frame-direction/frame-direction.md",
    "digest": "sha256-b2:b936a9a456cd5767",
    "revision": 2,
-   "changedAt": "2026-10-23",
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "boundary-transition-class",
@@ -2784,7 +2784,7 @@
    "file": "knowledge/media-generation/streaming/trust-and-evaluation/live-safety-rails/live-safety-rails.md",
    "digest": "sha256-b2:1e0067bcd2638872",
    "revision": 2,
-   "changedAt": "2026-10-23",
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "care-state-after-disclosure",
@@ -3025,7 +3025,7 @@
    "file": "knowledge/media-generation/audio-generation/multi-speaker-speech-production/multi-speaker-speech-production.md",
    "digest": "sha256-b2:7ea2b5e416115e6b",
    "revision": 3,
-   "changedAt": "2026-10-23",
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "chunk-boundary-continuity",
@@ -3436,7 +3436,7 @@
    "file": "knowledge/media-generation/streaming/live-show/on-stream-persona-continuity/on-stream-persona-continuity.md",
    "digest": "sha256-b2:08c790ffd08803d5",
    "revision": 2,
-   "changedAt": "2026-10-23",
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "anti-repetition-window",
@@ -4336,7 +4336,7 @@
    "file": "knowledge/media-generation/audio-generation/sound-effect-generation/sound-effect-generation.md",
    "digest": "sha256-b2:4138f0757b58efac",
    "revision": 5,
-   "changedAt": "2026-10-23",
+   "changedAt": "2026-10-22",
    "techniques": [
     {
      "slug": "envelope-first-briefing",

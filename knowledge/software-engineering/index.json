@@ -16808,7 +16808,7 @@
    "file": "knowledge/software-engineering/backend-platform/language-runtime/guest-language-introspection/guest-language-introspection.md",
    "digest": "sha256-b2:d9a0bca3698f0a65",
    "revision": 3,
-   "changedAt": "2026-10-22",
+   "changedAt": "2026-10-23",
    "techniques": [
     {
      "slug": "flag-gated-debug-global",
