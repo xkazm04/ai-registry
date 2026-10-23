@@ -1045,6 +1045,15 @@
       "source": "skill-bakeoff-2026-09-01"
     },
     {
+      "kind": "episodic",
+      "slug": "2026-10-23-local-llm-perfect-analysis",
+      "path": "memory/episodic/2026-10-23-local-llm-perfect-analysis.md",
+      "contentHash": "sha256-n1:88466d7a8787bb17",
+      "confidence": 0.5,
+      "namespace": "engineering",
+      "source": "local-llm-perfect-analysis-2026-10-22"
+    },
+    {
       "kind": "procedural",
       "slug": "rolling-back-a-bad-release",
       "path": "memory/procedural/rolling-back-a-bad-release.md",
@@ -1111,7 +1120,7 @@
   "counts": {
     "skills": 43,
     "practices": 8,
-    "memory": 9,
+    "memory": 10,
     "lessons": 358
   },
   "bundles": [

@@ -40,6 +40,9 @@ the registry; edit the notes, not the counts.
 - [2026-09-01: Fable vs Opus skill bake-off](episodic/2026-09-01-fable-vs-opus-skill-bakeoff.md) - `engineering`,
   confidence 1.0. Nine lane skills run twice with identical inputs; picks per skill and what the harness taught.
 
+- [2026-10-22: local models on the /perfect analysis phase](episodic/2026-10-23-local-llm-perfect-analysis.md) - `engineering`,
+  confidence 0.5. Two local models and a paid baseline on the propose phase; a good first pass, weaker on cross-file findings.
+
 ### Summary - rollups that consolidate other notes
 
 - [2026 H1 delivery guardrails](summary/2026-h1-delivery-guardrails.md) - `engineering`,

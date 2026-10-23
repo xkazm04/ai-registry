@@ -77,6 +77,7 @@ scripts/lib/taxonomy.mjs  # the shared slug -> path resolver; nothing else may b
 scripts/lib/skills-lane.mjs # the ONE reader of the skills lane: frontmatter, digest, lessons, sub-resources
 scripts/lib/fleet.mjs     # the shared bulk-model dispatcher: retry, budget and model rotation
 scripts/experiments/fleet-use-when.mjs # proposes the missing use_when lines, then applies the reviewed ones
+scripts/experiments/perfect-local.mjs # analysis-only /perfect (scout, draft, challenge) on a local Ollama model through Pi, read-only, on a throwaway clone
 scripts/build-index.mjs   # regenerates knowledge/<domain>/index.json (--check in CI)
 scripts/build-catalog.mjs # regenerates catalog.json from every lane (--check in CI)
 scripts/build-marketplace.mjs # regenerates .claude-plugin/marketplace.json from the skills lane (--check in CI)
