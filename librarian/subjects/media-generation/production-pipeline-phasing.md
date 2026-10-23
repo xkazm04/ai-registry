@@ -1,7 +1,7 @@
 ---
 subject: production-pipeline-phasing
 domain: media-generation
-last_touched: 2026-09-01
+last_touched: 2026-10-21
 dry_streak: 0
 ---
 
@@ -11,7 +11,8 @@ First note: [[2026-08-26-stop-building-ai-slop]] - /intake run 22. Subject preda
 
 ## State
 
-5 techniques. The cheap-probe rule now runs on two axes (fidelity and medium) rather than one.
+7 techniques. The cheap-probe rule now runs on two axes (fidelity and medium) rather
+than one, and the graduation gate now runs in two directions rather than one.
 
 ## 2026-08-26 - /intake run 22
 
@@ -67,3 +68,41 @@ retention run on independent clocks. Application `node--long-run-as-background-j
 systedo-case `6279066f` (both designs present). The bundle does not declare `next` as a
 stack, so the application is `node`. Proposal: the general form belongs in software-
 engineering `job-coordination`.
+
+## 2026-10-21 - /intake, a sponsored video walkthrough ([[../../sources/2026-10-21-laziest-cinematic-ai-video]])
+
+Gained `approval-reads-forward`. The subject's graduation craft reads **backward** - the
+phase order is declared by what each phase settles for its successor, and
+`phase-order-and-graduation` gates sign-off against "the artifact itself", meaning
+against the brief that asked for it. Neither asks whether a shared upstream asset
+already contains what the beats downstream of it will need. For the one class of
+artifact that every later request is conditioned on - the plate, the sheet, the style
+contract - that is the whole risk: the asset can answer its brief exactly and still be
+unable to produce the last shot, and nothing downstream can move it.
+
+Found by the missing-stage hunt rather than by a missing opinion, and the subject's own
+strength is what hid it - a pipeline with a real graduation gate feels covered. The
+source supplied the occasion, not the rule: its creator caught a plate whose only
+practical sat between the figure and the lens, over a payoff built on that figure's
+shadow falling the other way, and then stated the rule out loud.
+
+Home not contested once both boundary statements were read: `cinematic-language` owns
+the plate as a reference artifact (`scene-grammar-progression`) and owns the lighting
+dials, and neither owns approval.
+
+Applied to `pof` as a **simulation**, verdict **better**, seam chosen to falsify. The
+forward list ran over a seven-beat cutscene beat sheet that already passes its own
+validators (which check field presence only). The pre-check was stated first: if the
+list named nothing on work an experienced author had written, the technique is theatre.
+It named three - an aerial a later beat must *match* whose bearing was never declared, a
+reverse across an axis an earlier beat's full orbit crosses before the reverse exists,
+and a two-second eye-contact beat over a character sheet with no stated gaze. All three
+are consequences of an upstream artifact's geometry and none is a defect in any single
+beat's brief, which is why a backward check cannot see them. Floor held. Shipped.
+
+### Still open
+
+A simulation cannot price what the catch saved - no render was spent against the old
+sheet, so the counterfactual cost is argued, not measured. Return when that pipeline
+grows an asset table and the forward list can be a validator row with a catch count per
+sequence.

@@ -800,9 +800,9 @@
       ],
       "invokes30d": 6,
       "reportedInvokes": 6,
-      "lessons": 33,
+      "lessons": 34,
       "lessonsPath": "skills/spark/LESSONS.md",
-      "lessonsHash": "sha256-n1:9908fc40214ddcfd",
+      "lessonsHash": "sha256-n1:9ca53279981d5e48",
       "usageContributors": [
         "wolf"
       ],
@@ -1045,6 +1045,15 @@
       "source": "skill-bakeoff-2026-09-01"
     },
     {
+      "kind": "episodic",
+      "slug": "2026-10-23-local-llm-perfect-analysis",
+      "path": "memory/episodic/2026-10-23-local-llm-perfect-analysis.md",
+      "contentHash": "sha256-n1:19853490f286512f",
+      "confidence": 0.5,
+      "namespace": "engineering",
+      "source": "local-llm-perfect-analysis-2026-10-22"
+    },
+    {
       "kind": "procedural",
       "slug": "rolling-back-a-bad-release",
       "path": "memory/procedural/rolling-back-a-bad-release.md",
@@ -1061,6 +1070,15 @@
       "confidence": 0.6,
       "namespace": "engineering",
       "source": "vendor-research-and-probe"
+    },
+    {
+      "kind": "semantic",
+      "slug": "local-text-model-baseline",
+      "path": "memory/semantic/local-text-model-baseline.md",
+      "contentHash": "sha256-n1:a9eaeaabfdb8e249",
+      "confidence": 0.5,
+      "namespace": "engineering",
+      "source": "local-llm-perfect-analysis-2026-10-22"
     },
     {
       "kind": "semantic",
@@ -1111,8 +1129,8 @@
   "counts": {
     "skills": 43,
     "practices": 8,
-    "memory": 9,
-    "lessons": 359
+    "memory": 11,
+    "lessons": 360
   },
   "bundles": [
     {
@@ -1214,10 +1232,10 @@
       "profile": "rkb/0.1",
       "purity": "media",
       "subjects": 37,
-      "techniques": 253,
-      "applications": 161,
-      "files": 456,
-      "contentHash": "sha256-b2:4cd268c24a2e9e57"
+      "techniques": 255,
+      "applications": 162,
+      "files": 459,
+      "contentHash": "sha256-b2:ff789a92f79782c0"
     },
     {
       "name": "recruiting",

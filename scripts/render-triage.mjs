@@ -93,7 +93,12 @@ export function leaks(html, manifest) {
 
 function mediaTag(src) {
   const ext = path.extname(src).toLowerCase();
-  if (VIDEO.has(ext)) return `<video src="${esc(src)}" controls loop muted playsinline></video>`;
+  // NOT muted. Models now generate sound with the picture, so a pair's variable can BE the
+  // sound - a voice reference attached or not - and a muted player hides the one thing the
+  // operator was asked to judge. `loop` is dropped with it: a looping clip restarts over the
+  // tail of its own line, which is unlistenable. The cost is that an image-shaped pair now
+  // needs a click per clip; that is the cheaper error.
+  if (VIDEO.has(ext)) return `<video src="${esc(src)}" controls playsinline preload="metadata"></video>`;
   if (AUDIO.has(ext)) return `<audio src="${esc(src)}" controls></audio>`;
   return `<img src="${esc(src)}" alt="">`;
 }

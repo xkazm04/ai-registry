@@ -101,7 +101,8 @@
     },
     "mage-arena-vr": {
       "checkouts": {
-        "Wolf": "kiro/mage-arena-vr"
+        "Wolf": "kiro/mage-arena-vr",
+        "Lynx": "kiro/mage-arena"
       }
     },
     "garden-vr": {

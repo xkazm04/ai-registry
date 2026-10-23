@@ -11,6 +11,7 @@ techniques:
   - worst-news-first-progress
   - shared-clock-across-phases
   - delivery-promise-lock
+  - approval-reads-forward
 ---
 
 # Production pipeline phasing
@@ -62,6 +63,19 @@ usable output. Fidelity is not the only axis available: a probe may drop a
 whole dimension — motion, duration, sound — rehearsing an expensive medium in
 a cheaper one, and when it does, the dimensions it dropped are left unsettled,
 never approved.
+
+The order answers what a phase settles *for* its successor. It does not answer
+the mirror question, and one class of artifact needs it asked: the **shared
+asset** — a plate, a sheet, a style contract — that every later request is
+conditioned on. Its sign-off is checked against the brief that asked for it,
+which is a backward check, and a plate can answer its brief exactly and still
+be unable to produce the last shot in the sequence, because the thing that
+shot needs was a consequence of the plate's geometry and was never anybody's
+request. Nothing in a backward check can see that, so a shared asset's
+approval also **reads forward** — against the beats that will stand on it
+([approval-reads-forward](./techniques/approval-reads-forward.md)). It is the
+cheapest correction in the pipeline at this stage and one of the most
+expensive four stages later, for the same reason the order exists at all.
 
 ## Two kinds of artifact, two lifecycles
 
@@ -179,3 +193,6 @@ while the assembled product has gaps and drift no surface can locate.
 - [shared-clock-across-phases](./techniques/shared-clock-across-phases.md) —
   one time base for every phase's output, so gaps, drift, and refusals have
   an address.
+- [approval-reads-forward](./techniques/approval-reads-forward.md) — the
+  forward half of a shared asset's sign-off: the list of what the beats
+  downstream need from its geometry, resolved before it graduates.

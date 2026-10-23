@@ -19,6 +19,7 @@ techniques:
   - verify-cheapest-artifact-first
   - silent-defects-get-a-code-or-an-error
   - pinned-frame-notes
+  - unreferenced-channels-resample
 ---
 
 # Video assembly
@@ -63,7 +64,11 @@ length. Generated clips complicate the grammar without changing it: current
 video models ship shots with their own synchronized sound baked in, and that
 sound is a mix decision made outside the assembly — it is explicitly kept,
 demoted, or stripped per clip, and never silently occupies the voice or
-music lane. The lane order is a convention worth keeping stable (picture on top,
+music lane. Keeping that sound raises a question one step before
+the mix: a channel the model synthesises is drawn fresh on every call unless
+something conditions it, so a character who speaks in three clips is three
+voices until a reference pins them — and no picture check in this subject can
+see it. The lane order is a convention worth keeping stable (picture on top,
 voice, then music) because an editor reads a timeline the way a musician
 reads a staff: the value is in never having to re-orient.
 

@@ -3,7 +3,7 @@ name: intake
 description: "Mine an external source - a YouTube video, a news roundup, an article, pasted notes, a repository - for what it should change in THIS registry, and in the connected projects that consume it. Ingests the source, reads its design decisions as well as its claims, maps both against existing bundles for prior art, triages with the operator, and lands what survives corroboration - amendments for boundary cases, techniques and subjects for mechanisms, forge handoffs for systems whose architecture the corpus lacks. News sources mostly yield currency signals and leads; that is a successful run. Use when someone shares a link and asks what it means for us."
 category: ai-native
 memory: project
-version: 2.16.0
+version: 2.17.0
 tags: research, sources, memory-lane, admission-gate, render-proof, triage, currency, cross-repo, leads, apply, ab-test, parallel, reference-index, design-read, forge-handoff, directions, fleet-map, peer-study, opus-workers, decision-gate
 ---
 
@@ -1131,17 +1131,33 @@ Six rules hold without exception:
   prevent. Where the gate refused, say so on the sheet and show it anyway; where the two
   seeds disagree with each other, show **both** seeds, because that disagreement is the
   finding.
-- **No render host here: queue it for the media host (operator 2026-10-15).** This machine
-  keeps no local models by decision, and a dedicated media host (image, video, 3D) will run
-  render proofs. A render-bound candidate never lands here, and a run never downloads a model
-  to render one. Write it to `librarian/harvest/backlog.jsonl` in its usual shape with
-  `"status": "held"`, `"queue": "media"` and a `"render"` object naming the run id, the brief,
-  where arm A's and arm B's instructions are (the corpus-before and corpus-after text, or the
-  source-note section holding them), and the instrument it needs (model, node, the envelope
-  if one is known). `held` rows never enter a `/harvest backlog` wave, so nothing on this
-  machine picks it up; the media host claims `queue: media` rows, runs this phase there, and
-  the operator's blind verdict lands or rejects them. It never becomes a technique carried by
-  a `simulation` row.
+- **Render where the models are, and queue only where they are not (operator 2026-10-21,
+  superseding 2026-10-15).** The earlier rule - no local models here, every render proof
+  queued to a dedicated media host - was written when this machine held no models. A machine
+  registered as the fleet's media bench holds them again, and the operator's standing rule is
+  now the stronger one: **a 3D or video intake always renders a short example from local
+  resources, even where the knowledge is already known**, because rendering it is what proves
+  the technique was understood rather than recognised. So: if the machine running the intake
+  has the stack, Phase 6b runs here and the candidate lands or dies on the operator's verdict
+  this sitting. A run still never downloads a model to make a proof pass - the test is whether
+  the stack is already present, not whether it could be. Where it is genuinely absent, the
+  queue is unchanged: write the candidate to `librarian/harvest/backlog.jsonl` in its usual
+  shape with `"status": "held"`, `"queue": "media"` and a `"render"` object naming the run id,
+  the brief, where arm A's and arm B's instructions are (the corpus-before and corpus-after
+  text, or the source-note section holding them), and the instrument it needs (model, node,
+  the envelope if one is known). `held` rows never enter a `/harvest backlog` wave; the media
+  host claims `queue: media` rows and the operator's blind verdict lands or rejects them. A
+  render-bound candidate never becomes a technique carried by a `simulation` row either way.
+- **A discrimination floor comes from a cell where the measured channel is pinned BY DESIGN
+  (v2.17).** The floor is meant to say what a second render of the same approach costs when
+  nothing changed. If the arm you draw it from is the one where nothing conditions the thing
+  you are measuring, the number is not noise around the treatment - it IS the treatment's
+  full effect size, and the gate will refuse every real finding you ever put through it. The
+  test: name the channel the pair is about, and ask which arm holds it fixed on purpose. Draw
+  the floor from that arm. If no arm does, the pair has no floor and needs one more render,
+  not a softer threshold. A refusal here is usually a design defect in the proof, so read it
+  before re-cutting the statistic - and when you add the missing cell, write down what each
+  possible result will mean BEFORE it renders, because by then you know which answer you want.
 - **The run does not grade its own render proof.** The director pre-reads frames to catch
   a crash, a black clip or a wrong anchor, and labels that read as opinion in the note.
   The operator's pick is the verdict: the question is whether the output is *better*, and

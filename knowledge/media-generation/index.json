@@ -4,8 +4,8 @@
   "bundle": "media-generation",
   "source": "knowledge/media-generation/ (frontmatter only)",
   "subjects": 37,
-  "techniques": 253,
-  "applications": 161,
+  "techniques": 255,
+  "applications": 162,
   "laws": 9,
   "categories": [
    "narrative-craft",
@@ -16,7 +16,7 @@
    "streaming"
   ],
   "layout": "nested",
-  "use_when_coverage": "253/253",
+  "use_when_coverage": "255/255",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -3671,10 +3671,27 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/production-pipeline-phasing/production-pipeline-phasing.md",
-   "digest": "sha256-b2:369bb547120f6c56",
-   "revision": 4,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:f1762f69eb77b8d3",
+   "revision": 5,
+   "changedAt": "2026-10-21",
    "techniques": [
+    {
+     "slug": "approval-reads-forward",
+     "status": "forged",
+     "laws": [
+      "cost-per-usable-output",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "approving a location plate",
+      "character sheet",
+      "style contract or any other asset that later requests will be conditioned on",
+      "a later beat depends on where a light source or a landmark sits",
+      "deciding whether a shared asset is ready to graduate",
+      "a payoff shot cannot be made from an upstream artifact every reviewer already approved"
+     ]
+    },
     {
      "slug": "asset-vs-disposable-render",
      "status": "forged",
@@ -4633,9 +4650,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/media-generation/production-ops/video-assembly/video-assembly.md",
-   "digest": "sha256-b2:6bb352204d334af5",
-   "revision": 19,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:5f548f222df2e692",
+   "revision": 20,
+   "changedAt": "2026-10-21",
    "techniques": [
     {
      "slug": "alignment-names-its-text",
@@ -4841,6 +4858,23 @@
      ]
     },
     {
+     "slug": "unreferenced-channels-resample",
+     "status": "forged",
+     "laws": [
+      "typed-input-owns-its-channel",
+      "style-is-restated-not-remembered",
+      "edit-do-not-regenerate"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a generator emits sound along with picture and a character speaks in more than one clip",
+      "deciding what to attach to a generation call besides images",
+      "a recurring subject sounds like a different person from clip to clip while every visual check passes",
+      "minting and grading a voice sample for a sequence",
+      "a platform offers a reference input for a channel the model would otherwise invent"
+     ]
+    },
+    {
      "slug": "verify-cheapest-artifact-first",
      "status": "forged",
      "laws": [
@@ -4910,6 +4944,13 @@
      "file": "knowledge/media-generation/production-ops/video-assembly/applications/python--generated-shot-sourcing.md",
      "verified_on": "2026-09-22",
      "verified_against": "python@3.12"
+    },
+    {
+     "stack": "python",
+     "technique": "unreferenced-channels-resample",
+     "file": "knowledge/media-generation/production-ops/video-assembly/applications/python--unreferenced-channels-resample.md",
+     "verified_on": "2026-10-21",
+     "verified_against": "python@3.14"
     },
     {
      "stack": "react",
@@ -5230,6 +5271,7 @@
     "music-video-production/form-follows-what-the-track-gives",
     "narrative-engine-selection/fit-vs-hazard-axes",
     "on-stream-persona-continuity/tone-as-falsifiable-bet",
+    "production-pipeline-phasing/approval-reads-forward",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "production-pipeline-phasing/delivery-promise-lock",
     "production-pipeline-phasing/phase-order-and-graduation",
@@ -5287,6 +5329,7 @@
     "multi-speaker-speech-production/line-addressed-re-render",
     "multi-speaker-speech-production/world-lexicon-as-pronunciation-dictionary",
     "music-prompt-composition/section-plan-as-the-brief",
+    "production-pipeline-phasing/approval-reads-forward",
     "production-pipeline-phasing/asset-vs-disposable-render",
     "review-iteration-loops/anchored-variation-slate",
     "review-iteration-loops/edit-plan-over-regeneration",
@@ -5297,6 +5340,7 @@
     "video-assembly/motion-plate-library",
     "video-assembly/pinned-frame-notes",
     "video-assembly/seek-stable-composition-authoring",
+    "video-assembly/unreferenced-channels-resample",
     "visual-style-locking/draft-proofing-locked-ratchet"
    ]
   },
@@ -5440,6 +5484,7 @@
     "sound-effect-generation/envelope-first-briefing",
     "video-assembly/generated-shot-sourcing",
     "video-assembly/motion-plate-library",
+    "video-assembly/unreferenced-channels-resample",
     "visual-style-locking/approved-reference-sheet",
     "visual-style-locking/consistency-control-arm",
     "visual-style-locking/motion-sampled-under-a-frame-budget",
@@ -5460,7 +5505,8 @@
     "music-video-production/track-map-before-treatment",
     "show-segment-format-design/segment-as-state-table",
     "sound-effect-generation/picture-as-timing-brief",
-    "video-assembly/alignment-names-its-text"
+    "video-assembly/alignment-names-its-text",
+    "video-assembly/unreferenced-channels-resample"
    ]
   },
   "checkability-routes-the-pixel": {
