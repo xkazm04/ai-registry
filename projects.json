@@ -125,6 +125,11 @@
       "checkouts": {
         "Wolf": "kiro/overlord"
       }
+    },
+    "bp": {
+      "checkouts": {
+        "Lynx": "kiro/bp"
+      }
     }
   }
 }
