@@ -28,6 +28,7 @@ techniques:
   - pin-the-call-not-the-name
   - assert-through-the-reader
   - mutation-lane-with-a-triaged-baseline
+  - assert-the-schedule-not-the-stopwatch
 ---
 
 # Test harness architecture
