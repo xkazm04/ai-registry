@@ -1048,7 +1048,7 @@
       "kind": "episodic",
       "slug": "2026-10-23-local-llm-perfect-analysis",
       "path": "memory/episodic/2026-10-23-local-llm-perfect-analysis.md",
-      "contentHash": "sha256-n1:88466d7a8787bb17",
+      "contentHash": "sha256-n1:19853490f286512f",
       "confidence": 0.5,
       "namespace": "engineering",
       "source": "local-llm-perfect-analysis-2026-10-22"
@@ -1070,6 +1070,15 @@
       "confidence": 0.6,
       "namespace": "engineering",
       "source": "vendor-research-and-probe"
+    },
+    {
+      "kind": "semantic",
+      "slug": "local-text-model-baseline",
+      "path": "memory/semantic/local-text-model-baseline.md",
+      "contentHash": "sha256-n1:a9eaeaabfdb8e249",
+      "confidence": 0.5,
+      "namespace": "engineering",
+      "source": "local-llm-perfect-analysis-2026-10-22"
     },
     {
       "kind": "semantic",
@@ -1120,7 +1129,7 @@
   "counts": {
     "skills": 43,
     "practices": 8,
-    "memory": 10,
+    "memory": 11,
     "lessons": 360
   },
   "bundles": [

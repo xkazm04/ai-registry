@@ -43,6 +43,12 @@ read-only tools against a throwaway clone. The harness is
   a drop condition, exact lines, cross-file lifecycles, no cosmetic or bundled directions) was
   written but not re-run, so its effect is unmeasured.
 
+## After this run
+
+Gemma 4 26B and Qwen 3.6 35B were deleted and Qwen 3.8 27B was adopted as the single local
+text baseline; see [the baseline note](../semantic/local-text-model-baseline.md). Everything
+above was measured on the two removed models.
+
 ## Limits
 
 One run per model per context, one paid baseline on one context, no blind grading of slates.

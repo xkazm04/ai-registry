@@ -17,6 +17,9 @@ the registry; edit the notes, not the counts.
 - [When to run a lane skill on Fable 5.1 and when on Opus 5](semantic/model-choice-fable-vs-opus.md) - `engineering`,
   confidence 0.6. Fable ships more and deeper into the data layer; Opus audits gates, contracts and its own scope. Per-skill guidance table.
 
+- [Local text model baseline: Qwen 3.8 27B](semantic/local-text-model-baseline.md) - `engineering`,
+  confidence 0.5. The one local text model until measured otherwise; what supports it and what is not yet proven.
+
 - [Google AI Ultra in an agent-orchestrated production](semantic/google-ai-ultra-for-agentic-production.md) - `engineering`,
   confidence 0.6. What the subscription covers, what an agent can reach headlessly (agy: code + images), what it cannot (music, video, 3D, the API).
 
