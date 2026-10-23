@@ -116,6 +116,20 @@ the neighboring subject's jurisdiction
 technique's obligation ends at handing over live pipe ends and honestly
 reporting when they close.
 
+**The error stream is wiring, not a verdict.** Some script hosts, in their
+strict-failure mode, turn every line a child writes to its error stream into a
+terminating error the moment that stream is merged into the captured output.
+The first harmless warning then ends the host mid-run: the child's remaining
+output never reaches the log, and its exit status is never read. A paired
+probe of such a host - a stub child that writes one warning line, two output
+lines, and exits non-zero - logged zero lines and reported the host's own
+failure under the strict mode, and logged all three lines with the child's
+status once the call was scoped. So wire it deliberately: relax the strict
+mode for exactly that one invocation, convert both streams to plain text as
+they are captured, read the exit status before restoring the mode, and decide
+failure from that status alone. Pin it with the same stub, because the defect
+stays invisible until the day a child happens to warn.
+
 ## Handles the child was never given
 
 The five inputs above leave out a sixth on platforms whose process creation passes
