@@ -23,6 +23,9 @@ the registry; edit the notes, not the counts.
 - [Google AI Ultra in an agent-orchestrated production](semantic/google-ai-ultra-for-agentic-production.md) - `engineering`,
   confidence 0.6. What the subscription covers, what an agent can reach headlessly (agy: code + images), what it cannot (music, video, 3D, the API).
 
+- [Meta Model API for an agent product](semantic/meta-model-api-for-agents.md) - `engineering`,
+  confidence 0.3. Model ids, what each sense does, prices, per-team limits, Contributor-mode training; press only until the athena-portable spikes measure it.
+
 - [Mage Arena is one game shipped through several channels](semantic/mage-arena-channels-and-shared-canon.md) - `mage-arena`,
   confidence 1.0. Desktop/TV, VR and a future PC build share one design; data has one owner; a mechanic is solved once.
 

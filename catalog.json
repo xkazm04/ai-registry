@@ -1100,6 +1100,15 @@
     },
     {
       "kind": "semantic",
+      "slug": "meta-model-api-for-agents",
+      "path": "memory/semantic/meta-model-api-for-agents.md",
+      "contentHash": "sha256-n1:3c948c18ba57e656",
+      "confidence": 0.3,
+      "namespace": "engineering",
+      "source": "vendor-pages-2026-10-24-not-yet-probed"
+    },
+    {
+      "kind": "semantic",
       "slug": "model-choice-fable-vs-opus",
       "path": "memory/semantic/model-choice-fable-vs-opus.md",
       "contentHash": "sha256-n1:9a594ca377c2be58",
@@ -1129,7 +1138,7 @@
   "counts": {
     "skills": 43,
     "practices": 8,
-    "memory": 11,
+    "memory": 12,
     "lessons": 360
   },
   "bundles": [
