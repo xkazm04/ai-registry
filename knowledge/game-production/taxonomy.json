@@ -44,7 +44,8 @@
         "generative-artifact-gating",
         "judgeable-spec-authoring",
         "reference-parity-gating",
-        "wiring-contract-doctrine"
+        "wiring-contract-doctrine",
+        "concept-scene-parity"
       ]
     },
     {

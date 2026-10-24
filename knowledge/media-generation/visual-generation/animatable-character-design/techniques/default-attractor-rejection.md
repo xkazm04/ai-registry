@@ -123,3 +123,26 @@ default, it is the brief, and the work belongs to identity and likeness
 disciplines with their own consent rules. And where a style is already locked
 and the being already exists, re-opening the field is regeneration of an
 approved asset, not exploration.
+
+## When the being is already drawn: describe it, do not ban around it
+
+The procedure above is for exploration, when nobody has seen the being yet. Once an
+approved concept image shows it, the rule inverts, and carrying the exploration habits
+across does damage. A brief that defines the target by what it is not ("not a robot,
+not a creature, no face") hands the model a field again, and the model answers with the
+nearest default that obeys every ban. One production brief for a lamp-like companion
+was written this way. Every option in its round came back as a plain desk lamp: four
+polished candidates, all wrong, each faithful to the brief. Worse, the target the
+concept image showed *was* a white robotic lamp figure with jointed arms. The ban on
+the "chrome robot" next-nearest attractor, correct in an exploration round, had banned
+the approved answer.
+
+- **When an approved image exists, brief positively from a crop of it** and attach the
+  crop as a reference image: shape, parts, material, light, pose, in that order. In the
+  same project the rewritten brief, with the crop attached, matched the target figure
+  on its first call. The reviewing owner judged it the right being.
+- **Check every ban against the approved image before it ships in a brief.** A ban
+  inherited from the exploration round that describes something the image shows is a
+  contradiction, and the model will satisfy the words over the picture.
+- **Keep the bans only for what the image genuinely excludes**, and keep them below the
+  positive description, never in its place.

@@ -3,9 +3,9 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 86,
-  "techniques": 566,
-  "applications": 331,
+  "subjects": 87,
+  "techniques": 571,
+  "applications": 336,
   "laws": 14,
   "categories": [
    "systems-canon",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "566/566",
+  "use_when_coverage": "571/571",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1105,9 +1105,9 @@
    "subcategory": "geometry",
    "status": "forged",
    "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
-   "digest": "sha256-b2:83d174ba84bd1c83",
-   "revision": 2,
-   "changedAt": "2026-09-10",
+   "digest": "sha256-b2:fc75444ee7981874",
+   "revision": 3,
+   "changedAt": "2026-10-24",
    "techniques": [
     {
      "slug": "budget-shapes-output-not-just-caps",
@@ -1209,6 +1209,13 @@
      "technique": "class-ceiling-vs-requested-budget",
      "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/applications/process--class-ceiling-vs-requested-budget.md",
      "verified_on": "2026-08-20"
+    },
+    {
+     "stack": "python",
+     "technique": "budget-shapes-output-not-just-caps",
+     "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/applications/python--budget-shapes-output-not-just-caps.md",
+     "verified_on": "2026-10-25",
+     "verified_against": "python@3.13"
     }
    ]
   },
@@ -1611,6 +1618,113 @@
      "technique": "plain-language-fight-report",
      "file": "knowledge/game-production/balance-validation/combat-pacing-and-dramatic-arc/applications/process--plain-language-fight-report.md",
      "verified_on": "2026-08-20"
+    }
+   ]
+  },
+  "concept-scene-parity": {
+   "category": "content-pipeline",
+   "subcategory": null,
+   "status": "forged",
+   "file": "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
+   "digest": "sha256-b2:ed8f9efb38002cff",
+   "revision": 1,
+   "changedAt": "2026-10-24",
+   "techniques": [
+    {
+     "slug": "cap-attribution-before-the-next-round",
+     "status": "forged",
+     "laws": [
+      "no-gate-self-certifies",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "planning the next look round after a scorecard",
+      "a round of work moved the scene and not the score",
+      "the team keeps improving the stage it is best at",
+      "the judge's priorities differ from the builders' ranking"
+     ]
+    },
+    {
+     "slug": "element-scorecard-from-the-concept-camera",
+     "status": "forged",
+     "laws": [
+      "unmeasured-is-not-a-pass",
+      "a-number-carries-its-unit-and-basis",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "turning \"it looks dated\" into a list of named gaps",
+      "scoring a real-time scene against a concept image",
+      "estimating whether a concept's look is reachable before building",
+      "several estimates of the reachable score disagree"
+     ]
+    },
+    {
+     "slug": "grade-only-the-excess",
+     "status": "forged",
+     "laws": [
+      "one-authority-per-quantity",
+      "a-number-carries-its-unit-and-basis"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "fitting a colour grade or lookup table from a scene capture to a concept image",
+      "a fitted grade fixed the matched regions and shifted skin",
+      "accents or neutrals",
+      "an authored colour comes out wrong after tone mapping"
+     ]
+    },
+    {
+     "slug": "judge-in-the-destination-light",
+     "status": "forged",
+     "laws": [
+      "a-verdict-is-bound-to-its-content",
+      "one-authority-per-quantity"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "reviewing a finished prop or texture before it is placed",
+      "assets pass review and still read as a generation old in the scene",
+      "glossy surfaces read as black or as one bright panel",
+      "the scene's lighting was just rebuilt"
+     ]
+    },
+    {
+     "slug": "score-only-what-the-device-shows",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "no-gate-self-certifies"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "setting up the capture a look scorecard is read from",
+      "a capture looks better than the device ever will",
+      "a framing or field of view seems to have changed between rounds",
+      "the concept shows an effect the target device cannot render"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "element-scorecard-from-the-concept-camera",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/process--element-scorecard-from-the-concept-camera.md",
+     "verified_on": "2026-10-25"
+    },
+    {
+     "stack": "python",
+     "technique": "grade-only-the-excess",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--grade-only-the-excess.md",
+     "verified_on": "2026-10-25"
+    },
+    {
+     "stack": "python",
+     "technique": "judge-in-the-destination-light",
+     "file": "knowledge/game-production/content-pipeline/concept-scene-parity/applications/python--judge-in-the-destination-light.md",
+     "verified_on": "2026-10-25"
     }
    ]
   },
@@ -9843,9 +9957,9 @@
    "subcategory": "immersive-interaction",
    "status": "draft",
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
-   "digest": "sha256-b2:8787cb1df62c7cec",
-   "revision": 6,
-   "changedAt": "2026-10-22",
+   "digest": "sha256-b2:e4757f58a412b75e",
+   "revision": 7,
+   "changedAt": "2026-10-24",
    "techniques": [
     {
      "slug": "forward-path-feature-allowance",
@@ -9963,6 +10077,13 @@
      "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/cpp--thermal-headroom-reserve.md",
      "verified_on": "2026-10-22",
      "verified_against": "cpp@20"
+    },
+    {
+     "stack": "python",
+     "technique": "forward-path-feature-allowance",
+     "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/applications/python--forward-path-feature-allowance.md",
+     "verified_on": "2026-10-25",
+     "verified_against": "python@3.11"
     }
    ]
   },
@@ -11512,6 +11633,8 @@
     "combat-pacing-and-dramatic-arc/lead-car-wreck-before-lap-one-rate",
     "combat-pacing-and-dramatic-arc/plain-language-fight-report",
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
+    "concept-scene-parity/cap-attribution-before-the-next-round",
+    "concept-scene-parity/element-scorecard-from-the-concept-camera",
     "condition-tagged-line-tables/most-specific-match-wins",
     "content-acceptance-tiering/deferred-as-honest-progress",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
@@ -11761,6 +11884,8 @@
     "catalog-pipeline-authoring/view-produce-accept-triad",
     "combat-pacing-and-dramatic-arc/division-wide-damage-multiplier",
     "combat-pacing-and-dramatic-arc/intensity-and-threat-tension-curve",
+    "concept-scene-parity/grade-only-the-excess",
+    "concept-scene-parity/judge-in-the-destination-light",
     "condition-tagged-line-tables/react-to-what-the-player-caused",
     "condition-tagged-line-tables/signals-stand-in-for-lines",
     "content-drift-and-revision/content-hash-vs-status-drift",
@@ -11939,6 +12064,9 @@
     "combat-pacing-and-dramatic-arc/lead-car-wreck-before-lap-one-rate",
     "combat-pacing-and-dramatic-arc/plain-language-fight-report",
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
+    "concept-scene-parity/element-scorecard-from-the-concept-camera",
+    "concept-scene-parity/grade-only-the-excess",
+    "concept-scene-parity/score-only-what-the-device-shows",
     "condition-tagged-line-tables/repeat-avoidance-by-recency-and-cooldown",
     "content-acceptance-tiering/never-fail-silently-reason-strings",
     "content-drift-and-revision/bounded-revision-history",
@@ -12150,6 +12278,9 @@
     "catalog-pipeline-authoring/producer-facts-are-observed-not-declared",
     "catalog-pipeline-authoring/seed-entities-and-walker-coverage",
     "combat-pacing-and-dramatic-arc/proxy-driver-limit-declaration",
+    "concept-scene-parity/cap-attribution-before-the-next-round",
+    "concept-scene-parity/element-scorecard-from-the-concept-camera",
+    "concept-scene-parity/score-only-what-the-device-shows",
     "content-acceptance-tiering/derived-vs-toggled-acceptance",
     "crash-forensics-attribution/root-cause-to-fix-prompt",
     "cross-runtime-rules-conformance/golden-trace-conformance-vectors",
@@ -12462,6 +12593,7 @@
     "acceptance-verdict-spine/explain-why-this-verdict",
     "branching-narrative-graph-validation/graph-revision-diffing",
     "catalog-pipeline-authoring/direction-as-first-class-produce-input",
+    "concept-scene-parity/judge-in-the-destination-light",
     "content-drift-and-revision/content-hash-vs-status-drift",
     "content-drift-and-revision/produce-direction-stamping",
     "crash-forensics-attribution/crash-signature-over-id-equality",
