@@ -1,8 +1,8 @@
 ---
 domain: game-production
 subject: generated-mesh-acceptance
-last_touched: 2026-09-10
-touched_by: architecture-review
+last_touched: 2026-10-24
+touched_by: intake
 dry_streak: 0
 ---
 
@@ -231,3 +231,9 @@ mesh graded, no corpus re-derived here.
   }
 }
 ```
+
+## Intake - 2026-10-24 (run intake-XnS0vrbDrrc)
+
+Landed technique `posed-see-through-render` and its python application (experiment, `better`), with a one-paragraph link from the golden path under the assembled-vs-shattered section. Source: a first-party build-walkthrough (`librarian/sources/2026-10-24-dark-souls-boss-ai.md`). Measured on PoF's four finished heroes with a headless DCC: two are 32-42% back faces at rest (inverted winding), one opens only when posed (excess to 10.4%), one is clean; the structural card passed all four. The run corrected its own first draft: a closed control reads up to 16% when posed past joint limits, so posed see-through is only the excess over a closed copy in the same pose.
+
+Open against this subject, from that run: the 2026-09-10 review's part-budget contradiction is untouched; the new technique's pose set is a blind sweep (22-59 of 216 views fold-free) and wants the project's real action poses.

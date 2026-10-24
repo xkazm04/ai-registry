@@ -1,0 +1,47 @@
+{
+  "schema": "rkb-run-result/1",
+  "run_id": "intake-XnS0vrbDrrc",
+  "skill": "intake",
+  "skill_version": "2.17.0",
+  "mode": "source",
+  "domain": "game-production",
+  "started_at": "2026-10-24T10:00:00Z",
+  "ended_at": "2026-10-24T18:00:00Z",
+  "exit": 0,
+  "counts": {
+    "dispatched": 0,
+    "landed": 1,
+    "declined": 0,
+    "idled": 0,
+    "contended": 0
+  },
+  "subjects": [
+    {
+      "id": "game-production/generated-mesh-acceptance",
+      "at": "2026-10-24",
+      "engine": "intake",
+      "outcome": "landed",
+      "points_before": null,
+      "points_after": null
+    }
+  ],
+  "verdicts": [
+    {
+      "subject": "generated-mesh-acceptance",
+      "technique": "posed-see-through-render",
+      "verdict": "better",
+      "mode": "experiment"
+    }
+  ],
+  "files": [
+    "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/techniques/posed-see-through-render.md",
+    "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/applications/python--posed-see-through-render.md",
+    "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/generated-mesh-acceptance.md",
+    "librarian/sources/2026-10-24-dark-souls-boss-ai.md"
+  ],
+  "commits": [],
+  "pr": null,
+  "declined": [],
+  "failure_signature": null,
+  "notes": "One technique landed and applied to pof (experiment, better, 0 -> 3 of 4 heroes caught), shipped as pof f9a5d8ea locally. One E4 escalation (two-view video -> motion) with a local LTX example showing panel desync. 3 untriaged, 3 leads, 3 catches."
+}
