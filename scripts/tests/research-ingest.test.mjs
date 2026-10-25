@@ -6,10 +6,35 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { spawnSync } from 'node:child_process';
+import http from 'node:http';
+import { spawn, spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const SCRIPT = fileURLToPath(new URL('../research-ingest.mjs', import.meta.url));
+
+/** A loopback server answering each path from `routes` (path -> html, or null to hang). */
+async function loopback(t, routes) {
+  const srv = http.createServer((req, res) => {
+    const body = routes[req.url];
+    if (body === null) return; // never answers
+    res.writeHead(body === undefined ? 404 : 200, { 'content-type': 'text/html; charset=utf-8' });
+    res.end(body ?? 'not found');
+  });
+  await new Promise((ok) => srv.listen(0, '127.0.0.1', ok));
+  t.after(() => { srv.closeAllConnections(); srv.close(); });
+  return `http://127.0.0.1:${srv.address().port}`;
+}
+/** The script as a child that does not block this process's event loop (the server lives here). */
+const runAsync = (args) => new Promise((resolve) => {
+  const c = spawn(process.execPath, [SCRIPT, ...args]);
+  let stdout = '';
+  let stderr = '';
+  c.stdout.on('data', (d) => { stdout += d; });
+  c.stderr.on('data', (d) => { stderr += d; });
+  const kill = setTimeout(() => c.kill(), 30000);
+  c.on('exit', (status) => { clearTimeout(kill); resolve({ status, stdout, stderr }); });
+});
+const page = (head) => `<html><head>${head}</head><body><p>${'word '.repeat(400)}</p></body></html>`;
 
 function workdir(t) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'research-ingest-test-'));
@@ -69,6 +94,25 @@ test('VTT cue metadata is not transcript: hour-less timings and named cue ids ar
   const bare = ingest('bare.vtt', 'WEBVTT\n\nintro\n00:01.000 --> 00:04.000 align:start\nhello there friend\n\nchapter-two\n00:31.500 --> 00:34.000\nsecond cue words\n');
   assert.equal(bare.text, '[00:00:01] hello there friend\n[00:00:31] second cue words');
   assert.equal(bare.meta.words, yt.meta.words, 'same transcript, same count (16 before: timings and ids counted)');
+});
+
+test('og:title survives an apostrophe and either attribute order', async (t) => {
+  const base = await loopback(t, {
+    '/control': page('<title>Plain title</title>'),
+    '/apostrophe': page(`<meta property="og:title" content="Don't panic: a guide"><title>x</title>`),
+    '/reversed': page('<meta content="Content first" property="og:title"><title>Fallback</title>'),
+    '/single': page(`<meta property='og:title' content='Say "hi"'>`),
+  });
+  const dir = workdir(t);
+  const titleOf = async (p) => {
+    const r = await runAsync([`${base}${p}`, '--out', path.join(dir, 'out'), '--json']);
+    assert.equal(r.status, 0, r.stderr);
+    return JSON.parse(r.stdout).title;
+  };
+  assert.equal(await titleOf('/control'), 'Plain title');
+  assert.equal(await titleOf('/apostrophe'), "Don't panic: a guide");
+  assert.equal(await titleOf('/reversed'), 'Content first');
+  assert.equal(await titleOf('/single'), 'Say "hi"');
 });
 
 test('--min-words that is not a whole number refuses (exit 2) instead of silencing the thin check', (t) => {

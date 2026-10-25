@@ -284,9 +284,24 @@ const htmlToText = (html) => {
     .trim();
 };
 
+/**
+ * og:title, read attribute by attribute. The old single regex required `property` before
+ * `content` and stopped the value at EITHER quote, so `content="Don't panic"` became "Don"
+ * - and that title is also the slug the transcript is filed under.
+ */
+const ATTR = /([A-Za-z_:][\w:.-]*)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/g;
+const ogTitleOf = (html) => {
+  for (const tag of html.match(/<meta\b[^>]*>/gi) ?? []) {
+    const attrs = {};
+    for (const a of tag.matchAll(ATTR)) attrs[a[1].toLowerCase()] = a[2] ?? a[3] ?? a[4];
+    if ((attrs.property ?? attrs.name ?? '').toLowerCase() === 'og:title' && attrs.content?.trim()) return attrs.content;
+  }
+  return null;
+};
+
 const titleOfHtml = (html) => {
-  const og = /<meta[^>]+property=["']og:title["'][^>]+content=["']([^"']+)["']/i.exec(html);
-  if (og) return decodeEntities(og[1]);
+  const og = ogTitleOf(html);
+  if (og) return decodeEntities(og).trim();
   const t = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html);
   return t ? decodeEntities(t[1]).trim() : null;
 };
