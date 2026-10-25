@@ -60,7 +60,7 @@ function fixture(t) {
     if (r.error) throw r.error;
     return r;
   };
-  return { base, write, commit, run };
+  return { dir, base, write, commit, run };
 }
 
 test('control: a clean tree under --since HEAD reports 0 changed and exits 0', (t) => {
@@ -197,4 +197,18 @@ test('CI binds version discipline to push as well as pull_request, in every work
     assert.match(content, /^\s*push:/m, `${file}: no push trigger`);
     for (const c of checks) assert.ok(content.includes(`node scripts/${c}.mjs --since "$BASE_SHA"`), `${file}: ${c} --since is not run`);
   }
+});
+
+// An unreadable LESSONS.md (here: a directory of that name) used to throw out of
+// readSkill, and check-skills read the throw as "skills/ cannot be read" - exit 2 for
+// the whole lane. The defect is one skill's, so it must fail that skill by name (exit 1).
+test('a LESSONS.md that is a directory fails that skill by name, not the whole lane', (t) => {
+  const f = fixture(t);
+  const ctl = f.run();
+  assert.equal(ctl.status, 0, `control must be green: ${ctl.stderr}`);
+  fs.mkdirSync(path.join(f.dir, 'skills/alpha/LESSONS.md'));
+  const r = f.run();
+  assert.equal(r.status, 1, `${r.stdout}${r.stderr}`);
+  assert.match(r.stderr, /skills\/alpha\/LESSONS\.md: cannot be read/);
+  assert.doesNotMatch(r.stderr, /FATAL/);
 });

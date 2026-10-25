@@ -295,6 +295,10 @@ for (const s of skills) {
 
   // LESSONS.md is optional. When present, its headings are the join key between a
   // lesson and the version it was learned against — an unparseable heading loses it.
+  if (s.lessonsPath !== null && s.lessonsRaw === null) {
+    const why = s.problems.find((p) => p.startsWith('LESSONS.md')) || 'LESSONS.md unreadable';
+    fail(`${rel}/LESSONS.md: cannot be read - it exists but is not a readable file (${why})`);
+  }
   if (s.lessonsRaw !== null) {
     lessonFiles += 1;
     const heads = lessonHeadings(s.lessonsRaw);
