@@ -227,3 +227,13 @@ test('expandSources: first source claims a file, exclude wins, per-source counts
     fs.rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test('source kinds have one list: the contract and the CLI take the extractor\'s KINDS, never their own copy', async () => {
+  const { KINDS } = await import('../scripts/lib/extract.mjs');
+  const { normalizeContract } = await import('../scripts/lib/contract.mjs');
+  for (const kind of KINDS) assert.deepEqual(normalizeContract({ variant: 'US', sources: [{ path: 'x', kind }] }).errors, [], kind);
+  assert.equal(normalizeContract({ variant: 'US', sources: [{ path: 'x', kind: 'yaml' }] }).errors.length, 1);
+  // a second spelled-out list is the copy that drifts when a kind is added to the extractor
+  const code = (f) => fs.readFileSync(new URL(f, import.meta.url), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:])\/\/.*$/gm, '$1');
+  for (const f of ['../scripts/lib/contract.mjs', '../scripts/copy-check.mjs']) assert.doesNotMatch(code(f), /json-catalog'?,\s*'?ts-module/, f);
+});

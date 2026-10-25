@@ -5,11 +5,13 @@
 // mechanic defaults to "any", because authorities genuinely contradict each other and
 // the defect is mixing, not the choice. Schema: references/contract.md.
 
+// The source kinds are the extractor's: one list, so a kind added there is a kind the contract accepts.
+import { KINDS } from './extract.mjs';
+
 export const DEFAULT_HEADING_KEYS = '^(title|heading|headline|eyebrow|h[1-6])\\d*$|[a-z0-9](Title|Heading|Headline|Eyebrow)\\d*$';
 export const DEFAULT_BUTTON_KEYS = '^(cta|button|btn|submit)\\d*$|[a-z0-9](Cta|CTA|Button|Btn)\\d*$';
 export const DEFAULT_ERROR_KEYS = '(^|\\.)(errors?)(\\.|$)|(^|\\.)error[A-Z]\\w*$|[a-z](Error|Failed|Failure)\\w*$';
 
-const KINDS = ['json-catalog', 'ts-module', 'jsx', 'mdx', 'markdown'];
 const TOP_KEYS = new Set(['$schema', 'variant', 'spelling', 'sources', 'exclude', 'dash', 'quotes', 'ellipsis', 'case', 'terms', 'keys', 'rules', 'baseline']);
 
 /** A dot-glob key pattern as a RegExp: `*` one key segment, `**` any depth. */
