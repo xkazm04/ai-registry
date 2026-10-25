@@ -88,6 +88,11 @@ let totalRewrites = 0;
 let failed = false;
 
 for (const bundle of bundles) {
+  // Two flags on purpose. `failed` is the run's exit; `bad` is THIS bundle's, and it is the
+  // only one the per-bundle steps may read. They were one flag, so a bundle whose taxonomy
+  // could not be used made every later bundle skip its own work - unreported in a dry run,
+  // unmoved under --apply - while the summary still counted it.
+  let bad = false;
   const base = path.join(KNOWLEDGE, bundle);
   if (!fs.existsSync(base)) {
     console.error(`apply-taxonomy FATAL: knowledge/${bundle} does not exist.`);
@@ -98,7 +103,7 @@ for (const bundle of bundles) {
   if (errors.length) {
     console.error(`\n${bundle}: taxonomy is not usable —`);
     for (const e of errors) console.error(`  ${e}`);
-    failed = true;
+    bad = failed = true;
     continue;
   }
 
@@ -106,7 +111,7 @@ for (const bundle of bundles) {
   if (duplicates.length) {
     console.error(`\n${bundle}: two folders claim one slug — resolve before moving anything:`);
     for (const d of duplicates) console.error(`  ${d.slug}: ${d.at.join(' and ')}`);
-    failed = true;
+    bad = failed = true;
     continue;
   }
 
@@ -122,16 +127,16 @@ for (const bundle of bundles) {
   if (collisions.length) {
     console.error(`\n${bundle}: these slugs name both a subject and a grouping folder: ${collisions.join(', ')}`);
     console.error('  Rename one side in taxonomy.json first. Refusing to move into a collision.');
-    failed = true;
+    bad = failed = true;
     continue;
   }
   for (const id of groupIds) {
     if (!SLUG_RE.test(id)) {
       console.error(`\n${bundle}: grouping id "${id}" is not a kebab-case slug`);
-      failed = true;
+      bad = failed = true;
     }
   }
-  if (failed) continue;
+  if (bad) continue;
 
   // ---- where each subject goes
   const moves = []; // { slug, fromRel, toRel }
@@ -139,7 +144,7 @@ for (const bundle of bundles) {
     const want = declared.get(slug);
     if (!want) {
       console.error(`\n${bundle}: subject "${slug}" is on disk but absent from taxonomy.json. Refusing.`);
-      failed = true;
+      bad = failed = true;
       continue;
     }
     // `want.dir` already reflects taxonomy.layout, which is the CURRENT state. Compute the
@@ -152,7 +157,7 @@ for (const bundle of bundles) {
           : `${want.category}/${slug}`;
     if (toRel !== at) moves.push({ slug, fromRel: at, toRel });
   }
-  if (failed) continue;
+  if (bad) continue;
 
   // ---- old -> new for EVERY file, which is what makes the link rewrite exact
   const fileMap = new Map(); // abs old -> abs new
@@ -268,14 +273,14 @@ for (const bundle of bundles) {
     const to = path.join(base, m.toRel);
     if (!fs.existsSync(from)) {
       console.error(`  PRE-FLIGHT FAIL: ${m.fromRel} does not exist`);
-      failed = true;
+      bad = failed = true;
     }
     if (fs.existsSync(to)) {
       console.error(`  PRE-FLIGHT FAIL: ${m.toRel} already exists`);
-      failed = true;
+      bad = failed = true;
     }
   }
-  if (failed) {
+  if (bad) {
     console.error('  refusing to move anything — the tree is untouched');
     continue;
   }
@@ -290,11 +295,11 @@ for (const bundle of bundles) {
       console.error(`  FAILED to move ${m.fromRel} -> ${m.toRel}: ${err.message}`);
       console.error('  the tree is now PARTIALLY MOVED and no links have been rewritten.');
       console.error(`  recover with: node scripts/apply-taxonomy.mjs ${bundle} --to flat --apply`);
-      failed = true;
+      bad = failed = true;
       break;
     }
   }
-  if (failed) continue;
+  if (bad) continue;
 
   for (const e of edits) fs.writeFileSync(e.absNew, e.next, 'utf8');
 
@@ -320,7 +325,7 @@ for (const bundle of bundles) {
   }
   if (broken) {
     console.error(`  ${broken} link(s) broken after the move. Reverse with --to flat --apply.`);
-    failed = true;
+    bad = failed = true;
   }
 
   // Prune grouping folders left empty by a --to flat pass.
