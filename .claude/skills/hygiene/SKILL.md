@@ -3,7 +3,7 @@ name: hygiene
 description: "Start-of-day fleet sweep before any development: scan every project registered on this machine for open pull requests, merged or abandoned branches and worktrees, a red default branch, and open GitHub security alerts (code scanning, secret scanning, Dependabot), plus invalid Claude Code project settings via `claude doctor`, and the disk debris agent runs leave on the machine (landed scratch clones, build output, stale compiler caches, session and test-fixture temp). Cleans up what is mechanical itself, then dispatches one Sonnet worker per project to ship, repair, merge, delete or fix the rest onto main/master, and hands back only what needs a human. Use at the start of a day, when branches, PRs and alerts have piled up across the fleet, or when the disk is filling."
 category: ai-native
 memory: project
-version: 1.2.0
+version: 1.3.0
 tags: fleet, hygiene, pull-requests, branches, worktrees, security-alerts, ship, dispatch, sonnet-workers, start-of-day
 ---
 
@@ -35,6 +35,7 @@ because it did not know where to put its working files.
 /hygiene kp,ascent        # full run limited to these project slugs
 /hygiene status           # print today's plan.md and applied.jsonl, touch nothing
 /hygiene disk             # the disk lane alone: scan, apply mechanical, report (no GitHub, no workers)
+/hygiene disk deep        # disk lane + MangoDisk analyzer + gated reclaim of dev caches (references/disk-deep-pass.md)
 /hygiene reflect          # land what the last runs taught into this file and LESSONS.md
 ```
 
@@ -200,6 +201,17 @@ floor 0, kept entries printed with the reason. curator's night does this per cla
 
 `/hygiene disk` is this lane alone: the Phase 0 claim, `hygiene-disk.mjs`, the spot-check,
 `--apply`, and the report's **Disk** section. No GitHub calls, no workers.
+
+`/hygiene disk deep` adds the **deep pass** for a nearly full drive, following
+`references/disk-deep-pass.md`. It starts with `tools/growth-walk.mjs`, which totals what
+was written since the last good sweep (cleaner rules miss most of it), then the MangoDisk CLI
+(`C:/Users/kazda/tools/mangodisk-cli`) measures every development pool read-only: whole cargo `target/`s, node and Unreal build
+output, package-manager caches, WSL and Docker disks. The director then reclaims what
+regenerates, each pool behind its own liveness gate and through `safe-remove` or the
+tool's own prune command. Never run MangoDisk's own `--apply`: its project rules delete a
+whole `target/` or `node_modules` with no liveness check. A whole `target/` in a fleet
+checkout, Personas-app worktrees and WSL/Docker compaction stay operator rows.
+2026-10-22: 54 GB free -> 546 GB (the growth walk found 465 GB of it).
 
 ## Phase 2 - Mechanical
 

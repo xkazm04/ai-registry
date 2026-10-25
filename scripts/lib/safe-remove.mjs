@@ -34,6 +34,11 @@ export function measureTree(root) {
     let ents;
     try { ents = fs.readdirSync(d, { withFileTypes: true }); } catch { r.unreadable++; continue; }
     r.dirs++;
+    // An empty directory has no file to age it; without its own timestamp the tree reads as
+    // never touched (age Infinity) and a seconds-old mkdtemp dir is classed as ancient.
+    if (!ents.length) {
+      try { const ds = fs.lstatSync(d); r.newestMs = Math.max(r.newestMs, ds.mtimeMs, ds.birthtimeMs || 0); } catch { r.unreadable++; }
+    }
     for (const e of ents) {
       const p = path.join(d, e.name);
       if (e.isSymbolicLink()) { r.links++; continue; }
