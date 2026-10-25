@@ -347,7 +347,18 @@ for (const d of docs) {
 /* ---------------------------------------------------------------- --show */
 
 if (showPath) {
-  const d = docs.find((x) => x.path === showPath || x.path.endsWith(showPath));
+  // An exact path wins; otherwise the suffix must be unique on a path-segment boundary. The
+  // first suffix hit used to win, so `rule.md` could show `node--rule.md` depending on
+  // directory order.
+  const want = showPath.replace(/\\/g, '/');
+  const exact = docs.find((x) => x.path === want);
+  const hits = exact ? [exact] : docs.filter((x) => x.path.endsWith(`/${want}`));
+  if (hits.length > 1) {
+    console.error(`compression-scan: --show "${showPath}" matches ${hits.length} documents - pass a longer path:`);
+    for (const h of hits.slice(0, 20)) console.error(`  ${h.path}`);
+    process.exit(2);
+  }
+  const d = hits[0];
   if (!d) {
     console.error(`compression-scan: no document matching "${showPath}"`);
     process.exit(2);

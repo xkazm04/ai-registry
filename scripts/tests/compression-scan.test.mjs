@@ -15,7 +15,7 @@ import { fileURLToPath } from 'node:url';
 const SCRIPTS = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const PROSE = 'the cache is warm and the prefix is resident in it so the next call is cheap and fast';
 
-function fixture(t) {
+function fixture(t, extra = {}) {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'compression-scan-test-'));
   t.after(() => fs.rmSync(root, { recursive: true, force: true }));
   fs.mkdirSync(path.join(root, 'scripts'), { recursive: true });
@@ -29,6 +29,7 @@ function fixture(t) {
   put('knowledge/demo/core/topic/topic.md', `# topic\n\n${PROSE}\n\n${PROSE}\n`);
   put('knowledge/demo/core/topic/techniques/rule.md', `# rule\n\n${PROSE}\n`);
   put('knowledge/demo/core/topic/applications/node--rule.md', '# node\n\nsome stack text\n');
+  for (const [rel, body] of Object.entries(extra)) put(rel, body);
   return (...args) => spawnSync(process.execPath, [path.join(root, 'scripts', 'compression-scan.mjs'), ...args], { encoding: 'utf8' });
 }
 
@@ -46,6 +47,25 @@ test('an unknown --domain is a usage error naming the known bundles, not a broke
   assert.match(r.stderr, /unknown --domain "dmeo"/);
   assert.match(r.stderr, /known: demo/);
   assert.doesNotMatch(r.stderr, /CLASSIFIER IS BROKEN/);
+});
+
+// --show matched by suffix and took the FIRST hit in walk order: `rule.md` also ends
+// `node--rule.md`, so which document was shown depended on the directory listing.
+test('--show matches on a path-segment boundary: rule.md is rule.md, not node--rule.md', (t) => {
+  const r = fixture(t)('--show', 'rule.md');
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout.split('\n')[0], /^knowledge\/demo\/core\/topic\/techniques\/rule\.md$/);
+});
+
+test('--show with an ambiguous suffix names every match instead of picking one', (t) => {
+  const run = fixture(t, { 'knowledge/demo/core/other/techniques/rule.md': `# rule\n\n${PROSE}\n`, 'knowledge/demo/core/other/other.md': '# other\n' });
+  const r = run('--show', 'rule.md');
+  assert.equal(r.status, 2, r.stdout);
+  assert.match(r.stderr, /matches 2 documents/);
+  assert.match(r.stderr, /topic\/techniques\/rule\.md/);
+  assert.match(r.stderr, /other\/techniques\/rule\.md/);
+  const ok = run('--show', 'topic/techniques/rule.md');
+  assert.equal(ok.status, 0, ok.stderr);
 });
 
 // knowledge.yml runs `--self-test && <the scan>`: the flag must parse, and mean self-test only.
