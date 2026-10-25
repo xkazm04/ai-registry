@@ -13,9 +13,10 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { spawn, execFileSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { parseParticipants, engineCommand, parseEnvelope, classifyOutcome } from '../../contest/scripts/lib/participants.mjs';
+import { resolveBin, runSeat } from '../../contest/scripts/lib/seat.mjs';
 import { huntAreas, huntGroups, parseTouches, parseSeatOutput, buildPool, poolMarkdown, checkAnchors, seatStats } from './lib/hunt.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -50,49 +51,6 @@ const saveRun = (dir, run) => { const { root, ...rest } = run; writeJson(path.jo
 // The strongest seat each vendor's CLI offers on this machine (2026-10). A seat that does not
 // answer the probe is skipped and the round runs with whoever is left.
 export const DEFAULT_SEATS = 'agy:gemini-4-argon@high,codex:gpt-6.1-sol@xhigh,grok:grok-4.7@high,claude:claude-opus-5-5@xhigh';
-
-function resolveBin(engine) {
-  const env = process.env[`CONTEST_${engine.toUpperCase()}_BIN`];
-  if (env) return env.includes('|') ? env.split('|') : env;
-  const exts = WIN ? ['.exe', '.cmd', ''] : [''];
-  const home = os.homedir();
-  const fallbacks = { claude: [path.join(home, '.local', 'bin', 'claude.exe')], grok: [path.join(home, '.grok', 'bin', 'grok.exe')], codex: [], agy: [] };
-  const cands = [];
-  for (const d of (process.env.PATH ?? '').split(path.delimiter).filter(Boolean)) for (const e of exts) cands.push(path.join(d, engine + e));
-  cands.push(...fallbacks[engine]);
-  for (const c of cands) {
-    if (!fs.existsSync(c) || fs.statSync(c).isDirectory()) continue;
-    if (/\.cmd$/i.test(c) || !path.extname(c)) {
-      const native = engine === 'claude' && path.join(path.dirname(c), 'node_modules/@anthropic-ai/claude-code/bin/claude.exe');
-      if (native && fs.existsSync(native)) return native;
-      const entry = { codex: 'node_modules/@openai/codex/bin/codex.js', claude: 'node_modules/@anthropic-ai/claude-code/cli.js' }[engine];
-      const script = entry && path.join(path.dirname(c), entry);
-      if (script && fs.existsSync(script)) return [process.execPath, script];
-      if (WIN) continue;
-    }
-    return c;
-  }
-  return null;
-}
-
-function runSeat({ argv: a, stdin, env }, { cwd, timeoutMs, logDir }) {
-  fs.mkdirSync(logDir, { recursive: true });
-  const t0 = Date.now();
-  return new Promise((resolve) => {
-    const p = spawn(a[0], a.slice(1), { cwd, env: { ...process.env, ...env }, windowsHide: true });
-    const out = fs.createWriteStream(path.join(logDir, 'stdout.log'));
-    const err = fs.createWriteStream(path.join(logDir, 'stderr.log'));
-    const chunks = [];
-    p.stdout.on('data', (d) => { chunks.push(d); out.write(d); });
-    p.stderr.on('data', (d) => err.write(d));
-    let timedOut = false;
-    const timer = setTimeout(() => { timedOut = true; if (WIN) spawn('taskkill', ['/F', '/T', '/PID', String(p.pid)], { windowsHide: true }); else p.kill('SIGKILL'); }, timeoutMs);
-    p.on('error', (e) => err.write(`spawn error: ${e.message}\n`));
-    p.on('close', (code) => { clearTimeout(timer); out.end(); err.end(); resolve({ exit: code, timedOut, stdout: Buffer.concat(chunks).toString('utf8'), wall_s: Math.round((Date.now() - t0) / 1000) }); });
-    p.stdin.on('error', () => {});
-    p.stdin.end(stdin ?? '');
-  });
-}
 
 // =================================================================================== probe
 async function probe() {

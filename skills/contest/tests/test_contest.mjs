@@ -531,3 +531,72 @@ test('the router is blind: a variant named after its family in <title> or NOTES.
     fs.rmSync(root, { recursive: true, force: true });
   }
 });
+
+// ------------------------------------------------------------------ seat.mjs (shared with tiger)
+
+test('resolveBin skips a directory named after the engine and takes the real stub behind it', async () => {
+  // contest and tiger each carried a resolver; only tiger skipped a PATH entry that is a directory.
+  // Platform is injected as linux so the extension-less stub is a valid candidate on any host.
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { resolveBin } = await import('../scripts/lib/seat.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'seat-path-'));
+  try {
+    const first = path.join(root, 'first');
+    const second = path.join(root, 'second');
+    fs.mkdirSync(path.join(first, 'codex'), { recursive: true });   // a directory called codex, first on PATH
+    fs.mkdirSync(second, { recursive: true });
+    const stub = path.join(second, 'codex');
+    fs.writeFileSync(stub, '#!/bin/sh\nexit 0\n');
+    const env = { PATH: [first, second].join(path.delimiter) };
+    const opts = { env, platform: 'linux', home: path.join(root, 'home') };
+    assert.equal(resolveBin('codex', opts), stub);
+    // A PATH holding only the directory finds nothing: null, not the directory.
+    assert.equal(resolveBin('codex', { ...opts, env: { PATH: first } }), null);
+    // The per-engine override wins, and `a|b` splits into [binary, ...args].
+    assert.equal(resolveBin('codex', { ...opts, env: { ...env, CONTEST_CODEX_BIN: '/x/codex' } }), '/x/codex');
+    assert.deepEqual(resolveBin('codex', { ...opts, env: { ...env, CONTEST_CODEX_BIN: 'node|/x/codex.js' } }), ['node', '/x/codex.js']);
+    // agy has a per-user fallback under the injected home; tiger's copy had none.
+    const agy = path.join(root, 'home', '.local', 'bin', 'agy');
+    fs.mkdirSync(path.dirname(agy), { recursive: true });
+    fs.writeFileSync(agy, '#!/bin/sh\n');
+    assert.equal(resolveBin('agy', { ...opts, env: { PATH: first } }), agy);
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('runSeat runs the argv it is given, logs both streams, and reports wall_s to hundredths', async () => {
+  // The argv is a local node one-liner: no model, no network.
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { runSeat } = await import('../scripts/lib/seat.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'seat-run-'));
+  try {
+    const logDir = path.join(root, 'logs');
+    const r = await runSeat(
+      { argv: [process.execPath, '-e', 'process.stdout.write(process.env.SEAT_X + ":" + require("fs").readFileSync(0, "utf8"))'], stdin: 'in', env: { SEAT_X: 'hi' } },
+      { cwd: root, timeoutMs: 20000, logDir, label: 'stub' },
+    );
+    assert.equal(r.stdout, 'hi:in');
+    assert.deepEqual([r.exit, r.timedOut, r.label], [0, false, 'stub']);
+    assert.equal(r.wall_s, Math.round(r.wall_s * 100) / 100);
+    assert.equal(fs.readFileSync(path.join(logDir, 'stdout.log'), 'utf8'), 'hi:in');
+    assert.ok(fs.existsSync(path.join(logDir, 'stderr.log')));
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
+test('contest.mjs keeps no resolver or runner of its own: both come from lib/seat.mjs', async () => {
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const src = fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'contest.mjs'), 'utf8');
+  assert.match(src, /from '\.\/lib\/seat\.mjs'/);
+  assert.doesNotMatch(src, /function runSeat\(/);
+  assert.doesNotMatch(src, /taskkill/);
+  assert.doesNotMatch(src, /node_modules\/@openai\/codex/);
+});
