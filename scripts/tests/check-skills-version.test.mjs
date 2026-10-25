@@ -212,3 +212,17 @@ test('a LESSONS.md that is a directory fails that skill by name, not the whole l
   assert.match(r.stderr, /skills\/alpha\/LESSONS\.md: cannot be read/);
   assert.doesNotMatch(r.stderr, /FATAL/);
 });
+
+// Closed flag set: an argument the CLI does not know used to be ignored, so
+// `--since=origin/main` ran the flagless population and exited 0.
+test('check-skills refuses an unknown or malformed argument with exit 2 and answers --help with 0', (t) => {
+  const f = fixture(t);
+  assert.equal(f.run().status, 0, 'plain run keeps its current exit');
+  for (const bad of [['--bogus'], ['--since=HEAD'], ['--snce', 'HEAD'], ['--since'], ['--since', '--bogus'], ['HEAD']]) {
+    const r = f.run(...bad);
+    assert.equal(r.status, 2, `${bad.join(' ')} -> ${r.status}: ${r.stdout}${r.stderr}`);
+  }
+  const h = f.run('--help');
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/check-skills\.mjs/);
+});

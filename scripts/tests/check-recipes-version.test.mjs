@@ -55,7 +55,7 @@ function fixture(t) {
     if (r.error) throw r.error;
     return r;
   };
-  return { base, touch, bump, commit, run };
+  return { dir, base, touch, bump, commit, run };
 }
 
 test('control: a clean tree under --since HEAD reports 0 changed and exits 0', (t) => {
@@ -137,4 +137,20 @@ test('an unresolvable --since ref is could-not-run (exit 2)', (t) => {
   const r = f.run('--since', 'no-such-ref');
   assert.equal(r.status, 2, r.stdout);
   assert.match(r.stderr, /does not resolve/);
+});
+
+// Closed flag set: `--since=x` or a typo'd `--snce` used to be ignored and the run exited
+// 0 on a population the caller did not ask for. The fixture's `run` always adds --shape-only,
+// so this spawns the script directly.
+test('check-recipes refuses an unknown or malformed argument with exit 2 and answers --help with 0', (t) => {
+  const f = fixture(t);
+  const raw = (...args) => spawnSync(process.execPath, ['scripts/check-recipes.mjs', ...args], { cwd: f.dir, encoding: 'utf8' });
+  assert.equal(raw('--shape-only').status, 0, 'plain shape-only run keeps its current exit');
+  for (const bad of [['--bogus'], ['--since=HEAD'], ['--snce', 'HEAD'], ['--since'], ['--since', '--shape-only'], ['HEAD'], ['--shape-only', '--bogus']]) {
+    const r = raw(...bad);
+    assert.equal(r.status, 2, `${bad.join(' ')} -> ${r.status}: ${r.stdout}${r.stderr}`);
+  }
+  const h = raw('--help');
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/check-recipes\.mjs/);
 });

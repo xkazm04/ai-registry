@@ -58,6 +58,22 @@ import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'recipes');
 
+// A closed flag set, checked before any read (same rule as check-skills): `--since=x` or a
+// typo'd `--snce` used to be ignored, so the run exited 0 on a population the caller did
+// not ask for - and `--shape-only` is the one flag that deliberately narrows the check.
+{
+  const usage = 'usage: node scripts/check-recipes.mjs [--shape-only] [--since <git-ref>] [--help]';
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
+  for (let i = 0; i < argv.length; i += 1) {
+    if (argv[i] === '--shape-only') continue;
+    if (argv[i] === '--since') {
+      if (!argv[i + 1] || argv[i + 1].startsWith('--')) { console.error(`FATAL: --since requires a git ref (e.g. --since origin/main).\n${usage}`); process.exit(EXIT.FATAL); }
+      i += 1;
+    } else { console.error(`FATAL: unknown argument ${JSON.stringify(argv[i])}; nothing was checked.\n${usage}`); process.exit(EXIT.FATAL); }
+  }
+}
+
 const RECIPE_JSON = 'recipe.json';
 const RECIPE_MD = 'RECIPE.md';
 const LESSONS_MD = 'LESSONS.md';

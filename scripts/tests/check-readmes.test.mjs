@@ -112,3 +112,16 @@ test('--path with no directory is could-not-run (exit 2)', () => {
   assert.equal(run(SCRIPT, ['--path']).status, 2);
   assert.equal(run(SCRIPT, ['--path', '--json']).status, 2);
 });
+
+test('an unknown argument exits 2 before the instrument or the fleet is read; --help exits 0', (t) => {
+  const dir = scratch(t);
+  const good = goodProject(path.join(dir, 'good'));
+  assert.equal(run(SCRIPT, ['--path', good]).status, 0, 'plain --path run keeps its current exit');
+  for (const bad of [['--bogus'], ['--jsn'], ['--path=' + good], ['--path'], ['--path', '--json'], ['--path', good, '--bogus'], ['extra']]) {
+    const r = run(SCRIPT, bad);
+    assert.equal(r.status, 2, `${bad.join(' ')} -> ${r.status}: ${r.stdout}${r.stderr}`);
+  }
+  const h = run(SCRIPT, ['--help']);
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/check-readmes\.mjs/);
+});

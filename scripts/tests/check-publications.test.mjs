@@ -492,3 +492,16 @@ test('schema: a BOM-prefixed publication.json fails in the gate (exit 1), the bu
   assert.equal(node(['scripts/check-publications.mjs', '--root', lane]).status, 1);
   assert.equal(node(['scripts/build-publications-index.mjs', '--root', lane]).status, 2);
 });
+
+test('CLI: check-publications refuses an unknown argument before reading anything and answers --help with 0', () => {
+  const ok = ['scripts/check-publications.mjs', '--root', 'scripts/fixtures/publications'];
+  assert.equal(node(ok).status, 0, 'plain run keeps its current exit');
+  for (const bad of [['--bogus'], ['--since=x'], ['--rot', 'scripts/fixtures/publications'], ['--root'], ['--root', '--bogus'], ['-x']]) {
+    const r = node(['scripts/check-publications.mjs', ...bad]);
+    assert.equal(r.status, 2, `${bad.join(' ')} -> ${r.status}: ${r.stdout}${r.stderr}`);
+  }
+  assert.equal(node([...ok, '--bogus']).status, 2);
+  const h = node(['scripts/check-publications.mjs', '--help']);
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/check-publications\.mjs/);
+});

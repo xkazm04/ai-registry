@@ -97,9 +97,19 @@ export function checkLanes(root) {
 
 function main() {
   const argv = process.argv.slice(2);
+  const usage = 'usage: node scripts/check-simple-lanes.mjs [--root <dir>] [--help]';
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); return; }
   const rootIdx = argv.indexOf('--root');
-  if (rootIdx !== -1 && !argv[rootIdx + 1]) {
+  if (rootIdx !== -1 && (!argv[rootIdx + 1] || argv[rootIdx + 1].startsWith('--'))) {
     console.error('simple-lanes FATAL: --root needs a directory');
+    process.exitCode = EXIT.FATAL;
+    return;
+  }
+  // A closed flag set: any other argument used to be ignored and the run checked this
+  // registry's lanes anyway, exiting as if the caller had been heard.
+  const unknown = argv.find((a, i) => a !== '--root' && !(rootIdx !== -1 && i === rootIdx + 1));
+  if (unknown !== undefined) {
+    console.error(`simple-lanes FATAL: unknown argument ${JSON.stringify(unknown)}; nothing was checked.\n${usage}`);
     process.exitCode = EXIT.FATAL;
     return;
   }
