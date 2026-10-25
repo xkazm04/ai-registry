@@ -230,8 +230,13 @@ function entryMeasure(abs, isFile) {
   return { bytes: s.size, newestMs: Math.max(s.mtimeMs, s.birthtimeMs || 0), files: 1 };
 }
 
-export function scratchRootOf(fleetRoot) {
-  return path.join(path.parse(path.resolve(fleetRoot || os.homedir())).root, 't');
+/**
+ * `t` at the root of the drive holding the fleet. loadFleet does not return the machine root,
+ * so a fleet is located by its checkouts (they sit under that root); no checkouts, the home drive.
+ */
+export function scratchRootOf(fleetOrRoot) {
+  const at = typeof fleetOrRoot === 'string' ? fleetOrRoot : Object.values(fleetOrRoot?.projects ?? {}).find((p) => p?.path)?.path;
+  return path.join(path.parse(path.resolve(at || os.homedir())).root, 't');
 }
 
 /** The whole plan. `tmp` and `home` default to this machine's; tests pass fixtures. Never writes. */
@@ -422,7 +427,7 @@ function main() {
   if (args.reap) {
     // A run's own end-of-task cleanup (curator's fin.sh): the named scratch-root entries, judged
     // by the same rules right now, idle floor 0 because the caller just finished in them.
-    const scratch = path.resolve(opt('scratch', scratchRootOf(os.homedir())));
+    const scratch = path.resolve(opt('scratch', scratchRootOf(fleet)));
     const reapIdle = opt('idle-hours', 0);
     const targets = args.reap;
     const ledger = path.join(outDir, 'disk-applied.jsonl');
@@ -478,7 +483,7 @@ function main() {
     return;
   }
 
-  const scratch = path.resolve(opt('scratch', scratchRootOf(fleet.root ?? os.homedir())));
+  const scratch = path.resolve(opt('scratch', scratchRootOf(fleet)));
   const rows = scan({ fleet, idleH, tempDays, scratch });
   let freeBytes = null;
   try { const s = fs.statfsSync(scratch && fs.existsSync(scratch) ? scratch : os.homedir()); freeBytes = s.bavail * s.bsize; } catch { /* unknown */ }

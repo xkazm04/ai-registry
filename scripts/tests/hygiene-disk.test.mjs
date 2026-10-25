@@ -306,3 +306,9 @@ test('disk.md says how many operator rows it did not show', () => {
   assert.match(md, /5 more operator rows in disk\.json/);
   assert.doesNotMatch(renderMarkdown({ generatedAt: new Date().toISOString(), freeBytes: 0, scratch: 's', rows: rows.slice(0, 3) }), /more operator rows/);
 });
+
+test('the default scratch root is on the fleet\'s drive, not the home drive', { skip: process.platform !== 'win32' && 'drive letters are a win32 notion' }, () => {
+  // The call site read fleet.root, which loadFleet never returns, so the home drive always won.
+  assert.equal(scratchRootOf({ projects: { kp: { slug: 'kp', path: 'D:/dev/kp' } } }), path.join('D:/', 't'));
+  assert.equal(scratchRootOf({ projects: {} }), path.join(path.parse(os.homedir()).root, 't'), 'no checkouts: the home drive');
+});
