@@ -198,6 +198,8 @@
         "scripts/tests/check-context-coverage.test.mjs",
         "scripts/tests/converge.test.mjs",
         "scripts/tests/fleet-audit.test.mjs",
+        "scripts/tests/fleet-deps.test.mjs",
+        "scripts/tests/fleet-use-when.test.mjs",
         "scripts/tests/installation.test.mjs",
         "scripts/tests/link-registry.test.mjs",
         "scripts/tests/map-churn.test.mjs",
