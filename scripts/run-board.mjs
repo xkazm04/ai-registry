@@ -601,6 +601,35 @@ export function breakIfUnchanged(file, seen, { gateStaleS = BREAK_GATE_STALE_S }
   }
 }
 
+/** Release a lock on the strength of what was READ, never on its name. `unlock` and `release`
+ *  used to read the lock's runId and then unlink by name: if the lock was broken and re-taken
+ *  between the two, the unlink deleted the NEW holder's lock - the check-then-act gap
+ *  breakIfUnchanged closed for breakers (see its docstring), left open on the owner's side.
+ *  The fingerprint is taken BEFORE the content is read, so a swap between the two can only make
+ *  the delete refuse ('changed'), never pair old content with a new file. `between` runs after
+ *  the read and before the delete; it exists so a test can inject the race deterministically.
+ *  Returns { state, holder } with state:
+ *    'released'  the lock was this run's (or forced) and is gone
+ *    'absent'    no lock, or one with no readable owner (left as it was; `lock` reclaims those)
+ *    'not-owner' held by another run and not forced - nothing removed
+ *    'changed'   the lock was released or replaced after it was read - no longer yours; nothing removed
+ *    'busy'      another breaker held the takeover gate for the whole retry window */
+export function releaseIfOwned(file, runId, { force = false, between = null, tries = 40 } = {}) {
+  const seen = lockFingerprint(file);
+  if (seen === null) return { state: 'absent' };
+  const held = readJSON(file);
+  if (!held) return { state: 'absent' };
+  if (held.runId !== runId && !force) return { state: 'not-owner', holder: held.runId };
+  if (between) between();
+  for (let i = 0; i < tries; i++) {
+    const r = breakIfUnchanged(file, seen);
+    if (r === 'broken') return { state: 'released', holder: held.runId };
+    if (r === 'changed') return { state: 'changed', holder: held.runId };
+    sleep(25);                                                 // 'busy': a breaker is inside for a few file operations
+  }
+  return { state: 'busy', holder: held.runId };
+}
+
 /** The reclaim judgement for a lock record as read off disk - the same one `lock` applies,
  *  so `gc` and `list` can never call breakable what `lock` would refuse to break. */
 function judgeLock(held) {
@@ -740,14 +769,17 @@ function cmdLock() {
 function cmdUnlock() {
   const name = positionals()[0] || die('unlock needs a name');
   const runId = one('run') || die('unlock needs --run <id>');
-  const file = lockFile(name);
-  const held = readJSON(file);
-  if (!held) { console.log("lock '" + name + "' was not held."); return 0; }
-  if (held.runId !== runId && !flag('force')) {
-    console.error("CONTENDED - lock '" + name + "' is held by " + held.runId + ', not ' + runId + '. Use --force only if you know that run is dead.');
+  const r = releaseIfOwned(lockFile(name), runId, { force: flag('force') });
+  if (r.state === 'absent') { console.log("lock '" + name + "' was not held."); return 0; }
+  if (r.state === 'not-owner') {
+    console.error("CONTENDED - lock '" + name + "' is held by " + r.holder + ', not ' + runId + '. Use --force only if you know that run is dead.');
     process.exit(EXIT.CONTENDED);
   }
-  fs.unlinkSync(file);
+  if (r.state === 'changed') { console.log("lock '" + name + "' is no longer yours: it was released or taken over while this ran. Nothing was removed."); return 0; }
+  if (r.state === 'busy') {
+    console.error("CONTENDED - lock '" + name + "' is being taken over by another run right now; nothing was removed. Retry.");
+    process.exit(EXIT.CONTENDED);
+  }
   console.log("released lock '" + name + "'");
   return 0;
 }
@@ -756,7 +788,11 @@ function cmdRelease() {
   const runId = one('run') || die('release needs --run <id>');
   const file = runFile(runId);
   for (const l of readLocks()) {
-    if (l.runId === runId) { fs.unlinkSync(lockFile(l.name)); console.log("released dangling lock '" + l.name + "'"); }
+    if (l.runId !== runId) continue;
+    // Release against the fingerprint readLocks took with the read, so a lock re-taken since is left alone.
+    const r = breakIfUnchanged(lockFile(l.name), l._seen);
+    if (r === 'broken') console.log("released dangling lock '" + l.name + "'");
+    else console.log("lock '" + l.name + "' is no longer yours (" + (r === 'changed' ? 'released or taken over since it was read' : 'a takeover is in progress') + '); left alone.');
   }
   if (!fs.existsSync(file)) { console.log('no record for ' + runId + '; nothing to release.'); return 0; }
   fs.unlinkSync(file);
