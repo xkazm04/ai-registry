@@ -1,6 +1,28 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { buildUnits, parseLedger, pickWave } from './backlog-wave.mjs';
+
+const SCRIPT = fileURLToPath(new URL('./backlog-wave.mjs', import.meta.url));
+const cli = (...args) => spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8' });
+
+test('next refuses a --size that is not a positive integer, before reading the ledger', () => {
+  // Before: Number('abc') is NaN, `wave.length >= NaN` is never true, and the "wave" was the
+  // whole queue - 473 units on 2026-10-25 - printed as if it were a wave of 8.
+  for (const bad of ['abc', '0', '-3', '2.5', '']) {
+    const r = cli('next', '--size', bad);
+    assert.equal(r.status, 1, `--size "${bad}": ${r.stdout.slice(0, 200)}${r.stderr}`);
+    assert.match(r.stderr, /--size must be a positive integer/);
+    assert.equal(r.stdout, '', 'no wave printed');
+  }
+  const missing = cli('next', '--size');
+  assert.equal(missing.status, 1, 'a --size with no value is refused too');
+  // positive control: a real size bounds the wave
+  const ok = cli('next', '--size', '2');
+  assert.equal(ok.status, 0, ok.stderr);
+  assert.ok(JSON.parse(ok.stdout).wave.length <= 2);
+});
 
 const row = (o) => ({ note: `n-${o.id}`, score: 5, home: '', status: 'queued', convergence: [], tension: '', ...o });
 

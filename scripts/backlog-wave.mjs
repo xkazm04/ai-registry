@@ -149,8 +149,12 @@ function main(argv) {
   selfCheck();
   const cmd = argv[0];
   if (cmd === 'next') {
+    // NaN or a non-positive size used to mean "no bound": `wave.length >= NaN` is never true,
+    // so `--size abc` printed the whole queue as one wave.
+    const sizeArg = argv.includes('--size') ? arg(argv, '--size') : '8';
+    if (!/^[1-9][0-9]*$/.test(sizeArg ?? '')) { console.error(`--size must be a positive integer, got "${sizeArg ?? ''}"`); return 1; }
     const rows = load();
-    const wave = pickWave(rows, { size: Number(arg(argv, '--size', 8)), homePrefix: arg(argv, '--home-prefix', '') });
+    const wave = pickWave(rows, { size: Number(sizeArg), homePrefix: arg(argv, '--home-prefix', '') });
     const byId = new Map(rows.map((r) => [r.id, r]));
     const out = wave.map((u) => ({ ...u, items: u.ids.map((id) => {
       const r = byId.get(id);
