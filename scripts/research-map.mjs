@@ -111,11 +111,14 @@ if (!fs.existsSync(KNOWLEDGE)) {
   process.exit(2);
 }
 
+// --domain takes one bundle or a comma list. The list matters to callers that declare several
+// (consult-check): filtering AFTER the --top cut would let undeclared bundles fill every slot.
+const wantDomains = onlyDomain ? new Set(String(onlyDomain).split(',').map((d) => d.trim()).filter(Boolean)) : null;
 const domains = fs
   .readdirSync(KNOWLEDGE, { withFileTypes: true })
   .filter((e) => e.isDirectory())
   .map((e) => e.name)
-  .filter((d) => !onlyDomain || d === onlyDomain)
+  .filter((d) => !wantDomains || wantDomains.has(d))
   .sort();
 
 if (domains.length === 0) {

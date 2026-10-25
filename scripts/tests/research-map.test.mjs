@@ -47,6 +47,16 @@ test('the closing caveat names what was matched: technique use_when by default, 
   assert.match(deep, /Matching is over slugs, law statements, technique use_when, golden-path use_when and NOT document bodies/);
 });
 
+test('--domain takes a comma list and scopes BEFORE the top-N cut', { skip: !HAS_CORPUS && 'knowledge/ absent' }, () => {
+  const j = JSON.parse(run('scoring', '--domain', 'software-engineering,localization', '--top', '3', '--json').stdout);
+  assert.deepEqual(j.scanned.bundles, ['localization', 'software-engineering']);
+  assert.ok(j.results[0].hits.length > 0);
+  for (const h of j.results[0].hits) assert.ok(['software-engineering', 'localization'].includes(h.domain), h.domain);
+  const none = run('scoring', '--domain', 'no-such-bundle');
+  assert.equal(none.status, 2);
+  assert.match(none.stderr, /matching --domain no-such-bundle/);
+});
+
 test('a real empty still says so', { skip: !HAS_CORPUS && 'knowledge/ absent' }, () => {
   const r = run('zzqxv wwkpj');
   assert.equal(r.status, 0, r.stderr);

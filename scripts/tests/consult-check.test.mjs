@@ -73,6 +73,20 @@ test('a path in no context is routed, not silently passed — this is the new-co
  assert.ok(out.missed.some(m=>m.subject==='table'&&m.via==='router'),`router should reach table, got ${JSON.stringify(out.missed)}`);
 });
 
+test('a project declaring two bundles is routed inside both, not cut to the corpus-wide top 3 first',t=>{
+ // research-map took one --domain, so with two declared bundles it ran unscoped, kept the top 3
+ // per term across ALL bundles, and only then dropped the undeclared ones. "grants", "eligibility",
+ // "scoring" each top out in grant-funding / recruiting / llm-observability, so nothing survived and
+ // the run reported "0 governing subject(s), all read" - a pass over a change it never routed.
+ const root=project(t,{contexts:[],ledger:''});
+ fs.writeFileSync(path.join(root,'.ai','manifest.yaml'),'knowledge:\n  domains: [software-engineering, localization]\n');
+ fs.writeFileSync(path.join(root,'.ai','registry-map.json'),JSON.stringify({schema:'rkb-registry-map/1',project:'fixture',domains:['software-engineering','localization'],contexts:[]}));
+ const {out}=run(root,'src/grants/EligibilityScoring.tsx',['--no-record']);
+ assert.equal(out.unmapped,1);
+ assert.ok(out.missed.length>0,'an unmapped change in a declared bundle must route to something');
+ for(const m of out.missed)assert.ok(['software-engineering','localization'].includes(m.bundle),`${m.subject} is from undeclared ${m.bundle}`);
+});
+
 test('never blocks a commit: a miss exits 0 unless --exit-code is asked for',t=>{
  const root=project(t,{contexts:[ctx('tables',['app/table'],['table'])],ledger:''});
  assert.equal(run(root,'app/table/Grid.tsx',['--no-record']).status,0);

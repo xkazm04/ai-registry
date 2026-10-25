@@ -330,8 +330,10 @@ if (unmapped.length > 0) {
         '--top', String(TOP), '--json',
       ];
       // Scope to what the project declared. An unscoped router would answer a Next.js
-      // table question out of the recruiting bundle, which is noise wearing a score.
-      if (domains.length === 1) args.push('--domain', domains[0]);
+      // table question out of the recruiting bundle, which is noise wearing a score. Scope
+      // EVERY declared bundle, not only a single one: unscoped, research-map keeps its top N
+      // per term across all bundles and the filter below then drops them all.
+      if (domains.length) args.push('--domain', domains.join(','));
       const r = spawnSync(process.execPath, args, { encoding: 'utf8', timeout: 10_000 });
       if (r.status !== 0 || !r.stdout) {
         routerNote = 'router did not run';
