@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-09-28
 source: EU/GDPR-2016-679+CRTC/CASL-FAQ+US/15-USC-7702
+counterpart: external
 ---
 
 # The first-touch notice as the texts write it

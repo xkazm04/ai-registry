@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2026-12-28
 source: vendor-docs/Taleo+Ashby+GoodTime+Gem+Greenhouse; vendor-data/Talview
+counterpart: external
 ---
 
 # Reschedule controls as the products ship them

@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-29
 refresh_by: 2026-12-29
 source: shipped-ats-docs@2026-09-29
+counterpart: external
 ---
 
 # How five shipped applicant-tracking systems type, retire and roll up their stages

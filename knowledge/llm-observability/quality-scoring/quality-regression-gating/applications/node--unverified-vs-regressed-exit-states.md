@@ -6,8 +6,8 @@ technique: unverified-vs-regressed-exit-states
 stack: node
 status: forged
 verified_on: 2026-08-30
-verified_against: node@24
 source: promptfoo/promptfoo
+counterpart: external
 ---
 
 # Node: promptfoo's two-state exit contract and the unverified signal it never spends

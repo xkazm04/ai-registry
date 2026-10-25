@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-08-30
 refresh_by: 2027-02-28
 source: "W3C/WCAG@2.2 + W3C/wai-aria@1.2"
+counterpart: external
 ---
 
 # The nav's depth and posture, as two public standards write them

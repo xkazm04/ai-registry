@@ -1170,7 +1170,7 @@
       "techniques": 565,
       "applications": 330,
       "files": 985,
-      "contentHash": "sha256-b2:987e9c5522742a1c"
+      "contentHash": "sha256-b2:521c4edb979a61fc"
     },
     {
       "name": "grant-funding",
@@ -1196,7 +1196,7 @@
       "techniques": 134,
       "applications": 100,
       "files": 258,
-      "contentHash": "sha256-b2:d847e37958e8aaa2"
+      "contentHash": "sha256-b2:3183efe979cb727c"
     },
     {
       "name": "localization",
@@ -1209,7 +1209,7 @@
       "techniques": 119,
       "applications": 75,
       "files": 215,
-      "contentHash": "sha256-b2:6fea74053381b673"
+      "contentHash": "sha256-b2:dc8c81676026520d"
     },
     {
       "name": "marketing",
@@ -1248,7 +1248,7 @@
       "techniques": 416,
       "applications": 318,
       "files": 805,
-      "contentHash": "sha256-b2:8096754041957d3c"
+      "contentHash": "sha256-b2:5965d8d2d17735bf"
     },
     {
       "name": "software-engineering",
@@ -1261,7 +1261,7 @@
       "techniques": 1886,
       "applications": 1403,
       "files": 3530,
-      "contentHash": "sha256-b2:2347cffd152494b9"
+      "contentHash": "sha256-b2:f90fea6697e88ca3"
     },
     {
       "name": "technical-writing",

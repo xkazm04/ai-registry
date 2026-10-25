@@ -6,7 +6,7 @@ technique: root-relative-session-identity
 stack: rust
 status: forged
 verified_on: 2026-10-15
-verified_against: rust@2026.08.31
+counterpart: external
 ---
 
 # Rust: conversation identity in coding_agent_session_search

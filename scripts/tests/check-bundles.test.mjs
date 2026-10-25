@@ -189,6 +189,27 @@ test('control: spec and data applications without verified_against, and node wit
   assert.equal(r.status, 0, r.stderr);
 });
 
+// ---- (b3b) the external marker. docs/reconcile-brief.md says an application documenting a
+// foreign counterpart carries no verified_against, but `source:` cannot identify one (consumer
+// applications write it too), so 14 of 67 carried both and check-currency counted a foreign
+// tree's version as a consumer runtime. `counterpart: external` is the explicit marker.
+test('counterpart: external on a runtime stack together with verified_against fails', () => expectRed(({ b }) => {
+  withStacks(b, ['node']);
+  fs.writeFileSync(path.join(b, 'topic', 'applications', 'node--check.md'), APP('node', ['source: langfuse/langfuse', 'counterpart: external', 'verified_against: node@24']));
+}, /node--check\.md: counterpart: external with verified_against "node@24"/));
+test('counterpart: a value other than external fails', () => expectRed(({ b }) => {
+  withStacks(b, ['node']);
+  fs.writeFileSync(path.join(b, 'topic', 'applications', 'node--check.md'), APP('node', ['counterpart: consumer']));
+}, /node--check\.md: counterpart "consumer" is not a declared value/));
+test('control: external without verified_against passes, and a consumer keeps its verified_against, source or not', () => {
+  const { root, b } = fixture();
+  withStacks(b, ['node', 'python']);
+  fs.writeFileSync(path.join(b, 'topic', 'applications', 'node--check.md'), APP('node', ['source: langfuse/langfuse', 'counterpart: external']));
+  fs.writeFileSync(path.join(b, 'topic', 'applications', 'python--check.md'), APP('python', ['source: acme/own-service', 'verified_against: python@3.12']));
+  const r = run(root);
+  assert.equal(r.status, 0, r.stderr);
+});
+
 // ---- (b4) taxonomy order. A category without `order` used to pass when it was the only
 // one, and two of them were reported as "duplicate order values" - a remedy (renumber)
 // for a cause (a missing field) that was not this one.

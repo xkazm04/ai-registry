@@ -6,8 +6,8 @@ technique: fixed-task-vocabulary
 stack: python
 status: forged
 verified_on: 2026-08-30
-verified_against: python@3.12
 source: mlcommons/inference
+counterpart: external
 ---
 
 # Python: MLPerf Inference's per-round benchmark vocabulary

@@ -7,6 +7,7 @@ stack: spec
 status: forged
 verified_on: 2026-09-29
 source: rfc-editor/rfc8785 + W3C/rdf-canon@1.0
+counterpart: external
 ---
 
 # Two published canonicalisations, and what each does when its output has to change

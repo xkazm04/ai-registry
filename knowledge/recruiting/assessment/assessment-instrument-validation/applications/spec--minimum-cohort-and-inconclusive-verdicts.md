@@ -7,6 +7,7 @@ stack: spec
 status: forged
 verified_on: 2026-08-23
 source: US-EEOC/29-CFR-1607
+counterpart: external
 ---
 
 # The regulator has the state but never the word (29 CFR Part 1607)

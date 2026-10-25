@@ -6,8 +6,8 @@ technique: wiring-location-checks
 stack: python
 status: forged
 verified_on: 2026-09-03
-verified_against: python@3.10
 source: Project-MONAI/MONAI
+counterpart: external
 ---
 
 # The two-check property contract in MONAI's bundle workflows

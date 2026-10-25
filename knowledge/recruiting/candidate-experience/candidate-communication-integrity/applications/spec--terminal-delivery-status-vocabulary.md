@@ -7,6 +7,7 @@ stack: spec
 status: forged
 verified_on: 2026-09-26
 source: IETF/RFC-3464+RFC-5321+RFC-8098
+counterpart: external
 ---
 
 # The mail standards already wrote a delivery vocabulary

@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-01
 refresh_by: 2027-03-01
 source: "AccessKit/accesskit"
+counterpart: external
 ---
 
 # Name and description wiring — a cross-platform native a11y schema (AccessKit)

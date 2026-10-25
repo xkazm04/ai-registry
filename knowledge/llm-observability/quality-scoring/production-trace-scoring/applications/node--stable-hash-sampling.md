@@ -6,8 +6,8 @@ technique: stable-hash-sampling
 stack: node
 status: forged
 verified_on: 2026-08-30
-verified_against: node@24
 source: langfuse/langfuse
+counterpart: external
 ---
 
 # Stable-hash sampling in Langfuse's evaluation scheduler

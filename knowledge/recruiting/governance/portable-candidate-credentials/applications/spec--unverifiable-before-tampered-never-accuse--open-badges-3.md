@@ -7,6 +7,7 @@ stack: spec
 status: forged
 verified_on: 2026-09-29
 source: 1EdTech/open-badges@3.0
+counterpart: external
 ---
 
 # A published key is only as durable as the URL it lives at

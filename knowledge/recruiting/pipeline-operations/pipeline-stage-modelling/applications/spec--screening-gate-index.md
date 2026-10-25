@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-29
 refresh_by: 2027-03-28
 source: us-29cfr1607@2026-09-29
+counterpart: external
 ---
 
 # Who is in the denominator of a step-level selection rate
