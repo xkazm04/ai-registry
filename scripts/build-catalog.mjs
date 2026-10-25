@@ -34,7 +34,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { hashBundle, sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 import { walkSubjects } from './lib/taxonomy.mjs';
-import { readLane, contentDigest } from './lib/skills-lane.mjs';
+import { readLane, contentDigest, lessonHeadings } from './lib/skills-lane.mjs';
 import {loadIdentities,resolveIdentity} from './lib/telemetry.mjs';
 import { loadLane as loadRunsLane, aggregateRuns, catalogFields } from './lib/runs-aggregate.mjs';
 import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
@@ -154,6 +154,15 @@ floor(bundles.length, 'bundles in knowledge/');
 // FATAL rather than a warning. A catalog is the file consumers sync instead of walking
 // the tree; publishing numbers we know are contradicted is worse than publishing none.
 const mismatches = [];
+const indexChangedAt = []; // every subject's `changedAt`, for generatedAt below
+const collectChangedAt = (node) => {
+  if (Array.isArray(node)) { node.forEach(collectChangedAt); return; }
+  if (node === null || typeof node !== 'object') return;
+  for (const [k, v] of Object.entries(node)) {
+    if (k === 'changedAt' && typeof v === 'string') indexChangedAt.push(v);
+    else collectChangedAt(v);
+  }
+};
 for (const b of bundles) {
   const idxFile = path.join(KNOWLEDGE, b.name, 'index.json');
   if (!fs.existsSync(idxFile)) {
@@ -162,7 +171,9 @@ for (const b of bundles) {
   }
   let meta;
   try {
-    meta = JSON.parse(fs.readFileSync(idxFile, 'utf8')).meta ?? {};
+    const idxDoc = JSON.parse(fs.readFileSync(idxFile, 'utf8'));
+    meta = idxDoc.meta ?? {};
+    collectChangedAt(idxDoc.subjects ?? {});
   } catch (err) {
     mismatches.push(`${b.name}: index.json does not parse (${err.message})`);
     continue;
@@ -327,10 +338,31 @@ if (fs.existsSync(MEMORY)) {
 }
 const counts = { skills: skills.length, practices: practices.length, memory: memory.length, lessons: skills.reduce((n, s) => n + (s.lessons ?? 0), 0) };
 
+// -- generatedAt: derived from committed data, never from the clock or live git ---------
+// This used to be `catalog.generatedAt`, carried forward untouched, so it sat at
+// 2026-08-18T00:00:00Z while the catalog was rebuilt dozens of times, and the readers that
+// take it as "when was this built" (Ascent's indexer, personas) were told August. The clock
+// is not an option: `--check` must be a pure function of the tree, and a catalog stamped
+// with "now" is stale the instant it is written. Live `git log` is not either: CI clones
+// may be shallow and a depth-1 clone has one commit to date everything by. So the date is
+// the NEWEST instant found in data the catalog already reads and the tree already commits:
+// a subject's `changedAt` (knowledge/*/index.json), a usage report's `generatedAt`, a run
+// row's `ts`, a LESSONS.md heading's date. It moves exactly when a lane gains newer
+// evidence, and an unchanged tree rebuilds to the same value. If none parses, the committed
+// value is kept rather than invented.
+const lessonDates = laneSkills.flatMap((s) => (s.lessonsRaw ? lessonHeadings(s.lessonsRaw) : [])
+  .map((h) => /[-–—] (\d{4}-\d{2}-\d{2}) [-–—]/.exec(h)?.[1]).filter(Boolean));
+const stampMs = (v) => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}([T ]|$)/.test(v) ? Date.parse(/^\d{4}-\d{2}-\d{2}$/.test(v) ? `${v}T00:00:00Z` : v) : NaN);
+const newestMs = Math.max(-Infinity, ...[
+  ...indexChangedAt, ...lessonDates, ...usageReports.map((u) => u.generatedAt),
+  ...runsLane.rows.map((r) => r?.ts),
+].map(stampMs).filter(Number.isFinite));
+const generatedAt = newestMs === -Infinity ? catalog.generatedAt : new Date(newestMs).toISOString().replace(/\.\d{3}Z$/, 'Z');
+
 const next = {
   ...catalog,
-  _note: 'GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator\'s scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents\' estimate, and tokensBasis30d says which). Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent\'s indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.',
-  generatedAt: catalog.generatedAt,
+  _note: 'GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator\'s scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents\' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent\'s indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.',
+  generatedAt,
   generatedBy: 'scripts/build-catalog.mjs',
   skills, practices, memory, counts, bundles,
   usageEvidence: {reports:usageReports,unresolved:unresolvedUsage,interpretation: 'invokes30d includes only reported 30-day windows ending at each report date; reportedInvokes includes all reported windows. Neither is a live rolling count. Unresolved names retain counts here.'},

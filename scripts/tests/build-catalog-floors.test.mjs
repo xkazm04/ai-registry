@@ -112,3 +112,49 @@ for (const mode of [[], ['--check']]) {
     assert.match(r.stderr, /catalog\.json does not parse/);
   });
 }
+
+// generatedAt used to be carried forward from the previous catalog and sat frozen at
+// 2026-08-18 while consumers read it as "when was this built". It is now the newest instant
+// in committed data (a subject changedAt, a usage report generatedAt, a run ts, a LESSONS
+// heading date): deterministic, so --check stays a pure function of the tree, and it works
+// in a depth-1 clone because no git is consulted.
+const FROZEN = '2026-08-18T00:00:00Z';
+const frozenCatalog = `${JSON.stringify({ generatedAt: FROZEN }, null, 2)}\n`;
+const writeIndex = (dir, changedAts) => {
+  const subjects = Object.fromEntries(changedAts.map((c, i) => [`s${i}`, { file: `knowledge/demo/s${i}/s${i}.md`, changedAt: c }]));
+  fs.writeFileSync(path.join(dir, 'knowledge/demo/index.json'), JSON.stringify({ meta: { subjects: 0, techniques: 0, applications: 0 }, subjects }));
+};
+const stamp = (dir) => JSON.parse(fs.readFileSync(path.join(dir, 'catalog.json'), 'utf8')).generatedAt;
+
+test('generatedAt: a newer subject changedAt moves it off the frozen carried-forward value', (t) => {
+  const dir = registry(t, { catalog: frozenCatalog, skill: true, bundle: true });
+  writeIndex(dir, ['2026-09-01', '2026-10-23', '2026-10-02']);
+  { const r = run(dir); assert.equal(r.status, 0, r.stdout + r.stderr); }
+  assert.equal(stamp(dir), '2026-10-23T00:00:00Z');
+  writeIndex(dir, ['2026-09-01', '2026-10-24']);
+  { const r = run(dir); assert.equal(r.status, 0, r.stdout + r.stderr); }
+  assert.equal(stamp(dir), '2026-10-24T00:00:00Z', 'a newer changedAt must move it');
+});
+
+test('generatedAt: the newest of changedAt, usage report and LESSONS heading wins; --check is pure', (t) => {
+  const dir = registry(t, { catalog: frozenCatalog, skill: true, bundle: true });
+  writeIndex(dir, ['2026-09-01']);
+  fs.mkdirSync(path.join(dir, 'usage'));
+  fs.writeFileSync(path.join(dir, 'usage/box.json'), JSON.stringify({ contributor: 'box', windowDays: 30, generatedAt: '2026-09-10T08:00:00Z', skills: {} }));
+  { const r = run(dir); assert.equal(r.status, 0, r.stdout + r.stderr); }
+  assert.equal(stamp(dir), '2026-09-10T08:00:00Z', 'usage report beats the older changedAt');
+  fs.writeFileSync(path.join(dir, 'skills/demo/LESSONS.md'), '# Lessons\n\n## 1.0.0 - 2026-09-20 - proj\nbody\n');
+  { const r = run(dir); assert.equal(r.status, 0, r.stdout + r.stderr); }
+  assert.equal(stamp(dir), '2026-09-20T00:00:00Z', 'a LESSONS heading date beats the usage report');
+  // An unchanged tree rebuilds to the same value and checks fresh, whatever the clock says.
+  const again = run(dir, '--check');
+  assert.equal(again.status, 0, again.stdout + again.stderr);
+  { const r = run(dir); assert.equal(r.status, 0, r.stdout + r.stderr); }
+  assert.equal(stamp(dir), '2026-09-20T00:00:00Z');
+});
+
+test('generatedAt: with no dated evidence anywhere the committed value is kept, not invented', (t) => {
+  const dir = registry(t, { catalog: frozenCatalog, skill: true, bundle: true });
+  { const r = run(dir); assert.equal(r.status, 0, r.stdout + r.stderr); }
+  assert.equal(stamp(dir), FROZEN);
+});
