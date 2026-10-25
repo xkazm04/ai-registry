@@ -25,8 +25,8 @@ async function loopback(t, routes) {
   return `http://127.0.0.1:${srv.address().port}`;
 }
 /** The script as a child that does not block this process's event loop (the server lives here). */
-const runAsync = (args) => new Promise((resolve) => {
-  const c = spawn(process.execPath, [SCRIPT, ...args]);
+const runAsync = (args, env = {}) => new Promise((resolve) => {
+  const c = spawn(process.execPath, [SCRIPT, ...args], { env: { ...process.env, ...env } });
   let stdout = '';
   let stderr = '';
   c.stdout.on('data', (d) => { stdout += d; });
@@ -163,4 +163,34 @@ test('a client-rendered script shell is an instrument failure (exit 2), a short 
   assert.equal((await ingest('/normal')).status, 0);
   const h = await ingest('/heavy');
   assert.equal(h.status, 0, h.stderr);
+});
+
+test('--meta-only on a YouTube URL: a missing title is an instrument failure (exit 2), a title is the control', async (t) => {
+  // The oEmbed endpoint is answered from loopback via the script's test-only base override;
+  // --meta-only never starts yt-dlp, so nothing here leaves the machine.
+  const answers = {
+    '/ok': [200, JSON.stringify({ title: 'A Real Title', author_name: 'Some Channel' })],
+    '/err': [500, 'boom'],
+    '/notitle': [200, JSON.stringify({ author_name: 'Some Channel' })],
+  };
+  const srv = http.createServer((req, res) => {
+    const [code, body] = answers[req.url.split('?')[0]] ?? [404, 'nope'];
+    res.writeHead(code, { 'content-type': 'application/json' });
+    res.end(body);
+  });
+  await new Promise((ok) => srv.listen(0, '127.0.0.1', ok));
+  t.after(() => { srv.closeAllConnections(); srv.close(); });
+  const base = `http://127.0.0.1:${srv.address().port}`;
+  const meta = (p) => runAsync(['https://www.youtube.com/watch?v=dQw4w9WgXcQ', '--meta-only'], { RESEARCH_OEMBED_BASE: `${base}${p}` });
+
+  const ok = await meta('/ok');
+  assert.equal(ok.status, 0, ok.stderr);
+  assert.equal(ok.stdout.trim(), 'youtube: A Real Title - Some Channel');
+
+  for (const p of ['/err', '/notitle']) {
+    const r = await meta(p);
+    assert.equal(r.status, 2, `${p}: ${r.stdout}${r.stderr}`);
+    assert.match(r.stderr, /oEmbed returned no title/);
+    assert.doesNotMatch(r.stdout, /untitled/);
+  }
 });
