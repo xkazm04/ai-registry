@@ -374,7 +374,7 @@ if (problems.length) {
   for (const p of problems) console.error(`  - ${p}`);
 }
 if (checkOnly) {
-  if (problems.length) { console.error('\nlink-skills --check FAILED'); process.exit(1); }
+  if (problems.length) { console.error('\nlink-registry --check FAILED'); process.exit(1); }
   console.log('\nevery declared skill is linked to the lane; nothing stale.');
 } else {
   console.log(`\n${changed} link(s) changed. An edit to a linked skill edits the registry file itself - there is nothing to sync.`);

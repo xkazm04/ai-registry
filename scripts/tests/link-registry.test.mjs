@@ -43,7 +43,10 @@ function fixture(fn) {
 
 test('control: --check fails on an unlinked project, a run links it, and --check then passes', () => {
   fixture(({ app, run }) => {
-    assert.equal(run('--check').status, 1);
+    const failed = run('--check');
+    assert.equal(failed.status, 1);
+    // The verdict line names the script that ran (it said `link-skills`, a name no file has).
+    assert.match(failed.stderr, /link-registry --check FAILED/);
     const linked = run('--project', 'app');
     assert.equal(linked.status, EXIT.OK, linked.stderr);
     assert.ok(fs.lstatSync(path.join(app, '.claude', 'skills', 'alpha')).isSymbolicLink());
