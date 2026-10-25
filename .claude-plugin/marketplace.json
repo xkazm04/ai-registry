@@ -482,7 +482,7 @@
       "name": "takeover-app",
       "source": "./skills/takeover-app",
       "description": "Take over an unknown or vibecoded fullstack app and bring it under control toward production readiness: a phased, gated sequencer over the registry's existing skills. Recon the stack, boot it, map it, score readiness, scan it through the built-in lenses plus four takeover lenses (API and LLM call hygiene, security depth, backend performance, money and privacy) with an Opus judge, import the Azure…",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "workflow",
       "tags": [
         "takeover",

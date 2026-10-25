@@ -3,7 +3,7 @@ name: takeover-app
 description: "Take over an unknown or vibecoded fullstack app and bring it under control toward production readiness: a phased, gated sequencer over the registry's existing skills. Recon the stack, boot it, map it, score readiness, scan it through the built-in lenses plus four takeover lenses (API and LLM call hygiene, security depth, backend performance, money and privacy) with an Opus judge, import the Azure DevOps backlog into the same queue, rank every item by severity tier (0 stop-ship .. 3 backlog), write a stakeholder control report, then build approved tier 0-1 fixes in gated batches while a parallel UX track polishes the top screens. Three operator gates are the only path to builds; a run ledger makes it resumable. Use when you inherit a codebase you did not write and must quickly know what is dangerous, what is slow, and what to fix first. Invoke with /takeover-app [<repo>], /takeover-app resume, or /takeover-app status."
 category: workflow
 memory: project
-version: 1.1.0
+version: 1.1.1
 tags: takeover, onboarding, production-readiness, triage, azure-devops, lens-scan, security, llm
 argument-hint: "[<repo path>] | resume | status"
 ---

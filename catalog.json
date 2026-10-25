@@ -835,10 +835,10 @@
     },
     {
       "name": "takeover-app",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "category": "workflow",
       "path": "skills/takeover-app/SKILL.md",
-      "contentHash": "sha256-n1:ef86f2926b52d263",
+      "contentHash": "sha256-n1:09b833b7cf495127",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,

@@ -8,8 +8,8 @@
 //
 //   node coverage.mjs --product-root <repo> [--map context-map.json] [--uncovered]
 //     Tracked files (git ls-files) with a source extension, grouped by their first path segment (`.` for the root),
-//     against the files the map's contexts claim (`file_paths` / `filePaths`; a directory entry claims every file
-//     under it). Also counts dead paths: claimed entries that match no tracked file.
+//     against the files the map's contexts claim (flat `contexts[]`, nested `groups[].contexts[]`, `ungrouped[]`;
+//     `file_paths` / `filePaths`; a directory entry claims every file under it). Also counts dead paths: claimed entries that match no tracked file.
 //     -> {map, totals: {tracked, claimed, pct, dead_paths}, roots: [{root, tracked, claimed, pct}], uncovered?: [dir...]}
 //     exit 0 it ran; 2 it could not (no git, no map).
 import { existsSync, readFileSync, realpathSync } from 'node:fs';
@@ -24,10 +24,20 @@ try { ({ EXIT } = await import(pathToFileURL(resolve(HERE, '../../../scripts/lib
 export const SOURCE_EXT = /\.(?:[cm]?[jt]sx?|vue|svelte|astro|py|cs|fs|vb|java|kt|kts|scala|go|rb|php|rs|swift|dart|ex|exs|sql|prisma|graphql|gql|css|scss|sass|less|html|razor|cshtml)$/i;
 const norm = (p) => String(p).replace(/\\/g, '/').replace(/^\.\//, '').replace(/\/+$/, '');
 
+/**
+ * Every context a map declares: flat v2 `contexts[]`, nested `groups[].contexts[]` (Vibeman's shape,
+ * which adopt-bp phase 0 reads as v2) and `ungrouped[]`. Read as flat only, a nested map claimed
+ * nothing and GATE 1 showed 0% for a repo that was fully mapped.
+ */
+export function mapContexts(map) {
+  const list = (v) => (Array.isArray(v) ? v : []);
+  return [...list(map?.contexts), ...list(map?.groups).flatMap((g) => list(g?.contexts)), ...list(map?.ungrouped)];
+}
+
 /** Pure: tracked file list + context map -> the coverage report. */
 export function coverage(tracked, map, { uncovered = false } = {}) {
   const files = tracked.map(norm).filter((f) => SOURCE_EXT.test(f));
-  const entries = [...new Set((map?.contexts ?? []).flatMap((c) => c?.file_paths ?? c?.filePaths ?? []).map(norm).filter(Boolean))];
+  const entries = [...new Set(mapContexts(map).flatMap((c) => c?.file_paths ?? c?.filePaths ?? []).map(norm).filter(Boolean))];
   const exact = new Set(entries);
   const dirs = entries.map((e) => `${e}/`);
   const isClaimed = (f) => exact.has(f) || dirs.some((d) => f.startsWith(d));
