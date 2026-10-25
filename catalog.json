@@ -212,10 +212,10 @@
     },
     {
       "name": "contest",
-      "version": "1.12.0",
+      "version": "1.12.1",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:a281ce1a7bfbdbc5",
+      "contentHash": "sha256-n1:2d0a732f6ba5cecb",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,

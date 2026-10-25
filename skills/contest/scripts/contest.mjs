@@ -309,9 +309,12 @@ function collect() {
             fs.writeFileSync(target, text);
           } else fs.copyFileSync(src, target);
         }
-        v.title = (read(index).match(/<title>([^<]*)<\/title>/i)?.[1] ?? '').trim();
+        // The title and concept are read from the seat's own files, then scrubbed like the blinded
+        // copies: the router that shows them promises the owner "no model or vendor names".
+        const blindText = (s) => scrubIdentity(s, extraWords, protect).text.trim();
+        v.title = blindText(read(index).match(/<title>([^<]*)<\/title>/i)?.[1] ?? '');
         const notes = readIf(path.join(vdir, 'NOTES.md'));
-        v.concept = (notes?.match(/^#\s+(.+)$/m)?.[1] ?? v.title).trim();
+        v.concept = notes?.match(/^#\s+(.+)$/m) ? blindText(notes.match(/^#\s+(.+)$/m)[1]) : v.title;
       }
       entry.variants.push(v);
     }

@@ -447,3 +447,41 @@ test('wrap archives notes and screenshots, keeps the winner, removes the rest, a
     fs.rmSync(outside, { recursive: true, force: true });
   }
 });
+
+test('the router is blind: a variant named after its family in <title> or NOTES.md shows redacted', async () => {
+  const { spawnSync } = await import('node:child_process');
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'contest.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'contest-leak-'));
+  const cli = (...a) => {
+    const r = spawnSync(process.execPath, [script, ...a, '--vault', path.join(root, 'vault')], { cwd: root, encoding: 'utf8' });
+    assert.equal(r.status, 0, `${a[0]} failed: ${r.stderr}`);
+    return r.stdout;
+  };
+  try {
+    fs.writeFileSync(path.join(root, 'BRIEF.md'), 'A small idea.\n');
+    cli('init', '--id', 'leak', '--title', 'Leak test', '--brief', 'BRIEF.md', '--participants', 'claude:opus@high,codex:gpt-x@high', '--variants', '1');
+    for (const s of JSON.parse(cli('plan', '--id', 'leak')).seats) {
+      const v = path.join(s.cwd, 'variant-1');
+      fs.mkdirSync(v, { recursive: true });
+      // One seat signs its concept, the other its page title: both reach the router's card text.
+      fs.writeFileSync(path.join(v, 'index.html'), s.engine === 'codex' ? '<title>The GPT-6 take</title>' : '<title>Plain</title>');
+      if (s.engine === 'claude') fs.writeFileSync(path.join(v, 'NOTES.md'), '# Claude Opus brutalist\n');
+      fs.mkdirSync(s.log_dir, { recursive: true });
+      fs.writeFileSync(path.join(s.log_dir, 'record.json'), JSON.stringify({ id: s.id, spec: s.spec, outcome: 'completed', wall_s: 60 }));
+    }
+    cli('collect', '--id', 'leak');
+    const arena = path.join(root, '.contest', 'arena', 'leak');
+    for (const page of [path.join(arena, 'router.html'), path.join(root, 'vault', 'Contest', 'router.html')]) {
+      const cards = [...fs.readFileSync(page, 'utf8').matchAll(/<span>([^<]*)<\/span>/g)].map((m) => m[1]);
+      assert.equal(cards.length, 2, `two variant cards in ${page}`);
+      for (const text of cards) assert.doesNotMatch(text, /claude|opus|gpt|codex/i, `the blinded router names a family: "${text}"`);
+      assert.ok(cards.some((t) => /\[redacted\] brutalist/.test(t)), 'the concept survives with the signature redacted');
+    }
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
