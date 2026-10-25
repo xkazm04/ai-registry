@@ -351,3 +351,43 @@ test('--apply acts on the checkout it names even when the environment exports GI
     assert.equal(gx(A, 'rev-parse', '--verify', '-q', 'refs/heads/done'), '', 'the named checkout lost the branch');
   } finally { fs.rmSync(base, { recursive: true, force: true }); }
 });
+
+test('--apply deletes only what it archived: a failed archive skips, an earlier archive is never overwritten, a removed worktree keeps its HEAD', async () => {
+  // The recovery path (SKILL Phase 2) is `git for-each-ref refs/hygiene-archive/`. The archive's
+  // result was ignored, update-ref overwrote a same-day archive of the same name, and
+  // remove-worktree reported `archived: <head>` without writing any ref.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  const today = new Date().toISOString().slice(0, 10);
+  const AR = `refs/hygiene-archive/${today}`;
+  try {
+    const A = fixtureRepo(base, 'a');
+    const P = { slug: 'a', path: A, repo: 'o/a' };
+    const one = gx(A, 'rev-parse', 'HEAD');
+    // 1. a D/F conflict makes the archive impossible: the branch stays
+    gx(A, 'branch', 'x/y');
+    gx(A, 'update-ref', `${AR}/x`, one);
+    let res = await applyAction(P, { kind: 'delete-local-branch', target: 'x/y', sha: one });
+    assert.ok(!res.done, JSON.stringify(res));
+    assert.match(res.skipped, /could not archive/);
+    assert.equal(gx(A, 'rev-parse', '--verify', '-q', 'refs/heads/x/y'), one, 'unarchived branch kept');
+    // 2. an archive already holding another tip today is kept; this one goes beside it
+    fs.writeFileSync(path.join(A, 'b.txt'), 'two\n');
+    gx(A, 'add', 'b.txt');
+    gx(A, 'commit', '-q', '-m', 'two');
+    const two = gx(A, 'rev-parse', 'HEAD');
+    gx(A, 'update-ref', `${AR}/done`, two);
+    res = await applyAction(P, { kind: 'delete-local-branch', target: 'done', sha: one });
+    assert.equal(res.done, true, JSON.stringify(res));
+    assert.equal(gx(A, 'rev-parse', `${AR}/done`), two, 'the earlier archive survives');
+    assert.equal(gx(A, 'rev-parse', `${AR}/done-2`), one);
+    // 3. a removed worktree's HEAD is archived
+    const wt = path.join(base, 'wt-old');
+    gx(A, 'worktree', 'add', '-q', '--detach', wt, one);
+    const admin = path.join(A, '.git', 'worktrees', 'wt-old');
+    for (const f of ['HEAD', path.join('logs', 'HEAD')]) if (fs.existsSync(path.join(admin, f))) fs.utimesSync(path.join(admin, f), new Date('2020-01-02'), new Date('2020-01-02'));
+    res = await applyAction(P, { kind: 'remove-worktree', target: wt, sha: one, branch: null, deleteBranch: false });
+    assert.equal(res.done, true, JSON.stringify(res));
+    assert.equal(fs.existsSync(wt), false);
+    assert.equal(gx(A, 'rev-parse', '--verify', '-q', `${AR}/worktree/wt-old`), one, 'the HEAD the ledger says it archived');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});

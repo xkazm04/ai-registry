@@ -878,7 +878,21 @@ function renderMarkdown(fleet, projects) {
 
 async function applyAction(P, a) {
   const cwd = P.path;
-  const archive = async (name, sha) => git(cwd, ['update-ref', `refs/hygiene-archive/${TODAY}/${name}`, sha]);
+  // The archive is the recovery path (`git for-each-ref refs/hygiene-archive/`), so a delete
+  // happens only after it is written. Create-only: an archive holding another tip today (a
+  // branch deleted, recreated and deleted again) is never overwritten; this tip goes beside it.
+  const archive = async (name, sha) => {
+    const base = `refs/hygiene-archive/${TODAY}/${name}`;
+    for (let n = 1; n <= 9; n++) {
+      const ref = n === 1 ? base : `${base}-${n}`;
+      const cur = await gitOut(cwd, ['rev-parse', '--verify', '-q', ref]);
+      if (cur === sha) return ref;
+      if (cur) continue;
+      return (await git(cwd, ['update-ref', ref, sha, ''])).ok ? ref : null;
+    }
+    return null;
+  };
+  const unarchived = (name) => ({ skipped: `could not archive the tip to refs/hygiene-archive/${TODAY}/${name} - nothing deleted` });
   switch (a.kind) {
     case 'set-origin-head': {
       const r = await git(cwd, ['remote', 'set-head', 'origin', a.target]);
@@ -893,7 +907,7 @@ async function applyAction(P, a) {
       if (sha !== a.sha) return { skipped: `tip moved (${a.sha?.slice(0, 8)} -> ${sha?.slice(0, 8) ?? 'gone'})` };
       const ct = Number(await gitOut(cwd, ['log', '-1', '--format=%ct', sha]));
       if (minutesSince(ct * 1000) < LIVE_MIN) return { skipped: 'became live' };
-      await archive(a.target, sha);
+      if (!(await archive(a.target, sha))) return unarchived(a.target);
       const r = await git(cwd, ['branch', '-D', a.target]);
       return r.ok ? { done: true, archived: sha } : { skipped: r.stderr.trim() };
     }
@@ -905,7 +919,7 @@ async function applyAction(P, a) {
       if (wtNow.some((w) => w.branch === a.target)) return { skipped: 'a worktree now has this branch checked out' };
       const bases = await ghJson(['pr', 'list', '-R', P.repo, '--state', 'open', '--base', a.target, '--json', 'number']);
       if (bases.error || bases.data?.length) return { skipped: bases.error ?? `now the base of #${bases.data.map((x) => x.number).join(', #')}` };
-      await archive(`origin/${a.target}`, sha);
+      if (!(await archive(`origin/${a.target}`, sha))) return unarchived(`origin/${a.target}`);
       // Server-side delete, not `git push --delete`: a push from the primary checkout runs
       // its full pre-push hook (personas: typecheck + census + i18n + evals) for a ref
       // deletion no hook has an opinion on. The safety the hook once supplied by accident
@@ -929,12 +943,14 @@ async function applyAction(P, a) {
       // worktree whose node_modules holds per-package junctions into the primary's emptied the
       // primary's node_modules and 608 tracked files of its workspace packages (gravitone,
       // 2026-10-20). removeTree unlinks every link without entering it; prune drops the admin entry.
+      if (head && !(await archive(`worktree/${path.basename(a.target)}`, head))) return unarchived(`worktree/${path.basename(a.target)}`);
       const rm = removeTree(a.target);
       if (fs.existsSync(a.target)) return { skipped: `could not empty the worktree (${rm.errors} error(s): ${rm.firstErrors.join('; ')})` };
       await git(cwd, ['worktree', 'prune']);
       if (a.deleteBranch && a.branch) {
         const sha = await gitOut(cwd, ['rev-parse', '--verify', '-q', `refs/heads/${a.branch}`]);
-        if (sha) { await archive(a.branch, sha); await git(cwd, ['branch', '-D', a.branch]); }
+        if (sha && !(await archive(a.branch, sha))) return { done: true, archived: head, branchKept: `${a.branch}: could not archive its tip` };
+        if (sha) await git(cwd, ['branch', '-D', a.branch]);
       }
       return { done: true, archived: head };
     }
