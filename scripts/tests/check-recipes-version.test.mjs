@@ -117,6 +117,21 @@ test('bumped committed and dirty edits pass', (t) => {
   assert.match(r.stdout, /version discipline: 2 changed recipe/);
 });
 
+// Copy that has to stay true: X1 moved the CI step to push AND pull_request, and gate.mjs
+// says so; this gate still told the reader "CI runs it on every pull request". And a
+// backwards version named only the new number, where check-skills names both.
+test('the report says where version discipline runs, and a backwards version names both numbers', (t) => {
+  const f = fixture(t);
+  const plain = f.run();
+  assert.equal(plain.status, 0, plain.stderr);
+  assert.match(plain.stdout, /version discipline: NOT run \(pass --since <ref>; CI runs it on every push and pull request\)/);
+  f.touch(A, 'codebase.md');
+  f.bump(A, '0.2.0');
+  const r = f.run('--since', 'HEAD');
+  assert.equal(r.status, 1, r.stdout);
+  assert.match(r.stderr, /version went BACKWARDS, 0\.3\.1 -> 0\.2\.0/);
+});
+
 test('an unresolvable --since ref is could-not-run (exit 2)', (t) => {
   const f = fixture(t);
   const r = f.run('--since', 'no-such-ref');

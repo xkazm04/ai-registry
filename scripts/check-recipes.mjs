@@ -588,7 +588,8 @@ if (sinceIdx !== -1) {
     }
     bumpChecked += 1;
     let oldV = null;
-    try { oldV = parseSemver(JSON.parse(oldRaw).version); } catch { /* handled below */ }
+    let oldVersion = null;
+    try { oldVersion = JSON.parse(oldRaw).version; oldV = parseSemver(oldVersion); } catch { /* handled below */ }
     const newV = parseSemver(current.version);
     if (!oldV || !newV) {
       if (!oldV) notes.push(`recipes/${key}: version at ${ref} is not readable semver - bump not comparable`);
@@ -597,7 +598,7 @@ if (sinceIdx !== -1) {
     if (cmpSemver(newV, oldV) === 0) {
       fail(`recipes/${key}: content changed (${files.join(', ')}) but version stayed ${current.version}. Versions are the comparison currency - an unchanged version tells every consumer it holds the current craft while it holds different knowledge. A non-behavioural fix takes a PATCH bump; the level is free.`);
     } else if (cmpSemver(newV, oldV) < 0) {
-      fail(`recipes/${key}: version went BACKWARDS -> ${current.version}. A consumer already at the higher version would resolve as ahead of the registry and never sync again.`);
+      fail(`recipes/${key}: version went BACKWARDS, ${oldVersion} -> ${current.version}. A consumer already at the higher version would resolve as ahead of the registry and never sync again.`);
     }
   }
 }
@@ -642,7 +643,7 @@ const fmt = (m) => [...m.entries()].sort().map(([k, n]) => `${k}:${n}`).join(' '
 console.log(`recipes lane: ${walked.recipes.length} recipe(s) - ${fmt(byStatus)}`);
 console.log(`domains: ${fmt(byDomain)} - ${lessonEntries} LESSONS entr(ies)`);
 if (sinceIdx !== -1) console.log(`version discipline: ${bumpChecked} changed recipe(s) compared against ${process.argv[sinceIdx + 1]} (committed + working tree + untracked)`);
-else console.log('version discipline: NOT run (pass --since <ref>; CI runs it on every pull request)');
+else console.log('version discipline: NOT run (pass --since <ref>; CI runs it on every push and pull request)');
 if (process.argv.includes('--shape-only')) console.log('index freshness: NOT run (--shape-only; regenerate and check the index next)');
 console.log('NOT checked here: whether the craft is any good; whether a lesson was appended;');
 console.log('  whether a connector_type exists in the consuming catalog (this registry cannot see it)');
