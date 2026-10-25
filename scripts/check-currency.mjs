@@ -57,6 +57,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { walkSubjects } from './lib/taxonomy.mjs';
 import { scanVolatile, volatileScore } from './lib/volatile-facts.mjs';
+import { WINDOW_DAYS, DEFAULT_WINDOW_DAYS, clockOf } from './lib/currency-clock.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -112,54 +113,14 @@ const horizonDays = (() => {
   return n;
 })();
 
-/**
- * How long a citation against each stack stays plausible without a re-check.
- *
- * These are FLOORS, not measurements. The reasoning is how fast the surface underneath a
- * citation moves: a UI framework and its ecosystem churn fastest, a systems runtime is
- * slower and its breaking changes are louder, and the SQL surface a document is likely to
- * cite barely moves at all. `process` gets NO clock - a methodology does not expire on a
- * vendor's release schedule, and giving it one would generate noise that trains people to
- * ignore the report.
- *
- * Tune these here, in one place. A document that knows better carries its own `refresh_by`.
- */
-const WINDOW_DAYS = {
-  react: 183,
-  // A server-rendering web framework on an active security patch line. Half the react
-  // window, and the reason is not churn but exposure: a citation against this stack is
-  // routinely a claim about a default that a PATCH release can retire (supply-chain /
-  // update-automation-review, "When the dependency is the framework"). This clock
-  // protects the fleet, not the prose.
-  next: 90,
-  node: 183,
-  rust: 274,
-  sql: 365,
-  process: null,
-  // The external-reconcile lane's two non-runtime stacks (docs/reconcile-brief.md,
-  // "Instrument changes the extension needs"). A `spec` application is realized by a
-  // clause in a pinned specification edition and a `data` one by a pinned dataset
-  // snapshot; neither has a runtime to drift against, so both take `process`'s null
-  // clock. The pin is the currency statement, and it is in the document's prose.
-  //
-  // Null rather than absent, and the distinction is load-bearing: an ABSENT stack falls
-  // to DEFAULT_WINDOW_DAYS below, and - worse - reads as runtime-bearing everywhere this
-  // file tests `WINDOW_DAYS[stack] !== null`, because `undefined !== null`. A stack left
-  // undeclared here would report every one of its applications as drift-blind for want
-  // of a `verified_against` the lane forbids it to carry.
-  spec: null,
-  data: null,
-};
-const DEFAULT_WINDOW_DAYS = 183;
+// WINDOW_DAYS, DEFAULT_WINDOW_DAYS and the clock itself live in lib/currency-clock.mjs, shared
+// with librarian-scan so the two tools cannot disagree about what has expired.
 
-const DAY = 86400000;
 // UTC, deliberately. Contributors are in many timezones and a shared registry cannot have
 // a "today" that depends on who is looking. `verified_on` values backfilled from git carry
 // local dates, so the two can differ by a day at the boundary - which is exactly what the
 // bundle gate's one-day slack on `verified_on` absorbs.
 const today = new Date().toISOString().slice(0, 10);
-const addDays = (iso, days) => new Date(Date.parse(`${iso}T00:00:00Z`) + days * DAY).toISOString().slice(0, 10);
-const daysBetween = (a, b) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / DAY);
 
 // ---------------------------------------------------------------- inputs
 if (!fs.existsSync(KNOWLEDGE)) {
@@ -204,19 +165,9 @@ for (const domain of domains) {
     for (const f of fs.readdirSync(aDir).filter((x) => x.endsWith('.md')).sort()) {
       const fm = frontmatter(path.join(aDir, f)) ?? {};
       const stack = fm.stack ?? 'unknown';
-      const window = stack in WINDOW_DAYS ? WINDOW_DAYS[stack] : DEFAULT_WINDOW_DAYS;
       const verifiedOn = fm.verified_on ?? null;
-
-      // Explicit override beats derivation; `process` has no derived clock at all.
-      let expiresOn = null;
-      let clockSource = 'none';
-      if (fm.refresh_by) {
-        expiresOn = fm.refresh_by;
-        clockSource = 'refresh_by';
-      } else if (verifiedOn && window !== null) {
-        expiresOn = addDays(verifiedOn, window);
-        clockSource = 'derived';
-      }
+      // Explicit refresh_by beats derivation; `process` has no derived clock at all.
+      const { expiresOn, clockSource, daysLeft } = clockOf(fm, today);
 
       apps.push({
         // Identity, by slug — never the path. This id is what the signals lane's
@@ -229,7 +180,7 @@ for (const domain of domains) {
         verifiedAgainst: fm.verified_against ?? null,
         expiresOn,
         clockSource,
-        daysLeft: expiresOn ? daysBetween(today, expiresOn) : null,
+        daysLeft,
       });
     }
   }
