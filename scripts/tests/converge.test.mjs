@@ -94,6 +94,7 @@ test('the suite never writes the tracked librarian/fleet-coverage.md', () => {
  * a chosen status, so a phase failure can be produced without touching any real fleet
  * script or project.
  */
+let ran=()=>[];
 function convergeFixture(t,stubs){
  const temp=fs.realpathSync(os.tmpdir());
  const root=fs.mkdtempSync(path.join(temp,'converge-test-'));
@@ -104,7 +105,9 @@ function convergeFixture(t,stubs){
  });
  fs.mkdirSync(path.join(root,'scripts','lib'),{recursive:true});
  for(const f of ['converge.mjs','lib/projects.mjs','lib/exit-codes.mjs'])fs.copyFileSync(path.join(ROOT,'scripts',f),path.join(root,'scripts',f));
- for(const [name,status] of Object.entries(stubs))fs.writeFileSync(path.join(root,'scripts',name),`process.exitCode=${status};\n`);
+ // Each stub leaves a marker beside itself, so a test can tell which phases actually ran.
+ for(const [name,status] of Object.entries(stubs))fs.writeFileSync(path.join(root,'scripts',name),`import fs from 'node:fs';\nfs.writeFileSync(new URL('./ran-${name}.txt',import.meta.url),'');\nprocess.exitCode=${status};\n`);
+ ran=()=>fs.readdirSync(path.join(root,'scripts')).filter((f)=>f.startsWith('ran-')).sort();
  fs.writeFileSync(path.join(root,'projects.json'),JSON.stringify({schema:2,machines:{T:{}},projects:{app:{checkouts:{T:'work/app'}}}}));
  fs.writeFileSync(path.join(root,'.machine.local.json'),JSON.stringify({machine:'T',root}));
  fs.mkdirSync(path.join(root,'work','app'),{recursive:true});
@@ -126,4 +129,14 @@ test('a phase whose script fails is recorded, not passed over (maps already was)
   const r=run('--only',phase);
   assert.match(r.stdout,new RegExp(`! ${script.replace('.','\.')} exited 2`),phase);
  }
+});
+
+test('an unknown argument or --only phase is refused before any phase runs (the default run writes)',t=>{
+ const run=convergeFixture(t,{'build-registry-map.mjs':0,'leads-collect.mjs':0,'signals-collect.mjs':0,'build-fleet-map.mjs':0});
+ for(const args of [['--chek'],['--only','map'],['--only']]){
+  const r=run(...args);
+  assert.equal(r.status,2,`${args.join(' ')}: ${r.stdout}`);
+  assert.match(r.stderr,/converge: /);
+ }
+ assert.deepEqual(ran(),[],'no phase ran');
 });

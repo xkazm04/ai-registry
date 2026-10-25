@@ -55,6 +55,26 @@ if (has('--help') || has('-h')) {
   process.exit(EXIT.OK);
 }
 
+// The default run rebuilds every project's map and writes the report, so an argument this
+// script does not understand stops it. Until 2026-10-25 `--chek` ran every phase, and
+// `--only map` (for maps) ran none and exited 0 - a no-op that read as a clean run.
+{
+  const PHASES = ['maps', 'leads', 'signals', 'fleet-map', 'discover', 'report', 'pending'];
+  const FLAGS = new Set(['--check', '--dry-run', '--pending', '--write']);
+  for (let i = 0; i < argv.length; i += 1) {
+    if (FLAGS.has(argv[i])) continue;
+    if (argv[i] === '--only') {
+      if (!PHASES.includes(argv[i + 1])) {
+        console.error(`converge: --only takes one of ${PHASES.join('|')}, got ${argv[i + 1] === undefined ? 'nothing' : JSON.stringify(argv[i + 1])}.`);
+        process.exit(EXIT.FATAL);
+      }
+      i += 1; continue;
+    }
+    console.error(`converge: unknown argument ${argv[i]} - refusing to run, because the default run writes. See --help.`);
+    process.exit(EXIT.FATAL);
+  }
+}
+
 const checkOnly = has('--check');
 const dryRun = has('--dry-run');
 const only = valueOf('--only');
