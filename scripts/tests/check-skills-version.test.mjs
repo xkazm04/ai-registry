@@ -226,3 +226,86 @@ test('check-skills refuses an unknown or malformed argument with exit 2 and answ
   assert.equal(h.status, 0, h.stderr);
   assert.match(h.stdout, /usage: node scripts\/check-skills\.mjs/);
 });
+
+// ---- the flagless base. Against plain HEAD, every uncommitted edit made after a skill's first
+// bumped commit on a branch read as "unbumped" (the bump was already in HEAD), and two sweep
+// rounds hit it. The flagless base is now the branch's upstream, else origin/main, else HEAD:
+// the population `--since <that ref>` already checks, with the chosen base printed.
+function remote(f, { upstream }) {
+  const bare = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'check-skills-remote-'));
+  const git = (...args) => execFileSync('git', ['-C', f.dir, '-c', 'core.autocrlf=false', ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  execFileSync('git', ['init', '-q', '--bare', bare]);
+  git('remote', 'add', 'origin', bare);
+  git('checkout', '-q', '-b', 'feat');
+  // `upstream` true: feat tracks origin/feat. False: only origin/main exists and feat tracks nothing.
+  if (upstream) git('push', '-q', '-u', 'origin', 'feat');
+  else git('push', '-q', 'origin', 'HEAD:refs/heads/main');
+  return () => fs.rmSync(bare, { recursive: true, force: true });
+}
+
+test('flagless: a dirty edit after the branch already bumped the skill against its upstream passes', (t) => {
+  const f = fixture(t);
+  t.after(remote(f, { upstream: true }));
+  f.write('skills/alpha/SKILL.md', skillMd('alpha', '1.0.1', 'Committed change.'));
+  f.commit('alpha bumped');
+  f.write('skills/alpha/SKILL.md', skillMd('alpha', '1.0.1', 'Committed change, then a dirty follow-up.'));
+  const r = f.run();
+  assert.equal(r.status, 0, `${r.stdout}${r.stderr}`);
+  assert.match(r.stdout, /version discipline: 1 changed skill\(s\), changed against origin\/feat \(branch upstream;/);
+  // Against HEAD, the old base, the same tree is red: this is the control that gives the pass meaning.
+  const old = f.run('--since', 'HEAD');
+  assert.equal(old.status, 1, old.stdout);
+  assert.match(old.stderr, /skills\/alpha: content changed/);
+});
+
+test('flagless: an unbumped skill edited dirty still fails against the upstream', (t) => {
+  const f = fixture(t);
+  t.after(remote(f, { upstream: true }));
+  f.write('skills/alpha/SKILL.md', skillMd('alpha', '1.0.1', 'Committed change.'));
+  f.commit('alpha bumped');
+  f.write('skills/beta/SKILL.md', skillMd('beta', '1.0.0', 'Dirty, unbumped.'));
+  const r = f.run();
+  assert.equal(r.status, 1, r.stdout);
+  assert.match(r.stderr, /skills\/beta: content changed/);
+  assert.doesNotMatch(r.stderr, /skills\/alpha: content changed/);
+});
+
+test('flagless: with no upstream, origin/main is the base', (t) => {
+  const f = fixture(t);
+  t.after(remote(f, { upstream: false }));
+  f.write('skills/alpha/SKILL.md', skillMd('alpha', '1.0.1', 'Committed change.'));
+  f.commit('alpha bumped');
+  f.write('skills/alpha/SKILL.md', skillMd('alpha', '1.0.1', 'Dirty follow-up.'));
+  const r = f.run();
+  assert.equal(r.status, 0, `${r.stdout}${r.stderr}`);
+  assert.match(r.stdout, /changed against origin\/main \(origin\/main;/);
+  // ...and a branch commit that never bumped is caught, as it would be by CI's --since.
+  f.write('skills/beta/SKILL.md', skillMd('beta', '1.0.0', 'Committed, unbumped.'));
+  f.commit('beta unbumped');
+  assert.equal(f.run().status, 1);
+});
+
+test('flagless: with neither upstream nor origin/main the base is HEAD, and says so', (t) => {
+  const f = fixture(t);
+  const r = f.run();
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /uncommitted against HEAD \(no upstream and no origin\/main resolve\)/);
+});
+
+test('flagless: an upstream whose history is unrelated to HEAD is skipped, not fatal', (t) => {
+  const f = fixture(t);
+  const bare = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'check-skills-unrelated-'));
+  t.after(() => fs.rmSync(bare, { recursive: true, force: true }));
+  const git = (...args) => execFileSync('git', ['-C', f.dir, '-c', 'core.autocrlf=false', ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  execFileSync('git', ['init', '-q', '--bare', bare]);
+  git('remote', 'add', 'origin', bare);
+  // An orphan commit pushed as origin/main shares no ancestor with the fixture's HEAD.
+  const home = git('rev-parse', '--abbrev-ref', 'HEAD').trim();
+  git('checkout', '-q', '--orphan', 'other');
+  git('commit', '-q', '--allow-empty', '-m', 'unrelated');
+  git('push', '-q', 'origin', 'other:refs/heads/main');
+  git('checkout', '-q', '-f', home);
+  const r = f.run();
+  assert.equal(r.status, 0, `${r.stdout}${r.stderr}`);
+  assert.match(r.stdout, /uncommitted against HEAD \(no upstream and no origin\/main resolve\)/);
+});

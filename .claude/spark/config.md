@@ -16,7 +16,7 @@ always:
 when scripts/ changed:
 - `node --test "scripts/tests/*.mjs"`   (Node 22+ refuses a bare directory argument)
 when skills/ changed:
-- `node scripts/check-skills.mjs --since origin/main`   (branch commits + dirty + untracked; the range the push carries)
+- `node scripts/check-skills.mjs --since origin/main`   (branch commits + dirty + untracked; the range the push carries; flagless uses the branch upstream, else origin/main, else HEAD, and prints which)
 when recipes/ changed:
 - `node scripts/check-recipes.mjs --since origin/main`
 builder:

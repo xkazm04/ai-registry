@@ -127,7 +127,7 @@ test('the report says where version discipline runs, and a backwards version nam
   const f = fixture(t);
   const plain = f.run();
   assert.equal(plain.status, 0, plain.stderr);
-  assert.match(plain.stdout, /version discipline: NOT run \(--shape-only alone; run flagless for the working tree against HEAD, or pass --since <ref>\)/);
+  assert.match(plain.stdout, /version discipline: NOT run \(--shape-only alone; run flagless for the working tree against the branch base, or pass --since <ref>\)/);
   f.touch(A, 'codebase.md');
   f.bump(A, '0.2.0');
   const r = f.run('--since', 'HEAD');
@@ -173,5 +173,76 @@ test('flagless check-recipes checks dirty and untracked edits against HEAD; --sh
   assert.match(dirty.stderr, /skill-library-audit: content changed \(examples\/codebase\.md\)/);
   const shape = raw('--shape-only');
   assert.equal(shape.status, 0, `--shape-only alone must not run the version check: ${shape.stderr}`);
+  assert.match(shape.stdout, /version discipline: NOT run/);
+});
+
+// ---- the flagless base. Against plain HEAD, every uncommitted edit made after a recipe's first
+// bumped commit on a branch read as "unbumped". The flagless base is now the branch's upstream,
+// else origin/main, else HEAD (the same default check-skills uses), printed. `--shape-only`
+// alone stays shape-only.
+function withRemote(t, f, { upstream }) {
+  const bare = fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()), 'check-recipes-remote-'));
+  t.after(() => fs.rmSync(bare, { recursive: true, force: true }));
+  const git = (...args) => execFileSync('git', ['-C', f.dir, '-c', 'core.autocrlf=false', ...args], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  execFileSync('git', ['init', '-q', '--bare', bare]);
+  git('remote', 'add', 'origin', bare);
+  git('checkout', '-q', '-b', 'feat');
+  if (upstream) git('push', '-q', '-u', 'origin', 'feat');
+  else git('push', '-q', 'origin', 'HEAD:refs/heads/main');
+  const raw = (...args) => spawnSync(process.execPath, ['scripts/check-recipes.mjs', ...args], { cwd: f.dir, encoding: 'utf8' });
+  // The flagless form also checks index freshness, and the index records versions and hashes.
+  raw.reindex = () => assert.equal(spawnSync(process.execPath, ['scripts/build-recipes-index.mjs'], { cwd: f.dir, encoding: 'utf8' }).status, 0);
+  return raw;
+}
+
+test('flagless: a dirty edit after the branch already bumped the recipe against its upstream passes', (t) => {
+  const f = fixture(t);
+  const raw = withRemote(t, f, { upstream: true });
+  f.touch(A, 'codebase.md');
+  f.bump(A, '0.3.2');
+  raw.reindex();
+  f.commit('recipe A bumped');
+  f.touch(A, 'follow-up.md'); // dirty, no further bump
+  raw.reindex();
+  const r = raw();
+  assert.equal(r.status, 0, `${r.stdout}${r.stderr}`);
+  assert.match(r.stdout, /version discipline: 1 changed recipe\(s\), changed against origin\/feat \(branch upstream;/);
+  const old = raw('--since', 'HEAD'); // the previous base: the same tree is red
+  assert.equal(old.status, 1, old.stdout);
+  assert.match(old.stderr, /skill-library-audit: content changed/);
+});
+
+test('flagless: an unbumped recipe edited dirty still fails against the upstream', (t) => {
+  const f = fixture(t);
+  const raw = withRemote(t, f, { upstream: true });
+  f.touch(A, 'codebase.md');
+  f.bump(A, '0.3.2');
+  raw.reindex();
+  f.commit('recipe A bumped');
+  f.touch(B, 'dirty.md');
+  raw.reindex();
+  const r = raw();
+  assert.equal(r.status, 1, r.stdout);
+  assert.match(r.stderr, /audio-briefing-production: content changed/);
+  assert.doesNotMatch(r.stderr, /skill-library-audit: content changed/);
+});
+
+test('flagless: with no upstream, origin/main is the base; --shape-only alone still skips versions', (t) => {
+  const f = fixture(t);
+  const raw = withRemote(t, f, { upstream: false });
+  f.touch(A, 'codebase.md');
+  f.bump(A, '0.3.2');
+  raw.reindex();
+  f.commit('recipe A bumped');
+  f.touch(A, 'follow-up.md');
+  raw.reindex();
+  const r = raw();
+  assert.equal(r.status, 0, `${r.stdout}${r.stderr}`);
+  assert.match(r.stdout, /changed against origin\/main \(origin\/main;/);
+  f.touch(B, 'dirty.md');
+  raw.reindex();
+  assert.equal(raw().status, 1);
+  const shape = raw('--shape-only');
+  assert.equal(shape.status, 0, shape.stderr);
   assert.match(shape.stdout, /version discipline: NOT run/);
 });
