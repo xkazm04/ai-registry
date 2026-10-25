@@ -79,9 +79,22 @@ if (process.argv.includes('--self-test')) { console.log('self-test: 6/6 topologi
 
 const idx = process.argv.indexOf('--project');
 const only = idx === -1 ? null : process.argv[idx + 1];
+if (idx !== -1 && (!only || only.startsWith('--'))) {
+  console.error('FATAL: --project needs a project slug (node scripts/check-agent-guidance.mjs --project <slug>).');
+  process.exit(EXIT.FATAL);
+}
 const fleet = loadBridge(ROOT)._fleet;
+const known = Object.keys(fleet.projects ?? {});
+if (only && known.length && !known.includes(only)) {
+  console.error(`FATAL: "${only}" is not a project in the fleet this machine resolves (${known.sort().join(', ')}).`);
+  process.exit(EXIT.FATAL);
+}
 const projects = Object.entries(fleet.projects ?? {}).filter(([s]) => !only || s === only);
-if (!projects.length) { console.error('FATAL: no fleet project resolved on this machine.'); process.exit(2); }
+if (!projects.length) {
+  console.error('FATAL: no fleet project resolved on this machine.');
+  for (const p of fleet.problems ?? []) console.error(`  - ${p}`);
+  process.exit(EXIT.FATAL);
+}
 
 let forks = 0;
 let checked = 0;

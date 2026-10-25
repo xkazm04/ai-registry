@@ -57,6 +57,23 @@ test('--project naming a slug whose checkout is missing is could-not-run (exit 2
   assert.equal(run('--project', 'gone').status, 2);
 });
 
+// `--project` with no value used to fall through to the whole fleet, and a slug the fleet
+// does not hold blamed the machine ("no fleet project resolved on this machine").
+test('--project with no value is a usage error (exit 2), not a whole-fleet run', (t) => {
+  const run = registry(t, { present: { here: FORK } });
+  const r = run('--project');
+  assert.equal(r.status, 2, r.stdout + r.stderr);
+  assert.match(r.stderr, /--project needs a project slug/);
+});
+
+test('--project naming a slug the fleet does not hold says so (exit 2)', (t) => {
+  const run = registry(t, { present: { here: NATIVE } });
+  const r = run('--project', 'nope');
+  assert.equal(r.status, 2, r.stdout + r.stderr);
+  assert.match(r.stderr, /"nope" is not a project in the fleet/);
+  assert.match(r.stderr, /here/, 'the refusal lists the slugs it does know');
+});
+
 test('control: one present clean project beside a missing one exits 0 and says what it skipped', (t) => {
   const run = registry(t, { present: { here: NATIVE }, missing: ['gone'] });
   const r = run();
