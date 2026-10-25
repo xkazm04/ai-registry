@@ -134,7 +134,7 @@ it cites the `shots/` scripts), reading `docs/animation-capture-pipeline.md`:
   rather than a measured window.
 
 `verified_against` names what the tree witnesses (the UE version the doc states). Anchors
-must be real file:line references that resolve in `C:/Users/kazda/kiro/pof`.
+must be real file:line references that resolve in `<fleet root>/kiro/pof`.
 
 ## Open questions the drafter decides (do not discover them mid-draft)
 
