@@ -205,6 +205,8 @@ test('empty results name their reason', () => {
     assert.match(query(p, ['xylophone']).empty_reason, /no match/);
     assert.match(query(buildProjection(path.join(root, 'nowhere')), ['cache']).empty_reason, /no bundle/);
     assert.deepEqual(query(p, ['cache'], { kinds: ['law'] }).hits.map((h) => h.kind), ['law']);
+    // A kind filter that removed every match says so, rather than "no match for <terms>".
+    assert.match(query(p, ['invalidation'], { kinds: ['law'] }).empty_reason, /kinds: law/);
   } finally { rmrf(root); }
 });
 
@@ -354,6 +356,11 @@ test('CLI: two-line hits, honest empty exits 0, usage error exits 2', () => {
     assert.equal(run().status, 2);
     assert.equal(run('x', '--top', 'zero').status, 2);
     assert.equal(run('--bogus').status, 2);
+    // An unknown kind ("techniques") used to filter every hit away and answer "no match".
+    const badKind = run('cache', '--kinds', 'techniques');
+    assert.equal(badKind.status, 2, badKind.stdout);
+    assert.match(badKind.stderr, /--kinds: unknown kind "techniques"; kinds: technique, subject, law/);
+    assert.equal(run('cache', '--kinds', 'technique,law').status, 0);
     assert.equal(run('--read', 'scripts/x.md').status, 2);
     const read = run('--read', 'docs/guide.md', '--section', 'install');
     assert.equal(read.status, 0);

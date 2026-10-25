@@ -117,12 +117,20 @@ if (opt['--section'] != null || opt['--max-tokens'] != null) usage('--section an
 const terms = [...positional, ...String(opt['--terms'] ?? '').split(',')].map((t) => t.trim()).filter(Boolean);
 if (!terms.length) usage('no terms given');
 
+// A misspelt kind ("techniques") filtered every hit away and answered "no match for <terms>".
+const KINDS = ['technique', 'subject', 'law'];
+const kinds = opt['--kinds'] == null ? null : opt['--kinds'].split(',').map((k) => k.trim()).filter(Boolean);
+if (kinds) {
+  const bad = kinds.find((k) => !KINDS.includes(k));
+  if (bad || !kinds.length) usage(`--kinds: unknown kind ${JSON.stringify(bad ?? opt['--kinds'])}; kinds: ${KINDS.join(', ')}`);
+}
+
 const projection = loadProjection(root, { domains: domain, rebuild: Boolean(opt['--rebuild']) });
 const result = query(projection, terms, {
   domains: domain,
   top: int('--top', DEFAULT_TOP),
   budgetTokens: int('--budget', DEFAULT_BUDGET_TOKENS),
-  kinds: opt['--kinds'] ?? null,
+  kinds,
 });
 
 if (asJson) {

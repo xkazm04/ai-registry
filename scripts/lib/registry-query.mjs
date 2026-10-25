@@ -807,7 +807,10 @@ export function query(projection, terms, { domains = null, top = DEFAULT_TOP, bu
     || (a.e.path < b.e.path ? -1 : a.e.path > b.e.path ? 1 : 0)
     || String(a.e.technique ?? a.e.title).localeCompare(String(b.e.technique ?? b.e.title)));
 
-  if (!ranked.length) return result([], false, `no match for ${termList.map((t) => JSON.stringify(t)).join(', ')} in ${segs.map((s) => s.domain).join(', ')}`);
+  if (!ranked.length) {
+    const filtered = kindSet && scores.size ? ` (kinds: ${[...kindSet].join(',')}; ${scores.size} other row(s) matched)` : '';
+    return result([], false, `no match for ${termList.map((t) => JSON.stringify(t)).join(', ')} in ${segs.map((s) => s.domain).join(', ')}${filtered}`);
+  }
 
   const perSubject = new Map();
   const hits = [];
