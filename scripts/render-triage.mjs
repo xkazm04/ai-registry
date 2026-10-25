@@ -3,7 +3,7 @@
  * render-triage - the operator's blind view of a render proof, and the cleanup it gates.
  *
  *   node scripts/render-triage.mjs sheet  <dir> [--allow-indistinct]
- *   node scripts/render-triage.mjs reveal <dir> <pairId>=<label|tie|neither> ...
+ *   node scripts/render-triage.mjs reveal <dir> <pairId>=<label|tie|neither> ... [--force]
  *   node scripts/render-triage.mjs clean  <dir> [--also <path> ...] [--force]
  *
  * /intake's render proof (references/render-proof.md) renders the same brief through
@@ -194,9 +194,15 @@ ${showcase.length ? `<h2>Context (not blind, not judged)</h2><div class="row">${
   return key;
 }
 
-export function reveal(dir, picks) {
+export function reveal(dir, picks, { force = false } = {}) {
   const manifest = readJson(path.join(dir, 'manifest.json'), 'manifest');
   const key = readJson(path.join(dir, 'triage', 'key.json'), 'key (run sheet first)');
+  // verdict.json is the one artifact here that cannot be remade (see the header): a second
+  // reveal - a retyped pick, a replayed command - used to replace the operator's recorded
+  // judgement without a word. Replacing it is a decision, so it takes --force.
+  if (!force && fs.existsSync(path.join(dir, 'verdict.json'))) {
+    fail(`verdict.json already records this run's judgement (${path.join(dir, 'verdict.json')}); pass --force to replace it`);
+  }
   const chosen = Object.fromEntries(picks.map((p) => {
     const m = /^([^=]+)=(.+)$/.exec(p);
     if (!m) fail(`pick must be <pairId>=<label|tie|neither>, got ${p}`);
@@ -269,7 +275,7 @@ export function clean(dir, also = [], force = false) {
 
 function main(argv) {
   const [cmd, dir, ...rest] = argv;
-  if (!cmd || !dir || !['sheet', 'reveal', 'clean'].includes(cmd)) fail('usage: sheet <dir> | reveal <dir> <pair>=<label> ... | clean <dir> [--also <path>] [--force]');
+  if (!cmd || !dir || !['sheet', 'reveal', 'clean'].includes(cmd)) fail('usage: sheet <dir> [--allow-indistinct] | reveal <dir> <pair>=<label> ... [--force] | clean <dir> [--also <path>] [--force]');
   if (!fs.existsSync(dir)) fail(`no such directory: ${dir}`);
   // Assert the leak detector before trusting it with a page.
   const planted = { pairs: [{ id: 'p', arms: { A: { file: 'r/p-armA.mp4', prompt: 'a prompt long enough to count' } } }] };
@@ -279,7 +285,7 @@ function main(argv) {
     if (bad.length) fail(`unknown sheet argument ${bad[0]}`);
     sheet(dir, { allowIndistinct: rest.includes('--allow-indistinct') });
   }
-  else if (cmd === 'reveal') reveal(dir, rest);
+  else if (cmd === 'reveal') reveal(dir, rest.filter((a) => a !== '--force'), { force: rest.includes('--force') });
   else {
     const also = [];
     let force = false;

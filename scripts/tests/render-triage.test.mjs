@@ -80,6 +80,16 @@ test('reveal maps the operator label to the arm through the key',t=>{
  assert.equal(JSON.parse(fs.readFileSync(path.join(dir,'verdict.json'),'utf8')).pairs.shot1.arm,key.pairs.shot1.X);
  assert.equal(run('reveal',dir,'shot1=Q').status,2);
 });
+test('reveal never overwrites a recorded verdict unless --force says so',t=>{
+ const dir=fixture(t);run('sheet',dir);
+ assert.equal(run('reveal',dir,'shot1=X').status,0);
+ const vf=path.join(dir,'verdict.json'),first=fs.readFileSync(vf,'utf8');
+ const r=run('reveal',dir,'shot1=tie');
+ assert.equal(r.status,2);assert.match(r.stderr,/verdict\.json already/);
+ assert.equal(fs.readFileSync(vf,'utf8'),first,'the recorded judgement is untouched');
+ assert.equal(run('reveal',dir,'shot1=tie','--force').status,0);
+ assert.equal(JSON.parse(fs.readFileSync(vf,'utf8')).pairs.shot1.arm,'tie');
+});
 test('clean refuses before a verdict, then removes media and run-named paths only',t=>{
  const dir=fixture(t);run('sheet',dir);
  const comfy=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'render-triage-test-comfy-'));
