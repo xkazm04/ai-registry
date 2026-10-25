@@ -164,7 +164,7 @@ function init() {
   const ledger = readPatterns(readIf(path.join(vault, c.vault_subdir, 'Patterns.md')));
   const top = ledger.filter((p) => p.wins > 0 || p.seen > 1).slice(0, 8);
   const patternsSection = top.length
-    ? ['## What has won before', '', 'Judges of earlier contests named these philosophies in winning work. They are the floor, not a recipe: a variant that merely re-implements one of them will lose to one that finds the next.', '', ...top.map((p) => `- **${p.slug}** (won ${p.wins}, seen ${p.seen}): ${p.statement}`)].join('\n')
+    ? ['## What has won before', '', 'These ideas already won earlier contests. They are solved: do not resubmit them as a variant\'s idea. Use one only as a given beneath an idea of your own; a variant whose central bet is one of these is scored as no new idea.', '', ...top.map((p) => `- **${p.slug}** (won ${p.wins}, seen ${p.seen}): ${p.statement}`)].join('\n')
     : '';
   const template = read(path.join(REFERENCES, 'participant-brief.md'));
   const lines = reviewLines(shape.review);

@@ -14,16 +14,16 @@
   "skills": [
     {
       "name": "adopt-bp",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "category": "workflow",
       "path": "skills/adopt-bp/SKILL.md",
-      "contentHash": "sha256-n1:74f23cda92f8b2f2",
+      "contentHash": "sha256-n1:9fec0c1357e895bf",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 5,
+      "lessons": 6,
       "lessonsPath": "skills/adopt-bp/LESSONS.md",
-      "lessonsHash": "sha256-n1:2d929038df3c5a9c",
+      "lessonsHash": "sha256-n1:08a740f710f49838",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -212,16 +212,16 @@
     },
     {
       "name": "contest",
-      "version": "1.12.1",
+      "version": "1.13.1",
       "category": "workflow",
       "path": "skills/contest/SKILL.md",
-      "contentHash": "sha256-n1:2d0a732f6ba5cecb",
+      "contentHash": "sha256-n1:331e3cef3e3e12ca",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
-      "lessons": 19,
+      "lessons": 20,
       "lessonsPath": "skills/contest/LESSONS.md",
-      "lessonsHash": "sha256-n1:eb279046893ac12b",
+      "lessonsHash": "sha256-n1:54042f398465a805",
       "usageContributors": [],
       "runs30d": 0,
       "outcomes30d": {},
@@ -1130,7 +1130,7 @@
     "skills": 43,
     "practices": 8,
     "memory": 11,
-    "lessons": 360
+    "lessons": 362
   },
   "bundles": [
     {
