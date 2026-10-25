@@ -63,6 +63,16 @@ test('the at-risk window is check-currency\'s: 0 through 30 days left inclusive,
   }
 });
 
+test('a quoted scalar reads as its value, as check-currency reads it', (t) => {
+  const s = scan(bundle(registry(t), {
+    'node--a.md': ['stack: "node"', `refresh_by: "${isoIn(400)}"`, "verified_on: '2026-01-01'"],
+    'node--b.md': ['stack: node', 'verified_on: 2026-02-01'],
+  }));
+  assert.equal(s.expired, 0, 'a quoted future clock is not expired');
+  assert.deepEqual(s.stacks, ['node'], 'one stack, however it is spelled');
+  assert.equal(s.oldestVerifiedOn, '2026-01-01');
+});
+
 test('an unknown argument refuses (exit 2): a typo of --check-weights must not run the scan and pass', (t) => {
   const dir = bundle(registry(t));
   for (const args of [['--check-weight'], ['--jsn'], ['--top', 'abc'], ['--top'], ['--top', '0'], ['--domain']]) {

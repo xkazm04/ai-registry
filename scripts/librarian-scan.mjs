@@ -107,7 +107,13 @@ const frontmatter = (file) => {
     else if (v.startsWith('[') && v.endsWith(']')) {
       fm[key] = v.slice(1, -1).split(',').map((s) => s.trim()).filter(Boolean);
       key = null;
-    } else { fm[key] = v.replace(/\s+#.*$/, '').trim(); key = null; }
+    } else {
+      // Quotes are YAML, not value: check-currency strips them, and this reader did not, so a
+      // quoted `refresh_by: "2027-01-01"` compared '"' < '2' and scored as expired, and a
+      // quoted stack counted as a second stack.
+      fm[key] = v.replace(/\s+#.*$/, '').trim().replace(/^(["'])(.*)\1$/, '$2');
+      key = null;
+    }
   }
   return { fm, bodyBytes: Buffer.byteLength(txt.slice(m[0].length)) };
 };
