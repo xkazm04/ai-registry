@@ -172,6 +172,48 @@ test('registry_ledger holds the containment registry_read holds: no link out of 
   await assert.rejects(h.registry_ledger({ command: 'rows', file: 'librarian/linked.md' }), /outside the registry/);
 });
 
+const git = (cwd, ...args) => spawnSync('git', ['-C', cwd, ...args], { encoding: 'utf8' });
+
+test('registry_ledger serves only git-tracked files: an untracked vault note is refused, a tracked dot-folder ledger still reads', async (t) => {
+  const tmp = tempDir(t);
+  assert.equal(git(tmp, 'init', '-q').status, 0, 'git init');
+  const table = '# L\n\n| Date | Verdict |\n| --- | --- |\n| 2026-10-01 | better |\n';
+  fs.mkdirSync(path.join(tmp, '.claude', 'skills', 'intake'), { recursive: true });
+  fs.mkdirSync(path.join(tmp, '.architect', 'Architect'), { recursive: true });
+  fs.writeFileSync(path.join(tmp, '.claude', 'skills', 'intake', 'SCORECARD.md'), table);
+  fs.writeFileSync(path.join(tmp, '.architect', 'Architect', 'backlog.md'), table);
+  fs.writeFileSync(path.join(tmp, 'scratch.md'), table);
+  assert.equal(git(tmp, 'add', '.claude/skills/intake/SCORECARD.md').status, 0, 'git add');
+  const h = realHandlers(tmp, { log: () => {} });
+  const ok = await h.registry_ledger({ command: 'schema', file: '.claude/skills/intake/SCORECARD.md' });
+  assert.match(ok.content[0].text, /Verdict/);
+  await assert.rejects(h.registry_ledger({ command: 'schema', file: '.architect/Architect/backlog.md' }), /not tracked by git/);
+  await assert.rejects(h.registry_ledger({ command: 'schema', file: 'scratch.md' }), /not tracked by git/);
+  // A glob in the name must not match a tracked file on the untracked file's behalf.
+  await assert.rejects(h.registry_ledger({ command: 'schema', file: '.architect/Architect/*.md' }), /no such ledger|not tracked/);
+});
+
+test('registry_ledger still reads every ledger the tool description names, in this checkout', async () => {
+  const named = ['librarian/applied.md', 'librarian/harvest/queue.md', 'librarian/sources/index.md', '.claude/skills/intake/SCORECARD.md', '.claude/skills/intake/LESSONS.md'];
+  const description = TOOLS.find((x) => x.name === 'registry_ledger').description;
+  for (const f of named) assert.ok(description.includes(path.basename(f)), `the description still names ${path.basename(f)}`);
+  const h = realHandlers(ROOT, { log: () => {} });
+  for (const f of named) {
+    const r = await h.registry_ledger({ command: 'schema', file: f });
+    assert.ok(r.content[0].text.length > 0, `${f} reads`);
+  }
+});
+
+test('registry_ledger without a git checkout falls back to the lexical checks; git itself unreadable refuses', async (t) => {
+  const tmp = tempDir(t);
+  fs.writeFileSync(path.join(tmp, 'l.md'), '| a |\n| --- |\n| b |\n');
+  const h = realHandlers(tmp, { log: () => {} });
+  assert.match((await h.registry_ledger({ command: 'schema', file: 'l.md' })).content[0].text, /a/, 'an exported copy has no index to consult');
+  // A corrupt .git makes git answer something other than "not a git repository": the guard closes.
+  fs.writeFileSync(path.join(tmp, '.git'), 'gitdir: nowhere\n');
+  await assert.rejects(h.registry_ledger({ command: 'schema', file: 'l.md' }), /cannot confirm/);
+});
+
 test('renderResult prints the CLI compact form and an honest empty', () => {
   const r = { schema: 'registry-query/1', terms: ['x'], truncated: true, tokens: 30, empty_reason: null, hits: [{ rank: 1, score: 1, kind: 'technique', domain: 'se', subject: 'accessibility', technique: 'a11y-verification', path: 'knowledge/se/a/techniques/a11y-verification.md', gist: 'A11y verification - a green audit\nis not proof.', use_when: ['one', 'two'], why: [] }] };
   assert.equal(renderResult(r).split('\n')[0], '1. technique se/accessibility/a11y-verification - A11y verification - a green audit is not proof.');
