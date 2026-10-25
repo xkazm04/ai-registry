@@ -74,6 +74,17 @@ test('zero projects declared, or no population at all, is could-not-run (2)', ()
   assert.equal(run(`generated: ${daysAgo(1)}\n`).status, 2);
 });
 
+// The population is part of the stamp: converge.mjs writes both on one header line. Read
+// from the first match anywhere, a `projects declared: 18` above the real header made a
+// measurement of nothing read as a measurement of eighteen projects.
+test('the population is read from the stamp line, not from a decoy elsewhere (2)', () => {
+  const decoy = run(`projects declared: 18\n\n${header(daysAgo(1), 0)}`);
+  assert.equal(decoy.status, 2, decoy.stdout);
+  assert.match(decoy.stderr, /walked 0 projects declared/);
+  const split = run(`generated: ${daysAgo(1)}\n\nprojects declared: 18\n`);
+  assert.equal(split.status, 2, 'a population off the stamp line is not the stamp\'s population');
+});
+
 test('an unreadable stamp stays could-not-run (2)', () => {
   assert.equal(run('generated: not-a-date · projects declared: 3\n').status, 2);
 });

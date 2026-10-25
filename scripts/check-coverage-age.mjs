@@ -108,7 +108,11 @@ if (when > Date.now() + 86_400_000) {
 // A fresh measurement of nothing is not a measurement. converge.mjs writes the population
 // it measured into the header (`projects declared: N`); absent or zero, the report cannot
 // say the fleet was looked at, however recent its stamp.
-const declared = /projects declared:\s*(\d+)/.exec(text);
+// Read it from the stamp's own line, where converge.mjs writes it: a first match anywhere
+// let a decoy `projects declared: 18` above the header stand in for a population of 0, the
+// same decoy the one-stamp rule above already refuses for the date.
+const stampLine = text.split(/\r?\n/).find((l) => /^generated:/.test(l)) ?? '';
+const declared = /projects declared:\s*(\d+)/.exec(stampLine);
 const population = requirePopulation(declared ? Number(declared[1]) : NaN, `projects declared in ${REL}`);
 if (population.code !== EXIT.OK) {
   console.error(`check-coverage-age: ${population.reason}`);
