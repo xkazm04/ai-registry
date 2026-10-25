@@ -47,6 +47,18 @@ if (skills.length === 0) {
   process.exit(2);
 }
 
+// The entry's description is display text in the consumer's harness. A bare .slice(0, 400)
+// cut 25 of 43 entries inside a word with no sign anything was cut; now the cut lands on
+// whitespace and says so with an ellipsis, still within the same 400 characters.
+const DESCRIPTION_MAX = 400;
+const shorten = (text) => {
+  const s = String(text ?? '');
+  if (s.length <= DESCRIPTION_MAX) return s;
+  const head = s.slice(0, DESCRIPTION_MAX); // the whitespace we cut at makes room for the ellipsis
+  const at = Math.max(head.lastIndexOf(' '), head.lastIndexOf('\n'), head.lastIndexOf('\t'));
+  return `${(at > 0 ? head.slice(0, at) : head.slice(0, DESCRIPTION_MAX - 1)).replace(/[\s,;:(-]+$/, '')}…`;
+};
+
 const plugins = [];
 const skipped = [];
 for (const s of skills) {
@@ -55,7 +67,7 @@ for (const s of skills) {
   const entry = {
     name: s.name,
     source: `./skills/${s.name}`,
-    description: String(s.fm.description ?? '').slice(0, 400),
+    description: shorten(s.fm.description),
     version: s.fm.version,
     category: s.fm.category ?? 'other',
   };
