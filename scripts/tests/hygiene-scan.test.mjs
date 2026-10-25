@@ -65,6 +65,20 @@ test('a clean idle merged Claude Code worktree is removed with its branch', () =
   assert.equal(A.filter((a) => a.kind === 'delete-local-branch').length, 0, 'the branch goes with its worktree, not separately');
 });
 
+test('a detached worktree is removed only when a ref of its repository holds its HEAD', () => {
+  // 2026-09-24: the ascent worker died with an unpushed local merge in the detached
+  // C:/t/hyg-ascent-pr23. Detached alone read as "content on default", so a clean copy of it
+  // was a mechanical remove, and the merge commit would have been reachable from nothing.
+  const wt = (over) => ({ path: 'C:/t/hyg-ascent-pr23', owner: 'temp', detached: true, head: 'c'.repeat(40), dirty: 0, live: false, lastActivityMin: 48 * HOUR, ...over });
+  const P = (w) => project({ worktrees: [project().worktrees[0], w] });
+  const unlanded = planActions(P(wt({ headOnRef: false })));
+  assert.equal(unlanded.filter((a) => a.kind === 'remove-worktree').length, 0);
+  assert.equal(unlanded.find((a) => a.kind === 'triage-worktree-branch')?.class, 'worker');
+  assert.match(unlanded.find((a) => a.kind === 'triage-worktree-branch').reason, /detached HEAD cccccccc is on no branch or remote ref/);
+  assert.equal(planActions(P(wt({}))).filter((a) => a.kind === 'remove-worktree').length, 0, 'unknown is not landed');
+  assert.equal(planActions(P(wt({ headOnRef: true }))).find((a) => a.kind === 'remove-worktree')?.class, 'mechanical');
+});
+
 test('a worktree younger than the idle floor is left alone', () => {
   const P = project({
     worktrees: [project().worktrees[0], { path: 'C:/t/x', owner: 'temp', branch: 'wt-x', dirty: 0, live: false, lastActivityMin: 3 * HOUR }],

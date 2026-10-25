@@ -386,7 +386,12 @@ async function scanProject(slug, proj) {
   P.worktrees = await mapLimit(wts, 6, async (wt, i) => {
     const owner = ownerOf(wt.path, i === 0);
     const act = i === 0 ? primaryActivity : (wt.prunable ? { exists: false } : await probeCheckout(wt.path));
-    return { ...wt, owner, ...act, live: act.lastActivityMin != null && act.lastActivityMin < LIVE_MIN };
+    // A detached HEAD's commits are reachable from the worktree alone until a ref holds them;
+    // removing the worktree drops its HEAD and reflog with it. A failed lookup reads as "no ref".
+    const headOnRef = i > 0 && wt.detached && wt.head
+      ? !!(await gitOut(proj.path, ['for-each-ref', '--contains', wt.head, '--count=1', '--format=%(refname)', 'refs/heads', 'refs/remotes']))
+      : undefined;
+    return { ...wt, owner, ...act, headOnRef, live: act.lastActivityMin != null && act.lastActivityMin < LIVE_MIN };
   });
   const primary = P.worktrees[0] ?? { ...primaryActivity };
   P.primary = {
@@ -684,7 +689,9 @@ function planActions(P) {
     if (wt.prunable) { add('mechanical', 'prune-worktrees', wt.path, 'worktree directory is gone; its admin entry is stale'); continue; }
     if (wt.live) { add('hands-off', 'live-worktree', wt.path, `activity ${wt.lastActivityMin} min ago`, { owner: wt.owner, branch: wt.branch ?? null }); continue; }
     const branch = wt.branch ? P.localBranches.find((b) => b.name === wt.branch) : null;
-    const contentHome = wt.detached || (branch && CONTENT_ON_DEFAULT.has(branch.cls));
+    // Detached counts as landed only when a branch or remote ref contains HEAD (integration-door:
+    // verify the target holds the tip, then remove). Unknown is not landed.
+    const contentHome = wt.detached ? wt.headOnRef === true : !!(branch && CONTENT_ON_DEFAULT.has(branch.cls));
     const idle = wt.lastActivityMin != null && wt.lastActivityMin >= IDLE_H * 60;
     if (wt.owner === 'personas-app') continue; // summarized once below
     if (wt.dirty > 0) {
@@ -694,7 +701,10 @@ function planActions(P) {
     } else if (branch?.cls === 'open-pr') {
       // The PR action ships it; its worktree goes on a later morning once merged.
     } else if (!contentHome && idle && (wt.owner === 'claude-code' || wt.owner === 'temp' || wt.owner === 'other')) {
-      add('worker', 'triage-worktree-branch', wt.path, `clean, idle, branch ${branch?.cls ?? 'unknown'} carries ${branch?.ahead ?? '?'} commit(s) not on ${P.defaultBranch}${ridesText(branch)}`, { owner: wt.owner, branch: wt.branch ?? null, ridesUnpushed: branch?.ridesUnpushed ?? 0 });
+      const what = wt.detached
+        ? `detached HEAD ${String(wt.head ?? '?').slice(0, 8)} is on no branch or remote ref - its commits live only in this worktree`
+        : `branch ${branch?.cls ?? 'unknown'} carries ${branch?.ahead ?? '?'} commit(s) not on ${P.defaultBranch}${ridesText(branch)}`;
+      add('worker', 'triage-worktree-branch', wt.path, `clean, idle, ${what}`, { owner: wt.owner, branch: wt.branch ?? null, ridesUnpushed: branch?.ridesUnpushed ?? 0 });
     }
   }
   const app = P.worktrees.filter((w) => w.owner === 'personas-app');
