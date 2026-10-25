@@ -39,7 +39,7 @@ import { parseParticipants, engineCommand, parseEnvelope, classifyOutcome } from
 import { blindMap, unblind, scrubIdentity, materialPhrases, validateVerdict, aggregate, tallyPatterns, scoreboardMarkdown, feedbackSection } from './lib/judging.mjs';
 import { renderRouter, fileHref } from './lib/router.mjs';
 import { renderContestNote, upsertIndex, upsertPatterns, readPatterns, slugify } from './lib/vault.mjs';
-import { resolveInit, reviewLines, deliverableLines } from './lib/presets.mjs';
+import { resolveInit, reviewLines, deliverableLines, minutesOpt } from './lib/presets.mjs';
 import { familyState, shotsFor, renderedTextFor, extractById, pageText, duplicateShots, upsertSection, human, treeBytes, removeTree, findRebuildable, listFiles, label } from './lib/wrap.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
@@ -59,6 +59,13 @@ for (let i = 1; i < argv.length; i += 1) {
   if (key === 'pattern') opts._pattern.push(val); else opts[key] = val;
 }
 const need = (k) => { if (opts[k] === undefined || opts[k] === true) die(`--${k} is required`); return opts[k]; };
+/** The seat ceiling in minutes: --timeout-min, else `fallback` (the contest's own, or the judges' 30). */
+const minutes = (fallback) => {
+  let n;
+  try { n = minutesOpt(opts, 'timeout-min', fallback); } catch (e) { die(e.message); }
+  if (!(Number.isFinite(n) && n > 0)) die(`the contest records no usable timeout_min (${JSON.stringify(n)}); pass --timeout-min <minutes>`);
+  return n;
+};
 function die(msg, code = 2) { console.error(`contest: ${msg}`); process.exit(code); }
 const read = (f) => fs.readFileSync(f, 'utf8');
 const readIf = (f) => (fs.existsSync(f) ? read(f) : null);
@@ -249,7 +256,7 @@ async function run() {
   const { c, dir } = load();
   const seats = participantSeats(c, dir);
   if (!seats.length) die('no participants selected');
-  const records = await runSeats(seats, { timeoutMs: Number(opts['timeout-min'] ?? c.timeout_min) * 60000, force: !!opts.force, kind: 'participant' });
+  const records = await runSeats(seats, { timeoutMs: minutes(c.timeout_min) * 60000, force: !!opts.force, kind: 'participant' });
   const bad = records.filter((r) => r.outcome !== 'completed');
   if (bad.length) console.log(`\n${bad.length} seat(s) did not complete: ${bad.map((r) => `${r.id} (${r.outcome})`).join(', ')} - rerun with --only <id> [--force]; collect will score what exists`);
 }
@@ -456,7 +463,7 @@ async function judge() {
   const { c, dir } = load();
   const judges = parseParticipants(need('judges'));
   const seats = prepareJudges(c, dir, judges);
-  const records = await runSeats(seats, { timeoutMs: Number(opts['timeout-min'] ?? 30) * 60000, force: !!opts.force, kind: 'judge' });
+  const records = await runSeats(seats, { timeoutMs: minutes(30) * 60000, force: !!opts.force, kind: 'judge' });
   const badRecords = records.filter((r) => r.outcome !== 'completed');
   if (badRecords.length) console.log(`${badRecords.length} judge(s) did not complete: ${badRecords.map((r) => `${r.id} (${r.outcome})`).join(', ')}`);
   aggregateVerdicts();
@@ -697,7 +704,7 @@ function refine() {
   const hasData = fs.existsSync(path.join(childDir, 'data'));
   const template = read(path.join(REFERENCES, 'refine-brief.md'));
   const brief = read(path.join(dir, 'BRIEF.md')).trim();
-  const timeout = Number(opts['timeout-min'] ?? c.timeout_min);
+  const timeout = minutes(c.timeout_min);
   const names = c.participants.flatMap((x) => [x.id, x.model]);
   const participants = [];
   const expected = {};
@@ -768,7 +775,7 @@ function reveal() {
   if (hasData) copyDir(path.join(dir, 'data'), path.join(childDir, 'data'));
   const template = read(path.join(REFERENCES, 'reveal-brief.md'));
   const brief = read(path.join(dir, 'BRIEF.md')).trim();
-  const timeout = Number(opts['timeout-min'] ?? c.timeout_min);
+  const timeout = minutes(c.timeout_min);
   const concept = (v) => v.concept || v.title || 'untitled';
   const participants = [];
   const lineage = {};
@@ -1092,10 +1099,10 @@ function plan() {
   let timeoutMin;
   if (kind === 'participants') {
     seats = participantSeats(c, dir);
-    timeoutMin = Number(opts['timeout-min'] ?? c.timeout_min);
+    timeoutMin = minutes(c.timeout_min);
   } else if (kind === 'judges') {
     seats = prepareJudges(c, dir, parseParticipants(need('judges')));
-    timeoutMin = Number(opts['timeout-min'] ?? 30);
+    timeoutMin = minutes(30);
   } else die(`--kind must be participants or judges, not "${kind}"`);
   const out = {
     contest: c.id, dir, kind, timeout_min: timeoutMin,

@@ -310,6 +310,52 @@ test('presets: --landing brings the UI seats, owner review and the landing bar; 
   assert.match(reviewLines('panel').rubric_intro, /1 to 10/);
 });
 
+test('a seat ceiling or variant count that is not a positive number is refused, never run as NaN', async () => {
+  const presets = await import('../scripts/lib/presets.mjs');
+  const { resolveInit } = presets;
+  // NaN as a timer fires at once (every seat killed on start); a bare flag was Number(true) = 1 minute.
+  for (const bad of ['abc', '0', '-5', '', true]) {
+    assert.throws(() => resolveInit({ 'timeout-min': bad }), /--timeout-min needs a positive number/, `timeout-min ${JSON.stringify(bad)}`);
+  }
+  for (const bad of ['x', '0', '2.5', true]) {
+    assert.throws(() => resolveInit({ variants: bad }), /--variants needs a whole number/, `variants ${JSON.stringify(bad)}`);
+  }
+  assert.equal(resolveInit({ 'timeout-min': '7.5', variants: '2' }).timeout_min, 7.5);
+  assert.equal(typeof presets.minutesOpt, 'function', 'run/judge/refine/reveal/plan share one ceiling parser');
+  assert.equal(presets.minutesOpt({}, 'timeout-min', 30), 30);
+  assert.equal(presets.minutesOpt({ 'timeout-min': '45' }, 'timeout-min', 30), 45);
+  assert.throws(() => presets.minutesOpt({ 'timeout-min': true }, 'timeout-min', 30), /no value/);
+
+  // End to end: `run` refuses before any seat starts. The seat binaries are stubbed to a no-op node
+  // process, so the old behaviour (seats launched with a NaN ceiling) is observable and costs nothing.
+  const { spawnSync } = await import('node:child_process');
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'contest.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'contest-ceiling-'));
+  const stub = `${process.execPath}|-e|process.exit(0)`;
+  const env = { ...process.env, CONTEST_CLAUDE_BIN: stub, CONTEST_CODEX_BIN: stub };
+  const run = (...a) => spawnSync(process.execPath, [script, ...a, '--vault', path.join(root, 'vault')], { cwd: root, encoding: 'utf8', env });
+  try {
+    fs.writeFileSync(path.join(root, 'BRIEF.md'), 'A small idea.\n');
+    assert.equal(run('init', '--id', 'c1', '--title', 'T', '--brief', 'BRIEF.md', '--participants', 'claude:opus@high,codex:gpt-x@high', '--variants', '1').status, 0);
+    const arena = path.join(root, '.contest', 'arena', 'c1');
+    for (const ceiling of ['abc', null]) {
+      const r = ceiling === null ? run('run', '--id', 'c1', '--timeout-min') : run('run', '--id', 'c1', '--timeout-min', ceiling);
+      assert.equal(r.status, 2, `run --timeout-min ${ceiling ?? '(bare)'} must refuse: ${r.stdout}${r.stderr}`);
+      assert.match(r.stderr, /--timeout-min needs a positive number/);
+      assert.ok(!fs.existsSync(path.join(arena, 'runs')), 'no seat was started');
+    }
+    const bad = run('init', '--id', 'c2', '--title', 'T', '--brief', 'BRIEF.md', '--variants', 'three');
+    assert.equal(bad.status, 2);
+    assert.ok(!fs.existsSync(path.join(root, '.contest', 'arena', 'c2', 'contest.json')), 'a refused init writes no contest');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test('wrap: a family is decided only when its last round is, and the winner keeps its source', async () => {
   const { familyState, shotsFor, isRebuildable, extractById, upsertSection } = await import('../scripts/lib/wrap.mjs');
   const root = { id: 'x', shortlist: [{ label: 'A/1' }] };
