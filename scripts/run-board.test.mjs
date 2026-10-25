@@ -304,7 +304,7 @@ test('REGRESSION: lock refuses a --ttl or --wait that is not a positive number',
   try {
     for (const args of [['--ttl', '-5'], ['--ttl', 'abc'], ['--ttl', '0'], ['--wait', 'abc'], ['--wait', '-1']]) {
       const r = await boardCmd(dir, ['lock', 'commit', '--run', 'a', ...args]);
-      assert.equal(r.code, 1, args.join(' ') + ': ' + r.out + r.err);
+      assert.equal(r.code, 2, args.join(' ') + ': ' + r.out + r.err);
       assert.match(r.err, new RegExp(args[0] + ' must be a positive number of seconds'));
     }
     assert.equal(fs.existsSync(path.join(dir, '.git', 'run-board', 'locks', 'commit.lock')), false, 'no lock was taken');
@@ -314,18 +314,37 @@ test('REGRESSION: lock refuses a --ttl or --wait that is not a positive number',
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
+test('REGRESSION: a call that could not run exits FATAL (2), never 1 (found) or 0 (clear)', async () => {
+  // Before: `die()` defaulted to 1, an unknown command exited 1, and a call with no command
+  // exited 0 - so a caller testing `$? -eq 0` read "no command" as "clear", and one testing
+  // 1 vs 2 read a usage error as a finding. scripts/lib/exit-codes.mjs: 1 = found, 2 = could not run.
+  const { dir } = throwawayBoard();
+  try {
+    for (const args of [[], ['bogus'], ['lock'], ['lock', 'commit'], ['unlock'], ['release'], ['beat'], ['beat', '--run', 'never-claimed'], ['check', '--run', 'x'], ['claim', '--skill', 'intake']]) {
+      const r = await boardCmd(dir, args);
+      assert.equal(r.code, 2, JSON.stringify(args) + ': ' + r.out + r.err);
+    }
+    // --help asked a question and was answered.
+    for (const h of ['--help', '-h']) assert.equal((await boardCmd(dir, [h])).code, 0, h);
+    // the header documents 0/2/3 and no longer promises a "1"
+    const head = fs.readFileSync(fileURLToPath(new URL('./run-board.mjs', import.meta.url)), 'utf8').split('*/')[0];
+    const codes = [...head.matchAll(/^ \*\s{1,3}(\d)\s{2}/gm)].map((m) => m[1]);
+    assert.deepEqual(codes, ['0', '2', '3']);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
 test('REGRESSION: a misspelled flag is refused, never written as a claim of nothing', async () => {
   // Before: `claim --subjet X` was granted with no subject at all, so every later `check X`
   // by a sibling printed `clear` - a false all-clear the claimer believed it had prevented.
   const { dir, claim, runs } = throwawayBoard();
   try {
     const bad = await claim(['--source', 'https://github.com/acme/a', '--run', 'typo', '--subjet', 'se/x/y/z']);
-    assert.equal(bad.code, 1, bad.out + bad.err);
+    assert.equal(bad.code, 2, bad.out + bad.err);
     assert.match(bad.err, /unknown flag --subjet for claim/);
     assert.equal(fs.existsSync(path.join(dir, '.git', 'run-board', 'runs')) ? runs().length : 0, 0, 'no record was written');
     for (const args of [['beat', '--run', 'typo', '--phse', '4'], ['check', '--rnu', 'typo', 'se/x'], ['lock', 'commit', '--run', 'typo', '--ttl-s', '60'], ['list', '--jsn']]) {
       const r = await boardCmd(dir, args);
-      assert.equal(r.code, 1, args.join(' ') + ': ' + r.out + r.err);
+      assert.equal(r.code, 2, args.join(' ') + ': ' + r.out + r.err);
       assert.match(r.err, new RegExp('unknown flag ' + args.find((a) => a.startsWith('--') && !['--run'].includes(a))));
     }
     // positive control: every flag the usage block documents is still accepted

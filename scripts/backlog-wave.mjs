@@ -31,11 +31,14 @@
  * known answer (a cluster merged, a tension kept whole, a home deduplicated) before it
  * touches the ledger. A broken builder exits FATAL instead of printing a plausible wave.
  *
- * EXIT 0 ok · 1 usage or validation error · 2 self-check failed or ledger unreadable
+ * EXIT 0 ok · 2 could not run: usage or validation error, self-check failed, ledger unreadable
+ * (scripts/lib/exit-codes.mjs: 1 is "ran and found something", which no path here does, and a
+ * usage error that exited 1 read to a caller as a finding). 3 is not used.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const LEDGER = path.join(ROOT, 'librarian/harvest/backlog.jsonl');
@@ -138,14 +141,14 @@ function selfCheck() {
   const want = 't01:c+d c01:a+b g:g';
   if (got !== want) {
     console.error(`FATAL self-check: wave builder returned "${got}", expected "${want}"`);
-    process.exit(2);
+    process.exit(EXIT.FATAL);
   }
 }
 
 function load() {
-  if (!fs.existsSync(LEDGER)) { console.error(`FATAL: ${LEDGER} missing`); process.exit(2); }
+  if (!fs.existsSync(LEDGER)) { console.error(`FATAL: ${LEDGER} missing`); process.exit(EXIT.FATAL); }
   try { return parseLedger(fs.readFileSync(LEDGER, 'utf8')); }
-  catch (e) { console.error(`FATAL: ${e.message}`); process.exit(2); }
+  catch (e) { console.error(`FATAL: ${e.message}`); process.exit(EXIT.FATAL); }
 }
 
 function arg(argv, name, dflt) {
@@ -160,7 +163,7 @@ function main(argv) {
     // NaN or a non-positive size used to mean "no bound": `wave.length >= NaN` is never true,
     // so `--size abc` printed the whole queue as one wave.
     const sizeArg = argv.includes('--size') ? arg(argv, '--size') : '8';
-    if (!/^[1-9][0-9]*$/.test(sizeArg ?? '')) { console.error(`--size must be a positive integer, got "${sizeArg ?? ''}"`); return 1; }
+    if (!/^[1-9][0-9]*$/.test(sizeArg ?? '')) { console.error(`--size must be a positive integer, got "${sizeArg ?? ''}"`); return EXIT.FATAL; }
     const rows = load();
     const wave = pickWave(rows, { size: Number(sizeArg), homePrefix: arg(argv, '--home-prefix', '') });
     const byId = new Map(rows.map((r) => [r.id, r]));
@@ -177,13 +180,13 @@ function main(argv) {
     const mode = arg(argv, '--mode', undefined);
     const verdict = arg(argv, '--verdict', undefined);
     const commit = arg(argv, '--commit', undefined);
-    if (!ids.length || !STATUS.includes(status)) { console.error(`usage: mark <id,...> <${STATUS.join('|')}> ...`); return 1; }
-    if (mode && !MODE.includes(mode)) { console.error(`mode must be one of ${MODE.join('|')}`); return 1; }
-    if (verdict && !VERDICT.includes(verdict)) { console.error(`verdict must be one of ${VERDICT.join('|')}`); return 1; }
+    if (!ids.length || !STATUS.includes(status)) { console.error(`usage: mark <id,...> <${STATUS.join('|')}> ...`); return EXIT.FATAL; }
+    if (mode && !MODE.includes(mode)) { console.error(`mode must be one of ${MODE.join('|')}`); return EXIT.FATAL; }
+    if (verdict && !VERDICT.includes(verdict)) { console.error(`verdict must be one of ${VERDICT.join('|')}`); return EXIT.FATAL; }
     const rows = load();
     const byId = new Map(rows.map((r) => [r.id, r]));
     const missing = ids.filter((id) => !byId.has(id));
-    if (missing.length) { console.error(`unknown id(s): ${missing.join(', ')}`); return 1; }
+    if (missing.length) { console.error(`unknown id(s): ${missing.join(', ')}`); return EXIT.FATAL; }
     const today = new Date().toISOString().slice(0, 10);
     for (const id of ids) {
       const r = byId.get(id);
@@ -203,7 +206,7 @@ function main(argv) {
     return 0;
   }
   console.error('usage: backlog-wave.mjs next [--size N] [--home-prefix P] | mark <ids> <status> [...] | status');
-  return 1;
+  return EXIT.FATAL;
 }
 
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

@@ -12,16 +12,26 @@ test('next refuses a --size that is not a positive integer, before reading the l
   // whole queue - 473 units on 2026-10-25 - printed as if it were a wave of 8.
   for (const bad of ['abc', '0', '-3', '2.5', '']) {
     const r = cli('next', '--size', bad);
-    assert.equal(r.status, 1, `--size "${bad}": ${r.stdout.slice(0, 200)}${r.stderr}`);
+    assert.equal(r.status, 2, `--size "${bad}": ${r.stdout.slice(0, 200)}${r.stderr}`);
     assert.match(r.stderr, /--size must be a positive integer/);
     assert.equal(r.stdout, '', 'no wave printed');
   }
   const missing = cli('next', '--size');
-  assert.equal(missing.status, 1, 'a --size with no value is refused too');
+  assert.equal(missing.status, 2, 'a --size with no value is refused too');
   // positive control: a real size bounds the wave
   const ok = cli('next', '--size', '2');
   assert.equal(ok.status, 0, ok.stderr);
   assert.ok(JSON.parse(ok.stdout).wave.length <= 2);
+});
+
+test('every usage or validation error exits FATAL (2), never 1: nothing was found, nothing could run', () => {
+  // Before these exited 1, the code scripts/lib/exit-codes.mjs reserves for "ran and found
+  // something", so a caller could not tell a mistyped call from a finding.
+  for (const args of [[], ['bogus'], ['mark'], ['mark', 'x', 'bogus-status'], ['mark', 'x', 'landed', '--mode', 'nope'], ['mark', 'x', 'landed', '--verdict', 'nope'], ['mark', 'no-such-id-zz', 'landed']]) {
+    const r = cli(...args);
+    assert.equal(r.status, 2, JSON.stringify(args) + ': ' + r.stdout.slice(0, 100) + r.stderr);
+  }
+  assert.equal(cli('status').status, 0);
 });
 
 const row = (o) => ({ note: `n-${o.id}`, score: 5, home: '', status: 'queued', convergence: [], tension: '', ...o });

@@ -50,8 +50,10 @@
  *   node scripts/run-board.mjs gc
  *
  * Exit codes, which differ on purpose because they lead to opposite next moves:
- *   0  clear - nothing else holds what you asked about
- *   1  the instrument itself failed (bad arguments, unreadable board)
+ *   0  clear - nothing else holds what you asked about (and `--help`, which asked nothing)
+ *   2  FATAL - the instrument could not run: bad arguments, a misspelled flag, no command,
+ *      an unreadable board, a broken address fold. Never 1: 1 is reserved by
+ *      scripts/lib/exit-codes.mjs for "ran and found something", and a usage error found nothing.
  *   3  CONTENDED - a live sibling holds the source, the subject, the path, or the lock.
  *      Not an error. It is the answer, and the caller decides: wait, re-scope, or proceed
  *      knowing who else is in the file.
@@ -309,7 +311,7 @@ function assertAddressFold() {
   if (bad.length) {
     console.error('run-board: address fold is broken — the collision check cannot be trusted.');
     for (const b of bad) console.error(b);
-    process.exit(2);
+    process.exit(EXIT.FATAL);
   }
 }
 
@@ -342,7 +344,7 @@ function positionals() {
   return out;
 }
 
-function die(msg, code = 1) { console.error('FATAL: ' + msg); process.exit(code); }
+function die(msg, code = EXIT.FATAL) { console.error('FATAL: ' + msg); process.exit(code); }
 
 function gitBranch() {
   try {
@@ -469,7 +471,7 @@ function cmdClaim() {
 function cmdBeat() {
   const runId = one('run') || die('beat needs --run <id>');
   const rec = readJSON(runFile(runId));
-  if (!rec) die('no record for run ' + runId + ' - claim it first', 1);
+  if (!rec) die('no record for run ' + runId + ' - claim it first');
   rec.heartbeatAt = nowISO();
   rec.pid = process.pid;
   rec.branch = gitBranch();
@@ -818,7 +820,9 @@ if (RUN_AS_CLI) {
   if (!cmd || cmd === '--help' || cmd === '-h' || !TABLE[cmd]) {
     const header = fs.readFileSync(fileURLToPath(import.meta.url), 'utf8').split('*/')[0].replace(/^#!.*\n/, '');
     console.error(header);
-    process.exit(cmd && cmd !== '--help' && cmd !== '-h' ? 1 : 0);
+    // --help asked a question and got its answer (0); no command, or one that does not exist,
+    // is a call that could not run (FATAL) - it used to exit 0 for the former and 1 for the latter.
+    process.exit(cmd === '--help' || cmd === '-h' ? EXIT.OK : EXIT.FATAL);
   }
   assertFlags(cmd);
   assertAddressFold();
