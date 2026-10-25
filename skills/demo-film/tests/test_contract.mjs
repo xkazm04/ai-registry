@@ -1,7 +1,9 @@
 // The wire contract, pinned: the fixture script parses with its defaults, and the timing and
 // identity helpers every tool shares behave as the design brief says.
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { test } from 'node:test';
 
 import {
@@ -79,4 +81,29 @@ test('Take parses a minimal record and refuses null for an absent value', () => 
   assert.deepEqual(t.beats[0].rects, {});
   assert.deepEqual(t.beats[0].clicks, []);
   assert.equal(Take.safeParse({ ...take, beats: [{ ...take.beats[0], error: null }] }).success, false);
+});
+
+// The media wire: render.mjs serves the film dir to the bundle over loopback HTTP, and the browser
+// reads video and audio from it with Range requests. A range it cannot satisfy must be a 416, not a
+// thrown ERR_OUT_OF_RANGE that kills the render; a suffix range (`bytes=-N`) is the LAST N bytes.
+test('serveDir answers byte ranges by RFC 9110: suffix, unsatisfiable, reversed', async () => {
+  const dir = mkdtempSync(path.join(os.tmpdir(), 'df-serve-'));
+  writeFileSync(path.join(dir, 'a.mp3'), '0123456789');
+  const { serveDir } = await import('../tools/render.mjs');
+  const { server, url } = await serveDir(dir);
+  try {
+    const get = async (range) => {
+      const r = await fetch(`${url}a.mp3`, { headers: { range } });
+      return { status: r.status, range: r.headers.get('content-range'), body: await r.text() };
+    };
+    assert.deepEqual(await get('bytes=2-4'), { status: 206, range: 'bytes 2-4/10', body: '234' });
+    assert.deepEqual(await get('bytes=7-'), { status: 206, range: 'bytes 7-9/10', body: '789' });
+    assert.deepEqual(await get('bytes=-3'), { status: 206, range: 'bytes 7-9/10', body: '789' }, 'suffix = last N bytes');
+    assert.deepEqual(await get('bytes=50-'), { status: 416, range: 'bytes */10', body: '' });
+    assert.deepEqual(await get('bytes=7-3'), { status: 416, range: 'bytes */10', body: '' });
+    assert.equal((await get('bytes=0-')).body, '0123456789', 'the server is still up after the refusals');
+  } finally {
+    server.close();
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

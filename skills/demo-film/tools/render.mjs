@@ -117,9 +117,15 @@ export function serveDir(root) {
     const size = statSync(file).size;
     const headers = { 'Access-Control-Allow-Origin': '*', 'Accept-Ranges': 'bytes', 'Content-Type': TYPES[path.extname(file).toLowerCase()] ?? 'application/octet-stream' };
     const m = /bytes=(\d*)-(\d*)/.exec(rq.headers.range ?? '');
-    if (m) {
-      const start = m[1] ? Number(m[1]) : 0;
-      const end = m[2] ? Math.min(Number(m[2]), size - 1) : size - 1;
+    if (m && (m[1] || m[2])) {
+      // `bytes=-N` is the LAST N bytes; a start past the end (or after `end`) is unsatisfiable: 416,
+      // never a createReadStream ERR_OUT_OF_RANGE thrown in the handler (it killed the render)
+      const start = m[1] ? Number(m[1]) : Math.max(0, size - Number(m[2]));
+      const end = m[1] && m[2] ? Math.min(Number(m[2]), size - 1) : size - 1;
+      if (start >= size || start > end) {
+        rs.writeHead(416, { 'Access-Control-Allow-Origin': '*', 'Content-Range': `bytes */${size}` }).end();
+        return;
+      }
       rs.writeHead(206, { ...headers, 'Content-Range': `bytes ${start}-${end}/${size}`, 'Content-Length': end - start + 1 });
       if (rq.method === 'HEAD') return rs.end();
       createReadStream(file, { start, end }).pipe(rs);
