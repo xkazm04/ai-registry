@@ -5,8 +5,8 @@
  * The declaration alone does not stop drift; it only makes drift SAYABLE. This is the
  * instrument that says it. It reads every exit call in scripts/ - literal codes, and
  * codes hidden behind a ternary or a const binding - and fails on any code the
- * declaration does not name, and on any computed code above FATAL that the collision
- * ledger does not excuse.
+ * declaration does not name, and on any code above FATAL (computed or a bare number) that
+ * the call site does not write as an EXIT name and the collision ledger does not excuse.
  *
  * Why a gate rather than a convention: adding a failure meaning and giving it a code
  * are two edits, and only the first one is required for the script to work. Nothing in
@@ -114,18 +114,21 @@ export function exitSites(text) {
 
 /**
  * Why a site fails the contract, or null. Any site fails when its code is undeclared and
- * not excused. A COMPUTED site also fails when it hides a code above FATAL: writing
- * EXIT.CONTENDED says what 3 means at the call site, while a bound ternary says nothing,
- * which is how a "paused" meaning shipped on the retry code. The owner either writes the
- * EXIT name or records the collision in KNOWN_COLLISIONS.
+ * not excused. A site that yields a code above FATAL also fails unless the call site NAMES
+ * it: writing EXIT.CONTENDED says what 3 means where it is exited, while a bound ternary
+ * or a bare `3` says nothing, which is how a "paused" meaning shipped on the retry code
+ * and how a sixth meaning could ship on it now with this gate green. The owner either
+ * writes the EXIT name or records the collision in KNOWN_COLLISIONS. (A named code never
+ * reaches here: exitSites skips an `EXIT.X` argument.)
  */
 export function judgeSite(site, base, collisions = KNOWN_COLLISIONS) {
   if (collisions.some((c) => c.script === base && c.code === site.code)) return null;
   if (nameOf(site.code) === null) {
     return `exits ${site.code}, which scripts/lib/exit-codes.mjs does not name.`;
   }
-  if (site.computed && site.code > EXIT.FATAL) {
-    return `exits ${site.code} through a computed value, so its meaning is invisible at the call site; ` +
+  if (site.code > EXIT.FATAL) {
+    const how = site.computed ? 'through a computed value' : 'as a bare number';
+    return `exits ${site.code} ${how}, so its meaning is invisible at the call site; ` +
       `write EXIT.${nameOf(site.code)} directly if it means "${MEANINGS[site.code]}", otherwise record it in KNOWN_COLLISIONS.`;
   }
   return null;
@@ -180,6 +183,12 @@ function selfAssert() {
   if (codes !== '0,1,3' || flagged !== '3') {
     console.error('FATAL: the detector failed its own planted computed exit (a const-bound ternary yielding 3).');
     console.error(`  expected codes 0,1,3 with only 3 flagged, got codes ${codes}, flagged ${flagged}`);
+    return false;
+  }
+  // The bare-number shape: a literal 3 is a declared code, so only the rule above flags it.
+  const bare = exitSites(`if (held) ${call}(3);\n`);
+  if (bare.length !== 1 || judgeSite(bare[0], 'planted.mjs', []) === null) {
+    console.error('FATAL: the detector failed its own planted bare exit 3 (a literal that should be EXIT.CONTENDED).');
     return false;
   }
   return true;

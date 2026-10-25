@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawn, execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { lockBreakable, runLiveness, breakIfUnchanged, lockFingerprint, createLock, withClaimGate } from './run-board.mjs';
+import { lockBreakable, runLiveness, breakIfUnchanged, lockFingerprint, createLock, withClaimGate, releaseIfOwned } from './run-board.mjs';
 
 // The board's staleness window is 45 minutes and its default lock ttl is 900s.
 const STALE_S = 45 * 60;
@@ -241,6 +241,52 @@ test('a holder whose gate was reclaimed never deletes the next holder\'s gate', 
   fs.rmSync(dir, { recursive: true, force: true });
 });
 
+test('REGRESSION: unlock never deletes a lock re-taken after it was read', () => {
+  // Before: cmdUnlock read the runId and then unlinked by name. A lock broken and re-taken
+  // between the two (injected here with `between`) was deleted out from under its new holder.
+  const { dir, file } = tmpLock();
+  fs.writeFileSync(file, lockRecord('rA', new Date().toISOString()));
+  const r = releaseIfOwned(file, 'rA', {
+    between: () => {                                                    // rA's lock is broken ...
+      fs.unlinkSync(file);
+      assert.equal(createLock(file, lockRecord('rB', new Date().toISOString())), true); // ... and rB takes it
+    },
+  });
+  assert.equal(r.state, 'changed');
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).runId, 'rB', "the new holder's lock is untouched");
+  assert.equal(fs.existsSync(file + '.break'), false, 'the takeover gate is released');
+  // The same race with a forced release of someone else's lock leaves the new lock too.
+  const forced = releaseIfOwned(file, 'rC', { force: true, between: () => { fs.unlinkSync(file); createLock(file, lockRecord('rD', new Date().toISOString())); } });
+  assert.equal(forced.state, 'changed');
+  assert.equal(JSON.parse(fs.readFileSync(file, 'utf8')).runId, 'rD');
+  // The lock vanishing entirely mid-call is 'changed' as well, not a thrown ENOENT.
+  assert.equal(releaseIfOwned(file, 'rD', { between: () => fs.unlinkSync(file) }).state, 'changed');
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
+test('releaseIfOwned: own lock released, another run\'s refused unless forced, absent and corrupt locks do not throw', () => {
+  const { dir, file } = tmpLock();
+  assert.equal(releaseIfOwned(file, 'rA').state, 'absent');
+  fs.writeFileSync(file, lockRecord('rA', new Date().toISOString()));
+  assert.deepEqual(releaseIfOwned(file, 'rB'), { state: 'not-owner', holder: 'rA' });
+  assert.equal(fs.existsSync(file), true, 'a refused release removes nothing');
+  assert.equal(releaseIfOwned(file, 'rA').state, 'released');
+  assert.equal(fs.existsSync(file), false);
+  assert.equal(fs.existsSync(file + '.break'), false);
+  fs.writeFileSync(file, lockRecord('rA', new Date().toISOString()));
+  assert.equal(releaseIfOwned(file, 'rB', { force: true }).state, 'released', '--force still removes a dead run\'s lock');
+  // A corrupt lock has no readable owner: reported as not held, as before, and never a crash.
+  fs.writeFileSync(file, '{ not json');
+  assert.equal(releaseIfOwned(file, 'rA').state, 'absent');
+  assert.equal(fs.existsSync(file), true);
+  // A takeover gate that stays held for the whole window is 'busy', not a bare unlink.
+  fs.writeFileSync(file, lockRecord('rA', new Date().toISOString()));
+  fs.writeFileSync(file + '.break', '');
+  assert.equal(releaseIfOwned(file, 'rA', { tries: 2 }).state, 'busy');
+  assert.equal(fs.existsSync(file), true);
+  fs.rmSync(dir, { recursive: true, force: true });
+});
+
 /** A throwaway repo carrying a copy of this run-board, so its board resolves to
  *  <tmp>/.git/run-board and never to a live one. GIT_* is scrubbed: a hook's GIT_DIR
  *  would otherwise point the copy at the real repository's board. */
@@ -250,6 +296,9 @@ function throwawayBoard() {
   execFileSync('git', ['init', '-q'], { cwd: dir, env, stdio: 'ignore' });
   fs.mkdirSync(path.join(dir, 'scripts'));
   fs.copyFileSync(fileURLToPath(new URL('./run-board.mjs', import.meta.url)), path.join(dir, 'scripts', 'run-board.mjs'));
+  // run-board imports the exit vocabulary, so the copy carries it or dies at import.
+  fs.mkdirSync(path.join(dir, 'scripts', 'lib'));
+  fs.copyFileSync(fileURLToPath(new URL('./lib/exit-codes.mjs', import.meta.url)), path.join(dir, 'scripts', 'lib', 'exit-codes.mjs'));
   const claim = (args) => new Promise((resolve) => {
     const p = spawn(process.execPath, [path.join(dir, 'scripts', 'run-board.mjs'), 'claim', '--skill', 'intake', ...args], { cwd: dir, env });
     let out = '', err = '';
@@ -301,7 +350,7 @@ test('REGRESSION: lock refuses a --ttl or --wait that is not a positive number',
   try {
     for (const args of [['--ttl', '-5'], ['--ttl', 'abc'], ['--ttl', '0'], ['--wait', 'abc'], ['--wait', '-1']]) {
       const r = await boardCmd(dir, ['lock', 'commit', '--run', 'a', ...args]);
-      assert.equal(r.code, 1, args.join(' ') + ': ' + r.out + r.err);
+      assert.equal(r.code, 2, args.join(' ') + ': ' + r.out + r.err);
       assert.match(r.err, new RegExp(args[0] + ' must be a positive number of seconds'));
     }
     assert.equal(fs.existsSync(path.join(dir, '.git', 'run-board', 'locks', 'commit.lock')), false, 'no lock was taken');
@@ -311,18 +360,37 @@ test('REGRESSION: lock refuses a --ttl or --wait that is not a positive number',
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
+test('REGRESSION: a call that could not run exits FATAL (2), never 1 (found) or 0 (clear)', async () => {
+  // Before: `die()` defaulted to 1, an unknown command exited 1, and a call with no command
+  // exited 0 - so a caller testing `$? -eq 0` read "no command" as "clear", and one testing
+  // 1 vs 2 read a usage error as a finding. scripts/lib/exit-codes.mjs: 1 = found, 2 = could not run.
+  const { dir } = throwawayBoard();
+  try {
+    for (const args of [[], ['bogus'], ['lock'], ['lock', 'commit'], ['unlock'], ['release'], ['beat'], ['beat', '--run', 'never-claimed'], ['check', '--run', 'x'], ['claim', '--skill', 'intake']]) {
+      const r = await boardCmd(dir, args);
+      assert.equal(r.code, 2, JSON.stringify(args) + ': ' + r.out + r.err);
+    }
+    // --help asked a question and was answered.
+    for (const h of ['--help', '-h']) assert.equal((await boardCmd(dir, [h])).code, 0, h);
+    // the header documents 0/2/3 and no longer promises a "1"
+    const head = fs.readFileSync(fileURLToPath(new URL('./run-board.mjs', import.meta.url)), 'utf8').split('*/')[0];
+    const codes = [...head.matchAll(/^ \*\s{1,3}(\d)\s{2}/gm)].map((m) => m[1]);
+    assert.deepEqual(codes, ['0', '2', '3']);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
 test('REGRESSION: a misspelled flag is refused, never written as a claim of nothing', async () => {
   // Before: `claim --subjet X` was granted with no subject at all, so every later `check X`
   // by a sibling printed `clear` - a false all-clear the claimer believed it had prevented.
   const { dir, claim, runs } = throwawayBoard();
   try {
     const bad = await claim(['--source', 'https://github.com/acme/a', '--run', 'typo', '--subjet', 'se/x/y/z']);
-    assert.equal(bad.code, 1, bad.out + bad.err);
+    assert.equal(bad.code, 2, bad.out + bad.err);
     assert.match(bad.err, /unknown flag --subjet for claim/);
     assert.equal(fs.existsSync(path.join(dir, '.git', 'run-board', 'runs')) ? runs().length : 0, 0, 'no record was written');
     for (const args of [['beat', '--run', 'typo', '--phse', '4'], ['check', '--rnu', 'typo', 'se/x'], ['lock', 'commit', '--run', 'typo', '--ttl-s', '60'], ['list', '--jsn']]) {
       const r = await boardCmd(dir, args);
-      assert.equal(r.code, 1, args.join(' ') + ': ' + r.out + r.err);
+      assert.equal(r.code, 2, args.join(' ') + ': ' + r.out + r.err);
       assert.match(r.err, new RegExp('unknown flag ' + args.find((a) => a.startsWith('--') && !['--run'].includes(a))));
     }
     // positive control: every flag the usage block documents is still accepted
@@ -335,6 +403,31 @@ test('REGRESSION: a misspelled flag is refused, never written as a claim of noth
     assert.equal((await boardCmd(dir, ['unlock', 'commit', '--run', 'good', '--force'])).code, 0);
     assert.equal((await boardCmd(dir, ['release', '--run', 'good'])).code, 0);
     assert.equal((await boardCmd(dir, ['gc'])).code, 0);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
+test('unlock and release through the CLI: the owner releases, a stranger is CONTENDED, release leaves another run\'s lock alone', async () => {
+  // The race itself is injected at releaseIfOwned (above); this pins the door that calls it
+  // and the dangling-lock sweep in `release`, which has no seam of its own.
+  const { dir } = throwawayBoard();
+  const lockPath = (n) => path.join(dir, '.git', 'run-board', 'locks', n + '.lock');
+  try {
+    assert.equal((await boardCmd(dir, ['lock', 'one', '--run', 'r1'])).code, 0);
+    assert.equal((await boardCmd(dir, ['lock', 'two', '--run', 'r2'])).code, 0);
+    const stranger = await boardCmd(dir, ['unlock', 'one', '--run', 'r2']);
+    assert.equal(stranger.code, 3, stranger.out + stranger.err);
+    assert.ok(fs.existsSync(lockPath('one')), 'a refused unlock removes nothing');
+    const own = await boardCmd(dir, ['unlock', 'one', '--run', 'r1']);
+    assert.equal(own.code, 0);
+    assert.match(own.out, /released lock 'one'/);
+    assert.equal(fs.existsSync(lockPath('one')), false);
+    assert.match((await boardCmd(dir, ['unlock', 'one', '--run', 'r1'])).out, /was not held/);
+    assert.equal((await boardCmd(dir, ['lock', 'one', '--run', 'r1'])).code, 0);
+    const rel = await boardCmd(dir, ['release', '--run', 'r1']);
+    assert.equal(rel.code, 0, rel.out + rel.err);
+    assert.match(rel.out, /released dangling lock 'one'/);
+    assert.equal(fs.existsSync(lockPath('one')), false);
+    assert.ok(fs.existsSync(lockPath('two')), "release leaves another run's lock");
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
