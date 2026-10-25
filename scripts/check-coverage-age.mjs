@@ -27,15 +27,17 @@
  *   node check-coverage-age.mjs                 # default: 14 days
  *   node check-coverage-age.mjs --max-age 30
  *
- * Exits 0 when the report is present and fresh, 1 when it is missing or stale, 2 if the
- * file exists but carries no readable stamp (an instrument that cannot read its own
- * input reports that, rather than passing).
+ * Exits 0 when the report is present and fresh, 1 when it is missing, stale or stamped in
+ * the future, 2 if the file exists but its age or population cannot be established: no
+ * readable stamp, more than one stamp, or no projects declared (an instrument that cannot
+ * read its own input reports that, rather than passing).
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const REPORT = path.join(ROOT, 'librarian', 'fleet-coverage.md');
@@ -61,7 +63,16 @@ if (!fs.existsSync(REPORT)) {
 }
 
 const text = fs.readFileSync(REPORT, 'utf8');
-const stamp = /^generated:\s*(\S+)/m.exec(text)?.[1] ?? null;
+// Exactly one stamp. The first match used to win, so a fresh decoy line written above
+// the real one made a stale report read fresh (2026-10-25 gates scan). Two stamps are
+// two claims about one measurement; the age cannot be established from either.
+const stamps = [...text.matchAll(/^generated:\s*(\S+)/gm)].map((m) => m[1]);
+if (stamps.length > 1) {
+  console.error(`check-coverage-age: ${REL} carries ${stamps.length} \`generated:\` stamps (${stamps.join(', ')}) — its age cannot be established.`);
+  console.error('Regenerate it with `node scripts/converge.mjs` rather than editing the stamp.');
+  process.exit(EXIT.FATAL);
+}
+const stamp = stamps[0] ?? null;
 const when = Date.parse(stamp ?? '');
 
 if (!Number.isFinite(when)) {
@@ -69,6 +80,26 @@ if (!Number.isFinite(when)) {
   // finding; passing it would be exactly the "reporting nothing is not finding nothing"
   // failure the exit contract exists to prevent.
   console.error(`check-coverage-age: ${REL} carries no readable \`generated:\` stamp — its age cannot be established.`);
+  process.exit(EXIT.FATAL);
+}
+
+// A stamp records when a measurement happened, so a future one is a defect in the report,
+// not a very fresh measurement: 2099 used to pass for the next seventy years. One day of
+// slack for clock skew between the measuring machine and this one.
+if (when > Date.now() + 86_400_000) {
+  console.error(`check-coverage-age: ${REL} is stamped ${stamp}, which is in the future — a stamp records a measurement that happened.`);
+  console.error('Regenerate it with `node scripts/converge.mjs` rather than editing the stamp.');
+  process.exit(EXIT.VIOLATIONS);
+}
+
+// A fresh measurement of nothing is not a measurement. converge.mjs writes the population
+// it measured into the header (`projects declared: N`); absent or zero, the report cannot
+// say the fleet was looked at, however recent its stamp.
+const declared = /projects declared:\s*(\d+)/.exec(text);
+const population = requirePopulation(declared ? Number(declared[1]) : NaN, `projects declared in ${REL}`);
+if (population.code !== EXIT.OK) {
+  console.error(`check-coverage-age: ${population.reason}`);
+  console.error('Run `node scripts/converge.mjs` on a machine whose fleet bridge declares projects, and commit the report.');
   process.exit(EXIT.FATAL);
 }
 

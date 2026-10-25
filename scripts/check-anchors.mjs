@@ -33,7 +33,8 @@
  *
  * EXIT  0 every quoted anchor held (unquoted anchors are reported, not failed)
  *       1 at least one anchor did not hold
- *       2 the instrument could not run (missing report or root, self-check failed)
+ *       2 the instrument could not run (missing report or root, self-check failed, or
+ *         --strict over a report with zero anchors)
  *
  * Usage: node scripts/check-anchors.mjs <report.md> --root <tree> [--json] [--strict]
  *   --strict  also fail on unquoted anchors (a report contract that requires quotes)
@@ -42,6 +43,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
 
 const ANCHOR_RE =
   /`?((?:[A-Za-z0-9_.\-]+[\\/])*[A-Za-z0-9_.\-]+\.[A-Za-z0-9]{1,8}):(\d{1,7})(?:-(\d{1,7}))?`?(?:[ \t]+"([^"\n]{1,600})")?/g;
@@ -134,6 +136,16 @@ function main(argv) {
     return EXIT.FATAL;
   }
   const result = checkReport(fs.readFileSync(report, 'utf8'), root);
+  // Under --strict the report contract is "every claim carries a quoted anchor", and a
+  // report with none has not met it: zero anchors is could-not-run, not all-held. Without
+  // --strict it stays a printed note, because a plain run is also used to survey drafts.
+  if (strict) {
+    const floor = requirePopulation(result.total, 'anchors in the report');
+    if (floor.code !== EXIT.OK) {
+      console.error(`check-anchors: ${floor.reason} (--strict requires quoted anchors)`);
+      return floor.code;
+    }
+  }
   const failing = result.anchors.filter((a) => !['held', 'unquoted'].includes(a.verdict) || (strict && a.verdict === 'unquoted'));
   if (json) {
     console.log(JSON.stringify({ report, root, strict, ...result, failing: failing.length }, null, 2));

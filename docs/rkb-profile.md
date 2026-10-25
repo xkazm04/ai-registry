@@ -94,7 +94,9 @@ stack: react                 # applications only: react | rust | sql | node | pr
 status: forged               # draft | forged | reconciled | transplant-tested
 laws: [identity-survives-reuse]   # techniques: anchors that must exist in _laws.md
 shared_with: []              # techniques: other subjects that reference this one
-use_when: [...]              # optional OKF field: when a consuming agent should read this
+use_when: [...]              # OKF field: when a consuming agent should read this. REQUIRED and
+                             # non-empty on techniques (check-bundles): the query front door
+                             # ranks on it (docs/query-lane.md). Optional elsewhere.
 verified_on: 2026-08-18      # applications ONLY, REQUIRED: see §3.1
 verified_against: react@18   # applications, optional: the stack version behind the citations
 refresh_by: 2026-11-20       # applications, optional: overrides the derived clock

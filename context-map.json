@@ -75,6 +75,8 @@
         "scripts/review-coverage.mjs",
         "scripts/review-inventory.mjs",
         "scripts/tests/check-anchors.test.mjs",
+        "scripts/tests/check-bundles.test.mjs",
+        "scripts/tests/check-coverage-age.test.mjs",
         "scripts/tests/review-coverage.test.mjs"
       ],
       "entry_points": [
@@ -96,7 +98,8 @@
         "scripts/lib/bundle-hash.mjs",
         "scripts/surface-snapshot.mjs",
         "scripts/tests/apply-skill-clauses.test.mjs",
-        "scripts/tests/build-catalog-floors.test.mjs"
+        "scripts/tests/build-catalog-floors.test.mjs",
+        "scripts/tests/build-knowledge-rules.test.mjs"
       ],
       "entry_points": [
         "scripts/build-index.mjs",

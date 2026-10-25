@@ -25,12 +25,12 @@ function withReport(t,contents){
 const age=(args=[])=>spawnSync(process.execPath,[AGE,...args],{encoding:'utf8'});
 
 test('a fresh report passes the gate',t=>{
- withReport(t,`# x\n\ngenerated: ${new Date().toISOString()} · machine: test\n`);
+ withReport(t,`# x\n\ngenerated: ${new Date().toISOString()} · machine: test · projects declared: 3\n`);
  assert.equal(age().status,0);
 });
 
 test('a stale report fails, and says nobody looked rather than that the fleet is broken',t=>{
- withReport(t,'# x\n\ngenerated: 2020-01-01T00:00:00Z · machine: test\n');
+ withReport(t,'# x\n\ngenerated: 2020-01-01T00:00:00Z · machine: test · projects declared: 3\n');
  const r=age();
  assert.equal(r.status,1);
  assert.match(r.stderr,/does NOT mean the fleet is broken/);

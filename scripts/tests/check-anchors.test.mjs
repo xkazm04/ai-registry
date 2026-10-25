@@ -74,3 +74,19 @@ test('exit codes: 0 all held, 1 a failing anchor, 2 usage', () => {
   assert.equal(spawnSync(process.execPath, [script, bad, '--root', root]).status, 1);
   assert.equal(spawnSync(process.execPath, [script, bad]).status, 2);
 });
+
+// Seeded canary (2026-10-25 gates scan): a report with no anchors read green under
+// --strict, the mode whose contract is that every claim carries a quoted anchor.
+test('--strict over a report with zero anchors is could-not-run (2); plain mode stays a note (0)', () => {
+  const root = tree();
+  const none = path.join(root, 'none.md');
+  fs.writeFileSync(none, 'No anchors in this report, just prose citing the gate.\n');
+  const strict = spawnSync(process.execPath, [script, none, '--root', root, '--strict'], { encoding: 'utf8' });
+  assert.equal(strict.status, 2);
+  assert.match(strict.stderr, /walked 0 anchors/);
+  assert.equal(spawnSync(process.execPath, [script, none, '--root', root]).status, 0);
+  // control: a strict report whose anchors are all quoted and held still passes
+  const held = path.join(root, 'held.md');
+  fs.writeFileSync(held, 'src/gate.ts:1 "LIMIT = 12"\n');
+  assert.equal(spawnSync(process.execPath, [script, held, '--root', root, '--strict']).status, 0);
+});

@@ -40,6 +40,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 import { EXIT } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -146,6 +147,18 @@ front of you even when nobody invokes either.
 const bundles = fs.readdirSync(KNOWLEDGE, { withFileTypes: true })
   .filter((e) => e.isDirectory() && fs.existsSync(path.join(KNOWLEDGE, e.name, 'index.json')))
   .map((e) => e.name).sort();
+
+// Zero bundles is a broken precondition, not a current rule set. Unguarded, `--check` on
+// an empty lane compared the access rule alone, called it current and exited 0, while
+// write mode deleted every per-bundle rule as an orphan.
+{
+  const floor = requirePopulation(bundles.length, 'bundles with an index.json under knowledge/');
+  if (floor.code !== EXIT.OK) {
+    console.error(`FATAL: build-knowledge-rules ${floor.reason}`);
+    console.error('  Run `node scripts/build-index.mjs` first; refusing to report rules for an empty lane.');
+    process.exit(EXIT.FATAL);
+  }
+}
 
 const files = new Map([['ai-registry-access.md', ACCESS]]);
 
