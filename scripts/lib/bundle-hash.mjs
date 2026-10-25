@@ -67,9 +67,17 @@ export const hashBundle = (dir) => {
     }
   };
   walk(dir);
+  // The stream order is part of the format, so it is taken from what the stream SAYS - the
+  // relative POSIX path, compared by code unit - never from absolute native paths. Sorting
+  // those put `a0.md` before `a/b.md` on Windows (`\` is 0x5C, above '0') and after it on
+  // POSIX (`/` is 0x2F): one commit, two digests (scripts/tests/bundle-hash.test.mjs).
+  // On POSIX the two orders are identical, so no digest a Linux checkout wrote moves.
+  const entries = files
+    .map((f) => ({ f, rel: path.relative(dir, f).replace(/\\/g, '/') }))
+    .sort((a, b) => (a.rel < b.rel ? -1 : a.rel > b.rel ? 1 : 0));
   const h = crypto.createHash('sha256');
-  for (const f of files.sort()) {
-    const rel = Buffer.from(path.relative(dir, f).replace(/\\/g, '/'), 'utf8');
+  for (const { f, rel: relPath } of entries) {
+    const rel = Buffer.from(relPath, 'utf8');
     const body = stripCrLf(fs.readFileSync(f));
     h.update(`${rel.length}:`); h.update(rel);
     h.update(`${body.length}:`); h.update(body);
