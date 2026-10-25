@@ -126,6 +126,11 @@ const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 // something that read the cited tree, so it is emitted going forward rather than
 // backfilled. Its absence is reported by check-currency as "no version witness".
 const VERIFIED_AGAINST_RE = /^[a-z0-9][a-z0-9-]*@\d+(?:\.\d+){0,2}$/;
+// Stacks with no runtime, so no version for `verified_against` to witness: a methodology
+// (`process`), a pinned specification clause (`spec`) and a pinned dataset snapshot
+// (`data`, docs/reconcile-brief.md). The same three are the null clocks in
+// check-currency.mjs's WINDOW_DAYS; this gate refused the field on `process` only.
+const NO_RUNTIME_STACKS = new Set(['process', 'spec', 'data']);
 // One day of slack: contributors are in many timezones and a clock skew must not be a
 // build failure.
 const TOMORROW = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
@@ -580,8 +585,8 @@ for (const domain of bundles) {
             if (vstack !== fm.stack) {
               fail(`${arel}: verified_against names stack "${vstack}" but this document's stack is "${fm.stack}"`);
             }
-            if (fm.stack === 'process') {
-              fail(`${arel}: a "process" application has no runtime version to be verified against — drop verified_against`);
+            if (NO_RUNTIME_STACKS.has(fm.stack)) {
+              fail(`${arel}: a "${fm.stack}" application has no runtime version to be verified against — drop verified_against`);
             }
           }
         }

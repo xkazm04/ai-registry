@@ -113,7 +113,7 @@ carrying no age at all.
 | field | required | meaning |
 |---|---|---|
 | `verified_on` | **yes** | `YYYY-MM-DD`. The date this document's citations were last resolved against a real tree. A **fact**, not a plan: a future date is a gate failure. |
-| `verified_against` | no | `<stack>@<version>` — the stack version those citations were checked at (`react@18`, `rust@1.79`). Meaningless for `process`, and rejected there. |
+| `verified_against` | no | `<stack>@<version>` — the stack version those citations were checked at (`react@18`, `rust@1.79`). Meaningless for the stacks with no runtime (`process`, `spec`, `data`), and rejected there. |
 | `refresh_by` | no | `YYYY-MM-DD`. An author's override of the derived clock, for a subject they know moves faster or slower than its stack. Must be after `verified_on`. |
 
 **The expiry is derived, not written.** `verified_on` plus a per-stack window in

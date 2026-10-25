@@ -162,6 +162,33 @@ test('control: the gitignored overlay shapes (.x.local.md, .x.local.json) stay i
   assert.equal(r.status, 0, r.stderr);
 });
 
+// ---- (b3) no runtime, no version witness. check-currency gives process, spec and data a
+// null clock (no runtime to drift against) and the reconcile brief declares spec and data
+// runtime-less; the gate refused verified_against on process only.
+const APP = (stack, extra = []) => [
+  '---', 'type: application', 'subject: topic', 'technique: check', `stack: ${stack}`, 'status: draft',
+  'verified_on: 2026-10-01', ...extra, '---', '', '# Applied', '',
+].join('\n');
+function withStacks(b, stacks) {
+  fs.writeFileSync(path.join(b, 'index.md'), `---\nokf_version: "0.1"\nokf_bundle_name: demo\npurity: generic\nstacks: [${stacks.join(', ')}]\n---\n\n# Demo\n`);
+  fs.mkdirSync(path.join(b, 'topic', 'applications'), { recursive: true });
+}
+for (const stack of ['spec', 'data']) {
+  test(`verified_against: a "${stack}" application carrying one fails`, () => expectRed(({ b }) => {
+    withStacks(b, ['spec', 'data']);
+    fs.writeFileSync(path.join(b, 'topic', 'applications', `${stack}--check.md`), APP(stack, [`verified_against: ${stack}@2024`]));
+  }, new RegExp(`${stack}--check\\.md: a "${stack}" application has no runtime version`)));
+}
+test('control: spec and data applications without verified_against, and node with one, pass', () => {
+  const { root, b } = fixture();
+  withStacks(b, ['spec', 'data']);
+  fs.writeFileSync(path.join(b, 'topic', 'applications', 'spec--check.md'), APP('spec'));
+  fs.writeFileSync(path.join(b, 'topic', 'applications', 'data--check.md'), APP('data'));
+  fs.writeFileSync(path.join(b, 'topic', 'applications', 'node--check.md'), APP('node', ['verified_against: node@20']));
+  const r = run(root);
+  assert.equal(r.status, 0, r.stderr);
+});
+
 // ---- (d) use_when on techniques
 test('use_when: a technique without one fails', () => expectRed(({ b }) => {
   fs.writeFileSync(path.join(b, 'topic', 'techniques', 'check.md'), TECHNIQUE([]));
