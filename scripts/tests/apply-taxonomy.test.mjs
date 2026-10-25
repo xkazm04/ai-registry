@@ -80,6 +80,104 @@ test('a re-run over a tree already at its layout plans no rewrites and writes no
   assert.equal(fs.readFileSync(file, 'utf8'), before);
 });
 
+// ---- inbound links: markdown OUTSIDE the bundle that points INTO a subject being moved.
+//
+// The mover's file map is per bundle, so a docs/ page or a sibling bundle linking into a moved
+// subject was invisible to it - and so was the post-condition. Measured on the real corpus a
+// flat move would have broken 45 of them (1 cross-bundle, 11 docs/, 33 librarian/) while
+// reporting a clean move.
+const DOC = '# Doc\n\nRead [the topic](../knowledge/bbb/topic/topic.md#sec) and [x](../knowledge/bbb/topic/techniques/x.md).\n\n' +
+  '```md\n[quoted](../knowledge/bbb/topic/topic.md)\n```\n\nInline `[q](../knowledge/bbb/topic/topic.md)` stays prose. [web](https://example.com/a.md)\n';
+
+function withInbound() {
+  const fx = fixture();
+  fs.mkdirSync(path.join(fx.root, 'docs'), { recursive: true });
+  fs.writeFileSync(path.join(fx.root, 'docs', 'x.md'), DOC);
+  // A second bundle linking into bbb. It has no taxonomy.json, so only `bbb` is run.
+  const ccc = path.join(fx.root, 'knowledge', 'ccc');
+  fs.mkdirSync(path.join(ccc, 'topic'), { recursive: true });
+  fs.writeFileSync(path.join(ccc, 'topic', 'topic.md'), 'Cross: [b](../../bbb/topic/topic.md) and [laws](../../bbb/_laws.md).\n');
+  return { ...fx, ccc };
+}
+
+/** Relative links outside code that do not resolve, across every markdown file under root. */
+function brokenLinks(root) {
+  const bad = [];
+  const walk = (d) => {
+    for (const e of fs.readdirSync(d, { withFileTypes: true })) {
+      const p = path.join(d, e.name);
+      if (e.isDirectory()) { walk(p); continue; }
+      if (!e.name.endsWith('.md')) continue;
+      const src = fs.readFileSync(p, 'utf8').replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '');
+      for (const m of src.matchAll(/\]\(([^)\s]+)\)/g)) {
+        const t = m[1].split('#')[0];
+        if (!t || /^(https?:|mailto:)/.test(m[1])) continue;
+        if (!fs.existsSync(path.resolve(path.dirname(p), t))) bad.push(`${path.relative(root, p)} -> ${m[1]}`);
+      }
+    }
+  };
+  walk(root);
+  return bad;
+}
+
+test('a dry run counts and names every inbound link from outside the bundle, and touches nothing', () => {
+  const { root } = withInbound();
+  assert.deepEqual(brokenLinks(root), [], 'fixture starts with no broken link');
+  const r = run(root, 'bbb', '--to', 'nested');
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /3 inbound link\(s\) from 2 file\(s\) outside the bundle point into moved files/);
+  assert.match(r.stdout, /docs\/x\.md {2}->/);
+  assert.match(r.stdout, /knowledge\/ccc\/topic\/topic\.md {2}->/);
+  assert.match(r.stdout, /3 inbound link rewrite\(s\) from outside the bundle across 1 bundle/);
+  assert.equal(fs.readFileSync(path.join(root, 'docs', 'x.md'), 'utf8'), DOC, 'dry run wrote nothing');
+});
+
+test('--apply rewrites inbound links through the same round trip and leaves 0 broken', () => {
+  const { root, ccc } = withInbound();
+  const r = run(root, 'bbb', '--to', 'nested', '--apply');
+  assert.equal(r.status, 0, r.stderr + r.stdout);
+  assert.deepEqual(brokenLinks(root), [], 'no link anywhere in the fixture is broken after the move');
+  const doc = fs.readFileSync(path.join(root, 'docs', 'x.md'), 'utf8');
+  assert.match(doc, /\]\(\.\.\/knowledge\/bbb\/core\/topic\/topic\.md#sec\)/, 'anchor survives the rewrite');
+  assert.match(doc, /\]\(\.\.\/knowledge\/bbb\/core\/topic\/techniques\/x\.md\)/);
+  // Quoted prose is not the mover's to edit: the fence and the inline span keep the old path.
+  assert.match(doc, /```md\n\[quoted\]\(\.\.\/knowledge\/bbb\/topic\/topic\.md\)\n```/);
+  assert.match(doc, /`\[q\]\(\.\.\/knowledge\/bbb\/topic\/topic\.md\)`/);
+  assert.match(doc, /\(https:\/\/example\.com\/a\.md\)/);
+  const cross = fs.readFileSync(path.join(ccc, 'topic', 'topic.md'), 'utf8');
+  assert.match(cross, /\]\(\.\.\/\.\.\/bbb\/core\/topic\/topic\.md\)/);
+  // A file that did not move is left exactly as written.
+  assert.match(cross, /\]\(\.\.\/\.\.\/bbb\/_laws\.md\)/);
+});
+
+test('inbound links are found through git as well as the fallback walk, untracked files included', (t) => {
+  const { root } = withInbound();
+  const git = (...a) => spawnSync('git', a, { cwd: root, encoding: 'utf8' });
+  if (git('init', '-q').status !== 0) return t.skip('git unavailable');
+  git('add', 'knowledge/bbb');
+  // docs/x.md and knowledge/ccc stay untracked: `git ls-files -co` must still see them.
+  const r = run(root, 'bbb', '--to', 'nested', '--apply');
+  assert.equal(r.status, 0, r.stderr + r.stdout);
+  assert.deepEqual(brokenLinks(root), []);
+  assert.match(fs.readFileSync(path.join(root, 'docs', 'x.md'), 'utf8'), /knowledge\/bbb\/core\/topic\/topic\.md#sec/);
+});
+
+test('a re-run over an already-placed tree reports no inbound links', () => {
+  const { root } = withInbound();
+  assert.equal(run(root, 'bbb', '--to', 'nested', '--apply').status, 0);
+  const again = run(root, 'bbb', '--to', 'nested');
+  assert.equal(again.status, 0, again.stderr);
+  assert.doesNotMatch(again.stdout, /inbound link\(s\) from/);
+  assert.match(again.stdout, /0 inbound link rewrite\(s\)/);
+});
+
+test('control: a bundle nothing outside links into reports no inbound links', () => {
+  const { root } = fixture();
+  const r = run(root, 'bbb', '--to', 'nested');
+  assert.equal(r.status, 0, r.stderr);
+  assert.doesNotMatch(r.stdout, /inbound link\(s\) from/);
+});
+
 test('control: a single usable bundle moves and exits 0', () => {
   const { root, bbb } = fixture();
   const r = run(root, 'bbb', '--to', 'nested', '--apply');
