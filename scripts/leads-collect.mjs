@@ -28,6 +28,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadBridge } from './lib/projects.mjs';
+import { leaksIn, PRESETS } from './lib/leaks.mjs';
 
 const argv = process.argv.slice(2);
 const usage = (msg) => { console.error(`FATAL: ${msg}. Usage: leads-collect.mjs [--since-days N] [--dry-run] [--root <registry>]`); process.exit(2); };
@@ -95,6 +96,7 @@ const alreadyFiled = (claimCell) => existing.includes(claimCell);
 const rows = [];
 let projectsRead = 0;
 let malformed = 0;
+let withheld = 0;
 
 for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
   const ledger = p?.path && path.join(p.path, '.ai', 'registry-leads.jsonl');
@@ -122,14 +124,20 @@ for (const [slug, p] of Object.entries(bridge.projects ?? {})) {
     // `slug` is the project's own name, already in the bridge and already in
     // librarian/projects.md. It is the only project-identifying value that crosses, and
     // it must: a lead whose origin is unknown cannot be corroborated or declined.
-    rows.push({ date, bundle, nearest, kind, claim: claimCell, because: cell(rec.because), conf, from: `${slug} / ${cell(rec.from) || 'unknown'}` });
+    const row = { date, bundle, nearest, kind, claim: claimCell, because: cell(rec.because), conf, from: `${slug} / ${cell(rec.from) || 'unknown'}` };
+    // librarian/inbox.md is PUBLIC, and claim/because/from are a consumer's free text. The
+    // run log's rule applies (lib/leaks.mjs FREE_TEXT: no absolute or home path, no address;
+    // URLs stay legal). check-public-paths only sees profile paths after the fact; an address
+    // or a drive path would publish. A leaking lead is withheld and counted, never rewritten.
+    if (leaksIn(`${row.claim} ${row.because} ${row.from}`, PRESETS.FREE_TEXT).length) { withheld += 1; continue; }
+    rows.push(row);
   }
 }
 
 rows.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
 
 if (rows.length === 0) {
-  console.log(`no new leads - ${projectsRead} project ledger(s) read${malformed ? `, ${malformed} malformed line(s) dropped` : ''}`);
+  console.log(`no new leads - ${projectsRead} project ledger(s) read${malformed ? `, ${malformed} malformed line(s) dropped` : ''}${withheld ? `, ${withheld} lead(s) withheld for carrying a machine path or an address (fix them in the project's ledger)` : ''}`);
   process.exit(0);
 }
 
@@ -137,10 +145,10 @@ const appended = rows.map((r) => `| ${r.date} | ${r.bundle} | ${r.nearest} | ${r
 
 if (dryRun) {
   console.log(appended);
-  console.log(`\n(dry run - ${rows.length} new lead(s) from ${projectsRead} project(s) would be appended to librarian/inbox.md)`);
+  console.log(`\n(dry run - ${rows.length} new lead(s) from ${projectsRead} project(s) would be appended to librarian/inbox.md${withheld ? `, ${withheld} lead(s) withheld for carrying a machine path or an address (fix them in the project's ledger)` : ''})`);
   process.exit(0);
 }
 
 fs.mkdirSync(path.dirname(INBOX), { recursive: true });
 fs.writeFileSync(INBOX, `${existing.replace(/\s*$/, '')}\n${appended}\n`);
-console.log(`librarian/inbox.md - ${rows.length} new lead(s) appended from ${projectsRead} project ledger(s)${malformed ? `, ${malformed} malformed line(s) dropped` : ''}`);
+console.log(`librarian/inbox.md - ${rows.length} new lead(s) appended from ${projectsRead} project ledger(s)${malformed ? `, ${malformed} malformed line(s) dropped` : ''}${withheld ? `, ${withheld} lead(s) withheld for carrying a machine path or an address (fix them in the project's ledger)` : ''}`);

@@ -50,3 +50,19 @@ test('--root without a value is a usage error, not a run against this checkout',
   const r = run('--dry-run', '--root');
   assert.equal(r.status, 2, r.stdout + r.stderr);
 });
+
+test('a lead whose text would publish a machine path or an address is withheld and counted, never written to the public inbox', () => {
+  const { reg, inbox } = fixture([
+    lead('when a retry storms, cap it fleet-wide, because one budget sees every caller'),
+    lead('when the queue drains, stop the poller, because idle polls cost money', { because: 'measured in D:/work/acme-billing/src/poller.ts' }),
+    lead('ask jane.doe@acme-corp.com before changing the retry cap, because she owns it'),
+    lead('when a hook is slow, time it, because the budget is shared', { from: 'scan-sweep@1.0.0 run in ~/work/acme' }),
+  ]);
+  const r = run('--root', reg);
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stdout, /1 new lead\(s\) appended/);
+  assert.match(r.stdout + r.stderr, /3 lead\(s\) withheld/);
+  const text = fs.readFileSync(inbox, 'utf8');
+  assert.match(text, /cap it fleet-wide/);
+  for (const leak of ['D:/work', 'acme-corp.com', '~/work']) assert.ok(!text.includes(leak), `the inbox carries ${leak}`);
+});
