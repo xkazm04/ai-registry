@@ -93,6 +93,27 @@ test('checkoutFacts: a clean clone is landed; an unpushed commit is not, until i
   } finally { r.cleanup(); }
 });
 
+test('checkoutFacts: a clone is landed only when EVERY local ref is, not just HEAD', () => {
+  // Deleting a clone deletes all of its refs: a side branch or a stash holding unpushed
+  // commits is lost even when HEAD sits on origin/main.
+  const r = repos();
+  try {
+    g(r.clone, 'checkout', '-q', '-b', 'side');
+    fs.writeFileSync(path.join(r.clone, 'side.txt'), 'side work\n');
+    g(r.clone, 'add', 'side.txt');
+    g(r.clone, 'commit', '-q', '-m', 'side work');
+    g(r.clone, 'checkout', '-q', 'main');
+    let f = checkoutFacts(r.clone, r.homes);
+    assert.equal(f.headLanded, false, `a side branch with an unpushed commit: ${f.why}`);
+    g(r.clone, 'branch', '-q', '-D', 'side');
+    assert.equal(checkoutFacts(r.clone, r.homes).headLanded, true, 'nothing left but what origin has');
+    fs.writeFileSync(path.join(r.clone, 'a.txt'), 'stashed\n');
+    g(r.clone, 'stash', '-q');
+    f = checkoutFacts(r.clone, r.homes);
+    assert.equal(f.headLanded, false, `a stash is local work: ${f.why}`);
+  } finally { r.cleanup(); }
+});
+
 test('checkoutFacts: install noise is not work; a real untracked or modified file is', () => {
   const r = repos();
   try {

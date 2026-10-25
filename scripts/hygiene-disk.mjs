@@ -184,8 +184,12 @@ export function checkoutFacts(abs, homes) {
     f.why = f.headLanded ? `worktree; HEAD on ${refs[0]}` : 'worktree; HEAD on no other ref of its repository';
     return f;
   }
-  const local = (git(abs, ['rev-list', 'HEAD', '--not', '--remotes']) || '').split('\n').filter(Boolean);
-  if (!local.length) { f.headLanded = true; f.why = 'clone; every commit is on its remotes'; return f; }
+  // Every ref, not HEAD alone: deleting a clone deletes its side branches, tags and stash too.
+  // A listing that failed is not an empty one.
+  const listed = git(abs, ['rev-list', '--all', '--not', '--remotes']);
+  if (listed == null) { f.headLanded = false; f.why = 'clone; git could not list its local commits'; return f; }
+  const local = listed.split('\n').filter(Boolean);
+  if (!local.length) { f.headLanded = true; f.why = 'clone; every local ref is on its remotes'; return f; }
   const origin = urlKey(git(abs, ['remote', 'get-url', 'origin']));
   const home = homes.find((h) => h.keys.includes(origin));
   if (!home) { f.headLanded = false; f.why = `clone; ${local.length} local commits and no fleet home to check them in`; return f; }
