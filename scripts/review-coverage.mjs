@@ -39,6 +39,10 @@ try {
    const raw=fs.existsSync(file)?fs.readFileSync(file,'utf8'):'';
    const matches=readRecords(raw,id,errors);
    const row={id,category:subject.category,note,state:'pending'};
+   // The last record is the decision; the ones above it are superseded history, and history
+   // must stay readable here exactly as it must in an orphan note below (89 live notes carry
+   // more than one record, and only the last used to be parsed).
+   matches.slice(0,-1).forEach((m,i)=>{try{JSON.parse(m[1]);}catch{errors.push(`${id}: superseded record ${i+1} of ${matches.length} is invalid review JSON`);}});
    if(matches.length){
     let r;try{r=JSON.parse(matches.at(-1)[1]);}catch{errors.push(`${id}: invalid review JSON`);rows.push({...row,state:'invalid'});continue;}
     const expected=[`${slug}.md`,...['techniques','applications'].flatMap(lane=>fs.existsSync(path.join(dir,lane))?fs.readdirSync(path.join(dir,lane)).filter(f=>f.endsWith('.md')).map(f=>`${lane}/${f}`):[])].sort();

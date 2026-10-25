@@ -59,6 +59,19 @@ test('a broken record in an orphan note is an error; a readable one is history',
  fs.writeFileSync(orphan,'<!-- architecture-review:v1 -->\n```json\n{"subject": broken\n```\n');
  const r=run();assert.equal(r.status,1);assert.match(r.stderr,/renamed-away \(orphan note\): invalid review JSON/);
 });
+// A live note keeps its superseded records above the current one (89 of 533 notes carry two
+// or more). Only the last was ever parsed, so a broken earlier record read green, while the
+// same record in an orphan note was an error. History is history in both places.
+test('a broken earlier record in a live note is an error, as it is in an orphan note',t=>{
+ const {dir,note,run}=fixture(t);
+ fs.writeFileSync(note,'<!-- architecture-review:v1 -->\n```json\n{"subject": broken\n```\n\n'+valid(dir));
+ const r=run();assert.equal(r.status,1,r.stdout);assert.match(r.stderr,/domain\/topic: superseded record 1 of 2 is invalid review JSON/);
+});
+test('control: a readable superseded record above a current one passes',t=>{
+ const {dir,note,run}=fixture(t);
+ fs.writeFileSync(note,'<!-- architecture-review:v1 -->\n```json\n{"subject":"domain/topic","date":"2026-01-01"}\n```\n\n'+valid(dir));
+ const r=run('--require-complete');assert.equal(r.status,0,r.stderr);
+});
 test('zero subjects is could-not-run, not complete coverage',t=>{
  const {run}=fixture(t,{subjects:false});
  for(const args of [[],['--require-complete'],['--json']]){const r=run(...args);assert.equal(r.status,2,`args ${args}: ${r.stderr}`);assert.match(r.stderr,/walked 0 subjects/);}
