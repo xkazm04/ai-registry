@@ -7,7 +7,7 @@ import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } f
 import os from 'node:os';
 import path from 'node:path';
 import { after, test } from 'node:test';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { FilmScript, clipHashInput, holdMs } from '../tools/src/contract.ts';
 import { sha256 } from '../tools/lib/audio.mjs';
@@ -40,9 +40,16 @@ function cleanEnv(extra = {}) {
   return { ...env, ...extra };
 }
 
-function run(tool, args, env = cleanEnv()) {
-  const r = spawnSync(process.execPath, [path.join(TOOLS, tool), ...args], { encoding: 'utf8', env });
+function run(tool, args, env = cleanEnv(), preload = []) {
+  const r = spawnSync(process.execPath, [...preload.flatMap((p) => ['--import', p]), path.join(TOOLS, tool), ...args], { encoding: 'utf8', env });
   return { code: r.status, out: `${r.stdout}${r.stderr}` };
+}
+
+/** A --import preload whose fetch always fails like a dropped connection: nothing leaves the machine. */
+function offlineFetch(root) {
+  const f = path.join(root, 'offline-fetch.mjs');
+  writeFileSync(f, "globalThis.fetch = async (url) => { throw new TypeError(`offline stub: fetch ${url}`); };\n");
+  return pathToFileURL(f).href;
 }
 
 const readJson = (f) => JSON.parse(readFileSync(f, 'utf8'));
@@ -259,4 +266,20 @@ test('music --dry reports cue lengths and sends nothing; over its budget exits 4
   assert.match(dry.out, /dry run: nothing sent/);
   const over = run('music.mjs', [film, '--budget-ms', '1']);
   assert.equal(over.code, 4, over.out);
+});
+
+test('music --force whose regeneration fails keeps the current cue (as narrate keeps a current clip)', () => {
+  const { root, film } = sandbox();
+  const script = FilmScript.parse(readJson(path.join(film, 'film.json')));
+  const base = { clips: {}, music: {}, estimated: script.beats.map((b) => b.id) };
+  const [p] = planCues(script, base);
+  mkdirSync(path.join(film, 'audio'), { recursive: true });
+  silentMp3(path.join(film, 'audio', 'music-bed.mp3'), 1);
+  const bed = { file: 'audio/music-bed.mp3', ms: 1000, hash: musicHash(p.cue.prompt, p.lengthMs, 'music_v2_5') };
+  writeFileSync(path.join(film, 'audio', 'manifest.json'), JSON.stringify({ ...base, music: { bed } }));
+
+  const r = run('music.mjs', [film, '--force', '--yes'], cleanEnv({ ELEVENLABS_API_KEY: 'sk_test_offline' }), [offlineFetch(root)]);
+  assert.equal(r.code, 5, r.out);
+  assert.match(r.out, /offline stub/, 'the request went to the stub, not the network');
+  assert.deepEqual(manifestOf(film).music.bed, bed, 'a failed regeneration must not erase the cue that was current');
 });

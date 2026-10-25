@@ -133,7 +133,8 @@ export async function main(argv = process.argv.slice(2)) {
     const prior = manifest.music[p.cue.id];
     const current = prior && prior.hash === hash && existsSync(path.join(filmDir, prior.file));
     if (current && !args.force) music[p.cue.id] = prior;
-    else todo.push({ ...p, hash });
+    // --force on a current cue: keep its record to fall back on if the regeneration fails
+    else todo.push({ ...p, hash, ...(current ? { keep: prior } : {}) });
   }
 
   console.log(`${pad('cue', 12)}${padLeft('from', 8)}${padLeft('to', 8)}${padLeft('length', 9)}  state`);
@@ -172,7 +173,10 @@ export async function main(argv = process.argv.slice(2)) {
         console.log(`  ok   ${pad(p.cue.id, 12)} ${ms} ms`);
       } catch (err) {
         failures.push(p.cue.id);
-        console.error(`  FAIL ${pad(p.cue.id, 12)} ${String(err?.message ?? err)}`);
+        // a cue that was current before --force stays in the manifest (narrate keeps a current
+        // clip the same way); dropping it would make the next run pay to generate it again
+        if (p.keep) music[p.cue.id] = p.keep;
+        console.error(`  FAIL ${pad(p.cue.id, 12)} ${String(err?.message ?? err)}${p.keep ? ' (kept the current cue)' : ''}`);
       }
     }
   }
