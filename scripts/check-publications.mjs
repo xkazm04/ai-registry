@@ -56,6 +56,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
+import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
@@ -290,24 +291,15 @@ export function storyImageProblems(story, listed) {
   return out;
 }
 
-// Same shape as check-public-paths.mjs (which cannot be imported without running it):
-// a user-profile path on Windows or POSIX, unless the user segment is a placeholder.
-const PROFILE = [
-  /(?<![A-Za-z])[A-Za-z]:[\\/]{1,2}Users[\\/]{1,2}([^\\/\s`'"<>|:*?]+)[\\/]/g,
-  /(?<![\w.~:-])\/(?:home|Users)\/([^/\s`'"<>|:*?]+)\//g,
-];
-const PATH_PLACEHOLDER = new Set(['me', 'you', 'x', 'y', 'user', 'username', 'name', 'example', 'public', 'default']);
+// The privacy rule is lib/leaks' PUBLISHED preset - the table check-public-paths applies to
+// this lane once it is committed. This gate runs on a draft BEFORE it is tracked, where
+// check-public-paths cannot see it, so the two must be one table: this file used to carry
+// its own two-pattern copy, and a probe on 2026-10-25 caught 2 of 6 planted paths with it
+// (a lowercase `c:\users\<n>\`, a WSL mount, a `~/code/...` layout and a profile path at the
+// end of a sentence all passed) where the shared table caught 6 of 6.
+const PRIVACY_FORMS = PRESETS.PUBLISHED;
 export function machinePathHits(text) {
-  const hits = [];
-  for (const re of PROFILE) {
-    re.lastIndex = 0;
-    for (const m of text.matchAll(re)) {
-      const who = m[1].replace(/^<|>$/g, '').toLowerCase();
-      if (m[1].startsWith('<') || PATH_PLACEHOLDER.has(who)) continue;
-      hits.push({ text: m[0], line: lineOf(text, m.index) });
-    }
-  }
-  return hits;
+  return leaksIn(text, PRIVACY_FORMS).map((h) => ({ text: h.match, line: lineOf(text, h.index) }));
 }
 
 export const isIsoDate = (s) => {
@@ -539,6 +531,7 @@ export function selfTest() {
   expect('story image: a render of an unlisted figure', storyImageProblems('<img src="figures/02-other.png">', listedSvg).length === 1);
   expect('story image: any other relative src', storyImageProblems('<img src="figures/01-a-chart.svg">', listedSvg).length === 1);
   expect('machine path', machinePathHits('saved under C:\\Users\\kazda\\notes\\x.md').length === 1);
+  try { assertScanner(PRIVACY_FORMS); } catch (e) { broken.push(`machine path forms (${e.message})`); }
   expect('source date', isSourceDate('2025-11') && isSourceDate('2026-10-05') && !isSourceDate('Oct 2025'));
   expect('web url', isWebUrl('https://arxiv.org/abs/2305.13707') && !isWebUrl('SOURCES.md'));
   // The critique cross-check: a clean planted record stays quiet, and the same record

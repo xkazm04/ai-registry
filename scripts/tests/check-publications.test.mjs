@@ -280,6 +280,21 @@ test('privacy: a machine home path fails', (t) => {
   failsOnly(t, 'privacy', (d) => edit(d, 'SOURCES.md', (s) => `${s}\nRun from C:\\Users\\somebodyreal\\scratch\\m1.py\n`));
 });
 
+// The privacy rule used its own two-pattern table while check-public-paths (which sees the
+// lane only once it is committed) moved to lib/leaks. A draft is checked here BEFORE it is
+// tracked, so the forms the shared table learned had to reach this gate too.
+test('privacy: the lib/leaks profile forms fire here too - lowercase drive, WSL mount, home layout', (t) => {
+  for (const leak of ['c:\\users\\somebodyreal\\scratch\\m1.py', '/mnt/c/Users/somebodyreal/scratch', '~/code/scratch/m1.py']) {
+    const r = failsOnly(t, 'privacy', (d) => edit(d, 'SOURCES.md', (s) => `${s}\nRun from ${leak} first.\n`));
+    assert.equal(r.findings.length, 1, `${leak}: ${JSON.stringify(r.findings)}`);
+  }
+});
+
+test('privacy: a placeholder user and a tool dot-dir stay quiet', (t) => {
+  const r = run(t, (d) => edit(d, 'SOURCES.md', (s) => `${s}\nSee C:\\Users\\<user>\\x and ~/.claude/projects/x.\n`));
+  assert.deepEqual(rulesOf(r), [], JSON.stringify(r.findings));
+});
+
 // ---- critique: the optional block and its optional critique/ directory. Every case
 // mutates a copy of the second fixture, which carries both.
 const runCritique = (t, mutate = () => {}) => {
