@@ -106,19 +106,47 @@ export function buildUnits(rows) {
   return { units, byId };
 }
 
-const homeKey = (h) => (h || '').replace(/\s+/g, '').toLowerCase();
+/**
+ * The address components a ledger `home` names. The field is hand-written, and 39 of the 901
+ * queued rows carry something other than one bare address: an annotation
+ * (`a/b (embedding-lifecycle)`), several homes (`a/b; c/d`), or prose (`strong in
+ * recruiting, civic and media bundles`). The old key only lowercased and stripped whitespace,
+ * so `a/b (note)` never met `a/b`, and two units landing in one subject came back in one
+ * wave - the overlapping drafts rule 3 exists to prevent. A component is what is left after
+ * dropping every `(...)` and splitting on `;` and `,`; one that still holds whitespace is
+ * prose, not an address, and is dropped so it can block nothing. A leading `knowledge/` and a
+ * trailing `.md` are folded away, the way run-board's address fold does. Exported so
+ * backlog-phantom-screen asks the same question of the same field.
+ */
+export function foldHome(h) {
+  let s = String(h ?? '');
+  for (let prev = null; prev !== s;) { prev = s; s = s.replace(/\([^()]*\)/g, ' '); }
+  const out = [];
+  for (const part of s.split(/[;,]/)) {
+    const c = part.trim().replace(/\\/g, '/').toLowerCase().replace(/^knowledge\//, '').replace(/\.md$/, '').replace(/\/+$/, '');
+    if (c && !/\s/.test(c) && !out.includes(c)) out.push(c);
+  }
+  return out;
+}
 
-/** Take units in priority order, skipping any whose home subject is already in the wave. */
+/** Two folded components touch when equal or one contains the other on a path boundary - the
+ *  containment run-board's `touches` applies to claims. */
+function componentsTouch(x, y) {
+  return x === y || x.startsWith(y + '/') || y.startsWith(x + '/');
+}
+
+/** Take units in priority order, skipping any whose home components meet the wave's. */
 export function pickWave(rows, { size = 8, homePrefix = '' } = {}) {
   const { units } = buildUnits(rows);
   const wave = [];
-  const homes = new Set();
+  const homes = [];
   for (const u of units) {
     if (wave.length >= size) break;
     if (homePrefix && !u.home.startsWith(homePrefix)) continue;
-    const k = homeKey(u.home);
-    if (k && homes.has(k)) continue; // an unhomed item (NONE) never blocks another
-    if (k) homes.add(k);
+    const comps = foldHome(u.home);
+    // An unhomed or prose-only item (no components) never blocks another.
+    if (comps.some((c) => homes.some((h) => componentsTouch(c, h)))) continue;
+    homes.push(...comps);
     wave.push(u);
   }
   return wave;

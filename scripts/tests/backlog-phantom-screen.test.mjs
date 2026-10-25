@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 
 const SCRIPT = fileURLToPath(new URL('../backlog-phantom-screen.mjs', import.meta.url));
 
-function fixture(t) {
+function fixture(t, home = 'se/forged-subject') {
   const temp = fs.realpathSync(os.tmpdir());
   const base = fs.mkdtempSync(path.join(temp, 'phantom-test-'));
   t.after(() => {
@@ -34,8 +34,11 @@ function fixture(t) {
   fs.mkdirSync(repo);
   execFileSync('git', ['init', '-q'], { cwd: repo, env });
   write('scripts/backlog-phantom-screen.mjs', fs.readFileSync(SCRIPT, 'utf8'));
+  // The screen reads a row's home through backlog-wave's foldHome, which in turn imports the exit vocabulary.
+  write('scripts/backlog-wave.mjs', fs.readFileSync(new URL('../backlog-wave.mjs', import.meta.url), 'utf8'));
+  write('scripts/lib/exit-codes.mjs', fs.readFileSync(new URL('../lib/exit-codes.mjs', import.meta.url), 'utf8'));
   write('librarian/sources/2026-01-01-widgetkit.md', '---\nuntriaged: 3\n---\n# widgetkit\n');
-  write('librarian/harvest/backlog.jsonl', `${JSON.stringify({ id: '1-001', note: '2026-01-01-widgetkit', status: 'queued', home: 'se/forged-subject', score: 5 })}\n`);
+  write('librarian/harvest/backlog.jsonl', `${JSON.stringify({ id: '1-001', note: '2026-01-01-widgetkit', status: 'queued', home, score: 5 })}\n`);
   commit('intake(widgetkit): the source note', '2026-01-01T10:00:00Z');
   write('knowledge/se/forged-subject/techniques/a-technique.md', '# a technique\n');
   commit('intake(widgetkit): forge one technique from the note', '2026-01-02T10:00:00Z');
@@ -65,4 +68,22 @@ test('REGRESSION: the same report from a subdirectory - paths resolve from the s
   const fromSub = f.run(path.join(f.repo, 'scripts'));
   assert.equal(fromSub.status, 0, fromSub.err);
   assert.deepEqual(JSON.parse(fromSub.out), JSON.parse(fromRoot.out));
+});
+
+test('a row whose home is annotated or one of several is still found inside the forged subject', (t) => {
+  // Before: homeInside compared the raw string, so '<subject> (note)' and '<other>; <subject>'
+  // - 39 of the queued ledger's homes have this shape - were never inside the subject they name.
+  for (const home of ['se/forged-subject (the retry half)', 'se/elsewhere; se/forged-subject', 'se/elsewhere, se/forged-subject (b)']) {
+    const f = fixture(t, home);
+    const r = f.run(f.repo);
+    assert.equal(r.status, 0, r.err);
+    assert.deepEqual(JSON.parse(r.out).stale[0]?.ids_home_in_forged_subject, ['1-001'], home);
+  }
+  // positive control: a prose home that merely mentions no subject address names no row inside it
+  for (const home of ['strong in recruiting; thin elsewhere', 'se/elsewhere (se/forged-subject is mentioned only in the note)']) {
+    const f = fixture(t, home);
+    const r = f.run(f.repo);
+    assert.equal(r.status, 0, r.err);
+    assert.deepEqual(JSON.parse(r.out).stale[0].ids_home_in_forged_subject, [], home);
+  }
 });
