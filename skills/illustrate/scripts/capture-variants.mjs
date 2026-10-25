@@ -23,7 +23,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { createRequire } from 'node:module';
-import { parseArgs, blankScore, captureName, textVerdict, TEXT_LIMITS, balanceVerdict, emptyRatio, BALANCE_LIMITS } from './lib/capture-core.mjs';
+import { parseArgs, blankScore, captureName, buildTextProbe, textVerdict, TEXT_LIMITS, balanceVerdict, emptyRatio, BALANCE_LIMITS } from './lib/capture-core.mjs';
 
 const args = parseArgs(process.argv.slice(2));
 if (args.error) { console.error(args.error); process.exit(2); }
@@ -62,6 +62,8 @@ async function reach(page, sel) {
   if (await page.locator(sel).count()) return page.locator(sel).first();
   throw new Error(`section ${sel} not found`);
 }
+// Built once: the words are counted by capture-core's own countWords, shipped into the page.
+const textProbe = buildTextProbe();
 const rows = [];
 let failed = false;
 try {
@@ -97,43 +99,7 @@ try {
         const smil = await root.locator('animate, animateTransform, animateMotion').count();
         // Text inside the illustration: variants mark their art root with data-illustrate-art,
         // so the section's own heading and copy are not counted against the picture.
-        const text = await root.evaluate((r) => {
-          // The visible art: a variant may keep a hidden twin (a phone layout, say).
-          const art = [...r.querySelectorAll('[data-illustrate-art]')]
-            .find((e) => { const b = e.getBoundingClientRect(); return b.width > 0 && b.height > 0; }) || null;
-          const scope = art || r;
-          const box = scope.getBoundingClientRect();
-          const area = Math.max(1, box.width * box.height);
-          let words = 0, longestRun = 0, textArea = 0, minLabelPx = null;
-          const walk = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT);
-          while (walk.nextNode()) {
-            const n = walk.currentNode; const t = n.textContent.trim(); if (!t) continue;
-            const range = document.createRange(); range.selectNodeContents(n);
-            const rects = [...range.getClientRects()];
-            const a = rects.reduce((s, q) => s + q.width * q.height, 0);
-            if (a < 1) continue; // not rendered
-            const k = t.split(/\s+/).length; words += k; longestRun = Math.max(longestRun, k); textArea += a;
-            // Rendered font size, not the line box (which runs ~1.3x taller): the computed
-            // size, scaled by the SVG's user-space-to-screen transform for SVG text.
-            const el = n.parentElement;
-            let px = parseFloat(getComputedStyle(el).fontSize) || 0;
-            if (el instanceof SVGGraphicsElement) { const m = el.getScreenCTM(); if (m) px *= Math.hypot(m.a, m.b); }
-            if (px > 0) minLabelPx = minLabelPx === null ? px : Math.min(minLabelPx, px);
-          }
-          // Words in the whole section - heading, lede and art - minus the prototype's own
-          // tab strip: the floor-side check asks whether the section says enough.
-          let sectionWords = 0;
-          const all = document.createTreeWalker(r, NodeFilter.SHOW_TEXT);
-          while (all.nextNode()) {
-            const n = all.currentNode; const t = n.textContent.trim(); if (!t) continue;
-            if (n.parentElement?.closest('[role="tablist"], [data-illustrate-tab]')) continue;
-            const range = document.createRange(); range.selectNodeContents(n);
-            if (![...range.getClientRects()].some((q) => q.width * q.height >= 1)) continue;
-            sectionWords += t.split(/\s+/).length;
-          }
-          return { scoped: !!art, words, longestRun, textRatio: textArea / area,
-            minLabelPx: minLabelPx === null ? null : Math.round(minLabelPx), sectionWords };
-        });
+        const text = await root.evaluate(textProbe);
         // Emptiness is measured on the art alone, so a roomy section around a dense
         // picture is not penalised - only a picture that is mostly background.
         let empty = null;

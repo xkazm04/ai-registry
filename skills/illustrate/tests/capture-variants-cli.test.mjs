@@ -14,6 +14,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { countWords } from '../scripts/lib/capture-core.mjs';
 
 const SCRIPT = fileURLToPath(new URL('../scripts/capture-variants.mjs', import.meta.url));
 
@@ -142,4 +143,18 @@ test('fake playwright: the text probe really runs in the fake DOM and reports wh
   assert.equal(row.longestRun, 7);
   assert.equal(row.sectionWords, 15);
   assert.equal(row.minLabelPx, 14);
+});
+
+test('the in-page walker counts with capture-core countWords, not a private copy', () => {
+  const probes = runCapture().evaluated.filter((s) => s.includes('createTreeWalker'));
+  assert.ok(probes.length > 0, 'the text probe was sent into the page');
+  for (const src of probes) {
+    assert.ok(src.includes(String(countWords)), 'the shipped probe carries countWords itself');
+    // The only whitespace split left in the shipped source is the one inside countWords.
+    assert.equal(src.split('split(/\\s+/)').length - 1, 1);
+  }
+});
+
+test('the product file holds no whitespace-split word counter of its own', () => {
+  assert.equal(fs.readFileSync(SCRIPT, 'utf8').includes('split(/\\s+/)'), false);
 });

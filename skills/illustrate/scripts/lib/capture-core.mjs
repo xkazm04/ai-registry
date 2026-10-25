@@ -136,8 +136,65 @@ export function emptyRatio(rgba, w, h, cell = 8, threshold = 10) {
 }
 
 /** Words and longest run in one text node's content. Unit-tested: a regex slip here
- * silently miscounts every capture. */
+ * silently miscounts every capture. The in-page probe below counts with THIS function
+ * (its source is shipped into the page), so the tested path is the counted path. */
 export function countWords(text) {
   const t = String(text).trim();
   return t ? t.split(/\s+/).length : 0;
+}
+
+/**
+ * The in-page text measurement: words, longest run, text area and smallest label inside
+ * the art (or the whole section when no art root is marked), plus the section's own word
+ * count minus the prototype's tab strip. It runs in the browser, so it takes everything
+ * it needs as parameters and reaches only for DOM globals: `countWords` arrives as an
+ * argument rather than a closure because a function sent into a page travels as source.
+ */
+export function textProbe(r, countWords) {
+  // The visible art: a variant may keep a hidden twin (a phone layout, say).
+  const art = [...r.querySelectorAll('[data-illustrate-art]')]
+    .find((e) => { const b = e.getBoundingClientRect(); return b.width > 0 && b.height > 0; }) || null;
+  const scope = art || r;
+  const box = scope.getBoundingClientRect();
+  const area = Math.max(1, box.width * box.height);
+  let words = 0, longestRun = 0, textArea = 0, minLabelPx = null;
+  const walk = document.createTreeWalker(scope, NodeFilter.SHOW_TEXT);
+  while (walk.nextNode()) {
+    const n = walk.currentNode; const t = n.textContent.trim(); if (!t) continue;
+    const range = document.createRange(); range.selectNodeContents(n);
+    const rects = [...range.getClientRects()];
+    const a = rects.reduce((s, q) => s + q.width * q.height, 0);
+    if (a < 1) continue; // not rendered
+    const k = countWords(t); words += k; longestRun = Math.max(longestRun, k); textArea += a;
+    // Rendered font size, not the line box (which runs ~1.3x taller): the computed
+    // size, scaled by the SVG's user-space-to-screen transform for SVG text.
+    const el = n.parentElement;
+    let px = parseFloat(getComputedStyle(el).fontSize) || 0;
+    if (el instanceof SVGGraphicsElement) { const m = el.getScreenCTM(); if (m) px *= Math.hypot(m.a, m.b); }
+    if (px > 0) minLabelPx = minLabelPx === null ? px : Math.min(minLabelPx, px);
+  }
+  // Words in the whole section - heading, lede and art - minus the prototype's own
+  // tab strip: the floor-side check asks whether the section says enough.
+  let sectionWords = 0;
+  const all = document.createTreeWalker(r, NodeFilter.SHOW_TEXT);
+  while (all.nextNode()) {
+    const n = all.currentNode; const t = n.textContent.trim(); if (!t) continue;
+    if (n.parentElement?.closest('[role="tablist"], [data-illustrate-tab]')) continue;
+    const range = document.createRange(); range.selectNodeContents(n);
+    if (![...range.getClientRects()].some((q) => q.width * q.height >= 1)) continue;
+    sectionWords += countWords(t);
+  }
+  return { scoped: !!art, words, longestRun, textRatio: textArea / area,
+    minLabelPx: minLabelPx === null ? null : Math.round(minLabelPx), sectionWords };
+}
+
+/**
+ * `textProbe` with `countWords` bound in, as a real function whose source is
+ * self-contained. A page function travels as its source text, so a closure would arrive
+ * with `countWords` undefined; this composes the two sources on the Node side, where a
+ * page's content security policy cannot refuse the construction, and hands back a
+ * function the browser library accepts like any other.
+ */
+export function buildTextProbe() {
+  return new Function(`return (r) => (${textProbe})(r, ${countWords});`)();
 }

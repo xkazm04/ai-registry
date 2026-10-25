@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseArgs, blankScore, captureName, textVerdict, TEXT_LIMITS, countWords, balanceVerdict, emptyRatio, BALANCE_LIMITS } from '../scripts/lib/capture-core.mjs';
+import { parseArgs, blankScore, captureName, textVerdict, TEXT_LIMITS, countWords, buildTextProbe, textProbe, balanceVerdict, emptyRatio, BALANCE_LIMITS } from '../scripts/lib/capture-core.mjs';
 
 const px = (r, g, b) => [r, g, b, 255];
 
@@ -110,6 +110,16 @@ test('words split on whitespace, not on a letter', () => {
   assert.equal(countWords('  Your  device  '), 2);
   assert.equal(countWords('Stores secrets in the OS vault'), 6);
   assert.equal(countWords(''), 0);
+});
+
+test('buildTextProbe is a self-contained page function carrying countWords and the probe', () => {
+  const probe = buildTextProbe();
+  assert.equal(typeof probe, 'function');
+  const src = String(probe);
+  assert.ok(src.includes(String(countWords)));
+  assert.ok(src.includes(String(textProbe)));
+  // A page function travels as source: nothing in it may refer to a module-level name.
+  assert.doesNotMatch(src, /\bcaptureName\b|\bparseArgs\b|\bblankScore\b/);
 });
 
 test('--hide takes a comma list of selectors', () => {
