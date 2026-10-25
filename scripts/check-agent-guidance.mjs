@@ -21,13 +21,20 @@
  *
  *   node scripts/check-agent-guidance.mjs [--project <slug>] [--self-test]
  *
- * Exit 1 on any FORK, 2 when the instrument cannot run (no fleet, or the self-test fails).
+ * A project whose checkout is not on this machine is skipped and counted, never judged: the
+ * fleet is bigger than any one box. But a run that judged ZERO checkouts is could-not-run -
+ * until 2026-10-25 it printed "every project's guidance reaches a session" over none of them.
+ *
+ * Exit 1 on any FORK, 2 when the instrument cannot run (no fleet, no checkout on this machine,
+ * or the self-test fails).
  */
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadBridge } from './lib/projects.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const TARGET_LINES = 200;
@@ -77,9 +84,11 @@ const projects = Object.entries(fleet.projects ?? {}).filter(([s]) => !only || s
 if (!projects.length) { console.error('FATAL: no fleet project resolved on this machine.'); process.exit(2); }
 
 let forks = 0;
+let checked = 0;
 console.log('  project             topology  CLAUDE.md  .claude/CLAUDE.md  AGENTS.md  rules(always)  listing on/name/hidden');
 for (const [slug, p] of projects) {
   if (!p?.path || !fs.existsSync(p.path)) { console.log(`  ${slug.padEnd(19)} (checkout not found)`); continue; }
+  checked += 1;
   const r = p.path;
   const topo = classify(r);
   if (topo === 'FORK') forks += 1;
@@ -95,5 +104,12 @@ for (const [slug, p] of projects) {
   console.log(`  ${slug.padEnd(19)} ${topo.padEnd(9)} ${String(flag(lines(read(path.join(r, 'CLAUDE.md'))))).padEnd(10)} ${String(flag(lines(read(path.join(r, '.claude', 'CLAUDE.md'))))).padEnd(18)} ${String(agentsLoaded ? flag(lines(read(path.join(r, 'AGENTS.md')))) : '-').padEnd(10)} ${String(ruleLines).padEnd(14)} ${tiers.filter((x) => x === 'on').length}/${tiers.filter((x) => x === 'name-only').length}/${tiers.filter((x) => x === 'user-invocable-only' || x === 'off').length}`);
 }
 console.log(`\n  ! = over the ~${TARGET_LINES}-line target for one always-loaded file (reported, not failed: trimming is a judgement, see line-earning and rewrite-behavior-pinning).`);
-if (forks) { console.error(`\n${forks} project(s) carry two populated guidance files with no bridge - the second never loads. Fold it into the canonical file (skills/agent-guidance-bootstrap).`); process.exit(1); }
-console.log('\nevery project\'s guidance reaches a session through one canonical file.');
+const floor = requirePopulation(checked, 'project checkouts on this machine');
+if (floor.code !== EXIT.OK) {
+  console.error(`\nFATAL: ${floor.reason}. Every project named here is "(checkout not found)", so no guidance was judged.`);
+  process.exit(floor.code);
+}
+const skipped = projects.length - checked;
+console.log(`\n  ${checked} of ${projects.length} project(s) checked${skipped ? `; ${skipped} not on this machine, not judged` : ''}.`);
+if (forks) { console.error(`\n${forks} project(s) carry two populated guidance files with no bridge - the second never loads. Fold it into the canonical file (skills/agent-guidance-bootstrap).`); process.exit(EXIT.VIOLATIONS); }
+console.log(`\nevery checked project's guidance reaches a session through one canonical file.`);
