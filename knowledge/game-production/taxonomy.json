@@ -81,7 +81,8 @@
             "adaptive-music-authoring",
             "motion-quality-gating",
             "spatial-audio-scene-authoring",
-            "game-dialogue-voice-pipeline"
+            "game-dialogue-voice-pipeline",
+            "generated-video-motion-extraction"
           ]
         },
         {

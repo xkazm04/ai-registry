@@ -3,10 +3,10 @@
   "generated_by": "scripts/build-index.mjs",
   "bundle": "game-production",
   "source": "knowledge/game-production/ (frontmatter only)",
-  "subjects": 87,
-  "techniques": 571,
-  "applications": 336,
-  "laws": 14,
+  "subjects": 88,
+  "techniques": 578,
+  "applications": 337,
+  "laws": 16,
   "categories": [
    "systems-canon",
    "balance-validation",
@@ -20,7 +20,7 @@
    "narrative-and-dialogue"
   ],
   "layout": "nested",
-  "use_when_coverage": "571/571",
+  "use_when_coverage": "578/578",
   "excludes": "evidence, counter_evidence, deviations — consumer-side (docs/rkb-profile.md §5)"
  },
  "subjects": {
@@ -1107,7 +1107,7 @@
    "file": "knowledge/game-production/asset-production/geometry/asset-class-poly-budgeting/asset-class-poly-budgeting.md",
    "digest": "sha256-b2:fc75444ee7981874",
    "revision": 3,
-   "changedAt": "2026-10-24",
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "budget-shapes-output-not-just-caps",
@@ -1628,7 +1628,7 @@
    "file": "knowledge/game-production/content-pipeline/concept-scene-parity/concept-scene-parity.md",
    "digest": "sha256-b2:ed8f9efb38002cff",
    "revision": 1,
-   "changedAt": "2026-10-24",
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "cap-attribution-before-the-next-round",
@@ -4586,6 +4586,116 @@
      "file": "knowledge/game-production/asset-production/geometry/generated-mesh-acceptance/applications/python--posed-see-through-render.md",
      "verified_on": "2026-10-24",
      "verified_against": "python@3.13"
+    }
+   ]
+  },
+  "generated-video-motion-extraction": {
+   "category": "asset-production",
+   "subcategory": "motion-and-audio",
+   "status": "forged",
+   "file": "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/generated-video-motion-extraction.md",
+   "digest": "sha256-b2:a2d9623d4ec399bd",
+   "revision": 1,
+   "changedAt": "2026-10-25",
+   "techniques": [
+    {
+     "slug": "contact-window-travels-with-the-clip",
+     "status": "forged",
+     "laws": [
+      "a-number-carries-its-unit-and-basis",
+      "a-verdict-is-bound-to-its-content"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "an attack's animation came from extracted motion and needs its active frames",
+      "an authored hit event and the visible strike disagree",
+      "handing extracted motion to the team that wires combat"
+     ]
+    },
+    {
+     "slug": "effect-free-motion-source",
+     "status": "forged",
+     "laws": [
+      "a-prohibition-in-a-generative-prompt-plants-what-it-forbids"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "writing the prompt for a clip that will be used as a motion source",
+      "a generated attack looks spectacular and its extracted motion is noisy",
+      "deciding whether impact effects belong in the clip or in the engine"
+     ]
+    },
+    {
+     "slug": "motion-source-route-by-action-class",
+     "status": "forged",
+     "laws": [
+      "structural-proof-is-never-sufficient",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "deciding how an action's animation will be sourced before generating anything",
+      "a video-derived clip looks right from the front and wrong from the side",
+      "a project has one motion route and is about to use it for every action"
+     ]
+    },
+    {
+     "slug": "own-rig-synthetic-keypoint-training",
+     "status": "forged",
+     "laws": [
+      "a-judge-of-the-generators-family-is-not-independent",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "extracting motion for a character that is not human-proportioned",
+      "a generic keypoint detector places joints on a creature where a human's would be",
+      "the extraction needs points a generic detector does not know such as a weapon tip"
+     ]
+    },
+    {
+     "slug": "panel-sync-gate",
+     "status": "forged",
+     "laws": [
+      "an-instrument-proves-it-had-input",
+      "unmeasured-is-not-a-pass"
+     ],
+     "shared_with": [],
+     "use_when": [
+      "a two-panel generated clip is about to be triangulated",
+      "reading timing from a multi-view generated clip",
+      "deciding whether to shift a clip's panels into agreement or re-generate it"
+     ]
+    },
+    {
+     "slug": "twist-from-extra-points-and-joint-limits",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "turning triangulated joint positions into bone rotations",
+      "an extracted clip shows wrung forearms or thighs on the skinned mesh",
+      "a solver's bone roll flips between frames"
+     ]
+    },
+    {
+     "slug": "two-view-reference-composition",
+     "status": "forged",
+     "laws": [],
+     "shared_with": [],
+     "use_when": [
+      "setting up a generated clip that will be triangulated",
+      "choosing camera placement for a two-view motion source",
+      "deciding what the first frame of a motion-source clip shows"
+     ]
+    }
+   ],
+   "applications": [
+    {
+     "stack": "process",
+     "technique": "motion-source-route-by-action-class",
+     "file": "knowledge/game-production/asset-production/motion-and-audio/generated-video-motion-extraction/applications/process--motion-source-route-by-action-class.md",
+     "verified_on": "2026-10-25"
     }
    ]
   },
@@ -9959,7 +10069,7 @@
    "file": "knowledge/game-production/couch-and-tv-play/immersive-interaction/standalone-headset-frame-budgets/standalone-headset-frame-budgets.md",
    "digest": "sha256-b2:e4757f58a412b75e",
    "revision": 7,
-   "changedAt": "2026-10-24",
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "forward-path-feature-allowance",
@@ -11709,6 +11819,9 @@
     "generated-mesh-acceptance/posed-see-through-render",
     "generated-mesh-acceptance/structural-scorecard",
     "generated-mesh-acceptance/unmeasured-is-not-pass",
+    "generated-video-motion-extraction/motion-source-route-by-action-class",
+    "generated-video-motion-extraction/own-rig-synthetic-keypoint-training",
+    "generated-video-motion-extraction/panel-sync-gate",
     "generative-artifact-gating/acquired-is-not-generated",
     "generative-artifact-gating/auto-picked-vs-human-chosen-provenance",
     "generative-artifact-gating/grade-the-selected-candidate",
@@ -12126,6 +12239,7 @@
     "generated-mesh-acceptance/stage-declared-grading",
     "generated-mesh-acceptance/structural-scorecard",
     "generated-mesh-acceptance/unmeasured-is-not-pass",
+    "generated-video-motion-extraction/contact-window-travels-with-the-clip",
     "generative-artifact-gating/generator-failure-deterministic-gates",
     "generative-artifact-gating/reserve-before-dispatch-stop-latch",
     "generative-provider-auditing/record-negative-benchmarks-in-place",
@@ -12390,6 +12504,7 @@
     "generated-asset-world-scale/reference-skeleton-size-check",
     "generated-mesh-acceptance/posed-see-through-render",
     "generated-mesh-acceptance/structural-scorecard",
+    "generated-video-motion-extraction/motion-source-route-by-action-class",
     "generative-artifact-gating/acquired-is-not-generated",
     "generative-artifact-gating/gate-before-every-credit-spend",
     "generative-artifact-gating/generator-failure-deterministic-gates",
@@ -12550,6 +12665,7 @@
     "engine-integration-safety/crash-truncated-batch-resume",
     "fire-tv-device-realities/dhcp-scan-for-device",
     "fire-tv-device-realities/wake-before-launch",
+    "generated-video-motion-extraction/panel-sync-gate",
     "hand-tracked-timing-windows/confidence-gated-detection",
     "hand-tracked-timing-windows/tracking-loss-as-a-game-state",
     "image-to-3d-input-gating/scene-partition-is-the-gated-unit",
@@ -12605,6 +12721,7 @@
     "game-dialogue-voice-pipeline/line-id-catalog-and-revision-diff",
     "game-dialogue-voice-pipeline/re-cast-gate",
     "generated-mesh-acceptance/stage-declared-grading",
+    "generated-video-motion-extraction/contact-window-travels-with-the-clip",
     "generative-artifact-gating/cite-evidence-not-descriptions",
     "generative-artifact-gating/generation-history-as-artifact",
     "generative-artifact-gating/grade-the-selected-candidate",
@@ -12833,6 +12950,18 @@
     "hand-tracked-timing-windows/tracking-loss-as-a-game-state",
     "phone-controller-input-protocol/answer-the-open-ask-by-id",
     "render-submission-economy/cull-before-submission"
+   ]
+  },
+  "a-prohibition-in-a-generative-prompt-plants-what-it-forbids": {
+   "statement": "Naming a thing a generator must not do places that thing in its context, and the output drifts toward it. A banned phrase listed in the brief returns, a forbidden trait is exhibited with a disclaimer, and an off-voice example included \"to avoid\" becomes a template. So the brief carries what is wanted, stated positively and flat, and the prohibitions live in the checker, which reads them from the same source as the rest of the standard and runs after generation. The prohibition is measured by its hit rate on real output, not assumed to work, and a person may override a hit with the reason written down.",
+   "techniques": [
+    "generated-video-motion-extraction/effect-free-motion-source"
+   ]
+  },
+  "a-judge-of-the-generators-family-is-not-independent": {
+   "statement": "A grader built from the same family, training or habits as the thing it grades shares its blind spots and prefers its output, so two such graders count as one and one counts as little. Independence is a property of the evidence's origin, not of the number of passes: a second judge from the same family, the generator grading its own revision, and a reference set the producer wrote for itself all teach the producer its own average. The remedy is a judge of a different family, a person at the final step, or a deterministic check, and a verdict records which of these produced it so that a reader can tell how much weight it carries. A same-family pass remains useful as a filter and is never reported as confirmation.",
+   "techniques": [
+    "generated-video-motion-extraction/own-rig-synthetic-keypoint-training"
    ]
   }
  }

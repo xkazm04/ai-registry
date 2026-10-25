@@ -132,7 +132,7 @@
    "file": "knowledge/media-generation/visual-generation/animatable-character-design/animatable-character-design.md",
    "digest": "sha256-b2:bddd0807e2d2d9c4",
    "revision": 4,
-   "changedAt": "2026-10-24",
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "animatability-trial",

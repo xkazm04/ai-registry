@@ -6,15 +6,15 @@ title: "I Built a Dark Souls Boss With AI: Tripo, Seedance 2.5, DINO & Opus 5.5"
 author: "Coding Crash Courses"
 words: 1235
 extracted: 12
-accepted: 1
+accepted: 2
 declined: 0
 leads: 3
 already_covered: 3
-untriaged: 3
+untriaged: 0
 currency: 0
 escalated: 1
 dispatched: 0
-applied: 1
+applied: 2
 shipped: 1
 run_id: intake-XnS0vrbDrrc
 siblings: 0 on the board at claim and throughout; one FOREIGN GPU batch (a 3D asset
@@ -165,6 +165,30 @@ and that the two-view clip and the fire clip looked good. That is the operator's
 as such; it changes no row's status. Cleanup ran by run id after sign-off: the scratch
 directory, `ComfyUI/output/intake-XnS0vrbDrrc/` and the staged first frame, 51,208,524 bytes
 in all.
+
+**E4 decided, 2026-10-25: opened.** The operator approved the escalation. Spec
+`librarian/specs/2026-10-25-generated-video-motion-extraction.md`, forged in session by one
+worker, as `game-production/asset-production/motion-and-audio/generated-video-motion-extraction`.
+It has seven techniques:
+
+- `motion-source-route-by-action-class`
+- `two-view-reference-composition`
+- `panel-sync-gate`
+- `effect-free-motion-source`
+- `own-rig-synthetic-keypoint-training`
+- `twist-from-extra-points-and-joint-limits`
+- `contact-window-travels-with-the-clip`
+
+These absorb untriaged rows 3, 4 and 5 and catch row 8, so those rows are no longer untriaged.
+The application reads PoF's single-view capture route and carries an experiment A/B: two-view
+triangulation of PoF's own warrior on the local stack.
+
+- The tip at frame 0 reconstructs to 1.792 m against the rig's 1.80 m.
+- About 1.0 m of camera-axis blade travel is observed, which a single front view cannot see.
+- The drifted seed's row residual spikes to 149 px (about 0.55 m) exactly in the strike frames.
+
+Verdict `better` (observability; the engine-side single-view solver was not run). Shown to the
+operator on a review page under the run id `intake-XnS0vrbDrrc-e4`.
 
 ## Leads (with return conditions)
 
