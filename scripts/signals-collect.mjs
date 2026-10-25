@@ -57,6 +57,7 @@ const refuse = (msg) => { console.error(`FATAL: ${msg}. ${USAGE}`); process.exit
 const flags = {};
 {
   const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
   for (let i = 0; i < argv.length; i++) {
     const m = /^--([a-z-]+)(?:=(.*))?$/.exec(argv[i]);
     if (!m || !['contributor', 'root'].includes(m[1])) refuse(`unknown argument ${JSON.stringify(argv[i])}`);

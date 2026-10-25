@@ -77,6 +77,7 @@ if (isMain) {
   const VALUED = new Set(['--since', '--skill', '--device', '--root']);
   const given = {};
   let json = false;
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === '--json') { json = true; continue; }

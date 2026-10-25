@@ -41,6 +41,7 @@ const flags = {};
 let force = false;
 {
   const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === '--force') { force = true; continue; }
     const m = /^--([a-z-]+)(?:=(.*))?$/.exec(argv[i]);

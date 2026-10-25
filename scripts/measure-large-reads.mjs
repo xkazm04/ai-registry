@@ -44,6 +44,7 @@ const USAGE = 'Usage: measure-large-reads.mjs [--min N] [--cap N] [--top N] [--p
 const refuse = (msg) => { console.error(`measure-large-reads: ${msg}. ${USAGE}`); process.exit(EXIT.FATAL); };
 const given = {};
 let JSON_OUT = false;
+if (args.includes('--help') || args.includes('-h')) { console.log(USAGE); process.exit(EXIT.OK); }
 for (let i = 0; i < args.length; i++) {
   const a = args[i];
   if (a === '--json') { JSON_OUT = true; continue; }

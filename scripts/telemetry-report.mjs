@@ -25,6 +25,7 @@ import {EXIT} from './lib/exit-codes.mjs';
 try {
  const args=process.argv.slice(2),hint='Usage: telemetry-report.mjs [--as-of <ISO date>]';
  let given;
+ if(args.includes('--help')||args.includes('-h')){console.log(hint);process.exit(EXIT.OK);}
  for(let i=0;i<args.length;i++){
   if(args[i]!=='--as-of')throw new Error(`unknown argument ${JSON.stringify(args[i])}. ${hint}`);
   given=args[++i];
