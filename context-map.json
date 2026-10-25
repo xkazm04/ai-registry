@@ -50,6 +50,8 @@
         "scripts/tests/check-hash-stability.test.mjs",
         "scripts/tests/check-result.test.mjs",
         "scripts/tests/context-map.test.mjs",
+        "scripts/tests/crash-door.test.mjs",
+        "scripts/tests/gate-timeout.test.mjs",
         "scripts/tests/leaks.test.mjs",
         "scripts/tests/run-tests-population.test.mjs",
         "scripts/tests/validation-plan.test.mjs"
@@ -72,6 +74,7 @@
         "scripts/check-citations.mjs",
         "scripts/check-coverage-age.mjs",
         "scripts/check-currency.mjs",
+        "scripts/lib/currency-clock.mjs",
         "scripts/lib/laws.mjs",
         "scripts/lib/subject-revision.mjs",
         "scripts/lib/taxonomy.mjs",
@@ -85,6 +88,7 @@
         "scripts/tests/check-citations.test.mjs",
         "scripts/tests/check-coverage-age.test.mjs",
         "scripts/tests/check-currency.test.mjs",
+        "scripts/tests/currency-clock.test.mjs",
         "scripts/tests/review-coverage.test.mjs",
         "scripts/tests/review-inventory.test.mjs"
       ],
@@ -295,8 +299,10 @@
         "scripts/remove-worktree.mjs",
         "scripts/run-board.mjs",
         "scripts/run-board.test.mjs",
+        "scripts/tests/backlog-phantom-screen.test.mjs",
         "scripts/tests/commit-inventory-replay.test.mjs",
         "scripts/tests/merge-generated.test.mjs",
+        "scripts/tests/remove-worktree.test.mjs",
         "scripts/tests/safe-remove.test.mjs"
       ],
       "entry_points": [
@@ -331,8 +337,10 @@
         "scripts/render-triage.mjs",
         "scripts/research-ingest.mjs",
         "scripts/tests/librarian-weights.test.mjs",
+        "scripts/tests/pdf-text.test.mjs",
         "scripts/tests/registry-lens.test.mjs",
-        "scripts/tests/render-triage.test.mjs"
+        "scripts/tests/render-triage.test.mjs",
+        "scripts/tests/research-ingest.test.mjs"
       ],
       "entry_points": [
         "scripts/librarian-scan.mjs"
@@ -358,6 +366,7 @@
         "skills/contest/scripts/lib/participants.mjs",
         "skills/contest/scripts/lib/presets.mjs",
         "skills/contest/scripts/lib/router.mjs",
+        "skills/contest/scripts/lib/seat.mjs",
         "skills/contest/scripts/lib/vault.mjs",
         "skills/contest/scripts/lib/wrap.mjs",
         "skills/contest/scripts/side-by-side.py",
@@ -393,6 +402,7 @@
         "skills/kit/tests/test_reachability.mjs",
         "skills/scan-sweep/scripts/approvals.mjs",
         "skills/scan-sweep/scripts/coverage.mjs",
+        "skills/scan-sweep/tests/approvals.test.mjs",
         "skills/scan-sweep/tests/coverage.test.mjs",
         "skills/straighten/scripts/map-compare.mjs",
         "skills/straighten/scripts/map-state.mjs",
@@ -420,6 +430,7 @@
         "skills/illustrate/scripts/capture-variants.mjs",
         "skills/illustrate/scripts/lib/capture-core.mjs",
         "skills/illustrate/tests/capture-core.test.mjs",
+        "skills/illustrate/tests/capture-variants-cli.test.mjs",
         "skills/lens-scan/scripts/drive.mjs",
         "skills/lens-scan/scripts/footprint.mjs",
         "skills/lens-scan/scripts/harness.py",
@@ -503,6 +514,7 @@
         "skills/demo-film/tools/remotion/treatments/ZoomToRect.tsx",
         "skills/demo-film/tools/render.mjs",
         "skills/demo-film/tools/src/contract.ts",
+        "skills/leonardo/tests/test_api-tools.mjs",
         "skills/leonardo/tests/test_og-text.mjs",
         "skills/leonardo/tools/favicon-set.mjs",
         "skills/leonardo/tools/gemini-recognize.mjs",
