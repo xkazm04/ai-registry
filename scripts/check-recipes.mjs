@@ -217,12 +217,19 @@ export const walkLane = (laneDir) => {
   }
 
   // A recipe.json anywhere other than the declared depth is the loud case: it
-  // exists, it looks like a recipe, and the index will never see it.
+  // exists, it looks like a recipe, and the index will never see it. A dot-entry is
+  // the same case one step quieter: this walker, render-recipes and the index
+  // builder all skip dot-names, so a recipe parked under `.drafts/` was invisible to
+  // every reader while this gate said OK (the X5 rule for publications/, practices/
+  // and memory/, 2026-10-25). Reported once, at the dot-entry, and not descended.
   const stray = [];
   const scan = (dir, rel, depth) => {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (e.name.startsWith('.')) continue;
       const r = rel ? `${rel}/${e.name}` : e.name;
+      if (e.name.startsWith('.')) {
+        stray.push(`recipes/${r}${e.isDirectory() ? '/' : ''}: a dot-entry is invisible to the index, the renderer and this walker - rename or remove it`);
+        continue;
+      }
       if (e.isDirectory()) { if (depth < 4) scan(path.join(dir, e.name), r, depth + 1); }
       else if (e.name === RECIPE_JSON && depth !== 3) stray.push(`recipes/${r}: a recipe.json at depth ${depth}, not recipes/<domain>/<topic>/<slug>/ - the index addresses exactly one depth, so this recipe would silently not exist`);
     }
