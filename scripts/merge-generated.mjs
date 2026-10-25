@@ -46,7 +46,7 @@ export const PENDING_NAME = 'registry-regen-pending';
 
 /** Top-level catalog keys build-catalog.mjs writes itself; every other key is carried. */
 export const CATALOG_OWNED = Object.freeze([
-  '_note', 'generatedBy', 'skills', 'practices', 'memory', 'counts', 'bundles', 'usageEvidence',
+  '_note', 'generatedAt', 'generatedBy', 'skills', 'practices', 'memory', 'counts', 'bundles', 'usageEvidence',
 ]);
 /** Per-skill catalog fields build-catalog.mjs reads back from the committed file (`old.<k>`). */
 export const CATALOG_SKILL_CARRIED = Object.freeze(['adopters', 'applicability', '_drift']);
