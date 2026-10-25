@@ -4,7 +4,8 @@
 // a v1, v2 or v3 file in place (one transaction per step, on any open, read-only ones included) and refuses a file it
 // does not know. Every subcommand prints JSON on stdout; errors go to stderr with exit 2 (bad input) or 1 (refused by
 // a store rule) - a refusal that names an existing row also prints {"refused", "existing"} on stdout. NULL columns
-// are never printed.
+// are never printed. The read subcommands (proposals, latest, gaps, packs, releases, release, release-items, compare)
+// never create the store: with no file they answer as an empty one would.
 //
 //   node store.mjs [--db <path>] <subcommand> [flags]        (--db default .ai/lens-scan/scan.db)
 //   init
@@ -184,7 +185,8 @@ export function openStore(dbPath = DEFAULT_DB, { readOnly = false } = {}) {
   if (readOnly) {
     if (!existsSync(dbPath)) return null;
     let db = new DatabaseSync(dbPath, { readOnly: true });
-    const v = db.prepare('PRAGMA user_version').get().user_version;
+    db.exec('PRAGMA busy_timeout = 5000'); // the write path waits too; a read that replaced a write open keeps the wait
+    const v =db.prepare('PRAGMA user_version').get().user_version;
     if (v > 0 && v < SCHEMA_VERSION) { db.close(); openStore(dbPath).close(); db = new DatabaseSync(dbPath, { readOnly: true }); }
     assertVersion(db, dbPath);
     return db;
@@ -1002,6 +1004,9 @@ export const SUBCOMMANDS = ['init', 'run-start', 'run-end', 'activity', 'measure
   'shot', 'coverage', 'latest', 'gaps', 'decide', 'triage', 'rework-attempt', 'pack-create', 'pack-update', 'packs', 'release-create', 'release-add',
   'release-update', 'releases', 'release', 'release-items', 'compare'];
 
+/** The subcommands that only read: main opens the store read-only for them and never creates it. */
+export const READS = ['proposals', 'latest', 'gaps', 'packs', 'releases', 'release', 'release-items', 'compare'];
+
 export function main(argv) {
   const a = parseArgs(argv);
   const cmd = a._[0];
@@ -1013,7 +1018,11 @@ export function main(argv) {
   // boolean ("Provided value cannot be bound to SQLite parameter 4") or was dropped as if it were absent.
   const valueless = Object.keys(a).filter((k) => a[k] === true && k !== 'untriaged');
   if (valueless.length) bad(valueless.map((k) => `--${k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)} needs a value`).join('; '));
-  const db = openStore(typeof a.db === 'string' ? a.db : DEFAULT_DB);
+  const dbPath = typeof a.db === 'string' ? a.db : DEFAULT_DB;
+  // a read never creates the store (SKILL.md: status mode changes nothing). With no file it answers as an empty store
+  // would - [] for the lists, "does not exist" for a named pack or release, every cell unmeasured for gaps - from a
+  // scratch in-memory one, so a caller parsing the JSON sees the same shapes and exit codes either way.
+  const db = READS.includes(cmd) ? (openStore(dbPath, { readOnly: true }) ?? openStore(':memory:')) : openStore(dbPath);
   try {
     switch (cmd) {
       case 'init': return { db: resolve(typeof a.db === 'string' ? a.db : DEFAULT_DB), user_version: SCHEMA_VERSION };

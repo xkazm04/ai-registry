@@ -132,6 +132,35 @@ test('cli: an unknown subcommand or a --db with no path is refused before any st
   assert.deepEqual([...SUBCOMMANDS].sort(), [...new Set(cases)].sort());
 });
 
+test('cli: a read in a repo with no store answers as an empty store and creates nothing', () => {
+  const db = tmpDb();
+  const run = (...args) => spawnSync(process.execPath, [SCRIPT, '--db', db, ...args], { encoding: 'utf8' });
+  for (const cmd of ['proposals', 'latest', 'packs', 'releases']) {
+    const r = run(cmd);
+    assert.equal(r.status, 0, `${cmd}: ${r.stderr}`);
+    assert.deepEqual(JSON.parse(r.stdout), [], `${cmd} reads "nothing yet" as []`);
+    assert.equal(existsSync(db), false, `${cmd} must not create the store`);
+    assert.equal(existsSync(dirname(db)), false, `${cmd} must not create the store directory`);
+  }
+  const rel = run('release', '--id', 'rel-1.0.0');
+  assert.equal(rel.status, 1);
+  assert.match(rel.stderr, /release rel-1\.0\.0 does not exist/);
+  const cmp = run('compare', '--ids', 'p-aaaaaa');
+  assert.equal(cmp.status, 0);
+  assert.deepEqual(JSON.parse(cmp.stdout), []);
+  const structure = join(dirname(db), 'app-structure.json');
+  mkdirSync(dirname(db), { recursive: true });
+  writeFileSync(structure, JSON.stringify({ features: [{ slug: 'a' }], lenses: [{ id: 'development', manifest: { fields: [{ key: 'loc', metric: true }] } }] }));
+  const gp = run('gaps', '--lens', 'development', '--structure', structure);
+  assert.equal(gp.status, 0, gp.stderr);
+  assert.equal(JSON.parse(gp.stdout).totals.unmeasured, 1, 'every cell reads unmeasured');
+  assert.equal(existsSync(db), false, 'gaps must not create the store either');
+  // a write still creates it, and a read then sees the file
+  assert.equal(run('init').status, 0);
+  assert.equal(existsSync(db), true);
+  assert.deepEqual(JSON.parse(run('proposals').stdout), []);
+});
+
 test('proposals and packs refuse a status or kind outside their sets, never an empty list that reads as "nothing waiting"', () => {
   const db = openStore(tmpDb());
   const { id: run } = runStart(db, { phase: 'propose', lenses: 'design' });
