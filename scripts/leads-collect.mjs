@@ -22,19 +22,31 @@
  * so it is safe to run on every collection pass. Entries are never rewritten or removed -
  * the librarian strikes them through when it rules on them.
  *
- * Usage:  node scripts/leads-collect.mjs [--since-days N] [--dry-run]
+ * Usage:  node scripts/leads-collect.mjs [--since-days N] [--dry-run] [--root <registry>]
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadBridge } from './lib/projects.mjs';
 
-const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
-const INBOX = path.join(ROOT, 'librarian', 'inbox.md');
-
 const argv = process.argv.slice(2);
-const dryRun = argv.includes('--dry-run');
-const sinceDays = Number(argv[argv.indexOf('--since-days') + 1]) || 90;
+const usage = (msg) => { console.error(`FATAL: ${msg}. Usage: leads-collect.mjs [--since-days N] [--dry-run] [--root <registry>]`); process.exit(2); };
+const opts = {};
+for (let i = 0; i < argv.length; i++) {
+  const a = argv[i];
+  if (a === '--dry-run') { opts.dryRun = true; continue; }
+  if (a !== '--since-days' && a !== '--root') usage(`unknown argument ${JSON.stringify(a)}`);
+  const v = argv[++i];
+  if (v === undefined || v.startsWith('--')) usage(`${a} needs a value`);
+  opts[a] = v;
+}
+// --root names the registry whose fleet is folded and whose inbox is written (tests point it
+// at a fixture; the default is this checkout).
+const ROOT = opts['--root'] ? path.resolve(opts['--root']) : path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
+const INBOX = path.join(ROOT, 'librarian', 'inbox.md');
+const dryRun = Boolean(opts.dryRun);
+const sinceDays = opts['--since-days'] === undefined ? 90 : Number(opts['--since-days']);
+if (!Number.isFinite(sinceDays) || sinceDays <= 0) usage(`--since-days must be a positive number, got ${JSON.stringify(opts['--since-days'])}`);
 
 const fleet = loadBridge(ROOT)._fleet;
 if (!fleet.machine && !Object.keys(fleet.projects).length) {
