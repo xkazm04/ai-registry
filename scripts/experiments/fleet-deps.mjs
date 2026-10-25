@@ -35,7 +35,13 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { loadBridge } from '../lib/projects.mjs';
+
+// The registry root is where THIS script lives, as in its siblings: resolving the fleet from
+// process.cwd() made the answer depend on where the operator happened to stand, and a floor
+// check run from the wrong directory reads a different (or empty) fleet.
+const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..', '..');
 
 const args = process.argv.slice(2);
 const flag = (n) => { const i = args.indexOf(n); return i === -1 ? null : args[i + 1] ?? null; };
@@ -85,7 +91,7 @@ if (parse('not-a-version') !== null) {
 }
 
 // ---- the bridge ----------------------------------------------------------------------
-const bridge = loadBridge(process.cwd());
+const bridge = loadBridge(ROOT);
 if (!Object.keys(bridge.projects).length) {
   console.error('fleet-deps: this machine resolves no projects.');
   for (const p of bridge._fleet.problems) console.error(`  - ${p}`);
@@ -130,6 +136,12 @@ let below = [];
 if (MIN) {
   if (!ONLY_DEP) { console.error('fleet-deps: --min requires --dep'); process.exit(2); }
   if (!parse(MIN)) { console.error(`fleet-deps: --min "${MIN}" is not a version`); process.exit(2); }
+  // A floor over zero projects is vacuous, not satisfied: a misspelt --dep would otherwise
+  // exit 0, the same code as "every project is at or above the floor" (FATAL, not OK).
+  if (!(byDep[ONLY_DEP] ?? []).length) {
+    console.error(`fleet-deps: no project declares "${ONLY_DEP}"; a --min floor over zero projects is not a pass`);
+    process.exit(2);
+  }
   for (const r of byDep[ONLY_DEP] ?? []) {
     if (r.resolved === null) { below.push({ ...r, why: 'no lockfile entry' }); continue; }
     if (cmp(r.resolved, MIN) < 0) below.push({ ...r, why: `below ${MIN}` });
