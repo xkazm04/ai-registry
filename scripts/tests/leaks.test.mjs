@@ -140,6 +140,22 @@ test('check-public-paths: clean control 0, each probe form 1, in every new lane'
   }
 });
 
+// The gate is run locally BEFORE a commit, and a new file is untracked until then: reading
+// only `git ls-files` meant a brand-new subject carrying a home path was green on the
+// contributor's machine and red in CI. Ignored files stay out - `.evidence.local.md`
+// overlays carry absolute paths by design and never leave the machine.
+test('check-public-paths: a new untracked file is read; a gitignored local overlay is not', () => {
+  const root = gitRepo({ 'docs/a.md': 'clean\n', '.gitignore': '**/.*.local.md\n' });
+  write(root, 'knowledge/x/.evidence.local.md', 'witness at C:\\Users\\jane\\code\\x.ts\n');
+  const ignored = run('check-public-paths.mjs', ['--root', root]);
+  assert.equal(ignored.status, 0, ignored.stdout + ignored.stderr);
+  write(root, 'knowledge/x/new-subject.md', 'cloned under C:\\Users\\jane\\code\\app\n');
+  const fresh = run('check-public-paths.mjs', ['--root', root]);
+  assert.equal(fresh.status, 1, fresh.stdout + fresh.stderr);
+  assert.match(fresh.stderr, /knowledge\/x\/new-subject\.md:1:/);
+  assert.doesNotMatch(fresh.stderr, /evidence\.local/);
+});
+
 test('check-public-paths: could-not-run is 2 - no files, not a checkout, no git', () => {
   const empty = run('check-public-paths.mjs', ['--root', gitRepo({})]);
   assert.equal(empty.status, 2, empty.stdout + empty.stderr);

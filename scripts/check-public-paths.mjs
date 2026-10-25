@@ -15,7 +15,8 @@
  * with or without a trailing separator), WSL (`/mnt/c/Users/<name>`, and a distro home
  * through its Windows share, `\\wsl.localhost\<distro>\home\<name>`), POSIX
  * (`/home/<name>`, `/Users/<name>`) - and a home-relative layout (`~/code/app/...`,
- * `$HOME/work/x`, `%USERPROFILE%\code\x`), in any tracked text file of a published lane.
+ * `$HOME/work/x`, `%USERPROFILE%\code\x`), in any text file of a published lane that is
+ * tracked or new (untracked and not gitignored).
  * What it lets through, on purpose (each decided in lib/leaks.mjs):
  *   - placeholder names (`<user>`, `me`, `x`, `example`, `...`): an example path is
  *     teaching, not leaking;
@@ -120,7 +121,10 @@ function main() {
   }
   let listed;
   try {
-    listed = execFileSync('git', ['-C', root, 'ls-files', '--', ...LANES], { encoding: 'utf8', maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'pipe'] });
+    // Tracked plus untracked-not-ignored, as run-tests reads its population: the gate runs
+    // before a commit, when a new file is still untracked, and CI must not be the first to
+    // see it. Ignored files (the `.*.local.md` overlays) stay out by design.
+    listed = execFileSync('git', ['-C', root, 'ls-files', '--cached', '--others', '--exclude-standard', '--', ...LANES], { encoding: 'utf8', maxBuffer: 1 << 28, stdio: ['ignore', 'pipe', 'pipe'] });
   } catch (e) {
     const why = e.code === 'ENOENT' ? 'git is not on PATH' : (String(e.stderr ?? '').trim().split('\n')[0] || e.message);
     console.error(`check-public-paths FATAL: could not list the published files (${why}).`);
