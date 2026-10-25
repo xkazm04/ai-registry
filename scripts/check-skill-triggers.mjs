@@ -39,15 +39,31 @@
 import { readFileSync, readdirSync, existsSync, realpathSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
 const STRICT = process.argv.includes('--strict');
 
 // Containment of the smaller vocabulary in the larger one. 1.0 = one skill's
 // trigger surface is a subset of another's.
-const REPORT_FLOOR = Number(process.env.TRIGGER_FLOOR || 0.45); // pairs at/above this are printed
+//
+// The environment tunes what is PRINTED, never what --strict fails on. Until 2026-10-25 the
+// strict verdict was read off the printed list, so TRIGGER_FLOOR=0.99 hid a 0.60 collision
+// and a typo'd value (NaN compares false to everything) hid all of them, both exit 0.
 const STRICT_FLOOR = 0.6;  // pairs at/above this fail --strict
-const MIN_SHARED = Number(process.env.TRIGGER_MIN_SHARED || 4);
+const STRICT_MIN_SHARED = 4;
+const envNumber = (name, fallback, { min, max }) => {
+  const raw = process.env[name];
+  if (raw === undefined || raw === '') return fallback;
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n < min || n > max) {
+    console.error(`FATAL: ${name}=${JSON.stringify(raw)} is not a number from ${min} to ${max}.`);
+    process.exit(EXIT.FATAL);
+  }
+  return n;
+};
+const REPORT_FLOOR = envNumber('TRIGGER_FLOOR', 0.45, { min: 0, max: 1 }); // pairs at/above this are printed
+const MIN_SHARED = envNumber('TRIGGER_MIN_SHARED', 4, { min: 1, max: Infinity });
 
 const STOP = new Set(`a an the and or of to in on for with is are was were be been it its
 this that those these you your i me my we our they their he she his her do does did done
@@ -125,10 +141,11 @@ const scanned = [...collect(join(ROOT, 'skills'), 'lane'), ...collect(join(ROOT,
 const { skills, linked } = dedupe(scanned);
 const shadowed = shadows(skills);
 const shadowNames = new Set(shadowed.map((g) => g[0].name));
-if (!skills.length) { console.error('no skills found'); process.exit(2); }
+if (!skills.length) { console.error('no skills found'); process.exit(EXIT.FATAL); }
 
 const empty = skills.filter((s) => s.toks.size < 5);
 const pairs = [];
+const hard = [];
 for (let i = 0; i < skills.length; i++) {
   for (let j = i + 1; j < skills.length; j++) {
     const a = skills[i], b = skills[j];
@@ -139,9 +156,10 @@ for (let i = 0; i < skills.length; i++) {
     // A shadow pair is the same skill twice over. Its 1.00 containment says
     // nothing about trigger surfaces, so it is reported below, not here.
     if (a.name === b.name) continue;
-    if (containment >= REPORT_FLOOR && inter >= MIN_SHARED) {
-      pairs.push({ a, b, inter, containment });
-    }
+    const pair = { a, b, inter, containment };
+    if (containment >= STRICT_FLOOR && inter >= STRICT_MIN_SHARED) hard.push(pair);
+    if (containment >= REPORT_FLOOR && inter >= MIN_SHARED) pairs.push(pair);
+    else if (hard.at(-1) === pair) pairs.push(pair); // a strict failure is always printed
   }
 }
 pairs.sort((x, y) => y.containment - x.containment);
@@ -162,12 +180,11 @@ if (!pairs.length) {
 } else {
   for (const p of pairs) {
     const shared = [...p.a.toks].filter((t) => p.b.toks.has(t)).slice(0, 8).join(', ');
-    const sev = p.containment >= STRICT_FLOOR ? 'COLLISION' : 'near-miss';
+    const sev = hard.includes(p) ? 'COLLISION' : 'near-miss';
     console.log(`  ${sev}  ${p.a.name} (${p.a.set}) <> ${p.b.name} (${p.b.set})  containment ${p.containment.toFixed(2)}, ${p.inter} shared: ${shared}`);
   }
 }
 console.log('  rule: two skills a selector confuses are one skill with a parameter, or two whose descriptions must name their boundary.');
 
-const hard = pairs.filter((p) => p.containment >= STRICT_FLOOR);
-if (STRICT && (hard.length || empty.length)) process.exit(1);
-process.exit(0);
+if (STRICT && (hard.length || empty.length)) process.exit(EXIT.VIOLATIONS);
+process.exit(EXIT.OK);
