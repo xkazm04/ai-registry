@@ -14,15 +14,37 @@
  *    values are REJECTED here, and a usage file may carry no keys beyond the
  *    ones the spec names.
  *
+ *    The forms are the COUNTS_ONLY preset of scripts/lib/leaks.mjs, the one table
+ *    every leak gate shares. Until 2026-10-25 this file held a hand-synced copy that
+ *    had drifted from check-public-paths: no lowercase `c:\users\`, no WSL mount,
+ *    no `~/`, no `$HOME/`.
+ *
+ * 3. Nothing else lives in the lane. usage/ holds `<contributor>.json` files and the
+ *    `runs/` directory (check-runs.mjs owns that one). A stray file - `notes.txt`, a
+ *    `wolf.JSON`, a `draft/` folder - used to pass unread, which is exactly where a
+ *    leak would sit; it is now a violation.
+ *
  * Exits non-zero on any finding. Asserts its inputs: an unreadable lane is
- * reported as such rather than passing as "nothing wrong".
+ * reported as such rather than passing as "nothing wrong" (exit 2).
+ *
+ * Usage:  node scripts/check-usage.mjs [--root <registry root>]   (--root: tests)
  */
 
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { EXIT } from './lib/exit-codes.mjs';
+import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
 
-const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
+const argv = process.argv.slice(2);
+const rootAt = argv.indexOf('--root');
+if (rootAt !== -1 && !argv[rootAt + 1]) {
+  console.error('check-usage FATAL: --root needs a directory.');
+  process.exit(EXIT.FATAL);
+}
+const ROOT = rootAt !== -1
+  ? path.resolve(argv[rootAt + 1])
+  : path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'usage');
 const SKILLS = path.join(ROOT, 'skills');
 
@@ -34,36 +56,19 @@ const ISO_RE = /^\d{4}-\d{2}-\d{2}T[\d:.]+(?:Z|[+-]\d{2}:\d{2})$/;
 
 // Deliberately blunt. A false positive costs one renamed contributor id; a false
 // negative puts someone's home directory in a public repo forever.
-const LEAKY = [
-  { re: /[A-Za-z]:[\\/]/, what: 'a Windows path' },
-  { re: /(^|[\s"'])\/(?:home|users|Users|var|etc|opt|tmp)\//, what: 'a POSIX path' },
-  { re: /\.\.[\\/]/, what: 'a relative path escape' },
-  { re: /https?:\/\//i, what: 'a URL' },
-  { re: /[\w.+-]+@[\w-]+\.[\w.]+/, what: 'an email address' },
-];
+const LEAK_FORMS = PRESETS.COUNTS_ONLY;
 
 // ---- assert the instrument BEFORE the result --------------------------
 // This scan is a must-not-match, so a clean sweep and a dead pattern set are the
 // same output. Nothing else in this file can tell them apart: the count below
 // says how many files were read, never whether the patterns can still fire.
-// One fixed positive per pattern, in pattern order. (Measured: narrowing the five
-// character classes ships a planted Windows path at exit 0, with the lane
-// reporting OK.)
-const LEAK_CONTROLS = [
-  'C:\\Users\\x\\y',
-  ' /home/x/y',
-  '../x',
-  'https://x.example',
-  'a@b.co',
-];
-for (const [i, { re, what }] of LEAKY.entries()) {
-  if (!re.test(LEAK_CONTROLS[i])) {
-    console.error(
-      `check-usage: the ${what} pattern did not match its control ` +
-        `(${JSON.stringify(LEAK_CONTROLS[i])}). THE SCANNER IS BROKEN — refusing to report a clean lane.`,
-    );
-    process.exit(2);
-  }
+// (Measured: narrowing the five character classes ships a planted Windows path at
+// exit 0, with the lane reporting OK.) Every form carries its own controls in the lib.
+try {
+  assertScanner(LEAK_FORMS);
+} catch (e) {
+  console.error(`check-usage: ${e.message}. THE SCANNER IS BROKEN — refusing to report a clean lane.`);
+  process.exit(EXIT.FATAL);
 }
 
 const failures = [];
@@ -72,16 +77,21 @@ const fail = (msg) => failures.push(msg);
 if (!fs.existsSync(LANE)) {
   // Not an error: a registry with no contributors yet is a legitimate state.
   console.log('usage lane: absent — no installation has contributed counts yet.');
-  process.exit(0);
+  process.exit(EXIT.OK);
 }
 
 let files;
 try {
-  files = fs.readdirSync(LANE).filter((f) => f.endsWith('.json')).sort();
+  files = [];
+  for (const e of fs.readdirSync(LANE, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
+    if (e.isDirectory() && e.name === 'runs') continue; // check-runs.mjs owns usage/runs/
+    if (e.isFile() && e.name.endsWith('.json')) files.push(e.name);
+    else fail(`usage/${e.name}: unexpected ${e.isDirectory() ? 'directory' : 'file'} - usage/ holds only <contributor>.json and runs/`);
+  }
 } catch (e) {
   console.error(`check-usage FATAL: usage/ exists but cannot be read (${e.message}).`);
   console.error('Reporting nothing is not the same as finding nothing — refusing to exit 0.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 const knownSkills = fs.existsSync(SKILLS)
@@ -93,25 +103,22 @@ let totalSkills = 0;
 for (const file of files) {
   const rel = `usage/${file}`;
   const stem = file.replace(/\.json$/, '');
+  // -- privacy first: scan the RAW text, so a leak in an unexpected key - or in a file
+  //    that does not even parse - is still caught even though unknown keys are rejected below.
+  const raw = fs.readFileSync(path.join(LANE, file), 'utf8');
+  for (const hit of leaksIn(raw, LEAK_FORMS)) {
+    fail(
+      `${rel}: contains ${hit.what} (${JSON.stringify(hit.match.slice(0, 60))}). ` +
+        'A usage file carries counts and nothing else — this repository is public.',
+    );
+  }
+
   let doc;
   try {
-    doc = JSON.parse(fs.readFileSync(path.join(LANE, file), 'utf8'));
+    doc = JSON.parse(raw);
   } catch (e) {
     fail(`${rel}: not valid JSON (${e.message})`);
     continue;
-  }
-
-  // -- privacy first: scan the RAW text, so a leak in an unexpected key is still
-  //    caught even though unknown keys are rejected below.
-  const raw = fs.readFileSync(path.join(LANE, file), 'utf8');
-  for (const { re, what } of LEAKY) {
-    const hit = raw.match(re);
-    if (hit) {
-      fail(
-        `${rel}: contains ${what} (${JSON.stringify(hit[0].slice(0, 60))}). ` +
-          'A usage file carries counts and nothing else — this repository is public.',
-      );
-    }
   }
 
   if (doc.schema !== SCHEMA) fail(`${rel}: schema must be "${SCHEMA}", found ${JSON.stringify(doc.schema)}`);
@@ -167,6 +174,6 @@ if (failures.length) {
   console.error(`\n${failures.length} failure(s):`);
   for (const f of failures) console.error(`  - ${f}`);
   console.error('');
-  process.exit(1);
+  process.exit(EXIT.VIOLATIONS);
 }
 console.log('usage lane OK — counts only, one file per contributor.');
