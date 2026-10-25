@@ -92,6 +92,19 @@ test('an untracked file inside a recipe counts as content under --since HEAD', (
   assert.match(r.stderr, /skill-library-audit: content changed \(examples\/brand-new\.md\)/);
 });
 
+// git C-quotes a path with a non-ASCII byte unless asked for -z, and the quoted line
+// never matched `^recipes/`: an unbumped example named `café.md` was 0 changed recipes.
+test('a non-ASCII file name counts as content, committed or untracked', (t) => {
+  const f = fixture(t);
+  f.touch(A, 'café.md');
+  f.commit('A non-ascii example, unbumped');
+  f.touch(B, 'über.md');
+  const r = f.run('--since', f.base);
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  assert.match(r.stderr, /skill-library-audit: content changed \(examples\/café\.md\)/);
+  assert.match(r.stderr, /audio-briefing-production: content changed \(examples\/über\.md\)/);
+});
+
 test('bumped committed and dirty edits pass', (t) => {
   const f = fixture(t);
   f.touch(A, 'codebase.md');

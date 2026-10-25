@@ -97,6 +97,20 @@ test('an untracked file inside a skill counts as content under --since HEAD', (t
   assert.match(r.stderr, /skills\/alpha: content changed \(references\/new\.md\)/);
 });
 
+// git prints a path with a non-ASCII byte C-quoted (`"skills/alpha/caf\303\251.md"`)
+// unless asked for -z, and a quoted line never matches `^skills/`. Measured 2026-10-25:
+// an unbumped committed edit to `references/café.md` reported `0 changed skill(s)`, exit 0.
+test('a non-ASCII file name counts as content, committed or untracked', (t) => {
+  const f = fixture(t);
+  f.write('skills/alpha/references/café.md', '# committed\n');
+  f.commit('alpha non-ascii reference, unbumped');
+  f.write('skills/beta/references/über.md', '# untracked\n');
+  const r = f.run('--since', f.base);
+  assert.equal(r.status, 1, r.stdout);
+  assert.match(r.stderr, /skills\/alpha: content changed \(references\/café\.md\)/);
+  assert.match(r.stderr, /skills\/beta: content changed \(references\/über\.md\)/);
+});
+
 test('bumped committed and dirty edits pass; a LESSONS.md append needs no bump', (t) => {
   const f = fixture(t);
   f.write('skills/alpha/SKILL.md', skillMd('alpha', '1.0.1', 'Committed change.'));

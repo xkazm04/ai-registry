@@ -295,6 +295,11 @@ let bumpChecked = 0;
 let scopeLabel = null;
 {
   const git = (args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  // Path lists are read NUL-separated. Without -z git C-quotes any path holding a
+  // non-ASCII byte (`"skills/x/caf\303\251.md"`), the quoted line never matches
+  // `^skills/` below, and the edit drops out of the population: measured 2026-10-25,
+  // an unbumped `references/café.md` reported `0 changed skill(s)`.
+  const paths = (args) => git(args).split('\0').filter(Boolean);
   let ref, changed;
 
   if (sinceIdx !== -1) {
@@ -315,9 +320,8 @@ let scopeLabel = null;
     // work about to be committed, in one population.
     try {
       const base = git(['merge-base', ref, 'HEAD']).trim();
-      changed = git(['diff', '--name-only', base, '--', 'skills/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-      const untracked = git(['ls-files', '--others', '--exclude-standard', '--', 'skills/'])
-        .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+      changed = paths(['diff', '--name-only', '-z', base, '--', 'skills/']);
+      const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'skills/']);
       changed = [...new Set([...changed, ...untracked])];
     } catch (e) {
       console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
@@ -331,9 +335,8 @@ let scopeLabel = null;
     // unresolvable ref is: reporting "no version problems" from a comparison
     // that never ran is the failure this whole block exists to refuse.
     try {
-      changed = git(['diff', '--name-only', 'HEAD', '--', 'skills/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-      const untracked = git(['ls-files', '--others', '--exclude-standard', '--', 'skills/'])
-        .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+      changed = paths(['diff', '--name-only', '-z', 'HEAD', '--', 'skills/']);
+      const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'skills/']);
       changed = [...new Set([...changed, ...untracked])];
     } catch (e) {
       console.error(`FATAL: could not read the working tree against HEAD (${String(e.message).trim()}).`);

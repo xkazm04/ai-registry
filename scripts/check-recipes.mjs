@@ -546,12 +546,14 @@ if (sinceIdx !== -1) {
   // merge base against the working tree, plus untracked files, is `ref...HEAD`
   // PLUS the work about to be committed, so there is no unexamined remainder
   // left to refuse.
+  // NUL-separated (-z): otherwise git C-quotes a path holding a non-ASCII byte, the
+  // quoted line never matches `^recipes/`, and that edit leaves the population.
+  const paths = (args) => git(args).split('\0').filter(Boolean);
   let changed;
   try {
     const base = git(['merge-base', ref, 'HEAD']).trim();
-    changed = git(['diff', '--name-only', base, '--', 'recipes/']).split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
-    const untracked = git(['ls-files', '--others', '--exclude-standard', '--', 'recipes/'])
-      .split(/\r?\n/).map((x) => x.trim()).filter(Boolean);
+    changed = paths(['diff', '--name-only', '-z', base, '--', 'recipes/']);
+    const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'recipes/']);
     changed = [...new Set([...changed, ...untracked])];
   } catch (e) {
     console.error(`FATAL: git diff against "${ref}" failed (${String(e.message).trim()}).`);
