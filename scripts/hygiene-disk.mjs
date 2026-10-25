@@ -170,7 +170,8 @@ export function checkoutFacts(abs, homes) {
   const modified = lines.filter((l) => !l.startsWith('??')).map((l) => l.slice(3));
   f.dirtyOther.push(...untracked.filter((p) => !isNoise(p)));
   const realMods = modified.filter((p) => !isNoise(p));
-  if (realMods.length && !quiet(abs, ['diff', '--quiet', '--ignore-all-space', '--ignore-cr-at-eol'])) f.dirtyOther.push(...realMods);
+  // Against HEAD, not the index: a plain `git diff` skips staged changes, so `git add`ed work read as noise.
+  if (realMods.length && !quiet(abs, ['diff', 'HEAD', '--quiet', '--ignore-all-space', '--ignore-cr-at-eol'])) f.dirtyOther.push(...realMods);
   const dotGit = path.join(abs, '.git');
   if (fs.statSync(dotGit).isFile()) {
     const gd = (fs.readFileSync(dotGit, 'utf8').match(/gitdir:\s*(.+)/) || [])[1]?.trim();

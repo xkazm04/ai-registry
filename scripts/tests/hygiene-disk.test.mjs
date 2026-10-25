@@ -116,6 +116,25 @@ test('checkoutFacts: install noise is not work; a real untracked or modified fil
   } finally { r.cleanup(); }
 });
 
+test('checkoutFacts: staged work is work - a staged new file or edit keeps the clone, a staged whitespace edit does not', () => {
+  // `git diff` alone compares the tree to the INDEX, so `git add`ed work read as clean and a
+  // landed clone holding it was a mechanical delete.
+  const r = repos();
+  try {
+    fs.writeFileSync(path.join(r.clone, 'staged.txt'), 'staged only\n');
+    g(r.clone, 'add', 'staged.txt');
+    assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, ['staged.txt'], 'a staged new file');
+    g(r.clone, 'rm', '-q', '--cached', 'staged.txt');
+    fs.rmSync(path.join(r.clone, 'staged.txt'));
+    fs.writeFileSync(path.join(r.clone, 'a.txt'), 'two\n');
+    g(r.clone, 'add', 'a.txt');
+    assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, ['a.txt'], 'a staged edit');
+    fs.writeFileSync(path.join(r.clone, 'a.txt'), 'one  \n');
+    g(r.clone, 'add', 'a.txt');
+    assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, [], 'a staged whitespace-only edit is still noise');
+  } finally { r.cleanup(); }
+});
+
 test('--reap deletes the landed clone and the build output it names, keeps unpushed work, refuses outside the scratch root', () => {
   const r = repos();
   try {
