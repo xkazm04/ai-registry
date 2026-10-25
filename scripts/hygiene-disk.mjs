@@ -104,7 +104,8 @@ export function classifyPlain(f, { idleH = 24, tempDays = 7 } = {}) {
 }
 
 /** One temp entry (user temp top level, or a Claude session dir). */
-export function classifyTemp(f, { tempDays = 7 } = {}) {
+export function classifyTemp(f, { tempDays = 7, idleH = 24 } = {}) {
+  if (f.ageH < idleH) return null; // the hands-off floor binds temp like every other area
   if (f.ageH >= tempDays * 24 || (f.ageH >= 48 && f.bytes >= 100e6)) return { class: 'mechanical', kind: 'remove-temp', reason: `untouched ${Math.round(f.ageH)} h` };
   return null;
 }
@@ -281,7 +282,7 @@ export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = 
   // rules once it is past the temp age: its age says nothing about whether its work is elsewhere.
   const addTemp = (abs, isDir, name, kind) => {
     let m; try { m = entryMeasure(abs, !isDir); } catch { return; }
-    const c = classifyTemp({ ageH: ageOf(m, now), bytes: m.bytes }, { tempDays });
+    const c = classifyTemp({ ageH: ageOf(m, now), bytes: m.bytes }, { tempDays, idleH });
     if (!c) return;
     if (isDir && fs.existsSync(path.join(abs, '.git'))) {
       const f = checkoutFacts(abs, homes);
@@ -333,7 +334,7 @@ function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
   } else if (row.kind === 'remove-build-output' && row.area === 'scratch') c = classifyPlain({ name: path.basename(row.path), ageH }, { idleH, tempDays });
   else if (row.kind === 'remove-build-output') c = ageH >= tempDays * 24 ? { kind: 'remove-build-output' } : null;
   else if (row.kind === 'prune-incremental') c = ageH >= idleH ? { kind: 'prune-incremental' } : null;
-  else if (row.kind === 'remove-temp' || row.kind === 'remove-session-temp') c = classifyTemp({ ageH, bytes: m.bytes }, { tempDays }) ? { kind: row.kind } : null;
+  else if (row.kind === 'remove-temp' || row.kind === 'remove-session-temp') c = classifyTemp({ ageH, bytes: m.bytes }, { tempDays, idleH }) ? { kind: row.kind } : null;
   if (!c || (c.kind !== row.kind)) return { skip: `no longer ${row.kind}${c ? ` (now ${c.kind})` : ''}` };
   return { ok: true, bytes: m.bytes };
 }

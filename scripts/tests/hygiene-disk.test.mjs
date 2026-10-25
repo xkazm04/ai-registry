@@ -53,6 +53,13 @@ test('classifyTemp: 7 days, or 2 days and 100 MB', () => {
   assert.equal(classifyTemp({ ageH: 20, bytes: 5e9 }), null, 'a fresh big dir is somebody\'s live work');
 });
 
+test('classifyTemp honours --idle-hours: nothing written inside the floor is removable', () => {
+  // The header's hands-off rule binds every area; the temp lane hard-coded its own 48 h.
+  assert.equal(classifyTemp({ ageH: 50, bytes: 200e6 }, { tempDays: 7, idleH: 72 }), null);
+  assert.equal(classifyTemp({ ageH: 8 * 24, bytes: 10 }, { tempDays: 7, idleH: 200 }), null);
+  assert.equal(classifyTemp({ ageH: 80, bytes: 200e6 }, { tempDays: 7, idleH: 72 })?.kind, 'remove-temp');
+});
+
 test('leakFamilies folds ids and counters into one family per leaking suite', () => {
   // fs.mkdtemp(prefix) appends six random [A-Za-z0-9] directly to the prefix
   const AL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
