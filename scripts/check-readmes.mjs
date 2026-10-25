@@ -135,13 +135,16 @@ const findBadges = (md, repoFiles) => {
 const countCallouts = (md) => (md.match(/^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]/gm) || []).length;
 
 const findRoutingTable = (md) => {
-  // A routing table is a table whose cells carry relative links to docs.
+  // A routing table is a table whose cells carry relative links to docs. Each DESTINATION
+  // counts once: the ratio below compares the front page with the pages it routes to, and a
+  // page linked from two rows used to be summed twice (and a `page.md#section` link not at
+  // all), so a front page could out-weigh its destinations without a finding.
   const rows = md.split('\n').filter((l) => /^\|/.test(l));
-  const targets = [];
+  const targets = new Set();
   for (const row of rows) {
-    for (const m of row.matchAll(/\]\((?!https?:)([^)]+\.md)\)/g)) targets.push(m[1]);
+    for (const m of row.matchAll(/\]\((?!https?:)([^)#\s]+\.md)(?:#[^)\s]*)?\)/g)) targets.add(m[1].replace(/^\.\//, ''));
   }
-  return targets;
+  return [...targets];
 };
 
 // visual-text-cadence, "The closed set of breaks": a break is a figure, a table,

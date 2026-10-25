@@ -81,6 +81,33 @@ test('the fleet resolves from the registry root, not the cwd', (t) => {
   assert.match(ok.stdout, /1 landing document\(s\) swept, 0 with findings/);
 });
 
+// The router-vs-destinations ratio summed one destination once per LINK, so a page routed
+// from two rows counted twice and a front page could out-weigh its destinations unseen.
+// A link with an #anchor did not count as a route at all.
+test('a destination routed twice counts once; an #anchor link still routes', (t) => {
+  const dir = path.join(scratch(t), 'p');
+  fs.mkdirSync(path.join(dir, 'docs'), { recursive: true });
+  fs.writeFileSync(path.join(dir, 'docs/guide.md'), `${'word '.repeat(150)}\n`);
+  const front = `${'prose '.repeat(10)}\n`.repeat(20).split('\n').slice(0, 14).join('\n');
+  fs.writeFileSync(path.join(dir, 'README.md'), [
+    '# Demo', '', '| Page | What |', '|---|---|', '| [Guide](docs/guide.md) | a |', '| [Again](docs/guide.md) | b |', '', front, '',
+  ].join('\n'));
+  const r = run(SCRIPT, ['--json', '--path', dir]);
+  const res = JSON.parse(r.stdout).results[0];
+  assert.equal(res.routedPages, 1);
+  assert.equal(res.routedWords, 150);
+  // An anchor-only routing table is still a routing table.
+  fs.writeFileSync(path.join(dir, 'README.md'), ['# Demo', '', '| Page | What |', '|---|---|', '| [Install](docs/guide.md#install) | a |', '', 'Short prose.', ''].join('\n'));
+  const anchored = JSON.parse(run(SCRIPT, ['--json', '--path', dir]).stdout).results[0];
+  assert.equal(anchored.routedPages, 1);
+  assert.equal(anchored.routedWords, 150);
+  fs.writeFileSync(path.join(dir, 'README.md'), [
+    '# Demo', '', '| Page | What |', '|---|---|', '| [Guide](docs/guide.md) | a |', '| [Again](docs/guide.md) | b |', '', front, '',
+  ].join('\n'));
+  assert.ok(res.words > 150 && res.words < 300, `fixture words ${res.words} must sit between the true and the doubled routed count`);
+  assert.equal(r.status, 1, 'the front page out-weighs its one destination; the doubled count hid that');
+});
+
 test('--path with no directory is could-not-run (exit 2)', () => {
   assert.equal(run(SCRIPT, ['--path']).status, 2);
   assert.equal(run(SCRIPT, ['--path', '--json']).status, 2);
