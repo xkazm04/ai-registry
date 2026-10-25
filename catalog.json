@@ -741,10 +741,10 @@
     },
     {
       "name": "scan-sweep",
-      "version": "4.7.0",
+      "version": "4.7.1",
       "category": "workflow",
       "path": "skills/scan-sweep/SKILL.md",
-      "contentHash": "sha256-n1:1da208a8f4c420d3",
+      "contentHash": "sha256-n1:2a33f16ba6e33088",
       "adopters": [
         "ascent@plugin:1.0.0",
         "kp@plugin:1.0.0",
