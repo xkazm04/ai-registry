@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-03-28
 source: TalentBoard/CandE-2023+SIOP/2012-applicant-reactions+Chan-et-al-1998+Waung-Brice-2007+Greenhouse/2024-survey+Rocks-2016+Keiningham-et-al-2007
+counterpart: external
 ---
 
 # Measuring how the ending landed: what the research and the benchmark show

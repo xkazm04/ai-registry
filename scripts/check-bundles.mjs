@@ -134,6 +134,13 @@ const VERIFIED_AGAINST_RE = /^[a-z0-9][a-z0-9-]*@\d+(?:\.\d+){0,2}$/;
 // (`data`, docs/reconcile-brief.md). The same three are the null clocks in
 // check-currency.mjs's WINDOW_DAYS; this gate refused the field on `process` only.
 const NO_RUNTIME_STACKS = new Set(['process', 'spec', 'data']);
+// `counterpart: external` marks an application that documents a foreign tree, specification
+// or record (docs/reconcile-brief.md) rather than a consumer's own runtime. `source:` cannot
+// carry that distinction, since consumer applications write it too, so the marker is its
+// own field. The rule it exists for: `verified_against` witnesses a consumer's runtime, so on
+// an external application check-currency would count a foreign tree's version as one (14 of
+// the 67 `source:` applications did, 2026-10-25). `external` is the only declared value.
+const COUNTERPART_VALUES = new Set(['external']);
 // One day of slack: contributors are in many timezones and a clock skew must not be a
 // build failure.
 const TOMORROW = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
@@ -591,6 +598,13 @@ for (const domain of bundles) {
             if (NO_RUNTIME_STACKS.has(fm.stack)) {
               fail(`${arel}: a "${fm.stack}" application has no runtime version to be verified against — drop verified_against`);
             }
+          }
+        }
+        if (fm.counterpart !== undefined) {
+          if (!COUNTERPART_VALUES.has(fm.counterpart)) {
+            fail(`${arel}: counterpart "${fm.counterpart}" is not a declared value — the only one is "external" (rkb-profile §3.1)`);
+          } else if (fm.verified_against !== undefined) {
+            fail(`${arel}: counterpart: external with verified_against "${fm.verified_against}" — that field witnesses a consumer's runtime, not a foreign tree; drop verified_against (docs/reconcile-brief.md)`);
           }
         }
       }

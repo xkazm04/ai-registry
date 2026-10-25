@@ -7,6 +7,7 @@ stack: spec
 verified_on: 2026-10-07
 refresh_by: 2027-04-07
 source: "Companion repositories of three published memory systems and benchmarks, README files retrieved 2026-10-07"
+counterpart: external
 ---
 
 # Newest-wins, separated: what the published repositories actually say

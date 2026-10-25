@@ -7,6 +7,7 @@ stack: spec
 verified_on: 2026-09-02
 refresh_by: 2026-12-02
 source: "Stripe Billing documentation, live pages retrieved 2026-09-02"
+counterpart: external
 ---
 
 # The lifecycle technique against one provider's published contract

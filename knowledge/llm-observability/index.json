@@ -23,9 +23,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/agent-session-archive.md",
-   "digest": "sha256-b2:3e3f46ad2c0269f1",
-   "revision": 2,
-   "changedAt": "2026-10-15",
+   "digest": "sha256-b2:aa419c7f13dda67a",
+   "revision": 3,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "capture-before-parse",
@@ -181,8 +181,7 @@
      "stack": "rust",
      "technique": "root-relative-session-identity",
      "file": "knowledge/llm-observability/telemetry-and-data/agent-session-archive/applications/rust--root-relative-session-identity.md",
-     "verified_on": "2026-10-15",
-     "verified_against": "rust@2026.08.31"
+     "verified_on": "2026-10-15"
     }
    ]
   },
@@ -608,9 +607,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/cross-provider-benchmark-operations.md",
-   "digest": "sha256-b2:609da9e2f3c21869",
-   "revision": 12,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:a6d9e74af45916cc",
+   "revision": 13,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "async-run-queue-with-cancel",
@@ -810,8 +809,7 @@
      "stack": "python",
      "technique": "target-matrix-runs",
      "file": "knowledge/llm-observability/quality-scoring/cross-provider-benchmark-operations/applications/python--target-matrix-runs.md",
-     "verified_on": "2026-08-30",
-     "verified_against": "python@3.12"
+     "verified_on": "2026-08-30"
     },
     {
      "stack": "rust",
@@ -857,9 +855,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/federated-benchmark-sharing.md",
-   "digest": "sha256-b2:1bb6a4d8f620f867",
-   "revision": 11,
-   "changedAt": "2026-10-14",
+   "digest": "sha256-b2:9ba72fc97cd5044b",
+   "revision": 12,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "aggregate-only-digests",
@@ -996,8 +994,7 @@
      "stack": "python",
      "technique": "fixed-task-vocabulary",
      "file": "knowledge/llm-observability/federation-and-surfaces/federated-benchmark-sharing/applications/python--fixed-task-vocabulary.md",
-     "verified_on": "2026-08-30",
-     "verified_against": "python@3.12"
+     "verified_on": "2026-08-30"
     },
     {
      "stack": "rust",
@@ -1196,9 +1193,9 @@
    "subcategory": null,
    "status": "forged",
    "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/grounded-answer-scoring.md",
-   "digest": "sha256-b2:9de247df0b7199eb",
-   "revision": 2,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:091141c8a6b3a7cb",
+   "revision": 3,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "bidirectional-claim-matching",
@@ -1275,22 +1272,19 @@
      "stack": "python",
      "technique": "bidirectional-claim-matching",
      "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/applications/python--bidirectional-claim-matching.md",
-     "verified_on": "2026-09-15",
-     "verified_against": "python@3.12"
+     "verified_on": "2026-09-15"
     },
     {
      "stack": "python",
      "technique": "decompose-then-verify",
      "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/applications/python--decompose-then-verify.md",
-     "verified_on": "2026-09-15",
-     "verified_against": "python@3.12"
+     "verified_on": "2026-09-15"
     },
     {
      "stack": "python",
      "technique": "per-source-attribution",
      "file": "knowledge/llm-observability/quality-scoring/grounded-answer-scoring/applications/python--per-source-attribution.md",
-     "verified_on": "2026-09-15",
-     "verified_against": "python@3.12"
+     "verified_on": "2026-09-15"
     },
     {
      "stack": "python",
@@ -1894,9 +1888,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/margin-and-unit-economics.md",
-   "digest": "sha256-b2:f27ce9388e9f0665",
-   "revision": 5,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:c18d4210fdd38f70",
+   "revision": 6,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "below-filter-honesty",
@@ -1981,8 +1975,7 @@
      "stack": "python",
      "technique": "cogs-by-construction",
      "file": "knowledge/llm-observability/economics-and-governance/margin-and-unit-economics/applications/python--cogs-by-construction.md",
-     "verified_on": "2026-08-30",
-     "verified_against": "python@3.12"
+     "verified_on": "2026-08-30"
     },
     {
      "stack": "rust",
@@ -2237,9 +2230,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/production-trace-scoring.md",
-   "digest": "sha256-b2:65f1d14beed83924",
-   "revision": 7,
-   "changedAt": "2026-09-01",
+   "digest": "sha256-b2:95adbc351991715b",
+   "revision": 8,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "drift-classified-rescoring",
@@ -2345,8 +2338,7 @@
      "stack": "node",
      "technique": "stable-hash-sampling",
      "file": "knowledge/llm-observability/quality-scoring/production-trace-scoring/applications/node--stable-hash-sampling.md",
-     "verified_on": "2026-08-30",
-     "verified_against": "node@24"
+     "verified_on": "2026-08-30"
     },
     {
      "stack": "rust",
@@ -2371,9 +2363,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/quality-regression-gating.md",
-   "digest": "sha256-b2:2fa1e4fd027c9e92",
-   "revision": 8,
-   "changedAt": "2026-09-30",
+   "digest": "sha256-b2:9548319fbd9c4eae",
+   "revision": 9,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "baseline-carries-its-conditions",
@@ -2482,8 +2474,7 @@
      "stack": "node",
      "technique": "unverified-vs-regressed-exit-states",
      "file": "knowledge/llm-observability/quality-scoring/quality-regression-gating/applications/node--unverified-vs-regressed-exit-states.md",
-     "verified_on": "2026-08-30",
-     "verified_against": "node@24"
+     "verified_on": "2026-08-30"
     },
     {
      "stack": "python",
@@ -2520,9 +2511,9 @@
    "subcategory": null,
    "status": "reconciled",
    "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/trace-rollup-and-attribution.md",
-   "digest": "sha256-b2:441741a78f8712b4",
-   "revision": 7,
-   "changedAt": "2026-09-18",
+   "digest": "sha256-b2:3db1001b079944c5",
+   "revision": 8,
+   "changedAt": "2026-10-25",
    "techniques": [
     {
      "slug": "derived-trace-rollup",
@@ -2609,8 +2600,7 @@
      "stack": "python",
      "technique": "keyset-trace-pagination",
      "file": "knowledge/llm-observability/telemetry-and-data/trace-rollup-and-attribution/applications/python--keyset-trace-pagination.md",
-     "verified_on": "2026-08-30",
-     "verified_against": "python@3.12"
+     "verified_on": "2026-08-30"
     },
     {
      "stack": "react",

@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-03-28
 source: EU/CJEU-C-634-21+EU/GDPR-Art-22+EU/WP251-via-AEPD+UK/DUAA-2025-s80+EU/AI-Act-Art-14+EU/Reg-2026-1744+US-NYC/6-RCNY-5-300+US-FL/Florida-Bar-open-government-overview-2018
+counterpart: external
 ---
 
 # When advice is the decision: the reliance tests, September 2026

@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-03-28
 source: US/5-USC-3319+US/5-CFR-332.404(90-FR-43135)+US-OPM/CHCO-memo-2026-01-13+US-OPM/Rule-of-Many-FAQ
+counterpart: external
 ---
 
 # Certification regimes in US federal hiring, September 2026

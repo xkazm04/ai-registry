@@ -6,8 +6,8 @@ technique: mid-iteration-event-seams
 stack: python
 status: forged
 verified_on: 2026-09-03
-verified_against: python@3.10
 source: Project-MONAI/MONAI
+counterpart: external
 ---
 
 # Mid-iteration events in MONAI's engine workflow

@@ -8,6 +8,7 @@ status: forged
 verified_on: 2026-09-28
 refresh_by: 2027-03-28
 source: US/29-CFR-1630+US-EEOC/RA-guidance-2002+UK/EqA-2010+UK-ACAS+US-JAN+W3C/WCAG-2.2
+counterpart: external
 ---
 
 # The adjustment ask as the texts write it

@@ -6,8 +6,8 @@ technique: keyset-trace-pagination
 stack: python
 status: forged
 verified_on: 2026-08-30
-verified_against: python@3.12
 source: Arize-ai/phoenix
+counterpart: external
 ---
 
 # Keyset trace pagination in Phoenix's trace and span GraphQL API

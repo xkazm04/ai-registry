@@ -7,6 +7,7 @@ stack: data
 status: forged
 verified_on: 2026-08-23
 source: EuropeanCommission/ESCO
+counterpart: external
 ---
 
 # Canonical identity in a published multilingual skills taxonomy

@@ -5,6 +5,7 @@ subject: czech
 technique: plural-and-count-agreement
 stack: spec
 source: unicode-org/cldr@release-48-2
+counterpart: external
 status: forged
 verified_on: 2026-08-29
 ---

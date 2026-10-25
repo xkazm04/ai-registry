@@ -5,6 +5,7 @@ subject: translation-pipeline-topology
 technique: source-hash-translation-cache
 stack: process
 source: mdn/translated-content
+counterpart: external
 status: forged
 verified_on: 2026-08-29
 ---
