@@ -232,7 +232,21 @@ const isMain = process.argv[1] && samePath(process.argv[1], fileURLToPath(import
 if (isMain) {
   const argv = process.argv.slice(2);
   const arg = (flag) => { const i = argv.indexOf(flag); return i === -1 ? null : argv[i + 1] ?? null; };
+  // The flag set is CLOSED. lens-scan runs this unattended and records whatever rows come
+  // back: `--feature x` (singular) used to be ignored and every feature measured, and a
+  // valued flag at the end of the line (`--registry`) silently took its default.
+  const VALUED = new Set(['--project', '--path', '--structure', '--features', '--registry']);
+  const closed = () => {
+    for (let i = 0; i < argv.length; i++) {
+      if (argv[i] === '--json') continue;
+      if (!VALUED.has(argv[i])) throw new BadInput(`unknown argument ${JSON.stringify(argv[i])}`);
+      const v = argv[i + 1];
+      if (v === undefined || v.startsWith('--')) throw new BadInput(`${argv[i]} needs a value`);
+      i++;
+    }
+  };
   try {
+    closed();
     const features = arg('--features')?.split(',').map((s) => s.trim()).filter(Boolean) ?? null;
     const root = arg('--path');
     const rows = registryLensRows({

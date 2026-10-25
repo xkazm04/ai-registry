@@ -140,3 +140,17 @@ test('CLI: --features limits the rows; bad input exits FATAL with one line', () 
     assert.equal(bad.stderr.trim().split('\n').length, 1);
   });
 });
+
+test('CLI: an unknown flag, or a flag with no value, refuses instead of measuring something else', () => {
+  fixture(({ root, registry }) => {
+    const cli = (...extra) => spawnSync(process.execPath, [SCRIPT, '--project', 'shop', '--path', root, ...extra, '--json'], { encoding: 'utf8' });
+    // `--feature` (singular) used to be ignored, and every feature was measured
+    for (const args of [['--registry', registry, '--feature', 'payments'], ['--registry'], ['--registry', registry, '--structure']]) {
+      const r = cli(...args);
+      assert.equal(r.status, EXIT.FATAL, `${args.join(' ')}: ${r.stdout.slice(0, 120)}`);
+      assert.equal(r.stdout, '');
+      assert.equal(r.stderr.trim().split('\n').length, 1);
+      assert.match(r.stderr, /^registry-lens: /);
+    }
+  });
+});
