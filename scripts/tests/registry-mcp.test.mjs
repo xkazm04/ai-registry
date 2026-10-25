@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { TOOLS, SUPPORTED_PROTOCOL_VERSIONS, SERVER_VERSION, validateArgs, ledgerArgv, realHandlers, renderResult } from '../registry-mcp.mjs';
+import { TOOLS, SUPPORTED_PROTOCOL_VERSIONS, SERVER_VERSION, RECHECK_MS, validateArgs, ledgerArgv, realHandlers, renderResult } from '../registry-mcp.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '..', '..');
@@ -202,4 +202,26 @@ test('real core over the real corpus: registry_query returns a hit (skipped whil
   const card = s.byId.get(3).result;
   assert.notEqual(card.isError, true, card.content[0].text);
   assert.match(card.content[0].text, /a11y-verification/);
+});
+
+test('the periodic recheck reloads the projection only when a bundle fingerprint moved', async (t) => {
+  // Every RECHECK_MS the server re-ran loadProjection, re-parsing every cached bundle (~350 ms on
+  // this corpus) when a fingerprint walk (~240 ms) already says nothing changed.
+  const tmp = tempDir(t);
+  const idx = path.join(tmp, 'knowledge', 'demo', 'index.json');
+  fs.mkdirSync(path.dirname(idx), { recursive: true });
+  fs.writeFileSync(idx, JSON.stringify({ subjects: {}, laws: {} }));
+  const logs = [];
+  let clock = 0;
+  const h = realHandlers(tmp, { log: (m) => logs.push(m), now: () => clock });
+  const loads = () => logs.filter((m) => /^projection loaded/.test(m)).length;
+  await h.registry_query({ terms: 'anything' });
+  assert.equal(loads(), 1, 'first call loads');
+  clock += RECHECK_MS;
+  await h.registry_query({ terms: 'anything' });
+  assert.equal(loads(), 1, 'an unchanged tree is not reloaded at the recheck');
+  fs.writeFileSync(idx, JSON.stringify({ subjects: {}, laws: {}, meta: { moved: true } }));
+  clock += RECHECK_MS;
+  await h.registry_query({ terms: 'anything' });
+  assert.equal(loads(), 2, 'a moved fingerprint reloads');
 });
