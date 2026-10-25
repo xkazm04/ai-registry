@@ -81,3 +81,7 @@ fleet-*.proposals.json
 # the markdown whenever a bundle's file stats move (scripts/lib/registry-query.mjs). A
 # cache is derived state, and a committed copy would churn with every knowledge commit.
 /.cache/
+
+# /architect run memory: the fallback vault (scans, ADRs, backlog) of a skill that runs on
+# this repo. Working memory, not registry content - same rule as .explorer/ and .perfect/.
+.architect/
