@@ -208,6 +208,14 @@ for (const bundle of bundles) {
         unresolved++;
         return whole;
       }
+      // A link that still lands on the same file from its file's new home is left exactly as
+      // written: nothing it depends on moved relative to it. Re-expressing it anyway turned
+      // `techniques/x.md` into `./techniques/x.md`, and a re-run over the already-nested
+      // corpus planned 34 such rewrites across 0 moves.
+      if (path.resolve(path.dirname(absNew), linkPath) === targetNew) {
+        verified++;
+        return whole;
+      }
       let rel = posix(path.relative(path.dirname(absNew), targetNew));
       if (!rel.startsWith('.')) rel = `./${rel}`;
 

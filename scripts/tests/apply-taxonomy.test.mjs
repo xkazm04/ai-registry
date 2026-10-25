@@ -65,6 +65,21 @@ test('--apply still moves a usable bundle that follows a failed one, links intac
   assert.equal(JSON.parse(fs.readFileSync(path.join(bbb, 'taxonomy.json'), 'utf8')).layout, 'nested');
 });
 
+// A link whose file and target both stay put is not the mover's business. The rewrite
+// re-expressed every resolvable link, so `techniques/x.md` became `./techniques/x.md` and a
+// re-run on an already-placed tree planned 34 rewrites over 0 moves on the real corpus.
+test('a re-run over a tree already at its layout plans no rewrites and writes nothing', () => {
+  const { root, bbb } = fixture();
+  assert.equal(run(root, 'bbb', '--to', 'nested', '--apply').status, 0);
+  const file = path.join(bbb, 'core', 'topic', 'topic.md');
+  const before = fs.readFileSync(file, 'utf8');
+  assert.match(before, /\]\(techniques\/x\.md\)/, 'fixture keeps an un-dotted local link');
+  const again = run(root, 'bbb', '--to', 'nested', '--apply');
+  assert.equal(again.status, 0, again.stderr);
+  assert.match(again.stdout, /0 subject folder\(s\) move, 0 file\(s\) get 0 link rewrite\(s\)/);
+  assert.equal(fs.readFileSync(file, 'utf8'), before);
+});
+
 test('control: a single usable bundle moves and exits 0', () => {
   const { root, bbb } = fixture();
   const r = run(root, 'bbb', '--to', 'nested', '--apply');
