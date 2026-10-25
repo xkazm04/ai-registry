@@ -148,3 +148,36 @@ test('verifyMerged lists verdicts the map does not hold as notApplied, and unkno
   assert.equal(r.checked, 0);
   assert.equal(r.pass, false, 'a wave that applied nothing is not a pass');
 });
+
+test('verify-merge: a named run file that is missing is not a pass, whatever the others say', async () => {
+  // A typo in --runs used to drop that run's pairs silently: the rest checked out, `pass` was
+  // true and the exit 0 - for a wave whose evidence was never read.
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { spawnSync } = await import('node:child_process');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'map-state.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'straighten-verify-'));
+  try {
+    const checkout = path.join(root, 'project');
+    const registry = path.join(root, 'registry');
+    fs.mkdirSync(path.join(checkout, '.ai', 'conform-runs'), { recursive: true });
+    fs.mkdirSync(path.join(registry, 'knowledge', 'se'), { recursive: true });
+    fs.writeFileSync(path.join(registry, 'knowledge', 'se', 'index.json'), JSON.stringify({ subjects: { 'rate-limiting': { digest: 'd-1', revision: 3 } } }));
+    fs.writeFileSync(path.join(checkout, '.ai', 'registry-map.json'), JSON.stringify(map()));
+    const judged = { context: 'c1', subject: 'rate-limiting', bundle: 'se', state: 'deviation', evidence: 'src/a.ts:4 x' };
+    fs.writeFileSync(path.join(checkout, '.ai', 'conform-runs', 'a.json'), JSON.stringify({ pairs: [judged] }));
+    const verify = (runs) => spawnSync(process.execPath, [script, 'verify-merge', '--checkout', checkout, '--runs', runs, '--registry', registry], { encoding: 'utf8' });
+    const good = verify('a.json');
+    assert.equal(good.status, 0, good.stderr);
+    assert.equal(JSON.parse(good.stdout).pass, true);
+    const typo = verify('a.json,b.jsno');
+    const out = JSON.parse(typo.stdout);
+    assert.equal(out.pass, false, 'a run that could not be read is not a pass');
+    assert.deepEqual(out.missing, ['b.jsno']);
+    assert.equal(typo.status, 2, 'exit 2: the check could not read all of its input');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});

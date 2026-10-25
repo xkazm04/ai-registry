@@ -467,7 +467,7 @@
       "name": "straighten",
       "source": "./skills/straighten",
       "description": "Drain the fleet's version debt against the registry in one sitting. Run from the registry checkout when a bundle landing, a context-map rebuild, a rename or an uncommitted converge rebuild has left registry maps behind: classify every checked-out project's .ai/registry-map.json (modified but equal to a rebuild from HEAD: generator-dirty, committed; verdicts differ: somebody's work, never…",
-      "version": "1.3.1",
+      "version": "1.3.2",
       "category": "ai-native",
       "tags": [
         "registry-map",

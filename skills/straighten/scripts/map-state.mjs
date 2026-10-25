@@ -19,7 +19,8 @@
  * files judged carries the subject digest and evaluatedRevision, stale cleared.
  *
  * Prints one JSON document. Exit 0 = ran (classify) / check passed (verify-merge);
- * 1 = verify-merge found rows without the stamps; 2 = could not run.
+ * 1 = verify-merge found rows without the stamps; 2 = could not run (for verify-merge, also a
+ * named run file that is not on disk - `missing` in the document, `pass` false).
  * The decisions live in map-compare.mjs, which the tests import.
  */
 import fs from 'node:fs';
@@ -117,7 +118,11 @@ function verifyMerge({ checkout, runs, registry }) {
     files.push({ name, status: found.includes(`${path.sep}merged${path.sep}`) ? 'merged' : 'pending', pairs: (run.pairs || []).length });
     runPairs.push(...(run.pairs || []));
   }
-  return { files, ...verifyMerged({ map, index: subjectIndex(indexes), runPairs }) };
+  // A named run that is not on disk is evidence this check never read: it fails the check (and
+  // main exits 2, could not run), however clean the runs it did read came out.
+  const missing = files.filter((f) => f.status === 'missing').map((f) => f.name);
+  const res = verifyMerged({ map, index: subjectIndex(indexes), runPairs });
+  return { files, ...res, ...(missing.length ? { missing, pass: false } : {}) };
 }
 
 function main(argv) {
@@ -131,7 +136,7 @@ function main(argv) {
   opt.registry = registryRoot(opt.registry);
   try {
     if (cmd === 'classify') { console.log(JSON.stringify(classify(opt), null, 2)); return OK; }
-    if (cmd === 'verify-merge') { const r = verifyMerge(opt); console.log(JSON.stringify(r, null, 2)); return r.pass ? OK : VIOLATIONS; }
+    if (cmd === 'verify-merge') { const r = verifyMerge(opt); console.log(JSON.stringify(r, null, 2)); return r.missing ? FATAL : r.pass ? OK : VIOLATIONS; }
     console.error('usage: map-state.mjs classify --checkout <dir> --slug <slug> --scratch <dir> | verify-merge --checkout <dir> --runs a.json,b.json');
     return FATAL;
   } catch (e) {
