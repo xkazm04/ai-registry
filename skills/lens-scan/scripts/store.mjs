@@ -1009,6 +1009,10 @@ export function main(argv) {
   // a typo, or a --db whose path was lost, never opens (and so creates) a store: the default one sits in the cwd
   if (!SUBCOMMANDS.includes(cmd)) bad(`unknown subcommand ${JSON.stringify(cmd)} - run with --help`);
   if (a.db === true) bad('--db needs a path (the default is .ai/lens-scan/scan.db: omit --db to use it)');
+  // parseArgs reads a flag with no value as `true`; only --untriaged is a switch. Any other reached SQLite as a
+  // boolean ("Provided value cannot be bound to SQLite parameter 4") or was dropped as if it were absent.
+  const valueless = Object.keys(a).filter((k) => a[k] === true && k !== 'untriaged');
+  if (valueless.length) bad(valueless.map((k) => `--${k.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`)} needs a value`).join('; '));
   const db = openStore(typeof a.db === 'string' ? a.db : DEFAULT_DB);
   try {
     switch (cmd) {

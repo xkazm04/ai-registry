@@ -150,6 +150,21 @@ test('proposals and packs refuse a status or kind outside their sets, never an e
   db.close();
 });
 
+test('cli: a flag whose value is missing is named, never a SQLite bind error; --untriaged stays a switch', () => {
+  const db = tmpDb();
+  const { id: run } = cli(db, 'run-start', '--phase', 'propose', '--lenses', 'design');
+  const { id } = cli(db, 'propose', '--run', run, '--feature', 'a', '--lens', 'design', '--title', 't', '--kind', 'baseline-upgrade');
+  const run2 = (...args) => spawnSync(process.execPath, [SCRIPT, '--db', db, ...args], { encoding: 'utf8' });
+  for (const args of [['decide', '--ids', id, '--decision', 'approve', '--by', 'operator:jane', '--note'], ['proposals', '--status'], ['activity', '--run', run, '--kind', 'note', '--text', 'x', '--feature']]) {
+    const r = run2(...args);
+    assert.equal(r.status, 2, args.join(' '));
+    assert.match(r.stderr, new RegExp(`--${args[args.length - 1].slice(2)} needs a value`));
+    assert.doesNotMatch(r.stderr, /cannot be bound/);
+  }
+  assert.equal(cli(db, 'proposals', '--status', 'proposed')[0].status, 'proposed', 'the decide above wrote nothing');
+  assert.equal(cli(db, 'proposals', '--untriaged').length, 1);
+});
+
 test('parseArgs keeps negative numbers as values', () => {
   assert.deepEqual(parseArgs(['propose', '--expected-delta', '-3', '--dry']), { _: ['propose'], expectedDelta: '-3', dry: true });
 });
