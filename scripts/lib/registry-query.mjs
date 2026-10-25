@@ -48,7 +48,8 @@
  * A law row's `title` is its anchor id, and its gist is `<id> - <first sentence>`: the
  * Hit shape carries no title, so the id rides in the gist the same way an H1 title does
  * for every other row (`<title> - <first sentence>`). Read one law with
- * `readDoc(<_laws.md>, { section: <id> })` - section matching strips the anchor HTML.
+ * `readDoc(<_laws.md>, { section: <id> })` - a section matches its heading words or its
+ * `<a id>` anchor, and a law's heading words are not its id.
  *
  * RANKING. BM25F: per-field term frequencies are length-normalised per field, weighted
  * (FIELD_WEIGHTS), summed, then saturated once with k1. Fields: title (H1 + slug words),
@@ -915,11 +916,24 @@ export function readDoc(root, relPath, { section = null, maxTokens = DEFAULT_REA
   if (!st.isFile()) throw new Error(`registry-query: ${rel} is not a file`);
 
   const lines = fs.readFileSync(abs, 'utf8').replace(/\r\n/g, '\n').split('\n');
-  const heads = []; // {i, text}
+  // {i, text, id}: id is the heading's `<a id>` anchor - on the heading line, or alone on
+  // the line(s) just above it (both shapes are in the corpus's _laws.md) - '' without one.
+  const heads = [];
   let fence = false;
+  let anchorAbove = null; // {id, at}
   lines.forEach((l, i) => {
-    if (/^\s*(```|~~~)/.test(l)) fence = !fence;
-    else if (!fence && /^##\s/.test(l)) heads.push({ i, text: headingText(l) });
+    if (/^\s*(```|~~~)/.test(l)) { fence = !fence; anchorAbove = null; return; }
+    if (fence) return;
+    if (/^##\s/.test(l)) {
+      const own = /<a\s+id="([^"]+)"/i.exec(l)?.[1];
+      // `from` is where the previous section ends: an anchor above belongs to this heading.
+      heads.push({ i, from: own || !anchorAbove ? i : anchorAbove.at, text: headingText(l), id: (own ?? anchorAbove?.id ?? '').toLowerCase() });
+      anchorAbove = null;
+      return;
+    }
+    const alone = /^\s*<a\s+id="([^"]+)"\s*>\s*<\/a>\s*$/i.exec(l);
+    if (alone) anchorAbove = { id: alone[1], at: i };
+    else if (l.trim()) anchorAbove = null;
   });
   const sections = heads.map((h) => h.text);
 
@@ -927,11 +941,15 @@ export function readDoc(root, relPath, { section = null, maxTokens = DEFAULT_REA
   let end = lines.length;
   if (section != null && String(section).trim()) {
     const want = clean(String(section).replace(/^#+\s*/, '')).toLowerCase();
-    const k = heads.findIndex((h) => h.text.toLowerCase() === want);
-    const at = k !== -1 ? k : heads.findIndex((h) => h.text.toLowerCase().startsWith(want));
+    // Heading words exactly, then the heading's anchor id (what a law hit prints as its
+    // section: _laws.md headings are `## <a id="<id>"></a><words>`, and the words are
+    // not the id), then a prefix of the words.
+    let at = heads.findIndex((h) => h.text.toLowerCase() === want);
+    if (at === -1) at = heads.findIndex((h) => h.id && h.id === want);
+    if (at === -1) at = heads.findIndex((h) => h.text.toLowerCase().startsWith(want));
     if (at === -1) throw new Error(`registry-query: ${rel} has no "## ${section}" section; sections: ${sections.join(' | ') || '(none)'}`);
     start = heads[at].i;
-    end = heads[at + 1]?.i ?? lines.length;
+    end = heads[at + 1]?.from ?? lines.length;
   }
   const slice = lines.slice(start, end);
   while (slice.length && slice[slice.length - 1].trim() === '') slice.pop();

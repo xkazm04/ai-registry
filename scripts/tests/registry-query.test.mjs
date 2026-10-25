@@ -40,7 +40,8 @@ function fixture() {
     fs.writeFileSync(path.join(beta, 'techniques', `${n}.md`), tech('beta', n, [`widget routing ${n}`], `Widget routing ${n}`, `Widget routing variant ${n} is described here.`));
   }
   fs.writeFileSync(path.join(beta, 'beta.md'), ['---', 'subject: beta', 'status: draft', 'use_when: [routing widgets]', '---', '', '# Beta', '', '- a list first', '', 'Beta routes widgets. More.', ''].join('\n'));
-  fs.writeFileSync(path.join(b, '_laws.md'), ['# Laws', '', '## <a id="law-x"></a> law-x', '', 'Every cache names its reaper. A second sentence.', ''].join('\n'));
+  // The corpus shape: an anchor id, then a heading in words that is NOT the id.
+  fs.writeFileSync(path.join(b, '_laws.md'), ['# Laws', '', '## <a id="law-x"></a>Caches name their reaper', '', 'Every cache names its reaper. A second sentence.', ''].join('\n'));
   const index = {
     meta: {},
     subjects: {
@@ -296,6 +297,15 @@ test('readDoc sections: exact before prefix, case-insensitive, through the next 
     assert.equal(prefix.text, '## Install extras\n\nmore');
     const law = readDoc(root, 'knowledge/demo/_laws.md', { section: 'law-x' });
     assert.match(law.text, /Every cache names its reaper/);
+    assert.deepEqual(law.sections, ['Caches name their reaper'], 'sections list the heading words, not the anchor');
+    // The next step a law hit prints (`| section: <id>`) must be one readDoc accepts.
+    const hit = query(buildProjection(root), ['reaper'], { kinds: ['law'] }).hits[0];
+    const advertised = formatHit(hit).split('| section: ')[1];
+    assert.match(readDoc(root, hit.path, { section: advertised }).text, /^## <a id="law-x"><\/a>Caches name their reaper/);
+    // The other corpus shape: the anchor alone on the line above its heading.
+    fs.writeFileSync(path.join(root, 'docs', 'laws.md'), ['# Laws', '', '<a id="l-one"></a>', '## L1 - First law', '', 'one', '', '<a id="l-two"></a>', '## L2 - Second law', '', 'two', ''].join('\n'));
+    assert.equal(readDoc(root, 'docs/laws.md', { section: 'l-one' }).text, '## L1 - First law\n\none', 'the next law\'s anchor line is not this section\'s tail');
+    assert.equal(readDoc(root, 'docs/laws.md', { section: 'L-TWO' }).text, '## L2 - Second law\n\ntwo');
     assert.throws(() => readDoc(root, 'docs/guide.md', { section: 'nope' }), /no "## nope" section; sections: Install/);
   } finally { rmrf(root); }
 });
