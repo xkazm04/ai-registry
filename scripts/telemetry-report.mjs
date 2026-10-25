@@ -1,4 +1,20 @@
 #!/usr/bin/env node
+/**
+ * telemetry-report - what the contributor lanes say that no score may silently absorb.
+ *
+ * The catalog and the librarian score named artifacts from `usage/` and `signals/`. A
+ * count reported under a name that resolves to nothing here (a renamed skill, a moved
+ * subject) is excluded from those scores - and without this report it would also vanish
+ * from view. So this prints, as one JSON document: every report's freshness against an
+ * explicit `--as-of` (unknown / future / stale / within-window, never a rewritten date),
+ * the unresolved usage and signal identities with their counts, and the possible
+ * duplicate bundle blocks. It decides nothing; it is the evidence an identity migration in
+ * identity-aliases.json is argued from (docs/telemetry-identity.md).
+ *
+ * Usage:  node scripts/telemetry-report.mjs [--as-of <ISO date>]   (default: now)
+ * Exit codes (scripts/lib/exit-codes.mjs): 0 reported, 2 could not run (an unreadable lane
+ * file, an invalid alias map, an invalid --as-of).
+ */
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
