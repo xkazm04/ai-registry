@@ -4,7 +4,8 @@
  * --all runs the complete deterministic chain; --lane selects a declared subset.
  * --write validates source before regenerating derived views. Shared skill clauses
  * remain check-only because restamping needs an explicit version-bump decision.
- * PR history checks run separately with the PR base; external currency/liveness
+ * Version-history checks run separately, against the PR base or the push's prior head
+ * (registry.yml, every event); external currency/liveness
  * reports remain advisory. Legacy workflows retain their existing status names.
  * A child execution failure is distinct from a content violation.
  */
@@ -127,7 +128,7 @@ const usage = () => {
   console.error('       node scripts/gate.mjs --list      print the plan (every row and --all) as JSON, run nothing');
   console.error('');
   console.error('Runs the gate chain CI enforces, in CI order, stopping at the first red.');
-  console.error('registry.yml executes this same plan; PR version checks run separately.');
+  console.error('registry.yml executes this same plan; version checks (--since <base>) run separately, on every push and PR.');
 };
 
 if (argv.includes('--help') || argv.includes('-h')) { usage(); process.exit(EXIT.OK); }
@@ -214,4 +215,4 @@ for (const s of chain) {
 console.log(`gate OK - ${ranClean}/${chain.length} step(s) green (${label}).`);
 if (!all) console.log('This is one lane\'s row. `--all` runs the whole chain CI enforces.');
 console.log('NOT run here: check-skills.mjs / check-recipes.mjs --since <base> (CI runs them on every push and PR), and the');
-console.log('report-only jobs check-currency / librarian-scan / check-citations.');
+console.log('report-only jobs check-currency / librarian-scan --top / check-citations / check-citation-dates / compression-scan.');
