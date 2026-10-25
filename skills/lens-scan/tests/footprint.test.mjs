@@ -88,6 +88,32 @@ test('cli: writes through the store; --dry writes nothing', async () => {
   await assert.rejects(main(['--run', id, '--structure', sp, '--bundle-stats', 'x.json']), /not supported/);
 });
 
+test('the unmeasured note says why: no listed file exists, or files exist that this lens does not count', async () => {
+  const dir = mkdtempTracked(join(tmpdir(), 'lens-scan-footprint-why-'));
+  mkdirSync(join(dir, 'src'));
+  writeFileSync(join(dir, 'src', 'api.ts'), 'export const x = 1;\n');
+  const structure = {
+    $schema: 'app-structure/3', version: 3, project: { slug: 'x', name: 'X' },
+    contexts: [{ name: 'api', file_paths: ['src/api.ts'] }, { name: 'gone', file_paths: ['src/gone.tsx'] }],
+    features: [{ slug: 'api', name: 'API', contexts: ['api'] }, { slug: 'gone', name: 'Gone', contexts: ['gone'] }],
+  };
+  const sp = join(dir, 'app-structure.json');
+  writeFileSync(sp, JSON.stringify(structure));
+  const dbPath = join(dir, 'scan.db');
+  const db = openStore(dbPath);
+  const { id } = runStart(db, { phase: 'measure', lenses: 'design' });
+  db.close();
+  const out = await main(['--run', id, '--structure', sp, '--root', dir, '--db', dbPath, '--lens', 'design']);
+  assert.deepEqual(out.features.map((f) => f.feature), ['api', 'gone']);
+  const back = openStore(dbPath);
+  const notes = back.prepare("SELECT feature, text FROM activity WHERE kind = 'note' ORDER BY id").all();
+  back.close();
+  // api.ts exists: the design lens has no UI component file to read, which is not "no listed file exists"
+  assert.match(notes[0].text, /^footprint: 1 listed file\(s\) exist, none the design lens counts/);
+  assert.doesNotMatch(notes[0].text, /no listed file exists/);
+  assert.match(notes[1].text, /no listed file exists; unmeasured/);
+});
+
 test('testRatioPct: repo tests named after a source file count; capped at 100', () => {
   const src = [{ path: 'src/editor/Editor.tsx', text: 'a\nb\nc\nd\n' }];
   const repoTests = [{ path: 'src/__tests__/editor.test.tsx', text: 'x\ny\n' }, { path: 'src/__tests__/other.test.tsx', text: 'z\n' }];
