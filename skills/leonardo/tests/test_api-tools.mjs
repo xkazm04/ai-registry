@@ -88,6 +88,43 @@ test('gpt-image: a partial download keeps the generation and lists what failed',
   assert.equal(r.requests.filter((q) => q.method === 'DELETE').length, 0);
 });
 
+// ------------------------------------------------------------------ Gemini key placement
+// A key in the query string is in every proxy log, access log and error that prints the URL;
+// the Gemini API takes it in the x-goog-api-key header. Both Gemini callers must use the header.
+const GEMINI_OK = { candidates: [{ content: { parts: [{ text: '{"score": 7, "defects": "none"}' }] } }] };
+const noKeyInUrl = (requests) => requests.filter((q) => q.url.includes('generativelanguage') || q.url.includes(':generateContent'));
+
+test('gemini-recognize sends the key in the x-goog-api-key header, never in the URL', () => {
+  const dir = sandbox();
+  const img = path.join(dir, 'in.png');
+  writeFileSync(img, 'PNG');
+  const r = run(dir, 'gemini-recognize.mjs', ['--input', img, '--prompt', 'describe'], [
+    ['POST', ':generateContent', 200, GEMINI_OK],
+  ], { GEMINI_API_KEY: 'g_secret_test' });
+  assert.equal(r.code, 0, r.err);
+  const calls = noKeyInUrl(r.requests);
+  assert.equal(calls.length, 1);
+  assert.doesNotMatch(calls[0].url, /g_secret_test|[?&]key=/);
+  assert.equal(calls[0].headers['x-goog-api-key'], 'g_secret_test');
+});
+
+test('leonardo-image generate-best rates candidates with the key in the header, never in the URL', () => {
+  const dir = sandbox();
+  const r = run(dir, 'leonardo-image.mjs', ['generate-best', '--prompt', 'p', '--output', path.join(dir, 'best.png'), '--candidates', '1'], [
+    ['POST', '/generations', 200, { sdGenerationJob: { generationId: 'gen-best-0001' } }],
+    ['GET', '/generations/gen-best-0001', 200, { generations_by_pk: { status: 'COMPLETE', generated_images: [{ id: 'img1', url: 'https://cdn.leonardo.ai/u/c.png' }] } }],
+    ['GET', 'cdn.leonardo.ai', 200, 'PNGDATA'],
+    ['POST', ':generateContent', 200, GEMINI_OK],
+    ['DELETE', '/generations/gen-best-0001', 200, {}],
+  ], { LEONARDO_API_KEY: 'k_test', GEMINI_API_KEY: 'g_secret_test' });
+  assert.equal(r.code, 0, r.err);
+  assert.equal(JSON.parse(r.out).winnerScore, 7);
+  const calls = noKeyInUrl(r.requests);
+  assert.equal(calls.length, 1);
+  assert.doesNotMatch(calls[0].url, /g_secret_test|[?&]key=/);
+  assert.equal(calls[0].headers['x-goog-api-key'], 'g_secret_test');
+});
+
 test('gpt-image: all downloads landing still cleans the cloud generation up', () => {
   const dir = sandbox();
   const r = run(dir, 'leonardo-gpt-image.mjs', ['generate', '--prompt', 'p', '--output', path.join(dir, 'c.png')], [

@@ -42,13 +42,15 @@ const ext = extname(absPath).toLowerCase();
 const mimeMap = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.gif': 'image/gif', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
 const mimeType = mimeMap[ext] || 'image/png';
 
-const url = `${BASE_URL}/models/${MODEL}:generateContent?key=${API_KEY}`;
+// The key travels in the x-goog-api-key header, not `?key=`: a query string lands in proxy and
+// access logs and in any error that prints the URL.
+const url = `${BASE_URL}/models/${MODEL}:generateContent`;
 const body = {
   contents: [{ role: 'user', parts: [{ inlineData: { mimeType, data: base64Data } }, { text: args.prompt }] }],
   generationConfig: { temperature: 0.4, maxOutputTokens: 2048 },
 };
 
-const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': API_KEY }, body: JSON.stringify(body) });
 if (!res.ok) { const t = await res.text(); console.error(JSON.stringify({ error: `Gemini ${res.status}`, details: t.slice(0, 500) })); process.exit(1); }
 const data = await res.json();
 let text = '';

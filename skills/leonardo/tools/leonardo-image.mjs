@@ -115,7 +115,8 @@ async function geminiRate(imagePath, ratePrompt) {
   const GKEY = process.env.GEMINI_API_KEY;
   if (!GKEY) return { score: null, analysis: 'no GEMINI_API_KEY' };
   const buf = readFileSync(imagePath).toString('base64');
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${GKEY}`;
+  // key in the x-goog-api-key header, never the URL (as gemini-recognize.mjs)
+  const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent';
   const body = {
     contents: [{ role: 'user', parts: [
       { inlineData: { mimeType: 'image/png', data: buf } },
@@ -123,7 +124,7 @@ async function geminiRate(imagePath, ratePrompt) {
     ]}],
     generationConfig: { temperature: 0.2, maxOutputTokens: 256 },
   };
-  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-goog-api-key': GKEY }, body: JSON.stringify(body) });
   if (!res.ok) return { score: null, analysis: `gemini ${res.status}` };
   const data = await res.json();
   let text = '';
