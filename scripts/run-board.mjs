@@ -785,6 +785,29 @@ const TABLE = {
   check: cmdCheck, lock: cmdLock, unlock: cmdUnlock, release: cmdRelease, gc: cmdGc,
 };
 
+/** The flags each command reads. An unread flag used to be ignored, so `claim --subjet X`
+ *  was granted as a claim of nothing and every sibling's `check X` then printed `clear`. */
+const CLAIM_FLAGS = ['run', 'subject', 'path', 'project', 'domain', 'scratch', 'phase', 'status'];
+const FLAGS = {
+  claim: ['skill', 'source', 'force', ...CLAIM_FLAGS],
+  beat: CLAIM_FLAGS, update: CLAIM_FLAGS,
+  list: ['json', 'all'], status: ['json', 'all'],
+  check: ['run'],
+  lock: ['run', 'wait', 'ttl'],
+  unlock: ['run', 'force'],
+  release: ['run'],
+  gc: [],
+};
+
+function assertFlags(command) {
+  for (const a of argv.slice(1)) {
+    if (!a.startsWith('--')) continue;
+    if (!FLAGS[command].includes(a.slice(2))) {
+      die('unknown flag ' + a + ' for ' + command + ' (it reads: ' + (FLAGS[command].map((f) => '--' + f).join(' ') || 'no flags') + ')');
+    }
+  }
+}
+
 // Dispatch only when run as a command. Imported - by the test beside this file, or by
 // anything that wants `lockBreakable` - the module must define and return.
 const RUN_AS_CLI = process.argv[1]
@@ -796,6 +819,7 @@ if (RUN_AS_CLI) {
     console.error(header);
     process.exit(cmd && cmd !== '--help' && cmd !== '-h' ? 1 : 0);
   }
+  assertFlags(cmd);
   assertAddressFold();
   process.exit(TABLE[cmd]() || 0);
 }

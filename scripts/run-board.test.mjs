@@ -311,6 +311,33 @@ test('REGRESSION: lock refuses a --ttl or --wait that is not a positive number',
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
+test('REGRESSION: a misspelled flag is refused, never written as a claim of nothing', async () => {
+  // Before: `claim --subjet X` was granted with no subject at all, so every later `check X`
+  // by a sibling printed `clear` - a false all-clear the claimer believed it had prevented.
+  const { dir, claim, runs } = throwawayBoard();
+  try {
+    const bad = await claim(['--source', 'https://github.com/acme/a', '--run', 'typo', '--subjet', 'se/x/y/z']);
+    assert.equal(bad.code, 1, bad.out + bad.err);
+    assert.match(bad.err, /unknown flag --subjet for claim/);
+    assert.equal(fs.existsSync(path.join(dir, '.git', 'run-board', 'runs')) ? runs().length : 0, 0, 'no record was written');
+    for (const args of [['beat', '--run', 'typo', '--phse', '4'], ['check', '--rnu', 'typo', 'se/x'], ['lock', 'commit', '--run', 'typo', '--ttl-s', '60'], ['list', '--jsn']]) {
+      const r = await boardCmd(dir, args);
+      assert.equal(r.code, 1, args.join(' ') + ': ' + r.out + r.err);
+      assert.match(r.err, new RegExp('unknown flag ' + args.find((a) => a.startsWith('--') && !['--run'].includes(a))));
+    }
+    // positive control: every flag the usage block documents is still accepted
+    const ok = await claim(['--source', 'https://github.com/acme/b', '--run', 'good', '--subject', 'se/x/y/z', '--path', 'p', '--project', 'pr', '--domain', 'd', '--scratch', 's', '--phase', '1', '--status', 'active']);
+    assert.equal(ok.code, 0, ok.err);
+    assert.equal((await boardCmd(dir, ['beat', '--run', 'good', '--phase', '2', '--status', 'active', '--subject', 'se/x/y/z', '--path', 'p', '--project', 'pr', '--domain', 'd', '--scratch', 's'])).code, 0);
+    assert.equal((await boardCmd(dir, ['list', '--json', '--all'])).code, 0);
+    assert.equal((await boardCmd(dir, ['check', '--run', 'good', 'se/x'])).code, 0);
+    assert.equal((await boardCmd(dir, ['lock', 'commit', '--run', 'good', '--wait', '5', '--ttl', '60'])).code, 0);
+    assert.equal((await boardCmd(dir, ['unlock', 'commit', '--run', 'good', '--force'])).code, 0);
+    assert.equal((await boardCmd(dir, ['release', '--run', 'good'])).code, 0);
+    assert.equal((await boardCmd(dir, ['gc'])).code, 0);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
 async function racedClaims(argsFor, n = 8) {
   const { dir, claim, runs } = throwawayBoard();
   const res = await Promise.all(Array.from({ length: n }, (_, i) => claim(argsFor(i))));
