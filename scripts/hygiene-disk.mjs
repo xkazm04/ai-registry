@@ -211,8 +211,21 @@ export function checkoutFacts(abs, homes) {
 
 const ageOf = (m, now) => (m.newestMs ? (now - m.newestMs) / H : Infinity);
 
+/**
+ * measureTree ages a tree by its files only, so an empty or links-only directory came back
+ * with no time at all and ageOf read it as infinitely old: a directory made a second ago was
+ * a mechanical delete. The root's own mtime and birthtime count too (an entry created or
+ * removed in it moves them).
+ */
+function measure(abs) {
+  const m = measureTree(abs);
+  if (m.missing || m.rootIsLink) return m;
+  try { const s = fs.lstatSync(abs); m.newestMs = Math.max(m.newestMs, s.mtimeMs, s.birthtimeMs || 0); } catch { /* gone: stays unageable */ }
+  return m;
+}
+
 function entryMeasure(abs, isFile) {
-  if (!isFile) return measureTree(abs);
+  if (!isFile) return measure(abs);
   const s = fs.lstatSync(abs);
   return { bytes: s.size, newestMs: Math.max(s.mtimeMs, s.birthtimeMs || 0), files: 1 };
 }
@@ -232,7 +245,7 @@ export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = 
     for (const e of fs.readdirSync(scratch, { withFileTypes: true })) {
       if (!e.isDirectory() || e.isSymbolicLink()) continue;
       const abs = path.join(scratch, e.name);
-      const m = measureTree(abs);
+      const m = measure(abs);
       const ageH = ageOf(m, now);
       if (fs.existsSync(path.join(abs, '.git'))) {
         if (ageH < idleH) { add('scratch', abs, m, classifyCheckout({ name: e.name, ageH, dirtyOther: [], headLanded: null }, { idleH })); continue; }
@@ -259,7 +272,7 @@ export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = 
         for (const c of fs.readdirSync(inc, { withFileTypes: true })) {
           if (!c.isDirectory()) continue;
           const abs = path.join(inc, c.name);
-          const m = measureTree(abs);
+          const m = measure(abs);
           if (ageOf(m, now) >= idleH) add('build', abs, m, { class: 'mechanical', kind: 'prune-incremental', reason: `incremental cache untouched ${Math.round(ageOf(m, now))} h` });
         }
       }
@@ -269,7 +282,7 @@ export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = 
     for (const e of fs.readdirSync(parent, { withFileTypes: true })) {
       const abs = path.join(parent, e.name);
       if (!e.isDirectory() || e.isSymbolicLink() || projectPaths.has(abs.toLowerCase()) || !BUILD_OUTPUT.test(e.name) || fs.existsSync(path.join(abs, '.git'))) continue;
-      const m = measureTree(abs);
+      const m = measure(abs);
       const ageH = ageOf(m, now);
       if (ageH < idleH) continue;
       add('build', abs, m, ageH >= tempDays * 24
@@ -312,7 +325,7 @@ export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = 
   // model stores
   for (const d of [path.join(home, '.ollama', 'models'), path.join(home, '.cache', 'huggingface'), path.join(home, '.cache', 'lm-studio'), path.join(home, '.lmstudio', 'models'), path.join(home, '.cache', 'torch'), path.join(home, '.cache', 'whisper')]) {
     if (!fs.existsSync(d)) continue;
-    const m = measureTree(d);
+    const m = measure(d);
     if (m.bytes >= 1e9) add('models', d, m, { class: 'operator', kind: 'model-store', reason: 'local model store (operator 2026-10-15: none wanted on this machine)' });
   }
   return rows;
@@ -322,7 +335,7 @@ export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = 
 
 function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
   if (!fs.existsSync(row.path)) return { skip: 'gone' };
-  const m = row.isFile ? entryMeasure(row.path, true) : measureTree(row.path);
+  const m = row.isFile ? entryMeasure(row.path, true) : measure(row.path);
   if (m.rootIsLink) return { skip: 'became a link' };
   const ageH = ageOf(m, now);
   let c;
@@ -415,7 +428,7 @@ function main() {
       if (path.dirname(abs).toLowerCase() !== scratch.toLowerCase()) res = { done: false, skipped: `not a top-level entry of the scratch root ${scratch}` };
       else if (!fs.existsSync(abs)) res = { done: false, skipped: 'gone' };
       else {
-        const m = measureTree(abs);
+        const m = measure(abs);
         const ageH = ageOf(m, Date.now());
         let c, f = {};
         if (m.rootIsLink) c = { class: 'operator', reason: 'is a link' };

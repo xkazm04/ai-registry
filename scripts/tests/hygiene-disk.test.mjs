@@ -209,6 +209,21 @@ test('a typo in a window or an unknown option refuses the run before anything is
   } finally { r.cleanup(); }
 });
 
+test('scan: a directory with no files is aged by its own times, never as infinitely old', () => {
+  // measureTree ages a tree by its FILES; an empty (or links-only) directory had none, read as
+  // "untouched Infinity h", and a dir created a second ago was a mechanical delete.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hdisk-'));
+  try {
+    const tmp = path.join(base, 'tmp'), home = path.join(base, 'home'), scratch = path.join(base, 'scratch');
+    for (const d of [tmp, home, scratch, path.join(tmp, 'fresh-empty', 'sub'), path.join(scratch, 'cn5-target')]) fs.mkdirSync(d, { recursive: true });
+    const rows = scan({ fleet: { projects: {} }, idleH: 24, tempDays: 7, scratch, tmp, home });
+    assert.deepEqual(rows.map((r) => `${r.kind} ${path.basename(r.path)}`), [], JSON.stringify(rows));
+    const later = scan({ fleet: { projects: {} }, idleH: 24, tempDays: 7, scratch, tmp, home, now: Date.now() + 10 * 86400e3 });
+    assert.deepEqual(later.map((r) => `${r.kind} ${path.basename(r.path)}`).sort(), ['remove-build-output cn5-target', 'remove-temp fresh-empty']);
+    assert.ok(later.every((r) => Number.isFinite(r.ageH)), 'an age, not Infinity');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
 test('--reap deletes the landed clone and the build output it names, keeps unpushed work, refuses outside the scratch root', () => {
   const r = repos();
   try {
