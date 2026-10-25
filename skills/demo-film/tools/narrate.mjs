@@ -110,13 +110,24 @@ export function pickNarrator(voices) {
   return best;
 }
 
-async function listVoices(apiKey) {
-  const res = await fetch(`${API}/voices`, { headers: { 'xi-api-key': apiKey } });
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    fail(3, `GET /v1/voices failed: ${res.status} ${res.statusText} ${body.slice(0, 300)}`);
+// A voice-list GET is small and quick; a minute with no answer is a stalled provider, not a
+// slow one (the long-running POSTs have their own, longer deadline in postAudio).
+const VOICES_TIMEOUT_MS = 60000;
+
+async function listVoices(apiKey, timeoutMs = VOICES_TIMEOUT_MS) {
+  const signal = AbortSignal.timeout(timeoutMs);
+  let json;
+  try {
+    const res = await fetch(`${API}/voices`, { headers: { 'xi-api-key': apiKey }, signal });
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      fail(3, `GET /v1/voices failed: ${res.status} ${res.statusText} ${body.slice(0, 300)}`);
+    }
+    json = await res.json();
+  } catch (err) {
+    if (signal.aborted) fail(3, `GET /v1/voices: no response within ${timeoutMs} ms`);
+    throw err;
   }
-  const json = await res.json();
   const voices = Array.isArray(json.voices) ? json.voices : [];
   if (voices.length === 0) fail(3, 'the account library returned no voices');
   return voices;
