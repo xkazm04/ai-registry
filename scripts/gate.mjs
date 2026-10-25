@@ -124,12 +124,22 @@ const lane = laneIdx === -1 ? null : argv[laneIdx + 1];
 const usage = () => {
   console.error('Usage: node scripts/gate.mjs --all [--write]');
   console.error(`       node scripts/gate.mjs --lane <${Object.keys(LANES).join('|')}> [--write]`);
+  console.error('       node scripts/gate.mjs --list      print the plan (every row and --all) as JSON, run nothing');
   console.error('');
   console.error('Runs the gate chain CI enforces, in CI order, stopping at the first red.');
   console.error('registry.yml executes this same plan; PR version checks run separately.');
 };
 
 if (argv.includes('--help') || argv.includes('-h')) { usage(); process.exit(EXIT.OK); }
+// The plan as data, run nothing: each step as "<script> <check args>". ALL and LANES are two
+// hand-written lists, and scripts/tests/validation-plan.test.mjs derives the union from the
+// rows to hold them to each other - it needs to read them without running 26 gates.
+if (argv.includes('--list')) {
+  const id = (s) => [s.script, ...s.check].join(' ');
+  const lanes = Object.fromEntries(Object.entries(LANES).map(([name, row]) => [name, row.map(id)]));
+  console.log(JSON.stringify({ all: ALL.map(id), lanes }, null, 2));
+  process.exit(EXIT.OK);
+}
 if (all && lane) {
   console.error('FATAL: --all and --lane are exclusive. Pick the whole chain or one row.');
   process.exit(EXIT.FATAL);
