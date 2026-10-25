@@ -305,3 +305,16 @@ test('an instrument that could not run exits FATAL (2), not VIOLATIONS (1)', () 
     assert.match(res.stderr, /FATAL/);
   } finally { fs.rmSync(out, { recursive: true, force: true }); }
 });
+
+test('a typo in a window or an unknown option refuses the run before the fleet is touched', () => {
+  // Number('2h') is NaN and `lastActivityMin < NaN` is false: every branch, worktree and PR
+  // read as not live, and --apply's "became live" re-checks passed. `--dry-run` was ignored.
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    for (const args of [['--live-minutes', '2h'], ['--idle-hours', 'x'], ['--live-minutes', '-5'], ['--apply', '--dry-run'], ['--only']]) {
+      const res = cli(...args, '--out', out, '--only', 'no-such-project');
+      assert.equal(res.status, 2, `${args.join(' ')}: ${res.stderr}`);
+      assert.match(res.stderr, new RegExp(args.at(-1) === '--only' ? '--only needs a value' : args.find((a) => a.startsWith('--') && a !== '--apply')), args.join(' '));
+    }
+  } finally { fs.rmSync(out, { recursive: true, force: true }); }
+});

@@ -82,6 +82,29 @@ const NOW = Date.now();
 const TODAY = new Date().toISOString().slice(0, 10);
 const NEVER_DELETE = /^(main|master|develop|development|trunk|gh-pages|release\/.*|production|staging)$/;
 
+const OPTIONS = { only: 'value', 'live-minutes': 'number', 'idle-hours': 'number', 'no-fetch': 'flag', 'no-harness': 'flag', json: 'flag', out: 'value', apply: 'flag', brief: 'value' };
+
+/**
+ * Strict argv, checked by main() before anything runs. The windows above gate every delete:
+ * Number('2h') is NaN, `lastActivityMin < NaN` is false, and a typo used to read the whole
+ * fleet as not live. An unknown option (`--dry-run`) used to be ignored by a run that acts.
+ * Returns the usage problem, or null.
+ */
+export function argvProblem(args) {
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    const name = a.startsWith('--') ? a.slice(2) : null;
+    const kind = name && Object.hasOwn(OPTIONS, name) ? OPTIONS[name] : null;
+    if (!kind) return name ? `unknown option ${a}` : `unexpected argument ${a}`;
+    if (kind === 'flag') continue;
+    const v = args[i + 1];
+    if (v == null || v.startsWith('--')) return `${a} needs a value`;
+    i++;
+    if (kind === 'number' && (v.trim() === '' || !Number.isFinite(Number(v)) || Number(v) < 0)) return `${a} must be a non-negative number, got "${v}"`;
+  }
+  return null;
+}
+
 // ---------------------------------------------------------------------------- process
 
 function run(cmd, args, { cwd, timeout = 120_000 } = {}) {
@@ -957,6 +980,11 @@ async function applyAction(P, a) {
 // ---------------------------------------------------------------------------- main
 
 async function main() {
+  const bad = argvProblem(argv);
+  if (bad) {
+    console.error(`FATAL: ${bad}\nusage: hygiene-scan.mjs [--only a,b] [--live-minutes N] [--idle-hours N] [--no-fetch] [--no-harness] [--json] [--out <dir>] | --apply [--out <dir>] [--only a,b] | --brief <slug> [--out <dir>]`);
+    process.exit(EXIT.FATAL);
+  }
   const fleet = loadFleet(ROOT);
   if (!fleet.machine) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(EXIT.FATAL); }
   const common = (await gitOut(ROOT, ['rev-parse', '--path-format=absolute', '--git-common-dir'])) ?? path.join(ROOT, '.git');
