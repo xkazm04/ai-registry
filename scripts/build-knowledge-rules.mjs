@@ -192,7 +192,10 @@ for (const b of bundles) {
     `# ${title} - the subjects this registry carries`,
     '',
     `\`${b}\` - ${idx.meta.subjects} subjects, ${idx.meta.techniques} techniques, ${idx.meta.applications} applications.`,
-    'Slugs only; resolve one through `index.json` as the access rule beside this file describes.',
+    // This card loads beside the access rule, so it must not contradict it: a slug is opened
+    // through the front door (`registry_subject` is built for "a rule's slug list"), and
+    // index.json is the address book scripts read, never a document an agent opens.
+    'Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.',
     '',
   ];
   for (const [cat, subs] of byCat) {

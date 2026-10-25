@@ -42,6 +42,20 @@ test('control: one bundle, written then checked, is current (0)', () => {
   assert.ok(fs.existsSync(path.join(root, 'rules', 'ai-registry-demo.md')));
 });
 
+// The per-bundle card is always-on text, and it must agree with the access rule beside it:
+// that rule (and registry_subject's own description) says a slug is opened through the
+// front door and index.json is never read. The card used to send the reader to index.json.
+test('the per-bundle card routes a slug through the front door, never through index.json', () => {
+  const { root, run } = fixture({ bundle: true });
+  assert.equal(run().status, 0);
+  const card = fs.readFileSync(path.join(root, 'rules', 'ai-registry-demo.md'), 'utf8');
+  assert.doesNotMatch(card, /resolve one through `index\.json`/);
+  assert.match(card, /registry_subject/);
+  assert.match(card, /registry-query\.mjs --subject <slug>/);
+  const access = fs.readFileSync(path.join(root, 'rules', 'ai-registry-access.md'), 'utf8');
+  assert.match(access, /never Read, grep or slice it/, 'the access rule this card defers to still forbids reading index.json');
+});
+
 test('zero bundles is could-not-run (2), in check and in write mode, and writes nothing', () => {
   const { root, run } = fixture({ bundle: false });
   fs.mkdirSync(path.join(root, 'rules'));

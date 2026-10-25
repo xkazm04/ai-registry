@@ -1,7 +1,7 @@
 # Game production - the subjects this registry carries
 
 `game-production` - 86 subjects, 565 techniques, 330 applications.
-Slugs only; resolve one through `index.json` as the access rule beside this file describes.
+Slugs only; open one with `registry_subject` (or `node <registry>/scripts/registry-query.mjs --subject <slug>`), never by reading `index.json` - the access rule beside this file describes the loop.
 
 ### systems-canon
 - agent-behaviour-authoring, arpg-systems-canon, cross-runtime-rules-conformance, design-canon-as-executable-law, game-economy-tuning, racing-career-economy, realtime-combat-semantics
