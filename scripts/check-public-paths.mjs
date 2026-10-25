@@ -99,6 +99,13 @@ function selfTest() {
 
 function main() {
   const argv = process.argv.slice(2);
+  // Closed flag set: `--selftest` used to run the whole gate under the wrong name.
+  const stray = argv.filter((a, i) => a !== '--self-test' && a !== '--root' && argv[i - 1] !== '--root');
+  if (stray.length) {
+    console.error(`check-public-paths FATAL: unknown argument(s) ${stray.join(' ')} (expected --self-test or --root <dir>).`);
+    process.exitCode = EXIT.FATAL;
+    return;
+  }
   if (argv.includes('--self-test')) return selfTest();
   let root = HERE;
   const at = argv.indexOf('--root');

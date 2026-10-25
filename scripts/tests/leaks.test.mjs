@@ -151,6 +151,11 @@ test('check-public-paths: could-not-run is 2 - no files, not a checkout, no git'
   assert.equal(noGit.status, 2, noGit.stdout + noGit.stderr);
   assert.match(noGit.stderr, /could not list the published files/);
   assert.equal(run('check-public-paths.mjs', ['--self-test']).status, 0);
+  // A typo'd flag is a usage error, not the full gate run under another name.
+  const typo = run('check-public-paths.mjs', ['--selftest']);
+  assert.equal(typo.status, 2, typo.stdout + typo.stderr);
+  assert.match(typo.stderr, /unknown argument/);
+  assert.equal(run('check-public-paths.mjs', ['--root']).status, 2);
 });
 
 // ------------------------------------------------------------------ check-usage / check-signals

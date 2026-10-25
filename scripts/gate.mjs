@@ -131,6 +131,15 @@ const usage = () => {
 };
 
 if (argv.includes('--help') || argv.includes('-h')) { usage(); process.exit(EXIT.OK); }
+// Closed flag set: a typo'd `--wirte` used to be ignored, so the check row ran, printed
+// green, and the contributor believed they had regenerated.
+const FLAGS = new Set(['--all', '--write', '--lane', '--list']);
+const stray = argv.filter((a, i) => !FLAGS.has(a) && argv[i - 1] !== '--lane');
+if (stray.length) {
+  console.error(`FATAL: unknown argument(s) ${stray.map((a) => JSON.stringify(a)).join(', ')}.`);
+  usage();
+  process.exit(EXIT.FATAL);
+}
 // The plan as data, run nothing: each step as "<script> <check args>". ALL and LANES are two
 // hand-written lists, and scripts/tests/validation-plan.test.mjs derives the union from the
 // rows to hold them to each other - it needs to read them without running 26 gates.

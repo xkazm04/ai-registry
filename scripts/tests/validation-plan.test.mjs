@@ -31,6 +31,17 @@ test('--all is exactly the union of the lane rows, each step once', () => {
   assert.deepEqual([...plan.all].sort(), [...union].sort(), 'ALL and the union of LANES disagree');
 });
 
+// A typo'd mode flag used to be ignored: `--lane knowledge --wirte` ran the check row and
+// printed green, and the contributor believed the index was regenerated.
+test('an unknown argument is could-not-run before any step starts', () => {
+  for (const args of [['--lane', 'scripts', '--wirte'], ['--all', '--lsit'], ['--lane', 'recipes', 'extra']]) {
+    const r = gate(...args);
+    assert.equal(r.status, EXIT.FATAL, `${args.join(' ')}: ${r.stdout}${r.stderr}`);
+    assert.match(r.stderr, /unknown argument/);
+    assert.doesNotMatch(r.stdout, /^--- node/m, `${args.join(' ')} started a step`);
+  }
+});
+
 test('--list runs nothing and names every step by script and arguments', () => {
   const plan = JSON.parse(gate('--list').stdout);
   assert.ok(plan.all.includes('check-public-paths.mjs --self-test'));
