@@ -111,6 +111,9 @@ export function collisions({ script, take, balance, timeline, localDir }) {
         else if (tb && !tb.rects[sel]) errors.push(`selector absent from take rects: ${b.id}/${m.id} -> "${sel}" (logged: ${Object.keys(tb.rects).join(', ') || 'none'})`);
       }
     }
+    // a beat has ONE cut in: buildTimeline keeps only the last transition moment as transitionIn
+    const cuts = ms.filter((m) => roleOf(m) === 'transition');
+    if (cuts.length > 1) errors.push(`two transitions into one beat: ${b.id}/${cuts.map((m) => m.id).join(', ')} (the timeline keeps only ${cuts[cuts.length - 1].id})`);
     // overlaps: two plates at once, or the same treatment twice at once
     for (let x = 0; x < windows.length; x++)
       for (let y = x + 1; y < windows.length; y++) {

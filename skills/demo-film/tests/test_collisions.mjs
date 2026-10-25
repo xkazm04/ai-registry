@@ -59,6 +59,27 @@ test('footage components on a pure motion beat, unknown components, a transition
   assert.ok(e.some((x) => x.startsWith('film runs')));
 });
 
+test('two transitions into one beat fail: the timeline keeps only the last', () => {
+  // buildTimeline sets beat.transitionIn once per transition moment, so a second one silently
+  // replaces the first (one whoosh, one look). check names it instead of rendering half the intent.
+  const tr = (id, component) => ({ id, tier: 1, kind: 'treatment', component });
+  const s = film([
+    { id: 'a', chapter: 'c', line: 'x', settleMs: 2000 },
+    { id: 'b', chapter: 'c', line: 'x', settleMs: 2000, moments: [tr('w', 'WhipPan'), tr('z', 'ZoomThrough')] },
+  ]);
+  assert.ok(collisions({ script: s, take, balance: 'led' }).some((e) => e.startsWith('two transitions into one beat') && e.includes('w') && e.includes('z')));
+  const one = film([
+    { id: 'a', chapter: 'c', line: 'x', settleMs: 2000 },
+    { id: 'b', chapter: 'c', line: 'x', settleMs: 2000, moments: [tr('w', 'WhipPan')] },
+  ]);
+  assert.deepEqual(collisions({ script: one, take, balance: 'led' }), []);
+  const tiered = film([
+    { id: 'a', chapter: 'c', line: 'x', settleMs: 2000 },
+    { id: 'b', chapter: 'c', line: 'x', settleMs: 2000, moments: [tr('w', 'WhipPan'), { ...tr('m', 'MaskWipe'), tier: 3 }] },
+  ]);
+  assert.deepEqual(collisions({ script: tiered, take, balance: 'overlay' }), [], 'only transitions in the balance count');
+});
+
 test('a local hero is known only through the components map the registry reads', () => {
   // registry.ts resolves `mod.components ?? mod.default`; a bare export is not in that map and the
   // motion lane throws "unknown component" at render. check must say so before the bundle is built.
