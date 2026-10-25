@@ -45,6 +45,14 @@ test('an unknown flag or a second source refuses (exit 2) and names it', (t) => 
   assert.ok(!fs.existsSync(out), 'a refused invocation writes nothing');
 });
 
+test('a path that is not a regular file is an instrument failure (exit 2), not a crash (exit 1)', (t) => {
+  const dir = workdir(t);
+  const r = run([dir, '--out', path.join(dir, 'out')]);
+  assert.equal(r.status, 2, r.stderr);
+  assert.match(r.stderr, /research-ingest FATAL: .*not a regular file/);
+  assert.doesNotMatch(r.stderr, /\n\s+at /, 'no stack trace');
+});
+
 test('--min-words that is not a whole number refuses (exit 2) instead of silencing the thin check', (t) => {
   const dir = workdir(t);
   fs.writeFileSync(path.join(dir, 'thin.txt'), 'three little words');

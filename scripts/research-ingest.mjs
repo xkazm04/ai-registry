@@ -121,6 +121,11 @@ const src = classify(source);
 if (src.kind === 'unknown') {
   fatal(`cannot classify source ${JSON.stringify(source)}`, 'Expected a http(s) URL, an existing file path, or "-" for stdin.');
 }
+// existsSync is true for a directory too, and readFileSync on one threw EISDIR: a stack
+// trace and exit 1, which this repo reads as "ran and found violations".
+if (src.kind === 'file' && !fs.statSync(src.file).isFile()) {
+  fatal(`source ${JSON.stringify(source)} is not a regular file`, 'Pass a .txt/.md/.vtt/.pdf file, a http(s) URL, or "-" for stdin.');
+}
 
 // ---------------------------------------------------------------- helpers
 const slugify = (s) =>
