@@ -37,7 +37,7 @@ test('a brief shared by every arm is not a leak; a prompt unique to one arm stil
  fs.writeFileSync(mf,JSON.stringify(m));
  assert.equal(run('sheet',dir).status,0);
  m.pairs[0].brief=m.pairs[0].arms.A.prompt;fs.writeFileSync(mf,JSON.stringify(m));
- const r=run('sheet',dir);assert.equal(r.status,2);assert.match(r.stderr,/prompt of arm A/);
+ const r=run('sheet',dir,'--reseal');assert.equal(r.status,2);assert.match(r.stderr,/prompt of arm A/);
 });
 test('a pair whose arms do not clear the seed-noise floor, or carry no floor, never reaches the operator',t=>{
  const dir=fixture(t),mf=path.join(dir,'manifest.json'),m=JSON.parse(fs.readFileSync(mf,'utf8'));
@@ -46,7 +46,7 @@ test('a pair whose arms do not clear the seed-noise floor, or carry no floor, ne
  assert.ok(!fs.existsSync(path.join(dir,'triage','index.html')));
  assert.equal(run('sheet',dir,'--allow-indistinct').status,0);
  delete m.pairs[0].discrimination;fs.writeFileSync(mf,JSON.stringify(m));
- r=run('sheet',dir);assert.equal(r.status,2);assert.match(r.stderr,/no discrimination record/);
+ r=run('sheet',dir,'--reseal');assert.equal(r.status,2);assert.match(r.stderr,/no discrimination record/);
 });
 test('identical arms (between 0) and negative distances never clear the floor',()=>{
  const p=(between,within)=>({id:'p',discrimination:{between,within}});
@@ -66,7 +66,7 @@ test('the sheet carries the ratio, and a refused pair is labelled rather than hi
  // A REFUSED pair, shown under --allow-indistinct, says so on the page: the gate withholds
  // the landing, not the look, and the operator cannot overrule a number nobody showed them.
  m.pairs[0].discrimination={between:5,within:4};fs.writeFileSync(mf,JSON.stringify(m));
- assert.equal(run('sheet',dir,'--allow-indistinct').status,0);
+ assert.equal(run('sheet',dir,'--allow-indistinct','--reseal').status,0);
  html=fs.readFileSync(path.join(dir,'triage','index.html'),'utf8');
  assert.match(html,/discrimination 1\.25x/);
  assert.match(html,/may not author a landing/);
@@ -134,4 +134,24 @@ test('clean refuses a manifest whose run id is empty: an empty prefix matches ev
  const r=run('clean',dir,'--also',comfy,'--force');
  assert.equal(r.status,2);assert.match(r.stderr,/run id/);
  assert.ok(fs.existsSync(path.join(comfy,'someone-else.png')));
+});
+test('a second sheet over a sealed key exits 2 and leaves key and page untouched; --reseal replaces both',t=>{
+ const dir=fixture(t),kf=path.join(dir,'triage','key.json'),pf=path.join(dir,'triage','index.html');
+ assert.equal(run('sheet',dir).status,0);
+ const key=fs.readFileSync(kf,'utf8'),page=fs.readFileSync(pf,'utf8');
+ // Labels are shuffled by crypto.randomInt, so a bare re-run flips them about half the time;
+ // twelve refused re-runs that all leave the bytes alone cannot be luck.
+ for(let i=0;i<12;i++){
+  const r=run('sheet',dir);assert.equal(r.status,2);assert.match(r.stderr,/--reseal/);
+  assert.equal(fs.readFileSync(kf,'utf8'),key,'the sealed key is untouched');
+  assert.equal(fs.readFileSync(pf,'utf8'),page,'the page the operator read is untouched');
+ }
+ // The operator's X/Y still decodes through the key they were shown.
+ assert.equal(run('reveal',dir,'shot1=X').status,0);
+ assert.equal(JSON.parse(fs.readFileSync(path.join(dir,'verdict.json'),'utf8')).pairs.shot1.arm,JSON.parse(key).pairs.shot1.X);
+ const re=run('sheet',dir,'--reseal');assert.equal(re.status,0,re.stderr);
+ const k2=JSON.parse(fs.readFileSync(kf,'utf8')),p2=fs.readFileSync(pf,'utf8');
+ assert.notEqual(k2.sheet,JSON.parse(key).sheet,'a new sheet id');
+ assert.match(page,new RegExp('Sheet '+JSON.parse(key).sheet));assert.match(p2,new RegExp('Sheet '+k2.sheet));
+ assert.doesNotMatch(p2,/armA|armB/);
 });
