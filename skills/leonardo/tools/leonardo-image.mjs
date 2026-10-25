@@ -4,9 +4,13 @@
  * Leonardo AI Image Tool — Generate images and remove backgrounds via Leonardo AI API
  *
  * Commands:
- *   generate  --prompt "..." --output path.png [--width 1024] [--height 768] [--style dynamic] [--contrast 3.5] [--transparent]
- *   remove-bg --id <imageId> --output path-nobg.png
- *   poll      --id <generationId>
+ *   generate      --prompt "..." --output path.png [--width 1024] [--height 768] [--style dynamic] [--contrast 3.5] [--no-cleanup]
+ *   generate-best --prompt "..." --output path.png [--candidates 4] [--rate-prompt "..."] (same size/style flags; rated by Gemini)
+ *   remove-bg     --id <imageId> --output path-nobg.png
+ *   poll          --id <generationId>
+ *
+ * Lucid Origin has no transparent output: for a transparent background run remove-bg on the
+ * generated image id (see SKILL.md, State Illustration).
  *
  * Requires LEONARDO_API_KEY environment variable.
  */
@@ -249,5 +253,5 @@ switch (command) {
     if (!args.id) { console.error('Usage: leonardo-image.mjs poll --id <generationId>'); process.exit(1); }
     pollGeneration(args.id).then((g) => console.log(JSON.stringify(g, null, 2))); break;
   default:
-    console.error(`Unknown command: ${command || '(none)'}\nCommands: generate, remove-bg, poll`); process.exit(1);
+    console.error(`Unknown command: ${command || '(none)'}\nCommands: generate, generate-best, remove-bg, poll`); process.exit(1);
 }

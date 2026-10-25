@@ -125,6 +125,26 @@ test('leonardo-image generate-best rates candidates with the key in the header, 
   assert.equal(calls[0].headers['x-goog-api-key'], 'g_secret_test');
 });
 
+// ------------------------------------------------------------------ leonardo-image help text
+// Derived from the code, not restated: the commands are the switch's case labels, the flags are
+// the option keys the code reads. Help that omits a command, or a header that advertises a flag
+// nothing reads (`--transparent`, which SKILL.md says Lucid Origin does not support), misdirects.
+test('leonardo-image: the help lists every command and the header advertises only flags the code reads', () => {
+  const src = readFileSync(path.join(TOOLS, 'leonardo-image.mjs'), 'utf8');
+  const commands = [...src.matchAll(/^\s*case '([a-z-]+)':/gm)].map((m) => m[1]);
+  assert.ok(commands.length >= 4, `found the switch: ${commands}`);
+  const dir = sandbox();
+  const r = run(dir, 'leonardo-image.mjs', [], []);
+  assert.equal(r.code, 1);
+  for (const c of commands) assert.match(r.err, new RegExp(`\\b${c}\\b`), `the no-command help names "${c}"`);
+  const header = /\/\*\*([\s\S]*?)\*\//.exec(src)[1];
+  const body = src.slice(src.indexOf('*/') + 2);
+  for (const [, flag] of header.matchAll(/--([a-z][a-z-]*)/g)) {
+    const read = new RegExp(`(args|opts)(\\.${flag.replace(/-/g, '_')}\\b|\\['${flag}'\\])`).test(body);
+    assert.ok(read, `the header advertises --${flag} but the code never reads it`);
+  }
+});
+
 test('gpt-image: all downloads landing still cleans the cloud generation up', () => {
   const dir = sandbox();
   const r = run(dir, 'leonardo-gpt-image.mjs', ['generate', '--prompt', 'p', '--output', path.join(dir, 'c.png')], [
