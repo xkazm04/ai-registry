@@ -10,7 +10,7 @@ import { after, test } from 'node:test';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import { FilmScript, clipHashInput, holdMs } from '../tools/src/contract.ts';
-import { sha256 } from '../tools/lib/audio.mjs';
+import { postAudio, sha256 } from '../tools/lib/audio.mjs';
 import { parseDotEnv, resolveEnv } from '../tools/lib/env.mjs';
 import { pickNarrator } from '../tools/narrate.mjs';
 import { beatEdges, musicHash, planCues, TAIL_MS } from '../tools/music.mjs';
@@ -193,6 +193,23 @@ test('an invalid film.json exits 1 with the contract path', () => {
   const r = run('narrate.mjs', [film, '--dry']);
   assert.equal(r.code, 1);
   assert.match(r.out, /maxMs/);
+});
+
+test('postAudio puts a deadline on a provider that accepts the connection and never answers', async () => {
+  // A stalled socket used to hang narrate/music forever (no signal reached fetch). The stub fetch
+  // only ever settles by honouring the abort signal it is given.
+  const stalled = (url, opts) => new Promise((_, reject) => {
+    opts?.signal?.addEventListener('abort', () => reject(opts.signal.reason));
+  });
+  const { root } = sandbox();
+  const outcome = await Promise.race([
+    postAudio({ url: 'https://stub.invalid/tts', apiKey: 'k', body: {}, file: path.join(root, 'x.mp3'), fetchImpl: stalled, timeoutMs: 40 })
+      .then(() => 'resolved', (err) => err),
+    new Promise((r) => setTimeout(() => r('hung'), 8000)),
+  ]);
+  assert.notEqual(outcome, 'hung', 'postAudio never gave up on a silent provider');
+  assert.ok(outcome instanceof Error, String(outcome));
+  assert.match(outcome.message, /no response within 40 ms/);
 });
 
 // ---------------------------------------------------------------- env
