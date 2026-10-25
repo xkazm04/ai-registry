@@ -5,8 +5,8 @@
  * The registry cannot see any installation, so its gate (check-skills.mjs) cannot
  * answer the question that actually matters to a fleet: WHICH copy of a skill runs in
  * each repository, and is it the one the registry holds? This script runs where the
- * installations are — on the operator's machine, reading the gitignored
- * committed `projects.json` + local `.machine.local.json` fleet config — and reports, per lane skill:
+ * installations are — on the operator's machine, reading the committed `projects.json`
+ * + the gitignored local `.machine.local.json` fleet config — and reports, per lane skill:
  *
  *   - which connected projects hold a copy under `.claude/skills/<name>/`, at which
  *     version, and whether it is `in_sync` (same content), `stale` (older version),
@@ -24,8 +24,9 @@
  * case-insensitive disk), and whether the project carries a registry pointer
  * (`.ai/manifest.yaml` with a `registry:` block).
  *
- * `--write-adopters` rewrites each catalog skill's `adopters` list from what it found
- * (`<slug>@<version>` for copies, `<slug>@plugin:<version>` for plugin enablement) —
+ * `--write-adopters` rewrites each catalog skill's `adopters` entries for the projects it
+ * audited on this disk, and carries the entries of declared projects this machine cannot
+ * see (`<slug>@<version>` for copies, `<slug>@link`, `<slug>@plugin:<version>`) —
  * public-safe, because project slugs are already published in librarian/projects.md.
  * Everything else is a report. `--json` for machines.
  *
@@ -190,9 +191,20 @@ report.summary = { links, copies, inSync, stale, ahead, diverged, pluginEnableme
 
 if (writeAdopters) {
   const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
+  // `adopters` is a FLEET-wide record and this run sees one machine. A project checked out
+  // only on another box, or declared here but not cloned, is unseen rather than
+  // un-adopted, so its entries are carried; only the projects actually audited on this
+  // disk are recomputed, and a slug projects.json no longer declares is dropped. Until
+  // 2026-10-25 the list was replaced wholesale, so a run on Fox erased pof's and
+  // systedo-case's adoption (both Wolf/Lynx-only) - see the knowledge-registry subject's
+  // per-contributor-aggregation technique for why one writer must not own a shared total.
+  const declared = new Set(Object.keys(JSON.parse(fs.readFileSync(path.join(ROOT, 'projects.json'), 'utf8')).projects ?? {}));
+  const audited = new Set(Object.entries(report.projects).filter(([, r]) => r.exists).map(([slug]) => slug));
+  const slugOf = (entry) => String(entry).split('@')[0];
   let changed = 0;
   for (const sk of catalog.skills ?? []) {
-    const next = adopters[sk.name] ?? [];
+    const carried = (sk.adopters ?? []).filter((e) => declared.has(slugOf(e)) && !audited.has(slugOf(e)));
+    const next = [...new Set([...(adopters[sk.name] ?? []), ...carried])].sort();
     if (JSON.stringify(sk.adopters ?? []) !== JSON.stringify(next)) { sk.adopters = next; changed++; }
   }
   fs.writeFileSync(CATALOG, `${JSON.stringify(catalog, null, 2)}\n`);
