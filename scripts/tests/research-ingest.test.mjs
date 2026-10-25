@@ -138,3 +138,29 @@ test('--min-words that is not a whole number refuses (exit 2) instead of silenci
   }
   assert.equal(run([path.join(dir, 'thin.txt'), '--out', path.join(dir, 'out'), '--min-words', '2']).status, 0);
 });
+
+test('a client-rendered script shell is an instrument failure (exit 2), a short static essay stays thin (exit 3)', async (t) => {
+  // The shell is what a SPA serves: a state blob and bundle tags around an empty mount point.
+  const shell = `<html><head><title>App</title><script>window.__STATE__=${JSON.stringify('x'.repeat(6000))};</script></head><body><div id="root">Loading...</div><script src="/bundle.js"></script></body></html>`;
+  // ~300 bytes of real prose, no script: the SOURCE is thin, the fetch was fine.
+  const essay = `<html><head><title>Short essay</title></head><body><p>${'A short static essay that says its piece plainly and then stops, with nothing hidden behind a script. '.repeat(3)}</p></body></html>`;
+  // A normal article that also inlines a big script bundle: words clear the floor, so the share does not matter.
+  const heavy = `<html><head><title>Heavy</title><script>${'var a=1;'.repeat(2500)}</script></head><body><p>${'word '.repeat(400)}</p></body></html>`;
+  const base = await loopback(t, { '/shell': shell, '/essay': essay, '/normal': page('<title>Normal</title>'), '/heavy': heavy });
+  const dir = workdir(t);
+  const ingest = (p) => runAsync([`${base}${p}`, '--out', path.join(dir, 'out')]);
+
+  const s = await ingest('/shell');
+  assert.equal(s.status, 2, s.stderr);
+  assert.match(s.stderr, /page is a script shell \(rendered client-side\)/);
+  assert.match(s.stderr, /static rendering/);
+  assert.doesNotMatch(s.stderr, /SOURCE TOO THIN/);
+
+  const e = await ingest('/essay');
+  assert.equal(e.status, 3, e.stderr);
+  assert.match(e.stderr, /SOURCE TOO THIN/);
+
+  assert.equal((await ingest('/normal')).status, 0);
+  const h = await ingest('/heavy');
+  assert.equal(h.status, 0, h.stderr);
+});

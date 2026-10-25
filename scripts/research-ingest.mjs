@@ -25,7 +25,8 @@
  * thin" lead to opposite next moves and a single failure code merges them:
  *
  *   0  a usable transcript was written
- *   2  FATAL — the instrument failed (no yt-dlp, no captions, fetch error, zero words)
+ *   2  FATAL — the instrument failed (no yt-dlp, no captions, fetch error, zero words,
+ *      a client-rendered script-shell page)
  *   3  the instrument worked and the SOURCE is too thin to mine (< --min-words)
  *
  * Output goes to a scratch directory outside the repository by default: transcripts
@@ -318,6 +319,24 @@ const titleOfHtml = (html) => {
   return t ? decodeEntities(t[1]).trim() : null;
 };
 
+/**
+ * The fraction of an HTML document's bytes that sit inside <script> elements (tags
+ * included). A client-rendered page ships its content as script and an empty mount point,
+ * so the fetch "worked" and there was nothing to read - a failure of the FETCH (a static
+ * rendering exists elsewhere), not a verdict on the source. SCRIPT_SHELL_SHARE is the
+ * line: above it AND under --min-words the page is a shell. Measured on the shape the
+ * harvest lesson recorded (a script bundle plus a "Loading..." mount point) the share is
+ * ~0.95; a genuine short essay carries none. The share gates nothing alone - a long
+ * article that also inlines a big script bundle has words, so it never reaches this check.
+ */
+const SCRIPT_SHELL_SHARE = 0.6;
+const scriptShare = (html) => {
+  if (!html.length) return 0;
+  let bytes = 0;
+  for (const m of html.matchAll(/<script\b[\s\S]*?<\/script\s*>/gi)) bytes += m[0].length;
+  return Number((bytes / html.length).toFixed(3));
+};
+
 const run = (cmd, args, timeoutMs) =>
   spawnSync(cmd, args, { encoding: 'utf8', timeout: timeoutMs, windowsHide: true, shell: false });
 
@@ -472,6 +491,7 @@ if (src.kind === 'youtube') {
     meta.title = titleOfHtml(body);
     id = slugify(meta.title || new URL(src.url).hostname);
     text = htmlToText(body);
+    meta.script_share = scriptShare(body);
   }
 } else if (src.kind === 'file') {
   meta.file = src.file;
@@ -503,6 +523,15 @@ if (metaOnly) {
 
 const words = wordsOf(text);
 meta.words = words;
+
+// Before the zero-word check, so a shell that left a word or none gets the better message.
+// Exit 2, not 3: the next move is to find a static rendering, not to give up on the source.
+if (meta.script_share > SCRIPT_SHELL_SHARE && words < minWords) {
+  fatal(
+    `page is a script shell (rendered client-side): ${(meta.script_share * 100).toFixed(0)}% of its bytes are <script>, ${words} words of prose`,
+    'The fetch got nothing readable, which says nothing about the source. Find a static rendering (the publisher\'s feed, a cached or archived copy, a mirror) and ingest that.',
+  );
+}
 
 if (words === 0) {
   fatal('the ingest produced ZERO words', 'THE READER IS BROKEN or the source carries no text - either way nothing was mined.');
