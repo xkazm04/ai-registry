@@ -77,6 +77,20 @@ test('resources inherited from the /Pages node resolve for a page that declares 
   assert.equal(r.text, 'Hi');
 });
 
+test('a bfrange with an array destination maps each code to its own string', () => {
+  const objs = [CATALOG, PAGES, '<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>',
+    stream('BT /F1 12 Tf <010203> Tj ET'), SUBSET, '<< >>',
+    stream('begincmap\n1 beginbfrange\n<01> <03> [<0048> <0069> <00660066>]\nendbfrange\nendcmap')];
+  assert.equal(pdfToText(pdf(objs)).text, 'Hiff');
+});
+
+test('a bfrange with a multi-unit destination increments its last unit', () => {
+  const objs = [CATALOG, PAGES, '<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>',
+    stream('BT /F1 12 Tf <0102> Tj ET'), SUBSET, '<< >>',
+    stream('begincmap\n1 beginbfrange\n<01> <02> <00660061>\nendbfrange\nendcmap')];
+  assert.equal(pdfToText(pdf(objs)).text, 'fafb');
+});
+
 test('Tm on a new baseline breaks the line; Tm on the same baseline separates the word', () => {
   const lines = pdfToText(onePage('BT /F1 12 Tf 1 0 0 1 72 700 Tm (Hello) Tj 1 0 0 1 72 680 Tm (World) Tj ET'));
   assert.equal(lines.text, 'Hello\nWorld');

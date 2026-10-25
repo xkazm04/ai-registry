@@ -85,10 +85,22 @@ export function pdfToText(raw) {
     for (const blk of t.match(/beginbfchar([\s\S]*?)endbfchar/g) || []) {
       for (const p of blk.matchAll(/<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>/g)) map.set(parseInt(p[1], 16), hexToStr(p[2]));
     }
+    // A bfrange destination has two forms (PDF 32000 9.10.3): one string whose LAST unit
+    // increments across the range - which may be several units long, a ligature like <00660066>,
+    // so parsing it as one integer truncates it to its final char - or an array holding one
+    // string per code. Reading only the first form, as one integer, dropped every array range
+    // and turned every multi-unit range into its last letter.
     for (const blk of t.match(/beginbfrange([\s\S]*?)endbfrange/g) || []) {
-      for (const p of blk.matchAll(/<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>/g)) {
-        const lo = parseInt(p[1], 16), hi = parseInt(p[2], 16), dst = parseInt(p[3], 16);
-        for (let c = lo; c <= hi && c - lo < 65536; c++) map.set(c, String.fromCharCode(dst + (c - lo)));
+      for (const p of blk.matchAll(/<([0-9A-Fa-f]+)>\s*<([0-9A-Fa-f]+)>\s*(?:<([0-9A-Fa-f]+)>|\[([^\]]*)\])/g)) {
+        const lo = parseInt(p[1], 16), hi = parseInt(p[2], 16);
+        if (p[4] !== undefined) {
+          const dsts = [...p[4].matchAll(/<([0-9A-Fa-f]*)>/g)].map((d) => hexToStr(d[1]));
+          for (let c = lo; c <= hi && c - lo < dsts.length; c++) map.set(c, dsts[c - lo]);
+          continue;
+        }
+        const head = hexToStr(p[3].slice(0, -4));
+        const last = parseInt(p[3].slice(-4), 16);
+        for (let c = lo; c <= hi && c - lo < 65536; c++) map.set(c, head + String.fromCharCode(last + (c - lo)));
       }
     }
     return map;
