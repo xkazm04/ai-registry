@@ -110,13 +110,38 @@ export function pdfToText(raw) {
   };
 
   // ---- pages --------------------------------------------------------------
+  // A page's fonts live in its resource dictionary, and that dictionary reaches the page in
+  // one of three shapes: inline, as an indirect object (`/Resources 12 0 R`, what pdfTeX and
+  // many other producers write), or inherited from an ancestor /Pages node when the page
+  // declares none. The /Font entry inside it can itself be indirect. Reading only the inline
+  // shape left every other page with no fonts, so no /ToUnicode map was ever applied and a
+  // subset font's codes came out as control bytes - stripped below, i.e. the words vanished.
+  const resourcesOf = (pageText) => {
+    let t = pageText;
+    for (let depth = 0; depth < 32; depth++) {
+      const ref = t.match(/\/Resources\s+(\d+)\s+0\s+R/);
+      if (ref) return objText(+ref[1]);
+      const at = t.indexOf('/Resources');
+      if (at !== -1) return t.slice(at);
+      const parent = t.match(/\/Parent\s+(\d+)\s+0\s+R/);
+      if (!parent) return '';
+      t = objText(+parent[1]);
+    }
+    return '';
+  };
+  const fontDictOf = (res) => {
+    const ref = res.match(/\/Font\s+(\d+)\s+0\s+R/);
+    if (ref) return objText(+ref[1]);
+    const inline = res.match(/\/Font\s*<<([^>]*)>>/);
+    return inline ? inline[1] : '';
+  };
+
   const pages = [];
   for (const [num] of objs) {
     const t = objText(num);
     if (!/\/Type\s*\/Page(?![a-zA-Z])/.test(t)) continue;
     const fonts = new Map();
-    const fd = t.match(/\/Font\s*<<([^>]*)>>/);
-    if (fd) for (const f of fd[1].matchAll(/\/([A-Za-z0-9_]+)\s+(\d+)\s+0\s+R/g)) fonts.set(f[1], +f[2]);
+    for (const f of fontDictOf(resourcesOf(t)).matchAll(/\/([A-Za-z0-9_]+)\s+(\d+)\s+0\s+R/g)) fonts.set(f[1], +f[2]);
     const contents = [];
     const c1 = t.match(/\/Contents\s+(\d+)\s+0\s+R/);
     const c2 = t.match(/\/Contents\s*\[([^\]]*)\]/);

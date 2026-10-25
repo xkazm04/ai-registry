@@ -40,6 +40,43 @@ test("the ' and \" operators move to the next line BEFORE showing their string",
   assert.equal(r.text, 'Alpha\nBeta\nGamma\nDelta');
 });
 
+// A subset font whose codes 01 02 mean "H" "i" only through its /ToUnicode CMap (object 7).
+// Without the map the codes are control bytes and the word vanishes - which is exactly what
+// happened whenever the font was reachable only through an indirect reference.
+const CMAP = stream('begincmap\n1 beginbfchar\n<01> <0048>\nendbfchar\n1 beginbfchar\n<02> <0069>\nendbfchar\nendcmap');
+const SUBSET = '<< /Type /Font /Subtype /TrueType /BaseFont /ABCDEF+Sub /ToUnicode 7 0 R >>';
+const subsetPdf = ({ pages = PAGES, page, six = '<< >>' }) =>
+  pdf([CATALOG, pages, page, stream('BT /F1 12 Tf <0102> Tj ET'), SUBSET, six, CMAP]);
+
+test('control: a direct /Resources << /Font << >> >> resolves the ToUnicode map', () => {
+  const r = pdfToText(subsetPdf({ page: '<< /Type /Page /Parent 2 0 R /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>' }));
+  assert.equal(r.text, 'Hi');
+});
+
+test('an indirect /Resources object still resolves the page fonts', () => {
+  const r = pdfToText(subsetPdf({
+    page: '<< /Type /Page /Parent 2 0 R /Resources 6 0 R /Contents 4 0 R >>',
+    six: '<< /Font << /F1 5 0 R >> /ProcSet [/PDF /Text] >>',
+  }));
+  assert.equal(r.text, 'Hi');
+});
+
+test('an indirect /Font dictionary still resolves the page fonts', () => {
+  const r = pdfToText(subsetPdf({
+    page: '<< /Type /Page /Parent 2 0 R /Resources << /Font 6 0 R >> /Contents 4 0 R >>',
+    six: '<< /F1 5 0 R >>',
+  }));
+  assert.equal(r.text, 'Hi');
+});
+
+test('resources inherited from the /Pages node resolve for a page that declares none', () => {
+  const r = pdfToText(subsetPdf({
+    pages: '<< /Type /Pages /Kids [3 0 R] /Count 1 /Resources << /Font << /F1 5 0 R >> >> >>',
+    page: '<< /Type /Page /Parent 2 0 R /Contents 4 0 R >>',
+  }));
+  assert.equal(r.text, 'Hi');
+});
+
 test('Tm on a new baseline breaks the line; Tm on the same baseline separates the word', () => {
   const lines = pdfToText(onePage('BT /F1 12 Tf 1 0 0 1 72 700 Tm (Hello) Tj 1 0 0 1 72 680 Tm (World) Tj ET'));
   assert.equal(lines.text, 'Hello\nWorld');
