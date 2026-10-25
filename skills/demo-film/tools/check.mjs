@@ -17,7 +17,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import { AudioManifest, FilmScript, MAX_TIER, Take, momentsFor } from './src/contract.ts';
 import { FOOTAGE_COMPONENTS, RECT_COMPONENTS, buildTimeline, momentWindow, roleOf } from './remotion/timeline.ts';
 import { isMain } from './lib/entry.mjs';
-import { localImports } from './lib/imports.mjs';
+import { localEntry, localImports } from './lib/imports.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 export const KIT_REMOTION = path.join(here, 'remotion');
@@ -184,8 +184,8 @@ export function runCheck(filmDir, balance) {
   const { script, manifest, take, localDir } = film;
   const timeline = buildTimeline({ script, manifest, take, balance });
   // shared code a hero imports from outside local/ renders too, so it is linted too
-  const localEntry = ['index.tsx', 'index.ts'].map((n) => path.join(localDir, n)).find((p) => existsSync(p));
-  const lint = lintSources([KIT_REMOTION, localDir], localEntry ? localImports(localEntry) : []).map((h) => `seek lint: ${h}`);
+  const entry = localEntry(localDir);
+  const lint = lintSources([KIT_REMOTION, localDir], entry ? localImports(entry) : []).map((h) => `seek lint: ${h}`);
   const errors = [
     ...lint,
     ...collisions({ script, take, balance, timeline, localDir }),

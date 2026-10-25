@@ -21,7 +21,7 @@ import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 import { KIT_REMOTION, runCheck } from './check.mjs';
 import { isMain } from './lib/entry.mjs';
-import { localImports } from './lib/imports.mjs';
+import { localEntry, localImports } from './lib/imports.mjs';
 
 const execFileP = promisify(execFile);
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -257,13 +257,13 @@ async function main() {
 
   const outFile = path.resolve(o.out ?? path.join(film.dir, 'out', `${slug(film.script.title)}-${o.balance}.mp4`));
   mkdirSync(path.dirname(outFile), { recursive: true });
-  const localEntry = ['index.tsx', 'index.ts', 'index.jsx', 'index.js'].map((f) => path.join(film.localDir, f)).find((f) => existsSync(f));
+  const entry = localEntry(film.localDir);
   const fx = timeline.fx.length ? { whoosh: await ensureWhoosh(film.dir) } : undefined;
   const { server, url } = await serveDir(film.dir);
   try {
     const { ensureBrowser, renderMedia, renderStill, selectComposition } = req('@remotion/renderer');
     await ensureBrowser();
-    const serveUrl = await getBundle(localEntry, log);
+    const serveUrl = await getBundle(entry, log);
     const inputProps = { script: inlineOutsideMedia(film.script, film.dir), manifest: film.manifest, ...(film.take ? { take: film.take } : {}), balance: o.balance, baseDir: url, ...(fx ? { fx } : {}) };
     const composition = await selectComposition({ serveUrl, id: 'Film', inputProps, logLevel: 'warn' });
     if (composition.durationInFrames !== timeline.totalFrames) throw new Error(`composition ${composition.durationInFrames} frames != timeline ${timeline.totalFrames}`);
