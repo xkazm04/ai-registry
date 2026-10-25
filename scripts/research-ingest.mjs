@@ -36,6 +36,7 @@
  *   node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json]
  *   node scripts/research-ingest.mjs <url> --min-words 500
  *   node scripts/research-ingest.mjs <url> --meta-only     # title/author, no transcript
+ *   node scripts/research-ingest.mjs <url> --timeout 30    # HTTP deadline in seconds (default 120)
  *
  * Zero dependencies, like every gate here. yt-dlp is an external binary and its
  * absence is reported as an instrument failure, never as an empty source.
@@ -58,7 +59,7 @@ const pick = (name, dflt) => {
 // The set is CLOSED: an unknown flag used to be skipped and its value read as a source, so
 // `--min-word 500` (a typo) silently ran at the default floor, and `--outdir <dir> <url>`
 // tried to ingest <dir>. A second source was dropped without a word.
-const VALUED = new Set(['--out', '--min-words']);
+const VALUED = new Set(['--out', '--min-words', '--timeout']);
 const BOOLEAN = new Set(['--json', '--meta-only']);
 const positional = [];
 const unknown = [];
@@ -75,7 +76,7 @@ if (unknown.length || positional.length > 1) {
   console.error(unknown.length
     ? `research-ingest: unknown flag ${unknown.join(', ')}`
     : `research-ingest: one source per run, got ${positional.length}: ${positional.map((p) => JSON.stringify(p)).join(' ')}`);
-  console.error('usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N]');
+  console.error('usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N] [--timeout S]');
   process.exit(2);
 }
 
@@ -83,8 +84,12 @@ const asJson = flag('--json');
 const metaOnly = flag('--meta-only');
 const minWords = Number(pick('--min-words', 300));
 const outDir = pick('--out', path.join(os.tmpdir(), 'ai-registry-research'));
+// A deadline on every HTTP read (headers AND body). fetch has none of its own, so a server
+// that accepts the connection and never answers held a miner forever with nothing on
+// stderr - a stall no caller can tell from a slow, honest source.
+const timeoutS = Number(pick('--timeout', 120));
 
-const USAGE = 'usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N]';
+const USAGE = 'usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N] [--timeout S]';
 if (!source) {
   console.error(USAGE);
   process.exit(2);
@@ -97,6 +102,13 @@ if (!Number.isInteger(minWords) || minWords < 0) {
   console.error(USAGE);
   process.exit(2);
 }
+if (!Number.isFinite(timeoutS) || timeoutS <= 0) {
+  console.error(`research-ingest: --timeout needs a number of seconds > 0, got ${JSON.stringify(pick('--timeout') ?? null)}`);
+  console.error(USAGE);
+  process.exit(2);
+}
+const deadline = () => AbortSignal.timeout(Math.round(timeoutS * 1000));
+const timedOut = (e) => e?.name === 'TimeoutError' || e?.cause?.name === 'TimeoutError';
 
 const fatal = (msg, hint) => {
   console.error(`research-ingest FATAL: ${msg}`);
@@ -325,7 +337,7 @@ if (src.kind === 'youtube') {
   // keeps working when extraction is throttled, which is exactly when you still want
   // to be able to name what you failed to read.
   try {
-    const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(meta.url)}&format=json`);
+    const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(meta.url)}&format=json`, { signal: deadline() });
     if (res.ok) {
       const j = await res.json();
       meta.title = j.title;
@@ -427,20 +439,23 @@ if (src.kind === 'youtube') {
 } else if (src.kind === 'web') {
   meta.url = src.url;
   let res;
+  let bytes;
   try {
     res = await fetch(src.url, {
       redirect: 'follow',
       headers: { 'user-agent': 'ai-registry-research/1 (+https://github.com/xkazm04/ai-registry)' },
+      signal: deadline(),
     });
+    if (!res.ok) fatal(`fetch returned HTTP ${res.status} for ${src.url}`, 'A paywall or a bot wall reads as an instrument failure, not a thin source.');
+    // A PDF must be sniffed by BYTES, not by URL suffix or Content-Type: a hubfs
+    // or CDN link often ends in neither. res.text() would decode the container as
+    // UTF-8, htmlToText would find no tags and pass it through, and the word count
+    // would report five figures of compressed stream as a mined document.
+    bytes = Buffer.from(await res.arrayBuffer());
   } catch (e) {
+    if (timedOut(e)) fatal(`fetch timed out after ${timeoutS}s for ${src.url}`, 'The server accepted the request and did not finish answering. Retry, raise --timeout, or route around this source.');
     fatal(`fetch failed for ${src.url}`, e.message);
   }
-  if (!res.ok) fatal(`fetch returned HTTP ${res.status} for ${src.url}`, 'A paywall or a bot wall reads as an instrument failure, not a thin source.');
-  // A PDF must be sniffed by BYTES, not by URL suffix or Content-Type: a hubfs
-  // or CDN link often ends in neither. res.text() would decode the container as
-  // UTF-8, htmlToText would find no tags and pass it through, and the word count
-  // would report five figures of compressed stream as a mined document.
-  const bytes = Buffer.from(await res.arrayBuffer());
   if (isPdf(bytes)) {
     meta.container = 'pdf';
     const r = pdfToText(bytes);

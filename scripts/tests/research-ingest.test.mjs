@@ -115,6 +115,19 @@ test('og:title survives an apostrophe and either attribute order', async (t) => 
   assert.equal(await titleOf('/single'), 'Say "hi"');
 });
 
+test('a server that never answers is an instrument failure inside --timeout, not a hang', async (t) => {
+  const base = await loopback(t, { '/hang': null });
+  const dir = workdir(t);
+  const started = Date.now();
+  const r = await runAsync([`${base}/hang`, '--out', path.join(dir, 'out'), '--timeout', '1']);
+  assert.equal(r.status, 2, `status ${r.status}; ${r.stderr}`);
+  assert.match(r.stderr, /timed out after 1s/);
+  assert.ok(Date.now() - started < 15000, 'returned well inside the harness kill');
+  const bad = await runAsync([`${base}/hang`, '--out', path.join(dir, 'out'), '--timeout', '0']);
+  assert.equal(bad.status, 2);
+  assert.match(bad.stderr, /--timeout/);
+});
+
 test('--min-words that is not a whole number refuses (exit 2) instead of silencing the thin check', (t) => {
   const dir = workdir(t);
   fs.writeFileSync(path.join(dir, 'thin.txt'), 'three little words');
