@@ -52,7 +52,8 @@
  * Default `<out>` is `$(git rev-parse --git-common-dir)/hygiene/<YYYY-MM-DD>/` - the same
  * uncommittable location the run-board uses, because run state is not registry content.
  *
- * Exit codes: 0 scan (or apply) completed; 1 the instrument failed.
+ * Exit codes (scripts/lib/exit-codes.mjs): 0 scan (or apply) completed; 2 the instrument could
+ * not run (no fleet on this machine, no plan to apply or brief from, a crash).
  *
  * Zero dependencies. Needs `git` and an authenticated `gh` on PATH, and `claude` for the
  * harness-settings check (`--no-harness` skips it; a failed run is a PROBLEM, not clean).
@@ -63,6 +64,7 @@ import { execFile } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadFleet } from './lib/projects.mjs';
 import { removeTree } from './lib/safe-remove.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const argv = process.argv.slice(2);
@@ -956,7 +958,7 @@ async function applyAction(P, a) {
 
 async function main() {
   const fleet = loadFleet(ROOT);
-  if (!fleet.machine) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(1); }
+  if (!fleet.machine) { console.error(`FATAL: ${fleet.problems.join('; ')}`); process.exit(EXIT.FATAL); }
   const common = (await gitOut(ROOT, ['rev-parse', '--path-format=absolute', '--git-common-dir'])) ?? path.join(ROOT, '.git');
   const outDir = path.resolve(opt('out', path.join(common, 'hygiene', TODAY)));
   fs.mkdirSync(outDir, { recursive: true });
@@ -966,7 +968,7 @@ async function main() {
     // the project's slice of plan.json, and its fleet-quirks sections.
     const plan = JSON.parse(fs.readFileSync(path.join(outDir, 'plan.json'), 'utf8'));
     const P = plan.projects.find((p) => p.slug === opt('brief'));
-    if (!P) { console.error(`FATAL: no project ${opt('brief')} in the plan`); process.exit(1); }
+    if (!P) { console.error(`FATAL: no project ${opt('brief')} in the plan`); process.exit(EXIT.FATAL); }
     const skillDir = path.join(ROOT, '.claude', 'skills', 'hygiene', 'references');
     const brief = fs.readFileSync(path.join(skillDir, 'worker-brief.md'), 'utf8').replace(/\r/g, '');
     const quirks = fs.readFileSync(path.join(skillDir, 'fleet-quirks.md'), 'utf8').replace(/\r/g, '');
@@ -992,7 +994,7 @@ async function main() {
 
   if (flag('apply')) {
     const planPath = path.join(outDir, 'plan.json');
-    if (!fs.existsSync(planPath)) { console.error(`FATAL: no plan at ${planPath} - scan first`); process.exit(1); }
+    if (!fs.existsSync(planPath)) { console.error(`FATAL: no plan at ${planPath} - scan first`); process.exit(EXIT.FATAL); }
     const plan = JSON.parse(fs.readFileSync(planPath, 'utf8'));
     const ledger = path.join(outDir, 'applied.jsonl');
     const tally = { done: 0, skipped: 0 };
@@ -1044,5 +1046,5 @@ export { planActions, RED_CONCLUSIONS };
 
 // Run only as a command; scripts/tests/hygiene-scan.test.mjs imports the planner.
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  main().catch((e) => { console.error(`FATAL: ${e.stack}`); process.exit(1); });
+  main().catch((e) => { console.error(`FATAL: ${e.stack}`); process.exit(EXIT.FATAL); });
 }

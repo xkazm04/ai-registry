@@ -3,6 +3,11 @@
 // fleet (see .claude/skills/hygiene/LESSONS.md). The planner is pure: fixtures in, actions out.
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { planActions, denyBlocksPush, splitRed, pickDefaultCi } from '../hygiene-scan.mjs';
 
 const HOUR = 60;
@@ -284,4 +289,19 @@ test('debris: junk is mechanical, scratch is the operator, live and tracked are 
   assert.deepEqual(kinds(A, 'mechanical'), ['delete-debris grep.exe.stackdump']);
   assert.deepEqual(kinds(A, 'hands-off'), ['live-debris skills/x/__pycache__/']);
   assert.deepEqual(kinds(A, 'operator'), ['debris-candidate .personas-web/', 'debris-candidate tmp/', 'tracked-junk stale.pyc']);
+});
+
+// ---- the CLI's own refusals (spawned; never reaches the fleet or GitHub)
+const SCAN = fileURLToPath(new URL('../hygiene-scan.mjs', import.meta.url));
+const cli = (...args) => spawnSync(process.execPath, [SCAN, ...args], { encoding: 'utf8', timeout: 60_000 });
+
+test('an instrument that could not run exits FATAL (2), not VIOLATIONS (1)', () => {
+  // scripts/lib/exit-codes.mjs: 1 means "ran and found something", 2 "could not run";
+  // hygiene-disk, the same skill's other instrument, already says 2.
+  const out = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    const res = cli('--brief', 'no-such-project', '--out', out); // no fleet here, or no plan.json there
+    assert.equal(res.status, 2, res.stderr);
+    assert.match(res.stderr, /FATAL/);
+  } finally { fs.rmSync(out, { recursive: true, force: true }); }
 });
