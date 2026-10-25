@@ -88,3 +88,42 @@ test('the suite never writes the tracked librarian/fleet-coverage.md', () => {
   const now = fs.existsSync(REPORT) ? fs.statSync(REPORT) : null;
   assert.equal(now?.mtimeMs ?? null, REPORT_AT_LOAD?.mtimeMs ?? null, 'the real report was rewritten by a test');
 });
+
+/**
+ * A temp registry root with a COPY of converge.mjs and stub phase scripts that exit with
+ * a chosen status, so a phase failure can be produced without touching any real fleet
+ * script or project.
+ */
+function convergeFixture(t,stubs){
+ const temp=fs.realpathSync(os.tmpdir());
+ const root=fs.mkdtempSync(path.join(temp,'converge-test-'));
+ t.after(()=>{
+  const rel=path.relative(temp,fs.realpathSync(root));
+  if(!rel.startsWith('converge-test-')||rel.includes(path.sep))throw new Error('unsafe cleanup');
+  fs.rmSync(root,{recursive:true,force:true});
+ });
+ fs.mkdirSync(path.join(root,'scripts','lib'),{recursive:true});
+ for(const f of ['converge.mjs','lib/projects.mjs','lib/exit-codes.mjs'])fs.copyFileSync(path.join(ROOT,'scripts',f),path.join(root,'scripts',f));
+ for(const [name,status] of Object.entries(stubs))fs.writeFileSync(path.join(root,'scripts',name),`process.exitCode=${status};\n`);
+ fs.writeFileSync(path.join(root,'projects.json'),JSON.stringify({schema:2,machines:{T:{}},projects:{app:{checkouts:{T:'work/app'}}}}));
+ fs.writeFileSync(path.join(root,'.machine.local.json'),JSON.stringify({machine:'T',root}));
+ fs.mkdirSync(path.join(root,'work','app'),{recursive:true});
+ return (...args)=>spawnSync(process.execPath,[path.join(root,'scripts','converge.mjs'),...args],{encoding:'utf8'});
+}
+
+test('control: phases that succeed leave no note',t=>{
+ const run=convergeFixture(t,{'leads-collect.mjs':0,'signals-collect.mjs':0,'build-fleet-map.mjs':0});
+ for(const phase of ['leads','signals','fleet-map']){
+  const r=run('--only',phase);
+  assert.equal(r.status,0,r.stderr);
+  assert.doesNotMatch(r.stdout,/exited/,phase);
+ }
+});
+
+test('a phase whose script fails is recorded, not passed over (maps already was)',t=>{
+ const run=convergeFixture(t,{'leads-collect.mjs':2,'signals-collect.mjs':2,'build-fleet-map.mjs':2});
+ for(const [phase,script] of [['leads','leads-collect.mjs'],['signals','signals-collect.mjs'],['fleet-map','build-fleet-map.mjs']]){
+  const r=run('--only',phase);
+  assert.match(r.stdout,new RegExp(`! ${script.replace('.','\.')} exited 2`),phase);
+ }
+});

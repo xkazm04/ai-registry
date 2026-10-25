@@ -78,6 +78,17 @@ const run = (script, args = []) => {
 };
 
 const notes = [];
+/**
+ * A phase whose script failed is a note, so it reaches the report and `--check`. Only
+ * the maps phase did this until 2026-10-25; leads, signals and fleet-map discarded the
+ * child's status, so a collector that crashed read exactly like one that had nothing to
+ * collect. `ok` lists the statuses that are not a failure for that script.
+ */
+const recordFailure = (script, r, ok = [0]) => {
+  if (r.dry || ok.includes(r.status)) return;
+  const why = r.error ? ` (${r.error.message})` : r.status === null ? ` on signal ${r.signal}` : '';
+  notes.push(`${script} exited ${r.status}${why}`);
+};
 const DAY = 86_400_000;
 const ageDays = (iso) => { const t = Date.parse(iso ?? ''); return Number.isFinite(t) ? Math.floor((Date.now() - t) / DAY) : null; };
 
@@ -207,13 +218,13 @@ console.log(`converge — machine ${fleet.machine}, ${Object.keys(fleet.projects
 
 if (!checkOnly && wants('maps')) {
   console.log('maps: rebuilding every project map that resolves on this machine');
-  const r = run('build-registry-map.mjs');
-  if (!r.dry && r.status !== 0 && r.status !== 1) notes.push(`build-registry-map exited ${r.status}`);
+  recordFailure('build-registry-map.mjs', run('build-registry-map.mjs'), [0, 1]);
 }
 
 if (!checkOnly && wants('leads')) {
   console.log('leads: folding project-originated leads into librarian/inbox.md');
   const r = run('leads-collect.mjs', ['--since-days', '365']);
+  recordFailure('leads-collect.mjs', r);
   if (!r.dry && r.stdout) {
     const m = /(\d+)\s+new lead/.exec(r.stdout);
     if (m) console.log(`  ${m[1]} lead(s) appended`);
@@ -244,13 +255,13 @@ if (!checkOnly && wants('signals')) {
     console.log('signals: skipped (contributor identity conflict — see notes)');
   } else {
     console.log('signals: folding consult counts into the signals lane');
-    run('signals-collect.mjs');
+    recordFailure('signals-collect.mjs', run('signals-collect.mjs'));
   }
 }
 
 if (!checkOnly && wants('fleet-map')) {
   console.log('fleet-map: inverting coverage across the fleet');
-  run('build-fleet-map.mjs');
+  recordFailure('build-fleet-map.mjs', run('build-fleet-map.mjs'));
 }
 
 const found = wants('discover') || wants('report') ? discover() : { scanned: 0, undeclared: [], quiet: [] };
