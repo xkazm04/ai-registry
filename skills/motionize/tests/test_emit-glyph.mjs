@@ -71,6 +71,24 @@ test('a full-canvas WHITE path is recolored to var(--background), not dropped', 
   assert.equal(data[1].fill, '#0D1F51', 'dark line-work is not surface: navy has a bright blue channel');
 });
 
+test('a path is read whatever its attribute order or fill syntax; what cannot be read is COUNTED', () => {
+  // The matcher used to require exactly <path fill="#hex" d="..."/>: a path with d first, a named
+  // fill (svgo's shortname turns #000080 into navy) or extra attributes vanished from the output,
+  // and `dropped` (paths matched minus paths emitted) was 0 by construction, so nothing said so.
+  const svg = '<svg viewBox="0 0 1024 1024">'
+    + `<path d="${SMALL}" fill="#123456"/>`
+    + `<path fill="navy" fill-rule="evenodd" d="${CORNER}"/>`
+    + `<path d="${CORNER}"/>`
+    + `<path fill="#abcdef" d="${SMALL}" transform="translate(4,4)"/>`
+    + '<path fill="#abcdef"/>'
+    + '</svg>';
+  const out = svgToGlyphData(svg, { name: 'G' });
+  const data = JSON.parse(/data: (\[.*\]) \};/s.exec(out.ts)[1]);
+  assert.deepEqual(data.map((p) => p.fill), ['#123456', 'navy', '#000000'], 'd-first, named and default (black) fills are read, in paint order');
+  assert.equal(out.elements, 3);
+  assert.equal(out.dropped, 2, 'a transform it does not apply and a path with no d are counted, not silently lost');
+});
+
 test('a 3-digit hex surface is a surface: #fff and #000 are demoted like #FFFFFF and #000000', () => {
   // svgo's preset-default (convertColors, shorthex) rewrites #FFFFFF to #fff and #000000 to #000,
   // so the optimised trace hands this function exactly the short form for the two surface colours.

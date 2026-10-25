@@ -6,7 +6,9 @@
  * hand-classifying paths.
  *
  * Handles the trace gotchas automatically:
- *  - drops the full-canvas background path,
+ *  - recolors (never drops) the surface-coloured background and large near-white or
+ *    near-black regions to `var(--background)`; `dropped` counts only <path>s it could
+ *    not read (no `d`, or a `transform` it does not apply),
  *  - recolors interior near-white "negative space" paths to `var(--background)`
  *    (so links/holes read as thin lines, not solid),
  *  - assigns each path a `delay` (0..1) from its distance to the canvas centre —
@@ -81,7 +83,17 @@ export function svgToGlyphData(svg, { name, order = "radial", whiteKeep = 0.1, s
   const [slabFrom, slabTo] = String(surfaceFill ?? "").split(">");
   const slabArea = slabMinArea ?? whiteKeep;
 
-  const paths = [...svg.matchAll(/<path\s+fill="(#[0-9A-Fa-f]+)"\s+d="([^"]+)"\s*\/>/g)].map((m) => ({ fill: m[1], d: m[2] }));
+  // Attributes in any order, any fill syntax (svgo's convertColors may name a colour: #000080 ->
+  // navy), absent fill = SVG's default black. A path this writer cannot place - no `d`, or a
+  // `transform` it does not apply (raw VTracer output, --no-optimize) - is COUNTED in `dropped`
+  // rather than vanishing: the old exact-shape matcher lost such paths and reported dropped: 0.
+  const paths = [];
+  let unread = 0;
+  for (const m of svg.matchAll(/<path\b([^>]*?)\/?>/g)) {
+    const attrs = Object.fromEntries([...m[1].matchAll(/([\w:-]+)\s*=\s*"([^"]*)"/g)].map((a) => [a[1], a[2]]));
+    if (!attrs.d || attrs.transform) { unread += 1; continue; }
+    paths.push({ fill: attrs.fill ?? "#000000", d: attrs.d });
+  }
 
   // Paint order (z-order) is PRESERVED — VTracer stacks fills over outlines, so
   // reordering hides colored fills behind navy. `delay` drives timing only.
@@ -127,7 +139,7 @@ import type { TracedGlyph } from '@/features/shared/components/display/Motionize
 
 export const ${name}: TracedGlyph = { viewBox: "0 0 ${W} ${H}", data: ${JSON.stringify(out, null, 0)} };
 `;
-  return { ts, elements: out.length, dropped: paths.length - out.length };
+  return { ts, elements: out.length, dropped: unread };
 }
 
 function main() {
