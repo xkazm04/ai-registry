@@ -84,7 +84,7 @@ const root = {
 };
 const page = {
   goto: async () => {},
-  locator: () => ({ count: async () => 1, first: () => root }),
+  locator: () => ({ count: async () => (env.FAKE_PW_NO_SECTION === '1' ? 0 : 1), first: () => root }),
   evaluate: async (fn) => evaluate(fn),
   waitForTimeout: async () => {},
   addStyleTag: async () => {},
@@ -153,6 +153,36 @@ test('the in-page walker counts with capture-core countWords, not a private copy
     // The only whitespace split left in the shipped source is the one inside countWords.
     assert.equal(src.split('split(/\\s+/)').length - 1, 1);
   }
+});
+
+test('a capture error mid-run still leaves report.json: the rows so far, the error, and where it hit', () => {
+  const r = runCapture({ env: { FAKE_PW_THROW_ON_SHOT: '2' } });
+  assert.equal(r.status, 2, r.stderr);
+  assert.match(r.stderr, /fake screenshot failure #2/);
+  assert.ok(r.report, 'report.json was written before exiting');
+  assert.match(r.report.error, /fake screenshot failure #2/);
+  // The 2nd screenshot is the 2nd tab at the first width and motion.
+  assert.deepEqual(r.report.at, { tab: 'alpha', width: 1280, motion: 'no-preference' });
+  assert.equal(r.report.rows.length, 1);
+  assert.equal(r.report.rows[0].tab, 'current');
+  assert.equal(r.report.url, 'http://fake.invalid/');
+  assert.equal(r.report.section, 'demo');
+  // A partial run is not a finished contact sheet.
+  assert.equal(r.contact, null);
+});
+
+test('an error before any tab (section never found) names the width and motion with no tab', () => {
+  const r = runCapture({ env: { FAKE_PW_NO_SECTION: '1' } });
+  assert.equal(r.status, 2, r.stderr);
+  assert.match(r.report.error, /section \[data-illustrate="demo"\] not found/);
+  assert.deepEqual(r.report.at, { tab: null, width: 1280, motion: 'no-preference' });
+  assert.deepEqual(r.report.rows, []);
+});
+
+test('a clean run carries no error field in report.json', () => {
+  const r = runCapture();
+  assert.equal('error' in r.report, false);
+  assert.equal('at' in r.report, false);
 });
 
 test('the product file holds no whitespace-split word counter of its own', () => {

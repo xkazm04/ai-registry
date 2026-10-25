@@ -9,7 +9,8 @@
  *
  * Output: <out>/<section>-<tab>-<width>-<motion>.png, report.json, contact.html.
  * Exit 0 = captured, 2 = instrument failure (no browser library, page unreachable,
- * section or tab not found), 3 = captured but at least one capture is BLANK, a
+ * section or tab not found; a failure mid-run still writes report.json with the rows
+ * captured so far plus `error` and `at` {tab,width,motion}, and no contact sheet), 3 = captured but at least one capture is BLANK, a
  * variant runs an infinite animation under reduced motion, or a variant's art is
  * TEXT-HEAVY (more words than a label layer, a sentence-length run, or text covering
  * too much of the picture; limits via --max-words --max-run --max-ratio), or the section
@@ -66,9 +67,12 @@ async function reach(page, sel) {
 const textProbe = buildTextProbe();
 const rows = [];
 let failed = false;
+// Where the run is, so a mid-run error can say where it stopped.
+let at = null;
 try {
   for (const motion of ['no-preference', 'reduce']) {
     for (const width of args.widths) {
+      at = { tab: null, width, motion };
       const ctx = await browser.newContext({ reducedMotion: motion, viewport: { width, height: 900 } });
       const page = await ctx.newPage();
       await page.goto(args.url, { waitUntil: 'networkidle', timeout: 180000 });
@@ -82,6 +86,7 @@ try {
         continue;
       }
       for (const tab of args.tabs) {
+        at = { tab, width, motion };
         const btn = root.locator(`[data-illustrate-tab="${tab}"]`);
         if (!(await btn.count())) throw new Error(`tab [data-illustrate-tab="${tab}"] not found in ${args.section}`);
         if (args.hide.length) await page.addStyleTag({ content: args.hide.join(',') + '{visibility:hidden!important}' }).catch(() => {});
@@ -123,7 +128,12 @@ try {
   }
 } catch (e) {
   console.error('capture-variants: ' + e.message);
-  await browser.close();
+  // The rows captured before the failure are evidence a rerun would have to redo: keep them,
+  // with the error and where it hit. No contact sheet - a partial run is not a finished one.
+  try {
+    fs.writeFileSync(path.join(args.out, 'report.json'), JSON.stringify({ url: args.url, section: args.section, rows, error: e.message, at }, null, 2));
+  } catch (w) { console.error('capture-variants: could not write the partial report: ' + w.message); }
+  await browser.close().catch(() => {});
   process.exit(2);
 }
 await browser.close();
