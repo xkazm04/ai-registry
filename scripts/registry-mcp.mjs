@@ -21,7 +21,7 @@
  *   registry_query    ranked hits for a decision: path, gist, use_when (budgeted)
  *   registry_read     one published document, or one `## ` section of it (budgeted)
  *   registry_subject  a subject's card: its golden path + every technique's gist
- *   registry_ledger   ledger-read.mjs over a shared markdown ledger, in-process
+ *   registry_ledger   ledger-read.mjs over a git-tracked markdown ledger, in-process
  *
  * registry_ledger imports ledger-read's exported runQuery(argv, text) rather than
  * spawning the script: runQuery IS the CLI minus file I/O and process exit, so the tool
@@ -43,6 +43,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { spawnSync } from 'node:child_process';
 import { EXIT } from './lib/exit-codes.mjs';
 
 /** Bumped on any change to tool names, params or result shapes (semver). */
@@ -146,12 +147,12 @@ export const TOOLS = [
   {
     name: 'registry_ledger',
     title: 'Query a registry ledger table',
-    description: 'Bounded reads over the registry\'s shared markdown ledgers (librarian/applied.md, librarian/harvest/queue.md, librarian/sources/index.md, the intake SCORECARD.md / LESSONS.md, and any other repo .md table). Same engine and semantics as scripts/ledger-read.mjs: run command "schema" first to see the tables and columns, then "rows" with where/since/last/fields, "sections" for "## " blocks, or "prose" with after_table. Replies are capped at max_tokens (default 2000) and say what they omitted; when has_more is true, pass the returned cursor back with the SAME other params for the next page. Not for knowledge documents - use registry_query / registry_read for those.',
+    description: 'Bounded reads over the registry\'s shared markdown ledgers (librarian/applied.md, librarian/harvest/queue.md, librarian/sources/index.md, the intake SCORECARD.md / LESSONS.md, and any other git-tracked repo .md table). Same engine and semantics as scripts/ledger-read.mjs: run command "schema" first to see the tables and columns, then "rows" with where/since/last/fields, "sections" for "## " blocks, or "prose" with after_table. Replies are capped at max_tokens (default 2000) and say what they omitted; when has_more is true, pass the returned cursor back with the SAME other params for the next page. Not for knowledge documents - use registry_query / registry_read for those.',
     inputSchema: {
       type: 'object',
       properties: {
         command: { type: 'string', enum: ['schema', 'rows', 'sections', 'prose'], description: 'schema | rows | sections | prose.' },
-        file: { type: 'string', minLength: 1, description: 'Repo-relative path of a .md ledger, e.g. librarian/applied.md.' },
+        file: { type: 'string', minLength: 1, description: 'Repo-relative path of a git-tracked .md ledger, e.g. librarian/applied.md.' },
         where: { type: 'array', items: { type: 'string' }, description: 'rows only; each "col~regex", "col!~regex", "col=value" or "*~regex"; all must hold.' },
         since: { type: 'string', pattern: '^\\d{4}-\\d{2}-\\d{2}$', description: 'YYYY-MM-DD; rows by their Date column, sections by a date in the heading.' },
         last: { ...posInt, description: 'Keep only the last N matches.' },
@@ -377,6 +378,30 @@ export function serveStdio(server, { input = process.stdin, output = process.std
 // Case-insensitive, as readDoc's check is: on Windows and macOS `x.LOCAL.md` IS `x.local.md`.
 const LOCAL_FILE = /(^|\/)[^/]*\.local(\.|$)/i;
 
+/**
+ * Is norm a file git tracks in the checkout at root? registry_read serves published lanes
+ * only; this door serves "any repo .md table", and an untracked file in a dot-folder
+ * (.architect/ vault notes, scratch) is private evidence that AGENTS.md keeps local. A
+ * dot-folder ban would break the documented .claude/skills/intake/SCORECARD.md read, so
+ * the line is drawn at what the repository itself publishes: the git index.
+ *
+ * Answers 'tracked' | 'untracked' | 'not-a-repo' | 'unknown'. 'not-a-repo' (git says so
+ * itself: an exported copy has no untracked notes to leak) falls back to the lexical
+ * checks; 'unknown' (git missing, unreadable repo, dubious ownership) refuses, because a
+ * guard that opens when its tool fails is not a guard. :(literal) stops a pathspec glob
+ * or magic prefix in the file name from matching something else.
+ */
+function trackingOf(root, norm) {
+  const run = (args) => spawnSync('git', ['-C', root, ...args], { encoding: 'utf8', windowsHide: true });
+  const inside = run(['rev-parse', '--is-inside-work-tree']);
+  if (inside.error) return 'unknown';
+  // A .git entry git cannot open (broken gitfile) is a damaged checkout, not an exported copy.
+  if (inside.status !== 0) return /not a git repository/i.test(inside.stderr ?? '') && !fs.existsSync(path.join(root, '.git')) ? 'not-a-repo' : 'unknown';
+  const r = run(['ls-files', '--error-unmatch', '--', `:(literal)${norm}`]);
+  if (r.error) return 'unknown';
+  return r.status === 0 ? 'tracked' : r.status === 1 ? 'untracked' : 'unknown';
+}
+
 /** A repo-relative .md path inside root, or a thrown Error naming why not. */
 function resolveLedger(root, rel) {
   const norm = rel.replace(/\\/g, '/');
@@ -391,6 +416,9 @@ function resolveLedger(root, rel) {
   const real = fs.realpathSync(abs);
   const realRoot = fs.realpathSync(root);
   if (real !== realRoot && !real.startsWith(realRoot + path.sep)) throw new Error(`refused: "${rel}" links outside the registry`);
+  const tracked = trackingOf(root, norm);
+  if (tracked === 'untracked') throw new Error(`refused: "${rel}" is not tracked by git (untracked files are local, never served)`);
+  if (tracked === 'unknown') throw new Error(`refused: cannot confirm "${rel}" is tracked by git (is git installed and the checkout readable?)`);
   return { abs, norm };
 }
 
