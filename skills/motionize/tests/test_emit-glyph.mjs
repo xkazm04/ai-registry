@@ -172,6 +172,27 @@ test('the emitted module is a single TracedGlyph object, not a bare array plus a
   assert.match(out.ts, /AUTO-GENERATED/, 'a generated module must say so');
 });
 
+test('the three CLIs build the core options from ONE mapping, so a flag cannot reach one and not another', async () => {
+  // emit-glyph, trace --emit and trace-set each spelled out { whiteKeep, surfaceFill, ... } from
+  // argv; trace.mjs's copy omitted --slab-min-area, so `trace --emit --slab-min-area 0.25` silently
+  // used --white-keep instead. One exported mapping, and every caller must go through it.
+  const core = await import('../tools/emit-glyph.mjs');
+  assert.equal(typeof core.glyphOptions, 'function', 'emit-glyph.mjs exports glyphOptions(args)');
+  assert.deepEqual(
+    core.glyphOptions({ name: 'N', order: 'angular', 'white-keep': '0.02', 'surface-fill': '#F4B214>#7C3AED', 'surface-tolerance': '30', 'slab-min-area': '0.25' }),
+    { name: 'N', order: 'angular', whiteKeep: 0.02, surfaceFill: '#F4B214>#7C3AED', surfaceTolerance: 30, slabMinArea: 0.25 },
+  );
+  assert.deepEqual(core.glyphOptions({}, { name: '_TMP', surfaceFill: '#123456' }), {
+    name: '_TMP', order: undefined, whiteKeep: undefined, surfaceFill: '#123456', surfaceTolerance: undefined, slabMinArea: null,
+  }, 'overrides win (trace-set passes its per-key fill)');
+  const strip = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:"'`\\])\/\/.*$/gm, '$1');
+  for (const f of ['trace.mjs', 'trace-set.mjs']) {
+    const src = strip(readFileSync(fileURLToPath(new URL(f, TOOLS)), 'utf8'));
+    assert.match(src, /svgToGlyphData\(svg,\s*glyphOptions\(args/, `${f} builds its options with glyphOptions`);
+    assert.doesNotMatch(src, /whiteKeep\s*:/, `${f} must not hand-map the flags again`);
+  }
+});
+
 test('trace-set.mjs can still scrape this writer — the two emitters agree', () => {
   // trace-set.mjs calls svgToGlyphData with name "_TMP" and pulls the viewBox and the
   // data array back out of the emitted module with two regexes. Those regexes are the

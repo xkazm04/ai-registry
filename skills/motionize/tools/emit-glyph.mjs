@@ -142,18 +142,28 @@ export const ${name}: TracedGlyph = { viewBox: "0 0 ${W} ${H}", data: ${JSON.str
   return { ts, elements: out.length, dropped: unread };
 }
 
-function main() {
-  const args = parseArgs(process.argv);
-  if (!args.input || !args.output || !args.name) { console.error("Usage: --input svg --output data.ts --name NAME"); process.exit(1); }
-  const svg = readFileSync(args.input, "utf8");
-  const { ts, elements, dropped } = svgToGlyphData(svg, {
+/**
+ * argv flags -> svgToGlyphData options: the ONE mapping emit-glyph, trace --emit and trace-set use,
+ * so a flag documented for one reaches all three (trace.mjs's hand copy once dropped --slab-min-area).
+ * `overrides` win - trace-set passes its per-key surface fill and the scratch name.
+ */
+export function glyphOptions(args, overrides = {}) {
+  return {
     name: args.name,
     order: args.order,
     whiteKeep: args["white-keep"] ? Number(args["white-keep"]) : undefined,
     surfaceFill: args["surface-fill"] || null,
     surfaceTolerance: args["surface-tolerance"] ? Number(args["surface-tolerance"]) : undefined,
     slabMinArea: args["slab-min-area"] ? Number(args["slab-min-area"]) : null,
-  });
+    ...overrides,
+  };
+}
+
+function main() {
+  const args = parseArgs(process.argv);
+  if (!args.input || !args.output || !args.name) { console.error("Usage: --input svg --output data.ts --name NAME"); process.exit(1); }
+  const svg = readFileSync(args.input, "utf8");
+  const { ts, elements, dropped } = svgToGlyphData(svg, glyphOptions(args));
   const abs = resolve(args.output);
   mkdirSync(dirname(abs), { recursive: true });
   writeFileSync(abs, ts);
