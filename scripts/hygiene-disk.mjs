@@ -358,14 +358,16 @@ export function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
 // ---------------------------------------------------------------------------- report
 
 const GB = (b) => (b == null ? '-' : (b / 1e9).toFixed(1));
-function renderMarkdown(plan) {
+export function renderMarkdown(plan) {
   const lines = [`# Disk lane - ${plan.generatedAt.slice(0, 16)}`, '', `Free: ${GB(plan.freeBytes)} GB. Scratch root: \`${plan.scratch}\`.`, '', '| area | class | kind | rows | GB |', '|---|---|---|---|---|'];
   const g = new Map();
   for (const r of plan.rows) { const k = `${r.area}|${r.class}|${r.kind}`; const x = g.get(k) || { n: 0, b: 0 }; x.n++; x.b += r.bytes || 0; g.set(k, x); }
   for (const [k, x] of [...g.entries()].sort((a, b) => b[1].b - a[1].b)) { const [a, c, kind] = k.split('|'); lines.push(`| ${a} | ${c} | ${kind} | ${x.n} | ${GB(x.b)} |`); }
   const mech = plan.rows.filter((r) => r.class === 'mechanical').reduce((a, r) => a + (r.bytes || 0), 0);
   lines.push('', `Mechanical total: ${GB(mech)} GB.`, '', '## Operator rows', '');
-  for (const r of plan.rows.filter((x) => x.class === 'operator').sort((a, b) => (b.bytes || 0) - (a.bytes || 0)).slice(0, 40)) lines.push(`- \`${r.path}\` ${GB(r.bytes)} GB - ${r.kind}: ${r.reason}`);
+  const ops = plan.rows.filter((x) => x.class === 'operator').sort((a, b) => (b.bytes || 0) - (a.bytes || 0));
+  for (const r of ops.slice(0, 40)) lines.push(`- \`${r.path}\` ${GB(r.bytes)} GB - ${r.kind}: ${r.reason}`);
+  if (ops.length > 40) lines.push(`- ... ${ops.length - 40} more operator rows in disk.json`);
   return lines.join('\n') + '\n';
 }
 

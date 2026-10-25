@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan, reclassify } from '../hygiene-disk.mjs';
+import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan, reclassify, renderMarkdown } from '../hygiene-disk.mjs';
 
 // Fixture git never sees a hook's GIT_DIR (2026-09-19: fixtures wrote into real repositories).
 const ENV = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_'))), GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t.invalid', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t.invalid' };
@@ -296,4 +296,13 @@ test('--apply re-checks that a plain row is still not a checkout before deleting
       assert.match(v.skip, /\.git/);
     }
   } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+test('disk.md says how many operator rows it did not show', () => {
+  // The list stops at 40; the operator decides from this page, so a silent cut reads as "that is all".
+  const rows = Array.from({ length: 45 }, (_, i) => ({ area: 'scratch', path: `x${i}`, class: 'operator', kind: 'scratch-wip', reason: 'r', bytes: 1e9 - i }));
+  const md = renderMarkdown({ generatedAt: new Date().toISOString(), freeBytes: 0, scratch: 's', rows });
+  assert.equal(md.split('\n').filter((l) => l.startsWith('- `')).length, 40);
+  assert.match(md, /5 more operator rows in disk\.json/);
+  assert.doesNotMatch(renderMarkdown({ generatedAt: new Date().toISOString(), freeBytes: 0, scratch: 's', rows: rows.slice(0, 3) }), /more operator rows/);
 });
