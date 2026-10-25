@@ -112,9 +112,13 @@ export const readSkill = (laneDir, name) => {
   const lessonsPath = path.join(dir, LESSONS_FILE);
   if (fs.existsSync(lessonsPath)) {
     out.lessonsPath = `skills/${name}/${LESSONS_FILE}`;
-    out.lessonsRaw = fs.readFileSync(lessonsPath, 'utf8');
-    out.lessons = lessonHeadings(out.lessonsRaw).length;
-    out.lessonsHash = contentDigest(out.lessonsRaw);
+    // Guarded like the SKILL.md read above: a LESSONS.md that is a directory or unreadable
+    // is this skill's defect (check-skills names it, exit 1), not a reason to lose the lane.
+    try {
+      out.lessonsRaw = fs.readFileSync(lessonsPath, 'utf8');
+      out.lessons = lessonHeadings(out.lessonsRaw).length;
+      out.lessonsHash = contentDigest(out.lessonsRaw);
+    } catch (e) { out.lessonsRaw = null; out.problems.push(`LESSONS.md unreadable (${e.message})`); }
   }
   out.files = walk(dir);
   return out;

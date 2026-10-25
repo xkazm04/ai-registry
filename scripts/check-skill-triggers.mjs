@@ -42,6 +42,18 @@ import { fileURLToPath } from 'node:url';
 import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
+// A closed flag set, checked before any read: `--strct` used to be ignored, so the advisory
+// run exited 0 where the caller asked for the failing one.
+{
+  const usage = 'usage: node scripts/check-skill-triggers.mjs [--strict] [--help]';
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
+  const unknown = argv.find((a) => a !== '--strict');
+  if (unknown !== undefined) {
+    console.error(`FATAL: unknown argument ${JSON.stringify(unknown)}; nothing was checked.\n${usage}`);
+    process.exit(EXIT.FATAL);
+  }
+}
 const STRICT = process.argv.includes('--strict');
 
 // Containment of the smaller vocabulary in the larger one. 1.0 = one skill's

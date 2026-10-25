@@ -906,13 +906,22 @@ export function validateLane(laneRoot) {
 
 function main() {
   const argv = process.argv.slice(2);
+  const usage = 'usage: node scripts/check-publications.mjs [--root <dir>] [<publication-dir> ...] [--help]';
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
   const rootIdx = argv.indexOf('--root');
-  const laneRoot = rootIdx === -1 ? path.join(ROOT, 'publications') : path.resolve(argv[rootIdx + 1] ?? '');
-  const dirs = argv.filter((a, i) => !a.startsWith('--') && (rootIdx === -1 || i !== rootIdx + 1));
-  if (rootIdx !== -1 && !argv[rootIdx + 1]) {
+  if (rootIdx !== -1 && (!argv[rootIdx + 1] || argv[rootIdx + 1].startsWith('--'))) {
     console.error('check-publications FATAL: --root needs a directory.');
     process.exit(EXIT.FATAL);
   }
+  // A closed flag set: a flag-shaped argument other than --root used to be dropped from the
+  // directory list, so a typo ran the whole-lane check and exited as if it had been heard.
+  const unknown = argv.find((a, i) => a.startsWith('-') && a !== '--root' && !(rootIdx !== -1 && i === rootIdx + 1));
+  if (unknown !== undefined) {
+    console.error(`check-publications FATAL: unknown argument ${JSON.stringify(unknown)}; nothing was checked.\n${usage}`);
+    process.exit(EXIT.FATAL);
+  }
+  const laneRoot = rootIdx === -1 ? path.join(ROOT, 'publications') : path.resolve(argv[rootIdx + 1]);
+  const dirs = argv.filter((a, i) => a !== '--root' && (rootIdx === -1 || i !== rootIdx + 1));
 
   const broken = selfTest();
   if (broken.length) {

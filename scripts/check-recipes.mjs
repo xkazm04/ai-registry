@@ -58,6 +58,22 @@ import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'recipes');
 
+// A closed flag set, checked before any read (same rule as check-skills): `--since=x` or a
+// typo'd `--snce` used to be ignored, so the run exited 0 on a population the caller did
+// not ask for - and `--shape-only` is the one flag that deliberately narrows the check.
+{
+  const usage = 'usage: node scripts/check-recipes.mjs [--shape-only] [--since <git-ref>] [--help]';
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
+  for (let i = 0; i < argv.length; i += 1) {
+    if (argv[i] === '--shape-only') continue;
+    if (argv[i] === '--since') {
+      if (!argv[i + 1] || argv[i + 1].startsWith('--')) { console.error(`FATAL: --since requires a git ref (e.g. --since origin/main).\n${usage}`); process.exit(EXIT.FATAL); }
+      i += 1;
+    } else { console.error(`FATAL: unknown argument ${JSON.stringify(argv[i])}; nothing was checked.\n${usage}`); process.exit(EXIT.FATAL); }
+  }
+}
+
 const RECIPE_JSON = 'recipe.json';
 const RECIPE_MD = 'RECIPE.md';
 const LESSONS_MD = 'LESSONS.md';
@@ -533,10 +549,19 @@ if (parsed === 0) {
 }
 
 // ---------------------------------------------------------------- version discipline
+// An omitted `--since` used to mean "no population": the run printed "version discipline:
+// NOT run" and exited 0 on an unbumped recipe edit, while check-skills already checked the
+// working tree and index against HEAD by default. The flagless form now does the same.
+// `--shape-only` alone stays shape-only: gate.mjs runs it before regenerating, and a dirty
+// unbumped recipe in the shared tree must not turn `gate --all` red for every session;
+// `--shape-only --since <ref>` still checks versions, as it always did.
 const sinceIdx = process.argv.indexOf('--since');
+const shapeOnly = process.argv.includes('--shape-only');
+const versionRun = sinceIdx !== -1 || !shapeOnly;
 let bumpChecked = 0;
-if (sinceIdx !== -1) {
-  const ref = process.argv[sinceIdx + 1];
+let scopeLabel = null;
+if (versionRun) {
+  const ref = sinceIdx === -1 ? 'HEAD' : process.argv[sinceIdx + 1];
   if (!ref) { console.error('FATAL: --since requires a git ref (e.g. --since origin/main).'); process.exit(EXIT.FATAL); }
   const git = (args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
   try { git(['rev-parse', '--verify', `${ref}^{commit}`]); } catch (e) {
@@ -545,6 +570,7 @@ if (sinceIdx !== -1) {
     console.error('Refusing to report "no version problems" from a comparison that never ran.');
     process.exit(EXIT.FATAL);
   }
+  scopeLabel = sinceIdx === -1 ? 'uncommitted against HEAD' : `changed against ${ref} (committed + working tree + untracked)`;
   // `${ref}...HEAD` alone compares COMMITTED history, and the working tree is
   // invisible to it. This used to refuse (exit 2) only the shape where nothing
   // was committed and something was dirty; one committed change beside dirty
@@ -558,6 +584,7 @@ if (sinceIdx !== -1) {
   const paths = (args) => git(args).split('\0').filter(Boolean);
   let changed;
   try {
+    // Flagless: ref is HEAD, whose merge base with HEAD is HEAD, so one diff serves both forms.
     const base = git(['merge-base', ref, 'HEAD']).trim();
     changed = paths(['diff', '--name-only', '-z', base, '--', 'recipes/']);
     const untracked = paths(['ls-files', '-z', '--others', '--exclude-standard', '--', 'recipes/']);
@@ -642,9 +669,9 @@ const fmt = (m) => [...m.entries()].sort().map(([k, n]) => `${k}:${n}`).join(' '
 
 console.log(`recipes lane: ${walked.recipes.length} recipe(s) - ${fmt(byStatus)}`);
 console.log(`domains: ${fmt(byDomain)} - ${lessonEntries} LESSONS entr(ies)`);
-if (sinceIdx !== -1) console.log(`version discipline: ${bumpChecked} changed recipe(s) compared against ${process.argv[sinceIdx + 1]} (committed + working tree + untracked)`);
-else console.log('version discipline: NOT run (pass --since <ref>; CI runs it on every push and pull request)');
-if (process.argv.includes('--shape-only')) console.log('index freshness: NOT run (--shape-only; regenerate and check the index next)');
+if (versionRun) console.log(`version discipline: ${bumpChecked} changed recipe(s), ${scopeLabel}`);
+else console.log('version discipline: NOT run (--shape-only alone; run flagless for the working tree against HEAD, or pass --since <ref>)');
+if (shapeOnly) console.log('index freshness: NOT run (--shape-only; regenerate and check the index next)');
 console.log('NOT checked here: whether the craft is any good; whether a lesson was appended;');
 console.log('  whether a connector_type exists in the consuming catalog (this registry cannot see it)');
 for (const n of notes) console.log(`  note: ${n}`);

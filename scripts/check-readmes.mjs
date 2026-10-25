@@ -251,6 +251,18 @@ function assertInstrument() {
 
 // -------------------------------------------------------------- the sweep
 const args = process.argv.slice(2);
+// A closed flag set, checked before the instrument or the fleet is read: `--jsn` or
+// `--path=dir` used to be ignored, so the run swept the whole fleet and exited as if heard.
+{
+  const usage = 'usage: node scripts/check-readmes.mjs [--json] [--quiet] [--path <dir>] [--help]';
+  if (args.includes('--help') || args.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
+  for (let i = 0; i < args.length; i += 1) {
+    if (args[i] === '--json' || args[i] === '--quiet') continue;
+    if (args[i] === '--path') { i += 1; continue; } // its value is validated below, with its own message
+    console.error(`check-readmes FATAL: unknown argument ${JSON.stringify(args[i])}; nothing was checked.\n${usage}`);
+    process.exit(EXIT.FATAL);
+  }
+}
 const asJson = args.includes('--json');
 const quiet = args.includes('--quiet');
 

@@ -61,3 +61,15 @@ test('a non-numeric or out-of-range floor is a usage error (exit 2), not an empt
     assert.equal(r.status, 2, `${JSON.stringify(env)}: ${r.stdout}`);
   }
 });
+
+test('an unknown argument exits 2 before any read (a typo of --strict must not run advisory); --help exits 0', (t) => {
+  const go = registry(t, COLLIDING);
+  assert.equal(go([]).status, 0, 'plain advisory run keeps its current exit');
+  for (const bad of [['--bogus'], ['--strct'], ['--strict=1'], ['--since', 'x'], ['extra'], ['--strict', '--bogus']]) {
+    const r = go(bad);
+    assert.equal(r.status, 2, `${bad.join(' ')} -> ${r.status}: ${r.stdout}${r.stderr}`);
+  }
+  const h = go(['--help']);
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/check-skill-triggers\.mjs/);
+});

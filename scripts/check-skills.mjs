@@ -50,6 +50,22 @@ import { EXIT } from './lib/exit-codes.mjs';
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
 
+// A closed flag set, checked before any read. This gate used to read only `--since` and
+// ignore everything else, so `--since=origin/main` or `--snce origin/main` ran the flagless
+// population (working tree against HEAD) and exited 0 - a different check than the one the
+// caller named. An argument this CLI does not know is the caller's mistake, not a no-op.
+{
+  const usage = 'usage: node scripts/check-skills.mjs [--since <git-ref>] [--help]';
+  const argv = process.argv.slice(2);
+  if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }
+  for (let i = 0; i < argv.length; i += 1) {
+    if (argv[i] === '--since') {
+      if (!argv[i + 1] || argv[i + 1].startsWith('--')) { console.error(`FATAL: --since requires a git ref (e.g. --since origin/main).\n${usage}`); process.exit(EXIT.FATAL); }
+      i += 1;
+    } else { console.error(`FATAL: unknown argument ${JSON.stringify(argv[i])}; nothing was checked.\n${usage}`); process.exit(EXIT.FATAL); }
+  }
+}
+
 // The closed set from registry.yaml / .ascent/registry.yaml `policies.categories`.
 // An unlisted value is normalized to `other` at index time, which means a typo
 // silently becomes `other` in every consumer's catalog instead of failing here.
@@ -295,6 +311,10 @@ for (const s of skills) {
 
   // LESSONS.md is optional. When present, its headings are the join key between a
   // lesson and the version it was learned against — an unparseable heading loses it.
+  if (s.lessonsPath !== null && s.lessonsRaw === null) {
+    const why = s.problems.find((p) => p.startsWith('LESSONS.md')) || 'LESSONS.md unreadable';
+    fail(`${rel}/LESSONS.md: cannot be read - it exists but is not a readable file (${why})`);
+  }
   if (s.lessonsRaw !== null) {
     lessonFiles += 1;
     const heads = lessonHeadings(s.lessonsRaw);

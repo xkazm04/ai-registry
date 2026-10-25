@@ -25,11 +25,14 @@ function fixture(t) {
   const dir = fs.mkdtempSync(path.join(tmp, 'check-recipes-version-'));
   t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
   fs.mkdirSync(path.join(dir, 'scripts'));
-  for (const file of ['check-recipes.mjs', 'render-recipes.mjs']) {
+  for (const file of ['check-recipes.mjs', 'render-recipes.mjs', 'build-recipes-index.mjs']) {
     fs.copyFileSync(path.join(ROOT, 'scripts', file), path.join(dir, 'scripts', file));
   }
   fs.cpSync(path.join(ROOT, 'scripts/lib'), path.join(dir, 'scripts/lib'), { recursive: true });
   for (const rel of [A, B]) fs.cpSync(path.join(ROOT, rel), path.join(dir, rel), { recursive: true });
+  // The flagless form also runs the index freshness check, so the fixture carries a fresh index.
+  const built = spawnSync(process.execPath, ['scripts/build-recipes-index.mjs'], { cwd: dir, encoding: 'utf8' });
+  assert.equal(built.status, 0, built.stderr);
   const git = (...args) => execFileSync('git', ['-C', dir, '-c', 'core.autocrlf=false', ...args], { encoding: 'utf8' });
   git('init', '-q');
   git('config', 'user.email', 't@example.invalid');
@@ -55,7 +58,7 @@ function fixture(t) {
     if (r.error) throw r.error;
     return r;
   };
-  return { base, touch, bump, commit, run };
+  return { dir, base, touch, bump, commit, run };
 }
 
 test('control: a clean tree under --since HEAD reports 0 changed and exits 0', (t) => {
@@ -124,7 +127,7 @@ test('the report says where version discipline runs, and a backwards version nam
   const f = fixture(t);
   const plain = f.run();
   assert.equal(plain.status, 0, plain.stderr);
-  assert.match(plain.stdout, /version discipline: NOT run \(pass --since <ref>; CI runs it on every push and pull request\)/);
+  assert.match(plain.stdout, /version discipline: NOT run \(--shape-only alone; run flagless for the working tree against HEAD, or pass --since <ref>\)/);
   f.touch(A, 'codebase.md');
   f.bump(A, '0.2.0');
   const r = f.run('--since', 'HEAD');
@@ -137,4 +140,38 @@ test('an unresolvable --since ref is could-not-run (exit 2)', (t) => {
   const r = f.run('--since', 'no-such-ref');
   assert.equal(r.status, 2, r.stdout);
   assert.match(r.stderr, /does not resolve/);
+});
+
+// Closed flag set: `--since=x` or a typo'd `--snce` used to be ignored and the run exited
+// 0 on a population the caller did not ask for. The fixture's `run` always adds --shape-only,
+// so this spawns the script directly.
+test('check-recipes refuses an unknown or malformed argument with exit 2 and answers --help with 0', (t) => {
+  const f = fixture(t);
+  const raw = (...args) => spawnSync(process.execPath, ['scripts/check-recipes.mjs', ...args], { cwd: f.dir, encoding: 'utf8' });
+  assert.equal(raw('--shape-only').status, 0, 'plain shape-only run keeps its current exit');
+  for (const bad of [['--bogus'], ['--since=HEAD'], ['--snce', 'HEAD'], ['--since'], ['--since', '--shape-only'], ['HEAD'], ['--shape-only', '--bogus']]) {
+    const r = raw(...bad);
+    assert.equal(r.status, 2, `${bad.join(' ')} -> ${r.status}: ${r.stdout}${r.stderr}`);
+  }
+  const h = raw('--help');
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/check-recipes\.mjs/);
+});
+
+// The flagless form used to print "version discipline: NOT run" and exit 0 on an unbumped
+// edit; check-skills already checks the working tree and index against HEAD by default.
+// `--shape-only` alone stays shape-only (gate.mjs runs it before regenerating).
+test('flagless check-recipes checks dirty and untracked edits against HEAD; --shape-only alone does not', (t) => {
+  const f = fixture(t);
+  const raw = (...args) => spawnSync(process.execPath, ['scripts/check-recipes.mjs', ...args], { cwd: f.dir, encoding: 'utf8' });
+  const clean = raw();
+  assert.equal(clean.status, 0, `clean control: ${clean.stdout}${clean.stderr}`);
+  assert.match(clean.stdout, /version discipline: 0 changed recipe\(s\), uncommitted against HEAD/);
+  f.touch(A, 'codebase.md');
+  const dirty = raw();
+  assert.equal(dirty.status, 1, dirty.stdout);
+  assert.match(dirty.stderr, /skill-library-audit: content changed \(examples\/codebase\.md\)/);
+  const shape = raw('--shape-only');
+  assert.equal(shape.status, 0, `--shape-only alone must not run the version check: ${shape.stderr}`);
+  assert.match(shape.stdout, /version discipline: NOT run/);
 });

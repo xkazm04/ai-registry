@@ -82,3 +82,16 @@ test('could-not-run: an empty or missing lane exits 2', (t) => {
   const missing = tree(t, (root) => fs.rmSync(path.join(root, 'practices'), { recursive: true }));
   assert.equal(cli(missing).status, 2);
 });
+
+test('CLI: an unknown argument exits 2 before any read; --help exits 0; the plain --root run keeps its exit', (t) => {
+  const planted = tree(t);
+  assert.equal(cli(planted).status, 0);
+  const run = (...args) => spawnSync(process.execPath, [SCRIPT, ...args], { encoding: 'utf8' });
+  for (const bad of [['--bogus'], ['--since=x'], ['--rot', planted], ['--root'], ['--root', '--bogus'], ['--root', planted, '--bogus'], ['extra']]) {
+    const r = run(...bad);
+    assert.equal(r.status, 2, `${bad.join(' ')} -> ${r.status}: ${r.stdout}${r.stderr}`);
+  }
+  const h = run('--help');
+  assert.equal(h.status, 0, h.stderr);
+  assert.match(h.stdout, /usage: node scripts\/check-simple-lanes\.mjs/);
+});
