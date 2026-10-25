@@ -238,3 +238,21 @@ test('an unreadable device cache is reported and never overwritten - it is the o
     fs.rmSync(tmp, { recursive: true, force: true });
   }
 });
+
+test('a --since or --min-work the script cannot read is a usage error, not a silently unfiltered or empty report', () => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'ps-flags-'));
+  try {
+    const store = path.join(tmp, 'projects');
+    fs.mkdirSync(store, { recursive: true });
+    const cache = path.join(tmp, 'cache.json');
+    const run = (...extra) => spawnSync(process.execPath, [SCRIPT, '--json', '--claude-projects', store, '--cache', cache, ...extra], { encoding: 'utf8' });
+    for (const bad of [['--since', 'last-week'], ['--since', '7days'], ['--min-work', 'three'], ['--min-work', '-1'], ['--project']]) {
+      const r = run(...bad);
+      assert.equal(r.status, 2, `${bad.join(' ')}: ${r.stdout.slice(0, 120)}${r.stderr}`);
+    }
+    assert.equal(fs.existsSync(cache), false, 'a refused flag writes no cache');
+    for (const good of [['--since', '30d'], ['--since', '2026-09-01'], ['--min-work', '0']]) assert.equal(run(...good).status, 0, good.join(' '));
+  } finally {
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
