@@ -443,6 +443,15 @@ test('CLI: the index builder writes, then --check is fresh, then stale after an 
   assert.equal(node(['scripts/build-publications-index.mjs', '--root', lane, '--check']).status, 1);
 });
 
+test('CLI: the index builder refuses an unknown argument before writing anything', (t) => {
+  const lane = scratch(t);
+  fs.cpSync(FIXTURE, path.join(lane, 'fixture-post'), { recursive: true });
+  for (const bad of ['--chek', '--check=1']) {
+    assert.equal(node(['scripts/build-publications-index.mjs', '--root', lane, bad]).status, 2, bad);
+    assert.equal(fs.existsSync(path.join(lane, 'index.json')), false, `${bad} must not write the index`);
+  }
+});
+
 test('CLI: the index carries the critique selector - completed reviewers, rounds, decision', (t) => {
   const lane = scratch(t);
   fs.cpSync(CRITIQUE_FIXTURE, path.join(lane, 'fixture-critique'), { recursive: true });

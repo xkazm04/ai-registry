@@ -37,8 +37,15 @@ const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const argv = process.argv.slice(2);
 const check = argv.includes('--check');
 const rootIdx = argv.indexOf('--root');
-if (rootIdx !== -1 && !argv[rootIdx + 1]) {
+if (rootIdx !== -1 && (!argv[rootIdx + 1] || argv[rootIdx + 1].startsWith('--'))) {
   console.error('build-publications-index FATAL: --root needs a directory.');
+  process.exit(EXIT.FATAL);
+}
+// A closed flag set: a typo'd `--check` used to fall through to the write mode, which
+// repairs a stale index instead of failing on it.
+const unknown = argv.filter((a, i) => a !== '--check' && a !== '--root' && !(rootIdx !== -1 && i === rootIdx + 1));
+if (unknown.length) {
+  console.error(`build-publications-index FATAL: unknown argument ${JSON.stringify(unknown[0])} - the flags are --check and --root <dir>. Nothing was written.`);
   process.exit(EXIT.FATAL);
 }
 const LANE = rootIdx === -1 ? path.join(ROOT, 'publications') : path.resolve(argv[rootIdx + 1]);

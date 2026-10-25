@@ -28,6 +28,9 @@
  * Usage:
  *   node scripts/build-recipes-index.mjs            # write
  *   node scripts/build-recipes-index.mjs --check    # verify freshness, write nothing (CI)
+ *
+ * Any other argument is refused (exit 2) before anything is read: a typo'd `--check` used to
+ * fall through to the write mode, which repairs a stale index instead of failing on it.
  */
 
 import fs from 'node:fs';
@@ -39,6 +42,11 @@ import { EXIT } from './lib/exit-codes.mjs';
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'recipes');
 const OUT = path.join(LANE, 'index.json');
+const unknown = process.argv.slice(2).filter((a) => a !== '--check');
+if (unknown.length) {
+  console.error(`build-recipes-index FATAL: unknown argument ${JSON.stringify(unknown[0])} - the only flag is --check. Nothing was written.`);
+  process.exit(EXIT.FATAL);
+}
 const check = process.argv.includes('--check');
 
 const dirsIn = (dir) => fs.readdirSync(dir, { withFileTypes: true })
