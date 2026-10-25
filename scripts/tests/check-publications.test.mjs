@@ -259,6 +259,25 @@ test('self-contained: a CSS @import fails', (t) => {
 test('self-contained: a script in the Medium story fails', (t) => {
   failsOnly(t, 'self-contained', (d) => edit(d, 'medium/story.html', (s) => s.replace('</body>', '<script>1</script></body>')));
 });
+// post.html may inline an SVG, and an inline <image>/<use>/<feImage> href or an <object data>
+// fetches exactly like an <img src> does. The SVG-only detectors used to run on figures/
+// alone, so all five shapes below passed in post.html (probe 2026-10-25: 0 of 5 caught).
+test('self-contained: an inline SVG or embedded object that fetches fails in post.html', (t) => {
+  for (const plant of [
+    '<svg><image href="https://t.example.org/p.png"/></svg>',
+    '<svg><use href="https://t.example.org/s.svg#a"/></svg>',
+    '<svg><image xlink:href="//t.example.org/p.png"/></svg>',
+    '<svg><filter><feImage href="https://t.example.org/f.png"/></filter></svg>',
+    '<object data="https://t.example.org/x.svg"></object>',
+  ]) {
+    const r = failsOnly(t, 'self-contained', (d) => edit(d, 'post.html', (s) => s.replace('</article>', `${plant}</article>`)));
+    assert.equal(r.findings.length, 1, `${plant}: ${JSON.stringify(r.findings)}`);
+  }
+});
+test('self-contained: an inline SVG with a local reference and an inline script stay clean', (t) => {
+  const r = run(t, (d) => edit(d, 'post.html', (s) => s.replace('</article>', '<svg><defs><path id="p" d="M0 0"/></defs><use href="#p"/></svg><object data="figures/01-example-chart.svg"></object></article>')));
+  assert.deepEqual(r.findings, []);
+});
 test('self-contained: navigation links are allowed', (t) => {
   const r = run(t, (d) => edit(d, 'post.html', (s) => s.replace('</article>', '<p>More at <a href="https://example.org/more">the site</a>.</p></article>')));
   assert.deepEqual(r.findings, []);

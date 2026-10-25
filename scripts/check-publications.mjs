@@ -257,8 +257,13 @@ export function networkRefs(html, { svg = false } = {}) {
   }
   for (const m of html.matchAll(new RegExp(`@import\\s+(?:url\\(\\s*)?["']?\\s*${NET}`, 'gi'))) add('a CSS @import', m);
   for (const m of html.matchAll(new RegExp(`url\\(\\s*["']?\\s*${NET}`, 'gi'))) add('a CSS url()', m);
+  // An HTML page may inline an SVG, and an inline <image>/<use>/<feImage> href fetches
+  // exactly as it does in a figure file; so does an <object data>. These ran on figures
+  // only until 2026-10-25, and post.html passed all of them.
+  for (const m of html.matchAll(new RegExp(`<(?:image|use|feImage)\\b[^>]*\\b(?:xlink:)?href\\s*=\\s*["']?\\s*${NET}`, 'gi'))) add('an external SVG reference', m);
+  for (const m of html.matchAll(new RegExp(`<object\\b[^>]*\\bdata\\s*=\\s*["']?\\s*${NET}`, 'gi'))) add('an embedded object from the network', m);
   if (svg) {
-    for (const m of html.matchAll(new RegExp(`<(?:image|use|feImage|script)\\b[^>]*\\b(?:xlink:)?href\\s*=\\s*["']\\s*${NET}`, 'gi'))) add('an external SVG reference', m);
+    for (const m of html.matchAll(new RegExp(`<script\\b[^>]*\\b(?:xlink:)?href\\s*=\\s*["']\\s*${NET}`, 'gi'))) add('an external SVG reference', m);
     for (const m of html.matchAll(/<script\b/gi)) add('a script in an SVG figure', m);
   }
   return hits;
@@ -526,6 +531,8 @@ export function selfTest() {
   expect('network src', networkRefs('<img src="https://x.example/a.png">').length === 1);
   expect('network stylesheet', networkRefs('<link rel="stylesheet" href="https://x.example/a.css">').length === 1);
   expect('network skips anchors', networkRefs('<a href="https://x.example/">x</a>').length === 0);
+  expect('network inline svg image', networkRefs('<svg><image href="https://x.example/a.png"/></svg>').length === 1);
+  expect('network object data', networkRefs('<object data="https://x.example/a.svg"></object>').length === 1);
   const listedSvg = new Set(['figures/01-a-chart.svg']);
   expect('story image: a render of a listed figure', storyImageProblems('<img src="figures/01-a-chart.png">', listedSvg).length === 0);
   expect('story image: a render of an unlisted figure', storyImageProblems('<img src="figures/02-other.png">', listedSvg).length === 1);
