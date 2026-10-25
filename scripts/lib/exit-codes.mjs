@@ -89,3 +89,42 @@ export function nameOf(code) {
   const hit = Object.entries(EXIT).find(([, v]) => v === code);
   return hit ? hit[0] : null;
 }
+
+/**
+ * Opt-in crash door: a script that dies on an UNCAUGHT throw or rejection leaves through
+ * Node's own exit code, 1 - which this vocabulary (and gate.mjs, which prints it as
+ * "VIOLATIONS") reads as "ran and found what it looks for". A TypeError in a checker is
+ * the opposite: the instrument could not finish, and AGENTS.md holds that an incomplete
+ * check is not a content verdict. Probe, 2026-10-25: a JSON.parse throw, a rejected
+ * await and `undefined.map`, each in a script that imported this file, all exited 1.
+ *
+ * Call it as the first statement of a script's own entry (or of its main(), when the
+ * file also exports functions a test imports - installing process handlers inside a
+ * test runner would hijack its failure reporting). It is deliberately NOT an import side
+ * effect: only the two events below are handled, so an explicit `process.exit(1)` and
+ * `process.exitCode = 1` are untouched, and no `exit` listener is registered.
+ *
+ * It cannot see a failure that happens while the script's own imports are still being
+ * evaluated (a missing sibling module, a syntax error in a lib): the call sits after the
+ * import statements by construction. Those still exit 1 through Node.
+ *
+ * Idempotent: a second call from the same process is a no-op.
+ */
+const CRASH_DOOR = Symbol.for('ai-registry.crashDoor');
+
+export function installCrashDoor(script = process.argv[1]) {
+  if (process[CRASH_DOOR]) return;
+  process[CRASH_DOOR] = true;
+  const name = String(script ?? 'script').split(/[\\/]/).pop();
+  const door = (reason) => {
+    const message = reason instanceof Error ? reason.message : String(reason);
+    const stack = reason instanceof Error && reason.stack ? reason.stack : '';
+    try {
+      process.stderr.write(`FATAL: ${name} crashed: ${message.split('\n')[0]}\n${stack ? `${stack}\n` : ''}`);
+    } finally {
+      process.exit(EXIT.FATAL);
+    }
+  };
+  process.on('uncaughtException', door);
+  process.on('unhandledRejection', door);
+}

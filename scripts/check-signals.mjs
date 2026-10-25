@@ -32,8 +32,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
+
+installCrashDoor();
 
 const argv = process.argv.slice(2);
 const rootAt = argv.indexOf('--root');

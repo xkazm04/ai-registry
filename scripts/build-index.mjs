@@ -35,6 +35,9 @@ import { loadTaxonomy, walkSubjects } from './lib/taxonomy.mjs';
 import { sameIgnoringNewlines, hashBundle } from './lib/bundle-hash.mjs';
 import { extractLawStatements } from './lib/laws.mjs';
 import { deriveSubjectRevisions } from './lib/subject-revision.mjs';
+import { installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'knowledge');

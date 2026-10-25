@@ -37,8 +37,10 @@ import { walkSubjects } from './lib/taxonomy.mjs';
 import { readLane, contentDigest } from './lib/skills-lane.mjs';
 import {loadIdentities,resolveIdentity} from './lib/telemetry.mjs';
 import { loadLane as loadRunsLane, aggregateRuns, catalogFields } from './lib/runs-aggregate.mjs';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { requirePopulation } from './lib/check-result.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');

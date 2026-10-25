@@ -25,8 +25,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validatePublicFleet } from './lib/projects.mjs';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
+
+installCrashDoor();
 
 const LEAK_FORMS = PRESETS.FREE_TEXT;
 

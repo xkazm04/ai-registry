@@ -3,8 +3,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {hashBundle, hashBundleLegacy} from './lib/bundle-hash.mjs';
-import {EXIT} from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import {requirePopulation} from './lib/check-result.mjs';
+
+installCrashDoor();
 
 // Review decisions remain in existing subject notes. This only checks their
 // coverage and currency; it cannot determine whether their reasoning is sound.

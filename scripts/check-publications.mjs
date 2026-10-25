@@ -55,7 +55,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
 import { leaksIn, assertScanner, PRESETS } from './lib/leaks.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
@@ -905,6 +905,7 @@ export function validateLane(laneRoot) {
 }
 
 function main() {
+  installCrashDoor();
   const argv = process.argv.slice(2);
   const usage = 'usage: node scripts/check-publications.mjs [--root <dir>] [<publication-dir> ...] [--help]';
   if (argv.includes('--help') || argv.includes('-h')) { console.log(usage); process.exit(EXIT.OK); }

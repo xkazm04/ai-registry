@@ -18,7 +18,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { renderRecipe } from './lib/recipe-render.mjs';
 import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
-import { EXIT } from './lib/exit-codes.mjs';
+import { EXIT, installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const unknown = process.argv.slice(2).filter((a) => a !== '--check');

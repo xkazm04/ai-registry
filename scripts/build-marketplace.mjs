@@ -29,6 +29,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { readLane, parseSemver } from './lib/skills-lane.mjs';
 import { sameIgnoringNewlines } from './lib/bundle-hash.mjs';
+import { installCrashDoor } from './lib/exit-codes.mjs';
+
+installCrashDoor();
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const LANE = path.join(ROOT, 'skills');
