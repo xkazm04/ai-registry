@@ -995,10 +995,18 @@ export function parseArgs(argv) {
 
 const HELP = readFileSync(fileURLToPath(import.meta.url), 'utf8').split('\nimport ')[0].replace(/^#!.*\n/, '').replace(/^\/\/ ?/gm, '');
 
+/** The subcommands main() answers: checked before the store is opened, which creates the file and its directory. */
+export const SUBCOMMANDS = ['init', 'run-start', 'run-end', 'activity', 'measure', 'propose', 'proposals', 'proposal-update', 'rank', 'update-external',
+  'shot', 'coverage', 'latest', 'gaps', 'decide', 'triage', 'rework-attempt', 'pack-create', 'pack-update', 'packs', 'release-create', 'release-add',
+  'release-update', 'releases', 'release', 'release-items', 'compare'];
+
 export function main(argv) {
   const a = parseArgs(argv);
   const cmd = a._[0];
   if (!cmd || a.help) return { help: HELP };
+  // a typo, or a --db whose path was lost, never opens (and so creates) a store: the default one sits in the cwd
+  if (!SUBCOMMANDS.includes(cmd)) bad(`unknown subcommand ${JSON.stringify(cmd)} - run with --help`);
+  if (a.db === true) bad('--db needs a path (the default is .ai/lens-scan/scan.db: omit --db to use it)');
   const db = openStore(typeof a.db === 'string' ? a.db : DEFAULT_DB);
   try {
     switch (cmd) {

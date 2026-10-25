@@ -4,7 +4,7 @@
 // triage's undo, `reopen`, with its refusals and the v2 -> v3 migration.
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync, rmSync, mkdirSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, rmSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 import { DatabaseSync } from 'node:sqlite';
 import {
   openStore, runStart, runEnd, activity, measure, propose, proposals, proposalUpdate, shot, coverage, latest, parseArgs,
-  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt,
+  decide, triage, packCreate, packs, releaseCreate, releaseAdd, releaseUpdate, reworkAttempt, SUBCOMMANDS,
 } from '../scripts/store.mjs';
 import { legacyDdl } from './legacy-ddl.mjs';
 
@@ -113,6 +113,23 @@ test('cli: JSON on stdout, bulk --json, exit 2 on bad input', () => {
   const r = spawnSync(process.execPath, [SCRIPT, '--db', db, 'measure', '--run', run, '--feature', 'a', '--lens', 'development', '--metric', 'loc', '--value', 'n/a'], { encoding: 'utf8' });
   assert.equal(r.status, 2);
   assert.equal(r.stdout, '');
+});
+
+test('cli: an unknown subcommand or a --db with no path is refused before any store file exists', () => {
+  const db = tmpDb();
+  const r = spawnSync(process.execPath, [SCRIPT, '--db', db, 'propsals'], { encoding: 'utf8' });
+  assert.equal(r.status, 2);
+  assert.match(r.stderr, /unknown subcommand "propsals"/);
+  assert.equal(existsSync(db), false, 'a typo creates no store (and no directory) in the product repo');
+  assert.equal(existsSync(dirname(db)), false);
+  const cwd = mkdtempTracked(join(tmpdir(), 'lens-scan-nodb-'));
+  const r2 = spawnSync(process.execPath, [SCRIPT, 'latest', '--db'], { encoding: 'utf8', cwd });
+  assert.equal(r2.status, 2);
+  assert.match(r2.stderr, /--db needs a path/);
+  assert.equal(existsSync(join(cwd, '.ai')), false, 'a valueless --db never falls back to the default store in the cwd');
+  // SUBCOMMANDS is a hand list: it must be exactly the switch's cases, or a real subcommand is refused
+  const cases = [...readFileSync(SCRIPT, 'utf8').matchAll(/^\s+case '([a-z-]+)':/gm)].map((m) => m[1]);
+  assert.deepEqual([...SUBCOMMANDS].sort(), [...new Set(cases)].sort());
 });
 
 test('parseArgs keeps negative numbers as values', () => {
