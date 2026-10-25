@@ -26,6 +26,15 @@ const cmd = argv[0];
 const opt = (k, d) => { const i = argv.indexOf(`--${k}`); return i >= 0 && argv[i + 1] && !argv[i + 1].startsWith('--') ? argv[i + 1] : d; };
 const flag = (k) => argv.includes(`--${k}`);
 const die = (m) => { console.error(`tiger: ${m}`); process.exit(2); };
+// A number option, or `d` when it is absent. `Number('abc')` is NaN, and a NaN seat ceiling fires its
+// timer at once - every seat killed on start - so anything but a positive number is a usage error.
+const positive = (k, d) => {
+  const raw = opt(k);
+  if (raw === undefined) { if (flag(k)) die(`--${k} needs a positive number, got no value`); return Number(d); }
+  const n = Number(raw);
+  if (!Number.isFinite(n) || n <= 0) die(`--${k} needs a positive number, got ${JSON.stringify(raw)}`);
+  return n;
+};
 const readJson = (f) => JSON.parse(fs.readFileSync(f, 'utf8'));
 const writeJson = (f, v) => { fs.mkdirSync(path.dirname(f), { recursive: true }); fs.writeFileSync(f, `${JSON.stringify(v, null, 2)}\n`); };
 const posix = (p) => p.split(path.sep).join('/');
@@ -88,7 +97,7 @@ function runSeat({ argv: a, stdin, env }, { cwd, timeoutMs, logDir }) {
 // =================================================================================== probe
 async function probe() {
   const seats = parseParticipants(opt('seats', DEFAULT_SEATS));
-  const timeoutMs = Number(opt('timeout-s', '150')) * 1000;
+  const timeoutMs = positive('timeout-s', 150) * 1000;
   const logRoot = path.join(os.tmpdir(), `tiger-probe-${process.pid}`);
   const rows = await Promise.all(seats.map(async (p) => {
     const bin = resolveBin(p.engine);
@@ -121,7 +130,7 @@ const VALUE_SOURCES = [
 
 function hunt() {
   const root = path.resolve(opt('root', '.'));
-  const days = Number(opt('days', '180'));
+  const days = positive('days', 180);
   const files = git(root, ['ls-files', '-z']).split('\0').filter(Boolean).map((p) => {
     let bytes = 0;
     try { bytes = fs.statSync(path.join(root, p)).size; } catch { /* deleted in the working tree */ }
@@ -129,7 +138,7 @@ function hunt() {
   });
   const log = git(root, ['log', `--since=${days}.days`, '--no-merges', '--name-only', '--format=@@%ct']);
   const touches = parseTouches(log);
-  const top = Number(opt('top', '12'));
+  const top = positive('top', 12);
   const areas = huntAreas(files, touches, { top });
   let groups = null;
   const cmap = path.join(root, 'context-map.json');
@@ -215,7 +224,7 @@ async function convene() {
   const brief = fs.readFileSync(path.join(dir, 'brief.md'), 'utf8');
   if (/\{\{|TODO\(tiger\)/.test(brief)) die('brief.md still carries template markers - the caller writes the dossier before any seat reads it');
   const seats = parseParticipants(opt('seats', run.seats ?? DEFAULT_SEATS));
-  const timeoutMs = Number(opt('ceiling-min', '40')) * 60_000;
+  const timeoutMs = positive('ceiling-min', 40) * 60_000;
   const ws = worktree(run);
   const only = opt('only');
   // The rendered prompt holds absolute paths (the brief, the seats' worktree), so it lives in

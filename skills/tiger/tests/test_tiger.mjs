@@ -189,6 +189,32 @@ test('seatStats credits each scope item once, to the seat whose proposal led it'
   assert.equal(seatStats(p, { kept: ids }, {})[0].led_landed, null, 'no items map -> not measured, never 0');
 });
 
+test('convene refuses a --ceiling-min that is not a positive number before any seat or worktree', async () => {
+  // Number('abc') is NaN and a NaN timer fires at once: every seat of the round was killed on start.
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { spawnSync } = await import('node:child_process');
+  const { fileURLToPath } = await import('node:url');
+  const script = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'scripts', 'tiger.mjs');
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'tiger-ceiling-'));
+  try {
+    const dir = path.join(root, 'tiger', 'hunts', '2026-10-25-area');
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'run.json'), JSON.stringify({ id: '2026-10-25-area', area: ['src/area'], head: 'abc', rounds: {} }));
+    fs.writeFileSync(path.join(dir, 'brief.md'), '# The territory\n\nA written dossier.\n');
+    for (const bad of ['abc', '0', '-3']) {
+      const r = spawnSync(process.execPath, [script, 'convene', '--run', dir, '--ceiling-min', bad], { encoding: 'utf8', env: { ...process.env, TIGER_WORK: path.join(root, 'work') } });
+      assert.equal(r.status, 2, `--ceiling-min ${bad}: ${r.stdout}${r.stderr}`);
+      assert.match(r.stderr, /--ceiling-min needs a positive number/);
+    }
+    assert.ok(!fs.existsSync(path.join(root, 'work')), 'no worktree was made');
+    assert.ok(!fs.existsSync(path.join(dir, '_logs')), 'no seat prompt was written');
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
+
 test('ledger keeps one row per seat per run: a re-run replaces that run\'s rows, never appends', async () => {
   // SKILL.md's file table: tiger/seats.jsonl is "one row per seat per run". The method runs
   // `ledger` once verdict.json has `landed`, and re-running it after a fix doubled every seat's numbers.
