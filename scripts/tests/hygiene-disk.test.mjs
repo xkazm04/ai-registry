@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT } from '../hygiene-disk.mjs';
+import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan } from '../hygiene-disk.mjs';
 
 // Fixture git never sees a hook's GIT_DIR (2026-09-19: fixtures wrote into real repositories).
 const ENV = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_'))), GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t.invalid', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t.invalid' };
@@ -153,6 +153,30 @@ test('checkoutFacts: staged work is work - a staged new file or edit keeps the c
     fs.writeFileSync(path.join(r.clone, 'a.txt'), 'one  \n');
     g(r.clone, 'add', 'a.txt');
     assert.deepEqual(checkoutFacts(r.clone, r.homes).dirtyOther, [], 'a staged whitespace-only edit is still noise');
+  } finally { r.cleanup(); }
+});
+
+test('scan: a checkout in the temp dir gets the checkout rules, not the temp age rule', () => {
+  // Workers and fixtures put worktrees and clones straight into the user temp dir
+  // (hygiene-scan's ownerOf calls them `temp`). Age alone made one with WIP a mechanical delete.
+  const r = repos();
+  try {
+    const tmp = path.join(r.base, 'tmp');
+    const home = path.join(r.base, 'userhome');
+    fs.mkdirSync(tmp); fs.mkdirSync(home);
+    const wip = path.join(tmp, 'wt-wip');
+    const landed = path.join(tmp, 'cn-landed');
+    for (const d of [wip, landed]) execFileSync('git', ['clone', '-q', r.home, d], { env: ENV, stdio: 'ignore' });
+    fs.writeFileSync(path.join(wip, 'notes.md'), 'only copy\n');
+    fs.mkdirSync(path.join(tmp, 'plain-old'));
+    fs.writeFileSync(path.join(tmp, 'plain-old', 'x.bin'), 'x');
+    const rows = scan({ fleet: { projects: {} }, idleH: 24, tempDays: 7, scratch: path.join(r.base, 'no-scratch'), tmp, home, now: Date.now() + 10 * 86400e3 });
+    const by = Object.fromEntries(rows.map((x) => [path.basename(x.path), x]));
+    assert.equal(by['wt-wip'].class, 'operator', JSON.stringify(by['wt-wip']));
+    assert.equal(by['wt-wip'].kind, 'scratch-wip');
+    assert.equal(by['cn-landed'].kind, 'remove-scratch-checkout', 'landed and clean: removable, with a HEAD to re-check at apply');
+    assert.ok(by['cn-landed'].head);
+    assert.equal(by['plain-old'].kind, 'remove-temp');
   } finally { r.cleanup(); }
 });
 

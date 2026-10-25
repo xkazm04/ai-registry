@@ -33,7 +33,8 @@
  *                mechanical after --temp-days, operator before.
  *   temp         the user temp dir's top-level entries and Claude Code's per-session temp
  *                (`<tmp>/claude/<project>/<session>`): mechanical (remove-temp) when untouched
- *                --temp-days, or 48 h and at least 100 MB. Name families with hundreds of
+ *                --temp-days, or 48 h and at least 100 MB; past that age a checkout there (`.git`
+ *                at its top) is judged by the scratch checkout rules. Name families with hundreds of
  *                members become one `operator` row (temp-leak): a test suite that never
  *                removes its mkdtemp dirs, to be fixed where it is written.
  *   models       local model stores (Ollama, Hugging Face, LM Studio, torch, whisper caches)
@@ -219,7 +220,8 @@ export function scratchRootOf(fleetRoot) {
   return path.join(path.parse(path.resolve(fleetRoot || os.homedir())).root, 't');
 }
 
-function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
+/** The whole plan. `tmp` and `home` default to this machine's; tests pass fixtures. Never writes. */
+export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = os.tmpdir(), home = os.homedir() }) {
   const rows = [];
   const homes = fleetHomes(fleet);
   const add = (area, abs, m, c, extra = {}) => rows.push({ area, path: abs, bytes: m.bytes, ageH: Number.isFinite(ageOf(m, now)) ? +ageOf(m, now).toFixed(1) : null, ...c, ...extra });
@@ -275,17 +277,23 @@ function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
     }
   }
 
-  // temp
-  const tmp = os.tmpdir();
+  // temp. A checkout parked in temp (a worker's worktree, a clone) is judged by the checkout
+  // rules once it is past the temp age: its age says nothing about whether its work is elsewhere.
+  const addTemp = (abs, isDir, name, kind) => {
+    let m; try { m = entryMeasure(abs, !isDir); } catch { return; }
+    const c = classifyTemp({ ageH: ageOf(m, now), bytes: m.bytes }, { tempDays });
+    if (!c) return;
+    if (isDir && fs.existsSync(path.join(abs, '.git'))) {
+      const f = checkoutFacts(abs, homes);
+      add('temp', abs, m, classifyCheckout({ name, ageH: ageOf(m, now), ...f }, { idleH }), { head: f.head, mainRepo: f.mainRepo });
+    } else add('temp', abs, m, { ...c, kind }, { isFile: !isDir });
+  };
   const claudeTmp = path.join(tmp, 'claude');
   const names = [];
   for (const e of fs.readdirSync(tmp, { withFileTypes: true })) {
     if (e.name.toLowerCase() === 'claude' || e.isSymbolicLink()) continue;
     names.push(e.name);
-    const abs = path.join(tmp, e.name);
-    let m; try { m = entryMeasure(abs, !e.isDirectory()); } catch { continue; }
-    const c = classifyTemp({ ageH: ageOf(m, now), bytes: m.bytes }, { tempDays });
-    if (c) add('temp', abs, m, c, { isFile: !e.isDirectory() });
+    addTemp(path.join(tmp, e.name), e.isDirectory(), e.name, 'remove-temp');
   }
   if (fs.existsSync(claudeTmp)) {
     for (const proj of fs.readdirSync(claudeTmp, { withFileTypes: true })) {
@@ -294,17 +302,13 @@ function scan({ fleet, idleH, tempDays, scratch, now = Date.now() }) {
       let sessions; try { sessions = fs.readdirSync(path.join(claudeTmp, proj.name), { withFileTypes: true }); } catch { continue; }
       for (const s of sessions) {
         if (s.isSymbolicLink()) continue;
-        const abs = path.join(claudeTmp, proj.name, s.name);
-        let m; try { m = entryMeasure(abs, !s.isDirectory()); } catch { continue; }
-        const c = classifyTemp({ ageH: ageOf(m, now), bytes: m.bytes }, { tempDays });
-        if (c) add('temp', abs, m, { ...c, kind: 'remove-session-temp' }, { isFile: !s.isDirectory() });
+        addTemp(path.join(claudeTmp, proj.name, s.name), s.isDirectory(), s.name, 'remove-session-temp');
       }
     }
   }
   for (const [family, n] of leakFamilies(names)) rows.push({ area: 'temp', path: path.join(tmp, family), class: 'operator', kind: 'temp-leak', reason: `${n} entries named like this: a process (usually a test suite) never removes its temp dirs`, bytes: null, ageH: null, count: n });
 
   // model stores
-  const home = os.homedir();
   for (const d of [path.join(home, '.ollama', 'models'), path.join(home, '.cache', 'huggingface'), path.join(home, '.cache', 'lm-studio'), path.join(home, '.lmstudio', 'models'), path.join(home, '.cache', 'torch'), path.join(home, '.cache', 'whisper')]) {
     if (!fs.existsSync(d)) continue;
     const m = measureTree(d);
