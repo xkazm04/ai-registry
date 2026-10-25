@@ -161,6 +161,12 @@ if (!fleet.machine) {
 }
 
 const only = valueOf('--project') ?? valueOf('--uncovered');
+// `--uncovered <unknown>` was always refused below; `--project <unknown>` printed an empty
+// table (or `[]`) and exited 0 until 2026-10-25 - a measurement of nothing reported as one.
+if (only && !fleet.projects[only]) {
+  console.error(`check-context-coverage: no project "${only}" resolves on this machine (projects.json + .machine.local.json).`);
+  process.exit(EXIT.FATAL);
+}
 const rows = [];
 for (const p of Object.values(fleet.projects)) {
   if (only && p.slug !== only) continue;
