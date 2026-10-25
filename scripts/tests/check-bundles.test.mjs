@@ -129,6 +129,39 @@ test('parser: comments, blank lines and block lists stay legal', () => {
   assert.equal(run(root).status, 0);
 });
 
+// ---- (b2) only the gitignored overlay shape is local. .gitignore ignores `**/.*.local.md`
+// and `**/.*.local.json`; any other dot-named file or folder is tracked and published, so
+// the gate must read it. It used to skip every dot entry as "a local overlay".
+test('dot entries: a tracked dot file inside a subject is not an overlay and fails the leaf rule', () => expectRed(({ b }) => {
+  fs.writeFileSync(path.join(b, 'topic', '.notes.md'), '# notes\n');
+}, /topic\/\.notes\.md.*leaf/));
+
+test('dot entries: an evidence key in a tracked dot file fails the leak rule', () => expectRed(({ b }) => {
+  fs.writeFileSync(path.join(b, 'topic', '.notes.md'), '---\nevidence: [src/private.ts:12]\n---\n');
+}, /topic\/\.notes\.md: published frontmatter declares "evidence"/));
+
+test('dot entries: a dot folder inside a subject fails the leaf rule', () => expectRed(({ b }) => {
+  fs.mkdirSync(path.join(b, 'topic', '.drafts'));
+  fs.writeFileSync(path.join(b, 'topic', '.drafts', 'x.md'), '# x\n');
+}, /topic\/\.drafts\/.*leaf/));
+
+test('dot entries: a dot file inside techniques/ fails', () => expectRed(({ b }) => {
+  fs.writeFileSync(path.join(b, 'topic', 'techniques', '.old.md'), '# old\n');
+}, /techniques\/\.old\.md/));
+
+test('dot entries: a NUL byte in a tracked dot file outside any subject fails file health', () => expectRed(({ b }) => {
+  fs.mkdirSync(path.join(b, '.archive'));
+  fs.writeFileSync(path.join(b, '.archive', '.kept.md'), 'a\u0000b\n');
+}, /\.archive\/\.kept\.md: contains 1 NUL byte/));
+
+test('control: the gitignored overlay shapes (.x.local.md, .x.local.json) stay ignored', () => {
+  const { root, b } = fixture();
+  fs.writeFileSync(path.join(b, 'topic', '.evidence.local.md'), '---\nevidence: [x]\n---\n');
+  fs.writeFileSync(path.join(b, 'topic', 'techniques', '.check.local.json'), '{"evidence":["x"]}');
+  const r = run(root);
+  assert.equal(r.status, 0, r.stderr);
+});
+
 // ---- (d) use_when on techniques
 test('use_when: a technique without one fails', () => expectRed(({ b }) => {
   fs.writeFileSync(path.join(b, 'topic', 'techniques', 'check.md'), TECHNIQUE([]));

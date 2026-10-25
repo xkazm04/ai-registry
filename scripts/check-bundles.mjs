@@ -136,9 +136,16 @@ const TOMORROW = new Date(Date.now() + 86400000).toISOString().slice(0, 10);
 // The gate once checked concept frontmatter only, and a key planted in index.md or
 // taxonomy.json published unremarked.
 const LEAK_KEYS = ['evidence', 'counter_evidence', 'deviations'];
-// The consumer overlay is `.evidence.local.md`, dot-prefixed so .gitignore and every walk
-// here skip it. The same file without its dot is the overlay about to be published.
+// The consumer overlay is `.evidence.local.md`. The same file without its dot is the
+// overlay about to be published.
 const OVERLAY_NAME_RE = /evidence\.local/i;
+// What is LOCAL is what .gitignore ignores, and nothing wider: `**/.*.local.md` and
+// `**/.*.local.json`. Every walk here used to skip any dot-prefixed name as "a local
+// overlay", but only those two shapes are ignored, so a tracked `.notes.md` or `.drafts/`
+// inside a subject was published and read by no check - no leaf rule, no leak rule, no
+// file health. The gate's idea of "not published" must be the ignore file's, or the gap
+// between the two is a door.
+const isLocalOverlay = (name) => /^\.[^/]*\.local\.(?:md|json)$/.test(name);
 
 // Purity denylists per domain. The upper two layers must survive transplant to an
 // unrelated codebase, and these patterns are the statically checkable floor of that —
@@ -450,14 +457,15 @@ for (const domain of bundles) {
     // applications/, and nothing else; the two lanes hold markdown and no folders. The
     // subject walk stops at a subject, and every check below reads only the names it
     // expects, so anything else here was invisible: a stray note, a drafts/ folder or a
-    // techniques/old/ copy published unread. Dot entries are local overlays
-    // (`.evidence.local.md`), gitignored and not published.
+    // techniques/old/ copy published unread. Only the gitignored overlay shapes
+    // (`.evidence.local.md`, see isLocalOverlay) are local; any other dot entry is
+    // published and is held to the same rule.
     for (const e of fs.readdirSync(sdir, { withFileTypes: true })) {
-      if (e.name.startsWith('.')) continue;
+      if (e.isFile() && isLocalOverlay(e.name)) continue;
       if (e.isFile() && e.name === `${slug}.md`) continue;
       if (e.isDirectory() && (e.name === 'techniques' || e.name === 'applications')) {
         for (const x of fs.readdirSync(path.join(sdir, e.name), { withFileTypes: true })) {
-          if (x.name.startsWith('.')) continue;
+          if (x.isFile() && isLocalOverlay(x.name)) continue;
           if (x.isDirectory()) fail(`${here}/${e.name}/${x.name}/ is a folder inside ${e.name}/ — the lane holds documents only, so nothing reads it`);
           else if (!x.name.endsWith('.md')) fail(`${here}/${e.name}/${x.name} is not markdown — ${e.name}/ holds .md documents only`);
         }
@@ -597,7 +605,7 @@ const walk = (d, out = []) => {
   for (const e of fs.readdirSync(d, { withFileTypes: true })) {
     const p = path.join(d, e.name);
     if (e.isDirectory()) walk(p, out);
-    else if (e.name.endsWith('.md') && !e.name.startsWith('.')) out.push(p);
+    else if (e.name.endsWith('.md') && !isLocalOverlay(e.name)) out.push(p);
   }
   return out;
 };
@@ -656,7 +664,7 @@ for (const f of walk(KNOWLEDGE)) {
 // attributes file, which enforces them where it can actually be true.
 const walkAll = (d, out = []) => {
   for (const e of fs.readdirSync(d, { withFileTypes: true })) {
-    if (e.name.startsWith('.')) continue; // local overlays are not published
+    if (e.isFile() && isLocalOverlay(e.name)) continue; // gitignored, not published
     const p = path.join(d, e.name);
     if (e.isDirectory()) walkAll(p, out);
     else out.push(p);
