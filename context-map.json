@@ -199,6 +199,7 @@
         "scripts/tests/fleet-audit.test.mjs",
         "scripts/tests/installation.test.mjs",
         "scripts/tests/link-registry.test.mjs",
+        "scripts/tests/map-churn.test.mjs",
         "scripts/tests/merge-conform-runs.test.mjs",
         "scripts/tests/projects.test.mjs",
         "scripts/tests/register-project.test.mjs",
