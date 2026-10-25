@@ -141,3 +141,14 @@ test('scoreAnswer accepts alt subjects for recall but only the expected subject 
   assert.equal(miss.rank, null);
   assert.equal(miss.at5, false);
 });
+
+test('technique@5 reads the EXPECTED subject in the top 5, even when an alt subject ranks above it', () => {
+  // The header: "the correct subject is in the top 5 AND that hit names the technique". An alt
+  // subject at rank 1 must not hide the expected subject naming the technique at rank 2.
+  const q = { expect: { subject: 'a', alt_subjects: ['b'], technique: 't' } };
+  const shadowed = scoreAnswer(q, [{ subject: 'b', techniques: new Set() }, { subject: 'a', techniques: new Set(['t']) }]);
+  assert.equal(shadowed.rank, 1, 'recall still credits the alt subject first');
+  assert.equal(shadowed.technique_at5, true);
+  const deep = [1, 2, 3, 4, 5].map((i) => ({ subject: `x${i}`, techniques: new Set() }));
+  assert.equal(scoreAnswer(q, [{ subject: 'b', techniques: new Set() }, ...deep, { subject: 'a', techniques: new Set(['t']) }]).technique_at5, false, 'rank 7 is outside the top 5');
+});

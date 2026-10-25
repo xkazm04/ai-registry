@@ -289,7 +289,10 @@ export function scoreAnswer(q, ranked) {
   const hitRank = rank === -1 ? null : rank + 1;
   const hit = hitRank ? ranked[rank] : null;
   const wantT = q.expect.technique;
-  const techAt5 = wantT ? Boolean(hit && hitRank <= AT && hit.subject === q.expect.subject && hit.techniques.has(wantT)) : null;
+  // The EXPECTED subject's row in the top AT, wherever it sits: an alt subject ranked above it
+  // credits recall but must not hide it from technique@5.
+  const own = ranked.slice(0, AT).find((r) => r.subject === q.expect.subject);
+  const techAt5 = wantT ? Boolean(own && own.techniques.has(wantT)) : null;
   return { rank: hitRank, at1: hitRank === 1, at5: hitRank !== null && hitRank <= AT, technique_at5: techAt5, hit };
 }
 
