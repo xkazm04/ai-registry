@@ -136,6 +136,29 @@ Two things the source did not say:
 
 Both findings are n=2 and are recorded as evidence for the escalation, not as content.
 
+**3. Effects in the clip (row 4), same instrument, 2026-10-25.** Arm B is the same first
+frame and seeds with one sentence changed: "no effects, no fire" became "the blade is
+wreathed in roaring fire; flames, sparks and embers trail behind the swing and burst on
+impact".
+
+| Arm | Seed | r at lag 0 | best lag | mean row gap | top-row jitter L / R | strike read |
+| --- | --- | --- | --- | --- | --- | --- |
+| no effects | 4100 | 0.982 | 0 | 10.1 px | 0.37 / 0.18 px | frames 13-15 |
+| no effects | 4101 | 0.942 | 4 | 13.0 px | 0.19 / 0.06 px | 30-37 (desync) |
+| fire | 4100 | 0.861 | 4 | 26.9 px | 0.50 / **3.72** px | 15-15 (one frame) |
+| fire | 4101 | 0.837 | **-12** (edge of search) | 46.9 px | 1.65 / 1.01 px | 49-51 |
+
+The frames say why. The embers rise to the top of the frame, so the tracked "top of the
+silhouette" reads row 0-2 for the whole swing: the tracker follows sparks, not the blade.
+At impact the burst covers the blade and both feet, which are exactly the contact points a
+strike window and a foot-plant read need. The side panel's top row jumps 15 -> 204 -> 28 ->
+22 -> 188 across five frames. In seed 4101 the character's silhouette also changes (a brim
+appears) once the fire takes over. A keypoint model trained to ignore sparks would recover
+some of the tracking. Nothing recovers a blade hidden behind a fireball. The source's rule
+holds on this model: **keep effects out of motion-source clips, and add them in the
+engine.** The two arms differ in one prompt sentence, so the motion itself also differs
+between arms. This is n=2 per arm, and row 4 stays untriaged with this as its evidence.
+
 ## Leads (with return conditions)
 
 - **Text-to-motion for locomotion.** Return when a text-to-motion model is installed on the

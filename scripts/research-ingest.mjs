@@ -350,7 +350,7 @@ if (src.kind === 'youtube') {
       meta.caption_rung = ok ? `${rung.fmt}/${rung.langs}${rung.imp ? '/impersonate' : ''}` : null;
     }
     if (!ok) {
-      const noImp = /impersonat\w*[^\n]*unavailable|no impersonate target/i.test(lastErr);
+      const noImp = /impersonat\w*[^\n]*(?:unavailable|not available)|no impersonate target/i.test(lastErr);
       fatal(
         `yt-dlp wrote no captions for ${id}`,
         `Captions may be disabled, or extraction is throttled. ` +
