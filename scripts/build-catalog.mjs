@@ -340,7 +340,23 @@ if (checkOnly) {
     const cur = JSON.stringify(catalog.bundles ?? null);
     const nxt = JSON.stringify(bundles);
     if (cur !== nxt) console.error(`  bundles differ:\n    committed: ${cur}\n    computed:  ${nxt}`);
-    else console.error('  bundles match; the difference is elsewhere in the file (formatting or another key).');
+    // Name what differs instead of "elsewhere": the top-level keys, and per-entry fields for
+    // the keyed arrays a hand-edit most often lands in.
+    const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    const keys = [...new Set([...Object.keys(catalog), ...Object.keys(next)])].filter((k) => !same(catalog[k], next[k]));
+    if (keys.length) console.error(`  differing key(s): ${keys.join(', ')}`);
+    else console.error('  every key matches; the difference is formatting only (key order or whitespace).');
+    for (const [key, id] of [['skills', 'name'], ['practices', 'id'], ['memory', 'path']]) {
+      if (!keys.includes(key) || !Array.isArray(catalog[key])) continue;
+      const committed = new Map(catalog[key].map((e) => [e?.[id], e]));
+      for (const e of next[key]) {
+        const c = committed.get(e[id]);
+        if (!c) { console.error(`    ${key}[${e[id]}]: absent from the committed file`); continue; }
+        const fields = [...new Set([...Object.keys(c), ...Object.keys(e)])].filter((f) => !same(c[f], e[f]));
+        if (fields.length) console.error(`    ${key}[${e[id]}]: ${fields.join(', ')}`);
+      }
+      for (const c of catalog[key]) if (!next[key].some((e) => e[id] === c?.[id])) console.error(`    ${key}[${c?.[id]}]: committed but no longer in the lane`);
+    }
     process.exit(EXIT.VIOLATIONS);
   }
   console.log(`catalog.json is fresh — ${bundles.length} bundle(s) indexed, usage from ${usageFiles} of ${usageFiles + usageSkipped} contributor file(s)${usageSkipped ? ` — ${usageSkipped} skipped as unparseable` : ''}`);

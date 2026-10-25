@@ -60,6 +60,21 @@ test('a usage file that parses to a non-object is skipped and named, not a crash
   assert.equal(demo.invokes30d, 4, 'the good contributor still counts');
 });
 
+// --check diagnosed only `bundles`; any other drift printed "the difference is elsewhere in
+// the file (formatting or another key)" - true, and no help finding it.
+test('--check names the top-level key and the skill that drifted', (t) => {
+  const dir = registry(t, { skill: true, bundle: true });
+  assert.equal(run(dir).status, 0);
+  const file = path.join(dir, 'catalog.json');
+  const doc = JSON.parse(fs.readFileSync(file, 'utf8'));
+  doc.skills[0].category = 'hand-edited';
+  fs.writeFileSync(file, `${JSON.stringify(doc, null, 2)}\n`);
+  const r = run(dir, '--check');
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  assert.match(r.stderr, /differing key\(s\): skills/);
+  assert.match(r.stderr, /skills\[demo\]: category/);
+});
+
 for (const mode of [[], ['--check']]) {
   const label = mode.length ? 'check' : 'write';
   test(`an empty skills lane exits 2 in ${label} mode and writes nothing`, (t) => {
