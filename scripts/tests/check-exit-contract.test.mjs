@@ -82,9 +82,20 @@ test('a ternary of EXIT names is declared, not opaque; a comment is not an exit 
   assert.deepEqual(exitSites(`// done\n${EXIT_CALL}(9);`).map((x) => x.code), [9]);
 });
 
-test('a literal declared code still passes as before', () => {
-  assert.equal(verdicts(`${EXIT_CALL}(3);`, 'planted.mjs', [])[0].why, null);
+// A literal 3 used to pass here because it is a declared code. That let a script add a
+// sixth meaning to the retry code with the gate green, so 3 must now be written EXIT.CONTENDED
+// (never reaches judgeSite) or be a ledgered collision; 0/1/2 stay legal as numbers.
+test('a bare literal above FATAL is flagged unless ledgered; 0/1/2 literals and undeclared codes behave', () => {
+  const bare = verdicts(`${EXIT_CALL}(3);`, 'planted.mjs', [])[0];
+  assert.match(bare.why, /bare number/);
+  assert.match(bare.why, /EXIT.CONTENDED/);
+  const ledgered = [{ script: 'planted.mjs', code: 3, means: 'x', conflictsWith: 'y' }];
+  assert.equal(verdicts(`${EXIT_CALL}(3);`, 'planted.mjs', ledgered)[0].why, null);
+  assert.match(verdicts(`${EXIT_CALL}(3);`, 'other.mjs', ledgered)[0].why, /bare number/);
+  for (const n of [0, 1, 2]) assert.equal(verdicts(`${EXIT_CALL}(${n});`, 'planted.mjs', [])[0].why, null, String(n));
   assert.match(verdicts(`${EXIT_CALL}(9);`, 'planted.mjs', [])[0].why, /does not name/);
+  // Written as the name, the same exit is declared by construction.
+  assert.equal(verdicts(`${EXIT_CALL}(EXIT.CONTENDED);`, 'planted.mjs', []).length, 0);
 });
 
 test('the ledger names both scripts that carry a second meaning on 3', () => {

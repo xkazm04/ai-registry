@@ -60,6 +60,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { EXIT } from './lib/exit-codes.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 
@@ -456,7 +457,7 @@ function cmdClaim() {
     console.error('CONTENDED - ' + conflicts.length + ' collision(s) with live siblings:');
     for (const c of conflicts) console.error('  ' + c);
     console.error('\nThe claim was NOT written. Re-scope, wait, or re-run with --force and say so in the note.');
-    process.exit(3);
+    process.exit(EXIT.CONTENDED);
   }
   for (const c of conflicts) console.log('warn: ' + c);
   console.log('claimed ' + runId);
@@ -673,7 +674,7 @@ function cmdCheck() {
   if (!hits.length) { console.log('clear: no live sibling holds ' + targets.length + ' target(s).'); return 0; }
   console.error('CONTENDED - ' + hits.length + ' target(s) held by a live sibling:');
   for (const h of hits) console.error('  ' + h.t + '\n    held as ' + h.held + ' by ' + h.s.runId + ' (' + h.s.skill + ', phase ' + h.s.phase + ', ' + h.s._staleMin + 'm since heartbeat' + (h.s._liveBy === 'lock' ? '; live because it holds a lock taken ' + Math.round(h.s._lockAgeS) + 's ago' : '') + ')');
-  process.exit(3);
+  process.exit(EXIT.CONTENDED);
 }
 
 function cmdLock() {
@@ -728,7 +729,7 @@ function cmdLock() {
     if (Date.now() >= deadline) {
       console.error("CONTENDED - lock '" + name + "' held by " + held.runId + ' (pid ' + held.pid + ', ' + Math.round(ageS) + 's old).');
       if (!waitS) console.error('  Retry with --wait <secs> to block, or do the unserialized part of your work first.');
-      process.exit(3);
+      process.exit(EXIT.CONTENDED);
     }
     sleep(breakable ? 50 : 3000);
   }
@@ -742,7 +743,7 @@ function cmdUnlock() {
   if (!held) { console.log("lock '" + name + "' was not held."); return 0; }
   if (held.runId !== runId && !flag('force')) {
     console.error("CONTENDED - lock '" + name + "' is held by " + held.runId + ', not ' + runId + '. Use --force only if you know that run is dead.');
-    process.exit(3);
+    process.exit(EXIT.CONTENDED);
   }
   fs.unlinkSync(file);
   console.log("released lock '" + name + "'");

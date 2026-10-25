@@ -250,6 +250,9 @@ function throwawayBoard() {
   execFileSync('git', ['init', '-q'], { cwd: dir, env, stdio: 'ignore' });
   fs.mkdirSync(path.join(dir, 'scripts'));
   fs.copyFileSync(fileURLToPath(new URL('./run-board.mjs', import.meta.url)), path.join(dir, 'scripts', 'run-board.mjs'));
+  // run-board imports the exit vocabulary, so the copy carries it or dies at import.
+  fs.mkdirSync(path.join(dir, 'scripts', 'lib'));
+  fs.copyFileSync(fileURLToPath(new URL('./lib/exit-codes.mjs', import.meta.url)), path.join(dir, 'scripts', 'lib', 'exit-codes.mjs'));
   const claim = (args) => new Promise((resolve) => {
     const p = spawn(process.execPath, [path.join(dir, 'scripts', 'run-board.mjs'), 'claim', '--skill', 'intake', ...args], { cwd: dir, env });
     let out = '', err = '';
