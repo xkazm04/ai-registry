@@ -7,7 +7,8 @@
  * Version-history checks run separately, against the PR base or the push's prior head
  * (registry.yml, every event); external currency/liveness
  * reports remain advisory. Legacy workflows retain their existing status names.
- * A child execution failure is distinct from a content violation.
+ * A child execution failure is distinct from a content violation. Each step has a
+ * ceiling (15 min, GATE_STEP_TIMEOUT_MS to override); a hung step is FATAL, "timed out".
  */
 
 import fs from 'node:fs';
@@ -129,6 +130,7 @@ const usage = () => {
   console.error('');
   console.error('Runs the gate chain CI enforces, in CI order, stopping at the first red.');
   console.error('registry.yml executes this same plan; version checks (--since <base>) run separately, on every push and PR.');
+  console.error('Each step is stopped after 15 minutes (FATAL, "timed out"); set GATE_STEP_TIMEOUT_MS=<ms> to change that.');
 };
 
 if (argv.includes('--help') || argv.includes('-h')) { usage(); process.exit(EXIT.OK); }
@@ -175,6 +177,21 @@ if (missing.length) {
   process.exit(EXIT.FATAL);
 }
 
+// ---------------------------------------------------------------- per-step ceiling
+// A deadlocked child prints nothing and never exits, so without a ceiling it holds the CI
+// job until GitHub's 360-minute default. Expiry is FATAL (could not finish), never a
+// content verdict. The slowest step (run-tests.mjs) takes about a minute; 15 is generous.
+// GATE_STEP_TIMEOUT_MS overrides it, mainly so a test can use a short one. A malformed
+// value is refused rather than silently falling back to "no ceiling".
+const STEP_TIMEOUT_ENV = 'GATE_STEP_TIMEOUT_MS';
+const DEFAULT_STEP_TIMEOUT_MS = 15 * 60 * 1000;
+const rawTimeout = process.env[STEP_TIMEOUT_ENV];
+const STEP_TIMEOUT_MS = rawTimeout === undefined || rawTimeout === '' ? DEFAULT_STEP_TIMEOUT_MS : Number(rawTimeout);
+if (!Number.isInteger(STEP_TIMEOUT_MS) || STEP_TIMEOUT_MS <= 0) {
+  console.error(`FATAL: ${STEP_TIMEOUT_ENV}=${JSON.stringify(rawTimeout)} is not a positive integer number of milliseconds.`);
+  process.exit(EXIT.FATAL);
+}
+
 // ---------------------------------------------------------------- run
 const label = all ? 'all' : `lane ${lane}`;
 console.log(`gate: ${chain.length} step(s), ${label}, ${write ? 'WRITE' : 'check'} mode`);
@@ -188,7 +205,16 @@ for (const s of chain) {
   const r = spawnSync(process.execPath, [path.join(SCRIPTS, s.script), ...args], {
     cwd: ROOT,
     stdio: 'inherit',
+    timeout: STEP_TIMEOUT_MS,
+    killSignal: 'SIGKILL',
   });
+  // Checked before r.error: spawnSync reports its own timeout as error ETIMEDOUT, and the
+  // generic "could not launch" line below would call a hung step a launch failure.
+  if (r.error && r.error.code === 'ETIMEDOUT') {
+    console.error(`\ngate FATAL: scripts/${s.script} timed out after ${STEP_TIMEOUT_MS} ms and was stopped - it did not finish, so it reported nothing.`);
+    console.error(`Raise the ceiling with ${STEP_TIMEOUT_ENV}=<ms> if the step is legitimately slow.`);
+    process.exit(EXIT.FATAL);
+  }
   if (r.error) {
     console.error(`\ngate FATAL: could not launch scripts/${s.script} (${r.error.message}).`);
     process.exit(EXIT.FATAL);
