@@ -47,6 +47,7 @@
         "scripts/run-tests.mjs",
         "scripts/tests/check-result.test.mjs",
         "scripts/tests/context-map.test.mjs",
+        "scripts/tests/run-tests-population.test.mjs",
         "scripts/tests/validation-plan.test.mjs"
       ],
       "entry_points": [
@@ -93,7 +94,9 @@
         "scripts/build-marketplace.mjs",
         "scripts/compression-scan.mjs",
         "scripts/lib/bundle-hash.mjs",
-        "scripts/surface-snapshot.mjs"
+        "scripts/surface-snapshot.mjs",
+        "scripts/tests/apply-skill-clauses.test.mjs",
+        "scripts/tests/build-catalog-floors.test.mjs"
       ],
       "entry_points": [
         "scripts/build-index.mjs",
@@ -120,6 +123,9 @@
         "scripts/lib/skills-lane.mjs",
         "scripts/render-recipes.mjs",
         "scripts/tests/check-publications.test.mjs",
+        "scripts/tests/check-readmes.test.mjs",
+        "scripts/tests/check-recipes-version.test.mjs",
+        "scripts/tests/check-skills-version.test.mjs",
         "scripts/tests/recipe-gate.test.mjs",
         "scripts/tests/recipe-render.test.mjs",
         "scripts/tests/render-proof-blender.test.mjs",
@@ -284,6 +290,7 @@
         "scripts/registry-lens.mjs",
         "scripts/render-triage.mjs",
         "scripts/research-ingest.mjs",
+        "scripts/tests/librarian-weights.test.mjs",
         "scripts/tests/registry-lens.test.mjs",
         "scripts/tests/render-triage.test.mjs"
       ],

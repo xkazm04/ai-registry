@@ -22,6 +22,13 @@
 // And each skill's run-log fields (`runs30d`, `outcomes30d`, `difficulty30d`,
 // `tokensMedian30d`, `tokensBasis30d`) from `usage/runs/`, folded by the same function
 // scripts/runs-report.mjs uses (lib/runs-aggregate.mjs) - one fold, two readers.
+//
+// Could-not-run is exit 2, in BOTH modes. The 2026-10-25 gates probe emptied the skills
+// lane and this wrote `skills: []` and exited 0 - a catalog telling every consumer the lane
+// is gone, published by a green step; and an unparseable catalog.json died on an uncaught
+// throw, exit 1, which this repo reads as "violations found". An empty skills lane or an
+// empty knowledge lane is a broken precondition (lib/check-result.mjs requirePopulation),
+// and so is a catalog that does not parse: neither is a verdict about the content.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -30,6 +37,8 @@ import { walkSubjects } from './lib/taxonomy.mjs';
 import { readLane, contentDigest } from './lib/skills-lane.mjs';
 import {loadIdentities,resolveIdentity} from './lib/telemetry.mjs';
 import { loadLane as loadRunsLane, aggregateRuns, catalogFields } from './lib/runs-aggregate.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
+import { requirePopulation } from './lib/check-result.mjs';
 
 const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
 const KNOWLEDGE = path.join(ROOT, 'knowledge');
@@ -42,12 +51,31 @@ const checkOnly = process.argv.includes('--check');
 
 if (!fs.existsSync(KNOWLEDGE)) {
   console.error(`FATAL: no knowledge/ lane at ${KNOWLEDGE} — refusing to write a catalog that claims zero bundles.`);
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 if (!fs.existsSync(CATALOG)) {
   console.error(`FATAL: ${CATALOG} does not exist. This script edits a catalog, it does not invent one.`);
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
+
+/** Exit 2 with the floor's reason when a population came back below its floor. */
+const floor = (count, what) => {
+  const r = requirePopulation(count, what);
+  if (r.code === EXIT.OK) return;
+  console.error(`build-catalog FATAL: ${r.reason}. Refusing to ${checkOnly ? 'check' : 'write'} a catalog over it.`);
+  process.exit(r.code);
+};
+
+let catalog;
+try {
+  catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
+} catch (err) {
+  console.error(`build-catalog FATAL: catalog.json does not parse (${err.message}). This script carries keys forward from it, so it cannot rebuild over it - restore it from git first.`);
+  process.exit(EXIT.FATAL);
+}
+
+const laneSkills = fs.existsSync(SKILLS) ? readLane(SKILLS).filter((s) => s.exists && s.fm && s.fm.name) : [];
+floor(laneSkills.length, 'skills in skills/');
 
 const readFm = (file) => {
   const m = fs.readFileSync(file, 'utf8').match(/^---\r?\n([\s\S]*?)\r?\n---/);
@@ -103,6 +131,8 @@ for (const e of fs.readdirSync(KNOWLEDGE, { withFileTypes: true }).sort((a, b) =
   });
 }
 
+floor(bundles.length, 'bundles in knowledge/');
+
 // -- cross-check against the bundle indexes ----------------------------------
 //
 // build-index.mjs and this script both count the same corpus, by different code. Two
@@ -141,7 +171,7 @@ if (mismatches.length) {
   console.error('\nTwo counts of one corpus, computed by different code. One of them is wrong.');
   console.error('Regenerate the index first (node scripts/build-index.mjs); if they still');
   console.error('disagree, a walker is broken and neither number may be published.');
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
 
 // -- usage aggregation -------------------------------------------------------
@@ -201,7 +231,6 @@ const runStats = runsNewest === -Infinity
   ? {}
   : aggregateRuns(runsLane.rows, runsLane.exact, { by: 'skill', resolveSkill: runsLane.resolveSkill, sinceMs: runsNewest - 30 * 86400000, untilMs: runsNewest });
 
-const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
 
 // -- the skills lane --------------------------------------------------------
 // The catalog's `skills` entries used to be a hand-seeded fixture waiting for an
@@ -215,7 +244,6 @@ const catalog = JSON.parse(fs.readFileSync(CATALOG, 'utf8'));
 // it; see scripts/fleet-audit.mjs) and `applicability` (a consumer's own dimension
 // mapping). A skill that left the lane leaves the catalog; nothing is invented.
 const prior = new Map((Array.isArray(catalog.skills) ? catalog.skills : []).map((s) => [s.name, s]));
-const laneSkills = readLane(SKILLS).filter((s) => s.exists && s.fm && s.fm.name);
 const skills = laneSkills.map((s) => {
   const row = usage.get(s.name);
   const old = prior.get(s.name) ?? {};
@@ -306,7 +334,7 @@ if (checkOnly) {
     const nxt = JSON.stringify(bundles);
     if (cur !== nxt) console.error(`  bundles differ:\n    committed: ${cur}\n    computed:  ${nxt}`);
     else console.error('  bundles match; the difference is elsewhere in the file (formatting or another key).');
-    process.exit(1);
+    process.exit(EXIT.VIOLATIONS);
   }
   console.log(`catalog.json is fresh — ${bundles.length} bundle(s) indexed, usage from ${usageFiles} of ${usageFiles + usageSkipped} contributor file(s)${usageSkipped ? ` — ${usageSkipped} skipped as unparseable` : ''}`);
 } else {

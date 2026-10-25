@@ -11,11 +11,15 @@
  * standard forbids, a page that phones home, or a `[TODO]` that survived the edit.
  *
  * Mechanical rules, nothing else (quality is the human's, by design):
- *   shape          the fixed per-publication file set, and nothing outside it; every
+ *   shape          the fixed per-publication file set, and nothing outside it - no
+ *                  dot-entry at the lane root either (`publications/.wip-draft/` is a
+ *                  draft the index builder would skip, so it would land unseen); every
  *                  medium/story.html image is `figures/NN-<name>.png`, the render of a
  *                  listed `figures/NN-<name>.svg`. The lane is text-only: the PNG renders
  *                  are derived, regenerated from the SVGs, and never required here
- *   schema         publication.json is `publication/1`: closed keys, types, no null
+ *   schema         publication.json is `publication/1`: closed keys, types, no null, and
+ *                  no byte-order mark (this gate used to strip it while the index builder
+ *                  refused it - two readers of one file must agree on whether it parses)
  *   slug           the `slug` field equals its directory name, kebab-case
  *   citations      every `[n]` in post.md, post.html and medium/story.html - and every
  *                  claim - resolves to a source `n`; post.md cites at least once
@@ -573,6 +577,10 @@ const read = (file) => {
   try { return fs.readFileSync(file, 'utf8').replace(/^\uFEFF/, '').replace(/\r\n/g, '\n'); } catch { return null; }
 };
 
+const hasBom = (file) => {
+  try { return fs.readFileSync(file).subarray(0, 3).equals(Buffer.from([0xef, 0xbb, 0xbf])); } catch { return false; }
+};
+
 const listDir = (dir) => {
   try { return fs.readdirSync(dir, { withFileTypes: true }); } catch { return null; }
 };
@@ -647,6 +655,9 @@ export function validatePublication(dir, name = path.basename(dir)) {
   // ---- schema
   const raw = read(path.join(dir, 'publication.json'));
   let pub = null;
+  if (raw !== null && hasBom(path.join(dir, 'publication.json'))) {
+    fail('schema', 'publication.json', 'starts with a byte-order mark - JSON.parse (and build-publications-index) rejects it; save as UTF-8 without BOM');
+  }
   if (raw !== null) {
     try { pub = JSON.parse(raw); } catch (e) { fail('schema', 'publication.json', `does not parse (${e.message})`); }
   }
@@ -877,7 +888,10 @@ export function validateLane(laneRoot) {
   const warnings = [];
   const slugs = [];
   for (const e of entries) {
-    if (e.name.startsWith('.')) continue;
+    if (e.name.startsWith('.')) {
+      findings.push({ rule: 'shape', file: e.name, message: 'a dot-entry in the lane is skipped by the index - a draft does not live here; rename or remove it' });
+      continue;
+    }
     if (!e.isDirectory()) {
       if (!LANE_ROOT_FILES.has(e.name)) findings.push({ rule: 'shape', file: e.name, message: 'a publication is a directory: publications/<slug>/' });
       continue;

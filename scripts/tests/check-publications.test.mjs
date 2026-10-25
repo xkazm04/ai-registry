@@ -425,3 +425,27 @@ test('gate.mjs declares a publications lane, and --all runs both steps', () => {
   const help = node(['scripts/gate.mjs', '--help']);
   assert.match(help.stderr, /publications/);
 });
+
+// ---- the 2026-10-25 gates-scan plants. Both used to exit 0: a draft hidden in a
+// dot-directory (skipped by the gate and the index alike, so it landed unseen), and a
+// BOM-prefixed publication.json (stripped by this gate, refused with exit 2 by the index
+// builder - two readers, two verdicts). The gate now reports both as content (exit 1).
+test('shape: a draft in a dot-directory at the lane root fails (CLI exit 1)', (t) => {
+  const lane = scratch(t);
+  fs.cpSync(FIXTURE, path.join(lane, 'fixture-post'), { recursive: true });
+  assert.equal(node(['scripts/check-publications.mjs', '--root', lane]).status, 0, 'control');
+  fs.cpSync(FIXTURE, path.join(lane, '.wip-draft'), { recursive: true });
+  editJson(path.join(lane, '.wip-draft'), (o) => { o.status = 'draft'; });
+  const r = node(['scripts/check-publications.mjs', '--root', lane]);
+  assert.equal(r.status, 1, r.stderr);
+  assert.match(r.stderr, /\.wip-draft: a dot-entry/);
+});
+test('schema: a BOM-prefixed publication.json fails in the gate (exit 1), the builder still refuses it (exit 2)', (t) => {
+  const r = failsOnly(t, 'schema', (d) => edit(d, 'publication.json', (s) => `﻿${s}`));
+  assert.match(r.findings[0].message, /byte-order mark/);
+  const lane = scratch(t);
+  fs.cpSync(FIXTURE, path.join(lane, 'fixture-post'), { recursive: true });
+  edit(path.join(lane, 'fixture-post'), 'publication.json', (s) => `﻿${s}`);
+  assert.equal(node(['scripts/check-publications.mjs', '--root', lane]).status, 1);
+  assert.equal(node(['scripts/build-publications-index.mjs', '--root', lane]).status, 2);
+});
