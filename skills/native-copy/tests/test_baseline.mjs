@@ -10,7 +10,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { fingerprint, sha1, buildBaseline, applyBaseline, changedRecords } from '../scripts/lib/baseline.mjs';
+import { fingerprint, sha1, buildBaseline, applyBaseline, parseBaseline, changedRecords } from '../scripts/lib/baseline.mjs';
 import { extractJson, makeRecord } from '../scripts/lib/extract.mjs';
 import { normalizeContract, contractFor } from '../scripts/lib/contract.mjs';
 import { RULE_IDS } from '../scripts/lib/rules.mjs';
@@ -23,16 +23,63 @@ test('fingerprint is rule|file|key|sha1(raw text)', () => {
   assert.equal(sha1('x').length, 40);
 });
 
-test('baseline: dedupes and sorts; only error findings outside it are new', () => {
+test('baseline: counts each fingerprint, sorted; only error findings beyond its count are new', () => {
   const findings = [f('EN-DASH', 'b', 'two'), f('EN-DASH', 'a', 'one'), f('EN-DASH', 'a', 'one')];
   const b = buildBaseline(findings);
-  assert.equal(b.count, 2);
-  assert.deepEqual(b.fingerprints, [...b.fingerprints].sort());
+  assert.equal(b.version, 2);
+  assert.equal(b.count, 3);
+  assert.deepEqual(Object.values(b.fingerprints).sort(), [1, 2]);
+  assert.deepEqual(Object.keys(b.fingerprints), Object.keys(b.fingerprints).sort());
   const now = [f('EN-DASH', 'a', 'one'), f('EN-LATIN', 'c', 'e.g. three', 'warn'), f('EN-SPELLING', 'd', 'colour')];
   const r = applyBaseline(now, b);
   assert.equal(r.newErrors, 1);
-  assert.equal(r.resolved, 1);
+  assert.equal(r.resolved, 2); // one of the two baselined "one" and the whole of "two" are gone
   assert.deepEqual(now.map((x) => x.baselined), [true, false, false]);
+});
+
+test('baseline: a duplicated baselined string is new (a set would pass any number of copies)', () => {
+  const b = buildBaseline([f('EN-DASH', 'a', 'one')]);
+  const now = [f('EN-DASH', 'a', 'one'), f('EN-DASH', 'a', 'one')];
+  const r = applyBaseline(now, b);
+  assert.equal(r.newErrors, 1);
+  assert.deepEqual(now.map((x) => x.baselined), [true, false]);
+});
+
+test('baseline: a baseline of two accepts two copies and a third is new; one fixed copy is resolved', () => {
+  const b = buildBaseline([f('EN-DASH', 'a', 'one'), f('EN-DASH', 'a', 'one')]);
+  assert.equal(applyBaseline([f('EN-DASH', 'a', 'one'), f('EN-DASH', 'a', 'one')], b).newErrors, 0);
+  assert.equal(applyBaseline([f('EN-DASH', 'a', 'one'), f('EN-DASH', 'a', 'one'), f('EN-DASH', 'a', 'one')], b).newErrors, 1);
+  assert.deepEqual(applyBaseline([f('EN-DASH', 'a', 'one')], b), { newErrors: 0, resolved: 1 });
+});
+
+test('baseline v1 (a fingerprint list) still loads with membership semantics and says to rewrite', () => {
+  const fp = fingerprint(f('EN-DASH', 'a', 'one'));
+  const notes = [];
+  const b = parseBaseline(JSON.stringify({ version: 1, checker: 'x', count: 1, fingerprints: [fp] }), { warn: (m) => notes.push(m) });
+  assert.equal(notes.length, 1);
+  assert.match(notes[0], /version 1.*--baseline write/);
+  const now = [f('EN-DASH', 'a', 'one'), f('EN-DASH', 'a', 'one'), f('EN-DASH', 'z', 'new')];
+  const r = applyBaseline(now, b);
+  assert.equal(r.newErrors, 1, 'copies of a v1-baselined string keep passing until the baseline is rewritten');
+  assert.equal(r.resolved, 0);
+  assert.equal(applyBaseline([f('EN-DASH', 'q', 'other')], b).resolved, 1);
+});
+
+test('baseline v2 round-trips through JSON and parseBaseline stays quiet', () => {
+  const b = buildBaseline([f('EN-DASH', 'a', 'one'), f('EN-DASH', 'a', 'one')]);
+  const notes = [];
+  const back = parseBaseline(JSON.stringify(b), { warn: (m) => notes.push(m) });
+  assert.deepEqual(notes, []);
+  assert.deepEqual(back.fingerprints, b.fingerprints);
+});
+
+test('parseBaseline rejects a malformed or newer baseline', () => {
+  const quiet = { warn() {} };
+  assert.throws(() => parseBaseline('{}', quiet), /no fingerprints/);
+  assert.throws(() => parseBaseline(JSON.stringify({ version: 2, fingerprints: { a: 0 } }), quiet), /positive integer/);
+  assert.throws(() => parseBaseline(JSON.stringify({ version: 2, fingerprints: { a: 'x' } }), quiet), /positive integer/);
+  assert.throws(() => parseBaseline(JSON.stringify({ version: 3, fingerprints: {} }), quiet), /newer than this checker/);
+  assert.throws(() => parseBaseline(JSON.stringify({ fingerprints: [1] }), quiet), /must be strings/);
 });
 
 test('baseline: a same-count swap is caught (a count bucket would hide it)', () => {
@@ -161,6 +208,37 @@ test('CLI: exit 1 on new errors, baseline write, exit 0 against the baseline, ex
     assert.equal(r.status, 0, r.stderr);
     assert.match(r.stdout, /proposal only - nothing written/);
     assert.ok(!fs.existsSync(path.join(dir, 'docs', 'i18n', 'copy-contract.json')));
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('CLI: a duplicated baselined JSX string is a new error; a v1 baseline keeps the old verdict and notes the rewrite', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'native-copy-dup-'));
+  const tsx = (n) => `export const A = () => (\n  <div>\n${'    <p>Fast — and cheap for everyone here.</p>\n'.repeat(n)}  </div>\n);\n`;
+  try {
+    fs.mkdirSync(path.join(dir, 'docs', 'i18n'), { recursive: true });
+    fs.mkdirSync(path.join(dir, 'src'), { recursive: true });
+    const contract = { variant: 'US', sources: [{ path: 'src/**/*.tsx', kind: 'jsx' }], dash: { emDash: 'ban' } };
+    fs.writeFileSync(path.join(dir, 'docs', 'i18n', 'copy-contract.json'), JSON.stringify(contract));
+    fs.writeFileSync(path.join(dir, 'src', 'a.tsx'), tsx(1));
+    let r = run(dir, '--baseline', 'write');
+    assert.equal(r.status, 0, r.stdout + r.stderr);
+    const bPath = path.join(dir, '.ai', 'copy-baseline.json');
+    const v2 = JSON.parse(fs.readFileSync(bPath, 'utf8'));
+    assert.equal(v2.version, 2);
+
+    fs.writeFileSync(path.join(dir, 'src', 'a.tsx'), tsx(2));
+    r = run(dir);
+    assert.equal(r.status, 1, r.stdout + r.stderr);
+    assert.match(r.stdout, /errors 2 \(new 1\)/);
+
+    // The v1 file a consuming project committed before counts existed: same strings, old verdict.
+    fs.writeFileSync(bPath, JSON.stringify({ version: 1, checker: 'x', count: 1, fingerprints: Object.keys(v2.fingerprints) }));
+    r = run(dir);
+    assert.equal(r.status, 0, r.stdout + r.stderr);
+    assert.match(r.stdout, /errors 2 \(new 0\)/);
+    assert.match(r.stderr, /baseline is version 1/);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }
