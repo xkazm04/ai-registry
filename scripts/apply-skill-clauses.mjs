@@ -132,7 +132,8 @@ for (const name of skills) {
     const block = render(c, name);
     const existing = text.match(blockRe(c));
     if (existing) {
-      if (existing[0] !== block) text = text.replace(existing[0], block);
+      // A function replacement: a string one would expand `$&`, `$'`, `$$` in template prose.
+      if (existing[0] !== block) text = text.replace(existing[0], () => block);
       continue;
     }
     if (c.id === 'skill-reflection') {

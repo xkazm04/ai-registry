@@ -60,6 +60,21 @@ test('a heading quoted inside fenced code is not a second copy', (t) => {
   assert.equal(check(dir).status, 0);
 });
 
+// A template is prose, and prose may say `$&` or `$'` (a shell or regex example). Re-stamping
+// went through String.replace with the rendered block as a STRING replacement, so those
+// sequences expanded to the matched old block / the rest of the file, and --check then
+// reported the freshly stamped skill stale forever.
+test('a template carrying $-replacement sequences stamps literally and then checks clean', (t) => {
+  const dir = registry(t);
+  const tpl = path.join(dir, 'docs/skill-clauses/skill-reflection.md');
+  edit(tpl, (s) => `${s.trimEnd()}\n\nLiteral: $& and $' and $$ stay as written.\n`);
+  const w = spawnSync(process.execPath, [path.join(dir, 'scripts/apply-skill-clauses.mjs')], { encoding: 'utf8' });
+  assert.equal(w.status, 0, w.stderr);
+  assert.match(fs.readFileSync(skillFile(dir, 'architect'), 'utf8'), /Literal: \$& and \$' and \$\$ stay as written\./);
+  const r = check(dir);
+  assert.equal(r.status, 0, r.stderr);
+});
+
 test('write mode refuses to rewrite a duplicated skill and exits 1', (t) => {
   const dir = registry(t);
   const file = skillFile(dir, 'architect');
