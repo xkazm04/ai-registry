@@ -2,7 +2,7 @@
   "schema": "ascent-registry-catalog",
   "schemaVersion": "1.0.0",
   "_note": "GENERATED FILE — scripts/build-catalog.mjs reads every lane (skills, practices, memory, knowledge, usage) and rewrites this file; --check fails CI when it is stale. Per skill, `adopters` is carried forward untouched (the registry cannot see installations; an operator's scripts/fleet-audit.mjs --write-adopters maintains it) and `invokes30d` + `usageContributors` are DERIVED from the usage/ lane; `runs30d`, `outcomes30d`, `difficulty30d`, `tokensMedian30d` and `tokensBasis30d` are DERIVED from the usage/runs/ run log (30 days ending at the newest logged run; tokens are the measured median when at least half the runs are measured, else the agents' estimate, and tokensBasis30d says which). `generatedAt` is the newest instant in the committed data this catalog reads (a subject changedAt, a usage report generatedAt, a run row ts, a LESSONS heading date), ISO 8601 UTC: the date of the newest evidence in the registry, not the wall-clock time of the build, so --check stays a pure function of the tree. Hand-edits to anything else are overwritten on the next build. A second producer (e.g. Ascent's indexer) may rewrite the envelope from the same files; two producers computing one truth from one source is not a conflict.",
-  "generatedAt": "2026-10-23T00:00:00Z",
+  "generatedAt": "2026-10-25T00:00:00Z",
   "generatedBy": "scripts/build-catalog.mjs",
   "registry": {
     "fullName": "xkazm04/ai-registry",

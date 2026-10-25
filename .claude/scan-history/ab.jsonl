@@ -27,3 +27,5 @@
 {"at":"2026-10-25T11:49:20.836Z","scope":"librarian-tools","slug":"meta-only-title","lane":"B","mode":"code","verdict":"better","seeded_red":true,"sha":"9ca7facd","branch_kept":false,"worker":"sonnet","note":"drained 2026-10-25"}
 {"at":"2026-10-25T11:49:20.836Z","scope":"librarian-tools","slug":"currency-clock","lane":"B","mode":"code","verdict":"better","seeded_red":true,"sha":"6dfecc4e","branch_kept":false,"worker":"sonnet","note":"drained 2026-10-25"}
 {"at":"2026-10-25T11:49:20.836Z","scope":"librarian-tools","slug":"sheet-reseal","lane":"B","mode":"code","verdict":"better","seeded_red":true,"sha":"729ff160","branch_kept":false,"worker":"sonnet","note":"drained 2026-10-25"}
+{"at":"2026-10-25T12:24:39.192Z","scope":"skill-code-media","slug":"og-image-escape","lane":"B","mode":"code","verdict":"better","seeded_red":true,"sha":"ae7782ab","branch_kept":false,"worker":"sonnet","note":"drained 2026-10-25"}
+{"at":"2026-10-25T12:24:39.193Z","scope":"skill-code-media","slug":"provider-deadlines","lane":"B","mode":"code","verdict":"better","seeded_red":true,"sha":"ae7782ab","branch_kept":false,"worker":"sonnet","note":"drained 2026-10-25"}

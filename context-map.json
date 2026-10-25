@@ -522,6 +522,7 @@
         "skills/leonardo/tests/test_api-tools.mjs",
         "skills/leonardo/tests/test_og-text.mjs",
         "skills/leonardo/tools/favicon-set.mjs",
+        "skills/leonardo/tools/fetch-deadline.mjs",
         "skills/leonardo/tools/gemini-recognize.mjs",
         "skills/leonardo/tools/leonardo-gpt-image.mjs",
         "skills/leonardo/tools/leonardo-image.mjs",
