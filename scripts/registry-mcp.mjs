@@ -374,7 +374,8 @@ export function serveStdio(server, { input = process.stdin, output = process.std
 
 // ---------------------------------------------------------------- real handlers
 
-const LOCAL_FILE = /(^|\/)[^/]*\.local(\.|$)/;
+// Case-insensitive, as readDoc's check is: on Windows and macOS `x.LOCAL.md` IS `x.local.md`.
+const LOCAL_FILE = /(^|\/)[^/]*\.local(\.|$)/i;
 
 /** A repo-relative .md path inside root, or a thrown Error naming why not. */
 function resolveLedger(root, rel) {
@@ -385,6 +386,11 @@ function resolveLedger(root, rel) {
   if (!norm.endsWith('.md')) throw new Error(`refused: "${rel}" is not a markdown ledger`);
   const abs = path.join(root, norm);
   if (!fs.existsSync(abs) || !fs.statSync(abs).isFile()) throw new Error(`no such ledger: ${norm}`);
+  // A link inside the checkout can point anywhere; the lexical checks above cannot see that.
+  // registry_read (readDoc) refuses it; this door must not be the one that serves it.
+  const real = fs.realpathSync(abs);
+  const realRoot = fs.realpathSync(root);
+  if (real !== realRoot && !real.startsWith(realRoot + path.sep)) throw new Error(`refused: "${rel}" links outside the registry`);
   return { abs, norm };
 }
 

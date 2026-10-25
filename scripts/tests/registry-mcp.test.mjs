@@ -152,6 +152,19 @@ test('registry_ledger runs ledger-read in-process and refuses paths it must not 
   await assert.rejects(h.registry_ledger({ command: 'rows', file: 'librarian/missing.md' }), /no such ledger/);
 });
 
+test('registry_ledger holds the containment registry_read holds: no link out of the checkout, no *.LOCAL.* in any case', async (t) => {
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'registry-mcp-'));
+  const outside = fs.mkdtempSync(path.join(os.tmpdir(), 'registry-mcp-outside-'));
+  t.after(() => { fs.rmSync(tmp, { recursive: true, force: true }); fs.rmSync(outside, { recursive: true, force: true }); });
+  fs.mkdirSync(path.join(tmp, 'librarian'));
+  fs.writeFileSync(path.join(outside, 'private.md'), '| secret |\n| --- |\n| s3cr3t |\n');
+  fs.writeFileSync(path.join(tmp, 'librarian', 'Notes.LOCAL.md'), '| a |\n| --- |\n| b |\n');
+  const h = realHandlers(tmp, { log: () => {} });
+  await assert.rejects(h.registry_ledger({ command: 'rows', file: 'librarian/Notes.LOCAL.md' }), /local/);
+  try { fs.symlinkSync(path.join(outside, 'private.md'), path.join(tmp, 'librarian', 'linked.md'), 'file'); } catch (e) { return t.skip(`cannot create a symlink here (${e.code})`); }
+  await assert.rejects(h.registry_ledger({ command: 'rows', file: 'librarian/linked.md' }), /outside the registry/);
+});
+
 test('renderResult prints the CLI compact form and an honest empty', () => {
   const r = { schema: 'registry-query/1', terms: ['x'], truncated: true, tokens: 30, empty_reason: null, hits: [{ rank: 1, score: 1, kind: 'technique', domain: 'se', subject: 'accessibility', technique: 'a11y-verification', path: 'knowledge/se/a/techniques/a11y-verification.md', gist: 'A11y verification - a green audit\nis not proof.', use_when: ['one', 'two'], why: [] }] };
   assert.equal(renderResult(r).split('\n')[0], '1. technique se/accessibility/a11y-verification - A11y verification - a green audit is not proof.');
