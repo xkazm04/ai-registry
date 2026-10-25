@@ -188,6 +188,22 @@ test('a --since or --until that is not a date is refused, never read as an empty
   } finally { f.done(); }
 });
 
+test('a transcript folder holding no session is a named FATAL, not a RangeError stack', () => {
+  // Before: Math.min() over zero spans is Infinity, and `new Date(Infinity).toISOString()`
+  // threw "Invalid time value" out of the summary line - exit 2, but with a stack that
+  // names neither the folder nor the cause.
+  const f = cliFixture();
+  try {
+    const res = f.runCli('--since', '2026-01-01');
+    assert.equal(res.status, 2, res.stdout + res.stderr);
+    assert.match(res.stderr, /no session/);
+    assert.ok(res.stderr.includes(f.dir), 'the folder that was read is named');
+    assert.doesNotMatch(res.stderr, /Invalid time value|RangeError/);
+    f.writeSession();
+    assert.equal(f.runCli('--since', '2026-01-01').status, 0, 'positive control: one session runs');
+  } finally { f.done(); }
+});
+
 test('inline code that stages by blob or writes by composition is a claim', () => {
   const blob = rel(claimsOfCommand(`node -e "
 const pairs=[['librarian/applied.md','C:/t/x/rows.md']];
