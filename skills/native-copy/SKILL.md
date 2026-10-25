@@ -4,7 +4,7 @@ description: "Write, check and review native-quality ENGLISH web copy where it l
 category: workflow
 memory: project
 listing: on
-version: 1.4.2
+version: 1.4.3
 tags: english, copy, microcopy, lint, gate, review
 argument-hint: "<init|check|review|write|wire> [--changed | scope | page]"
 ---

@@ -231,6 +231,19 @@ test('EN-EXCLAIM: one per component surface, one per catalog message; none in er
   no('EN-EXCLAIM', 'Use !important sparingly and a != b');
 });
 
+test('EN-EXCLAIM reads every ICU variant, as every other rule does: a mark in the one {...} branch is still seen', () => {
+  const c = contractFor();
+  const lint = (key, msg) => lintRecords([makeRecord('en.json', 1, key, msg)], c).filter((f) => f.rule === 'EN-EXCLAIM');
+  // the primary text is the `other` branch ("3 files failed."): the error-class mark lives only in `one`
+  const err = lint('errors.upload', '{count, plural, one {One file failed!} other {# files failed.}}');
+  assert.equal(err.length, 1, 'an exclamation in an error-class string, in any branch');
+  assert.equal(err[0].text, 'One file failed!');
+  assert.equal(err[0].span, 'd!');
+  const doubled = lint('landing.done', '{count, plural, one {Done! You did it!} other {All # done.}}');
+  assert.deepEqual(doubled.map((f) => f.message), ['more than one exclamation mark in one message']);
+  assert.equal(lint('landing.done', '{count, plural, one {Done!} other {All # done.}}').length, 0, 'one mark per catalog message is allowed');
+});
+
 test('contract rule overrides: promote, demote, off', () => {
   assert.equal(hits('EN-LATIN', 'Use a tag, e.g. urgent.', { contract: { rules: { 'EN-LATIN': 'error' } } })[0].severity, 'error');
   no('EN-LATIN', 'Use a tag, e.g. urgent.', { contract: { rules: { 'EN-LATIN': 'off' } } });
