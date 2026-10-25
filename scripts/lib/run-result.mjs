@@ -393,17 +393,6 @@ export function writeRunResult(result, options = {}) {
 }
 
 /**
- * Read a run's result back, validated.
- *
- * Returns `null` when no result exists — which is a real answer and a different one from
- * a run that reported a failure. Throws when a file exists and is unreadable or invalid,
- * because a corrupt result read as an absent one would silently reset a halt counter.
- *
- * @param {string} runId
- * @param {{root?: string, path?: string}} [options]
- * @returns {object|null}
- */
-/**
  * The saturation brake, computed from what runs recorded: per subject id, the number of
  * TRAILING `idled` outcomes among its `landed`/`idled` rows in time order. A `landed` row
  * resets it; `declined`, `contended` and `dispatched` are not passes and do not move it.
@@ -429,6 +418,17 @@ export function dryStreaks(results) {
   return out;
 }
 
+/**
+ * Read a run's result back, validated.
+ *
+ * Returns `null` when no result exists — which is a real answer and a different one from
+ * a run that reported a failure. Throws when a file exists and is unreadable or invalid,
+ * because a corrupt result read as an absent one would silently reset a halt counter.
+ *
+ * @param {string} runId
+ * @param {{root?: string, path?: string}} [options]
+ * @returns {object|null}
+ */
 export function readRunResult(runId, options = {}) {
   if (!RUN_ID_RE.test(String(runId ?? ''))) throw new Error(`run-result: run id must match ${RUN_ID_RE} (got ${JSON.stringify(runId)})`);
   const { rel, abs } = resolveDestination(runId, options);
