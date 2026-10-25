@@ -7,7 +7,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
-import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan } from '../hygiene-disk.mjs';
+import { classifyCheckout, classifyPlain, classifyTemp, leakFamilies, checkoutFacts, scratchRootOf, BUILD_OUTPUT, scan, reclassify } from '../hygiene-disk.mjs';
 
 // Fixture git never sees a hook's GIT_DIR (2026-09-19: fixtures wrote into real repositories).
 const ENV = { ...Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_'))), GIT_AUTHOR_NAME: 't', GIT_AUTHOR_EMAIL: 't@t.invalid', GIT_COMMITTER_NAME: 't', GIT_COMMITTER_EMAIL: 't@t.invalid' };
@@ -270,4 +270,30 @@ test('checkoutFacts: a worktree is landed only when its HEAD is on another ref o
     g(r.home, 'merge', '-q', '--ff-only', 'feature');
     assert.equal(checkoutFacts(wt, r.homes).headLanded, true, 'merged into main');
   } finally { r.cleanup(); }
+});
+
+test('--apply re-checks that a plain row is still not a checkout before deleting it', () => {
+  // The scan routes anything with a .git to the checkout rules; --apply's re-classification of
+  // build-output and temp rows checked only age, so a clone or worktree made at that path
+  // between scan and apply was deleted as build output.
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hdisk-'));
+  try {
+    const later = Date.now() + 10 * 86400e3;
+    const rows = [
+      { area: 'build', kind: 'remove-build-output', name: 'pumper-target' },
+      { area: 'scratch', kind: 'remove-build-output', name: 'cn5-target' },
+      { area: 'temp', kind: 'remove-temp', name: 'wt-xyz' },
+      { area: 'temp', kind: 'remove-session-temp', name: 'session-1' },
+    ];
+    for (const r of rows) {
+      const abs = path.join(base, r.name);
+      fs.mkdirSync(abs);
+      fs.writeFileSync(path.join(abs, 'f.bin'), 'x');
+      assert.equal(reclassify({ ...r, path: abs }, { fleet: { projects: {} }, idleH: 24, tempDays: 7, now: later }).ok, true, `${r.name} plain`);
+      g(abs, 'init', '-q');
+      const v = reclassify({ ...r, path: abs }, { fleet: { projects: {} }, idleH: 24, tempDays: 7, now: later });
+      assert.ok(!v.ok, `${r.name} became a checkout: ${JSON.stringify(v)}`);
+      assert.match(v.skip, /\.git/);
+    }
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
 });

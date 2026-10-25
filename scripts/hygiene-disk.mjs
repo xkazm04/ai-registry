@@ -333,10 +333,13 @@ export function scan({ fleet, idleH, tempDays, scratch, now = Date.now(), tmp = 
 
 // ---------------------------------------------------------------------------- apply
 
-function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
+export function reclassify(row, { fleet, idleH, tempDays, now = Date.now() }) {
   if (!fs.existsSync(row.path)) return { skip: 'gone' };
   const m = row.isFile ? entryMeasure(row.path, true) : measure(row.path);
   if (m.rootIsLink) return { skip: 'became a link' };
+  // The scan sent anything holding a .git to the checkout rules; a plain row that holds one
+  // now is a checkout made since, and only a re-scan may judge it.
+  if (!row.isFile && row.kind !== 'remove-scratch-checkout' && fs.existsSync(path.join(row.path, '.git'))) return { skip: 'now holds a .git - a checkout since the scan; re-scan' };
   const ageH = ageOf(m, now);
   let c;
   if (row.kind === 'remove-scratch-checkout') {
