@@ -229,9 +229,14 @@ export async function main(argv = process.argv.slice(2)) {
   }
 
   if (args.dry) {
+    // Without a voice id nothing could be verified, which is not the same as stale: the clips
+    // were made under a voice this shell cannot see (ELEVENLABS_VOICE_ID unset here). Keep their
+    // records, timed by estimate, so the next run that has the voice finds them current instead
+    // of paying to synthesise every line again. Only records whose file still exists are kept.
+    const kept = voice ? {} : Object.fromEntries(Object.entries(prior.clips).filter(([, c]) => existsSync(path.join(filmDir, c.file))));
     const manifest = await writeManifest(
       filmDir,
-      { clips, music: prior.music, estimated: script.beats.filter((b) => !clips[b.id]).map((b) => b.id) },
+      { clips: { ...kept, ...clips }, music: prior.music, estimated: script.beats.filter((b) => !clips[b.id]).map((b) => b.id) },
       AudioManifest,
     );
     console.log(`dry run: ${todo.length} clip(s) to synthesise, ElevenLabs characters it WOULD spend: ${chars} (budget ${args.budget})`);

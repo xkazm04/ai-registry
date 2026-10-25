@@ -52,15 +52,15 @@ function silentMp3(file, seconds) {
   execFileSync('ffmpeg', ['-v', 'error', '-y', '-f', 'lavfi', '-i', 'anullsrc=r=44100:cl=mono', '-t', String(seconds), '-c:a', 'libmp3lame', '-b:a', '32k', file]);
 }
 
-/** Pre-seed audio/ with a clip per beat whose hash matches the CURRENT film.json. */
-function seedClips(film) {
+/** Pre-seed audio/ with a clip per beat whose hash matches the CURRENT film.json (and `voiceId`). */
+function seedClips(film, voiceId) {
   const script = FilmScript.parse(readJson(path.join(film, 'film.json')));
   mkdirSync(path.join(film, 'audio'), { recursive: true });
   const clips = {};
   for (const b of script.beats) {
     silentMp3(path.join(film, 'audio', `${b.id}.mp3`), 1);
     // ms deliberately wrong: narrate must re-measure the file, not trust the number.
-    clips[b.id] = { file: `audio/${b.id}.mp3`, ms: 7, hash: sha256(clipHashInput(b.line, script.voice, script.voice.voiceId)) };
+    clips[b.id] = { file: `audio/${b.id}.mp3`, ms: 7, hash: sha256(clipHashInput(b.line, script.voice, voiceId ?? script.voice.voiceId)) };
   }
   writeFileSync(path.join(film, 'audio', 'manifest.json'), JSON.stringify({ clips, music: {}, estimated: [] }));
   return script;
@@ -106,6 +106,30 @@ test('editing ONE line invalidates exactly that clip; the others are measured by
   assert.deepEqual(Object.keys(m.clips).sort(), ['close', 'open']);
   assert.match(r.out, /stale or unverifiable clips: trade/);
   assert.match(r.out, new RegExp(`WOULD spend: ${script.beats[1].line.length}\\b`));
+});
+
+test('a dry run that cannot resolve the voice keeps the clips it cannot verify (no re-spend later)', () => {
+  // The voice id came from ELEVENLABS_VOICE_ID when the clips were made; a later --dry in a shell
+  // without it cannot verify them. It must time them by estimate WITHOUT erasing their records:
+  // erased, the next real run sees no prior clip and pays to synthesise every line again.
+  const { film } = sandbox();
+  const filmJson = path.join(film, 'film.json');
+  const script = readJson(filmJson);
+  delete script.voice.voiceId;
+  writeFileSync(filmJson, JSON.stringify(script, null, 2));
+  seedClips(film, 'envVoice01');
+
+  let r = run('narrate.mjs', [film, '--dry']);
+  assert.equal(r.code, 0, r.out);
+  let m = manifestOf(film);
+  assert.deepEqual(m.estimated, ['open', 'trade', 'close'], 'unverifiable clips are timed by estimate');
+  assert.deepEqual(Object.keys(m.clips).sort(), ['close', 'open', 'trade'], 'their records survive the dry run');
+
+  r = run('narrate.mjs', [film, '--dry'], cleanEnv({ ELEVENLABS_VOICE_ID: 'envVoice01' }));
+  assert.equal(r.code, 0, r.out);
+  m = manifestOf(film);
+  assert.deepEqual(m.estimated, [], 'with the voice back, every clip is current again');
+  assert.match(r.out, /WOULD spend: 0\b/);
 });
 
 test('a voice settings change invalidates every clip', () => {

@@ -269,10 +269,10 @@
     },
     {
       "name": "demo-film",
-      "version": "0.1.5",
+      "version": "0.1.6",
       "category": "workflow",
       "path": "skills/demo-film/SKILL.md",
-      "contentHash": "sha256-n1:808f8ca857d10bdc",
+      "contentHash": "sha256-n1:0b86e9ddbd3cad62",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,
