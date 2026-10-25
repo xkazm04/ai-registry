@@ -13,7 +13,9 @@
  *
  * Usage:  node scripts/telemetry-report.mjs [--as-of <ISO date>]   (default: now)
  * Exit codes (scripts/lib/exit-codes.mjs): 0 reported, 2 could not run (an unreadable lane
- * file, an invalid alias map, an invalid --as-of).
+ * file, an invalid alias map, an invalid --as-of, an unknown flag, `--as-of` with no value).
+ * The flag set is closed: a mistyped `--asof 2026-01-01` that is ignored reports freshness
+ * against NOW and looks like the date you asked for.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -21,9 +23,15 @@ import {fileURLToPath} from 'node:url';
 import {loadIdentities,resolveIdentity,aggregateDemand,reportAge} from './lib/telemetry.mjs';
 import {EXIT} from './lib/exit-codes.mjs';
 try {
+ const args=process.argv.slice(2),hint='Usage: telemetry-report.mjs [--as-of <ISO date>]';
+ let given;
+ for(let i=0;i<args.length;i++){
+  if(args[i]!=='--as-of')throw new Error(`unknown argument ${JSON.stringify(args[i])}. ${hint}`);
+  given=args[++i];
+  if(given===undefined||given===''||given.startsWith('--'))throw new Error(`--as-of needs a value. ${hint}`);
+ }
  const root=fileURLToPath(new URL('../',import.meta.url)),ids=loadIdentities(root);
- const args=process.argv.slice(2),at=args.indexOf('--as-of');
- const asOf=at<0?new Date().toISOString():args[at+1];
+ const asOf=given??new Date().toISOString();
  const read=lane=>fs.readdirSync(path.join(root,lane)).filter(f=>f.endsWith('.json')).sort().map(f=>JSON.parse(fs.readFileSync(path.join(root,lane,f),'utf8')));
  const usage=read('usage'),signals=read('signals');
  const unresolvedUsage=[];

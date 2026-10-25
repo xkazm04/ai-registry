@@ -35,26 +35,50 @@
  *
  * Counts and slugs only. Paths never leave this machine. Run `node scripts/check-signals.mjs`
  * after it; commit the file alongside something else you were already committing.
+ *
+ *   node scripts/signals-collect.mjs [--contributor <id>] [--root <registry>]
+ *
+ * The flag set is closed. This script WRITES `signals/<contributor>.json`, so a flag it
+ * does not know is refused rather than ignored: `--contributor other` read as unknown and
+ * dropped meant the MACHINE's contributor file was written instead of `other`'s - a file
+ * under the wrong name in a lane whose rule is one file per contributor. Both `--k=v` and
+ * `--k v` are accepted; a valued flag with no value exits 2. `--root` names the registry
+ * whose fleet is folded and whose `signals/` is written (tests point it at a fixture).
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { loadBridge } from './lib/projects.mjs';
+import { EXIT } from './lib/exit-codes.mjs';
 
-const ROOT = path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
-const OUT_DIR = path.join(ROOT, 'signals');
 const WINDOW_DAYS = 30;
+const USAGE = 'Usage: signals-collect.mjs [--contributor <id>] [--root <registry>]';
+const refuse = (msg) => { console.error(`FATAL: ${msg}. ${USAGE}`); process.exit(EXIT.FATAL); };
+const flags = {};
+{
+  const argv = process.argv.slice(2);
+  for (let i = 0; i < argv.length; i++) {
+    const m = /^--([a-z-]+)(?:=(.*))?$/.exec(argv[i]);
+    if (!m || !['contributor', 'root'].includes(m[1])) refuse(`unknown argument ${JSON.stringify(argv[i])}`);
+    let v = m[2];
+    if (v === undefined) v = argv[++i];
+    if (v === undefined || v === '' || v.startsWith('--')) refuse(`--${m[1]} needs a value`);
+    flags[m[1]] = v;
+  }
+}
+const ROOT = flags.root ? path.resolve(flags.root) : path.resolve(fileURLToPath(new URL('.', import.meta.url)), '..');
+const OUT_DIR = path.join(ROOT, 'signals');
 
 const bridge = loadBridge(ROOT);
 if (!Object.keys(bridge.projects).length) {
   console.error('FATAL: this machine resolves no projects.');
   for (const p of bridge._fleet.problems) console.error(`  - ${p}`);
-  process.exit(2);
+  process.exit(EXIT.FATAL);
 }
-const contributor = String(process.argv.find((a) => a.startsWith('--contributor='))?.slice(14) || bridge.contributor || '').trim();
+const contributor = String(flags.contributor || bridge.contributor || '').trim();
 if (!/^[a-z0-9][a-z0-9-]*$/.test(contributor)) {
-  console.error('FATAL: a contributor id is required ([a-z0-9-], non-identifying): --contributor=<id> or "contributor" in .machine.local.json.');
-  process.exit(2);
+  console.error('FATAL: a contributor id is required ([a-z0-9-], non-identifying): --contributor <id> or "contributor" in .machine.local.json.');
+  process.exit(EXIT.FATAL);
 }
 
 const since = Date.now() - WINDOW_DAYS * 86400000;

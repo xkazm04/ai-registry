@@ -445,6 +445,15 @@ export function readRunResult(runId, options = {}) {
 const invokedDirectly = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
 if (invokedDirectly) {
   const argv = process.argv.slice(2);
+  // A closed flag set: an unknown flag, or --root/--path with no value, exits 2. `--root` with
+  // no value used to be dropped, so a read or write went to this checkout's registry.
+  const refuse = (msg) => { console.error(`FATAL: ${msg}`); process.exit(EXIT.FATAL); };
+  for (let i = 0; i < argv.length; i++) {
+    if (!argv[i].startsWith('--')) continue;
+    if (argv[i] !== '--root' && argv[i] !== '--path') refuse(`unknown argument ${JSON.stringify(argv[i])}.`);
+    const v = argv[++i];
+    if (v === undefined || v.startsWith('--')) refuse(`${argv[i - 1]} needs a value.`);
+  }
   const flag = (name) => { const i = argv.indexOf(`--${name}`); return i === -1 ? undefined : argv[i + 1]; };
   const positionals = argv.filter((a, i) => !a.startsWith('--') && !(i > 0 && argv[i - 1].startsWith('--')));
   const [command, target] = positionals;

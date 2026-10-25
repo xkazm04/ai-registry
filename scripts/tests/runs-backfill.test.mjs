@@ -449,3 +449,24 @@ test('aggregation folds an aliased skill into its new name; an unknown name keep
   const rep = buildReport({ registryRoot: reg, sinceDays: 30, now: ms('2026-09-20T00:00:00Z'), skill: 'forge-next' });
   assert.deepEqual(Object.keys(rep.skills), ['forge-next@1.0.0', 'forge-next@2.0.0']);
 });
+
+test('runs-report refuses an unknown flag and a valueless value-flag instead of reporting on the wrong lane', () => {
+  const script = path.join(SCRIPTS, 'runs-report.mjs');
+  const reg = tmp();
+  const run = (...a) => spawnSync(process.execPath, [script, ...a], { encoding: 'utf8' });
+  const typo = run('--root', reg, '--jsno');
+  assert.equal(typo.status, 2, typo.stdout + typo.stderr);
+  assert.match(typo.stderr, /unknown argument "--jsno"/);
+  // `--skill --json` used to take "--json" as the skill name and print an empty text report.
+  const swallowed = run('--root', reg, '--skill', '--json');
+  assert.equal(swallowed.status, 2, swallowed.stdout + swallowed.stderr);
+  assert.match(swallowed.stderr, /--skill needs a value/);
+  // A trailing --root used to fall back to THIS checkout's registry.
+  const bare = run('--json', '--root');
+  assert.equal(bare.status, 2, bare.stdout + bare.stderr);
+  assert.match(bare.stderr, /--root needs a value/);
+  // The closed set still runs the real thing.
+  const ok = run('--root', reg, '--skill', 'x', '--since', '7d', '--json');
+  assert.equal(ok.status, 0, ok.stderr);
+  assert.equal(JSON.parse(ok.stdout).schema, 'rkb-runs-report/1');
+});

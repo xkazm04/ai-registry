@@ -21,3 +21,17 @@ test('freshness distinguishes missing, old and future evidence without changing 
  assert.equal(reportAge('2026-09-10','2026-09-09').status,'future');
  assert.equal(reportAge('unknown','2026-09-09').status,'unknown');
 });
+test('telemetry-report refuses an unknown flag and a valueless --as-of instead of reporting against now',async()=>{
+ const {spawnSync}=await import('node:child_process'),{fileURLToPath}=await import('node:url');
+ const script=fileURLToPath(new URL('../telemetry-report.mjs',import.meta.url));
+ const run=(...a)=>spawnSync(process.execPath,[script,...a],{encoding:'utf8'});
+ const typo=run('--asof','2026-01-01');
+ assert.equal(typo.status,2,typo.stdout+typo.stderr);
+ assert.match(typo.stderr,/unknown argument "--asof"/);
+ const bare=run('--as-of');
+ assert.equal(bare.status,2,bare.stdout+bare.stderr);
+ assert.match(bare.stderr,/--as-of needs a value/);
+ const ok=run('--as-of','2026-10-01');
+ assert.equal(ok.status,0,ok.stderr);
+ assert.equal(JSON.parse(ok.stdout).asOf,'2026-10-01');
+});
