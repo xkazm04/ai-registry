@@ -261,6 +261,38 @@ function throwawayBoard() {
   return { dir, claim, runs };
 }
 
+/** Run any run-board command on a throwaway board (same isolation as `claim` above). */
+function boardCmd(dir, args) {
+  const env = Object.fromEntries(Object.entries(process.env).filter(([k]) => !k.startsWith('GIT_')));
+  return new Promise((resolve) => {
+    const p = spawn(process.execPath, [path.join(dir, 'scripts', 'run-board.mjs'), ...args], { cwd: dir, env });
+    let out = '', err = '';
+    p.stdout.on('data', (d) => { out += d; });
+    p.stderr.on('data', (d) => { err += d; });
+    p.on('close', (code) => resolve({ code, out, err }));
+  });
+}
+
+test('REGRESSION: beat --subject names a live sibling that already holds the subject', async () => {
+  // /intake Phase 4 and /harvest claim subjects with `beat --subject`, not `claim`. Before,
+  // beat added the subject without looking: a second run "claimed" a subject a live sibling
+  // held and was told nothing, while `claim` with the same subject is refused.
+  const { dir, claim } = throwawayBoard();
+  try {
+    const subject = 'software-engineering/engineering-process/standards-and-gates/quality-gates';
+    assert.equal((await claim(['--source', 'https://github.com/acme/a', '--run', 'holder', '--subject', subject])).code, 0);
+    assert.equal((await claim(['--source', 'https://github.com/acme/b', '--run', 'late'])).code, 0);
+    const doc = 'knowledge/' + subject + '/quality-gates.md';
+    const r = await boardCmd(dir, ['beat', '--run', 'late', '--phase', '4', '--subject', doc]);
+    assert.equal(r.code, 0, 'beat stays advisory: the exit code is unchanged');
+    assert.match(r.err, /warn: OVERLAP\s+holder holds software-engineering\/.*quality-gates \(yours: knowledge\/.*quality-gates\.md\)/);
+    // positive control: a subject nobody holds beats silently
+    const quiet = await boardCmd(dir, ['beat', '--run', 'late', '--subject', 'software-engineering/x/y/unheld']);
+    assert.equal(quiet.code, 0);
+    assert.doesNotMatch(quiet.err, /OVERLAP/);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
 async function racedClaims(argsFor, n = 8) {
   const { dir, claim, runs } = throwawayBoard();
   const res = await Promise.all(Array.from({ length: n }, (_, i) => claim(argsFor(i))));

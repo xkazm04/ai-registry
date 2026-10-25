@@ -393,6 +393,21 @@ export function withClaimGate(gate, fn, { staleS = CLAIM_GATE_STALE_S, waitS = C
   }
 }
 
+/** One overlap rule for both doors that add claims. `claim` refuses on these lines; `beat`
+ *  prints them. Before 2026-10-25 only `claim` looked, yet /intake Phase 4 and /harvest add
+ *  their subjects with `beat --subject`, so the documented claim path told a run nothing
+ *  when a live sibling already held the subject it was taking. */
+function overlapLines(mine, siblings) {
+  const out = [];
+  for (const s of siblings) {
+    const theirs = [...(s.claims && s.claims.subjects || []), ...(s.claims && s.claims.paths || []), ...(s.claims && s.claims.projects || [])];
+    for (const m of mine) {
+      for (const t of theirs) if (touches(m, t)) out.push('OVERLAP       ' + s.runId + ' holds ' + t + ' (yours: ' + m + ')');
+    }
+  }
+  return out;
+}
+
 function cmdClaim() {
   const skill = one('skill') || die('claim needs --skill (intake|harvest|deepen|forge|reconcile|...)');
   const source = one('source') || die('claim needs --source (the url, path or dispatch slug being mined)');
@@ -409,13 +424,7 @@ function cmdClaim() {
         conflicts.push('SAME SOURCE   ' + s.runId + ' is already mining ' + s.source + ' (phase ' + (s.phase || '?') + ', ' + s._staleMin + 'm since heartbeat)');
       }
     }
-    const mine = [...many('subject'), ...many('path'), ...many('project')];
-    for (const s of siblings) {
-      const theirs = [...(s.claims && s.claims.subjects || []), ...(s.claims && s.claims.paths || []), ...(s.claims && s.claims.projects || [])];
-      for (const m of mine) {
-        for (const t of theirs) if (touches(m, t)) conflicts.push('OVERLAP       ' + s.runId + ' holds ' + t + ' (yours: ' + m + ')');
-      }
-    }
+    conflicts.push(...overlapLines([...many('subject'), ...many('path'), ...many('project')], siblings));
 
     const existing = readJSON(runFile(runId));
     const rec = {
@@ -472,6 +481,13 @@ function cmdBeat() {
   rec.claims.projects = [...new Set([...(rec.claims.projects || []), ...many('project')])];
   rec.domains = [...new Set([...(rec.domains || []), ...many('domain')])];
   writeJSON(runFile(runId), rec);
+  // Advisory, like the board: the beat is written and the exit code is unchanged, but a
+  // claim added here that a live sibling already holds is named, as `claim` would name it.
+  const added = [...many('subject'), ...many('path'), ...many('project')];
+  if (added.length) {
+    const siblings = loadRuns().filter((r) => r._live && r.runId !== runId);
+    for (const c of overlapLines(added, siblings)) console.error('warn: ' + c);
+  }
   console.log('beat ' + runId + ' phase=' + rec.phase + ' status=' + rec.status);
   return 0;
 }
