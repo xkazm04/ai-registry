@@ -921,6 +921,30 @@ test('CLI: a lite run aggregates from started.json, validates, and an empty summ
   }
 });
 
+test('CLI: a blank started.summary falls through to report.md, as the documented chain says', () => {
+  // Phase 1 writes started.json with a `summary` key before any synthesis exists, so the value it
+  // most often holds is "". `??` stopped at that "" and refused the run with report.md written.
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'council-summary-'));
+  try {
+    const meta = liteMeta();
+    const started = { run_id: 'r1', mode: 'lite', subject: meta.subject, rubric_version: 'feature-v1', round_no: 1, supersedes_run_id: null, trust_state: 'uncalibrated', receipt: meta.receipt };
+    for (const [name, verdict] of Object.entries(liteVerdicts())) {
+      fs.writeFileSync(path.join(dir, `verdict-${name}.json`), JSON.stringify({ dimension: name, unmeasured_reason: null, delta: null, ...verdict }));
+    }
+    for (const blank of ['', '   ']) {
+      fs.writeFileSync(path.join(dir, 'started.json'), JSON.stringify({ ...started, summary: blank }));
+      fs.rmSync(path.join(dir, 'report.md'), { force: true });
+      assert.equal(runCli(['aggregate', '--run-dir', dir]).status, 2, 'still refused with no report.md');
+      fs.writeFileSync(path.join(dir, 'report.md'), '# Council\n\nValue and robustness hold; craft has one gap.\n\n## Members\n');
+      const agg = runCli(['aggregate', '--run-dir', dir]);
+      assert.equal(agg.status, 0, `blank started.summary ${JSON.stringify(blank)} must fall through to report.md: ${agg.stderr}`);
+      assert.equal(JSON.parse(fs.readFileSync(path.join(dir, 'result.json'), 'utf8')).summary, 'Value and robustness hold; craft has one gap.');
+    }
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
 // ------------------------------------------------------------------- report
 
 /**
