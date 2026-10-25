@@ -212,6 +212,12 @@ export async function drive(argv, env = process.env) {
     if (!dry) for (const prompt of summary.plan) jobs.push(await runJob({ root, dbPath, prompt, model, timeoutMin: timeoutFor(1), env }));
   } else {
     let items = read((db) => proposals(db, a.ids !== undefined ? { ids: a.ids } : {})).filter((p) => p.lens === lens);
+    if (a.ids !== undefined) {
+      // as propagate --ids: a named id that is no item of this lens is refused, never dropped into an empty ok plan
+      const found = new Set(items.map((p) => p.id));
+      const missing = String(a.ids).split(',').map((x) => x.trim()).filter((x) => x && !found.has(x));
+      if (missing.length) bad(`--ids: not an item of lens ${lens}: ${missing.join(', ')}`);
+    }
     if (a.approveProposed !== undefined) {
       const by = typeof a.by === 'string' ? a.by : bad('--approve-proposed needs --by <kind:name>: who carries the decision');
       const open = items.filter((p) => p.status === 'proposed').map((p) => p.id);

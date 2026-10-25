@@ -346,6 +346,15 @@ test('drive: an unknown flag is refused before any session starts (a --dry-run t
     assert.equal(ro.prepare('SELECT COUNT(*) AS n FROM runs').get().n, 1, 'no session ran: only the fixture run exists');
     assert.equal(proposals(ro, { ids: p1 })[0].status, 'approved', 'the approved item was not built');
     ro.close();
+    // execute --ids names items of the lens, as propagate --ids does: a typo or another lens's id is refused, never
+    // an empty plan that reports ok
+    await assert.rejects(drive(['execute', '--lens', LENS, '--root', root, '--ids', `${p1},p-000000`], env), (e) => e.code === 2 && /not an item of lens com\.x\.reg: p-000000/.test(e.message));
+    const w = openStore(dbPath);
+    const { id: r2 } = runStart(w, { phase: 'propose', lenses: 'other' });
+    const other = propose(w, { run: r2, feature: 'a', lens: 'other', title: 'o', kind: 'baseline-upgrade' }).id;
+    runEnd(w, { run: r2, status: 'done' });
+    w.close();
+    await assert.rejects(drive(['execute', '--lens', LENS, '--root', root, '--ids', other, '--dry'], env), new RegExp(`not an item of lens ${LENS.replace(/\./g, '\\.')}: ${other}`));
     // every documented flag is still accepted
     const ok = await drive(['execute', '--lens', LENS, '--root', root, '--dry', '--ids', p1, '--batch', '2', '--timeout-min', '30', '--model', 'm1'], env);
     assert.deepEqual(ok.plan, [`/lens-scan execute --proposals ${p1}`]);
