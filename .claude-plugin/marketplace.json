@@ -339,7 +339,7 @@
       "name": "motionize",
       "source": "./skills/motionize",
       "description": "Upgrade a generic UI icon or loading/empty state into a traced, motion-animated SVG. Generates flat trace-friendly art (via /leonardo tools), validates with Qwen vision, vectorizes to a clean multi-path SVG, and emits a motion reveal component driven by the shared motion-preset library (draw, staggered-draw, fade-pop, float, pulse, hover-response, success-settle). For icon + loading-state visual…",
-      "version": "1.4.1",
+      "version": "1.4.2",
       "category": "other"
     },
     {

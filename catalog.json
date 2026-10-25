@@ -535,10 +535,10 @@
     },
     {
       "name": "motionize",
-      "version": "1.4.1",
+      "version": "1.4.2",
       "category": "other",
       "path": "skills/motionize/SKILL.md",
-      "contentHash": "sha256-n1:f9cc920559bf8d71",
+      "contentHash": "sha256-n1:0b2f07ad096d89fd",
       "adopters": [
         "kp@1.0",
         "personas@plugin:1.0.0"

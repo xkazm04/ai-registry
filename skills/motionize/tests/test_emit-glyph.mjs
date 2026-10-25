@@ -71,6 +71,20 @@ test('a full-canvas WHITE path is recolored to var(--background), not dropped', 
   assert.equal(data[1].fill, '#0D1F51', 'dark line-work is not surface: navy has a bright blue channel');
 });
 
+test('a 3-digit hex surface is a surface: #fff and #000 are demoted like #FFFFFF and #000000', () => {
+  // svgo's preset-default (convertColors, shorthex) rewrites #FFFFFF to #fff and #000000 to #000,
+  // so the optimised trace hands this function exactly the short form for the two surface colours.
+  const out = svgToGlyphData(svgOf([
+    { fill: '#fff', d: FULL },
+    { fill: '#000', d: FULL },
+    { fill: '#f4b', d: CORNER },
+  ]), { name: 'G', surfaceFill: '#FF44BB>#7C3AED', slabMinArea: 0.0001 });
+  const data = JSON.parse(/data: (\[.*\]) \};/s.exec(out.ts)[1]);
+  assert.equal(data[0].fill, 'var(--background)', '#fff is white');
+  assert.equal(data[1].fill, 'var(--background)', '#000 is black');
+  assert.equal(data[2].fill, '#7C3AED', 'a short slab colour matches its long form by distance');
+});
+
 test('a full-canvas SATURATED path keeps its fill — demote by colour, never by geometry', () => {
   // The regression this guards: VTracer sometimes lays the darkest quantized layer
   // down first as an exact canvas rect and paints the page over it. Demoting on

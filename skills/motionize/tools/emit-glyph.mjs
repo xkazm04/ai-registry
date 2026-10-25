@@ -28,7 +28,15 @@ function parseArgs(argv) {
   }
   return a;
 }
-const rgb = (hex) => { const m = /^#([0-9a-f]{6})$/i.exec(hex); if (!m) return null; const n = parseInt(m[1], 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; };
+// #rgb as well as #rrggbb: svgo's convertColors (shorthex) turns #FFFFFF / #000000 into #fff / #000,
+// so the two surface colours reach this function in the short form.
+const rgb = (hex) => {
+  const m = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(hex);
+  if (!m) return null;
+  const h = m[1].length === 3 ? m[1].replace(/./g, (c) => c + c) : m[1];
+  const n = parseInt(h, 16);
+  return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+};
 // "Light" = high luminance (catches white AND light lavender/panel highlights)
 // without touching saturated neon accents (amber/cyan/violet sit well below 0.82).
 const nearWhite = (hex) => { const c = rgb(hex); return c ? (0.299 * c[0] + 0.587 * c[1] + 0.114 * c[2]) / 255 > 0.82 : false; };
