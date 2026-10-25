@@ -16,6 +16,9 @@ jobs:
   integrity:
     name: complete registry contract
     runs-on: ubuntu-latest
+    # Backstop for gate.mjs's own per-step ceiling (15 min): a hang anywhere else in the
+    # job fails in 45 minutes, not at GitHub's 360-minute default.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
