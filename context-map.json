@@ -160,8 +160,10 @@
         "scripts/tests/consult-check.test.mjs",
         "scripts/tests/install-consult-hook.test.mjs",
         "scripts/tests/ledger-read.test.mjs",
+        "scripts/tests/recipe-map.test.mjs",
         "scripts/tests/registry-mcp.test.mjs",
         "scripts/tests/registry-query.test.mjs",
+        "scripts/tests/research-map.test.mjs",
         "scripts/tests/routing-bench.test.mjs"
       ],
       "entry_points": [
@@ -191,11 +193,16 @@
         "scripts/link-registry.mjs",
         "scripts/merge-conform-runs.mjs",
         "scripts/register-project.mjs",
+        "scripts/tests/build-registry-map.test.mjs",
+        "scripts/tests/check-context-coverage.test.mjs",
         "scripts/tests/converge.test.mjs",
+        "scripts/tests/fleet-audit.test.mjs",
         "scripts/tests/installation.test.mjs",
+        "scripts/tests/link-registry.test.mjs",
         "scripts/tests/merge-conform-runs.test.mjs",
         "scripts/tests/projects.test.mjs",
         "scripts/tests/register-project.test.mjs",
+        "scripts/tests/upstream-check.test.mjs",
         "scripts/upstream-check.mjs"
       ],
       "entry_points": [
@@ -229,6 +236,8 @@
         "scripts/runs-report.mjs",
         "scripts/signals-collect.mjs",
         "scripts/telemetry-report.mjs",
+        "scripts/tests/agent-cost-band.test.mjs",
+        "scripts/tests/leads-collect.test.mjs",
         "scripts/tests/process-sessions.test.mjs",
         "scripts/tests/run-result.test.mjs",
         "scripts/tests/runs-backfill.test.mjs",
