@@ -235,6 +235,19 @@ test('installer: a tracked core.hooksPath is a partial install, never reported a
   assert.equal(s.sh(process.execPath, [INSTALLER, '--install', '--repo', s.repo]).status, 0);
 });
 
+test('installer: --repo without a directory is a usage error, never the current checkout', (t) => {
+  // Before: path.resolve('') is the cwd, so a trailing `--repo` (a dropped variable) acted on
+  // whatever checkout the shell stood in. cwd here is a throwaway repo, never this one.
+  const s = diverged(t, { install: false });
+  for (const args of [['--check', '--repo'], ['--repo', '--check'], ['--check', '--repo', '']]) {
+    const r = s.sh(process.execPath, [INSTALLER, ...args]);
+    assert.equal(r.status, 2, `${args.join(' ')}: ${r.all}`);
+    assert.match(r.err, /--repo needs a directory/);
+  }
+  assert.equal(s.git('config', '--local', '--get', 'merge.registry-generated.driver').status, 1, 'nothing was installed anywhere');
+  assert.equal(s.sh(process.execPath, [INSTALLER, '--check', '--repo', s.repo]).status, 1, 'positive control: a named repo is checked');
+});
+
 test('.gitattributes names the driver for exactly the exported generated set', () => {
   const text = fs.readFileSync(path.join(REGISTRY, '.gitattributes'), 'utf8');
   const named = text.split('\n').map((l) => /^(\S+)\s+merge=registry-generated\s*$/.exec(l)).filter(Boolean).map((m) => m[1]);

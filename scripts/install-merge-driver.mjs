@@ -111,7 +111,11 @@ function main(argv) {
   }
   if (install && uninstall) { console.error('FATAL: --install and --uninstall are exclusive.'); return EXIT.FATAL; }
   const ri = argv.indexOf('--repo');
-  const repo = path.resolve(ri === -1 ? ROOT : (argv[ri + 1] ?? ''));
+  const repoArg = ri === -1 ? ROOT : argv[ri + 1];
+  // path.resolve('') is the cwd: a trailing --repo (a dropped variable) must not act on
+  // whatever checkout the shell happens to stand in.
+  if (!repoArg || repoArg.startsWith('--')) { console.error('FATAL: --repo needs a directory.'); return EXIT.FATAL; }
+  const repo = path.resolve(repoArg);
 
   const top = git(repo, ['rev-parse', '--show-toplevel']);
   if (!top.ok) { console.error(`FATAL: ${repo} is not a git checkout (${top.err}).`); return EXIT.FATAL; }
