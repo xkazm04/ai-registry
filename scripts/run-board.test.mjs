@@ -293,6 +293,24 @@ test('REGRESSION: beat --subject names a live sibling that already holds the sub
   } finally { fs.rmSync(dir, { recursive: true, force: true }); }
 });
 
+test('REGRESSION: lock refuses a --ttl or --wait that is not a positive number', async () => {
+  // Before: `--ttl -5` was stored as the lock's ttl, so `ageS > ttl` held from the first
+  // millisecond and any contender broke a lock its holder took a moment earlier; `--ttl abc`
+  // and `--wait abc` silently became 900 and 600.
+  const { dir } = throwawayBoard();
+  try {
+    for (const args of [['--ttl', '-5'], ['--ttl', 'abc'], ['--ttl', '0'], ['--wait', 'abc'], ['--wait', '-1']]) {
+      const r = await boardCmd(dir, ['lock', 'commit', '--run', 'a', ...args]);
+      assert.equal(r.code, 1, args.join(' ') + ': ' + r.out + r.err);
+      assert.match(r.err, new RegExp(args[0] + ' must be a positive number of seconds'));
+    }
+    assert.equal(fs.existsSync(path.join(dir, '.git', 'run-board', 'locks', 'commit.lock')), false, 'no lock was taken');
+    // positive control: a real ttl takes the lock, and a contender is CONTENDED, not handed it
+    assert.equal((await boardCmd(dir, ['lock', 'commit', '--run', 'a', '--ttl', '60'])).code, 0);
+    assert.equal((await boardCmd(dir, ['lock', 'commit', '--run', 'b'])).code, 3);
+  } finally { fs.rmSync(dir, { recursive: true, force: true }); }
+});
+
 async function racedClaims(argsFor, n = 8) {
   const { dir, claim, runs } = throwawayBoard();
   const res = await Promise.all(Array.from({ length: n }, (_, i) => claim(argsFor(i))));

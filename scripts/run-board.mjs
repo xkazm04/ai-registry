@@ -679,8 +679,18 @@ function cmdCheck() {
 function cmdLock() {
   const name = positionals()[0] || die('lock needs a name, e.g. `lock commit --run <id>`');
   const runId = one('run') || die('lock needs --run <id>');
-  const ttl = Number(one('ttl')) || LOCK_TTL_S;
-  const waitS = flag('wait') ? (Number(one('wait')) || 600) : 0;
+  // A given value must be a positive number. Before 2026-10-25 `--ttl -5` was stored as the
+  // lock's ttl and made it breakable the instant it was taken (`ageS > ttl`), and a
+  // non-numeric --ttl/--wait silently became the default.
+  const seconds = (name, dflt) => {
+    const raw = one(name);
+    if (raw === null) return dflt;
+    const n = Number(raw);
+    if (!Number.isFinite(n) || n <= 0) die('--' + name + ' must be a positive number of seconds, got "' + raw + '"');
+    return n;
+  };
+  const ttl = seconds('ttl', LOCK_TTL_S);
+  const waitS = flag('wait') ? seconds('wait', 600) : 0;
   ensure();
   const file = lockFile(name);
   const deadline = Date.now() + waitS * 1000;
