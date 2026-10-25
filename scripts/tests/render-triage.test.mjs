@@ -90,6 +90,14 @@ test('reveal never overwrites a recorded verdict unless --force says so',t=>{
  assert.equal(run('reveal',dir,'shot1=tie','--force').status,0);
  assert.equal(JSON.parse(fs.readFileSync(vf,'utf8')).pairs.shot1.arm,'tie');
 });
+test('reveal refuses a pick for a pair the manifest does not hold',t=>{
+ const dir=fixture(t);run('sheet',dir);
+ const r=run('reveal',dir,'shot1=X','shto1=Y');
+ assert.equal(r.status,2);assert.match(r.stderr,/shto1/);
+ assert.ok(!fs.existsSync(path.join(dir,'verdict.json')));
+ const twice=run('reveal',dir,'shot1=X','shot1=Y');
+ assert.equal(twice.status,2,'two picks for one pair is not a decision');assert.match(twice.stderr,/shot1/);
+});
 test('clean refuses before a verdict, then removes media and run-named paths only',t=>{
  const dir=fixture(t);run('sheet',dir);
  const comfy=fs.mkdtempSync(path.join(fs.realpathSync(os.tmpdir()),'render-triage-test-comfy-'));

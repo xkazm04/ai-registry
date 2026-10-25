@@ -203,11 +203,17 @@ export function reveal(dir, picks, { force = false } = {}) {
   if (!force && fs.existsSync(path.join(dir, 'verdict.json'))) {
     fail(`verdict.json already records this run's judgement (${path.join(dir, 'verdict.json')}); pass --force to replace it`);
   }
-  const chosen = Object.fromEntries(picks.map((p) => {
+  // Every pick must name a pair on the sheet, once. A misspelt id used to vanish here (the
+  // loop below reads only the manifest's ids), and a repeated id silently kept its last value.
+  const known = new Set(manifest.pairs.map((p) => p.id));
+  const chosen = {};
+  for (const p of picks) {
     const m = /^([^=]+)=(.+)$/.exec(p);
     if (!m) fail(`pick must be <pairId>=<label|tie|neither>, got ${p}`);
-    return [m[1], m[2]];
-  }));
+    if (!known.has(m[1])) fail(`pick ${p} names no pair in the manifest (pairs: ${[...known].join(', ')})`);
+    if (m[1] in chosen) fail(`pair ${m[1]} is picked twice (${chosen[m[1]]} and ${m[2]}); give one pick per pair`);
+    chosen[m[1]] = m[2];
+  }
   const verdict = { run: manifest.run, variable: manifest.variable || null, decided_on: new Date().toISOString().slice(0, 10), grader: 'operator', pairs: {} };
   for (const pair of manifest.pairs) {
     const pick = chosen[pair.id];
