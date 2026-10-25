@@ -159,6 +159,13 @@ holds on this model: **keep effects out of motion-source clips, and add them in 
 engine.** The two arms differ in one prompt sentence, so the motion itself also differs
 between arms. This is n=2 per arm, and row 4 stays untriaged with this as its evidence.
 
+**Operator review, 2026-10-25.** All three examples were shown on one review page (intake
+2.18.0 Phase 6b). The operator confirmed that the results improved as each verdict said,
+and that the two-view clip and the fire clip looked good. That is the operator's look, recorded
+as such; it changes no row's status. Cleanup ran by run id after sign-off: the scratch
+directory, `ComfyUI/output/intake-XnS0vrbDrrc/` and the staged first frame, 51,208,524 bytes
+in all.
+
 ## Leads (with return conditions)
 
 - **Text-to-motion for locomotion.** Return when a text-to-motion model is installed on the
