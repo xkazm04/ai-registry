@@ -210,7 +210,7 @@
       "name": "explorer",
       "source": "./skills/explorer",
       "description": "Short, interactive, joins-first probe sweep of one codebase area. Picks a (context, lens) pair that neither explorer nor scan-sweep has run yet (scripts/pick.mjs reads the context map, explorer's coverage ledger and scan-sweep's history), runs a catalog of one-command cross-layer probes before sampling any file (a gate matrix over a route family, the repo's own idiom where it was not applied, a…",
-      "version": "2.6.1",
+      "version": "2.6.2",
       "category": "workflow"
     },
     {

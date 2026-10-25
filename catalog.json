@@ -307,10 +307,10 @@
     },
     {
       "name": "explorer",
-      "version": "2.6.1",
+      "version": "2.6.2",
       "category": "workflow",
       "path": "skills/explorer/SKILL.md",
-      "contentHash": "sha256-n1:7b7e5b447771fb87",
+      "contentHash": "sha256-n1:ffab1c94b4e39dc4",
       "adopters": [
         "personas-web@plugin:1.0.0",
         "personas@plugin:1.0.0"

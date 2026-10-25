@@ -168,3 +168,48 @@ test('pickLine names the pair and cites both ledgers', () => {
   assert.ok(line.includes('no surface: dx (scan-sweep:test-strategist)'), line);
   assert.ok(pickLine(rows.find((r) => r.context === 'alerts')).includes('explorer 2026-10-01; scan-sweep never'));
 });
+
+// SWEEP_LENS is a hand-maintained list of ANOTHER skill's vocabulary. The ground truth is
+// scan-sweep's references/lenses.md (one `## <key> - ` section per lens, `Group: challenge` for the
+// pair only --challenge runs); the doc twin is references/probes.md's "Lens vocabulary" table.
+const LENSES_MD = new URL('../../scan-sweep/references/lenses.md', import.meta.url);
+const PROBES_MD = new URL('../references/probes.md', import.meta.url);
+
+/** lenses.md text -> the non-challenge lens keys. */
+function sweepKeys(md) {
+  return String(md).split(/^(?=## [a-z-]+ )/m).filter((s) => s.startsWith('## '))
+    .filter((s) => !/^Group: challenge\s*$/m.test(s)).map((s) => s.slice(3).split(' ')[0]);
+}
+/** Every key that is neither mapped nor declared without analogue, and every declared key lenses.md no longer has. */
+function vocabularyGaps(keys, sweepLens, noAnalogue) {
+  const mapped = new Set(Object.values(sweepLens).flat());
+  const known = new Set(keys);
+  return {
+    undecided: keys.filter((k) => !mapped.has(k) && !noAnalogue.includes(k)),
+    both: keys.filter((k) => mapped.has(k) && noAnalogue.includes(k)),
+    gone: noAnalogue.filter((k) => !known.has(k)),
+  };
+}
+
+test('every scan-sweep lens is either mapped to an explorer lens or declared without analogue', async () => {
+  const { readFileSync } = await import('node:fs');
+  const { SWEEP_LENS, SWEEP_NO_ANALOGUE } = await import('../scripts/pick.mjs');
+  assert.ok(Array.isArray(SWEEP_NO_ANALOGUE), 'pick.mjs declares the unmapped scan-sweep lenses');
+  const keys = sweepKeys(readFileSync(LENSES_MD, 'utf8'));
+  assert.ok(keys.length >= 20, `read ${keys.length} lens keys from lenses.md - the parser must see the population`);
+  // Seeded control: a lens scan-sweep adds tomorrow must show up as undecided.
+  assert.deepEqual(vocabularyGaps([...keys, 'planted-lens'], SWEEP_LENS, SWEEP_NO_ANALOGUE).undecided, ['planted-lens']);
+  assert.deepEqual(vocabularyGaps(keys, SWEEP_LENS, SWEEP_NO_ANALOGUE), { undecided: [], both: [], gone: [] });
+});
+
+test("probes.md's lens-vocabulary table lists exactly SWEEP_LENS", async () => {
+  const { readFileSync } = await import('node:fs');
+  const { SWEEP_LENS } = await import('../scripts/pick.mjs');
+  const rows = new Map();
+  for (const line of readFileSync(PROBES_MD, 'utf8').split(/\r?\n/)) {
+    const m = /^\| `([a-z0-9]+)` \| ([^|]*) \|/.exec(line);
+    if (m) rows.set(m[1], (m[2].match(/[a-z][a-z0-9-]+/g) ?? []).filter((w) => w !== 'legacy').sort());
+  }
+  assert.deepEqual([...rows.keys()].sort(), Object.keys(SWEEP_LENS).sort(), 'one table row per explorer lens');
+  for (const [cat, keys] of Object.entries(SWEEP_LENS)) assert.deepEqual(rows.get(cat), [...keys].sort(), `probes.md row ${cat}`);
+});
