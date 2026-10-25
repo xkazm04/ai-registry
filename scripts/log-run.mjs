@@ -226,6 +226,19 @@ if (bools.has('--dry-run')) {
 }
 
 fs.mkdirSync(path.dirname(target), { recursive: true });
-fs.appendFileSync(target, line);
+// An agent without this script writes the line itself, and a hand-written line does not
+// always end in a newline. Appending straight after it glues the two rows into one line
+// that parses as neither, and the drain then keeps both as unparseable. Terminate first.
+let lead = '';
+try {
+  const size = fs.statSync(target).size;
+  if (size > 0) {
+    const fd = fs.openSync(target, 'r');
+    const last = Buffer.alloc(1);
+    try { fs.readSync(fd, last, 0, 1, size - 1); } finally { fs.closeSync(fd); }
+    if (last[0] !== 0x0a) lead = '\n';
+  }
+} catch { /* no file yet */ }
+fs.appendFileSync(target, lead + line);
 console.log(`run logged: ${row.id ?? row.skill} -> ${target}`);
 if (!row.device) console.log('  (this machine has no identity - device, contributor and id are stamped when runs-backfill drains the file)');
