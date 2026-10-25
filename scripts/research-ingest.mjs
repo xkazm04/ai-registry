@@ -71,8 +71,17 @@ const metaOnly = flag('--meta-only');
 const minWords = Number(pick('--min-words', 300));
 const outDir = pick('--out', path.join(os.tmpdir(), 'ai-registry-research'));
 
+const USAGE = 'usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N]';
 if (!source) {
-  console.error('usage: node scripts/research-ingest.mjs <url|path|-> [--out <dir>] [--json] [--meta-only] [--min-words N]');
+  console.error(USAGE);
+  process.exit(2);
+}
+// The thin-source floor is the whole of exit 3. Number('abc') is NaN, `words < NaN` is
+// false, and a mistyped value used to switch the check off and report a thin source as a
+// usable one (exit 0) - so a value that is not a whole number is a usage error.
+if (!Number.isInteger(minWords) || minWords < 0) {
+  console.error(`research-ingest: --min-words needs a whole number >= 0, got ${JSON.stringify(pick('--min-words') ?? null)}`);
+  console.error(USAGE);
   process.exit(2);
 }
 
