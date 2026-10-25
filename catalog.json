@@ -418,10 +418,10 @@
     },
     {
       "name": "kit",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "category": "workflow",
       "path": "skills/kit/SKILL.md",
-      "contentHash": "sha256-n1:728955f8716a97e9",
+      "contentHash": "sha256-n1:15e4571de5cd0d50",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,

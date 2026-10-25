@@ -261,7 +261,7 @@
       "name": "kit",
       "source": "./skills/kit",
       "description": "Revitalize and unify the design of a web app: measure style divergence per module, gate a foundation (type scale, muting, colour roles) with the owner, stop new slips with ratchets and agent law, run a contest for a COMPOSITION KIT (the shared building blocks one level above buttons), port the finalists onto one real page so the owner chooses on the product, promote the winner at 0 measured…",
-      "version": "0.3.1",
+      "version": "0.3.2",
       "category": "workflow",
       "tags": [
         "design-system",

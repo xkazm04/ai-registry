@@ -166,10 +166,20 @@ function openBatch(L, id) {
   return b;
 }
 
+/**
+ * The modules a batch still holds: listed by it, still `in-batch` or `gated`, and still pointing at
+ * it. `mark` may take a module out of an open batch (skip, back to pending, into another batch) and
+ * the batch keeps its list, so gate and close walk THIS set - walking the list made one skipped
+ * module an illegal skipped -> gated move that no verdict could ever get past.
+ */
+export function batchMembers(L, b) {
+  return b.modules.filter((m) => L.modules[m] && L.modules[m].batch === b.id && ['in-batch', 'gated'].includes(L.modules[m].status));
+}
+
 export function applyGate(ledger, { id }, now) {
   const L = clone(ledger);
   const b = openBatch(L, id);
-  for (const m of b.modules) move(L, m, 'gated', now, { batch: id });
+  for (const m of batchMembers(L, b)) move(L, m, 'gated', now, { batch: id });
   b.gated = now;
   L.updated = now;
   return L;
@@ -227,9 +237,11 @@ export function applyCloseBatch(ledger, { id, verdict, text, commits = [], appro
       ? 'close-batch --verdict director-approved needs --text "<the Director\'s decision record>"'
       : 'close-batch needs --text "<the owner\'s words, verbatim>"');
   }
+  const members = batchMembers(L, b);
+  const left = b.modules.filter((m) => !members.includes(m));
   const plan = verdict === 'mixed'
-    ? partition(b.modules, { approved, 'director-approved': directorApproved, 'sent-back': sentBack })
-    : b.modules.map((m) => [m, verdict]);
+    ? partition(members, { approved, 'director-approved': directorApproved, 'sent-back': sentBack })
+    : members.map((m) => [m, verdict]);
   for (const [m, to] of plan) {
     const t = checkTransition(L.modules[m].status, to);
     if (!t.ok) throw new LedgerError(`${m}: ${t.reason}`);
@@ -239,6 +251,7 @@ export function applyCloseBatch(ledger, { id, verdict, text, commits = [], appro
   const decided = decisions == null ? null : (Array.isArray(decisions) ? decisions : parseDecisions(decisions));
   for (const [m, to] of plan) move(L, m, to, now, { batch: id });
   Object.assign(b, { closed: now, verdict, verdict_text: String(text), commits: [...b.commits, ...commits], decided_by: byDirector ? 'director' : 'owner' });
+  if (left.length) b.left = left;
   if (byDirector) b.summary = null;
   if (decided) b.decisions = decided;
   if (verdict === 'mixed') {
