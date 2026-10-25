@@ -121,6 +121,23 @@ export function judgeSite(site, base, collisions = KNOWN_COLLISIONS) {
   return null;
 }
 
+/**
+ * Ledger entries that excuse a code their script no longer exits with (or a script that is
+ * gone). The ledger is debt that may only shrink, and an entry outliving its site is the
+ * one way it grows quietly: it would go on excusing the next code-3 meaning added there.
+ * `scanned` is [{ base, sites }] for every file the gate read.
+ */
+export function staleCollisions(scanned, collisions = KNOWN_COLLISIONS) {
+  return collisions
+    .filter((c) => !scanned.some(({ base, sites }) => base === c.script && sites.some((s) => s.code === c.code)))
+    .map((c) => ({
+      script: c.script,
+      code: c.code,
+      why: `KNOWN_COLLISIONS excuses ${c.script} exiting ${c.code}, and no exit site in the scanned scripts yields it; ` +
+        'remove the entry (the debt is paid) or restore the site it describes.',
+    }));
+}
+
 function mjsFilesIn(dir) {
   if (!fs.existsSync(dir)) return [];
   return fs
@@ -173,11 +190,13 @@ function main() {
   let sites = 0;
   let computedSites = 0;
   let opaqueSites = 0;
+  const scanned = [];
 
   for (const file of files) {
     const rel = path.relative(ROOT, file).split(path.sep).join('/');
     const base = path.basename(file);
     const found = exitSites(fs.readFileSync(file, 'utf8'));
+    scanned.push({ base, sites: found });
     opaqueSites += found.opaque.length;
     for (const site of found) {
       sites++;
@@ -187,6 +206,7 @@ function main() {
       if (why !== null) findings.push({ rel, line: site.line, why });
     }
   }
+  for (const s of staleCollisions(scanned)) findings.push({ rel: 'scripts/lib/exit-codes.mjs', line: 'KNOWN_COLLISIONS', why: s.why });
 
   // -------------------------------------------------------------- report
   console.log(`check-exit-contract - ${sites} exit site(s) across ${files.length} script(s)`);

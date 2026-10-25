@@ -13,7 +13,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { exitSites, judgeSite } from '../check-exit-contract.mjs';
+import { exitSites, judgeSite, staleCollisions } from '../check-exit-contract.mjs';
 import { KNOWN_COLLISIONS } from '../lib/exit-codes.mjs';
 
 const GATE = fileURLToPath(new URL('../check-exit-contract.mjs', import.meta.url));
@@ -71,6 +71,28 @@ test('the ledger names both scripts that carry a second meaning on 3', () => {
   const owned = KNOWN_COLLISIONS.filter((c) => c.code === 3).map((c) => c.script);
   assert.ok(owned.includes('agent-cost-band.mjs'));
   assert.ok(owned.includes('transcript-mirror.mjs'));
+});
+
+// The ledger is debt that may only shrink, and nothing used to say when an entry stopped
+// being debt: renumber research-ingest's 3 and its entry would go on excusing a future 3
+// there, silently. An entry must match a live exit site, or it is the finding.
+test('a collision entry that matches no exit site is stale, and says so', () => {
+  const scanned = [
+    { base: 'live.mjs', sites: exitSites(`${EXIT_CALL}(3);\n`) },
+    { base: 'computed.mjs', sites: exitSites(`const e = p ? 3 : 0;\n${EXIT_CALL}(e);\n`) },
+    { base: 'renumbered.mjs', sites: exitSites(`${EXIT_CALL}(EXIT.CONTENDED);\n${EXIT_CALL}(2);\n`) },
+  ];
+  const ledger = [
+    { script: 'live.mjs', code: 3, means: 'x', conflictsWith: 'y' },
+    { script: 'computed.mjs', code: 3, means: 'x', conflictsWith: 'y' },
+    { script: 'renumbered.mjs', code: 3, means: 'x', conflictsWith: 'y' },
+    { script: 'deleted.mjs', code: 3, means: 'x', conflictsWith: 'y' },
+  ];
+  const stale = staleCollisions(scanned, ledger);
+  assert.deepEqual(stale.map((s) => s.script).sort(), ['deleted.mjs', 'renumbered.mjs']);
+  assert.ok(stale.every((s) => /KNOWN_COLLISIONS/.test(s.why)));
+  // An empty ledger has nothing to be stale; the real ledger is held live by the last test.
+  assert.deepEqual(staleCollisions(scanned, []), []);
 });
 
 test('the real tree passes the real gate and reports its computed sites', () => {
