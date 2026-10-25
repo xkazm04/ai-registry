@@ -231,10 +231,10 @@
     },
     {
       "name": "council",
-      "version": "0.5.1",
+      "version": "0.5.2",
       "category": "workflow",
       "path": "skills/council/SKILL.md",
-      "contentHash": "sha256-n1:19d974a05293ae8f",
+      "contentHash": "sha256-n1:b0d7876415711dbe",
       "adopters": [],
       "invokes30d": 0,
       "reportedInvokes": 0,

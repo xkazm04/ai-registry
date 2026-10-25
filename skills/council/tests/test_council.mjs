@@ -511,6 +511,12 @@ test('drift: none and grown carry a verdict forward, changed re-judges, absent i
   assert.equal(drift(r1, edited), 'changed');
   assert.equal(drift(r1, shrunk), 'changed', 'a file that left the span is a change, not a shrink');
   assert.equal(drift(null, r1), 'unknown', 'nothing to compare is never the same fact as nothing changed');
+  // Two receipts with neither a digest nor a file list (`{}`, or a result.json passed by mistake)
+  // have nothing to compare: undefined === undefined is not "nothing changed", and `none` carries.
+  assert.equal(drift({}, {}), 'unknown', 'two empty receipts are not the same subject');
+  assert.equal(drift({ files: [] }, { files: [] }), 'unknown');
+  assert.equal(drift({ span_digest: 'x' }, {}), 'unknown', 'a receipt with nothing in it cannot be compared');
+  assert.equal(drift({ span_digest: 'x' }, { span_digest: 'y' }), 'changed', 'digests alone still decide when both exist');
 });
 
 test('carryForward keeps the original score, marks it carried, and never carries under change', () => {
