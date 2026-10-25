@@ -391,3 +391,78 @@ test('--apply deletes only what it archived: a failed archive skips, an earlier 
     assert.equal(gx(A, 'rev-parse', '--verify', '-q', `${AR}/worktree/wt-old`), one, 'the HEAD the ledger says it archived');
   } finally { fs.rmSync(base, { recursive: true, force: true }); }
 });
+
+// ---- delete-debris must see past the old depth-6 / 5000-entry probe (card G5)
+// Irreversible deletes were gated by a capped walk: a link or a fresh write deeper than 6
+// levels was invisible to "contains a symlink" and "touched N min ago". Fixtures only.
+const OLD = new Date('2020-01-02');
+// safe-remove's age probe counts creation time, which no fixture can backdate. So the module is
+// loaded a second time with its clock three days ahead (NOW is read once at import): everything
+// the fixture creates is then three days old, and only a file given an mtime of that later
+// "now" is live. Date.now is restored before any test runs.
+const LATER = Date.now() + 3 * 24 * 3600_000;
+const later = await (async () => {
+  const real = Date.now;
+  Date.now = () => LATER;
+  try { return await import('../hygiene-scan.mjs?clock=later'); } finally { Date.now = real; }
+})();
+const applyLater = later.applyAction;
+function deepDebris(A, depth, leaf) {
+  const parts = ['__pycache__', ...Array.from({ length: depth }, (_, i) => `d${i}`)];
+  const dirs = parts.map((_, i) => path.join(A, ...parts.slice(0, i + 1)));
+  fs.mkdirSync(dirs.at(-1), { recursive: true });
+  const old = path.join(dirs.at(-1), 'old.pyc');
+  fs.writeFileSync(old, 'x');
+  const made = leaf ? leaf(dirs.at(-1)) : null;
+  for (const f of [old, ...(made?.backdate ?? [])]) fs.utimesSync(f, OLD, OLD);
+  for (const d of dirs.reverse()) fs.utimesSync(d, OLD, OLD); // deepest first: a child write bumps its parent
+  return { root: path.join(A, '__pycache__'), made };
+}
+
+test('delete-debris refuses a tree with a fresh write nine levels down and deletes nothing', async () => {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    const A = fixtureRepo(base, 'a');
+    const { made } = deepDebris(A, 9, (leafDir) => {
+      const fresh = path.join(leafDir, 'fresh.pyc');
+      fs.writeFileSync(fresh, 'live');
+      fs.utimesSync(fresh, new Date(LATER), new Date(LATER));
+      return { fresh };
+    });
+    const res = await applyLater({ slug: 'a', path: A, repo: 'o/a' }, { kind: 'delete-debris', target: '__pycache__/' });
+    assert.ok(!res.done, JSON.stringify(res));
+    assert.match(res.skipped, /touched/);
+    assert.equal(fs.existsSync(made.fresh), true, 'the fresh file survived');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+test('delete-debris refuses a tree holding a junction nine levels down and never enters it', async () => {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    const A = fixtureRepo(base, 'a');
+    const outside = path.join(base, 'outside');
+    fs.mkdirSync(outside);
+    fs.writeFileSync(path.join(outside, 'keep.txt'), 'precious');
+    const { made } = deepDebris(A, 9, (leafDir) => {
+      const link = path.join(leafDir, 'link');
+      fs.symlinkSync(outside, link, 'junction');
+      return { link };
+    });
+    const res = await applyLater({ slug: 'a', path: A, repo: 'o/a' }, { kind: 'delete-debris', target: '__pycache__/' });
+    assert.ok(!res.done, JSON.stringify(res));
+    assert.match(res.skipped, /symlink or junction/);
+    assert.equal(fs.existsSync(path.join(outside, 'keep.txt')), true, 'the link target survived');
+    assert.equal(fs.lstatSync(made.link).isSymbolicLink(), true, 'the link was left in place');
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
+
+test('delete-debris still removes a fully idle deep tree, through removeTree', async () => {
+  const base = fs.mkdtempSync(path.join(os.tmpdir(), 'hscan-'));
+  try {
+    const A = fixtureRepo(base, 'a');
+    const { root } = deepDebris(A, 9);
+    const res = await applyLater({ slug: 'a', path: A, repo: 'o/a' }, { kind: 'delete-debris', target: '__pycache__/' });
+    assert.equal(res.done, true, JSON.stringify(res));
+    assert.equal(fs.existsSync(root), false);
+  } finally { fs.rmSync(base, { recursive: true, force: true }); }
+});
