@@ -7,22 +7,31 @@ import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 
 const ROOT=fileURLToPath(new URL('../..',import.meta.url));
-const AGE=path.join(ROOT,'scripts','check-coverage-age.mjs');
 const CONVERGE=path.join(ROOT,'scripts','converge.mjs');
 const REPORT=path.join(ROOT,'librarian','fleet-coverage.md');
+const REPORT_AT_LOAD=fs.existsSync(REPORT)?fs.statSync(REPORT):null;
 
-/** Swap the real report for a fixture, restore it whatever happens. */
+/**
+ * A temp registry root holding a COPY of the gate and a fixture report. The gate reads its
+ * report from its own location, so the copy reads the fixture - and the tracked report in
+ * this checkout is never written. (It used to be swapped in place and restored in t.after,
+ * which rewrote a published file on every test run.)
+ */
+let fixtureRoot=null;
 function withReport(t,contents){
- const had=fs.existsSync(REPORT);
- const backup=had?fs.readFileSync(REPORT,'utf8'):null;
+ const temp=fs.realpathSync(os.tmpdir());
+ const root=fs.mkdtempSync(path.join(temp,'converge-test-'));
  t.after(()=>{
-  if(backup===null)fs.rmSync(REPORT,{force:true});
-  else fs.writeFileSync(REPORT,backup,'utf8');
+  const rel=path.relative(temp,fs.realpathSync(root));
+  if(!rel.startsWith('converge-test-')||rel.includes(path.sep))throw new Error('unsafe cleanup');
+  fs.rmSync(root,{recursive:true,force:true});
  });
- if(contents===null)fs.rmSync(REPORT,{force:true});
- else {fs.mkdirSync(path.dirname(REPORT),{recursive:true});fs.writeFileSync(REPORT,contents,'utf8');}
+ fs.mkdirSync(path.join(root,'scripts','lib'),{recursive:true});
+ for(const f of ['check-coverage-age.mjs','lib/exit-codes.mjs','lib/check-result.mjs'])fs.copyFileSync(path.join(ROOT,'scripts',f),path.join(root,'scripts',f));
+ if(contents!==null){fs.mkdirSync(path.join(root,'librarian'));fs.writeFileSync(path.join(root,'librarian','fleet-coverage.md'),contents,'utf8');}
+ fixtureRoot=root;
 }
-const age=(args=[])=>spawnSync(process.execPath,[AGE,...args],{encoding:'utf8'});
+const age=(args=[])=>spawnSync(process.execPath,[path.join(fixtureRoot,'scripts','check-coverage-age.mjs'),...args],{encoding:'utf8'});
 
 test('a fresh report passes the gate',t=>{
  withReport(t,`# x\n\ngenerated: ${new Date().toISOString()} · machine: test · projects declared: 3\n`);
@@ -70,4 +79,12 @@ test('the report never carries a consumer path — the librarian lane is public'
  assert.ok(!/[A-Za-z]:[\\/]Users/.test(text),'no absolute Windows path may appear');
  assert.ok(!/\/home\/[a-z]/.test(text),'no absolute POSIX home path may appear');
  assert.ok(!/\.ai\/registry-map\.json/.test(text)||!/[A-Za-z]:/.test(text),'no checkout-qualified path may appear');
+});
+
+// The tracked report is published state, and other sessions commit beside this suite. A
+// test that writes it - even one that restores it in t.after - can be captured mid-swap
+// by a sibling's commit, and a killed run leaves the fixture in place of the real file.
+test('the suite never writes the tracked librarian/fleet-coverage.md', () => {
+  const now = fs.existsSync(REPORT) ? fs.statSync(REPORT) : null;
+  assert.equal(now?.mtimeMs ?? null, REPORT_AT_LOAD?.mtimeMs ?? null, 'the real report was rewritten by a test');
 });
