@@ -147,11 +147,23 @@ function placeOf(cwd) {
 }
 const resolves = (cwd) => projectOf(cwd) != null || placeOf(cwd)?.slug != null;
 
+// The cache is the ONLY copy of every session whose transcript has rolled off, so a cache that
+// exists and does not parse (a killed write, a full disk, a hand edit) is not a first run: the
+// read path degrades and says so, the write path refuses, and the damaged file stays for
+// recovery (agent-memory/durable-store-failure-posture). Absent, or another version: rebuild.
 let cache = { version: CACHE_VERSION, files: {} };
-try {
-  const raw = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
-  if (raw?.version === CACHE_VERSION && raw.files) cache = raw;
-} catch { /* first run, or a cache from another version: rebuild */ }
+let cacheWritable = true;
+let cacheText = null;
+try { cacheText = fs.readFileSync(cacheFile, 'utf8'); } catch { /* first run */ }
+if (cacheText !== null) {
+  try {
+    const raw = JSON.parse(cacheText);
+    if (raw?.version === CACHE_VERSION && raw.files) cache = raw;
+  } catch (e) {
+    cacheWritable = false;
+    console.error(`process-sessions: the device cache ${cacheFile} is unreadable (${e.message}); this run reports only the transcripts on disk now, and the cache is not written. Move the file aside to start a new history.`);
+  }
+}
 // An `outside-fleet` verdict is only as good as the fleet it was judged against.
 const fleetChanged = cache.fleet !== fleetKey;
 cache.fleet = fleetKey;
@@ -194,7 +206,11 @@ if (fs.existsSync(claudeProjects)) {
     }
   }
 }
-fs.writeFileSync(cacheFile, JSON.stringify(cache));
+if (cacheWritable) {
+  // Whole or not at all: a write killed half-way must not become the unreadable cache above.
+  const tmp = `${cacheFile}.${process.pid}.tmp`;
+  try { fs.writeFileSync(tmp, JSON.stringify(cache)); fs.renameSync(tmp, cacheFile); } catch (e) { fs.rmSync(tmp, { force: true }); throw e; }
+}
 
 const remembered = Object.values(cache.files).map((e) => e.session).filter(Boolean);
 let sessions = remembered;
